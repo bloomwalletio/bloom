@@ -14,6 +14,7 @@ import { AssetType } from '@core/layer-2'
 import { buildNftFromPersistedErc721Nft, getNftsFromNftIds } from '../utils'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { getPersistedErc721Nfts } from './getPersistedErc721Nfts'
+import { getAddressFromAccountForNetwork } from '@core/account'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
     const allAccounts = get(activeAccounts)
@@ -22,7 +23,7 @@ export async function loadNftsForActiveProfile(): Promise<void> {
     }
 }
 
-async function loadNftsForAccount(account: IAccountState): Promise<void> {
+export async function loadNftsForAccount(account: IAccountState): Promise<void> {
     const accountNfts: INft[] = []
     const unspentOutputs = await account.unspentOutputs()
     const networkId = getActiveNetworkId()
@@ -49,10 +50,13 @@ async function loadNftsForAccount(account: IAccountState): Promise<void> {
         accountNfts.push(...nfts)
 
         // ERC721 NFTs
-        const coinType = chain.getConfiguration().coinType
-        const erc721Nfts = getPersistedErc721Nfts(account.evmAddresses[coinType] as string)
-        const convertedNfts: INft[] = erc721Nfts.map((persistedErc721Nft) =>
-            buildNftFromPersistedErc721Nft(persistedErc721Nft)
+        const evmAddress = getAddressFromAccountForNetwork(account, chain.getConfiguration().id)
+        if (!evmAddress) {
+            continue
+        }
+        const erc721Nfts = getPersistedErc721Nfts(evmAddress)
+        const convertedNfts: INft[] = await Promise.all(
+            erc721Nfts.map((persistedErc721Nft) => buildNftFromPersistedErc721Nft(persistedErc721Nft))
         )
         accountNfts.push(...convertedNfts)
     }

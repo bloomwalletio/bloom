@@ -238,6 +238,12 @@ function isVisibleWithActiveStatusFilter(activity: Activity, filter: ActivityFil
             return false
         }
         if (
+            filter.status.selected === StatusFilterOption.Timelocked &&
+            activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Timelocked
+        ) {
+            return false
+        }
+        if (
             filter.status.selected === StatusFilterOption.Claimed &&
             activity.type === ActivityType.Basic &&
             activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Claimed

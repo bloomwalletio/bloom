@@ -1047,7 +1047,7 @@
                 "tokenId": "Token-ID"
             }
         },
-        "importErc20Token": {
+        "importToken": {
             "title": "ERC20-Token importieren",
             "property": {
                 "tokenAddress": "Token-Adresse"

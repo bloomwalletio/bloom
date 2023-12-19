@@ -27,16 +27,26 @@ export async function handleEthTransaction(
     }
 
     if (!nonce || !gasPrice || !gasLimit) {
-        const { nonce, gasPrice, gasLimit } = await buildEvmTransactionData(
-            chain,
-            from,
-            to?.toString(),
-            value?.toString() ?? '0',
-            data?.toString()
-        )
-        evmTransactionData.nonce = nonce
-        evmTransactionData.gasPrice = gasPrice
-        evmTransactionData.gasLimit = gasLimit
+        try {
+            const { nonce, gasPrice, gasLimit } = await buildEvmTransactionData(
+                chain,
+                from.toString(),
+                to?.toString(),
+                value?.toString() ?? '0',
+                data?.toString()
+            )
+            evmTransactionData.nonce = nonce
+            evmTransactionData.gasPrice = gasPrice
+            evmTransactionData.gasLimit = gasLimit
+        } catch (err) {
+            responseCallback({
+                error: {
+                    message: err.message,
+                    code: 1000,
+                },
+            })
+            return
+        }
     }
 
     Platform.focusWindow()

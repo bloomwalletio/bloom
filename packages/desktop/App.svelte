@@ -29,6 +29,7 @@
     import { settingsState, openSettings } from '@contexts/settings/stores'
     import { _ } from '@core/i18n'
     import { getAndUpdateShimmerEvmTokensMetadata } from '@core/market/actions'
+    import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 
     $: $activeProfile, saveActiveProfile()
 
@@ -94,7 +95,7 @@
         }
 
         registerMenuButtons()
-
+        void initializeWalletConnect()
         await getAndUpdateShimmerEvmTokensMetadata()
     })
 
@@ -124,6 +125,7 @@
                         transition={$popupState.transition}
                         overflow={$popupState.overflow}
                         relative={$popupState.relative}
+                        preventClose={$popupState.preventClose}
                         confirmClickOutside={$popupState.confirmClickOutside}
                     />
                 {/if}

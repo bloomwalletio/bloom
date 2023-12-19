@@ -11,7 +11,6 @@ export interface IIrc27Nft extends IBaseNft {
     rawMetadata: string
     metadata?: IIrc27Metadata
     issuer?: Address
-    isSpendable: boolean
     timelockTime?: number
     latestOutputId: string
     storageDeposit: number
@@ -19,10 +18,8 @@ export interface IIrc27Nft extends IBaseNft {
 
 export interface IErc721Nft extends IBaseNft {
     standard: NftStandard.Erc721
-    metadata: {
-        contract: IErc721ContractMetadata
-        token?: IErc721TokenMetadata
-    }
+    contractMetadata: IErc721ContractMetadata
+    tokenMetadata?: IErc721TokenMetadata
     tokenId?: string
 }
 
@@ -37,4 +34,5 @@ interface IBaseNft {
     downloadUrl: string
     filePath: string
     downloadMetadata: INftDownloadStatus
+    isSpendable: boolean
 }
