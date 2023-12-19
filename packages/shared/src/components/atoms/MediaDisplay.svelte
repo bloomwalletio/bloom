@@ -27,6 +27,7 @@
     function startPlaying() {
         if (videoElement && !autoplay && videoElement.paused) {
             playPromise = videoElement.play()
+            playPromise.then(() => {}).catch(console.error)
         }
     }
 
