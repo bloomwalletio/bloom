@@ -12,10 +12,10 @@
     export let classes: string = ''
     export let isLoaded: boolean
 
-    const parentMimeType = getParentMimeType(expectedType)
     let videoElement: HTMLVideoElement | undefined = undefined
     let playPromise: Promise<void> | undefined = undefined
 
+    $: parentMimeType = getParentMimeType(expectedType)
     $: isLoaded && muteVideo()
 
     function muteVideo() {

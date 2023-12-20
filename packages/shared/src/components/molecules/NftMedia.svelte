@@ -17,7 +17,7 @@
     let hasMounted: boolean = false
     let basePath: string
 
-    $: basePath, setSource()
+    $: nft, basePath, setSource()
 
     let source: string | undefined = undefined
     function setSource(): void {
