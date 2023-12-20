@@ -86,7 +86,7 @@
                     "description": "Upewnij się, że oficjalna aplikacja Ledger Live jest zamknięta i wykonaj poniższe kroki.",
                     "connect": "Podłącz swoje urządzenie Ledger",
                     "unlock": "Odblokuj swój Ledger za pomocą pinu",
-                    "open": "Open the {appName} app on your Ledger",
+                    "open": "Otwórz aplikację {appName} na swoim urządzeniu Ledger",
                     "tip": "Wskazówki, jeśli Ledger nie nawiązuje połączenia"
                 },
                 "ledgerConnectionGuide": {
@@ -122,8 +122,8 @@
                     "success": "Pomyślnie znaleziono {amount}"
                 },
                 "balanceFinder": {
-                    "title": "Find your recovered accounts",
-                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
+                    "title": "Przeszukaj swoje przywrócone konta",
+                    "description": "Przed kontynuowaniem, skorzystaj z poniższej wyszukiwarki środków, aby sprawdzić czy Twoje saldo jest prawidłowe."
                 }
             },
             "restoreFromMnemonic": {
@@ -252,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Ukryte konta",
-                "description": "Selecting this option will show wallets that were previously hidden"
+                "description": "Wybranie tej opcji pokaże portfele, które były wcześniej ukryte"
             },
             "deleteProfile": {
                 "title": "Usuwanie profilu",
@@ -524,7 +524,6 @@
                     },
                     "details": {
                         "title": "Szczegóły połączenia",
-                        "falbackName": "dApp",
                         "name": "Nazwa",
                         "description": "Opis",
                         "url": "URL",
@@ -576,7 +575,7 @@
                 "emptyDescription": "Prześlij lub odbierz swoją pierwszą kolekcję już teraz!"
             },
             "details": {
-                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
+                "storageDepositDescription": "Zwrotny depozyt jest wymagany do przechowywania Twojego NFT w sieci Tangle.",
                 "menu": {
                     "download": "Pobierz",
                     "setPfp": "Ustaw NFT jako obrazek profilowy",
@@ -775,8 +774,8 @@
             "body": "Czy na pewno chcesz wyczyścić {url} jako węzeł główny?"
         },
         "confirmAssetTracking": {
-            "title": "Add a new token",
-            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+            "title": "Dodaj nowy token",
+            "description": "\"{dappName}\" chce dodać \"{assetName}\" do Twojego portfela."
         },
         "node": {
             "titleAdd": "Dodaj serwer",
@@ -894,23 +893,27 @@
             "title": "Podpisz wiadomość",
             "hint": "Żadne środki nie zostaną wysłane do {dappName} podczas podpisywania tej wiadomości.",
             "warning": "Nie można określić dApp. W procesie podpisywania tej wiadomości nie zostanie wysłane żadne saldo.",
-            "action": "Podpisz"
+            "action": "Podpisz",
+            "success": "Signed message"
         },
         "signTransaction": {
             "title": "Podpisz transakcję",
-            "action": "Podpisz"
+            "action": "Podpisz",
+            "success": "Signed transaction"
         },
         "sendTransaction": {
             "title": "Wyślij transakcję",
-            "action": "Wyślij"
+            "action": "Wyślij",
+            "success": "Sent {assetName} to {recipient}"
         },
         "smartContractCall": {
             "title": "Interakcja smart kontraktu z {contractAddress}",
             "unableToVerify": "Bloom nie może zweryfikować interakcji z smart kontraktem. Kontynuuj tylko z aplikacjami, którym ufasz.",
-            "action": "Potwierdź"
+            "action": "Potwierdź",
+            "success": "Smart contract call to {recipient}"
         },
-        "successfulDappConnection": {
-            "alert": "Możesz zamknąć to okno i powrócić do aplikacji dApp, gdy będziesz gotowy."
+        "successfulDappInteraction": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
             "title": {
@@ -970,12 +973,12 @@
                     "increaseVotingPower": {
                         "Pending": "Zwiększanie siły głosu",
                         "Confirmed": "Zwiększono siłę głosu",
-                        "Conflicting": "Failed to increase voting power"
+                        "Conflicting": "Zwiększenie siły głosu nie powiodło się"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Zmniejszanie siły głosu",
                         "Confirmed": "Zmniejszono siłę głosu",
-                        "Conflicting": "Failed to decrease voting power"
+                        "Conflicting": "Zmniejszenie siły głosu nie powiodło się"
                     },
                     "startVoting": {
                         "Pending": "Głosowanie na {proposalName}",
@@ -985,7 +988,7 @@
                     "stopVoting": {
                         "Pending": "Zatrzymywanie głosowania na {proposalName}",
                         "Confirmed": "Zatrzymano głosowanie na {proposalName}",
-                        "Conflicting": "Failed to stop voting for"
+                        "Conflicting": "Nie udało się zatrzymać głosowania na"
                     },
                     "changedVote": {
                         "Pending": "Zmiana głosu na {proposalName}",
@@ -1048,12 +1051,15 @@
             }
         },
         "importToken": {
-            "title": "Importuj token ERC20",
+            "title": "Import {type} token",
             "property": {
-                "tokenAddress": "Adres tokena"
+                "tokenAddress": "Token address"
             },
-            "success": "Importowano token {tokenSymbol}",
-            "error": "Nie można zaimportować tokena ERC20"
+            "success": "Imported {tokenSymbol} token",
+            "errors": {
+                "otherOwner": "You're not the owner of the NFT!",
+                "alreadyAdded": "You already have this NFT in your portfolio"
+            }
         },
         "noAlias": {
             "title": "Mintowanie nieudane",
@@ -1268,7 +1274,7 @@
         "untrackToken": "Nie śledź tokena",
         "switchAccount": "Przełącz konto",
         "syncAccounts": "Synchronizuj konta",
-        "importErc20Token": "Importuj token ERC20",
+        "importToken": "Import {type} token",
         "syncTokens": "Wymuś synchronizację tokenów"
     },
     "general": {
@@ -1462,7 +1468,7 @@
         "coinType": "Typ tokena",
         "custom": "Niestandardowe",
         "evmAddress": "Adres EVM",
-        "contractAddress": "Contract Address",
+        "contractAddress": "Adres kontraktu",
         "optionalField": "{field} (opcjonalnie)",
         "gifted": "Podarowano",
         "connected": "Połączono",
@@ -1487,7 +1493,8 @@
         "no": "Nie",
         "tip": "Wskazówka",
         "verified": "Zweryfikowano",
-        "data": "Data"
+        "data": "Data",
+        "success": "Success"
     },
     "filters": {
         "title": "Filtry",
@@ -1552,6 +1559,7 @@
         "status": {
             "label": "Status",
             "confirmed": "potwierdzono",
+            "timelocked": "timelocked",
             "pending": "przetwarzanie",
             "claimed": "odebrano",
             "unclaimed": "nie odebrano"
@@ -1665,9 +1673,6 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Protokół nie pasuje do typu tokena znalezionego w kopii Stronghold",
             "wrongProtocolForClaiming": "Musisz użyć kopii zapasowej Stronghold opartej na IOTA, aby odebrać nagrody Shimmer"
-        },
-        "signMessage": {
-            "success": "Wiadomość pomyślnie podpisana"
         },
         "signTransaction": {
             "success": "Transakcja podpisana pomyślnie"
