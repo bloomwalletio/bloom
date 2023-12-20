@@ -10,7 +10,8 @@ export function getDirectionFromTransaction(
     accountAddress: string,
     inputs: OutputData[]
 ): ActivityDirection {
-    const isGenesis = inputs.some((input) => input.metadata?.blockId === EMPTY_HEX_ID)
+    const isGenesis =
+        inputs.length === 0 && wrappedOutputs.some((outputData) => outputData.metadata?.blockId === EMPTY_HEX_ID)
     if (isGenesis) {
         return ActivityDirection.Incoming
     }
