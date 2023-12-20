@@ -1,13 +1,14 @@
-import { Address } from '@iota/sdk/out/types'
 import { NetworkId } from '@core/network/types'
-import { NftStandard } from '../enums'
-import { INftDownloadStatus, IIrc27Metadata, IErc721ContractMetadata, IErc721TokenMetadata } from '../interfaces'
+import { Address } from '@iota/sdk/out/types'
+import { MimeType, NftStandard } from '../enums'
+import { DownloadMetadata, IErc721ContractMetadata, IErc721TokenMetadata, IIrc27Metadata } from '../interfaces'
 
 // TODO: Rename to Nft since it's NOT an interface
 export type INft = IIrc27Nft | IErc721Nft
 
 export interface IIrc27Nft extends IBaseNft {
     standard: NftStandard.Irc27
+    nftAddress: string
     rawMetadata: string
     metadata?: IIrc27Metadata
     issuer?: Address
@@ -18,21 +19,23 @@ export interface IIrc27Nft extends IBaseNft {
 
 export interface IErc721Nft extends IBaseNft {
     standard: NftStandard.Erc721
+    uri: string
+    contractAddress: string
     contractMetadata: IErc721ContractMetadata
-    metadata?: IErc721TokenMetadata
     tokenId?: string
+    metadata?: IErc721TokenMetadata
 }
 
 interface IBaseNft {
     id: string
+    type: MimeType
     networkId: NetworkId
-    // TODO: Change to `nftAddress` since we now have ownerAddress
-    address: string
     ownerAddress: string
     name: string
-    composedUrl: string
-    downloadUrl: string
-    filePath: string
-    downloadMetadata: INftDownloadStatus
+    description?: string
+    collectionName?: string
+    composedUrl?: string
+    downloadMetadata: DownloadMetadata
+    isLoaded: boolean
     isSpendable: boolean
 }

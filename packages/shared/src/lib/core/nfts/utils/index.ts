@@ -1,3 +1,4 @@
+export * from './buildFilePath'
 export * from './buildNftFromPersistedErc721Nft'
 export * from './checkIfNftShouldBeDownloaded'
 export * from './composeUrlFromNftUri'

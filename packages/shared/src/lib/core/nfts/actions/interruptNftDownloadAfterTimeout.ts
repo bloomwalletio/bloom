@@ -5,6 +5,9 @@ import { DownloadWarningType } from '../enums'
 import { downloadingNftId } from '../stores'
 import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
 import { activeProfile } from '@core/profile/stores'
+import { getNftByIdFromAllAccountNfts } from './getNftByIdFromAllAccountNfts'
+
+// TODO: should the download metadata be saved in the persisted store?
 
 export async function interruptNftDownloadAfterTimeout(accountIndex: number): Promise<void> {
     const currentlyDownloadingNft = get(downloadingNftId)
@@ -15,8 +18,16 @@ export async function interruptNftDownloadAfterTimeout(accountIndex: number): Pr
 
     if (currentlyDownloadingNft && currentlyDownloadingNft === updatedDownloadingNft) {
         await Platform.cancelNftDownload(currentlyDownloadingNft)
-        updateNftInAllAccountNfts(accountIndex, currentlyDownloadingNft, {
-            downloadMetadata: { isLoaded: false, warning: { type: DownloadWarningType.DownloadTooLong } },
-        })
+        const nft = getNftByIdFromAllAccountNfts(accountIndex, currentlyDownloadingNft)
+        if (nft) {
+            updateNftInAllAccountNfts(accountIndex, currentlyDownloadingNft, {
+                isLoaded: false,
+                downloadMetadata: {
+                    ...nft.downloadMetadata,
+                    error: undefined,
+                    warning: { type: DownloadWarningType.DownloadTooLong },
+                },
+            })
+        }
     }
 }

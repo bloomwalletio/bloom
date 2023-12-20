@@ -5,7 +5,7 @@
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
     } from '@core/layer-2'
-    import { INft } from '@core/nfts'
+    import { INft, NftStandard } from '@core/nfts'
     import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
@@ -33,7 +33,10 @@
                 return L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0
             }
         } else if (_sendFlowParameters.type === SendFlowType.NftTransfer) {
-            if (_sendFlowParameters.destinationNetworkId !== _sendFlowParameters.nft?.networkId) {
+            if (
+                _sendFlowParameters.destinationNetworkId !== _sendFlowParameters.nft?.networkId &&
+                _sendFlowParameters.nft?.standard === NftStandard.Irc27
+            ) {
                 return (
                     (_sendFlowParameters.nft?.storageDeposit ?? 0) +
                     (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? 0)

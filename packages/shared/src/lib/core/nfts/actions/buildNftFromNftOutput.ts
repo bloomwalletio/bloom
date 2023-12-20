@@ -5,18 +5,19 @@ import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
 import { get } from 'svelte/store'
 import { DEFAULT_NFT_NAME } from '../constants'
-import { INft } from '../interfaces'
+import { IIrc27Nft } from '../interfaces'
 import { composeUrlFromNftUri, getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
 import { NetworkId } from '@core/network/types'
 import { isEvmChain } from '@core/network'
-import { NftStandard } from '@core/nfts'
+import { MimeType, NftStandard } from '@core/nfts'
+import { persistedNftForActiveProfile } from '../stores'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
     networkId: NetworkId,
     accountAddress: string,
     calculateStatus: boolean = true
-): INft {
+): IIrc27Nft {
     const nftOutput = wrappedOutput.output as NftOutput
 
     let isSpendable = false
@@ -41,12 +42,16 @@ export function buildNftFromNftOutput(
     const filePath = `${profileId}/nfts/${id}`
     const storageDeposit = Number(nftOutput.amount)
 
+    const persistedNft = get(persistedNftForActiveProfile)?.[id] ?? {}
+
     return {
         standard: NftStandard.Irc27,
+        type: parsedMetadata?.type ?? MimeType.TextPlain,
         id,
         ownerAddress: accountAddress,
-        address,
+        nftAddress: address,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
+        description: parsedMetadata?.description,
         issuer,
         isSpendable: isEvmChain(networkId) ? true : isSpendable,
         timelockTime: timeLockTime ? Number(timeLockTime) : undefined,
@@ -54,14 +59,13 @@ export function buildNftFromNftOutput(
         metadata: parsedMetadata,
         latestOutputId: wrappedOutput.outputId,
         composedUrl,
-        downloadUrl: composedUrl,
-        filePath,
         storageDeposit,
         networkId,
-        downloadMetadata: {
+        isLoaded: false,
+        downloadMetadata: persistedNft?.downloadMetadata ?? {
+            filePath,
             error: undefined,
             warning: undefined,
-            isLoaded: false,
         },
     }
 }

@@ -1,38 +1,17 @@
-import { getActiveProfile } from '@core/profile/stores'
-import { INft, IPersistedErc721Nft } from '../interfaces'
-import { composeUrlFromNftUri, isErc721NftSpendable, MimeType, NftStandard } from '@core/nfts'
+import { DEFAULT_NFT_NAME, MimeType, isErc721NftSpendable } from '@core/nfts'
+import { IErc721Nft, IPersistedErc721Nft } from '../interfaces'
 
-export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): Promise<INft> {
-    const { contractMetadata, networkId, ownerAddress, tokenId, metadata } = nft
-    const { address } = contractMetadata
-
-    const id = tokenId ? `${address}:${tokenId}` : address
-    const composedUrl = composeUrlFromNftUri(metadata?.uri) ?? ''
-    const downloadUrl = composeUrlFromNftUri(metadata?.uri) ?? ''
-    const filePath = `${getActiveProfile().id}/nfts/${id}`
-    const downloadMetadata = {
-        error: undefined,
-        warning: undefined,
-        isLoaded: false,
-    }
+export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): Promise<IErc721Nft> {
+    const id = nft.tokenId ? `${nft.contractMetadata.address}:${nft.tokenId}` : nft.contractMetadata.address
     const isSpendable = await isErc721NftSpendable(nft)
 
     return {
+        ...nft,
         id,
-        ownerAddress,
-        standard: NftStandard.Erc721,
-        networkId,
         isSpendable,
-        address: contractMetadata.address,
-        name: metadata?.name ?? contractMetadata.name,
-        description: metadata?.description,
-        contractMetadata: nft.contractMetadata,
-        ...(metadata && { metadata }),
+        name: nft.metadata?.name ?? nft.contractMetadata.name ?? DEFAULT_NFT_NAME,
+        description: nft.metadata?.description,
         type: MimeType.ImagePng,
-        ...(tokenId && { tokenId }),
-        composedUrl,
-        downloadUrl,
-        filePath,
-        downloadMetadata,
-    } as INft
+        isLoaded: false,
+    }
 }
