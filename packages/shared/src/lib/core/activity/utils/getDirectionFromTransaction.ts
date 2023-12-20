@@ -1,15 +1,23 @@
-import { CommonOutput } from '@iota/sdk/out/types'
+import { CommonOutput, OutputData } from '@iota/sdk/out/types'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { ActivityDirection } from '../enums'
 import { getRecipientAddressFromOutput } from './outputs'
+import { EMPTY_HEX_ID } from '@core/wallet'
 
 export function getDirectionFromTransaction(
     wrappedOutputs: IWrappedOutput[],
     incoming: boolean,
-    accountAddress: string
+    accountAddress: string,
+    inputs: OutputData[]
 ): ActivityDirection {
+    const isGenesis = inputs.some((input) => input.metadata?.blockId === EMPTY_HEX_ID)
+    if (isGenesis) {
+        return ActivityDirection.Incoming
+    }
     const containsOutput = wrappedOutputs.some((outputData) => {
         const recipientAddress = getRecipientAddressFromOutput(outputData.output as CommonOutput)
+
+        outputData.metadata?.blockId
 
         if (incoming) {
             return accountAddress === recipientAddress
