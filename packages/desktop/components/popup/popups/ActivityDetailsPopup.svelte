@@ -41,7 +41,7 @@
             ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
             : undefined
     $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
-    $: explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
+    $: explorerUrl = setExplorerUrl(activity)
 
     let title: string = localize('popups.activityDetails.title.fallback')
     $: void setTitle(activity)
@@ -60,8 +60,14 @@
         $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
-    function onExplorerClick(_activity: Activity | undefined): void {
-        openUrlInBrowser(`${explorerUrl}/${_activity?.transactionId}`)
+    function setExplorerUrl(_activity: Activity): string | undefined {
+        if (activity?.direction === ActivityDirection.Genesis) {
+            const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Output)
+            return explorerUrl ? `${explorerUrl}/${_activity?.outputId}` : undefined
+        } else {
+            const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
+            return explorerUrl ? `${explorerUrl}/${_activity?.transactionId}` : undefined
+        }
     }
 
     function onTransactionIdClick(_activity: Activity): void {
@@ -135,7 +141,11 @@
     >
         <div slot="description" class="flex">
             {#if explorerUrl && activity.transactionId}
-                <Link text={localize('general.viewOnExplorer')} external on:click={() => onExplorerClick(activity)} />
+                <Link
+                    text={localize('general.viewOnExplorer')}
+                    external
+                    on:click={() => openUrlInBrowser(explorerUrl)}
+                />
             {:else if activity.transactionId}
                 <Link
                     text={truncateString(activity.transactionId, 12, 12)}

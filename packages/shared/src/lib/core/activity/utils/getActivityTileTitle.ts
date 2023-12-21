@@ -41,7 +41,11 @@ export function getActivityTileTitle(activity: Activity): string | undefined {
                 return isConfirmed ? 'general.transferOut' : 'general.transferringOut'
             }
         }
-        if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
+        if (
+            direction === ActivityDirection.Incoming ||
+            direction === ActivityDirection.SelfTransaction ||
+            direction === ActivityDirection.Genesis
+        ) {
             return isConfirmed ? 'general.received' : 'general.receiving'
         }
         if (direction === ActivityDirection.Outgoing) {

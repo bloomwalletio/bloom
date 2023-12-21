@@ -47,7 +47,7 @@ function getDirectionForOutputs(
     const isGenesis =
         wrappedInputs.length === 0 && outputs.some((outputData) => outputData.metadata?.blockId === EMPTY_HEX_ID)
     if (isGenesis) {
-        return ActivityDirection.Incoming
+        return ActivityDirection.Genesis
     }
     const nonRemainderOutputs = outputs.filter((output) => !output.remainder)
     if (nonRemainderOutputs.length === 0) {

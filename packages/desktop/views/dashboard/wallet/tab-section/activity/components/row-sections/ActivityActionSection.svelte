@@ -47,7 +47,11 @@
             }
         } else if (action === ActivityAction.Send || action === ActivityAction.BalanceChange) {
             if (isInternal) {
-                if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
+                if (
+                    direction === ActivityDirection.Incoming ||
+                    direction === ActivityDirection.SelfTransaction ||
+                    direction === ActivityDirection.Genesis
+                ) {
                     return {
                         icon: IconName.ArrowLeftRight,
                         color: 'info',
@@ -60,7 +64,11 @@
                     }
                 }
             }
-            if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
+            if (
+                direction === ActivityDirection.Incoming ||
+                direction === ActivityDirection.SelfTransaction ||
+                direction === ActivityDirection.Genesis
+            ) {
                 return {
                     icon: IconName.Receive,
                     color: 'info',
