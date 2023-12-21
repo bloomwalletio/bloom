@@ -86,7 +86,7 @@
                     "description": "Bitte stelle sicher, dass die offizielle Ledger Live App geschlossen ist und folge den folgenden Schritten.",
                     "connect": "Verbinde deinen Ledger",
                     "unlock": "Entsperre deinen Ledger mit der PIN",
-                    "open": "Open the {appName} app on your Ledger",
+                    "open": "Öffne die {appName} App auf deinem Ledger",
                     "tip": "Tipps, wenn sich dein Ledger nicht verbindet"
                 },
                 "ledgerConnectionGuide": {
@@ -122,8 +122,8 @@
                     "success": "{amount} erfolgreich gefunden"
                 },
                 "balanceFinder": {
-                    "title": "Find your recovered accounts",
-                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
+                    "title": "Finde deine wiederhergestellten Accounts",
+                    "description": "Verwende den Bilanzfinder unten und überprüfe, ob dein Kontostand korrekt ist, bevor du fortfährst."
                 }
             },
             "restoreFromMnemonic": {
@@ -252,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Ausgeblendete Konten",
-                "description": "Selecting this option will show wallets that were previously hidden"
+                "description": "Wähle diese Option, um zuvor ausgeblendete Wallets wieder anzuzeigen"
             },
             "deleteProfile": {
                 "title": "Profil löschen",
@@ -524,7 +524,6 @@
                     },
                     "details": {
                         "title": "Verbindungsdetails",
-                        "falbackName": "dApp",
                         "name": "Name",
                         "description": "Beschreibung",
                         "url": "URL",
@@ -576,7 +575,7 @@
                 "emptyDescription": "Empfange oder hinterlege dein erstes Sammlerstück jetzt!"
             },
             "details": {
-                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
+                "storageDepositDescription": "Eine rückerstattbare Kaution ist erforderlich, um dein NFT auf dem Tangle aufzubewahren.",
                 "menu": {
                     "download": "Herunterladen",
                     "setPfp": "NFT-Profilbild festlegen",
@@ -775,8 +774,8 @@
             "body": "Bist du sicher, dass du {url} als primäre Node löschen möchtest?"
         },
         "confirmAssetTracking": {
-            "title": "Add a new token",
-            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+            "title": "Neuen Token hinzufügen",
+            "description": "\"{dappName}\" möchte \"{assetName}\" zu deiner Wallet hinzufügen."
         },
         "node": {
             "titleAdd": "Node hinzufügen",
@@ -894,23 +893,27 @@
             "title": "Nachricht signieren",
             "hint": "Beim Signieren dieser Nachricht wird kein Guthaben an {dappName} gesendet.",
             "warning": "dApp kann nicht ermittelt werden. Es wird kein Guthaben bei der Signierung dieser Nachricht gesendet.",
-            "action": "Signieren"
+            "action": "Signieren",
+            "success": "Signed message"
         },
         "signTransaction": {
             "title": "Transaktion signieren",
-            "action": "Signieren"
+            "action": "Signieren",
+            "success": "Signed transaction"
         },
         "sendTransaction": {
             "title": "Transaktion senden",
-            "action": "Senden"
+            "action": "Senden",
+            "success": "Sent {assetName} to {recipient}"
         },
         "smartContractCall": {
             "title": "Aufruf des Smart Contracts an {contractAddress}",
             "unableToVerify": "Bloom kann den Smart Contract nicht verifizieren. Fahre nur mit Apps fort, denen du vertraust.",
-            "action": "Bestätigen"
+            "action": "Bestätigen",
+            "success": "Smart contract call to {recipient}"
         },
-        "successfulDappConnection": {
-            "alert": "Du kannst diesen Bildschirm schließen und zur dApp zurückkehren."
+        "successfulDappInteraction": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
             "title": {
@@ -970,12 +973,12 @@
                     "increaseVotingPower": {
                         "Pending": "Erhöhe Stimmrecht",
                         "Confirmed": "Stimmrecht erhöht",
-                        "Conflicting": "Failed to increase voting power"
+                        "Conflicting": "Fehler beim Erhöhen des Stimmrechts"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Verringere Stimmrecht",
                         "Confirmed": "Stimmrecht verringert",
-                        "Conflicting": "Failed to decrease voting power"
+                        "Conflicting": "Fehler beim Verringern des Stimmrechts"
                     },
                     "startVoting": {
                         "Pending": "Stimmen für {proposalName}",
@@ -985,7 +988,7 @@
                     "stopVoting": {
                         "Pending": "Abstimmung für {proposalName} stoppen",
                         "Confirmed": "Abstimmung für {proposalName} beendet",
-                        "Conflicting": "Failed to stop voting for"
+                        "Conflicting": "Fehler beim Beenden der Abstimmung für"
                     },
                     "changedVote": {
                         "Pending": "Änderung der Abstimmung für {proposalName}",
@@ -1048,12 +1051,15 @@
             }
         },
         "importToken": {
-            "title": "ERC20-Token importieren",
+            "title": "Import {type} token",
             "property": {
-                "tokenAddress": "Token-Adresse"
+                "tokenAddress": "Token address"
             },
-            "success": "{tokenSymbol} Token importiert",
-            "error": "ERC20-Token konnte nicht importiert werden"
+            "success": "Imported {tokenSymbol} token",
+            "errors": {
+                "otherOwner": "You're not the owner of the NFT!",
+                "alreadyAdded": "You already have this NFT in your portfolio"
+            }
         },
         "noAlias": {
             "title": "Kann nicht gemintet werden",
@@ -1268,7 +1274,7 @@
         "untrackToken": "Token entfolgen",
         "switchAccount": "Konto wechseln",
         "syncAccounts": "Konten synchronisieren",
-        "importErc20Token": "ERC20-Token importieren",
+        "importToken": "Import {type} token",
         "syncTokens": "Token-Synchronisation erzwingen"
     },
     "general": {
@@ -1405,7 +1411,7 @@
         "claimedTime": "Beansprucht am",
         "nftId": "NFT ID",
         "aliasId": "Alias ID",
-        "tokenId": "Token ID",
+        "tokenId": "Token-ID",
         "governorAddress": "Governor Adresse",
         "stateControllerAddress": "State Controller Adresse",
         "copiedToClipboard": "In Zwischenablage kopiert",
@@ -1462,7 +1468,7 @@
         "coinType": "Cointyp",
         "custom": "Benutzerdefiniert",
         "evmAddress": "EVM-Adresse",
-        "contractAddress": "Contract Address",
+        "contractAddress": "Vertragsadresse",
         "optionalField": "{field} (optional)",
         "gifted": "Geschenkt",
         "connected": "Verbunden",
@@ -1487,7 +1493,8 @@
         "no": "Nein",
         "tip": "Tipp",
         "verified": "Verifiziert",
-        "data": "Daten"
+        "data": "Daten",
+        "success": "Success"
     },
     "filters": {
         "title": "Filter",
@@ -1552,6 +1559,7 @@
         "status": {
             "label": "Status",
             "confirmed": "bestätigt",
+            "timelocked": "timelocked",
             "pending": "ausstehend",
             "claimed": "beansprucht",
             "unclaimed": "unbeansprucht"
@@ -1665,9 +1673,6 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Protokoll stimmt nicht mit dem Münztyp in der Stronghold-Sicherung überein",
             "wrongProtocolForClaiming": "Du musst ein IOTA Stronghold-Backup verwenden, um Shimmer Rewards zu beanspruchen"
-        },
-        "signMessage": {
-            "success": "Nachricht erfolgreich signiert"
         },
         "signTransaction": {
             "success": "Transaktion erfolgreich signiert"
