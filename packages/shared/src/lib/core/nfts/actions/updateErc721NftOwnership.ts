@@ -2,24 +2,24 @@ import { IAccountState } from '@core/account'
 import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { NftStandard } from '../enums'
 import { IErc721Nft } from '../interfaces'
-import { getAllAccountNfts } from '../stores'
-import { isErc721NftSpendable } from '../utils'
+import { getAllAccountNfts, persistedNftForActiveProfile, updatePersistedNft } from '../stores'
+import { getOwnerOfErc721Nft } from '../utils'
+import { get } from 'svelte/store'
 
 export async function updateErc721NftsOwnership(account: IAccountState): Promise<void> {
     const trackedErc721Nfts = getAllAccountNfts()[account.index].filter((nft) => {
         return nft.standard === NftStandard.Erc721
-    })
+    }) as IErc721Nft[]
 
-    const promises = []
-    async function check(nft: IErc721Nft): Promise<void> {
-        const isSpendable = await isErc721NftSpendable(nft)
-        if (nft.isSpendable !== isSpendable) {
-            updateAllAccountNftsForAccount(account.index, { ...nft, isSpendable })
+    const promises = trackedErc721Nfts.map(async (nft) => {
+        const updatedOwner = await getOwnerOfErc721Nft(nft)
+        const persistedNft = get(persistedNftForActiveProfile)[nft.id]
+        if (persistedNft.ownerAddress !== updatedOwner) {
+            updatePersistedNft(nft.id, { ownerAddress: updatedOwner })
         }
-    }
 
-    for (const nft of trackedErc721Nfts) {
-        promises.push(check(nft as IErc721Nft))
-    }
+        const isSpendable = updatedOwner.toLowerCase() === account.depositAddress.toLowerCase()
+        updateAllAccountNftsForAccount(account.index, { ...nft, isSpendable })
+    })
     await Promise.all(promises)
 }
