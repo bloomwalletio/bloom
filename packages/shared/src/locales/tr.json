@@ -86,7 +86,7 @@
                     "description": "Lütfen resmi Ledger Live uygulamasının kapalı olduğundan emin olun ve aşağıdaki adımları takip edin.",
                     "connect": "Ledger cihazınızı bağlayın",
                     "unlock": "Ledger'ınızın kilidini pin ile açın",
-                    "open": "Open the {appName} app on your Ledger",
+                    "open": "Ledger cihazınızda {appName} uygulamasını açın",
                     "tip": "Ledger'ınız bağlanmaması durumundaki ipuçları"
                 },
                 "ledgerConnectionGuide": {
@@ -122,8 +122,8 @@
                     "success": "Başarıyla {amount} bulundu"
                 },
                 "balanceFinder": {
-                    "title": "Find your recovered accounts",
-                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
+                    "title": "Kurtarılan hesaplarınızı bulun",
+                    "description": "Aşağıdaki bakiye bulucuyu kullanın ve devam etmeden önce hesap bakiyenizin doğru olup olmadığını kontrol edin."
                 }
             },
             "restoreFromMnemonic": {
@@ -252,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Gizli hesaplar",
-                "description": "Selecting this option will show wallets that were previously hidden"
+                "description": "Bu seçeneğin seçilmesi, daha önce gizlenmiş cüzdanları gösterecektir"
             },
             "deleteProfile": {
                 "title": "Profili sil",
@@ -524,7 +524,6 @@
                     },
                     "details": {
                         "title": "Bağlantı Detayları",
-                        "falbackName": "dApp (Merkeziyetsiz Uygulamalar)",
                         "name": "İsim",
                         "description": "Açıklama",
                         "url": "URL",
@@ -576,7 +575,7 @@
                 "emptyDescription": "İlk koleksiyonunuzu yatırın veya alın!"
             },
             "details": {
-                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
+                "storageDepositDescription": "NFT'nizi Tangle'da saklamak için iade edilebilir bir depozito gereklidir.",
                 "menu": {
                     "download": "İndir",
                     "setPfp": "{timeDiff} için kilitlendi",
@@ -775,8 +774,8 @@
             "body": "{url}'yi birincil düğüm olarak temizlemek istediğinizden emin misiniz?"
         },
         "confirmAssetTracking": {
-            "title": "Add a new token",
-            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+            "title": "Yeni bir token (jeton) ekle",
+            "description": "\"{dappName}\", cüzdanınıza \"{assetName}\" eklemek istiyor."
         },
         "node": {
             "titleAdd": "Bir düğüm (node) ekle",
@@ -894,23 +893,27 @@
             "title": "Mesajı imzala",
             "hint": "Bu mesajın imzalanması sürecinde {dappName}'a bakiye gönderilmeyecek.",
             "warning": "dApp belirlenemedi. Bu mesajın imzalanması sürecinde bakiye gönderilmeyecektir.",
-            "action": "Giriş yap"
+            "action": "Giriş yap",
+            "success": "Signed message"
         },
         "signTransaction": {
             "title": "İşlemi imzala",
-            "action": "İmza"
+            "action": "İmza",
+            "success": "Signed transaction"
         },
         "sendTransaction": {
             "title": "İşlemi gönder",
-            "action": "Gönder"
+            "action": "Gönder",
+            "success": "Sent {assetName} to {recipient}"
         },
         "smartContractCall": {
             "title": "{contractAddress} adresine akıllı sözleşme çağrısı",
             "unableToVerify": "Bloom akıllı sözleşme çağrısını doğrulayamıyor. Yalnızca güvendiğiniz uygulamalarla devam edin.",
-            "action": "Onayla"
+            "action": "Onayla",
+            "success": "Smart contract call to {recipient}"
         },
-        "successfulDappConnection": {
-            "alert": "Hazır olduğunuzda bu ekranı kapatabilir ve dApp'e dönebilirsiniz."
+        "successfulDappInteraction": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
             "title": {
@@ -970,12 +973,12 @@
                     "increaseVotingPower": {
                         "Pending": "Oy kullanma gücünün artırılması",
                         "Confirmed": "Artan oy kullanma gücü",
-                        "Conflicting": "Failed to increase voting power"
+                        "Conflicting": "Oy kullanma gücü arttırılamadı"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Oy kullanma gücünün azaltılması",
                         "Confirmed": "Azalan oy gücü",
-                        "Conflicting": "Failed to decrease voting power"
+                        "Conflicting": "Oy kullanma gücü azaltılamadı"
                     },
                     "startVoting": {
                         "Pending": "{proposalName} için oylama",
@@ -985,7 +988,7 @@
                     "stopVoting": {
                         "Pending": "{proposalName} için oylama durduruluyor",
                         "Confirmed": "{proposalName} için oylama durduruldu",
-                        "Conflicting": "Failed to stop voting for"
+                        "Conflicting": "Oy verme işlemi durdurulamadı"
                     },
                     "changedVote": {
                         "Pending": "{proposalName} için verilen oy değiştiriliyor",
@@ -1048,12 +1051,15 @@
             }
         },
         "importToken": {
-            "title": "ERC20 tokenini içe aktar",
+            "title": "Import {type} token",
             "property": {
-                "tokenAddress": "Token adresi"
+                "tokenAddress": "Token address"
             },
-            "success": "{tokenSymbol} jetonu içe aktarıldı",
-            "error": "ERC20 jetonu içe aktarılamıyor"
+            "success": "Imported {tokenSymbol} token",
+            "errors": {
+                "otherOwner": "You're not the owner of the NFT!",
+                "alreadyAdded": "You already have this NFT in your portfolio"
+            }
         },
         "noAlias": {
             "title": "Basılamıyor",
@@ -1268,7 +1274,7 @@
         "untrackToken": "Token'i izlemeyi kaldır",
         "switchAccount": "Hesap değiştir",
         "syncAccounts": "Hesabları senkronize et",
-        "importErc20Token": "ERC20 tokenini içe aktar",
+        "importToken": "Import {type} token",
         "syncTokens": "Tokenları zorla senkronizasyon yap"
     },
     "general": {
@@ -1462,7 +1468,7 @@
         "coinType": "Para tipi",
         "custom": "Standart",
         "evmAddress": "EVM Adresi",
-        "contractAddress": "Contract Address",
+        "contractAddress": "Kontrat (Sözleşme) Adresi",
         "optionalField": "{field} (isteğe bağlı)",
         "gifted": "Hediye başarıyla verildi",
         "connected": "Bağlı",
@@ -1487,7 +1493,8 @@
         "no": "Hayır",
         "tip": "Bahşiş",
         "verified": "Doğrulandı",
-        "data": "Veri"
+        "data": "Veri",
+        "success": "Success"
     },
     "filters": {
         "title": "Filtreler",
@@ -1552,6 +1559,7 @@
         "status": {
             "label": "Durum",
             "confirmed": "onaylandı",
+            "timelocked": "timelocked",
             "pending": "bekleniyor",
             "claimed": "talep edildi",
             "unclaimed": "sahipsiz"
@@ -1665,9 +1673,6 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Stronghold yedeğinde bulunan coin türü ile protokol uyuşmuyor",
             "wrongProtocolForClaiming": "Shimmer ödüllerini talep etmek için IOTA tabanlı bir Stronghold yedeği kullanmalısınız"
-        },
-        "signMessage": {
-            "success": "Mesaj başarıyla imzalandı"
         },
         "signTransaction": {
             "success": "İşlem başarıyla imzalandı"

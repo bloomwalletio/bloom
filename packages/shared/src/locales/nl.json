@@ -252,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Verborgen accounts",
-                "description": "Selecting this option will show wallets that were previously hidden"
+                "description": "Door deze optie te selecteren, worden wallets die voorheen verborgen waren getoond"
             },
             "deleteProfile": {
                 "title": "Profiel verwijderen",
@@ -524,7 +524,6 @@
                     },
                     "details": {
                         "title": "Connectie details",
-                        "falbackName": "dApp",
                         "name": "Naam",
                         "description": "Beschrijving",
                         "url": "URL",
@@ -576,7 +575,7 @@
                 "emptyDescription": "Stort of ontvang je eerste verzameling!"
             },
             "details": {
-                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
+                "storageDepositDescription": "Een terugvorderbare-storting is nodig om jouw NFT op de Tangle op te slaan.",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Stel NFT-profiel plaatje in",
@@ -894,23 +893,27 @@
             "title": "Bericht ondertekenen",
             "hint": "Er wordt geen saldo verzonden naar {dappName} tijdens het ondertekenen van dit bericht.",
             "warning": "dApp kan niet worden bepaald. Er wordt geen saldo verzonden tijdens het ondertekenen van dit bericht.",
-            "action": "Ondertekenen"
+            "action": "Ondertekenen",
+            "success": "Signed message"
         },
         "signTransaction": {
             "title": "Transactie ondertekenen",
-            "action": "Ondertekenen"
+            "action": "Ondertekenen",
+            "success": "Signed transaction"
         },
         "sendTransaction": {
             "title": "Transactie verzenden",
-            "action": "Verzend"
+            "action": "Verzend",
+            "success": "Sent {assetName} to {recipient}"
         },
         "smartContractCall": {
             "title": "Smart Contract-oproep naar {contractAddress}",
             "unableToVerify": "Bloom is niet in staat om de smart Contract-oproep te verifiëren. Ga alleen verder met apps die je vertrouwt.",
-            "action": "Bevestig"
+            "action": "Bevestig",
+            "success": "Smart contract call to {recipient}"
         },
-        "successfulDappConnection": {
-            "alert": "Je kunt dit scherm sluiten en terugkeren naar de dApp wanneer je klaar bent."
+        "successfulDappInteraction": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
             "title": {
@@ -1048,12 +1051,15 @@
             }
         },
         "importToken": {
-            "title": "ERC20-token importeren",
+            "title": "Import {type} token",
             "property": {
-                "tokenAddress": "Token adres"
+                "tokenAddress": "Token address"
             },
-            "success": "Geïmporteerde {tokenSymbol} token",
-            "error": "ERC20-token importeren mislukt"
+            "success": "Imported {tokenSymbol} token",
+            "errors": {
+                "otherOwner": "You're not the owner of the NFT!",
+                "alreadyAdded": "You already have this NFT in your portfolio"
+            }
         },
         "noAlias": {
             "title": "Minten mislukt",
@@ -1268,7 +1274,7 @@
         "untrackToken": "Token ontvolgen",
         "switchAccount": "Account wisselen",
         "syncAccounts": "Synchroniseer accounts",
-        "importErc20Token": "ERC20-token importeren",
+        "importToken": "Import {type} token",
         "syncTokens": "Forceer synchronisatie tokens"
     },
     "general": {
@@ -1487,7 +1493,8 @@
         "no": "Nee",
         "tip": "Tip",
         "verified": "Geverifiëerd",
-        "data": "Gegevens"
+        "data": "Gegevens",
+        "success": "Success"
     },
     "filters": {
         "title": "Filters",
@@ -1552,6 +1559,7 @@
         "status": {
             "label": "Status",
             "confirmed": "bevestigd",
+            "timelocked": "timelocked",
             "pending": "in behandeling",
             "claimed": "geclaimed",
             "unclaimed": "niet-opgeëist"
@@ -1665,9 +1673,6 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Protocol komt niet overeen met het type munt gevonden in de Stronghold back-up",
             "wrongProtocolForClaiming": "Je moet een IOTA-gebaseerde Stronghold back-up gebruiken om Shimmer beloningen te claimen"
-        },
-        "signMessage": {
-            "success": "Bericht succesvol ondertekend"
         },
         "signTransaction": {
             "success": "Transactie succesvol ondertekend"

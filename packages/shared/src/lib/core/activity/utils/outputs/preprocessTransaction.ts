@@ -15,13 +15,13 @@ export async function preprocessTransaction(
         transaction?.transactionId,
         transactionEssence.outputs as Output[]
     )
-
-    const direction = getDirectionFromTransaction(outputs, transaction.incoming, account.depositAddress)
     const utxoInputs = transactionEssence.inputs as UTXOInput[]
     const inputIds = utxoInputs.map((input) =>
         getOutputIdFromTransactionIdAndIndex(input?.transactionId, input.transactionOutputIndex)
     )
     const inputs = await Promise.all(inputIds.map((inputId) => account.getOutput(inputId)))
+
+    const direction = getDirectionFromTransaction(outputs, transaction.incoming, account.depositAddress, inputs)
     return {
         outputs: outputs,
         transactionId: transaction?.transactionId,

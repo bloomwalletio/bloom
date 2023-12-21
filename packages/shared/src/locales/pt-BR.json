@@ -524,7 +524,6 @@
                     },
                     "details": {
                         "title": "Connection details",
-                        "falbackName": "dApp",
                         "name": "Nome",
                         "description": "Descrição",
                         "url": "URL",
@@ -894,22 +893,26 @@
             "title": "Sign message",
             "hint": "Nenhum saldo será enviado para {dappName} no processo de assinatura desta mensagem.",
             "warning": "dApp não pôde ser determinado. Nenhum saldo será enviado no processo de assinatura desta mensagem.",
-            "action": "Assinar"
+            "action": "Assinar",
+            "success": "Signed message"
         },
         "signTransaction": {
             "title": "Assinar transação",
-            "action": "Assinar"
+            "action": "Assinar",
+            "success": "Signed transaction"
         },
         "sendTransaction": {
             "title": "Enviar transação",
-            "action": "Enviar"
+            "action": "Enviar",
+            "success": "Sent {assetName} to {recipient}"
         },
         "smartContractCall": {
             "title": "Smart contract call to {contractAddress}",
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
-            "action": "Confirm"
+            "action": "Confirm",
+            "success": "Smart contract call to {recipient}"
         },
-        "successfulDappConnection": {
+        "successfulDappInteraction": {
             "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
@@ -1048,12 +1051,15 @@
             }
         },
         "importToken": {
-            "title": "Importar token ERC20",
+            "title": "Import {type} token",
             "property": {
-                "tokenAddress": "Endereço do token"
+                "tokenAddress": "Token address"
             },
-            "success": "Token {tokenSymbol} importado",
-            "error": "Não foi possível importar o token ERC20"
+            "success": "Imported {tokenSymbol} token",
+            "errors": {
+                "otherOwner": "You're not the owner of the NFT!",
+                "alreadyAdded": "You already have this NFT in your portfolio"
+            }
         },
         "noAlias": {
             "title": "Unable to mint",
@@ -1268,7 +1274,7 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Importar token ERC20",
+        "importToken": "Import {type} token",
         "syncTokens": "Forçar sincronização de tokens"
     },
     "general": {
@@ -1487,7 +1493,8 @@
         "no": "Não",
         "tip": "Dica",
         "verified": "Verificado",
-        "data": "Data"
+        "data": "Data",
+        "success": "Success"
     },
     "filters": {
         "title": "Filters",
@@ -1552,6 +1559,7 @@
         "status": {
             "label": "Status",
             "confirmed": "confirmado",
+            "timelocked": "timelocked",
             "pending": "pendente",
             "claimed": "resgatado",
             "unclaimed": "não resgatado"
@@ -1665,9 +1673,6 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "O protocolo não corresponde ao tipo de moeda encontrado no backup Stronghold",
             "wrongProtocolForClaiming": "Você deve usar um backup Stronghold IOTA para resgatar recompensas Shimmer"
-        },
-        "signMessage": {
-            "success": "Message successfully signed"
         },
         "signTransaction": {
             "success": "Transaction successfully signed"
