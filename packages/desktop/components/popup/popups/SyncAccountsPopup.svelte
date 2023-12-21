@@ -16,6 +16,7 @@
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { StardustNetworkId } from '@core/network/enums'
+    import { ledgerRaceConditionProtectionWrapper } from '@core/ledger'
 
     export let searchForBalancesOnLoad = false
 
@@ -42,7 +43,8 @@
         try {
             error = ''
             isBusy = true
-            await (networkSearchMethod[network.id] ?? singleAddressSearch)()
+            const _function = networkSearchMethod[network.id] ?? singleAddressSearch
+            await ledgerRaceConditionProtectionWrapper(_function)
             await loadAccounts()
             previousAccountsLength = $visibleActiveAccounts.length
             previousAccountGapLimit = accountGapLimit
