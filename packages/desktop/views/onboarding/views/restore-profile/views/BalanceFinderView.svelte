@@ -4,7 +4,7 @@
     import { IAccount } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
+    import { LedgerAppName, checkOrConnectLedger, ledgerRaceConditionProtectionWrapper } from '@core/ledger'
     import { StardustNetworkId, SupportedNetworkId } from '@core/network'
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'
@@ -101,7 +101,8 @@
         try {
             error = ''
             isBusy = true
-            await (networkSearchMethod[network.id] ?? singleAddressSearch)()
+            const _function = networkSearchMethod[network.id] ?? singleAddressSearch
+            await ledgerRaceConditionProtectionWrapper(_function)
         } catch (err) {
             error = localize(err.error)
             console.error(error)
