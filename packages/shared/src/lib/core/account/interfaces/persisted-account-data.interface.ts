@@ -9,4 +9,5 @@ export interface IPersistedAccountData {
     removedProposalIds?: ParticipationEventId[]
     evmAddresses: IEvmAddresses
     depositAddress: string
+    otherAddresses: string[]
 }

@@ -1,7 +1,7 @@
 import { Output, Subject } from '@core/wallet/types'
-import { SubjectType } from '@core/wallet/enums'
 import { getSenderFromOutput } from './outputs'
 import { NetworkId } from '@core/network'
+import { getSubjectFromAddress } from '@core/wallet'
 
 export function getSenderFromTransaction(
     output: Output,
@@ -12,6 +12,6 @@ export function getSenderFromTransaction(
     if (isIncoming) {
         return getSenderFromOutput(output, networkId)
     } else {
-        return { type: SubjectType.Address, address: accountAddress }
+        return getSubjectFromAddress(accountAddress, networkId)
     }
 }
