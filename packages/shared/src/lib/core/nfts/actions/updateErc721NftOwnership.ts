@@ -1,4 +1,4 @@
-import { IAccountState } from '@core/account'
+import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { NftStandard } from '../enums'
 import { IErc721Nft } from '../interfaces'
@@ -17,8 +17,8 @@ export async function updateErc721NftsOwnership(account: IAccountState): Promise
         if (persistedNft.ownerAddress !== updatedOwner) {
             updatePersistedNft(nft.id, { ownerAddress: updatedOwner })
         }
-
-        const isSpendable = updatedOwner.toLowerCase() === account.depositAddress.toLowerCase()
+        const l2Address = getAddressFromAccountForNetwork(account, nft.networkId)
+        const isSpendable = updatedOwner.toLowerCase() === l2Address?.toLowerCase()
         updateAllAccountNftsForAccount(account.index, { ...nft, isSpendable })
     })
     await Promise.all(promises)
