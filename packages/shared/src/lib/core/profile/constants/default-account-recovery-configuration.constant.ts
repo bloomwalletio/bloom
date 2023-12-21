@@ -6,7 +6,7 @@ export const DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION: AccountRecoveryConfiguratio
         initialAccountRange: 3,
         accountGapLimit: 1,
         numberOfRoundsBetweenBreadthSearch: 1,
-        addressGapLimit: 10,
+        addressGapLimit: 5,
     },
     [ProfileType.Software]: {
         initialAccountRange: 10,
