@@ -19,7 +19,7 @@ export function getSendingInformation(
     const recipient = getRecipientFromOutput(output, networkId)
     const sender = wrappedInputs?.length
         ? getSubjectFromAddress(getSenderAddressFromInputs(wrappedInputs) ?? '', networkId)
-        : getSenderFromTransaction(output, direction === ActivityDirection.Incoming, account.depositAddress, networkId)
+        : getSenderFromTransaction(output, direction, account.depositAddress, networkId)
 
     const subject = direction === ActivityDirection.Incoming ? sender : recipient
     const isInternal = isSubjectInternal(subject)

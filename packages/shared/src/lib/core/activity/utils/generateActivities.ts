@@ -3,7 +3,7 @@ import { IAccountState } from '@core/account'
 import { Activity, IProcessedTransaction } from '../types'
 import { isParticipationOutput } from '@contexts/governance/utils'
 import { NetworkId } from '@core/network/types'
-import { ActivityAction, ActivityType } from '../enums'
+import { ActivityAction, ActivityDirection, ActivityType } from '../enums'
 import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAliasOutputs'
 import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
 import { generateActivitiesFromFoundryOutputs } from './generateActivitiesFromFoundryOutputs'
@@ -89,7 +89,10 @@ async function generateActivitiesFromProcessedTransactionsWithoutInputs(
         nonRemainderOutputs.map(async (wrappedOutput) => {
             const params = {
                 type: getActivityTypeFromOutput(wrappedOutput),
-                action: ActivityAction.Unknown,
+                action:
+                    processedTransaction.direction === ActivityDirection.Genesis
+                        ? ActivityAction.Send
+                        : ActivityAction.Unknown,
                 processedTransaction,
                 wrappedOutput,
             }

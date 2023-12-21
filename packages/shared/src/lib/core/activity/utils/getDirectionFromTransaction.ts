@@ -13,7 +13,7 @@ export function getDirectionFromTransaction(
     const isGenesis =
         inputs.length === 0 && wrappedOutputs.some((outputData) => outputData.metadata?.blockId === EMPTY_HEX_ID)
     if (isGenesis) {
-        return ActivityDirection.Incoming
+        return ActivityDirection.Genesis
     }
     const containsOutput = wrappedOutputs.some((outputData) => {
         const recipientAddress = getRecipientAddressFromOutput(outputData.output as CommonOutput)
