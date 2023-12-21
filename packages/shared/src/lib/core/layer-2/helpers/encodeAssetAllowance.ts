@@ -39,7 +39,7 @@ function encodeNativeTokenTransfer(
     const tokenIdBytes = Converter.hexToBytes(token.id)
     buffer.writeBytes('tokenId', tokenIdBytes.length, tokenIdBytes)
 
-    const rawTokenAmount = BigInt(tokenTransfer?.rawAmount ?? '0')
+    const rawTokenAmount = BigInt(Number(tokenTransfer?.rawAmount) ?? '0')
     if (rawTokenAmount < 0) {
         throw new Error('Native token amount is negative!')
     }

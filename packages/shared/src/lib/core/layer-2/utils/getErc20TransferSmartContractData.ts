@@ -9,5 +9,5 @@ export function getErc20TransferSmartContractData(
     chain: IChain
 ): string {
     const contract = chain.getContract(ContractType.Erc20, token.id)
-    return contract.methods.transfer(recipientAddress, amount).encodeABI() ?? ''
+    return contract.methods.transfer(recipientAddress, String(BigInt(Number(amount)))).encodeABI() ?? ''
 }

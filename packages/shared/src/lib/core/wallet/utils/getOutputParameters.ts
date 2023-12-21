@@ -74,7 +74,7 @@ function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): A
         const nativeTokenId = tokenId === BASE_TOKEN_ID ? undefined : tokenId
 
         if (nativeTokenId) {
-            const bigAmount = BigInt(sendFlowParameters.tokenTransfer?.rawAmount ?? '0')
+            const bigAmount = BigInt(Number(sendFlowParameters.tokenTransfer?.rawAmount) ?? '0')
             assets = {
                 nativeTokens: [
                     {

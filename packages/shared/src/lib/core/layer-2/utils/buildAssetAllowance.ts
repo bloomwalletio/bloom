@@ -19,7 +19,7 @@ export function buildAssetAllowance(
             nativeTokens: [
                 {
                     ID: [transferredAsset.token.id],
-                    amount: transferredAsset.amount,
+                    amount: String(BigInt(Number(transferredAsset.amount))),
                 },
             ],
             nfts: [],
