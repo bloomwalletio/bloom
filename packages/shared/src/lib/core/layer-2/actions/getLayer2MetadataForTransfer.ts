@@ -1,6 +1,5 @@
 import { HEX_PREFIX } from '@core/utils'
 import type { SendFlowParameters } from '@core/wallet/types'
-import BigInteger from 'big-integer'
 import { SpecialStream } from '../classes'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_LIMIT_MULTIPLIER, TRANSFER_ALLOWANCE } from '../constants'
 import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } from '../helpers'
@@ -25,7 +24,7 @@ export function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParamet
     metadataStream.writeUInt32('targetContract', ACCOUNTS_CONTRACT)
     metadataStream.writeUInt32('contractFunction', TRANSFER_ALLOWANCE)
     // Gas budget is the ISC equivalent of gas limit in ethereum and what we use throughout the code
-    metadataStream.writeUInt64SpecialEncoding('gasLimit', BigInteger(gasLimit))
+    metadataStream.writeUInt64SpecialEncoding('gasLimit', BigInt(gasLimit))
 
     const smartContractParameters = Object.entries({ a: encodedAddress })
     const parameters = encodeSmartContractParameters(smartContractParameters)
