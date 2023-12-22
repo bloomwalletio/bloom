@@ -78,7 +78,7 @@ function getDataForTransaction(
     chain: IChain,
     recipientAddress: string,
     token: IToken | undefined,
-    amount: string | undefined,
+    amount: bigint | undefined,
     nft: INft | undefined
 ): string | undefined {
     if (token && amount) {

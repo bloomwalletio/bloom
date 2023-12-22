@@ -14,7 +14,7 @@
 
     export let token: ITokenWithBalance | undefined =
         $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
-    export let rawAmount: string | undefined = undefined
+    export let rawAmount: bigint | undefined = undefined
     export let unit: string | undefined = undefined
     export let availableBalance: number
     export let inputtedAmount: string | undefined =
@@ -34,9 +34,9 @@
         (fontSize = getFontSizeForInputLength()),
         (maxLength = getMaxAmountOfDigits())
     $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
-    $: bigAmount = inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : 0
-    $: fiatAmount = token ? getFiatAmountFromTokenValue(bigAmount, token) : undefined
-    $: rawAmount = bigAmount?.toString()
+    $: rawAmount =
+        inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : BigInt(0)
+    $: fiatAmount = token ? getFiatAmountFromTokenValue(rawAmount, token) : undefined
 
     function getInputLength(): number {
         const length = inputtedAmount?.length || 1

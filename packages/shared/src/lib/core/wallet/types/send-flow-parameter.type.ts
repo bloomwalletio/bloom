@@ -35,7 +35,7 @@ export interface NftSendFlowParameters extends Omit<BaseSendFlowParameters, 'typ
 
 // TODO move to own file and check optional params
 export type TokenTransferData = {
-    rawAmount: string
+    rawAmount: bigint
     token: IToken
     unit?: string
 }
