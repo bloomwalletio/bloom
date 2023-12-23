@@ -5,6 +5,9 @@ const collectiblesFeatures: ICollectiblesFeatures = {
     useCaching: {
         enabled: true, // If this is set to false, `https://*` needs to be added to `img-src` and `media-src` in `public/index.html`
     },
+    erc721: {
+        enabled: false,
+    },
 }
 
 export default collectiblesFeatures
