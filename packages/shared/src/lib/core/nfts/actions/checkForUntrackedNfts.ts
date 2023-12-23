@@ -3,11 +3,16 @@ import { ContractType } from '@core/layer-2/enums'
 import { EvmExplorerApi } from '@core/network/classes'
 import { getNetwork } from '@core/network/stores'
 import { IChain, IExplorerAsset } from '@core/network/interfaces'
+import features from '@features/features'
 
 import { NftStandard } from '../enums'
 import { persistNftWithContractMetadata } from './persistNftWithContractMetadata'
 
 export function checkForUntrackedNfts(account: IAccountState): void {
+    if (!features?.collectibles?.erc721?.enabled) {
+        return
+    }
+
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {
         const coinType = chain.getConfiguration().coinType

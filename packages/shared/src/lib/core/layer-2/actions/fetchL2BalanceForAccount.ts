@@ -24,6 +24,7 @@ import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName
 import { setLayer2AccountBalanceForChain } from '../stores'
 import { isTrackedTokenAddress } from '@core/wallet'
 import { TokenTrackingStatus } from '@core/token'
+import features from '@features/features'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -36,7 +37,9 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
         }
 
         await fetchLayer2Nfts(evmAddress, chain, account)
-        updateErc721NftsOwnership(account)
+        if (features.collectibles.erc721.enabled) {
+            updateErc721NftsOwnership(account)
+        }
 
         const balances = await getLayer2BalanceForAddress(evmAddress, chain)
         if (!balances) {
