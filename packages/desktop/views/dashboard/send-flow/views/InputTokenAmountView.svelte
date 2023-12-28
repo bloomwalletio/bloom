@@ -78,7 +78,7 @@
             ...$sendFlowParameters,
             [sendFlowType]: {
                 token,
-                rawAmount: token.balance.available.toString(),
+                rawAmount: BigInt(token.balance.available),
                 unit,
             },
         }

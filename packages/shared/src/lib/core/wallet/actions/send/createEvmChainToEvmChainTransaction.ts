@@ -32,7 +32,7 @@ export function createEvmChainToEvmChainTransaction(
     }
 
     let token: IToken | undefined
-    let amount: string | undefined
+    let amount: bigint | undefined
     let nft: INft | undefined
     let destinationAddress: string | undefined
 
@@ -63,7 +63,7 @@ export function createEvmChainToEvmChainTransaction(
         data = getDataForTransaction(chain, recipientAddress, token, amount, nft)
         // set amount to zero after using it to build the smart contract data,
         // as we do not want to send any base token
-        amount = '0'
+        amount = BigInt('0')
         if (!data) {
             throw new Error(localize('error.web3.unableToFormSmartContractData'))
         }
@@ -71,7 +71,7 @@ export function createEvmChainToEvmChainTransaction(
         data = undefined
     }
 
-    return buildEvmTransactionData(chain, originAddress, destinationAddress, amount ?? '0', data)
+    return buildEvmTransactionData(chain, originAddress, destinationAddress, amount?.toString() ?? '0', data)
 }
 
 function getDataForTransaction(
