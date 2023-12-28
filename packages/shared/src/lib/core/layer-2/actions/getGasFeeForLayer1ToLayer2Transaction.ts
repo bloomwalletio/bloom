@@ -51,7 +51,7 @@ function getTransferredAsset(sendFlowParameters: SendFlowParameters): Transferre
             : undefined
     } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
         const token = sendFlowParameters.tokenTransfer?.token
-        const amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
+        const amount = sendFlowParameters.tokenTransfer?.rawAmount ?? BigInt(0)
 
         return token
             ? {
@@ -62,7 +62,7 @@ function getTransferredAsset(sendFlowParameters: SendFlowParameters): Transferre
             : undefined
     } else {
         const token = sendFlowParameters.baseCoinTransfer?.token
-        const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
+        const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? BigInt(0)
 
         return token
             ? {

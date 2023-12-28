@@ -27,7 +27,7 @@ export function getTransactionAssets(
         activity.action === ActivityAction.Burn
             ? undefined
             : {
-                  rawAmount: activity.baseTokenTransfer.rawAmount,
+                  rawAmount: BigInt(activity.baseTokenTransfer.rawAmount),
                   token: baseCoin,
               }
 
@@ -47,7 +47,7 @@ export function getTransactionAssets(
             tokenTransfer:
                 token && tokenAmount
                     ? {
-                          rawAmount: tokenAmount,
+                          rawAmount: BigInt(tokenAmount),
                           token,
                       }
                     : undefined,
@@ -60,7 +60,7 @@ export function getTransactionAssets(
         const amount = isVotingPowerActivity ? activity.votingPowerDifference : activity.votingPower
         return {
             baseCoinTransfer: {
-                rawAmount: String(amount),
+                rawAmount: BigInt(amount ?? 0),
                 token: baseCoin,
             },
         }

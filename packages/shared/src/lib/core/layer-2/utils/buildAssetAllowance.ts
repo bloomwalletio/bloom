@@ -9,7 +9,7 @@ export function buildAssetAllowance(
     const baseTokens = (storageDepositRequired ?? 0).toString()
     if (transferredAsset.type === AssetType.BaseCoin) {
         return {
-            baseTokens: transferredAsset.amount,
+            baseTokens: String(transferredAsset.amount),
             nativeTokens: [],
             nfts: [],
         }

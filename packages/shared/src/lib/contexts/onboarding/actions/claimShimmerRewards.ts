@@ -81,7 +81,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
                     verified: true,
                 },
             },
-            rawAmount: rawAmount.toString(),
+            rawAmount: BigInt(rawAmount),
         },
         destinationNetworkId: SupportedNetworkId.Shimmer,
     }

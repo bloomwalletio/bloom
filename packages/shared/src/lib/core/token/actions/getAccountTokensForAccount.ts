@@ -58,13 +58,13 @@ function getAccountAssetForNetwork(
         balance: {
             total: baseCoinTotal,
             totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                baseCoinTotal,
+                BigInt(baseCoinTotal),
                 persistedBaseCoin.metadata?.decimals,
                 baseCoinMarketPrice
             ),
             available: baseCoinAvailable,
             availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                baseCoinAvailable,
+                BigInt(baseCoinAvailable),
                 persistedBaseCoin.metadata?.decimals,
                 baseCoinMarketPrice
             ),
@@ -126,13 +126,13 @@ function getAccountAssetForChain(
                 balance: {
                     total: baseCoinTotal,
                     totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                        baseCoinTotal,
+                        BigInt(baseCoinTotal),
                         persistedBaseCoin.metadata?.decimals,
                         baseCoinMarketPrice
                     ),
                     available: baseCoinAvailable,
                     availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                        baseCoinAvailable,
+                        BigInt(baseCoinAvailable),
                         persistedBaseCoin.metadata?.decimals,
                         baseCoinMarketPrice
                     ),
@@ -151,13 +151,13 @@ function getAccountAssetForChain(
                     balance: {
                         total: Number(balance),
                         totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                            Number(balance),
+                            BigInt(balance),
                             persistedAsset.metadata?.decimals,
                             assetMarketPrice
                         ),
                         available: Number(balance),
                         availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                            Number(balance),
+                            BigInt(balance),
                             persistedAsset.metadata?.decimals,
                             assetMarketPrice
                         ),
