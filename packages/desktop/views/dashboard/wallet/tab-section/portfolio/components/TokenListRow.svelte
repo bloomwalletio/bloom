@@ -31,7 +31,7 @@
                 tokenSupply = 0
         }
 
-        const marketPrice = tokenSupply ? getFiatAmountFromTokenValue(Number(TokenSupply.Testnet), token) : undefined
+        const marketPrice = tokenSupply ? getFiatAmountFromTokenValue(BigInt(TokenSupply.Testnet), token) : undefined
         return marketPrice ? formatCurrency(marketPrice, $activeProfile.settings.marketCurrency, true) : '-'
     }
 
@@ -41,12 +41,12 @@
     }
 
     function getFormattedMarketPriceForTokenAvailable(token: ITokenWithBalance): string {
-        const marketPrice = getFiatAmountFromTokenValue(token.balance.available, token)
+        const marketPrice = getFiatAmountFromTokenValue(BigInt(token.balance.available), token)
         return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
     }
 
     function getFormattedMarketPriceForTokenTotal(token: ITokenWithBalance): string {
-        const marketPrice = getFiatAmountFromTokenValue(token.balance.total, token)
+        const marketPrice = getFiatAmountFromTokenValue(BigInt(token.balance.total), token)
         return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
     }
 

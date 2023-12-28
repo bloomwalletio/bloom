@@ -27,7 +27,7 @@ jest.mock('../actions/getMarketPriceForToken', () => ({
 
 describe('file: getFiatAmountFromTokenValue', () => {
     it('should return the correct fiat amount', () => {
-        const result = getFiatAmountFromTokenValue(MOCK_TOKEN_AMOUNT, TOKEN)
+        const result = getFiatAmountFromTokenValue(BigInt(MOCK_TOKEN_AMOUNT), TOKEN)
         expect(result).toBe(MOCK_MARKET_PRICE)
     })
 })

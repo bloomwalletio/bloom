@@ -23,7 +23,7 @@
     }
 
     function getCurrencyAmount(amount: number): string {
-        return baseCoin ? formatCurrency(getFiatAmountFromTokenValue(amount, baseCoin)) : ''
+        return baseCoin ? formatCurrency(getFiatAmountFromTokenValue(BigInt(amount), baseCoin)) : ''
     }
 
     function toggleExpandedView(): void {

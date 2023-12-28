@@ -24,7 +24,9 @@
         }
         const networkBaseCoin: ITokenWithBalance = tokens?.baseCoin
         const tokenBalance = formatTokenAmountBestMatch(networkBaseCoin.balance.total, networkBaseCoin.metadata)
-        const fiatBalance = formatCurrency(getFiatAmountFromTokenValue(networkBaseCoin.balance.total, networkBaseCoin))
+        const fiatBalance = formatCurrency(
+            getFiatAmountFromTokenValue(BigInt(networkBaseCoin.balance.total), networkBaseCoin)
+        )
 
         return {
             networkId,

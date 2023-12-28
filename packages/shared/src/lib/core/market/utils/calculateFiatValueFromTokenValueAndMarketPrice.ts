@@ -2,15 +2,15 @@ export function calculateFiatValueFromTokenValueAndMarketPrice(
     tokenValue: bigint,
     decimals: number | undefined,
     marketPrice: number | undefined
-): bigint | undefined {
+): number | undefined {
     if (marketPrice === undefined || decimals === undefined) {
         return undefined
     }
 
     try {
-        const fiatAmount = (tokenValue / BigInt(10) ** BigInt(decimals)) * BigInt(marketPrice)
+        const fiatAmount = (Number(tokenValue) / 10 ** decimals) * marketPrice
         return fiatAmount
-    } catch {
+    } catch (err) {
         return undefined
     }
 }

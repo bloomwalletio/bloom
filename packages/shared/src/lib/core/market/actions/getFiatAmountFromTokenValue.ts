@@ -5,7 +5,7 @@ import { getMarketPriceForToken } from './getMarketPriceForToken'
 export function getFiatAmountFromTokenValue(
     tokenValue: bigint | undefined,
     token: ITokenWithBalance
-): bigint | undefined {
+): number | undefined {
     const marketPrice = getMarketPriceForToken(token)
 
     if (tokenValue === undefined || marketPrice === undefined) {

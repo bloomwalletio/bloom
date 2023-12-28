@@ -14,7 +14,7 @@
     export let error: boolean = false
 
     $: marketPrice = getMarketPriceForToken(token)
-    $: fiatBalance = getFiatAmountFromTokenValue(amount, token)
+    $: fiatBalance = getFiatAmountFromTokenValue(BigInt(amount), token)
 </script>
 
 {#if token && token.metadata}

@@ -28,7 +28,9 @@
          * for L2 tokens.
          */
         const fiatBalance =
-            formatCurrency(getFiatAmountFromTokenValue(evmChainBaseToken?.balance.total ?? 0, evmChainBaseToken)) ?? ''
+            formatCurrency(
+                getFiatAmountFromTokenValue(BigInt(evmChainBaseToken?.balance.total ?? 0), evmChainBaseToken)
+            ) ?? ''
 
         return {
             networkId,
