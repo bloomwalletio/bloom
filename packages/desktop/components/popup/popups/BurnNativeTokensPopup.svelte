@@ -11,9 +11,9 @@
 
     let tokenAmountInput: TokenAmountWithSliderInput
 
-    async function onContinueClick(): Promise<void> {
+    function onContinueClick(): void {
         try {
-            await tokenAmountInput.validate()
+            tokenAmountInput.validate()
             openPopup({
                 id: PopupId.BurnNativeTokensConfirmation,
                 props: { token, rawAmount },

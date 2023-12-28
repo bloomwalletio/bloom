@@ -46,7 +46,7 @@
 
     async function onSubmit(): Promise<void> {
         try {
-            await tokenAmountInput?.validate(true)
+            tokenAmountInput?.validate(true)
 
             if (amount === '0' && isAccountVoting($selectedAccount.index)) {
                 openPopup({ id: PopupId.VotingPowerToZero })

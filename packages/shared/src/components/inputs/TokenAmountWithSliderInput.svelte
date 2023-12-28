@@ -42,34 +42,39 @@
         (fontSize = getFontSizeForInputLength()),
         (maxLength = getMaxAmountOfDigits())
 
-    export function validate(allowZeroOrNull = false): Promise<void> {
+    export function validate(allowZeroOrNull = false): void {
+        if (amount === undefined) {
+            throw Error(localize('error.send.amountInvalidFormat'))
+        }
         const amountAsFloat = parseCurrency(amount)
         const isAmountZeroOrNull = !Number(amountAsFloat)
         // Zero value transactions can still contain metadata/tags
         error = ''
+
         if (allowZeroOrNull && isAmountZeroOrNull) {
             rawAmount = Big(0).toString()
             return
         } else if (isAmountZeroOrNull) {
             error = localize('error.send.amountInvalidFormat')
         } else if (
-            ((token?.metadata?.standard === TokenStandard.BaseToken && unit === token?.metadata?.subunit) ||
-                (unit === getUnitFromTokenMetadata(token?.metadata) && token?.metadata?.decimals === 0)) &&
+            token?.metadata &&
+            ((token.metadata.standard === TokenStandard.BaseToken && unit === token.metadata.subunit) ||
+                (unit === getUnitFromTokenMetadata(token.metadata) && token.metadata.decimals === 0)) &&
             Number.parseInt(amount, 10).toString() !== amount
         ) {
             error = localize('error.send.amountNoFloat')
-        } else if (bigAmount.gt(Big(availableBalance))) {
+        } else if (bigAmount && Big(bigAmount.toString()).gt(Big(availableBalance))) {
             error = localize('error.send.amountTooHigh')
-        } else if (bigAmount.lte(Big(0))) {
+        } else if (bigAmount && Big(bigAmount.toString()).lte(Big(0))) {
             error = localize('error.send.amountZero')
-        } else if (!bigAmount.mod(1).eq(Big(0))) {
+        } else if (bigAmount && !Big(bigAmount.toString()).mod(1).eq(Big(0))) {
             error = localize('error.send.amountSmallerThanSubunit')
         }
 
         if (error) {
-            return Promise.reject(error)
+            throw Error(error)
         }
-        rawAmount = bigAmount.toString()
+        rawAmount = bigAmount?.toString()
     }
 
     function getInputLength(): number {
