@@ -32,7 +32,7 @@ export function getOutputParameters(sendFlowParameters: SendFlowParameters, send
 
     return <OutputParams>{
         recipientAddress: destinationAddress,
-        amount,
+        amount: amount.toString(),
         ...(assets && { assets }),
         features: {
             ...(tag && { tag }),

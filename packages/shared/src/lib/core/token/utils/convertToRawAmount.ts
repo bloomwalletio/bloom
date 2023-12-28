@@ -17,11 +17,11 @@ function convertToRawAmountFromMetadata(
     tokenMetadata: TokenMetadata,
     selectedUnit?: string
 ): bigint | undefined {
-    const [min, max] = bigIntMinAndMax(tokenMetadata.decimals, MAX_SUPPORTED_DECIMALS)
+    const [min] = bigIntMinAndMax(tokenMetadata.decimals, MAX_SUPPORTED_DECIMALS)
 
     if (tokenMetadata?.standard === TokenStandard.BaseToken) {
         if (!selectedUnit || selectedUnit === tokenMetadata.unit) {
-            return convertFloatToBigInt(amount, max)
+            return convertFloatToBigInt(amount, min)
         } else if (selectedUnit === tokenMetadata.subunit) {
             return BigInt(amount)
         } else {
