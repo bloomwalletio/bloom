@@ -16,7 +16,7 @@
         "@iota/sdk": "1.1.4",
         "@sveltejs/svelte-virtual-list": "3.0.1",
         "@walletconnect/jsonrpc-types": "1.0.3",
-        "@walletconnect/types": "2.10.6",
+        "@walletconnect/types": "2.11.0",
         "@walletconnect/web3wallet": "1.9.5",
         "big-integer": "1.6.51",
         "big.js": "6.2.1",
