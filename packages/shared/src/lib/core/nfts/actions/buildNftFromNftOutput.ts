@@ -48,7 +48,6 @@ export function buildNftFromNftOutput(
         standard: NftStandard.Irc27,
         type: parsedMetadata?.type ?? MimeType.TextPlain,
         id,
-        ownerAddress: accountAddress,
         nftAddress: address,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
         description: parsedMetadata?.description,

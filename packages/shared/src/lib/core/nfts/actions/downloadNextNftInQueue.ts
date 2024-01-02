@@ -3,26 +3,32 @@ import { get } from 'svelte/store'
 import { downloadingNftId, nftDownloadQueue, removeNftFromDownloadQueue } from '../stores'
 
 export async function downloadNextNftInQueue(): Promise<void> {
+    if (get(downloadingNftId)) {
+        return
+    }
+
     const nextDownload = get(nftDownloadQueue)?.[0]
-    if (!nextDownload || get(downloadingNftId)) {
+    if (!nextDownload) {
+        return
+    }
+    const { nft, accountIndex } = nextDownload
+    downloadingNftId.set(nft.id)
+
+    if (!nft.downloadMetadata.downloadUrl || !nft.downloadMetadata.filePath) {
+        removeNftFromDownloadQueue(nft.id)
+        downloadingNftId.set(undefined)
         return
     }
 
     try {
-        const { nft, accountIndex } = nextDownload
-        downloadingNftId.set(nft.id)
-        if (nft.downloadMetadata.downloadUrl && nft.downloadMetadata.filePath) {
-            await Platform.downloadNft(
-                nft.downloadMetadata.downloadUrl,
-                nft.downloadMetadata.filePath,
-                nft.id,
-                accountIndex
-            )
-        } else {
-            throw new Error('Missing downloadUrl or filePath for nft')
-        }
+        await Platform.downloadNft(
+            nft.downloadMetadata.downloadUrl,
+            nft.downloadMetadata.filePath,
+            nft.id,
+            accountIndex
+        )
     } catch (err) {
+        removeNftFromDownloadQueue(nft.id)
         downloadingNftId.set(undefined)
-        removeNftFromDownloadQueue(get(downloadingNftId))
     }
 }
