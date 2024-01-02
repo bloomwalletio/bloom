@@ -42,7 +42,7 @@ export function buildNftFromNftOutput(
     const filePath = `${profileId}/nfts/${id}`
     const storageDeposit = Number(nftOutput.amount)
 
-    const persistedNft = get(persistedNftForActiveProfile)?.[id] ?? {}
+    const persistedNft = get(persistedNftForActiveProfile)?.[id]
 
     return {
         standard: NftStandard.Irc27,
