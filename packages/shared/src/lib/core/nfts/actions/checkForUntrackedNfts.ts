@@ -6,9 +6,11 @@ import { IChain, IExplorerAsset } from '@core/network/interfaces'
 
 import { NftStandard } from '../enums'
 import { persistNftWithContractMetadata } from './persistNftWithContractMetadata'
-import { updateAllAccountNfts } from './updateAllAccountNfts'
+import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { buildNftFromPersistedErc721Nft } from '../utils'
-import { INft } from '../interfaces'
+import { activeAccounts } from '@core/profile/stores'
+import { get } from 'svelte/store'
+import { getAddressFromAccountForNetwork } from '@core/account'
 
 export function checkForUntrackedNfts(account: IAccountState): void {
     const chains = getNetwork()?.getChains() ?? []
@@ -33,13 +35,14 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
     const { address, name, symbol } = token
     try {
         const contract = chain.getContract(ContractType.Erc721, address)
+        const networkId = chain.getConfiguration().id
 
         const nftPromises = Array.from({ length: Number(value) }).map(async (_, idx) => {
             try {
                 const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call()
                 const persistedNft = await persistNftWithContractMetadata(
                     evmAddress,
-                    chain.getConfiguration().id,
+                    networkId,
                     {
                         standard: NftStandard.Erc721,
                         address,
@@ -53,7 +56,14 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
                     return undefined
                 }
 
-                return await buildNftFromPersistedErc721Nft(persistedNft)
+                for (const account of get(activeAccounts)) {
+                    const l2Address = getAddressFromAccountForNetwork(account, networkId)
+                    if (!l2Address) {
+                        continue
+                    }
+                    const nft = buildNftFromPersistedErc721Nft(persistedNft, l2Address)
+                    updateAllAccountNftsForAccount(account.index, nft)
+                }
             } catch (err) {
                 // If we don't have the tokenId we cannot persist the NFT. ERC-721 contracts should implement
                 // the ERC-165 interface to support `tokenOfOwnerByIndex`
@@ -61,8 +71,7 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
             }
         })
 
-        const nfts: INft[] = (await Promise.all(nftPromises)).filter(Boolean) as unknown as INft[]
-        updateAllAccountNfts(...nfts)
+        await Promise.all(nftPromises)
     } catch (err) {
         console.error(err)
         throw new Error(`Unable to persist NFT with address ${address}`)

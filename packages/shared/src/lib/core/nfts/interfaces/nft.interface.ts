@@ -30,7 +30,6 @@ interface IBaseNft {
     id: string
     type: MimeType
     networkId: NetworkId
-    ownerAddress: string
     name: string
     description?: string
     collectionName?: string

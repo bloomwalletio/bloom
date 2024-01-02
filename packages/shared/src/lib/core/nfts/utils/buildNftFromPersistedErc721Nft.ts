@@ -1,9 +1,9 @@
-import { DEFAULT_NFT_NAME, MimeType, isErc721NftSpendable } from '@core/nfts'
+import { DEFAULT_NFT_NAME, MimeType } from '@core/nfts'
 import { IErc721Nft, IPersistedErc721Nft } from '../interfaces'
 
-export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): Promise<IErc721Nft> {
+export function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft, accountAddress: string): IErc721Nft {
     const id = nft.tokenId ? `${nft.contractMetadata.address}:${nft.tokenId}` : nft.contractMetadata.address
-    const isSpendable = await isErc721NftSpendable(nft)
+    const isSpendable = nft.ownerAddress === accountAddress
 
     return {
         ...nft,
