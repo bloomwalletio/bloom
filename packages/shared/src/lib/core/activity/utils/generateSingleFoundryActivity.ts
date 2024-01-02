@@ -32,7 +32,7 @@ export async function generateSingleFoundryActivity(
             : undefined
         baseActivity.baseTokenTransfer = {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: '0',
+            rawAmount: BigInt(0),
         }
     }
 

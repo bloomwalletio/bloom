@@ -25,7 +25,7 @@ export async function generateSingleBasicActivity(
             : 0
         baseActivity.baseTokenTransfer = {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: String(Math.max(transferAmount, 0)),
+            rawAmount: BigInt(Math.max(transferAmount, 0)),
         }
         baseActivity.transactionFee = transferDelta
     }
@@ -35,7 +35,7 @@ export async function generateSingleBasicActivity(
         baseActivity.tokenTransfer = persistedToken
             ? {
                   tokenId: overrideTokenId,
-                  rawAmount: String(Math.max(overrideAmount, 0)),
+                  rawAmount: BigInt(Math.max(overrideAmount, 0)),
               }
             : undefined
     }

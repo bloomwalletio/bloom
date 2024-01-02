@@ -4,12 +4,12 @@ export type TransferredAssetId =
     | {
           type: AssetType.Token
           tokenId: string
-          rawAmount: string
+          rawAmount: bigint
       }
     | {
           type: AssetType.BaseCoin
           tokenId: string
-          rawAmount: string
+          rawAmount: bigint
       }
     | {
           type: AssetType.Nft

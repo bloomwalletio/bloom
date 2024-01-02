@@ -30,7 +30,7 @@ export async function generateTokenBalanceChangeActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId === BASE_TOKEN_ID ? String(Math.abs(difference)) : '0',
+        rawAmount: BigInt(tokenId === BASE_TOKEN_ID ? Math.abs(difference) : 0),
     }
 
     let tokenTransfer
@@ -39,7 +39,7 @@ export async function generateTokenBalanceChangeActivity(
         tokenTransfer = persistedTokens
             ? {
                   tokenId: persistedTokens.id,
-                  rawAmount: String(Math.abs(difference)),
+                  rawAmount: BigInt(Math.abs(difference)),
               }
             : undefined
     }

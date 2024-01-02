@@ -100,7 +100,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
     if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
         const { tokenId, rawAmount } = activity.tokenTransfer ?? activity.baseTokenTransfer
         const token = getPersistedToken(tokenId)
-        const activityAmount = Big(rawAmount)
+        const activityAmount = Big(String(rawAmount))
 
         if (!token || !token.metadata) {
             return false

@@ -32,11 +32,11 @@ export type BaseActivity = {
     // asset information
     storageDeposit?: number
     baseTokenTransfer: {
-        rawAmount: string
+        rawAmount: bigint
         tokenId: string
     }
     tokenTransfer?: {
-        rawAmount: string
+        rawAmount: bigint
         tokenId: string
     }
 

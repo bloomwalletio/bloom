@@ -11,7 +11,7 @@ import { AssetType, TransferredAssetId } from '..'
 export function getTransferInfoFromTransactionData(
     transaction: TxData,
     chain: IChain
-): { asset: TransferredAssetId; additionalBaseTokenAmount?: string; recipientAddress: string } | undefined {
+): { asset: TransferredAssetId; additionalBaseTokenAmount?: bigint; recipientAddress: string } | undefined {
     const networkId = chain.getConfiguration().id
 
     const recipientAddress = transaction.to?.toString()
@@ -43,7 +43,7 @@ export function getTransferInfoFromTransactionData(
                         asset: {
                             type: AssetType.Token,
                             tokenId: nativeToken.ID.data,
-                            rawAmount: nativeToken.amount,
+                            rawAmount: BigInt(nativeToken.amount),
                         },
                         recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                     }
@@ -66,7 +66,7 @@ export function getTransferInfoFromTransactionData(
                     asset: {
                         type: AssetType.Token,
                         tokenId: recipientAddress,
-                        rawAmount: String(inputs._value),
+                        rawAmount: BigInt(inputs._value),
                     },
                     recipientAddress: inputs._to,
                 }
@@ -75,14 +75,14 @@ export function getTransferInfoFromTransactionData(
                 const inputs = decoded.inputs as IscSendMethodInputs
                 const nativeToken = inputs?.assets?.nativeTokens?.[0]
                 const nftId = inputs?.assets?.nfts?.[0]
-                const baseTokenAmount = inputs.assets.baseTokens
+                const baseTokenAmount = BigInt(inputs.assets.baseTokens)
 
                 if (nativeToken) {
                     return {
                         asset: {
                             type: AssetType.Token,
                             tokenId: nativeToken.ID.data,
-                            rawAmount: nativeToken.amount,
+                            rawAmount: BigInt(nativeToken.amount),
                         },
                         additionalBaseTokenAmount: baseTokenAmount,
                         recipientAddress, // for now, set it to the magic contract address
@@ -118,7 +118,7 @@ export function getTransferInfoFromTransactionData(
             asset: {
                 type: AssetType.BaseCoin,
                 tokenId: BASE_TOKEN_ID,
-                rawAmount: String(Number(transaction.value) / Number(WEI_PER_GLOW)),
+                rawAmount: BigInt(Number(transaction.value) / Number(WEI_PER_GLOW)),
             },
             recipientAddress,
         }
