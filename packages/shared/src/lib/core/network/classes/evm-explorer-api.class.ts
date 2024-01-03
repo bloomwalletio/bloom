@@ -14,19 +14,28 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
 
     async getAssetMetadata(assetAddress: string): Promise<IExplorerAssetMetadata | undefined> {
         const response = await this.get<IExplorerAssetMetadata>(`tokens/${assetAddress}`)
-        return response
+        if (response) {
+            response.type = response.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721
+            return response
+        }
     }
 
     async getAssetsForAddress(
         address: string,
         standard: TokenStandard.Erc20 | NftStandard.Erc721 = TokenStandard.Erc20
     ): Promise<IExplorerAsset[]> {
+        const tokenType = standard.replace('ERC', 'ERC-')
         const response = await this.get<{ items: IExplorerAsset[]; next_page_params: unknown }>(
-            `addresses/${address}/tokens?type=${standard}`
+            `addresses/${address}/tokens?type=${tokenType}`
         )
-
         if (response) {
-            return response?.items ?? []
+            return (response?.items ?? []).map((asset) => ({
+                ...asset,
+                token: {
+                    ...asset.token,
+                    type: asset.token.type.replace('-', ''),
+                },
+            }))
         } else {
             return []
         }
