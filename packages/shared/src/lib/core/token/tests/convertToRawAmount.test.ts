@@ -48,7 +48,7 @@ describe('File: convertToRawAmount.ts', () => {
             })
             it("should return XXX if selectedUnit is unit and baseToken's decimals property is greater than MAX_SUPPORTED_DECIMALS", () => {
                 let value = convertToRawAmount('1', WEB3_TOKEN_METADATA, 'RAWR')?.toString() ?? '0'
-                expect(Big(value)).toStrictEqual(Big(10).pow(MAX_SUPPORTED_DECIMALS))
+                expect(Big(value)).toStrictEqual(Big(10).pow(WEB3_TOKEN_METADATA.decimals))
             })
             it('should return same Big(amount) if selectedUnit is subunit', () => {
                 let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'glow')?.toString() ?? '0'
@@ -68,9 +68,9 @@ describe('File: convertToRawAmount.ts', () => {
             let value = convertToRawAmount('1', IRC30_TOKEN_LOW_DECIMALS_METADATA)?.toString() ?? '0'
             expect(Big(value)).toStrictEqual(Big(10).pow(IRC30_TOKEN_LOW_DECIMALS_METADATA.decimals))
         })
-        it('should depend on MAX_SUPPORTED_DECIMALS if tokenMetadata.decimals > MAX_SUPPORTED_DECIMALS', () => {
+        it('should depend on tokenMetadata.decimals if > tokenMetadata.decimals if MAX_SUPPORTED_DECIMALS', () => {
             let value = convertToRawAmount('1', IRC30_TOKEN_HIGH_DECIMALS_METADATA)?.toString() ?? '0'
-            expect(Big(value)).toStrictEqual(Big(10).pow(MAX_SUPPORTED_DECIMALS))
+            expect(Big(value)).toStrictEqual(Big(10).pow(IRC30_TOKEN_HIGH_DECIMALS_METADATA.decimals))
         })
     })
     it('should throw an error if tokenMetadata standard is not BaseToken or Irc30', () => {
