@@ -40,3 +40,11 @@ export function round(value: number, precision: number = 0): number {
     const multiplier = 10 ** precision
     return Math.round(value * multiplier) / multiplier
 }
+
+export function isDecimal(amount: number): boolean {
+    if (amount % 1 === 0) {
+        return false
+    } else {
+        return true
+    }
+}

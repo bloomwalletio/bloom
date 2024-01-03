@@ -104,7 +104,7 @@
                         bind:inputElement={amountInputElement}
                         bind:amount={inputtedAmount}
                         maxDecimals={allowedDecimals}
-                        maxlength={maxLength}
+                        maxlength={100}
                         isInteger={allowedDecimals === 0}
                         {fontSize}
                         clearBackground
