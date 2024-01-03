@@ -3,13 +3,14 @@ import { activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
 export function formatCurrency(
-    value: number | undefined,
+    rawAmount: string | undefined,
     currency: string | undefined = undefined,
     grouped: boolean = false
 ): string {
-    if (value === undefined || Number.isNaN(value)) {
+    if (rawAmount === undefined || Number.isNaN(rawAmount)) {
         return ''
     }
+    const value = Number(rawAmount)
 
     const appLanguage = get(appSettings).language
 
@@ -17,10 +18,13 @@ export function formatCurrency(
         currency = get(activeProfile)?.settings?.marketCurrency
     }
 
+    let convertedValue: number | bigint
     if (value < 1) {
-        value = Number(value.toPrecision(2))
+        convertedValue = Number(value.toPrecision(2))
+    } else if (value > 1e15) {
+        convertedValue = BigInt(rawAmount)
     } else {
-        value = Number(value.toFixed(2))
+        convertedValue = Number(value.toFixed(2))
     }
 
     const formatter = Intl.NumberFormat(appLanguage, {
@@ -32,5 +36,5 @@ export function formatCurrency(
         useGrouping: grouped,
     })
 
-    return formatter.format(value)
+    return formatter.format(convertedValue)
 }
