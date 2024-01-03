@@ -31,8 +31,8 @@ export async function calculateAndAddPersistedTokenBalanceChange(
     }
 
     const hasZeroStartingBalance = newBalanceChange.newBalance === 0 && newBalanceChange.oldBalance === undefined
-    const isShimmerERC20Token = tokenId === BASE_TOKEN_CONTRACT_ADDRESS[networkId as EvmNetworkId]
-    if (!hidden && !hasZeroStartingBalance && !hasTokenBeenUntracked(tokenId, networkId) && !isShimmerERC20Token) {
+    const isShimmerErc20Token = tokenId === BASE_TOKEN_CONTRACT_ADDRESS[networkId as EvmNetworkId]
+    if (!hidden && !hasZeroStartingBalance && !hasTokenBeenUntracked(tokenId, networkId) && !isShimmerErc20Token) {
         const activity = await generateTokenBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)
         addAccountActivity(account.index, activity)
     }
