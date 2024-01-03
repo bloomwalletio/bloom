@@ -928,6 +928,11 @@
                         "Pending": "Verzenden naar {subject}",
                         "Confirmed": "Verzonden naar {subject}",
                         "Conflicting": "Verzenden mislukt"
+                    },
+                    "genesis": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
                     }
                 },
                 "internal": {
@@ -1945,6 +1950,9 @@
                 "metadata": "Een optioneel gegevensveld voor het blijvend opslaan van gegevens op de Tangle.",
                 "tag": "Een kort optioneel gegevensveld. Door groepen transacties te taggen zouden deze makkelijker vindbaar kunnen worden.",
                 "transactionFee": "De transactiefee bevat de gas fee voor de uitvoering van de code en de waarborg stortingskosten."
+            },
+            "genesis": {
+                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
             },
             "nftMetadata": {
                 "type": "Het MimeType van de NFT. b.v. afbeelding/png.",
