@@ -44,7 +44,7 @@
 
     export function validate(allowZeroOrNull = false): void {
         if (amount === undefined) {
-            throw Error(localize('error.send.amountInvalidFormat'))
+            throw new Error(localize('error.send.amountInvalidFormat'))
         }
         const amountAsFloat = parseCurrency(amount)
         const isAmountZeroOrNull = !Number(amountAsFloat)
@@ -72,7 +72,7 @@
         }
 
         if (error) {
-            throw Error(error)
+            throw new Error(error)
         }
         rawAmount = bigAmount?.toString()
     }

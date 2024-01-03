@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formatCurrency, getDecimalSeparator } from '@core/i18n'
+    import { formatCurrency, getDecimalSeparator, localize } from '@core/i18n'
     import { getFiatAmountFromTokenValue } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import {
@@ -81,15 +81,13 @@
 
     export async function validate(allowZeroOrNull = false): Promise<void> {
         if (inputtedAmount === undefined || token === undefined || unit === undefined) {
-            return Promise.reject()
+            throw new Error(localize('error.send.amountInvalidFormat'))
         }
         try {
             rawAmount = await validateTokenAmount(inputtedAmount, token, unit, allowZeroOrNull)
-            return Promise.resolve()
         } catch (err) {
             error = err as string
-            console.error(error)
-            return Promise.reject()
+            throw new Error(error)
         }
     }
 </script>
