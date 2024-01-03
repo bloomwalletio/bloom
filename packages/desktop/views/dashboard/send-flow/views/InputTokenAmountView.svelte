@@ -12,7 +12,7 @@
 
     let tokenAmountInput: TokenAmountInput
     let token: ITokenWithBalance
-    let rawAmount: string
+    let rawAmount: bigint
     let amount: string
     let unit: string
 
