@@ -13,8 +13,9 @@ export async function generateTokenBalanceChangeActivity(
     balanceChange: ITokenBalanceChange,
     account: IAccountState
 ): Promise<TransactionActivity> {
-    const difference = balanceChange.newBalance - (balanceChange.oldBalance ?? 0)
+    const difference = balanceChange.newBalance - (balanceChange.oldBalance ?? BigInt(0))
     const direction = difference >= 0 ? ActivityDirection.Incoming : ActivityDirection.Outgoing
+    const rawAmount = direction === ActivityDirection.Incoming ? difference : difference * BigInt(-1)
 
     let accountSubject: Subject | undefined
     if (isStardustNetwork(networkId)) {
@@ -30,7 +31,7 @@ export async function generateTokenBalanceChangeActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: BigInt(tokenId === BASE_TOKEN_ID ? Math.abs(difference) : 0),
+        rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount : BigInt(0),
     }
 
     let tokenTransfer
@@ -39,7 +40,7 @@ export async function generateTokenBalanceChangeActivity(
         tokenTransfer = persistedTokens
             ? {
                   tokenId: persistedTokens.id,
-                  rawAmount: BigInt(Math.abs(difference)),
+                  rawAmount,
               }
             : undefined
     }

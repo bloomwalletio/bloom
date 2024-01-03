@@ -49,8 +49,8 @@ function getAccountAssetForNetwork(
     const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID)
     const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
     const baseCoinMarketPrice = baseCoinMarketPrices?.[marketCurrency]
-    const baseCoinTotal = Number(account?.balances?.baseCoin?.total)
-    const baseCoinAvailable = Number(account?.balances?.baseCoin?.available)
+    const baseCoinTotal = account?.balances?.baseCoin?.total
+    const baseCoinAvailable = account?.balances?.baseCoin?.available
 
     const baseCoin: ITokenWithBalance = {
         ...persistedBaseCoin,
@@ -58,13 +58,13 @@ function getAccountAssetForNetwork(
         balance: {
             total: baseCoinTotal,
             totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                BigInt(baseCoinTotal),
+                baseCoinTotal,
                 persistedBaseCoin.metadata?.decimals,
                 baseCoinMarketPrice
             ),
             available: baseCoinAvailable,
             availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                BigInt(baseCoinAvailable),
+                baseCoinAvailable,
                 persistedBaseCoin.metadata?.decimals,
                 baseCoinMarketPrice
             ),
@@ -81,8 +81,8 @@ function getAccountAssetForNetwork(
                 ...persistedAsset,
                 networkId,
                 balance: {
-                    total: Number(token.total),
-                    available: Number(token.available),
+                    total: token.total,
+                    available: token.available,
                 },
             })
         }
@@ -118,21 +118,19 @@ function getAccountAssetForChain(
             const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
             const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
             const baseCoinMarketPrice = baseCoinMarketPrices?.[marketCurrency]
-            const baseCoinTotal = Number(balance)
-            const baseCoinAvailable = Number(balance)
 
             baseCoin = {
                 ...persistedBaseCoin,
                 balance: {
-                    total: baseCoinTotal,
+                    total: balance,
                     totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                        BigInt(baseCoinTotal),
+                        balance,
                         persistedBaseCoin.metadata?.decimals,
                         baseCoinMarketPrice
                     ),
-                    available: baseCoinAvailable,
+                    available: balance,
                     availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                        BigInt(baseCoinAvailable),
+                        balance,
                         persistedBaseCoin.metadata?.decimals,
                         baseCoinMarketPrice
                     ),
@@ -149,15 +147,15 @@ function getAccountAssetForChain(
                 nativeTokens.push({
                     ...persistedAsset,
                     balance: {
-                        total: Number(balance),
+                        total: balance,
                         totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                            BigInt(balance),
+                            balance,
                             persistedAsset.metadata?.decimals,
                             assetMarketPrice
                         ),
-                        available: Number(balance),
+                        available: balance,
                         availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                            BigInt(balance),
+                            balance,
                             persistedAsset.metadata?.decimals,
                             assetMarketPrice
                         ),

@@ -4,7 +4,7 @@ import {
     calculateAndAddPersistedNftBalanceChange,
     calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity/actions'
-import { ContractType } from '@core/layer-2'
+import { ContractType, ILayer2TokenBalance } from '@core/layer-2'
 import { IChain } from '@core/network/interfaces'
 import { getNetwork } from '@core/network/stores'
 import { getNftsFromNftIds } from '@core/nfts/utils'
@@ -43,10 +43,10 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
             return
         }
 
-        const layer2Balance: { [tokenId: string]: number } = {}
+        const layer2Balance: { [tokenId: string]: bigint } = {}
 
         for (const { balance, tokenId } of balances) {
-            const adjustedBalance = Number.isNaN(balance) ? 0 : balance
+            const adjustedBalance = Number.isNaN(Number(balance)) ? BigInt(0) : balance
             const isNativeToken = Converter.hexToBytes(tokenId).length === TOKEN_ID_BYTE_LENGTH
             const isErc20TrackedToken = isTrackedTokenAddress(networkId, tokenId)
             if (isNativeToken || isErc20TrackedToken) {
@@ -62,7 +62,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
 async function getLayer2BalanceForAddress(
     evmAddress: string,
     chain: IChain
-): Promise<{ balance: number; tokenId: string }[] | undefined> {
+): Promise<ILayer2TokenBalance[] | undefined> {
     const layer2BaseAndIrc30Balances = await getLayer2NativeTokenBalancesForAddress(evmAddress, chain)
     const erc20Balances = await getLayer2Erc20BalancesForAddress(evmAddress, chain)
     return [...layer2BaseAndIrc30Balances, ...erc20Balances]
@@ -71,7 +71,7 @@ async function getLayer2BalanceForAddress(
 async function getLayer2NativeTokenBalancesForAddress(
     evmAddress: string,
     chain: IChain
-): Promise<{ balance: number; tokenId: string }[]> {
+): Promise<ILayer2TokenBalance[]> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('balance')
     const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
@@ -80,11 +80,11 @@ async function getLayer2NativeTokenBalancesForAddress(
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const nativeTokenResult = (await contract.methods
             .callView(accountsCoreContract, getBalanceFunc, parameters)
-            .call()) as { items: { key: string; value: number }[] }
+            .call()) as { items: { key: string; value: string }[] }
 
         const nativeTokens = nativeTokenResult.items.map((item) => ({
             tokenId: item.key,
-            balance: Number(item.value),
+            balance: BigInt(item.value),
         }))
 
         return nativeTokens
@@ -93,10 +93,7 @@ async function getLayer2NativeTokenBalancesForAddress(
     }
 }
 
-async function getLayer2Erc20BalancesForAddress(
-    evmAddress: string,
-    chain: IChain
-): Promise<{ balance: number; tokenId: string }[]> {
+async function getLayer2Erc20BalancesForAddress(evmAddress: string, chain: IChain): Promise<ILayer2TokenBalance[]> {
     const networkId = chain.getConfiguration().id
     const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? {}
     const erc20TokenBalances = []
@@ -112,7 +109,7 @@ async function getLayer2Erc20BalancesForAddress(
                 continue
             }
             const rawBalance = await contract.methods.balanceOf(evmAddress).call()
-            erc20TokenBalances.push({ balance: Number(rawBalance), tokenId: erc20Address })
+            erc20TokenBalances.push({ balance: BigInt(rawBalance), tokenId: erc20Address })
         } catch (err) {
             const error = err?.message ?? err
             console.error(error)

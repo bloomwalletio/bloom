@@ -10,6 +10,7 @@ import { ITokenWithBalance, TokenFilter } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getPersistedToken, persistedTokens } from './persisted-tokens.store'
 import { activeAccounts, activeProfile } from '@core/profile/stores'
+import Big from 'big.js'
 
 export const tokenFilter: Writable<TokenFilter> = writable(DEFAULT_ASSET_FILTER)
 
@@ -43,21 +44,21 @@ export const allAccountTokens: Readable<{ [accountIndex: string]: AccountTokens 
     }
 )
 
-export const allAccountFiatBalances: Readable<{ [accountIndex: string]: number }> = derived(
+export const allAccountFiatBalances: Readable<{ [accountIndex: string]: string }> = derived(
     [allAccountTokens],
     ([$allAccountTokens]) => {
-        const _allAccountFiatBalances: Record<string, number> = {}
+        const _allAccountFiatBalances: Record<string, string> = {}
         for (const accountIndex of Object.keys($allAccountTokens)) {
             const accountTokens = $allAccountTokens[accountIndex]
-            let fiatBalance = 0
+            let fiatBalance = new Big(0)
             for (const networkId of Object.keys(accountTokens)) {
                 const tokens = accountTokens[networkId as NetworkId]
-                fiatBalance += tokens?.baseCoin?.balance?.totalFiat ?? 0
+                fiatBalance = fiatBalance.add(tokens?.baseCoin?.balance?.totalFiat ?? 0)
                 for (const token of tokens?.nativeTokens ?? []) {
-                    fiatBalance += token.balance?.totalFiat ?? 0
+                    fiatBalance = fiatBalance.add(token.balance?.totalFiat ?? 0)
                 }
             }
-            _allAccountFiatBalances[accountIndex] = fiatBalance
+            _allAccountFiatBalances[accountIndex] = fiatBalance.toString()
         }
         return _allAccountFiatBalances
     }
@@ -105,8 +106,8 @@ export function getTokenFromSelectedAccountTokens(
                       ...persistedToken,
                       networkId,
                       balance: {
-                          total: 0,
-                          available: 0,
+                          total: BigInt(0),
+                          available: BigInt(0),
                       },
                   }
                 : undefined

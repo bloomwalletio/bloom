@@ -9,26 +9,27 @@ export async function calculateAndAddPersistedTokenBalanceChange(
     account: IAccountState,
     networkId: NetworkId,
     tokenId: string,
-    newBalance: number,
+    newBalance: bigint,
     hidden: boolean = false
 ): Promise<void> {
-    newBalance = newBalance || 0
+    newBalance = newBalance || BigInt(0)
 
     const balanceChangesForAsset = getBalanceChanges(account.index, networkId)?.tokens?.[tokenId]
-    const lastBalanceChange = balanceChangesForAsset?.at(-1)
+    const oldBalance = BigInt(balanceChangesForAsset?.at(-1)?.newBalance ?? 0)
 
-    if (lastBalanceChange?.newBalance === newBalance) {
+    if (oldBalance === newBalance) {
         return
     }
 
     const newBalanceChange: ITokenBalanceChange = {
         changedAt: Date.now(),
-        oldBalance: lastBalanceChange?.newBalance,
-        newBalance: Math.floor(newBalance),
+        oldBalance,
+        newBalance,
         hidden,
     }
 
-    const hasZeroStartingBalance = newBalanceChange.newBalance === 0 && newBalanceChange.oldBalance === undefined
+    const hasZeroStartingBalance =
+        newBalanceChange.newBalance === BigInt(0) && newBalanceChange.oldBalance === undefined
     if (!hidden && !hasZeroStartingBalance && !hasTokenBeenUntracked(tokenId, networkId)) {
         const activity = await generateTokenBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)
         addAccountActivity(account.index, activity)
