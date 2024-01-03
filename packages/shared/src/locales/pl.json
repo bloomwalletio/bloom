@@ -86,7 +86,7 @@
                     "description": "Upewnij się, że oficjalna aplikacja Ledger Live jest zamknięta i wykonaj poniższe kroki.",
                     "connect": "Podłącz swoje urządzenie Ledger",
                     "unlock": "Odblokuj swój Ledger za pomocą pinu",
-                    "open": "Otwórz aplikację {appName} na swoim urządzeniu Ledger",
+                    "open": "Otwórz aplikację {appName} na urządzeniu Ledger",
                     "tip": "Wskazówki, jeśli Ledger nie nawiązuje połączenia"
                 },
                 "ledgerConnectionGuide": {
@@ -393,7 +393,7 @@
                         "body": "Aby Twoje urządzenie Ledger zostało wykryte przez Bloom, upewnij się, że oficjalna aplikacja Ledger Live jest zamknięta, przed wykonaniem tych kroków.",
                         "requirements": {
                             "connect": "Podłącz i odblokuj swoje urządzenie Ledger",
-                            "openApp": "Otwórz aplikację Ethereum na swoim urządzeniu Ledger"
+                            "openApp": "Otwórz aplikację Ethereum na urządzeniu Ledger"
                         }
                     },
                     "editChain": {
@@ -868,7 +868,7 @@
             "title": "Podłącz swój Ledger",
             "notConnected": "Podłącz swoje urządzenie Ledger, aby kontynuować.",
             "locked": "Odblokuj swoje urządzenie Ledger, aby kontynuować.",
-            "appNotOpen": "Otwórz aplikację Shimmer na urządzeniu Ledger, aby kontynuować.",
+            "appNotOpen": "Otwórz aplikację {appName} na urządzeniu Ledger, aby kontynuować.",
             "correctAppOpen": "Ledger pomyślnie podłączony, proszę kontynuować."
         },
         "verifyLedgerTransaction": {
@@ -930,9 +930,9 @@
                         "Conflicting": "Nie udało się wysłać"
                     },
                     "genesis": {
-                        "Pending": "Receiving from {subject}",
-                        "Confirmed": "Received from {subject}",
-                        "Conflicting": "Failed to receive"
+                        "Pending": "Odbieranie od {subject}",
+                        "Confirmed": "Odebrano od {subject}",
+                        "Conflicting": "Nie udało się odebrać"
                     }
                 },
                 "internal": {
@@ -1952,7 +1952,7 @@
                 "transactionFee": "Opłata transakcyjna obejmuje opłatę gas za wykonanie kodu oraz opłatę za depozyt magazynowy."
             },
             "genesis": {
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
+                "timelockDate": "Nadawca ustawił blokadę czasową tych środków. Będziesz mógł je wydać dopiero wtedy, gdy blokada czasowa minie."
             },
             "nftMetadata": {
                 "type": "MimeType NFT, np. image/png.",

@@ -868,7 +868,7 @@
             "title": "Sluit jouw Ledger aan",
             "notConnected": "Sluit jouw Ledger apparaat aan om door te gaan.",
             "locked": "Ontgrendel jouw Ledger apparaat om door te gaan.",
-            "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
+            "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger succesvol verbonden, ga verder."
         },
         "verifyLedgerTransaction": {
@@ -894,26 +894,26 @@
             "hint": "Er wordt geen saldo verzonden naar {dappName} tijdens het ondertekenen van dit bericht.",
             "warning": "dApp kan niet worden bepaald. Er wordt geen saldo verzonden tijdens het ondertekenen van dit bericht.",
             "action": "Ondertekenen",
-            "success": "Signed message"
+            "success": "Ondertekend bericht"
         },
         "signTransaction": {
             "title": "Transactie ondertekenen",
             "action": "Ondertekenen",
-            "success": "Signed transaction"
+            "success": "Ondertekende transactie"
         },
         "sendTransaction": {
             "title": "Transactie verzenden",
             "action": "Verzend",
-            "success": "Sent {assetName} to {recipient}"
+            "success": "{assetName} verzonden naar {recipient}"
         },
         "smartContractCall": {
             "title": "Smart Contract-oproep naar {contractAddress}",
             "unableToVerify": "Bloom is niet in staat om de smart Contract-oproep te verifiëren. Ga alleen verder met apps die je vertrouwt.",
             "action": "Bevestig",
-            "success": "Smart contract call to {recipient}"
+            "success": "Smart contract oproep naar {recipient}"
         },
         "successfulDappInteraction": {
-            "alert": "You can close this screen and return to the dApp when you are ready."
+            "alert": "Je kunt dit scherm sluiten en terugkeren naar de dApp wanneer je klaar bent."
         },
         "activityDetails": {
             "title": {
@@ -930,9 +930,9 @@
                         "Conflicting": "Verzenden mislukt"
                     },
                     "genesis": {
-                        "Pending": "Receiving from {subject}",
-                        "Confirmed": "Received from {subject}",
-                        "Conflicting": "Failed to receive"
+                        "Pending": "Ontvangen van {subject}",
+                        "Confirmed": "Ontvangen van {subject}",
+                        "Conflicting": "Ontvangen mislukt"
                     }
                 },
                 "internal": {
@@ -1056,14 +1056,14 @@
             }
         },
         "importToken": {
-            "title": "Import {type} token",
+            "title": "Importeer {type} token",
             "property": {
-                "tokenAddress": "Token address"
+                "tokenAddress": "Token adres"
             },
-            "success": "Imported {tokenSymbol} token",
+            "success": "Geïmporteerde {tokenSymbol} token",
             "errors": {
-                "otherOwner": "You're not the owner of the NFT!",
-                "alreadyAdded": "You already have this NFT in your portfolio"
+                "otherOwner": "Je bent niet de eigenaar van de NFT!",
+                "alreadyAdded": "Je hebt deze NFT al in je portfolio"
             }
         },
         "noAlias": {
@@ -1279,7 +1279,7 @@
         "untrackToken": "Token ontvolgen",
         "switchAccount": "Account wisselen",
         "syncAccounts": "Synchroniseer accounts",
-        "importToken": "Import {type} token",
+        "importToken": "Importeer {type} token",
         "syncTokens": "Forceer synchronisatie tokens"
     },
     "general": {
@@ -1412,7 +1412,7 @@
         "totalStorageDeposit": "Totale waarborg opslag",
         "expirationTime": "Verlooptijd",
         "expiration": "Vervaldatum",
-        "timelockDate": "Tijdsvergrendeling",
+        "timelockDate": "Tijdslot",
         "claimedTime": "Geclaimed op",
         "nftId": "NFT ID",
         "aliasId": "Alias ID",
@@ -1499,7 +1499,7 @@
         "tip": "Tip",
         "verified": "Geverifiëerd",
         "data": "Gegevens",
-        "success": "Success"
+        "success": "Succesvol"
     },
     "filters": {
         "title": "Filters",
@@ -1564,7 +1564,7 @@
         "status": {
             "label": "Status",
             "confirmed": "bevestigd",
-            "timelocked": "timelocked",
+            "timelocked": "tijdsvergrendeling",
             "pending": "in behandeling",
             "claimed": "geclaimed",
             "unclaimed": "niet-opgeëist"
@@ -1774,7 +1774,7 @@
             "ongoingTransaction": "Als je lopende transacties hebt, wacht dan op hun bevestiging.",
             "cancelled": "De transactie is geannuleerd.",
             "invalidExpirationDateTime": "De gekozen vervaldatum is ongeldig.",
-            "invalidTimelockDateTime": "De gekozen tijdsvergendeling is ongeldig.",
+            "invalidTimelockDateTime": "De gekozen tijdslot is ongeldig.",
             "noInputs": "Geen inputs gevonden.",
             "notEnoughBalance": "Onvoldoende saldo.",
             "missingTransactionId": "Het transactie-ID ontbreekt",
@@ -1952,7 +1952,7 @@
                 "transactionFee": "De transactiefee bevat de gas fee voor de uitvoering van de code en de waarborg stortingskosten."
             },
             "genesis": {
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
+                "timelockDate": "De afzender stelt een tijdslot in voor deze fondsen. U kunt deze besteden zodra het tijdslot verloopt."
             },
             "nftMetadata": {
                 "type": "Het MimeType van de NFT. b.v. afbeelding/png.",
