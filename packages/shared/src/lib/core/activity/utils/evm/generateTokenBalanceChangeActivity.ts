@@ -13,7 +13,8 @@ export async function generateTokenBalanceChangeActivity(
     balanceChange: ITokenBalanceChange,
     account: IAccountState
 ): Promise<TransactionActivity> {
-    const difference = balanceChange.newBalance - (balanceChange.oldBalance ?? BigInt(0))
+    // Cast as a BigInt due to legacy data structures
+    const difference = BigInt(balanceChange.newBalance) - BigInt(balanceChange.oldBalance ?? 0)
     const direction = difference >= 0 ? ActivityDirection.Incoming : ActivityDirection.Outgoing
     const rawAmount = direction === ActivityDirection.Incoming ? difference : difference * BigInt(-1)
 
