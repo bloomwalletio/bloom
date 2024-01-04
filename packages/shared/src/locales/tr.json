@@ -868,7 +868,7 @@
             "title": "Ledger'ınızı bağlayın",
             "notConnected": "Devam etmek için Ledger cihazınızı bağlayın.",
             "locked": "Devam etmek için Ledger cihazınızın kilidini açın.",
-            "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
+            "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger başarıyla bağlandı, lütfen devam edin."
         },
         "verifyLedgerTransaction": {
@@ -928,6 +928,11 @@
                         "Pending": "{subject}'e gönderiliyor",
                         "Confirmed": "{subject} adlı kişiye gönderildi",
                         "Conflicting": "Gönderme başarısız"
+                    },
+                    "genesis": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
                     }
                 },
                 "internal": {
@@ -1945,6 +1950,9 @@
                 "metadata": "Verileri Tangle'da kalıcı olarak depolamak için isteğe bağlı bir veri alanı.",
                 "tag": "Kısa isteğe bağlı bir veri alanı. İşlemleri gruplandırarak aramayı kolaylaştırabilirsiniz.",
                 "transactionFee": "İşlem ücreti, kodun yürütülmesi için gaz ücretini ve depozito ücretini içerir."
+            },
+            "genesis": {
+                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
             },
             "nftMetadata": {
                 "type": "NFT'nin MimeType'ı. Örneğin. image/png.",

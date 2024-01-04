@@ -11,16 +11,16 @@
                 "chooseNetwork": {
                     "title": "Wybierz sieć",
                     "iota": {
-                        "primary": "IOTA Mainnet",
-                        "secondary": "Sieć produkcyjna ze stabilnymi funkcjami"
+                        "primary": "Główna sieć IOTA",
+                        "secondary": "Stabilna sieć z przetestowanymi funkcjami"
                     },
                     "shimmer": {
                         "primary": "Shimmer",
                         "secondary": "Eksperymentalna sieć z najnowszymi funkcjami"
                     },
                     "testnet": {
-                        "primary": "Testnet",
-                        "secondary": "Testuj sieć używając tokenów bez wartości"
+                        "primary": "Sieć testowa",
+                        "secondary": "Testuj sieć używając bezwartościowych tokenów"
                     },
                     "custom": {
                         "primary": "Zaawansowana konfiguracja",
@@ -72,7 +72,7 @@
                 },
                 "verifyMnemonicSuccess": {
                     "status": "Weryfikacja udana",
-                    "title": "Wyrazy ratunkowe zostały zweryfikowane",
+                    "title": "Wyrazy ratunkowe zweryfikowane",
                     "description": "Pamiętaj, aby zachować prywatność i bezpieczeństwo swoich kopii"
                 }
             },
@@ -86,7 +86,7 @@
                     "description": "Upewnij się, że oficjalna aplikacja Ledger Live jest zamknięta i wykonaj poniższe kroki.",
                     "connect": "Podłącz swoje urządzenie Ledger",
                     "unlock": "Odblokuj swój Ledger za pomocą pinu",
-                    "open": "Otwórz aplikację {appName} na swoim urządzeniu Ledger",
+                    "open": "Otwórz aplikację {appName} na urządzeniu Ledger",
                     "tip": "Wskazówki, jeśli Ledger nie nawiązuje połączenia"
                 },
                 "ledgerConnectionGuide": {
@@ -122,7 +122,7 @@
                     "success": "Pomyślnie znaleziono {amount}"
                 },
                 "balanceFinder": {
-                    "title": "Przeszukaj swoje przywrócone konta",
+                    "title": "Sprawdź poprawność środków",
                     "description": "Przed kontynuowaniem, skorzystaj z poniższej wyszukiwarki środków, aby sprawdzić czy Twoje saldo jest prawidłowe."
                 }
             },
@@ -168,7 +168,7 @@
                         "action": "Przejdź do portfela"
                     },
                     "profileSetup": {
-                        "title": "Profil jest gotowy"
+                        "title": "Profil gotowy"
                     }
                 }
             }
@@ -188,7 +188,7 @@
                 "title": "Bezpieczeństwo"
             },
             "advanced": {
-                "title": "Zaawansowany"
+                "title": "Zaawansowane"
             },
             "help": {
                 "title": "Pomoc"
@@ -247,7 +247,7 @@
             },
             "changeProfileName": {
                 "title": "Zmień nazwę profilu",
-                "description": "Zmień swoją nazwę profilu Bloom",
+                "description": "Zmień swoją nazwę profilu w Bloom",
                 "success": "Zmieniłeś swoją nazwę profilu"
             },
             "hiddenAccounts": {
@@ -341,8 +341,8 @@
                 "asset": "Token",
                 "network": "Sieć",
                 "marketCap": "Kapitalizacja",
-                "price": "Cena",
-                "total": "Suma",
+                "price": "Wartość",
+                "total": "W sumie",
                 "available": "Dostępne"
             },
             "activity": {
@@ -393,7 +393,7 @@
                         "body": "Aby Twoje urządzenie Ledger zostało wykryte przez Bloom, upewnij się, że oficjalna aplikacja Ledger Live jest zamknięta, przed wykonaniem tych kroków.",
                         "requirements": {
                             "connect": "Podłącz i odblokuj swoje urządzenie Ledger",
-                            "openApp": "Otwórz aplikację Ethereum na swoim urządzeniu Ledger"
+                            "openApp": "Otwórz aplikację Ethereum na urządzeniu Ledger"
                         }
                     },
                     "editChain": {
@@ -868,7 +868,7 @@
             "title": "Podłącz swój Ledger",
             "notConnected": "Podłącz swoje urządzenie Ledger, aby kontynuować.",
             "locked": "Odblokuj swoje urządzenie Ledger, aby kontynuować.",
-            "appNotOpen": "Otwórz aplikację Shimmer na urządzeniu Ledger, aby kontynuować.",
+            "appNotOpen": "Otwórz aplikację {appName} na urządzeniu Ledger, aby kontynuować.",
             "correctAppOpen": "Ledger pomyślnie podłączony, proszę kontynuować."
         },
         "verifyLedgerTransaction": {
@@ -894,26 +894,26 @@
             "hint": "Żadne środki nie zostaną wysłane do {dappName} podczas podpisywania tej wiadomości.",
             "warning": "Nie można określić dApp. W procesie podpisywania tej wiadomości nie zostanie wysłane żadne saldo.",
             "action": "Podpisz",
-            "success": "Signed message"
+            "success": "Podpisana wiadomość"
         },
         "signTransaction": {
             "title": "Podpisz transakcję",
             "action": "Podpisz",
-            "success": "Signed transaction"
+            "success": "Podpisana transakcja"
         },
         "sendTransaction": {
             "title": "Wyślij transakcję",
             "action": "Wyślij",
-            "success": "Sent {assetName} to {recipient}"
+            "success": "Wysłano {assetName} do {recipient}"
         },
         "smartContractCall": {
             "title": "Interakcja smart kontraktu z {contractAddress}",
             "unableToVerify": "Bloom nie może zweryfikować interakcji z smart kontraktem. Kontynuuj tylko z aplikacjami, którym ufasz.",
             "action": "Potwierdź",
-            "success": "Smart contract call to {recipient}"
+            "success": "Interakcja smart kontraktu z {recipient}"
         },
         "successfulDappInteraction": {
-            "alert": "You can close this screen and return to the dApp when you are ready."
+            "alert": "Możesz zamknąć to okno i powrócić do aplikacji dApp, gdy będziesz gotowy."
         },
         "activityDetails": {
             "title": {
@@ -928,6 +928,11 @@
                         "Pending": "Wysyłanie do {subject}",
                         "Confirmed": "Wysłano do {subject}",
                         "Conflicting": "Nie udało się wysłać"
+                    },
+                    "genesis": {
+                        "Pending": "Odbieranie od {subject}",
+                        "Confirmed": "Odebrano od {subject}",
+                        "Conflicting": "Nie udało się odebrać"
                     }
                 },
                 "internal": {
@@ -1031,7 +1036,7 @@
             "formTitle": "Mintuj natywne tokeny",
             "confirmationTitle": "Mintuj natywne tokeny",
             "property": {
-                "totalSupply": "Całkowita podaż",
+                "totalSupply": "Łączna ilość",
                 "maximumSupply": "Maksymalna podaż",
                 "mintedTokens": "Mintowane tokeny",
                 "meltedTokens": "Przetopione tokeny",
@@ -1051,14 +1056,14 @@
             }
         },
         "importToken": {
-            "title": "Import {type} token",
+            "title": "Importowanie tokena {type}",
             "property": {
-                "tokenAddress": "Token address"
+                "tokenAddress": "Adres tokena"
             },
-            "success": "Imported {tokenSymbol} token",
+            "success": "Importowano token {tokenSymbol}",
             "errors": {
-                "otherOwner": "You're not the owner of the NFT!",
-                "alreadyAdded": "You already have this NFT in your portfolio"
+                "otherOwner": "Nie jesteś właścicielem NFT!",
+                "alreadyAdded": "Masz już ten NFT w swoim portfolio"
             }
         },
         "noAlias": {
@@ -1183,7 +1188,7 @@
         "visitDiscord": "Odwiedź nasz Discord",
         "importExtensions": "Plik .stronghold",
         "dropHere": "Upuść plik tutaj",
-        "dropOrBrowse": "Upuść tutaj lub przeglądaj swoje pliki",
+        "dropOrBrowse": "Upuść plik tutaj lub przeglądaj pliki",
         "import": "Importuj",
         "importing": "Importowanie",
         "export": "Eksportuj",
@@ -1274,7 +1279,7 @@
         "untrackToken": "Nie śledź tokena",
         "switchAccount": "Przełącz konto",
         "syncAccounts": "Synchronizuj konta",
-        "importToken": "Import {type} token",
+        "importToken": "Importowanie tokena {type}",
         "syncTokens": "Wymuś synchronizację tokenów"
     },
     "general": {
@@ -1466,7 +1471,7 @@
         "statistics": "Statystyki",
         "internalTransaction": "Transakcja wewnętrzna",
         "coinType": "Typ tokena",
-        "custom": "Niestandardowe",
+        "custom": "Niestandardowa",
         "evmAddress": "Adres EVM",
         "contractAddress": "Adres kontraktu",
         "optionalField": "{field} (opcjonalnie)",
@@ -1494,7 +1499,7 @@
         "tip": "Wskazówka",
         "verified": "Zweryfikowano",
         "data": "Data",
-        "success": "Success"
+        "success": "Sukces"
     },
     "filters": {
         "title": "Filtry",
@@ -1523,7 +1528,7 @@
             "Amount": "Ilość"
         },
         "internalExternal": {
-            "label": "Wewnętrzny / Zewnętrzny",
+            "label": "Rodzaj transferu",
             "internal": "Transfer wewnętrzny",
             "external": "Transfer zewnętrzny"
         },
@@ -1559,7 +1564,7 @@
         "status": {
             "label": "Status",
             "confirmed": "potwierdzono",
-            "timelocked": "timelocked",
+            "timelocked": "zablokowane czasowo",
             "pending": "przetwarzanie",
             "claimed": "odebrano",
             "unclaimed": "nie odebrano"
@@ -1946,6 +1951,9 @@
                 "tag": "Krótkie, opcjonalne pole danych. Oznaczanie grup transakcji może ułatwić ich wyszukiwanie.",
                 "transactionFee": "Opłata transakcyjna obejmuje opłatę gas za wykonanie kodu oraz opłatę za depozyt magazynowy."
             },
+            "genesis": {
+                "timelockDate": "Nadawca ustawił blokadę czasową tych środków. Będziesz mógł je wydać dopiero wtedy, gdy blokada czasowa minie."
+            },
             "nftMetadata": {
                 "type": "MimeType NFT, np. image/png.",
                 "issuerName": "Nazwa twórcy"
@@ -1999,7 +2007,7 @@
             "unclaimed": "Nieodebrano {timeDiff, select, undefined {} other { {timeDiff}}}",
             "claimed": "Odebrano",
             "expired": "Wygasła",
-            "timelocked": "Zablokowano {timeDiff, select, undefined {} other { {timeDiff}}}"
+            "timelocked": "Zablokowano na {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {

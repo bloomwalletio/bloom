@@ -868,7 +868,7 @@
             "title": "连接您的Ledger",
             "notConnected": "连接您的Ledger设备以继续。",
             "locked": "解锁您的Ledger设备以继续。",
-            "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
+            "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger连接成功，请继续。"
         },
         "verifyLedgerTransaction": {
@@ -928,6 +928,11 @@
                         "Pending": "Sending to {subject}",
                         "Confirmed": "Sent to {subject}",
                         "Conflicting": "Failed to send"
+                    },
+                    "genesis": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
                     }
                 },
                 "internal": {
@@ -1945,6 +1950,9 @@
                 "metadata": "一个可选的数据字段，用于在Tangle上持久性地存储数据。",
                 "tag": "一个简短的可选数据字段。对各组交易分别进行标记可以使它们更容易被搜索到。",
                 "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
+            },
+            "genesis": {
+                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
             },
             "nftMetadata": {
                 "type": "NFT的MimeType，例如：image/png。",
