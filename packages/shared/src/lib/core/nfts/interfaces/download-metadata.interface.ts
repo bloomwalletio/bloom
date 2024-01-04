@@ -1,7 +1,11 @@
 import { DownloadErrorType, DownloadWarningType } from '../enums'
 
-export interface INftDownloadStatus {
-    isLoaded: boolean
+export interface IDownloadMetadata {
+    contentType?: string
+    contentLength?: string
+    responseCode?: number
+    downloadUrl?: string
+    filePath?: string
     error?: {
         type: DownloadErrorType
         message?: string
@@ -10,4 +14,5 @@ export interface INftDownloadStatus {
         type: DownloadWarningType
         message?: string
     }
+    isLoaded?: boolean
 }

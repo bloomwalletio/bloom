@@ -1,7 +1,7 @@
 import { Address } from '@iota/sdk/out/types'
 import { NetworkId } from '@core/network/types'
 import { NftStandard } from '../enums'
-import { INftDownloadStatus, IIrc27Metadata, IErc721ContractMetadata, IErc721TokenMetadata } from '../interfaces'
+import { IIrc27Metadata, IErc721ContractMetadata, IErc721TokenMetadata, IDownloadMetadata } from '../interfaces'
 
 export type Nft = IIrc27Nft | IErc721Nft
 
@@ -29,8 +29,6 @@ interface IBaseNft {
     ownerAddress: string
     name: string
     composedUrl: string
-    downloadUrl: string
-    filePath: string
-    downloadMetadata?: INftDownloadStatus
+    downloadMetadata?: IDownloadMetadata
     isSpendable: boolean
 }
