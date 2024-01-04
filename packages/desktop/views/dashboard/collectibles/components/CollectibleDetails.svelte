@@ -2,7 +2,7 @@
     import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { MediaPlaceholder, NftMedia } from '@ui'
-    import { INft, INftAttribute, INftDownloadStatus, isIrc27Nft } from '@core/nfts'
+    import { DownloadMetadata, INft, INftAttribute, NftStandard, isIrc27Nft } from '@core/nfts'
     import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app'
     import { getTimeDifference } from '@core/utils'
@@ -16,15 +16,12 @@
     export let attributes: INftAttribute[] = []
     export let explorerEndpoint: string | undefined
 
-    const { name, downloadMetadata, timelockTime } = nft
-    const description = isIrc27Nft(nft) ? nft.metadata.description : nft.tokenMetadata.description
-
-    $: timeDiff = timelockTime ? getTimeDifference(new Date(timelockTime), $time) : undefined
-    $: alertText = getAlertText(downloadMetadata)
+    $: timeDiff = nft.standard === NftStandard.Irc27 ? getTimeDifference(new Date(nft.timelockTime), $time) : undefined
+    $: alertText = getAlertText(nft.downloadMetadata)
     $: isSendButtonDisabled = !!timeDiff || !isIrc27Nft(nft)
 
-    function getAlertText(downloadStatus: INftDownloadStatus): string {
-        const { error, warning } = downloadStatus ?? {}
+    function getAlertText(downloadMetadata: DownloadMetadata): string {
+        const { error, warning } = downloadMetadata ?? {}
         const errorOrWarning = error || warning
 
         if (!errorOrWarning) {
@@ -62,19 +59,19 @@
         </NftMedia>
         {#if alertText}
             <error-container>
-                <Alert variant={downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border />
+                <Alert variant={nft.downloadMetadata.error ? 'danger' : 'warning'} text={alertText} border />
             </error-container>
         {/if}
     </media-container>
     <details-container class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-sm">
         <nft-title class="flex justify-between items-center gap-4">
-            <Text type="h4" truncate>{name}</Text>
+            <Text type="h4" truncate>{nft.name}</Text>
             <CollectibleDetailsMenu {nft} />
         </nft-title>
-        {#if description}
+        {#if nft.description}
             <Text type="body1">{localize('general.description')}</Text>
             <nft-description>
-                <Text textColor="secondary">{description}</Text>
+                <Text textColor="secondary">{nft.description}</Text>
             </nft-description>
         {/if}
         <div class="overflow-y-scroll h-full flex flex-col space-y-4 pr-2 -mr-4">
