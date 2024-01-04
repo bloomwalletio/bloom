@@ -1,5 +1,4 @@
 import { parseCurrency } from '@core/i18n'
-import { IOTA_UNIT_MAP, IotaUnit } from '@core/utils'
 import Big from 'big.js'
 import { TokenMetadata } from '@core/token/types'
 import { TokenStandard } from '@core/token/enums'
@@ -20,18 +19,13 @@ function convertToRawAmountFromMetadata(
     selectedUnit?: string
 ): Big | undefined {
     if (tokenMetadata?.standard === TokenStandard.BaseToken) {
-        if (tokenMetadata.useMetricPrefix) {
-            const decimals = IOTA_UNIT_MAP?.[selectedUnit?.substring(0, 1) as IotaUnit]?.decimalPlaces ?? 0
+        if (!selectedUnit || selectedUnit === tokenMetadata.unit) {
+            const decimals = Math.min(tokenMetadata.decimals, MAX_SUPPORTED_DECIMALS)
             return convertAmountToMatchUnit(amount, decimals)
+        } else if (selectedUnit === tokenMetadata.subunit) {
+            return Big(amount)
         } else {
-            if (!selectedUnit || selectedUnit === tokenMetadata.unit) {
-                const decimals = Math.min(tokenMetadata.decimals, MAX_SUPPORTED_DECIMALS)
-                return convertAmountToMatchUnit(amount, decimals)
-            } else if (selectedUnit === tokenMetadata.subunit) {
-                return Big(amount)
-            } else {
-                return undefined
-            }
+            return undefined
         }
     } else if (tokenMetadata?.standard === TokenStandard.Irc30 || tokenMetadata?.standard === TokenStandard.Erc20) {
         const decimals = Math.min(tokenMetadata.decimals, MAX_SUPPORTED_DECIMALS)

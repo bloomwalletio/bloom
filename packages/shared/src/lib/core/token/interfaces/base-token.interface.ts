@@ -7,5 +7,4 @@ export interface IBaseToken {
     unit: string
     subunit?: string | null
     decimals: number
-    useMetricPrefix?: boolean
 }

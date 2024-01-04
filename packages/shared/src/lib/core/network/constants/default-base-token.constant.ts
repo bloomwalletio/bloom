@@ -9,7 +9,6 @@ const DEFAULT_IOTA_BASE_TOKEN: IBaseToken = {
     unit: 'IOTA',
     decimals: 6,
     subunit: 'micro',
-    useMetricPrefix: false,
 }
 
 const DEFAULT_SHIMMER_BASE_TOKEN: IBaseToken = {
@@ -19,7 +18,6 @@ const DEFAULT_SHIMMER_BASE_TOKEN: IBaseToken = {
     unit: 'SMR',
     decimals: 6,
     subunit: 'glow',
-    useMetricPrefix: false,
 }
 
 const DEFAULT_TESTNET_BASE_TOKEN: IBaseToken = {
@@ -29,7 +27,6 @@ const DEFAULT_TESTNET_BASE_TOKEN: IBaseToken = {
     unit: 'SMR',
     decimals: 6,
     subunit: 'glow',
-    useMetricPrefix: false,
 }
 
 export const DEFAULT_BASE_TOKEN: Readonly<{ [id in SupportedNetworkId]: IBaseToken }> = {
