@@ -28,7 +28,6 @@ export async function burnNft(nftId: string): Promise<void> {
         })
     } catch (err) {
         handleError(err)
-        throw err
     } finally {
         updateSelectedAccount({ isTransferring: false })
     }
