@@ -19,8 +19,8 @@
 
     $: src =
         features?.collectibles?.useCaching?.enabled && useCaching
-            ? `${basePath}/${nft.filePath}/${NFT_MEDIA_FILE_NAME}`
-            : nft.downloadUrl
+            ? `${basePath}/${nft.downloadMetadata?.filePath}/${NFT_MEDIA_FILE_NAME}`
+            : nft.downloadMetadata?.downloadUrl
 
     onMount(async () => {
         if (process.env.NODE_ENV === 'development') {
@@ -36,7 +36,7 @@
     <MediaDisplay
         {src}
         expectedType={nft.metadata.type}
-        isLoaded={nft.downloadMetadata.isLoaded}
+        isLoaded={nft.downloadMetadata?.isLoaded}
         {autoplay}
         {controls}
         {loop}

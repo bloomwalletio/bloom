@@ -17,9 +17,9 @@ export function addNftsToDownloadQueue(accountIndex: number, nfts: Nft[], forceD
 
 async function validateNftThenAddToQueue(accountIndex: number, nft: Nft): Promise<void> {
     try {
-        const { shouldDownload, downloadMetadata, downloadUrl } = await checkIfNftShouldBeDownloaded(nft)
+        console.log('nft pre add:', nft)
+        const { shouldDownload, downloadMetadata } = await checkIfNftShouldBeDownloaded(nft)
         nft.downloadMetadata = downloadMetadata
-        nft.downloadUrl = downloadUrl ?? ''
         updateNftInAllAccountNfts(accountIndex, nft.id, { downloadMetadata })
 
         if (shouldDownload) {

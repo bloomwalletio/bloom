@@ -1,4 +1,3 @@
-import { getActiveProfile } from '@core/profile/stores'
 import { Nft, IPersistedErc721Nft } from '../interfaces'
 import { composeUrlFromNftUri, isErc721NftSpendable, MimeType, NftStandard } from '@core/nfts'
 
@@ -9,12 +8,6 @@ export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): 
     const id = tokenId ? `${address}:${tokenId}` : address
     const composedUrl = composeUrlFromNftUri(tokenMetadata?.image) ?? ''
     const downloadUrl = tokenMetadata?.image
-    const filePath = `${getActiveProfile().id}/nfts/${id}`
-    const downloadMetadata = {
-        error: undefined,
-        warning: undefined,
-        isLoaded: false,
-    }
     const isSpendable = await isErc721NftSpendable(nft)
 
     return {
@@ -32,7 +25,5 @@ export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): 
         ...(tokenId && { tokenId }),
         composedUrl,
         downloadUrl,
-        filePath,
-        downloadMetadata,
     } as Nft
 }
