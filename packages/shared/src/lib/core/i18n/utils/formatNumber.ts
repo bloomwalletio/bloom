@@ -4,10 +4,13 @@ import { appSettings } from '@core/app/stores'
 
 import { ensureZeroes } from './ensureZeroes'
 
+const ETHEREUM_MAX_DECIMALS = 18
+
 export function formatNumber(
     value: number,
     minDecimals: number | undefined = undefined,
     maxDecimals: number | undefined = undefined,
+    maxSignificantDigits: number | undefined = undefined,
     maxZeros: number = 2,
     grouped: boolean = false
 ): string {
@@ -18,15 +21,16 @@ export function formatNumber(
 
     // The maximum decimals are equal to the max decimals of Ethereum.
     // Larger values throw an error when trying to format.
-    if (maxDecimals > 18) {
+    if (maxDecimals && maxDecimals > ETHEREUM_MAX_DECIMALS) {
         return String(value)
     }
 
-    const appLanguage = get(appSettings).language
+    const appLanguage = get(appSettings)?.language ?? 'en'
 
     const formatted = Intl.NumberFormat(appLanguage, {
         minimumFractionDigits: minDecimals ?? 2,
-        maximumFractionDigits: maxDecimals,
+        maximumFractionDigits: maxDecimals ?? ETHEREUM_MAX_DECIMALS,
+        maximumSignificantDigits: maxSignificantDigits,
         useGrouping: grouped,
     }).format(value)
 

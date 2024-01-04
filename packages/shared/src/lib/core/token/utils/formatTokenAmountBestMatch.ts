@@ -1,77 +1,70 @@
-import { formatNumber, getDecimalSeparator } from '@core/i18n'
-import { isDecimal } from '@core/utils'
 import { getUnitFromTokenMetadata } from './getUnitFromTokenMetadata'
 import { TokenMetadata } from '../types'
+import { getDecimalSeparator, getGroupSeparator } from '@core/i18n'
 
-const DEFAULT_SIGNIFICANT_DIGITS_LIMIT = 3
-const MAX_DIGITS_WITH_DECIMALS = 12
-const ZERO_AND_DECIMAL_SEPARATOR_LENGTH = 2
+const DEFAULT_MAX_DECIMALS = 6
 
 export function formatTokenAmountBestMatch(
-    amount: number,
+    amount: bigint,
     tokenMetadata: TokenMetadata,
     withUnit = true,
     round = true
 ): string {
     const unit = withUnit ? getUnitFromTokenMetadata(tokenMetadata) : undefined
 
-    if (isNaN(amount)) {
-        const formattedAmount = '0'
-        return getAmountWithUnit(formattedAmount, unit)
+    if (typeof amount !== 'bigint') {
+        return '-'
     }
 
-    if (amount < 0) {
-        throw new Error('Amount is negative')
-    }
-
-    if (amount > Number.MAX_SAFE_INTEGER) {
-        // TODO: Refactor this when BigInt is used everywhere and we can precisely represent the amount.
-        throw new Error('Amount is too large to be formatted')
-    }
-
-    if (isDecimal(amount)) {
-        throw new Error('Amount is a decimal number')
-    }
-
-    if (!round) {
-        const formattedAmount = formatNumber(amount, 0, undefined, undefined, true)
-        return getAmountWithUnit(formattedAmount, unit)
-    }
-
-    const floatAmount = tokenMetadata?.decimals ? amount / 10 ** tokenMetadata?.decimals : amount
-    const splittedAmount = String(floatAmount).split('.')
-
-    const integer = splittedAmount[0]
-    const decimals = splittedAmount[1]
-
-    if (decimals === undefined) {
-        const formattedAmount = formatNumber(amount, 0, 0, 0, true)
-        return getAmountWithUnit(formattedAmount, unit)
-    }
-
-    if (amount >= 1) {
-        const maxDecimals = Math.max(MAX_DIGITS_WITH_DECIMALS - integer.length, 0)
-        const formattedAmount = formatNumber(amount, 0, maxDecimals, undefined, true)
-        return getAmountWithUnit(formattedAmount, unit)
-    }
-
-    if (decimals.length > MAX_DIGITS_WITH_DECIMALS - ZERO_AND_DECIMAL_SEPARATOR_LENGTH) {
-        return getAmountWithUnit('≈0', unit)
-    }
-
-    const formattedAmount = `0${getDecimalSeparator()}${getSignificantDigits(decimals)}}`
-    return getAmountWithUnit(formattedAmount, unit)
+    const stringAmount = getStringAmountFromBigInt(amount, round, tokenMetadata?.decimals)
+    return getAmountWithUnit(stringAmount, unit)
 }
 
-export function getSignificantDigits(decimals: string, limit: number = DEFAULT_SIGNIFICANT_DIGITS_LIMIT): string {
-    const indexFirstSignificantDigit = decimals.split('').findIndex((digit) => Number(digit) > 0)
+function getStringAmountFromBigInt(value: bigint, round: boolean, decimals?: number): string {
+    let stringValue = String(value)
 
-    if (indexFirstSignificantDigit === -1) {
-        return '0'.repeat(limit)
+    if (!decimals) {
+        return getGroupedStringAmount(stringValue)
     }
 
-    const significantDigits = decimals.slice(indexFirstSignificantDigit, indexFirstSignificantDigit + limit)
-    return significantDigits
+    while (stringValue.length <= decimals) {
+        stringValue = '0' + stringValue
+    }
+
+    const indexOfDecimalSeparator = stringValue.length - decimals
+
+    const stringAmountParts = []
+
+    let integerPart = stringValue.slice(0, indexOfDecimalSeparator)
+    const allIntegersZero = integerPart.split('').every((integer) => integer === '0')
+    integerPart = allIntegersZero ? '0' : getGroupedStringAmount(integerPart)
+    stringAmountParts.push(integerPart)
+
+    const maxDecimalLength = Math.max(DEFAULT_MAX_DECIMALS - (integerPart.length - 1), 0)
+
+    let decimalPart = stringValue.slice(
+        indexOfDecimalSeparator,
+        round ? indexOfDecimalSeparator + maxDecimalLength : undefined
+    )
+    const allDecimalsZero = decimalPart.split('').every((decimal) => decimal === '0')
+    decimalPart = removeTrailingZero(decimalPart)
+    !allDecimalsZero && stringAmountParts.push(decimalPart)
+
+    const stringAmount = stringAmountParts.join(getDecimalSeparator())
+
+    return stringAmount === '0' && value > 0 ? '≈0' : stringAmount
+}
+
+function removeTrailingZero(amount: string): string {
+    return amount
+        .split('')
+        .reduceRight((acc, cur) => (cur === '0' ? acc : [...acc, cur]), [] as string[])
+        .reverse()
+        .join('')
+}
+
+function getGroupedStringAmount(value: string): string {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, getGroupSeparator())
 }
 
 function getAmountWithUnit(amount: string, unit?: string): string {
