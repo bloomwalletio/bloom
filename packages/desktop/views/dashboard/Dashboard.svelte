@@ -49,7 +49,7 @@
         if (accountIndex !== previousAccountIndex) {
             previousAccountIndex = accountIndex
             resetNftDownloadQueue(true)
-            addNftsToDownloadQueue(accountIndex, $selectedAccountNfts)
+            void addNftsToDownloadQueue(accountIndex, $selectedAccountNfts)
         }
     }
 

@@ -38,7 +38,7 @@
                     updateNftInAllAccountNfts($selectedAccountIndex, nft.id, { isLoaded: false })
                 })
             )
-            addNftsToDownloadQueue($selectedAccountIndex, $selectedAccountNfts, true)
+            void addNftsToDownloadQueue($selectedAccountIndex, $selectedAccountNfts, true)
         } finally {
             isLoading = false
         }

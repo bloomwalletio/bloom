@@ -11,7 +11,7 @@ import { buildNftFromPersistedErc721Nft } from '../utils'
 import { activeAccounts } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { getAddressFromAccountForNetwork } from '@core/account'
-import { addNftToDownloadQueue } from '../stores'
+import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 
 export function checkForUntrackedNfts(account: IAccountState): void {
     const chains = getNetwork()?.getChains() ?? []
@@ -64,7 +64,7 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
                     }
                     const nft = buildNftFromPersistedErc721Nft(persistedNft, l2Address)
                     updateAllAccountNftsForAccount(account.index, nft)
-                    addNftToDownloadQueue({ nft, accountIndex: account.index })
+                    void addNftsToDownloadQueue(account.index, [nft])
                 }
             } catch (err) {
                 // If we don't have the tokenId we cannot persist the NFT. ERC-721 contracts should implement

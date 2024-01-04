@@ -82,5 +82,5 @@ export async function loadNftsForAccount(account: IAccountState): Promise<void> 
     }
     setAccountNftsInAllAccountNfts(account.index, accountNfts)
 
-    addNftsToDownloadQueue(account.index, accountNfts)
+    void addNftsToDownloadQueue(account.index, accountNfts)
 }

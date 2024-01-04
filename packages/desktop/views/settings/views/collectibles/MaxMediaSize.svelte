@@ -58,7 +58,7 @@
             }
         })
 
-        addNftsToDownloadQueue($selectedAccountIndex, nftsToDownload, true)
+        await addNftsToDownloadQueue($selectedAccountIndex, nftsToDownload, true)
         await Promise.all(
             nftsToDelete.map(async (nft) => {
                 await Platform.deleteFile(nft.downloadMetadata.filePath)
