@@ -18,7 +18,6 @@ export async function buildPersistedErc721Nft(
         networkId,
         standard: NftStandard.Erc721,
         uri: '',
-        contractAddress: contractMetadata.address,
         contractMetadata,
         tokenId,
         downloadMetadata: undefined,

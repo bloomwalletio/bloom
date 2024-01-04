@@ -20,7 +20,6 @@ export interface IIrc27Nft extends IBaseNft {
 export interface IErc721Nft extends IBaseNft {
     standard: NftStandard.Erc721
     uri: string
-    contractAddress: string
     contractMetadata: IErc721ContractMetadata
     tokenId?: string
     metadata?: IErc721TokenMetadata

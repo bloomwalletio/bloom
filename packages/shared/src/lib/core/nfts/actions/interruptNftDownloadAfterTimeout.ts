@@ -7,8 +7,6 @@ import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
 import { activeProfile } from '@core/profile/stores'
 import { getNftByIdFromAllAccountNfts } from './getNftByIdFromAllAccountNfts'
 
-// TODO: should the download metadata be saved in the persisted store?
-
 export async function interruptNftDownloadAfterTimeout(
     accountIndex: number,
     downloadingNftIdToInterrupt: string

@@ -17,19 +17,3 @@ export function updateAllAccountNftsForAccount(accountIndex: number, ...newNfts:
         return state
     })
 }
-
-export function updateAllAccountNfts(...newNfts: INft[]): void {
-    allAccountNfts.update((state) => {
-        for (const accountNfts of Object.values(state)) {
-            for (const newNft of newNfts) {
-                const nft = accountNfts.find((_nft) => _nft.id === newNft.id)
-                if (nft) {
-                    Object.assign(nft, newNft)
-                } else {
-                    accountNfts.push(newNft)
-                }
-            }
-        }
-        return state
-    })
-}

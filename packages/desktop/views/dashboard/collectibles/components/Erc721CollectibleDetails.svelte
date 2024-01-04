@@ -8,7 +8,8 @@
 
     export let nft: IErc721Nft
 
-    const { standard, address, networkId, contractMetadata, tokenId, metadata } = nft
+    const { standard, networkId, contractMetadata, tokenId, metadata } = nft
+    const address = contractMetadata.address
     const explorerEndpoint = getExplorerEndpoint(networkId)
 
     function getExplorerEndpoint(networkId: NetworkId): string | undefined {

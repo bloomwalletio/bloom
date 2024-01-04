@@ -7,7 +7,7 @@ import {
 import { ContractType } from '@core/layer-2'
 import { IChain } from '@core/network/interfaces'
 import { getNetwork } from '@core/network/stores'
-import { getNftsFromNftIds } from '@core/nfts/utils'
+import { getNftsFromNftIds, isIrc27Nft } from '@core/nfts/utils'
 import {
     addNftsToDownloadQueue,
     updateAllAccountNftsForAccount,
@@ -24,7 +24,6 @@ import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName
 import { setLayer2AccountBalanceForChain } from '../stores'
 import { isTrackedTokenAddress } from '@core/wallet'
 import { TokenTrackingStatus } from '@core/token'
-import { NftStandard } from '@core/nfts'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -137,9 +136,7 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAcco
         const nftIds = nftResult.items.filter((item) => item.key !== '0x69').map((item) => item.value)
 
         const networkId = chain.getConfiguration().id
-        const nftsForChain = get(selectedAccountNfts).filter(
-            (nft) => nft.networkId === networkId && nft.standard === NftStandard.Irc27
-        )
+        const nftsForChain = get(selectedAccountNfts).filter((nft) => nft.networkId === networkId && isIrc27Nft(nft))
 
         const newNftIds = nftIds.filter((nftId) => !nftsForChain.some((nft) => nft.id === nftId))
 
