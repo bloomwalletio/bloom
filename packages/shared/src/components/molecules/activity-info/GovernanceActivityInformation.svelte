@@ -23,7 +23,7 @@
             key: isNewVotingPower ? localize('general.newVotingPower') : localize('general.votingPower'),
             value:
                 activity?.votingPower !== undefined
-                    ? formatTokenAmountBestMatch(activity?.votingPower, getBaseToken(), 2)
+                    ? formatTokenAmountBestMatch(activity?.votingPower, getBaseToken())
                     : undefined,
             tooltip: localize('tooltips.transactionDetails.votingPower'),
         },
