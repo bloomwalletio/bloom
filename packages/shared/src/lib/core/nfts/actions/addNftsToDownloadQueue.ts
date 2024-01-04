@@ -1,29 +1,39 @@
 import { updateNftInAllAccountNfts } from '.'
 import { Nft } from '../interfaces'
-import { addNftToDownloadQueue } from '../stores'
+import { addNftToDownloadQueue, updatePersistedNft } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
 
-export function addNftsToDownloadQueue(accountIndex: number, nfts: Nft[], forceDownload: boolean = true): void {
+export async function addNftsToDownloadQueue(
+    accountIndex: number,
+    nfts: Nft[],
+    forceDownload: boolean = true
+): Promise<void> {
+    const nftsToAdd: Nft[] = []
     for (const nft of nfts) {
-        const shouldNotDownloadNft =
-            nft?.downloadMetadata?.isLoaded || !!nft?.downloadMetadata?.error || !!nft?.downloadMetadata?.warning
+        const shouldNotDownloadNft = nft.isLoaded || !!nft.downloadMetadata?.error || !!nft.downloadMetadata?.warning
         if (shouldNotDownloadNft && !forceDownload) {
             continue
         } else {
-            void validateNftThenAddToQueue(accountIndex, nft)
+            const nftToAdd = await validateNft(accountIndex, nft)
+            if (nftToAdd) {
+                nftsToAdd.push(nftToAdd)
+            }
         }
+    }
+
+    for (const nft of nftsToAdd) {
+        addNftToDownloadQueue({ accountIndex, nft })
     }
 }
 
-async function validateNftThenAddToQueue(accountIndex: number, nft: Nft): Promise<void> {
+async function validateNft(accountIndex: number, nft: Nft): Promise<undefined | Nft> {
     try {
-        console.log('nft pre add:', nft)
-        const { shouldDownload, downloadMetadata } = await checkIfNftShouldBeDownloaded(nft)
-        nft.downloadMetadata = downloadMetadata
-        updateNftInAllAccountNfts(accountIndex, nft.id, { downloadMetadata })
+        const { shouldDownload, downloadMetadata, isLoaded } = await checkIfNftShouldBeDownloaded(nft)
+        updatePersistedNft(nft.id, { downloadMetadata })
+        updateNftInAllAccountNfts(accountIndex, nft.id, { downloadMetadata, isLoaded })
 
         if (shouldDownload) {
-            addNftToDownloadQueue({ nft, accountIndex })
+            return nft
         }
     } catch (error) {
         console.error(error)

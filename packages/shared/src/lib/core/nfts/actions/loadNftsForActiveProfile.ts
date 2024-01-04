@@ -54,9 +54,9 @@ export async function loadNftsForAccount(account: IAccountState): Promise<void> 
         if (!evmAddress) {
             continue
         }
-        const erc721Nfts = getPersistedErc721Nfts(evmAddress)
-        const convertedNfts: Nft[] = await Promise.all(
-            erc721Nfts.map((persistedErc721Nft) => buildNftFromPersistedErc721Nft(persistedErc721Nft))
+        const erc721Nfts = getPersistedErc721Nfts()
+        const convertedNfts: Nft[] = erc721Nfts.map((persistedErc721Nft) =>
+            buildNftFromPersistedErc721Nft(persistedErc721Nft, evmAddress)
         )
         accountNfts.push(...convertedNfts)
     }
@@ -81,5 +81,6 @@ export async function loadNftsForAccount(account: IAccountState): Promise<void> 
         }
     }
     setAccountNftsInAllAccountNfts(account.index, accountNfts)
+
     void addNftsToDownloadQueue(account.index, accountNfts)
 }

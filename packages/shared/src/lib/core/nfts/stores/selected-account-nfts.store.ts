@@ -24,7 +24,7 @@ export const ownedNfts: Readable<Nft[]> = derived([selectedAccountNfts, time], (
             case NftStandard.Erc721:
             case NftStandard.Irc27: {
                 const { isSpendable, timelockTime } = nft as IIrc27Nft
-                return isSpendable || timelockTime > $time.getTime()
+                return isSpendable || (timelockTime && timelockTime > $time.getTime())
             }
             default:
                 return false

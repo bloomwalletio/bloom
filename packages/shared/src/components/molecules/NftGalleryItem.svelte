@@ -1,12 +1,12 @@
 <script lang="typescript">
-    import { MediaPlaceholder, NftMedia } from '@ui'
     import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { Nft, IDownloadMetadata, isNftLocked } from '@core/nfts'
+    import { IDownloadMetadata, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
     import { selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
+    import { MediaPlaceholder, NftMedia } from '@ui'
 
     export let nft: Nft
 
@@ -45,7 +45,7 @@
                 <MediaPlaceholder {nft} size="md" slot="placeholder" />
             </NftMedia>
             <error-container bind:this={anchor}>
-                {#if nft.downloadMetadata.error || nft.downloadMetadata.warning}
+                {#if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
                     <Pill color={nft.downloadMetadata?.error ? 'danger' : 'warning'}>
                         {localize('general.' + (nft.downloadMetadata?.error ? 'error' : 'warning'))}
                     </Pill>
@@ -55,11 +55,11 @@
         </div>
         <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
             <Text type="body2" truncate>{nft.name}</Text>
-            {#if isLocked}
+            {#if isLocked && isIrc27Nft(nft)}
                 <TooltipIcon
                     icon={IconName.Locked}
                     tooltip={localize('views.collectibles.gallery.timelocked', {
-                        timeDiff: getTimeDifference(new Date(nft.timelockTime), $time),
+                        timeDiff: getTimeDifference(new Date(nft.timelockTime ?? 0), $time),
                     })}
                     placement="top"
                 />

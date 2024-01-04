@@ -18,7 +18,7 @@
                 {nft.name}
             </Text>
             <Text fontWeight="medium" textColor="secondary" truncate>
-                {fullWidth ? nft.address : truncateString(nft.address, 7, 7)}
+                {fullWidth ? nft.id : truncateString(nft.id, 7, 7)}
             </Text>
         </div>
     </div>

@@ -49,7 +49,7 @@
                 nftsToDownload.push(nft)
             }
 
-            const nftSizeInBytes = Number($persistedNftForActiveProfile?.[nftId]?.contentLength)
+            const nftSizeInBytes = Number($persistedNftForActiveProfile?.[nftId]?.downloadMetadata.contentLength)
 
             if (nftSizeInBytes > maxMediaSizeInBytes) {
                 nftsToDelete.push(nft)
@@ -58,12 +58,17 @@
             }
         })
 
-        addNftsToDownloadQueue($selectedAccountIndex, nftsToDownload, true)
+        await addNftsToDownloadQueue($selectedAccountIndex, nftsToDownload, true)
         await Promise.all(
             nftsToDelete.map(async (nft) => {
-                await Platform.deleteFile(nft.downloadMetadata.filePath)
+                await Platform.deleteFile(nft.downloadMetadata?.filePath)
                 updateNftInAllAccountNfts($selectedAccountIndex, nft.id, {
-                    downloadMetadata: { isLoaded: false, warning: { type: DownloadWarningType.TooLargeFile } },
+                    isLoaded: false,
+                    downloadMetadata: {
+                        ...nft.downloadMetadata,
+                        error: undefined,
+                        warning: { type: DownloadWarningType.TooLargeFile },
+                    },
                 })
             })
         )

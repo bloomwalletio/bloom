@@ -2,7 +2,7 @@
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { composeUrlFromNftUri, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
+    import { Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -12,7 +12,6 @@
     export let menu: Menu = undefined
     export let nft: Nft
 
-    $: url = nft?.composedUrl ?? composeUrlFromNftUri(nft?.metadata?.uri)
     $: isLocked = isNftLocked(nft)
     $: isBurnDisabled = isLocked || !isIrc27Nft(nft)
     $: isCurrentPfp = $activeProfile.pfp?.id === nft.id
@@ -25,8 +24,8 @@
     }
 
     function onOpenMediaClick(): void {
-        if (url) {
-            openUrlInBrowser(url)
+        if (nft.composedUrl) {
+            openUrlInBrowser(nft.composedUrl)
         }
         menu?.close()
     }
@@ -72,7 +71,7 @@
             {
                 icon: IconName.LinkExternal,
                 title: localize('views.collectibles.details.menu.view'),
-                disabled: !url,
+                disabled: !nft.composedUrl,
                 onClick: onOpenMediaClick,
             },
             {

@@ -13,7 +13,7 @@ import {
     PersistedEvmTransaction,
     calculateAndAddPersistedNftBalanceChange,
 } from '@core/activity'
-import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+import { IAccountState } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
 import { getSdkError } from '@walletconnect/utils'
@@ -82,11 +82,7 @@ async function persistEvmTransaction(
 
     addAccountActivity(account.index, activity)
 
-    const hideGasFeeActivity =
-        getAddressFromAccountForNetwork(account, chain.getConfiguration().id) !== activity.subject?.address
-    if (hideGasFeeActivity) {
-        await createHiddenBalanceChange(account, activity)
-    }
+    await createHiddenBalanceChange(account, activity)
 
     if (activity.recipient?.type === 'account') {
         const recipientAccount = activity.recipient.account

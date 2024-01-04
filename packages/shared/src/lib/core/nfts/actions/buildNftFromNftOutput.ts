@@ -3,18 +3,20 @@ import { getIssuerFromNftOutput, getMetadataFromNftOutput, getNftId } from '@cor
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
 import { DEFAULT_NFT_NAME } from '../constants'
-import { Nft } from '../interfaces'
+import { IIrc27Nft } from '../interfaces'
 import { composeUrlFromNftUri, getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
 import { NetworkId } from '@core/network/types'
 import { isEvmChain } from '@core/network'
-import { NftStandard } from '@core/nfts'
+import { MimeType, NftStandard } from '@core/nfts'
+import { persistedNftForActiveProfile } from '../stores'
+import { get } from 'svelte/store'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
     networkId: NetworkId,
     accountAddress: string,
     calculateStatus: boolean = true
-): Nft {
+): IIrc27Nft {
     const nftOutput = wrappedOutput.output as NftOutput
 
     let isSpendable = false
@@ -37,12 +39,15 @@ export function buildNftFromNftOutput(
     const composedUrl = composeUrlFromNftUri(parsedMetadata?.uri) ?? ''
     const storageDeposit = Number(nftOutput.amount)
 
+    const persistedNft = get(persistedNftForActiveProfile)?.[id]
+
     return {
         standard: NftStandard.Irc27,
+        type: parsedMetadata?.type ?? MimeType.TextPlain,
         id,
-        address,
-        ownerAddress: accountAddress,
+        nftAddress: address,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
+        description: parsedMetadata?.description,
         issuer,
         isSpendable: isEvmChain(networkId) ? true : isSpendable,
         timelockTime: timeLockTime ? Number(timeLockTime) : undefined,
@@ -52,5 +57,7 @@ export function buildNftFromNftOutput(
         composedUrl,
         storageDeposit,
         networkId,
+        isLoaded: false,
+        downloadMetadata: persistedNft?.downloadMetadata,
     }
 }

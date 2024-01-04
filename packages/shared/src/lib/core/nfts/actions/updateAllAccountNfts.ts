@@ -1,7 +1,7 @@
 import { allAccountNfts } from '../stores'
 import { Nft } from '../interfaces'
 
-export function addOrUpdateNftInAllAccountNfts(accountIndex: number, ...newNfts: Nft[]): void {
+export function updateAllAccountNftsForAccount(accountIndex: number, ...newNfts: Nft[]): void {
     allAccountNfts.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []

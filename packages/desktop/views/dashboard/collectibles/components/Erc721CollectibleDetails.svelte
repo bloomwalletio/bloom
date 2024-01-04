@@ -8,7 +8,8 @@
 
     export let nft: IErc721Nft
 
-    const { standard, address, networkId, contractMetadata, tokenId, tokenMetadata } = nft
+    const { standard, networkId, contractMetadata, tokenId, metadata } = nft
+    const address = contractMetadata.address
     const explorerEndpoint = getExplorerEndpoint(networkId)
 
     function getExplorerEndpoint(networkId: NetworkId): string | undefined {
@@ -51,10 +52,10 @@
         },
         {
             key: localize('general.metadata'),
-            value: tokenMetadata,
+            value: metadata,
             copyable: true,
         },
     ]
 </script>
 
-<CollectibleDetails {nft} {details} attributes={tokenMetadata.attributes} {explorerEndpoint} />
+<CollectibleDetails {nft} {details} attributes={metadata.attributes} {explorerEndpoint} />

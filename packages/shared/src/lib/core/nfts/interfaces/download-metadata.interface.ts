@@ -14,5 +14,4 @@ export interface IDownloadMetadata {
         type: DownloadWarningType
         message?: string
     }
-    isLoaded?: boolean
 }
