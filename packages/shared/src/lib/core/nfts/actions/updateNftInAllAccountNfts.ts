@@ -1,7 +1,7 @@
 import { allAccountNfts } from '../stores'
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 
-export function updateNftInAllAccountNfts(accountIndex: number, nftId: string, partialNft: Partial<INft>): void {
+export function updateNftInAllAccountNfts(accountIndex: number, nftId: string, partialNft: Partial<Nft>): void {
     allAccountNfts.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []

@@ -1,13 +1,13 @@
 <script lang="ts">
     import { Pane } from '@ui'
-    import { INft } from '@core/nfts/interfaces'
+    import { Nft } from '@core/nfts/interfaces'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { NftStandard } from '@core/nfts/enums'
     import { selectedNftId } from '@core/nfts/stores'
     import { selectedAccountIndex } from '@core/account/stores'
     import { Erc721CollectibleDetails, Irc27CollectibleDetails } from '../components'
 
-    const nft: INft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
+    const nft: Nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
     const { standard } = nft
 </script>
 

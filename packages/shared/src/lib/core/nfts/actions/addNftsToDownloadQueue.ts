@@ -1,9 +1,9 @@
 import { updateNftInAllAccountNfts } from '.'
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 import { addNftToDownloadQueue } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
 
-export function addNftsToDownloadQueue(accountIndex: number, nfts: INft[], forceDownload: boolean = true): void {
+export function addNftsToDownloadQueue(accountIndex: number, nfts: Nft[], forceDownload: boolean = true): void {
     for (const nft of nfts) {
         const shouldNotDownloadNft =
             nft?.downloadMetadata?.isLoaded || !!nft?.downloadMetadata?.error || !!nft?.downloadMetadata?.warning
@@ -15,7 +15,7 @@ export function addNftsToDownloadQueue(accountIndex: number, nfts: INft[], force
     }
 }
 
-async function validateNftThenAddToQueue(accountIndex: number, nft: INft): Promise<void> {
+async function validateNftThenAddToQueue(accountIndex: number, nft: Nft): Promise<void> {
     try {
         const { shouldDownload, downloadMetadata, downloadUrl } = await checkIfNftShouldBeDownloaded(nft)
         nft.downloadMetadata = downloadMetadata

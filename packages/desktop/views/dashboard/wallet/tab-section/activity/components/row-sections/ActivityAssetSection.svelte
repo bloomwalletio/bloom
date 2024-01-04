@@ -15,14 +15,14 @@
     import { getTimeDifference } from '@core/utils/time'
     import { time } from '@core/app/stores'
     import { selectedAccountNfts } from '@core/nfts/stores'
-    import { INft } from '@core/nfts/interfaces'
+    import { Nft } from '@core/nfts/interfaces'
 
     export let activity: Activity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
-    let nft: INft | undefined
+    let nft: Nft | undefined
     $: $selectedAccountNfts,
         (nft =
             activity.type === ActivityType.Nft

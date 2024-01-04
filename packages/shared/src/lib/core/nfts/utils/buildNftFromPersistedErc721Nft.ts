@@ -1,8 +1,8 @@
 import { getActiveProfile } from '@core/profile/stores'
-import { INft, IPersistedErc721Nft } from '../interfaces'
+import { Nft, IPersistedErc721Nft } from '../interfaces'
 import { composeUrlFromNftUri, isErc721NftSpendable, MimeType, NftStandard } from '@core/nfts'
 
-export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): Promise<INft> {
+export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): Promise<Nft> {
     const { contractMetadata, networkId, ownerAddress, tokenId, tokenMetadata } = nft
     const { address } = contractMetadata
 
@@ -19,11 +19,11 @@ export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): 
 
     return {
         id,
-        ownerAddress,
         standard: NftStandard.Erc721,
+        address: contractMetadata.address,
+        ownerAddress,
         networkId,
         isSpendable,
-        address: contractMetadata.address,
         name: tokenMetadata?.name ?? contractMetadata.name,
         description: tokenMetadata?.description,
         contractMetadata: nft.contractMetadata,
@@ -34,5 +34,5 @@ export async function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft): 
         downloadUrl,
         filePath,
         downloadMetadata,
-    } as INft
+    } as Nft
 }

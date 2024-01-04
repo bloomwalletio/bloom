@@ -2,7 +2,7 @@
     import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { MediaPlaceholder, NftMedia } from '@ui'
-    import { INft, INftAttribute, INftDownloadStatus, isIrc27Nft } from '@core/nfts'
+    import { Nft, INftAttribute, INftDownloadStatus, isIrc27Nft } from '@core/nfts'
     import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app'
     import { getTimeDifference } from '@core/utils'
@@ -11,7 +11,7 @@
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 
-    export let nft: INft
+    export let nft: Nft
     export let details: IItem[] = []
     export let attributes: INftAttribute[] = []
     export let explorerEndpoint: string | undefined

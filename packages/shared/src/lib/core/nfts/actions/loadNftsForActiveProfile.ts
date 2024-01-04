@@ -4,7 +4,7 @@ import { activeAccounts } from '@core/profile/stores'
 import { getNftId } from '@core/activity/utils/outputs'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { get } from 'svelte/store'
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
 import { getActiveNetworkId, getNetwork } from '@core/network'
@@ -24,7 +24,7 @@ export async function loadNftsForActiveProfile(): Promise<void> {
 }
 
 export async function loadNftsForAccount(account: IAccountState): Promise<void> {
-    const accountNfts: INft[] = []
+    const accountNfts: Nft[] = []
     const unspentOutputs = await account.unspentOutputs()
     const networkId = getActiveNetworkId()
     for (const outputData of unspentOutputs) {
@@ -55,7 +55,7 @@ export async function loadNftsForAccount(account: IAccountState): Promise<void> 
             continue
         }
         const erc721Nfts = getPersistedErc721Nfts(evmAddress)
-        const convertedNfts: INft[] = await Promise.all(
+        const convertedNfts: Nft[] = await Promise.all(
             erc721Nfts.map((persistedErc721Nft) => buildNftFromPersistedErc721Nft(persistedErc721Nft))
         )
         accountNfts.push(...convertedNfts)

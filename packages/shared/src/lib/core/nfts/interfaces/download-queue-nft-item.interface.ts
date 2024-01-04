@@ -1,6 +1,6 @@
-import { INft } from './nft.interface'
+import { Nft } from './nft.interface'
 
 export interface DownloadQueueNftItem {
-    nft: INft
+    nft: Nft
     accountIndex: number
 }

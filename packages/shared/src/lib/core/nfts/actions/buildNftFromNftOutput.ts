@@ -5,7 +5,7 @@ import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
 import { get } from 'svelte/store'
 import { DEFAULT_NFT_NAME } from '../constants'
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 import { composeUrlFromNftUri, getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
 import { NetworkId } from '@core/network/types'
 import { isEvmChain } from '@core/network'
@@ -16,7 +16,7 @@ export function buildNftFromNftOutput(
     networkId: NetworkId,
     accountAddress: string,
     calculateStatus: boolean = true
-): INft {
+): Nft {
     const nftOutput = wrappedOutput.output as NftOutput
 
     let isSpendable = false
@@ -44,8 +44,8 @@ export function buildNftFromNftOutput(
     return {
         standard: NftStandard.Irc27,
         id,
-        ownerAddress: accountAddress,
         address,
+        ownerAddress: accountAddress,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
         issuer,
         isSpendable: isEvmChain(networkId) ? true : isSpendable,
@@ -58,10 +58,5 @@ export function buildNftFromNftOutput(
         filePath,
         storageDeposit,
         networkId,
-        downloadMetadata: {
-            error: undefined,
-            warning: undefined,
-            isLoaded: false,
-        },
     }
 }

@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { INft } from '@core/nfts'
+    import { Nft } from '@core/nfts'
     import { TextColor, AvatarSize } from '@bloomwalletio/ui'
     import MediaIcon from './MediaIcon.svelte'
 
-    export let nft: INft
+    export let nft: Nft
     export let size: AvatarSize
 
     $: placeHolderColor = nft.downloadMetadata.error

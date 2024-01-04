@@ -2,7 +2,7 @@
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { composeUrlFromNftUri, INft, isIrc27Nft, isNftLocked } from '@core/nfts'
+    import { composeUrlFromNftUri, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -10,7 +10,7 @@
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
     export let menu: Menu = undefined
-    export let nft: INft
+    export let nft: Nft
 
     $: url = nft?.composedUrl ?? composeUrlFromNftUri(nft?.metadata?.uri)
     $: isLocked = isNftLocked(nft)

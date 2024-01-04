@@ -3,12 +3,12 @@
     import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { INft, INftDownloadStatus, isNftLocked } from '@core/nfts'
+    import { Nft, INftDownloadStatus, isNftLocked } from '@core/nfts'
     import { selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
 
-    export let nft: INft
+    export let nft: Nft
 
     let nftWrapperClientWidth: number
     let anchor: HTMLElement

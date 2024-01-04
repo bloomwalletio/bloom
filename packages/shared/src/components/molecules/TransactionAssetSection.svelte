@@ -1,12 +1,12 @@
 <script lang="ts">
     import { TokenTransferData } from '@core/wallet'
     import { NftTile, TokenAmountTile, AliasTile } from '@ui'
-    import { INft } from '@core/nfts'
+    import { Nft } from '@core/nfts'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 
     export let baseCoinTransfer: TokenTransferData | undefined = undefined
     export let tokenTransfer: TokenTransferData | undefined = undefined
-    export let nft: INft | undefined = undefined
+    export let nft: Nft | undefined = undefined
     export let aliasId: string | undefined = undefined
     export let onNftClick: (() => void) | undefined = undefined
 
