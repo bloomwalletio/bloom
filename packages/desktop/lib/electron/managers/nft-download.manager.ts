@@ -33,23 +33,29 @@ export default class NftDownloadManager {
         const parentDirectory = app.isPackaged ? userPath : __dirname
         const directory = `${parentDirectory}/__storage__/${destination}`
         ensureDirectoryExistence(directory)
+        const main = getOrInitWindow('main')
 
-        await download(getOrInitWindow('main'), url, {
-            directory,
-            filename: 'original',
-            saveAs: false,
-            showBadge: true,
-            showProgressBar: true,
-            onCompleted: () => {
-                delete this.downloadItems[nftId]
-                getOrInitWindow('main').webContents.send('nft-download-done', { nftId, accountIndex })
-            },
-            onCancel: () => {
-                delete this.downloadItems[nftId]
-                getOrInitWindow('main').webContents.send('nft-download-interrupted', { nftId, accountIndex })
-            },
-            onStarted: (item) => (this.downloadItems[nftId] = item),
-        })
+        if (this.downloadItems[nftId]) {
+            return
+        }
+
+        try {
+            await download(main, url, {
+                directory,
+                filename: 'original',
+                saveAs: false,
+                showBadge: true,
+                showProgressBar: true,
+                onCompleted: () => {
+                    delete this.downloadItems[nftId]
+                    main.webContents.send('nft-download-done', { nftId, accountIndex })
+                },
+                onStarted: (item) => (this.downloadItems[nftId] = item),
+            })
+        } catch (error) {
+            delete this.downloadItems[nftId]
+            main.webContents.send('nft-download-interrupted', { nftId, accountIndex })
+        }
     }
 
     private handleNftDownloadCancel(_event: IpcMainInvokeEvent, nftId: string): void {
