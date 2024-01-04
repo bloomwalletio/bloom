@@ -5,7 +5,7 @@ import { IErc721ContractMetadata, IErc721TokenMetadata, IIrc27Metadata } from '.
 export interface IBasePersistedNft {
     standard: NftStandard
     ownerAddress: string
-    downloadMetadata: DownloadMetadata
+    downloadMetadata?: DownloadMetadata
     composedUrl?: string
 }
 

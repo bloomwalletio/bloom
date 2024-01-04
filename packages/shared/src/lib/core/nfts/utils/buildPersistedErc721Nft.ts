@@ -3,10 +3,8 @@ import { Contract } from '@core/layer-2/types'
 import { NetworkId } from '@core/network/types'
 
 import { MimeType, NftStandard } from '../enums'
-import { DownloadMetadata, IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } from '../interfaces'
-import { buildFilePath, composeUrlFromNftUri } from '.'
-import { activeProfileId } from '@core/profile/stores'
-import { get } from 'svelte/store'
+import { IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } from '../interfaces'
+import { composeUrlFromNftUri } from '.'
 
 export async function buildPersistedErc721Nft(
     ownerAddress: string,
@@ -23,7 +21,7 @@ export async function buildPersistedErc721Nft(
         contractAddress: contractMetadata.address,
         contractMetadata,
         tokenId,
-        downloadMetadata: {},
+        downloadMetadata: undefined,
     }
 
     const hasTokenMetadata = await contract.methods.supportsInterface(Erc721InterfaceId.Metadata).call()
@@ -53,13 +51,6 @@ export async function buildPersistedErc721Nft(
             }
 
             persistedNft.composedUrl = composeUrlFromNftUri(metadata.image)
-
-            const downloadMetadata: DownloadMetadata = {
-                downloadUrl: persistedNft.composedUrl,
-                filePath: buildFilePath(get(activeProfileId), `${contractMetadata.address}:${tokenId}`),
-            }
-
-            persistedNft.downloadMetadata = downloadMetadata
         } catch (err) {
             throw new Error(`Unable to get metadata of token ${tokenId} from contract ${contractMetadata.address}`)
         }

@@ -59,7 +59,7 @@
         </NftMedia>
         {#if alertText}
             <error-container>
-                <Alert variant={nft.downloadMetadata.error ? 'danger' : 'warning'} text={alertText} border />
+                <Alert variant={nft.downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border />
             </error-container>
         {/if}
     </media-container>

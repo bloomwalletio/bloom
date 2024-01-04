@@ -37,7 +37,6 @@
 
     $: $hasStrongholdLocked && reflectLockedStronghold()
 
-    // TODO: this was also in the app.svelte file, but that may cause it to run twice, and the interruption was only happening while logged in
     $: $nftDownloadQueue, $downloadingNftId, downloadNextNftInQueue()
     $: interruptNftDownloadAfterTimeout(get(selectedAccountIndex), $downloadingNftId)
     $: addSelectedAccountNftsToDownloadQueue($selectedAccountIndex)

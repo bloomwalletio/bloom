@@ -14,7 +14,7 @@ export async function downloadNextNftInQueue(): Promise<void> {
     const { nft, accountIndex } = nextDownload
     downloadingNftId.set(nft.id)
 
-    if (!nft.downloadMetadata.downloadUrl || !nft.downloadMetadata.filePath) {
+    if (!nft.downloadMetadata?.downloadUrl || !nft.downloadMetadata?.filePath) {
         removeNftFromDownloadQueue(nft.id)
         downloadingNftId.set(undefined)
         return

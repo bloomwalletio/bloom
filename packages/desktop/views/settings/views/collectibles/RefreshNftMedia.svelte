@@ -34,7 +34,7 @@
             await stopDownloadingNftMediaFromQueue()
             await Promise.all(
                 $selectedAccountNfts.map(async (nft) => {
-                    await Platform.deleteFile(nft.downloadMetadata.filePath)
+                    await Platform.deleteFile(nft.downloadMetadata?.filePath)
                     updateNftInAllAccountNfts($selectedAccountIndex, nft.id, { isLoaded: false })
                 })
             )

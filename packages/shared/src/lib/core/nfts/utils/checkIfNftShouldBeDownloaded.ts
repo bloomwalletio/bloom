@@ -9,6 +9,7 @@ import { DownloadMetadata, IIrc27Nft, INft, INftDownloadStatus } from '../interf
 import { persistedNftForActiveProfile } from '../stores'
 import { fetchWithTimeout } from './fetchWithTimeout'
 import { isIrc27Nft } from '@core/nfts/utils/isIrc27Nft'
+import { buildFilePath } from './getFilePathForNft'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 3
 const UNREACHABLE_ERROR_MESSAGE = 'The user aborted a request.'
@@ -39,6 +40,7 @@ export async function checkIfNftShouldBeDownloaded(
             return { shouldDownload: false, downloadMetadata, isLoaded: false }
         } else {
             const nftData = await getNftDownloadData(nft)
+
             downloadMetadata = { ...downloadMetadata, ...nftData }
 
             const { contentType, contentLength } = downloadMetadata ?? {}
@@ -90,19 +92,11 @@ function validateFile(nft: INft, contentType: string, contentLength: string): Pa
 
 async function getNftDownloadData(nft: INft): Promise<Partial<DownloadMetadata>> {
     const persistedNftData = get(persistedNftForActiveProfile)?.[nft.id]
+    const shouldFetch =
+        !persistedNftData?.downloadMetadata ||
+        persistedNftData.downloadMetadata.error?.type === DownloadErrorType.NotReachable
 
-    if (
-        persistedNftData &&
-        !(
-            persistedNftData.downloadMetadata.error?.type === DownloadErrorType.NotReachable ||
-            persistedNftData.downloadMetadata.error?.message === UNREACHABLE_ERROR_MESSAGE
-        )
-    ) {
-        if (persistedNftData.downloadMetadata.error) {
-            throw persistedNftData.downloadMetadata.error
-        }
-        return persistedNftData.downloadMetadata
-    } else {
+    if (shouldFetch) {
         let downloadUrl = nft.composedUrl
 
         let response = await fetchWithTimeout(downloadUrl, HEAD_FETCH_TIMEOUT_SECONDS, {
@@ -118,10 +112,16 @@ async function getNftDownloadData(nft: INft): Promise<Partial<DownloadMetadata>>
 
         return {
             downloadUrl,
+            filePath: buildFilePath(nft),
             contentLength: response.headers.get(HttpHeader.ContentLength) || undefined,
             contentType: response.headers.get(HttpHeader.ContentType) || undefined,
             responseCode: response.status,
         }
+    } else {
+        if (persistedNftData.downloadMetadata?.error) {
+            throw persistedNftData.downloadMetadata.error
+        }
+        return persistedNftData.downloadMetadata
     }
 }
 
