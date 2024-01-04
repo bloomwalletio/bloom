@@ -10,7 +10,7 @@ import { getNetwork } from '@core/network/stores'
 import { getNftsFromNftIds } from '@core/nfts/utils'
 import {
     addNftsToDownloadQueue,
-    addOrUpdateNftInAllAccountNfts,
+    updateAllAccountNftsForAccount,
     setNftInAllAccountNftsToUnspendable,
     updateErc721NftsOwnership,
 } from '@core/nfts/actions'
@@ -144,7 +144,7 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAcco
         const newNftIds = nftIds.filter((nftId) => !nftsForChain.some((nft) => nft.id === nftId))
 
         const nfts = await getNftsFromNftIds(newNftIds, networkId)
-        addOrUpdateNftInAllAccountNfts(account.index, ...nfts)
+        updateAllAccountNftsForAccount(account.index, ...nfts)
 
         const unspendableNftIds: string[] = nftsForChain
             .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))

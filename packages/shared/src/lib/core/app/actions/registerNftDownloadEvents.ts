@@ -7,8 +7,7 @@ import { Platform } from '../classes'
  */
 export function registerNftDownloadEvents(): void {
     Platform.onEvent('nft-download-done', ({ nftId, accountIndex }) => {
-        updateNftInAllAccountNfts(accountIndex, nftId, { downloadMetadata: { isLoaded: true } })
-        downloadingNftId.set(undefined)
+        updateNftInAllAccountNfts(accountIndex, nftId, { isLoaded: true })
         removeNftFromDownloadQueue(nftId)
         downloadingNftId.set(undefined)
     })

@@ -8,7 +8,7 @@ import { addAccountActivities, allAccountActivities } from '@core/activity/store
 import { generateActivities } from '@core/activity/utils'
 import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { getActiveNetworkId } from '@core/network'
-import { addNftsToDownloadQueue, addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
+import { addNftsToDownloadQueue, updateAllAccountNftsForAccount, buildNftFromNftOutput } from '@core/nfts/actions'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { get } from 'svelte/store'
@@ -57,7 +57,7 @@ export async function handleNewOutputEventInternal(
 
     if (isNftOutput) {
         const nft = buildNftFromNftOutput(output as IWrappedOutput, networkId, account.depositAddress)
-        addOrUpdateNftInAllAccountNfts(account.index, nft)
+        updateAllAccountNftsForAccount(account.index, nft)
         void addNftsToDownloadQueue(accountIndex, [nft])
 
         checkAndRemoveProfilePicture()
