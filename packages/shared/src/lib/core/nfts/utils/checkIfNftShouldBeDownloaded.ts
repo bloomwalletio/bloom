@@ -11,7 +11,7 @@ import { fetchWithTimeout } from './fetchWithTimeout'
 import { isIrc27Nft } from '@core/nfts/utils/isIrc27Nft'
 import { buildFilePath } from './getFilePathForNft'
 
-const HEAD_FETCH_TIMEOUT_SECONDS = 3
+const HEAD_FETCH_TIMEOUT_SECONDS = 60
 const UNREACHABLE_ERROR_MESSAGE = 'The user aborted a request.'
 
 export async function checkIfNftShouldBeDownloaded(
