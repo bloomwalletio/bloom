@@ -44,14 +44,13 @@ export async function checkIfNftShouldBeDownloaded(
 
         const notRecoverableErrors: StatusCodes[] = [] // TODO: Define which errors we want to blacklist
 
-        const persistedNftData = get(persistedNftForActiveProfile)?.[nft.id]
-        const shouldSkipFetch = persistedNftData?.downloadMetadata?.responseCode && notRecoverableErrors.includes(persistedNftData.downloadMetadata.responseCode)
+        const persistedNftDownloadMetadata= get(persistedNftForActiveProfile)?.[nft.id]?.downloadMetadata
+        const shouldSkipFetch = persistedNftDownloadMetadata?.responseCode && notRecoverableErrors.includes(persistedNftDownloadMetadata.responseCode)
         if (shouldSkipFetch) {
-            console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'shouldSkipFetch')
             return {
                 shouldDownload: false,
                 isLoaded: false,
-                downloadMetadata: { ...downloadMetadata, ...persistedNftData.downloadMetadata },
+                downloadMetadata: { ...downloadMetadata, ...persistedNftDownloadMetadata },
             }
         }
 
