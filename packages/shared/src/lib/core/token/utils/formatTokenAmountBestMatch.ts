@@ -1,32 +1,72 @@
-import { formatNumber } from '@core/i18n'
-import { getIotaUnit, IOTA_UNIT_MAP } from '@core/utils'
-import { formatTokenAmountDefault } from './formatTokenAmountDefault'
-import { TokenMetadata } from '@core/token/types'
-import { TokenStandard } from '@core/token/enums'
-import { getUnitFromTokenMetadata } from '@core/token/utils'
+import { getUnitFromTokenMetadata } from './getUnitFromTokenMetadata'
+import { TokenMetadata } from '../types'
+import { getDecimalSeparator, getGroupSeparator } from '@core/i18n'
+
+const DEFAULT_MAX_DECIMALS = 6
 
 export function formatTokenAmountBestMatch(
-    amount: number,
+    amount: bigint,
     tokenMetadata: TokenMetadata,
-    overrideDecimalPlaces?: number,
-    withUnit = true
+    withUnit = true,
+    round = true
 ): string {
-    const isBaseToken = tokenMetadata?.standard === TokenStandard.BaseToken
+    const unit = withUnit ? getUnitFromTokenMetadata(tokenMetadata) : undefined
 
-    let amountWithoutUnit: string
-    let amountWithUnit: string
-
-    if (isBaseToken && tokenMetadata?.useMetricPrefix) {
-        const metricUnit = getIotaUnit(amount)
-        const maxDecimals = overrideDecimalPlaces ?? IOTA_UNIT_MAP[metricUnit].decimalPlaces
-        const convertedAmount = amount / IOTA_UNIT_MAP[metricUnit].value
-        amountWithoutUnit = formatNumber(convertedAmount, 0, maxDecimals, undefined, true)
-        amountWithUnit = amountWithoutUnit + ' ' + metricUnit + tokenMetadata.unit
-    } else {
-        const unit = getUnitFromTokenMetadata(tokenMetadata)
-        amountWithoutUnit = !isNaN(amount) ? formatTokenAmountDefault(amount, tokenMetadata) : '0'
-        amountWithUnit = amountWithoutUnit + (unit ? ' ' + unit : '')
+    if (typeof amount !== 'bigint') {
+        return '-'
     }
 
-    return withUnit ? amountWithUnit : amountWithoutUnit
+    const stringAmount = getStringAmountFromBigInt(amount, round, tokenMetadata?.decimals)
+    return getAmountWithUnit(stringAmount, unit)
+}
+
+function getStringAmountFromBigInt(value: bigint, round: boolean, decimals?: number): string {
+    let stringValue = String(value)
+
+    if (!decimals) {
+        return getGroupedStringAmount(stringValue)
+    }
+
+    while (stringValue.length <= decimals) {
+        stringValue = '0' + stringValue
+    }
+
+    const indexOfDecimalSeparator = stringValue.length - decimals
+
+    const stringAmountParts = []
+
+    let integerPart = stringValue.slice(0, indexOfDecimalSeparator)
+    const allIntegersZero = integerPart.split('').every((integer) => integer === '0')
+    integerPart = allIntegersZero ? '0' : getGroupedStringAmount(integerPart)
+    stringAmountParts.push(integerPart)
+
+    const maxDecimalLength = Math.max(DEFAULT_MAX_DECIMALS - (integerPart.length - 1), 0)
+
+    let decimalPart = stringValue.slice(
+        indexOfDecimalSeparator,
+        round ? indexOfDecimalSeparator + maxDecimalLength : undefined
+    )
+    const allDecimalsZero = decimalPart.split('').every((decimal) => decimal === '0')
+    decimalPart = removeTrailingZero(decimalPart)
+    !allDecimalsZero && stringAmountParts.push(decimalPart)
+
+    const stringAmount = stringAmountParts.join(getDecimalSeparator())
+
+    return stringAmount === '0' && value > 0 ? '≈0' : stringAmount
+}
+
+function removeTrailingZero(amount: string): string {
+    return amount
+        .split('')
+        .reduceRight((acc, cur) => (cur === '0' ? acc : [...acc, cur]), [] as string[])
+        .reverse()
+        .join('')
+}
+
+function getGroupedStringAmount(value: string): string {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, getGroupSeparator())
+}
+
+function getAmountWithUnit(amount: string, unit?: string): string {
+    return unit ? amount + ' ' + unit : amount
 }

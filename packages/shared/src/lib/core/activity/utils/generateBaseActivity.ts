@@ -60,7 +60,7 @@ export async function generateBaseActivity(
     const storageDeposit = getStorageDepositFromOutput(output)
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: BigInt(getAmountFromOutput(output) - storageDeposit),
+        rawAmount: getAmountFromOutput(output) - storageDeposit,
     }
     const nativeToken = await getNativeTokenFromOutput(output)
     const persistedToken = nativeToken

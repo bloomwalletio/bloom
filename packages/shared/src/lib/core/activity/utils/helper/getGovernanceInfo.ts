@@ -8,8 +8,8 @@ import { parseGovernanceMetadata } from '@core/wallet/utils'
 
 interface IGovernanceInfo {
     governanceAction: GovernanceAction
-    votingPower: number
-    votingPowerDifference?: number
+    votingPower: bigint
+    votingPowerDifference?: bigint
     participation?: IParticipation
 }
 
@@ -19,7 +19,7 @@ export function getGovernanceInfo(output: Output, inputs: IWrappedOutput[], meta
      * This is possible if the user manually set it to zero, which automatically removes the
      * participation metadata and tag.
      */
-    const currentVotingPower = isParticipationOutput(output) ? getAmountFromOutput(output) : 0
+    const currentVotingPower = isParticipationOutput(output) ? getAmountFromOutput(output) : BigInt(0)
     const participations = parseGovernanceMetadata(metadata)
 
     const governanceInput = inputs?.find((input) => isParticipationOutput(input.output))
@@ -32,7 +32,7 @@ export function getGovernanceInfo(output: Output, inputs: IWrappedOutput[], meta
                         ? GovernanceAction.IncreaseVotingPower
                         : GovernanceAction.DecreaseVotingPower,
                 votingPower: currentVotingPower,
-                votingPowerDifference: Math.abs(currentVotingPower - oldVotingPower),
+                votingPowerDifference: currentVotingPower - oldVotingPower,
             }
         }
 
