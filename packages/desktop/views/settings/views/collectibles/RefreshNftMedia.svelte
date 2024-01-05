@@ -6,7 +6,7 @@
     import {
         addNftsToDownloadQueue,
         stopDownloadingNftMediaFromQueue,
-        updateNftInAllAccountNfts,
+        updateNftInAllAccountNftsForAccount,
     } from '@core/nfts/actions'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
@@ -35,7 +35,7 @@
             await Promise.all(
                 $selectedAccountNfts.map(async (nft) => {
                     await Platform.deleteFile(nft.downloadMetadata?.filePath)
-                    updateNftInAllAccountNfts($selectedAccountIndex, nft.id, { isLoaded: false })
+                    updateNftInAllAccountNftsForAccount($selectedAccountIndex, nft.id, { isLoaded: false })
                 })
             )
             void addNftsToDownloadQueue($selectedAccountIndex, $selectedAccountNfts, true)

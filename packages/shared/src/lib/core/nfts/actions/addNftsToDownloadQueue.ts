@@ -1,4 +1,4 @@
-import { updateNftInAllAccountNfts } from '.'
+import { updateNftInAllAccountNftsForAccount } from '.'
 import { INft } from '../interfaces'
 import { addNftToDownloadQueue, updatePersistedNft } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
@@ -30,7 +30,7 @@ async function validateNft(accountIndex: number, nft: INft): Promise<undefined |
     try {
         const { shouldDownload, downloadMetadata, isLoaded } = await checkIfNftShouldBeDownloaded(nft)
         updatePersistedNft(nft.id, { downloadMetadata })
-        updateNftInAllAccountNfts(accountIndex, nft.id, { downloadMetadata, isLoaded })
+        updateNftInAllAccountNftsForAccount(accountIndex, nft.id, { downloadMetadata, isLoaded })
 
         if (shouldDownload) {
             return nft
