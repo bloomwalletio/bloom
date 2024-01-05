@@ -51,16 +51,19 @@ function getStringAmountFromBigInt(value: bigint, round: boolean, decimals?: num
     !allDecimalsZero && stringAmountParts.push(decimalPart)
 
     const stringAmount = stringAmountParts.join(getDecimalSeparator())
-
     return stringAmount === '0' && value > 0 ? '≈0' : stringAmount
 }
 
 function removeTrailingZero(amount: string): string {
-    return amount
-        .split('')
-        .reduceRight((acc, cur) => (cur === '0' ? acc : [...acc, cur]), [] as string[])
-        .reverse()
-        .join('')
+    const array = amount.split('')
+    for (let i = 0; array.length; i++) {
+        if (array.at(-1) === '0') {
+            array.pop()
+        } else {
+            return array.join('')
+        }
+    }
+    return ''
 }
 
 function getGroupedStringAmount(value: string): string {

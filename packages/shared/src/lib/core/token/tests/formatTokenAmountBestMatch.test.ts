@@ -34,6 +34,11 @@ describe('formatTokenAmountBestMatch', () => {
         expect(formatTokenAmountBestMatch(999n, mockTokenMetadata, true, true)).toEqual('9.99 BTC')
     })
 
+    test('should handle rounding with hig decimal amount', () => {
+        const mockTokenMetadata = { decimals: 2 } as TokenMetadata
+        expect(formatTokenAmountBestMatch(1n, mockTokenMetadata, true, true)).toEqual('0.01 BTC')
+    })
+
     test('should handle no rounding with integer amount', () => {
         const mockTokenMetadata = { decimals: 0 } as TokenMetadata
         expect(formatTokenAmountBestMatch(1234n, mockTokenMetadata, true, false)).toEqual('1,234 BTC')
@@ -41,7 +46,7 @@ describe('formatTokenAmountBestMatch', () => {
 
     test('should format amount correctly with large number of decimals', () => {
         const mockTokenMetadata = { decimals: 18 } as TokenMetadata
-        expect(formatTokenAmountBestMatch(123456789123456789n, mockTokenMetadata, true, true)).toEqual('0.123456 BTC')
+        expect(formatTokenAmountBestMatch(123006789123456789n, mockTokenMetadata, true, true)).toEqual('0.123006 BTC')
     })
 
     test('should return approximate symbol for very small decimals', () => {
