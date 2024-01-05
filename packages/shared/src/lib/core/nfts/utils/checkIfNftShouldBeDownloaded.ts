@@ -10,6 +10,7 @@ import { DownloadMetadata, INft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 import { fetchWithTimeout } from './fetchWithTimeout'
 import { buildFilePath } from './getFilePathForNft'
+import { isIrc27Nft } from './isIrc27Nft'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 10
 
@@ -49,14 +50,7 @@ export async function checkIfNftShouldBeDownloaded(
             }
         }
 
-        const response = await headRequest(nft.composedUrl)
-        downloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
-
-        if (downloadMetadata.responseCode === StatusCodes.OK) {
-            return setReturnForOkResponse(nft, downloadMetadata, false)
-        } else {
-            return { shouldDownload: false, isLoaded: false, downloadMetadata }
-        }
+        return checkHeadRequestForNftUrl(nft, downloadMetadata, isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse')
     } catch (err) {
         console.error(err)
         downloadMetadata = { ...downloadMetadata, error: { type: DownloadErrorType.Generic, message: err.message } }
