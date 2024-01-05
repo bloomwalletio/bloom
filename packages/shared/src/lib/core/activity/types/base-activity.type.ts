@@ -30,7 +30,7 @@ export type BaseActivity = {
     direction: ActivityDirection
 
     // asset information
-    storageDeposit?: number
+    storageDeposit?: bigint
     baseTokenTransfer: {
         rawAmount: bigint
         tokenId: string

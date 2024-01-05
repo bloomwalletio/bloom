@@ -1,8 +1,8 @@
 import { ShimmerClaimingAccountState } from '../enums'
 
 export function deriveShimmerClaimingAccountState(
-    claimedRewards: number,
-    unclaimedRewards: number
+    claimedRewards: bigint,
+    unclaimedRewards: bigint
 ): ShimmerClaimingAccountState {
     /**
      * NOTE: The "Failed" state is NOT used here; only

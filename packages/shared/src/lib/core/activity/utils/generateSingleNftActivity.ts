@@ -22,7 +22,7 @@ export async function generateSingleNftActivity(
 
     if (generationParameters.action === ActivityAction.Mint) {
         baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
-            ? Number(baseActivity.baseTokenTransfer?.rawAmount)
+            ? baseActivity.baseTokenTransfer?.rawAmount
             : undefined
         baseActivity.baseTokenTransfer = {
             tokenId: BASE_TOKEN_ID,

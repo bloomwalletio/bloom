@@ -71,7 +71,7 @@ function handleGovernanceTransactionInclusionEvent(
         }
         if (account.hasVotingPowerTransactionInProgress) {
             updateActiveAccount(accountIndex, { hasVotingPowerTransactionInProgress: false })
-            if (isAccountVoting(accountIndex) && activity.votingPower !== 0) {
+            if (isAccountVoting(accountIndex) && activity.votingPower !== BigInt(0)) {
                 updateActiveAccountPersistedData(accountIndex, { shouldRevote: true })
                 openPopup({ id: PopupId.Revote })
             }
