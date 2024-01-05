@@ -17,3 +17,15 @@ export function updateNftInAllAccountNftsForAccount(
         return state
     })
 }
+
+export function updateNftInAllAccountNfts(nftId: string, partialNft: Partial<INft>): void {
+    allAccountNfts.update((state) => {
+        for (const accountNfts of Object.values(state)) {
+            const nft = accountNfts.find((_nft) => _nft.id === nftId)
+            if (nft) {
+                Object.assign(nft, { ...nft, ...partialNft })
+            }
+        }
+        return state
+    })
+}

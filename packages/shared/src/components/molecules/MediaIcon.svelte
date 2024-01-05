@@ -9,7 +9,7 @@
     export let size: AvatarSize
     export let surface: 0 | 1 | 2 | 'invert' | 'brand' = 0
 
-    $: isDownloading = $nftDownloadQueue.some((queueItem) => queueItem.nft.id === nftId)
+    $: isDownloading = $nftDownloadQueue.some((_nft) => _nft.id === nftId)
 
     function getIcon(type: MimeType | undefined): IconName {
         const parentMimeType = type?.split('/', 1)?.[0]

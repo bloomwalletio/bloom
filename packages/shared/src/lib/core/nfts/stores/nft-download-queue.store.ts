@@ -1,25 +1,25 @@
 import { get, writable } from 'svelte/store'
-import { DownloadQueueNftItem } from '../interfaces'
+import { INft } from '../interfaces'
 import { downloadingNftId } from './downloading-nft.store'
 
-export const nftDownloadQueue = writable<DownloadQueueNftItem[]>([])
+export const nftDownloadQueue = writable<INft[]>([])
 
-export function addNftToDownloadQueue(item: DownloadQueueNftItem): void {
+export function addNftToDownloadQueue(nft: INft): void {
     nftDownloadQueue.update((state) => {
-        if (!state.some((item2) => item2.nft.id === item.nft.id)) {
-            state = [...state, item]
+        if (!state.some((nft2) => nft2.id === nft.id)) {
+            state = [...state, nft]
         }
         return state
     })
 }
 
 export function removeNftFromDownloadQueue(nftId: string): void {
-    nftDownloadQueue.update((state) => state.filter((item) => item.nft.id !== nftId))
+    nftDownloadQueue.update((state) => state.filter((nft) => nft.id !== nftId))
 }
 
 export function resetNftDownloadQueue(keepCurrentlyDownloadingNft: boolean = false): void {
     if (keepCurrentlyDownloadingNft) {
-        nftDownloadQueue.update((state) => state.filter((item) => item.nft.id === get(downloadingNftId)))
+        nftDownloadQueue.update((state) => state.filter((nft) => nft.id === get(downloadingNftId)))
     } else {
         nftDownloadQueue.set([])
     }

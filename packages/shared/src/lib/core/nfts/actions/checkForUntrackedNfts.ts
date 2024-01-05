@@ -69,7 +69,7 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
                     }
                     const nft = buildNftFromPersistedErc721Nft(persistedNft, l2Address)
                     updateAllAccountNftsForAccount(account.index, nft)
-                    void addNftsToDownloadQueue(account.index, [nft])
+                    void addNftsToDownloadQueue([nft])
                 }
             } catch (err) {
                 // If we don't have the tokenId we cannot persist the NFT. ERC-721 contracts should implement
