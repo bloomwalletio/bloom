@@ -34,10 +34,10 @@ export async function buildAccountState(
     const evmAddresses = getActiveProfilePersistedEvmAddressesByAccountIndex(accountIndex)
     let depositAddress = accountPersistedData.depositAddress
     let otherAddresses: string[] = accountPersistedData.otherAddresses
-    let votingPower = ''
+    let votingPower = BigInt(0)
     try {
         balances = await account.getBalance()
-        votingPower = balances.baseCoin.votingPower
+        votingPower = BigInt(balances.baseCoin.votingPower)
 
         const addresses = await account.addresses()
         otherAddresses = addresses.map((address) => address.address)

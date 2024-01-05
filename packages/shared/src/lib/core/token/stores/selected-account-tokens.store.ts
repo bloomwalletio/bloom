@@ -55,7 +55,9 @@ export const allAccountFiatBalances: Readable<{ [accountIndex: string]: string }
                 const tokens = accountTokens[networkId as NetworkId]
                 fiatBalance = fiatBalance.add(tokens?.baseCoin?.balance?.totalFiat ?? 0)
                 for (const token of tokens?.nativeTokens ?? []) {
-                    fiatBalance = fiatBalance.add(token.balance?.totalFiat ?? 0)
+                    const totalFiat = Number(token.balance.totalFiat) ?? 0
+                    const fiatValue = Number.isFinite(totalFiat) ? totalFiat : 0
+                    fiatBalance = fiatBalance.add(fiatValue)
                 }
             }
             _allAccountFiatBalances[accountIndex] = fiatBalance.toString()

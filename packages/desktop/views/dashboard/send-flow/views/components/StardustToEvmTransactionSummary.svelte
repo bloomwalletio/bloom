@@ -13,8 +13,8 @@
 
     $: transactionFee =
         sendFlowParameters.type === SendFlowType.BaseCoinTransfer
-            ? String(BigInt(output.amount) - sendFlowParameters.baseCoinTransfer.rawAmount)
-            : output.amount
+            ? BigInt(output.amount) - sendFlowParameters.baseCoinTransfer.rawAmount
+            : BigInt(output.amount)
 
     function getTransactionAssets(sendFlowParameters: SendFlowParameters): {
         nft?: INft

@@ -17,15 +17,13 @@ export async function generateSingleBasicActivity(
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     if (baseActivity.smartContract) {
-        const transferAmount = baseActivity.smartContract.baseTokens
-            ? Number(baseActivity.smartContract.baseTokens ?? '0')
-            : 0
+        const transferAmount = BigInt(baseActivity.smartContract.baseTokens ? baseActivity.smartContract.baseTokens : 0)
         const transferDelta = baseActivity.baseTokenTransfer?.rawAmount
-            ? Number(baseActivity.baseTokenTransfer.rawAmount) - transferAmount
-            : 0
+            ? baseActivity.baseTokenTransfer.rawAmount - transferAmount
+            : BigInt(0)
         baseActivity.baseTokenTransfer = {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: BigInt(Math.max(transferAmount, 0)),
+            rawAmount: BigInt(Math.max(Number(transferAmount), 0)),
         }
         baseActivity.transactionFee = transferDelta
     }

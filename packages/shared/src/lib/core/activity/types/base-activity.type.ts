@@ -43,9 +43,9 @@ export type BaseActivity = {
     // smart contract information
     // TODO: move to separate type
     smartContract?: SmartContract
-    estimatedGasFee?: number
-    maxGasFee?: number
-    transactionFee?: number
+    estimatedGasFee?: bigint
+    maxGasFee?: bigint
+    transactionFee?: bigint
 }
 
 export type AsyncData = {

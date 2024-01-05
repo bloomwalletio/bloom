@@ -16,8 +16,8 @@ export function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParamet
     const address = sendFlowParameters.recipient?.address ?? ''
     const encodedAddress = encodeAddress(address.toLowerCase(), chainConfig)
 
-    const estimatedGas = sendFlowParameters.gasFee ?? 0
-    const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
+    const estimatedGas = sendFlowParameters.gasFee ?? BigInt(0)
+    const gasLimit = Math.floor(Number(estimatedGas) * GAS_LIMIT_MULTIPLIER)
 
     metadataStream.writeUInt8('senderContract', EXTERNALLY_OWNED_ACCOUNT)
 

@@ -20,7 +20,7 @@
         const tokens = $selectedAccountTokens?.[networkId]
         const evmChainBaseToken: ITokenWithBalance = tokens?.baseCoin
         const tokenBalance = formatTokenAmountBestMatch(
-            evmChainBaseToken?.balance.total ?? 0,
+            evmChainBaseToken?.balance.total ?? BigInt(0),
             evmChainBaseToken?.metadata
         )
         /**

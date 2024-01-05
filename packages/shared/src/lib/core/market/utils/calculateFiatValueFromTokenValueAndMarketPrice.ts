@@ -1,5 +1,3 @@
-import Big from 'big.js'
-
 export function calculateFiatValueFromTokenValueAndMarketPrice(
     tokenValue: bigint,
     decimals: number | undefined,
@@ -10,7 +8,7 @@ export function calculateFiatValueFromTokenValueAndMarketPrice(
     }
 
     try {
-        const fiatAmount = new Big(tokenValue.toString()).div(10 ** decimals).mul(marketPrice)
+        const fiatAmount = (Number(tokenValue) / 10 ** decimals) * Number(marketPrice)
         return fiatAmount.toString()
     } catch (err) {
         return undefined

@@ -1,6 +1,6 @@
 export interface ITokenBalanceChange {
     changedAt: number
-    oldBalance?: bigint
-    newBalance: bigint
+    oldBalance?: string
+    newBalance: string
     hidden?: boolean
 }

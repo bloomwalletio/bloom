@@ -15,14 +15,12 @@
     export let inputElement: HTMLInputElement | undefined = undefined
     export let disabled = false
     export let isFocused = false
-    export let votingPower: number = 0
+    export let votingPower: bigint = BigInt(0)
     export let token: ITokenWithBalance
     export let rawAmount: string | undefined = undefined
     export let unit: string | undefined = undefined
     export let amount: string | undefined =
-        rawAmount && token?.metadata
-            ? formatTokenAmountDefault(Number(rawAmount), token?.metadata, unit, false)
-            : undefined
+        rawAmount && token?.metadata ? formatTokenAmountDefault(rawAmount, token?.metadata, unit, false) : undefined
 
     let amountInputElement: HTMLInputElement
     let error: string
@@ -32,7 +30,7 @@
 
     $: isFocused && (error = '')
     $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token.metadata, unit)
-    $: availableBalance = (token.balance.available ?? 0) + votingPower
+    $: availableBalance = (token.balance.available ?? BigInt(0)) + votingPower
     $: bigAmount = convertToRawAmount(amount, token?.metadata, unit)
     $: max = parseCurrency(formatTokenAmountDefault(availableBalance, token?.metadata, unit, false))
     $: rawAmount = bigAmount?.toString()
@@ -144,7 +142,7 @@
     <div class="flex flex-col mt-5">
         <SliderInput bind:value={amount} {max} decimals={allowedDecimals} {disabled} />
         <div class="flex flex-row justify-between">
-            <Text textColor="secondary">{formatTokenAmountDefault(0, token?.metadata, unit)} {unit}</Text>
+            <Text textColor="secondary">{formatTokenAmountDefault(BigInt(0), token?.metadata, unit)} {unit}</Text>
             <Text textColor="secondary" type="sm"
                 >{formatTokenAmountDefault(availableBalance, token?.metadata, unit)} {unit}</Text
             >

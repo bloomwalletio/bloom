@@ -16,11 +16,9 @@
         $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
     export let rawAmount: bigint | undefined = undefined
     export let unit: string | undefined = undefined
-    export let availableBalance: number
+    export let availableBalance: bigint
     export let inputtedAmount: string | undefined =
-        rawAmount && token?.metadata
-            ? formatTokenAmountDefault(Number(rawAmount), token.metadata, unit, false)
-            : undefined
+        rawAmount && token?.metadata ? formatTokenAmountDefault(rawAmount, token.metadata, unit, false) : undefined
 
     let amountInputElement: HTMLInputElement | undefined
     let error: string | undefined

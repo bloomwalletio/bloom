@@ -10,5 +10,5 @@ export async function updateL2BalanceWithoutActivity(
     networkId: NetworkId
 ): Promise<void> {
     const newBalance = updateLayer2AccountBalanceForTokenOnChain(account.index, networkId, tokenId, rawAmount)
-    await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance, true)
+    await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance.toString(), true)
 }

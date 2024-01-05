@@ -26,8 +26,8 @@
         unit = $sendFlowParameters[sendFlowType].unit || getUnitFromTokenMetadata(token?.metadata)
     }
 
-    $: gasFee = Number($sendFlowParameters.gasFee ?? 0)
-    $: available = token.balance.available - (token.id === BASE_TOKEN_ID ? gasFee : 0)
+    $: gasFee = $sendFlowParameters.gasFee ?? BigInt(0)
+    $: available = token.balance.available - (token.id === BASE_TOKEN_ID ? gasFee : BigInt(0))
 
     function setToMax(): void {
         if (fetchingGasFee) {
@@ -67,7 +67,7 @@
                 rawAmount: undefined,
                 unit,
             },
-            gasFee: 0,
+            gasFee: BigInt(0),
         })
         $sendFlowRouter.previous()
     }

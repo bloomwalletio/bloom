@@ -23,9 +23,7 @@ export function deconstructLedgerVerificationProps(): PopupProps | undefined {
         (type === SendFlowType.BaseCoinTransfer
             ? _sendFlowParameters.baseCoinTransfer
             : _sendFlowParameters.tokenTransfer) ?? {}
-    const toAmount = token?.metadata
-        ? formatTokenAmountDefault(Number(rawAmount), token.metadata, unit)
-        : String(rawAmount)
+    const toAmount = token?.metadata ? formatTokenAmountDefault(rawAmount, token.metadata, unit) : String(rawAmount)
 
     return {
         toAddress,

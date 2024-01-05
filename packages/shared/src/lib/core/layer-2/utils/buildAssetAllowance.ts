@@ -6,10 +6,10 @@ export function buildAssetAllowance(
     transferredAsset: TransferredAsset,
     storageDepositRequired?: number
 ): ILayer2AssetAllowance {
-    const baseTokens = (storageDepositRequired ?? 0).toString()
+    const baseTokens = String(storageDepositRequired ?? 0)
     if (transferredAsset.type === AssetType.BaseCoin) {
         return {
-            baseTokens: String(transferredAsset.amount),
+            baseTokens: transferredAsset.amount.toString(),
             nativeTokens: [],
             nfts: [],
         }

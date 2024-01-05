@@ -20,7 +20,7 @@ export interface BaseSendFlowParameters {
     disableChangeExpiration?: boolean
     disableChangeTimelock?: boolean
     baseCoinTransfer?: TokenTransferData
-    gasFee?: number
+    gasFee?: bigint
 }
 
 export interface TokenSendFlowParameters extends Omit<BaseSendFlowParameters, 'type'> {

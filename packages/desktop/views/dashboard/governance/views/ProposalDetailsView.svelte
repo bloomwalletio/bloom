@@ -43,7 +43,7 @@
     let selectedAnswerValues: number[] = []
     let votedAnswerValues: number[] = []
     let votingPayload: VotingEventPayload
-    let totalVotes = 0
+    let totalVotes = BigInt(0)
     let hasMounted = false
     let alertText = ''
     let proposalQuestions: HTMLElement
@@ -236,7 +236,7 @@
                     },
                     {
                         key: localize('views.governance.details.yourVote.power'),
-                        value: formatTokenAmountBestMatch(parseInt($selectedAccount?.votingPower), metadata),
+                        value: formatTokenAmountBestMatch($selectedAccount?.votingPower, metadata),
                     },
                 ]}
             />

@@ -3,11 +3,12 @@ import { TokenStandard } from '@core/token/enums'
 import { TokenMetadata } from '@core/token/types'
 
 export function formatTokenAmountDefault(
-    amount: number,
+    amount: bigint | number,
     tokenMetadata: TokenMetadata,
     unit?: string,
     useGrouping: boolean = true
 ): string {
+    amount = Number(amount)
     if (amount < 0) {
         throw new Error('Amount is negative')
     } else if (isDecimal(amount)) {

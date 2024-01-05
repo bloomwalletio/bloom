@@ -88,7 +88,7 @@ export class IscpChain implements IChain {
         return this._provider.eth.getBlock(number)
     }
 
-    async getGasEstimate(hex: string): Promise<number> {
+    async getGasEstimate(hex: string): Promise<bigint> {
         const URL = `${this._chainApi}/estimategas-onledger`
         const body = JSON.stringify({ outputBytes: hex })
 
@@ -105,8 +105,8 @@ export class IscpChain implements IChain {
         const data = await response.json()
 
         if (response.status === 200) {
-            const gasEstimate = Number(data.gasFeeCharged ?? '0')
-            if (Number.isNaN(gasEstimate) || gasEstimate === 0) {
+            const gasEstimate = BigInt(data.gasFeeCharged ?? '0')
+            if (gasEstimate === BigInt(0)) {
                 throw new Error(`Gas fee has an invalid value: ${gasEstimate}!`)
             }
 
