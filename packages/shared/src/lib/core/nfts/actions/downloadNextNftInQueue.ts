@@ -7,28 +7,26 @@ export async function downloadNextNftInQueue(): Promise<void> {
         return
     }
 
-    const nextDownload = get(nftDownloadQueue)?.[0]
-    if (!nextDownload) {
+    const nextNftToDownload = get(nftDownloadQueue)?.[0]
+    if (!nextNftToDownload) {
         return
     }
-    const { nft, accountIndex } = nextDownload
-    downloadingNftId.set(nft.id)
+    downloadingNftId.set(nextNftToDownload.id)
 
-    if (!nft.downloadMetadata?.downloadUrl || !nft.downloadMetadata?.filePath) {
-        removeNftFromDownloadQueue(nft.id)
+    if (!nextNftToDownload.downloadMetadata?.downloadUrl || !nextNftToDownload.downloadMetadata?.filePath) {
+        removeNftFromDownloadQueue(nextNftToDownload.id)
         downloadingNftId.set(undefined)
         return
     }
 
     try {
         await Platform.downloadNft(
-            nft.downloadMetadata.downloadUrl,
-            nft.downloadMetadata.filePath,
-            nft.id,
-            accountIndex
+            nextNftToDownload.downloadMetadata.downloadUrl,
+            nextNftToDownload.downloadMetadata.filePath,
+            nextNftToDownload.id
         )
     } catch (err) {
-        removeNftFromDownloadQueue(nft.id)
+        removeNftFromDownloadQueue(nextNftToDownload.id)
         downloadingNftId.set(undefined)
     }
 }

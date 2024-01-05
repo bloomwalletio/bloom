@@ -26,8 +26,7 @@ export default class NftDownloadManager {
         _event: IpcMainInvokeEvent,
         url: string,
         destination: string,
-        nftId: string,
-        accountIndex: number
+        nftId: string
     ): Promise<void> {
         const userPath = app.getPath('userData')
         const parentDirectory = app.isPackaged ? userPath : __dirname
@@ -48,13 +47,13 @@ export default class NftDownloadManager {
                 showProgressBar: true,
                 onCompleted: () => {
                     delete this.downloadItems[nftId]
-                    main.webContents.send('nft-download-done', { nftId, accountIndex })
+                    main.webContents.send('nft-download-done', { nftId })
                 },
                 onStarted: (item) => (this.downloadItems[nftId] = item),
             })
         } catch (error) {
             delete this.downloadItems[nftId]
-            main.webContents.send('nft-download-interrupted', { nftId, accountIndex })
+            main.webContents.send('nft-download-interrupted', { nftId })
         }
     }
 

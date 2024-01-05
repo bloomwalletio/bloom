@@ -24,7 +24,7 @@ export async function interruptNftDownloadAfterTimeout(
         await Platform.cancelNftDownload(downloadingNftIdToInterrupt)
         const nft = getNftByIdFromAllAccountNfts(accountIndex, downloadingNftIdToInterrupt)
         if (nft) {
-            updateNftInAllAccountNfts(accountIndex, downloadingNftIdToInterrupt, {
+            updateNftInAllAccountNfts(downloadingNftIdToInterrupt, {
                 isLoaded: false,
                 downloadMetadata: {
                     ...nft.downloadMetadata,

@@ -2,7 +2,7 @@ import { NftOutput, OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
 import { updateSelectedAccount } from '@core/account/stores'
 import { processAndAddToActivities } from '@core/activity/utils'
-import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 import { DEFAULT_TRANSACTION_OPTIONS } from '@core/wallet/constants'
 import { Output } from '@core/wallet/types'
 import { getActiveNetworkId } from '@core/network'
@@ -16,7 +16,7 @@ export async function signAndSendStardustTransaction(output: Output, account: IA
         // Reset transaction details state, since the transaction has been sent
         if (output.type === OutputType.Nft) {
             const { nftId } = output as NftOutput
-            updateNftInAllAccountNfts(account.index, nftId, { isSpendable: false })
+            updateNftInAllAccountNftsForAccount(account.index, nftId, { isSpendable: false })
         }
 
         await processAndAddToActivities(transaction, account, networkId)

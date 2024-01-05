@@ -150,7 +150,7 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAcco
             .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))
             .map((nft) => nft.id)
         setNftInAllAccountNftsToUnspendable(account.index, ...unspendableNftIds)
-        void addNftsToDownloadQueue(account.index, nfts)
+        void addNftsToDownloadQueue(nfts)
 
         for (const nft of nfts) {
             calculateAndAddPersistedNftBalanceChange(account, networkId, nft.id, true)

@@ -58,7 +58,7 @@ export async function handleNewOutputEventInternal(
     if (isNftOutput) {
         const nft = buildNftFromNftOutput(output as IWrappedOutput, networkId, account.depositAddress)
         updateAllAccountNftsForAccount(account.index, nft)
-        void addNftsToDownloadQueue(accountIndex, [nft])
+        void addNftsToDownloadQueue([nft])
 
         checkAndRemoveProfilePicture()
     }
