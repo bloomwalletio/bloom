@@ -4,5 +4,6 @@ import { get } from 'svelte/store'
 
 export function getMarketPriceForToken(token: ITokenWithBalance): string | undefined {
     const marketCurrency = get(activeProfile)?.settings?.marketCurrency
-    return String(token?.marketPrices?.[marketCurrency])
+    const marketPrice = token?.marketPrices?.[marketCurrency]
+    return marketPrice ? String(marketPrice) : undefined
 }

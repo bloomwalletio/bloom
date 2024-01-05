@@ -7,7 +7,7 @@ export function formatCurrency(
     currency: string | undefined = undefined,
     grouped: boolean = false
 ): string {
-    if (rawAmount === undefined || Number.isNaN(rawAmount)) {
+    if (rawAmount === undefined || !isFinite(Number(rawAmount))) {
         return ''
     }
     const value = Number(rawAmount)
