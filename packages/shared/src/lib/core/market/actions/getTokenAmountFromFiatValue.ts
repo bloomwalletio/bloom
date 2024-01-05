@@ -8,7 +8,7 @@ export function getTokenAmountFromFiatValue(fiatAmount: string, token: ITokenWit
     }
 
     try {
-        const tokenAmount = (Number(fiatAmount) / marketPrice) * 10 ** token.metadata.decimals
+        const tokenAmount = (Number(fiatAmount) / Number(marketPrice)) * 10 ** token.metadata.decimals
         return tokenAmount.toString()
     } catch {
         return undefined

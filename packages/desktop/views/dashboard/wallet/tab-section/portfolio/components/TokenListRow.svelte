@@ -42,12 +42,12 @@
 
     function getFormattedMarketPriceForTokenAvailable(token: ITokenWithBalance): string {
         const marketPrice = getFiatAmountFromTokenValue(BigInt(token.balance.available), token)
-        return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
+        return marketPrice || marketPrice === '0' ? formatCurrency(marketPrice) : '-'
     }
 
     function getFormattedMarketPriceForTokenTotal(token: ITokenWithBalance): string {
         const marketPrice = getFiatAmountFromTokenValue(BigInt(token.balance.total), token)
-        return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
+        return marketPrice || marketPrice === '0' ? formatCurrency(marketPrice) : '-'
     }
 
     function onTokenRowClick(): void {

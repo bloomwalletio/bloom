@@ -9,7 +9,7 @@
     export let token: ITokenWithBalance
     export let onClick: (() => unknown) | undefined = undefined
     export let selected = false
-    export let amount: number = 0
+    export let amount: bigint = BigInt(0)
     export let hideTokenInfo: boolean = false
     export let error: boolean = false
 

@@ -36,7 +36,7 @@
         if ((_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) && token) {
             const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
 
-            const marketPrice = getFiatAmountFromTokenValue(BigInt(Number(amount)), token)
+            const marketPrice = getFiatAmountFromTokenValue(amount, token)
             return marketPrice ? formatCurrency(marketPrice) : '-'
         } else {
             return undefined

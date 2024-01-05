@@ -48,7 +48,7 @@ function getAccountAssetForNetwork(
 ): IAccountTokensPerNetwork {
     const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID)
     const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
-    const baseCoinMarketPrice = baseCoinMarketPrices?.[marketCurrency]
+    const baseCoinMarketPrice = String(baseCoinMarketPrices?.[marketCurrency])
     const baseCoinTotal = account?.balances?.baseCoin?.total
     const baseCoinAvailable = account?.balances?.baseCoin?.available
 
@@ -117,7 +117,7 @@ function getAccountAssetForChain(
         } else if (tokenId === BASE_TOKEN_ID) {
             const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
             const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
-            const baseCoinMarketPrice = baseCoinMarketPrices?.[marketCurrency]
+            const baseCoinMarketPrice = String(baseCoinMarketPrices?.[marketCurrency])
 
             baseCoin = {
                 ...persistedBaseCoin,
@@ -141,7 +141,7 @@ function getAccountAssetForChain(
         } else {
             const persistedAsset = getPersistedToken(tokenId)
             const assetMarketPrices = marketCoinPrices?.[get(shimmerEvmAddressToCoinGeckoIdMap)?.[tokenId]]
-            const assetMarketPrice = assetMarketPrices?.[marketCurrency]
+            const assetMarketPrice = String(assetMarketPrices?.[marketCurrency])
 
             if (persistedAsset && persistedAsset?.metadata && isValidToken(persistedAsset.metadata)) {
                 nativeTokens.push({

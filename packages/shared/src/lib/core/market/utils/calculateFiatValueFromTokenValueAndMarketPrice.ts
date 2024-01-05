@@ -3,7 +3,7 @@ import Big from 'big.js'
 export function calculateFiatValueFromTokenValueAndMarketPrice(
     tokenValue: bigint,
     decimals: number | undefined,
-    marketPrice: number | undefined
+    marketPrice: string | undefined
 ): string | undefined {
     if (marketPrice === undefined || decimals === undefined) {
         return undefined
