@@ -10,13 +10,15 @@ import { persistedNftForActiveProfile } from '../stores'
 import { fetchWithTimeout } from './fetchWithTimeout'
 import { isIrc27Nft } from '@core/nfts/utils/isIrc27Nft'
 import { buildFilePath } from './getFilePathForNft'
+import { StatusCodes, getReasonPhrase } from 'http-status-codes'
 
-const HEAD_FETCH_TIMEOUT_SECONDS = 60
+const HEAD_FETCH_TIMEOUT_SECONDS = 5
 const UNREACHABLE_ERROR_MESSAGE = 'The user aborted a request.'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: INft
-): Promise<{ shouldDownload: boolean; downloadMetadata: DownloadMetadata; isLoaded: boolean }> {
+): Promise<{ shouldDownload: boolean; isLoaded: boolean, downloadMetadata: DownloadMetadata; }> {
+    console.log(nft.id, 'checkIfNftShouldBeDownloaded')
     let downloadMetadata: DownloadMetadata = nft.downloadMetadata ?? {}
 
     try {
@@ -26,31 +28,33 @@ export async function checkIfNftShouldBeDownloaded(
                 : false
 
         if (alreadyDownloaded) {
+            console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'alreadyDownloaded')
             return {
                 shouldDownload: false,
                 isLoaded: true,
-                downloadMetadata: {
-                    ...downloadMetadata,
-                    error: undefined,
-                    warning: undefined,
-                },
+                downloadMetadata: clearErrorsFromDownloadMetadata(downloadMetadata),
             }
-        } else if (!nft.composedUrl) {
+        }
+        
+        if (!nft.composedUrl) {
+            console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'no composedUrl')
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
-            return { shouldDownload: false, downloadMetadata, isLoaded: false }
-        } else {
-            const nftData = await getNftDownloadData(nft)
+            return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        }
 
-            downloadMetadata = { ...downloadMetadata, ...nftData }
+        const response = await headRequest(nft.composedUrl)
+        console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'response', response)
+        downloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
 
-            const { contentType, contentLength } = downloadMetadata ?? {}
-
-            const validation = validateFile(nft, contentType ?? '', contentLength ?? '')
-            if (validation?.error || validation?.warning) {
-                downloadMetadata = { ...downloadMetadata, ...validation }
-                return { shouldDownload: false, downloadMetadata, isLoaded: false }
+        if (downloadMetadata.responseCode === StatusCodes.OK) {
+            const validate = validateFile(nft, downloadMetadata.contentType ?? '', downloadMetadata.contentLength ?? '')
+            if (validate?.error || validate?.warning) {
+                console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'validation error or warning', validate)
+                downloadMetadata = { ...downloadMetadata, ...validate }
+                return { shouldDownload: false, isLoaded: false, downloadMetadata }
             } else {
                 if (features.collectibles.useCaching.enabled) {
+                    console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'shouldDownload')
                     return {
                         shouldDownload: true,
                         isLoaded: false,
@@ -64,8 +68,13 @@ export async function checkIfNftShouldBeDownloaded(
                     }
                 }
             }
+        } else {
+            console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'responseCode', downloadMetadata.responseCode)
+            return { shouldDownload: false, isLoaded: false, downloadMetadata }
+
         }
     } catch (err) {
+        console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'error', err)
         console.error(err)
 
         if (err?.message === UNREACHABLE_ERROR_MESSAGE) {
@@ -79,6 +88,7 @@ export async function checkIfNftShouldBeDownloaded(
 }
 
 function validateFile(nft: INft, contentType: string, contentLength: string): Partial<INftDownloadStatus> | undefined {
+    console.log(nft.id, 'validateFile')
     const MAX_FILE_SIZE_IN_BYTES = (get(activeProfile)?.settings?.maxMediaSizeInMegaBytes ?? 0) * BYTES_PER_MEGABYTE
 
     const isValidMediaType = isIrc27Nft(nft) ? contentType === String(nft.metadata?.type) : true
@@ -90,19 +100,53 @@ function validateFile(nft: INft, contentType: string, contentLength: string): Pa
     }
 }
 
+async function headRequest(url: string): Promise<Response> {
+    return fetchWithTimeout(url, HEAD_FETCH_TIMEOUT_SECONDS, {
+        method: 'HEAD',
+        cache: 'force-cache',
+    })
+}
+
+function clearErrorsFromDownloadMetadata(downloadMetadata: DownloadMetadata): DownloadMetadata {
+    return { ...downloadMetadata, error: undefined, warning: undefined }
+}
+
+function buildDownloadDataFromResponse(response: Response): Partial<DownloadMetadata> {
+
+    if (response.status === Number(StatusCodes.OK)) {
+        return {
+            contentLength: response.headers.get(HttpHeader.ContentLength) || undefined,
+            contentType: response.headers.get(HttpHeader.ContentType) || undefined,
+            responseCode: response.status,
+        }
+    } else {
+        return {
+            responseCode: response.status,
+            error: {
+                type: DownloadErrorType.Generic,
+                message: getReasonPhrase(response.status),
+            },
+        }
+    }
+}
+
 async function getNftDownloadData(nft: INft): Promise<Partial<DownloadMetadata>> {
+    console.log(nft.id, 'getNftDownloadData', nft)
     const persistedNftData = get(persistedNftForActiveProfile)?.[nft.id]
     const shouldFetch =
         !persistedNftData?.downloadMetadata ||
         persistedNftData.downloadMetadata.error?.type === DownloadErrorType.NotReachable
 
     if (shouldFetch) {
+        console.log(nft.id, 'getNftDownloadData', 'shouldFetch')
         let downloadUrl = nft.composedUrl
 
+        console.log(nft.id, 'getNftDownloadData', 'fetchWithTimeout', downloadUrl)
         let response = await fetchWithTimeout(downloadUrl, HEAD_FETCH_TIMEOUT_SECONDS, {
             method: 'HEAD',
             cache: 'force-cache',
         })
+        console.log(nft.id, 'getNftDownloadData', 'fetchWithTimeout', 'end', response)
         const isSoonaverse = isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse'
         if (isSoonaverse) {
             const newUrlAndHeaders = await getUrlAndHeadersFromOldSoonaverseStructure(nft, response)
@@ -118,6 +162,7 @@ async function getNftDownloadData(nft: INft): Promise<Partial<DownloadMetadata>>
             responseCode: response.status,
         }
     } else {
+        console.log(nft.id, 'getNftDownloadData', 'shouldNotFetch', persistedNftData.downloadMetadata)
         if (persistedNftData.downloadMetadata?.error) {
             throw persistedNftData.downloadMetadata.error
         }
