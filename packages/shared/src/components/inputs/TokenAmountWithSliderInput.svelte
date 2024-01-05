@@ -136,7 +136,7 @@
             {disabled}
             {fontSize}
         />
-        {#if getUnitFromTokenMetadata(token?.metadata)}
+        {#if token?.metadata && getUnitFromTokenMetadata(token.metadata)}
             <UnitInput bind:unit bind:isFocused {disabled} tokenMetadata={token?.metadata} />
         {/if}
     </div>

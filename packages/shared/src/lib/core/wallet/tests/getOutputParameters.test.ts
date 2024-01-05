@@ -77,7 +77,7 @@ jest.mock('@core/token/stores/persisted-tokens.store', () => ({
 }))
 
 jest.mock('@core/token/actions/getAccountTokensForAccount', () => ({
-    getAccountTokensForSelectedAccount: jest.fn((_) => {
+    getAccountTokensForAccount: jest.fn((_) => {
         return {
             [SupportedNetworkId.Testnet]: {
                 baseCoin: PERSISTED_ASSET_SHIMMER,

@@ -8,7 +8,7 @@ import { generateSingleNftActivity } from '@core/activity/utils/generateSingleNf
 import { preprocessTransaction } from '@core/activity/utils/outputs'
 import { localize } from '@core/i18n'
 import { IIrc27Metadata } from '@core/nfts'
-import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
+import { updateAllAccountNftsForAccount, buildNftFromNftOutput } from '@core/nfts/actions'
 import { Converter } from '@core/utils'
 import { MintNftParams, OutputType } from '@iota/sdk/out/types'
 import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
@@ -53,7 +53,7 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
 
                 // Store NFT metadata for each minted NFT
                 const nft = buildNftFromNftOutput(output, networkId, account.depositAddress, false)
-                addOrUpdateNftInAllAccountNfts(account.index, nft)
+                updateAllAccountNftsForAccount(account.index, nft)
             }
         }
     } catch (err) {

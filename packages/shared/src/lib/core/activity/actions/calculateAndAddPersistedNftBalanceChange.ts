@@ -14,7 +14,7 @@ export function calculateAndAddPersistedNftBalanceChange(
     const balanceChangesForAsset = getBalanceChanges(account.index, networkId)?.nfts?.[nftId]
     const lastBalanceChange = balanceChangesForAsset?.at(-1)
 
-    if (lastBalanceChange?.owned === owned) {
+    if (lastBalanceChange?.owned === owned || (!lastBalanceChange && !owned)) {
         return
     }
 

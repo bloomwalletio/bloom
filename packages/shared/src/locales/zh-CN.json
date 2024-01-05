@@ -868,7 +868,7 @@
             "title": "连接您的Ledger",
             "notConnected": "连接您的Ledger设备以继续。",
             "locked": "解锁您的Ledger设备以继续。",
-            "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
+            "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger连接成功，请继续。"
         },
         "verifyLedgerTransaction": {

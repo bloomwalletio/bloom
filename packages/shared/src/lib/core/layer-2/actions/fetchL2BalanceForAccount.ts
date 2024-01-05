@@ -7,10 +7,10 @@ import {
 import { ContractType, ILayer2TokenBalance } from '@core/layer-2'
 import { IChain } from '@core/network/interfaces'
 import { getNetwork } from '@core/network/stores'
-import { getNftsFromNftIds } from '@core/nfts/utils'
+import { getNftsFromNftIds, isIrc27Nft } from '@core/nfts/utils'
 import {
     addNftsToDownloadQueue,
-    addOrUpdateNftInAllAccountNfts,
+    updateAllAccountNftsForAccount,
     setNftInAllAccountNftsToUnspendable,
     updateErc721NftsOwnership,
 } from '@core/nfts/actions'
@@ -133,12 +133,12 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAcco
         const nftIds = nftResult.items.filter((item) => item.key !== '0x69').map((item) => item.value)
 
         const networkId = chain.getConfiguration().id
-        const nftsForChain = get(selectedAccountNfts).filter((nft) => nft.networkId === networkId)
+        const nftsForChain = get(selectedAccountNfts).filter((nft) => nft.networkId === networkId && isIrc27Nft(nft))
 
         const newNftIds = nftIds.filter((nftId) => !nftsForChain.some((nft) => nft.id === nftId))
 
         const nfts = await getNftsFromNftIds(newNftIds, networkId)
-        addOrUpdateNftInAllAccountNfts(account.index, ...nfts)
+        updateAllAccountNftsForAccount(account.index, ...nfts)
 
         const unspendableNftIds: string[] = nftsForChain
             .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))
