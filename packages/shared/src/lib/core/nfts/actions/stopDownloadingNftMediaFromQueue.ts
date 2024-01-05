@@ -1,12 +1,12 @@
 import { Platform } from '@core/app/classes'
 import { get } from 'svelte/store'
-import { downloadingNftId, resetNftDownloadQueue } from '../stores'
+import { downloadingNft, resetNftDownloadQueue } from '../stores'
 
 export async function stopDownloadingNftMediaFromQueue(): Promise<void> {
     resetNftDownloadQueue()
-    const currentlyDownloadingNftId = get(downloadingNftId)
+    const currentlyDownloadingNftId = get(downloadingNft)?.nftId
     if (currentlyDownloadingNftId) {
         await Platform.cancelNftDownload(currentlyDownloadingNftId)
-        downloadingNftId.set(undefined)
+        downloadingNft.set(undefined)
     }
 }

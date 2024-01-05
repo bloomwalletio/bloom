@@ -1,9 +1,9 @@
 <script lang="typescript">
-    import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
+    import { IconName, Pill, Progress, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { DownloadMetadata, INft, isIrc27Nft, isNftLocked } from '@core/nfts'
-    import { selectedNftId } from '@core/nfts/stores'
+    import { downloadingNft, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
     import { MediaPlaceholder, NftMedia } from '@ui'
@@ -52,6 +52,11 @@
                 {/if}
             </error-container>
             <Tooltip {anchor} placement="bottom" event="hover" text={getAlertText(nft.downloadMetadata)} />
+            {#if $downloadingNft?.nftId === nft.id}
+                <div class="absolute bottom-0">
+                    <Progress progress={$downloadingNft.progress * 100 + 10} />
+                </div>
+            {/if}
         </div>
         <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
             <Text type="body2" truncate>{nft.name}</Text>

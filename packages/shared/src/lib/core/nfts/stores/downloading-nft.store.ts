@@ -1,3 +1,3 @@
 import { writable } from 'svelte/store'
 
-export const downloadingNftId = writable<string | undefined>(undefined)
+export const downloadingNft = writable<{ nftId: string; progress: number } | undefined>(undefined)

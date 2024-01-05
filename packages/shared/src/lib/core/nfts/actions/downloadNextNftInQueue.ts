@@ -1,9 +1,9 @@
 import { Platform } from '@core/app/classes'
 import { get } from 'svelte/store'
-import { downloadingNftId, nftDownloadQueue, removeNftFromDownloadQueue } from '../stores'
+import { downloadingNft, nftDownloadQueue, removeNftFromDownloadQueue } from '../stores'
 
 export async function downloadNextNftInQueue(): Promise<void> {
-    if (get(downloadingNftId)) {
+    if (get(downloadingNft)) {
         return
     }
 
@@ -11,11 +11,11 @@ export async function downloadNextNftInQueue(): Promise<void> {
     if (!nextNftToDownload) {
         return
     }
-    downloadingNftId.set(nextNftToDownload.id)
+    downloadingNft.set({ nftId: nextNftToDownload.id, progress: 0 })
 
     if (!nextNftToDownload.downloadMetadata?.downloadUrl || !nextNftToDownload.downloadMetadata?.filePath) {
         removeNftFromDownloadQueue(nextNftToDownload.id)
-        downloadingNftId.set(undefined)
+        downloadingNft.set(undefined)
         return
     }
 
@@ -27,6 +27,6 @@ export async function downloadNextNftInQueue(): Promise<void> {
         )
     } catch (err) {
         removeNftFromDownloadQueue(nextNftToDownload.id)
-        downloadingNftId.set(undefined)
+        downloadingNft.set(undefined)
     }
 }

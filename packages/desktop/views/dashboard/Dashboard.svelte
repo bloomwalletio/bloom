@@ -8,7 +8,7 @@
         downloadNextNftInQueue,
         interruptNftDownloadAfterTimeout,
     } from '@core/nfts/actions'
-    import { downloadingNftId, nftDownloadQueue, resetNftDownloadQueue, selectedAccountNfts } from '@core/nfts/stores'
+    import { downloadingNft, nftDownloadQueue, resetNftDownloadQueue, selectedAccountNfts } from '@core/nfts/stores'
     import { logout, reflectLockedStronghold } from '@core/profile/actions'
     import { hasStrongholdLocked } from '@core/profile/stores'
     import { appRouter, dashboardRoute } from '@core/router'
@@ -37,8 +37,8 @@
 
     $: $hasStrongholdLocked && reflectLockedStronghold()
 
-    $: $nftDownloadQueue, $downloadingNftId, downloadNextNftInQueue()
-    $: interruptNftDownloadAfterTimeout(get(selectedAccountIndex), $downloadingNftId)
+    $: $nftDownloadQueue, $downloadingNft, downloadNextNftInQueue()
+    $: interruptNftDownloadAfterTimeout(get(selectedAccountIndex), $downloadingNft?.nftId)
     $: addSelectedAccountNftsToDownloadQueue($selectedAccountIndex)
 
     $: if (features.analytics.dashboardRoute.enabled && $dashboardRoute)

@@ -1,4 +1,4 @@
-import { IAppUpdateDownloadProgress, IAppVersionDetails, INFTDownloadState } from '.'
+import { IAppUpdateDownloadProgress, IAppVersionDetails, INFTDownloadState, INftProgressUpdate } from '.'
 import { IEvmAddress, IEvmSignature } from '@core/layer-2/interfaces'
 import { ILedgerEthereumAppSettings } from '@core/ledger/interfaces'
 
@@ -18,6 +18,7 @@ export interface IPlatformEventMap {
     'notification-activated': unknown
     'nft-download-done': INFTDownloadState
     'nft-download-interrupted': INFTDownloadState
+    'nft-download-progress': INftProgressUpdate
     'ethereum-app-settings': ILedgerEthereumAppSettings
     'evm-address': IEvmAddress
     'evm-signed-transaction': IEvmSignature

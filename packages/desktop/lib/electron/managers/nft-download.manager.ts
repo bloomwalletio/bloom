@@ -49,6 +49,9 @@ export default class NftDownloadManager {
                     delete this.downloadItems[nftId]
                     main.webContents.send('nft-download-done', { nftId })
                 },
+                onProgress: (progress) => {
+                    main.webContents.send('nft-download-progress', { nftId, progress: progress.percent })
+                },
                 onStarted: (item) => (this.downloadItems[nftId] = item),
             })
         } catch (error) {
