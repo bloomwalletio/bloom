@@ -35,43 +35,55 @@ export async function checkIfNftShouldBeDownloaded(
                 downloadMetadata: clearErrorsFromDownloadMetadata(downloadMetadata),
             }
         }
-        
+
         if (!nft.composedUrl) {
             console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'no composedUrl')
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
 
+        const notRecoverableErrors: StatusCodes[] = [] // TODO: Define which errors we want to blacklist
+
+        const persistedNftData = get(persistedNftForActiveProfile)?.[nft.id]
+        const shouldSkipFetch = persistedNftData.downloadMetadata?.responseCode && notRecoverableErrors.includes(persistedNftData.downloadMetadata.responseCode)
+        if (shouldSkipFetch) {
+            console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'shouldSkipFetch')
+            return {
+                shouldDownload: false,
+                isLoaded: false,
+                downloadMetadata: { ...downloadMetadata, ...persistedNftData.downloadMetadata },
+            }
+        }
+
         const response = await headRequest(nft.composedUrl)
         console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'response', response)
         downloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
 
-        if (downloadMetadata.responseCode === StatusCodes.OK) {
-            const validate = validateFile(nft, downloadMetadata.contentType ?? '', downloadMetadata.contentLength ?? '')
-            if (validate?.error || validate?.warning) {
-                console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'validation error or warning', validate)
-                downloadMetadata = { ...downloadMetadata, ...validate }
-                return { shouldDownload: false, isLoaded: false, downloadMetadata }
-            } else {
-                if (features.collectibles.useCaching.enabled) {
-                    console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'shouldDownload')
-                    return {
-                        shouldDownload: true,
-                        isLoaded: false,
-                        downloadMetadata: { ...downloadMetadata, error: undefined, warning: undefined },
-                    }
-                } else {
-                    return {
-                        shouldDownload: false,
-                        isLoaded: true,
-                        downloadMetadata: { ...downloadMetadata, error: undefined, warning: undefined },
-                    }
-                }
-            }
-        } else {
+        if (downloadMetadata.responseCode !== StatusCodes.OK) {
             console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'responseCode', downloadMetadata.responseCode)
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        }
 
+        const validate = validateFile(nft, downloadMetadata.contentType ?? '', downloadMetadata.contentLength ?? '')
+        if (validate?.error || validate?.warning) {
+            console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'validation error or warning', validate)
+            downloadMetadata = { ...downloadMetadata, ...validate }
+            return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        } else {
+            if (features.collectibles.useCaching.enabled) {
+                console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'shouldDownload')
+                return {
+                    shouldDownload: true,
+                    isLoaded: false,
+                    downloadMetadata: { ...downloadMetadata, error: undefined, warning: undefined },
+                }
+            } else {
+                return {
+                    shouldDownload: false,
+                    isLoaded: true,
+                    downloadMetadata: { ...downloadMetadata, error: undefined, warning: undefined },
+                }
+            }
         }
     } catch (err) {
         console.log(nft.id, 'checkIfNftShouldBeDownloaded', 'error', err)
