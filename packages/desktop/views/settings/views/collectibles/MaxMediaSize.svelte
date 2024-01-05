@@ -1,10 +1,9 @@
 <script lang="ts">
     import { IOption, SelectInput } from '@bloomwalletio/ui'
-    import { selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { DownloadWarningType, INft } from '@core/nfts'
-    import { addNftsToDownloadQueue, updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
+    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
     import { persistedNftForActiveProfile, selectedAccountNfts } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import SettingsSection from '../SettingsSection.svelte'
@@ -62,7 +61,7 @@
         await Promise.all(
             nftsToDelete.map(async (nft) => {
                 await Platform.deleteFile(nft.downloadMetadata?.filePath)
-                updateNftInAllAccountNftsForAccount($selectedAccountIndex, nft.id, {
+                updateNftInAllAccountNfts(nft.id, {
                     isLoaded: false,
                     downloadMetadata: {
                         ...nft.downloadMetadata,
