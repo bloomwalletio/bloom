@@ -250,4 +250,10 @@ export default {
     killLedgerProcess(): void {
         return ipcRenderer.send('kill-ledger-process')
     },
+    openTransak(data: { currency: string, address: string, service: 'BUY' | 'SELL' }): Promise<void> {
+        return ipcRenderer.invoke('open-transak', data)
+    },
+    closeTransak(): Promise<void> {
+        return ipcRenderer.invoke('close-transak')
+    },
 }

@@ -103,6 +103,12 @@ const Platform: IPlatform = {
     shouldBeDarkMode(): boolean {
         return true
     },
+    openTransak(data: { currency: string, address: string, service: 'BUY' | 'SELL' }): Promise<void> {
+        return Promise.resolve()
+    },
+    closeTransak(): Promise<void> {
+        return Promise.resolve()
+    },
 }
 
 window['__CAPACITOR__'] = Platform

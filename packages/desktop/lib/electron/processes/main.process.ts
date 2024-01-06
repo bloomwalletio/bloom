@@ -105,9 +105,11 @@ const paths = {
     html: '',
     aboutHtml: '',
     errorHtml: '',
+    transakHtml: '',
     preload: '',
     aboutPreload: '',
     errorPreload: '',
+    transakPreload: '',
     ledger: '',
 }
 
@@ -138,6 +140,8 @@ if (app.isPackaged) {
     paths.aboutPreload = path.join(app.getAppPath(), '/public/build/about.preload.js')
     paths.errorHtml = path.join(app.getAppPath(), '/public/error.html')
     paths.errorPreload = path.join(app.getAppPath(), '/public/build/error.preload.js')
+    paths.transakHtml = path.join(app.getAppPath(), '/public/transak.html')
+    paths.transakPreload = path.join(app.getAppPath(), '/public/build/transak.preload.js')
     paths.ledger = path.join(app.getAppPath(), '/public/build/ledger.process.js')
 } else {
     // __dirname is desktop/public/build
@@ -147,6 +151,8 @@ if (app.isPackaged) {
     paths.aboutPreload = path.join(__dirname, 'about.preload.js')
     paths.errorHtml = path.join(__dirname, '../error.html')
     paths.errorPreload = path.join(__dirname, 'error.preload.js')
+    paths.transakHtml = path.join(__dirname, '../transak.html')
+    paths.transakPreload = path.join(__dirname, 'transak.preload.js')
     paths.ledger = path.join(__dirname, 'ledger.process.js')
 }
 
@@ -337,16 +343,19 @@ ipcMain.on(LedgerApiMethod.SignMessage, (_e, messageHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignMessage, payload: [messageHex, bip32Path] })
 })
 
-export function getOrInitWindow(windowName: string): BrowserWindow {
+export function getOrInitWindow(windowName: string, ...args: unknown[]): BrowserWindow {
     if (!windows[windowName]) {
-        if (windowName === 'main') {
-            return createMainWindow()
-        }
-        if (windowName === 'about') {
-            return openAboutWindow()
-        }
-        if (windowName === 'error') {
-            return openErrorWindow()
+        switch (windowName) {
+            case 'main':
+                return createMainWindow()
+            case 'about':
+                return openAboutWindow()
+            case 'error':
+                return openErrorWindow()
+            case 'transak':
+                return openTransakWindow(args[0] as { currency: string, address: string, service: 'BUY' | 'SELL' })
+            default:
+                throw Error(`Window ${windowName} not found`)
         }
     }
     return windows[windowName]
@@ -496,6 +505,14 @@ ipcMain.on('notification-activated', (ev, contextData) => {
     windows.main.webContents.send('notification-activated', contextData)
 })
 
+ipcMain.handle('open-transak', (_, data) => {
+    getOrInitWindow('transak', data)
+})
+
+ipcMain.handle('close-transak', () => {
+    closeTransakWindow()
+})
+
 /**
  * Create about window
  * @returns {BrowserWindow} About window
@@ -579,6 +596,64 @@ export function closeErrorWindow(): void {
     if (windows.error) {
         windows.error.close()
         windows.error = null
+    }
+}
+
+export function openTransakWindow(data: { currency: string, address: string, service: 'BUY' | 'SELL' }): BrowserWindow {
+    if (windows.transak !== null) {
+        return windows.transak
+    }
+
+    windows.transak = new BrowserWindow({
+        width: 480,
+        height: 640,
+        useContentSize: true,
+        titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
+        show: true,
+        fullscreenable: false,
+        resizable: false,
+        minimizable: false,
+        webPreferences: {
+            ...DEFAULT_WEB_PREFERENCES,
+            contextIsolation: true,
+            preload: paths.transakPreload,
+        },
+    })
+
+    windows.transak.once('closed', () => {
+        windows.transak = null
+    })
+
+    windows.transak.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+        if (permission === 'media') {
+            callback(true);
+        } else {
+            callback(false);
+        }
+    })
+
+    void windows.transak.loadFile(paths.transakHtml)
+
+    windows.transak.webContents.on('did-finish-load', () => {
+        const _data = {
+            currency: data.currency,
+            address: data.address,
+            stage: app.isPackaged ? 'production' : 'staging',
+            apiKey: process.env.TRANSAK_API_KEY,
+            service: data.service,
+        }
+        windows.transak.webContents.send('transak-data', _data)
+    })
+
+    windows.transak.setMenu(null)
+
+    return windows.transak
+}
+
+export function closeTransakWindow(): void {
+    if (windows.transak) {
+        windows.transak.close()
+        windows.transak = null
     }
 }
 
