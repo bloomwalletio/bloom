@@ -10,6 +10,7 @@ import { DownloadErrorType, DownloadWarningType } from '../enums'
 import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 10
+const DELAY_AFTER_DOWNLOAD_ERROR = 2000
 
 export async function downloadNextNftInQueue(): Promise<void> {
     const nextNftToDownload = get(nftDownloadQueue)?.[0]
@@ -62,7 +63,7 @@ async function checkHeadRequestForNftUrl(
             return updatedDownloadMetadata
         }
     } catch (error) {
-        await sleep(2000)
+        await sleep(DELAY_AFTER_DOWNLOAD_ERROR)
         return {
             ...downloadMetadata,
             error: {
