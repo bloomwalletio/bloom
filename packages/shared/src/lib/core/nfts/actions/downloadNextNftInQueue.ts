@@ -3,7 +3,7 @@ import { get } from 'svelte/store'
 import { downloadingNftId, nftDownloadQueue, removeNftFromDownloadQueue, updatePersistedNft } from '../stores'
 import { buildFilePath, fetchWithTimeout, isIrc27Nft } from '../utils'
 import { activeProfile } from '@core/profile/stores'
-import { BYTES_PER_MEGABYTE, HttpHeader } from '@core/utils'
+import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
 import { DownloadMetadata, INft } from '../interfaces'
 import { StatusCodes, getReasonPhrase } from 'http-status-codes'
 import { DownloadErrorType, DownloadWarningType } from '../enums'
@@ -42,16 +42,6 @@ export async function downloadNextNftInQueue(): Promise<void> {
 
         await Platform.downloadNft(downloadMetadata.downloadUrl, downloadMetadata.filePath, nextNftToDownload.id)
     } catch (err) {
-        const downloadMetadata = {
-            ...(nextNftToDownload.downloadMetadata ?? {}),
-            error: {
-                type: DownloadErrorType.NotReachable,
-            },
-        }
-        updatePersistedNft(nextNftToDownload.id, { downloadMetadata })
-        updateNftInAllAccountNfts(nextNftToDownload.id, { downloadMetadata })
-
-        console.error(err, nextNftToDownload.id)
         removeNftFromDownloadQueue(nextNftToDownload.id)
         downloadingNftId.set(undefined)
     }
@@ -62,13 +52,23 @@ async function checkHeadRequestForNftUrl(
     downloadMetadata: DownloadMetadata,
     shouldCheckSoonaverseFallback: boolean
 ): Promise<DownloadMetadata> {
-    const response = await headRequest(nft.composedUrl)
-    const updatedDownloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
+    try {
+        const response = await headRequest(nft.composedUrl)
+        const updatedDownloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
 
-    if (updatedDownloadMetadata.responseCode === StatusCodes.OK) {
-        return setReturnForOkResponse(nft, updatedDownloadMetadata, shouldCheckSoonaverseFallback)
-    } else {
-        return updatedDownloadMetadata
+        if (updatedDownloadMetadata.responseCode === StatusCodes.OK) {
+            return setReturnForOkResponse(nft, updatedDownloadMetadata, shouldCheckSoonaverseFallback)
+        } else {
+            return updatedDownloadMetadata
+        }
+    } catch (error) {
+        await sleep(2000)
+        return {
+            ...downloadMetadata,
+            error: {
+                type: DownloadErrorType.NotReachable,
+            },
+        }
     }
 }
 
