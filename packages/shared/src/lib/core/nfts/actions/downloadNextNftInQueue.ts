@@ -42,6 +42,15 @@ export async function downloadNextNftInQueue(): Promise<void> {
 
         await Platform.downloadNft(downloadMetadata.downloadUrl, downloadMetadata.filePath, nextNftToDownload.id)
     } catch (err) {
+        const downloadMetadata = {
+            ...(nextNftToDownload.downloadMetadata ?? {}),
+            error: {
+                type: DownloadErrorType.NotReachable,
+            },
+        }
+        updatePersistedNft(nextNftToDownload.id, { downloadMetadata })
+        updateNftInAllAccountNfts(nextNftToDownload.id, { downloadMetadata })
+
         console.error(err, nextNftToDownload.id)
         removeNftFromDownloadQueue(nextNftToDownload.id)
         downloadingNftId.set(undefined)
