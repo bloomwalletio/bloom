@@ -47,9 +47,9 @@ export async function generateSingleFoundryActivity(
         recipient: { type: SubjectType.Account, account, address: account.depositAddress },
         type: ActivityType.Foundry,
         aliasAddress,
-        mintedTokens: mintedTokens.toString(),
-        meltedTokens: meltedTokens.toString(),
-        maximumSupply: maximumSupply.toString(),
+        mintedTokens: BigInt(mintedTokens).toString(),
+        meltedTokens: BigInt(meltedTokens).toString(),
+        maximumSupply: BigInt(maximumSupply).toString(),
         containsValue: true, // TODO: check if why we do this
     }
 }
