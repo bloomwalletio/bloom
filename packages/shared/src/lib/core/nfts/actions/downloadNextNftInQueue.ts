@@ -12,40 +12,35 @@ import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
 const HEAD_FETCH_TIMEOUT_SECONDS = 10
 
 export async function downloadNextNftInQueue(): Promise<void> {
-    if (get(downloadingNftId)) {
-        return
-    }
-
     const nextNftToDownload = get(nftDownloadQueue)?.[0]
     if (!nextNftToDownload) {
         return
     }
-    downloadingNftId.set(nextNftToDownload.id)
 
-    if (!nextNftToDownload.downloadMetadata) {
-        removeNftFromDownloadQueue(nextNftToDownload.id)
-        downloadingNftId.set(undefined)
+    if (get(downloadingNftId)) {
         return
     }
+    downloadingNftId.set(nextNftToDownload.id)
 
     try {
         const downloadMetadata = await checkHeadRequestForNftUrl(
             nextNftToDownload,
-            nextNftToDownload.downloadMetadata,
+            nextNftToDownload.downloadMetadata ?? {},
             isIrc27Nft(nextNftToDownload) && nextNftToDownload.metadata?.issuerName === 'Soonaverse'
         )
         updatePersistedNft(nextNftToDownload.id, { downloadMetadata })
         updateNftInAllAccountNfts(nextNftToDownload.id, { downloadMetadata })
 
-        if (!nextNftToDownload.downloadMetadata?.downloadUrl || !nextNftToDownload.downloadMetadata?.filePath) {
-            throw new Error('Missing downloadUrl or filePath')
+        if (
+            !downloadMetadata?.downloadUrl ||
+            !downloadMetadata?.filePath ||
+            downloadMetadata.error ||
+            downloadMetadata.warning
+        ) {
+            throw new Error('Invalid download metadata')
         }
 
-        await Platform.downloadNft(
-            nextNftToDownload.downloadMetadata.downloadUrl,
-            nextNftToDownload.downloadMetadata.filePath,
-            nextNftToDownload.id
-        )
+        await Platform.downloadNft(downloadMetadata.downloadUrl, downloadMetadata.filePath, nextNftToDownload.id)
     } catch (err) {
         console.error(err, nextNftToDownload.id)
         removeNftFromDownloadQueue(nextNftToDownload.id)
@@ -79,13 +74,17 @@ async function setReturnForOkResponse(
             return checkHeadRequestForNftUrl(nft, downloadMetadata, false)
         }
 
-        downloadMetadata.error = { type: DownloadErrorType.NotMatchingFileTypes }
-        return downloadMetadata
+        return {
+            ...downloadMetadata,
+            error: { type: DownloadErrorType.NotMatchingFileTypes },
+        }
     }
 
     if (isFileTooLarge(downloadMetadata.contentLength ?? '')) {
-        downloadMetadata.warning = { type: DownloadWarningType.TooLargeFile }
-        return downloadMetadata
+        return {
+            ...downloadMetadata,
+            warning: { type: DownloadWarningType.TooLargeFile },
+        }
     }
 
     return {
