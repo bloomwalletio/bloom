@@ -10,7 +10,6 @@ import { ITokenWithBalance, TokenFilter } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getPersistedToken, persistedTokens } from './persisted-tokens.store'
 import { activeAccounts, activeProfile } from '@core/profile/stores'
-import Big from 'big.js'
 
 export const tokenFilter: Writable<TokenFilter> = writable(DEFAULT_ASSET_FILTER)
 
@@ -50,14 +49,14 @@ export const allAccountFiatBalances: Readable<{ [accountIndex: string]: string }
         const _allAccountFiatBalances: Record<string, string> = {}
         for (const accountIndex of Object.keys($allAccountTokens)) {
             const accountTokens = $allAccountTokens[accountIndex]
-            let fiatBalance = new Big(0)
+            let fiatBalance = 0
             for (const networkId of Object.keys(accountTokens)) {
                 const tokens = accountTokens[networkId as NetworkId]
-                fiatBalance = fiatBalance.add(tokens?.baseCoin?.balance?.totalFiat ?? 0)
+                fiatBalance += Number(tokens?.baseCoin?.balance?.totalFiat ?? 0)
                 for (const token of tokens?.nativeTokens ?? []) {
                     const totalFiat = Number(token.balance.totalFiat) ?? 0
                     const fiatValue = Number.isFinite(totalFiat) ? totalFiat : 0
-                    fiatBalance = fiatBalance.add(fiatValue)
+                    fiatBalance += fiatValue
                 }
             }
             _allAccountFiatBalances[accountIndex] = fiatBalance.toString()
