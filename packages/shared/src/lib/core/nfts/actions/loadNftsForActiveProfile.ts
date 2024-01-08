@@ -24,7 +24,7 @@ export async function loadNftsForActiveProfile(): Promise<void> {
         nftsToDownload = [...nftsToDownload, ...accountNfts]
     }
 
-    nftsToDownload = [...new Set(nftsToDownload)];
+    nftsToDownload = [...new Set(nftsToDownload)]
     void addNftsToDownloadQueue(nftsToDownload)
 }
 
