@@ -22,11 +22,10 @@ export async function downloadNextNftInQueue(): Promise<void> {
     }
     downloadingNftId.set(nextNftToDownload.id)
 
-    let downloadMetadata = nextNftToDownload.downloadMetadata ?? {}
     try {
-        downloadMetadata = await checkHeadRequestForNftUrl(
+        const downloadMetadata = await checkHeadRequestForNftUrl(
             nextNftToDownload,
-            downloadMetadata,
+            nextNftToDownload.downloadMetadata ?? {},
             isIrc27Nft(nextNftToDownload) && nextNftToDownload.metadata?.issuerName === 'Soonaverse'
         )
         updatePersistedNft(nextNftToDownload.id, { downloadMetadata })
@@ -38,8 +37,10 @@ export async function downloadNextNftInQueue(): Promise<void> {
             downloadMetadata.error ||
             downloadMetadata.warning
         ) {
-            throw new Error()
+            throw new Error('Invalid download metadata')
         }
+
+        await Platform.downloadNft(downloadMetadata.downloadUrl, downloadMetadata.filePath, nextNftToDownload.id)
     } catch (err) {
         const downloadMetadata = {
             ...(nextNftToDownload.downloadMetadata ?? {}),
@@ -50,14 +51,7 @@ export async function downloadNextNftInQueue(): Promise<void> {
         updatePersistedNft(nextNftToDownload.id, { downloadMetadata })
         updateNftInAllAccountNfts(nextNftToDownload.id, { downloadMetadata })
 
-        removeNftFromDownloadQueue(nextNftToDownload.id)
-        downloadingNftId.set(undefined)
-        return
-    }
-
-    try {
-        await Platform.downloadNft(downloadMetadata.downloadUrl, downloadMetadata.filePath, nextNftToDownload.id)
-    } catch (err) {
+        console.error(err, nextNftToDownload.id)
         removeNftFromDownloadQueue(nextNftToDownload.id)
         downloadingNftId.set(undefined)
     }
