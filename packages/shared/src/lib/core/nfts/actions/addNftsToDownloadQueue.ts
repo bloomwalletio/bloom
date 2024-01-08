@@ -5,6 +5,10 @@ import { addNftToDownloadQueue, nftDownloadQueue, updatePersistedNft } from '../
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
 
 export async function addNftsToDownloadQueue(nfts: INft[], forceDownload: boolean = true): Promise<void> {
+    if (nfts.length === 0) {
+        return
+    }
+
     const nftsToAdd: INft[] = []
     for (const nft of nfts) {
         const isNftInDownloadQueue = get(nftDownloadQueue).some((nftInQueue) => nftInQueue.id === nft.id)
