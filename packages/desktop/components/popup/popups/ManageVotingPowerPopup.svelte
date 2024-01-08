@@ -24,7 +24,7 @@
     let confirmDisabled = false
 
     $: token = $visibleSelectedAccountTokens[$activeProfile?.network.id].baseCoin
-    $: votingPower = parseInt($selectedAccount?.votingPower, 10)
+    $: votingPower = $selectedAccount?.votingPower
     $: hasTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress ||
         $selectedAccount?.hasVotingTransactionInProgress ||
@@ -36,7 +36,7 @@
             confirmDisabled = true
             return
         }
-        const convertedSliderAmount = convertToRawAmount(amount, token?.metadata)?.toString()
+        const convertedSliderAmount = convertToRawAmount(amount, token?.metadata)
         confirmDisabled = convertedSliderAmount === $selectedAccount?.votingPower || hasTransactionInProgress
     }
 
