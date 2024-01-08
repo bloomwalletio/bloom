@@ -9,18 +9,18 @@ import { NftStandard } from '../enums'
 import { persistNftWithContractMetadata } from './persistNftWithContractMetadata'
 import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { buildNftFromPersistedErc721Nft } from '../utils'
-import { activeAccounts } from '@core/profile/stores'
-import { get } from 'svelte/store'
-import { getAddressFromAccountForNetwork } from '@core/account'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
+import { INft } from '../interfaces'
 
-export function checkForUntrackedNfts(account: IAccountState): void {
+export async function checkForUntrackedNfts(account: IAccountState): Promise<void> {
+    console.log('checkForUntrackedNfts', account)
     if (!features?.collectibles?.erc721?.enabled) {
         return
     }
 
     const chains = getNetwork()?.getChains() ?? []
-    chains.forEach(async (chain) => {
+
+    for (const chain of chains) {
         const coinType = chain.getConfiguration().coinType
         const evmAddress = account.evmAddresses[coinType]
         if (!evmAddress) {
@@ -31,12 +31,12 @@ export function checkForUntrackedNfts(account: IAccountState): void {
 
         const explorerNfts = await explorerApi.getAssetsForAddress(evmAddress, NftStandard.Erc721)
         for (const explorerNft of explorerNfts) {
-            void persistNftsFromExplorerAsset(evmAddress, explorerNft, chain)
+            await persistNftsFromExplorerAsset(account, evmAddress, explorerNft, chain)
         }
-    })
+    }
 }
 
-async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorerAsset, chain: IChain): Promise<void> {
+async function persistNftsFromExplorerAsset(account: IAccountState,evmAddress: string, asset: IExplorerAsset, chain: IChain): Promise<void> {
     const { token, value } = asset
     const { address, name, symbol } = token
     try {
@@ -62,15 +62,9 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
                     return undefined
                 }
 
-                for (const account of get(activeAccounts)) {
-                    const l2Address = getAddressFromAccountForNetwork(account, networkId)
-                    if (!l2Address) {
-                        continue
-                    }
-                    const nft = buildNftFromPersistedErc721Nft(persistedNft, l2Address)
-                    updateAllAccountNftsForAccount(account.index, nft)
-                    void addNftsToDownloadQueue([nft])
-                }
+                const nft = buildNftFromPersistedErc721Nft(persistedNft, evmAddress)
+                updateAllAccountNftsForAccount(account.index, nft)
+                return nft
             } catch (err) {
                 // If we don't have the tokenId we cannot persist the NFT. ERC-721 contracts should implement
                 // the ERC-165 interface to support `tokenOfOwnerByIndex`
@@ -78,7 +72,9 @@ async function persistNftsFromExplorerAsset(evmAddress: string, asset: IExplorer
             }
         })
 
-        await Promise.all(nftPromises)
+        const nfts = (await Promise.all(nftPromises)).filter(Boolean) as INft[]
+        console.log('L2 nfts found for account', account.index, nfts)
+        await addNftsToDownloadQueue(nfts)
     } catch (err) {
         console.error(err)
         throw new Error(`Unable to persist NFT with address ${address}`)
