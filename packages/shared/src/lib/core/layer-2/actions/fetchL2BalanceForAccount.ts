@@ -87,7 +87,7 @@ async function getLayer2NativeTokenBalancesForAddress(
 
         const nativeTokens = nativeTokenResult.items.map((item) => ({
             tokenId: item.key,
-            balance: Number(item.value),
+            balance: Math.floor(Number(item.value)),
         }))
 
         return nativeTokens
@@ -115,7 +115,7 @@ async function getLayer2Erc20BalancesForAddress(
                 continue
             }
             const rawBalance = await contract.methods.balanceOf(evmAddress).call()
-            erc20TokenBalances.push({ balance: Number(rawBalance), tokenId: erc20Address })
+            erc20TokenBalances.push({ balance: Math.floor(Number(rawBalance)), tokenId: erc20Address })
         } catch (err) {
             const error = err?.message ?? err
             console.error(error)
