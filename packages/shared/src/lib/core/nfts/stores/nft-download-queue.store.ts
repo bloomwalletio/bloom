@@ -17,7 +17,7 @@ export function addNftToDownloadQueue(nft: INft): void {
 
 export function removeNftFromDownloadQueue(nftId: string): void {
     const isNftInDownloadQueue = get(nftDownloadQueue).some((nftInQueue) => nftInQueue.id === nftId)
-    if (isNftInDownloadQueue) {
+    if (!isNftInDownloadQueue) {
         return
     }
 
