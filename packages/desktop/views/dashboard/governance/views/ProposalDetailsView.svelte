@@ -125,11 +125,11 @@
         let lastActiveOverview: TrackedParticipationOverview
         switch ($selectedParticipationEventStatus?.status) {
             case EventStatus.Upcoming:
-                totalVotes = 0
+                totalVotes = BigInt(0)
                 break
             case EventStatus.Commencing:
                 lastActiveOverview = trackedParticipations?.find((overview) => overview.endMilestoneIndex === 0)
-                totalVotes = 0
+                totalVotes = BigInt(0)
                 break
             case EventStatus.Holding:
                 lastActiveOverview = trackedParticipations?.find((overview) => overview.endMilestoneIndex === 0)
