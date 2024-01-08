@@ -5,7 +5,7 @@
     import {
         ITokenWithBalance,
         convertToRawAmount,
-        formatTokenAmountDefault,
+        formatTokenAmountBestMatch,
         getMaxDecimalsFromTokenMetadata,
         validateTokenAmount,
     } from '@core/token'
@@ -18,7 +18,7 @@
     export let unit: string | undefined = undefined
     export let availableBalance: bigint
     export let inputtedAmount: string | undefined =
-        rawAmount && token?.metadata ? formatTokenAmountDefault(rawAmount, token.metadata, unit, false) : undefined
+        rawAmount && token?.metadata ? formatTokenAmountBestMatch(rawAmount, token.metadata, false, false) : undefined
 
     let amountInputElement: HTMLInputElement | undefined
     let error: string | undefined
@@ -57,7 +57,8 @@
         const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
 
         const integerLengthOfBalance =
-            formatTokenAmountDefault(availableBalance, metadata).split(decimalSeparator)?.[0]?.length ?? 0
+            formatTokenAmountBestMatch(availableBalance, metadata, false, false).split(decimalSeparator)?.[0]?.length ??
+            0
 
         return (
             allowedDecimalAmount +

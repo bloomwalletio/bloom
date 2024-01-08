@@ -4,7 +4,7 @@
         ITokenWithBalance,
         TokenStandard,
         convertToRawAmount,
-        formatTokenAmountDefault,
+        formatTokenAmountBestMatch,
         getUnitFromTokenMetadata,
     } from '@core/token'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
@@ -19,7 +19,7 @@
     export let rawAmount: bigint | undefined = undefined
     export let unit: string | undefined = undefined
     export let inputtedAmount: string | undefined =
-        rawAmount && token?.metadata ? formatTokenAmountDefault(rawAmount, token?.metadata, unit, false) : undefined
+        rawAmount && token?.metadata ? formatTokenAmountBestMatch(rawAmount, token?.metadata, false, false) : undefined
 
     let amountInputElement: HTMLInputElement
     let error: string
@@ -30,7 +30,7 @@
     $: isFocused && (error = '')
     $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token?.metadata, unit)
     $: availableBalance = (token.balance.available ?? BigInt(0)) + votingPower
-    $: max = parseCurrency(formatTokenAmountDefault(availableBalance, token?.metadata, unit, false))
+    $: max = Number(parseCurrency(formatTokenAmountBestMatch(availableBalance, token?.metadata, false, false)))
     $: inputtedAmount,
         (error = ''),
         (inputLength = getInputLength()),
@@ -103,7 +103,7 @@
         const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
 
         const integerLengthOfBalance =
-            formatTokenAmountDefault(availableBalance, metadata).split(decimalSeparator)?.[0]?.length ?? 0
+            formatTokenAmountBestMatch(availableBalance, metadata).split(decimalSeparator)?.[0]?.length ?? 0
 
         return (
             allowedDecimalAmount +
@@ -139,9 +139,9 @@
     <div class="flex flex-col mt-5">
         <SliderInput bind:value={inputtedAmount} {max} decimals={allowedDecimals} {disabled} />
         <div class="flex flex-row justify-between">
-            <Text textColor="secondary">{formatTokenAmountDefault(BigInt(0), token?.metadata, unit)} {unit}</Text>
+            <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata, unit)} {unit}</Text>
             <Text textColor="secondary" type="sm"
-                >{formatTokenAmountDefault(availableBalance, token?.metadata, unit)} {unit}</Text
+                >{formatTokenAmountBestMatch(availableBalance, token?.metadata, unit)} {unit}</Text
             >
         </div>
     </div>

@@ -123,7 +123,7 @@
 
     // Update progressbar and thumb styles to represent value
     $: if (progressBar && thumb) {
-        let percent = ((parseCurrency(value) - min) * 100) / (max - min)
+        let percent = ((Number(parseCurrency(value)) - min) * 100) / (max - min)
         percent = Math.max(Math.min(percent, 100), 0)
         const offsetLeft = (container.clientWidth - 10) * (percent / 100) + 5
 
@@ -149,7 +149,7 @@
         role="slider"
         aria-valuemin={min}
         aria-valuemax={max}
-        aria-valuenow={parseCurrency(value)}
+        aria-valuenow={Number(parseCurrency(value))}
         {id}
         on:mousedown={onTrackEvent}
         on:touchstart={onTrackEvent}

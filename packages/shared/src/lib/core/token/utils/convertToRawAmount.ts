@@ -12,10 +12,14 @@ export function convertToRawAmount(amount: string, tokenMetadata: TokenMetadata,
 }
 
 function convertToRawAmountFromMetadata(
-    amount: number,
+    amount: string | undefined,
     tokenMetadata: TokenMetadata,
     selectedUnit?: string
 ): bigint | undefined {
+    if (!amount) {
+        return undefined
+    }
+
     if (tokenMetadata?.standard === TokenStandard.BaseToken) {
         if (!selectedUnit || selectedUnit === tokenMetadata.unit) {
             return convertFloatToBigInt(amount, tokenMetadata.decimals)
@@ -31,8 +35,8 @@ function convertToRawAmountFromMetadata(
     }
 }
 
-function convertFloatToBigInt(amount: number, maxDecimals: number): bigint {
-    const parts = amount.toString().split('.')
+function convertFloatToBigInt(amount: string, maxDecimals: number): bigint {
+    const parts = amount.split('.')
     const integerPart = parts[0]
     const decimalPart = parts[1] ?? ''
     const decimalPartPadded = decimalPart.padEnd(maxDecimals, '0')

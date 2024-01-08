@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountDefault, getUnitFromTokenMetadata } from '@core/token'
+    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { SendFlowParameters, SendFlowType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
@@ -35,7 +35,7 @@
         }
         const available = token.id === BASE_TOKEN_ID ? token.balance.available - gasFee : token.balance.available
         if (token?.metadata?.decimals) {
-            amount = formatTokenAmountDefault(available, token?.metadata, unit, false)
+            amount = formatTokenAmountBestMatch(available, token?.metadata, false, false)
         } else {
             amount = available.toString() ?? '0'
         }
