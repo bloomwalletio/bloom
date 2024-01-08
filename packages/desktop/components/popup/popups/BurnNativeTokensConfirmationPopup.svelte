@@ -11,10 +11,10 @@
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let token: ITokenWithBalance
-    export let rawAmount: string
+    export let rawAmount: bigint
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    $: formattedAmount = formatTokenAmountBestMatch(Number(rawAmount), token?.metadata)
+    $: formattedAmount = formatTokenAmountBestMatch(rawAmount, token?.metadata)
 
     function onBackClick(): void {
         openPopup({

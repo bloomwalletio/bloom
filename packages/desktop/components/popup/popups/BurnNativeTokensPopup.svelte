@@ -7,9 +7,10 @@
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let token: ITokenWithBalance
-    export let rawAmount: string = '0'
+    export let rawAmount: bigint = BigInt(0)
 
     let tokenAmountInput: TokenAmountWithSliderInput
+    let amount: string
 
     function onContinueClick(): void {
         try {
@@ -37,11 +38,11 @@
     continueButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
-        disabled: rawAmount === '' || rawAmount === '0' || rawAmount === undefined,
+        disabled: amount === '' || amount === '0' || amount === undefined,
     }}
 >
     <div class="space-y-5">
-        <TokenAmountWithSliderInput bind:this={tokenAmountInput} bind:rawAmount {token} />
+        <TokenAmountWithSliderInput bind:this={tokenAmountInput} bind:inputtedAmount={amount} bind:rawAmount {token} />
         <Alert variant="warning" text={localize('actions.confirmTokenBurn.hint')} />
     </div>
 </PopupTemplate>

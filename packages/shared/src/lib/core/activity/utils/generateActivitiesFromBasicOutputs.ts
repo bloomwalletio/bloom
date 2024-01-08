@@ -116,8 +116,8 @@ function didTokensGetBurned(
         return false
     }
 
-    const inputNativeTokens: { [key: string]: number } = getAllNativeTokensFromOutputs(inputs)
-    const outputNativeTokens: { [key: string]: number } = getAllNativeTokensFromOutputs(outputs)
+    const inputNativeTokens: { [key: string]: bigint } = getAllNativeTokensFromOutputs(inputs)
+    const outputNativeTokens: { [key: string]: bigint } = getAllNativeTokensFromOutputs(outputs)
     for (const inputNativeTokenId of Object.keys(inputNativeTokens)) {
         if (
             !outputNativeTokens[inputNativeTokenId] ||
@@ -132,35 +132,37 @@ function didTokensGetBurned(
 function getBurnedNativeTokens(
     output: IWrappedOutput,
     processedTransaction: IProcessedTransaction
-): { tokenId: string; amount: number } | undefined {
+): { tokenId: string; amount: bigint } | undefined {
     if (processedTransaction.direction !== ActivityDirection.SelfTransaction) {
         return undefined
     }
 
-    const inputNativeTokens: { [key: string]: number } = getAllNativeTokensFromOutputs(
+    const inputNativeTokens: { [key: string]: bigint } = getAllNativeTokensFromOutputs(
         processedTransaction.wrappedInputs
     )
-    const outputNativeTokens: { [key: string]: number } = getAllNativeTokensFromOutputs([output])
+    const outputNativeTokens: { [key: string]: bigint } = getAllNativeTokensFromOutputs([output])
     for (const inputNativeTokenId of Object.keys(inputNativeTokens)) {
-        if (!outputNativeTokens[inputNativeTokenId]) {
-            return { tokenId: inputNativeTokenId, amount: inputNativeTokens[inputNativeTokenId] }
+        const inputAmount = inputNativeTokens[inputNativeTokenId]
+        const outputAmount = outputNativeTokens[inputNativeTokenId]
+        if (!outputAmount) {
+            return { tokenId: inputNativeTokenId, amount: inputAmount }
         }
 
-        if (inputNativeTokens[inputNativeTokenId] > Number(outputNativeTokens[inputNativeTokenId])) {
-            const burnedAmount = inputNativeTokens[inputNativeTokenId] - Number(outputNativeTokens[inputNativeTokenId])
+        if (inputAmount > outputAmount) {
+            const burnedAmount = inputAmount - outputAmount
             return { tokenId: inputNativeTokenId, amount: burnedAmount }
         }
     }
 }
 
-function getAllNativeTokensFromOutputs(outputs: IWrappedOutput[]): { [key: string]: number } {
-    const nativeTokens: { [key: string]: number } = {}
+function getAllNativeTokensFromOutputs(outputs: IWrappedOutput[]): { [key: string]: bigint } {
+    const nativeTokens: { [key: string]: bigint } = {}
     for (const output of outputs) {
         for (const nativeToken of output.output?.nativeTokens ?? []) {
             if (!nativeTokens[nativeToken.id]) {
-                nativeTokens[nativeToken.id] = 0
+                nativeTokens[nativeToken.id] = BigInt(0)
             }
-            nativeTokens[nativeToken.id] += Number(nativeToken.amount)
+            nativeTokens[nativeToken.id] += BigInt(nativeToken.amount)
         }
     }
     return nativeTokens

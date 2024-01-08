@@ -12,7 +12,7 @@ export async function generateSingleBasicActivity(
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters,
     overrideTokenId?: string,
-    overrideAmount?: number
+    overrideAmount?: bigint
 ): Promise<TransactionActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
@@ -23,7 +23,7 @@ export async function generateSingleBasicActivity(
             : BigInt(0)
         baseActivity.baseTokenTransfer = {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: BigInt(Math.max(Number(transferAmount), 0)),
+            rawAmount: transferAmount < 0 ? BigInt(0) : transferAmount,
         }
         baseActivity.transactionFee = transferDelta
     }
@@ -33,7 +33,7 @@ export async function generateSingleBasicActivity(
         baseActivity.tokenTransfer = persistedToken
             ? {
                   tokenId: overrideTokenId,
-                  rawAmount: BigInt(Math.max(overrideAmount, 0)),
+                  rawAmount: overrideAmount < 0 ? BigInt(0) : overrideAmount,
               }
             : undefined
     }
