@@ -16,22 +16,20 @@
             return '-'
         }
 
-        let tokenSupply: number | undefined
+        let tokenSupply: TokenSupply | '0'
         switch (getActiveNetworkId()) {
             case SupportedNetworkId.Iota:
-                tokenSupply = Number(TokenSupply.Iota)
+                tokenSupply = TokenSupply.Iota
                 break
             case SupportedNetworkId.Shimmer:
-                tokenSupply = Number(TokenSupply.Shimmer)
-                break
             case SupportedNetworkId.Testnet:
-                tokenSupply = Number(TokenSupply.Shimmer)
+                tokenSupply = TokenSupply.Shimmer
                 break
             default:
-                tokenSupply = 0
+                tokenSupply = '0'
         }
 
-        const marketPrice = tokenSupply ? getFiatAmountFromTokenValue(BigInt(TokenSupply.Testnet), token) : undefined
+        const marketPrice = tokenSupply ? getFiatAmountFromTokenValue(BigInt(tokenSupply), token) : undefined
         return marketPrice ? formatCurrency(marketPrice, $activeProfile.settings.marketCurrency, true) : '-'
     }
 
