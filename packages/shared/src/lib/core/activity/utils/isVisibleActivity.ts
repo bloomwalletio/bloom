@@ -8,7 +8,6 @@ import {
     NumberFilterOption,
     StatusFilterOption,
 } from '@core/utils/enums/filters'
-import Big from 'big.js'
 import { get } from 'svelte/store'
 import { ActivityAsyncStatus, ActivityType, InclusionState } from '../enums'
 import { activityFilter } from '../stores'
@@ -100,7 +99,6 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
     if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
         const { tokenId, rawAmount } = activity.tokenTransfer ?? activity.baseTokenTransfer
         const token = getPersistedToken(tokenId)
-        const activityAmount = Big(String(rawAmount))
 
         if (!token || !token.metadata) {
             return false
@@ -112,7 +110,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.amount
         ) {
             const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
-            const isEqual = amount && activityAmount.eq(Big(amount.toString()))
+            const isEqual = amount && rawAmount === amount
             if (!isEqual) {
                 return false
             }
@@ -125,11 +123,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         ) {
             const startAmount = convertToRawAmount(String(filter.amount.subunit.start), token.metadata)
             const endAmount = convertToRawAmount(String(filter.amount.subunit.end), token.metadata)
-            const isInRange =
-                startAmount &&
-                endAmount &&
-                activityAmount.lte(Big(endAmount?.toString())) &&
-                activityAmount.gte(Big(startAmount?.toString()))
+            const isInRange = startAmount && endAmount && rawAmount <= endAmount && rawAmount >= startAmount
             if (!isInRange) {
                 return false
             }
@@ -140,7 +134,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.amount
         ) {
             const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
-            const isGreater = amount && activityAmount.gte(Big(amount.toString()))
+            const isGreater = amount && rawAmount >= amount
             if (!isGreater) {
                 return false
             }
@@ -151,7 +145,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.amount
         ) {
             const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
-            const isLess = amount && activityAmount.lte(Big(amount.toString()))
+            const isLess = amount && rawAmount <= amount
             if (!isLess) {
                 return false
             }
