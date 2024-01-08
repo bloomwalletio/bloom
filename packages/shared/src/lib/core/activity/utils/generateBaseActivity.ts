@@ -70,7 +70,7 @@ export async function generateBaseActivity(
         persistedToken && nativeToken
             ? {
                   tokenId: persistedToken.id,
-                  rawAmount: nativeToken.amount,
+                  rawAmount: BigInt(nativeToken.amount),
               }
             : undefined
 
