@@ -8,7 +8,6 @@ import { IError } from '@core/error'
 let pollInterval: number
 
 export function pollL2BalanceForAccount(account: IAccountState): void {
-    console.log('pollL2BalanceForAccount', account)
     try {
         clearL2TokensPoll()
         checkForUntrackedTokens(account)

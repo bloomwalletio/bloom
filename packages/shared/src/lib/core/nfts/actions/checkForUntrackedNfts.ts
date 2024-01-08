@@ -13,7 +13,6 @@ import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { INft } from '../interfaces'
 
 export async function checkForUntrackedNfts(account: IAccountState): Promise<void> {
-    console.log('checkForUntrackedNfts', account)
     if (!features?.collectibles?.erc721?.enabled) {
         return
     }
@@ -36,7 +35,12 @@ export async function checkForUntrackedNfts(account: IAccountState): Promise<voi
     }
 }
 
-async function persistNftsFromExplorerAsset(account: IAccountState,evmAddress: string, asset: IExplorerAsset, chain: IChain): Promise<void> {
+async function persistNftsFromExplorerAsset(
+    account: IAccountState,
+    evmAddress: string,
+    asset: IExplorerAsset,
+    chain: IChain
+): Promise<void> {
     const { token, value } = asset
     const { address, name, symbol } = token
     try {
@@ -73,7 +77,6 @@ async function persistNftsFromExplorerAsset(account: IAccountState,evmAddress: s
         })
 
         const nfts = (await Promise.all(nftPromises)).filter(Boolean) as INft[]
-        console.log('L2 nfts found for account', account.index, nfts)
         await addNftsToDownloadQueue(nfts)
     } catch (err) {
         console.error(err)
