@@ -1,6 +1,7 @@
 import { getUnitFromTokenMetadata } from './getUnitFromTokenMetadata'
 import { TokenMetadata } from '../types'
 import { getDecimalSeparator, getGroupSeparator } from '@core/i18n'
+import { MAX_SUPPORTED_DECIMALS } from '@core/wallet'
 
 const DEFAULT_MAX_DECIMALS = 6
 
@@ -25,6 +26,10 @@ function getStringAmountFromBigInt(value: bigint, round: boolean, decimals?: num
 
     if (!decimals) {
         return getGroupedStringAmount(stringValue)
+    }
+
+    if (decimals > MAX_SUPPORTED_DECIMALS) {
+        return '-'
     }
 
     while (stringValue.length <= decimals) {

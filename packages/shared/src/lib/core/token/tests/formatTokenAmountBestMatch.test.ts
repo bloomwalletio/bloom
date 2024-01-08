@@ -85,6 +85,11 @@ describe('formatTokenAmountBestMatch', () => {
         expect(formatTokenAmountBestMatch(0n, mockTokenMetadata, true, true)).toEqual('0 BTC')
     })
 
+    test('should handle zero amount without unit', () => {
+        const mockTokenMetadata = { decimals: 0 } as TokenMetadata
+        expect(formatTokenAmountBestMatch(0n, mockTokenMetadata, false, true)).toEqual('0')
+    })
+
     test('should handle amount with no decimals and rounding', () => {
         const mockTokenMetadata = { decimals: 0 } as TokenMetadata
         expect(formatTokenAmountBestMatch(123456789n, mockTokenMetadata, true, true)).toEqual('123,456,789 BTC')
@@ -93,5 +98,56 @@ describe('formatTokenAmountBestMatch', () => {
     test('should handle edge case where decimal part is all zeros', () => {
         const mockTokenMetadata = { decimals: 5 } as TokenMetadata
         expect(formatTokenAmountBestMatch(100000n, mockTokenMetadata, true, true)).toEqual('1 BTC')
+    })
+
+    test('should handle negative numbers', () => {
+        const amount = BigInt(-42069)
+        const mockTokenMetadata = { decimals: 1 } as TokenMetadata
+        const formattedAmount = formatTokenAmountBestMatch(amount, mockTokenMetadata, false)
+        expect(formattedAmount).toBe('-4,206.9')
+    })
+
+    test('should return dash if amount is not an integer', () => {
+        const amount = 42.069
+        const mockTokenMetadata = { decimals: 8 } as TokenMetadata
+        // @ts-expect-error
+        const formattedAmount = formatTokenAmountBestMatch(amount, mockTokenMetadata, false)
+        expect(formattedAmount).toBe('-')
+    })
+
+    test('should add correct decimal character for german', () => {
+        appSettings.update((state) => ({ ...state, language: 'de' }))
+        const amount = BigInt(42000069)
+        const mockTokenMetadata = { decimals: 3 } as TokenMetadata
+        const formattedAmount = formatTokenAmountBestMatch(amount, mockTokenMetadata, false, false)
+        expect(formattedAmount).toBe('42.000,069')
+    })
+
+    test('should return dash for big decimal amount', () => {
+        const amount = BigInt(4.2e69)
+        const mockTokenMetadata = { decimals: 30 } as TokenMetadata
+        const formattedAmount = formatTokenAmountBestMatch(amount, mockTokenMetadata, false)
+        expect(formattedAmount).toBe('-')
+    })
+
+    test('should work with scientific notation and no decimals', () => {
+        // e notation will always result in lost precision, since it's a JS representation of floating point numbers
+        const amount = BigInt(4.2e69)
+        const mockTokenMetadata = { decimals: 0 } as TokenMetadata
+        const formattedAmount = formatTokenAmountBestMatch(amount, mockTokenMetadata, false)
+        expect(formattedAmount).toBe(
+            '4,200,000,000,000,000,304,632,032,802,422,787,529,865,172,520,515,392,213,176,482,653,011,968'
+        )
+    })
+
+    test('should return the normal string amount if unit is undefined', () => {
+        const amount = BigInt(12)
+        const mockTokenMetadata = {
+            name: 'WEN',
+            decimals: 4,
+            unit: 'soon',
+        } as TokenMetadata
+        const formattedAmount = formatTokenAmountBestMatch(amount, mockTokenMetadata, false)
+        expect(formattedAmount).toEqual('0.0012')
     })
 })
