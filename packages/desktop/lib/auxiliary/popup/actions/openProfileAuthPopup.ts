@@ -1,4 +1,4 @@
-import { IPopupState } from '../interfaces'
+import { IProfileAuthPopupState } from '../interfaces'
 import { updateProfileAuthProps } from '../stores/profile-auth-popup.store'
 
 export function openProfileAuthPopup({
@@ -6,6 +6,6 @@ export function openProfileAuthPopup({
     props = null,
     hideClose = false,
     preventClose = false,
-}: Omit<IPopupState, 'active'>): void {
+}: Omit<IProfileAuthPopupState, 'active'>): void {
     updateProfileAuthProps({ active: true, id, hideClose, preventClose, props })
 }

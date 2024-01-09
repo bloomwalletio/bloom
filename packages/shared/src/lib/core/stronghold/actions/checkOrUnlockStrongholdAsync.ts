@@ -1,5 +1,5 @@
 import { isStrongholdUnlocked } from '@core/profile-manager'
-import { openProfileAuthPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
+import { openProfileAuthPopup, ProfileAuthPopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 
 export async function checkOrUnlockStrongholdAsync(): Promise<void> {
     const strongholdUnlocked = await isStrongholdUnlocked()
@@ -9,7 +9,7 @@ export async function checkOrUnlockStrongholdAsync(): Promise<void> {
             return
         } else {
             openProfileAuthPopup({
-                id: PopupId.UnlockStronghold,
+                id: ProfileAuthPopupId.UnlockStronghold,
                 props: {
                     onSuccess: resolve,
                     onCancel: reject,

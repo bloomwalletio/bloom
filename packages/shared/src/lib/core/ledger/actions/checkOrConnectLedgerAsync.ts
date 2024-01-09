@@ -1,4 +1,4 @@
-import { openProfileAuthPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
+import { openProfileAuthPopup, ProfileAuthPopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 import { get } from 'svelte/store'
 import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '..'
 import { activeProfile } from '@core/profile/stores'
@@ -16,7 +16,7 @@ export function checkOrConnectLedgerAsync(
             return
         } else {
             openProfileAuthPopup({
-                id: PopupId.ConnectLedger,
+                id: ProfileAuthPopupId.ConnectLedger,
                 hideClose: true,
                 props: {
                     ledgerAppName,
