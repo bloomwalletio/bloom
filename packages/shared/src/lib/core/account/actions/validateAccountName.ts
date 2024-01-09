@@ -4,16 +4,12 @@ import { getTrimmedLength } from '@core/utils'
 import { get } from 'svelte/store'
 import { MAX_ACCOUNT_NAME_LENGTH } from '../constants'
 
-export function validateAccountName(
-    name: string,
-    validateLength = true,
-    validateDuplicate = true
-): Promise<void | string> {
+export function validateAccountName(name: string, validateLength = true, validateDuplicate = true): void {
     if (getTrimmedLength(name) === 0) {
-        return Promise.reject(localize('error.account.emptyName'))
+        throw Error(localize('error.account.emptyName'))
     }
     if (validateLength && getTrimmedLength(name) > MAX_ACCOUNT_NAME_LENGTH) {
-        return Promise.reject(
+        throw Error(
             localize('error.account.length', {
                 values: {
                     length: MAX_ACCOUNT_NAME_LENGTH,
@@ -22,7 +18,6 @@ export function validateAccountName(
         )
     }
     if (validateDuplicate && get(activeAccounts)?.find((existingAccount) => existingAccount.name === name)) {
-        return Promise.reject(localize('error.account.duplicate'))
+        throw Error(localize('error.account.duplicate'))
     }
-    return Promise.resolve()
 }

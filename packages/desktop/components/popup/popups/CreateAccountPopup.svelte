@@ -6,7 +6,7 @@
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { getTrimmedLength } from '@core/utils'
-    import { closePopup, updatePopupProps } from '@desktop/auxiliary/popup'
+    import { closePopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let accountName: string | undefined = undefined
@@ -17,20 +17,12 @@
 
     $: accountName, (error = null)
 
-    async function validate(): Promise<boolean> {
-        if (!accountName) {
-            return false
-        }
-
+    function validate(): boolean {
         try {
-            await validateAccountName(accountName.trim())
-
+            validateAccountName(accountName?.trim() ?? '')
             if (!color) {
                 throw new Error(localize('errors.accountColorRequired'))
             }
-
-            // TODO: Check if this is needed
-            updatePopupProps({ accountAlias: accountName, color, error })
             return true
         } catch (err) {
             error = err.message
@@ -39,21 +31,17 @@
     }
 
     async function onCreateClick(): Promise<void> {
-        isBusy = true
-
-        const isValid = await validate()
-        if (!isValid) {
-            isBusy = false
+        if (!validate()) {
             return
         }
 
         try {
             await checkActiveProfileAuthAsync()
         } catch (error) {
-            isBusy = false
             return
         }
 
+        isBusy = true
         try {
             await tryCreateAdditionalAccount(accountName.trim(), color.toString())
             closePopup()
