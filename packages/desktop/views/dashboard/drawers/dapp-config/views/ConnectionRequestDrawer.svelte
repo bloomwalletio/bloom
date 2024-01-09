@@ -27,9 +27,17 @@
     $: isVerified = $sessionProposal?.verifyContext.verified.validation === SessionVerification.Valid
     $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
     $: unsupportedMethods = $sessionProposal ? getUnsupportedMethods($sessionProposal?.params.requiredNamespaces) : []
-    $: unsupportedNetworks = $sessionProposal ? getUnsupportedNetworks($sessionProposal?.params.requiredNamespaces) : []
-    $: isSupportedOnOtherProfiles = $sessionProposal ? areNetworksSupportedOnOtherProfiles(unsupportedNetworks) : false
-    $: fulfillsRequirements = unsupportedMethods.length === 0 && unsupportedNetworks.length === 0
+    $: supportedNetworks = $sessionProposal
+        ? getSupportedNetworks($sessionProposal?.params.requiredNamespaces, $sessionProposal?.params.optionalNamespaces)
+        : []
+    $: unsupportedRequiredNetworks = $sessionProposal
+        ? getUnsupportedRequiredNetworks($sessionProposal?.params.requiredNamespaces)
+        : []
+    $: isSupportedOnOtherProfiles = $sessionProposal
+        ? areNetworksSupportedOnOtherProfiles(unsupportedRequiredNetworks)
+        : false
+    $: fulfillsRequirements =
+        unsupportedMethods.length === 0 && unsupportedRequiredNetworks.length === 0 && supportedNetworks.length > 0
 
     let timeout: ReturnType<typeof setTimeout> | undefined
     $: {
@@ -46,15 +54,28 @@
         }
     }
 
-    function getUnsupportedNetworks(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
-        const supportedNetworks = getAllNetworkIds()
+    function getUnsupportedRequiredNetworks(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
+        const networksSupportedByProfile = getAllNetworkIds()
         const requiredNetworks = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
-        return requiredNetworks.filter((network) => !supportedNetworks.includes(network))
+        return requiredNetworks.filter((network) => !networksSupportedByProfile.includes(network))
     }
 
-    function areNetworksSupportedOnOtherProfiles(_unsupportedNetworks: string[]): boolean {
+    function getSupportedNetworks(
+        requiredNamespaces: ProposalTypes.RequiredNamespaces,
+        optionalNamespaces: ProposalTypes.RequiredNamespaces
+    ): string[] {
+        const networksSupportedByProfile = getAllNetworkIds()
+        const networksSupportedByDapp = []
+
+        networksSupportedByDapp.push(...Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains))
+        networksSupportedByDapp.push(...Object.values(optionalNamespaces).flatMap((namespace) => namespace.chains))
+
+        return networksSupportedByDapp.filter((network) => networksSupportedByProfile.includes(network))
+    }
+
+    function areNetworksSupportedOnOtherProfiles(_unsupportedRequiredNetworks: string[]): boolean {
         const allSupportedNetworks: string[] = Object.values(SupportedNetworkId)
-        return _unsupportedNetworks.every((network) => allSupportedNetworks.includes(network))
+        return _unsupportedRequiredNetworks.every((network) => allSupportedNetworks.includes(network))
     }
 
     function getUnsupportedMethods(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
@@ -108,7 +129,7 @@
                     </Table>
                 </div>
             </div>
-            {#if unsupportedNetworks.length}
+            {#if unsupportedRequiredNetworks.length}
                 <div class="flex flex-col gap-8 px-6">
                     <Alert
                         variant={isSupportedOnOtherProfiles ? 'warning' : 'danger'}
@@ -118,6 +139,10 @@
                             }`
                         )}
                     />
+                </div>
+            {:else if supportedNetworks.length === 0}
+                <div class="flex flex-col gap-8 px-6">
+                    <Alert variant="danger" text={localize(`${localeKey}.noSupportedNetworks`)} />
                 </div>
             {:else if unsupportedMethods.length}
                 <div class="flex flex-col gap-8 px-6">
