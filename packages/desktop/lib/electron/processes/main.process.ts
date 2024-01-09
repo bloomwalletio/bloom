@@ -605,8 +605,9 @@ export function openTransakWindow(data: { currency: string, address: string, ser
     }
 
     windows.transak = new BrowserWindow({
+        parent: windows.main,
         width: 480,
-        height: 640,
+        height: getTransakHeight(),
         useContentSize: true,
         titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
         show: true,
@@ -618,6 +619,14 @@ export function openTransakWindow(data: { currency: string, address: string, ser
             contextIsolation: true,
             preload: paths.transakPreload,
         },
+    })
+
+    positionTransakWindow()
+    sizeTransakWindow()
+    windows.main.on('move', positionTransakWindow);
+    windows.main.on('resize', () => {
+        positionTransakWindow()
+        sizeTransakWindow()
     })
 
     windows.transak.once('closed', () => {
@@ -655,6 +664,28 @@ export function closeTransakWindow(): void {
         windows.transak.close()
         windows.transak = null
     }
+}
+
+function positionTransakWindow(): void {
+    const [mainWindowX, mainWindowY] = windows.main.getPosition();
+    const [mainWindowWidth] = windows.main.getSize();
+    const [transakWidth] = windows.transak.getSize();
+
+    const transakX = mainWindowX + mainWindowWidth - transakWidth - 32;
+    const transakY = mainWindowY + 32 + 40 + 28;
+
+    windows.transak.setPosition(transakX, transakY);
+}
+
+function sizeTransakWindow(): void {
+    const [transakWidth] = windows.transak.getSize();
+    const transakHeight = getTransakHeight();
+    windows.transak.setSize(transakWidth, transakHeight);
+}
+
+function getTransakHeight(): number {
+    const [, mainWindowHeight] = windows.main.getSize();
+    return mainWindowHeight - 32 - 40 - 28 - 32;
 }
 
 function windowStateKeeper(windowName: string, settingsFilename: string): IAppState {

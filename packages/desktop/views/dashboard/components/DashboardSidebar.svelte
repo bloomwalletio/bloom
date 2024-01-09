@@ -4,7 +4,7 @@
     import { ProfileActionsMenu, SidebarTab } from '@components'
     import { localize } from '@core/i18n'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
-    import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
+    import { DashboardRoute, buySellRouter, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
     import { IDashboardSidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
@@ -12,6 +12,7 @@
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
     import { dashboardRoute } from '@core/router'
+    import { StardustNetworkId } from '@core/network'
 
     let expanded = true
     function toggleExpand(): void {
@@ -56,6 +57,17 @@
                   },
               ]
             : []),
+        ...(features?.buySell?.enabled && $activeProfile?.network?.id === StardustNetworkId.Iota
+            ? [
+                  {
+                      icon: IconName.CoinSwap,
+                      label: localize('tabs.buySell'),
+                      route: DashboardRoute.BuySell,
+                      onClick: openBuySell,
+                  },
+              ]
+            : []
+        )
     ]
 
     function openWallet(): void {
@@ -77,11 +89,17 @@
         $dashboardRouter.goTo(DashboardRoute.Developer)
     }
 
+    function openBuySell(): void {
+        resetAllRouters()
+        $dashboardRouter.goTo(DashboardRoute.BuySell)
+    }
+
     function resetAllRouters(): void {
         $dashboardRouter.reset()
         $collectiblesRouter.reset()
         $settingsRouter.reset()
         $governanceRouter.reset()
+        $buySellRouter.reset()
     }
 </script>
 

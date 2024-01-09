@@ -11,6 +11,7 @@ import settingsFeatures from './settings.features'
 import walletFeatures from './wallet.features'
 import walletConnectFeatures from './wallet-connect.features'
 import analyticsFeatures from './analytics.features'
+import buySellFeatures from './buy-sell.features'
 import { IDesktopFeatures } from './interfaces'
 
 const features: IDesktopFeatures = {
@@ -27,6 +28,7 @@ const features: IDesktopFeatures = {
     settings: settingsFeatures,
     wallet: walletFeatures,
     walletConnect: walletConnectFeatures,
+    buySell: buySellFeatures,
 }
 
 export default features

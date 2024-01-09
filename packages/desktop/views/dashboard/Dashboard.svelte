@@ -11,7 +11,7 @@
     import { downloadingNftId, nftDownloadQueue, resetNftDownloadQueue, selectedAccountNfts } from '@core/nfts/stores'
     import { logout, reflectLockedStronghold } from '@core/profile/actions'
     import { hasStrongholdLocked } from '@core/profile/stores'
-    import { appRouter, dashboardRoute } from '@core/router'
+    import { DashboardRoute, appRouter, dashboardRoute } from '@core/router'
     import features from '@features/features'
     import { Idle } from '@ui'
     import { onDestroy, onMount } from 'svelte'
@@ -24,6 +24,7 @@
     import { Wallet } from './wallet'
     import { Settings } from '../settings'
     import { Background } from '@views/components'
+    import { BuySell } from './buy-sell'
 
     const tabs = {
         wallet: Wallet,
@@ -31,6 +32,7 @@
         collectibles: Collectibles,
         governance: Governance,
         developer: Developer,
+        buySell: BuySell
     }
 
     let previousAccountIndex = get(selectedAccountIndex)
@@ -40,6 +42,9 @@
     $: $nftDownloadQueue, $downloadingNftId, downloadNextNftInQueue()
     $: interruptNftDownloadAfterTimeout(get(selectedAccountIndex), $downloadingNftId)
     $: addSelectedAccountNftsToDownloadQueue($selectedAccountIndex)
+    $: if ($dashboardRoute !== DashboardRoute.BuySell) {
+        void Platform.closeTransak()
+    }
 
     $: if (features.analytics.dashboardRoute.enabled && $dashboardRoute)
         Platform.trackEvent('dashboard-route', { route: $dashboardRoute })
