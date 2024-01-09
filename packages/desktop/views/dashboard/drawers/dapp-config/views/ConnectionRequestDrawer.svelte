@@ -9,10 +9,10 @@
     import DappInformationCard from '../components/DappInformationCard.svelte'
     import { SupportedNetworkId, getAllNetworkIds } from '@core/network'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
-    import { ProposalTypes } from '@walletconnect/types'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
     import { onDestroy } from 'svelte'
+    import { Web3WalletTypes } from '@walletconnect/web3wallet'
 
     enum SessionVerification {
         Valid = 'VALID',
@@ -26,16 +26,10 @@
     let acceptedInsecureConnection = false
     $: isVerified = $sessionProposal?.verifyContext.verified.validation === SessionVerification.Valid
     $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
-    $: unsupportedMethods = $sessionProposal ? getUnsupportedMethods($sessionProposal?.params.requiredNamespaces) : []
-    $: supportedNetworks = $sessionProposal
-        ? getSupportedNetworks($sessionProposal?.params.requiredNamespaces, $sessionProposal?.params.optionalNamespaces)
-        : []
-    $: unsupportedRequiredNetworks = $sessionProposal
-        ? getUnsupportedRequiredNetworks($sessionProposal?.params.requiredNamespaces)
-        : []
-    $: isSupportedOnOtherProfiles = $sessionProposal
-        ? areNetworksSupportedOnOtherProfiles(unsupportedRequiredNetworks)
-        : false
+    $: unsupportedMethods = getUnsupportedMethods($sessionProposal)
+    $: supportedNetworks = getSupportedNetworks($sessionProposal)
+    $: unsupportedRequiredNetworks = getUnsupportedRequiredNetworks($sessionProposal)
+    $: isSupportedOnOtherProfiles = areNetworksSupportedOnOtherProfiles(unsupportedRequiredNetworks)
     $: fulfillsRequirements =
         unsupportedMethods.length === 0 && unsupportedRequiredNetworks.length === 0 && supportedNetworks.length > 0
 
@@ -54,16 +48,21 @@
         }
     }
 
-    function getUnsupportedRequiredNetworks(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
+    function getUnsupportedRequiredNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): string[] {
+        if (!_sessionProposal) return []
+
+        const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
         const networksSupportedByProfile = getAllNetworkIds()
         const requiredNetworks = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
         return requiredNetworks.filter((network) => !networksSupportedByProfile.includes(network))
     }
 
-    function getSupportedNetworks(
-        requiredNamespaces: ProposalTypes.RequiredNamespaces,
-        optionalNamespaces: ProposalTypes.RequiredNamespaces
-    ): string[] {
+    function getSupportedNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): string[] {
+        if (!_sessionProposal) return []
+
+        const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
+        const optionalNamespaces = _sessionProposal?.params.optionalNamespaces
+
         const networksSupportedByProfile = getAllNetworkIds()
         const networksSupportedByDapp = []
 
@@ -78,7 +77,10 @@
         return _unsupportedRequiredNetworks.every((network) => allSupportedNetworks.includes(network))
     }
 
-    function getUnsupportedMethods(requiredNamespaces: ProposalTypes.RequiredNamespaces): string[] {
+    function getUnsupportedMethods(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): string[] {
+        if (!_sessionProposal) return []
+
+        const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
         const supportedMethods = Object.values(METHODS_FOR_PERMISSION).flat()
         const requiredMethods = Object.values(requiredNamespaces).flatMap((namespace) => namespace.methods)
         return requiredMethods.filter((network) => !supportedMethods.includes(network))
