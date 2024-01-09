@@ -3,7 +3,7 @@ import { PopupId } from '../enums'
 export interface IProfileAuthPopupState {
     active: boolean
     id: PopupId | undefined
-    props?: unknown
+    props?: Record<string, unknown>
     hideClose?: boolean
     preventClose?: boolean
 }

@@ -1,8 +1,8 @@
 import { get } from 'svelte/store'
-import { popupState, updateProfileAuthProps } from '../stores'
+import { profileAuthPopup, updateProfileAuthProps } from '../stores'
 
 export function closeProfileAuthPopup(options?: { forceClose?: boolean; callOnCancel?: boolean }): void {
-    const props = get(popupState).props
+    const props = get(profileAuthPopup).props
     if (options?.callOnCancel && 'function' === typeof props?.onCancel) {
         props.onCancel()
     }
@@ -12,6 +12,6 @@ export function closeProfileAuthPopup(options?: { forceClose?: boolean; callOnCa
         id: null,
         hideClose: false,
         preventClose: false,
-        props: null,
+        props: undefined,
     })
 }
