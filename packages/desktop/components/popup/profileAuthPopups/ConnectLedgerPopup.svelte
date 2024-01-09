@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { isFunction } from '@core/utils'
-    import { closePopup } from '@desktop/auxiliary/popup'
+    import { closeProfileAuthPopup } from '@desktop/auxiliary/popup'
     import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
 
@@ -54,15 +54,15 @@
 
     function continueFlow(): void {
         if (isFunction(onContinue)) {
-            closePopup()
+            closeProfileAuthPopup()
             onContinue()
         } else {
-            closePopup()
+            closeProfileAuthPopup()
         }
     }
 
     function onCancelClick(): void {
-        closePopup({ callOnCancel: true })
+        closeProfileAuthPopup({ callOnCancel: true })
     }
 
     const backButton = {
