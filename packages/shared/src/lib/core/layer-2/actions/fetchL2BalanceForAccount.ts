@@ -25,6 +25,7 @@ import { setLayer2AccountBalanceForChain } from '../stores'
 import { isTrackedTokenAddress } from '@core/wallet'
 import { TokenTrackingStatus } from '@core/token'
 import features from '@features/features'
+import { KeyValue } from '@ui/types'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -83,7 +84,7 @@ async function getLayer2NativeTokenBalancesForAddress(
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const nativeTokenResult = (await contract.methods
             .callView(accountsCoreContract, getBalanceFunc, parameters)
-            .call()) as { items: { key: string; value: number }[] }
+            .call()) as { items: KeyValue<number>[] }
 
         const nativeTokens = nativeTokenResult.items.map((item) => ({
             tokenId: item.key,
@@ -133,7 +134,7 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAcco
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const nftResult = (await contract.methods
             .callView(accountsCoreContract, getBalanceFunc, parameters)
-            .call()) as { items: { key: string; value: string }[] }
+            .call()) as { items: KeyValue<string>[] }
 
         // the element with `key: "0x69"` just represents the length of the list, so it needs to be excluded
         const nftIds = nftResult.items.filter((item) => item.key !== '0x69').map((item) => item.value)
