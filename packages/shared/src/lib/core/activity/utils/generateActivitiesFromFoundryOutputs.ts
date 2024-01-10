@@ -15,12 +15,16 @@ export async function generateActivitiesFromFoundryOutputs(
 
     const foundryOutputs = outputs.filter((output) => output.output?.type === OutputType.Foundry)
     for (const foundryOutput of foundryOutputs) {
-        const activity = await generateSingleFoundryActivity(account, networkId, {
-            action: ActivityAction.Mint,
-            processedTransaction,
-            wrappedOutput: foundryOutput,
-        })
-        activities.push(activity)
+        try {
+            const activity = await generateSingleFoundryActivity(account, networkId, {
+                action: ActivityAction.Mint,
+                processedTransaction,
+                wrappedOutput: foundryOutput,
+            })
+            activities.push(activity)
+        } catch (error) {
+            console.error(error)
+        }
     }
     return activities
 }
