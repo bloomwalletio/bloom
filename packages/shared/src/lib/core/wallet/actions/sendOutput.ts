@@ -3,7 +3,7 @@ import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 
 import { processAndAddToActivities } from '@core/activity/utils'
-import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
+import { getTransactionOptions } from '../utils'
 import { Output } from '../types'
 import { getActiveNetworkId } from '@core/network'
 
@@ -13,7 +13,7 @@ export async function sendOutput(output: Output): Promise<void> {
         const networkId = getActiveNetworkId()
 
         updateSelectedAccount({ isTransferring: true })
-        const transaction = await account.sendOutputs([output], DEFAULT_TRANSACTION_OPTIONS)
+        const transaction = await account.sendOutputs([output], getTransactionOptions(account.depositAddress))
         // Reset transaction details state, since the transaction has been sent
         if (output.type === OutputType.Nft) {
             const nftId = (output as NftOutput).nftId
