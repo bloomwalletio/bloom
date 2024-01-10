@@ -1862,7 +1862,7 @@
                 "short": "不支持 Url",
                 "long": "不支持Url模式"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "不支持的媒体类型",
                 "long": "不支持此媒体类型。"
             },

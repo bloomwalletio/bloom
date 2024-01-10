@@ -6,7 +6,7 @@ import { activeProfile } from '@core/profile/stores'
 import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
 import { DownloadMetadata, INft } from '../interfaces'
 import { StatusCodes, getReasonPhrase } from 'http-status-codes'
-import { DownloadErrorType, DownloadWarningType } from '../enums'
+import { DownloadErrorType, DownloadWarningType, NftStandard, ParentMimeType } from '../enums'
 import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 10
@@ -90,6 +90,13 @@ async function setReturnForOkResponse(
         }
     }
 
+    if (!isMediaSupported(downloadMetadata.contentType ?? '')) {
+        return {
+            ...downloadMetadata,
+            warning: { type: DownloadWarningType.UnsupportedMediaType },
+        }
+    }
+
     if (isFileTooLarge(downloadMetadata.contentLength ?? '')) {
         return {
             ...downloadMetadata,
@@ -137,9 +144,19 @@ function isFileTooLarge(contentLength: string): boolean {
 }
 
 function isExpectedContentType(nft: INft, downloadMetadata: DownloadMetadata): boolean {
-    if (!nft.metadata?.type || !downloadMetadata.contentType) {
+    if (!downloadMetadata.contentType) {
         return false
     }
 
-    return downloadMetadata.contentType === String(nft.metadata.type)
+    if (nft.standard === NftStandard.Erc721) {
+        return true
+    }
+
+    return nft.metadata?.type ? downloadMetadata.contentType === String(nft.metadata.type) : false
+}
+
+function isMediaSupported(contentType: string): boolean {
+    const supportedTypes = [ParentMimeType.Image, ParentMimeType.Video]
+    const mediaType = contentType.split('/', 1)[0]
+    return supportedTypes.some((supportedType) => String(supportedType) === mediaType)
 }
