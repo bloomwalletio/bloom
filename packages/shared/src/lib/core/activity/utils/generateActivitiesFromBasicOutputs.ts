@@ -20,7 +20,7 @@ export async function generateActivitiesFromBasicOutputs(
 
     const basicOutputs = getNonRemainderBasicOutputsFromTransaction(
         processedTransaction.outputs,
-        account.depositAddress,
+        account,
         processedTransaction.direction
     )
     const tokensBurned = didTokensGetBurned(
