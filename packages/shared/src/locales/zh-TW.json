@@ -1748,7 +1748,7 @@
                 "short": "不支援的網址",
                 "long": "Url schema not supported"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "不支援的媒體類型",
                 "long": "目刖不支援這個媒體類型。"
             },
