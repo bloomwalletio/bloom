@@ -1,11 +1,10 @@
-import { CommonOutput, OutputData } from '@iota/sdk/out/types'
+import { OutputData } from '@iota/sdk/out/types'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { ActivityDirection } from '../enums'
-import { getRecipientAddressFromOutput } from './outputs'
 import { EMPTY_HEX_ID } from '@core/wallet'
 import { getActiveNetworkId } from '@core/network/actions'
 import { IAccountState } from '@core/account/interfaces'
-import { isAddressFromActiveAccount } from './isAddressFromActiveAccount'
+import { isOutputSubjectFromActiveAccount } from './isOutputSubjectFromActiveAccount'
 
 export function getDirectionFromTransaction(
     wrappedOutputs: IWrappedOutput[],
@@ -18,23 +17,22 @@ export function getDirectionFromTransaction(
     if (isGenesis) {
         return ActivityDirection.Genesis
     }
-    const hasOutputsFromOrToAnExternalAddress = wrappedOutputs.some((outputData) => {
-        const recipientAddress = getRecipientAddressFromOutput(outputData.output as CommonOutput)
-        const isActiveAccount = isAddressFromActiveAccount(recipientAddress, account, getActiveNetworkId())
 
-        if (incoming) {
-            return isActiveAccount
-        } else {
-            return !isActiveAccount
-        }
+    const networkId = getActiveNetworkId()
+    const containsIncomingOutput = wrappedOutputs.some((outputData) => {
+        return isOutputSubjectFromActiveAccount(outputData.output, account, networkId)
     })
-    if (hasOutputsFromOrToAnExternalAddress) {
-        return incoming ? ActivityDirection.Incoming : ActivityDirection.Outgoing
+    const containsOutgoingOutput = wrappedOutputs.some((outputData) => {
+        return !isOutputSubjectFromActiveAccount(outputData.output, account, networkId)
+    })
+
+    if (containsIncomingOutput && incoming) {
+        return ActivityDirection.Incoming
+    } else if (containsOutgoingOutput && !incoming) {
+        return ActivityDirection.Outgoing
+    } else if (containsIncomingOutput && !incoming) {
+        return ActivityDirection.SelfTransaction
     } else {
-        const isSelfTransaction = wrappedOutputs.some((outputData) => {
-            const recipientAddress = getRecipientAddressFromOutput(outputData.output as CommonOutput)
-            return isAddressFromActiveAccount(recipientAddress, account, getActiveNetworkId())
-        })
-        return isSelfTransaction ? ActivityDirection.SelfTransaction : ActivityDirection.Incoming
+        return ActivityDirection.Incoming
     }
 }
