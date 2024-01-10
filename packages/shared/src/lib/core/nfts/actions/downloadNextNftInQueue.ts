@@ -6,7 +6,7 @@ import { activeProfile } from '@core/profile/stores'
 import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
 import { DownloadMetadata, INft } from '../interfaces'
 import { StatusCodes, getReasonPhrase } from 'http-status-codes'
-import { DownloadErrorType, DownloadWarningType, ParentMimeType } from '../enums'
+import { DownloadErrorType, DownloadWarningType, NftStandard, ParentMimeType } from '../enums'
 import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 10
@@ -148,7 +148,7 @@ function isExpectedContentType(nft: INft, downloadMetadata: DownloadMetadata): b
         return false
     }
 
-    if (isIrc27Nft(nft)) {
+    if (nft.standard === NftStandard.Erc721) {
         return true
     }
 
