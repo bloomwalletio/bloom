@@ -40,3 +40,7 @@ export function round(value: number, precision: number = 0): number {
     const multiplier = 10 ** precision
     return Math.round(value * multiplier) / multiplier
 }
+
+export function isScientificNotation(num: number | string): boolean {
+    return num.toString().includes('e')
+}

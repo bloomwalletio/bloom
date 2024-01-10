@@ -1,6 +1,6 @@
 import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
-import { generateRandomId } from '@core/utils'
+import { generateRandomId, isScientificNotation } from '@core/utils'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../../enums'
 import { ITokenBalanceChange, TransactionActivity } from '../../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
@@ -14,7 +14,16 @@ export async function generateTokenBalanceChangeActivity(
     account: IAccountState
 ): Promise<TransactionActivity> {
     // Cast as a BigInt due to legacy data structures
-    const difference = BigInt(Number(balanceChange.newBalance)) - BigInt(Number(balanceChange.oldBalance ?? 0))
+    const newBalance = BigInt(
+        isScientificNotation(balanceChange.newBalance) ? Number(balanceChange.newBalance) : balanceChange.newBalance
+    )
+    const oldBalance = BigInt(
+        isScientificNotation(balanceChange.oldBalance ?? 0)
+            ? Number(balanceChange.oldBalance)
+            : balanceChange.oldBalance ?? 0
+    )
+
+    const difference = newBalance - oldBalance
     const direction = difference >= 0 ? ActivityDirection.Incoming : ActivityDirection.Outgoing
     const rawAmount = direction === ActivityDirection.Incoming ? difference : difference * BigInt(-1)
 
