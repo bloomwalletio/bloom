@@ -3,11 +3,14 @@ import { IWrappedOutput } from '@core/wallet/interfaces'
 import { ActivityDirection } from '../enums'
 import { getRecipientAddressFromOutput } from './outputs'
 import { EMPTY_HEX_ID } from '@core/wallet'
+import { getActiveNetworkId } from '@core/network/actions'
+import { IAccountState } from '@core/account/interfaces'
+import { isAddressFromActiveAccount } from './isAddressFromActiveAccount'
 
 export function getDirectionFromTransaction(
     wrappedOutputs: IWrappedOutput[],
     incoming: boolean,
-    accountAddress: string,
+    account: IAccountState,
     inputs: OutputData[]
 ): ActivityDirection {
     const isGenesis =
@@ -15,23 +18,23 @@ export function getDirectionFromTransaction(
     if (isGenesis) {
         return ActivityDirection.Genesis
     }
-    const containsOutput = wrappedOutputs.some((outputData) => {
+    const hasOutputsFromOrToAnExternalAddress = wrappedOutputs.some((outputData) => {
         const recipientAddress = getRecipientAddressFromOutput(outputData.output as CommonOutput)
-
-        outputData.metadata?.blockId
+        const isActiveAccount = isAddressFromActiveAccount(recipientAddress, account, getActiveNetworkId())
 
         if (incoming) {
-            return accountAddress === recipientAddress
+            return isActiveAccount
         } else {
-            return accountAddress !== recipientAddress
+            return !isActiveAccount
         }
     })
-    if (containsOutput) {
+    if (hasOutputsFromOrToAnExternalAddress) {
         return incoming ? ActivityDirection.Incoming : ActivityDirection.Outgoing
     } else {
-        const isSelfTransaction = wrappedOutputs.some(
-            (outputData) => accountAddress === getRecipientAddressFromOutput(outputData.output as CommonOutput)
-        )
+        const isSelfTransaction = wrappedOutputs.some((outputData) => {
+            const recipientAddress = getRecipientAddressFromOutput(outputData.output as CommonOutput)
+            return isAddressFromActiveAccount(recipientAddress, account, getActiveNetworkId())
+        })
         return isSelfTransaction ? ActivityDirection.SelfTransaction : ActivityDirection.Incoming
     }
 }
