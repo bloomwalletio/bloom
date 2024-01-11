@@ -6,9 +6,11 @@
     import SettingsSection from '../SettingsSection.svelte'
 
     let showHiddenAccounts = $activeProfile?.showHiddenAccounts
+
+    $: hasLoadedAccounts = $activeProfile?.hasLoadedAccounts
     $: updateActiveProfile({ showHiddenAccounts: showHiddenAccounts })
 
-    $: if ($activeProfile?.hasLoadedAccounts && !showHiddenAccounts) {
+    $: if ($hasLoadedAccounts && !showHiddenAccounts) {
         setNextSelectedAccount()
     }
 </script>

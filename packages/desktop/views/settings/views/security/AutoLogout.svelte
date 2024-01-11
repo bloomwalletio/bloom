@@ -6,11 +6,12 @@
     import SettingsSection from '../SettingsSection.svelte'
 
     const options: IOption[] = getLockScreenTimeoutOptions()
-    let selected: IOption = options.find(
-        (option) =>
-            option.value === $activeProfile?.settings?.lockScreenTimeoutInMinutes.toString() ??
-            DEFAULT_PERSISTED_PROFILE_OBJECT.settings.lockScreenTimeoutInMinutes.toString()
-    )
+    let selected: IOption =
+        options.find(
+            (option) =>
+                option.value === $activeProfile?.settings?.lockScreenTimeoutInMinutes.toString() ??
+                DEFAULT_PERSISTED_PROFILE_OBJECT.settings.lockScreenTimeoutInMinutes.toString()
+        ) ?? options[0]
     $: onLockScreenTimeoutChange(selected)
 
     function onLockScreenTimeoutChange(option: IOption): void {
