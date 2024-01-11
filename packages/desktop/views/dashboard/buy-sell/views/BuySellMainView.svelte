@@ -9,10 +9,16 @@
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { Pane } from '@ui'
-    import { onDestroy, onMount } from 'svelte'
+    import { onDestroy } from 'svelte'
 
     let tokenBalance: string
     let fiatBalance: string
+
+    void Platform.openTransak({
+        currency: $activeProfile?.settings.marketCurrency,
+        address: $selectedAccount.depositAddress,
+        service: 'BUY',
+    })
 
     function updateBalances(): void {
         const tokens = $selectedAccountTokens?.[$activeProfile.network.id]
@@ -23,28 +29,55 @@
 
     $: $selectedAccountIndex, updateBalances()
 
-    onMount(() => {
-        void Platform.openTransak({
-            currency: $activeProfile?.settings.marketCurrency,
-            address: $selectedAccount.depositAddress,
-            service: 'BUY',
-        })
-    })
-
     onDestroy(() => {
         void Platform.closeTransak()
     })
 </script>
 
-<Pane
-    classes="flex flex-col justify-center items-center w-fit px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
->
-    <AccountSwitcher />
-    <icon-container class="bg-black p-2 rounded-full">
-        <Icon name={IconName.Iota} size="xl" customColor="#ffffff" />
-    </icon-container>
-    <div class="flex flex-col gap-1 justify-center items-center">
-        <FormattedBalance balanceText={tokenBalance} textType="h6" />
-        <Text type="body1" textColor="secondary">{fiatBalance}</Text>
+<div class="grid-container">
+    <div class="account-info">
+        <Pane
+            classes="flex flex-col justify-center items-center w-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
+        >
+            <AccountSwitcher />
+            <icon-container class="bg-black p-2 rounded-full">
+                <Icon name={IconName.Iota} size="xl" customColor="#ffffff" />
+            </icon-container>
+            <div class="flex flex-col gap-1 justify-center items-center">
+                <FormattedBalance balanceText={tokenBalance} textType="h6" />
+                <Text type="body1" textColor="secondary">{fiatBalance}</Text>
+            </div>
+        </Pane>
     </div>
-</Pane>
+    <div class="transak-container">
+        <Pane
+            classes="flex flex-col justify-center items-center w-full h-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
+        ></Pane>
+    </div>
+    <div class="warning-container">
+        <Pane
+            classes="flex flex-col justify-center items-center w-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
+        ></Pane>
+    </div>
+</div>
+
+<style lang="postcss">
+    .grid-container {
+        @apply grid grid-cols-[1fr_482px_1fr] grid-rows-2 gap-4 h-full;
+        grid-template-areas:
+            'account transak warning'
+            'account transak warning';
+    }
+
+    .account-info {
+        grid-area: account;
+    }
+
+    .transak-container {
+        grid-area: transak;
+    }
+
+    .warning-container {
+        grid-area: warning;
+    }
+</style>

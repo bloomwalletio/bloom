@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
         window.document.body.style.padding = '0'
         window.document.body.style.width = '100dvw'
         window.document.body.style.height = '100dvh'
+        window.document.body.style.borderRadius = '16px'
         window.document.body.style.display = 'flex'
         window.document.body.style.alignItems = 'center'
         window.document.body.style.justifyContent = 'center'
@@ -32,6 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
         iframe.style.width = '100%'
         iframe.style.height = '100%'
         iframe.style.border = 'none'
+        iframe.style.borderRadius = '16px'
         iframe.allow = 'camera;microphone;payment'
         iframe.sandbox.add('allow-scripts', 'allow-same-origin')
 

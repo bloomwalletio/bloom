@@ -628,8 +628,9 @@ export function openTransakWindow(data: { currency: string; address: string; ser
         minimizable: false,
         skipTaskbar: true,
         acceptFirstMouse: true,
-        hasShadow: true,
+        hasShadow: false,
         thickFrame: false,
+        roundedCorners: false,
         webPreferences: {
             ...DEFAULT_WEB_PREFERENCES,
             contextIsolation: true,
@@ -692,8 +693,8 @@ function positionTransakWindow(): void {
         const sidebarWidth = sidebarOpen ? SIDEBAR_WIDTH_OPEN : SIDEBAR_WIDTH_CLOSED
         const dashboardWidth = mainWindowWidth - sidebarWidth
         const transakX = mainWindowX + sidebarWidth + dashboardWidth / 2 - transakWidth / 2
-        const titleBarHeight = 40 + (process.platform === 'win32' ? 28 : 0)
-        const transakY = mainWindowY + titleBarHeight + 32
+        const titleBarHeight = 40 + 1 + (process.platform === 'win32' ? 28 + 1 : 0)
+        const transakY = mainWindowY + titleBarHeight + 32 + 1
 
         windows.transak.setPosition(transakX, transakY)
     }
@@ -707,8 +708,8 @@ function sizeTransakWindow(): void {
 
 function getTransakHeight(): number {
     const [, mainWindowHeight] = windows.main.getSize()
-    const titleBarHeight = 40 + (process.platform === 'win32' ? 28 : 0)
-    return mainWindowHeight - titleBarHeight - 32 * 2
+    const titleBarHeight = 40 + 1 + (process.platform === 'win32' ? 28 + 1 : 0)
+    return mainWindowHeight - titleBarHeight - (32 + 1) * 2
 }
 
 function windowStateKeeper(windowName: string, settingsFilename: string): IAppState {
