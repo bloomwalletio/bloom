@@ -10,7 +10,7 @@ import { persistNftWithContractMetadata } from './persistNftWithContractMetadata
 import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { buildNftFromPersistedErc721Nft } from '../utils'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 
 export async function checkForUntrackedNfts(account: IAccountState): Promise<void> {
     if (!features?.collectibles?.erc721?.enabled) {
@@ -76,7 +76,7 @@ async function persistNftsFromExplorerAsset(
             }
         })
 
-        const nfts = (await Promise.all(nftPromises)).filter(Boolean) as INft[]
+        const nfts = (await Promise.all(nftPromises)).filter(Boolean) as Nft[]
         await addNftsToDownloadQueue(nfts)
     } catch (err) {
         console.error(err)

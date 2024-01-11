@@ -4,7 +4,7 @@ import { downloadingNftId, nftDownloadQueue, removeNftFromDownloadQueue, updateP
 import { buildFilePath, fetchWithTimeout, isIrc27Nft } from '../utils'
 import { activeProfile } from '@core/profile/stores'
 import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
-import { DownloadMetadata, INft } from '../interfaces'
+import { IDownloadMetadata, Nft } from '../interfaces'
 import { StatusCodes, getReasonPhrase } from 'http-status-codes'
 import { DownloadErrorType, DownloadWarningType, NftStandard, ParentMimeType } from '../enums'
 import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
@@ -49,10 +49,10 @@ export async function downloadNextNftInQueue(): Promise<void> {
 }
 
 async function checkHeadRequestForNftUrl(
-    nft: INft,
-    downloadMetadata: DownloadMetadata,
+    nft: Nft,
+    downloadMetadata: IDownloadMetadata,
     shouldCheckSoonaverseFallback: boolean
-): Promise<DownloadMetadata> {
+): Promise<IDownloadMetadata> {
     try {
         const response = await headRequest(nft.composedUrl)
         const updatedDownloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
@@ -74,10 +74,10 @@ async function checkHeadRequestForNftUrl(
 }
 
 async function setReturnForOkResponse(
-    nft: INft,
-    downloadMetadata: DownloadMetadata,
+    nft: Nft,
+    downloadMetadata: IDownloadMetadata,
     shouldCheckSoonaverseFallback: boolean
-): Promise<DownloadMetadata> {
+): Promise<IDownloadMetadata> {
     if (!isExpectedContentType(nft, downloadMetadata)) {
         if (shouldCheckSoonaverseFallback) {
             nft.composedUrl = nft.composedUrl + '/' + encodeURIComponent(nft?.name)
@@ -113,7 +113,7 @@ async function setReturnForOkResponse(
     }
 }
 
-function buildDownloadDataFromResponse(response: Response): Partial<DownloadMetadata> {
+function buildDownloadDataFromResponse(response: Response): Partial<IDownloadMetadata> {
     if (response.status === Number(StatusCodes.OK)) {
         return {
             contentLength: response.headers.get(HttpHeader.ContentLength) || undefined,
@@ -143,7 +143,7 @@ function isFileTooLarge(contentLength: string): boolean {
     return MAX_FILE_SIZE_IN_BYTES > 0 && Number(contentLength) > MAX_FILE_SIZE_IN_BYTES
 }
 
-function isExpectedContentType(nft: INft, downloadMetadata: DownloadMetadata): boolean {
+function isExpectedContentType(nft: Nft, downloadMetadata: IDownloadMetadata): boolean {
     if (!downloadMetadata.contentType) {
         return false
     }
