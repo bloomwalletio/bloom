@@ -2,13 +2,13 @@
     import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { DownloadMetadata, INft, isIrc27Nft, isNftLocked } from '@core/nfts'
+    import { IDownloadMetadata, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
     import { selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
     import { MediaPlaceholder, NftMedia } from '@ui'
 
-    export let nft: INft
+    export let nft: Nft
 
     let nftWrapperClientWidth: number
     let anchor: HTMLElement
@@ -21,7 +21,7 @@
         $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
-    function getAlertText(downloadMetadata: DownloadMetadata): string {
+    function getAlertText(downloadMetadata: IDownloadMetadata): string {
         const { error, warning } = downloadMetadata ?? {}
         const errorOrWarning = error || warning
 

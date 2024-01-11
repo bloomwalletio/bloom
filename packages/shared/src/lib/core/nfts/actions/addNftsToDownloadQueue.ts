@@ -1,15 +1,15 @@
 import { get } from 'svelte/store'
 import { updateNftInAllAccountNfts } from '.'
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 import { addNftToDownloadQueue, nftDownloadQueue, updatePersistedNft } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
 
-export async function addNftsToDownloadQueue(nfts: INft[], forceDownload: boolean = true): Promise<void> {
+export async function addNftsToDownloadQueue(nfts: Nft[], forceDownload: boolean = true): Promise<void> {
     if (nfts.length === 0) {
         return
     }
 
-    const nftsToAdd: INft[] = []
+    const nftsToAdd: Nft[] = []
     for (const nft of nfts) {
         const isNftInDownloadQueue = get(nftDownloadQueue).some((nftInQueue) => nftInQueue.id === nft.id)
         if (isNftInDownloadQueue) {
@@ -32,7 +32,7 @@ export async function addNftsToDownloadQueue(nfts: INft[], forceDownload: boolea
     }
 }
 
-async function validateNft(nft: INft): Promise<undefined | INft> {
+async function validateNft(nft: Nft): Promise<Nft | undefined> {
     try {
         const { shouldDownload, downloadMetadata, isLoaded } = await checkIfNftShouldBeDownloaded(nft)
         updatePersistedNft(nft.id, { downloadMetadata })

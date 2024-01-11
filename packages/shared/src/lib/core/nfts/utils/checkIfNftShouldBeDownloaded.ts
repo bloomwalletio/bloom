@@ -4,13 +4,13 @@ import { StatusCodes } from 'http-status-codes'
 import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
 import { DownloadErrorType } from '../enums'
-import { DownloadMetadata, INft } from '../interfaces'
+import { IDownloadMetadata, Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 
 export async function checkIfNftShouldBeDownloaded(
-    nft: INft
-): Promise<{ shouldDownload: boolean; isLoaded: boolean; downloadMetadata: DownloadMetadata }> {
-    let downloadMetadata: DownloadMetadata = nft.downloadMetadata ?? {}
+    nft: Nft
+): Promise<{ shouldDownload: boolean; downloadMetadata: IDownloadMetadata; isLoaded: boolean }> {
+    let downloadMetadata: IDownloadMetadata = nft.downloadMetadata ?? {}
 
     try {
         const alreadyDownloaded =

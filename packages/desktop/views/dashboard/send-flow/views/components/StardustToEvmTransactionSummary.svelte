@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getActiveNetworkId } from '@core/network'
-    import { INft } from '@core/nfts/interfaces'
+    import { Nft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
     import { Output, SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
@@ -17,7 +17,7 @@
             : output.amount
 
     function getTransactionAssets(sendFlowParameters: SendFlowParameters): {
-        nft?: INft
+        nft?: Nft
         tokenTransfer?: TokenTransferData
         baseCoinTransfer?: TokenTransferData
     } {

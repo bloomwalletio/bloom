@@ -12,7 +12,7 @@ import { IToken } from '@core/token/interfaces'
 import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
 import { getAmountAndTokenFromSendFlowParameters } from '../../utils/send/getAmountAndTokenFromSendFlowParameters'
-import { INft } from '@core/nfts/interfaces'
+import { Nft } from '@core/nfts/interfaces'
 
 export function createEvmChainToEvmChainTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -33,7 +33,7 @@ export function createEvmChainToEvmChainTransaction(
 
     let token: IToken | undefined
     let amount: string | undefined
-    let nft: INft | undefined
+    let nft: Nft | undefined
     let destinationAddress: string | undefined
 
     if (
@@ -79,7 +79,7 @@ function getDataForTransaction(
     recipientAddress: string,
     token: IToken | undefined,
     amount: string | undefined,
-    nft: INft | undefined
+    nft: Nft | undefined
 ): string | undefined {
     if (token && amount) {
         const standard = token.metadata?.standard
