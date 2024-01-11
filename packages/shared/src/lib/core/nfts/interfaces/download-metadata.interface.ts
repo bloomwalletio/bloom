@@ -1,9 +1,10 @@
+import { StatusCodes } from 'http-status-codes'
 import { DownloadErrorType, DownloadWarningType } from '../enums'
 
 export interface IDownloadMetadata {
     contentType?: string
     contentLength?: string
-    responseCode?: number
+    responseCode?: StatusCodes
     downloadUrl?: string
     filePath?: string
     error?: {
