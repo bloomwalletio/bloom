@@ -26,30 +26,35 @@ export default class NftDownloadManager {
         _event: IpcMainInvokeEvent,
         url: string,
         destination: string,
-        nftId: string,
-        accountIndex: number
+        nftId: string
     ): Promise<void> {
         const userPath = app.getPath('userData')
         const parentDirectory = app.isPackaged ? userPath : __dirname
         const directory = `${parentDirectory}/__storage__/${destination}`
         ensureDirectoryExistence(directory)
+        const main = getOrInitWindow('main')
 
-        await download(getOrInitWindow('main'), url, {
-            directory,
-            filename: 'original',
-            saveAs: false,
-            showBadge: true,
-            showProgressBar: true,
-            onCompleted: () => {
-                delete this.downloadItems[nftId]
-                getOrInitWindow('main').webContents.send('nft-download-done', { nftId, accountIndex })
-            },
-            onCancel: () => {
-                delete this.downloadItems[nftId]
-                getOrInitWindow('main').webContents.send('nft-download-interrupted', { nftId, accountIndex })
-            },
-            onStarted: (item) => (this.downloadItems[nftId] = item),
-        })
+        if (this.downloadItems[nftId]) {
+            return
+        }
+
+        try {
+            await download(main, url, {
+                directory,
+                filename: 'original',
+                saveAs: false,
+                showBadge: true,
+                showProgressBar: true,
+                onCompleted: () => {
+                    delete this.downloadItems[nftId]
+                    main.webContents.send('nft-download-done', { nftId })
+                },
+                onStarted: (item) => (this.downloadItems[nftId] = item),
+            })
+        } catch (error) {
+            delete this.downloadItems[nftId]
+            main.webContents.send('nft-download-interrupted', { nftId })
+        }
     }
 
     private handleNftDownloadCancel(_event: IpcMainInvokeEvent, nftId: string): void {

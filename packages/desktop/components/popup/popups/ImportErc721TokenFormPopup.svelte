@@ -7,8 +7,10 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
-    import { loadNftsForAccount, persistErc721Nft } from '@core/nfts/actions'
-    import { selectedAccount } from '@core/account/stores'
+    import { persistErc721Nft, updateAllAccountNftsForAccount } from '@core/nfts/actions'
+    import { buildNftFromPersistedErc721Nft } from '@core/nfts/utils'
+    import { activeAccounts } from '@core/profile/stores'
+    import { getAddressFromAccountForNetwork } from '@core/account'
 
     let busy = false
 
@@ -32,7 +34,13 @@
             if (!persistedErc721Nft) {
                 throw new Error(localize('popups.importTokens.errors.alreadyAdded'))
             }
-            await loadNftsForAccount($selectedAccount)
+
+            for (const account of $activeAccounts) {
+                const l2Address = getAddressFromAccountForNetwork(account, networkId)
+                const nft = buildNftFromPersistedErc721Nft(persistedErc721Nft, l2Address)
+                updateAllAccountNftsForAccount(account.index, nft)
+            }
+
             showNotification({
                 variant: 'success',
                 text: localize('popups.importToken.success', {

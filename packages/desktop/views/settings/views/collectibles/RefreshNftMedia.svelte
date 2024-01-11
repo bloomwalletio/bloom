@@ -1,6 +1,5 @@
 <script lang="ts">
     import { Button } from '@bloomwalletio/ui'
-    import { selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import {
@@ -34,13 +33,11 @@
             await stopDownloadingNftMediaFromQueue()
             await Promise.all(
                 $selectedAccountNfts.map(async (nft) => {
-                    await Platform.deleteFile(nft.filePath)
-                    updateNftInAllAccountNfts($selectedAccountIndex, nft.id, {
-                        downloadMetadata: { isLoaded: false },
-                    })
+                    await Platform.deleteFile(nft.downloadMetadata?.filePath)
+                    updateNftInAllAccountNfts(nft.id, { isLoaded: false })
                 })
             )
-            addNftsToDownloadQueue($selectedAccountIndex, $selectedAccountNfts, true)
+            void addNftsToDownloadQueue($selectedAccountNfts, true)
         } finally {
             isLoading = false
         }

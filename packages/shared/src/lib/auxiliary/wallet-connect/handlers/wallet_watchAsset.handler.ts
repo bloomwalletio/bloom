@@ -7,6 +7,7 @@ import { addNewTrackedTokenToActiveProfile } from '@core/wallet/actions'
 import { TokenStandard, TokenTrackingStatus } from '@core/token/enums'
 import { IConnectedDapp } from '../interface'
 import { localize } from '@core/i18n'
+import { NftStandard } from '@core/nfts/enums'
 
 interface WatchAssetParams {
     type: EvmAssetStandard
@@ -24,7 +25,7 @@ export async function handleWatchAsset(
     chain: IChain,
     responseCallback: (params: CallbackParameters) => void
 ): Promise<void> {
-    if (params.type !== 'ERC20' && params.type !== 'ERC721') {
+    if (params.type !== TokenStandard.Erc20 && params.type !== NftStandard.Erc721) {
         responseCallback({ error: getSdkError('UNSUPPORTED_METHODS') })
         return
     }
@@ -63,7 +64,7 @@ async function getAssetInfo(
     chain: IChain
 ): Promise<{ name: string; decimals: number; symbol: string } | undefined> {
     switch (type) {
-        case 'ERC20': {
+        case TokenStandard.Erc20: {
             const { address } = options
             const contract = chain.getContract(ContractType.Erc20, address)
             const name = options.name ? options.name : await contract?.methods.name().call()
@@ -72,7 +73,7 @@ async function getAssetInfo(
 
             return { name: name, decimals, symbol }
         }
-        case 'ERC721':
+        case NftStandard.Erc721:
             // TODO
             break
         default:
@@ -91,7 +92,7 @@ function trackAsset(
     networkId: NetworkId
 ): void {
     switch (type) {
-        case 'ERC20':
+        case TokenStandard.Erc20:
             addNewTrackedTokenToActiveProfile(
                 networkId,
                 address,
@@ -99,7 +100,7 @@ function trackAsset(
                 TokenTrackingStatus.ManuallyTracked
             )
             break
-        case 'ERC721':
+        case NftStandard.Erc721:
             // TODO
             break
         default:

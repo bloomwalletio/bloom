@@ -7,13 +7,14 @@
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { IItem, Table, Tabs } from '@bloomwalletio/ui'
+    import { KeyValue } from '@ui/types'
 
     enum Tab {
         App = 'app',
         System = 'system',
     }
 
-    let selectedTab: { key: string; value: string }
+    let selectedTab: KeyValue<string>
 
     let itemsMap: {
         [Tab.App]: IItem[]

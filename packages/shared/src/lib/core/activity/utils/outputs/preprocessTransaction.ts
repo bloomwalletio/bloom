@@ -21,7 +21,7 @@ export async function preprocessTransaction(
     )
     const inputs = await Promise.all(inputIds.map((inputId) => account.getOutput(inputId)))
 
-    const direction = getDirectionFromTransaction(outputs, transaction.incoming, account.depositAddress, inputs)
+    const direction = getDirectionFromTransaction(outputs, transaction.incoming, account, inputs)
     return {
         outputs: outputs,
         transactionId: transaction?.transactionId,

@@ -12,9 +12,13 @@ export async function generateActivitiesFromChains(account: IAccountState): Prom
     for (const chain of chains) {
         const transactions = getPersistedEvmTransactions(account.index, chain)
         for (const transaction of transactions) {
-            const activity = await generateActivityFromEvmTransaction(transaction, chain, account)
-            if (activity) {
-                activities.push(activity)
+            try {
+                const activity = await generateActivityFromEvmTransaction(transaction, chain, account)
+                if (activity) {
+                    activities.push(activity)
+                }
+            } catch (error) {
+                console.error(error)
             }
         }
     }

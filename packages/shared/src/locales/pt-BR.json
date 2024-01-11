@@ -485,6 +485,7 @@
                         "reconnectHint": "You have previously connected with this dApp.",
                         "insecure": "A URL para este dApp não pôde ser verificada. Sua conexão com este aplicativo pode não ser segura.",
                         "unsupportedNetworks": "Este dApp não é compatível com Bloom, pois é executado em uma rede não suportada.",
+                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "Este dApp não é totalmente compatível com a Bloom. Alguns métodos ou eventos não são suportados.",
                         "supportedOnOtherProfile": "Este dApp é executado em uma rede suportada, mas não está acessível com este perfil. Por favor, use um perfil conectado à rede necessária.",
                         "acceptInsecureConnection": "Eu entendo que este dApp pode ser inseguro e ainda desejo me conectar."
@@ -868,7 +869,7 @@
             "title": "Conecte sua Ledger",
             "notConnected": "Connect your Ledger device to continue.",
             "locked": "Unlock your Ledger device to continue.",
-            "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
+            "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger conectada com sucesso, por favor continue."
         },
         "verifyLedgerTransaction": {
@@ -928,6 +929,11 @@
                         "Pending": "Sending to {subject}",
                         "Confirmed": "Sent to {subject}",
                         "Conflicting": "Failed to send"
+                    },
+                    "genesis": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
                     }
                 },
                 "internal": {
@@ -1857,7 +1863,7 @@
                 "short": "URL não suportada",
                 "long": "Esquema de URL não suportado"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Tipo de mídia não suportado",
                 "long": "The media type is not currently supported"
             },
@@ -1945,6 +1951,9 @@
                 "metadata": "Um campo de dados opcional para armazenar dados de forma permanente no Tangle.",
                 "tag": "Um pequeno campo de dados opcional. Usar tags em transações pode facilitar a busca.",
                 "transactionFee": "A taxa de transação contém a taxa de gás para a execução do código e a taxa de depósito de armazenamento."
+            },
+            "genesis": {
+                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
             },
             "nftMetadata": {
                 "type": "O MimeType do NFT. Por exemplo, image/png.",
