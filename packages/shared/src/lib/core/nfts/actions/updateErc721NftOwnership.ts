@@ -8,9 +8,10 @@ import { get } from 'svelte/store'
 import { calculateAndAddPersistedNftBalanceChange } from '@core/activity'
 
 export async function updateErc721NftsOwnership(account: IAccountState): Promise<void> {
-    const trackedErc721Nfts = getAllAccountNfts()[account.index].filter((nft) => {
-        return nft.standard === NftStandard.Erc721
-    }) as IErc721Nft[]
+    const trackedErc721Nfts =
+        (getAllAccountNfts()[account.index]?.filter((nft) => {
+            return nft.standard === NftStandard.Erc721
+        }) as IErc721Nft[]) ?? []
 
     const promises = trackedErc721Nfts.map(async (nft) => {
         const updatedOwner = await getOwnerOfErc721Nft(nft)
