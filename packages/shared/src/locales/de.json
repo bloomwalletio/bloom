@@ -485,6 +485,7 @@
                         "reconnectHint": "Du hast dich bereits mit dieser dApp verbunden.",
                         "insecure": "Die URL für diese dApp kann nicht verifiziert werden. Ihre Verbindung zu dieser Anwendung ist möglicherweise nicht sicher.",
                         "unsupportedNetworks": "Diese dApp ist nicht kompatibel mit Bloom, da sie auf einem nicht unterstützten Netzwerk läuft.",
+                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "Diese dApp ist nicht vollständig mit Bloom kompatibel. Einige Methoden oder Events werden nicht unterstützt.",
                         "supportedOnOtherProfile": "Diese dApp läuft in einem unterstützten Netzwerk, ist aber mit diesem Profil nicht zugänglich. Bitte verwenden Sie ein Profil, das mit dem benötigten Netzwerk verbunden ist.",
                         "acceptInsecureConnection": "Ich verstehe, dass diese dApp möglicherweise unsicher ist und trotzdem eine Verbindung aufnehmen möchte."
