@@ -17,13 +17,18 @@ import { getPersistedErc721Nfts } from './getPersistedErc721Nfts'
 import { getAddressFromAccountForNetwork } from '@core/account'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
+    let nftsToDownload: Nft[] = []
     const allAccounts = get(activeAccounts)
     for (const account of allAccounts) {
-        await loadNftsForAccount(account)
+        const accountNfts = await loadNftsForAccount(account)
+        nftsToDownload = [...nftsToDownload, ...accountNfts]
     }
+
+    nftsToDownload = [...new Set(nftsToDownload)]
+    void addNftsToDownloadQueue(nftsToDownload)
 }
 
-export async function loadNftsForAccount(account: IAccountState): Promise<void> {
+export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]> {
     const accountNfts: Nft[] = []
     const unspentOutputs = await account.unspentOutputs()
     const networkId = getActiveNetworkId()
@@ -82,5 +87,5 @@ export async function loadNftsForAccount(account: IAccountState): Promise<void> 
     }
     setAccountNftsInAllAccountNfts(account.index, accountNfts)
 
-    void addNftsToDownloadQueue(account.index, accountNfts)
+    return accountNfts
 }

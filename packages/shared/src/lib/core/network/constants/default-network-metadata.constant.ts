@@ -7,7 +7,7 @@ import { NetworkMetadata } from '../types'
 export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]: NetworkMetadata }> = {
     [SupportedNetworkId.Iota]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Iota,
-        name: 'Iota',
+        name: 'IOTA',
         networkName: StardustNetworkName.Iota,
         namespace: NetworkNamespace.Stardust,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Iota],

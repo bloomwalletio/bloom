@@ -4,14 +4,16 @@ import { TokenMetadata } from '@core/token/types'
 
 export function formatTokenAmountDefault(
     amount: number,
-    tokenMetadata: TokenMetadata,
+    tokenMetadata: TokenMetadata | undefined,
     unit?: string,
     useGrouping: boolean = true
 ): string {
     if (amount < 0) {
-        throw new Error('Amount is negative')
+        console.error('Amount is negative')
+        return ''
     } else if (isDecimal(amount)) {
-        throw new Error('Amount is a decimal number')
+        console.error('Amount is a decimal number')
+        return ''
     } else if (unit && tokenMetadata?.standard === TokenStandard.BaseToken && unit === tokenMetadata?.subunit) {
         return formatNumber(amount, 0, 0, 0, useGrouping)
     } else {

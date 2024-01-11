@@ -11,24 +11,24 @@
                 "chooseNetwork": {
                     "title": "Wybierz sieć",
                     "iota": {
-                        "primary": "Główna sieć IOTA",
-                        "secondary": "Stabilna sieć z przetestowanymi funkcjami"
+                        "primary": "IOTA Mainnet",
+                        "secondary": "Główna sieć zawierająca jedynie dobrze przetestowane funkcje"
                     },
                     "shimmer": {
                         "primary": "Shimmer",
-                        "secondary": "Eksperymentalna sieć z najnowszymi funkcjami"
+                        "secondary": "Sieć eksperymentalna zawierająca najnowsze funkcje"
                     },
                     "testnet": {
                         "primary": "Sieć testowa",
-                        "secondary": "Testuj sieć używając bezwartościowych tokenów"
+                        "secondary": "Testuj sieć przy użyciu bezwartościowych tokenów"
                     },
                     "custom": {
-                        "primary": "Zaawansowana konfiguracja",
+                        "primary": "Konfiguracja zaawansowana",
                         "secondary": "Połącz się z dowolną siecią używając niestandardowych ustawień"
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Zaawansowana konfiguracja"
+                    "title": "Konfiguracja zaawansowana"
                 }
             },
             "chooseOnboardingFlow": {
@@ -43,7 +43,7 @@
                 },
                 "claim": {
                     "primary": "Odbierz nagrody Shimmer",
-                    "secondary": "Odbierz nagrody ze stakingu przy pomocy kopii zapasowej IOTA"
+                    "secondary": "Odbierz nagrody ze stakingu używając kopii zapasowej IOTA"
                 }
             },
             "createProfile": {
@@ -485,6 +485,7 @@
                         "reconnectHint": "Wcześniej łączyłeś się z tą aplikacją.",
                         "insecure": "Nie można zweryfikować adresu URL tej aplikacji dApp. Połączenie z tą aplikacją może nie być bezpieczne.",
                         "unsupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa w nieobsługiwanej sieci.",
+                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "Ta aplikacja dApp nie jest w pełni kompatybilna z Bloom. Niektóre procesy lub akcje nie są obsługiwane.",
                         "supportedOnOtherProfile": "Ta aplikacja dApp działa w obsługiwanej sieci, ale nie jest dostępna przy użyciu tego profilu. Użyj profilu połączonego z wymaganą siecią.",
                         "acceptInsecureConnection": "Rozumiem, że ta aplikacja dApp może być niebezpieczna i nadal chcę się z nią połączyć."
@@ -667,7 +668,7 @@
             },
             "unavailable": {
                 "title": "Niedostępne",
-                "subtitle": "Zablokowane lub tymczasowo niedostępne w transakcjach"
+                "subtitle": "Zablokowane w transakcjach lub tymczasowo niedostępne"
             },
             "storageDeposit": {
                 "title": "Depozyt magazynowy",
@@ -1862,7 +1863,7 @@
                 "short": "Url nieobsługiwany",
                 "long": "Schemat Url nie jest obsługiwany"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Nieobsługiwany typ multimediów",
                 "long": "Typ mediów nie jest obecnie obsługiwany"
             },

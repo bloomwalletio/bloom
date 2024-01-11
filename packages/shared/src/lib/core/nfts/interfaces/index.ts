@@ -1,5 +1,4 @@
 export * from './download-metadata.interface'
-export * from './download-queue-nft-item.interface'
 export * from './erc721-contract-metadata.interface'
 export * from './nft-metadata.interface'
 export * from './nft.interface'
