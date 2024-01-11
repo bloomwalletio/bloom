@@ -1,3 +1,5 @@
+import { isVersionLessThan } from '@core/utils'
+import { MINIMUM_SUPPORTED_IOTA_LEDGER_APP } from '../constants'
 import { LedgerAppName, LedgerConnectionState } from '../enums'
 import { ILedgerDeviceState } from '../interfaces'
 
@@ -8,8 +10,14 @@ export function determineLedgerConnectionState(status: ILedgerDeviceState): Ledg
             return LedgerConnectionState.Locked
         } else {
             switch (app) {
-                case LedgerAppName.Iota:
-                    return LedgerConnectionState.IotaAppOpen
+                case LedgerAppName.Iota: {
+                    const version = status.settings?.[LedgerAppName.Iota]?.version
+                    if (version && isVersionLessThan(version, MINIMUM_SUPPORTED_IOTA_LEDGER_APP)) {
+                        return LedgerConnectionState.AppNotOpen
+                    } else {
+                        return LedgerConnectionState.IotaAppOpen
+                    }
+                }
                 case LedgerAppName.Shimmer:
                     return LedgerConnectionState.ShimmerAppOpen
                 case LedgerAppName.Ethereum:

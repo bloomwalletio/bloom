@@ -1,6 +1,7 @@
 import { NetworkId } from '@core/network/types'
 import { DownloadErrorType, DownloadWarningType, NftStandard } from '../enums'
 import { IErc721ContractMetadata, IErc721TokenMetadata, IIrc27Metadata } from '../interfaces'
+import { StatusCodes } from 'http-status-codes'
 
 export interface IBasePersistedNft {
     standard: NftStandard
@@ -27,7 +28,7 @@ export interface IPersistedErc721Nft extends IBasePersistedNft {
 export interface DownloadMetadata {
     contentType?: string
     contentLength?: string
-    responseCode?: number
+    responseCode?: StatusCodes
     downloadUrl?: string
     filePath?: string
     error?: {

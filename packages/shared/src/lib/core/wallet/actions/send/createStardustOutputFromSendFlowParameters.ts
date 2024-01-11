@@ -1,7 +1,6 @@
 import { IAccountState, prepareOutput } from '@core/account'
-import { DEFAULT_TRANSACTION_OPTIONS } from '@core/wallet/constants'
 import { Output, SendFlowParameters } from '@core/wallet/types'
-import { getOutputParameters } from '@core/wallet/utils'
+import { getOutputParameters, getTransactionOptions } from '@core/wallet/utils'
 
 export async function createStardustOutputFromSendFlowParameters(
     sendFlowParameters: SendFlowParameters,
@@ -16,7 +15,11 @@ export async function createStardustOutputFromSendFlowParameters(
         outputParams.amount = amountWithGasFee
     }
 
-    const preparedOutput = await prepareOutput(account.index, outputParams, DEFAULT_TRANSACTION_OPTIONS)
+    const preparedOutput = await prepareOutput(
+        account.index,
+        outputParams,
+        getTransactionOptions(account.depositAddress)
+    )
 
     // For dust transactions, native tokens & NFT transfers
     // prepareOutput calculates the storage deposit requirements.

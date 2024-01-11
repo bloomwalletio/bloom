@@ -21,6 +21,7 @@ export * from './getSenderAddressFromInputs'
 export * from './getSenderFromTransaction'
 export * from './getTransactionAssets'
 export * from './helper'
+export * from './isOutputSubjectFromActiveAccount'
 export * from './isVisibleActivity'
 export * from './processAndAddToActivities'
 

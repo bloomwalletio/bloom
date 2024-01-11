@@ -24,6 +24,8 @@ import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName
 import { setLayer2AccountBalanceForChain } from '../stores'
 import { isTrackedTokenAddress } from '@core/wallet'
 import { TokenTrackingStatus } from '@core/token'
+import features from '@features/features'
+import { KeyValue } from '@ui/types'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -36,7 +38,9 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
         }
 
         await fetchLayer2Nfts(evmAddress, chain, account)
-        updateErc721NftsOwnership(account)
+        if (features.collectibles.erc721.enabled) {
+            updateErc721NftsOwnership(account)
+        }
 
         const balances = await getLayer2BalanceForAddress(evmAddress, chain)
         if (!balances) {
@@ -80,7 +84,7 @@ async function getLayer2NativeTokenBalancesForAddress(
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const nativeTokenResult = (await contract.methods
             .callView(accountsCoreContract, getBalanceFunc, parameters)
-            .call()) as { items: { key: string; value: string }[] }
+            .call()) as KeyValue<string>[]
 
         const nativeTokens = nativeTokenResult.items.map((item) => ({
             tokenId: item.key,
@@ -127,7 +131,7 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAcco
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const nftResult = (await contract.methods
             .callView(accountsCoreContract, getBalanceFunc, parameters)
-            .call()) as { items: { key: string; value: string }[] }
+            .call()) as { items: KeyValue<string>[] }
 
         // the element with `key: "0x69"` just represents the length of the list, so it needs to be excluded
         const nftIds = nftResult.items.filter((item) => item.key !== '0x69').map((item) => item.value)
@@ -144,7 +148,7 @@ async function fetchLayer2Nfts(evmAddress: string, chain: IChain, account: IAcco
             .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))
             .map((nft) => nft.id)
         setNftInAllAccountNftsToUnspendable(account.index, ...unspendableNftIds)
-        void addNftsToDownloadQueue(account.index, nfts)
+        void addNftsToDownloadQueue(nfts)
 
         for (const nft of nfts) {
             calculateAndAddPersistedNftBalanceChange(account, networkId, nft.id, true)

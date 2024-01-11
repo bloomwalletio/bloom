@@ -7,7 +7,7 @@ export function fetchL2BalanceForAllAccounts(addPreviouslyUntracked?: boolean): 
     for (const account of get(activeAccounts)) {
         try {
             checkForUntrackedTokens(account, addPreviouslyUntracked)
-            checkForUntrackedNfts(account)
+            void checkForUntrackedNfts(account)
             fetchL2BalanceForAccount(account)
         } catch (err) {
             console.error(err)
