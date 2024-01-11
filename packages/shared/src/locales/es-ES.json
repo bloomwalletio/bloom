@@ -1863,7 +1863,7 @@
                 "short": "Url no soportada",
                 "long": "Esquema Url no soportado"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Tipo de archivo no soportado",
                 "long": "El tipo de archivo no está soportado actualmente"
             },

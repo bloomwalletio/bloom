@@ -1863,7 +1863,7 @@
                 "short": "URL desteklenmiyor",
                 "long": "URL şeması desteklenmiyor"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Desteklenmeyen medya türü",
                 "long": "Medya türü şu anda desteklenmiyor"
             },

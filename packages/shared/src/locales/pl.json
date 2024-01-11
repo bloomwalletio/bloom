@@ -1863,7 +1863,7 @@
                 "short": "Url nieobsługiwany",
                 "long": "Schemat Url nie jest obsługiwany"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Nieobsługiwany typ multimediów",
                 "long": "Typ mediów nie jest obecnie obsługiwany"
             },

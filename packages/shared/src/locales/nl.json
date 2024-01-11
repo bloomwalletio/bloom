@@ -1863,7 +1863,7 @@
                 "short": "Url wordt niet ondersteund",
                 "long": "Url schema wordt niet ondersteund"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Niet-ondersteund mediatype",
                 "long": "Het mediatype wordt momenteel niet ondersteund"
             },
