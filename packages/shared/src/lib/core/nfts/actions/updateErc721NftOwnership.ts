@@ -1,25 +1,32 @@
-import { IAccountState } from '@core/account'
-import { addOrUpdateNftInAllAccountNfts } from './addOrUpdateNftInAllAccountNfts'
+import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { NftStandard } from '../enums'
 import { IErc721Nft } from '../interfaces'
-import { getAllAccountNfts } from '../stores'
-import { isErc721NftSpendable } from '../utils'
+import { getAllAccountNfts, persistedNftForActiveProfile, updatePersistedNft } from '../stores'
+import { getOwnerOfErc721Nft } from '../utils'
+import { get } from 'svelte/store'
+import { calculateAndAddPersistedNftBalanceChange } from '@core/activity'
 
 export async function updateErc721NftsOwnership(account: IAccountState): Promise<void> {
     const trackedErc721Nfts = getAllAccountNfts()[account.index].filter((nft) => {
         return nft.standard === NftStandard.Erc721
-    })
+    }) as IErc721Nft[]
 
-    const promises = []
-    async function check(nft: IErc721Nft): Promise<void> {
-        const isSpendable = await isErc721NftSpendable(nft)
-        if (nft.isSpendable !== isSpendable) {
-            addOrUpdateNftInAllAccountNfts(account.index, { ...nft, isSpendable })
+    const promises = trackedErc721Nfts.map(async (nft) => {
+        const updatedOwner = await getOwnerOfErc721Nft(nft)
+        const persistedNft = get(persistedNftForActiveProfile)?.[nft.id]
+        if (!persistedNft) {
+            return
         }
-    }
 
-    for (const nft of trackedErc721Nfts) {
-        promises.push(check(nft as IErc721Nft))
-    }
+        if (persistedNft.ownerAddress !== updatedOwner) {
+            updatePersistedNft(nft.id, { ownerAddress: updatedOwner })
+        }
+        const l2Address = getAddressFromAccountForNetwork(account, nft.networkId)
+        const isSpendable = updatedOwner.toLowerCase() === l2Address?.toLowerCase()
+        updateAllAccountNftsForAccount(account.index, { ...nft, isSpendable })
+
+        calculateAndAddPersistedNftBalanceChange(account, nft.networkId, nft.id, isSpendable)
+    })
     await Promise.all(promises)
 }

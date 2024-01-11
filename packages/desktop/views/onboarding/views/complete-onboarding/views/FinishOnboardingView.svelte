@@ -45,7 +45,7 @@
             {/if}
             <div class="flex flex-col justify-center items-center space-y-6">
                 <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.status`)}</Text>
-                <Text type="h1">{localize(`${LOCALE_KEY}.appSetup.title`)}</Text>
+                <Text type="h1" align="center">{localize(`${LOCALE_KEY}.appSetup.title`)}</Text>
             </div>
             <Button
                 on:click={onContinueClick}
@@ -81,7 +81,7 @@
             </svg-container>
             <div class="flex flex-col justify-center items-center space-y-6">
                 <Text type="h5" customColor="success-500">{localize(`${LOCALE_KEY}.status`)}</Text>
-                <Text type="h1">{localize(`${LOCALE_KEY}.profileSetup.title`)}</Text>
+                <Text type="h1" align="center">{localize(`${LOCALE_KEY}.profileSetup.title`)}</Text>
             </div>
             <Button
                 on:click={onContinueClick}

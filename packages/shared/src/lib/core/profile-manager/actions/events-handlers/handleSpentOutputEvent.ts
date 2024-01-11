@@ -4,7 +4,7 @@ import {
     allAccountActivities,
     updateAsyncDataByTransactionId,
 } from '@core/activity/stores/all-account-activities.store'
-import { getNftByIdFromAllAccountNfts, updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { getNftByIdFromAllAccountNfts, updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 import { activeAccounts } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
@@ -42,7 +42,7 @@ export async function handleSpentOutputEventInternal(
                 previousOutput &&
                 output.metadata.milestoneTimestampBooked > previousOutput.metadata.milestoneTimestampBooked
             ) {
-                updateNftInAllAccountNfts(accountIndex, activity.nftId, { isSpendable: false })
+                updateNftInAllAccountNftsForAccount(accountIndex, activity.nftId, { isSpendable: false })
             }
         } else {
             throw new Error(`Unable to find latest output ID for NFT ${nft.id}`)

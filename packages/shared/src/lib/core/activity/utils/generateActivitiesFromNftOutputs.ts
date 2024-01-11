@@ -17,12 +17,16 @@ export async function generateActivitiesFromNftOutputs(
     const nftOutputs = outputs.filter((output) => output.output?.type === OutputType.Nft)
     for (const nftOutput of nftOutputs) {
         const output = nftOutput.output as NftOutput
-        const activity = await generateSingleNftActivity(account, networkId, {
-            action: output.nftId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,
-            processedTransaction,
-            wrappedOutput: nftOutput,
-        })
-        activities.push(activity)
+        try {
+            const activity = await generateSingleNftActivity(account, networkId, {
+                action: output.nftId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,
+                processedTransaction,
+                wrappedOutput: nftOutput,
+            })
+            activities.push(activity)
+        } catch (error) {
+            console.error(error)
+        }
     }
     return activities
 }

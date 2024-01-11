@@ -485,6 +485,7 @@
                         "reconnectHint": "Du hast dich bereits mit dieser dApp verbunden.",
                         "insecure": "Die URL für diese dApp kann nicht verifiziert werden. Ihre Verbindung zu dieser Anwendung ist möglicherweise nicht sicher.",
                         "unsupportedNetworks": "Diese dApp ist nicht kompatibel mit Bloom, da sie auf einem nicht unterstützten Netzwerk läuft.",
+                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "Diese dApp ist nicht vollständig mit Bloom kompatibel. Einige Methoden oder Events werden nicht unterstützt.",
                         "supportedOnOtherProfile": "Diese dApp läuft in einem unterstützten Netzwerk, ist aber mit diesem Profil nicht zugänglich. Bitte verwenden Sie ein Profil, das mit dem benötigten Netzwerk verbunden ist.",
                         "acceptInsecureConnection": "Ich verstehe, dass diese dApp möglicherweise unsicher ist und trotzdem eine Verbindung aufnehmen möchte."
@@ -928,6 +929,11 @@
                         "Pending": "Senden an {subject}",
                         "Confirmed": "An {subject} gesendet",
                         "Conflicting": "Senden fehlgeschlagen"
+                    },
+                    "genesis": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
                     }
                 },
                 "internal": {
@@ -1857,7 +1863,7 @@
                 "short": "Url nicht unterstützt",
                 "long": "Url-Schema nicht unterstützt"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Nicht unterstützter Medientyp",
                 "long": "Der Medientyp wird derzeit nicht unterstützt"
             },
@@ -1945,6 +1951,9 @@
                 "metadata": "Ein optionales Datenfeld zur dauerhaften Speicherung von Daten auf dem Tangle.",
                 "tag": "Ein kurzes optionales Datenfeld. Tag-Gruppen von Transaktionen können die Suche erleichtern.",
                 "transactionFee": "Die Transaktionsgebühr enthält die Gasgebühr für die Ausführung sowie das Storage Deposit."
+            },
+            "genesis": {
+                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
             },
             "nftMetadata": {
                 "type": "Der MimeType des NFT, z.B. image/png.",

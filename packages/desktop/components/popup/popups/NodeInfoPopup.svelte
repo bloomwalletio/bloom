@@ -7,6 +7,7 @@
     import type { INode, INodeInfo } from '@iota/sdk'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { KeyValue } from '@ui/types'
 
     enum NodeInfoTab {
         General = 'general',
@@ -16,7 +17,7 @@
     }
 
     export let node: INode = { url: '' }
-    export let selectedTab: { key: string; value: string }
+    export let selectedTab: KeyValue<string>
 
     let nodeInfo: INodeInfo
 

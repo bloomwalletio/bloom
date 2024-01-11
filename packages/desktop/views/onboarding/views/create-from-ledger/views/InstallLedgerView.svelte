@@ -35,7 +35,7 @@
     <content slot="content">
         {#if $onboardingProfile?.network?.id === SupportedNetworkId.Iota}
             <icon-container class="bg-black">
-                <Icon name={IconName.Iota} size="lg" textColor="invert" />
+                <Icon name={IconName.Iota} size="lg" customColor="#ffffff" />
             </icon-container>
             <Text>{LedgerAppName.Iota}</Text>
         {:else}
