@@ -62,6 +62,8 @@ export interface IPlatform {
     startLedgerProcess(): void
     killLedgerProcess(): void
 
-    openTransak(data: { currency: string, address: string, service: 'BUY' | 'SELL' }): Promise<void>
+    openTransak(data: { currency: string; address: string; service: 'BUY' | 'SELL' }): Promise<void>
     closeTransak(): Promise<void>
+
+    isSidebarExpanded(expanded: boolean): Promise<void>
 }

@@ -353,7 +353,7 @@ export function getOrInitWindow(windowName: string, ...args: unknown[]): Browser
             case 'error':
                 return openErrorWindow()
             case 'transak':
-                return openTransakWindow(args[0] as { currency: string, address: string, service: 'BUY' | 'SELL' })
+                return openTransakWindow(args[0] as { currency: string; address: string; service: 'BUY' | 'SELL' })
             default:
                 throw Error(`Window ${windowName} not found`)
         }
@@ -513,6 +513,11 @@ ipcMain.handle('close-transak', () => {
     closeTransakWindow()
 })
 
+ipcMain.handle('is-sidebar-expanded', (_, expanded) => {
+    sidebarOpen = expanded
+    positionTransakWindow()
+})
+
 /**
  * Create about window
  * @returns {BrowserWindow} About window
@@ -599,7 +604,11 @@ export function closeErrorWindow(): void {
     }
 }
 
-export function openTransakWindow(data: { currency: string, address: string, service: 'BUY' | 'SELL' }): BrowserWindow {
+let sidebarOpen = false
+const SIDEBAR_WIDTH_OPEN = 256
+const SIDEBAR_WIDTH_CLOSED = 80
+
+export function openTransakWindow(data: { currency: string; address: string; service: 'BUY' | 'SELL' }): BrowserWindow {
     if (windows.transak !== null) {
         return windows.transak
     }
@@ -609,21 +618,29 @@ export function openTransakWindow(data: { currency: string, address: string, ser
         width: 480,
         height: getTransakHeight(),
         useContentSize: true,
-        titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
+        titleBarStyle: 'hidden',
+        frame: false,
         show: true,
         fullscreenable: false,
+        transparent: true,
+        movable: false,
         resizable: false,
         minimizable: false,
+        skipTaskbar: true,
+        acceptFirstMouse: true,
+        hasShadow: true,
+        thickFrame: false,
         webPreferences: {
             ...DEFAULT_WEB_PREFERENCES,
             contextIsolation: true,
             preload: paths.transakPreload,
         },
     })
+    windows.transak.setWindowButtonVisibility(false)
 
     positionTransakWindow()
     sizeTransakWindow()
-    windows.main.on('move', positionTransakWindow);
+    windows.main.on('move', positionTransakWindow)
     windows.main.on('resize', () => {
         positionTransakWindow()
         sizeTransakWindow()
@@ -635,9 +652,9 @@ export function openTransakWindow(data: { currency: string, address: string, ser
 
     windows.transak.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
         if (permission === 'media') {
-            callback(true);
+            callback(true)
         } else {
-            callback(false);
+            callback(false)
         }
     })
 
@@ -667,25 +684,31 @@ export function closeTransakWindow(): void {
 }
 
 function positionTransakWindow(): void {
-    const [mainWindowX, mainWindowY] = windows.main.getPosition();
-    const [mainWindowWidth] = windows.main.getSize();
-    const [transakWidth] = windows.transak.getSize();
+    if (windows.transak && windows.transak) {
+        const [mainWindowX, mainWindowY] = windows.main.getPosition()
+        const [mainWindowWidth] = windows.main.getSize()
+        const [transakWidth] = windows.transak.getSize()
 
-    const transakX = mainWindowX + mainWindowWidth - transakWidth - 32;
-    const transakY = mainWindowY + 32 + 40 + 28;
+        const sidebarWidth = sidebarOpen ? SIDEBAR_WIDTH_OPEN : SIDEBAR_WIDTH_CLOSED
+        const dashboardWidth = mainWindowWidth - sidebarWidth
+        const transakX = mainWindowX + sidebarWidth + dashboardWidth / 2 - transakWidth / 2
+        const titleBarHeight = 40 + (process.platform === 'win32' ? 28 : 0)
+        const transakY = mainWindowY + titleBarHeight + 32
 
-    windows.transak.setPosition(transakX, transakY);
+        windows.transak.setPosition(transakX, transakY)
+    }
 }
 
 function sizeTransakWindow(): void {
-    const [transakWidth] = windows.transak.getSize();
-    const transakHeight = getTransakHeight();
-    windows.transak.setSize(transakWidth, transakHeight);
+    const [transakWidth] = windows.transak.getSize()
+    const transakHeight = getTransakHeight()
+    windows.transak.setSize(transakWidth, transakHeight)
 }
 
 function getTransakHeight(): number {
-    const [, mainWindowHeight] = windows.main.getSize();
-    return mainWindowHeight - 32 - 40 - 28 - 32;
+    const [, mainWindowHeight] = windows.main.getSize()
+    const titleBarHeight = 40 + (process.platform === 'win32' ? 28 : 0)
+    return mainWindowHeight - titleBarHeight - 32 * 2
 }
 
 function windowStateKeeper(windowName: string, settingsFilename: string): IAppState {

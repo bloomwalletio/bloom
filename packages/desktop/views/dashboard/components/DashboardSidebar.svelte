@@ -4,7 +4,14 @@
     import { ProfileActionsMenu, SidebarTab } from '@components'
     import { localize } from '@core/i18n'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
-    import { DashboardRoute, buySellRouter, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
+    import {
+        DashboardRoute,
+        buySellRouter,
+        collectiblesRouter,
+        dashboardRouter,
+        governanceRouter,
+        settingsRouter,
+    } from '@core/router'
     import { IDashboardSidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
@@ -13,11 +20,14 @@
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
     import { dashboardRoute } from '@core/router'
     import { StardustNetworkId } from '@core/network'
+    import { Platform } from '@core/app'
 
     let expanded = true
     function toggleExpand(): void {
         expanded = !expanded
     }
+
+    $: void Platform.isSidebarExpanded(expanded)
 
     let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [
@@ -66,8 +76,7 @@
                       onClick: openBuySell,
                   },
               ]
-            : []
-        )
+            : []),
     ]
 
     function openWallet(): void {
