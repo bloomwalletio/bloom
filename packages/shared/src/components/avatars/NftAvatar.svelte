@@ -7,7 +7,7 @@
     export let size: (typeof avatarSize)[number]
     export let shape: 'circle' | 'squircle' | 'square' = 'square'
 
-    $: nftType = nft?.metadata?.type
+    $: nftType = nft?.type
     $: parentType = nftType?.split('/')?.[0]
 </script>
 

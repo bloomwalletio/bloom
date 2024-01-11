@@ -17,13 +17,18 @@ import { getPersistedErc721Nfts } from './getPersistedErc721Nfts'
 import { getAddressFromAccountForNetwork } from '@core/account'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
+    let nftsToDownload: INft[] = []
     const allAccounts = get(activeAccounts)
     for (const account of allAccounts) {
-        await loadNftsForAccount(account)
+        const accountNfts = await loadNftsForAccount(account)
+        nftsToDownload = [...nftsToDownload, ...accountNfts]
     }
+
+    nftsToDownload = [...new Set(nftsToDownload)]
+    void addNftsToDownloadQueue(nftsToDownload)
 }
 
-export async function loadNftsForAccount(account: IAccountState): Promise<void> {
+export async function loadNftsForAccount(account: IAccountState): Promise<INft[]> {
     const accountNfts: INft[] = []
     const unspentOutputs = await account.unspentOutputs()
     const networkId = getActiveNetworkId()
@@ -54,9 +59,9 @@ export async function loadNftsForAccount(account: IAccountState): Promise<void> 
         if (!evmAddress) {
             continue
         }
-        const erc721Nfts = getPersistedErc721Nfts(evmAddress)
-        const convertedNfts: INft[] = await Promise.all(
-            erc721Nfts.map((persistedErc721Nft) => buildNftFromPersistedErc721Nft(persistedErc721Nft))
+        const erc721Nfts = getPersistedErc721Nfts()
+        const convertedNfts: INft[] = erc721Nfts.map((persistedErc721Nft) =>
+            buildNftFromPersistedErc721Nft(persistedErc721Nft, evmAddress)
         )
         accountNfts.push(...convertedNfts)
     }
@@ -81,5 +86,6 @@ export async function loadNftsForAccount(account: IAccountState): Promise<void> 
         }
     }
     setAccountNftsInAllAccountNfts(account.index, accountNfts)
-    void addNftsToDownloadQueue(account.index, accountNfts)
+
+    return accountNfts
 }
