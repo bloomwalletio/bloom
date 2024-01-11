@@ -1862,7 +1862,7 @@
                 "short": "URL não suportada",
                 "long": "Esquema de URL não suportado"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Tipo de mídia não suportado",
                 "long": "The media type is not currently supported"
             },

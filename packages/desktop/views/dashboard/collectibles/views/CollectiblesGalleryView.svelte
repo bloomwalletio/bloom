@@ -5,6 +5,7 @@
     import { Button, IconName, Text, Pill } from '@bloomwalletio/ui'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { getActiveNetworkId } from '@core/network'
+    import features from '@features/features'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
 
     function onReceiveClick(): void {
@@ -28,7 +29,9 @@
             </div>
             <div class="flex items-center gap-2" style="height: 40px">
                 <SearchInput bind:value={$nftSearchTerm} />
-                <CollectiblesListMenu />
+                {#if features.collectibles.erc721.enabled}
+                    <CollectiblesListMenu />
+                {/if}
             </div>
         </div>
 

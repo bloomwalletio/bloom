@@ -1,11 +1,12 @@
-import { CommonOutput } from '@iota/sdk/out/types'
+import { IAccountState } from '@core/account/interfaces'
+import { getActiveNetworkId } from '@core/network/actions'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { ActivityDirection } from '../enums'
-import { getRecipientAddressFromOutput } from './outputs'
+import { isOutputSubjectFromActiveAccount } from './isOutputSubjectFromActiveAccount'
 
 export function getNonRemainderBasicOutputsFromTransaction(
     wrappedOutputs: IWrappedOutput[],
-    accountAddress: string,
+    account: IAccountState,
     direction: ActivityDirection
 ): IWrappedOutput[] {
     if (direction === ActivityDirection.SelfTransaction) {
@@ -13,12 +14,12 @@ export function getNonRemainderBasicOutputsFromTransaction(
     }
 
     return wrappedOutputs.filter((outputData) => {
-        const recipientAddress = getRecipientAddressFromOutput(outputData.output as CommonOutput)
+        const isActiveAccount = isOutputSubjectFromActiveAccount(outputData.output, account, getActiveNetworkId())
 
         if (direction === ActivityDirection.Incoming) {
-            return accountAddress === recipientAddress
+            return isActiveAccount
         } else {
-            return accountAddress !== recipientAddress
+            return !isActiveAccount
         }
     })
 }
