@@ -1,4 +1,7 @@
 export * from './buildAssetAllowance'
+export * from './buildEvmTransactionData'
+export * from './buildEvmTransactionDataForNft'
+export * from './buildEvmTransactionDataForToken'
 export * from './calculateEstimatedGasFeeFromTransactionData'
 export * from './calculateMaxGasFeeFromTransactionData'
 export * from './fetchL2BalanceForAllAccounts'
