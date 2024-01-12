@@ -185,6 +185,7 @@
                 }
                 break
             case TokenStandard.Erc20:
+            case NftStandard.Erc721:
                 if (sourceChain) {
                     networkRecipientOptions = [getRecipientOptionFromChain(sourceChain, $selectedAccountIndex)]
                 }

@@ -35,7 +35,7 @@ export async function buildEvmTransactionData(
     // Ether has 18 decimal places and the library expects a value in wei
     // Shimmer has 6 decimal places, so the difference is 12
     // We add 12 additional zeros to convert the glow to wei
-    const value = getEvmTransactionValueFromAmount(amount)
+    const value = getEvmTransactionValueFromAmount(BigInt(amount))
 
     return { nonce, gasPrice: hexGasPrice, estimatedGas, gasLimit, to, value, data }
 }
