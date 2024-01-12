@@ -2,7 +2,7 @@
     import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { MediaPlaceholder, NftMedia } from '@ui'
-    import { IDownloadMetadata, Nft, INftAttribute, NftStandard, isIrc27Nft } from '@core/nfts'
+    import { IDownloadMetadata, Nft, INftAttribute, NftStandard } from '@core/nfts'
     import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app'
     import { getTimeDifference } from '@core/utils'
@@ -18,7 +18,7 @@
 
     $: timeDiff = nft.standard === NftStandard.Irc27 ? getTimeDifference(new Date(nft.timelockTime), $time) : undefined
     $: alertText = getAlertText(nft.downloadMetadata)
-    $: isSendButtonDisabled = !!timeDiff || !isIrc27Nft(nft)
+    $: isSendButtonDisabled = !!timeDiff
 
     function getAlertText(downloadMetadata: IDownloadMetadata): string {
         const { error, warning } = downloadMetadata ?? {}

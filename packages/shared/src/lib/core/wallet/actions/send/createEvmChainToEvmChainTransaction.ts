@@ -5,14 +5,14 @@ import { buildEvmTransactionData, getIscpTransferSmartContractData } from '@core
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { AssetType } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
-import { getErc20TransferSmartContractData } from '@core/layer-2/utils'
+import { getErc20TransferSmartContractData, getErc721TransferSmartContractData } from '@core/layer-2/utils'
 import { TokenStandard } from '@core/token/enums'
 import { IToken } from '@core/token/interfaces'
-
 import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
 import { getAmountAndTokenFromSendFlowParameters } from '../../utils/send/getAmountAndTokenFromSendFlowParameters'
 import { Nft } from '@core/nfts/interfaces'
+import { NftStandard } from '@core/nfts'
 
 export function createEvmChainToEvmChainTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -52,15 +52,18 @@ export function createEvmChainToEvmChainTransaction(
             throw new Error(localize('error.send.amountInvalidFormat'))
         }
 
-        destinationAddress = getDestinationAddress(token, recipientAddress)
+        destinationAddress = getDestinationAddressForToken(token, recipientAddress)
     } else {
         nft = sendFlowParameters.nft
-        destinationAddress = ISC_MAGIC_CONTRACT_ADDRESS
+        if (!nft) {
+            throw new Error(localize('error.send.invalidSendParameters'))
+        }
+        destinationAddress = getDestinationAddressForNft(nft, recipientAddress)
     }
 
     let data: string | undefined
     if (token?.standard === TokenStandard.Irc30 || token?.standard === TokenStandard.Erc20 || nft) {
-        data = getDataForTransaction(chain, recipientAddress, token, amount, nft)
+        data = getDataForTransaction(chain, originAddress, recipientAddress, token, amount, nft)
         // set amount to zero after using it to build the smart contract data,
         // as we do not want to send any base token
         amount = '0'
@@ -76,6 +79,7 @@ export function createEvmChainToEvmChainTransaction(
 
 function getDataForTransaction(
     chain: IChain,
+    originAddress: string,
     recipientAddress: string,
     token: IToken | undefined,
     amount: string | undefined,
@@ -97,11 +101,27 @@ function getDataForTransaction(
         }
     } else if (nft) {
         const transferredAsset = { type: AssetType.Nft, nft } as TransferredAsset
-        return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
+        switch (nft.standard) {
+            case NftStandard.Irc27:
+                return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
+            case NftStandard.Erc721: {
+                const nftAddress = nft?.contractMetadata?.address ?? ''
+                const nftTokenId = nft?.tokenId ?? ''
+                return getErc721TransferSmartContractData(
+                    originAddress,
+                    recipientAddress,
+                    nftAddress,
+                    nftTokenId,
+                    chain
+                )
+            }
+            default:
+                return undefined
+        }
     }
 }
 
-function getDestinationAddress(token: IToken, recipientAddress: string): string {
+function getDestinationAddressForToken(token: IToken, recipientAddress: string): string {
     const standard = token.metadata?.standard
     switch (standard) {
         case TokenStandard.BaseToken:
@@ -110,6 +130,18 @@ function getDestinationAddress(token: IToken, recipientAddress: string): string 
             return ISC_MAGIC_CONTRACT_ADDRESS
         case TokenStandard.Erc20:
             return token.id
+        default:
+            return recipientAddress
+    }
+}
+
+function getDestinationAddressForNft(nft: Nft, recipientAddress: string): string {
+    const standard = nft?.standard
+    switch (standard) {
+        case NftStandard.Erc721:
+            return nft.contractMetadata.address
+        case NftStandard.Irc27:
+            return ISC_MAGIC_CONTRACT_ADDRESS
         default:
             return recipientAddress
     }

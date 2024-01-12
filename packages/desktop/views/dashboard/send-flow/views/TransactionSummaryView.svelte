@@ -22,6 +22,7 @@
     import { EvmTransactionSummary, StardustToEvmTransactionSummary, StardustTransactionSummary } from './components'
     import { TransactionSummaryProps } from './types'
     import { setGasFee } from '@core/layer-2/actions'
+    import { showNotification } from '@auxiliary/notification'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -74,6 +75,11 @@
             } else {
                 await sendOutputFromStardust(preparedOutput, $selectedAccount)
             }
+
+            showNotification({
+                variant: 'success',
+                text: localize('notifications.transaction.success'),
+            })
             modifyPopupState({ confirmClickOutside: false, preventClose: false })
             closePopup({ forceClose: true })
         } catch (err) {
