@@ -1672,6 +1672,9 @@
         "mintNft": {
             "success": "NFT minting transaction sent"
         },
+        "transaction": {
+            "success": "Transaction sent"
+        },
         "burnNft": {
             "success": "NFT burning transaction sent"
         },
