@@ -9,6 +9,5 @@ export function getErc721TransferSmartContractData(
     chain: IChain
 ): string {
     const contract = chain.getContract(ContractType.Erc721, nftAddress)
-    // TODO: Decide if we want to use "safeTransferFrom" or "transferFrom"
     return contract.methods.safeTransferFrom(originAddress, recipientAddress, nftTokenId).encodeABI() ?? ''
 }

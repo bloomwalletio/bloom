@@ -15,7 +15,7 @@
 
     $: returnIfNftWasSent($allAccountNfts[$selectedAccountIndex], $time)
 
-    function returnIfNftWasSent(ownedNfts: INft[], currentTime: Date): void {
+    function returnIfNftWasSent(ownedNfts: Nft[], currentTime: Date): void {
         const ownedNft = ownedNfts.find((_nft) => _nft.id === nft.id)
         const isLocked = isIrc27Nft(ownedNft) && ownedNft.timelockTime > currentTime.getTime()
         if (ownedNft?.isSpendable || isLocked) {
