@@ -5,7 +5,7 @@
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
     } from '@core/layer-2'
-    import { INft, isIrc27Nft } from '@core/nfts'
+    import { Nft, isIrc27Nft } from '@core/nfts'
     import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
@@ -16,7 +16,7 @@
     $: transactionAsset = getTransactionAsset(sendFlowParameters)
     function getTransactionAsset(_sendFlowParameters: SendFlowParameters): {
         tokenTransfer?: TokenTransferData
-        nft?: INft
+        nft?: Nft
     } {
         return {
             ...(_sendFlowParameters.type === SendFlowType.TokenTransfer && {

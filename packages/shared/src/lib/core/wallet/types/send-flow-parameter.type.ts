@@ -1,5 +1,5 @@
 import { NetworkId } from '@core/network'
-import { INft } from '@core/nfts'
+import { Nft } from '@core/nfts'
 import type { Subject } from '@core/wallet'
 import { SendFlowType } from '@core/wallet/enums'
 import { TokenTransferData } from './token-transfer-data.type'
@@ -30,5 +30,5 @@ export interface TokenSendFlowParameters extends Omit<BaseSendFlowParameters, 't
 
 export interface NftSendFlowParameters extends Omit<BaseSendFlowParameters, 'type'> {
     type: SendFlowType.NftTransfer
-    nft?: INft
+    nft?: Nft
 }

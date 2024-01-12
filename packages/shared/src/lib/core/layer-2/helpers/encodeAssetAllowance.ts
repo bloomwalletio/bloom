@@ -1,4 +1,4 @@
-import { INft } from '@core/nfts/interfaces'
+import { Nft } from '@core/nfts/interfaces'
 import { IPersistedToken } from '@core/token/interfaces'
 import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
 import { Converter } from '@iota/util.js'
@@ -46,7 +46,7 @@ function encodeNativeTokenTransfer(
     buffer.writeBytes('nativeTokenAmount', encodedAmount.length, encodedAmount)
 }
 
-function encodeNftTransfer(buffer: SpecialStream, nft: INft): void {
+function encodeNftTransfer(buffer: SpecialStream, nft: Nft): void {
     buffer.writeUInt32SpecialEncoding('nftAmount', 1)
     const nftIdBytes = Converter.hexToBytes(nft.id)
     buffer.writeBytes('nftId', nftIdBytes.length, nftIdBytes)

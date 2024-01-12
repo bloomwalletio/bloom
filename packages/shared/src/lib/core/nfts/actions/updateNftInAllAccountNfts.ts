@@ -1,10 +1,10 @@
 import { allAccountNfts } from '../stores'
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 
 export function updateNftInAllAccountNftsForAccount(
     accountIndex: number,
     nftId: string,
-    partialNft: Partial<INft>
+    partialNft: Partial<Nft>
 ): void {
     allAccountNfts.update((state) => {
         if (!state[accountIndex]) {
@@ -18,7 +18,7 @@ export function updateNftInAllAccountNftsForAccount(
     })
 }
 
-export function updateNftInAllAccountNfts(nftId: string, partialNft: Partial<INft>): void {
+export function updateNftInAllAccountNfts(nftId: string, partialNft: Partial<Nft>): void {
     allAccountNfts.update((state) => {
         for (const accountNfts of Object.values(state)) {
             const nft = accountNfts.find((_nft) => _nft.id === nftId)

@@ -1,6 +1,6 @@
 import { IPersistedAccountData } from '@core/account/interfaces'
 import { IClientOptions, IPersistedNetwork } from '@core/network/interfaces'
-import { INft } from '@core/nfts/interfaces'
+import { Nft } from '@core/nfts/interfaces'
 import { StrongholdVersion } from '@core/stronghold/enums'
 import { ProfileType } from '../enums'
 import { IProfileSettings } from './profile-settings.interface'
@@ -28,6 +28,6 @@ export interface IPersistedProfile {
     strongholdVersion: StrongholdVersion
     trackedTokens: TrackedTokens
     trackedNfts: TrackedTokens
-    pfp?: INft
+    pfp?: Nft
     color?: string
 }
