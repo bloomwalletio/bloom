@@ -84,7 +84,7 @@ async function getLayer2NativeTokenBalancesForAddress(
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const nativeTokenResult = (await contract.methods
             .callView(accountsCoreContract, getBalanceFunc, parameters)
-            .call()) as KeyValue<string>[]
+            .call()) as { items: KeyValue<string>[] }
 
         const nativeTokens = nativeTokenResult.items.map((item) => ({
             tokenId: item.key,

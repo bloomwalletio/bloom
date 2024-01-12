@@ -30,7 +30,7 @@ export function createEvmChainToEvmChainTransaction(
     ) {
         const tokenAmount = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
         const token = tokenAmount.token
-        const amount = tokenAmount.amount
+        const amount = tokenAmount.amount?.toString()
 
         if (!token?.metadata) {
             throw new Error(localize('error.token.missingMetadata'))

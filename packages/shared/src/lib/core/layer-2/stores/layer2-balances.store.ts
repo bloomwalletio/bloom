@@ -62,7 +62,7 @@ export function updateLayer2AccountBalanceForTokenOnChain(
             newBalance = BigInt(0)
         }
 
-        accountNetworkBalance[tokenId] = Math.floor(newBalance)
+        accountNetworkBalance[tokenId] = newBalance
         accountBalance[networkId] = accountNetworkBalance
         balance[accountIndex] = accountBalance
         return balance
