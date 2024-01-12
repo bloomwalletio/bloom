@@ -58,12 +58,18 @@ export function createEvmChainToEvmChainTransaction(
         if (!nft) {
             throw new Error(localize('error.send.invalidSendParameters'))
         }
-        destinationAddress = getDestinationAddressForNft(nft, recipientAddress)
+        destinationAddress = getDestinationAddressForNft(nft)
     }
 
     let data: string | undefined
     if (token?.standard === TokenStandard.Irc30 || token?.standard === TokenStandard.Erc20 || nft) {
-        data = getDataForTransaction(chain, originAddress, recipientAddress, token, amount, nft)
+        data =
+            token && amount
+                ? getTokenDataForTransaction(chain, recipientAddress, token, amount)
+                : nft
+                ? getNftDataForTransaction(chain, originAddress, recipientAddress, nft)
+                : undefined
+
         // set amount to zero after using it to build the smart contract data,
         // as we do not want to send any base token
         amount = '0'
@@ -77,47 +83,43 @@ export function createEvmChainToEvmChainTransaction(
     return buildEvmTransactionData(chain, originAddress, destinationAddress, amount ?? '0', data)
 }
 
-function getDataForTransaction(
+function getTokenDataForTransaction(
+    chain: IChain,
+    recipientAddress: string,
+    token: IToken,
+    amount: string
+): string | undefined {
+    switch (token?.metadata?.standard) {
+        case TokenStandard.Irc30: {
+            const isBaseCoin = token.standard === TokenStandard.BaseToken
+            const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
+            const transferredAsset = { type: assetType, token, amount } as TransferredAsset
+            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
+        }
+        case TokenStandard.Erc20:
+            return getErc20TransferSmartContractData(recipientAddress, token, amount ?? '', chain)
+        default:
+            return undefined
+    }
+}
+
+function getNftDataForTransaction(
     chain: IChain,
     originAddress: string,
     recipientAddress: string,
-    token: IToken | undefined,
-    amount: string | undefined,
-    nft: Nft | undefined
+    nft: Nft
 ): string | undefined {
-    if (token && amount) {
-        const standard = token.metadata?.standard
-        switch (standard) {
-            case TokenStandard.Irc30: {
-                const isBaseCoin = token.standard === TokenStandard.BaseToken
-                const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
-                const transferredAsset = { type: assetType, token, amount } as TransferredAsset
-                return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
-            }
-            case TokenStandard.Erc20:
-                return getErc20TransferSmartContractData(recipientAddress, token, amount, chain)
-            default:
-                return undefined
+    const transferredAsset = { type: AssetType.Nft, nft } as TransferredAsset
+    switch (nft.standard) {
+        case NftStandard.Irc27:
+            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
+        case NftStandard.Erc721: {
+            const nftAddress = nft.contractMetadata?.address ?? ''
+            const nftTokenId = nft.tokenId ?? ''
+            return getErc721TransferSmartContractData(originAddress, recipientAddress, nftAddress, nftTokenId, chain)
         }
-    } else if (nft) {
-        const transferredAsset = { type: AssetType.Nft, nft } as TransferredAsset
-        switch (nft.standard) {
-            case NftStandard.Irc27:
-                return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
-            case NftStandard.Erc721: {
-                const nftAddress = nft?.contractMetadata?.address ?? ''
-                const nftTokenId = nft?.tokenId ?? ''
-                return getErc721TransferSmartContractData(
-                    originAddress,
-                    recipientAddress,
-                    nftAddress,
-                    nftTokenId,
-                    chain
-                )
-            }
-            default:
-                return undefined
-        }
+        default:
+            return undefined
     }
 }
 
@@ -135,7 +137,7 @@ function getDestinationAddressForToken(token: IToken, recipientAddress: string):
     }
 }
 
-function getDestinationAddressForNft(nft: Nft, recipientAddress: string): string {
+function getDestinationAddressForNft(nft: Nft): string {
     const standard = nft?.standard
     switch (standard) {
         case NftStandard.Erc721:
@@ -143,6 +145,6 @@ function getDestinationAddressForNft(nft: Nft, recipientAddress: string): string
         case NftStandard.Irc27:
             return ISC_MAGIC_CONTRACT_ADDRESS
         default:
-            return recipientAddress
+            throw new Error(localize('error.send.invalidSendParameters'))
     }
 }
