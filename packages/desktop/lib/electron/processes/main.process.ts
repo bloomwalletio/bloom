@@ -637,7 +637,10 @@ export function openTransakWindow(data: { currency: string; address: string; ser
             preload: paths.transakPreload,
         },
     })
-    windows.transak.setWindowButtonVisibility(false)
+
+    if (process.platform === 'darwin') {
+        windows.transak.setWindowButtonVisibility(false)
+    }
 
     positionTransakWindow()
     sizeTransakWindow()
