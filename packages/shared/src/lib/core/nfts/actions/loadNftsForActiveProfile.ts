@@ -75,12 +75,7 @@ export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]>
             const nftOutput = outputData.output as NftOutput
             const nftId = getNftId(nftOutput.nftId, outputData.outputId)
             if (!accountNfts.some((nft) => nft.id === nftId)) {
-                const nft = buildNftFromNftOutput(
-                    outputData as IWrappedOutput,
-                    networkId,
-                    account.depositAddress,
-                    false
-                )
+                const nft = buildNftFromNftOutput(outputData as IWrappedOutput, networkId, account.depositAddress)
                 accountNfts.push(nft)
             }
         }
