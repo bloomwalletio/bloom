@@ -663,7 +663,6 @@ export function openTransakWindow(data: { currency: string; address: string; ser
     })
 
     void windows.transak.loadFile(paths.transakHtml)
-
     windows.transak.webContents.on('did-finish-load', () => {
         const _data = {
             currency: data.currency,
@@ -695,7 +694,7 @@ function positionTransakWindow(): void {
 
         const sidebarWidth = sidebarOpen ? SIDEBAR_WIDTH_OPEN : SIDEBAR_WIDTH_CLOSED
         const dashboardWidth = mainWindowWidth - sidebarWidth
-        const transakX = mainWindowX + sidebarWidth + dashboardWidth / 2 - transakWidth / 2
+        const transakX = Math.floor(mainWindowX + sidebarWidth + dashboardWidth / 2 - transakWidth / 2)
         const titleBarHeight = 40 + 1 + (process.platform === 'win32' ? 28 + 1 : 0)
         const transakY = mainWindowY + titleBarHeight + 32 + 1
 
