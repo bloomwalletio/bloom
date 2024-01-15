@@ -4,13 +4,13 @@ export function getRawAmountFromSearchParam(
     searchParams: URLSearchParams,
     parameterKey: SendTransactionParameter
 ): bigint {
-    let rawAmount = searchParams.get(parameterKey)
-    const amount = Number(rawAmount)
-    if (!Number.isInteger(amount)) {
+    const rawAmount = searchParams.get(parameterKey) ?? '0'
+    if (!new RegExp('^[+|-]{1}?\\d+$').test(rawAmount)) {
         throw new AmountNotAnIntegerError(rawAmount)
     }
-    if (amount < 0) {
-        rawAmount = Math.abs(amount).toString()
+    let bigAmount = BigInt(rawAmount)
+    if (bigAmount < 0) {
+        bigAmount *= BigInt(-1)
     }
-    return BigInt(rawAmount)
+    return bigAmount
 }
