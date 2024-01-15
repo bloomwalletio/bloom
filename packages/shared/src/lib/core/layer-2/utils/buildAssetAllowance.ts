@@ -4,7 +4,7 @@ import { TransferredAsset } from '../types'
 
 export function buildAssetAllowance(
     transferredAsset: TransferredAsset,
-    storageDepositRequired?: number
+    storageDepositRequired?: bigint
 ): ILayer2AssetAllowance {
     const baseTokens = String(storageDepositRequired ?? 0)
     if (transferredAsset.type === AssetType.BaseCoin) {

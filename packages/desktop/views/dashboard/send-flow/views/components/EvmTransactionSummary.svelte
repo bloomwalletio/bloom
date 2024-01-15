@@ -37,9 +37,9 @@
                 _sendFlowParameters.destinationNetworkId !== _sendFlowParameters.nft?.networkId &&
                 isIrc27Nft(_sendFlowParameters.nft)
             ) {
-                return BigInt(
-                    (_sendFlowParameters.nft?.storageDeposit ?? 0) +
-                        (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? 0)
+                return (
+                    (_sendFlowParameters.nft?.storageDeposit ?? BigInt(0)) +
+                    (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? BigInt(0))
                 )
             }
         }

@@ -13,7 +13,7 @@ export interface IIrc27Nft extends IBaseNft {
     issuer?: Address
     timelockTime?: number
     latestOutputId: string
-    storageDeposit: number
+    storageDeposit: bigint
 }
 
 export interface IErc721Nft extends IBaseNft {
