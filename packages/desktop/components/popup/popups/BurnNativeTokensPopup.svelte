@@ -9,12 +9,12 @@
     export let token: ITokenWithBalance
     export let rawAmount: bigint = BigInt(0)
 
-    let tokenAmountInput: TokenAmountWithSliderInput
+    let tokenAmountInputWithSlider: TokenAmountWithSliderInput
     let amount: string
 
     function onContinueClick(): void {
         try {
-            tokenAmountInput.validate()
+            tokenAmountInputWithSlider.validate()
             openPopup({
                 id: PopupId.BurnNativeTokensConfirmation,
                 props: { token, rawAmount },
@@ -42,7 +42,12 @@
     }}
 >
     <div class="space-y-5">
-        <TokenAmountWithSliderInput bind:this={tokenAmountInput} bind:inputtedAmount={amount} bind:rawAmount {token} />
+        <TokenAmountWithSliderInput
+            bind:this={tokenAmountInputWithSlider}
+            bind:inputtedAmount={amount}
+            bind:rawAmount
+            {token}
+        />
         <Alert variant="warning" text={localize('actions.confirmTokenBurn.hint')} />
     </div>
 </PopupTemplate>

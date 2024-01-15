@@ -18,7 +18,7 @@
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let newVotingPower: string = undefined
 
-    let tokenAmountInput: TokenAmountWithSliderInput
+    let tokenAmountInputWithSlider: TokenAmountWithSliderInput
     let amount: string
     let rawAmount = newVotingPower ?? $selectedAccount?.votingPower
     let confirmDisabled = false
@@ -46,7 +46,7 @@
 
     async function onSubmit(): Promise<void> {
         try {
-            tokenAmountInput?.validate(true)
+            tokenAmountInputWithSlider?.validate(true)
 
             if (amount === '0' && isAccountVoting($selectedAccount.index)) {
                 openPopup({ id: PopupId.VotingPowerToZero })
@@ -81,7 +81,7 @@
     <Text type={TextType.p} classes="mb-5">{localize('popups.manageVotingPower.body')}</Text>
     <div class="space-y-5 mb-6">
         <TokenAmountWithSliderInput
-            bind:this={tokenAmountInput}
+            bind:this={tokenAmountInputWithSlider}
             bind:rawAmount
             bind:amount
             {token}
