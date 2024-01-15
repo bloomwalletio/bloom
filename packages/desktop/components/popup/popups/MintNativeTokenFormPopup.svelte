@@ -119,7 +119,7 @@
         if (totalSupply === undefined || totalSupply.toString().length < 1) {
             totalSupplyError = 'Total supply is required'
             return Promise.reject(totalSupplyError)
-        } else if (Number(totalSupply) < 1) {
+        } else if (BigInt(totalSupply) < 1) {
             totalSupplyError = 'Total supply must be greater than 0'
             return Promise.reject(totalSupplyError)
         } else {
@@ -131,10 +131,10 @@
         if (circulatingSupply === undefined || circulatingSupply.toString().length < 1) {
             circulatingSupplyError = 'Circulating supply is required'
             return Promise.reject(circulatingSupplyError)
-        } else if (Number(circulatingSupply) < 1) {
+        } else if (BigInt(circulatingSupply) < 1) {
             circulatingSupplyError = 'Circulating supply must be greater than 0'
             return Promise.reject(circulatingSupplyError)
-        } else if (Number(circulatingSupply) > Number(totalSupply)) {
+        } else if (BigInt(circulatingSupply) > BigInt(totalSupply)) {
             circulatingSupplyError = 'Circulating supply must be less than or equal to the total supply'
             return Promise.reject(circulatingSupplyError)
         } else {
@@ -146,7 +146,7 @@
         if (decimals === undefined || decimals.toString().length < 1) {
             decimalsError = 'Decimals is required'
             return Promise.reject(decimalsError)
-        } else if (Number(decimals) < 0) {
+        } else if (BigInt(decimals) < 0) {
             decimalsError = 'Decimals must be greater than or equal to 0'
             return Promise.reject(decimalsError)
         } else {
@@ -205,7 +205,7 @@
         <optional-inputs class="flex flex-row flex-wrap gap-4">
             <OptionalInput
                 bind:value={decimals}
-                inputType="number"
+                inputType="BigInt"
                 isInteger
                 maxlength={MAX_SUPPORTED_DECIMALS}
                 label={localize('popups.nativeToken.property.decimals')}

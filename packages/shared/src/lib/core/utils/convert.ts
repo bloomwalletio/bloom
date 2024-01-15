@@ -233,6 +233,7 @@ export class Converter {
     }
 
     public static bigIntToHex(bigInt: bigint, prefix = true): string {
+        bigInt = BigInt(bigInt)
         return prefix ? HEX_PREFIX + bigInt.toString(16) : bigInt.toString(16)
     }
 

@@ -13,8 +13,8 @@ import { getTransactionOptions, sendPreparedTransaction } from '../utils'
 import { getActiveNetworkId } from '@core/network'
 
 export async function mintNativeToken(
-    maximumSupply: number,
-    circulatingSupply: number,
+    maximumSupply: bigint,
+    circulatingSupply: bigint,
     metadata: IIrc30Metadata
 ): Promise<void> {
     try {
@@ -22,10 +22,11 @@ export async function mintNativeToken(
         const networkId = getActiveNetworkId()
 
         updateSelectedAccount({ isTransferring: true })
-
         const params: CreateNativeTokenParams = {
-            maximumSupply: BigInt(maximumSupply),
-            circulatingSupply: BigInt(circulatingSupply),
+            // @ts-expect-error https://github.com/iotaledger/iota-sdk/issues/1839
+            maximumSupply: Converter.bigIntToHex(maximumSupply, false),
+            // @ts-expect-error https://github.com/iotaledger/iota-sdk/issues/1839
+            circulatingSupply: Converter.bigIntToHex(circulatingSupply, false),
             foundryMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
         }
         const preparedTransaction = await account.prepareCreateNativeToken(
