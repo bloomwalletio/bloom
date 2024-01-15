@@ -9,5 +9,5 @@ export function parseCurrency(
     let v = valueString?.replace(new RegExp(`\\${getGroupSeparator()}`, 'g'), '')
     v = v?.replace(getDecimalSeparator(currency), '.')
     const parsedAmount = v?.startsWith('.') ? '0'.concat(v) : v
-    return Number.isNaN(parsedAmount) ? '0' : parsedAmount
+    return isNaN(Number(parsedAmount)) ? '0' : parsedAmount
 }
