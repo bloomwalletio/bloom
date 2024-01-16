@@ -45,13 +45,23 @@
         <Pane
             classes="flex flex-col justify-center items-center w-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
         >
-            <AccountSwitcher />
-            <icon-container class="bg-black p-2 rounded-full">
-                <Icon name={IconName.Iota} size="xl" customColor="#ffffff" />
-            </icon-container>
-            <div class="flex flex-col gap-1 justify-center items-center">
-                <FormattedBalance balanceText={tokenBalance} textType="h6" />
-                <Text type="body1" textColor="secondary">{fiatBalance}</Text>
+            <div class="w-full flex justify-between items-center gap-2">
+                <div class="flex items-center gap-2">
+                    <icon-container class="bg-black p-1 rounded-full">
+                        <Icon name={IconName.Iota} size="xs" customColor="#ffffff" />
+                    </icon-container>
+                    <Text type="body2">IOTA</Text>
+                </div>
+                <AccountSwitcher placement="bottom-end" />
+            </div>
+            <div class="w-full flex flex-col gap-1 justify-center">
+                <FormattedBalance balanceText={tokenBalance} textType="h4" />
+                <Text type="h6" textColor="secondary">{fiatBalance}</Text>
+            </div>
+            <div class="bg-surface-2 rounded-xl py-2 px-3">
+                <Text type="pre-sm" textColor="secondary" class="break-all whitespace-normal"
+                    >{$selectedAccount?.depositAddress}</Text
+                >
             </div>
         </Pane>
     </div>
