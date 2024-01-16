@@ -35,6 +35,7 @@
         localize(`${localeKey}.accounts.step`),
     ]
 
+    let permissionSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
@@ -44,7 +45,7 @@
 
     $: isButtonDisabled =
         loading ||
-        (!persistedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
+        (!persistedNamespaces && currentStep === 0 && permissionSelections.length && checkedMethods.length === 0) ||
         (currentStep === 1 && checkedNetworks.length === 0) ||
         (currentStep === 2 && checkedAccounts.length === 0)
 
@@ -122,20 +123,22 @@
                                     body={localize(`${localeKey}.${tipLocale}.tip`)}
                                     dismissable={false}
                                 />
-                                <div class={currentStep === 0 ? 'visible' : 'hidden'}>
+                                <div class="flex-grow {currentStep === 0 ? 'visible' : 'hidden'}">
                                     <PermissionSelection
                                         bind:checkedMethods
+                                        bind:permissionSelections
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
                                     />
                                 </div>
-                                <div class={currentStep === 1 ? 'visible' : 'hidden'}>
+                                <div class="flex-grow {currentStep === 1 ? 'visible' : 'hidden'}">
                                     <NetworkSelection
                                         bind:checkedNetworks
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
                                         optionalNamespaces={$sessionProposal.params.optionalNamespaces}
                                     />
                                 </div>
-                                <div class={currentStep === 2 ? 'visible' : 'hidden'}>
+                                <div class="flex-grow {currentStep === 2 ? 'visible' : 'hidden'}">
                                     <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} />
                                 </div>
                             </div>

@@ -29,9 +29,10 @@
     $: unsupportedMethods = getUnsupportedMethods($sessionProposal)
     $: supportedNetworks = getSupportedNetworks($sessionProposal)
     $: unsupportedRequiredNetworks = getUnsupportedRequiredNetworks($sessionProposal)
-    $: isSupportedOnOtherProfiles = areNetworksSupportedOnOtherProfiles(unsupportedRequiredNetworks)
     $: fulfillsRequirements =
-        unsupportedMethods.length === 0 && unsupportedRequiredNetworks.length === 0 && supportedNetworks.length > 0
+        unsupportedMethods.length === 0 &&
+        unsupportedRequiredNetworks.networks.length === 0 &&
+        supportedNetworks.networks.length > 0
 
     let timeout: ReturnType<typeof setTimeout> | undefined
     $: {
@@ -48,17 +49,29 @@
         }
     }
 
-    function getUnsupportedRequiredNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): string[] {
-        if (!_sessionProposal) return []
+    function getUnsupportedRequiredNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): {
+        networks: string[]
+        isSupportedOnOtherProfiles: boolean
+    } {
+        if (!_sessionProposal) return { networks: [], isSupportedOnOtherProfiles: false }
 
         const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
         const networksSupportedByProfile = getAllNetworkIds()
         const requiredNetworks = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
-        return requiredNetworks.filter((network) => !networksSupportedByProfile.includes(network))
+
+        const networks = requiredNetworks.filter((network) => !networksSupportedByProfile.includes(network))
+
+        const allSupportedNetworks: string[] = Object.values(SupportedNetworkId)
+        const isSupportedOnOtherProfiles = networks.every((network) => allSupportedNetworks.includes(network))
+
+        return { networks, isSupportedOnOtherProfiles }
     }
 
-    function getSupportedNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): string[] {
-        if (!_sessionProposal) return []
+    function getSupportedNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): {
+        networks: string[]
+        hasSupportedOnOtherProfiles: boolean
+    } {
+        if (!_sessionProposal) return { networks: [], hasSupportedOnOtherProfiles: false }
 
         const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
         const optionalNamespaces = _sessionProposal?.params.optionalNamespaces
@@ -68,13 +81,14 @@
 
         networksSupportedByDapp.push(...Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains))
         networksSupportedByDapp.push(...Object.values(optionalNamespaces).flatMap((namespace) => namespace.chains))
+        const networks = networksSupportedByDapp.filter((network) => networksSupportedByProfile.includes(network))
 
-        return networksSupportedByDapp.filter((network) => networksSupportedByProfile.includes(network))
-    }
-
-    function areNetworksSupportedOnOtherProfiles(_unsupportedRequiredNetworks: string[]): boolean {
         const allSupportedNetworks: string[] = Object.values(SupportedNetworkId)
-        return _unsupportedRequiredNetworks.every((network) => allSupportedNetworks.includes(network))
+        const hasSupportedOnOtherProfiles = networksSupportedByDapp.some((network) =>
+            allSupportedNetworks.includes(network)
+        )
+
+        return { networks, hasSupportedOnOtherProfiles }
     }
 
     function getUnsupportedMethods(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): string[] {
@@ -131,20 +145,31 @@
                     </Table>
                 </div>
             </div>
-            {#if unsupportedRequiredNetworks.length}
+            {#if unsupportedRequiredNetworks.networks.length}
                 <div class="flex flex-col gap-8 px-6">
                     <Alert
-                        variant={isSupportedOnOtherProfiles ? 'warning' : 'danger'}
+                        variant={unsupportedRequiredNetworks.isSupportedOnOtherProfiles ? 'warning' : 'danger'}
                         text={localize(
                             `${localeKey}.${
-                                isSupportedOnOtherProfiles ? 'supportedOnOtherProfile' : 'unsupportedNetworks'
+                                unsupportedRequiredNetworks.isSupportedOnOtherProfiles
+                                    ? 'supportedOnOtherProfile'
+                                    : 'unsupportedNetworks'
                             }`
                         )}
                     />
                 </div>
-            {:else if supportedNetworks.length === 0}
+            {:else if supportedNetworks.networks.length === 0}
                 <div class="flex flex-col gap-8 px-6">
-                    <Alert variant="danger" text={localize(`${localeKey}.noSupportedNetworks`)} />
+                    <Alert
+                        variant={supportedNetworks.hasSupportedOnOtherProfiles ? 'warning' : 'danger'}
+                        text={localize(
+                            `${localeKey}.${
+                                supportedNetworks.hasSupportedOnOtherProfiles
+                                    ? 'supportedOnOtherProfile'
+                                    : 'noSupportedNetworks'
+                            }`
+                        )}
+                    />
                 </div>
             {:else if unsupportedMethods.length}
                 <div class="flex flex-col gap-8 px-6">
