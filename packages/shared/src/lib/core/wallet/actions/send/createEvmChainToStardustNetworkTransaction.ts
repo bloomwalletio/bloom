@@ -1,10 +1,10 @@
 import { IAccountState } from '@core/account/interfaces'
 import { localize } from '@core/i18n'
-import { buildEvmTransactionData, buildUnwrapAssetParameters } from '@core/layer-2/actions'
+import { buildUnwrapAssetParameters } from '@core/layer-2/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS, L2_TO_L1_STORAGE_DEPOSIT_BUFFER } from '@core/layer-2/constants'
 import { AssetType, ContractType, EvmErrorMessage } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
-import { buildAssetAllowance } from '@core/layer-2/utils'
+import { buildAssetAllowance, buildEvmTransactionData } from '@core/layer-2/utils'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
 import { IChain } from '@core/network/interfaces'
 

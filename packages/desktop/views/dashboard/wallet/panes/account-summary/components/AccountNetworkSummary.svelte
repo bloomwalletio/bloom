@@ -7,7 +7,7 @@
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
-    import { INft } from '@core/nfts'
+    import { Nft } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { IAccountTokensPerNetwork } from '@core/token'
@@ -24,7 +24,7 @@
     export let tokenBalance: string
     export let fiatBalance: string
     export let tokens: IAccountTokensPerNetwork
-    export let nfts: INft[]
+    export let nfts: Nft[]
 
     $: hasTokens = tokens?.nativeTokens?.length > 0
     $: hasNfts = nfts?.length > 0

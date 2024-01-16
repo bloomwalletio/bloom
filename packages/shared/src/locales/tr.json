@@ -485,6 +485,7 @@
                         "reconnectHint": "Daha önce bu dApp'e bağlandınız.",
                         "insecure": "Bu dApp'in URL'si doğrulanamıyor. Bu uygulamaya bağlantınız güvenli olmayabilir.",
                         "unsupportedNetworks": "Bu dApp, desteklenmeyen bir ağ üzerinde çalıştığı için Bloom ile uyumlu değildir.",
+                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "Bu dApp, Bloom ile tam uyumlu değil. Bazı yöntemler veya olaylar desteklenmiyor.",
                         "supportedOnOtherProfile": "Bu dApp, desteklenen bir ağda çalışır ancak bu profille erişilemez. Lütfen gerekli ağa bağlı bir profil kullanın.",
                         "acceptInsecureConnection": " Bu dApp'in güvenli olmayabileceğini anlıyorum ama hala bağlanmak istiyorum."
@@ -1862,7 +1863,7 @@
                 "short": "URL desteklenmiyor",
                 "long": "URL şeması desteklenmiyor"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Desteklenmeyen medya türü",
                 "long": "Medya türü şu anda desteklenmiyor"
             },

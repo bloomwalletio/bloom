@@ -17,7 +17,6 @@
                 setting,
                 features?.settings?.[category]?.[setting.childRoute]?.enabled,
                 $loggedIn,
-                !$isActiveLedgerProfile,
                 $isActiveLedgerProfile
             )
         ) ?? []
@@ -27,7 +26,7 @@
     <Text type="h6">
         {localize(`views.settings.${category}.title`)}
     </Text>
-    {#each visibleSettings as { component, childRoute, props }, index}
+    {#each visibleSettings as { component, childRoute, props }}
         <section id={childRoute}>
             <svelte:component this={component} {...props} route={childRoute} />
         </section>

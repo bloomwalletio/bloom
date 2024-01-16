@@ -2,7 +2,6 @@ import { Address, AddressType, NftOutput } from '@iota/sdk/out/types'
 import { getIssuerFromNftOutput, getMetadataFromNftOutput, getNftId } from '@core/activity/utils/outputs'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
-import { get } from 'svelte/store'
 import { DEFAULT_NFT_NAME } from '../constants'
 import { IIrc27Nft } from '../interfaces'
 import { composeUrlFromNftUri, getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
@@ -10,6 +9,7 @@ import { NetworkId } from '@core/network/types'
 import { isEvmChain } from '@core/network'
 import { MimeType, NftStandard } from '@core/nfts'
 import { persistedNftForActiveProfile } from '../stores'
+import { get } from 'svelte/store'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,

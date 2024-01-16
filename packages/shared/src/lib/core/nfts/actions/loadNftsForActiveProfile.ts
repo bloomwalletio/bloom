@@ -4,7 +4,7 @@ import { activeAccounts } from '@core/profile/stores'
 import { getNftId } from '@core/activity/utils/outputs'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { get } from 'svelte/store'
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
 import { getActiveNetworkId, getNetwork } from '@core/network'
@@ -17,14 +17,19 @@ import { getPersistedErc721Nfts } from './getPersistedErc721Nfts'
 import { getAddressFromAccountForNetwork } from '@core/account'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
+    let nftsToDownload: Nft[] = []
     const allAccounts = get(activeAccounts)
     for (const account of allAccounts) {
-        await loadNftsForAccount(account)
+        const accountNfts = await loadNftsForAccount(account)
+        nftsToDownload = [...nftsToDownload, ...accountNfts]
     }
+
+    nftsToDownload = [...new Set(nftsToDownload)]
+    void addNftsToDownloadQueue(nftsToDownload)
 }
 
-export async function loadNftsForAccount(account: IAccountState): Promise<void> {
-    const accountNfts: INft[] = []
+export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]> {
+    const accountNfts: Nft[] = []
     const unspentOutputs = await account.unspentOutputs()
     const networkId = getActiveNetworkId()
     for (const outputData of unspentOutputs) {
@@ -55,7 +60,7 @@ export async function loadNftsForAccount(account: IAccountState): Promise<void> 
             continue
         }
         const erc721Nfts = getPersistedErc721Nfts()
-        const convertedNfts: INft[] = erc721Nfts.map((persistedErc721Nft) =>
+        const convertedNfts: Nft[] = erc721Nfts.map((persistedErc721Nft) =>
             buildNftFromPersistedErc721Nft(persistedErc721Nft, evmAddress)
         )
         accountNfts.push(...convertedNfts)
@@ -70,17 +75,12 @@ export async function loadNftsForAccount(account: IAccountState): Promise<void> 
             const nftOutput = outputData.output as NftOutput
             const nftId = getNftId(nftOutput.nftId, outputData.outputId)
             if (!accountNfts.some((nft) => nft.id === nftId)) {
-                const nft = buildNftFromNftOutput(
-                    outputData as IWrappedOutput,
-                    networkId,
-                    account.depositAddress,
-                    false
-                )
+                const nft = buildNftFromNftOutput(outputData as IWrappedOutput, networkId, account.depositAddress)
                 accountNfts.push(nft)
             }
         }
     }
     setAccountNftsInAllAccountNfts(account.index, accountNfts)
 
-    void addNftsToDownloadQueue(account.index, accountNfts)
+    return accountNfts
 }

@@ -13,7 +13,7 @@
     import { selectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { SearchInput, TokenAmountTile } from '@ui'
+    import { KeyValue, SearchInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
 
     let searchValue: string = ''
@@ -46,9 +46,11 @@
         tokenError = ''
     }
 
-    let selectedTab: { key: string; value: string } = { key: 'all', value: 'All' }
-    function setTabs() {
-        const tabs: { key: string; value: string }[] = [{ key: 'all', value: 'All' }]
+    const tabs = getTabs()
+    let selectedTab = tabs[0]
+
+    function getTabs(): KeyValue<string>[] {
+        const tabs = [{ key: 'all', value: 'All' }]
         const networkMetadata = getNetwork().getMetadata()
         tabs.push({ key: networkMetadata.id, value: networkMetadata.name })
         const chains = getNetwork().getChains()
@@ -162,7 +164,9 @@
 >
     <div class="space-y-4">
         <SearchInput bind:value={searchValue} />
-        <Tabs bind:selectedTab tabs={setTabs()} />
+        {#if tabs.length > 2}
+            <Tabs bind:selectedTab {tabs} />
+        {/if}
         <div class="-mr-3">
             <token-list class="w-full flex flex-col">
                 {#each tokenList as token}

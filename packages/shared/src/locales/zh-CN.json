@@ -485,6 +485,7 @@
                         "reconnectHint": "You have previously connected with this dApp.",
                         "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
                         "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
+                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
                         "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
                         "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
@@ -1862,7 +1863,7 @@
                 "short": "不支持 Url",
                 "long": "不支持Url模式"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "不支持的媒体类型",
                 "long": "不支持此媒体类型。"
             },

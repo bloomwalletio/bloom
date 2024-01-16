@@ -18,7 +18,7 @@
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
     import { TokenTransferData } from '@core/wallet'
-    import { INft } from '@core/nfts'
+    import { Nft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import DappDataBanner from '@components/DappDataBanner.svelte'
     import { onMount } from 'svelte'
@@ -39,7 +39,7 @@
     const { id } = chain.getConfiguration()
     $: localeKey = signAndSend ? (isSmartContractCall ? 'smartContractCall' : 'sendTransaction') : 'signTransaction'
 
-    let nft: INft | undefined
+    let nft: Nft | undefined
     let tokenTransfer: TokenTransferData | undefined
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false

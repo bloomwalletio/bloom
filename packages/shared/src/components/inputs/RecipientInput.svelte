@@ -80,6 +80,7 @@
     label={localize('general.recipient')}
     bind:value
     bind:error
+    searchable
     {selected}
     {disabled}
     {options}
