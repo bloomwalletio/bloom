@@ -1,11 +1,4 @@
-import {
-    appRouter,
-    buySellRouter,
-    collectiblesRouter,
-    dashboardRouter,
-    governanceRouter,
-    loginRouter,
-} from '@core/router'
+import { appRouter, collectiblesRouter, dashboardRouter, governanceRouter, loginRouter } from '@core/router'
 import { onboardingRouter } from '@views/onboarding'
 import { get } from 'svelte/store'
 
@@ -25,5 +18,4 @@ function resetBaseRouters(): void {
     get(onboardingRouter).reset()
     get(collectiblesRouter).reset()
     get(governanceRouter).reset()
-    get(buySellRouter).reset()
 }

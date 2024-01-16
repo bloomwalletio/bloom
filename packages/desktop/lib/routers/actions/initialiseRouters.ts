@@ -1,8 +1,6 @@
 import {
     appRouter,
     AppRouter,
-    BuySellRouter,
-    buySellRouter,
     collectiblesRouter,
     CollectiblesRouter,
     DashboardRouter,
@@ -35,7 +33,6 @@ function initialiseBaseRouters(): void {
     settingsRouter.set(new SettingsRouter())
     collectiblesRouter.set(new CollectiblesRouter())
     governanceRouter.set(new GovernanceRouter())
-    buySellRouter.set(new BuySellRouter())
     initialiseBaseOnboardingRouters()
 }
 

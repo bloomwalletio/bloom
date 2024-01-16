@@ -4,14 +4,7 @@
     import { ProfileActionsMenu, SidebarTab } from '@components'
     import { localize } from '@core/i18n'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
-    import {
-        DashboardRoute,
-        buySellRouter,
-        collectiblesRouter,
-        dashboardRouter,
-        governanceRouter,
-        settingsRouter,
-    } from '@core/router'
+    import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
     import { IDashboardSidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
@@ -108,7 +101,6 @@
         $collectiblesRouter.reset()
         $settingsRouter.reset()
         $governanceRouter.reset()
-        $buySellRouter.reset()
     }
 </script>
 

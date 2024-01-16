@@ -14,12 +14,6 @@
     let tokenBalance: string
     let fiatBalance: string
 
-    void Platform.openTransak({
-        currency: $activeProfile?.settings.marketCurrency,
-        address: $selectedAccount.depositAddress,
-        service: 'BUY',
-    })
-
     function updateBalances(): void {
         const tokens = $selectedAccountTokens?.[$activeProfile.network.id]
         const networkBaseCoin: ITokenWithBalance = tokens?.baseCoin
@@ -27,7 +21,19 @@
         fiatBalance = formatCurrency(getFiatAmountFromTokenValue(networkBaseCoin.balance.total, networkBaseCoin))
     }
 
-    $: $selectedAccountIndex, updateBalances()
+    async function resetTransak(): Promise<void> {
+        await Platform.closeTransak()
+        await Platform.openTransak({
+            currency: $activeProfile?.settings.marketCurrency,
+            address: $selectedAccount.depositAddress,
+            service: 'BUY',
+        })
+    }
+
+    $: if ($selectedAccountIndex !== undefined) {
+        updateBalances()
+        void resetTransak()
+    }
 
     onDestroy(() => {
         void Platform.closeTransak()
