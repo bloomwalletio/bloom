@@ -44,12 +44,19 @@ export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]>
         const transactionsOnChain = getPersistedEvmTransactions(account.index, chain)
         const nftIdsOnChain = []
         for (const transaction of transactionsOnChain) {
-            const { asset } = getTransferInfoFromTransactionData(transaction, chain) ?? {}
-            if (asset?.type !== AssetType.Nft || accountNfts.some((nft) => nft.id === asset.nftId)) {
+            const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
+            if (
+                !transferInfo ||
+                transferInfo.type === 'SmartContract' ||
+                transferInfo.asset?.type !== AssetType.Nft ||
+                accountNfts.some(
+                    (nft) => transferInfo.asset.type === AssetType.Nft && nft.id === transferInfo.asset.nftId
+                )
+            ) {
                 continue
             }
 
-            nftIdsOnChain.push(asset.nftId)
+            nftIdsOnChain.push(transferInfo.asset.nftId)
         }
         const nfts = await getNftsFromNftIds(nftIdsOnChain, networkId)
         accountNfts.push(...nfts)

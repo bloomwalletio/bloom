@@ -8,10 +8,11 @@ import { BASE_TOKEN_ID } from '@core/token/constants'
 import { IChain } from '@core/network'
 import { AssetType, TransferredAssetId } from '..'
 
-export function getTransferInfoFromTransactionData(
-    transaction: TxData,
-    chain: IChain
-): { asset: TransferredAssetId; additionalBaseTokenAmount?: string; recipientAddress: string } | undefined {
+type TransferInfo =
+    | { type: 'Asset'; asset: TransferredAssetId; additionalBaseTokenAmount?: string; recipientAddress: string }
+    | { type: 'SmartContract' }
+
+export function getTransferInfoFromTransactionData(transaction: TxData, chain: IChain): TransferInfo | undefined {
     const networkId = chain.getConfiguration().id
 
     const recipientAddress = transaction.to?.toString()
@@ -26,7 +27,7 @@ export function getTransferInfoFromTransactionData(
         const abi = isErc20 ? ERC20_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
 
         if (!abi) {
-            return undefined
+            return { type: 'SmartContract' }
         }
 
         const abiDecoder = new AbiDecoder(abi, chain.getProvider())
@@ -40,6 +41,7 @@ export function getTransferInfoFromTransactionData(
 
                 if (nativeToken) {
                     return {
+                        type: 'Asset',
                         asset: {
                             type: AssetType.Token,
                             tokenId: nativeToken.ID.data,
@@ -49,6 +51,7 @@ export function getTransferInfoFromTransactionData(
                     }
                 } else if (nftId) {
                     return {
+                        type: 'Asset',
                         asset: {
                             type: AssetType.Nft,
                             nftId,
@@ -63,6 +66,7 @@ export function getTransferInfoFromTransactionData(
                 const inputs = decoded.inputs as Erc20TransferMethodInputs
 
                 return {
+                    type: 'Asset',
                     asset: {
                         type: AssetType.Token,
                         tokenId: recipientAddress,
@@ -79,6 +83,7 @@ export function getTransferInfoFromTransactionData(
 
                 if (nativeToken) {
                     return {
+                        type: 'Asset',
                         asset: {
                             type: AssetType.Token,
                             tokenId: nativeToken.ID.data,
@@ -90,6 +95,7 @@ export function getTransferInfoFromTransactionData(
                 }
                 if (nftId) {
                     return {
+                        type: 'Asset',
                         asset: {
                             type: AssetType.Nft,
                             nftId,
@@ -99,6 +105,7 @@ export function getTransferInfoFromTransactionData(
                     }
                 } else if (baseTokenAmount) {
                     return {
+                        type: 'Asset',
                         asset: {
                             type: AssetType.BaseCoin,
                             tokenId: BASE_TOKEN_ID,
@@ -115,6 +122,7 @@ export function getTransferInfoFromTransactionData(
         }
     } else {
         return {
+            type: 'Asset',
             asset: {
                 type: AssetType.BaseCoin,
                 tokenId: BASE_TOKEN_ID,
