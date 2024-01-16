@@ -14,7 +14,7 @@ export async function generateSmartContractActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: String(transaction.value) ?? '0',
+        rawAmount: String(transaction.value ?? '0'),
     }
 
     return {
