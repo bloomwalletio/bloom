@@ -8,9 +8,8 @@ import { Nft } from '../interfaces'
 import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
 import { getActiveNetworkId, getNetwork } from '@core/network'
-import { getPersistedEvmTransactions } from '@core/activity'
+import { ActivityType, getPersistedEvmTransactions } from '@core/activity'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
-import { AssetType } from '@core/layer-2'
 import { buildNftFromPersistedErc721Nft, getNftsFromNftIds } from '../utils'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { getPersistedErc721Nfts } from './getPersistedErc721Nfts'
@@ -45,18 +44,16 @@ export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]>
         const nftIdsOnChain = []
         for (const transaction of transactionsOnChain) {
             const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
-            if (
-                !transferInfo ||
-                transferInfo.type === 'SmartContract' ||
-                transferInfo.asset?.type !== AssetType.Nft ||
-                accountNfts.some(
-                    (nft) => transferInfo.asset.type === AssetType.Nft && nft.id === transferInfo.asset.nftId
-                )
-            ) {
+            if (transferInfo?.type !== ActivityType.Nft) {
                 continue
             }
 
-            nftIdsOnChain.push(transferInfo.asset.nftId)
+            const alreadyAdded = accountNfts.some((nft) => nft.id === transferInfo.nftId)
+            if (alreadyAdded) {
+                continue
+            }
+
+            nftIdsOnChain.push(transferInfo.nftId)
         }
         const nfts = await getNftsFromNftIds(nftIdsOnChain, networkId)
         accountNfts.push(...nfts)
@@ -81,7 +78,9 @@ export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]>
         if (outputData.output.type === OutputType.Nft) {
             const nftOutput = outputData.output as NftOutput
             const nftId = getNftId(nftOutput.nftId, outputData.outputId)
-            if (!accountNfts.some((nft) => nft.id === nftId)) {
+
+            const alreadyAdded = accountNfts.some((nft) => nft.id === nftId)
+            if (!alreadyAdded) {
                 const nft = buildNftFromNftOutput(outputData as IWrappedOutput, networkId, account.depositAddress)
                 accountNfts.push(nft)
             }
