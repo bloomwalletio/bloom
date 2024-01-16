@@ -1501,6 +1501,7 @@
         "no": "No",
         "tip": "Tip",
         "verified": "Verified",
+        "methodName": "Method name",
         "data": "Data",
         "success": "Success"
     },

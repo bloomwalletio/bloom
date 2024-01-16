@@ -36,6 +36,9 @@
             case ActivityType.Basic:
                 tabs = getTabItems([PopupTab.Transaction, ...(activity.smartContract ? [PopupTab.SmartContract] : [])])
                 break
+            case ActivityType.SmartContract:
+                tabs = getTabItems([PopupTab.Transaction, PopupTab.SmartContract])
+                break
             case ActivityType.Alias:
                 tabs = getTabItems([PopupTab.Transaction, PopupTab.Alias])
                 break
