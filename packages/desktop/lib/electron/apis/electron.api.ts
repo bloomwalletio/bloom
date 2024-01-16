@@ -8,7 +8,7 @@ import NotificationManager from '../managers/notification.manager'
 import PincodeManager from '../managers/pincode.manager'
 import { bindMethodsAcrossContextBridge } from '../utils/context-bridge.utils'
 
-import type { IAppSettings } from '@core/app/interfaces'
+import type { IAppSettings, ITransakWindowData } from '@core/app/interfaces'
 import type { IFeatureFlag } from '@lib/features/interfaces'
 import { AppTheme } from '@core/app/enums'
 
@@ -250,7 +250,7 @@ export default {
     killLedgerProcess(): void {
         return ipcRenderer.send('kill-ledger-process')
     },
-    openTransak(data: { currency: string; address: string; service: 'BUY' | 'SELL' }): Promise<void> {
+    openTransak(data: ITransakWindowData): Promise<void> {
         return ipcRenderer.invoke('open-transak', data)
     },
     closeTransak(): Promise<void> {

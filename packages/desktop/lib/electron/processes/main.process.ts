@@ -24,6 +24,7 @@ import { windows } from '../constants/windows.constant'
 import AutoUpdateManager from '../managers/auto-update.manager'
 import KeychainManager from '../managers/keychain.manager'
 import NftDownloadManager from '../managers/nft-download.manager'
+import TransakManager from '../managers/transak.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
 import { initialiseAnalytics } from '../utils/analytics.utils'
@@ -353,7 +354,9 @@ export function getOrInitWindow(windowName: string, ...args: unknown[]): Browser
             case 'error':
                 return openErrorWindow()
             case 'transak':
-                return openTransakWindow(args[0] as { currency: string; address: string; service: 'BUY' | 'SELL' })
+                return transakManager?.openWindow(
+                    args[0] as { currency: string; address: string; service: 'BUY' | 'SELL' }
+                )
             default:
                 throw Error(`Window ${windowName} not found`)
         }
@@ -505,17 +508,22 @@ ipcMain.on('notification-activated', (ev, contextData) => {
     windows.main.webContents.send('notification-activated', contextData)
 })
 
+// Transak
+
+const transakManager = features.buySell.enabled ? new TransakManager() : null
 ipcMain.handle('open-transak', (_, data) => {
     getOrInitWindow('transak', data)
 })
 
 ipcMain.handle('close-transak', () => {
-    closeTransakWindow()
+    transakManager?.closeWindow()
 })
 
 ipcMain.handle('is-sidebar-expanded', (_, expanded) => {
-    sidebarOpen = expanded
-    positionTransakWindow()
+    if (transakManager) {
+        transakManager.setSidebarExpanded(expanded)
+        transakManager.positionWindow()
+    }
 })
 
 /**
@@ -602,116 +610,6 @@ export function closeErrorWindow(): void {
         windows.error.close()
         windows.error = null
     }
-}
-
-let sidebarOpen = false
-const SIDEBAR_WIDTH_OPEN = 256
-const SIDEBAR_WIDTH_CLOSED = 80
-
-export function openTransakWindow(data: { currency: string; address: string; service: 'BUY' | 'SELL' }): BrowserWindow {
-    if (windows.transak !== null) {
-        return windows.transak
-    }
-
-    windows.transak = new BrowserWindow({
-        parent: windows.main,
-        width: 480,
-        height: getTransakHeight(),
-        useContentSize: true,
-        titleBarStyle: 'hidden',
-        frame: false,
-        show: true,
-        fullscreenable: false,
-        transparent: true,
-        movable: false,
-        resizable: false,
-        minimizable: false,
-        skipTaskbar: true,
-        acceptFirstMouse: true,
-        hasShadow: false,
-        thickFrame: false,
-        roundedCorners: false,
-        webPreferences: {
-            ...DEFAULT_WEB_PREFERENCES,
-            contextIsolation: true,
-            preload: paths.transakPreload,
-        },
-    })
-
-    if (process.platform === 'darwin') {
-        windows.transak.setWindowButtonVisibility(false)
-    }
-
-    positionTransakWindow()
-    sizeTransakWindow()
-    windows.main.on('move', positionTransakWindow)
-    windows.main.on('resize', () => {
-        positionTransakWindow()
-        sizeTransakWindow()
-    })
-
-    windows.transak.once('closed', () => {
-        windows.transak = null
-    })
-
-    windows.transak.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
-        if (permission === 'media') {
-            callback(true)
-        } else {
-            callback(false)
-        }
-    })
-
-    void windows.transak.loadFile(paths.transakHtml)
-    windows.transak.webContents.on('did-finish-load', () => {
-        const _data = {
-            currency: data.currency,
-            address: data.address,
-            stage: app.isPackaged ? 'production' : 'staging',
-            apiKey: process.env.TRANSAK_API_KEY,
-            service: data.service,
-        }
-        windows.transak.webContents.send('transak-data', _data)
-    })
-
-    windows.transak.setMenu(null)
-
-    return windows.transak
-}
-
-export function closeTransakWindow(): void {
-    if (windows.transak) {
-        windows.transak.close()
-        windows.transak = null
-    }
-}
-
-function positionTransakWindow(): void {
-    if (windows.transak && windows.transak) {
-        const [mainWindowX, mainWindowY] = windows.main.getPosition()
-        const [mainWindowWidth] = windows.main.getSize()
-        const [transakWidth] = windows.transak.getSize()
-
-        const sidebarWidth = sidebarOpen ? SIDEBAR_WIDTH_OPEN : SIDEBAR_WIDTH_CLOSED
-        const dashboardWidth = mainWindowWidth - sidebarWidth
-        const transakX = Math.floor(mainWindowX + sidebarWidth + dashboardWidth / 2 - transakWidth / 2)
-        const titleBarHeight = 40 + 1 + (process.platform === 'win32' ? 28 + 1 : 0)
-        const transakY = mainWindowY + titleBarHeight + 32 + 1
-
-        windows.transak.setPosition(transakX, transakY)
-    }
-}
-
-function sizeTransakWindow(): void {
-    const [transakWidth] = windows.transak.getSize()
-    const transakHeight = getTransakHeight()
-    windows.transak.setSize(transakWidth, transakHeight)
-}
-
-function getTransakHeight(): number {
-    const [, mainWindowHeight] = windows.main.getSize()
-    const titleBarHeight = 40 + 1 + (process.platform === 'win32' ? 28 + 1 : 0)
-    return mainWindowHeight - titleBarHeight - (32 + 1) * 2
 }
 
 function windowStateKeeper(windowName: string, settingsFilename: string): IAppState {

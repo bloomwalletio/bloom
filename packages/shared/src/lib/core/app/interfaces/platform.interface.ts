@@ -5,6 +5,7 @@ import { IAppSettings } from './app-settings.interface'
 import { IAppVersionDetails } from './app-version-details.interface'
 import { IPlatformEventMap } from './platform-event-map.interface'
 import { AppTheme } from '../enums'
+import { ITransakWindowData } from './transak-window-data.interface'
 
 export interface IPlatform {
     getStrongholdBackupDestination(defaultPath: string): Promise<string | null>
@@ -62,7 +63,7 @@ export interface IPlatform {
     startLedgerProcess(): void
     killLedgerProcess(): void
 
-    openTransak(data: { currency: string; address: string; service: 'BUY' | 'SELL' }): Promise<void>
+    openTransak(data: ITransakWindowData): Promise<void>
     closeTransak(): Promise<void>
 
     isSidebarExpanded(expanded: boolean): Promise<void>
