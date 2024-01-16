@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         const iframe = window.document.createElement('iframe')
         iframe.id = 'transakIframe'
-        iframe.src = `${transakUrl}/?apiKey=${apiKey}&defaultFiatCurrency=${currency}&walletAddress=${address}&productsAvailed=${service}&cryptoCurrencyCode=IOTA&themeColor=7C41C9&hideMenu=true`
+        iframe.src = `${transakUrl}/?apiKey=${apiKey}&defaultFiatCurrency=${currency}&walletAddress=${address}&productsAvailed=${service}&cryptoCurrencyCode=IOTA&network=miota&themeColor=7C41C9&hideMenu=true`
         iframe.style.width = '100%'
         iframe.style.height = '100%'
         iframe.style.border = 'none'
