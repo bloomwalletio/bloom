@@ -9,7 +9,7 @@ import { ISettingsFeatures } from './settings-features.interface'
 import { IWalletFeatures } from './wallet-features.interface'
 import { IWalletConnectFeatures } from './wallet-connect-features.interface'
 import { OnboardingFeatures } from '../types/onboarding-features.type'
-import { IBuySellFeatures } from './buy-sell-features.interface'
+import { IFeatureFlag } from './feature-flag.interface'
 
 export interface IFeatures {
     app: IAppFeatures
@@ -23,5 +23,5 @@ export interface IFeatures {
     settings: ISettingsFeatures
     wallet: IWalletFeatures
     walletConnect: IWalletConnectFeatures
-    buySell: IBuySellFeatures
+    buySell: IFeatureFlag
 }

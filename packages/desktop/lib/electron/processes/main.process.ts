@@ -106,11 +106,9 @@ const paths = {
     html: '',
     aboutHtml: '',
     errorHtml: '',
-    transakHtml: '',
     preload: '',
     aboutPreload: '',
     errorPreload: '',
-    transakPreload: '',
     ledger: '',
 }
 
@@ -141,8 +139,6 @@ if (app.isPackaged) {
     paths.aboutPreload = path.join(app.getAppPath(), '/public/build/about.preload.js')
     paths.errorHtml = path.join(app.getAppPath(), '/public/error.html')
     paths.errorPreload = path.join(app.getAppPath(), '/public/build/error.preload.js')
-    paths.transakHtml = path.join(app.getAppPath(), '/public/transak.html')
-    paths.transakPreload = path.join(app.getAppPath(), '/public/build/transak.preload.js')
     paths.ledger = path.join(app.getAppPath(), '/public/build/ledger.process.js')
 } else {
     // __dirname is desktop/public/build
@@ -152,8 +148,6 @@ if (app.isPackaged) {
     paths.aboutPreload = path.join(__dirname, 'about.preload.js')
     paths.errorHtml = path.join(__dirname, '../error.html')
     paths.errorPreload = path.join(__dirname, 'error.preload.js')
-    paths.transakHtml = path.join(__dirname, '../transak.html')
-    paths.transakPreload = path.join(__dirname, 'transak.preload.js')
     paths.ledger = path.join(__dirname, 'ledger.process.js')
 }
 
@@ -510,7 +504,7 @@ ipcMain.on('notification-activated', (ev, contextData) => {
 
 // Transak
 
-const transakManager = features.buySell.enabled ? new TransakManager() : null
+const transakManager = features?.buySell?.enabled ? new TransakManager() : null
 ipcMain.handle('open-transak', (_, data) => {
     getOrInitWindow('transak', data)
 })

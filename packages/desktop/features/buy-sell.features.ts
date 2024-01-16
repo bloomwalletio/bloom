@@ -1,13 +1,7 @@
-import { IBuySellFeatures } from '@lib/features/interfaces'
+import { IFeatureFlag } from '@lib/features/interfaces'
 
-const buySellFeatures: IBuySellFeatures = {
+const buySellFeatures: IFeatureFlag = {
     enabled: true,
-    buy: {
-        enabled: true,
-    },
-    sell: {
-        enabled: true,
-    },
 }
 
 export default buySellFeatures
