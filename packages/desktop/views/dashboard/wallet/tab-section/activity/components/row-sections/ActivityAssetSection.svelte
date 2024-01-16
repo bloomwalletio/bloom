@@ -39,6 +39,9 @@
         } else if (_activity.type === ActivityType.Nft) {
             title = nft?.name ? truncateString(nft.name, 13, 0) : 'NFT'
             subtitle = nft ? truncateString(nft.id, 6, 7) : ''
+        } else if (_activity.type === ActivityType.SmartContract) {
+            title = localize('general.smartContract')
+            subtitle = _activity.methodName
         } else if (_activity.type === ActivityType.Alias) {
             title = 'Alias'
             subtitle = truncateString(_activity.aliasId, 6, 7)
@@ -107,6 +110,13 @@
             <TokenAvatar {token} hideNetworkBadge size="lg" />
         {:else if activity.type === ActivityType.Nft}
             <NftAvatar {nft} size="lg" shape="square" />
+        {:else if activity.type === ActivityType.SmartContract}
+            <Avatar
+                icon={IconName.FileLock}
+                size="lg"
+                textColor="brand"
+                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+            />
         {:else if activity.type === ActivityType.Alias}
             <Avatar
                 icon={IconName.Alias}
