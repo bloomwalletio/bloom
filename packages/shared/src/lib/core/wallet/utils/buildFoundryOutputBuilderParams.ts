@@ -22,8 +22,8 @@ export async function buildFoundryOutputBuilderParams(
         new ImmutableAliasAddressUnlockCondition(new AliasAddress(api.bech32ToHex(aliasId))),
     ]
 
-    // @ts-expect-error: https://github.com/iotaledger/iota-sdk/issues/1839
     const tokenScheme = new SimpleTokenScheme(
+        // @ts-expect-error: https://github.com/iotaledger/iota-sdk/issues/1839
         Converter.bigIntToHex(circulatingSupply),
         BigInt(0),
         Converter.bigIntToHex(totalSupply)

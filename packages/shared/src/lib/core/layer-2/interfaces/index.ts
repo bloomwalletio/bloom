@@ -1,5 +1,6 @@
 export * from './erc20-evm-transaction-options.interface'
 export * from './erc20-transfer-method-inputs.interface'
+export * from './erc721-safe-transfer-method-inputs.interface'
 export * from './evm-address.interface'
 export * from './evm-signature.interface'
 export * from './evm-transaction-data.interface'
