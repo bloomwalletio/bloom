@@ -47,7 +47,9 @@ export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]>
             if (transferInfo?.type !== ActivityType.Nft) {
                 continue
             }
-
+            if (transferInfo.nftId.includes(':')) {
+                continue
+            }
             const alreadyAdded = accountNfts.some((nft) => nft.id === transferInfo.nftId)
             if (alreadyAdded) {
                 continue
