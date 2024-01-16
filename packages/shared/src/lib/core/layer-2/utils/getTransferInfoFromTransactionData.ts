@@ -3,7 +3,12 @@ import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions
 import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
 import { AbiDecoder, HEX_PREFIX } from '@core/utils'
-import { Erc20TransferMethodInputs, IscCallMethodInputs, IscSendMethodInputs } from '../interfaces'
+import {
+    Erc20TransferMethodInputs,
+    Erc721SafeTransferMethodInputs,
+    IscCallMethodInputs,
+    IscSendMethodInputs,
+} from '../interfaces'
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { IChain } from '@core/network'
 import { ActivityType } from '@core/activity'
@@ -72,6 +77,15 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
                     tokenId: recipientAddress,
                     rawAmount: String(inputs._value),
                     recipientAddress: inputs._to,
+                }
+            }
+            case 'safeTransferFrom': {
+                const inputs = decoded.inputs as Erc721SafeTransferMethodInputs
+
+                return {
+                    type: ActivityType.Nft,
+                    nftId: `${recipientAddress}:${inputs.tokenId}`,
+                    recipientAddress: inputs.to,
                 }
             }
             case 'send': {

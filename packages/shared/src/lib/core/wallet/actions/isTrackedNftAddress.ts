@@ -4,8 +4,14 @@ import { TokenTrackingStatus } from '@core/token/enums'
 
 export function isTrackedNftAddress(networkId: NetworkId, address: string): boolean {
     const trackedNfts = getActiveProfile()?.trackedNfts?.[networkId] ?? {}
-    return (
-        trackedNfts[address] === TokenTrackingStatus.AutomaticallyTracked ||
-        trackedNfts[address] === TokenTrackingStatus.ManuallyTracked
-    )
+    return Object.keys(trackedNfts).some((key) => {
+        if (!key.toLowerCase().startsWith(address.toLowerCase())) {
+            return false
+        }
+        const trackedStatus = trackedNfts[key]
+        return (
+            trackedStatus === TokenTrackingStatus.AutomaticallyTracked ||
+            trackedStatus === TokenTrackingStatus.ManuallyTracked
+        )
+    })
 }
