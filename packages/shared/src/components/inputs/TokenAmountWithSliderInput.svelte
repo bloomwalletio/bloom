@@ -1,14 +1,8 @@
 <script lang="ts">
     import { getDecimalSeparator, localize, parseCurrency } from '@core/i18n'
-    import {
-        ITokenWithBalance,
-        TokenStandard,
-        convertToRawAmount,
-        formatTokenAmountBestMatch,
-        getUnitFromTokenMetadata,
-    } from '@core/token'
+    import { ITokenWithBalance, convertToRawAmount, formatTokenAmountBestMatch } from '@core/token'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
-    import { AmountInput, InputContainer, SliderInput, TokenLabel, UnitInput } from '@ui'
+    import { AmountInput, InputContainer, SliderInput, TokenLabel } from '@ui'
     import { Text } from '@bloomwalletio/ui'
 
     export let inputElement: HTMLInputElement | undefined = undefined
@@ -16,10 +10,9 @@
     export let isFocused = false
     export let votingPower: bigint = BigInt(0)
     export let token: ITokenWithBalance
-    export let rawAmount: bigint | undefined = undefined
-    export let unit: string | undefined = undefined
-    export let inputtedAmount: string | undefined =
-        rawAmount && token?.metadata ? formatTokenAmountBestMatch(rawAmount, token?.metadata, false, false) : undefined
+    export let rawAmount: bigint = BigInt(0)
+
+    export let inputtedAmount: string | undefined = '0'
 
     let amountInputElement: HTMLInputElement
     let error: string
@@ -28,14 +21,26 @@
     let maxLength = 0
 
     $: isFocused && (error = '')
-    $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token?.metadata, unit)
+    $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token?.metadata)
     $: availableBalance = (token.balance.available ?? BigInt(0)) + votingPower
-    $: max = Number(parseCurrency(formatTokenAmountBestMatch(availableBalance, token?.metadata, false, false)))
     $: inputtedAmount,
         (error = ''),
         (inputLength = getInputLength()),
         (fontSize = getFontSizeForInputLength()),
         (maxLength = getMaxAmountOfDigits())
+    $: inputtedAmount = getTokenAmount(rawAmount)
+    $: setRawAmountIfInputMismatch(inputtedAmount)
+
+    function getTokenAmount(rawAmount: bigint): string | undefined {
+        return token?.metadata ? formatTokenAmountBestMatch(rawAmount, token?.metadata, false, false) : undefined
+    }
+
+    function setRawAmountIfInputMismatch(inputtedAmount: string | undefined): void {
+        const formattedAmount = getTokenAmount(rawAmount)
+        if (inputtedAmount && inputtedAmount !== formattedAmount) {
+            rawAmount = convertToRawAmount(inputtedAmount, token?.metadata) ?? BigInt(0)
+        }
+    }
 
     export function validate(allowZeroOrNull = false): void {
         if (inputtedAmount === undefined) {
@@ -51,13 +56,6 @@
             return
         } else if (isAmountZeroOrNull) {
             error = localize('error.send.amountInvalidFormat')
-        } else if (
-            token?.metadata &&
-            ((token.metadata.standard === TokenStandard.BaseToken && unit === token.metadata.subunit) ||
-                (unit === getUnitFromTokenMetadata(token.metadata) && token.metadata.decimals === 0)) &&
-            Number.parseInt(inputtedAmount, 10).toString() !== inputtedAmount
-        ) {
-            error = localize('error.send.amountNoFloat')
         } else if (rawAmount && rawAmount > availableBalance) {
             error = localize('error.send.amountTooHigh')
         } else if (rawAmount && rawAmount <= 0) {
@@ -69,7 +67,6 @@
         if (error) {
             throw new Error(error)
         }
-        rawAmount = convertToRawAmount(inputtedAmount, token?.metadata, unit)
     }
 
     function getInputLength(): number {
@@ -116,7 +113,7 @@
 
 <InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} col {isFocused} {error}>
     <div class="w-fit mx-auto">
-        <TokenLabel bind:token />
+        <TokenLabel {token} />
     </div>
     <div class="flex flex-row w-full items-center space-x-0.5 relative">
         <AmountInput
@@ -131,17 +128,14 @@
             {disabled}
             {fontSize}
         />
-        {#if token?.metadata && getUnitFromTokenMetadata(token.metadata)}
-            <UnitInput bind:unit bind:isFocused {disabled} tokenMetadata={token?.metadata} />
-        {/if}
     </div>
 
     <div class="flex flex-col mt-5">
-        <SliderInput bind:value={inputtedAmount} {max} decimals={allowedDecimals} {disabled} />
+        <SliderInput bind:value={rawAmount} max={availableBalance} {disabled} />
         <div class="flex flex-row justify-between">
-            <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata, unit)} {unit}</Text>
+            <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata, true)}</Text>
             <Text textColor="secondary" type="sm"
-                >{formatTokenAmountBestMatch(availableBalance, token?.metadata, unit)} {unit}</Text
+                >{formatTokenAmountBestMatch(availableBalance, token?.metadata, true)}</Text
             >
         </div>
     </div>

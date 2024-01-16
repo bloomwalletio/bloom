@@ -5,7 +5,7 @@ import { appSettings } from '@core/app/stores'
 import { ensureZeroes } from './ensureZeroes'
 
 export function formatNumber(
-    value: number,
+    value: number | bigint,
     minDecimals: number | undefined = undefined,
     maxDecimals: number | undefined = undefined,
     maxZeros: number = 2,
