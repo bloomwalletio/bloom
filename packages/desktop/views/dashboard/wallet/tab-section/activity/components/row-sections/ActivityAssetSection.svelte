@@ -39,6 +39,9 @@
         } else if (_activity.type === ActivityType.Nft) {
             title = nft?.name ? truncateString(nft.name, 13, 0) : 'NFT'
             subtitle = nft ? truncateString(nft.id, 6, 7) : ''
+        } else if (_activity.type === ActivityType.SmartContract) {
+            title = localize('general.smartContract')
+            subtitle = _activity.methodName
         } else if (_activity.type === ActivityType.Alias) {
             title = 'Alias'
             subtitle = truncateString(_activity.aliasId, 6, 7)
