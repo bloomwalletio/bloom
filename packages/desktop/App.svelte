@@ -126,7 +126,12 @@
                     />
                 {/if}
                 {#if $profileAuthPopup.active}
-                    <ProfileAuthPopup {...$profileAuthPopup} />
+                    <ProfileAuthPopup
+                        id={$profileAuthPopup.id}
+                        props={$profileAuthPopup.props}
+                        hideClose={$profileAuthPopup.hideClose}
+                        preventClose={$profileAuthPopup.preventClose}
+                    />
                 {/if}
                 {#if $appRoute === AppRoute.Dashboard}
                     <Dashboard />
