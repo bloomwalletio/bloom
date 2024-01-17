@@ -4,47 +4,49 @@
     import { tryCreateAdditionalAccount, validateAccountName } from '@core/account/actions'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { getTrimmedLength } from '@core/utils'
-    import { closePopup, updatePopupProps } from '@desktop/auxiliary/popup'
-    import { onMount } from 'svelte'
+    import { closePopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let accountName: string | undefined = undefined
     export let error: string | undefined = undefined
     export let color: string | undefined = getRandomAccountColor()
-    export let _onMount: ((..._: any[]) => Promise<void>) | undefined = undefined
 
     let isBusy: boolean = false
 
     $: accountName, (error = null)
 
-    async function onCreateClick(): Promise<void> {
+    function validate(): boolean {
         try {
-            if (!accountName) {
-                return
+            validateAccountName(accountName?.trim() ?? '')
+            if (!color) {
+                throw new Error(localize('errors.accountColorRequired'))
             }
-            isBusy = true
-            error = null
-            await validateAccountName(accountName.trim())
-            updatePopupProps({ accountAlias: accountName, color, error })
-            await checkActiveProfileAuth(_create, { stronghold: true, ledger: true })
-        } catch ({ message }) {
-            error = message
-        } finally {
-            isBusy = false
+            return true
+        } catch (err) {
+            error = err.message
+            return false
         }
     }
 
-    async function _create(): Promise<void> {
+    async function onCreateClick(): Promise<void> {
+        if (!validate()) {
+            return
+        }
+
         try {
-            isBusy = true
-            if (accountName && color) {
-                await tryCreateAdditionalAccount(accountName.trim(), color.toString())
-                closePopup()
-            }
+            await checkActiveProfileAuthAsync()
+        } catch (error) {
+            return
+        }
+
+        isBusy = true
+        try {
+            await tryCreateAdditionalAccount(accountName.trim(), color.toString())
+            closePopup()
         } catch (err) {
-            error = err.error
+            handleError(err)
         } finally {
             isBusy = false
         }
@@ -53,19 +55,6 @@
     function onCancelClick(): void {
         closePopup()
     }
-
-    onMount(async () => {
-        if (_onMount) {
-            try {
-                isBusy = true
-                await _onMount()
-            } catch (err) {
-                handleError(err)
-            } finally {
-                isBusy = false
-            }
-        }
-    })
 </script>
 
 <PopupTemplate

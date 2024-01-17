@@ -29,23 +29,27 @@
         const namespaces = Object.values(requiredNamespaces ?? {})
         const _persistedNamespaces = Object.values(persistedNamespaces)
 
-        return Object.values(DappPermission).map((permission) => {
-            const supportedMethods = METHODS_FOR_PERMISSION[permission] ?? []
+        return Object.values(DappPermission)
+            .map((permission) => {
+                const supportedMethods = METHODS_FOR_PERMISSION[permission] ?? []
 
-            const isRequired = namespaces.some((namespace) =>
-                supportedMethods.some((method) => namespace.methods.includes(method))
-            )
+                const isRequired = namespaces.some((namespace) =>
+                    supportedMethods.some((method) => namespace.methods.includes(method))
+                )
 
-            const isEnabled = _persistedNamespaces.some((namespace) =>
-                supportedMethods.some((method) => namespace.methods.includes(method))
-            )
+                const isEnabled = _persistedNamespaces.some((namespace) =>
+                    supportedMethods.some((method) => namespace.methods.includes(method))
+                )
 
-            return {
-                label: localize(`views.dashboard.drawers.dapps.confirmConnection.permissions.${String(permission)}`),
-                enabled: isEnabled,
-                required: isRequired,
-            }
-        })
+                return {
+                    label: localize(
+                        `views.dashboard.drawers.dapps.confirmConnection.permissions.${String(permission)}`
+                    ),
+                    enabled: isEnabled,
+                    required: isRequired,
+                }
+            })
+            .filter((permission) => permission.enabled)
     }
 
     function getNetworkPreferences(): string[] {
@@ -89,21 +93,26 @@
 </script>
 
 <selection-component class="flex flex-col gap-4">
-    <div class="flex flex-row justify-between">
-        <Text textColor="secondary">{localize(`${localeKey}.permissions.step`)}</Text>
-        {#if editable}
-            <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditPermissionsClick} />
-        {/if}
-    </div>
-    <Table>
-        {#each permissionPreferences as permission}
-            <TableRow item={{ key: permission.label }}>
-                <Text textColor={permission.required || permission.enabled ? 'success' : 'warning'} slot="boundValue">
-                    {localize(`general.${permission.required ? 'required' : permission.enabled ? 'yes' : 'no'}`)}
-                </Text>
-            </TableRow>
-        {/each}
-    </Table>
+    {#if permissionPreferences.length}
+        <div class="flex flex-row justify-between">
+            <Text textColor="secondary">{localize(`${localeKey}.permissions.step`)}</Text>
+            {#if editable}
+                <IconButton icon={IconName.SettingsSliders} size="xs" on:click={onEditPermissionsClick} />
+            {/if}
+        </div>
+        <Table>
+            {#each permissionPreferences as permission}
+                <TableRow item={{ key: permission.label }}>
+                    <Text
+                        textColor={permission.required || permission.enabled ? 'success' : 'warning'}
+                        slot="boundValue"
+                    >
+                        {localize(`general.${permission.required ? 'required' : permission.enabled ? 'yes' : 'no'}`)}
+                    </Text>
+                </TableRow>
+            {/each}
+        </Table>
+    {/if}
 
     <div class="flex flex-row justify-between">
         <Text textColor="secondary">{localize(`${localeKey}.networks.step`)}</Text>
