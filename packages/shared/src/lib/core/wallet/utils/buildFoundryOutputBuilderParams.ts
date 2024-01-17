@@ -13,23 +13,16 @@ import { getSerialNumberFromAliasOutput } from '@core/activity/utils/outputs/get
 import { IIrc30Metadata } from '@core/token/interfaces'
 
 export async function buildFoundryOutputBuilderParams(
-    totalSupply: bigint,
-    circulatingSupply: bigint,
+    totalSupply: string,
+    circulatingSupply: string,
     metadata: IIrc30Metadata,
     aliasId: string
 ): Promise<FoundryOutputBuilderParams> {
     const unlockConditions: UnlockCondition[] = [
         new ImmutableAliasAddressUnlockCondition(new AliasAddress(api.bech32ToHex(aliasId))),
     ]
-
-    const tokenScheme = new SimpleTokenScheme(
-        // @ts-expect-error: https://github.com/iotaledger/iota-sdk/issues/1839
-        Converter.bigIntToHex(circulatingSupply),
-        BigInt(0),
-        Converter.bigIntToHex(totalSupply)
-    )
+    const tokenScheme = new SimpleTokenScheme(BigInt(circulatingSupply), BigInt(0), BigInt(totalSupply))
     const immutableFeatures: Feature[] = [new MetadataFeature(Converter.utf8ToHex(JSON.stringify(metadata)))]
-
     const serialNumber = await getSerialNumberFromAliasOutput(aliasId)
 
     return {
