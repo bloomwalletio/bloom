@@ -40,15 +40,15 @@ export function handleWatchAsset(
         return
     }
 
-    const assetName = params.type === TokenStandard.Erc20 ? params.options.name : params.options.tokenId
-
     openPopup({
         id: PopupId.Confirmation,
         props: {
             title: localize(`popups.confirmAssetTracking.${params.type}.title`),
             description: localize(`popups.confirmAssetTracking.${params.type}.description`, {
                 dappName: dapp?.metadata?.name,
-                assetName: assetName ?? params.options.address,
+                assetName: params.type === TokenStandard.Erc20 ? params.options.name : undefined,
+                tokenId: params.type === NftStandard.Erc721 ? params.options.tokenId : undefined,
+                address: params.options.address,
             }),
             onConfirm: () => {
                 void trackAsset(params, chain.getConfiguration().id)

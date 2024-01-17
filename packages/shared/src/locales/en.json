@@ -780,11 +780,11 @@
         "confirmAssetTracking": {
             "ERC721": {
                 "title": "Add new NFT",
-                "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
             },
             "ERC20": {
                 "title": "Add new token",
-                "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
             }
         },
         "node": {
