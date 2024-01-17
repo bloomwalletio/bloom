@@ -2014,7 +2014,8 @@
         "governance": "Governance",
         "developer": "Developer",
         "tokens": "Tokens",
-        "settings": "Settings"
+        "settings": "Settings",
+        "buySell": "Buy & Sell"
     },
     "pills": {
         "asyncStatus": {

@@ -3,5 +3,6 @@ export enum DashboardRoute {
     Collectibles = 'collectibles',
     Developer = 'developer',
     Governance = 'governance',
+    BuySell = 'buySell',
     Settings = 'settings',
 }
