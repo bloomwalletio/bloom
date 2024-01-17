@@ -9,6 +9,7 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
     export let navbar: boolean = false
+    export let placement: 'bottom-start' | 'bottom-end' = 'bottom-start'
 
     const menu: Menu | undefined = undefined
 
@@ -42,7 +43,7 @@
     {items}
     compact={navbar}
     {...!navbar && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
-    placement="bottom-start"
+    {placement}
 >
     <Breadcrumb slot="anchor" tooltip={navbar ? localize('actions.switchAccount') : undefined}>
         <div class="flex flex-row justify-center items-center space-x-2">

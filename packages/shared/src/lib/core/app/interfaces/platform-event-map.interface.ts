@@ -25,4 +25,5 @@ export interface IPlatformEventMap {
     'ledger-error': Error
     'lock-screen': void
     'native-theme-updated': void
+    'transak-data': void
 }

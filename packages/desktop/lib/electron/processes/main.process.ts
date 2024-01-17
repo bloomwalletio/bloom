@@ -24,6 +24,7 @@ import { windows } from '../constants/windows.constant'
 import AutoUpdateManager from '../managers/auto-update.manager'
 import KeychainManager from '../managers/keychain.manager'
 import NftDownloadManager from '../managers/nft-download.manager'
+import TransakManager from '../managers/transak.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
 import { initialiseAnalytics } from '../utils/analytics.utils'
@@ -337,16 +338,21 @@ ipcMain.on(LedgerApiMethod.SignMessage, (_e, messageHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignMessage, payload: [messageHex, bip32Path] })
 })
 
-export function getOrInitWindow(windowName: string): BrowserWindow {
+export function getOrInitWindow(windowName: string, ...args: unknown[]): BrowserWindow {
     if (!windows[windowName]) {
-        if (windowName === 'main') {
-            return createMainWindow()
-        }
-        if (windowName === 'about') {
-            return openAboutWindow()
-        }
-        if (windowName === 'error') {
-            return openErrorWindow()
+        switch (windowName) {
+            case 'main':
+                return createMainWindow()
+            case 'about':
+                return openAboutWindow()
+            case 'error':
+                return openErrorWindow()
+            case 'transak':
+                return transakManager?.openWindow(
+                    args[0] as { currency: string; address: string; service: 'BUY' | 'SELL' }
+                )
+            default:
+                throw Error(`Window ${windowName} not found`)
         }
     }
     return windows[windowName]
@@ -494,6 +500,24 @@ if (!isFirstInstance) {
 ipcMain.on('notification-activated', (ev, contextData) => {
     windows.main.focus()
     windows.main.webContents.send('notification-activated', contextData)
+})
+
+// Transak
+
+const transakManager = features?.buySell?.enabled ? new TransakManager() : null
+ipcMain.handle('open-transak', (_, data) => {
+    getOrInitWindow('transak', data)
+})
+
+ipcMain.handle('close-transak', () => {
+    transakManager?.closeWindow()
+})
+
+ipcMain.handle('is-sidebar-expanded', (_, expanded) => {
+    if (transakManager) {
+        transakManager.setSidebarExpanded(expanded)
+        transakManager.positionWindow()
+    }
 })
 
 /**

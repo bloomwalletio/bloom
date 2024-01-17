@@ -32,6 +32,9 @@ const analyticsFeatures: IAnalyticsFeatures = {
                 enabled: true,
             },
         },
+        buySell: {
+            enabled: true,
+        },
     },
     loginRoute: {
         enabled: true,
