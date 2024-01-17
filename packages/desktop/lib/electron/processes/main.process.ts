@@ -13,14 +13,15 @@ import {
     UtilityProcess,
 } from 'electron'
 import { WebPreferences } from 'electron/main'
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
 
 import features from '@features/features'
 
 import { LedgerApiMethod } from '@core/ledger/enums'
 
 import { windows } from '../constants/windows.constant'
+import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 import AutoUpdateManager from '../managers/auto-update.manager'
 import KeychainManager from '../managers/keychain.manager'
 import NftDownloadManager from '../managers/nft-download.manager'
@@ -31,12 +32,14 @@ import { initialiseAnalytics } from '../utils/analytics.utils'
 import { checkWindowArgsForDeepLinkRequest, initialiseDeepLinks } from '../utils/deep-link.utils'
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
-import { getMachineId } from '../utils/os.utils'
-import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
+import { getMachineId } from '../utils/os.utils'
+
+export let appIsReady = false
 
 initialiseAnalytics()
 initialiseDeepLinks()
+
 /*
  * NOTE: Ignored because defined by Webpack.
  */
@@ -281,6 +284,7 @@ void app.whenReady().then(() => {
     // Doesn't open & close a new window when the app is already open
     if (isFirstInstance) {
         createMainWindow()
+        appIsReady = true
     }
 })
 

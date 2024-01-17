@@ -1,7 +1,7 @@
 import { app, ipcMain, protocol } from 'electron'
 import path from 'path'
 import { windows } from '../constants/windows.constant'
-import { createMainWindow } from '../processes/main.process'
+import { appIsReady, createMainWindow } from '../processes/main.process'
 
 /**
  * Define deep link state
@@ -9,7 +9,11 @@ import { createMainWindow } from '../processes/main.process'
 let deepLinkRequest: string | undefined = undefined
 
 export function initialiseDeepLinks(): void {
-    setAppAsDefaultProtocolClient()
+    try {
+        setAppAsDefaultProtocolClient()
+    } catch (error) {
+        console.error('Failed to set app as default protocol client', error)
+    }
 
     /**
      * Handle deep linking on Mac
@@ -20,7 +24,7 @@ export function initialiseDeepLinks(): void {
 
     // Check if deep link was passed when the app was not running
     ipcMain.on('dom-content-loaded', (event) => {
-        if (windows.main) {
+        if (windows?.main) {
             checkWindowArgsForDeepLinkRequest(event, process.argv)
         }
     })
@@ -49,7 +53,7 @@ function setAppAsDefaultProtocolClient(): void {
 }
 
 function sendDeepLinkRequestToRenderer(url: string): void {
-    if (windows.main) {
+    if (windows?.main) {
         windows.main.webContents.send('deep-link-request', url)
     }
 }
@@ -58,11 +62,11 @@ function handleDeepLinkEventOnMac(event: Electron.Event, url: string): void {
     deepLinkRequest = url
 
     event.preventDefault()
-    if (windows.main) {
+    if (windows?.main) {
         windows.main.restore()
         windows.main.focus()
         sendDeepLinkRequestToRenderer(deepLinkRequest)
-    } else {
+    } else if (appIsReady) {
         createMainWindow()
     }
 }
