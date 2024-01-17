@@ -1,4 +1,4 @@
-import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { IChain, NetworkId } from '@core/network'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { getEvmTokenMetadata } from '@core/layer-2'
@@ -45,8 +45,8 @@ export function handleWatchAsset(
     openPopup({
         id: PopupId.Confirmation,
         props: {
-            title: localize('popups.confirmAssetTracking.title'),
-            description: localize('popups.confirmAssetTracking.description', {
+            title: localize(`popups.confirmAssetTracking.${params.type}.title`),
+            description: localize(`popups.confirmAssetTracking.${params.type}.description`, {
                 dappName: dapp?.metadata?.name,
                 assetName: assetName ?? params.options.address,
             }),
@@ -54,7 +54,10 @@ export function handleWatchAsset(
                 void trackAsset(params, chain.getConfiguration().id)
                 responseCallback({ result: null })
             },
-            onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
+            onCancel: () => {
+                responseCallback({ error: getSdkError('USER_REJECTED') })
+                closePopup()
+            },
         },
     })
 }
