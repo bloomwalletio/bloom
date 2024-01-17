@@ -30,21 +30,23 @@
             validateEthereumAddress(_tokenAddress)
 
             const erc20TokenMetadata = (await getEvmTokenMetadata(_tokenAddress, networkId)) as IErc20Metadata
-            if (erc20TokenMetadata) {
-                addNewTrackedTokenToActiveProfile(
-                    networkId,
-                    _tokenAddress,
-                    erc20TokenMetadata,
-                    TokenTrackingStatus.ManuallyTracked
-                )
-                showNotification({
-                    variant: 'success',
-                    text: localize('popups.importToken.success', {
-                        values: { tokenSymbol: erc20TokenMetadata.symbol },
-                    }),
-                })
-                closePopup()
+            if (!erc20TokenMetadata) {
+                return
             }
+
+            addNewTrackedTokenToActiveProfile(
+                networkId,
+                _tokenAddress,
+                erc20TokenMetadata,
+                TokenTrackingStatus.ManuallyTracked
+            )
+            showNotification({
+                variant: 'success',
+                text: localize('popups.importToken.success', {
+                    values: { tokenSymbol: erc20TokenMetadata.symbol },
+                }),
+            })
+            closePopup()
         } catch (err) {
             tokenAddressError = err
         }

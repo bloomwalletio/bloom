@@ -7,10 +7,15 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
-    import { persistErc721Nft, updateAllAccountNftsForAccount } from '@core/nfts/actions'
+    import {
+        addNewTrackedNftToActiveProfile,
+        persistErc721Nft,
+        updateAllAccountNftsForAccount,
+    } from '@core/nfts/actions'
     import { buildNftFromPersistedErc721Nft } from '@core/nfts/utils'
     import { activeAccounts } from '@core/profile/stores'
     import { getAddressFromAccountForNetwork } from '@core/account'
+    import { TokenTrackingStatus } from '@core/token'
 
     let busy = false
 
@@ -30,21 +35,26 @@
         busy = true
         try {
             validateEthereumAddress(tokenAddress)
-            const persistedErc721Nft = await persistErc721Nft(tokenAddress, tokenId, networkId)
-            if (!persistedErc721Nft) {
+            const persistedNft = await persistErc721Nft(tokenAddress, tokenId, networkId)
+            if (!persistedNft) {
                 throw new Error(localize('popups.importTokens.errors.alreadyAdded'))
             }
+            addNewTrackedNftToActiveProfile(
+                networkId,
+                `${persistedNft.contractMetadata.address}:${persistedNft.tokenId}`,
+                TokenTrackingStatus.ManuallyTracked
+            )
 
             for (const account of $activeAccounts) {
                 const l2Address = getAddressFromAccountForNetwork(account, networkId)
-                const nft = buildNftFromPersistedErc721Nft(persistedErc721Nft, l2Address)
+                const nft = buildNftFromPersistedErc721Nft(persistedNft, l2Address)
                 updateAllAccountNftsForAccount(account.index, nft)
             }
 
             showNotification({
                 variant: 'success',
                 text: localize('popups.importToken.success', {
-                    values: { tokenSymbol: persistedErc721Nft.contractMetadata.symbol },
+                    values: { tokenSymbol: persistedNft.contractMetadata.symbol },
                 }),
             })
             closePopup()

@@ -16,18 +16,20 @@ export async function persistErc721Nft(
     const chain = network?.getChain(networkId)
     const expectedOwner = getSelectedAccount().evmAddresses[chain?.getConfiguration()?.coinType ?? '0']
     const contract = chain?.getContract(ContractType.Erc721, tokenAddress)
-    if (contract) {
-        const metadata = (await getEvmTokenMetadata(
-            tokenAddress,
-            networkId,
-            ContractType.Erc721
-        )) as IErc721ContractMetadata
-        let owner = await contract.methods.ownerOf(tokenId).call()
-        owner = owner.toLowerCase()
+    if (!contract) {
+        return
+    }
 
-        if (owner === expectedOwner) {
-            return persistNftWithContractMetadata(owner, networkId, metadata, tokenId, contract)
-        }
+    const metadata = (await getEvmTokenMetadata(
+        tokenAddress,
+        networkId,
+        ContractType.Erc721
+    )) as IErc721ContractMetadata
+    let owner = await contract.methods.ownerOf(tokenId).call()
+    owner = owner.toLowerCase()
+
+    if (owner !== expectedOwner) {
         throw new Error(localize('popups.importToken.errors.otherOwner'))
     }
+    return persistNftWithContractMetadata(owner, networkId, metadata, tokenId, contract)
 }
