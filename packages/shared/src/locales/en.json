@@ -778,8 +778,14 @@
             "body": "Are you sure you want to clear {url} as the primary node?"
         },
         "confirmAssetTracking": {
-            "title": "Add a new token",
-            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+            "ERC721": {
+                "title": "Add new NFT",
+                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+            },
+            "ERC20": {
+                "title": "Add new token",
+                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+            }
         },
         "node": {
             "titleAdd": "Add a node",
