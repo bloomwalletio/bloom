@@ -13,8 +13,8 @@ import { getTransactionOptions, sendPreparedTransaction } from '../utils'
 import { getActiveNetworkId } from '@core/network'
 
 export async function mintNativeToken(
-    maximumSupply: string,
-    circulatingSupply: string,
+    maximumSupply: bigint,
+    circulatingSupply: bigint,
     metadata: IIrc30Metadata
 ): Promise<void> {
     try {
@@ -23,8 +23,8 @@ export async function mintNativeToken(
 
         updateSelectedAccount({ isTransferring: true })
         const params: CreateNativeTokenParams = {
-            maximumSupply: BigInt(maximumSupply),
-            circulatingSupply: BigInt(circulatingSupply),
+            maximumSupply,
+            circulatingSupply,
             foundryMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
         }
         const preparedTransaction = await account.prepareCreateNativeToken(

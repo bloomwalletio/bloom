@@ -24,7 +24,14 @@ export async function generateSingleFoundryActivity(
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     const output = generationParameters.wrappedOutput.output as FoundryOutput
-    const { mintedTokens, meltedTokens, maximumSupply } = output.tokenScheme as SimpleTokenScheme
+
+    const tokenScheme = output.tokenScheme as SimpleTokenScheme
+    // SimpleTokenScheme states that the numbers are of type bigint but they are actually hex encoded
+    // Reoponed issue https://github.com/iotaledger/iota-sdk/issues/1839
+    // TODO: Remove the casting once issue in sdk is fixed
+    const mintedTokens = BigInt(tokenScheme.mintedTokens)
+    const meltedTokens = BigInt(tokenScheme.meltedTokens)
+    const maximumSupply = BigInt(tokenScheme.maximumSupply)
 
     if (generationParameters.action === ActivityAction.Mint) {
         baseActivity.storageDeposit = baseActivity.baseTokenTransfer?.rawAmount
@@ -47,9 +54,9 @@ export async function generateSingleFoundryActivity(
         recipient: { type: SubjectType.Account, account, address: account.depositAddress },
         type: ActivityType.Foundry,
         aliasAddress,
-        mintedTokens: BigInt(mintedTokens).toString(),
-        meltedTokens: BigInt(meltedTokens).toString(),
-        maximumSupply: BigInt(maximumSupply).toString(),
+        mintedTokens,
+        meltedTokens,
+        maximumSupply,
         containsValue: true, // TODO: check if why we do this
     }
 }
