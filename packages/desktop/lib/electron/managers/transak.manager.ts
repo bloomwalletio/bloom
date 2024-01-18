@@ -31,6 +31,14 @@ export default class TransakManager implements ITransakManager {
         }
     }
 
+    public minimizeWindow(): void {
+        windows.transak?.minimize()
+    }
+
+    public restoreWindow(): void {
+        windows.transak?.restore()
+    }
+
     public openWindow(data: ITransakWindowData): BrowserWindow {
         if (windows.transak !== null) {
             return windows.transak
