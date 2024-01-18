@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { IAppSettings, IAppVersionDetails, IPlatform, IPlatformEventMap } from '@core/app'
+import { IAppSettings, IAppVersionDetails, IPlatform, IPlatformEventMap, ITransakWindowData } from '@core/app'
 import { IError } from '@core/error'
 
 const Platform: IPlatform = {
@@ -102,6 +102,15 @@ const Platform: IPlatform = {
     },
     shouldBeDarkMode(): boolean {
         return true
+    },
+    openTransak(data: ITransakWindowData): Promise<void> {
+        return Promise.resolve()
+    },
+    closeTransak(): Promise<void> {
+        return Promise.resolve()
+    },
+    isSidebarExpanded(expanded: boolean): Promise<void> {
+        return Promise.resolve()
     },
 }
 

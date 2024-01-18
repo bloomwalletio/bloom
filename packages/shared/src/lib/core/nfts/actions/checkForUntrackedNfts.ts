@@ -11,6 +11,8 @@ import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { buildNftFromPersistedErc721Nft } from '../utils'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { Nft } from '../interfaces'
+import { addNewTrackedNftToActiveProfile } from './addNewTrackedNftToActiveProfile'
+import { TokenTrackingStatus } from '@core/token'
 
 export async function checkForUntrackedNfts(account: IAccountState): Promise<void> {
     if (!features?.collectibles?.erc721?.enabled) {
@@ -65,6 +67,12 @@ async function persistNftsFromExplorerAsset(
                 if (!persistedNft) {
                     return undefined
                 }
+
+                addNewTrackedNftToActiveProfile(
+                    networkId,
+                    `${persistedNft.contractMetadata.address}:${persistedNft.tokenId}`,
+                    TokenTrackingStatus.AutomaticallyTracked
+                )
 
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, evmAddress)
                 updateAllAccountNftsForAccount(account.index, nft)

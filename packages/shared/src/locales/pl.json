@@ -155,7 +155,7 @@
             "completeOnboarding": {
                 "enterName": {
                     "title": "Nazwij swój profil",
-                    "description": "Bądź tak kreatywny, jak tylko chcesz! Nazwę możesz później zmienić."
+                    "description": "Bądź tak kreatywny, jak tylko chcesz! Nazwę profilu możesz później zmienić w ustawieniach."
                 },
                 "enterPin": {
                     "title": "Dodaj numer PIN",
@@ -485,7 +485,7 @@
                         "reconnectHint": "Wcześniej łączyłeś się z tą aplikacją.",
                         "insecure": "Nie można zweryfikować adresu URL tej aplikacji dApp. Połączenie z tą aplikacją może nie być bezpieczne.",
                         "unsupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa w nieobsługiwanej sieci.",
-                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
+                        "noSupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa ona w innej sieci.",
                         "unsupportedMethods": "Ta aplikacja dApp nie jest w pełni kompatybilna z Bloom. Niektóre procesy lub akcje nie są obsługiwane.",
                         "supportedOnOtherProfile": "Ta aplikacja dApp działa w obsługiwanej sieci, ale nie jest dostępna przy użyciu tego profilu. Użyj profilu połączonego z wymaganą siecią.",
                         "acceptInsecureConnection": "Rozumiem, że ta aplikacja dApp może być niebezpieczna i nadal chcę się z nią połączyć."
@@ -508,7 +508,8 @@
                             "signData": "Prośba o podpisanie danych",
                             "signTransaction": "Prośba o podpisanie transakcji",
                             "sendTransaction": "Poproś o wysłanie transakcji",
-                            "empty": "Musisz wybrać co najmniej jedno uprawnienie"
+                            "empty": "Musisz wybrać co najmniej jedno uprawnienie",
+                            "noPermissionsRequired": "No permissions required to use this app"
                         },
                         "networks": {
                             "step": "Sieci",
@@ -551,7 +552,7 @@
                     "button": "Utwórz kopię"
                 },
                 "version": {
-                    "body": "Obecnie używasz wczesnej wersji Bloom.",
+                    "body": "Obecnie używasz wczesnej wersji portfela Bloom.",
                     "button": "Dowiedz się więcej"
                 },
                 "update": {
@@ -775,8 +776,14 @@
             "body": "Czy na pewno chcesz wyczyścić {url} jako węzeł główny?"
         },
         "confirmAssetTracking": {
-            "title": "Dodaj nowy token",
-            "description": "\"{dappName}\" chce dodać \"{assetName}\" do Twojego portfela."
+            "ERC721": {
+                "title": "Add new NFT",
+                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+            },
+            "ERC20": {
+                "title": "Add new token",
+                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+            }
         },
         "node": {
             "titleAdd": "Dodaj serwer",
@@ -1217,7 +1224,7 @@
         "hide": "Ukryj",
         "hideOthers": "Ukryj pozostałe",
         "showAll": "Pokaż wszystkie",
-        "useMax": "Użyj maks.",
+        "useMax": "Wszystko",
         "quit": "Zamknij",
         "edit": "Edytuj",
         "undo": "Cofnij",
@@ -1499,6 +1506,7 @@
         "no": "Nie",
         "tip": "Wskazówka",
         "verified": "Zweryfikowano",
+        "methodName": "Method name",
         "data": "Data",
         "success": "Sukces"
     },
@@ -1670,6 +1678,9 @@
         "mintNft": {
             "success": "Transakcja mintowania NFT została wysłana"
         },
+        "transaction": {
+            "success": "Transaction sent"
+        },
         "burnNft": {
             "success": "Transakcja spalenia NFT została wysłana"
         },
@@ -1744,6 +1755,7 @@
         "account": {
             "length": "Nazwa Twojego portfela nie może być dłuższa niż {length, plural, one {# znak} few {# znaki} many {# znaków} other {# znaków}}.",
             "emptyName": "Nazwa profilu musi zawierać co najmniej 1 znak.",
+            "colorRequired": "A color is required.",
             "duplicate": "Portfel o tej nazwie już istnieje.",
             "tilde": "Nazwa profilu nie może zaczynać się od znaku '~'.",
             "control": "Nazwa profilu nie może zawierać znaku kontrolnego.",
@@ -1864,8 +1876,8 @@
                 "long": "Schemat Url nie jest obsługiwany"
             },
             "unsupportedMediaType": {
-                "short": "Nieobsługiwany typ multimediów",
-                "long": "Typ mediów nie jest obecnie obsługiwany"
+                "short": "Unsupported media type",
+                "long": "The media type is not currently supported"
             },
             "notMatchingFileTypes": {
                 "short": "Ładowanie zablokowane",
@@ -2000,7 +2012,8 @@
         "governance": "Zarządzanie",
         "developer": "Deweloper",
         "tokens": "Tokeny",
-        "settings": "Ustawienia"
+        "settings": "Ustawienia",
+        "buySell": "Buy & Sell"
     },
     "pills": {
         "asyncStatus": {

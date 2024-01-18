@@ -12,11 +12,15 @@
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
     import { dashboardRoute } from '@core/router'
+    import { StardustNetworkId } from '@core/network'
+    import { Platform } from '@core/app'
 
     let expanded = true
     function toggleExpand(): void {
         expanded = !expanded
     }
+
+    $: void Platform.isSidebarExpanded(expanded)
 
     let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [
@@ -56,6 +60,16 @@
                   },
               ]
             : []),
+        ...(features?.buySell?.enabled && $activeProfile?.network?.id === StardustNetworkId.Iota
+            ? [
+                  {
+                      icon: IconName.CoinSwap,
+                      label: localize('tabs.buySell'),
+                      route: DashboardRoute.BuySell,
+                      onClick: openBuySell,
+                  },
+              ]
+            : []),
     ]
 
     function openWallet(): void {
@@ -75,6 +89,11 @@
     function openDeveloper(): void {
         resetAllRouters()
         $dashboardRouter.goTo(DashboardRoute.Developer)
+    }
+
+    function openBuySell(): void {
+        resetAllRouters()
+        $dashboardRouter.goTo(DashboardRoute.BuySell)
     }
 
     function resetAllRouters(): void {

@@ -510,7 +510,8 @@
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction",
-                            "empty": "You have to select at least one permission"
+                            "empty": "You have to select at least one permission",
+                            "noPermissionsRequired": "No permissions required to use this app"
                         },
                         "networks": {
                             "step": "Networks",
@@ -777,8 +778,14 @@
             "body": "Are you sure you want to clear {url} as the primary node?"
         },
         "confirmAssetTracking": {
-            "title": "Add a new token",
-            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+            "ERC721": {
+                "title": "Add new NFT",
+                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+            },
+            "ERC20": {
+                "title": "Add new token",
+                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+            }
         },
         "node": {
             "titleAdd": "Add a node",
@@ -1750,6 +1757,7 @@
         "account": {
             "length": "Your wallet name can't be longer than {length, plural, one {# character} other {# characters}}.",
             "emptyName": "A profile name must contain at least 1 character.",
+            "colorRequired": "A color is required.",
             "duplicate": "A wallet with this name already exists.",
             "tilde": "A profile name can't start with the '~' character.",
             "control": "A profile name can't contain a control character.",
@@ -2005,7 +2013,8 @@
         "governance": "Governance",
         "developer": "Developer",
         "tokens": "Tokens",
-        "settings": "Settings"
+        "settings": "Settings",
+        "buySell": "Buy & Sell"
     },
     "pills": {
         "asyncStatus": {

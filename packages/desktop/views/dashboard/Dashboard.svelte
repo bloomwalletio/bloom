@@ -24,6 +24,7 @@
     import { Wallet } from './wallet'
     import { Settings } from '../settings'
     import { Background } from '@views/components'
+    import { BuySell } from './buy-sell'
 
     const tabs = {
         wallet: Wallet,
@@ -31,6 +32,7 @@
         collectibles: Collectibles,
         governance: Governance,
         developer: Developer,
+        buySell: BuySell,
     }
 
     let previousAccountIndex = get(selectedAccountIndex)
