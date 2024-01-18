@@ -11,10 +11,10 @@ export async function calculateAndAddPersistedTokenBalanceChange(
     account: IAccountState,
     networkId: NetworkId,
     tokenId: string,
-    newBalance: string,
+    newBalanceBigInt: bigint,
     hidden: boolean = false
 ): Promise<void> {
-    newBalance = newBalance || '0'
+    const newBalance = newBalanceBigInt.toString() || '0'
 
     const balanceChangesForAsset = getBalanceChanges(account.index, networkId)?.tokens?.[tokenId]
     const oldBalance = String(balanceChangesForAsset?.at(-1)?.newBalance ?? 0)

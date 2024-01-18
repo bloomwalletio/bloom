@@ -56,7 +56,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
             if (isNativeToken || isErc20TrackedToken) {
                 await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
             }
-            await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, adjustedBalance.toString())
+            await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, adjustedBalance)
             layer2Balance[tokenId] = adjustedBalance
         }
         setLayer2AccountBalanceForChain(index, networkId, layer2Balance)
