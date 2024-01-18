@@ -32,7 +32,7 @@ export async function handleEthTransaction(
                 chain,
                 from.toString(),
                 to?.toString(),
-                value?.toString() ?? '0',
+                BigInt(value?.toString() ?? '0'),
                 data?.toString()
             )
             evmTransactionData.nonce = nonce

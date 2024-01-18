@@ -12,14 +12,14 @@ export async function buildEvmTransactionDataForToken(
     chain: IChain,
     originAddress: string,
     recipientAddress: string,
-    amount: string,
+    amount: bigint,
     token: IToken
 ): Promise<EvmTransactionData> {
     const destinationAddress = getDestinationAddressForToken(token, recipientAddress)
 
     let data: string | undefined
     if (token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20) {
-        data = getTokenDataForTransaction(chain, recipientAddress, token, BigInt(amount))
+        data = getTokenDataForTransaction(chain, recipientAddress, token, amount)
 
         if (!data) {
             throw new Error(localize('error.web3.unableToFormSmartContractData'))
@@ -27,7 +27,7 @@ export async function buildEvmTransactionDataForToken(
 
         // set amount to zero after using it to build the smart contract data,
         // as we do not want to send any base token
-        amount = '0'
+        amount = BigInt(0)
     }
     return buildEvmTransactionData(chain, originAddress, destinationAddress, amount, data)
 }

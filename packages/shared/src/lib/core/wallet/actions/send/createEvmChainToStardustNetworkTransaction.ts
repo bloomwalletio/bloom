@@ -59,7 +59,7 @@ export async function createEvmChainToStardustNetworkTransaction(
                 .encodeABI()) ?? ''
 
         const originAddress = account?.evmAddresses?.[ETHEREUM_COIN_TYPE] ?? ''
-        return await buildEvmTransactionData(chain, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, '0', data)
+        return await buildEvmTransactionData(chain, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, BigInt(0), data)
     } catch (err) {
         if (err.message && err.message.includes(EvmErrorMessage.RequireMoreGas)) {
             throw new Error(localize('error.send.insufficientFundsGasFee'))
