@@ -5,7 +5,7 @@ export function getRawAmountFromSearchParam(
     parameterKey: SendTransactionParameter
 ): bigint {
     const rawAmount = searchParams.get(parameterKey) ?? '0'
-    if (!new RegExp('^[+|-]{1}?\\d+$').test(rawAmount)) {
+    if (!new RegExp(/^[+|-]?\d+$/).test(rawAmount)) {
         throw new AmountNotAnIntegerError(rawAmount)
     }
     let bigAmount = BigInt(rawAmount)
