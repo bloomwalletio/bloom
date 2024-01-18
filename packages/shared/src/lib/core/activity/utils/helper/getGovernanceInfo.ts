@@ -5,6 +5,7 @@ import { getAmountFromOutput } from './getAmountFromOutput'
 import { getMetadataFromOutput } from './getMetadataFromOutput'
 import { GovernanceAction } from '@core/activity/enums'
 import { parseGovernanceMetadata } from '@core/wallet/utils'
+import { BigIntAbs } from '@core/utils'
 
 interface IGovernanceInfo {
     governanceAction: GovernanceAction
@@ -32,7 +33,7 @@ export function getGovernanceInfo(output: Output, inputs: IWrappedOutput[], meta
                         ? GovernanceAction.IncreaseVotingPower
                         : GovernanceAction.DecreaseVotingPower,
                 votingPower: currentVotingPower,
-                votingPowerDifference: currentVotingPower - oldVotingPower,
+                votingPowerDifference: BigIntAbs(currentVotingPower - oldVotingPower),
             }
         }
 

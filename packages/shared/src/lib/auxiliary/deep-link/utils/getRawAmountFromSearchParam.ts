@@ -1,4 +1,5 @@
 import { AmountNotAnIntegerError, SendTransactionParameter } from '@auxiliary/deep-link'
+import { BigIntAbs } from '@core/utils'
 
 export function getRawAmountFromSearchParam(
     searchParams: URLSearchParams,
@@ -8,9 +9,5 @@ export function getRawAmountFromSearchParam(
     if (!new RegExp(/^[+|-]?\d+$/).test(rawAmount)) {
         throw new AmountNotAnIntegerError(rawAmount)
     }
-    let bigAmount = BigInt(rawAmount)
-    if (bigAmount < 0) {
-        bigAmount *= BigInt(-1)
-    }
-    return bigAmount
+    return BigIntAbs(rawAmount)
 }

@@ -41,6 +41,23 @@ export function round(value: number, precision: number = 0): number {
     return Math.round(value * multiplier) / multiplier
 }
 
+export function legacyNumberToBigInt(number: number | string | undefined): bigint {
+    number = number ?? 0
+    return BigInt(isScientificNotation(number) ? Number(number) : number)
+}
+
 export function isScientificNotation(num: number | string): boolean {
     return num.toString().includes('e')
+}
+
+/**
+ * Takes the absolute value of a bigint or a string that represents a bigint.
+ * @param bigInt A string or bigint that represents a number.
+ * @returns The bytes.
+ */
+export function BigIntAbs(bigInt: bigint | string): bigint {
+    if (typeof bigInt === 'string') {
+        bigInt = BigInt(bigInt)
+    }
+    return bigInt < 0 ? bigInt * BigInt(-1) : bigInt
 }

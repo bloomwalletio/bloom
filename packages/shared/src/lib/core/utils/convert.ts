@@ -1,4 +1,5 @@
 /* eslint-disable no-bitwise */
+import { BigIntLike, bufferToBigInt } from '@ethereumjs/util'
 
 import { HEX_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
 import { isValidDate } from './date'
@@ -7,7 +8,7 @@ import { Base64 } from './encode'
 /**
  * Returns a UNIX timestamp from a given Date object.
  */
-export function convertDateToUnixTimestamp(date: Date): number {
+export function convertDateToUnixTimestamp(date: Date): number | undefined {
     if (isValidDate(date)) {
         return Math.round(date.getTime() / MILLISECONDS_PER_SECOND)
     } else {
@@ -18,7 +19,7 @@ export function convertDateToUnixTimestamp(date: Date): number {
 /**
  * Returns a Date object from a given UNIX timestamp.
  */
-export function convertUnixTimestampToDate(timestamp: number): Date {
+export function convertUnixTimestampToDate(timestamp: number): Date | undefined {
     if (typeof timestamp === 'number') {
         return new Date(timestamp * MILLISECONDS_PER_SECOND)
     } else {
@@ -291,6 +292,19 @@ export class Converter {
      */
     public static base64ToBytes(base64: string): Uint8Array {
         return Base64.decode(base64)
+    }
+
+    /**
+     * Convert ethereumjs's BigIntLike type to a bigint.
+     * @param BigIntLike The BigIntLike number.
+     * @returns The bytes.
+     */
+    public static bigIntLikeToBigInt(number: BigIntLike | undefined): bigint {
+        if (Buffer.isBuffer(number)) {
+            return bufferToBigInt(number)
+        } else {
+            return BigInt(String(number ?? '0'))
+        }
     }
 
     /**

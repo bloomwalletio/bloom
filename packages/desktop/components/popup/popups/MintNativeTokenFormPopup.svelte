@@ -205,7 +205,7 @@
         <optional-inputs class="flex flex-row flex-wrap gap-4">
             <OptionalInput
                 bind:value={decimals}
-                inputType="BigInt"
+                inputType="number"
                 isInteger
                 maxlength={MAX_SUPPORTED_DECIMALS}
                 label={localize('popups.nativeToken.property.decimals')}

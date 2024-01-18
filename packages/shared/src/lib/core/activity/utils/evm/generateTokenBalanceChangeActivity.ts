@@ -1,6 +1,6 @@
 import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
-import { generateRandomId, isScientificNotation } from '@core/utils'
+import { BigIntAbs, generateRandomId, legacyNumberToBigInt } from '@core/utils'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../../enums'
 import { ITokenBalanceChange, TransactionActivity } from '../../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
@@ -13,19 +13,11 @@ export async function generateTokenBalanceChangeActivity(
     balanceChange: ITokenBalanceChange,
     account: IAccountState
 ): Promise<TransactionActivity> {
-    // Cast as a BigInt due to legacy data structures
-    const newBalance = BigInt(
-        isScientificNotation(balanceChange.newBalance) ? Number(balanceChange.newBalance) : balanceChange.newBalance
-    )
-    const oldBalance = BigInt(
-        isScientificNotation(balanceChange.oldBalance ?? 0)
-            ? Number(balanceChange.oldBalance)
-            : balanceChange.oldBalance ?? 0
-    )
+    const newBalance = legacyNumberToBigInt(balanceChange.newBalance)
+    const oldBalance = legacyNumberToBigInt(balanceChange.oldBalance)
 
     const difference = newBalance - oldBalance
     const direction = difference >= 0 ? ActivityDirection.Incoming : ActivityDirection.Outgoing
-    const rawAmount = direction === ActivityDirection.Incoming ? difference : difference * BigInt(-1)
 
     let accountSubject: Subject | undefined
     if (isStardustNetwork(networkId)) {
@@ -41,7 +33,7 @@ export async function generateTokenBalanceChangeActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount : BigInt(0),
+        rawAmount: tokenId === BASE_TOKEN_ID ? BigIntAbs(difference) : BigInt(0),
     }
 
     let tokenTransfer
@@ -50,7 +42,7 @@ export async function generateTokenBalanceChangeActivity(
         tokenTransfer = persistedTokens
             ? {
                   tokenId: persistedTokens.id,
-                  rawAmount,
+                  rawAmount: BigIntAbs(difference),
               }
             : undefined
     }
