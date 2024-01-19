@@ -65,6 +65,8 @@ export interface IPlatform {
 
     openTransak(data: ITransakWindowData): Promise<void>
     closeTransak(): Promise<void>
+    minimizeTransak(): Promise<void>
+    restoreTransak(): Promise<void>
 
     isSidebarExpanded(expanded: boolean): Promise<void>
 }

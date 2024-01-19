@@ -31,6 +31,14 @@ export default class TransakManager implements ITransakManager {
         }
     }
 
+    public minimizeWindow(): void {
+        windows.transak?.minimize()
+    }
+
+    public restoreWindow(): void {
+        windows.transak?.restore()
+    }
+
     public openWindow(data: ITransakWindowData): BrowserWindow {
         if (windows.transak !== null) {
             return windows.transak
@@ -107,7 +115,7 @@ export default class TransakManager implements ITransakManager {
     }
 
     public positionWindow(): void {
-        if (windows.transak && windows.transak) {
+        if (windows.transak) {
             const [mainWindowX, mainWindowY] = windows.main.getPosition()
             const [mainWindowWidth] = windows.main.getSize()
             const [transakWidth] = windows.transak.getSize()
@@ -125,7 +133,7 @@ export default class TransakManager implements ITransakManager {
     private sizeWindow(): void {
         const [transakWidth] = windows.transak.getSize()
         const transakHeight = this.getWindowHeight()
-        windows.transak.setSize(transakWidth, transakHeight)
+        windows.transak.setBounds({ width: transakWidth, height: transakHeight })
     }
 
     private getTopBarHeight(): number {
