@@ -51,10 +51,30 @@
         }
     }
 
+    let transakContainer: HTMLDivElement | undefined
+    function handleWindowResize(): void {
+        if (!transakContainer) {
+            return
+        }
+
+        const rect = transakContainer.getBoundingClientRect()
+
+        void Platform.updateTransakBounds({
+            x: rect.x,
+            y: rect.y,
+            width: rect.width,
+            height: rect.height,
+        })
+    }
+
+    $: transakContainer, handleWindowResize()
+
     onDestroy(() => {
         void Platform.closeTransak()
     })
 </script>
+
+<svelte:window on:resize={handleWindowResize} />
 
 <div class="grid-container">
     <div class="account-info">
@@ -75,13 +95,13 @@
                 <Text type="h6" textColor="secondary">{fiatBalance}</Text>
             </div>
             <div class="bg-surface-2 rounded-xl py-2 px-3">
-                <Text type="pre-sm" textColor="secondary" class="break-all whitespace-normal"
-                    >{$selectedAccount?.depositAddress}</Text
-                >
+                <Text type="pre-sm" textColor="secondary" class="break-all whitespace-normal">
+                    {$selectedAccount?.depositAddress}
+                </Text>
             </div>
         </Pane>
     </div>
-    <div class="transak-container">
+    <div class="transak-container" bind:this={transakContainer}>
         <Pane
             classes="flex flex-col justify-center items-center w-full h-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
         ></Pane>

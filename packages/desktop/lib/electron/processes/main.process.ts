@@ -532,6 +532,10 @@ ipcMain.handle('restore-transak', () => {
     transakManager?.restoreWindow()
 })
 
+ipcMain.handle('update-transak-bounds', (event, rect) => {
+    transakManager?.updateTransakBounds(rect)
+})
+
 /**
  * Create about window
  * @returns {BrowserWindow} About window
