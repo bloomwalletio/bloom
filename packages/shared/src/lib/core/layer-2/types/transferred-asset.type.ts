@@ -6,12 +6,12 @@ export type TransferredAsset =
     | {
           type: AssetType.Token
           token: IToken
-          amount: string
+          amount: bigint
       }
     | {
           type: AssetType.BaseCoin
           token: IToken
-          amount: string
+          amount: bigint
       }
     | {
           type: AssetType.Nft

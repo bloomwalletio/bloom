@@ -60,7 +60,7 @@ export function getTransactionAssets(
         const amount = isVotingPowerActivity ? activity.votingPowerDifference : activity.votingPower
         return {
             baseCoinTransfer: {
-                rawAmount: String(amount),
+                rawAmount: amount ?? BigInt(0),
                 token: baseCoin,
             },
         }

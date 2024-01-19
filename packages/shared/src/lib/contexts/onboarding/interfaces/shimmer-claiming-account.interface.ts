@@ -7,7 +7,7 @@ import { ShimmerClaimingAccountState } from '../enums'
 export interface IShimmerClaimingAccount extends IAccount {
     twinAccount: IAccount
     state: ShimmerClaimingAccountState
-    claimedRewards: number
-    unclaimedRewards: number
+    claimedRewards: bigint
+    unclaimedRewards: bigint
     claimingTransaction?: Transaction
 }

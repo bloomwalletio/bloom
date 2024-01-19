@@ -10,8 +10,8 @@
     import PopupTemplate from '../PopupTemplate.svelte'
 
     interface BalanceBreakdown {
-        amount: number
-        subBreakdown?: { [key: string]: number }
+        amount: bigint
+        subBreakdown?: { [key: string]: bigint }
     }
 
     enum UnavailableAmountType {
@@ -37,30 +37,29 @@
     }
 
     function getAvailableBreakdown(): BalanceBreakdown {
-        return { amount: Number(accountBalance?.baseCoin?.available ?? 0) }
+        return { amount: accountBalance?.baseCoin?.available ?? BigInt(0) }
     }
 
     async function getUnavailableBreakdown(): Promise<BalanceBreakdown> {
-        const governanceAmount = parseInt($selectedAccount?.votingPower, 10)
-
-        let unavailableTotalAmount = governanceAmount
-        const subBreakdown: { [key: string]: number } = {
-            unclaimed: 0,
-            storageDepositReturn: 0,
-            timelock: 0,
-            governance: governanceAmount,
+        const subBreakdown: { [key: string]: bigint } = {
+            unclaimed: BigInt(0),
+            storageDepositReturn: BigInt(0),
+            timelock: BigInt(0),
+            governance: $selectedAccount?.votingPower,
         }
+
+        let unavailableTotalAmount = $selectedAccount?.votingPower
         for (const [outputId, unlocked] of Object.entries(accountBalance?.potentiallyLockedOutputs ?? {})) {
             if (!unlocked) {
                 const output = (await $selectedAccount.getOutput(outputId)).output
 
                 let type: string
-                let amount: number
+                let amount: bigint
                 if (output.type !== OutputType.Treasury) {
                     const commonOutput = output as CommonOutput
                     if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Expiration)) {
                         type = UnavailableAmountType.Unclaimed
-                        amount = Number(output.amount)
+                        amount = BigInt(output.amount)
                     } else if (
                         containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.StorageDepositReturn)
                     ) {
@@ -68,7 +67,7 @@
                         amount = getStorageDepositFromOutput(commonOutput)
                     } else if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Timelock)) {
                         type = UnavailableAmountType.Timelock
-                        amount = Number(output.amount)
+                        amount = BigInt(output.amount)
                     }
                 }
 
@@ -84,16 +83,16 @@
         const storageDeposits = accountBalance?.requiredStorageDeposit
         const totalStorageDeposit = storageDeposits
             ? Object.values(accountBalance.requiredStorageDeposit).reduce(
-                  (total: number, value: string): number => total + Number(value ?? 0),
-                  0
+                  (total: bigint, value: string): bigint => total + BigInt(value ?? 0),
+                  BigInt(0)
               )
-            : 0
+            : BigInt(0)
 
         const subBreakdown = {
-            basicOutputs: Number(storageDeposits?.basic ?? 0),
-            nftOutputs: Number(storageDeposits?.nft ?? 0),
-            aliasOutputs: Number(storageDeposits?.alias ?? 0),
-            foundryOutputs: Number(storageDeposits?.foundry ?? 0),
+            basicOutputs: storageDeposits?.basic ?? BigInt(0),
+            nftOutputs: storageDeposits?.nft ?? BigInt(0),
+            aliasOutputs: storageDeposits?.alias ?? BigInt(0),
+            foundryOutputs: storageDeposits?.foundry ?? BigInt(0),
         }
 
         return { amount: totalStorageDeposit, subBreakdown }
@@ -155,6 +154,6 @@
                 onClick={() => expandOne(breakdownKey)}
             />
         {/each}
-        <BalanceSummarySection titleKey="totalBalance" amount={Number(accountBalance?.baseCoin?.total ?? 0)} bold />
+        <BalanceSummarySection titleKey="totalBalance" amount={accountBalance?.baseCoin?.total ?? BigInt(0)} bold />
     </div>
 </PopupTemplate>

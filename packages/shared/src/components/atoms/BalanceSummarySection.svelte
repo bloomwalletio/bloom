@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Table, IItem } from '@bloomwalletio/ui'
     import { formatCurrency, localize } from '@core/i18n'
-    import { getFiatAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -9,8 +9,8 @@
 
     export let titleKey: string
     export let subtitleKey: string = ''
-    export let subBreakdown: { [key: string]: number } = {}
-    export let amount: number
+    export let subBreakdown: { [key: string]: bigint } = {}
+    export let amount: bigint
     export let bold: boolean = false
     export let expanded = false
     export let onClick: (() => void) | undefined = undefined
@@ -18,12 +18,12 @@
     $: hasChildren = !!Object.keys(subBreakdown ?? {}).length
     $: baseCoin = $selectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
 
-    function getAmount(amount: number): string {
+    function getAmount(amount: bigint): string {
         return baseCoin?.metadata ? formatTokenAmountBestMatch(amount, baseCoin.metadata) : ''
     }
 
-    function getCurrencyAmount(amount: number): string {
-        return baseCoin ? formatCurrency(getFiatAmountFromTokenValue(amount, baseCoin)) : ''
+    function getCurrencyAmount(amount: bigint): string {
+        return baseCoin ? formatCurrency(getFiatValueFromTokenAmount(amount, baseCoin)) : ''
     }
 
     function toggleExpandedView(): void {

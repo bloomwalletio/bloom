@@ -12,7 +12,7 @@ export async function buildEvmTransactionDataForToken(
     chain: IChain,
     originAddress: string,
     recipientAddress: string,
-    amount: string,
+    amount: bigint,
     token: IToken
 ): Promise<EvmTransactionData> {
     const destinationAddress = getDestinationAddressForToken(token, recipientAddress)
@@ -27,7 +27,7 @@ export async function buildEvmTransactionDataForToken(
 
         // set amount to zero after using it to build the smart contract data,
         // as we do not want to send any base token
-        amount = '0'
+        amount = BigInt(0)
     }
     return buildEvmTransactionData(chain, originAddress, destinationAddress, amount, data)
 }
@@ -36,7 +36,7 @@ function getTokenDataForTransaction(
     chain: IChain,
     recipientAddress: string,
     token: IToken,
-    amount: string
+    amount: bigint
 ): string | undefined {
     switch (token?.metadata?.standard) {
         case TokenStandard.Irc30: {
@@ -46,7 +46,7 @@ function getTokenDataForTransaction(
             return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
         }
         case TokenStandard.Erc20:
-            return getErc20TransferSmartContractData(recipientAddress, token, amount ?? '', chain)
+            return getErc20TransferSmartContractData(recipientAddress, token, amount, chain)
         default:
             return undefined
     }

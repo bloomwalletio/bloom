@@ -11,8 +11,8 @@
 
     const token = $visibleSelectedAccountTokens?.[$activeProfile?.network.id]?.baseCoin
 
-    $: votingPower = parseInt($selectedAccount?.votingPower, 10)
-    $: maxVotingPower = parseInt($selectedAccount?.balances?.baseCoin?.available) + votingPower
+    $: votingPower = $selectedAccount?.votingPower
+    $: maxVotingPower = $selectedAccount?.balances?.baseCoin?.available + votingPower
     $: formattedVotingPower = formatTokenAmountBestMatch(votingPower, token?.metadata)
     $: formattedMaxVotingPower = formatTokenAmountBestMatch(maxVotingPower, token?.metadata)
     $: hasTransactionInProgress =

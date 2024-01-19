@@ -29,7 +29,7 @@ export async function createEvmChainToStardustNetworkTransaction(
             buildUnwrapAssetParameters(recipientAddress)
 
         let transferredAsset: TransferredAsset | undefined
-        let storageDepositRequired = 0
+        let storageDepositRequired = BigInt(0)
         if (
             sendFlowParameters.type === SendFlowType.TokenTransfer ||
             sendFlowParameters.type === SendFlowType.BaseCoinTransfer
@@ -37,12 +37,13 @@ export async function createEvmChainToStardustNetworkTransaction(
             const { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
             const isBaseCoin = token?.standard === TokenStandard.BaseToken
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
-            storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0
+            storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? BigInt(0)
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
         } else {
             const nft = sendFlowParameters.nft as IIrc27Nft
             storageDepositRequired =
-                (nft?.storageDeposit ?? 0) + (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? 0)
+                (nft?.storageDeposit ?? BigInt(0)) +
+                (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? BigInt(0))
             transferredAsset = nft ? { type: AssetType.Nft, nft } : undefined
         }
 
@@ -58,7 +59,7 @@ export async function createEvmChainToStardustNetworkTransaction(
                 .encodeABI()) ?? ''
 
         const originAddress = account?.evmAddresses?.[ETHEREUM_COIN_TYPE] ?? ''
-        return await buildEvmTransactionData(chain, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, '0', data)
+        return await buildEvmTransactionData(chain, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, BigInt(0), data)
     } catch (err) {
         if (err.message && err.message.includes(EvmErrorMessage.RequireMoreGas)) {
             throw new Error(localize('error.send.insufficientFundsGasFee'))

@@ -10,5 +10,9 @@ export async function getNativeTokenFromOutput(output: Output): Promise<INativeT
             amount: (foundryOutput.tokenScheme as SimpleTokenScheme).mintedTokens,
         }
     }
-    return output?.nativeTokens?.[0]
+    const nativeToken = output?.nativeTokens?.[0]
+    if (nativeToken?.amount) {
+        nativeToken.amount = BigInt(nativeToken?.amount ?? 0)
+    }
+    return nativeToken
 }

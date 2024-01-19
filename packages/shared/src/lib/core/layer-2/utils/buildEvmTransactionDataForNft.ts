@@ -20,7 +20,7 @@ export async function buildEvmTransactionDataForNft(
     if (!data) {
         throw new Error(localize('error.web3.unableToFormSmartContractData'))
     }
-    return buildEvmTransactionData(chain, originAddress, destinationAddress, '0', data)
+    return buildEvmTransactionData(chain, originAddress, destinationAddress, BigInt(0), data)
 }
 
 function getNftDataForTransaction(

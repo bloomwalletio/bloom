@@ -85,10 +85,10 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
     }
 
     if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
-        fieldsToSearch.push(activity.baseTokenTransfer.rawAmount)
+        fieldsToSearch.push(String(activity.baseTokenTransfer.rawAmount))
 
         if (activity.tokenTransfer) {
-            fieldsToSearch.push(activity.tokenTransfer.rawAmount)
+            fieldsToSearch.push(String(activity.tokenTransfer.rawAmount))
         }
         fieldsToSearch.push(getFormattedAmountFromActivity(activity, false)?.toLowerCase())
     }

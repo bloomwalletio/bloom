@@ -26,11 +26,11 @@
         }
     }
 
-    $: storageDeposit = getTransactionStorageDeposit(sendFlowParameters) ?? 0
-    function getTransactionStorageDeposit(_sendFlowParameters: SendFlowParameters) {
+    $: storageDeposit = getTransactionStorageDeposit(sendFlowParameters) ?? BigInt(0)
+    function getTransactionStorageDeposit(_sendFlowParameters: SendFlowParameters): bigint {
         if (_sendFlowParameters.type === SendFlowType.TokenTransfer) {
             if (_sendFlowParameters.destinationNetworkId !== _sendFlowParameters.tokenTransfer.token.networkId) {
-                return L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0
+                return BigInt(L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0)
             }
         } else if (_sendFlowParameters.type === SendFlowType.NftTransfer) {
             if (
@@ -38,8 +38,8 @@
                 isIrc27Nft(_sendFlowParameters.nft)
             ) {
                 return (
-                    (_sendFlowParameters.nft?.storageDeposit ?? 0) +
-                    (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? 0)
+                    (_sendFlowParameters.nft?.storageDeposit ?? BigInt(0)) +
+                    (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? BigInt(0))
                 )
             }
         }

@@ -16,10 +16,10 @@
     $: gasLimit = activity.smartContract?.gasLimit
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
-    $: formattedStorageDeposit = formatAmount(activity.storageDeposit ?? 0)
+    $: formattedStorageDeposit = formatAmount(activity.storageDeposit ?? BigInt(0))
 
-    $: formattedMaxGasFee = formatAmount(Number(gasLimit ?? 0))
-    $: formattedTransactionFee = formatAmount(Number(activity.transactionFee ?? 0))
+    $: formattedMaxGasFee = formatAmount(BigInt(gasLimit ?? 0))
+    $: formattedTransactionFee = formatAmount(activity.transactionFee ?? BigInt(0))
 
     $: explorerUrl = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction)
     function onTransactionIdClick(): void {
@@ -28,7 +28,7 @@
         }
     }
 
-    function formatAmount(amount: number | undefined): string | undefined {
+    function formatAmount(amount: bigint | undefined): string | undefined {
         if (!amount) {
             return undefined
         }

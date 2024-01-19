@@ -10,8 +10,8 @@ export async function generateTokenActivity(
     transaction: PersistedEvmTransaction,
     chain: IChain,
     tokenId: string,
-    rawAmount: string,
-    baseTokenAmount: string | undefined,
+    rawAmount: bigint,
+    baseTokenAmount: bigint | undefined,
     recipientAddress: string | undefined,
     account: IAccountState
 ): Promise<TransactionActivity> {
@@ -21,7 +21,7 @@ export async function generateTokenActivity(
     let tokenTransfer
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId === BASE_TOKEN_ID ? rawAmount ?? '0' : baseTokenAmount ?? '0',
+        rawAmount: (tokenId === BASE_TOKEN_ID ? rawAmount : baseTokenAmount) ?? BigInt(0),
     }
 
     if (tokenId && tokenId !== BASE_TOKEN_ID) {
@@ -29,7 +29,7 @@ export async function generateTokenActivity(
         tokenTransfer = persistedToken
             ? {
                   tokenId: persistedToken.id,
-                  rawAmount: rawAmount ?? '0',
+                  rawAmount: rawAmount ?? BigInt(0),
               }
             : undefined
     }

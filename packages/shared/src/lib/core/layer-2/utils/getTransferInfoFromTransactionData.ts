@@ -2,7 +2,7 @@ import { TxData } from '@ethereumjs/tx'
 import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
-import { AbiDecoder, HEX_PREFIX } from '@core/utils'
+import { AbiDecoder, Converter, HEX_PREFIX } from '@core/utils'
 import {
     Erc20TransferMethodInputs,
     Erc721SafeTransferMethodInputs,
@@ -17,11 +17,11 @@ type TransferInfo =
     | {
           type: ActivityType.Basic
           tokenId: string
-          rawAmount: string
-          additionalBaseTokenAmount?: string
+          rawAmount: bigint
+          additionalBaseTokenAmount?: bigint
           recipientAddress: string
       }
-    | { type: ActivityType.Nft; nftId: string; additionalBaseTokenAmount?: string; recipientAddress: string }
+    | { type: ActivityType.Nft; nftId: string; additionalBaseTokenAmount?: bigint; recipientAddress: string }
     | { type: ActivityType.SmartContract }
 
 export function getTransferInfoFromTransactionData(transaction: TxData, chain: IChain): TransferInfo | undefined {
@@ -56,7 +56,7 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
                     return {
                         type: ActivityType.Basic,
                         tokenId: nativeToken.ID.data,
-                        rawAmount: nativeToken.amount,
+                        rawAmount: BigInt(nativeToken.amount),
                         recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                     }
                 } else if (nftId) {
@@ -75,7 +75,7 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
                 return {
                     type: ActivityType.Basic,
                     tokenId: recipientAddress,
-                    rawAmount: String(inputs._value),
+                    rawAmount: BigInt(inputs._value),
                     recipientAddress: inputs._to,
                 }
             }
@@ -92,13 +92,13 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
                 const inputs = decoded.inputs as IscSendMethodInputs
                 const nativeToken = inputs?.assets?.nativeTokens?.[0]
                 const nftId = inputs?.assets?.nfts?.[0]
-                const baseTokenAmount = inputs.assets.baseTokens
+                const baseTokenAmount = BigInt(inputs.assets.baseTokens)
 
                 if (nativeToken) {
                     return {
                         type: ActivityType.Basic,
                         tokenId: nativeToken.ID.data,
-                        rawAmount: nativeToken.amount,
+                        rawAmount: BigInt(nativeToken.amount),
                         additionalBaseTokenAmount: baseTokenAmount,
                         recipientAddress, // for now, set it to the magic contract address
                     }
@@ -128,7 +128,7 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
         return {
             type: ActivityType.Basic,
             tokenId: BASE_TOKEN_ID,
-            rawAmount: String(Number(transaction.value) / Number(WEI_PER_GLOW)),
+            rawAmount: Converter.bigIntLikeToBigInt(transaction.value) / WEI_PER_GLOW,
             recipientAddress,
         }
     }

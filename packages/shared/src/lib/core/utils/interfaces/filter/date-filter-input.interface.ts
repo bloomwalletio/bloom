@@ -9,7 +9,7 @@ export type SingleDateFilterInput = {
 
 export type UnitDateFilterInput = {
     type: 'unit'
-    amount: string
+    amount: number
     unit: DateUnit
 }
 

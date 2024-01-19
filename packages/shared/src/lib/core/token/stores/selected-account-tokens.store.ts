@@ -43,21 +43,23 @@ export const allAccountTokens: Readable<{ [accountIndex: string]: AccountTokens 
     }
 )
 
-export const allAccountFiatBalances: Readable<{ [accountIndex: string]: number }> = derived(
+export const allAccountFiatBalances: Readable<{ [accountIndex: string]: string }> = derived(
     [allAccountTokens],
     ([$allAccountTokens]) => {
-        const _allAccountFiatBalances: Record<string, number> = {}
+        const _allAccountFiatBalances: Record<string, string> = {}
         for (const accountIndex of Object.keys($allAccountTokens)) {
             const accountTokens = $allAccountTokens[accountIndex]
             let fiatBalance = 0
             for (const networkId of Object.keys(accountTokens)) {
                 const tokens = accountTokens[networkId as NetworkId]
-                fiatBalance += tokens?.baseCoin?.balance?.totalFiat ?? 0
+                fiatBalance += Number(tokens?.baseCoin?.balance?.totalFiat ?? 0)
                 for (const token of tokens?.nativeTokens ?? []) {
-                    fiatBalance += token.balance?.totalFiat ?? 0
+                    const totalFiat = Number(token.balance.totalFiat) ?? 0
+                    const fiatValue = Number.isFinite(totalFiat) ? totalFiat : 0
+                    fiatBalance += fiatValue
                 }
             }
-            _allAccountFiatBalances[accountIndex] = fiatBalance
+            _allAccountFiatBalances[accountIndex] = fiatBalance.toString()
         }
         return _allAccountFiatBalances
     }
@@ -105,8 +107,8 @@ export function getTokenFromSelectedAccountTokens(
                       ...persistedToken,
                       networkId,
                       balance: {
-                          total: 0,
-                          available: 0,
+                          total: BigInt(0),
+                          available: BigInt(0),
                       },
                   }
                 : undefined

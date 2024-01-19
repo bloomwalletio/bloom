@@ -107,13 +107,13 @@ async function createHiddenBalanceChange(account: IAccountState, activity: Activ
         calculateAndAddPersistedNftBalanceChange(account, networkId, activity.nftId, owned, true)
     }
     if (activity.tokenTransfer) {
-        const rawAmount = Number(activity.tokenTransfer.rawAmount)
-        const amount = received ? rawAmount : -1 * rawAmount
+        const rawAmount = activity.tokenTransfer.rawAmount
+        const amount = received ? rawAmount : BigInt(-1) * rawAmount
         await updateL2BalanceWithoutActivity(amount, activity.tokenTransfer.tokenId, account, networkId)
     }
 
     const rawBaseTokenAmount = received
-        ? Number(activity.baseTokenTransfer.rawAmount)
-        : -1 * (Number(activity.baseTokenTransfer.rawAmount) + Number(activity.transactionFee ?? 0))
+        ? activity.baseTokenTransfer.rawAmount
+        : BigInt(-1) * (activity.baseTokenTransfer.rawAmount + BigInt(activity.transactionFee ?? 0))
     await updateL2BalanceWithoutActivity(rawBaseTokenAmount, activity.baseTokenTransfer.tokenId, account, networkId)
 }

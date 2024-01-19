@@ -4,6 +4,7 @@ import { PersistedEvmTransaction, SmartContractActivity } from '../../types'
 import { IChain } from '@core/network'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { IAccountState } from '@core/account/interfaces'
+import { Converter } from '@core/utils/convert'
 
 export async function generateSmartContractActivity(
     transaction: PersistedEvmTransaction,
@@ -14,7 +15,7 @@ export async function generateSmartContractActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: String(transaction.value ?? '0'),
+        rawAmount: Converter.bigIntLikeToBigInt(transaction.value),
     }
 
     return {

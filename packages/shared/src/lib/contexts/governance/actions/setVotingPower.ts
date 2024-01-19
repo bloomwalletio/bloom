@@ -11,8 +11,8 @@ export async function setVotingPower(rawAmount: string): Promise<void> {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
-        const votingPower = parseInt(account.votingPower, 10)
-        const amount = parseInt(rawAmount, 10)
+        const votingPower = account.votingPower
+        const amount = BigInt(rawAmount)
 
         updateSelectedAccount({ hasVotingPowerTransactionInProgress: true, isTransferring: true })
 

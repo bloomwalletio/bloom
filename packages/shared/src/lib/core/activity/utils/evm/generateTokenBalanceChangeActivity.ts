@@ -1,6 +1,6 @@
 import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
-import { generateRandomId } from '@core/utils'
+import { BigIntAbs, Converter, generateRandomId } from '@core/utils'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../../enums'
 import { ITokenBalanceChange, TransactionActivity } from '../../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
@@ -13,7 +13,10 @@ export async function generateTokenBalanceChangeActivity(
     balanceChange: ITokenBalanceChange,
     account: IAccountState
 ): Promise<TransactionActivity> {
-    const difference = balanceChange.newBalance - (balanceChange.oldBalance ?? 0)
+    const newBalance = Converter.legacyNumberToBigInt(balanceChange.newBalance)
+    const oldBalance = Converter.legacyNumberToBigInt(balanceChange.oldBalance)
+
+    const difference = newBalance - oldBalance
     const direction = difference >= 0 ? ActivityDirection.Incoming : ActivityDirection.Outgoing
 
     let accountSubject: Subject | undefined
@@ -30,7 +33,7 @@ export async function generateTokenBalanceChangeActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: tokenId === BASE_TOKEN_ID ? String(Math.abs(difference)) : '0',
+        rawAmount: tokenId === BASE_TOKEN_ID ? BigIntAbs(difference) : BigInt(0),
     }
 
     let tokenTransfer
@@ -39,7 +42,7 @@ export async function generateTokenBalanceChangeActivity(
         tokenTransfer = persistedTokens
             ? {
                   tokenId: persistedTokens.id,
-                  rawAmount: String(Math.abs(difference)),
+                  rawAmount: BigIntAbs(difference),
               }
             : undefined
     }

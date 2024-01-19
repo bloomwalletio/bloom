@@ -7,13 +7,14 @@
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let token: ITokenWithBalance
-    export let rawAmount: string = '0'
+    export let rawAmount: bigint = BigInt(0)
 
-    let tokenAmountInput: TokenAmountWithSliderInput
+    let tokenAmountInputWithSlider: TokenAmountWithSliderInput
+    let amount: string
 
-    async function onContinueClick(): Promise<void> {
+    function onContinueClick(): void {
         try {
-            await tokenAmountInput.validate()
+            tokenAmountInputWithSlider.validate()
             openPopup({
                 id: PopupId.BurnNativeTokensConfirmation,
                 props: { token, rawAmount },
@@ -37,11 +38,16 @@
     continueButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
-        disabled: rawAmount === '' || rawAmount === '0' || rawAmount === undefined,
+        disabled: amount === '' || amount === '0' || amount === undefined,
     }}
 >
     <div class="space-y-5">
-        <TokenAmountWithSliderInput bind:this={tokenAmountInput} bind:rawAmount {token} />
+        <TokenAmountWithSliderInput
+            bind:this={tokenAmountInputWithSlider}
+            bind:inputtedAmount={amount}
+            bind:rawAmount
+            {token}
+        />
         <Alert variant="warning" text={localize('actions.confirmTokenBurn.hint')} />
     </div>
 </PopupTemplate>

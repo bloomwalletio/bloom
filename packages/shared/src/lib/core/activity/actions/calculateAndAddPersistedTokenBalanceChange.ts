@@ -11,26 +11,26 @@ export async function calculateAndAddPersistedTokenBalanceChange(
     account: IAccountState,
     networkId: NetworkId,
     tokenId: string,
-    newBalance: number,
+    newBalanceBigInt: bigint,
     hidden: boolean = false
 ): Promise<void> {
-    newBalance = newBalance || 0
+    const newBalance = newBalanceBigInt.toString() || '0'
 
     const balanceChangesForAsset = getBalanceChanges(account.index, networkId)?.tokens?.[tokenId]
-    const lastBalanceChange = balanceChangesForAsset?.at(-1)
+    const oldBalance = String(balanceChangesForAsset?.at(-1)?.newBalance ?? 0)
 
-    if (lastBalanceChange?.newBalance === newBalance) {
+    if (oldBalance === newBalance) {
         return
     }
 
     const newBalanceChange: ITokenBalanceChange = {
         changedAt: Date.now(),
-        oldBalance: lastBalanceChange?.newBalance,
-        newBalance: Math.floor(newBalance),
+        oldBalance,
+        newBalance,
         hidden,
     }
 
-    const hasZeroStartingBalance = newBalanceChange.newBalance === 0 && newBalanceChange.oldBalance === undefined
+    const hasZeroStartingBalance = newBalanceChange.newBalance === '0' && newBalanceChange.oldBalance === undefined
     const isShimmerErc20Token = tokenId === BASE_TOKEN_CONTRACT_ADDRESS[networkId as EvmNetworkId]
     if (!hidden && !hasZeroStartingBalance && !hasTokenBeenUntracked(tokenId, networkId) && !isShimmerErc20Token) {
         const activity = await generateTokenBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)

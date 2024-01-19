@@ -24,7 +24,7 @@
     <asset-section class="w-full flex flex-row gap-2 justify-between overflow-hidden">
         {#if tokenTransfer?.token && tokenWithBalance}
             <div class="flex-grow overflow-hidden">
-                <TokenAmountTile token={tokenWithBalance} amount={Number(tokenTransfer.rawAmount)} />
+                <TokenAmountTile token={tokenWithBalance} amount={tokenTransfer.rawAmount} />
             </div>
         {:else if nft}
             <div class="flex-grow overflow-hidden">
@@ -38,7 +38,7 @@
         {#if baseCoinTransfer?.token && baseTokenWithBalance && Number(baseCoinTransfer?.rawAmount) > 0}
             <TokenAmountTile
                 token={baseTokenWithBalance}
-                amount={Number(baseCoinTransfer.rawAmount)}
+                amount={baseCoinTransfer.rawAmount}
                 hideTokenInfo={!!tokenTransfer || !!nft}
             />
         {/if}

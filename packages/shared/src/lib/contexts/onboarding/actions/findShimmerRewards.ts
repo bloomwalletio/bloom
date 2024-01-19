@@ -11,7 +11,7 @@ import { sumTotalUnclaimedRewards } from '../utils'
 const DEPTH_SEARCH_ACCOUNT_START_INDEX = 0
 const INITIAL_SEARCH_ADDRESS_START_INDEX = 0
 const INITIAL_SEARCH_ROUND = 1
-const INITIAL_TOTAL_UNCLAIMED_REWARDS = 0
+const INITIAL_TOTAL_UNCLAIMED_REWARDS = BigInt(0)
 
 /**
  * NOTE: This variable is uninitialized because we
@@ -27,7 +27,7 @@ let depthSearchAddressGapLimit: number
 let breadthSearchAccountStartIndex: number
 let breadthSearchAddressGapLimit: number
 
-let totalUnclaimedShimmerRewards: number
+let totalUnclaimedShimmerRewards: bigint
 let currentSearchRound: number
 
 export function initialiseAccountRecoveryConfigurationForShimmerClaiming(): void {
@@ -131,6 +131,6 @@ async function updateRecoveredAccounts(accounts: IAccount[]): Promise<void> {
     }
 }
 
-export function setTotalUnclaimedShimmerRewards(_totalUnclaimedShimmerRewards: number): void {
+export function setTotalUnclaimedShimmerRewards(_totalUnclaimedShimmerRewards: bigint): void {
     totalUnclaimedShimmerRewards = _totalUnclaimedShimmerRewards
 }

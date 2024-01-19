@@ -39,7 +39,7 @@
         disableToggleGift,
     } = sendFlowParameters
 
-    let storageDeposit: number
+    let storageDeposit: bigint
     let tagInputError = ''
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
@@ -86,7 +86,7 @@
         const baseCoin = $selectedAccountTokens?.[getActiveNetworkId()].baseCoin
         const baseCoinTransfer = {
             token: baseCoin,
-            rawAmount: String(Number(output.amount) - storageDeposit),
+            rawAmount: BigInt(output.amount) - storageDeposit,
         }
 
         switch (sendFlowParameters.type) {

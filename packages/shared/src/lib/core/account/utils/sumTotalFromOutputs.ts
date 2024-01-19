@@ -1,5 +1,8 @@
 import type { OutputData } from '@iota/sdk/out/types'
 
-export function sumTotalFromOutputs(outputs: OutputData[]): number {
-    return outputs?.reduce((total: number, outputData: OutputData) => (total += Number(outputData?.output?.amount)), 0)
+export function sumTotalFromOutputs(outputs: OutputData[]): bigint {
+    return outputs?.reduce(
+        (total: bigint, outputData: OutputData) => (total += BigInt(outputData?.output?.amount)),
+        BigInt(0)
+    )
 }

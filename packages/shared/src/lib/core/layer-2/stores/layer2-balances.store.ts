@@ -15,14 +15,15 @@ export function getLayer2AccountBalanceForToken(
     accountIndex: number,
     networkId: NetworkId,
     tokenId: string = BASE_TOKEN_ID
-): number | undefined {
-    return get(layer2Balances)?.[accountIndex]?.[networkId]?.[tokenId]
+): bigint {
+    const layer2TokenBalance = get(layer2Balances)?.[accountIndex]?.[networkId]?.[tokenId]
+    return layer2TokenBalance ?? BigInt(0)
 }
 
 export function setLayer2AccountBalanceForChain(
     accountIndex: number,
     networkId: NetworkId,
-    chainBalance: { [tokenId: string]: number }
+    chainBalance: { [tokenId: string]: bigint }
 ): void {
     layer2Balances.update((balance) => {
         if (!balance) {
@@ -40,16 +41,16 @@ export function updateLayer2AccountBalanceForTokenOnChain(
     accountIndex: number,
     networkId: NetworkId,
     tokenId: string,
-    delta: number
-): number {
-    let newBalance = 0
+    delta: bigint
+): bigint {
+    let newBalance = BigInt(0)
     layer2Balances.update((balance) => {
         if (!balance) {
             balance = {}
         }
         const accountBalance = balance[accountIndex] ?? {}
         const accountNetworkBalance = accountBalance[networkId] ?? {}
-        const oldBalance = accountNetworkBalance[tokenId] ?? 0
+        const oldBalance = accountNetworkBalance[tokenId] ?? BigInt(0)
 
         newBalance = oldBalance + delta
         if (newBalance < 0) {
@@ -59,10 +60,10 @@ export function updateLayer2AccountBalanceForTokenOnChain(
                 logToConsole: true,
                 saveToErrorLog: true,
             })
-            newBalance = 0
+            newBalance = BigInt(0)
         }
 
-        accountNetworkBalance[tokenId] = Math.floor(newBalance)
+        accountNetworkBalance[tokenId] = newBalance
         accountBalance[networkId] = accountNetworkBalance
         balance[accountIndex] = accountBalance
         return balance

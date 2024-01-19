@@ -61,7 +61,7 @@ const baseTransaction: SendFlowParameters = {
     type: SendFlowType.BaseCoinTransfer,
     baseCoinTransfer: {
         token: PERSISTED_ASSET_SHIMMER,
-        rawAmount: amount,
+        rawAmount: BigInt(amount),
         unit: 'glow',
     },
     recipient: {
@@ -198,12 +198,12 @@ describe('File: getOutputParameters.ts', () => {
             expirationDate,
             baseCoinTransfer: {
                 token: PERSISTED_ASSET_SHIMMER,
-                rawAmount: '0',
+                rawAmount: BigInt('0'),
                 unit: 'glow',
             },
             tokenTransfer: {
                 token: nativeTokenAsset,
-                rawAmount: amount,
+                rawAmount: BigInt(amount),
             },
         }
         const output = getOutputParameters(sendFlowParameters, senderAddress)
@@ -255,12 +255,12 @@ describe('File: getOutputParameters.ts', () => {
             expirationDate,
             baseCoinTransfer: {
                 token: PERSISTED_ASSET_SHIMMER,
-                rawAmount: '0',
+                rawAmount: BigInt('0'),
                 unit: 'glow',
             },
             tokenTransfer: {
                 token: nativeTokenAsset,
-                rawAmount: amount,
+                rawAmount: BigInt(amount),
             },
             destinationNetworkId: destinationNetwork.id,
             gasFee,
@@ -346,12 +346,12 @@ describe('File: getOutputParameters.ts', () => {
             expirationDate,
             baseCoinTransfer: {
                 token: PERSISTED_ASSET_SHIMMER,
-                rawAmount: surplus,
+                rawAmount: BigInt(surplus),
                 unit: 'glow',
             },
             tokenTransfer: {
                 token: nativeTokenAsset,
-                rawAmount: amount,
+                rawAmount: BigInt(amount),
             },
         }
         const output = getOutputParameters(sendFlowParameters, senderAddress)

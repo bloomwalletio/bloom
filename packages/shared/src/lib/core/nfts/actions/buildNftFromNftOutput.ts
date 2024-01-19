@@ -37,7 +37,7 @@ export function buildNftFromNftOutput(
     const rawMetadata = getMetadataFromNftOutput(nftOutput)
     const parsedMetadata = parseNftMetadata(rawMetadata)
     const composedUrl = composeUrlFromNftUri(parsedMetadata?.uri) ?? ''
-    const storageDeposit = Number(nftOutput.amount)
+    const storageDeposit = BigInt(nftOutput.amount)
 
     const persistedNft = get(persistedNftForActiveProfile)?.[id]
 

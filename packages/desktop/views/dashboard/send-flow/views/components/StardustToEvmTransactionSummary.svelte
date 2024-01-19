@@ -13,8 +13,8 @@
 
     $: transactionFee =
         sendFlowParameters.type === SendFlowType.BaseCoinTransfer
-            ? String(Number(output.amount) - Number(sendFlowParameters.baseCoinTransfer.rawAmount))
-            : output.amount
+            ? BigInt(output.amount) - sendFlowParameters.baseCoinTransfer.rawAmount
+            : BigInt(output.amount)
 
     function getTransactionAssets(sendFlowParameters: SendFlowParameters): {
         nft?: Nft
@@ -24,7 +24,7 @@
         const baseCoin = $selectedAccountTokens?.[getActiveNetworkId()].baseCoin
         const baseCoinTransfer = {
             token: baseCoin,
-            rawAmount: sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0',
+            rawAmount: sendFlowParameters.baseCoinTransfer?.rawAmount ?? BigInt(0),
         }
 
         switch (sendFlowParameters.type) {

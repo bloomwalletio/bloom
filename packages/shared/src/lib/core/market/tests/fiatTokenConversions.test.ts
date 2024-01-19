@@ -1,9 +1,8 @@
 import { ITokenWithBalance, TokenStandard, TokenVerification } from '@core/token'
-import { getFiatAmountFromTokenValue } from '../actions/getFiatAmountFromTokenValue'
-import { getTokenAmountFromFiatValue } from '../actions/getTokenAmountFromFiatValue'
+import { getFiatValueFromTokenAmount } from '../actions/getFiatValueFromTokenAmount'
 
-const MOCK_MARKET_PRICE = 0.05
-const MOCK_TOKEN_AMOUNT = 1_000_000
+const MOCK_MARKET_PRICE = 0.000005
+const MOCK_TOKEN_AMOUNT = BigInt(1_000_000_000_000_000_000)
 const TOKEN: ITokenWithBalance = {
     id: '0x',
     standard: TokenStandard.BaseToken,
@@ -17,7 +16,7 @@ const TOKEN: ITokenWithBalance = {
     verification: TokenVerification,
     networkId: 'tip32:shimmer',
     balance: {
-        total: 10000,
+        total: BigInt(10000),
     },
 }
 
@@ -25,16 +24,9 @@ jest.mock('../actions/getMarketPriceForToken', () => ({
     getMarketPriceForToken: () => MOCK_MARKET_PRICE,
 }))
 
-describe('file: getFiatAmountFromTokenValue', () => {
+describe('file: getFiatValueFromTokenAmount', () => {
     it('should return the correct fiat amount', () => {
-        const result = getFiatAmountFromTokenValue(MOCK_TOKEN_AMOUNT, TOKEN)
-        expect(result).toBe(MOCK_MARKET_PRICE)
-    })
-})
-
-describe('file: getTokenAmountFromFiatValue', () => {
-    it('should return the correct token amount', () => {
-        const result = getTokenAmountFromFiatValue(MOCK_MARKET_PRICE.toString(), TOKEN)
-        expect(result).toBe(MOCK_TOKEN_AMOUNT.toString())
+        const result = getFiatValueFromTokenAmount(MOCK_TOKEN_AMOUNT, TOKEN)
+        expect(result).toBe('5000000')
     })
 })

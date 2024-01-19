@@ -24,7 +24,7 @@ export function buildUnwrapAssetParameters(recipientAddress: string): Partial<IU
             items: [],
         },
         allowance: <ILayer2AssetAllowance>{
-            baseTokens: 0,
+            baseTokens: '0',
             nativeTokens: [],
             nfts: [],
         },
