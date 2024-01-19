@@ -88,7 +88,7 @@ async function getLayer2NativeTokenBalancesForAddress(
 
         const nativeTokens = nativeTokenResult.items.map((item) => ({
             tokenId: item.key,
-            balance: BigInt(item.value),
+            balance: Converter.bigIntLikeToBigInt(item.value),
         }))
 
         return nativeTokens
@@ -113,7 +113,7 @@ async function getLayer2Erc20BalancesForAddress(evmAddress: string, chain: IChai
                 continue
             }
             const rawBalance = await contract.methods.balanceOf(evmAddress).call()
-            erc20TokenBalances.push({ balance: BigInt(rawBalance), tokenId: erc20Address })
+            erc20TokenBalances.push({ balance: Converter.bigIntLikeToBigInt(rawBalance), tokenId: erc20Address })
         } catch (err) {
             const error = err?.message ?? err
             console.error(error)

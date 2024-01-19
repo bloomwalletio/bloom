@@ -17,7 +17,7 @@ export async function generateSingleBasicActivity(
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     if (baseActivity.smartContract) {
-        const transferAmount = BigInt(baseActivity.smartContract.baseTokens ? baseActivity.smartContract.baseTokens : 0)
+        const transferAmount = BigInt(baseActivity.smartContract.baseTokens ?? 0)
         const transferDelta = baseActivity.baseTokenTransfer?.rawAmount
             ? baseActivity.baseTokenTransfer.rawAmount - transferAmount
             : BigInt(0)

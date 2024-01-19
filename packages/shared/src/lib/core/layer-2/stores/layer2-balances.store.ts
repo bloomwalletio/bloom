@@ -15,8 +15,9 @@ export function getLayer2AccountBalanceForToken(
     accountIndex: number,
     networkId: NetworkId,
     tokenId: string = BASE_TOKEN_ID
-): bigint | undefined {
-    return get(layer2Balances)?.[accountIndex]?.[networkId]?.[tokenId]
+): bigint {
+    const layer2TokenBalance = get(layer2Balances)?.[accountIndex]?.[networkId]?.[tokenId]
+    return layer2TokenBalance ?? BigInt(0)
 }
 
 export function setLayer2AccountBalanceForChain(

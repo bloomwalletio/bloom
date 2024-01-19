@@ -4,6 +4,7 @@ import { BigIntLike, bufferToBigInt } from '@ethereumjs/util'
 import { HEX_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
 import { isValidDate } from './date'
 import { Base64 } from './encode'
+import { isScientificNotation } from './number'
 
 /**
  * Returns a UNIX timestamp from a given Date object.
@@ -236,6 +237,11 @@ export class Converter {
     public static bigIntToHex(bigInt: bigint, prefix = true): string {
         bigInt = BigInt(bigInt)
         return prefix ? HEX_PREFIX + bigInt.toString(16) : bigInt.toString(16)
+    }
+
+    public static legacyNumberToBigInt(number: number | string | undefined): bigint {
+        number = number ?? 0
+        return BigInt(isScientificNotation(number) ? Number(number) : number)
     }
 
     /**
