@@ -1,23 +1,23 @@
 import { ITokenWithBalance } from '@core/token/interfaces'
-import { calculateFiatValueFromTokenValueAndMarketPrice } from '../utils'
+import { calculateFiatValueFromTokenAmountAndMarketPrice } from '../utils'
 import { getMarketPriceForToken } from './getMarketPriceForToken'
 
-export function getFiatAmountFromTokenValue(
-    tokenValue: bigint | undefined,
+export function getFiatValueFromTokenAmount(
+    tokenAmount: bigint | undefined,
     token: ITokenWithBalance
 ): string | undefined {
     const marketPrice = getMarketPriceForToken(token)
-    if (tokenValue === undefined || marketPrice === undefined) {
+    if (tokenAmount === undefined || marketPrice === undefined) {
         return undefined
     }
 
     try {
-        const fiatAmount = calculateFiatValueFromTokenValueAndMarketPrice(
-            tokenValue,
+        const fiatValue = calculateFiatValueFromTokenAmountAndMarketPrice(
+            tokenAmount,
             token?.metadata?.decimals,
             marketPrice
         )
-        return fiatAmount
+        return fiatValue
     } catch {
         return undefined
     }

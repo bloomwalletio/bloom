@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n/utils'
-    import { getFiatAmountFromTokenValue, getMarketPriceForToken } from '@core/market/actions'
+    import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
     import { Tile, Text } from '@bloomwalletio/ui'
@@ -14,7 +14,7 @@
     export let error: boolean = false
 
     $: marketPrice = getMarketPriceForToken(token)
-    $: fiatBalance = getFiatAmountFromTokenValue(BigInt(amount), token)
+    $: fiatBalance = getFiatValueFromTokenAmount(BigInt(amount), token)
 </script>
 
 {#if token && token.metadata}

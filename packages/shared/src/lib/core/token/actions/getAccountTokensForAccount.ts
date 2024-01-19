@@ -2,7 +2,7 @@ import { IAccountState } from '@core/account/interfaces'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices, MarketCurrency } from '@core/market'
 import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
-import { calculateFiatValueFromTokenValueAndMarketPrice } from '@core/market/utils'
+import { calculateFiatValueFromTokenAmountAndMarketPrice } from '@core/market/utils'
 import { NetworkId, EvmNetworkId, getNetwork } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { sortTokens } from '@core/token/utils/sortTokens'
@@ -57,13 +57,13 @@ function getAccountAssetForNetwork(
         networkId,
         balance: {
             total: baseCoinTotal,
-            totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
+            totalFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
                 baseCoinTotal,
                 persistedBaseCoin.metadata?.decimals,
                 baseCoinMarketPrice
             ),
             available: baseCoinAvailable,
-            availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
+            availableFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
                 baseCoinAvailable,
                 persistedBaseCoin.metadata?.decimals,
                 baseCoinMarketPrice
@@ -123,13 +123,13 @@ function getAccountAssetForChain(
                 ...persistedBaseCoin,
                 balance: {
                     total: balance,
-                    totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
+                    totalFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
                         balance,
                         persistedBaseCoin.metadata?.decimals,
                         baseCoinMarketPrice
                     ),
                     available: balance,
-                    availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
+                    availableFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
                         balance,
                         persistedBaseCoin.metadata?.decimals,
                         baseCoinMarketPrice
@@ -148,13 +148,13 @@ function getAccountAssetForChain(
                     ...persistedAsset,
                     balance: {
                         total: balance,
-                        totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
+                        totalFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
                             balance,
                             persistedAsset.metadata?.decimals,
                             assetMarketPrice
                         ),
                         available: balance,
-                        availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
+                        availableFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
                             balance,
                             persistedAsset.metadata?.decimals,
                             assetMarketPrice

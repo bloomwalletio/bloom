@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatCurrency, getDecimalSeparator, localize } from '@core/i18n'
-    import { getFiatAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import {
         ITokenWithBalance,
@@ -34,7 +34,7 @@
     $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
     $: rawAmount =
         inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : BigInt(0)
-    $: fiatAmount = token ? getFiatAmountFromTokenValue(rawAmount, token) : undefined
+    $: fiatAmount = token ? getFiatValueFromTokenAmount(rawAmount, token) : undefined
 
     function getInputLength(): number {
         const length = inputtedAmount?.length || 1

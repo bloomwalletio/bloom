@@ -2,7 +2,7 @@ import { TxData } from '@ethereumjs/tx'
 import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
-import { AbiDecoder, HEX_PREFIX } from '@core/utils'
+import { AbiDecoder, Converter, HEX_PREFIX } from '@core/utils'
 import {
     Erc20TransferMethodInputs,
     Erc721SafeTransferMethodInputs,
@@ -128,7 +128,7 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
         return {
             type: ActivityType.Basic,
             tokenId: BASE_TOKEN_ID,
-            rawAmount: BigInt(Number(transaction.value) / Number(WEI_PER_GLOW)),
+            rawAmount: Converter.bigIntLikeToBigInt(transaction.value) / WEI_PER_GLOW,
             recipientAddress,
         }
     }

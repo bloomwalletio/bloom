@@ -4,7 +4,7 @@
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { formatCurrency } from '@core/i18n'
-    import { getFiatAmountFromTokenValue } from '@core/market/actions'
+    import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -18,7 +18,7 @@
         const tokens = $selectedAccountTokens?.[$activeProfile.network.id]
         const networkBaseCoin: ITokenWithBalance = tokens?.baseCoin
         tokenBalance = formatTokenAmountBestMatch(networkBaseCoin.balance.total, networkBaseCoin.metadata)
-        fiatBalance = formatCurrency(getFiatAmountFromTokenValue(networkBaseCoin.balance.total, networkBaseCoin))
+        fiatBalance = formatCurrency(getFiatValueFromTokenAmount(networkBaseCoin.balance.total, networkBaseCoin))
     }
 
     async function resetTransak(): Promise<void> {

@@ -10,6 +10,7 @@ import { NetworkHealth } from '../enums'
 import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
 import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
+import { Converter } from '@core/utils'
 
 export class IscpChain implements IChain {
     private readonly _provider: Web3Provider
@@ -105,7 +106,7 @@ export class IscpChain implements IChain {
         const data = await response.json()
 
         if (response.status === 200) {
-            const gasEstimate = BigInt(data.gasFeeCharged ?? '0')
+            const gasEstimate = Converter.bigIntLikeToBigInt(data.gasFeeCharged)
             if (gasEstimate === BigInt(0)) {
                 throw new Error(`Gas fee has an invalid value: ${gasEstimate}!`)
             }
