@@ -1,6 +1,6 @@
 <script lang="ts">
     import { CloseButton } from '@bloomwalletio/ui'
-    import { closeProfileAuthPopup, popupState, ProfileAuthPopupId } from '@desktop/auxiliary/popup'
+    import { closeProfileAuthPopup, ProfileAuthPopupId } from '@desktop/auxiliary/popup'
 
     import { IS_WINDOWS } from '@core/app/constants'
     import { clickOutside } from '@core/utils/ui'
@@ -13,8 +13,6 @@
     export let props: any
     export let hideClose: boolean = false
     export let preventClose: boolean = false
-
-    $: otherPopupOpen = $popupState.active
 
     let popupContent
     function onKey(event: KeyboardEvent): void {
@@ -35,7 +33,7 @@
 <overlay
     class="flex items-center justify-center fixed {IS_WINDOWS
         ? 'top-7'
-        : 'top-0'} left-0 w-screen h-full z-50 {otherPopupOpen ? '' : 'bg-neutral-6/75'}"
+        : 'top-0'} left-0 w-screen h-full z-50 bg-neutral-6/75"
 >
     <profile-auth-popup use:clickOutside on:clickOutside={tryClosePopup} bind:this={popupContent}>
         {#if id === ProfileAuthPopupId.ConnectLedger}

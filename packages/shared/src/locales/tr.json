@@ -508,7 +508,8 @@
                             "signData": "Veri imzalama isteği",
                             "signTransaction": "Bir işlemi imzalama isteği",
                             "sendTransaction": "İşlem gönderme isteği",
-                            "empty": "En az bir izin seçmeniz gerekiyor"
+                            "empty": "En az bir izin seçmeniz gerekiyor",
+                            "noPermissionsRequired": "No permissions required to use this app"
                         },
                         "networks": {
                             "step": "Ağlar",
@@ -775,8 +776,14 @@
             "body": "{url}'yi birincil düğüm olarak temizlemek istediğinizden emin misiniz?"
         },
         "confirmAssetTracking": {
-            "title": "Yeni bir token (jeton) ekle",
-            "description": "\"{dappName}\", cüzdanınıza \"{assetName}\" eklemek istiyor."
+            "ERC721": {
+                "title": "Add new NFT",
+                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+            },
+            "ERC20": {
+                "title": "Add new token",
+                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+            }
         },
         "node": {
             "titleAdd": "Bir düğüm (node) ekle",
@@ -1499,6 +1506,7 @@
         "no": "Hayır",
         "tip": "Bahşiş",
         "verified": "Doğrulandı",
+        "methodName": "Method name",
         "data": "Veri",
         "success": "Success"
     },
@@ -1670,6 +1678,9 @@
         "mintNft": {
             "success": "NFT basım işlemi gönderildi"
         },
+        "transaction": {
+            "success": "Transaction sent"
+        },
         "burnNft": {
             "success": "NFT yakma işlemi gönderildi"
         },
@@ -1744,6 +1755,7 @@
         "account": {
             "length": "Cüzdan adınız şundan uzun olamaz {length, plural, one {# karakter} other {# karakterler}}.\n",
             "emptyName": "hata -> hesap -> boş ad",
+            "colorRequired": "A color is required.",
             "duplicate": "Bu isimde bir cüzdan zaten var.",
             "tilde": "Profile ismi '~' karakteri ile başlayamaz.",
             "control": "Profil ismi bir kontrol karakteri içermemeli.",
@@ -1864,8 +1876,8 @@
                 "long": "URL şeması desteklenmiyor"
             },
             "unsupportedMediaType": {
-                "short": "Desteklenmeyen medya türü",
-                "long": "Medya türü şu anda desteklenmiyor"
+                "short": "Unsupported media type",
+                "long": "The media type is not currently supported"
             },
             "notMatchingFileTypes": {
                 "short": "Yükleme engellendi",
@@ -2000,7 +2012,8 @@
         "governance": "Yönetim",
         "developer": "Geliştirici",
         "tokens": "Tokenler",
-        "settings": "Ayarlar"
+        "settings": "Ayarlar",
+        "buySell": "Buy & Sell"
     },
     "pills": {
         "asyncStatus": {
