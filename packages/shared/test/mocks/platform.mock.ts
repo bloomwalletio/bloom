@@ -109,6 +109,12 @@ const Platform: IPlatform = {
     closeTransak(): Promise<void> {
         return Promise.resolve()
     },
+    minimizeTransak(): Promise<void> {
+        return Promise.resolve()
+    },
+    restoreTransak(): Promise<void> {
+        return Promise.resolve()
+    },
     isSidebarExpanded(expanded: boolean): Promise<void> {
         return Promise.resolve()
     },

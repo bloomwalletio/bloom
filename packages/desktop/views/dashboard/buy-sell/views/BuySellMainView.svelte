@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Icon, IconName, Text } from '@bloomwalletio/ui'
     import { AccountSwitcher, FormattedBalance } from '@components'
+    import { ISettingsState, settingsState } from '@contexts/settings/stores'
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { formatCurrency } from '@core/i18n'
@@ -8,8 +9,9 @@
     import { activeProfile } from '@core/profile/stores'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
+    import { IPopupState, IProfileAuthPopupState, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
     import { Pane } from '@ui'
-    import { onDestroy } from 'svelte'
+    import { onDestroy, tick } from 'svelte'
 
     let tokenBalance: string
     let fiatBalance: string
@@ -33,6 +35,20 @@
     $: if ($selectedAccountIndex !== undefined) {
         updateBalances()
         void resetTransak()
+    }
+
+    $: void handlePopupState($popupState, $profileAuthPopup, $settingsState)
+    async function handlePopupState(
+        state: IPopupState,
+        profilePopupState: IProfileAuthPopupState,
+        settingsState: ISettingsState
+    ): Promise<void> {
+        if (state.active || profilePopupState.active || settingsState.open) {
+            await Platform.minimizeTransak()
+        } else {
+            await tick()
+            await Platform.restoreTransak()
+        }
     }
 
     onDestroy(() => {

@@ -524,6 +524,14 @@ ipcMain.handle('is-sidebar-expanded', (_, expanded) => {
     }
 })
 
+ipcMain.handle('minimize-transak', () => {
+    transakManager?.minimizeWindow()
+})
+
+ipcMain.handle('restore-transak', () => {
+    transakManager?.restoreWindow()
+})
+
 /**
  * Create about window
  * @returns {BrowserWindow} About window

@@ -256,6 +256,12 @@ export default {
     closeTransak(): Promise<void> {
         return ipcRenderer.invoke('close-transak')
     },
+    minimizeTransak(): Promise<void> {
+        return ipcRenderer.invoke('minimize-transak')
+    },
+    restoreTransak(): Promise<void> {
+        return ipcRenderer.invoke('restore-transak')
+    },
     isSidebarExpanded(expanded: boolean): Promise<void> {
         return ipcRenderer.invoke('is-sidebar-expanded', expanded)
     },
