@@ -6,7 +6,6 @@ import {
     ipcMain,
     nativeTheme,
     PopupOptions,
-    powerMonitor,
     session,
     shell,
     utilityProcess,
@@ -34,6 +33,7 @@ import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
+import { registerPowerMonitorListeners } from '../listeners'
 
 export let appIsReady = false
 
@@ -284,6 +284,9 @@ void app.whenReady().then(() => {
     // Doesn't open & close a new window when the app is already open
     if (isFirstInstance) {
         createMainWindow()
+
+        registerPowerMonitorListeners(windows?.main?.webContents)
+
         appIsReady = true
     }
 })
@@ -388,16 +391,6 @@ app.once('ready', () => {
     })
 })
 
-powerMonitor.on('suspend', () => {
-    // MacOS, Windows and Linux
-    windows.main?.webContents?.send('lock-screen')
-})
-
-powerMonitor.on('lock-screen', () => {
-    // MacOS and Windows
-    windows.main?.webContents?.send('lock-screen')
-})
-
 // IPC handlers for APIs exposed from main process
 
 // URLs
@@ -410,7 +403,6 @@ const keychainManager = new KeychainManager()
 ipcMain.handle('keychain-get', (_e, key) => keychainManager.get(key))
 ipcMain.handle('keychain-set', (_e, key, content) => keychainManager.set(key, content))
 ipcMain.handle('keychain-remove', (_e, key) => keychainManager.remove(key))
-
 // Dialogs
 ipcMain.handle('show-open-dialog', (_e, options) => dialog.showOpenDialog(options))
 ipcMain.handle('show-save-dialog', (_e, options) => dialog.showSaveDialog(options))
