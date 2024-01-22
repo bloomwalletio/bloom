@@ -15,38 +15,33 @@
     let color = $selectedAccount.color
 
     $: accountName, (error = '')
-    $: trimmedAccountAlias = accountName.trim()
+    $: trimmedAccountAlias = accountName?.trim() ?? ''
     $: invalidAliasUpdate = !getTrimmedLength(accountName) || isBusy || accountName === $selectedAccount.name
     $: hasColorChanged = $selectedAccount.color !== color
 
-    async function onSaveClick(): Promise<void> {
-        if (trimmedAccountAlias) {
-            error = ''
-            try {
-                await validateAccountName(trimmedAccountAlias, true, trimmedAccountAlias !== $selectedAccount.name)
-            } catch ({ message }) {
-                error = message
-                return
+    function onSaveClick(): void {
+        error = ''
+        try {
+            validateAccountName(trimmedAccountAlias, true, trimmedAccountAlias !== $selectedAccount.name)
+            if (!color) {
+                throw new Error(localize('errors.accountColorRequired'))
             }
+        } catch ({ message }) {
+            error = message
+            return
+        }
 
-            isBusy = true
-            saveAccountPersistedData()
+        isBusy = true
+        try {
+            updateActiveAccountPersistedData($selectedAccount?.index, { name: trimmedAccountAlias, color })
+            closePopup()
+        } finally {
+            isBusy = false
         }
     }
 
     function onCancelClick(): void {
         closePopup()
-    }
-
-    function saveAccountPersistedData(): void {
-        try {
-            if (trimmedAccountAlias || color) {
-                updateActiveAccountPersistedData($selectedAccount?.index, { name: trimmedAccountAlias, color })
-                closePopup()
-            }
-        } finally {
-            isBusy = false
-        }
     }
 </script>
 

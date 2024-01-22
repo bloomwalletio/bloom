@@ -32,7 +32,7 @@ export function getOutputParameters(sendFlowParameters: SendFlowParameters, send
 
     return <OutputParams>{
         recipientAddress: destinationAddress,
-        amount,
+        amount: amount.toString(),
         ...(assets && { assets }),
         features: {
             ...(tag && { tag }),
@@ -60,8 +60,8 @@ function getDestinationAddress(recipient: Subject | undefined, chainConfig: Chai
     }
 }
 
-function getAmountFromTransactionData(sendFlowParameters: SendFlowParameters): string {
-    return sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
+function getAmountFromTransactionData(sendFlowParameters: SendFlowParameters): bigint {
+    return sendFlowParameters.baseCoinTransfer?.rawAmount ?? BigInt('0')
 }
 
 function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): Assets | undefined {
@@ -74,7 +74,7 @@ function getAssetsFromTransactionData(sendFlowParameters: SendFlowParameters): A
         const nativeTokenId = tokenId === BASE_TOKEN_ID ? undefined : tokenId
 
         if (nativeTokenId) {
-            const bigAmount = BigInt(sendFlowParameters.tokenTransfer?.rawAmount ?? '0')
+            const bigAmount = sendFlowParameters.tokenTransfer?.rawAmount ?? BigInt(0)
             assets = {
                 nativeTokens: [
                     {

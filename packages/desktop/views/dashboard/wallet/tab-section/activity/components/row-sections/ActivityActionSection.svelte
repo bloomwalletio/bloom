@@ -30,6 +30,11 @@
                 icon: IconName.ArrowLeftRight,
                 color: $darkMode ? 'neutral-1' : 'neutral-7',
             }
+        } else if (type === ActivityType.SmartContract) {
+            return {
+                icon: IconName.ArrowUp,
+                color: 'brand',
+            }
         } else if (action === ActivityAction.Mint) {
             return {
                 icon: IconName.ArrowDown,

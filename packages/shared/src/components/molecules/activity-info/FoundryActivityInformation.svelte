@@ -22,15 +22,15 @@
         },
         {
             key: localize('popups.nativeToken.property.maximumSupply'),
-            value: String(parseInt(activity.maximumSupply, 16)),
+            value: activity.maximumSupply,
         },
         {
             key: localize('popups.nativeToken.property.mintedTokens'),
-            value: String(parseInt(activity.mintedTokens, 16)),
+            value: activity.mintedTokens,
         },
         {
             key: localize('popups.nativeToken.property.meltedTokens'),
-            value: String(parseInt(activity.meltedTokens, 16)),
+            value: activity.meltedTokens,
         },
     ]}
 />

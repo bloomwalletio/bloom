@@ -1,4 +1,4 @@
-import { INft } from '@core/nfts'
+import { Nft } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { TokenTransferData } from '@core/wallet/types'
 import { ActivityAction, ActivityType, GovernanceAction } from '../enums'
@@ -11,7 +11,7 @@ export function getTransactionAssets(
     accountIndex: number
 ):
     | {
-          nft?: INft
+          nft?: Nft
           aliasId?: string
           tokenTransfer?: TokenTransferData
           baseCoinTransfer?: TokenTransferData
@@ -60,7 +60,7 @@ export function getTransactionAssets(
         const amount = isVotingPowerActivity ? activity.votingPowerDifference : activity.votingPower
         return {
             baseCoinTransfer: {
-                rawAmount: String(amount),
+                rawAmount: amount ?? BigInt(0),
                 token: baseCoin,
             },
         }

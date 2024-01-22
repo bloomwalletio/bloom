@@ -1,17 +1,15 @@
 <script lang="ts">
     import { handleDeepLink } from '@auxiliary/deep-link/handlers/handleDeepLink'
-    import { Popup } from '@components/popup'
+    import { Popup, ProfileAuthPopup } from '@components/popup'
     import TitleBar from '@components/TitleBar.svelte'
     import { IS_WINDOWS, Platform } from '@core/app'
     import { registerAppEvents, getAndUpdateDarkMode } from '@core/app/actions'
     import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
-    import { downloadNextNftInQueue } from '@core/nfts/actions'
-    import { nftDownloadQueue } from '@core/nfts/stores'
     import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { AppRoute, RouterManagerExtensionName, appRoute, initialiseRouterManager } from '@core/router'
-    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
+    import { PopupId, openPopup, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
     import {
         getAppRouter,
         getRouterForAppContext,
@@ -44,8 +42,6 @@
     $: if (document.dir !== $localeDirection) {
         document.dir = $localeDirection
     }
-
-    $: $nftDownloadQueue, downloadNextNftInQueue()
 
     let splash = true
 
@@ -127,6 +123,14 @@
                         relative={$popupState.relative}
                         preventClose={$popupState.preventClose}
                         confirmClickOutside={$popupState.confirmClickOutside}
+                    />
+                {/if}
+                {#if $profileAuthPopup.active}
+                    <ProfileAuthPopup
+                        id={$profileAuthPopup.id}
+                        props={$profileAuthPopup.props}
+                        hideClose={$profileAuthPopup.hideClose}
+                        preventClose={$profileAuthPopup.preventClose}
                     />
                 {/if}
                 {#if $appRoute === AppRoute.Dashboard}

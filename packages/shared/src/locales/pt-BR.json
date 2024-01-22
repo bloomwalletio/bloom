@@ -485,6 +485,7 @@
                         "reconnectHint": "You have previously connected with this dApp.",
                         "insecure": "A URL para este dApp não pôde ser verificada. Sua conexão com este aplicativo pode não ser segura.",
                         "unsupportedNetworks": "Este dApp não é compatível com Bloom, pois é executado em uma rede não suportada.",
+                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "Este dApp não é totalmente compatível com a Bloom. Alguns métodos ou eventos não são suportados.",
                         "supportedOnOtherProfile": "Este dApp é executado em uma rede suportada, mas não está acessível com este perfil. Por favor, use um perfil conectado à rede necessária.",
                         "acceptInsecureConnection": "Eu entendo que este dApp pode ser inseguro e ainda desejo me conectar."
@@ -507,7 +508,8 @@
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction",
-                            "empty": "You have to select at least one permission"
+                            "empty": "You have to select at least one permission",
+                            "noPermissionsRequired": "No permissions required to use this app"
                         },
                         "networks": {
                             "step": "Redes",
@@ -774,8 +776,14 @@
             "body": "Are you sure you want to clear {url} as the primary node?"
         },
         "confirmAssetTracking": {
-            "title": "Add a new token",
-            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
+            "ERC721": {
+                "title": "Add new NFT",
+                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+            },
+            "ERC20": {
+                "title": "Add new token",
+                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+            }
         },
         "node": {
             "titleAdd": "Adicionar um nó de rede",
@@ -868,7 +876,7 @@
             "title": "Conecte sua Ledger",
             "notConnected": "Connect your Ledger device to continue.",
             "locked": "Unlock your Ledger device to continue.",
-            "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
+            "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger conectada com sucesso, por favor continue."
         },
         "verifyLedgerTransaction": {
@@ -928,6 +936,11 @@
                         "Pending": "Sending to {subject}",
                         "Confirmed": "Sent to {subject}",
                         "Conflicting": "Failed to send"
+                    },
+                    "genesis": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
                     }
                 },
                 "internal": {
@@ -1493,6 +1506,7 @@
         "no": "Não",
         "tip": "Dica",
         "verified": "Verificado",
+        "methodName": "Method name",
         "data": "Data",
         "success": "Success"
     },
@@ -1664,6 +1678,9 @@
         "mintNft": {
             "success": "NFT minting transaction sent"
         },
+        "transaction": {
+            "success": "Transaction sent"
+        },
         "burnNft": {
             "success": "NFT burning transaction sent"
         },
@@ -1738,6 +1755,7 @@
         "account": {
             "length": "O nome da sua carteira não pode ser maior que {length, plural, one {# caractere} other {# caracteres}}.",
             "emptyName": "O nome do perfil deve conter pelo menos 1 caractere.",
+            "colorRequired": "A color is required.",
             "duplicate": "Uma carteira com esse nome já existe.",
             "tilde": "O nome do perfil não pode começar com o caractere '~'.",
             "control": "O nome do perfil não pode conter um caractere de controle.",
@@ -1857,8 +1875,8 @@
                 "short": "URL não suportada",
                 "long": "Esquema de URL não suportado"
             },
-            "unsupportedFileType": {
-                "short": "Tipo de mídia não suportado",
+            "unsupportedMediaType": {
+                "short": "Unsupported media type",
                 "long": "The media type is not currently supported"
             },
             "notMatchingFileTypes": {
@@ -1946,6 +1964,9 @@
                 "tag": "Um pequeno campo de dados opcional. Usar tags em transações pode facilitar a busca.",
                 "transactionFee": "A taxa de transação contém a taxa de gás para a execução do código e a taxa de depósito de armazenamento."
             },
+            "genesis": {
+                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
+            },
             "nftMetadata": {
                 "type": "O MimeType do NFT. Por exemplo, image/png.",
                 "issuerName": "O nome do criador"
@@ -1991,7 +2012,8 @@
         "governance": "Governança",
         "developer": "Desenvolvedor",
         "tokens": "Tokens",
-        "settings": "Configurações"
+        "settings": "Configurações",
+        "buySell": "Buy & Sell"
     },
     "pills": {
         "asyncStatus": {

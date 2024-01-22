@@ -21,7 +21,7 @@ export async function setGasFee(sendFlowParams: SendFlowParameters, account: IAc
             throw new Error('Networks are not set in send flow parameters!')
         }
 
-        let gasFee: number | undefined
+        let gasFee: bigint | undefined
         if (isEvmChain(sourceNetworkId)) {
             const chain = getNetwork()?.getChain(sourceNetworkId)
             if (!chain) {

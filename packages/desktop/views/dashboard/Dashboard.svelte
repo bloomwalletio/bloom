@@ -24,6 +24,7 @@
     import { Wallet } from './wallet'
     import { Settings } from '../settings'
     import { Background } from '@views/components'
+    import { BuySell } from './buy-sell'
 
     const tabs = {
         wallet: Wallet,
@@ -31,19 +32,26 @@
         collectibles: Collectibles,
         governance: Governance,
         developer: Developer,
+        buySell: BuySell,
     }
 
+    let previousAccountIndex = get(selectedAccountIndex)
+
     $: $hasStrongholdLocked && reflectLockedStronghold()
-    $: $nftDownloadQueue, downloadNextNftInQueue()
-    $: $downloadingNftId && interruptNftDownloadAfterTimeout(get(selectedAccountIndex))
+
+    $: $nftDownloadQueue, $downloadingNftId, downloadNextNftInQueue()
+    $: interruptNftDownloadAfterTimeout(get(selectedAccountIndex), $downloadingNftId)
     $: addSelectedAccountNftsToDownloadQueue($selectedAccountIndex)
 
     $: if (features.analytics.dashboardRoute.enabled && $dashboardRoute)
         Platform.trackEvent('dashboard-route', { route: $dashboardRoute })
 
     function addSelectedAccountNftsToDownloadQueue(accountIndex: number): void {
-        resetNftDownloadQueue()
-        void addNftsToDownloadQueue(accountIndex, $selectedAccountNfts)
+        if (accountIndex !== previousAccountIndex) {
+            previousAccountIndex = accountIndex
+            resetNftDownloadQueue(true)
+            void addNftsToDownloadQueue($selectedAccountNfts)
+        }
     }
 
     onMount(() => {

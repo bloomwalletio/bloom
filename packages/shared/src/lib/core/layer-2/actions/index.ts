@@ -1,4 +1,3 @@
-export * from './buildEvmTransactionData'
 export * from './buildUnwrapAssetParameters'
 export * from './buildUnwrapAssetTargetAddress'
 export * from './canAccountMakeEvmTransaction'

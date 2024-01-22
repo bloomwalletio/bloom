@@ -8,7 +8,7 @@
     export let token: ITokenWithBalance
     export let onMaxClick: () => unknown
 
-    $: availableBalance = token?.balance?.available ?? 0
+    $: availableBalance = token?.balance?.available ?? BigInt(0)
 </script>
 
 {#if token && token.metadata && token.balance}
@@ -24,7 +24,7 @@
                     </Text>
                     <div class="flex flex-row justify-between items-center text-left">
                         <Text textColor="secondary" fontWeight="medium">
-                            {formatTokenAmountBestMatch(availableBalance, token.metadata)}
+                            {formatTokenAmountBestMatch(availableBalance, token.metadata, true, false)}
                         </Text>
                     </div>
                 </div>

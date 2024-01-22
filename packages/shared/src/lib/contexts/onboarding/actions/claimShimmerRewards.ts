@@ -4,11 +4,11 @@ import { handleLedgerError } from '@core/ledger/utils'
 import { DEFAULT_BASE_TOKEN, SupportedNetworkId } from '@core/network'
 import { BASE_TOKEN_ID, VerifiedStatus } from '@core/token'
 import {
-    DEFAULT_TRANSACTION_OPTIONS,
     SendFlowParameters,
     SendFlowType,
     SubjectType,
     getOutputParameters,
+    getTransactionOptions,
     setSendFlowParameters,
 } from '@core/wallet'
 import { get } from 'svelte/store'
@@ -81,14 +81,17 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
                     verified: true,
                 },
             },
-            rawAmount: rawAmount.toString(),
+            rawAmount: BigInt(rawAmount),
         },
         destinationNetworkId: SupportedNetworkId.Shimmer,
     }
     setSendFlowParameters(sendFlowParameters)
 
     const outputParams = getOutputParameters(sendFlowParameters)
-    const preparedOutput = await shimmerClaimingAccount?.prepareOutput(outputParams, DEFAULT_TRANSACTION_OPTIONS)
+    const preparedOutput = await shimmerClaimingAccount?.prepareOutput(
+        outputParams,
+        getTransactionOptions(recipientAddress)
+    )
 
     const claimingTransaction = await shimmerClaimingAccount?.sendOutputs([preparedOutput])
 

@@ -10,15 +10,11 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { EvmTransactionData } from '@core/layer-2/types'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
-    import {
-        AssetType,
-        calculateEstimatedGasFeeFromTransactionData,
-        calculateMaxGasFeeFromTransactionData,
-    } from '@core/layer-2'
+    import { calculateEstimatedGasFeeFromTransactionData, calculateMaxGasFeeFromTransactionData } from '@core/layer-2'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
     import { TokenTransferData } from '@core/wallet'
-    import { INft } from '@core/nfts'
+    import { Nft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import DappDataBanner from '@components/DappDataBanner.svelte'
     import { onMount } from 'svelte'
@@ -27,6 +23,8 @@
     import { truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
     import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
+    import { ActivityType } from '@core/activity'
+    import { BASE_TOKEN_ID } from '@core/token/constants'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -39,35 +37,38 @@
     const { id } = chain.getConfiguration()
     $: localeKey = signAndSend ? (isSmartContractCall ? 'smartContractCall' : 'sendTransaction') : 'signTransaction'
 
-    let nft: INft | undefined
+    let nft: Nft | undefined
     let tokenTransfer: TokenTransferData | undefined
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false
 
     setTokenTransfer()
     function setTokenTransfer(): void {
-        const { asset } = getTransferInfoFromTransactionData(preparedTransaction, chain) ?? {}
-        switch (asset?.type) {
-            case AssetType.BaseCoin: {
-                baseCoinTransfer = {
-                    token: getTokenFromSelectedAccountTokens(asset.tokenId, id),
-                    rawAmount: asset.rawAmount,
+        const transferInfo = getTransferInfoFromTransactionData(preparedTransaction, chain)
+        switch (transferInfo?.type) {
+            case ActivityType.Basic: {
+                if (transferInfo.tokenId === BASE_TOKEN_ID) {
+                    baseCoinTransfer = {
+                        token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, id),
+                        rawAmount: transferInfo.rawAmount,
+                    }
+                } else {
+                    tokenTransfer = {
+                        token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, id),
+                        rawAmount: transferInfo.rawAmount,
+                    }
                 }
                 break
             }
-            case AssetType.Token: {
-                tokenTransfer = {
-                    token: getTokenFromSelectedAccountTokens(asset.tokenId, id),
-                    rawAmount: asset.rawAmount,
-                }
+            case ActivityType.Nft: {
+                nft = getNftByIdFromAllAccountNfts($selectedAccount.index, transferInfo.nftId)
                 break
             }
-            case AssetType.Nft: {
-                nft = getNftByIdFromAllAccountNfts($selectedAccount.index, asset.nftId)
+            case ActivityType.SmartContract: {
+                isSmartContractCall = true
                 break
             }
             default: {
-                isSmartContractCall = !!preparedTransaction.data
                 break
             }
         }

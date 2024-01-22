@@ -4,6 +4,7 @@ import {
     FoundryActivity,
     GovernanceActivity,
     NftActivity,
+    SmartContractActivity,
     TransactionActivity,
 } from './'
 
@@ -14,3 +15,4 @@ export type Activity =
     | NftActivity
     | GovernanceActivity
     | ConsolidationActivity
+    | SmartContractActivity

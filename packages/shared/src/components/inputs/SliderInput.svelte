@@ -1,12 +1,9 @@
 <script lang="ts">
-    import { formatNumber, parseCurrency } from '@core/i18n'
-
-    export let decimals = 0
     export let disabled = false
     export let id: string | null = null
-    export let max = 100
-    export let min = 0
-    export let value: string
+    export let max: bigint = BigInt(100)
+    export let min: bigint = BigInt(0)
+    export let value: bigint
 
     let container: HTMLElement
     let thumb: HTMLElement
@@ -29,10 +26,6 @@
 
     function onWindowResize(): void {
         elementX = element.getBoundingClientRect().left
-    }
-
-    function setValue(val: number): void {
-        value = formatNumber(val, undefined, decimals > 0 ? decimals : undefined, 0)
     }
 
     function onTrackEvent(event: TouchEvent | MouseEvent): void {
@@ -89,11 +82,9 @@
         let percent = (delta * 100) / (container.clientWidth - 10)
 
         // Limit percent 0 -> 100
-        percent = percent < 0 ? 0 : percent > 100 ? 100 : percent
-
+        percent = percent < 0 ? 0 : percent > 100 ? 100 : Math.floor(percent)
         // Limit value min -> max
-        const val = Math.floor((percent / 100) * (max - min) * 10 ** decimals) / 10 ** decimals + min
-        setValue(val)
+        value = (BigInt(percent) * (max - min)) / BigInt(100) + min
     }
 
     // Handles both dragging of touch/mouse as well as simple one-off click/touches
@@ -123,7 +114,7 @@
 
     // Update progressbar and thumb styles to represent value
     $: if (progressBar && thumb) {
-        let percent = ((parseCurrency(value) - min) * 100) / (max - min)
+        let percent = (Number(value - min) * 100) / Number(max - min)
         percent = Math.max(Math.min(percent, 100), 0)
         const offsetLeft = (container.clientWidth - 10) * (percent / 100) + 5
 
@@ -149,7 +140,7 @@
         role="slider"
         aria-valuemin={min}
         aria-valuemax={max}
-        aria-valuenow={parseCurrency(value)}
+        aria-valuenow={value}
         {id}
         on:mousedown={onTrackEvent}
         on:touchstart={onTrackEvent}

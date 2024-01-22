@@ -2,7 +2,7 @@ import { IAccountState } from '@core/account/interfaces'
 import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices, MarketCurrency } from '@core/market'
 import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
-import { calculateFiatValueFromTokenValueAndMarketPrice } from '@core/market/utils'
+import { calculateFiatValueFromTokenAmountAndMarketPrice } from '@core/market/utils'
 import { NetworkId, EvmNetworkId, getNetwork } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { sortTokens } from '@core/token/utils/sortTokens'
@@ -48,22 +48,22 @@ function getAccountAssetForNetwork(
 ): IAccountTokensPerNetwork {
     const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID)
     const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
-    const baseCoinMarketPrice = baseCoinMarketPrices?.[marketCurrency]
-    const baseCoinTotal = Number(account?.balances?.baseCoin?.total)
-    const baseCoinAvailable = Number(account?.balances?.baseCoin?.available)
+    const baseCoinMarketPrice = String(baseCoinMarketPrices?.[marketCurrency])
+    const baseCoinTotal = account?.balances?.baseCoin?.total
+    const baseCoinAvailable = account?.balances?.baseCoin?.available
 
     const baseCoin: ITokenWithBalance = {
         ...persistedBaseCoin,
         networkId,
         balance: {
             total: baseCoinTotal,
-            totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
+            totalFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
                 baseCoinTotal,
                 persistedBaseCoin.metadata?.decimals,
                 baseCoinMarketPrice
             ),
             available: baseCoinAvailable,
-            availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
+            availableFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
                 baseCoinAvailable,
                 persistedBaseCoin.metadata?.decimals,
                 baseCoinMarketPrice
@@ -81,8 +81,8 @@ function getAccountAssetForNetwork(
                 ...persistedAsset,
                 networkId,
                 balance: {
-                    total: Number(token.total),
-                    available: Number(token.available),
+                    total: token.total,
+                    available: token.available,
                 },
             })
         }
@@ -117,22 +117,20 @@ function getAccountAssetForChain(
         } else if (tokenId === BASE_TOKEN_ID) {
             const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
             const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
-            const baseCoinMarketPrice = baseCoinMarketPrices?.[marketCurrency]
-            const baseCoinTotal = Number(balance)
-            const baseCoinAvailable = Number(balance)
+            const baseCoinMarketPrice = String(baseCoinMarketPrices?.[marketCurrency])
 
             baseCoin = {
                 ...persistedBaseCoin,
                 balance: {
-                    total: baseCoinTotal,
-                    totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                        baseCoinTotal,
+                    total: balance,
+                    totalFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
+                        balance,
                         persistedBaseCoin.metadata?.decimals,
                         baseCoinMarketPrice
                     ),
-                    available: baseCoinAvailable,
-                    availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                        baseCoinAvailable,
+                    available: balance,
+                    availableFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
+                        balance,
                         persistedBaseCoin.metadata?.decimals,
                         baseCoinMarketPrice
                     ),
@@ -143,21 +141,21 @@ function getAccountAssetForChain(
         } else {
             const persistedAsset = getPersistedToken(tokenId)
             const assetMarketPrices = marketCoinPrices?.[get(shimmerEvmAddressToCoinGeckoIdMap)?.[tokenId]]
-            const assetMarketPrice = assetMarketPrices?.[marketCurrency]
+            const assetMarketPrice = String(assetMarketPrices?.[marketCurrency])
 
             if (persistedAsset && persistedAsset?.metadata && isValidToken(persistedAsset.metadata)) {
                 nativeTokens.push({
                     ...persistedAsset,
                     balance: {
-                        total: Number(balance),
-                        totalFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                            Number(balance),
+                        total: balance,
+                        totalFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
+                            balance,
                             persistedAsset.metadata?.decimals,
                             assetMarketPrice
                         ),
-                        available: Number(balance),
-                        availableFiat: calculateFiatValueFromTokenValueAndMarketPrice(
-                            Number(balance),
+                        available: balance,
+                        availableFiat: calculateFiatValueFromTokenAmountAndMarketPrice(
+                            balance,
                             persistedAsset.metadata?.decimals,
                             assetMarketPrice
                         ),

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n'
-    import { getFiatAmountFromTokenValue, getMarketPriceForToken } from '@core/market/actions'
+    import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
     import { SupportedNetworkId, TokenSupply, getActiveNetworkId, getNameFromNetworkId } from '@core/network'
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
@@ -16,22 +16,20 @@
             return '-'
         }
 
-        let tokenSupply: number | undefined
+        let tokenSupply: TokenSupply | '0'
         switch (getActiveNetworkId()) {
             case SupportedNetworkId.Iota:
-                tokenSupply = Number(TokenSupply.Iota)
+                tokenSupply = TokenSupply.Iota
                 break
             case SupportedNetworkId.Shimmer:
-                tokenSupply = Number(TokenSupply.Shimmer)
-                break
             case SupportedNetworkId.Testnet:
-                tokenSupply = Number(TokenSupply.Shimmer)
+                tokenSupply = TokenSupply.Shimmer
                 break
             default:
-                tokenSupply = 0
+                tokenSupply = '0'
         }
 
-        const marketPrice = tokenSupply ? getFiatAmountFromTokenValue(Number(TokenSupply.Testnet), token) : undefined
+        const marketPrice = tokenSupply ? getFiatValueFromTokenAmount(BigInt(tokenSupply), token) : undefined
         return marketPrice ? formatCurrency(marketPrice, $activeProfile.settings.marketCurrency, true) : '-'
     }
 
@@ -41,13 +39,13 @@
     }
 
     function getFormattedMarketPriceForTokenAvailable(token: ITokenWithBalance): string {
-        const marketPrice = getFiatAmountFromTokenValue(token.balance.available, token)
-        return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
+        const marketPrice = getFiatValueFromTokenAmount(BigInt(token.balance.available), token)
+        return marketPrice || marketPrice === '0' ? formatCurrency(marketPrice) : '-'
     }
 
     function getFormattedMarketPriceForTokenTotal(token: ITokenWithBalance): string {
-        const marketPrice = getFiatAmountFromTokenValue(token.balance.total, token)
-        return marketPrice || marketPrice === 0 ? formatCurrency(marketPrice) : '-'
+        const marketPrice = getFiatValueFromTokenAmount(BigInt(token.balance.total), token)
+        return marketPrice || marketPrice === '0' ? formatCurrency(marketPrice) : '-'
     }
 
     function onTokenRowClick(): void {

@@ -147,6 +147,7 @@ const mainPlugins = [
         'process.env.STAGE': JSON.stringify(stage),
         'process.env.APP_PROTOCOL': JSON.stringify(appProtocol),
         'process.env.AMPLITUDE_API_KEY': JSON.stringify(process.env.AMPLITUDE_API_KEY),
+        'process.env.TRANSAK_API_KEY': JSON.stringify(process.env.TRANSAK_API_KEY),
     }),
     new CopyPlugin({
         patterns: [
@@ -271,6 +272,7 @@ const webpackConfig: Configuration[] = [
             'build/preload': ['./lib/electron/preloads/preload.ts'],
             'build/about.preload': ['./lib/electron/preloads/about.preload.ts'],
             'build/error.preload': ['./lib/electron/preloads/error.preload.ts'],
+            'build/transak.preload': ['./lib/electron/preloads/transak.preload.ts'],
         },
         resolve,
         output,

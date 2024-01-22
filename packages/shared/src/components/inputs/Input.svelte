@@ -103,11 +103,8 @@
             if (pasteVal?.indexOf('e') >= 0 || pasteVal?.indexOf('-') >= 0) {
                 event.preventDefault()
             } else if (float) {
-                const val = parseCurrency(pasteVal)
-                // Discard any numbers we can't parse as floats
-                if (Number.isNaN(val)) {
-                    event.preventDefault()
-                } else if (maxDecimals !== undefined) {
+                const val = Number(parseCurrency(pasteVal))
+                if (maxDecimals !== undefined) {
                     value = formatNumber(val, undefined, maxDecimals, 0)
                     event.preventDefault()
                 }

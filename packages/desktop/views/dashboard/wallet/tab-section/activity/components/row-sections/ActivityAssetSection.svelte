@@ -15,14 +15,14 @@
     import { getTimeDifference } from '@core/utils/time'
     import { time } from '@core/app/stores'
     import { selectedAccountNfts } from '@core/nfts/stores'
-    import { INft } from '@core/nfts/interfaces'
+    import { Nft } from '@core/nfts/interfaces'
 
     export let activity: Activity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
-    let nft: INft | undefined
+    let nft: Nft | undefined
     $: $selectedAccountNfts,
         (nft =
             activity.type === ActivityType.Nft
@@ -37,8 +37,11 @@
             title = token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)
             subtitle = getUnitFromTokenMetadata(token.metadata)
         } else if (_activity.type === ActivityType.Nft) {
-            title = nft?.metadata?.name ? truncateString(nft.metadata.name, 13, 0) : 'NFT'
+            title = nft?.name ? truncateString(nft.name, 13, 0) : 'NFT'
             subtitle = nft ? truncateString(nft.id, 6, 7) : ''
+        } else if (_activity.type === ActivityType.SmartContract) {
+            title = localize('general.smartContract')
+            subtitle = _activity.methodName
         } else if (_activity.type === ActivityType.Alias) {
             title = 'Alias'
             subtitle = truncateString(_activity.aliasId, 6, 7)
@@ -107,6 +110,13 @@
             <TokenAvatar {token} hideNetworkBadge size="lg" />
         {:else if activity.type === ActivityType.Nft}
             <NftAvatar {nft} size="lg" shape="square" />
+        {:else if activity.type === ActivityType.SmartContract}
+            <Avatar
+                icon={IconName.FileLock}
+                size="lg"
+                textColor="brand"
+                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+            />
         {:else if activity.type === ActivityType.Alias}
             <Avatar
                 icon={IconName.Alias}

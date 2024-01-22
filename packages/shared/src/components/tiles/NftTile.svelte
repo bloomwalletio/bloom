@@ -1,10 +1,10 @@
 <script lang="ts">
     import { NftAvatar } from '@ui'
     import { Text, Tile } from '@bloomwalletio/ui'
-    import { INft } from '@core/nfts'
+    import { Nft } from '@core/nfts'
     import { truncateString } from '@core/utils'
 
-    export let nft: INft
+    export let nft: Nft
     export let onClick: (() => unknown) | undefined = undefined
     export let selected = false
     export let fullWidth = true
@@ -18,7 +18,7 @@
                 {nft.name}
             </Text>
             <Text fontWeight="medium" textColor="secondary" truncate>
-                {fullWidth ? nft.address : truncateString(nft.address, 7, 7)}
+                {fullWidth ? nft.id : truncateString(nft.id, 7, 7)}
             </Text>
         </div>
     </div>

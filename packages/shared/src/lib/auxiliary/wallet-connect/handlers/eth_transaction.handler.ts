@@ -2,7 +2,7 @@ import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popu
 import { IChain } from '@core/network'
 import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-import { buildEvmTransactionData } from '@core/layer-2/actions'
+import { buildEvmTransactionData } from '@core/layer-2/utils'
 import { EvmTransactionData } from '@core/layer-2'
 import { switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 import { getSdkError } from '@walletconnect/utils'
@@ -32,7 +32,7 @@ export async function handleEthTransaction(
                 chain,
                 from.toString(),
                 to?.toString(),
-                value?.toString() ?? '0',
+                BigInt(value?.toString() ?? '0'),
                 data?.toString()
             )
             evmTransactionData.nonce = nonce

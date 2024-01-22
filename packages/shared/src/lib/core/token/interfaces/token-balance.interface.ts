@@ -1,6 +1,6 @@
 export interface ITokenBalance {
-    total: number
-    totalFiat?: number
-    available?: number
-    availableFiat?: number
+    total: bigint
+    totalFiat?: string
+    available?: bigint
+    availableFiat?: string
 }

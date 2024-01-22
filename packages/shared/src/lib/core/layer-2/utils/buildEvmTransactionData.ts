@@ -9,7 +9,7 @@ export async function buildEvmTransactionData(
     chain: IChain,
     originAddress: string,
     destinationAddress: string,
-    amount: string,
+    amount: bigint,
     data: string | undefined
 ): Promise<EvmTransactionData> {
     const provider = chain.getProvider()
@@ -18,7 +18,6 @@ export async function buildEvmTransactionData(
     }
 
     const nonce = await provider.eth.getTransactionCount(originAddress)
-
     // Specified in wei = 1_000_000_000_000
     const gasPrice = await provider.eth.getGasPrice()
     const hexGasPrice = Converter.decimalToHex(Number(gasPrice), true)
@@ -26,7 +25,7 @@ export async function buildEvmTransactionData(
         from: originAddress,
         to: destinationAddress,
         data,
-        value: amount,
+        value: amount.toString(),
     })
     const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
 
@@ -36,6 +35,5 @@ export async function buildEvmTransactionData(
     // Shimmer has 6 decimal places, so the difference is 12
     // We add 12 additional zeros to convert the glow to wei
     const value = getEvmTransactionValueFromAmount(amount)
-
     return { nonce, gasPrice: hexGasPrice, estimatedGas, gasLimit, to, value, data }
 }

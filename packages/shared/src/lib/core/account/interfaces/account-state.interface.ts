@@ -8,5 +8,5 @@ export interface IAccountState extends IAccount, IPersistedAccountData {
     isTransferring: boolean
     hasVotingPowerTransactionInProgress: boolean
     hasVotingTransactionInProgress: boolean
-    votingPower: string
+    votingPower: bigint
 }

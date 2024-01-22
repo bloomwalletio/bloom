@@ -485,6 +485,7 @@
                         "reconnectHint": "Du hast dich bereits mit dieser dApp verbunden.",
                         "insecure": "Die URL für diese dApp kann nicht verifiziert werden. Ihre Verbindung zu dieser Anwendung ist möglicherweise nicht sicher.",
                         "unsupportedNetworks": "Diese dApp ist nicht kompatibel mit Bloom, da sie auf einem nicht unterstützten Netzwerk läuft.",
+                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "Diese dApp ist nicht vollständig mit Bloom kompatibel. Einige Methoden oder Events werden nicht unterstützt.",
                         "supportedOnOtherProfile": "Diese dApp läuft in einem unterstützten Netzwerk, ist aber mit diesem Profil nicht zugänglich. Bitte verwenden Sie ein Profil, das mit dem benötigten Netzwerk verbunden ist.",
                         "acceptInsecureConnection": "Ich verstehe, dass diese dApp möglicherweise unsicher ist und trotzdem eine Verbindung aufnehmen möchte."
@@ -507,7 +508,8 @@
                             "signData": "Anfrage zur Signierung von Daten",
                             "signTransaction": "Anfrage zur Signierung einer Transaktion",
                             "sendTransaction": "Anfrage zum Senden einer Transaktion",
-                            "empty": "Mindestens eine Berechtigung muss ausgewählt sein"
+                            "empty": "Mindestens eine Berechtigung muss ausgewählt sein",
+                            "noPermissionsRequired": "No permissions required to use this app"
                         },
                         "networks": {
                             "step": "Netzwerke",
@@ -774,8 +776,14 @@
             "body": "Bist du sicher, dass du {url} als primäre Node löschen möchtest?"
         },
         "confirmAssetTracking": {
-            "title": "Neuen Token hinzufügen",
-            "description": "\"{dappName}\" möchte \"{assetName}\" zu deiner Wallet hinzufügen."
+            "ERC721": {
+                "title": "Add new NFT",
+                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+            },
+            "ERC20": {
+                "title": "Add new token",
+                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+            }
         },
         "node": {
             "titleAdd": "Node hinzufügen",
@@ -928,6 +936,11 @@
                         "Pending": "Senden an {subject}",
                         "Confirmed": "An {subject} gesendet",
                         "Conflicting": "Senden fehlgeschlagen"
+                    },
+                    "genesis": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
                     }
                 },
                 "internal": {
@@ -1493,6 +1506,7 @@
         "no": "Nein",
         "tip": "Tipp",
         "verified": "Verifiziert",
+        "methodName": "Method name",
         "data": "Daten",
         "success": "Success"
     },
@@ -1664,6 +1678,9 @@
         "mintNft": {
             "success": "NFT-Minting-Transaktion gesendet"
         },
+        "transaction": {
+            "success": "Transaction sent"
+        },
         "burnNft": {
             "success": "NFT-Verbrenn-Transaktion gesendet"
         },
@@ -1738,6 +1755,7 @@
         "account": {
             "length": "Der Name deiner Wallet darf nicht länger als {length, plural, one {1 Zeichen} other {# Zeichen}} sein.",
             "emptyName": "Ein Profilname muss mindestens 1 Zeichen enthalten.",
+            "colorRequired": "A color is required.",
             "duplicate": "Eine Wallet mit diesem Namen existiert bereits.",
             "tilde": "Ein Profilname darf nicht mit dem Zeichen '~' beginnen.",
             "control": "Ein Profilname darf kein Kontrollzeichen enthalten.",
@@ -1857,9 +1875,9 @@
                 "short": "Url nicht unterstützt",
                 "long": "Url-Schema nicht unterstützt"
             },
-            "unsupportedFileType": {
-                "short": "Nicht unterstützter Medientyp",
-                "long": "Der Medientyp wird derzeit nicht unterstützt"
+            "unsupportedMediaType": {
+                "short": "Unsupported media type",
+                "long": "The media type is not currently supported"
             },
             "notMatchingFileTypes": {
                 "short": "Laden blockiert",
@@ -1946,6 +1964,9 @@
                 "tag": "Ein kurzes optionales Datenfeld. Tag-Gruppen von Transaktionen können die Suche erleichtern.",
                 "transactionFee": "Die Transaktionsgebühr enthält die Gasgebühr für die Ausführung sowie das Storage Deposit."
             },
+            "genesis": {
+                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
+            },
             "nftMetadata": {
                 "type": "Der MimeType des NFT, z.B. image/png.",
                 "issuerName": "Der Name des Erstellers"
@@ -1991,7 +2012,8 @@
         "governance": "Governance",
         "developer": "Entwickler",
         "tokens": "Token",
-        "settings": "Einstellungen"
+        "settings": "Einstellungen",
+        "buySell": "Buy & Sell"
     },
     "pills": {
         "asyncStatus": {

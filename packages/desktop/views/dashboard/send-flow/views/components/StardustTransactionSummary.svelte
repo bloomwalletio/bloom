@@ -3,7 +3,7 @@
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
     import { getActiveNetworkId } from '@core/network'
-    import { INft } from '@core/nfts/interfaces'
+    import { Nft } from '@core/nfts/interfaces'
     import { selectedAccountTokens } from '@core/token/stores'
     import { TimePeriod } from '@core/utils/enums'
     import { Output, SendFlowParameters, SendFlowType, TokenTransferData, validateTag } from '@core/wallet'
@@ -39,7 +39,7 @@
         disableToggleGift,
     } = sendFlowParameters
 
-    let storageDeposit: number
+    let storageDeposit: bigint
     let tagInputError = ''
 
     let selectedExpirationPeriod: TimePeriod | undefined = expirationDate ? TimePeriod.Custom : undefined
@@ -79,14 +79,14 @@
         output: Output,
         sendFlowParameters: SendFlowParameters
     ): {
-        nft?: INft
+        nft?: Nft
         tokenTransfer?: TokenTransferData
         baseCoinTransfer?: TokenTransferData
     } {
         const baseCoin = $selectedAccountTokens?.[getActiveNetworkId()].baseCoin
         const baseCoinTransfer = {
             token: baseCoin,
-            rawAmount: String(Number(output.amount) - storageDeposit),
+            rawAmount: BigInt(output.amount) - storageDeposit,
         }
 
         switch (sendFlowParameters.type) {

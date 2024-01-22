@@ -28,7 +28,7 @@ export function generateNftBalanceChangeActivity(
 
     const baseTokenTransfer = {
         tokenId: BASE_TOKEN_ID,
-        rawAmount: '0',
+        rawAmount: BigInt(0),
     }
 
     return {

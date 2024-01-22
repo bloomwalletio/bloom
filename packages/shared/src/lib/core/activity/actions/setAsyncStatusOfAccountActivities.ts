@@ -1,5 +1,5 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 import { ActivityAsyncStatus, ActivityDirection, ActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
@@ -31,7 +31,7 @@ export function setAsyncStatusOfAccountActivities(time: Date): void {
                         activity.asyncData.asyncStatus === ActivityAsyncStatus.Expired &&
                         activity.direction === ActivityDirection.Outgoing
                     ) {
-                        updateNftInAllAccountNfts(accountIndex, activity.nftId, { isSpendable: true })
+                        updateNftInAllAccountNftsForAccount(accountIndex, activity.nftId, { isSpendable: true })
                     }
                 }
             }

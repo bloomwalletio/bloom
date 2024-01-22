@@ -117,17 +117,17 @@
     }
 
     async function getAccountBalanceFromAccount(account: IAccount): Promise<IAccountBalance> {
-        const alias = (await account.getMetadata())?.alias
+        const alias = account.getMetadata()?.alias
 
         const balance = await account.getBalance()
         const baseToken = network.baseToken
-        const baseCoinBalance = Number(balance?.baseCoin?.total) ?? 0
+        const baseCoinBalance = balance?.baseCoin?.total ?? BigInt(0)
         const total = formatTokenAmountBestMatch(baseCoinBalance, baseToken)
 
         return { alias, total }
     }
 
-    function checkOnboardingProfileAuth(callback) {
+    function checkOnboardingProfileAuth(callback: () => Promise<unknown>): Promise<unknown> {
         if (type === ProfileType.Software) {
             return checkOrUnlockStronghold(callback)
         } else {

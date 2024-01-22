@@ -1,10 +1,9 @@
-import { WriteStream, ReadStream } from '@iota/util.js'
-import BigInteger from 'big-integer'
+import { ReadStream, WriteStream } from '@iota/util.js'
 import { Buffer } from 'buffer'
 
 export class SpecialStream extends WriteStream {
-    writeUInt64SpecialEncoding(name: string, value: BigInteger.BigInteger): void {
-        const encodedValue = size64Encode(BigInt(value.toString()))
+    writeUInt64SpecialEncoding(name: string, value: bigint): void {
+        const encodedValue = size64Encode(value)
         this.writeBytes(name, encodedValue.length, encodedValue)
     }
 

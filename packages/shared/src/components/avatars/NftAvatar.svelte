@@ -1,13 +1,13 @@
 <script lang="ts">
     import { Avatar, avatarSize } from '@bloomwalletio/ui'
-    import { INft } from '@core/nfts'
+    import { Nft } from '@core/nfts'
     import { MediaIcon, NftMedia } from '@ui'
 
-    export let nft: INft
+    export let nft: Nft
     export let size: (typeof avatarSize)[number]
     export let shape: 'circle' | 'squircle' | 'square' = 'square'
 
-    $: nftType = nft?.metadata?.type
+    $: nftType = nft?.type
     $: parentType = nftType?.split('/')?.[0]
 </script>
 

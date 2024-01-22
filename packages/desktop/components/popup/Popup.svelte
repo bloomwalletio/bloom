@@ -2,7 +2,7 @@
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
     import { CloseButton } from '@bloomwalletio/ui'
-    import { closePopup, PopupComponentMap, PopupId } from '@desktop/auxiliary/popup'
+    import { closePopup, PopupComponentMap, PopupId, profileAuthPopup } from '@desktop/auxiliary/popup'
     import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
 
     import { IS_WINDOWS } from '@core/app/constants'
@@ -146,6 +146,9 @@
     }
 
     function tryClosePopupOnClickOutside(): void {
+        if ($profileAuthPopup.active) {
+            return
+        }
         if (!preventClose) {
             if (confirmClickOutside) {
                 confirmationDialog?.openDialog()
@@ -194,7 +197,9 @@
     class:overflow-hidden={overflow}
     class="flex items-center justify-center fixed {IS_WINDOWS
         ? 'top-7'
-        : 'top-0'} left-0 w-screen h-full z-30 bg-neutral-6/75"
+        : 'top-0'} left-0 w-screen h-full z-30 bg-neutral-6/75
+        {$profileAuthPopup.active && 'opacity-0 pointer-events-none'}
+        "
 >
     <button type="button" tabindex="0" on:focus={onFocusFirst} />
     <popup

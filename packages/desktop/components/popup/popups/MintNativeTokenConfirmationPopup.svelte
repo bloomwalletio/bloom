@@ -23,8 +23,8 @@
         if ($mintTokenDetails && $selectedAccount && metadata) {
             const { totalSupply, circulatingSupply, aliasId } = $mintTokenDetails
             const foundryOutputParams = await buildFoundryOutputBuilderParams(
-                Number(totalSupply),
-                Number(circulatingSupply),
+                totalSupply,
+                circulatingSupply,
                 metadata,
                 aliasId
             )
@@ -53,11 +53,7 @@
     async function mintAction(): Promise<void> {
         try {
             if ($mintTokenDetails && metadata) {
-                await mintNativeToken(
-                    Number($mintTokenDetails.totalSupply),
-                    Number($mintTokenDetails.circulatingSupply),
-                    metadata
-                )
+                await mintNativeToken($mintTokenDetails.totalSupply, $mintTokenDetails.circulatingSupply, metadata)
                 closePopup()
             } else {
                 throw new Error()

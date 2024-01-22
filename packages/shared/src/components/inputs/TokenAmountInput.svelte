@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { formatCurrency, getDecimalSeparator } from '@core/i18n'
-    import { getFiatAmountFromTokenValue } from '@core/market/actions'
+    import { formatCurrency, getDecimalSeparator, localize } from '@core/i18n'
+    import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import {
         ITokenWithBalance,
         convertToRawAmount,
-        formatTokenAmountDefault,
+        formatTokenAmountBestMatch,
         getMaxDecimalsFromTokenMetadata,
         validateTokenAmount,
     } from '@core/token'
@@ -14,13 +14,11 @@
 
     export let token: ITokenWithBalance | undefined =
         $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
-    export let rawAmount: string | undefined = undefined
+    export let rawAmount: bigint | undefined = undefined
     export let unit: string | undefined = undefined
-    export let availableBalance: number
+    export let availableBalance: bigint
     export let inputtedAmount: string | undefined =
-        rawAmount && token?.metadata
-            ? formatTokenAmountDefault(Number(rawAmount), token.metadata, unit, false)
-            : undefined
+        rawAmount && token?.metadata ? formatTokenAmountBestMatch(rawAmount, token.metadata, false, false) : undefined
 
     let amountInputElement: HTMLInputElement | undefined
     let error: string | undefined
@@ -34,9 +32,9 @@
         (fontSize = getFontSizeForInputLength()),
         (maxLength = getMaxAmountOfDigits())
     $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
-    $: bigAmount = inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : 0
-    $: fiatAmount = token ? getFiatAmountFromTokenValue(bigAmount, token) : undefined
-    $: rawAmount = bigAmount?.toString()
+    $: rawAmount =
+        inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : BigInt(0)
+    $: fiatAmount = token ? getFiatValueFromTokenAmount(rawAmount, token) : undefined
 
     function getInputLength(): number {
         const length = inputtedAmount?.length || 1
@@ -59,7 +57,8 @@
         const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
 
         const integerLengthOfBalance =
-            formatTokenAmountDefault(availableBalance, metadata).split(decimalSeparator)?.[0]?.length ?? 0
+            formatTokenAmountBestMatch(availableBalance, metadata, false, false).split(decimalSeparator)?.[0]?.length ??
+            0
 
         return (
             allowedDecimalAmount +
@@ -81,15 +80,13 @@
 
     export async function validate(allowZeroOrNull = false): Promise<void> {
         if (inputtedAmount === undefined || token === undefined || unit === undefined) {
-            return Promise.reject()
+            throw new Error(localize('error.send.amountInvalidFormat'))
         }
         try {
             rawAmount = await validateTokenAmount(inputtedAmount, token, unit, allowZeroOrNull)
-            return Promise.resolve()
         } catch (err) {
             error = err as string
-            console.error(error)
-            return Promise.reject()
+            throw new Error(error)
         }
     }
 </script>

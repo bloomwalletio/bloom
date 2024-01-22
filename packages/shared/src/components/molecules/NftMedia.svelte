@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { INft, NFT_MEDIA_FILE_NAME } from '@core/nfts'
+    import { Nft, NFT_MEDIA_FILE_NAME } from '@core/nfts'
     import { DEV_STORAGE_DIRECTORY } from '@core/profile/constants'
     import { getStorageDirectoryOfProfiles } from '@core/profile/utils'
     import features from '@features/features'
     import { MediaDisplay } from '@ui'
     import { onMount } from 'svelte'
 
-    export let nft: INft
+    export let nft: Nft
     export let autoplay: boolean = false
     export let controls: boolean = false
     export let loop: boolean = false
@@ -17,10 +17,18 @@
     let hasMounted: boolean = false
     let basePath: string
 
-    $: src =
-        features?.collectibles?.useCaching?.enabled && useCaching
-            ? `${basePath}/${nft.filePath}/${NFT_MEDIA_FILE_NAME}`
-            : nft.downloadUrl
+    $: nft, basePath, setSource()
+
+    let source: string | undefined = undefined
+    function setSource(): void {
+        if (features?.collectibles?.useCaching?.enabled && useCaching) {
+            source = nft.downloadMetadata?.filePath
+                ? `${basePath}/${nft.downloadMetadata?.filePath}/${NFT_MEDIA_FILE_NAME}`
+                : undefined
+        } else {
+            source = nft.downloadMetadata?.downloadUrl
+        }
+    }
 
     onMount(async () => {
         if (process.env.NODE_ENV === 'development') {
@@ -32,11 +40,11 @@
     })
 </script>
 
-{#if hasMounted && nft && nft.composedUrl && nft.metadata && (!useCaching || nft.downloadMetadata?.isLoaded)}
+{#if hasMounted && nft && nft.composedUrl && nft.metadata && source && (!useCaching || nft.isLoaded)}
     <MediaDisplay
-        {src}
+        src={source}
         expectedType={nft.metadata.type}
-        isLoaded={nft.downloadMetadata.isLoaded}
+        isLoaded={nft.isLoaded}
         {autoplay}
         {controls}
         {loop}

@@ -6,16 +6,16 @@ import { AssetType } from '../enums'
 import { TransferredAsset } from '../types'
 import { outputHexBytes } from '@core/wallet/api'
 
-export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<number> {
+export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: SendFlowParameters): Promise<bigint> {
     const { destinationNetworkId } = sendFlowParameters ?? {}
 
     if (!destinationNetworkId || (destinationNetworkId && isStardustNetwork(destinationNetworkId))) {
-        return 0
+        return BigInt(0)
     }
 
     const transferredAsset = getTransferredAsset(sendFlowParameters)
     if (!transferredAsset) {
-        return 0
+        return BigInt(0)
     }
 
     try {
@@ -23,14 +23,14 @@ export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: 
         return gasEstimate
     } catch (err) {
         console.error(err)
-        return FALLBACK_ESTIMATED_GAS[sendFlowParameters.type]
+        return BigInt(FALLBACK_ESTIMATED_GAS[sendFlowParameters.type])
     }
 }
 
 async function getGasEstimateForIscpCall(
     networkId: NetworkId,
     sendFlowParameters: SendFlowParameters
-): Promise<number> {
+): Promise<bigint> {
     const chain = getNetwork()?.getChain(networkId)
     if (!chain) {
         return Promise.reject('Invalid chain')
@@ -51,7 +51,7 @@ function getTransferredAsset(sendFlowParameters: SendFlowParameters): Transferre
             : undefined
     } else if (sendFlowParameters.type === SendFlowType.TokenTransfer) {
         const token = sendFlowParameters.tokenTransfer?.token
-        const amount = sendFlowParameters.tokenTransfer?.rawAmount ?? '0'
+        const amount = sendFlowParameters.tokenTransfer?.rawAmount ?? BigInt(0)
 
         return token
             ? {
@@ -62,7 +62,7 @@ function getTransferredAsset(sendFlowParameters: SendFlowParameters): Transferre
             : undefined
     } else {
         const token = sendFlowParameters.baseCoinTransfer?.token
-        const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? '0'
+        const amount = sendFlowParameters.baseCoinTransfer?.rawAmount ?? BigInt(0)
 
         return token
             ? {

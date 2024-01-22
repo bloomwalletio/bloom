@@ -1,19 +1,18 @@
 import { NetworkId } from '@core/network/types'
 import { NftStandard } from '../enums'
-import { IErc721ContractMetadata, IErc721TokenMetadata } from '../interfaces'
+import { IDownloadMetadata, IErc721ContractMetadata, IErc721TokenMetadata, IIrc27Metadata } from '../interfaces'
 
 export interface IBasePersistedNft {
     standard: NftStandard
     ownerAddress: string
-    contentType?: string
-    contentLength?: string
-    responseCode?: number
-    downloadUrl?: string
-    error?: { message: string }
+    downloadMetadata?: IDownloadMetadata
+    composedUrl?: string
 }
 
 export interface IPersistedIrc27Nft extends IBasePersistedNft {
     standard: NftStandard.Irc27
+    rawMetadata?: string
+    metadata?: IIrc27Metadata
 }
 
 export interface IPersistedErc721Nft extends IBasePersistedNft {
@@ -21,5 +20,6 @@ export interface IPersistedErc721Nft extends IBasePersistedNft {
     networkId: NetworkId
     contractMetadata: IErc721ContractMetadata
     tokenId?: string
-    tokenMetadata?: IErc721TokenMetadata
+    uri: string
+    metadata?: IErc721TokenMetadata
 }

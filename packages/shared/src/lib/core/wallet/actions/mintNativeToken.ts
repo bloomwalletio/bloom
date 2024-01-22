@@ -4,18 +4,17 @@ import { processAndAddToActivities } from '@core/activity/utils'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
 import { CreateNativeTokenParams } from '@iota/sdk/out/types'
-import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
 import { resetMintTokenDetails } from '../stores'
 import { buildPersistedTokenFromMetadata } from '@core/token/utils'
 import { addPersistedToken } from '@core/token/stores'
 import { IIrc30Metadata } from '@core/token/interfaces'
 import { VerifiedStatus } from '@core/token/enums'
-import { sendPreparedTransaction } from '@core/wallet/utils'
+import { getTransactionOptions, sendPreparedTransaction } from '../utils'
 import { getActiveNetworkId } from '@core/network'
 
 export async function mintNativeToken(
-    maximumSupply: number,
-    circulatingSupply: number,
+    maximumSupply: bigint,
+    circulatingSupply: bigint,
     metadata: IIrc30Metadata
 ): Promise<void> {
     try {
@@ -23,13 +22,15 @@ export async function mintNativeToken(
         const networkId = getActiveNetworkId()
 
         updateSelectedAccount({ isTransferring: true })
-
         const params: CreateNativeTokenParams = {
-            maximumSupply: BigInt(maximumSupply),
-            circulatingSupply: BigInt(circulatingSupply),
+            maximumSupply,
+            circulatingSupply,
             foundryMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
         }
-        const preparedTransaction = await account.prepareCreateNativeToken(params, DEFAULT_TRANSACTION_OPTIONS)
+        const preparedTransaction = await account.prepareCreateNativeToken(
+            params,
+            getTransactionOptions(account.depositAddress)
+        )
         const transaction = await sendPreparedTransaction(preparedTransaction)
 
         const persistedAsset = buildPersistedTokenFromMetadata(preparedTransaction._tokenId, metadata, {

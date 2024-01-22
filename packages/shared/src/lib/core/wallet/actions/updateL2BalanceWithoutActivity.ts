@@ -4,7 +4,7 @@ import { updateLayer2AccountBalanceForTokenOnChain } from '@core/layer-2/stores'
 import { NetworkId } from '@core/network/types'
 
 export async function updateL2BalanceWithoutActivity(
-    rawAmount: number,
+    rawAmount: bigint,
     tokenId: string,
     account: IAccountState,
     networkId: NetworkId

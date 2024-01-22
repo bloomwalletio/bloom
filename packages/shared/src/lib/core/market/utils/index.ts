@@ -1,2 +1,2 @@
-export * from './calculateFiatValueFromTokenValueAndMarketPrice'
+export * from './calculateFiatValueFromTokenAmountAndMarketPrice'
 export * from './getImageUrlFromToken'

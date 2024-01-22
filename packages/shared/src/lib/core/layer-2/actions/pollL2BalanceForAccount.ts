@@ -11,7 +11,7 @@ export function pollL2BalanceForAccount(account: IAccountState): void {
     try {
         clearL2TokensPoll()
         checkForUntrackedTokens(account)
-        checkForUntrackedNfts(account)
+        void checkForUntrackedNfts(account)
         fetchL2BalanceForAccount(account)
         pollInterval = window.setInterval(() => {
             fetchL2BalanceForAccount(account)

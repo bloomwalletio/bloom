@@ -13,29 +13,33 @@ import {
     UtilityProcess,
 } from 'electron'
 import { WebPreferences } from 'electron/main'
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
 
 import features from '@features/features'
 
 import { LedgerApiMethod } from '@core/ledger/enums'
 
 import { windows } from '../constants/windows.constant'
+import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 import AutoUpdateManager from '../managers/auto-update.manager'
 import KeychainManager from '../managers/keychain.manager'
 import NftDownloadManager from '../managers/nft-download.manager'
+import TransakManager from '../managers/transak.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
 import { initialiseAnalytics } from '../utils/analytics.utils'
 import { checkWindowArgsForDeepLinkRequest, initialiseDeepLinks } from '../utils/deep-link.utils'
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
-import { getMachineId } from '../utils/os.utils'
-import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
+import { getMachineId } from '../utils/os.utils'
+
+export let appIsReady = false
 
 initialiseAnalytics()
 initialiseDeepLinks()
+
 /*
  * NOTE: Ignored because defined by Webpack.
  */
@@ -280,6 +284,7 @@ void app.whenReady().then(() => {
     // Doesn't open & close a new window when the app is already open
     if (isFirstInstance) {
         createMainWindow()
+        appIsReady = true
     }
 })
 
@@ -337,16 +342,21 @@ ipcMain.on(LedgerApiMethod.SignMessage, (_e, messageHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignMessage, payload: [messageHex, bip32Path] })
 })
 
-export function getOrInitWindow(windowName: string): BrowserWindow {
+export function getOrInitWindow(windowName: string, ...args: unknown[]): BrowserWindow {
     if (!windows[windowName]) {
-        if (windowName === 'main') {
-            return createMainWindow()
-        }
-        if (windowName === 'about') {
-            return openAboutWindow()
-        }
-        if (windowName === 'error') {
-            return openErrorWindow()
+        switch (windowName) {
+            case 'main':
+                return createMainWindow()
+            case 'about':
+                return openAboutWindow()
+            case 'error':
+                return openErrorWindow()
+            case 'transak':
+                return transakManager?.openWindow(
+                    args[0] as { currency: string; address: string; service: 'BUY' | 'SELL' }
+                )
+            default:
+                throw Error(`Window ${windowName} not found`)
         }
     }
     return windows[windowName]
@@ -494,6 +504,32 @@ if (!isFirstInstance) {
 ipcMain.on('notification-activated', (ev, contextData) => {
     windows.main.focus()
     windows.main.webContents.send('notification-activated', contextData)
+})
+
+// Transak
+
+const transakManager = features?.buySell?.enabled ? new TransakManager() : null
+ipcMain.handle('open-transak', (_, data) => {
+    getOrInitWindow('transak', data)
+})
+
+ipcMain.handle('close-transak', () => {
+    transakManager?.closeWindow()
+})
+
+ipcMain.handle('is-sidebar-expanded', (_, expanded) => {
+    if (transakManager) {
+        transakManager.setSidebarExpanded(expanded)
+        transakManager.positionWindow()
+    }
+})
+
+ipcMain.handle('minimize-transak', () => {
+    transakManager?.minimizeWindow()
+})
+
+ipcMain.handle('restore-transak', () => {
+    transakManager?.restoreWindow()
 })
 
 /**

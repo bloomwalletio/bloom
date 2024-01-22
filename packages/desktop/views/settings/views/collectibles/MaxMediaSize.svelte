@@ -1,9 +1,8 @@
 <script lang="ts">
     import { IOption, SelectInput } from '@bloomwalletio/ui'
-    import { selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { DownloadWarningType, INft } from '@core/nfts'
+    import { DownloadWarningType, Nft } from '@core/nfts'
     import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
     import { persistedNftForActiveProfile, selectedAccountNfts } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
@@ -36,8 +35,8 @@
     }
 
     async function deleteOrDownloadNfts(maxMediaSizeInBytes: number): Promise<void> {
-        const nftsToDownload: INft[] = []
-        const nftsToDelete: INft[] = []
+        const nftsToDownload: Nft[] = []
+        const nftsToDelete: Nft[] = []
 
         Object.keys($persistedNftForActiveProfile ?? {}).forEach((nftId) => {
             const nft = $selectedAccountNfts.find((nft) => nft.id === nftId)
@@ -49,7 +48,7 @@
                 nftsToDownload.push(nft)
             }
 
-            const nftSizeInBytes = Number($persistedNftForActiveProfile?.[nftId]?.contentLength)
+            const nftSizeInBytes = Number($persistedNftForActiveProfile?.[nftId]?.downloadMetadata.contentLength)
 
             if (nftSizeInBytes > maxMediaSizeInBytes) {
                 nftsToDelete.push(nft)
@@ -58,12 +57,17 @@
             }
         })
 
-        addNftsToDownloadQueue($selectedAccountIndex, nftsToDownload, true)
+        await addNftsToDownloadQueue(nftsToDownload, true)
         await Promise.all(
             nftsToDelete.map(async (nft) => {
-                await Platform.deleteFile(nft.filePath)
-                updateNftInAllAccountNfts($selectedAccountIndex, nft.id, {
-                    downloadMetadata: { isLoaded: false, warning: { type: DownloadWarningType.TooLargeFile } },
+                await Platform.deleteFile(nft.downloadMetadata?.filePath)
+                updateNftInAllAccountNfts(nft.id, {
+                    isLoaded: false,
+                    downloadMetadata: {
+                        ...nft.downloadMetadata,
+                        error: undefined,
+                        warning: { type: DownloadWarningType.TooLargeFile },
+                    },
                 })
             })
         )

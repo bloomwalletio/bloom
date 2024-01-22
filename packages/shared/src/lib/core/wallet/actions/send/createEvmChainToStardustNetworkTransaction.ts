@@ -1,10 +1,10 @@
 import { IAccountState } from '@core/account/interfaces'
 import { localize } from '@core/i18n'
-import { buildEvmTransactionData, buildUnwrapAssetParameters } from '@core/layer-2/actions'
+import { buildUnwrapAssetParameters } from '@core/layer-2/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS, L2_TO_L1_STORAGE_DEPOSIT_BUFFER } from '@core/layer-2/constants'
 import { AssetType, ContractType, EvmErrorMessage } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
-import { buildAssetAllowance } from '@core/layer-2/utils'
+import { buildAssetAllowance, buildEvmTransactionData } from '@core/layer-2/utils'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
 import { IChain } from '@core/network/interfaces'
 
@@ -29,7 +29,7 @@ export async function createEvmChainToStardustNetworkTransaction(
             buildUnwrapAssetParameters(recipientAddress)
 
         let transferredAsset: TransferredAsset | undefined
-        let storageDepositRequired = 0
+        let storageDepositRequired = BigInt(0)
         if (
             sendFlowParameters.type === SendFlowType.TokenTransfer ||
             sendFlowParameters.type === SendFlowType.BaseCoinTransfer
@@ -37,12 +37,13 @@ export async function createEvmChainToStardustNetworkTransaction(
             const { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
             const isBaseCoin = token?.standard === TokenStandard.BaseToken
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
-            storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0
+            storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? BigInt(0)
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
         } else {
             const nft = sendFlowParameters.nft as IIrc27Nft
             storageDepositRequired =
-                (nft?.storageDeposit ?? 0) + (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? 0)
+                (nft?.storageDeposit ?? BigInt(0)) +
+                (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? BigInt(0))
             transferredAsset = nft ? { type: AssetType.Nft, nft } : undefined
         }
 
@@ -58,7 +59,7 @@ export async function createEvmChainToStardustNetworkTransaction(
                 .encodeABI()) ?? ''
 
         const originAddress = account?.evmAddresses?.[ETHEREUM_COIN_TYPE] ?? ''
-        return await buildEvmTransactionData(chain, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, '0', data)
+        return await buildEvmTransactionData(chain, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, BigInt(0), data)
     } catch (err) {
         if (err.message && err.message.includes(EvmErrorMessage.RequireMoreGas)) {
             throw new Error(localize('error.send.insufficientFundsGasFee'))

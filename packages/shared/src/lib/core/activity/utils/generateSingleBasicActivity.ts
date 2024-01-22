@@ -12,20 +12,18 @@ export async function generateSingleBasicActivity(
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters,
     overrideTokenId?: string,
-    overrideAmount?: number
+    overrideAmount?: bigint
 ): Promise<TransactionActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     if (baseActivity.smartContract) {
-        const transferAmount = baseActivity.smartContract.baseTokens
-            ? Number(baseActivity.smartContract.baseTokens ?? '0')
-            : 0
+        const transferAmount = BigInt(baseActivity.smartContract.baseTokens ?? 0)
         const transferDelta = baseActivity.baseTokenTransfer?.rawAmount
-            ? Number(baseActivity.baseTokenTransfer.rawAmount) - transferAmount
-            : 0
+            ? baseActivity.baseTokenTransfer.rawAmount - transferAmount
+            : BigInt(0)
         baseActivity.baseTokenTransfer = {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: String(Math.max(transferAmount, 0)),
+            rawAmount: transferAmount < 0 ? BigInt(0) : transferAmount,
         }
         baseActivity.transactionFee = transferDelta
     }
@@ -35,7 +33,7 @@ export async function generateSingleBasicActivity(
         baseActivity.tokenTransfer = persistedToken
             ? {
                   tokenId: overrideTokenId,
-                  rawAmount: String(Math.max(overrideAmount, 0)),
+                  rawAmount: overrideAmount < 0 ? BigInt(0) : overrideAmount,
               }
             : undefined
     }

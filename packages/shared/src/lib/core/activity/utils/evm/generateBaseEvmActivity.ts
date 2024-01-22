@@ -29,9 +29,7 @@ export async function generateBaseEvmActivity(
     // For native token transfers on L2, gasUsed is 0. Therefor we fallback to the estimatedGas
     // https://discord.com/channels/397872799483428865/930642258427019354/1168854453005332490
     const gasUsed = transaction.gasUsed || transaction.estimatedGas
-    const transactionFee = transaction.gasPrice
-        ? Number(calculateGasFeeInGlow(gasUsed ?? 0, transaction.gasPrice))
-        : undefined
+    const transactionFee = transaction.gasPrice ? calculateGasFeeInGlow(gasUsed ?? 0, transaction.gasPrice) : undefined
 
     return {
         // meta information
