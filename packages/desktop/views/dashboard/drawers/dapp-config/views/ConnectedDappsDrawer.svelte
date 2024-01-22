@@ -31,7 +31,9 @@
     $: connectedDappsForProfile = $connectedDapps.filter(
         (dapp) => !!getPersistedDappNamespacesForDapp(dapp.metadata?.url)
     )
-    $: displayedDapps = connectedDappsForProfile.filter((dapp) => !dapp.session || selectedIndex === 0)
+    $: displayedDapps = connectedDappsForProfile.filter(
+        (dapp) => (selectedIndex === 0 && !!dapp.session) || (selectedIndex === 1 && !dapp.session)
+    )
 
     function onDappCardClick(connectedDapp: IConnectedDapp): void {
         setSelectedDapp(connectedDapp)
