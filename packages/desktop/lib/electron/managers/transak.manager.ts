@@ -5,7 +5,7 @@ import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
 
 export default class TransakManager implements ITransakManager {
-    private rect: { x: number; y: number; width: number; height: number }
+    private rect: Electron.Rectangle
 
     private htmlPath = app.isPackaged
         ? path.join(app.getAppPath(), '/public/transak.html')
@@ -100,7 +100,7 @@ export default class TransakManager implements ITransakManager {
         return windows.transak
     }
 
-    public updateTransakBounds(_rect: { x: number; y: number; height: number; width: number }): void {
+    public updateTransakBounds(_rect: Electron.Rectangle): void {
         this.rect = _rect
         this.positionWindow()
     }

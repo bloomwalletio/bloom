@@ -262,7 +262,7 @@ export default {
     restoreTransak(): Promise<void> {
         return ipcRenderer.invoke('restore-transak')
     },
-    updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void> {
+    updateTransakBounds(rect: Electron.Rectangle): Promise<void> {
         return ipcRenderer.invoke('update-transak-bounds', rect)
     },
 }
