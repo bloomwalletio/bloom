@@ -59,12 +59,17 @@
         }
 
         const rect = transakContainer.getBoundingClientRect()
+        const transakPaneStyles = getComputedStyle(transakContainer?.children[0])
+        const extractDigitsToNumbers = (str: string) => Number(str?.replace(/\D/g, '') ?? 0)
+        const borderTop = extractDigitsToNumbers(transakPaneStyles?.borderTopWidth)
+        const borderLeft = extractDigitsToNumbers(transakPaneStyles?.borderLeftWidth)
+        const borderRight = extractDigitsToNumbers(transakPaneStyles?.borderRightWidth)
 
         await Platform.updateTransakBounds({
-            x: rect.x,
-            y: rect.y,
-            width: rect.width,
-            height: rect.height,
+            x: rect.x + borderLeft + borderRight,
+            y: rect.y + borderTop,
+            width: rect.width - borderLeft - borderRight,
+            height: rect.height - borderTop,
         })
     }
 
