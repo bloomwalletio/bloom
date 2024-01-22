@@ -13,7 +13,7 @@
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
-    function getAmount(_activity: Activity): string {
+    function getFormattedFee(_activity: Activity): string {
         if (_activity.transactionFee) {
             const amount = formatTokenAmountBestMatch(_activity.transactionFee, getBaseToken())
             return '- ' + amount
@@ -33,7 +33,7 @@
 </script>
 
 <div class="text-end">
-    <Text>{getAmount(activity)}</Text>
+    <Text>{getFormattedFee(activity)}</Text>
     {#if activity.transactionFee}
         <Text textColor="secondary">{getFormattedMarketPrice(activity)}</Text>
     {/if}
