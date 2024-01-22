@@ -7,17 +7,12 @@ import path from 'path'
 export default class TransakManager implements ITransakManager {
     private rect: { x: number; y: number; width: number; height: number }
 
-    private sidebarExpanded = false
     private htmlPath = app.isPackaged
         ? path.join(app.getAppPath(), '/public/transak.html')
         : path.join(__dirname, '../transak.html')
     private preloadPath = app.isPackaged
         ? path.join(app.getAppPath(), '/public/build/transak.preload.js')
         : path.join(__dirname, 'transak.preload.js')
-
-    public setSidebarExpanded(isOpen: boolean): void {
-        this.sidebarExpanded = isOpen
-    }
 
     public closeWindow(): void {
         if (windows.transak) {
@@ -106,7 +101,7 @@ export default class TransakManager implements ITransakManager {
         return windows.transak
     }
 
-    public updateTransakBounds(_rect: { x: number, y: number, height: number, width: number }): void {
+    public updateTransakBounds(_rect: { x: number; y: number; height: number; width: number }): void {
         this.rect = _rect
         this.positionWindow()
     }
@@ -119,7 +114,7 @@ export default class TransakManager implements ITransakManager {
                     x: Math.floor(mainWindowX + this.rect.x),
                     y: Math.floor(mainWindowY + this.rect.y),
                     height: this.rect.height,
-                    width: this.rect.width
+                    width: this.rect.width,
                 })
             }
         } catch (error) {

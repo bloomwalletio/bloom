@@ -115,10 +115,7 @@ const Platform: IPlatform = {
     restoreTransak(): Promise<void> {
         return Promise.resolve()
     },
-    updateTransakBounds(rect: { x: number, y: number, height: number, width: number }): Promise<void> {
-        return Promise.resolve()
-    },
-    isSidebarExpanded(expanded: boolean): Promise<void> {
+    updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void> {
         return Promise.resolve()
     },
 }

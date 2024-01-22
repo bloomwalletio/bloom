@@ -6,5 +6,4 @@ export interface ITransakManager {
     minimizeWindow(): void
     restoreWindow(): void
     positionWindow(): void
-    setSidebarExpanded(expanded: boolean): void
 }
