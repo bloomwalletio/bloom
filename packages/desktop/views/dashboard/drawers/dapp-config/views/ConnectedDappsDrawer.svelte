@@ -57,11 +57,7 @@
     {#if displayedDapps.length}
         <div class="h-full flex flex-col scrollable px-6 items-start gap-3">
             {#each displayedDapps as dapp}
-                <DappCard
-                    {dapp}
-                    onClick={() => onDappCardClick(dapp)}
-                    classes={selectedIndex === 1 ? 'opacity-50' : ''}
-                />
+                <DappCard {dapp} disabled={selectedIndex === 1} onClick={() => onDappCardClick(dapp)} />
             {/each}
         </div>
     {:else}
