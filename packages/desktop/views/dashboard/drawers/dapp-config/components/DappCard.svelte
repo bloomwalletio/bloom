@@ -7,6 +7,7 @@
     import { localize } from '@core/i18n'
 
     export let dapp: IConnectedDapp
+    export let classes: string = ''
     export let onClick: (() => unknown) | undefined = undefined
 
     $: networkIds = Object.values(
@@ -15,7 +16,7 @@
 </script>
 
 <ClickableTile
-    classes="bg-surface-0 dark:bg-surface-0-dark border border-solid border-stroke dark:border-stroke-dark"
+    classes="bg-surface-0 dark:bg-surface-0-dark border border-solid border-stroke dark:border-stroke-dark {classes}"
     {onClick}
 >
     <div class="w-full flex flex-row justify-between items-center p-2 gap-3">
