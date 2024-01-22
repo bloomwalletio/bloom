@@ -13,7 +13,7 @@ export async function persistNftWithContractMetadata(
     contract: Contract
 ): Promise<IPersistedErc721Nft | undefined> {
     const { address } = contractMetadata
-    const nftId = `${address}:${tokenId}`
+    const nftId = `${address.toLowerCase()}:${tokenId}`
     if (isNftPersisted(nftId)) {
         return
     }

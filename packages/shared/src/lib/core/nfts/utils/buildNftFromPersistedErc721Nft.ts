@@ -2,7 +2,8 @@ import { DEFAULT_NFT_NAME, MimeType } from '@core/nfts'
 import { IErc721Nft, IPersistedErc721Nft } from '../interfaces'
 
 export function buildNftFromPersistedErc721Nft(nft: IPersistedErc721Nft, accountAddress: string): IErc721Nft {
-    const id = nft.tokenId ? `${nft.contractMetadata.address}:${nft.tokenId}` : nft.contractMetadata.address
+    const contractAddress = nft.contractMetadata.address.toLowerCase()
+    const id = nft.tokenId ? `${contractAddress}:${nft.tokenId}` : contractAddress
     const isSpendable = nft.ownerAddress === accountAddress
 
     return {
