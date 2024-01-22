@@ -6,10 +6,12 @@
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { TokenAvatar, NetworkAvatar } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
+    import { Text, Tooltip } from '@bloomwalletio/ui'
     import { activeProfile } from '@core/profile/stores'
 
     export let token: ITokenWithBalance
+
+    let anchor: HTMLDivElement
 
     function getTokenSupply(token: ITokenWithBalance): string {
         if (token.id !== BASE_TOKEN_ID) {
@@ -61,7 +63,7 @@
 
 <button on:click={onTokenRowClick} class="token-row">
     <div class="flex flex-row gap-4 items-start">
-        <TokenAvatar {token} size="lg" />
+        <TokenAvatar {token} size="lg" hideNetworkBadge />
         <div class="flex flex-col items-start justify-between text-start">
             <Text>
                 {token.metadata?.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
@@ -71,9 +73,11 @@
             </Text>
         </div>
     </div>
-    <div class="flex flex-row gap-2 text-start items-center">
-        <NetworkAvatar size="xs" networkId={token.networkId} />
-        <Text>{getNameFromNetworkId(token.networkId)}</Text>
+    <div class="h-full flex flex-row gap-2 justify-center items-center">
+        <div bind:this={anchor}>
+            <NetworkAvatar networkId={token.networkId} />
+        </div>
+        <Tooltip {anchor} placement="top" event="hover" text={getNameFromNetworkId(token.networkId)} />
     </div>
     <div class="text-end">
         <Text>{getTokenSupply(token)}</Text>

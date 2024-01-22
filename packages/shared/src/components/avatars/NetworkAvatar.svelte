@@ -4,7 +4,7 @@
     import { NetworkId, SupportedNetworkId, isSupportedNetworkId } from '@core/network'
 
     export let networkId: NetworkId
-    export let size: 'xxs' | 'xs' | 'sm' | 'md' = 'base'
+    export let size: 'xxs' | 'xs' | 'sm' | 'base' | 'md' = 'base'
     export let shape: 'circle' | 'square' | 'squircle' = 'circle'
 
     const AVATAR_BACKGROUND_COLOR: { [id in SupportedNetworkId]: string } = {
