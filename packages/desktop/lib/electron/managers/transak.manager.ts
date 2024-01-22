@@ -69,7 +69,6 @@ export default class TransakManager implements ITransakManager {
             windows.transak.setWindowButtonVisibility(false)
         }
 
-        this.positionWindow()
         windows.main.on('move', () => this.positionWindow())
 
         windows.transak.once('closed', () => {

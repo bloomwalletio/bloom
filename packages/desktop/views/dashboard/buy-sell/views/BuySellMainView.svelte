@@ -30,6 +30,7 @@
             address: $selectedAccount.depositAddress,
             service: 'BUY',
         })
+        await updateTransakBounds()
     }
 
     $: if ($selectedAccountIndex !== undefined) {
@@ -52,14 +53,14 @@
     }
 
     let transakContainer: HTMLDivElement | undefined
-    function handleWindowResize(): void {
+    async function updateTransakBounds(): Promise<void> {
         if (!transakContainer) {
             return
         }
 
         const rect = transakContainer.getBoundingClientRect()
 
-        void Platform.updateTransakBounds({
+        await Platform.updateTransakBounds({
             x: rect.x,
             y: rect.y,
             width: rect.width,
@@ -67,14 +68,12 @@
         })
     }
 
-    $: transakContainer, handleWindowResize()
-
     onDestroy(() => {
         void Platform.closeTransak()
     })
 </script>
 
-<svelte:window on:resize={handleWindowResize} />
+<svelte:window on:resize={updateTransakBounds} />
 
 <div class="grid-container">
     <div class="account-info">
