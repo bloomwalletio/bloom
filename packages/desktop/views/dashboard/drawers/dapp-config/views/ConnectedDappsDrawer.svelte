@@ -4,7 +4,7 @@
         getPersistedDappNamespacesForDapp,
         setSelectedDapp,
     } from '@auxiliary/wallet-connect/stores'
-    import { Button, IconName, Pill } from '@bloomwalletio/ui'
+    import { Button, IconName, Tabs } from '@bloomwalletio/ui'
     import { DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -15,9 +15,23 @@
 
     export let drawerRouter: Router<unknown>
 
+    const tabs = [
+        {
+            key: localize('views.dashboard.drawers.dapps.dappsList.paired.tab'),
+            value: localize('views.dashboard.drawers.dapps.dappsList.paired.tab'),
+        },
+        {
+            key: localize('views.dashboard.drawers.dapps.dappsList.expired.tab'),
+            value: localize('views.dashboard.drawers.dapps.dappsList.expired.tab'),
+        },
+    ]
+    let selectedTab = tabs[0]
+    let selectedIndex = 0
+
     $: connectedDappsForProfile = $connectedDapps.filter(
         (dapp) => !!getPersistedDappNamespacesForDapp(dapp.metadata?.url)
     )
+    $: displayedDapps = connectedDappsForProfile.filter((dapp) => !dapp.session || selectedIndex === 0)
 
     function onDappCardClick(connectedDapp: IConnectedDapp): void {
         setSelectedDapp(connectedDapp)
@@ -35,32 +49,26 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.dapps.dappsList.title')} {drawerRouter}>
-    {#if connectedDappsForProfile.length}
-        {@const connectedDappList = connectedDappsForProfile.filter((dapp) => !!dapp.session)}
-        {@const disconnectedDappList = connectedDappsForProfile.filter((dapp) => !dapp.session)}
-        <div class="h-full flex flex-col gap-8 scrollable px-6">
-            {#if connectedDappList.length}
-                <div class="flex flex-col items-start gap-3">
-                    <Pill color="success">{localize('general.connected')}</Pill>
-                    {#each connectedDappList as dapp}
-                        <DappCard {dapp} onClick={() => onDappCardClick(dapp)} />
-                    {/each}
-                </div>
-            {/if}
-            {#if disconnectedDappList.length}
-                <div class="flex flex-col items-start gap-3">
-                    <Pill color="danger">{localize('general.disconnected')}</Pill>
-                    {#each disconnectedDappList as dapp}
-                        <DappCard {dapp} onClick={() => onDappCardClick(dapp)} />
-                    {/each}
-                </div>
-            {/if}
+    <div class="px-6 pb-6">
+        <Tabs bind:selectedTab bind:selectedIndex {tabs} />
+    </div>
+    {#if displayedDapps.length}
+        <div class="h-full flex flex-col scrollable px-6 items-start gap-3">
+            {#each displayedDapps as dapp}
+                <DappCard {dapp} onClick={() => onDappCardClick(dapp)} />
+            {/each}
         </div>
     {:else}
         <div class="w-full h-full flex flex-col items-center justify-center gap-6 px-6">
             <EmptyListPlaceholder
-                title={localize('views.dashboard.drawers.dapps.dappsList.emptyTitle')}
-                subtitle={localize('views.dashboard.drawers.dapps.dappsList.emptySubtitle')}
+                title={localize(
+                    `views.dashboard.drawers.dapps.dappsList.${selectedIndex === 0 ? 'paired' : 'expired'}.emptyTitle`
+                )}
+                subtitle={localize(
+                    `views.dashboard.drawers.dapps.dappsList.${
+                        selectedIndex === 0 ? 'paired' : 'expired'
+                    }.emptySubtitle`
+                )}
                 icon={IconName.LinkBroken}
             />
         </div>
