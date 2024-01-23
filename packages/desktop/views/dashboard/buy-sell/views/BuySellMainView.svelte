@@ -62,6 +62,7 @@
         const transakPaneStyles = getComputedStyle(transakContainer?.children[0])
         const extractDigitsToNumbers = (str: string) => Number(str?.replace(/\D/g, '') ?? 0)
         const borderTop = extractDigitsToNumbers(transakPaneStyles?.borderTopWidth)
+        const borderBottom = extractDigitsToNumbers(transakPaneStyles?.borderBottomWidth)
         const borderLeft = extractDigitsToNumbers(transakPaneStyles?.borderLeftWidth)
         const borderRight = extractDigitsToNumbers(transakPaneStyles?.borderRightWidth)
 
@@ -69,7 +70,7 @@
             x: rect.x + borderLeft + borderRight,
             y: rect.y + borderTop,
             width: rect.width - borderLeft - borderRight,
-            height: rect.height - borderTop,
+            height: rect.height - borderTop - borderBottom,
         })
     }
 
