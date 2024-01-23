@@ -109,9 +109,14 @@ export default class TransakManager implements ITransakManager {
         try {
             if (windows.transak) {
                 const [mainWindowX, mainWindowY] = windows.main.getPosition()
+                const [, mainWindowHeight] = windows.main.getSize()
+                const [, bodyHeight] = windows.main.getContentSize()
+
+                const menuHeight = mainWindowHeight - bodyHeight
+
                 windows.transak.setBounds({
                     x: Math.floor(mainWindowX + this.rect.x),
-                    y: Math.floor(mainWindowY + this.rect.y),
+                    y: Math.floor(mainWindowY + menuHeight + this.rect.y),
                     height: this.rect.height,
                     width: this.rect.width,
                 })
