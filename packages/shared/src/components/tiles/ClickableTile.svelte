@@ -9,11 +9,11 @@
 <Tile
     classes="
         {onClick ? 'hover:bg-gray-100 dark:hover:bg-gray-950 cursor-pointer' : 'pointer-events-none'}
-        {disabled ? 'opacity-50 pointer-events-none' : ''}
+        {disabled ? 'opacity-50' : ''}
         {classes}
     "
     {...$$restProps}
-    on:click={() => !disabled && onClick?.()}
+    on:click={onClick}
 >
     <slot />
 </Tile>
