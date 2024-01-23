@@ -1,7 +1,10 @@
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import { buildApprovedNamespaces } from '@walletconnect/utils'
-import { getWalletClient, setConnectedDapps } from '../stores'
+import { IAccountState } from '@core/account/interfaces'
 import { handleError } from '@core/error/handlers'
+import { buildApprovedNamespaces } from '@walletconnect/utils'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
+import { ISession } from '../interface/session.interface'
+import { getWalletClient, setConnectedDapps } from '../stores'
+import { updateAccountForDappSession } from './updateAccountForDappSession'
 
 export async function approveSession(
     sessionProposal: Web3WalletTypes.SessionProposal,
@@ -13,7 +16,8 @@ export async function approveSession(
             events: string[]
             accounts: string[]
         }
-    >
+    >,
+    account: IAccountState
 ): Promise<void> {
     const { id, params } = sessionProposal
 
@@ -23,8 +27,12 @@ export async function approveSession(
     })
 
     try {
-        await getWalletClient()?.approveSession({ id, namespaces: approvedNamespaces })
+        const session = (await getWalletClient()?.approveSession({
+            id,
+            namespaces: approvedNamespaces,
+        })) as unknown as ISession
         setConnectedDapps()
+        await updateAccountForDappSession(session, account)
     } catch (err) {
         handleError(err)
     }
