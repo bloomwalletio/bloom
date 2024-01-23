@@ -517,19 +517,16 @@ ipcMain.handle('close-transak', () => {
     transakManager?.closeWindow()
 })
 
-ipcMain.handle('is-sidebar-expanded', (_, expanded) => {
-    if (transakManager) {
-        transakManager.setSidebarExpanded(expanded)
-        transakManager.positionWindow()
-    }
-})
-
 ipcMain.handle('minimize-transak', () => {
     transakManager?.minimizeWindow()
 })
 
 ipcMain.handle('restore-transak', () => {
     transakManager?.restoreWindow()
+})
+
+ipcMain.handle('update-transak-bounds', (event, rect) => {
+    transakManager?.updateTransakBounds(rect)
 })
 
 /**

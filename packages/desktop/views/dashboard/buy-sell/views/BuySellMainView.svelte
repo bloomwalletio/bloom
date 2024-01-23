@@ -30,6 +30,7 @@
             address: $selectedAccount.depositAddress,
             service: 'BUY',
         })
+        await updateTransakBounds()
     }
 
     $: if ($selectedAccountIndex !== undefined) {
@@ -51,10 +52,34 @@
         }
     }
 
+    let transakContainer: HTMLDivElement | undefined
+    async function updateTransakBounds(): Promise<void> {
+        if (!transakContainer) {
+            return
+        }
+
+        const rect = transakContainer.getBoundingClientRect()
+        const transakPaneStyles = getComputedStyle(transakContainer?.children[0])
+        const extractDigitsToNumbers = (str: string) => Number(str?.replace(/\D/g, '') ?? 0)
+        const borderTop = extractDigitsToNumbers(transakPaneStyles?.borderTopWidth)
+        const borderBottom = extractDigitsToNumbers(transakPaneStyles?.borderBottomWidth)
+        const borderLeft = extractDigitsToNumbers(transakPaneStyles?.borderLeftWidth)
+        const borderRight = extractDigitsToNumbers(transakPaneStyles?.borderRightWidth)
+
+        await Platform.updateTransakBounds({
+            x: rect.x + borderLeft + borderRight,
+            y: rect.y + borderTop,
+            width: rect.width - borderLeft - borderRight,
+            height: rect.height - borderTop - borderBottom,
+        })
+    }
+
     onDestroy(() => {
         void Platform.closeTransak()
     })
 </script>
+
+<svelte:window on:resize={updateTransakBounds} />
 
 <div class="grid-container">
     <div class="account-info">
@@ -75,13 +100,13 @@
                 <Text type="h6" textColor="secondary">{fiatBalance}</Text>
             </div>
             <div class="bg-surface-2 rounded-xl py-2 px-3">
-                <Text type="pre-sm" textColor="secondary" class="break-all whitespace-normal"
-                    >{$selectedAccount?.depositAddress}</Text
-                >
+                <Text type="pre-sm" textColor="secondary" class="break-all whitespace-normal">
+                    {$selectedAccount?.depositAddress}
+                </Text>
             </div>
         </Pane>
     </div>
-    <div class="transak-container">
+    <div class="transak-container" bind:this={transakContainer}>
         <Pane
             classes="flex flex-col justify-center items-center w-full h-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
         ></Pane>
