@@ -4,13 +4,17 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { buildSupportedNamespacesFromSelections, clearOldPairings } from '@auxiliary/wallet-connect/actions'
+    import {
+        buildSupportedNamespacesFromSelections,
+        clearOldPairings,
+        approveSession,
+    } from '@auxiliary/wallet-connect/actions'
     import {
         getPersistedDappNamespacesForDapp,
         persistDappNamespacesForDapp,
         sessionProposal,
     } from '@auxiliary/wallet-connect/stores'
-    import { approveSession, rejectSession } from '@auxiliary/wallet-connect/utils'
+    import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import {
         AccountSelection,
         ConnectionSummary,
@@ -22,6 +26,7 @@
     import { IAccountState } from '@core/account'
     import { DappConfigRoute } from '../dapp-config-route.enum'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { selectedAccount } from '@core/account/stores'
 
     export let drawerRouter: Router<unknown>
 
@@ -82,7 +87,7 @@
             )
 
             await clearOldPairings(dappUrl)
-            await approveSession($sessionProposal, supportedNamespaces)
+            await approveSession($sessionProposal, supportedNamespaces, $selectedAccount)
             persistDappNamespacesForDapp(dappUrl, supportedNamespaces)
             $sessionProposal = undefined
 
