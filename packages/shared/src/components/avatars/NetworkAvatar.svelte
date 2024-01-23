@@ -1,9 +1,11 @@
 <script lang="ts">
     import { DEFAULT_NETWORK_ICON } from '@auxiliary/icon'
-    import { Avatar } from '@bloomwalletio/ui'
-    import { NetworkId, SupportedNetworkId, isSupportedNetworkId } from '@core/network'
+    import { Avatar, Tooltip } from '@bloomwalletio/ui'
+    import { NetworkId, SupportedNetworkId, getNameFromNetworkId, isSupportedNetworkId } from '@core/network'
 
     export let networkId: NetworkId
+    export let networkName: string | undefined = undefined
+    export let showTooltip: boolean = false
     export let size: 'xxs' | 'xs' | 'sm' | 'base' | 'md' = 'base'
     export let shape: 'circle' | 'square' | 'squircle' = 'circle'
 
@@ -23,12 +25,18 @@
         [SupportedNetworkId.TestnetEvm]: 'shimmer-background',
     }
 
+    let anchor: HTMLElement
     $: isSupported = isSupportedNetworkId(networkId)
     $: backgroundColor = isSupported ? AVATAR_BACKGROUND_COLOR[networkId as SupportedNetworkId] : 'neutral-4'
     $: customTextColor = isSupported ? AVATAR_TEXT_COLOR[networkId as SupportedNetworkId] : undefined
     $: icon = isSupported ? DEFAULT_NETWORK_ICON[networkId as SupportedNetworkId] : undefined
-    $: magnify = networkId === SupportedNetworkId.ShimmerEvm || networkId === SupportedNetworkId.TestnetEvm
+    $: networkName = networkName ? networkName : networkId ? getNameFromNetworkId(networkId) : undefined
 </script>
 
 <!-- TODO: Add initials for not supported network IDs -->
-<Avatar {size} {shape} {backgroundColor} {customTextColor} {icon} />
+<network-avatar bind:this={anchor}>
+    <Avatar {size} {shape} {backgroundColor} {customTextColor} {icon} />
+</network-avatar>
+{#if showTooltip && networkName}
+    <Tooltip {anchor} text={networkName} placement="right" event="hover" />
+{/if}

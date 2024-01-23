@@ -1,17 +1,15 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
-    import { SupportedNetworkId, TokenSupply, getActiveNetworkId, getNameFromNetworkId } from '@core/network'
+    import { SupportedNetworkId, TokenSupply, getActiveNetworkId } from '@core/network'
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { TokenAvatar, NetworkAvatar } from '@ui'
-    import { Text, Tooltip } from '@bloomwalletio/ui'
+    import { Text } from '@bloomwalletio/ui'
     import { activeProfile } from '@core/profile/stores'
 
     export let token: ITokenWithBalance
-
-    let anchor: HTMLDivElement
 
     function getTokenSupply(token: ITokenWithBalance): string {
         if (token.id !== BASE_TOKEN_ID) {
@@ -74,10 +72,7 @@
         </div>
     </div>
     <div class="h-full flex flex-row gap-2 justify-center items-center">
-        <div bind:this={anchor}>
-            <NetworkAvatar networkId={token.networkId} />
-        </div>
-        <Tooltip {anchor} placement="top" event="hover" text={getNameFromNetworkId(token.networkId)} />
+        <NetworkAvatar networkId={token.networkId} showTooltip />
     </div>
     <div class="text-end">
         <Text>{getTokenSupply(token)}</Text>
