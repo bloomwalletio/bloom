@@ -5,7 +5,7 @@
     import { campaignsRoute, CampaignsRoute } from './'
 
     $: if (features.analytics.dashboardRoute.campaigns.enabled && $campaignsRoute) {
-        Platform.trackEvent('collectibles-route', { route: $campaignsRoute })
+        Platform.trackEvent('campaigns-route', { route: $campaignsRoute })
     }
 </script>
 
