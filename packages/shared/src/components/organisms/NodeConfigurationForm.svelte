@@ -88,7 +88,7 @@
             return Promise.reject({ type: 'validationError', error: formError })
         }
 
-        let nodeInfoResponse: INodeInfoResponse | null = null
+        let nodeInfoResponse: INodeInfoResponse | undefined
 
         if (options.checkNodeInfo) {
             try {
