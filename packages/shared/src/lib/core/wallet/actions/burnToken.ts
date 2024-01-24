@@ -6,13 +6,13 @@ import { processAndAddToActivities } from '@core/activity/utils/processAndAddToA
 import { sendPreparedTransaction } from '@core/wallet/utils'
 import { getActiveNetworkId } from '@core/network'
 
-export async function burnToken(tokenId: string, rawAmount: string): Promise<void> {
+export async function burnToken(tokenId: string, rawAmount: bigint): Promise<void> {
     try {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
         updateSelectedAccount({ isTransferring: true })
-        const preparedTransaction = await account?.prepareBurnNativeToken(tokenId, BigInt(rawAmount))
+        const preparedTransaction = await account?.prepareBurnNativeToken(tokenId, rawAmount)
         const burnTokenTransaction = await sendPreparedTransaction(preparedTransaction)
 
         await processAndAddToActivities(burnTokenTransaction, account, networkId)
