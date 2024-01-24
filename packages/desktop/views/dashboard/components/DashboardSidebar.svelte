@@ -47,7 +47,9 @@
                   },
               ]
             : []),
-        ...(features?.campaigns?.enabled && $activeProfile?.network?.id === StardustNetworkId.Shimmer
+        ...(features?.campaigns?.enabled &&
+        ($activeProfile?.network?.id === StardustNetworkId.Shimmer ||
+            $activeProfile?.network?.id === StardustNetworkId.Testnet)
             ? [
                   {
                       icon: IconName.Verified,
