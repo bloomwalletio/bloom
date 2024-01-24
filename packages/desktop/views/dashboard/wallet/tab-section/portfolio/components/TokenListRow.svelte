@@ -1,15 +1,23 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
-    import { SupportedNetworkId, TokenSupply, getActiveNetworkId } from '@core/network'
-    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
+    import {
+        ChainType,
+        SupportedNetworkId,
+        TokenSupply,
+        getActiveNetworkId,
+        getChainConfiguration,
+    } from '@core/network'
+    import { BASE_TOKEN_ID, ITokenWithBalance, TokenStandard, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { TokenAvatar, NetworkAvatar } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
+    import { Pill, Text, Tooltip } from '@bloomwalletio/ui'
     import { activeProfile } from '@core/profile/stores'
 
     export let token: ITokenWithBalance
+
+    let anchor: HTMLDivElement
 
     function getTokenSupply(token: ITokenWithBalance): string {
         if (token.id !== BASE_TOKEN_ID) {
@@ -66,9 +74,35 @@
             <Text>
                 {token.metadata?.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
             </Text>
-            <Text type="sm" textColor="secondary">
-                {token.metadata ? getUnitFromTokenMetadata(token.metadata) : ''}
-            </Text>
+            <div class="flex gap-2">
+                <Pill color="neutral" compact>
+                    {token.standard === TokenStandard.BaseToken
+                        ? 'Base'
+                        : token.standard === TokenStandard.Erc20
+                        ? 'ERC20'
+                        : token.standard === TokenStandard.Irc30
+                        ? 'IRC30'
+                        : undefined}
+                </Pill>
+                {#if token.networkId !== getActiveNetworkId()}
+                    {@const chainType = getChainConfiguration(token.networkId).type}
+                    <div bind:this={anchor}>
+                        <Pill color="cyan" compact>
+                            {chainType === ChainType.Evm ? 'EVM' : chainType === ChainType.Iscp ? 'ISC' : undefined}
+                        </Pill>
+                    </div>
+                    <Tooltip
+                        {anchor}
+                        placement="top"
+                        event="hover"
+                        text={chainType === ChainType.Evm
+                            ? 'Ethereum'
+                            : chainType === ChainType.Iscp
+                            ? 'IOTA Smart Contracts'
+                            : undefined}
+                    />
+                {/if}
+            </div>
         </div>
     </div>
     <div class="h-full flex flex-row gap-2 justify-center items-center">
