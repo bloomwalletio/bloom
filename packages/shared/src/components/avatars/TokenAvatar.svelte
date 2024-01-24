@@ -61,13 +61,13 @@
     let imageLoadError = false
 
     $: backgroundColor =
-        AVATAR_BACKGROUND_COLOR[token.networkId]?.[token.id] ??
+        AVATAR_BACKGROUND_COLOR[token.networkId]?.[token?.id] ??
         getIconColorFromString(token.metadata?.name, {
             shades: ['400', '500', '600', '700', '800'],
             colorsToExclude: ['gray'],
         })
-    $: textColor = AVATAR_TEXT_COLOR[token.networkId]?.[token.id]
-    $: icon = DEFAULT_TOKEN_ICON[token.networkId as SupportedNetworkId]?.[token.id]
+    $: textColor = AVATAR_TEXT_COLOR[token.networkId]?.[token?.id]
+    $: icon = DEFAULT_TOKEN_ICON[token.networkId as SupportedNetworkId]?.[token?.id]
     $: image = getImageUrlFromToken(token, IMAGE_SIZES[size])
     $: text = getTokenInitials(token)
 </script>

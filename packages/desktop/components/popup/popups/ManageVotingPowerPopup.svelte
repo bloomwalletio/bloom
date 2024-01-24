@@ -23,7 +23,7 @@
     let rawAmount = newVotingPower ?? $selectedAccount?.votingPower
     let confirmDisabled = false
 
-    $: token = $visibleSelectedAccountTokens[$activeProfile?.network.id].baseCoin
+    $: token = $visibleSelectedAccountTokens[$activeProfile?.network?.id]?.baseCoin
     $: votingPower = $selectedAccount?.votingPower
     $: hasTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress ||
