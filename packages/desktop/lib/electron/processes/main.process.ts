@@ -277,6 +277,8 @@ export function createMainWindow(): BrowserWindow {
         return cb(permissionAllowlist.indexOf(permission) > -1)
     })
 
+    registerPowerMonitorListeners(windows?.main?.webContents)
+
     return windows.main
 }
 
@@ -284,9 +286,6 @@ void app.whenReady().then(() => {
     // Doesn't open & close a new window when the app is already open
     if (isFirstInstance) {
         createMainWindow()
-
-        registerPowerMonitorListeners(windows?.main?.webContents)
-
         appIsReady = true
     }
 })
