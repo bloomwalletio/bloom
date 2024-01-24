@@ -10,6 +10,7 @@ import { IWalletFeatures } from './wallet-features.interface'
 import { IWalletConnectFeatures } from './wallet-connect-features.interface'
 import { OnboardingFeatures } from '../types/onboarding-features.type'
 import { IFeatureFlag } from './feature-flag.interface'
+import { ICampaignsFeatures } from './campaigns-features.interface'
 
 export interface IFeatures {
     app: IAppFeatures
@@ -24,4 +25,5 @@ export interface IFeatures {
     wallet: IWalletFeatures
     walletConnect: IWalletConnectFeatures
     buySell: IFeatureFlag
+    campaigns: ICampaignsFeatures
 }

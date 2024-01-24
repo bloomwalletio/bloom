@@ -47,13 +47,13 @@
                   },
               ]
             : []),
-        ...(features?.developerTools?.enabled && $activeProfile?.isDeveloperProfile
+        ...(features?.campaigns?.enabled && $activeProfile?.network?.id === StardustNetworkId.Shimmer
             ? [
                   {
-                      icon: IconName.Developer,
-                      label: localize('tabs.developer'),
-                      route: DashboardRoute.Developer,
-                      onClick: openDeveloper,
+                      icon: IconName.Verified,
+                      label: localize('tabs.campaigns'),
+                      route: DashboardRoute.Campaigns,
+                      onClick: openCampaigns,
                   },
               ]
             : []),
@@ -64,6 +64,16 @@
                       label: localize('tabs.buySell'),
                       route: DashboardRoute.BuySell,
                       onClick: openBuySell,
+                  },
+              ]
+            : []),
+        ...(features?.developerTools?.enabled && $activeProfile?.isDeveloperProfile
+            ? [
+                  {
+                      icon: IconName.Developer,
+                      label: localize('tabs.developer'),
+                      route: DashboardRoute.Developer,
+                      onClick: openDeveloper,
                   },
               ]
             : []),
@@ -91,6 +101,11 @@
     function openBuySell(): void {
         resetAllRouters()
         $dashboardRouter.goTo(DashboardRoute.BuySell)
+    }
+
+    function openCampaigns(): void {
+        resetAllRouters()
+        $dashboardRouter.goTo(DashboardRoute.Campaigns)
     }
 
     function resetAllRouters(): void {

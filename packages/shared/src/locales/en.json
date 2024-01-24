@@ -2021,10 +2021,11 @@
         "wallet": "Wallet",
         "collectibles": "Collectibles",
         "governance": "Governance",
+        "campaigns": "Campaigns",
+        "buySell": "Buy & Sell",
         "developer": "Developer",
         "tokens": "Tokens",
-        "settings": "Settings",
-        "buySell": "Buy & Sell"
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
