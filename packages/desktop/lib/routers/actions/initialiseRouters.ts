@@ -33,6 +33,7 @@ function initialiseBaseRouters(): void {
     dashboardRouter.set(new DashboardRouter())
     settingsRouter.set(new SettingsRouter())
     collectiblesRouter.set(new CollectiblesRouter())
+    campaignsRouter.set(new CampaignsRouter())
     governanceRouter.set(new GovernanceRouter())
     campaignsRouter.set(new CampaignsRouter())
     initialiseBaseOnboardingRouters()
