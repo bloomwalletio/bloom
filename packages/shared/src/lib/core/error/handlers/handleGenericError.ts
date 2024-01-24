@@ -8,8 +8,12 @@ export function handleGenericError(error: IError | string): void {
         message = error
         type = 'Generic'
     } else {
-        message = error?.message ?? error?.error
+        message = error?.message ?? error?.error ?? ''
         type = error?.type ?? 'Generic'
+
+        if (error.stack) {
+            message += JSON.stringify(error.stack)
+        }
     }
 
     logAndNotifyError({
