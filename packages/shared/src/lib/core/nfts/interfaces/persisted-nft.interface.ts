@@ -3,6 +3,7 @@ import { NftStandard } from '../enums'
 import { IDownloadMetadata, IErc721ContractMetadata, IErc721TokenMetadata, IIrc27Metadata } from '../interfaces'
 
 export interface IBasePersistedNft {
+    id: string
     standard: NftStandard
     ownerAddress: string
     downloadMetadata?: IDownloadMetadata
