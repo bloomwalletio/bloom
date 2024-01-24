@@ -11,6 +11,7 @@
 
     function onCampaignClick(): void {
         setSelectedCampaign(campaign)
+        $campaignsRouter.setBreadcrumb(campaign.title)
         $campaignsRouter.goTo(CampaignsRoute.CampaignDetails)
     }
 </script>

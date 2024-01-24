@@ -13,11 +13,12 @@
         governanceRouter,
     } from '@core/router'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { CampaignsRoute, campaignsRoute, campaignsRouter } from '../campaigns'
 
     let enableBack = false
 
     $: {
-        if ($collectiblesRoute || $governanceRoute) {
+        if ($collectiblesRoute || $governanceRoute || $campaignsRoute) {
             enableBack = isCorrectRoute()
         }
     }
@@ -28,6 +29,8 @@
                 return $collectiblesRoute !== CollectiblesRoute.Gallery
             case DashboardRoute.Governance:
                 return $governanceRoute !== GovernanceRoute.Proposals
+            case DashboardRoute.Campaigns:
+                return $campaignsRoute !== CampaignsRoute.Gallery
             default:
                 break
         }
@@ -41,6 +44,9 @@
                 break
             case DashboardRoute.Governance:
                 $governanceRouter.previous()
+                break
+            case DashboardRoute.Campaigns:
+                $campaignsRouter.previous()
                 break
             default:
                 break
@@ -67,7 +73,8 @@
                 $dashboardRoute === DashboardRoute.Settings ||
                 $dashboardRoute === DashboardRoute.Developer ||
                 ($dashboardRoute === DashboardRoute.Collectibles && $collectiblesRoute === CollectiblesRoute.Gallery) ||
-                ($dashboardRoute === DashboardRoute.Governance && $governanceRoute === GovernanceRoute.Proposals)}
+                ($dashboardRoute === DashboardRoute.Governance && $governanceRoute === GovernanceRoute.Proposals) ||
+                ($dashboardRoute === DashboardRoute.Campaigns && $campaignsRoute === CampaignsRoute.Gallery)}
         />
         {#if $dashboardRoute === DashboardRoute.Collectibles && $collectiblesRoute !== CollectiblesRoute.Gallery}
             <Icon name={IconName.ChevronRight} size="sm" />
@@ -76,6 +83,10 @@
         {#if $dashboardRoute === DashboardRoute.Governance && $governanceRoute !== GovernanceRoute.Proposals}
             <Icon name={IconName.ChevronRight} size="sm" />
             <Breadcrumb text={$governanceRouter.getBreadcrumb() ?? $governanceRoute} disabled />
+        {/if}
+        {#if $dashboardRoute === DashboardRoute.Campaigns && $campaignsRoute !== CampaignsRoute.Gallery}
+            <Icon name={IconName.ChevronRight} size="sm" />
+            <Breadcrumb text={$campaignsRouter.getBreadcrumb() ?? $campaignsRoute} disabled />
         {/if}
     </div>
 </div>
