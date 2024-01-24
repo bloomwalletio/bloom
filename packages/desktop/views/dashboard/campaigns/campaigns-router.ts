@@ -4,7 +4,7 @@ import { get, writable } from 'svelte/store'
 import { CampaignsRoute } from './campaigns-route.enum'
 
 export const campaignsRoute = writable<CampaignsRoute>(undefined)
-export const campaignRouter = writable<CampaignsRouter>(undefined)
+export const campaignsRouter = writable<CampaignsRouter>(undefined)
 
 export class CampaignsRouter extends Router<CampaignsRoute> {
     constructor() {
