@@ -1,9 +1,8 @@
+import { INftAttribute } from '@core/nfts'
 import { BaseApi, buildQueryParametersFromObject } from '@core/utils'
 import { TIDE_API_BASE_URL } from '../constants'
-import { ITideLeaderboardItem, ITideUserPosition } from '../interfaces'
 import { TideApiEndpoint } from '../enums'
-import { NetworkId } from '@core/network'
-import { INftAttribute } from '@core/nfts'
+import { ITideLeaderboardItem, ITideUserPosition } from '../interfaces'
 
 type ProjectLeaderboardQueryParams = {
     nextPage?: number
@@ -49,7 +48,7 @@ export class TideApi extends BaseApi {
     }
 
     async getNftUserData(
-        chainId: NetworkId,
+        chainId: number,
         userAddress: string,
         contractAddress: string
     ): Promise<INftUserDataResponse | undefined> {
