@@ -12,14 +12,16 @@ import {
 
 export function subscribeToWalletApiEventsForActiveProfile(): void {
     const profileManager = getProfileManager()
-    const eventMap: WalletApiEventMap = {
-        [WalletEventType.NewOutput]: handleNewOutputEvent,
-        [WalletEventType.SpentOutput]: handleSpentOutputEvent,
-        [WalletEventType.TransactionInclusion]: handleTransactionInclusionEvent,
-        [WalletEventType.TransactionProgress]: handleTransactionProgressEvent,
+    if (profileManager) {
+        const eventMap: WalletApiEventMap = {
+            [WalletEventType.NewOutput]: handleNewOutputEvent,
+            [WalletEventType.SpentOutput]: handleSpentOutputEvent,
+            [WalletEventType.TransactionInclusion]: handleTransactionInclusionEvent,
+            [WalletEventType.TransactionProgress]: handleTransactionProgressEvent,
+        }
+        subscribeToWalletApiEvents({
+            eventMap,
+            profileManager,
+        })
     }
-    subscribeToWalletApiEvents({
-        eventMap,
-        profileManager,
-    })
 }

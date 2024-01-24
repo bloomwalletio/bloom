@@ -49,7 +49,7 @@ export class IscpChain implements IChain {
     }
 
     getStatus(): IChainStatus {
-        return get(chainStatuses)?.[this._configuration.id] ?? { health: NetworkHealth.Disconnected }
+        return get(chainStatuses)?.[this._configuration?.id] ?? { health: NetworkHealth.Disconnected }
     }
 
     getContract(type: ContractType, address: string): Contract {
