@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { Icon, IconName, Text } from '@bloomwalletio/ui'
+    import { Icon, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { AccountSwitcher, FormattedBalance } from '@components'
     import { ISettingsState, settingsState } from '@contexts/settings/stores'
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { Platform } from '@core/app'
-    import { formatCurrency } from '@core/i18n'
+    import { formatCurrency, localize } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
@@ -30,6 +30,7 @@
             address: $selectedAccount.depositAddress,
             service: 'BUY',
         })
+        await updateTransakBounds()
     }
 
     $: if ($selectedAccountIndex !== undefined) {
@@ -51,13 +52,37 @@
         }
     }
 
+    let transakContainer: HTMLDivElement | undefined
+    async function updateTransakBounds(): Promise<void> {
+        if (!transakContainer) {
+            return
+        }
+
+        const rect = transakContainer.getBoundingClientRect()
+        const transakPaneStyles = getComputedStyle(transakContainer?.children[0])
+        const extractDigitsToNumbers = (str: string) => Number(str?.replace(/\D/g, '') ?? 0)
+        const borderTop = extractDigitsToNumbers(transakPaneStyles?.borderTopWidth)
+        const borderBottom = extractDigitsToNumbers(transakPaneStyles?.borderBottomWidth)
+        const borderLeft = extractDigitsToNumbers(transakPaneStyles?.borderLeftWidth)
+        const borderRight = extractDigitsToNumbers(transakPaneStyles?.borderRightWidth)
+
+        await Platform.updateTransakBounds({
+            x: rect.x + borderLeft + borderRight,
+            y: rect.y + borderTop,
+            width: rect.width - borderLeft - borderRight,
+            height: rect.height - borderTop - borderBottom,
+        })
+    }
+
     onDestroy(() => {
         void Platform.closeTransak()
     })
 </script>
 
-<div class="grid-container">
-    <div class="account-info">
+<svelte:window on:resize={updateTransakBounds} />
+
+<div class="flex gap-4 h-full">
+    <div class="account-panel">
         <Pane
             classes="flex flex-col justify-center items-center w-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
         >
@@ -75,41 +100,40 @@
                 <Text type="h6" textColor="secondary">{fiatBalance}</Text>
             </div>
             <div class="bg-surface-2 rounded-xl py-2 px-3">
-                <Text type="pre-sm" textColor="secondary" class="break-all whitespace-normal"
-                    >{$selectedAccount?.depositAddress}</Text
-                >
+                <Text type="pre-sm" textColor="secondary" class="break-all whitespace-normal">
+                    {$selectedAccount?.depositAddress}
+                </Text>
             </div>
         </Pane>
     </div>
-    <div class="transak-container">
+    <div class="transak-panel" bind:this={transakContainer}>
         <Pane
             classes="flex flex-col justify-center items-center w-full h-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
         ></Pane>
     </div>
-    <div class="warning-container">
+    <div class="info-panel">
         <Pane
-            classes="flex flex-col justify-center items-center w-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
-        ></Pane>
+            classes="flex flex-col justify-start items-start w-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
+        >
+            <Pill color="primary">{localize('general.info')}</Pill>
+            <Text color="secondary">{localize('views.buySell.info.receive')}</Text>
+            <Text color="secondary">{localize('views.buySell.info.multipleAccounts')}</Text>
+            <Text color="secondary">{localize('views.buySell.info.changingAccounts')}</Text>
+        </Pane>
     </div>
 </div>
 
 <style lang="postcss">
-    .grid-container {
-        @apply grid grid-cols-[1fr_482px_1fr] grid-rows-2 gap-4 h-full;
-        grid-template-areas:
-            'account transak warning'
-            'account transak warning';
+    .transak-panel {
+        @apply flex-1 min-w-[360px];
     }
 
-    .account-info {
-        grid-area: account;
+    .account-panel,
+    .info-panel {
+        @apply max-w-md;
     }
 
-    .transak-container {
-        grid-area: transak;
-    }
-
-    .warning-container {
-        grid-area: warning;
+    .account-panel {
+        @apply shrink-0 w-[287px];
     }
 </style>

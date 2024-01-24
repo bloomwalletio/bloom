@@ -43,9 +43,11 @@
 <portfolio-tab>
     <header-row>
         <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.portfolio.asset')}</Text>
-        <Text type="sm" fontWeight="medium" textColor="secondary">
-            {localize('views.dashboard.portfolio.network')}
-        </Text>
+        <div class="text-center">
+            <Text type="sm" fontWeight="medium" textColor="secondary">
+                {localize('views.dashboard.portfolio.network')}
+            </Text>
+        </div>
         <div class="text-end">
             <Text type="sm" fontWeight="medium" textColor="secondary">
                 {localize('views.dashboard.portfolio.marketCap')}

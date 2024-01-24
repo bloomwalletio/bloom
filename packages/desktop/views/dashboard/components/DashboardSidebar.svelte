@@ -13,14 +13,11 @@
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
     import { dashboardRoute } from '@core/router'
     import { StardustNetworkId } from '@core/network'
-    import { Platform } from '@core/app'
 
     let expanded = true
     function toggleExpand(): void {
         expanded = !expanded
     }
-
-    $: void Platform.isSidebarExpanded(expanded)
 
     let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [
