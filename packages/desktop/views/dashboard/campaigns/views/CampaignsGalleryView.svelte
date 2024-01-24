@@ -1,21 +1,36 @@
 <script lang="ts">
     import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
+    import { ICampaign } from '@contexts/campaigns'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import features from '@features/features'
     import { SearchInput } from '@ui'
+    import { CampaignsGallery } from '../components'
 
     let searchTerm: string = ''
 
-    interface ICampaign {
-        title: string
-        description: string
-        image: string
-    }
-    const campaigns: ICampaign[] = []
+    const campaigns: ICampaign[] = [
+        {
+            title: 'Shimmer Testing',
+            description: 'A campaign where we test shimmer script',
+            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmRbs2LSp2kPzjeFdNSekssBjSUrP9YyeKBb6dRHtqBdBi&w=3840&q=75',
+        },
+        {
+            title: 'Shimmer Testing',
+            description: 'A campaign where we test shimmer script',
+            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmRbs2LSp2kPzjeFdNSekssBjSUrP9YyeKBb6dRHtqBdBi&w=3840&q=75',
+        },
+        {
+            title: 'Shimmer Testing',
+            description: 'A campaign where we test shimmer script',
+            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmRbs2LSp2kPzjeFdNSekssBjSUrP9YyeKBb6dRHtqBdBi&w=3840&q=75',
+        },
+    ]
 
-    const queriedCampaigns: ICampaign[] = []
+    $: queriedCampaigns = campaigns.filter((campaign) => {
+        return campaign.title.toLowerCase().includes(searchTerm.toLowerCase())
+    })
 
     function onBrowseCampaignsClick(): void {
         // TODO: add url to constant
@@ -43,7 +58,7 @@
     </div>
     {#if campaigns.length}
         {#if queriedCampaigns.length}
-            <!-- <CampaignGallery nfts={queriedCampaigns} />-->
+            <CampaignsGallery campaigns={queriedCampaigns} />
         {:else}
             <div class="w-full h-full flex flex-col items-center justify-center">
                 <EmptyListPlaceholder title={localize('views.campaign.gallery.noResults')} icon={IconName.Data} />
