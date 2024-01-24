@@ -62,7 +62,7 @@
 </script>
 
 <button on:click={onTokenRowClick} class="token-row">
-    <div class="flex flex-row gap-4 items-start">
+    <div class="flex flex-row gap-4 items-center">
         <TokenAvatar {token} size="lg" hideNetworkBadge />
         <div class="flex flex-col items-start justify-between text-start">
             <Text>
