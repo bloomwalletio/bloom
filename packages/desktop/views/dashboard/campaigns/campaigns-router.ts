@@ -7,22 +7,9 @@ export const campaignsRoute = writable<CampaignsRoute>(undefined)
 export const campaignsRouter = writable<CampaignsRouter>(undefined)
 
 export class CampaignsRouter extends Router<CampaignsRoute> {
+    protected breadcrumb: string | undefined
     constructor() {
         super(CampaignsRoute.Gallery, campaignsRoute)
-    }
-
-    next(): void {
-        let nextRoute: CampaignsRoute
-
-        const currentRoute = get(this.routeStore)
-        switch (currentRoute) {
-            case CampaignsRoute.Gallery: {
-                nextRoute = CampaignsRoute.CampaignDetails
-                break
-            }
-        }
-
-        this.setNext(nextRoute)
     }
 
     previous(): void {
@@ -31,5 +18,13 @@ export class CampaignsRouter extends Router<CampaignsRoute> {
         } else {
             get(appRouter).previous()
         }
+    }
+
+    setBreadcrumb(breadcrumb: string | undefined): void {
+        this.breadcrumb = breadcrumb
+    }
+
+    getBreadcrumb(): string | undefined {
+        return this.breadcrumb
     }
 }
