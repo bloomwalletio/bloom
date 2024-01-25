@@ -23,6 +23,7 @@ import {
 } from '@core/ledger'
 import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
+import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
 
 declare global {
     interface Window {
@@ -143,8 +144,12 @@ export class Ledger {
     static async signEip712Message(
         jsonString: string,
         bip44: Bip44,
-        version: 'V1' | 'V2' | 'V3' | 'V4'
+        version: SignTypedDataVersion
     ): Promise<string | undefined> {
+        if (version === SignTypedDataVersion.V1) {
+            return Promise.reject(localize('error.ledger.eip712.notSupported'))
+        }
+
         openPopup({
             id: PopupId.VerifyLedgerTransaction,
             hideClose: true,
@@ -156,8 +161,21 @@ export class Ledger {
 
         const bip32Path = buildBip32PathFromBip44(bip44)
 
+        const typedData = JSON.parse(jsonString)
+        const sanitizedData = TypedDataUtils.sanitizeData(typedData)
+
+        const hashedDomain = '0x' + TypedDataUtils.eip712DomainHash(typedData, version).toString('hex')
+        const hashedMessage =
+            '0x' +
+            TypedDataUtils.hashStruct(
+                sanitizedData.primaryType as string,
+                sanitizedData.message,
+                sanitizedData.types,
+                version
+            ).toString('hex')
+
         const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
-            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEIP712, jsonString, bip32Path, version),
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEIP712, hashedDomain, hashedMessage, bip32Path),
             'signed-eip712'
         )
 

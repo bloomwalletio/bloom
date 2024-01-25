@@ -63,13 +63,13 @@ export async function signTransactionData(transactionHex: string, bip32Path: str
 }
 
 export async function signEIP712Message(
-    jsonString: string,
-    bip32Path: string,
-    version: 'V1' | 'V2' | 'V3' | 'V4'
+    hashedDomain: string,
+    hashedMessage: string,
+    bip32Path: string
 ): Promise<IEvmSignature> {
     try {
         const appEth = new AppEth(transport)
-        const signature = await appEth.signEIP712Message(bip32Path, JSON.parse(jsonString), version === 'V1')
+        const signature = await appEth.signEIP712HashedMessage(bip32Path, hashedDomain, hashedMessage)
         return {
             r: signature.r,
             s: signature.s,
