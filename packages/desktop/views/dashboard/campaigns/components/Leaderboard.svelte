@@ -28,9 +28,8 @@
             <div class="flex flex-row flex-grow gap-2">
                 <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
                 <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
-                <Pill color="neutral" compact>Referral XP: {leaderboardItem.xpGained}</Pill>
             </div>
-            <Text type="body1" align="right">{leaderboardItem.xpGained} xp</Text>
+            <Text type="body1" align="right">{leaderboardItem.totalXp} xp</Text>
         </div>
     {/each}
 </Pane>

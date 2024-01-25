@@ -4,4 +4,5 @@ export interface ITideLeaderboardItem {
     rewardClaimed: number
     position: number
     xpGained: number
+    totalXp: number
 }
