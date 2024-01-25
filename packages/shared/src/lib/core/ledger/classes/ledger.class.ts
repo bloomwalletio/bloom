@@ -122,15 +122,43 @@ export class Ledger {
         })
 
         const messageHex = Converter.utf8ToHex(rawMessage, false)
-        return Ledger.signHashedMessage(messageHex, bip44)
-    }
-
-    static async signHashedMessage(hashedMessage: string, bip44: Bip44): Promise<string | undefined> {
         const bip32Path = buildBip32PathFromBip44(bip44)
 
         const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
-            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, hashedMessage, bip32Path),
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
             'signed-message'
+        )
+
+        const { r, v, s } = transactionSignature
+        if (r && v && s) {
+            const vBig = BigInt(v)
+            const rBuffer = Buffer.from(r, 'hex')
+            const sBuffer = Buffer.from(s, 'hex')
+            return toRpcSig(vBig, rBuffer, sBuffer)
+        } else {
+            throw new Error(localize('error.ledger.rejected'))
+        }
+    }
+
+    static async signEip712Message(
+        jsonString: string,
+        bip44: Bip44,
+        version: 'V1' | 'V2' | 'V3' | 'V4'
+    ): Promise<string | undefined> {
+        openPopup({
+            id: PopupId.VerifyLedgerTransaction,
+            hideClose: true,
+            preventClose: true,
+            props: {
+                eip712Message: JSON.parse(jsonString),
+            },
+        })
+
+        const bip32Path = buildBip32PathFromBip44(bip44)
+
+        const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEIP712, jsonString, bip32Path, version),
+            'signed-eip712'
         )
 
         const { r, v, s } = transactionSignature

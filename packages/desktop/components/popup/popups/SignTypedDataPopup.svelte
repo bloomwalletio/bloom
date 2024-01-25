@@ -4,7 +4,6 @@
     import { handleError } from '@core/error/handlers'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { signMessage } from '@core/wallet/actions'
     import { Alert, JsonTree, Table, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
@@ -16,7 +15,8 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import DappDataBanner from '@components/DappDataBanner.svelte'
     import { getSdkError } from '@walletconnect/utils'
-    import { SignTypedDataVersion, TypedDataUtils, typedSignatureHash } from '@metamask/eth-sig-util'
+    import { SignTypedDataVersion } from '@metamask/eth-sig-util'
+    import { signEip712Message } from '@core/wallet/actions/signEip712Message'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let data: string
@@ -29,21 +29,23 @@
     let isBusy = false
 
     async function unlockAndSign(): Promise<string> {
-        const typedData = JSON.parse(data)
+        // const typedData = JSON.parse(data)
 
-        let hashedData: string
-        if (version === SignTypedDataVersion.V1) {
-            hashedData = '0x' + typedSignatureHash(typedData)
-        } else {
-            hashedData = '0x' + TypedDataUtils.eip712Hash(typedData, version).toString('hex')
-        }
+        // let hashedData: string
+        // if (version === SignTypedDataVersion.V1) {
+        //     hashedData = '0x' + typedSignatureHash(typedData)
+        //     console.log('v1', hashedData)
+        // } else {
+        //     console.log("hex2", TypedDataUtils.eip712Hash(typedData, SignTypedDataVersion.V4).toString('hex'))
+        //     hashedData = '0x' + TypedDataUtils.eip712Hash(typedData, version).toString('hex')
+        // }
 
         return new Promise((resolve, reject) => {
             checkActiveProfileAuth(
                 async () => {
                     try {
                         const { coinType } = chain.getConfiguration()
-                        const result = await signMessage(hashedData, true, coinType, account)
+                        const result = await signEip712Message(data, version, coinType, account)
                         closePopup({ forceClose: true })
                         resolve(result)
                         return
@@ -65,6 +67,11 @@
         isBusy = true
         try {
             const result = await unlockAndSign()
+            // const typedData = JSON.parse(data)
+
+            // const signerAddress = recoverTypedSignature({ data: typedData, signature: result, version })
+            // console.log(signerAddress);
+
             callback({ result })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,

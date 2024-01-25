@@ -13,6 +13,7 @@ import {
     getEthereumAppSettings,
     getEvmAddress,
     openTransport,
+    signEIP712Message,
     signMessage,
     signTransactionData,
 } from '../utils/ledger.utils'
@@ -47,6 +48,14 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
             }
             case LedgerApiMethod.SignMessage: {
                 data = await signMessage(payload[0] as string, payload[1] as string)
+                break
+            }
+            case LedgerApiMethod.SignEIP712: {
+                data = await signEIP712Message(
+                    payload[0] as string,
+                    payload[1] as string,
+                    payload[2] as 'V1' | 'V2' | 'V3' | 'V4'
+                )
                 break
             }
             default:

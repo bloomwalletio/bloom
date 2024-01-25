@@ -22,6 +22,7 @@ export interface IPlatformEventMap {
     'evm-address': IEvmAddress
     'evm-signed-transaction': IEvmSignature
     'signed-message': IEvmSignature
+    'signed-eip712': IEvmSignature
     'ledger-error': Error
     'lock-screen': void
     'native-theme-updated': void
