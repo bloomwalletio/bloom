@@ -1,9 +1,9 @@
 import { writable } from 'svelte/store'
-import { ILeaderBoard } from '../interfaces/leaderboard.interface'
+import { ILeaderBoard } from '../interfaces'
 
-export const leaderboards = writable<{ [key: string]: ILeaderBoard }>({})
+export const leaderboards = writable<{ [key: number]: ILeaderBoard }>({})
 
-export function addLeaderboard(projectId: string, leaderboard: ILeaderBoard): void {
+export function addLeaderboard(projectId: number, leaderboard: ILeaderBoard): void {
     leaderboards.update((state) => {
         state[projectId] = leaderboard
         return state

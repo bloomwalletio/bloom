@@ -1,17 +1,24 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
-    import { leaderboards, ILeaderboard } from '@contexts/campaigns'
+    import { leaderboards, addLeaderboard } from '@contexts/campaigns'
+    import { TideApi } from '@core/tide/apis'
 
-    const projectId = '536' // ?? $selectedCampaign.projectId
+    const projectId = 536 // ?? $selectedCampaign.projectId
 
     onMount(async () => {
-        // if (!$leaderboards[projectId]) {
-        const response = await fetch(`https://api-prod.tideprotocol.xyz/public/project/${projectId}/leaderboard`)
-        const leaderboardResponse = (await response.json()) as ILeaderboard
-        $leaderboards[projectId] = leaderboardResponse
-        //         }
+        if (!$leaderboards[projectId]) {
+            const tideApi = new TideApi()
+
+            const leaderboard = await tideApi.getProjectLeaderboard(projectId)
+            addLeaderboard(projectId, {
+                board: leaderboard.filteredLeaderboard,
+                userPosition: leaderboard.userPosition,
+            })
+        }
     })
 </script>
 
-<Leaderboard rankings={$leaderboards[projectId]?.leaderboardFiltered} />
+{#if $leaderboards[projectId]?.board}
+    <Leaderboard rankings={$leaderboards[projectId]?.board} />
+{/if}

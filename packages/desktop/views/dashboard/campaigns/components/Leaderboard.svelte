@@ -3,16 +3,9 @@
     import { Avatar, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { truncateString } from '@core/utils'
     import { darkMode } from '@core/app/stores'
+    import { ITideLeaderboardItem } from '@core/tide/interfaces'
 
-    type Ranking = {
-        address: string
-        taskDone: number
-        rewardClaimed: number
-        position: number
-        xpEarned: number
-    }
-
-    export let rankings: Ranking[]
+    export let rankings: ITideLeaderboardItem[]
 
     const top3Colors = {
         0: '#CA9A04',
@@ -35,9 +28,9 @@
             <div class="flex flex-row flex-grow gap-2">
                 <Pill color="neutral" compact>Badges: {ranking.rewardClaimed}</Pill>
                 <Pill color="neutral" compact>Tasks: {ranking.taskDone}</Pill>
-                <Pill color="neutral" compact>Referral XP: {ranking.xpEarned}</Pill>
+                <Pill color="neutral" compact>Referral XP: {ranking.xpGained}</Pill>
             </div>
-            <Text type="body1" align="right">{ranking.xpEarned}xp</Text>
+            <Text type="body1" align="right">{ranking.xpGained}xp</Text>
         </div>
     {/each}
 </Pane>
