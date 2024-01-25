@@ -29,17 +29,6 @@
     let isBusy = false
 
     async function unlockAndSign(): Promise<string> {
-        // const typedData = JSON.parse(data)
-
-        // let hashedData: string
-        // if (version === SignTypedDataVersion.V1) {
-        //     hashedData = '0x' + typedSignatureHash(typedData)
-        //     console.log('v1', hashedData)
-        // } else {
-        //     console.log("hex2", TypedDataUtils.eip712Hash(typedData, SignTypedDataVersion.V4).toString('hex'))
-        //     hashedData = '0x' + TypedDataUtils.eip712Hash(typedData, version).toString('hex')
-        // }
-
         return new Promise((resolve, reject) => {
             checkActiveProfileAuth(
                 async () => {
