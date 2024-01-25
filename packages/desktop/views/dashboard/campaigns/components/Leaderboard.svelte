@@ -5,7 +5,7 @@
     import { darkMode } from '@core/app/stores'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
 
-    export let rankings: ITideLeaderboardItem[]
+    export let leaderboardItems: ITideLeaderboardItem[]
 
     const top3Colors = {
         0: '#CA9A04',
@@ -15,7 +15,7 @@
 </script>
 
 <Pane classes="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
-    {#each rankings as ranking, index}
+    {#each leaderboardItems as leaderboardItem, index}
         <div class="w-full flex justify-between items-center gap-16 py-3 px-5">
             <div class="flex flex-row items-center justify-start gap-2">
                 {#if index <= 2}
@@ -23,14 +23,14 @@
                 {:else}
                     <Avatar text={String(index + 1)} backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'} />
                 {/if}
-                <Text type="sm" fontWeight="bold">{truncateString(ranking.address, 8, 8)}</Text>
+                <Text type="sm" fontWeight="bold">{truncateString(leaderboardItem.address, 8, 8)}</Text>
             </div>
             <div class="flex flex-row flex-grow gap-2">
-                <Pill color="neutral" compact>Badges: {ranking.rewardClaimed}</Pill>
-                <Pill color="neutral" compact>Tasks: {ranking.taskDone}</Pill>
-                <Pill color="neutral" compact>Referral XP: {ranking.xpGained}</Pill>
+                <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
+                <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
+                <Pill color="neutral" compact>Referral XP: {leaderboardItem.xpGained}</Pill>
             </div>
-            <Text type="body1" align="right">{ranking.xpGained}xp</Text>
+            <Text type="body1" align="right">{leaderboardItem.xpGained} xp</Text>
         </div>
     {/each}
 </Pane>
