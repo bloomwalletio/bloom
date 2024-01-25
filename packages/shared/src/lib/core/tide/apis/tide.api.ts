@@ -16,7 +16,7 @@ type ProjectLeaderboardQueryParams = {
 }
 
 interface IProjectLeaderboardResponse {
-    filteredLeaderboard: ITideLeaderboardItem[]
+    leaderboardFiltered: ITideLeaderboardItem[]
     nextPage: number
     leaderboardUserCount: number
     userPosition: ITideUserPosition
