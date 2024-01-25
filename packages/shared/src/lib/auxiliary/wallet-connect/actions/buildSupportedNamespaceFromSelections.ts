@@ -4,6 +4,7 @@ import { getAddressFromAccountForNetwork } from '@core/account/utils'
 import { NetworkId } from '@core/network/types'
 import { ISelections } from '../interface'
 import { ISupportedNamespace, SupportedNamespaces } from '../types'
+import { SupportedNetworkId } from '@core/network'
 
 export function buildSupportedNamespacesFromSelections(
     selections: ISelections,
@@ -49,7 +50,12 @@ function buildSupportedNamespace(
         addresses = allowedChains.flatMap((chain) => {
             return (
                 selections.accounts
-                    ?.map((account) => getAddressFromAccountForNetwork(account, chain as NetworkId))
+                    ?.map((account) => {
+                        const a = getAddressFromAccountForNetwork(account, SupportedNetworkId.TestnetEvm)
+                        console.log(a);
+                        return a
+
+                    })
                     .filter(Boolean)
                     .map((address) => `${chain}:${address}`) ?? []
             )

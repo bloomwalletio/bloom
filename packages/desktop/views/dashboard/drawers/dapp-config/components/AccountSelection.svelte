@@ -30,9 +30,9 @@
             : undefined
 
         accountSelections = $visibleActiveAccounts
-            .filter((account) => {
-                return hasAddressForAllChains(account, _chainIds)
-            })
+            // .filter((account) => {
+            //     return hasAddressForAllChains(account, _chainIds)
+            // })
             .map((account) => {
                 const isChecked = persistedAccountIndexes?.includes(account.index) ?? true
                 return { label: account.name, value: account, checked: isChecked, required: false }

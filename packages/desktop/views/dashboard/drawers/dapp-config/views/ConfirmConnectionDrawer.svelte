@@ -77,7 +77,7 @@
 
             const supportedNamespaces = buildSupportedNamespacesFromSelections(
                 {
-                    chains: persistedNamespaces ? undefined : checkedNetworks,
+                    chains: ["eip155:5"],
                     methods: persistedNamespaces ? undefined : checkedMethods,
                     accounts: persistedNamespaces ? undefined : checkedAccounts,
                 },
@@ -85,6 +85,9 @@
                 $sessionProposal.params.optionalNamespaces,
                 persistedNamespaces
             )
+
+            console.log(supportedNamespaces);
+            
 
             await clearOldPairings(dappUrl)
             await approveSession($sessionProposal, supportedNamespaces, $selectedAccount)
