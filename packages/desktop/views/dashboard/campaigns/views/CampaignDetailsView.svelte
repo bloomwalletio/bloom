@@ -1,24 +1,21 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
-    import { leaderboards, addLeaderboard, selectedCampaign } from '@contexts/campaigns'
+    import { campaignLeaderboards, addCampaignLeaderboard, selectedCampaign } from '@contexts/campaigns'
     import { TideApi } from '@core/tide/apis'
 
     onMount(async () => {
-        if (!$leaderboards[$selectedCampaign.projectId]) {
+        if (!$campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]) {
             const tideApi = new TideApi()
 
             const leaderboard = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
                 cids: [$selectedCampaign.id],
             })
-            addLeaderboard($selectedCampaign.projectId, {
-                board: leaderboard.filteredLeaderboard,
-                userPosition: leaderboard.userPosition,
-            })
+            addCampaignLeaderboard($selectedCampaign.projectId, $selectedCampaign.id, leaderboard.leaderboardFiltered)
         }
     })
 </script>
 
-{#if $leaderboards[$selectedCampaign.projectId]?.board}
-    <Leaderboard leaderboardItems={$leaderboards[$selectedCampaign.projectId]?.board} />
+{#if $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]}
+    <Leaderboard leaderboardItems={$campaignLeaderboards[$selectedCampaign.projectId][$selectedCampaign.id]} />
 {/if}

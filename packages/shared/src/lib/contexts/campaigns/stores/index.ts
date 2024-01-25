@@ -1,2 +1,2 @@
-export * from './leaderboards.store'
+export * from './campaign-leaderboards.store'
 export * from './selectedCampaign.store'
