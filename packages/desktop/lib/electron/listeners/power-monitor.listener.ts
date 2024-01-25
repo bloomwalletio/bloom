@@ -1,12 +1,13 @@
 import { powerMonitor } from 'electron'
+import { windows } from '../constants/windows.constant'
 
-export function registerPowerMonitorListeners(mainWindow: Electron.WebContents | undefined): void {
+export function registerPowerMonitorListeners(): void {
     powerMonitor.on('suspend', () => {
         // MacOS, Windows and Linux
-        mainWindow?.send('lock-screen')
+        windows?.main?.webContents?.send('lock-screen')
     })
     powerMonitor.on('lock-screen', () => {
         // MacOS and Windows
-        mainWindow?.send('lock-screen')
+        windows?.main?.webContents?.send('lock-screen')
     })
 }

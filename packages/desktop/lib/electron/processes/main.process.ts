@@ -277,7 +277,7 @@ export function createMainWindow(): BrowserWindow {
         return cb(permissionAllowlist.indexOf(permission) > -1)
     })
 
-    registerPowerMonitorListeners(windows?.main?.webContents)
+    registerPowerMonitorListeners()
 
     return windows.main
 }
