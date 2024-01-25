@@ -56,11 +56,11 @@
     $: _backButton = { ...DEFAULT_BACK_BUTTON, ...backButton }
 </script>
 
-<popup-template>
+<popup-template class="h-full">
     <div class="popup-banner">
         <slot name="banner" />
     </div>
-    <popop-content class="flex flex-col gap-6 p-8 {$$slots.banner ? 'pt-4' : ''}">
+    <popop-content class="flex flex-col justify-between overflow-hidden gap-6 p-8 {$$slots.banner ? 'pt-4' : ''}">
         <popup-header class="flex flex-col space-y-2.5">
             <title-row class="flex flex-row space-x-2 justify-between">
                 {#if title}<Text type="h6" truncate>{title}</Text>{/if}
@@ -75,7 +75,9 @@
             {/if}
         </popup-header>
         {#if $$slots.default}
-            <slot />
+            <div class="overflow-auto">
+                <slot />
+            </div>
         {/if}
         {#if backButton || continueButton}
             <popup-footer class="block flex flex-row space-x-3">

@@ -34,6 +34,7 @@ export enum PopupId {
     RemoveProposal = 'removeProposal',
     Revote = 'revote',
     SendFlow = 'sendFlow',
+    SignTypedData = 'signTypedData',
     SignMessage = 'signMessage',
     StopVoting = 'stopVoting',
     SuccessfulDappInteraction = 'successfulDappInteraction',
