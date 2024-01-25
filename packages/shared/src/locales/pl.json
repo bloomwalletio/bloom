@@ -347,10 +347,12 @@
             },
             "activity": {
                 "tab": "Aktywność",
+                "activity": "Activity",
                 "asset": "Token",
                 "action": "Akcja",
                 "address": "Adres",
                 "amount": "Ilość",
+                "fee": "Fee",
                 "claimableTransactions": "Masz {amount} {amount, select, 1 {transakcję, która wymaga} other {transakcji, które wymagają}} odbioru",
                 "consolidatedOutputs": "Skonsolidowane wyjścia: {amount}"
             },
@@ -469,8 +471,16 @@
                     "dappsList": {
                         "title": "Połączone aplikacje dApp",
                         "connectDapp": "Połącz dApp",
-                        "emptyTitle": "Nie znaleziono aplikacji",
-                        "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
+                        "paired": {
+                            "tab": "Paired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "expired": {
+                            "tab": "Expired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Połącz dApp",
@@ -509,7 +519,7 @@
                             "signTransaction": "Prośba o podpisanie transakcji",
                             "sendTransaction": "Poproś o wysłanie transakcji",
                             "empty": "Musisz wybrać co najmniej jedno uprawnienie",
-                            "noPermissionsRequired": "No permissions required to use this app"
+                            "noPermissionsRequired": "Do korzystania z tej aplikacji nie są wymagane żadne uprawnienia"
                         },
                         "networks": {
                             "step": "Sieci",
@@ -650,6 +660,13 @@
                 "title": "Zmień swoje hasło",
                 "hint": "Twoja kopia Stronghold była nieaktualna i została zaktualizowana. Zalecamy zmianę hasła."
             }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
+                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
+                "changingAccounts": "Changing accounts will reset all information."
+            }
         }
     },
     "popups": {
@@ -777,12 +794,12 @@
         },
         "confirmAssetTracking": {
             "ERC721": {
-                "title": "Add new NFT",
-                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+                "title": "Dodaj nowe NFT",
+                "description": "\"{dappName}\" chce dodać NFT o ID \"{tokenId}\" i adresie \"{address}\" do Twojego portfela."
             },
             "ERC20": {
-                "title": "Add new token",
-                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+                "title": "Dodaj nowy token",
+                "description": "\"{dappName}\" chce dodać {assetName, select, undefined { token o adresie \"{address}\" } other { {assetName} }}  do Twojego portfela."
             }
         },
         "node": {
@@ -1506,9 +1523,10 @@
         "no": "Nie",
         "tip": "Wskazówka",
         "verified": "Zweryfikowano",
-        "methodName": "Method name",
+        "methodName": "Metoda",
         "data": "Data",
-        "success": "Sukces"
+        "success": "Sukces",
+        "info": "Info"
     },
     "filters": {
         "title": "Filtry",
@@ -1679,7 +1697,7 @@
             "success": "Transakcja mintowania NFT została wysłana"
         },
         "transaction": {
-            "success": "Transaction sent"
+            "success": "Transakcja wysłana"
         },
         "burnNft": {
             "success": "Transakcja spalenia NFT została wysłana"
@@ -1755,7 +1773,7 @@
         "account": {
             "length": "Nazwa Twojego portfela nie może być dłuższa niż {length, plural, one {# znak} few {# znaki} many {# znaków} other {# znaków}}.",
             "emptyName": "Nazwa profilu musi zawierać co najmniej 1 znak.",
-            "colorRequired": "A color is required.",
+            "colorRequired": "Kolor jest wymagany.",
             "duplicate": "Portfel o tej nazwie już istnieje.",
             "tilde": "Nazwa profilu nie może zaczynać się od znaku '~'.",
             "control": "Nazwa profilu nie może zawierać znaku kontrolnego.",
@@ -1769,7 +1787,6 @@
         "send": {
             "addressLength": "Adresy powinny składać się z {length, plural, one {# znaku} few {# znaków} many {# znaków} other {# znaków}}.",
             "amountTooHigh": "To więcej niż Twoje dostępne saldo.",
-            "amountNoFloat": "Nie można używać miejsc dziesiętnych, kiedy wybrana jest najmniejsza jednostka",
             "amountInvalidFormat": "Wartość wydaje się być niepoprawna.",
             "amountSmallerThanSubunit": "Ilość musi być większa niż najmniejsza podjednostka.",
             "tagTooLong": "Tag nie może być dłuższy niż 64 bajty.",
@@ -1876,8 +1893,8 @@
                 "long": "Schemat Url nie jest obsługiwany"
             },
             "unsupportedMediaType": {
-                "short": "Unsupported media type",
-                "long": "The media type is not currently supported"
+                "short": "Nieobsługiwany typ multimediów",
+                "long": "Ten typ mediów nie jest obecnie obsługiwany"
             },
             "notMatchingFileTypes": {
                 "short": "Ładowanie zablokowane",
@@ -2013,7 +2030,7 @@
         "developer": "Deweloper",
         "tokens": "Tokeny",
         "settings": "Ustawienia",
-        "buySell": "Buy & Sell"
+        "buySell": "Kup i sprzedaj"
     },
     "pills": {
         "asyncStatus": {

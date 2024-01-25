@@ -347,10 +347,12 @@
             },
             "activity": {
                 "tab": "Aktivität",
+                "activity": "Activity",
                 "asset": "Asset",
                 "action": "Aktion",
                 "address": "Adresse",
                 "amount": "Betrag",
+                "fee": "Fee",
                 "claimableTransactions": "Du hast {amount} {amount, select, 1 {Transaktion, die beansprucht} other {Transaktionen, die beanspruchen}} ",
                 "consolidatedOutputs": "{amount} Outputs zusammengefügt"
             },
@@ -469,8 +471,16 @@
                     "dappsList": {
                         "title": "Verbundene dApps",
                         "connectDapp": "dApp verbinden",
-                        "emptyTitle": "Keine dApps gefunden",
-                        "emptySubtitle": "Verbinde Bloom mit deinen Lieblings-dApps"
+                        "paired": {
+                            "tab": "Paired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "expired": {
+                            "tab": "Expired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Mit einer dApp verbinden",
@@ -649,6 +659,13 @@
             "changePassword": {
                 "title": "Passwort ändern",
                 "hint": "Dein Stronghold war veraltet und wurde aktualisiert. Wir empfehlen dir, dein Stronghold-Passwort zu ändern."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
+                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
+                "changingAccounts": "Changing accounts will reset all information."
             }
         }
     },
@@ -1508,7 +1525,8 @@
         "verified": "Verifiziert",
         "methodName": "Method name",
         "data": "Daten",
-        "success": "Success"
+        "success": "Success",
+        "info": "Info"
     },
     "filters": {
         "title": "Filter",
@@ -1769,7 +1787,6 @@
         "send": {
             "addressLength": "Adressen sollten {length, plural, one {1 Zeichen} other {# Zeichen}} lang sein.",
             "amountTooHigh": "Das übersteigt dein verfügbares Guthaben.",
-            "amountNoFloat": "Bei der kleinsten gewählten Einheit können keine Dezimalstellen verwendet werden",
             "amountInvalidFormat": "Der Betrag scheint eine ungültige Zahl zu sein.",
             "amountSmallerThanSubunit": "Der Betrag muss größer sein als die kleinste Untereinheit.",
             "tagTooLong": "Der Tag darf nicht größer als 64 Bytes sein.",
