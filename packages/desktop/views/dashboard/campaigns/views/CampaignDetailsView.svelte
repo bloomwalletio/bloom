@@ -11,7 +11,7 @@
             const leaderboard = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
                 cids: [$selectedCampaign.id],
             })
-            addCampaignLeaderboard($selectedCampaign.projectId, $selectedCampaign.id, leaderboard.leaderboardFiltered)
+            addCampaignLeaderboard($selectedCampaign.projectId, $selectedCampaign.id, leaderboard.filteredLeaderboard)
         }
     })
 </script>
