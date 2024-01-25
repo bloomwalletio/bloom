@@ -3,13 +3,13 @@ import { ITideLeaderboardItem } from '@core/tide/interfaces'
 
 export const campaignLeaderboards = writable<{
     [projectId: number]: {
-        [campaignId: number]: ITideLeaderboardItem[]
+        [campaignId: string]: ITideLeaderboardItem[]
     }
 }>({})
 
 export function addCampaignLeaderboard(
     projectId: number,
-    campaignId: number,
+    campaignId: string,
     leaderboard: ITideLeaderboardItem[]
 ): void {
     campaignLeaderboards.update((state) => {
