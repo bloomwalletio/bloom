@@ -32,7 +32,7 @@
                 async () => {
                     try {
                         const { coinType } = chain.getConfiguration()
-                        const result = await signMessage(message, false, coinType, account)
+                        const result = await signMessage(message, coinType, account)
                         closePopup({ forceClose: true })
                         resolve(result)
                         return
