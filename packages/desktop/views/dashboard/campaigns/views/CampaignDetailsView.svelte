@@ -1,78 +1,21 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
+    import { campaignLeaderboards, addCampaignLeaderboard, selectedCampaign } from '@contexts/campaigns'
+    import { TideApi } from '@core/tide/apis'
 
-    const rankings = [
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-    ]
+    onMount(async () => {
+        if (!$campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]) {
+            const tideApi = new TideApi()
+
+            const leaderboard = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
+                cids: [$selectedCampaign.id],
+            })
+            addCampaignLeaderboard($selectedCampaign.projectId, $selectedCampaign.id, leaderboard.filteredLeaderboard)
+        }
+    })
 </script>
 
-<Leaderboard {rankings} />
+{#if $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]}
+    <Leaderboard leaderboardItems={$campaignLeaderboards[$selectedCampaign.projectId][$selectedCampaign.id]} />
+{/if}

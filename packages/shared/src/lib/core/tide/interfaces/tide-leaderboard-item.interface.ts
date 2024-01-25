@@ -1,7 +1,8 @@
 export interface ITideLeaderboardItem {
     address: string
-    tasksDone: number
-    rewardsClaimed: number
+    taskDone: number
+    rewardClaimed: number
     position: number
-    xpEarned: number
+    xpGained: number
+    totalXp: number
 }
