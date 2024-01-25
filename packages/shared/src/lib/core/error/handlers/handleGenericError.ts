@@ -10,10 +10,6 @@ export function handleGenericError(error: IError | string): void {
     } else {
         message = error?.message ?? error?.error ?? ''
         type = error?.type ?? 'Generic'
-
-        if (error.stack) {
-            message += JSON.stringify(error.stack)
-        }
     }
 
     logAndNotifyError({
