@@ -3,7 +3,7 @@ import { getSignatureForStringWithStronghold } from './getSignatureForStringWith
 import { toRpcSig } from '@ethereumjs/util'
 import { SignTypedDataVersion, TypedDataUtils, typedSignatureHash } from '@metamask/eth-sig-util'
 
-export async function signMessageWithStronghold(
+export async function signEIP712MessageWithStronghold(
     jsonString: string,
     bip44Path: Bip44,
     version: SignTypedDataVersion

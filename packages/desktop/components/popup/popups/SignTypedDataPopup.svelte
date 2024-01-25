@@ -56,10 +56,6 @@
         isBusy = true
         try {
             const result = await unlockAndSign()
-            // const typedData = JSON.parse(data)
-
-            // const signerAddress = recoverTypedSignature({ data: typedData, signature: result, version })
-            // console.log(signerAddress);
 
             callback({ result })
             openPopup({
