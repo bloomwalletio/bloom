@@ -65,7 +65,7 @@
                 <slot name="contents" />
             </div>
             {#if !$drawerState.hideClose}
-                <div class="absolute top-6 right-6">
+                <div class="absolute top-6 right-6 not-draggable">
                     <CloseButton size="sm" on:click={onCloseClick} />
                 </div>
             {/if}
@@ -91,7 +91,7 @@
         }
     }
 
-    overlay {
-        -webkit-app-region: none;
+    .not-draggable {
+        -webkit-app-region: no-drag;
     }
 </style>
