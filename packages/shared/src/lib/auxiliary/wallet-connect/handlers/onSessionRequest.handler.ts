@@ -64,7 +64,6 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         case 'eth_signTypedData_v3':
         case 'eth_signTypedData_v4':
             void handleEthSignTypedData(request.params, method, dapp, chain, returnResponse)
-            returnResponse({ error: getSdkError('INVALID_METHOD') })
             break
         case 'wallet_watchAsset':
             void handleWatchAsset(request.params, dapp, chain, returnResponse)

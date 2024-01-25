@@ -16,10 +16,11 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import DappDataBanner from '@components/DappDataBanner.svelte'
     import { getSdkError } from '@walletconnect/utils'
-    // import { TypedDataUtils } from '@metamask/eth-sig-util'
+    import { SignTypedDataVersion, TypedDataUtils, typedSignatureHash } from '@metamask/eth-sig-util'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let data: string
+    export let version: SignTypedDataVersion
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
@@ -28,12 +29,21 @@
     let isBusy = false
 
     async function unlockAndSign(): Promise<string> {
+        const typedData = JSON.parse(data)
+
+        let hashedData: string
+        if (version === SignTypedDataVersion.V1) {
+            hashedData = '0x' + typedSignatureHash(typedData)
+        } else {
+            hashedData = '0x' + TypedDataUtils.eip712Hash(typedData, version).toString('hex')
+        }
+
         return new Promise((resolve, reject) => {
             checkActiveProfileAuth(
                 async () => {
                     try {
                         const { coinType } = chain.getConfiguration()
-                        const result = await signMessage(data, coinType, account)
+                        const result = await signMessage(hashedData, true, coinType, account)
                         closePopup({ forceClose: true })
                         resolve(result)
                         return

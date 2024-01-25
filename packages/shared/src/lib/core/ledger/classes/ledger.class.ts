@@ -122,10 +122,14 @@ export class Ledger {
         })
 
         const messageHex = Converter.utf8ToHex(rawMessage, false)
+        return Ledger.signHashedMessage(messageHex, bip44)
+    }
+
+    static async signHashedMessage(hashedMessage: string, bip44: Bip44): Promise<string | undefined> {
         const bip32Path = buildBip32PathFromBip44(bip44)
 
         const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
-            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, hashedMessage, bip32Path),
             'signed-message'
         )
 

@@ -7,6 +7,10 @@ export async function signMessageWithStronghold(message: string, bip44Path: Bip4
     const prefix = '\x19Ethereum Signed Message:\n' + message.length
     const messageHex = Converter.utf8ToHex(prefix + message)
 
-    const { r, s, v } = await getSignatureForStringWithStronghold(messageHex, bip44Path)
+    return signHashedMessageWithStronghold(messageHex, bip44Path)
+}
+
+export async function signHashedMessageWithStronghold(message: string, bip44Path: Bip44): Promise<string> {
+    const { r, s, v } = await getSignatureForStringWithStronghold(message, bip44Path)
     return toRpcSig(v, r, s)
 }
