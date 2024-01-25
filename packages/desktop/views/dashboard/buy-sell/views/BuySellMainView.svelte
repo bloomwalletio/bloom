@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, IconName, Pill, Text } from '@bloomwalletio/ui'
+    import { Copyable, Icon, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { AccountSwitcher, FormattedBalance } from '@components'
     import { ISettingsState, settingsState } from '@contexts/settings/stores'
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
@@ -99,11 +99,13 @@
                 <FormattedBalance balanceText={tokenBalance} textType="h4" />
                 <Text type="h6" textColor="secondary">{fiatBalance}</Text>
             </div>
-            <div class="bg-surface-2 rounded-xl py-2 px-3">
-                <Text type="pre-sm" textColor="secondary" class="break-all whitespace-normal">
-                    {$selectedAccount?.depositAddress}
-                </Text>
-            </div>
+            <Copyable value={$selectedAccount?.depositAddress}>
+                <div class="bg-surface-2 dark:bg-surface-2-dark rounded-xl py-2 px-3">
+                    <Text type="pre-sm" textColor="secondary" class="break-all whitespace-normal">
+                        {$selectedAccount?.depositAddress}
+                    </Text>
+                </div>
+            </Copyable>
         </Pane>
     </div>
     <div class="transak-panel" bind:this={transakContainer}>
@@ -115,7 +117,7 @@
         <Pane
             classes="flex flex-col justify-start items-start w-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
         >
-            <Pill color="primary">{localize('general.info')}</Pill>
+            <Pill color="brand">{localize('general.info')}</Pill>
             <Text color="secondary">{localize('views.buySell.info.receive')}</Text>
             <Text color="secondary">{localize('views.buySell.info.multipleAccounts')}</Text>
             <Text color="secondary">{localize('views.buySell.info.changingAccounts')}</Text>
