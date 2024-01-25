@@ -1,78 +1,17 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
+    import { leaderboards, ILeaderboard } from '@contexts/campaigns'
 
-    const rankings = [
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-        {
-            address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-            badgesAmount: 33,
-            taskAmount: 333,
-            referralExperience: 333,
-            experience: 333,
-        },
-    ]
+    const projectId = '536' // ?? $selectedCampaign.projectId
+
+    onMount(async () => {
+        // if (!$leaderboards[projectId]) {
+        const response = await fetch(`https://api-prod.tideprotocol.xyz/public/project/${projectId}/leaderboard`)
+        const leaderboardResponse = (await response.json()) as ILeaderboard
+        $leaderboards[projectId] = leaderboardResponse
+        //         }
+    })
 </script>
 
-<Leaderboard {rankings} />
+<Leaderboard rankings={$leaderboards[projectId]?.leaderboardFiltered} />

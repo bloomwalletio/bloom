@@ -6,10 +6,10 @@
 
     type Ranking = {
         address: string
-        badgesAmount: number
-        taskAmount: number
-        referralExperience: number
-        experience: number
+        taskDone: number
+        rewardClaimed: number
+        position: number
+        xpEarned: number
     }
 
     export let rankings: Ranking[]
@@ -33,11 +33,11 @@
                 <Text type="sm" fontWeight="bold">{truncateString(ranking.address, 8, 8)}</Text>
             </div>
             <div class="flex flex-row flex-grow gap-2">
-                <Pill color="neutral" compact>Badges: {ranking.badgesAmount}</Pill>
-                <Pill color="neutral" compact>Tasks: {ranking.taskAmount}</Pill>
-                <Pill color="neutral" compact>Referral XP: {ranking.taskAmount}</Pill>
+                <Pill color="neutral" compact>Badges: {ranking.rewardClaimed}</Pill>
+                <Pill color="neutral" compact>Tasks: {ranking.taskDone}</Pill>
+                <Pill color="neutral" compact>Referral XP: {ranking.xpEarned}</Pill>
             </div>
-            <Text type="body1" align="right">{ranking.experience}xp</Text>
+            <Text type="body1" align="right">{ranking.xpEarned}xp</Text>
         </div>
     {/each}
 </Pane>
