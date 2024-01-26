@@ -60,7 +60,7 @@
                 },
                 {
                     trait_type: 'Weapon',
-                    value: 'Bird\'s Knuckles',
+                    value: 'Bird Knuckles',
                 },
                 {
                     trait_type: 'XP',
