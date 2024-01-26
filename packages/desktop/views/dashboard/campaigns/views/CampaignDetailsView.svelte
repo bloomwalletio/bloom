@@ -3,13 +3,17 @@
     import { SupportedNetworkId, getNetwork } from '@core/network'
     import { MimeType, Nft, NftStandard } from '@core/nfts'
     import { TideApi } from '@core/tide/apis'
-    import { ITideLeaderboardItem } from '@core/tide/interfaces'
     import Pane from '@ui/atoms/Pane.svelte'
     import { MediaPlaceholder } from '@ui/molecules'
     import NftGalleryItem from '@ui/molecules/NftGalleryItem.svelte'
     import { onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
-    import { campaignLeaderboards, addCampaignLeaderboard, selectedCampaign } from '@contexts/campaigns'
+    import {
+        campaignLeaderboards,
+        addCampaignLeaderboard,
+        selectedCampaign,
+        addUserPositionToCampaignLeaderboard,
+    } from '@contexts/campaigns'
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import { selectedAccount } from '@core/account/stores'
     import { getAddressFromAccountForNetwork } from '@core/account'
@@ -65,25 +69,26 @@
         },
     }
 
-    let userPosition: ITideLeaderboardItem | undefined = undefined
-    $: userPosition = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]?.find(
-        (item) =>
-            item.address.toLowerCase() ===
-            getAddressFromAccountForNetwork(
-                $selectedAccount,
-                getNetwork()?.getChains()?.[0]?.getConfiguration().id
-            )?.toLowerCase()
-    )
+    $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
 
     onMount(async () => {
-        if (!$campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]) {
-            const tideApi = new TideApi()
-
+        const tideApi = new TideApi()
+        if (!campaign?.board) {
             const leaderboard = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
                 cids: [$selectedCampaign.id],
             })
             addCampaignLeaderboard($selectedCampaign.projectId, $selectedCampaign.id, leaderboard.filteredLeaderboard)
         }
+
+        const evmChainId = getNetwork()?.getChains()?.[0]?.getConfiguration().id
+        const userAddress = getAddressFromAccountForNetwork($selectedAccount, evmChainId)?.toLowerCase()
+
+        const leaderboard = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
+            cids: [$selectedCampaign.id],
+            by: 'ADDRESS',
+            search: userAddress,
+        })
+        addUserPositionToCampaignLeaderboard($selectedCampaign.projectId, $selectedCampaign.id, leaderboard?.[0])
     })
 </script>
 
@@ -108,14 +113,12 @@
 
     <div class="grid grid-cols-7 gap-8 items-start">
         <div class="col-span-5">
-            {#if $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]}
-                <Leaderboard
-                    leaderboardItems={$campaignLeaderboards[$selectedCampaign.projectId][$selectedCampaign.id]}
-                />
+            {#if campaign}
+                <Leaderboard leaderboardItems={campaign.board} />
             {/if}
         </div>
         <div class="flex flex-col flex-grow gap-8 col-span-2">
-            <UserPositionCard {userPosition} />
+            <UserPositionCard userPosition={campaign?.userPosition} />
             <NftGalleryItem nft={userNft} />
         </div>
     </div>
