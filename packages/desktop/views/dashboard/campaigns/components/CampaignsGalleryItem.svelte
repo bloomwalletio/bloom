@@ -2,7 +2,6 @@
     import { Text } from '@bloomwalletio/ui'
     import { ICampaign } from '@contexts/campaigns'
     import { setSelectedCampaign } from '@contexts/campaigns/stores'
-    import { MediaPlaceholder } from '@ui'
     import { CampaignsRoute, campaignsRouter } from '../'
 
     export let campaign: ICampaign
@@ -23,9 +22,7 @@
             bind:clientWidth={campaignWrapperClientWidth}
             style="height: {(campaignWrapperClientWidth * 9) / 16}px; "
         >
-            <div class="min-w-full aspect-video object-cover">
-                <MediaPlaceholder size="md" />
-            </div>
+            <img src={campaign.image} class="h-full object-cover" />
         </div>
         <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
             <Text type="body2" truncate>{campaign.title}</Text>
