@@ -10,23 +10,19 @@
     <div class="w-full flex flex-row justify-between items-center p-2 gap-3 w-32">
         <div class="flex flex-row gap-3 items-center overflow-hidden">
             <div class="flex flex-col overflow-hidden">
-                {#if userPosition}
-                    <Text type="body2" truncate>My Position</Text>
-                    <Text type="sm" textColor="secondary" truncate>
-                        Ranking: {userPosition.position}
-                    </Text>
-                    <Text type="sm" textColor="secondary" truncate>
-                        Points: {userPosition.xpGained} xp
-                    </Text>
-                    <Text type="sm" textColor="secondary" truncate>
-                        Tasks Complete: {userPosition.taskDone}
-                    </Text>
-                    <Text type="sm" textColor="secondary" truncate>
-                        Rewards Claimed: {userPosition.rewardClaimed}
-                    </Text>
-                {:else}
-                    <Text type="body1">You're not particitpating in this campaign yet</Text>
-                {/if}
+                <Text type="body2" truncate>My Position</Text>
+                <Text type="sm" textColor="secondary" truncate>
+                    Ranking: {userPosition?.position ?? '-'}
+                </Text>
+                <Text type="sm" textColor="secondary" truncate>
+                    Points: {userPosition?.xpGained ?? '-'} xp
+                </Text>
+                <Text type="sm" textColor="secondary" truncate>
+                    Tasks Complete: {userPosition?.taskDone ?? '-'}
+                </Text>
+                <Text type="sm" textColor="secondary" truncate>
+                    Rewards Claimed: {userPosition?.rewardClaimed ?? '-'}
+                </Text>
             </div>
         </div>
     </div>
