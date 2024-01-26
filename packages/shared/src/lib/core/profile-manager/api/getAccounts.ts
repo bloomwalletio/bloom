@@ -4,6 +4,9 @@ import { get } from 'svelte/store'
 import { profileManager } from '../stores'
 
 export function getAccounts(manager = profileManager): Promise<IAccount[]> {
-    const { id } = get(manager)
-    return api.getAccounts(id)
+    const { id } = get(manager) ?? {}
+    if (id) {
+        return api.getAccounts(id)
+    }
+    return Promise.resolve([])
 }

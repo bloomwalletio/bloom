@@ -6,5 +6,5 @@ export function getNetworkIdFromAddress(networkAddress: string | undefined): Net
     const chain = chains?.find(
         (chain) => (chain?.getConfiguration() as IIscpChainConfiguration).aliasAddress === networkAddress
     )
-    return chain?.getConfiguration().id
+    return chain?.getConfiguration()?.id
 }

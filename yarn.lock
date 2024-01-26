@@ -377,10 +377,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.19.3":
-  version "0.19.3"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.19.3/3f4123aea1355653db45caea06a8cbb35e113e48#3f4123aea1355653db45caea06a8cbb35e113e48"
-  integrity sha512-aX0CsApUFlcsq3znnOsQq594QGjMAxJSRzG8/J/2Me9gqQGv05DUb6dQE+NEo5tPHxzaXxKU4K2MZ+agitcORw==
+"@bloomwalletio/ui@0.19.5":
+  version "0.19.5"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.19.5/bdd884be8469bc518aa9f52743da726441abc4b0#bdd884be8469bc518aa9f52743da726441abc4b0"
+  integrity sha512-28gav+1p9ObsjJIXkyb2PvV2RkP9UPipMvQ4nZoayyyIzMnYt6uFzVHQrJ9OeL57sadE2jjtjixNfw+I8/yFwA==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
@@ -5117,10 +5117,10 @@ electron-updater@6.1.4:
     semver "^7.3.8"
     tiny-typed-emitter "^2.1.0"
 
-electron@25.9.0:
-  version "25.9.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-25.9.0.tgz#456fe61ebb86f81f648fd370fa0888e0cbfd0f99"
-  integrity sha512-wgscxf2ORHL/8mAQfy7l9rVDG//wrG9RUQndG508kCCMHRq9deFyZ4psOMzySheBRSfGMcFoRFYSlkAeZr8cFg==
+electron@28.2.0:
+  version "28.2.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-28.2.0.tgz#ecf7097d4a1e47dd08111c0229a9d03c44f485ad"
+  integrity sha512-22SylXQQ9IHtwLw4D+Z4Si7OUpeDtpHfJVTjy3yv53iLg5zJKKPOCWT4ZwgYGHQZ0eldyBrYBHF/P9FPd2CcVQ==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^18.11.18"

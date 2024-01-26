@@ -671,6 +671,13 @@
                 "title": "Change your password",
                 "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
             }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
+                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
+                "changingAccounts": "Changing accounts will reset all information."
+            }
         }
     },
     "popups": {
@@ -1529,7 +1536,8 @@
         "verified": "Verified",
         "methodName": "Method name",
         "data": "Data",
-        "success": "Success"
+        "success": "Success",
+        "info": "Info"
     },
     "filters":{
         "title": "Filters",

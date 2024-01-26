@@ -68,11 +68,7 @@ async function persistNftsFromExplorerAsset(
                     return undefined
                 }
 
-                addNewTrackedNftToActiveProfile(
-                    networkId,
-                    `${persistedNft.contractMetadata.address}:${persistedNft.tokenId}`,
-                    TokenTrackingStatus.AutomaticallyTracked
-                )
+                addNewTrackedNftToActiveProfile(networkId, persistedNft.id, TokenTrackingStatus.AutomaticallyTracked)
 
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, evmAddress)
                 updateAllAccountNftsForAccount(account.index, nft)
