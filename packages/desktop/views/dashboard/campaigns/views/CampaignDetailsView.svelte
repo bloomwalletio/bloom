@@ -28,8 +28,8 @@
 
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
     $: userAddress = getAddressFromAccountForNetwork($selectedAccount, evmChain.id)?.toLowerCase()
-    $: fetchAndPersistUserPosition(userAddress)
-    $: fetchAndPersistUserNft(userAddress)
+    $: void fetchAndPersistUserPosition(userAddress)
+    $: void fetchAndPersistUserNft(userAddress, $selectedAccount.index)
 
     $: userNft = $selectedAccountNfts.find((nft) => nft.id?.startsWith($selectedCampaign.contractAddress.toLowerCase()))
 
@@ -57,21 +57,27 @@
         )
     }
 
-    async function fetchAndPersistUserNft(accountAddress: string): Promise<void> {
-        if (!userNft) {
-            const { tokenId } = await tideApi.getNftUserData(
-                Number(evmChain.chainId),
-                accountAddress,
-                $selectedCampaign.contractAddress
-            )
-            if (!tokenId) {
-                return
-            }
-
-            const persistedNft = await persistErc721Nft($selectedCampaign.contractAddress, tokenId, evmChain.id)
-            const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
-            updateAllAccountNftsForAccount($selectedAccount.index, nft)
+    async function fetchAndPersistUserNft(accountAddress: string, index: number): Promise<void> {
+        if (userNft) {
+            return
         }
+
+        const { tokenId } = await tideApi.getNftUserData(
+            Number(evmChain.chainId),
+            accountAddress,
+            $selectedCampaign.contractAddress
+        )
+        if (!tokenId) {
+            return
+        }
+
+        const persistedNft = await persistErc721Nft($selectedCampaign.contractAddress, tokenId, evmChain.id)
+        const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
+        updateAllAccountNftsForAccount(index, nft)
+    }
+
+    function setImageLoadError(): void {
+        imageLoadError = true
     }
 
     onMount(async () => {
@@ -96,7 +102,7 @@
                 src={$selectedCampaign.image}
                 alt={$selectedCampaign?.title}
                 class="w-full h-full object-cover"
-                on:error={() => (imageLoadError = true)}
+                on:error={setImageLoadError}
             />
         {:else}
             <div class="min-w-full h-full object-cover">
