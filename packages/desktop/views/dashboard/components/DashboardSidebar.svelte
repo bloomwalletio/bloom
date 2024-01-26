@@ -52,7 +52,7 @@
             $activeProfile?.network?.id === StardustNetworkId.Testnet)
             ? [
                   {
-                      icon: IconName.Verified,
+                      icon: IconName.Gift,
                       label: localize('tabs.campaigns'),
                       route: DashboardRoute.Campaigns,
                       onClick: openCampaigns,

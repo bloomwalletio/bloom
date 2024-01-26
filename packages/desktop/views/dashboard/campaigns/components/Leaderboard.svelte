@@ -19,7 +19,7 @@
         <div class="w-full flex justify-between items-center gap-16 py-3 px-5">
             <div class="flex flex-row items-center justify-start gap-2">
                 {#if index <= 2}
-                    <Avatar icon={IconName.Verified} customTextColor={top3Colors[index]} backgroundColor="surface/00" />
+                    <Avatar icon={IconName.Award} customTextColor={top3Colors[index]} backgroundColor="surface/00" />
                 {:else}
                     <Avatar text={String(index + 1)} backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'} />
                 {/if}
