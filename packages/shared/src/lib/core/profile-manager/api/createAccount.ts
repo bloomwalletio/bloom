@@ -8,8 +8,11 @@ import { api, IProfileManager, profileManager } from '..'
 
 export function createAccount(
     payload: CreateAccountPayload,
-    manager: Writable<IProfileManager> = profileManager
+    manager: Writable<IProfileManager | null> = profileManager
 ): Promise<IAccount> {
-    const { id } = get(manager)
+    const { id } = get(manager) ?? {}
+    if (!id) {
+        return Promise.reject('Manager ID is undefined!')
+    }
     return api.createAccount(id, payload)
 }

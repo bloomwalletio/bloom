@@ -15,7 +15,7 @@ export async function isLedgerDeviceMatchingActiveProfile(): Promise<boolean | u
             const account = getSelectedAccount()
             const cachedAddress = account.depositAddress
 
-            const generatedAddress = await getProfileManager().generateEd25519Address(account.index, 0, {
+            const generatedAddress = await getProfileManager()?.generateEd25519Address(account.index, 0, {
                 internal: false,
                 ledgerNanoPrompt: false,
             })
