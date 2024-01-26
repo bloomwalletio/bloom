@@ -67,6 +67,5 @@ export interface IPlatform {
     closeTransak(): Promise<void>
     minimizeTransak(): Promise<void>
     restoreTransak(): Promise<void>
-
-    isSidebarExpanded(expanded: boolean): Promise<void>
+    updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void>
 }

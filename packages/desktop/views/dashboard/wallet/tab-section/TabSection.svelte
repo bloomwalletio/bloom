@@ -8,18 +8,19 @@
     import { ActivityTab } from './activity'
     import { PortfolioTab } from './portfolio'
     import features from '@features/features'
+    import { selectedWalletTabIndex } from '@contexts/wallet/stores'
 
     const TABS = [
-        { key: 'activity', value: localize('views.dashboard.activity.tab') },
         { key: 'portfolio', value: localize('views.dashboard.portfolio.tab') },
+        { key: 'activity', value: localize('views.dashboard.activity.tab') },
     ]
 
-    let selectedTab = TABS[0]
+    let selectedTab = TABS[$selectedWalletTabIndex]
 </script>
 
 <top-section class="flex flex-row justify-between px-5 py-4 items-center">
     <div class="w-64">
-        <Tabs bind:selectedTab tabs={TABS} />
+        <Tabs bind:selectedTab bind:selectedIndex={$selectedWalletTabIndex} tabs={TABS} />
     </div>
     <div class="flex flex-row gap-2 items-center">
         {#if selectedTab.key === 'activity'}

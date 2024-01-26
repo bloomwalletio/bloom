@@ -262,7 +262,7 @@ export default {
     restoreTransak(): Promise<void> {
         return ipcRenderer.invoke('restore-transak')
     },
-    isSidebarExpanded(expanded: boolean): Promise<void> {
-        return ipcRenderer.invoke('is-sidebar-expanded', expanded)
+    updateTransakBounds(rect: Electron.Rectangle): Promise<void> {
+        return ipcRenderer.invoke('update-transak-bounds', rect)
     },
 }
