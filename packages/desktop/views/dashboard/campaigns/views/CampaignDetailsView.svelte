@@ -64,6 +64,10 @@
                 accountAddress,
                 $selectedCampaign.contractAddress
             )
+            if (!tokenId) {
+                return
+            }
+
             const persistedNft = await persistErc721Nft($selectedCampaign.contractAddress, tokenId, evmChain.id)
             const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
             updateAllAccountNftsForAccount($selectedAccount.index, nft)
