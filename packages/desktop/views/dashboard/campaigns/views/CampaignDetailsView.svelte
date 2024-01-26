@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Text } from '@bloomwalletio/ui'
-    import { SupportedNetworkId } from '@core/network'
+    import { SupportedNetworkId, getNetwork } from '@core/network'
     import { MimeType, Nft, NftStandard } from '@core/nfts'
     import { TideApi } from '@core/tide/apis'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
@@ -12,6 +12,7 @@
     import { campaignLeaderboards, addCampaignLeaderboard, selectedCampaign } from '@contexts/campaigns'
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import { selectedAccount } from '@core/account/stores'
+    import { getAddressFromAccountForNetwork } from '@core/account'
 
     const userNft: Nft = {
         id: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08:1',
@@ -66,7 +67,12 @@
 
     let userPosition: ITideLeaderboardItem | undefined = undefined
     $: userPosition = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]?.find(
-        (item) => item.address === $selectedAccount.depositAddress
+        (item) =>
+            item.address.toLowerCase() ===
+            getAddressFromAccountForNetwork(
+                $selectedAccount,
+                getNetwork()?.getChains()?.[0]?.getConfiguration().id
+            )?.toLowerCase()
     )
 
     onMount(async () => {
