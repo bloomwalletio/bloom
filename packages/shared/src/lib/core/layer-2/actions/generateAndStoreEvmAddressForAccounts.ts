@@ -19,7 +19,11 @@ export async function generateAndStoreEvmAddressForAccounts(
 
         let evmAddress: string | undefined
         if (profileType === ProfileType.Software) {
-            const manager = await api.getSecretManager(getProfileManager().id)
+            const profileManagerId = getProfileManager()?.id
+            if (!profileManagerId) {
+                return
+            }
+            const manager = await api.getSecretManager(profileManagerId)
             // Follow MetaMask's convention around incrementing address indices instead of account indices
             const addresses = await manager.generateEvmAddresses({
                 coinType,

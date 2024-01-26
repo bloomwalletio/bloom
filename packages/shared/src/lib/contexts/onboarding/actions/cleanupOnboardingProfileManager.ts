@@ -8,8 +8,10 @@ export async function cleanupOnboardingProfileManager(): Promise<void> {
         return
     }
 
-    const { id } = get(profileManager)
+    const { id } = get(profileManager) ?? {}
 
     await destroyProfileManager()
-    await removeProfileFolder(id)
+    if (id) {
+        await removeProfileFolder(id)
+    }
 }

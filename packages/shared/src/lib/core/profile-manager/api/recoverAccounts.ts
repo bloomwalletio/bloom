@@ -10,6 +10,9 @@ export function recoverAccounts(
     recoverAccountsPayload: RecoverAccountsPayload,
     manager = profileManager
 ): Promise<IAccount[]> {
-    const { id } = get(manager)
-    return api.recoverAccounts(id, recoverAccountsPayload)
+    const { id } = get(manager) ?? {}
+    if (id) {
+        return api.recoverAccounts(id, recoverAccountsPayload)
+    }
+    return Promise.resolve([])
 }

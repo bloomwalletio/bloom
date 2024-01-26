@@ -17,7 +17,7 @@ export async function getNodeInfoWhileLoggedOut(url: string, auth: IAuth): Promi
             { nodes: [{ url }] },
             { stronghold: { snapshotPath: `${storagePath}/wallet.stronghold` } }
         )
-        nodeInfoResponse = await api.getNodeInfo(manager.id, url, auth)
+        nodeInfoResponse = await api.getNodeInfo(manager?.id, url, auth)
         return nodeInfoResponse
     } catch (error) {
         return Promise.reject(error)
