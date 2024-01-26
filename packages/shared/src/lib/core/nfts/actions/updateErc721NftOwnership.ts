@@ -24,7 +24,7 @@ export async function updateErc721NftsOwnership(account: IAccountState): Promise
             updatePersistedNft(nft.id, { ownerAddress: updatedOwner })
         }
         const l2Address = getAddressFromAccountForNetwork(account, nft.networkId)
-        const isSpendable = updatedOwner.toLowerCase() === l2Address?.toLowerCase()
+        const isSpendable = updatedOwner === l2Address?.toLowerCase()
         updateAllAccountNftsForAccount(account.index, { ...nft, isSpendable })
 
         calculateAndAddPersistedNftBalanceChange(account, nft.networkId, nft.id, isSpendable)

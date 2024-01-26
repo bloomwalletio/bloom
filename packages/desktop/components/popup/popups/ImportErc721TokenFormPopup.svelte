@@ -39,11 +39,7 @@
             if (!persistedNft) {
                 throw new Error(localize('popups.importTokens.errors.alreadyAdded'))
             }
-            addNewTrackedNftToActiveProfile(
-                networkId,
-                `${persistedNft.contractMetadata.address}:${persistedNft.tokenId}`,
-                TokenTrackingStatus.ManuallyTracked
-            )
+            addNewTrackedNftToActiveProfile(networkId, persistedNft.id, TokenTrackingStatus.ManuallyTracked)
 
             for (const account of $activeAccounts) {
                 const l2Address = getAddressFromAccountForNetwork(account, networkId)

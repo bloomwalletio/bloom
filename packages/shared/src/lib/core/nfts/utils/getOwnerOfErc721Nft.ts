@@ -7,5 +7,5 @@ export async function getOwnerOfErc721Nft(nft: IPersistedErc721Nft | IErc721Nft)
     const network = getNetwork()?.getChain(networkId)
     const contract = network?.getContract(ContractType.Erc721, contractMetadata.address)
     const owner = await contract?.methods.ownerOf(tokenId).call()
-    return owner.toLowerCase()
+    return owner?.toLowerCase()
 }

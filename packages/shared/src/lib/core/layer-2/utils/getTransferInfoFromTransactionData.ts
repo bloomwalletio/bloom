@@ -84,7 +84,7 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
 
                 return {
                     type: ActivityType.Nft,
-                    nftId: `${recipientAddress}:${inputs.tokenId}`,
+                    nftId: `${recipientAddress.toLowerCase()}:${inputs.tokenId}`,
                     recipientAddress: inputs.to,
                 }
             }
