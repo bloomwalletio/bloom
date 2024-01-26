@@ -22,7 +22,7 @@
             bind:clientWidth={campaignWrapperClientWidth}
             style="height: {(campaignWrapperClientWidth * 9) / 16}px; "
         >
-            <img src={campaign.image} class="h-full object-cover" />
+            <img src={campaign.image} alt={campaign.title} class="h-full object-cover" />
         </div>
         <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
             <Text type="body2" truncate>{campaign.title}</Text>
