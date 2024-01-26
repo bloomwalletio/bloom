@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Text } from '@bloomwalletio/ui'
-    import { ITideUserPosition } from '@core/tide/interfaces'
+    import { ITideLeaderboardItem } from '@core/tide/interfaces'
     import { Tile } from '@ui'
 
-    export let userPosition: ITideUserPosition
+    export let userPosition: ITideLeaderboardItem | undefined
 </script>
 
 <Tile classes="bg-surface-0 dark:bg-surface-0-dark border border-solid border-stroke dark:border-stroke-dark">
@@ -12,16 +12,16 @@
             <div class="flex flex-col overflow-hidden">
                 <Text type="body2" truncate>My Position</Text>
                 <Text type="sm" textColor="secondary" truncate>
-                    Ranking: {userPosition.position}
+                    Ranking: {userPosition?.position ?? '-'}
                 </Text>
                 <Text type="sm" textColor="secondary" truncate>
-                    Points: {userPosition.xpEarned} xp
+                    Points: {userPosition?.totalXp ?? 0} xp
                 </Text>
                 <Text type="sm" textColor="secondary" truncate>
-                    Tasks Complete: {userPosition.tasksDone}
+                    Tasks Complete: {userPosition?.taskDone ?? '-'}
                 </Text>
                 <Text type="sm" textColor="secondary" truncate>
-                    Rewards Claimed: {userPosition.rewardClaimed}
+                    Rewards Claimed: {userPosition?.rewardClaimed ?? '-'}
                 </Text>
             </div>
         </div>

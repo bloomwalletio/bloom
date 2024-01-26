@@ -1,25 +1,24 @@
 <script lang="ts">
     import { Text } from '@bloomwalletio/ui'
-    import { SupportedNetworkId } from '@core/network'
+    import { SupportedNetworkId, getNetwork } from '@core/network'
     import { MimeType, Nft, NftStandard } from '@core/nfts'
     import { TideApi } from '@core/tide/apis'
-    import { ITideUserPosition } from '@core/tide/interfaces'
     import Pane from '@ui/atoms/Pane.svelte'
     import { MediaPlaceholder } from '@ui/molecules'
     import NftGalleryItem from '@ui/molecules/NftGalleryItem.svelte'
     import { onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
-    import { campaignLeaderboards, addCampaignLeaderboard, selectedCampaign } from '@contexts/campaigns'
+    import {
+        campaignLeaderboards,
+        addCampaignLeaderboard,
+        selectedCampaign,
+        addUserPositionToCampaignLeaderboard,
+    } from '@contexts/campaigns'
     import UserPositionCard from '../components/UserPositionCard.svelte'
+    import { selectedAccount } from '@core/account/stores'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 
-    const userPosition: ITideUserPosition = {
-        address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-        xpEarned: 333,
-        tasksDone: 6,
-        rewardClaimed: 1,
-        position: 1,
-    }
-
+    const tideApi = new TideApi()
     const userNft: Nft = {
         id: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08:1',
         type: MimeType.ImagePng,
@@ -61,7 +60,7 @@
                 },
                 {
                     trait_type: 'Weapon',
-                    value: 'Bird\'s Knuckles',
+                    value: 'Bird Knuckles',
                 },
                 {
                     trait_type: 'XP',
@@ -71,14 +70,39 @@
         },
     }
 
-    onMount(async () => {
-        if (!$campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]) {
-            const tideApi = new TideApi()
+    $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
+    $: fetchAndPersistUserPosition($selectedAccount)
 
-            const leaderboard = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
-                cids: [$selectedCampaign.id],
-            })
-            addCampaignLeaderboard($selectedCampaign.projectId, $selectedCampaign.id, leaderboard.filteredLeaderboard)
+    async function fetchAndPersistUserPosition(account: IAccountState): Promise<void> {
+        const evmChainId = getNetwork()?.getChains()?.[0]?.getConfiguration().id
+        const userAddress = getAddressFromAccountForNetwork(account, evmChainId)?.toLowerCase()
+
+        const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
+            cids: [$selectedCampaign.id],
+            by: 'ADDRESS',
+            search: userAddress,
+        })
+        addUserPositionToCampaignLeaderboard(
+            $selectedCampaign.projectId,
+            $selectedCampaign.id,
+            leaderboardResponse.filteredLeaderboard?.[0]
+        )
+    }
+
+    async function fetchAndPersistLeaderboard(): Promise<void> {
+        const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
+            cids: [$selectedCampaign.id],
+        })
+        addCampaignLeaderboard(
+            $selectedCampaign.projectId,
+            $selectedCampaign.id,
+            leaderboardResponse.filteredLeaderboard
+        )
+    }
+
+    onMount(async () => {
+        if (!campaign?.board) {
+            await fetchAndPersistLeaderboard()
         }
     })
 </script>
@@ -104,14 +128,12 @@
 
     <div class="grid grid-cols-7 gap-8 items-start">
         <div class="col-span-5">
-            {#if $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]}
-                <Leaderboard
-                    leaderboardItems={$campaignLeaderboards[$selectedCampaign.projectId][$selectedCampaign.id]}
-                />
+            {#if campaign}
+                <Leaderboard leaderboardItems={campaign.board} />
             {/if}
         </div>
         <div class="flex flex-col flex-grow gap-8 col-span-2">
-            <UserPositionCard {userPosition} />
+            <UserPositionCard userPosition={campaign?.userPosition} />
             <NftGalleryItem nft={userNft} />
         </div>
     </div>

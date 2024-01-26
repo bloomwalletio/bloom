@@ -87,7 +87,7 @@
                 },
             })
         } catch (err) {
-            callback({ error: err })
+            modifyPopupState({ preventClose: false }, true)
             handleError(err)
         }
     }
