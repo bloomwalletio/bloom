@@ -115,9 +115,15 @@
                 <Leaderboard leaderboardItems={campaign.board} />
             {/if}
         </div>
-        <div class="flex flex-col flex-grow gap-8 col-span-2">
+        <div class="h-full flex flex-col gap-8 col-span-2">
             <UserPositionCard userPosition={campaign?.userPosition} />
-            <NftGalleryItem nft={userNft} />
+            {#if userNft}
+                <NftGalleryItem nft={userNft} />
+            {:else}
+                <div class="min-w-full h-full object-cover rounded-xl overflow-hidden">
+                    <MediaPlaceholder size="md" />
+                </div>
+            {/if}
         </div>
     </div>
 </div>
