@@ -70,6 +70,8 @@
         },
     }
 
+    let imageLoadError = false
+
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
     $: fetchAndPersistUserPosition($selectedAccount)
 
@@ -117,10 +119,19 @@
             shadow-lg
         "
     >
-        <div class="min-w-full h-full object-cover">
-            <MediaPlaceholder size="md" />
-        </div>
-        <div class="col-span-2 p-4">
+        {#if $selectedCampaign.image && !imageLoadError}
+            <img
+                src={$selectedCampaign.image}
+                alt={$selectedCampaign?.title}
+                class="w-full h-full object-cover"
+                on:error={() => (imageLoadError = true)}
+            />
+        {:else}
+            <div class="min-w-full h-full object-cover">
+                <MediaPlaceholder size="md" />
+            </div>
+        {/if}
+        <div class="col-span-2 p-6 space-y-2">
             <Text type="h2" classes="whitespace-nowrap">{$selectedCampaign.title}</Text>
             <Text type="body2">{$selectedCampaign.description}</Text>
         </div>

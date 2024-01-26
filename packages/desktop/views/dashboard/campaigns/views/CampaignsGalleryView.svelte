@@ -16,21 +16,21 @@
             projectId: 1500,
             title: 'Shimmer Supporter',
             description: 'Grow the Shimmer Ecosystem and Community together with us!',
-            image: 'https://tideprotocol.infura-ipfs.io/ipfs/Qma5x5QqdtuaznF8Uy2SXT8jpm9otyyEyXUdNMjxv4P6AB&w=3840&q=75',
+            image: 'https://tideprotocol.infura-ipfs.io/ipfs/Qma5x5QqdtuaznF8Uy2SXT8jpm9otyyEyXUdNMjxv4P6AB',
         },
         {
             id: '5c8c8d19-3492-4d43-bed5-d6a77f3911b5',
             projectId: 1448,
             title: 'Road to RWA',
             description: 'Join our Road to RWA initiative!',
-            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmWxfrdtqDgp8bJJ4muvEh8T84E1uxMRUAtKEmD9qxrrGX&w=3840&q=75',
+            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmWxfrdtqDgp8bJJ4muvEh8T84E1uxMRUAtKEmD9qxrrGX',
         },
         {
             id: '7ad054cf-958a-495b-b01f-a620cf534edd',
             projectId: 1269,
             title: 'Bronze ApeDAO Supporter',
             description: 'A campaign that rewards users with unique Bronze ApeDAO Soulbound NFT and XP.',
-            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmZbEuEqZtX1SBdQqC4ExGpwZF9mXyk59RkovxsQNrrQLb&w=3840&q=75',
+            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmZbEuEqZtX1SBdQqC4ExGpwZF9mXyk59RkovxsQNrrQLb',
         },
     ]
 
