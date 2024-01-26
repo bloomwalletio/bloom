@@ -3,7 +3,7 @@
     import { SupportedNetworkId } from '@core/network'
     import { MimeType, Nft, NftStandard } from '@core/nfts'
     import { TideApi } from '@core/tide/apis'
-    import { ITideUserPosition } from '@core/tide/interfaces'
+    import { ITideLeaderboardItem } from '@core/tide/interfaces'
     import Pane from '@ui/atoms/Pane.svelte'
     import { MediaPlaceholder } from '@ui/molecules'
     import NftGalleryItem from '@ui/molecules/NftGalleryItem.svelte'
@@ -11,14 +11,7 @@
     import Leaderboard from '../components/Leaderboard.svelte'
     import { campaignLeaderboards, addCampaignLeaderboard, selectedCampaign } from '@contexts/campaigns'
     import UserPositionCard from '../components/UserPositionCard.svelte'
-
-    const userPosition: ITideUserPosition = {
-        address: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08',
-        xpEarned: 333,
-        tasksDone: 6,
-        rewardClaimed: 1,
-        position: 1,
-    }
+    import { selectedAccount } from '@core/account/stores'
 
     const userNft: Nft = {
         id: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08:1',
@@ -70,6 +63,11 @@
             ],
         },
     }
+
+    let userPosition: ITideLeaderboardItem | undefined = undefined
+    $: userPosition = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]?.find(
+        (item) => item.address === $selectedAccount.depositAddress
+    )
 
     onMount(async () => {
         if (!$campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]) {
