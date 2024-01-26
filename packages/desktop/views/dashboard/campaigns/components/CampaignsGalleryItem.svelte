@@ -3,10 +3,12 @@
     import { ICampaign } from '@contexts/campaigns'
     import { setSelectedCampaign } from '@contexts/campaigns/stores'
     import { CampaignsRoute, campaignsRouter } from '../'
+    import { MediaPlaceholder } from '@ui'
 
     export let campaign: ICampaign
 
     let campaignWrapperClientWidth: number
+    let imageLoadError = false
 
     function onCampaignClick(): void {
         setSelectedCampaign(campaign)
@@ -22,7 +24,18 @@
             bind:clientWidth={campaignWrapperClientWidth}
             style="height: {(campaignWrapperClientWidth * 9) / 16}px; "
         >
-            <img src={campaign.image} alt={campaign.title} class="h-full object-cover" />
+            {#if campaign.image && !imageLoadError}
+                <img
+                    src={campaign.image}
+                    alt={campaign?.title}
+                    class="h-full object-cover"
+                    on:error={() => (imageLoadError = true)}
+                />
+            {:else}
+                <div class="min-w-full h-full object-cover">
+                    <MediaPlaceholder size="md" />
+                </div>
+            {/if}
         </div>
         <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
             <Text type="body2" truncate>{campaign.title}</Text>

@@ -4,6 +4,7 @@
     import { MimeType, Nft, NftStandard } from '@core/nfts'
     import { TideApi } from '@core/tide/apis'
     import Pane from '@ui/atoms/Pane.svelte'
+    import { MediaPlaceholder } from '@ui/molecules'
     import NftGalleryItem from '@ui/molecules/NftGalleryItem.svelte'
     import { onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
@@ -69,6 +70,8 @@
         },
     }
 
+    let imageLoadError = false
+
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
     $: fetchAndPersistUserPosition($selectedAccount)
 
@@ -116,7 +119,18 @@
             shadow-lg
         "
     >
-        <img src={$selectedCampaign.image} alt={$selectedCampaign.title} class="h-full object-cover" />
+        {#if $selectedCampaign.image && !imageLoadError}
+            <img
+                src={$selectedCampaign.image}
+                alt={$selectedCampaign?.title}
+                class="w-full h-full object-cover"
+                on:error={() => (imageLoadError = true)}
+            />
+        {:else}
+            <div class="min-w-full h-full object-cover">
+                <MediaPlaceholder size="md" />
+            </div>
+        {/if}
         <div class="col-span-2 p-6 space-y-2">
             <Text type="h2" classes="whitespace-nowrap">{$selectedCampaign.title}</Text>
             <Text type="body2">{$selectedCampaign.description}</Text>
