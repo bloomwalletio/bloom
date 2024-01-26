@@ -17,6 +17,7 @@
             title: 'Shimmer Supporter',
             description: 'Grow the Shimmer Ecosystem and Community together with us!',
             image: 'https://tideprotocol.infura-ipfs.io/ipfs/Qma5x5QqdtuaznF8Uy2SXT8jpm9otyyEyXUdNMjxv4P6AB',
+            contractAddress: '0xdac5e231C916a0B03B2de6B3D755Da71e50FA575',
         },
         {
             id: '5c8c8d19-3492-4d43-bed5-d6a77f3911b5',
@@ -24,6 +25,7 @@
             title: 'Road to RWA',
             description: 'Join our Road to RWA initiative!',
             image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmWxfrdtqDgp8bJJ4muvEh8T84E1uxMRUAtKEmD9qxrrGX',
+            contractAddress: '0xf8Da54B4DdA8bf864266D7682109136f717b3ddC',
         },
         {
             id: '7ad054cf-958a-495b-b01f-a620cf534edd',
@@ -31,6 +33,7 @@
             title: 'Bronze ApeDAO Supporter',
             description: 'A campaign that rewards users with unique Bronze ApeDAO Soulbound NFT and XP.',
             image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmZbEuEqZtX1SBdQqC4ExGpwZF9mXyk59RkovxsQNrrQLb',
+            contractAddress: '0xbCf75243604Eb9933C65A5633Ad66c06A0f0A775',
         },
     ]
 
