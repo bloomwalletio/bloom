@@ -16,8 +16,9 @@
     } from '@contexts/campaigns'
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import { selectedAccount } from '@core/account/stores'
-    import { getAddressFromAccountForNetwork } from '@core/account'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 
+    const tideApi = new TideApi()
     const userNft: Nft = {
         id: '0x9cb0f842bb6f827806f46cbbf62a494e6779bd08:1',
         type: MimeType.ImagePng,
@@ -70,25 +71,39 @@
     }
 
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
+    $: fetchAndPersistUserPosition($selectedAccount)
 
-    onMount(async () => {
-        const tideApi = new TideApi()
-        if (!campaign?.board) {
-            const leaderboard = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
-                cids: [$selectedCampaign.id],
-            })
-            addCampaignLeaderboard($selectedCampaign.projectId, $selectedCampaign.id, leaderboard.filteredLeaderboard)
-        }
-
+    async function fetchAndPersistUserPosition(account: IAccountState): Promise<void> {
         const evmChainId = getNetwork()?.getChains()?.[0]?.getConfiguration().id
-        const userAddress = getAddressFromAccountForNetwork($selectedAccount, evmChainId)?.toLowerCase()
+        const userAddress = getAddressFromAccountForNetwork(account, evmChainId)?.toLowerCase()
 
-        const leaderboard = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
+        const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
             cids: [$selectedCampaign.id],
             by: 'ADDRESS',
             search: userAddress,
         })
-        addUserPositionToCampaignLeaderboard($selectedCampaign.projectId, $selectedCampaign.id, leaderboard?.[0])
+        addUserPositionToCampaignLeaderboard(
+            $selectedCampaign.projectId,
+            $selectedCampaign.id,
+            leaderboardResponse.filteredLeaderboard?.[0]
+        )
+    }
+
+    async function fetchAndPersistLeaderboard(): Promise<void> {
+        const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
+            cids: [$selectedCampaign.id],
+        })
+        addCampaignLeaderboard(
+            $selectedCampaign.projectId,
+            $selectedCampaign.id,
+            leaderboardResponse.filteredLeaderboard
+        )
+    }
+
+    onMount(async () => {
+        if (!campaign?.board) {
+            await fetchAndPersistLeaderboard()
+        }
     })
 </script>
 

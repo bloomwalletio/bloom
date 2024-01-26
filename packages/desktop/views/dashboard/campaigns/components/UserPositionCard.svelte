@@ -15,7 +15,7 @@
                     Ranking: {userPosition?.position ?? '-'}
                 </Text>
                 <Text type="sm" textColor="secondary" truncate>
-                    Points: {userPosition?.xpGained ?? '-'} xp
+                    Points: {userPosition?.totalXp ?? 0} xp
                 </Text>
                 <Text type="sm" textColor="secondary" truncate>
                     Tasks Complete: {userPosition?.taskDone ?? '-'}
