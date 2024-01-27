@@ -43,7 +43,7 @@
         try {
             error = ''
             isBusy = true
-            const _function = networkSearchMethod[network.id] ?? singleAddressSearch
+            const _function = networkSearchMethod[network?.id] ?? singleAddressSearch
             await ledgerRaceConditionProtectionWrapper(_function)
             await loadAccounts()
             previousAccountsLength = $visibleActiveAccounts.length

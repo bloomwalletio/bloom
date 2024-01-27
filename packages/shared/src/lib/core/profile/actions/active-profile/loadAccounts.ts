@@ -9,7 +9,7 @@ export async function loadAccounts(): Promise<IAccountState[]> {
     const accountsResponse = await getAccounts()
     if (accountsResponse.length === 0) {
         hasLoadedAccounts.set(true)
-        return
+        return []
     }
     if (accountsResponse) {
         const loadedAccounts = await Promise.all(

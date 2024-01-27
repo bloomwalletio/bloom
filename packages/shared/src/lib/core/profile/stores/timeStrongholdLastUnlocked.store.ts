@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 
-export const timeStrongholdLastUnlocked = writable<Date>(undefined)
+export const timeStrongholdLastUnlocked = writable<Date | undefined>(undefined)
 
 export function setTimeStrongholdLastUnlocked(): void {
     timeStrongholdLastUnlocked.set(new Date())
