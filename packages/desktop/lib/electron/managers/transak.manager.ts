@@ -83,17 +83,8 @@ export default class TransakManager implements ITransakManager {
             }
         })
 
-        void windows.transak.loadFile(this.htmlPath)
-        windows.transak.webContents.on('did-finish-load', () => {
-            const _data = {
-                currency: data.currency,
-                address: data.address,
-                stage: app.isPackaged ? 'production' : 'staging',
-                apiKey: process.env.TRANSAK_API_KEY,
-                service: data.service,
-            }
-            windows.transak.webContents.send('transak-data', _data)
-        })
+        const url = this.getUrl(data)
+        void windows.transak.loadURL(url)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
             void shell.openExternal(url)
@@ -129,5 +120,14 @@ export default class TransakManager implements ITransakManager {
         } catch (error) {
             console.error('positionWindow error', error)
         }
+    }
+
+    private getUrl(data: ITransakWindowData): string {
+        const { address, currency, service } = data
+        const stage = app.isPackaged ? 'production' : 'staging'
+        const apiKey = process.env.TRANSAK_API_KEY
+
+        const transakUrl = stage === 'production' ? 'https://global.transak.com' : 'https://global-stg.transak.com'
+        return `${transakUrl}/?apiKey=${apiKey}&defaultFiatCurrency=${currency}&walletAddress=${address}&productsAvailed=${service}&cryptoCurrencyCode=IOTA&network=miota&themeColor=7C41C9&hideMenu=true`
     }
 }
