@@ -24,9 +24,9 @@
             bind:clientWidth={campaignWrapperClientWidth}
             style="height: {(campaignWrapperClientWidth * 9) / 16}px; "
         >
-            {#if campaign.image && !imageLoadError}
+            {#if campaign.imageUrl && !imageLoadError}
                 <img
-                    src={campaign.image}
+                    src={campaign.imageUrl}
                     alt={campaign?.title}
                     class="h-full object-cover"
                     on:error={() => (imageLoadError = true)}

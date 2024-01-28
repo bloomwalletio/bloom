@@ -3,5 +3,5 @@ export interface ICampaign {
     projectId: number
     title: string
     description: string
-    image: string
+    imageUrl: string
 }

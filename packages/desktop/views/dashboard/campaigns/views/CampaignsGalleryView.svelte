@@ -7,32 +7,17 @@
     import features from '@features/features'
     import { SearchInput } from '@ui'
     import { CampaignsGallery } from '../components'
+    import { TideApi } from '@core/tide/apis'
+    import { EvmChainId } from '@core/network'
+    import { onMount } from 'svelte'
 
     let searchTerm: string = ''
 
-    const campaigns: ICampaign[] = [
-        {
-            id: '4a0207bd-1b86-412d-950c-b8116767076a',
-            projectId: 1500,
-            title: 'Shimmer Supporter',
-            description: 'Grow the Shimmer Ecosystem and Community together with us!',
-            image: 'https://tideprotocol.infura-ipfs.io/ipfs/Qma5x5QqdtuaznF8Uy2SXT8jpm9otyyEyXUdNMjxv4P6AB',
-        },
-        {
-            id: '5c8c8d19-3492-4d43-bed5-d6a77f3911b5',
-            projectId: 1448,
-            title: 'Road to RWA',
-            description: 'Join our Road to RWA initiative!',
-            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmWxfrdtqDgp8bJJ4muvEh8T84E1uxMRUAtKEmD9qxrrGX',
-        },
-        {
-            id: '7ad054cf-958a-495b-b01f-a620cf534edd',
-            projectId: 1269,
-            title: 'Bronze ApeDAO Supporter',
-            description: 'A campaign that rewards users with unique Bronze ApeDAO Soulbound NFT and XP.',
-            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmZbEuEqZtX1SBdQqC4ExGpwZF9mXyk59RkovxsQNrrQLb',
-        },
-    ]
+    const tideApi = new TideApi()
+    let campaigns: ICampaign[] = []
+    async function setCampaigns(): Promise<void> {
+        campaigns = (await tideApi.getCampaignsForChain(Number(EvmChainId.ShimmerEvm))).campaigns
+    }
 
     $: queriedCampaigns = campaigns.filter((campaign) => {
         return campaign.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -42,6 +27,10 @@
         // TODO: add url to constant
         openUrlInBrowser('https://www.tideprotocol.xyz/')
     }
+
+    onMount(async () => {
+        await setCampaigns()
+    })
 </script>
 
 <campaigns-gallery-view>
