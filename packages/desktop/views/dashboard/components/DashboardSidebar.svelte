@@ -13,6 +13,7 @@
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
     import { dashboardRoute } from '@core/router'
     import { StardustNetworkId } from '@core/network'
+    import { campaignsRouter } from '../campaigns'
 
     let expanded = true
     function toggleExpand(): void {
@@ -52,7 +53,7 @@
             $activeProfile?.network?.id === StardustNetworkId.Testnet)
             ? [
                   {
-                      icon: IconName.Gift,
+                      icon: IconName.Trophy,
                       label: localize('tabs.campaigns'),
                       route: DashboardRoute.Campaigns,
                       onClick: openCampaigns,
@@ -113,8 +114,9 @@
     function resetAllRouters(): void {
         $dashboardRouter.reset()
         $collectiblesRouter.reset()
-        $settingsRouter.reset()
+        $campaignsRouter.reset()
         $governanceRouter.reset()
+        $settingsRouter.reset()
     }
 </script>
 
