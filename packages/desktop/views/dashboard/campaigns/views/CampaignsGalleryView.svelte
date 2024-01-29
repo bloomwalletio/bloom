@@ -15,6 +15,7 @@
     import { SearchInput } from '@ui'
     import { onMount } from 'svelte'
     import { CampaignsGallery } from '../components'
+    import { TIDE_BASE_URL } from '@core/tide'
 
     const tideApi = new TideApi()
 
@@ -30,8 +31,7 @@
     })
 
     function onBrowseCampaignsClick(): void {
-        // TODO: add url to constant
-        openUrlInBrowser('https://www.tideprotocol.xyz/')
+        openUrlInBrowser(TIDE_BASE_URL)
     }
 
     function fetchCampaigns(): void {
