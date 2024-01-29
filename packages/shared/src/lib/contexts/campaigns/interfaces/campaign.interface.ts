@@ -9,4 +9,5 @@ export interface ICampaign {
     startTime: string
     endTime: string
     listingStatus: 'LISTED'
+    ERC20Reward: unknown
 }
