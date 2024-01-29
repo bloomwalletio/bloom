@@ -2,8 +2,11 @@
     import { Text } from '@bloomwalletio/ui'
     import { ICampaign } from '@contexts/campaigns'
     import { setSelectedCampaign } from '@contexts/campaigns/stores'
-    import { CampaignsRoute, campaignsRouter } from '../'
     import { MediaPlaceholder } from '@ui'
+    import { CampaignsRoute, campaignsRouter } from '../'
+    import CampaignParticipantsPill from './CampaignParticipantsPill.svelte'
+    import CampaignStatusPill from './CampaignStatusPill.svelte'
+    import CampaignTimestampPill from './CampaignTimestampPill.svelte'
 
     export let campaign: ICampaign
 
@@ -37,9 +40,14 @@
                 </div>
             {/if}
         </div>
-        <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
+        <div class="w-full flex flex-col items-start p-3 gap-2">
             <Text type="body2" truncate>{campaign.title}</Text>
-        </nft-name>
+            <div class="flex flex-row gap-2">
+                <CampaignStatusPill {campaign} />
+                <CampaignTimestampPill {campaign} />
+                <CampaignParticipantsPill {campaign} />
+            </div>
+        </div>
     </container>
 </button>
 

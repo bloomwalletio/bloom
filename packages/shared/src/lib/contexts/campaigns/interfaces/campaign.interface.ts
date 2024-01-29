@@ -4,4 +4,8 @@ export interface ICampaign {
     title: string
     description: string
     imageUrl: string
+    participants: number
+    startTime: string
+    endTime: string
+    listingStatus: 'LISTED'
 }

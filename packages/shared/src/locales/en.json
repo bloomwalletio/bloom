@@ -1537,7 +1537,11 @@
         "methodName": "Method name",
         "data": "Data",
         "success": "Success",
-        "info": "Info"
+        "info": "Info",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming"
     },
     "filters":{
         "title": "Filters",
