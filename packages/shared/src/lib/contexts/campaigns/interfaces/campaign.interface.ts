@@ -7,5 +7,5 @@ export interface ICampaign {
     participants: number
     startTime: string
     endTime: string
-    listingStatus: 'LISTED' | unknown
+    listingStatus: 'LISTED'
 }
