@@ -2,23 +2,29 @@
     import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
     import { ICampaign } from '@contexts/campaigns'
+    import {
+        addCampaignForChain,
+        campaignsPerChain,
+        getCampaignsForChains,
+    } from '@contexts/campaigns/stores/campaigns-per-chain.store'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
+    import { getNetwork } from '@core/network'
+    import { TideApi } from '@core/tide/apis'
     import features from '@features/features'
     import { SearchInput } from '@ui'
-    import { CampaignsGallery } from '../components'
-    import { TideApi } from '@core/tide/apis'
-    import { EvmChainId } from '@core/network'
     import { onMount } from 'svelte'
-
-    let searchTerm: string = ''
+    import { CampaignsGallery } from '../components'
 
     const tideApi = new TideApi()
-    let campaigns: ICampaign[] = []
-    async function setCampaigns(): Promise<void> {
-        campaigns = (await tideApi.getCampaignsForChain(Number(EvmChainId.ShimmerEvm))).campaigns
-    }
 
+    const chainIds = getNetwork()
+        .getChains()
+        .map((chain) => Number(chain.getConfiguration().chainId))
+    let campaigns: ICampaign[] = []
+    $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
+
+    let searchTerm: string = ''
     $: queriedCampaigns = campaigns.filter((campaign) => {
         return campaign.title.toLowerCase().includes(searchTerm.toLowerCase())
     })
@@ -28,8 +34,15 @@
         openUrlInBrowser('https://www.tideprotocol.xyz/')
     }
 
-    onMount(async () => {
-        await setCampaigns()
+    function fetchCampaigns(): void {
+        chainIds.forEach(async (chainId) => {
+            const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns
+            addCampaignForChain(chainId, campaigns)
+        })
+    }
+
+    onMount(() => {
+        fetchCampaigns()
     })
 </script>
 
