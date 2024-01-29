@@ -16,7 +16,7 @@
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import { selectedAccount } from '@core/account/stores'
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
-    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { ownedNfts } from '@core/nfts/stores'
     import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
     import { updateAllAccountNftsForAccount } from '@core/nfts/actions'
     import { buildNftFromPersistedErc721Nft } from '@core/nfts'
@@ -29,7 +29,7 @@
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
     $: fetchAndPersistUserData($selectedAccount)
 
-    $: userNft = $selectedAccountNfts.find((nft) => nft.id?.startsWith($selectedCampaign.address.toLowerCase()))
+    $: userNft = $ownedNfts.find((nft) => nft.id?.startsWith($selectedCampaign.address.toLowerCase()))
 
     function fetchAndPersistUserData(account: IAccountState): void {
         const userAddress = getAddressFromAccountForNetwork(account, evmChain.id)?.toLowerCase()
@@ -65,8 +65,10 @@
         }
 
         const persistedNft = await persistErc721Nft($selectedCampaign.address, tokenId, evmChain.id)
-        const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
-        updateAllAccountNftsForAccount(index, nft)
+        if (persistedNft) {
+            const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
+            updateAllAccountNftsForAccount(index, nft)
+        }
     }
 
     onMount(async () => {
