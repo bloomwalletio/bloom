@@ -129,12 +129,14 @@
         "
     >
         {#if $selectedCampaign.image && !imageLoadError}
-            <img
-                src={$selectedCampaign.image}
-                alt={$selectedCampaign?.title}
-                class="w-full h-full object-cover"
-                on:error={() => (imageLoadError = true)}
-            />
+            <div class="p-4">
+                <img
+                    src={$selectedCampaign.image}
+                    alt={$selectedCampaign?.title}
+                    class="w-full h-full object-cover rounded-lg"
+                    on:error={() => (imageLoadError = true)}
+                />
+            </div>
         {:else}
             <div class="min-w-full h-full object-cover">
                 <MediaPlaceholder size="md" />
