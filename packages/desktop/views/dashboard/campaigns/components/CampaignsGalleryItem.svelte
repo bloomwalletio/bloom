@@ -7,6 +7,7 @@
     import CampaignParticipantsPill from './CampaignParticipantsPill.svelte'
     import CampaignStatusPill from './CampaignStatusPill.svelte'
     import CampaignTimestampPill from './CampaignTimestampPill.svelte'
+    import CampaignRewardsPill from './CampaignRewardsPill.svelte'
 
     export let campaign: ICampaign
 
@@ -46,6 +47,7 @@
                 <CampaignStatusPill {campaign} />
                 <CampaignTimestampPill {campaign} />
                 <CampaignParticipantsPill {campaign} />
+                <CampaignRewardsPill {campaign} />
             </div>
         </div>
     </container>
