@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AccountLabel, Pane } from '@ui'
+    import { Pane } from '@ui'
     import { Avatar, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { truncateString } from '@core/utils'
     import { darkMode } from '@core/app/stores'
@@ -40,7 +40,7 @@
                 <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
             </div>
             {#if user?.type === 'account'}
-                <AccountLabel account={user.account} />
+                <Pill color="success" compact>{user.account.name}</Pill>
             {/if}
             <Text type="body1" align="right">{leaderboardItem.totalXp} xp</Text>
         </div>
