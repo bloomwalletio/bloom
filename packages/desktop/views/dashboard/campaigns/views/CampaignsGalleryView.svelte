@@ -25,8 +25,8 @@
     $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
 
     $: sortedCampaigns = campaigns.sort((campaignA, campaignB) => {
-        const isAFeatured = featuredCampaigns.find((featuredId) => featuredId === campaignA.id)
-        const isBFeatured = featuredCampaigns.find((featuredId) => featuredId === campaignB.id)
+        const isAFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignA.id)
+        const isBFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignB.id)
         // check if campaign is featured and sort it to the top
         if (isAFeatured && !isBFeatured) {
             return -1
