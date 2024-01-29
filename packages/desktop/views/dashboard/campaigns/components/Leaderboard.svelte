@@ -19,6 +19,9 @@
 </script>
 
 <Pane classes="h-full flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
+    <div class="py-3 px-5">
+        <Text type="body2">Top 10 Leaderboard</Text>
+    </div>
     {#if error}
         <div class="h-full w-full flex justify-center items-center p-8">
             <EmptyListPlaceholder title="An error occurred loading the leaderboard" icon={IconName.Data} />
