@@ -32,7 +32,7 @@
         <div class="h-full w-full flex justify-center items-center p-8">
             <Spinner textColor="primary" />
         </div>
-    {:else if leaderboardItems.length}
+    {:else if leaderboardItems?.length}
         {#each leaderboardItems as leaderboardItem, index}
             {@const user = getSubjectFromAddress(leaderboardItem.address, networkId)}
             <div
