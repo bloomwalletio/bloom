@@ -16,7 +16,7 @@
     } from '@contexts/campaigns'
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import { selectedAccount } from '@core/account/stores'
-    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { getAddressFromAccountForNetwork } from '@core/account'
 
     const tideApi = new TideApi()
     const userNft: Nft = {
@@ -69,20 +69,19 @@
             ],
         },
     }
+    const evmChain = getNetwork()?.getChains()?.[0]?.getConfiguration()
 
     let imageLoadError = false
 
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
-    $: fetchAndPersistUserPosition($selectedAccount)
+    $: userAddress = getAddressFromAccountForNetwork($selectedAccount, evmChain.id)?.toLowerCase()
+    $: void fetchAndPersistUserPosition(userAddress)
 
-    async function fetchAndPersistUserPosition(account: IAccountState): Promise<void> {
-        const evmChainId = getNetwork()?.getChains()?.[0]?.getConfiguration().id
-        const userAddress = getAddressFromAccountForNetwork(account, evmChainId)?.toLowerCase()
-
+    async function fetchAndPersistUserPosition(address: string): Promise<void> {
         const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
             cids: [$selectedCampaign.id],
             by: 'ADDRESS',
-            search: userAddress,
+            search: address,
         })
         addUserPositionToCampaignLeaderboard(
             $selectedCampaign.projectId,
@@ -137,10 +136,10 @@
         </div>
     </Pane>
 
-    <div class="grid grid-cols-7 gap-8 items-start">
+    <div class="grid grid-cols-7 gap-8 items-start flex-grow">
         <div class="col-span-5">
             {#if campaign}
-                <Leaderboard leaderboardItems={campaign.board} />
+                <Leaderboard leaderboardItems={campaign.board} {userAddress} networkId={evmChain.id} />
             {/if}
         </div>
         <div class="flex flex-col flex-grow gap-8 col-span-2">
