@@ -347,10 +347,12 @@
             },
             "activity": {
                 "tab": "Activiteit",
+                "activity": "Activity",
                 "asset": "Bezit",
                 "action": "Actie",
                 "address": "Adres",
                 "amount": "Hoeveelheid",
+                "fee": "Fee",
                 "claimableTransactions": "Je hebt {amount} {amount, select, 1 {transactie die je nodig hebt} other {transacties die nodig zijn}}",
                 "consolidatedOutputs": "{amount} uitgangen geconsolideerd"
             },
@@ -469,8 +471,16 @@
                     "dappsList": {
                         "title": "Verbonden dApps",
                         "connectDapp": "Verbind dApp",
-                        "emptyTitle": "Geen apps gevonden",
-                        "emptySubtitle": "Verbind Bloom met jouw favoriete dApps"
+                        "paired": {
+                            "tab": "Paired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "expired": {
+                            "tab": "Expired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Verbinding maken met een dApp",
@@ -649,6 +659,13 @@
             "changePassword": {
                 "title": "Wijzig je wachtwoord",
                 "hint": "Je Stronghold was verouderd en is nu bijgewerkt. We raden je aan je wachtwoord te wijzigen."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
+                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
+                "changingAccounts": "Changing accounts will reset all information."
             }
         }
     },
@@ -1508,7 +1525,8 @@
         "verified": "Geverifiëerd",
         "methodName": "Method name",
         "data": "Gegevens",
-        "success": "Succesvol"
+        "success": "Succesvol",
+        "info": "Info"
     },
     "filters": {
         "title": "Filters",
@@ -1769,7 +1787,6 @@
         "send": {
             "addressLength": "Adressen moeten {length, plural, one {1 teken} other {# tekens}} lang zijn.",
             "amountTooHigh": "Dit is hoger dan jouw beschikbare saldo.",
-            "amountNoFloat": "Kan geen decimaal teken gebruiken voor de kleinste geselecteerde eenheid",
             "amountInvalidFormat": "De opgegeven waarde lijkt een ongeldige waarde te zijn.",
             "amountSmallerThanSubunit": "Het bedrag moet groter zijn dan de kleinste subunit.",
             "tagTooLong": "Het label kan niet langer zijn dan 64 bytes.",
