@@ -49,7 +49,22 @@
 
     function fetchCampaigns(): void {
         chainIds.forEach(async (chainId) => {
-            const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns
+            const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns.map((campaign) => {
+                return {
+                    id: campaign.id,
+                    projectId: campaign.projectId,
+                    title: campaign.title,
+                    description: campaign.description,
+                    imageUrl: campaign.imageUrl,
+                    participants: campaign.participants,
+                    startTime: campaign.startTime,
+                    endTime: campaign.endTime,
+                    url: campaign.url,
+                    chainId: String(chainId),
+                    listingStatus: campaign.listingStatus,
+                    ERC20Reward: campaign.ERC20Reward,
+                } as ICampaign
+            })
             addCampaignForChain(chainId, campaigns)
         })
     }
