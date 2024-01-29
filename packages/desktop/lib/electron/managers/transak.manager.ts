@@ -1,4 +1,4 @@
-import { BrowserWindow, app } from 'electron'
+import { BrowserWindow, app, shell } from 'electron'
 import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
@@ -93,6 +93,11 @@ export default class TransakManager implements ITransakManager {
                 service: data.service,
             }
             windows.transak.webContents.send('transak-data', _data)
+        })
+
+        windows.transak.webContents.setWindowOpenHandler(({ url }) => {
+            void shell.openExternal(url)
+            return { action: 'deny' }
         })
 
         windows.transak.setMenu(null)
