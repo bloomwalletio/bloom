@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Button, Link, IconName, Text } from '@bloomwalletio/ui'
-    import { SupportedNetworkId, getNetwork } from '@core/network'
+    import { Button, Link, IconName, Pill, Text } from '@bloomwalletio/ui'
+    import { NetworkId, SupportedNetworkId, getChainConfiguration, getNetwork } from '@core/network'
     import { MimeType, Nft, NftStandard } from '@core/nfts'
     import { TideApi } from '@core/tide/apis'
     import Pane from '@ui/atoms/Pane.svelte'
@@ -24,6 +24,7 @@
     import CampaignStatusPill from '../components/CampaignStatusPill.svelte'
     import CampaignTimestampPill from '../components/CampaignTimestampPill.svelte'
     import CampaignRewardsPill from '../components/CampaignRewardsPill.svelte'
+    import NetworkAvatar from '@ui/avatars/NetworkAvatar.svelte'
 
     const tideApi = new TideApi()
     const userNft: Nft = {
@@ -82,6 +83,7 @@
     let leaderboardError = false
 
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
+    $: network = getChainConfiguration(`eip155:${$selectedCampaign.chainId}` as NetworkId)
     $: fetchAndPersistUserPosition($selectedAccount)
 
     async function fetchAndPersistUserPosition(account: IAccountState): Promise<void> {
@@ -180,6 +182,14 @@
                         <CampaignTimestampPill campaign={$selectedCampaign} />
                         <CampaignParticipantsPill campaign={$selectedCampaign} />
                         <CampaignRewardsPill campaign={$selectedCampaign} />
+                        <Pill color="neutral">
+                            <div class="flex flex-row space-x-1 items-center">
+                                <NetworkAvatar size="xs" networkId={network?.id} />
+                                <div>
+                                    {network.name}
+                                </div>
+                            </div>
+                        </Pill>
                     </div>
                     <Link
                         text={$selectedCampaign.url}
