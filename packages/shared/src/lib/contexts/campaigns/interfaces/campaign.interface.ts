@@ -3,6 +3,6 @@ export interface ICampaign {
     projectId: number
     title: string
     description: string
-    contractAddress: string
+    address: string
     imageUrl: string
 }
