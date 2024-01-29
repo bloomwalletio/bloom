@@ -17,6 +17,7 @@
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import { selectedAccount } from '@core/account/stores'
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { handleError } from '@core/error/handlers'
 
     const tideApi = new TideApi()
     const userNft: Nft = {
@@ -72,6 +73,7 @@
 
     let imageLoadError = false
     let leaderboardLoading = false
+    let leaderboardError = false
 
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
     $: fetchAndPersistUserPosition($selectedAccount)
@@ -98,13 +100,15 @@
             const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
                 cids: [$selectedCampaign.id],
             })
-            leaderboardLoading = false
             addCampaignLeaderboard(
                 $selectedCampaign.projectId,
                 $selectedCampaign.id,
                 leaderboardResponse.filteredLeaderboard
             )
+            leaderboardLoading = false
         } catch (error) {
+            handleError(error)
+            leaderboardError = true
             leaderboardLoading = false
         }
     }
@@ -146,7 +150,7 @@
 
     <div class="flex-grow grid grid-cols-7 gap-8 items-start">
         <div class="h-full col-span-5">
-            <Leaderboard leaderboardItems={campaign?.board} loading={leaderboardLoading} />
+            <Leaderboard leaderboardItems={campaign?.board} loading={leaderboardLoading} error={leaderboardError} />
         </div>
         <div class="flex flex-col flex-grow gap-8 col-span-2">
             <UserPositionCard userPosition={campaign?.userPosition} />

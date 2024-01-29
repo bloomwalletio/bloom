@@ -5,10 +5,11 @@
     import { darkMode } from '@core/app/stores'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
     import { EmptyListPlaceholder } from '@components'
+    import { Spinner } from '@bloomwalletio/ui'
 
     export let leaderboardItems: ITideLeaderboardItem[] = []
     export let loading: boolean = false
-    export let error: string = ''
+    export let error: boolean = false
 
     const top3Colors = {
         0: '#CA9A04',
@@ -18,10 +19,14 @@
 </script>
 
 <Pane classes="h-full flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
-    {#if loading}
-        <div class="h-full w-full flex justify-center items-center p-8">Loading</div>
-    {:else if error}
-        <div class="h-full w-full flex justify-center items-center p-8">ERROR</div>
+    {#if error}
+        <div class="h-full w-full flex justify-center items-center p-8">
+            <EmptyListPlaceholder title="An error occurred loading the leaderboard" icon={IconName.Data} />
+        </div>
+    {:else if loading}
+        <div class="h-full w-full flex justify-center items-center p-8">
+            <Spinner textColor="primary" />
+        </div>
     {:else if leaderboardItems.length}
         {#each leaderboardItems as leaderboardItem, index}
             <div class="w-full flex justify-between items-center gap-16 py-3 px-5">
