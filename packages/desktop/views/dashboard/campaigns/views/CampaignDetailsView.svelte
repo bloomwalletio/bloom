@@ -15,7 +15,7 @@
     } from '@contexts/campaigns'
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import { selectedAccount } from '@core/account/stores'
-    import { getAddressFromAccountForNetwork } from '@core/account'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
     import { updateAllAccountNftsForAccount } from '@core/nfts/actions'
@@ -27,11 +27,15 @@
     let imageLoadError = false
 
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
-    $: userAddress = getAddressFromAccountForNetwork($selectedAccount, evmChain.id)?.toLowerCase()
-    $: void fetchAndPersistUserPosition(userAddress)
-    $: void fetchAndPersistUserNft(userAddress, $selectedAccount.index)
+    $: fetchAndPersistUserData($selectedAccount)
 
-    $: userNft = $selectedAccountNfts.find((nft) => nft.id?.startsWith($selectedCampaign.contractAddress.toLowerCase()))
+    $: userNft = $selectedAccountNfts.find((nft) => nft.id?.startsWith($selectedCampaign.address.toLowerCase()))
+
+    function fetchAndPersistUserData(account: IAccountState): void {
+        const userAddress = getAddressFromAccountForNetwork(account, evmChain.id)?.toLowerCase()
+        void fetchAndPersistUserPosition(userAddress)
+        void fetchAndPersistUserNft(userAddress, account.index)
+    }
 
     async function fetchAndPersistUserPosition(address: string): Promise<void> {
         const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
@@ -46,6 +50,31 @@
         )
     }
 
+    async function fetchAndPersistUserNft(accountAddress: string, index: number): Promise<void> {
+        if (userNft) {
+            return
+        }
+
+        const { tokenId } = await tideApi.getNftUserData(
+            Number(evmChain.chainId),
+            accountAddress,
+            $selectedCampaign.address
+        )
+        if (!tokenId) {
+            return
+        }
+
+        const persistedNft = await persistErc721Nft($selectedCampaign.address, tokenId, evmChain.id)
+        const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
+        updateAllAccountNftsForAccount(index, nft)
+    }
+
+    onMount(async () => {
+        if (!campaign?.board) {
+            await fetchAndPersistLeaderboard()
+        }
+    })
+
     async function fetchAndPersistLeaderboard(): Promise<void> {
         const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
             cids: [$selectedCampaign.id],
@@ -57,34 +86,9 @@
         )
     }
 
-    async function fetchAndPersistUserNft(accountAddress: string, index: number): Promise<void> {
-        if (userNft) {
-            return
-        }
-
-        const { tokenId } = await tideApi.getNftUserData(
-            Number(evmChain.chainId),
-            accountAddress,
-            $selectedCampaign.contractAddress
-        )
-        if (!tokenId) {
-            return
-        }
-
-        const persistedNft = await persistErc721Nft($selectedCampaign.contractAddress, tokenId, evmChain.id)
-        const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
-        updateAllAccountNftsForAccount(index, nft)
-    }
-
     function setImageLoadError(): void {
         imageLoadError = true
     }
-
-    onMount(async () => {
-        if (!campaign?.board) {
-            await fetchAndPersistLeaderboard()
-        }
-    })
 </script>
 
 <div class="h-full flex flex-col gap-8">
