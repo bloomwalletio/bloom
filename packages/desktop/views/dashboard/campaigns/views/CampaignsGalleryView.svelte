@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
-    import { ICampaign } from '@contexts/campaigns'
+    import { ICampaign, featuredCampaigns } from '@contexts/campaigns'
     import {
         addCampaignForChain,
         campaignsPerChain,
@@ -24,8 +24,21 @@
     let campaigns: ICampaign[] = []
     $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
 
+    $: sortedCampaigns = campaigns.sort((campaignA, campaignB) => {
+        const isAFeatured = featuredCampaigns.find((featuredId) => featuredId === campaignA.id)
+        const isBFeatured = featuredCampaigns.find((featuredId) => featuredId === campaignB.id)
+        // check if campaign is featured and sort it to the top
+        if (isAFeatured && !isBFeatured) {
+            return -1
+        }
+        if (!isAFeatured && isBFeatured) {
+            return 1
+        }
+        return 0
+    })
+
     let searchTerm: string = ''
-    $: queriedCampaigns = campaigns.filter((campaign) => {
+    $: queriedCampaigns = sortedCampaigns.filter((campaign) => {
         return campaign.title.toLowerCase().includes(searchTerm.toLowerCase())
     })
 
