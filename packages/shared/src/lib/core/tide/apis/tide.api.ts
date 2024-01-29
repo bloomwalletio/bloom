@@ -22,6 +22,44 @@ interface IProjectLeaderboardResponse {
     userPosition: ITideUserPosition
 }
 
+interface ICampaignResponse {
+    id: string
+    title: string
+    description: string
+    imageUrl: string
+    imagePreviewUrl: string
+    isBanned: boolean
+    startTime: string
+    endTime: string
+    address: string
+    url: string
+    chain: number
+    projectId: number
+    projectLinks: string[]
+    successMessage: string
+    isGasless: boolean
+    isSoulbound: boolean
+    listingStatus: string
+    template: {
+        type: string
+        name: string
+    }
+    isCreationCompleted: boolean
+    externalReward: number
+    createdAt: string
+    updatedAt: string
+    ipfsHash: string
+    participants: number
+    step: number
+    ERC20Reward: unknown
+    pickedByTide: boolean
+}
+
+interface IMultipleCampaignsResponse {
+    campaigns: ICampaignResponse[]
+    totalCampaigns: number
+}
+
 interface INftUserDataResponse {
     tokenId: string
     description: string
@@ -44,6 +82,18 @@ export class TideApi extends BaseApi {
             queryParams ? buildQueryParametersFromObject(queryParams) : ''
         }`
         const response = await this.get<IProjectLeaderboardResponse>(path)
+        return response
+    }
+
+    async getCampaign(campaignId: number): Promise<ICampaignResponse | undefined> {
+        const path = `${TideApiEndpoint.Campaign}/${campaignId}`
+        const response = await this.get<ICampaignResponse>(path)
+        return response
+    }
+
+    async getCampaignsForChain(chainId: number): Promise<IMultipleCampaignsResponse | undefined> {
+        const path = `${TideApiEndpoint.Campaign}/chain/${chainId}`
+        const response = await this.get<IMultipleCampaignsResponse>(path)
         return response
     }
 
