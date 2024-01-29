@@ -18,6 +18,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { openUrlInBrowser } from '@core/app'
+    import { TIDE_BASE_URL, TideWebsiteEndpoint } from '@core/tide'
 
     const tideApi = new TideApi()
     const userNft: Nft = {
@@ -104,11 +105,11 @@
     }
 
     function onProjectClick(): void {
-        openUrlInBrowser(`https://tideprotocol.xyz/users/spaces/${$selectedCampaign.projectId}`)
+        openUrlInBrowser(`${TIDE_BASE_URL}/${TideWebsiteEndpoint.Project}/${$selectedCampaign.projectId}`)
     }
 
     function onCampaignClick(): void {
-        openUrlInBrowser(`https://tideprotocol.xyz/users/campaign/${$selectedCampaign.id}`)
+        openUrlInBrowser(`${TIDE_BASE_URL}/${TideWebsiteEndpoint.Campaign}/${$selectedCampaign.id}`)
     }
 
     onMount(async () => {
