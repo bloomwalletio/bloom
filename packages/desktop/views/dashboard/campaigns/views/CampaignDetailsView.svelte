@@ -158,8 +158,14 @@
             <div class="w-full flex flex-row justify-between items-center py-4 px-5">
                 <Text type="body1" classes="whitespace-nowrap">{$selectedCampaign.title}</Text>
                 <div class="flex flex-row gap-3">
-                    <Button icon={IconName.Send} variant="outlined" on:click={onProjectClick} text="Project Page" />
-                    <Button icon={IconName.Send} on:click={onCampaignClick} text="Campaign" />
+                    <Button
+                        size="xs"
+                        icon={IconName.Send}
+                        variant="outlined"
+                        on:click={onProjectClick}
+                        text="Project Page"
+                    />
+                    <Button size="xs" icon={IconName.Send} on:click={onCampaignClick} text="Campaign" />
                 </div>
             </div>
             <div class="w-full flex flex-col items-start p-5 gap-4">
