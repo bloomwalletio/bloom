@@ -1541,7 +1541,8 @@
         "active": "Active",
         "ended": "Ended",
         "draft": "Draft",
-        "upcoming": "Upcoming"
+        "upcoming": "Upcoming",
+        "featured": "Featured"
     },
     "filters":{
         "title": "Filters",

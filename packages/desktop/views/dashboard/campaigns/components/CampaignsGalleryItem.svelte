@@ -1,14 +1,17 @@
 <script lang="typescript">
     import { Text } from '@bloomwalletio/ui'
-    import { ICampaign } from '@contexts/campaigns'
+    import { ICampaign, featuredCampaigns } from '@contexts/campaigns'
     import { setSelectedCampaign } from '@contexts/campaigns/stores'
     import { MediaPlaceholder } from '@ui'
     import { CampaignsRoute, campaignsRouter } from '../'
     import CampaignParticipantsPill from './CampaignParticipantsPill.svelte'
     import CampaignStatusPill from './CampaignStatusPill.svelte'
     import CampaignTimestampPill from './CampaignTimestampPill.svelte'
+    import FeaturedPill from './FeaturedPill.svelte'
 
     export let campaign: ICampaign
+
+    $: featured = featuredCampaigns.find((featuredId) => featuredId === campaign.id)
 
     let campaignWrapperClientWidth: number
     let imageLoadError = false
@@ -27,6 +30,11 @@
             bind:clientWidth={campaignWrapperClientWidth}
             style="height: {(campaignWrapperClientWidth * 9) / 16}px; "
         >
+            {#if featured}
+                <div class="absolute top-0 flex w-full p-4">
+                    <FeaturedPill />
+                </div>
+            {/if}
             {#if campaign.imageUrl && !imageLoadError}
                 <img
                     src={campaign.imageUrl}
