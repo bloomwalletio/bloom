@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, IconName, Text } from '@bloomwalletio/ui'
+    import { Button, Link, IconName, Text } from '@bloomwalletio/ui'
     import { SupportedNetworkId, getNetwork } from '@core/network'
     import { MimeType, Nft, NftStandard } from '@core/nfts'
     import { TideApi } from '@core/tide/apis'
@@ -20,6 +20,10 @@
     import { openUrlInBrowser } from '@core/app'
     import { TIDE_BASE_URL, TideWebsiteEndpoint } from '@core/tide'
     import { handleError } from '@core/error/handlers'
+    import CampaignParticipantsPill from '../components/CampaignParticipantsPill.svelte'
+    import CampaignStatusPill from '../components/CampaignStatusPill.svelte'
+    import CampaignTimestampPill from '../components/CampaignTimestampPill.svelte'
+    import CampaignRewardsPill from '../components/CampaignRewardsPill.svelte'
 
     const tideApi = new TideApi()
     const userNft: Nft = {
@@ -168,8 +172,21 @@
                     <Button size="xs" icon={IconName.Send} on:click={onCampaignClick} text="Campaign" />
                 </div>
             </div>
-            <div class="w-full flex flex-col items-start p-5 gap-4">
+            <div class="h-full w-full flex flex-col items-start justify-between p-5 gap-4">
                 <Text type="base" textColor="secondary">{$selectedCampaign.description}</Text>
+                <div class="w-full flex flex-row justify-between gap-4">
+                    <div class="flex flex-row gap-2">
+                        <CampaignStatusPill campaign={$selectedCampaign} />
+                        <CampaignTimestampPill campaign={$selectedCampaign} />
+                        <CampaignParticipantsPill campaign={$selectedCampaign} />
+                        <CampaignRewardsPill campaign={$selectedCampaign} />
+                    </div>
+                    <Link
+                        text={$selectedCampaign.url}
+                        external
+                        on:click={() => openUrlInBrowser($selectedCampaign.url)}
+                    />
+                </div>
             </div>
         </div>
     </Pane>

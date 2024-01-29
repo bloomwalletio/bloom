@@ -7,6 +7,7 @@ export interface ICampaign {
     participants: number
     startTime: string
     endTime: string
+    url: string
     listingStatus: 'LISTED'
     ERC20Reward: unknown
 }
