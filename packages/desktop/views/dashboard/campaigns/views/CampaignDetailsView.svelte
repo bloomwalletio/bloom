@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Text } from '@bloomwalletio/ui'
+    import { Button, IconName, Text } from '@bloomwalletio/ui'
     import { SupportedNetworkId, getNetwork } from '@core/network'
     import { MimeType, Nft, NftStandard } from '@core/nfts'
     import { TideApi } from '@core/tide/apis'
@@ -17,6 +17,7 @@
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import { selectedAccount } from '@core/account/stores'
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { openUrlInBrowser } from '@core/app'
 
     const tideApi = new TideApi()
     const userNft: Nft = {
@@ -102,6 +103,14 @@
         )
     }
 
+    function onProjectClick(): void {
+        openUrlInBrowser(`https://tideprotocol.xyz/users/spaces/${$selectedCampaign.projectId}`)
+    }
+
+    function onCampaignClick(): void {
+        openUrlInBrowser(`https://tideprotocol.xyz/users/campaign/${$selectedCampaign.id}`)
+    }
+
     onMount(async () => {
         if (!campaign?.board) {
             await fetchAndPersistLeaderboard()
@@ -131,9 +140,17 @@
                 <MediaPlaceholder size="md" />
             </div>
         {/if}
-        <div class="col-span-2 p-6 space-y-2">
-            <Text type="h2" classes="whitespace-nowrap">{$selectedCampaign.title}</Text>
-            <Text type="body2">{$selectedCampaign.description}</Text>
+        <div class="col-span-2 flex flex-col items-start divide-y divide-solid divide-stroke dark:divide-stroke-dark">
+            <div class="w-full flex flex-row justify-between items-center py-4 px-5">
+                <Text type="body1" classes="whitespace-nowrap">{$selectedCampaign.title}</Text>
+                <div class="flex flex-row gap-3">
+                    <Button icon={IconName.Send} variant="outlined" on:click={onProjectClick} text="Project Page" />
+                    <Button icon={IconName.Send} on:click={onCampaignClick} text="Campaign" />
+                </div>
+            </div>
+            <div class="w-full flex flex-col items-start p-5 gap-4">
+                <Text type="base" textColor="secondary">{$selectedCampaign.description}</Text>
+            </div>
         </div>
     </Pane>
 
