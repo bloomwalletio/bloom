@@ -12,7 +12,7 @@
 
     export let campaign: ICampaign
 
-    $: featured = featuredCampaigns.find((featuredId) => featuredId === campaign.id)
+    $: featured = featuredCampaigns.some((featuredId) => featuredId === campaign.id)
 
     let campaignWrapperClientWidth: number
     let imageLoadError = false
