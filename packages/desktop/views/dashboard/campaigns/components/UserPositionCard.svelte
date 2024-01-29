@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Avatar, Text } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
     import { Nft } from '@core/nfts'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
     import { NftGalleryItem, Pane } from '@ui'
@@ -9,11 +10,8 @@
 </script>
 
 <Pane classes="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
-    <div class="px-5 py-3">
-        <Text type="body2">Ranking</Text>
-    </div>
     <div class="flex flex-row justify-between p-4">
-        <Text>My position</Text>
+        <Text>{localize('views.campaigns.details.myPosition')}</Text>
         {#if userPosition?.position}
             <Avatar text={String(userPosition?.position)} />
         {:else}
@@ -21,15 +19,15 @@
         {/if}
     </div>
     <div class="flex flex-row justify-between p-4">
-        <Text>Points</Text>
+        <Text>{localize('views.campaigns.details.points')}</Text>
         <Text textColor="secondary" fontWeight="medium">{userPosition?.totalXp ?? 0}xp</Text>
     </div>
     <div class="flex flex-row justify-between p-4">
-        <Text>Tasks Complete</Text>
+        <Text>{localize('views.campaigns.details.tasksComplete')}</Text>
         <Text textColor="secondary" fontWeight="medium">{userPosition?.taskDone ?? '-'}</Text>
     </div>
     <div class="flex flex-row justify-between p-4">
-        <Text>Reqards Claimed</Text>
+        <Text>{localize('views.campaigns.details.rewardsClaimed')}</Text>
         <Text textColor="secondary" fontWeight="medium">{userPosition?.rewardClaimed ?? '-'}</Text>
     </div>
     {#if nft}
