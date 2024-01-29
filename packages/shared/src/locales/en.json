@@ -1542,6 +1542,7 @@
         "ended": "Ended",
         "draft": "Draft",
         "upcoming": "Upcoming",
+        "featured": "Featured",
         "raffle": "Raffle"
     },
     "filters":{
