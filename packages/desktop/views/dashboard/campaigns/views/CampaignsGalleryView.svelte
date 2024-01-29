@@ -2,38 +2,29 @@
     import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
     import { ICampaign } from '@contexts/campaigns'
+    import {
+        addCampaignForChain,
+        campaignsPerChain,
+        getCampaignsForChains,
+    } from '@contexts/campaigns/stores/campaigns-per-chain.store'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
+    import { getNetwork } from '@core/network'
+    import { TideApi } from '@core/tide/apis'
     import features from '@features/features'
     import { SearchInput } from '@ui'
+    import { onMount } from 'svelte'
     import { CampaignsGallery } from '../components'
 
+    const tideApi = new TideApi()
+
+    const chainIds = getNetwork()
+        .getChains()
+        .map((chain) => Number(chain.getConfiguration().chainId))
+    let campaigns: ICampaign[] = []
+    $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
+
     let searchTerm: string = ''
-
-    const campaigns: ICampaign[] = [
-        {
-            id: '4a0207bd-1b86-412d-950c-b8116767076a',
-            projectId: 1500,
-            title: 'Shimmer Supporter',
-            description: 'Grow the Shimmer Ecosystem and Community together with us!',
-            image: 'https://tideprotocol.infura-ipfs.io/ipfs/Qma5x5QqdtuaznF8Uy2SXT8jpm9otyyEyXUdNMjxv4P6AB',
-        },
-        {
-            id: '5c8c8d19-3492-4d43-bed5-d6a77f3911b5',
-            projectId: 1448,
-            title: 'Road to RWA',
-            description: 'Join our Road to RWA initiative!',
-            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmWxfrdtqDgp8bJJ4muvEh8T84E1uxMRUAtKEmD9qxrrGX',
-        },
-        {
-            id: '7ad054cf-958a-495b-b01f-a620cf534edd',
-            projectId: 1269,
-            title: 'Bronze ApeDAO Supporter',
-            description: 'A campaign that rewards users with unique Bronze ApeDAO Soulbound NFT and XP.',
-            image: 'https://tideprotocol.infura-ipfs.io/ipfs/QmZbEuEqZtX1SBdQqC4ExGpwZF9mXyk59RkovxsQNrrQLb',
-        },
-    ]
-
     $: queriedCampaigns = campaigns.filter((campaign) => {
         return campaign.title.toLowerCase().includes(searchTerm.toLowerCase())
     })
@@ -42,6 +33,17 @@
         // TODO: add url to constant
         openUrlInBrowser('https://www.tideprotocol.xyz/')
     }
+
+    function fetchCampaigns(): void {
+        chainIds.forEach(async (chainId) => {
+            const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns
+            addCampaignForChain(chainId, campaigns)
+        })
+    }
+
+    onMount(() => {
+        fetchCampaigns()
+    })
 </script>
 
 <campaigns-gallery-view>

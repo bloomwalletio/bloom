@@ -128,10 +128,10 @@
             shadow-lg
         "
     >
-        {#if $selectedCampaign.image && !imageLoadError}
+        {#if $selectedCampaign.imageUrl && !imageLoadError}
             <div class="p-4">
                 <img
-                    src={$selectedCampaign.image}
+                    src={$selectedCampaign.imageUrl}
                     alt={$selectedCampaign?.title}
                     class="w-full h-full object-cover rounded-lg"
                     on:error={() => (imageLoadError = true)}
