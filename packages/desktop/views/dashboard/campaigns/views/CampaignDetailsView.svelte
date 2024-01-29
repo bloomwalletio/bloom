@@ -67,10 +67,14 @@
             return
         }
 
-        const persistedNft = await persistErc721Nft($selectedCampaign.address, tokenId, evmChain.id)
-        if (persistedNft) {
-            const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
-            updateAllAccountNftsForAccount(index, nft)
+        try {
+            const persistedNft = await persistErc721Nft($selectedCampaign.address, tokenId, evmChain.id)
+            if (persistedNft) {
+                const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
+                updateAllAccountNftsForAccount(index, nft)
+            }
+        } catch (_) {
+            // Switching account too swiftly results in an error from persistErc721Nft.
         }
     }
 
@@ -136,7 +140,7 @@
         <div class="h-full col-span-5">
             <Leaderboard leaderboardItems={campaign?.board} loading={leaderboardLoading} error={leaderboardError} />
         </div>
-        <div class="h-full flex flex-col gap-8 col-span-2">
+        <div class="h-full flex flex-col flex-grow gap-8 col-span-2">
             <UserPositionCard userPosition={campaign?.userPosition} />
             {#if userNft}
                 <NftGalleryItem nft={userNft} />
