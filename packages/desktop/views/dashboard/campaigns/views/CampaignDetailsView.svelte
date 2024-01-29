@@ -20,11 +20,14 @@
     import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
     import { updateAllAccountNftsForAccount } from '@core/nfts/actions'
     import { buildNftFromPersistedErc721Nft } from '@core/nfts'
+    import { handleError } from '@core/error/handlers'
 
     const tideApi = new TideApi()
     const evmChain = getNetwork()?.getChains()?.[0]?.getConfiguration()
 
     let imageLoadError = false
+    let leaderboardLoading = false
+    let leaderboardError = false
 
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
     $: fetchAndPersistUserData($selectedAccount)
@@ -78,14 +81,22 @@
     })
 
     async function fetchAndPersistLeaderboard(): Promise<void> {
-        const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
-            cids: [$selectedCampaign.id],
-        })
-        addCampaignLeaderboard(
-            $selectedCampaign.projectId,
-            $selectedCampaign.id,
-            leaderboardResponse.filteredLeaderboard
-        )
+        try {
+            leaderboardLoading = true
+            const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
+                cids: [$selectedCampaign.id],
+            })
+            addCampaignLeaderboard(
+                $selectedCampaign.projectId,
+                $selectedCampaign.id,
+                leaderboardResponse.filteredLeaderboard
+            )
+            leaderboardLoading = false
+        } catch (error) {
+            handleError(error)
+            leaderboardError = true
+            leaderboardLoading = false
+        }
     }
 
     function setImageLoadError(): void {
@@ -96,7 +107,7 @@
 <div class="h-full flex flex-col gap-8">
     <Pane
         classes="
-            w-full flex-grow shrink-0 grid grid-cols-3
+            w-full shrink-0 grid grid-cols-3
             bg-surface dark:bg-surface-dark 
             border border-solid border-stroke dark:border-stroke-dark 
             divide-x divide-solid divide-stroke dark:divide-stroke-dark 
@@ -121,11 +132,9 @@
         </div>
     </Pane>
 
-    <div class="grid grid-cols-7 gap-8 items-start">
-        <div class="col-span-5">
-            {#if campaign}
-                <Leaderboard leaderboardItems={campaign.board} />
-            {/if}
+    <div class="flex-grow grid grid-cols-7 gap-8 items-start">
+        <div class="h-full col-span-5">
+            <Leaderboard leaderboardItems={campaign?.board} loading={leaderboardLoading} error={leaderboardError} />
         </div>
         <div class="h-full flex flex-col gap-8 col-span-2">
             <UserPositionCard userPosition={campaign?.userPosition} />
