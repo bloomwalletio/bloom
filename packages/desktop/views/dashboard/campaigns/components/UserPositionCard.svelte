@@ -11,10 +11,10 @@
 </script>
 
 <Pane classes="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
-    <div class="flex flex-row justify-between p-4">
+    <div class="flex flex-row justify-between items-center p-4 h-14">
         <Text>{localize('views.campaigns.details.myPosition')}</Text>
         {#if userPosition?.position}
-            <Avatar text={String(userPosition?.position)} />
+            <Avatar size="md" text={String(userPosition?.position)} />
         {:else}
             <Text textColor="secondary" fontWeight="medium">{userPosition?.position ?? '-'}</Text>
         {/if}
@@ -27,7 +27,7 @@
         <Text>{localize('views.campaigns.details.tasksComplete')}</Text>
         <Text textColor="secondary" fontWeight="medium">{userPosition?.taskDone ?? '-'}</Text>
     </div>
-    <div class="flex w-full h-full">
+    <div class="flex w-full">
         <CampaignNft {nft} />
     </div>
 </Pane>
