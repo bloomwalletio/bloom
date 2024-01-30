@@ -175,7 +175,13 @@
 
     <div class="flex-grow grid grid-cols-7 gap-8 items-start">
         <div class="h-full col-span-5">
-            <Leaderboard leaderboardItems={campaign?.board} loading={leaderboardLoading} error={leaderboardError} />
+            <Leaderboard
+                leaderboardItems={campaign?.board}
+                {userAddress}
+                networkId={evmChain.id}
+                loading={leaderboardLoading}
+                error={leaderboardError}
+            />
         </div>
         <div class="flex flex-col flex-grow gap-8 col-span-2">
             <UserPositionCard userPosition={campaign?.userPosition} />
