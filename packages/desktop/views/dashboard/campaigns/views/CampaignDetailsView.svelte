@@ -16,7 +16,7 @@
     } from '@contexts/campaigns'
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import { selectedAccount } from '@core/account/stores'
-    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { getAddressFromAccountForNetwork } from '@core/account'
     import { openUrlInBrowser } from '@core/app'
     import { TIDE_BASE_URL, TideWebsiteEndpoint } from '@core/tide'
     import { handleError } from '@core/error/handlers'
@@ -72,22 +72,21 @@
             ],
         },
     }
+    const evmChain = getNetwork()?.getChains()?.[0]?.getConfiguration()
 
     let imageLoadError = false
     let leaderboardLoading = false
     let leaderboardError = false
 
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
-    $: fetchAndPersistUserPosition($selectedAccount)
+    $: userAddress = getAddressFromAccountForNetwork($selectedAccount, evmChain.id)?.toLowerCase()
+    $: void fetchAndPersistUserPosition(userAddress)
 
-    async function fetchAndPersistUserPosition(account: IAccountState): Promise<void> {
-        const evmChainId = getNetwork()?.getChains()?.[0]?.getConfiguration().id
-        const userAddress = getAddressFromAccountForNetwork(account, evmChainId)?.toLowerCase()
-
+    async function fetchAndPersistUserPosition(address: string): Promise<void> {
         const leaderboardResponse = await tideApi.getProjectLeaderboard($selectedCampaign.projectId, {
             cids: [$selectedCampaign.id],
             by: 'ADDRESS',
-            search: userAddress,
+            search: address,
         })
         addUserPositionToCampaignLeaderboard(
             $selectedCampaign.projectId,
@@ -176,7 +175,13 @@
 
     <div class="flex-grow grid grid-cols-7 gap-8 items-start">
         <div class="h-full col-span-5">
-            <Leaderboard leaderboardItems={campaign?.board} loading={leaderboardLoading} error={leaderboardError} />
+            <Leaderboard
+                leaderboardItems={campaign?.board}
+                {userAddress}
+                networkId={evmChain.id}
+                loading={leaderboardLoading}
+                error={leaderboardError}
+            />
         </div>
         <div class="flex flex-col flex-grow gap-8 col-span-2">
             <UserPositionCard userPosition={campaign?.userPosition} />
