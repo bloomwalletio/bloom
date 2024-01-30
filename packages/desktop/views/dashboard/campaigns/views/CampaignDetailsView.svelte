@@ -23,6 +23,7 @@
     let leaderboardLoading = false
     let leaderboardError = false
     let userAddress: string
+    let numberOfTasks: number | undefined
 
     $: chainConfiguration = getChainConfiguration(`${NetworkNamespace.Evm}:${$selectedCampaign.chainId}` as NetworkId)
     $: ({ board: leaderboard, userPosition } = $campaignLeaderboards[$selectedCampaign.projectId]?.[
@@ -79,9 +80,8 @@
     }
 
     onMount(async () => {
-        if (!leaderboard) {
-            await fetchAndPersistLeaderboard()
-        }
+        numberOfTasks = (await tideApi.getCampaign($selectedCampaign.id)).numberOfTasks
+        await fetchAndPersistLeaderboard()
     })
 
     async function fetchAndPersistLeaderboard(): Promise<void> {
@@ -113,12 +113,12 @@
                 leaderboardItems={leaderboard}
                 {userAddress}
                 networkId={chainConfiguration?.id}
-                loading={leaderboardLoading}
+                loading={leaderboardLoading && (!leaderboard || leaderboard.length === 0)}
                 error={leaderboardError}
             />
         </div>
         <div class="h-full flex flex-col flex-grow gap-8 col-span-2">
-            <UserPositionCard {userPosition} nft={userNft} />
+            <UserPositionCard {userPosition} nft={userNft} {numberOfTasks} />
         </div>
     </div>
 </div>

@@ -8,6 +8,7 @@
 
     export let userPosition: ITideLeaderboardItem | undefined
     export let nft: Nft | undefined
+    export let numberOfTasks: number | undefined
 </script>
 
 <Pane classes="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
@@ -25,7 +26,9 @@
     </div>
     <div class="flex flex-row justify-between p-4">
         <Text>{localize('views.campaigns.details.tasksComplete')}</Text>
-        <Text textColor="secondary" fontWeight="medium">{userPosition?.taskDone ?? '-'}</Text>
+        <Text textColor="secondary" fontWeight="medium">
+            {`${userPosition?.taskDone ?? '0'}/${numberOfTasks ?? '-'}`}
+        </Text>
     </div>
     <div class="flex w-full">
         <CampaignNft {nft} />
