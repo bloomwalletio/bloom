@@ -14,9 +14,9 @@
 <div class="absolute flex flex-row w-full p-4">
     <Pill color={nft ? 'primary' : 'neutral'} opaque>
         <div class="flex flex-row space-x-1 items-center text-invert">
-            <Icon size="xxs" customColor="text-invert" name={IconName.Trophy} />
+            <Icon size="xxs" customColor="text-invert" name={IconName.Gift} />
             <div>
-                {localize(`views.campaigns.details.${nft ? 'myNft' : 'noNft'}`)}
+                {localize(`views.campaigns.details.${nft ? 'nftBadge' : 'noNftBadge'}`)}
             </div>
         </div>
     </Pill>
