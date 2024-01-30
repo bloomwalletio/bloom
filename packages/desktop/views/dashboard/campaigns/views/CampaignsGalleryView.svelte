@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button, IconName, Pill, Spinner, Text } from '@bloomwalletio/ui'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
-    import { ICampaign, featuredCampaigns } from '@contexts/campaigns'
+    import { CAMPAIGN_END_DATE_CUT_OFF, ICampaign, featuredCampaigns } from '@contexts/campaigns'
     import {
         addCampaignForChain,
         campaignsPerChain,
@@ -15,7 +15,7 @@
     import { SearchInput } from '@ui'
     import { onMount } from 'svelte'
     import { CampaignsGallery } from '../components'
-    import { TIDE_BASE_URL } from '@core/tide'
+    import { TIDE_BASE_URL, TideListingStatus } from '@core/tide'
 
     const tideApi = new TideApi()
     let loading = false
@@ -26,18 +26,30 @@
     let campaigns: ICampaign[] = []
     $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
 
-    $: sortedCampaigns = campaigns.sort((campaignA, campaignB) => {
-        const isAFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignA.id)
-        const isBFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignB.id)
-        // check if campaign is featured and sort it to the top
-        if (isAFeatured && !isBFeatured) {
-            return -1
-        }
-        if (!isAFeatured && isBFeatured) {
-            return 1
-        }
-        return 0
-    })
+    $: sortedCampaigns = campaigns
+        .filter((campaign) => {
+            // filter out campaigns that are not listed or have ended
+            return (
+                campaign.listingStatus === TideListingStatus.Listed &&
+                new Date(campaign.endTime) > new Date(CAMPAIGN_END_DATE_CUT_OFF)
+            )
+        })
+        .sort((campaignA, campaignB) => {
+            const isAFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignA.id)
+            const isBFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignB.id)
+            // check if campaign is featured and sort it to the top, then sort by end time
+            if (isAFeatured && !isBFeatured) {
+                return -1
+            }
+            if (!isAFeatured && isBFeatured) {
+                return 1
+            }
+            if (isAFeatured && isBFeatured) {
+                return new Date(campaignA.endTime) > new Date(campaignB.endTime) ? 1 : -1
+            } else {
+                return new Date(campaignA.endTime) > new Date(campaignB.endTime) ? 1 : -1
+            }
+        })
 
     let searchTerm: string = ''
     $: queriedCampaigns = sortedCampaigns.filter((campaign) => {
@@ -89,7 +101,7 @@
         <div class="flex flex-row text-left gap-2 items-center">
             <Text type="h6">{localize('views.campaigns.gallery.title')}</Text>
             <Pill color="neutral">
-                <Text textColor="secondary">{String(campaigns.length ?? '')}</Text>
+                <Text textColor="secondary">{String(sortedCampaigns.length ?? '')}</Text>
             </Pill>
         </div>
         <div class="flex items-center gap-2" style="height: 40px">
