@@ -36,7 +36,7 @@
 
         const concatenatedDescription = sanitizedDescription
             .replace(/<p>/g, '')
-            .replace(/<\/p>/g, '\n')
+            .replace(/<\/p>/g, ' ')
             .replace(/<x>/g, '')
             .replace(/<\/x>/g, '')
         return concatenatedDescription
@@ -53,7 +53,7 @@
 
 <Pane
     classes="
-        w-full h-1/3 shrink-0 flex flex-row
+        w-full max-h-64 shrink-0 flex flex-row
         bg-surface dark:bg-surface-dark 
         border border-solid border-stroke dark:border-stroke-dark 
         divide-x divide-solid divide-stroke dark:divide-stroke-dark 
@@ -61,7 +61,7 @@
     "
 >
     {#if campaign.imageUrl && !imageLoadError}
-        <div class="w-1/3 h-full p-4">
+        <div class="w-2/5 h-full p-4">
             <img
                 src={campaign.imageUrl}
                 alt={campaign?.title}
@@ -70,12 +70,12 @@
             />
         </div>
     {:else}
-        <div class="w-1/3 h-full object-cover">
+        <div class="w-2/5 h-full object-cover">
             <MediaPlaceholder size="md" />
         </div>
     {/if}
     <div
-        class="w-2/3 flex flex-col items-start justify-between divide-y divide-solid divide-stroke dark:divide-stroke-dark"
+        class="w-full flex flex-col items-start justify-between divide-y divide-solid divide-stroke dark:divide-stroke-dark"
     >
         <div class="w-full flex flex-row justify-between items-center gap-4 py-4 px-5">
             <Text type="body1" class="whitespace-nowrap" truncate>{campaign.title}</Text>
@@ -96,7 +96,11 @@
             </div>
         </div>
         <div class="flex-grow w-full flex flex-col justify-between p-5 gap-2 overflow-hidden">
-            <Text type="base" textColor="secondary" class="whitespace-pre-line overflow-hidden">{description}</Text>
+            <Text
+                type="base"
+                textColor="secondary"
+                class="whitespace-pre-line overflow-hidden text-ellipsis line-clamp-3">{description}</Text
+            >
             <div class="w-full flex flex-row justify-between gap-4">
                 <div class="flex flex-row gap-2">
                     <CampaignStatusPill {campaign} />
