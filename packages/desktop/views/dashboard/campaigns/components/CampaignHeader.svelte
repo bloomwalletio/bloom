@@ -10,6 +10,7 @@
     import CampaignStatusPill from './CampaignStatusPill.svelte'
     import CampaignTimestampPill from './CampaignTimestampPill.svelte'
     import sanitizeHtml from 'sanitize-html'
+    import { localize } from '@core/i18n'
 
     export let campaign: ICampaign
 
@@ -52,7 +53,7 @@
 
 <Pane
     classes="
-        w-full shrink-0 grid grid-cols-3
+        w-full h-1/4 shrink-0 grid grid-cols-3
         bg-surface dark:bg-surface-dark 
         border border-solid border-stroke dark:border-stroke-dark 
         divide-x divide-solid divide-stroke dark:divide-stroke-dark 
@@ -76,14 +77,25 @@
     <div
         class="col-span-2 flex flex-col items-start justify-between divide-y divide-solid divide-stroke dark:divide-stroke-dark"
     >
-        <div class="w-full flex flex-row justify-between items-center py-4 px-5">
-            <Text type="body1" class="whitespace-nowrap">{campaign.title}</Text>
+        <div class="w-full flex flex-row justify-between items-center gap-4 py-4 px-5">
+            <Text type="body1" class="whitespace-nowrap" truncate>{campaign.title}</Text>
             <div class="flex flex-row gap-3">
-                <Button size="xs" icon={IconName.Send} variant="outlined" on:click={onProjectClick} text="Project" />
-                <Button size="xs" icon={IconName.Send} on:click={onCampaignClick} text="Campaign" />
+                <Button
+                    size="xs"
+                    icon={IconName.Send}
+                    variant="outlined"
+                    on:click={onProjectClick}
+                    text={localize('views.campaigns.details.project')}
+                />
+                <Button
+                    size="xs"
+                    icon={IconName.Send}
+                    on:click={onCampaignClick}
+                    text={localize('views.campaigns.details.campaign')}
+                />
             </div>
         </div>
-        <div class="h-full w-full flex flex-col items-start justify-between p-5 gap-2">
+        <div class="w-full flex flex-col justify-between p-5 gap-2">
             <Text type="base" textColor="secondary" class="whitespace-pre-line" truncate>{@html description}</Text>
             <div class="w-full flex flex-row justify-between gap-4">
                 <div class="flex flex-row gap-2">

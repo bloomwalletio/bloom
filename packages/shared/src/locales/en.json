@@ -612,7 +612,9 @@
                 "myPosition": "My position",
                 "points": "Points",
                 "tasksComplete": "Tasks Complete",
-                "rewardsClaimed": "Rewards Claimed"
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign"
             }
         },
         "governance": {
