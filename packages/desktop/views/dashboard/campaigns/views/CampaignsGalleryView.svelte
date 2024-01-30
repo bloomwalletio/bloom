@@ -52,8 +52,7 @@
         try {
             loading = true
             const fetchCampaignsPromises = chainIds.map(async (chainId) => {
-                const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns
-                campaigns.map((campaign) => {
+                const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns.map((campaign) => {
                     return {
                         id: campaign.id,
                         address: campaign.address,
@@ -65,12 +64,12 @@
                         startTime: campaign.startTime,
                         endTime: campaign.endTime,
                         url: campaign.url,
-                        chainId: String(chainId),
+                        chainId: campaign.chain,
                         listingStatus: campaign.listingStatus,
                         ERC20Reward: campaign.ERC20Reward,
                     } as ICampaign
                 })
-                addCampaignForChain(chainId, campaigns as ICampaign[])
+                addCampaignForChain(chainId, campaigns)
             })
             await Promise.allSettled(fetchCampaignsPromises)
         } catch (error) {
