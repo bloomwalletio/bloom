@@ -90,9 +90,7 @@
 
     onMount(async () => {
         numberOfTasks = (await tideApi.getCampaign($selectedCampaign.id)).numberOfTasks
-        if (!leaderboard) {
-            await fetchAndPersistLeaderboard()
-        }
+        await fetchAndPersistLeaderboard()
     })
 
     async function fetchAndPersistLeaderboard(): Promise<void> {
@@ -186,7 +184,7 @@
                 leaderboardItems={leaderboard}
                 {userAddress}
                 networkId={chainConfiguration?.id}
-                loading={leaderboardLoading}
+                loading={leaderboardLoading && (!leaderboard || leaderboard.length === 0)}
                 error={leaderboardError}
             />
         </div>
