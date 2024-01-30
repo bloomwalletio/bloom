@@ -9,10 +9,18 @@
     import CampaignRewardsPill from './CampaignRewardsPill.svelte'
     import CampaignStatusPill from './CampaignStatusPill.svelte'
     import CampaignTimestampPill from './CampaignTimestampPill.svelte'
+    import sanitizeHtml from 'sanitize-html'
 
     export let campaign: ICampaign
 
     let imageLoadError = false
+
+    $: description = sanitizeHtml(campaign.description, {
+        allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'h1', 'h2', 'h3'],
+        allowedAttributes: {
+            a: ['href'],
+        },
+    })
 
     function onProjectClick(): void {
         openUrlInBrowser(`${TIDE_BASE_URL}/${TideWebsiteEndpoint.Project}/${campaign.projectId}`)
@@ -61,7 +69,7 @@
             </div>
         </div>
         <div class="h-full w-full flex flex-col items-start justify-between p-5 gap-4">
-            <Text type="base" textColor="secondary">{campaign.description}</Text>
+            <Text type="base" textColor="secondary">{@html description}</Text>
             <div class="w-full flex flex-row justify-between gap-4">
                 <div class="flex flex-row gap-2">
                     <CampaignStatusPill {campaign} />
