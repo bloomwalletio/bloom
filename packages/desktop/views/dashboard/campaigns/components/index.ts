@@ -1,3 +1,4 @@
+export { default as CampaignHeader } from './CampaignHeader.svelte'
 export { default as CampaignParticipantsPill } from './CampaignParticipantsPill.svelte'
 export { default as CampaignRewardsPill } from './CampaignRewardsPill.svelte'
 export { default as CampaignsGallery } from './CampaignsGallery.svelte'
