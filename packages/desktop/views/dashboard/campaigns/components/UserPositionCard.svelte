@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Avatar, Text } from '@bloomwalletio/ui'
+    import { Pill, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { Nft } from '@core/nfts'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
@@ -14,7 +14,7 @@
     <div class="flex flex-row justify-between items-center p-4 h-14">
         <Text>{localize('views.campaigns.details.myPosition')}</Text>
         {#if userPosition?.position}
-            <Avatar size="md" text={String(userPosition?.position)} />
+            <Pill color="brand">{userPosition.position}</Pill>
         {:else}
             <Text textColor="secondary" fontWeight="medium">{userPosition?.position ?? '-'}</Text>
         {/if}
