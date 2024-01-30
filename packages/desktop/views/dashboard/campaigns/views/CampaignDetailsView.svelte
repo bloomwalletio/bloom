@@ -104,7 +104,7 @@
     }
 </script>
 
-<div class="h-full flex flex-col gap-6">
+<div class="h-full flex flex-col gap-4">
     <CampaignHeader campaign={$selectedCampaign} />
 
     <div class="flex-grow grid grid-cols-7 gap-4 items-start shrink-0 h-3/4">
