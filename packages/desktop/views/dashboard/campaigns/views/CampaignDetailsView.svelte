@@ -30,6 +30,7 @@
     let imageLoadError = false
     let leaderboardLoading = false
     let leaderboardError = false
+    let userAddress: string
 
     $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
     $: fetchAndPersistUserData($selectedAccount)
@@ -37,7 +38,7 @@
     $: userNft = $ownedNfts.find((nft) => nft.id?.startsWith($selectedCampaign.address.toLowerCase()))
 
     function fetchAndPersistUserData(account: IAccountState): void {
-        const userAddress = getAddressFromAccountForNetwork(account, evmChain.id)?.toLowerCase()
+        userAddress = getAddressFromAccountForNetwork(account, evmChain.id)?.toLowerCase()
         void fetchAndPersistUserPosition(userAddress)
         void fetchAndPersistUserNft(userAddress, account.index)
     }
@@ -160,7 +161,13 @@
 
     <div class="flex-grow grid grid-cols-7 gap-8 items-start">
         <div class="h-full col-span-5">
-            <Leaderboard leaderboardItems={campaign?.board} loading={leaderboardLoading} error={leaderboardError} />
+            <Leaderboard
+                leaderboardItems={campaign?.board}
+                {userAddress}
+                networkId={evmChain.id}
+                loading={leaderboardLoading}
+                error={leaderboardError}
+            />
         </div>
         <div class="h-full flex flex-col flex-grow gap-8 col-span-2">
             <UserPositionCard userPosition={campaign?.userPosition} />

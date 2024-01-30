@@ -4,10 +4,15 @@
     import { truncateString } from '@core/utils'
     import { darkMode } from '@core/app/stores'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
+    import { getSubjectFromAddress } from '@core/wallet'
+    import { NetworkId } from '@core/network'
     import { EmptyListPlaceholder } from '@components'
     import { Spinner } from '@bloomwalletio/ui'
 
-    export let leaderboardItems: ITideLeaderboardItem[] = []
+    export let leaderboardItems: ITideLeaderboardItem[]
+    export let userAddress: string = ''
+    export let networkId: NetworkId
+
     export let loading: boolean = false
     export let error: boolean = false
 
@@ -27,9 +32,15 @@
         <div class="h-full w-full flex justify-center items-center p-8">
             <Spinner textColor="primary" />
         </div>
-    {:else if leaderboardItems.length}
+    {:else if leaderboardItems?.length}
         {#each leaderboardItems as leaderboardItem, index}
-            <div class="w-full flex justify-between items-center gap-16 py-3 px-5">
+            {@const user = getSubjectFromAddress(leaderboardItem.address, networkId)}
+            <div
+                class="w-full flex justify-between items-center gap-16 py-3 px-5 {userAddress?.toLowerCase() ===
+                leaderboardItem.address?.toLowerCase()
+                    ? 'bg-surface-2 dark:bg-surface-2-dark'
+                    : ''}"
+            >
                 <div class="flex flex-row items-center justify-start gap-2">
                     {#if index <= 2}
                         <Avatar
@@ -37,12 +48,20 @@
                             customTextColor={top3Colors[index]}
                             backgroundColor="surface/00"
                         />
+                    {:else if user?.type === 'account'}
+                        <Avatar text={String(index + 1)} />
                     {:else}
                         <Avatar text={String(index + 1)} backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'} />
                     {/if}
-                    <Text type="sm" fontWeight="bold">{truncateString(leaderboardItem.address, 8, 8)}</Text>
+                    {#if user?.type === 'account'}
+                        <Text type="sm" fontWeight="bold" textColor="brand"
+                            >{truncateString(user.account.name, 14)}</Text
+                        >
+                    {:else}
+                        <Text type="sm" fontWeight="bold">{truncateString(leaderboardItem.address, 8, 8)}</Text>
+                    {/if}
                 </div>
-                <div class="flex flex-row flex-grow gap-2">
+                <div class="flex flex-row gap-2">
                     <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
                     <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
                 </div>
