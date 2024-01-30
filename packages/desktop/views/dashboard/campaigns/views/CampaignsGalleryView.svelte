@@ -49,15 +49,29 @@
     }
 
     async function fetchCampaigns(): Promise<void> {
-        loading = true
-        const fetchCampaignsPromises = chainIds.map(async (chainId) => {
-            const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns
-
-            addCampaignForChain(chainId, campaigns)
-        })
-
         try {
-            await Promise.all(fetchCampaignsPromises)
+            loading = true
+            const fetchCampaignsPromises = chainIds.map(async (chainId) => {
+                const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns.map((campaign) => {
+                    return {
+                        id: campaign.id,
+                        address: campaign.address,
+                        projectId: campaign.projectId,
+                        title: campaign.title,
+                        description: campaign.description,
+                        imageUrl: campaign.imageUrl,
+                        participants: campaign.participants,
+                        startTime: campaign.startTime,
+                        endTime: campaign.endTime,
+                        url: campaign.url,
+                        chainId: campaign.chain,
+                        listingStatus: campaign.listingStatus,
+                        ERC20Reward: campaign.ERC20Reward,
+                    } as ICampaign
+                })
+                addCampaignForChain(chainId, campaigns)
+            })
+            await Promise.allSettled(fetchCampaignsPromises)
         } catch (error) {
             console.error(error)
         } finally {
@@ -66,7 +80,7 @@
     }
 
     onMount(() => {
-        fetchCampaigns()
+        void fetchCampaigns()
     })
 </script>
 

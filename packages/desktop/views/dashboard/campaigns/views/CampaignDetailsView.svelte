@@ -1,45 +1,51 @@
 <script lang="ts">
-    import { Button, IconName, Text } from '@bloomwalletio/ui'
-    import { getNetwork } from '@core/network'
+    import { Button, IconName, Link, Text } from '@bloomwalletio/ui'
+    import {
+        addCampaignLeaderboard,
+        addUserPositionToCampaignLeaderboard,
+        campaignLeaderboards,
+        selectedCampaign,
+    } from '@contexts/campaigns'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
+    import { openUrlInBrowser } from '@core/app'
+    import { handleError } from '@core/error/handlers'
+    import { NetworkId, NetworkNamespace, getChainConfiguration } from '@core/network'
+    import { buildNftFromPersistedErc721Nft } from '@core/nfts'
+    import { updateAllAccountNftsForAccount } from '@core/nfts/actions'
+    import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
+    import { ownedNfts } from '@core/nfts/stores'
+    import { TIDE_BASE_URL, TideWebsiteEndpoint } from '@core/tide'
     import { TideApi } from '@core/tide/apis'
     import Pane from '@ui/atoms/Pane.svelte'
     import { MediaPlaceholder } from '@ui/molecules'
     import { onMount } from 'svelte'
+    import CampaignParticipantsPill from '../components/CampaignParticipantsPill.svelte'
+    import CampaignRewardsPill from '../components/CampaignRewardsPill.svelte'
+    import CampaignStatusPill from '../components/CampaignStatusPill.svelte'
+    import CampaignTimestampPill from '../components/CampaignTimestampPill.svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
-    import {
-        campaignLeaderboards,
-        addCampaignLeaderboard,
-        selectedCampaign,
-        addUserPositionToCampaignLeaderboard,
-    } from '@contexts/campaigns'
     import UserPositionCard from '../components/UserPositionCard.svelte'
-    import { selectedAccount } from '@core/account/stores'
-    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
-    import { ownedNfts } from '@core/nfts/stores'
-    import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
-    import { updateAllAccountNftsForAccount } from '@core/nfts/actions'
-    import { buildNftFromPersistedErc721Nft } from '@core/nfts'
-    import { openUrlInBrowser } from '@core/app'
-    import { TIDE_BASE_URL, TideWebsiteEndpoint } from '@core/tide'
-    import { handleError } from '@core/error/handlers'
 
     const tideApi = new TideApi()
-    const evmChain = getNetwork()?.getChains()?.[0]?.getConfiguration()
-
     let imageLoadError = false
     let leaderboardLoading = false
     let leaderboardError = false
     let userAddress: string
 
-    $: campaign = $campaignLeaderboards[$selectedCampaign.projectId]?.[$selectedCampaign.id]
-    $: fetchAndPersistUserData($selectedAccount)
-
+    $: chainConfiguration = getChainConfiguration(`${NetworkNamespace.Evm}:${$selectedCampaign.chainId}` as NetworkId)
+    $: ({ board: leaderboard, userPosition } = $campaignLeaderboards[$selectedCampaign.projectId]?.[
+        $selectedCampaign.id
+    ] ?? { board: undefined, userPosition: undefined })
+    $: fetchAndPersistUserData($selectedAccount, chainConfiguration?.id)
     $: userNft = $ownedNfts.find((nft) => nft.id?.startsWith($selectedCampaign.address.toLowerCase()))
 
-    function fetchAndPersistUserData(account: IAccountState): void {
-        userAddress = getAddressFromAccountForNetwork(account, evmChain.id)?.toLowerCase()
-        void fetchAndPersistUserPosition(userAddress)
-        void fetchAndPersistUserNft(userAddress, account.index)
+    function fetchAndPersistUserData(account: IAccountState, networkId: NetworkId): void {
+        if (networkId) {
+            userAddress = getAddressFromAccountForNetwork(account, networkId)?.toLowerCase()
+            void fetchAndPersistUserPosition(userAddress)
+            void fetchAndPersistUserNft(userAddress, account.index)
+        }
     }
 
     async function fetchAndPersistUserPosition(address: string): Promise<void> {
@@ -61,7 +67,7 @@
         }
 
         const { tokenId } = await tideApi.getNftUserData(
-            Number(evmChain.chainId),
+            $selectedCampaign.chainId,
             accountAddress,
             $selectedCampaign.address
         )
@@ -70,7 +76,7 @@
         }
 
         try {
-            const persistedNft = await persistErc721Nft($selectedCampaign.address, tokenId, evmChain.id)
+            const persistedNft = await persistErc721Nft($selectedCampaign.address, tokenId, chainConfiguration.id)
             if (persistedNft) {
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
                 updateAllAccountNftsForAccount(index, nft)
@@ -81,7 +87,7 @@
     }
 
     onMount(async () => {
-        if (!campaign?.board) {
+        if (!leaderboard) {
             await fetchAndPersistLeaderboard()
         }
     })
@@ -114,7 +120,7 @@
     }
 </script>
 
-<div class="h-full flex flex-col gap-8">
+<div class="h-full flex flex-col gap-6">
     <Pane
         classes="
             w-full shrink-0 grid grid-cols-3
@@ -152,24 +158,37 @@
                     <Button size="xs" icon={IconName.Send} on:click={onCampaignClick} text="Campaign" />
                 </div>
             </div>
-            <div class="w-full flex flex-col items-start p-5 gap-4">
+            <div class="h-full w-full flex flex-col items-start justify-between p-5 gap-4">
                 <Text type="base" textColor="secondary">{$selectedCampaign.description}</Text>
+                <div class="w-full flex flex-row justify-between gap-4">
+                    <div class="flex flex-row gap-2">
+                        <CampaignStatusPill campaign={$selectedCampaign} />
+                        <CampaignTimestampPill campaign={$selectedCampaign} />
+                        <CampaignParticipantsPill campaign={$selectedCampaign} />
+                        <CampaignRewardsPill campaign={$selectedCampaign} />
+                    </div>
+                    <Link
+                        text={$selectedCampaign.url}
+                        external
+                        on:click={() => openUrlInBrowser($selectedCampaign.url)}
+                    />
+                </div>
             </div>
         </div>
     </Pane>
 
-    <div class="flex-grow grid grid-cols-7 gap-8 items-start">
+    <div class="flex-grow grid grid-cols-7 gap-5 items-start">
         <div class="h-full col-span-5">
             <Leaderboard
-                leaderboardItems={campaign?.board}
+                leaderboardItems={leaderboard}
                 {userAddress}
-                networkId={evmChain.id}
+                networkId={chainConfiguration?.id}
                 loading={leaderboardLoading}
                 error={leaderboardError}
             />
         </div>
-        <div class="col-span-2">
-            <UserPositionCard userPosition={campaign?.userPosition} nft={userNft} />
+        <div class="h-full flex flex-col flex-grow gap-8 col-span-2">
+            <UserPositionCard {userPosition} nft={userNft} />
         </div>
     </div>
 </div>
