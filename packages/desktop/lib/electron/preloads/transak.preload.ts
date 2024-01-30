@@ -35,16 +35,8 @@ window.addEventListener('DOMContentLoaded', () => {
         iframe.style.border = 'none'
         iframe.style.borderRadius = '16px'
         iframe.allow = 'camera;microphone;payment'
-        iframe.sandbox.add('allow-scripts', 'allow-same-origin')
+        iframe.sandbox.add('allow-scripts', 'allow-same-origin', 'allow-popups')
 
         window.document.body.appendChild(iframe)
-
-        window.addEventListener('message', (message) => {
-            if (message.source !== iframe.contentWindow) return
-
-            if (message?.data?.event_id === 'TRANSAK_ORDER_SUCCESSFUL') {
-                void ipcRenderer.invoke('close-transak')
-            }
-        })
     })
 })
