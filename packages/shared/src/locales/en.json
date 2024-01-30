@@ -613,6 +613,8 @@
                 "points": "Points",
                 "tasksComplete": "Tasks Complete",
                 "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
                 "nftBadge": "NFT Badge",
                 "noNftBadge": "No NFT Badge Claimed"
             }

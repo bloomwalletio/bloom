@@ -1,3 +1,4 @@
+export { default as CampaignHeader } from './CampaignHeader.svelte'
 export { default as CampaignNft } from './CampaignNft.svelte'
 export { default as CampaignParticipantsPill } from './CampaignParticipantsPill.svelte'
 export { default as CampaignRewardsPill } from './CampaignRewardsPill.svelte'
