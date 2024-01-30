@@ -37,15 +37,17 @@
         .sort((campaignA, campaignB) => {
             const isAFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignA.id)
             const isBFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignB.id)
-            // check if campaign is featured and sort it to the top, then sort by end time
-            if (isAFeatured && !isBFeatured) {
-                return -1
-            }
-            if (!isAFeatured && isBFeatured) {
+            const hasAEnded = new Date(campaignA.endTime) < new Date()
+            const hasBEnded = new Date(campaignB.endTime) < new Date()
+            // show active before ended, then featured before non-featured then sort by end date
+            if (hasAEnded && !hasBEnded) {
                 return 1
-            }
-            if (isAFeatured && isBFeatured) {
-                return new Date(campaignA.endTime) > new Date(campaignB.endTime) ? 1 : -1
+            } else if (!hasAEnded && hasBEnded) {
+                return -1
+            } else if (isAFeatured && !isBFeatured) {
+                return -1
+            } else if (!isAFeatured && isBFeatured) {
+                return 1
             } else {
                 return new Date(campaignA.endTime) > new Date(campaignB.endTime) ? 1 : -1
             }
