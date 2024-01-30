@@ -8,6 +8,7 @@
     import { NetworkId } from '@core/network'
     import { EmptyListPlaceholder } from '@components'
     import { Spinner } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
 
     export let leaderboardItems: ITideLeaderboardItem[]
     export let userAddress: string = ''
@@ -24,6 +25,9 @@
 </script>
 
 <Pane classes="h-full flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
+    <div class="py-3 px-5">
+        <Text type="body2">{localize('views.campaigns.details.top10')}</Text>
+    </div>
     {#if error}
         <div class="h-full w-full flex justify-center items-center p-8">
             <EmptyListPlaceholder title="An error occurred loading the leaderboard" icon={IconName.Data} />
