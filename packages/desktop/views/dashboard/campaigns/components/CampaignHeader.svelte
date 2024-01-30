@@ -73,22 +73,18 @@
             <MediaPlaceholder size="md" />
         </div>
     {/if}
-    <div class="col-span-2 flex flex-col items-start divide-y divide-solid divide-stroke dark:divide-stroke-dark">
+    <div
+        class="col-span-2 flex flex-col items-start justify-between divide-y divide-solid divide-stroke dark:divide-stroke-dark"
+    >
         <div class="w-full flex flex-row justify-between items-center py-4 px-5">
-            <Text type="body1" classes="whitespace-nowrap">{campaign.title}</Text>
+            <Text type="body1" class="whitespace-nowrap">{campaign.title}</Text>
             <div class="flex flex-row gap-3">
-                <Button
-                    size="xs"
-                    icon={IconName.Send}
-                    variant="outlined"
-                    on:click={onProjectClick}
-                    text="Project Page"
-                />
+                <Button size="xs" icon={IconName.Send} variant="outlined" on:click={onProjectClick} text="Project" />
                 <Button size="xs" icon={IconName.Send} on:click={onCampaignClick} text="Campaign" />
             </div>
         </div>
-        <div class="h-full w-full flex flex-col items-start justify-between p-5 gap-4">
-            <Text type="base" textColor="secondary">{@html description}</Text>
+        <div class="h-full w-full flex flex-col items-start justify-between p-5 gap-2">
+            <Text type="base" textColor="secondary" class="whitespace-pre-line" truncate>{@html description}</Text>
             <div class="w-full flex flex-row justify-between gap-4">
                 <div class="flex flex-row gap-2">
                     <CampaignStatusPill {campaign} />
