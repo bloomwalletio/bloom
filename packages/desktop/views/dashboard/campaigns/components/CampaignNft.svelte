@@ -16,7 +16,7 @@
         <div class="flex flex-row space-x-1 items-center text-invert">
             <Icon size="xxs" customColor="text-invert" name={IconName.Trophy} />
             <div>
-                {localize(`views.campaigns.${nft ? 'myNft' : 'noNft'}`)}
+                {localize(`views.campaigns.details.${nft ? 'myNft' : 'noNft'}`)}
             </div>
         </div>
     </Pill>
