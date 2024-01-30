@@ -51,7 +51,7 @@
         const borderRight = extractDigitsToNumbers(transakPaneStyles?.borderRightWidth)
 
         await Platform.updateTransakBounds({
-            x: rect.x + borderLeft + borderRight,
+            x: rect.x + borderLeft,
             y: rect.y + borderTop,
             width: rect.width - borderLeft - borderRight,
             height: rect.height - borderTop - borderBottom,
