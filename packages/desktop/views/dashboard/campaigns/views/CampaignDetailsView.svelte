@@ -4,7 +4,6 @@
     import { TideApi } from '@core/tide/apis'
     import Pane from '@ui/atoms/Pane.svelte'
     import { MediaPlaceholder } from '@ui/molecules'
-    import NftGalleryItem from '@ui/molecules/NftGalleryItem.svelte'
     import { onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
     import {
@@ -169,15 +168,8 @@
                 error={leaderboardError}
             />
         </div>
-        <div class="h-full flex flex-col flex-grow gap-8 col-span-2">
-            <UserPositionCard userPosition={campaign?.userPosition} />
-            {#if userNft}
-                <NftGalleryItem nft={userNft} />
-            {:else}
-                <div class="min-w-full h-full object-cover rounded-xl overflow-hidden">
-                    <MediaPlaceholder size="md" />
-                </div>
-            {/if}
+        <div class="col-span-2">
+            <UserPositionCard userPosition={campaign?.userPosition} nft={userNft} />
         </div>
     </div>
 </div>

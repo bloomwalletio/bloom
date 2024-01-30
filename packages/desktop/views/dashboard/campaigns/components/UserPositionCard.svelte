@@ -1,29 +1,36 @@
 <script lang="ts">
-    import { Text } from '@bloomwalletio/ui'
+    import { Avatar, Text } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
+    import { Nft } from '@core/nfts'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
-    import { Tile } from '@ui'
+    import { NftGalleryItem, Pane } from '@ui'
 
     export let userPosition: ITideLeaderboardItem | undefined
+    export let nft: Nft | undefined
 </script>
 
-<Tile classes="bg-surface-0 dark:bg-surface-0-dark border border-solid border-stroke dark:border-stroke-dark">
-    <div class="w-full flex flex-row justify-between items-center p-2 gap-3 w-32">
-        <div class="flex flex-row gap-3 items-center overflow-hidden">
-            <div class="flex flex-col overflow-hidden">
-                <Text type="body2" truncate>My Position</Text>
-                <Text type="sm" textColor="secondary" truncate>
-                    Ranking: {userPosition?.position ?? '-'}
-                </Text>
-                <Text type="sm" textColor="secondary" truncate>
-                    Points: {userPosition?.totalXp ?? 0} xp
-                </Text>
-                <Text type="sm" textColor="secondary" truncate>
-                    Tasks Complete: {userPosition?.taskDone ?? '-'}
-                </Text>
-                <Text type="sm" textColor="secondary" truncate>
-                    Rewards Claimed: {userPosition?.rewardClaimed ?? '-'}
-                </Text>
-            </div>
-        </div>
+<Pane classes="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
+    <div class="flex flex-row justify-between p-4">
+        <Text>{localize('views.campaigns.details.myPosition')}</Text>
+        {#if userPosition?.position}
+            <Avatar text={String(userPosition?.position)} />
+        {:else}
+            <Text textColor="secondary" fontWeight="medium">{userPosition?.position ?? '-'}</Text>
+        {/if}
     </div>
-</Tile>
+    <div class="flex flex-row justify-between p-4">
+        <Text>{localize('views.campaigns.details.points')}</Text>
+        <Text textColor="secondary" fontWeight="medium">{userPosition?.totalXp ?? 0}xp</Text>
+    </div>
+    <div class="flex flex-row justify-between p-4">
+        <Text>{localize('views.campaigns.details.tasksComplete')}</Text>
+        <Text textColor="secondary" fontWeight="medium">{userPosition?.taskDone ?? '-'}</Text>
+    </div>
+    <div class="flex flex-row justify-between p-4">
+        <Text>{localize('views.campaigns.details.rewardsClaimed')}</Text>
+        <Text textColor="secondary" fontWeight="medium">{userPosition?.rewardClaimed ?? '-'}</Text>
+    </div>
+    {#if nft}
+        <NftGalleryItem {nft} disabled />
+    {/if}
+</Pane>
