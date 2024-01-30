@@ -12,7 +12,7 @@
     import { handleError } from '@core/error/handlers'
     import { NetworkId, NetworkNamespace, getChainConfiguration } from '@core/network'
     import { buildNftFromPersistedErc721Nft } from '@core/nfts'
-    import { updateAllAccountNftsForAccount } from '@core/nfts/actions'
+    import { addNftsToDownloadQueue, updateAllAccountNftsForAccount } from '@core/nfts/actions'
     import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
     import { ownedNfts } from '@core/nfts/stores'
     import { TIDE_BASE_URL, TideWebsiteEndpoint } from '@core/tide'
@@ -79,6 +79,7 @@
             const persistedNft = await persistErc721Nft($selectedCampaign.address, tokenId, chainConfiguration.id)
             if (persistedNft) {
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
+                void addNftsToDownloadQueue([nft])
                 updateAllAccountNftsForAccount(index, nft)
             }
         } catch (_) {
