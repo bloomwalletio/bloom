@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
+    import { Button, IconName, Pill, Spinner, Text } from '@bloomwalletio/ui'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
     import { ICampaign, featuredCampaigns } from '@contexts/campaigns'
     import {
@@ -18,6 +18,7 @@
     import { TIDE_BASE_URL } from '@core/tide'
 
     const tideApi = new TideApi()
+    let loading = false
 
     const chainIds = getNetwork()
         .getChains()
@@ -47,26 +48,21 @@
         openUrlInBrowser(TIDE_BASE_URL)
     }
 
-    function fetchCampaigns(): void {
-        chainIds.forEach(async (chainId) => {
-            const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns.map((campaign) => {
-                return {
-                    id: campaign.id,
-                    projectId: campaign.projectId,
-                    title: campaign.title,
-                    description: campaign.description,
-                    imageUrl: campaign.imageUrl,
-                    participants: campaign.participants,
-                    startTime: campaign.startTime,
-                    endTime: campaign.endTime,
-                    url: campaign.url,
-                    chainId: String(chainId),
-                    listingStatus: campaign.listingStatus,
-                    ERC20Reward: campaign.ERC20Reward,
-                } as ICampaign
-            })
-            addCampaignForChain(chainId, campaigns)
+    async function fetchCampaigns(): Promise<void> {
+        loading = true
+        const fetchCampaignsPromises = chainIds.map(async (chainId) => {
+            const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns
+
+            addCampaignForChain(chainId, campaigns as ICampaign[])
         })
+
+        try {
+            await Promise.all(fetchCampaignsPromises)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            loading = false
+        }
     }
 
     onMount(() => {
@@ -100,6 +96,10 @@
                 <EmptyListPlaceholder title={localize('views.campaign.gallery.noResults')} icon={IconName.Data} />
             </div>
         {/if}
+    {:else if loading}
+        <div class="w-full h-full flex flex-col items-center justify-center">
+            <Spinner size="lg" textColor="primary" />
+        </div>
     {:else}
         <div class="w-full h-full flex flex-col items-center justify-center grow-1 gap-6">
             <EmptyListPlaceholder

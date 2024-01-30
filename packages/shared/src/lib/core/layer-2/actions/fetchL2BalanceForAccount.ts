@@ -39,7 +39,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
 
         await fetchLayer2Nfts(evmAddress, chain, account)
         if (features.collectibles.erc721.enabled) {
-            updateErc721NftsOwnership(account)
+            void updateErc721NftsOwnership(account)
         }
 
         const balances = await getLayer2BalanceForAddress(evmAddress, chain)
