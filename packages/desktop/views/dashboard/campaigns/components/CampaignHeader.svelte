@@ -15,12 +15,31 @@
 
     let imageLoadError = false
 
-    $: description = sanitizeHtml(campaign.description, {
-        allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'h1', 'h2', 'h3'],
-        allowedAttributes: {
-            a: ['href'],
-        },
-    })
+    $: description = getDescription(campaign.description)
+
+    function getDescription(rawDescription: string): string {
+        const sanitizedDescription = sanitizeHtml(rawDescription, {
+            allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'h1', 'h2', 'h3', 'h4'],
+            transformTags: {
+                a: 'x',
+                b: 'x',
+                i: 'x',
+                em: 'x',
+                strong: 'x',
+                h1: 'p',
+                h2: 'p',
+                h3: 'p',
+                h4: 'p',
+            },
+        })
+
+        const concatenatedDescription = sanitizedDescription
+            .replace(/<p>/g, '')
+            .replace(/<\/p>/g, '\n')
+            .replace(/<x>/g, '')
+            .replace(/<\/x>/g, '')
+        return concatenatedDescription
+    }
 
     function onProjectClick(): void {
         openUrlInBrowser(`${TIDE_BASE_URL}/${TideWebsiteEndpoint.Project}/${campaign.projectId}`)
