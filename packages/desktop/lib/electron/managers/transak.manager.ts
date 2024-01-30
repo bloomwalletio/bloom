@@ -7,9 +7,6 @@ import path from 'path'
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
 
-    private htmlPath = app.isPackaged
-        ? path.join(app.getAppPath(), '/public/transak.html')
-        : path.join(__dirname, '../transak.html')
     private preloadPath = app.isPackaged
         ? path.join(app.getAppPath(), '/public/build/transak.preload.js')
         : path.join(__dirname, 'transak.preload.js')
