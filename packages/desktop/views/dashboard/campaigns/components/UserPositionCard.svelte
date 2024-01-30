@@ -3,7 +3,8 @@
     import { localize } from '@core/i18n'
     import { Nft } from '@core/nfts'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
-    import { NftGalleryItem, Pane } from '@ui'
+    import { Pane } from '@ui'
+    import { CampaignNft } from './'
 
     export let userPosition: ITideLeaderboardItem | undefined
     export let nft: Nft | undefined
@@ -26,11 +27,7 @@
         <Text>{localize('views.campaigns.details.tasksComplete')}</Text>
         <Text textColor="secondary" fontWeight="medium">{userPosition?.taskDone ?? '-'}</Text>
     </div>
-    <div class="flex flex-row justify-between p-4">
-        <Text>{localize('views.campaigns.details.rewardsClaimed')}</Text>
-        <Text textColor="secondary" fontWeight="medium">{userPosition?.rewardClaimed ?? '-'}</Text>
+    <div class="flex w-full h-full">
+        <CampaignNft {nft} />
     </div>
-    {#if nft}
-        <NftGalleryItem {nft} disabled />
-    {/if}
 </Pane>

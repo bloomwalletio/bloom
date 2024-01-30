@@ -612,7 +612,9 @@
                 "myPosition": "My position",
                 "points": "Points",
                 "tasksComplete": "Tasks Complete",
-                "rewardsClaimed": "Rewards Claimed"
+                "rewardsClaimed": "Rewards Claimed",
+                "myNft": "My Nft",
+                "noNft": "No NFT Badge Claimed"
             }
         },
         "governance": {

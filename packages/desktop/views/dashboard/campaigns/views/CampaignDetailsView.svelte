@@ -120,10 +120,10 @@
     }
 </script>
 
-<div class="h-full flex flex-col gap-6">
+<div class="h-full flex flex-col gap-6 pb-6 -mb-5">
     <Pane
         classes="
-            w-full shrink-0 grid grid-cols-3
+            w-full shrink-0 grid grid-cols-3 h-1/4
             bg-surface dark:bg-surface-dark 
             border border-solid border-stroke dark:border-stroke-dark 
             divide-x divide-solid divide-stroke dark:divide-stroke-dark 
@@ -177,7 +177,7 @@
         </div>
     </Pane>
 
-    <div class="flex-grow grid grid-cols-7 gap-5 items-start">
+    <div class="flex-grow grid grid-cols-7 gap-5 items-start shrink-0 h-3/4">
         <div class="h-full col-span-5">
             <Leaderboard
                 leaderboardItems={leaderboard}
