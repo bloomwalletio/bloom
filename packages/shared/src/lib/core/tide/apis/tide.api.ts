@@ -22,7 +22,7 @@ interface IProjectLeaderboardResponse {
     userPosition: ITideUserPosition
 }
 
-interface ICampaignResponse {
+interface ICampaignsResponse {
     id: string
     title: string
     description: string
@@ -55,8 +55,12 @@ interface ICampaignResponse {
     pickedByTide: boolean
 }
 
+interface ICampaignResponse extends ICampaignsResponse {
+    numberOfTasks: number
+}
+
 interface IMultipleCampaignsResponse {
-    campaigns: ICampaignResponse[]
+    campaigns: ICampaignsResponse[]
     totalCampaigns: number
 }
 
@@ -85,7 +89,7 @@ export class TideApi extends BaseApi {
         return response
     }
 
-    async getCampaign(campaignId: number): Promise<ICampaignResponse | undefined> {
+    async getCampaign(campaignId: string): Promise<ICampaignResponse | undefined> {
         const path = `${TideApiEndpoint.Campaign}/${campaignId}`
         const response = await this.get<ICampaignResponse>(path)
         return response
