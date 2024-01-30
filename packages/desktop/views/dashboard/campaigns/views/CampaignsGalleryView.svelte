@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
+    import { Button, IconName, Pill, Spinner, Text } from '@bloomwalletio/ui'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
-    import { ICampaign } from '@contexts/campaigns'
+    import { ICampaign, featuredCampaigns } from '@contexts/campaigns'
     import {
         addCampaignForChain,
         campaignsPerChain,
@@ -15,8 +15,10 @@
     import { SearchInput } from '@ui'
     import { onMount } from 'svelte'
     import { CampaignsGallery } from '../components'
+    import { TIDE_BASE_URL } from '@core/tide'
 
     const tideApi = new TideApi()
+    let loading = false
 
     const chainIds = getNetwork()
         .getChains()
@@ -24,21 +26,43 @@
     let campaigns: ICampaign[] = []
     $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
 
+    $: sortedCampaigns = campaigns.sort((campaignA, campaignB) => {
+        const isAFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignA.id)
+        const isBFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignB.id)
+        // check if campaign is featured and sort it to the top
+        if (isAFeatured && !isBFeatured) {
+            return -1
+        }
+        if (!isAFeatured && isBFeatured) {
+            return 1
+        }
+        return 0
+    })
+
     let searchTerm: string = ''
-    $: queriedCampaigns = campaigns.filter((campaign) => {
+    $: queriedCampaigns = sortedCampaigns.filter((campaign) => {
         return campaign.title.toLowerCase().includes(searchTerm.toLowerCase())
     })
 
     function onBrowseCampaignsClick(): void {
-        // TODO: add url to constant
-        openUrlInBrowser('https://www.tideprotocol.xyz/')
+        openUrlInBrowser(TIDE_BASE_URL)
     }
 
-    function fetchCampaigns(): void {
-        chainIds.forEach(async (chainId) => {
+    async function fetchCampaigns(): Promise<void> {
+        loading = true
+        const fetchCampaignsPromises = chainIds.map(async (chainId) => {
             const campaigns = (await tideApi.getCampaignsForChain(chainId)).campaigns
+
             addCampaignForChain(chainId, campaigns)
         })
+
+        try {
+            await Promise.all(fetchCampaignsPromises)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            loading = false
+        }
     }
 
     onMount(() => {
@@ -72,6 +96,10 @@
                 <EmptyListPlaceholder title={localize('views.campaign.gallery.noResults')} icon={IconName.Data} />
             </div>
         {/if}
+    {:else if loading}
+        <div class="w-full h-full flex flex-col items-center justify-center">
+            <Spinner size="lg" textColor="primary" />
+        </div>
     {:else}
         <div class="w-full h-full flex flex-col items-center justify-center grow-1 gap-6">
             <EmptyListPlaceholder
