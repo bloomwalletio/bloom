@@ -70,8 +70,14 @@ export function getTimeDifference(lateDate: Date, earlyDate: Date): string {
 
     if (years > 0) {
         return `${years}y ${days}d`
-    } else if (days > 0 || hours > 0) {
+    } else if (days > 9 || (days > 0 && hours === 0)) {
+        return `${days}d`
+    } else if (days > 0 && hours > 0) {
         return `${days}d ${hours}h`
+    } else if (hours > 9 || (hours > 0 && minutes === 0)) {
+        return `${hours}h`
+    } else if (hours > 0 && minutes > 0) {
+        return `${hours}h ${minutes}min`
     } else if (minutes > 0) {
         return `${minutes}min`
     } else if (seconds > 0) {
