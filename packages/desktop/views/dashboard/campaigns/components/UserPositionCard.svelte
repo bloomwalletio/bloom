@@ -1,19 +1,20 @@
 <script lang="ts">
-    import { Avatar, Text } from '@bloomwalletio/ui'
+    import { Pill, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { Nft } from '@core/nfts'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
-    import { NftGalleryItem, Pane } from '@ui'
+    import { Pane } from '@ui'
+    import { CampaignNft } from './'
 
     export let userPosition: ITideLeaderboardItem | undefined
     export let nft: Nft | undefined
 </script>
 
 <Pane classes="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
-    <div class="flex flex-row justify-between p-4">
+    <div class="flex flex-row justify-between items-center p-4 h-14">
         <Text>{localize('views.campaigns.details.myPosition')}</Text>
         {#if userPosition?.position}
-            <Avatar text={String(userPosition?.position)} />
+            <Pill color="brand">{userPosition.position}</Pill>
         {:else}
             <Text textColor="secondary" fontWeight="medium">{userPosition?.position ?? '-'}</Text>
         {/if}
@@ -26,11 +27,7 @@
         <Text>{localize('views.campaigns.details.tasksComplete')}</Text>
         <Text textColor="secondary" fontWeight="medium">{userPosition?.taskDone ?? '-'}</Text>
     </div>
-    <div class="flex flex-row justify-between p-4">
-        <Text>{localize('views.campaigns.details.rewardsClaimed')}</Text>
-        <Text textColor="secondary" fontWeight="medium">{userPosition?.rewardClaimed ?? '-'}</Text>
+    <div class="flex w-full">
+        <CampaignNft {nft} />
     </div>
-    {#if nft}
-        <NftGalleryItem {nft} disabled />
-    {/if}
 </Pane>
