@@ -53,7 +53,7 @@
 
 <Pane
     classes="
-        w-full h-1/4 shrink-0 grid grid-cols-3 gap-4
+        w-full h-1/4 shrink-0 grid grid-cols-3
         bg-surface dark:bg-surface-dark 
         border border-solid border-stroke dark:border-stroke-dark 
         divide-x divide-solid divide-stroke dark:divide-stroke-dark 
