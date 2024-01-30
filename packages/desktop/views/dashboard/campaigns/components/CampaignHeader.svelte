@@ -53,7 +53,7 @@
 
 <Pane
     classes="
-        w-full h-1/4 flex flex-row
+        w-full h-1/3 shrink-0 flex flex-row
         bg-surface dark:bg-surface-dark 
         border border-solid border-stroke dark:border-stroke-dark 
         divide-x divide-solid divide-stroke dark:divide-stroke-dark 
@@ -96,7 +96,7 @@
             </div>
         </div>
         <div class="flex-grow w-full flex flex-col justify-between p-5 gap-2 overflow-hidden">
-            <Text type="base" textColor="secondary" class="whitespace-pre-line">{@html description}</Text>
+            <Text type="base" textColor="secondary" class="whitespace-pre-line overflow-hidden">{description}</Text>
             <div class="w-full flex flex-row justify-between gap-4">
                 <div class="flex flex-row gap-2">
                     <CampaignStatusPill {campaign} />
