@@ -242,6 +242,7 @@ export function createMainWindow(): BrowserWindow {
     windows.main.on('close', () => {
         closeAboutWindow()
         closeErrorWindow()
+        transakManager?.closeWindow()
     })
 
     windows.main.on('closed', () => {

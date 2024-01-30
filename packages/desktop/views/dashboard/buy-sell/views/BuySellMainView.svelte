@@ -7,22 +7,16 @@
     import { Pane } from '@ui'
     import { onDestroy, tick } from 'svelte'
     import { TransakAccountPanel, TransakConnectionPanel, TransakInfoPanel } from '../components'
+    import { isDashboardSideBarExpanded } from '@core/ui'
 
-    async function resetTransak(): Promise<void> {
-        await Platform.closeTransak()
-        await Platform.openTransak({
-            currency: $activeProfile?.settings.marketCurrency,
-            address: $selectedAccount.depositAddress,
-            service: 'BUY',
-        })
-        await updateTransakBounds()
-    }
+    $: $isDashboardSideBarExpanded, void updateTransakBounds()
 
     $: if ($selectedAccountIndex !== undefined) {
         void resetTransak()
     }
 
     $: void handlePopupState($popupState, $profileAuthPopup, $settingsState)
+
     async function handlePopupState(
         state: IPopupState,
         profilePopupState: IProfileAuthPopupState,
@@ -56,6 +50,16 @@
             width: rect.width - borderLeft - borderRight,
             height: rect.height - borderTop - borderBottom,
         })
+    }
+
+    async function resetTransak(): Promise<void> {
+        await Platform.closeTransak()
+        await Platform.openTransak({
+            currency: $activeProfile?.settings.marketCurrency,
+            address: $selectedAccount.depositAddress,
+            service: 'BUY',
+        })
+        await updateTransakBounds()
     }
 
     onDestroy(() => {
