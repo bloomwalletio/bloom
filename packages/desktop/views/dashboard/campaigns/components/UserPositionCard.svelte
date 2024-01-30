@@ -26,9 +26,9 @@
     </div>
     <div class="flex flex-row justify-between p-4">
         <Text>{localize('views.campaigns.details.tasksComplete')}</Text>
-        <Text textColor="secondary" fontWeight="medium"
-            >{`${userPosition?.taskDone ?? '0'}/${numberOfTasks ?? '-'}`}</Text
-        >
+        <Text textColor="secondary" fontWeight="medium">
+            {`${userPosition?.taskDone ?? '0'}/${numberOfTasks ?? '-'}`}
+        </Text>
     </div>
     <div class="flex w-full">
         <CampaignNft {nft} />
