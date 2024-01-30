@@ -90,6 +90,11 @@ export default class TransakManager implements ITransakManager {
 
         windows.transak.setMenu(null)
 
+        windows.transak.webContents.addListener('did-navigate', (_, url) => {
+            const _url = new URL(url)
+            windows.main.webContents.send('transak-url', _url.origin)
+        })
+
         return windows.transak
     }
 
