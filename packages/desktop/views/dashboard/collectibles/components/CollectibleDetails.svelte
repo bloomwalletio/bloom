@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert, Button, IconName, Table, Text, type IItem } from '@bloomwalletio/ui'
+    import { Alert, Button, IconName, Table, Text, type IItem, type TextColor } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { MediaPlaceholder, NftMedia } from '@ui'
     import { IDownloadMetadata, Nft, INftAttribute, NftStandard } from '@core/nfts'
@@ -10,6 +10,7 @@
     import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
+    import { downloadingNftId } from '@core/nfts/stores'
 
     export let nft: Nft
     export let details: IItem[] = []
@@ -19,6 +20,12 @@
     $: timeDiff = nft.standard === NftStandard.Irc27 ? getTimeDifference(new Date(nft.timelockTime), $time) : undefined
     $: alertText = getAlertText(nft.downloadMetadata)
     $: isSendButtonDisabled = !!timeDiff
+
+    $: placeHolderColor = nft.downloadMetadata?.error
+        ? 'danger'
+        : nft.downloadMetadata?.warning
+        ? 'warning'
+        : ('brand' as TextColor)
 
     function getAlertText(downloadMetadata: IDownloadMetadata): string {
         const { error, warning } = downloadMetadata ?? {}
@@ -54,7 +61,12 @@
     <media-container class="relative flex w-full items-center justify-center p-5 overflow-hidden">
         <NftMedia {nft} autoplay controls loop muted>
             <div class="w-full h-full" slot="placeholder">
-                <MediaPlaceholder {nft} size="lg" />
+                <MediaPlaceholder
+                    type={nft?.type}
+                    textColor={placeHolderColor}
+                    downloading={$downloadingNftId === nft?.id}
+                    size="lg"
+                />
             </div>
         </NftMedia>
         {#if alertText}

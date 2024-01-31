@@ -1,21 +1,32 @@
 <script lang="typescript">
-    import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
+    import { IconName, Pill, Text, Tooltip, TooltipIcon, type TextColor } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { IDownloadMetadata, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
-    import { selectedNftId } from '@core/nfts/stores'
+    import { downloadingNftId, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
     import { MediaPlaceholder, NftMedia } from '@ui'
 
     export let nft: Nft
+    export let disabled: boolean = false
 
     let nftWrapperClientWidth: number
     let anchor: HTMLElement
 
     $: isLocked = isNftLocked(nft)
 
+    $: placeHolderColor = nft.downloadMetadata?.error
+        ? 'danger'
+        : nft.downloadMetadata?.warning
+        ? 'warning'
+        : ('brand' as TextColor)
+
     function onNftClick(): void {
+        if (disabled) {
+            return
+        }
+
         $selectedNftId = nft.id
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
         $collectiblesRouter.setBreadcrumb(nft?.name)
@@ -34,7 +45,7 @@
     }
 </script>
 
-<button type="button" on:click={onNftClick} class="nft-gallery-item">
+<button type="button" on:click={onNftClick} class="nft-gallery-item" class:disabled {disabled}>
     <container>
         <div
             class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
@@ -42,7 +53,13 @@
             style="height: {nftWrapperClientWidth}px; "
         >
             <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted>
-                <MediaPlaceholder {nft} size="md" slot="placeholder" />
+                <MediaPlaceholder
+                    type={nft?.type}
+                    textColor={placeHolderColor}
+                    downloading={$downloadingNftId === nft?.id}
+                    size="md"
+                    slot="placeholder"
+                />
             </NftMedia>
             <error-container bind:this={anchor}>
                 {#if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
@@ -79,8 +96,8 @@
             transition-property: background-color, border-color, box-shadow;
         }
 
-        &:hover,
-        &:focus {
+        &:hover :not(.disabled),
+        &:focus :not(.disabled) {
             container {
                 @apply shadow-lg dark:shadow-violet-900/25;
                 @apply border-2 border-brand-500;
