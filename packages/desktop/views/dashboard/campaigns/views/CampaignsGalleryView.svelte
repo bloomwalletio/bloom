@@ -14,8 +14,8 @@
     import features from '@features/features'
     import { SearchInput } from '@ui'
     import { onMount } from 'svelte'
-    import { CampaignsGallery } from '../components'
     import { TIDE_BASE_URL, TideListingStatus } from '@core/tide'
+    import { CampaignsGallery, TideLogo } from '../components'
 
     const tideApi = new TideApi()
     let loading = false
@@ -99,14 +99,15 @@
 </script>
 
 <campaigns-gallery-view>
-    <div class="flex flex-row justify-between">
-        <div class="flex flex-row text-left gap-2 items-center">
+    <div class="flex flex-row justify-between items-center">
+        <div class="flex flex-row text-left gap-2 items-center flex-1">
             <Text type="h6">{localize('views.campaigns.gallery.title')}</Text>
             <Pill color="neutral">
                 <Text textColor="secondary">{String(sortedCampaigns.length ?? '')}</Text>
             </Pill>
         </div>
-        <div class="flex items-center gap-2" style="height: 40px">
+        <TideLogo class="text-primary dark:text-primary-dark" />
+        <div class="flex items-center justify-end gap-2 flex-1" style="height: 40px">
             {#if campaigns.length}
                 <SearchInput bind:value={searchTerm} />
             {/if}
