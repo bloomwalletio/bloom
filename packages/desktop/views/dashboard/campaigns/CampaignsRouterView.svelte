@@ -1,11 +1,16 @@
 <script lang="ts">
+    import { selectedCampaign } from '@contexts/campaigns/stores'
     import { Platform } from '@core/app'
     import features from '@features/features'
+    import { CampaignsRoute, campaignsRoute } from './'
     import { CampaignDetailsView, CampaignsGalleryView } from './views'
-    import { campaignsRoute, CampaignsRoute } from './'
 
     $: if (features.analytics.dashboardRoute.campaigns.enabled && $campaignsRoute) {
-        Platform.trackEvent('campaigns-route', { route: $campaignsRoute })
+        const eventProperties = {
+            route: $campaignsRoute,
+            ...($campaignsRoute === CampaignsRoute.CampaignDetails && { campaignId: $selectedCampaign?.id }),
+        }
+        Platform.trackEvent('campaigns-route', eventProperties)
     }
 </script>
 
