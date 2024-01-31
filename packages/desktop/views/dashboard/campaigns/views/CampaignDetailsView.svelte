@@ -1,5 +1,6 @@
 <script lang="ts">
     import {
+        CAMPAIGN_POLL_INTERVAL,
         addCampaignLeaderboard,
         addUserPositionToCampaignLeaderboard,
         campaignLeaderboards,
@@ -14,7 +15,7 @@
     import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
     import { ownedNfts } from '@core/nfts/stores'
     import { TideApi } from '@core/tide/apis'
-    import { onMount } from 'svelte'
+    import { onDestroy, onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
     import UserPositionCard from '../components/UserPositionCard.svelte'
     import CampaignHeader from '../components/CampaignHeader.svelte'
@@ -29,14 +30,15 @@
     $: ({ board: leaderboard, userPosition } = $campaignLeaderboards[$selectedCampaign.projectId]?.[
         $selectedCampaign.id
     ] ?? { board: undefined, userPosition: undefined })
-    $: fetchAndPersistUserData($selectedAccount, chainConfiguration?.id)
+    $: fetchAndPersistTideData($selectedAccount, chainConfiguration?.id)
     $: userNft = $ownedNfts.find((nft) => nft.id?.startsWith($selectedCampaign.address.toLowerCase()))
 
-    function fetchAndPersistUserData(account: IAccountState, networkId: NetworkId): void {
+    function fetchAndPersistTideData(account: IAccountState, networkId: NetworkId): void {
         if (networkId) {
             userAddress = getAddressFromAccountForNetwork(account, networkId)?.toLowerCase()
             void fetchAndPersistUserPosition(userAddress)
             void fetchAndPersistUserNft(userAddress, account.index)
+            void fetchAndPersistLeaderboard()
         }
     }
 
@@ -54,7 +56,7 @@
     }
 
     async function fetchAndPersistUserNft(accountAddress: string, index: number): Promise<void> {
-        if (userNft) {
+        if (userNft || numberOfTasks !== userPosition?.taskDone) {
             return
         }
 
@@ -79,11 +81,6 @@
         }
     }
 
-    onMount(async () => {
-        numberOfTasks = (await tideApi.getCampaign($selectedCampaign.id)).numberOfTasks
-        await fetchAndPersistLeaderboard()
-    })
-
     async function fetchAndPersistLeaderboard(): Promise<void> {
         try {
             leaderboardLoading = true
@@ -102,6 +99,23 @@
             leaderboardLoading = false
         }
     }
+
+    async function fetchTasks(): Promise<void> {
+        numberOfTasks = (await tideApi.getCampaign($selectedCampaign.id)).numberOfTasks
+    }
+
+    let pollInterval: NodeJS.Timer
+    onMount(() => {
+        pollInterval = setInterval(
+            () => void fetchAndPersistTideData($selectedAccount, chainConfiguration?.id),
+            CAMPAIGN_POLL_INTERVAL
+        )
+        void fetchTasks()
+    })
+
+    onDestroy(() => {
+        clearInterval(pollInterval)
+    })
 </script>
 
 <div class="h-full flex flex-col gap-4">
