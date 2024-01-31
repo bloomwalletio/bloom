@@ -25,18 +25,18 @@
 </script>
 
 {#if leaderboardItems?.length}
-    <Pane>
+    <Pane classes="h-full max-h-[540px] overflow-hidden">
         <table class="w-full h-full flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
             <thead class="py-3 px-5">
                 <caption class="text-primary dark:text-primary-dark whitespace-nowrap"
                     >{localize('views.campaigns.details.top10')}</caption
                 >
             </thead>
-            <tbody class="p-0">
+            <tbody class="flex flex-col p-0 overflow-y-scroll">
                 {#each leaderboardItems as leaderboardItem, index}
                     {@const user = getSubjectFromAddress(leaderboardItem.address, networkId)}
-                    <tr class="w-full grid items-center gap-16 py-3 px-5">
-                        <td class="flex flex-row items-center justify-start gap-2">
+                    <tr class="w-full flex justify-between items-center gap-8 py-3 px-5">
+                        <td class="w-1/2 flex items-center gap-2">
                             {#if index <= 2}
                                 <Avatar
                                     icon={IconName.Award}
@@ -56,7 +56,7 @@
                                     {truncateString(user.account.name, 14)}
                                 </Text>
                             {:else}
-                                <div class="flex overflow-hidden">
+                                <div class="flex items-center overflow-hidden">
                                     <Text type="pre-sm" fontWeight="bold" truncate
                                         >{leaderboardItem.address.substring(
                                             0,
@@ -72,14 +72,14 @@
                                 </div>
                             {/if}
                         </td>
-                        <td>
+                        <td class="w-1/2 flex flex-row items-center justify-between gap-4">
+                            <div class="flex gap-2">
+                                <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
+                                <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
+                            </div>
                             <Text type="body1" align="right" class="whitespace-nowrap"
                                 >{leaderboardItem.totalXp} xp</Text
                             >
-                        </td>
-                        <td class="flex flex-row gap-2">
-                            <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
-                            <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
                         </td>
                     </tr>
                 {/each}

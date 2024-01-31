@@ -9,7 +9,7 @@
     }
 </script>
 
-<div class="w-full h-full flex flex-col flex-nowrap p-8 relative flex-1">
+<div class="w-full h-full flex flex-col flex-nowrap p-8 relative flex-1 overflow-hidden">
     {#if $campaignsRoute === CampaignsRoute.Gallery}
         <CampaignsGalleryView />
     {/if}
