@@ -36,7 +36,7 @@
                 {#each leaderboardItems as leaderboardItem, index}
                     {@const user = getSubjectFromAddress(leaderboardItem.address, networkId)}
                     <tr class="w-full flex justify-between items-center gap-8 py-3 px-5">
-                        <td class="w-1/2 flex flex-row items-center justify-start gap-2">
+                        <td class="w-1/2 flex items-center gap-2">
                             {#if index <= 2}
                                 <Avatar
                                     icon={IconName.Award}
@@ -56,7 +56,7 @@
                                     {truncateString(user.account.name, 14)}
                                 </Text>
                             {:else}
-                                <div class="flex overflow-hidden">
+                                <div class="flex items-center overflow-hidden">
                                     <Text type="pre-sm" fontWeight="bold" truncate
                                         >{leaderboardItem.address.substring(
                                             0,
@@ -72,13 +72,11 @@
                                 </div>
                             {/if}
                         </td>
-                        <td class="w-1/2"> </td>
-
-                        <td class="flex flex-row flex-grow justify-end gap-2">
-                            <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
-                            <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
-                        </td>
-                        <td class="w-8">
+                        <td class="w-1/2 flex flex-row items-center justify-between gap-4">
+                            <div class="flex gap-2">
+                                <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
+                                <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
+                            </div>
                             <Text type="body1" align="right" class="whitespace-nowrap"
                                 >{leaderboardItem.totalXp} xp</Text
                             >
