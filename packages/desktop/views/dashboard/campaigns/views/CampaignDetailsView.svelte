@@ -108,7 +108,7 @@
     <CampaignHeader campaign={$selectedCampaign} />
 
     <div class="flex-grow grid grid-cols-7 gap-4 items-start shrink-0 h-3/4">
-        <div class="col-span-5 h-full overflow-scroll">
+        <div class="col-span-5 h-full overflow-scroll pb-6">
             <Leaderboard
                 leaderboardItems={leaderboard}
                 {userAddress}

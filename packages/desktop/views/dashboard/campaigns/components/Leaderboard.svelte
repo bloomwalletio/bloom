@@ -24,57 +24,91 @@
     }
 </script>
 
-<Pane classes="h-fit flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark overflow-scroll">
-    <div class="py-3 px-5">
-        <Text type="body2">{localize('views.campaigns.details.top10')}</Text>
-    </div>
-    {#if error}
-        <div class="h-full w-full flex justify-center items-center p-8">
-            <EmptyListPlaceholder title="An error occurred loading the leaderboard" icon={IconName.Data} />
+{#if leaderboardItems?.length}
+    <Pane>
+        <table class="w-full h-full flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark">
+            <thead class="py-3 px-5">
+                <caption class="text-primary dark:text-primary-dark whitespace-nowrap"
+                    >{localize('views.campaigns.details.top10')}</caption
+                >
+            </thead>
+            <tbody class="p-0">
+                {#each leaderboardItems as leaderboardItem, index}
+                    {@const user = getSubjectFromAddress(leaderboardItem.address, networkId)}
+                    <tr class="w-full grid items-center gap-16 py-3 px-5">
+                        <td class="flex flex-row items-center justify-start gap-2">
+                            {#if index <= 2}
+                                <Avatar
+                                    icon={IconName.Award}
+                                    customTextColor={top3Colors[index]}
+                                    backgroundColor="surface/00"
+                                />
+                            {:else if user?.type === 'account'}
+                                <Avatar text={String(index + 1)} />
+                            {:else}
+                                <Avatar
+                                    text={String(index + 1)}
+                                    backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+                                />
+                            {/if}
+                            {#if user?.type === 'account'}
+                                <Text type="sm" fontWeight="bold" textColor="brand">
+                                    {truncateString(user.account.name, 14)}
+                                </Text>
+                            {:else}
+                                <div class="flex overflow-hidden">
+                                    <Text type="pre-sm" fontWeight="bold" truncate
+                                        >{leaderboardItem.address.substring(
+                                            0,
+                                            leaderboardItem.address.length - 7
+                                        )}</Text
+                                    >
+                                    <Text type="pre-sm" fontWeight="bold"
+                                        >{leaderboardItem.address.substring(
+                                            leaderboardItem.address.length - 7,
+                                            leaderboardItem.address.length - 1
+                                        )}</Text
+                                    >
+                                </div>
+                            {/if}
+                        </td>
+                        <td>
+                            <Text type="body1" align="right" class="whitespace-nowrap"
+                                >{leaderboardItem.totalXp} xp</Text
+                            >
+                        </td>
+                        <td class="flex flex-row gap-2">
+                            <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
+                            <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
+                        </td>
+                    </tr>
+                {/each}
+            </tbody>
+        </table>
+    </Pane>
+{:else}
+    <Pane classes="h-full flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark overflow-scroll">
+        <div class="py-3 px-5">
+            <Text type="body2">{localize('views.campaigns.details.top10')}</Text>
         </div>
-    {:else if loading}
-        <div class="h-full w-full flex justify-center items-center p-8">
-            <Spinner textColor="primary" />
-        </div>
-    {:else if leaderboardItems?.length}
-        {#each leaderboardItems as leaderboardItem, index}
-            {@const user = getSubjectFromAddress(leaderboardItem.address, networkId)}
-            <div
-                class="w-full grid grid-cols-3 grid-rows-auto items-center gap-16 py-3 px-5 {userAddress?.toLowerCase() ===
-                leaderboardItem.address?.toLowerCase()
-                    ? 'bg-surface-2 dark:bg-surface-2-dark'
-                    : ''}"
-            >
-                <div class="flex flex-row items-center justify-start gap-2">
-                    {#if index <= 2}
-                        <Avatar
-                            icon={IconName.Award}
-                            customTextColor={top3Colors[index]}
-                            backgroundColor="surface/00"
-                        />
-                    {:else if user?.type === 'account'}
-                        <Avatar text={String(index + 1)} />
-                    {:else}
-                        <Avatar text={String(index + 1)} backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'} />
-                    {/if}
-                    {#if user?.type === 'account'}
-                        <Text type="sm" fontWeight="bold" textColor="brand"
-                            >{truncateString(user.account.name, 14)}</Text
-                        >
-                    {:else}
-                        <Text type="sm" fontWeight="bold">{truncateString(leaderboardItem.address, 8, 8)}</Text>
-                    {/if}
-                </div>
-                <Text type="body1" align="right">{leaderboardItem.totalXp} xp</Text>
-                <div class="flex flex-row gap-2">
-                    <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
-                    <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
-                </div>
+        {#if error}
+            <div class="h-full w-full flex justify-center items-center p-8">
+                <EmptyListPlaceholder title="An error occurred loading the leaderboard" icon={IconName.Data} />
             </div>
-        {/each}
-    {:else}
-        <div class="h-full w-full flex justify-center items-center p-8">
-            <EmptyListPlaceholder title="No leaderboard found" icon={IconName.Data} />
-        </div>
-    {/if}
-</Pane>
+        {:else if loading}
+            <div class="h-full w-full flex justify-center items-center p-8">
+                <Spinner textColor="primary" />
+            </div>
+        {:else}
+            <div class="h-full w-full flex justify-center items-center p-8">
+                <EmptyListPlaceholder title="No leaderboard found" icon={IconName.Data} />
+            </div>
+        {/if}
+    </Pane>
+{/if}
+
+<style lang="postcss">
+    tr {
+        grid-template-columns: minmax(100px, 1fr) minmax(80px, auto) auto;
+    }
+</style>
