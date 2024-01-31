@@ -24,7 +24,7 @@
     }
 </script>
 
-<Pane classes="h-full flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark overflow-scroll">
+<Pane classes="h-fit flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark overflow-scroll">
     <div class="py-3 px-5">
         <Text type="body2">{localize('views.campaigns.details.top10')}</Text>
     </div>
