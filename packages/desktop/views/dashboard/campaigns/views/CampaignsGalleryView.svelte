@@ -35,20 +35,24 @@
             )
         })
         .sort((campaignA, campaignB) => {
-            const isAFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignA.id)
-            const isBFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignB.id)
+            // show active before ended
             const hasAEnded = new Date(campaignA.endTime) < new Date()
             const hasBEnded = new Date(campaignB.endTime) < new Date()
-            // show active before ended, then featured before non-featured then sort by end date
             if (hasAEnded && !hasBEnded) {
                 return 1
             } else if (!hasAEnded && hasBEnded) {
                 return -1
-            } else if (isAFeatured && !isBFeatured) {
+            }
+
+            // then featured before non-featured
+            const isAFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignA.id)
+            const isBFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignB.id)
+            if (isAFeatured && !isBFeatured) {
                 return -1
             } else if (!isAFeatured && isBFeatured) {
                 return 1
             } else {
+                // then sort by end date
                 return new Date(campaignA.endTime) > new Date(campaignB.endTime) ? 1 : -1
             }
         })
