@@ -40,7 +40,7 @@
         {#each leaderboardItems as leaderboardItem, index}
             {@const user = getSubjectFromAddress(leaderboardItem.address, networkId)}
             <div
-                class="w-full flex justify-between items-center gap-16 py-3 px-5 {userAddress?.toLowerCase() ===
+                class="w-full grid grid-cols-3 grid-rows-auto items-center gap-16 py-3 px-5 {userAddress?.toLowerCase() ===
                 leaderboardItem.address?.toLowerCase()
                     ? 'bg-surface-2 dark:bg-surface-2-dark'
                     : ''}"
