@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button, IconName, Pill, Spinner, Text } from '@bloomwalletio/ui'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
-    import { ICampaign, featuredCampaigns } from '@contexts/campaigns'
+    import { CAMPAIGN_END_DATE_CUT_OFF, ICampaign, featuredCampaigns } from '@contexts/campaigns'
     import {
         addCampaignForChain,
         campaignsPerChain,
@@ -14,8 +14,8 @@
     import features from '@features/features'
     import { SearchInput } from '@ui'
     import { onMount } from 'svelte'
+    import { TIDE_BASE_URL, TideListingStatus } from '@core/tide'
     import { CampaignsGallery, TideLogo } from '../components'
-    import { TIDE_BASE_URL } from '@core/tide'
 
     const tideApi = new TideApi()
     let loading = false
@@ -26,18 +26,36 @@
     let campaigns: ICampaign[] = []
     $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
 
-    $: sortedCampaigns = campaigns.sort((campaignA, campaignB) => {
-        const isAFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignA.id)
-        const isBFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignB.id)
-        // check if campaign is featured and sort it to the top
-        if (isAFeatured && !isBFeatured) {
-            return -1
-        }
-        if (!isAFeatured && isBFeatured) {
-            return 1
-        }
-        return 0
-    })
+    $: sortedCampaigns = campaigns
+        .filter((campaign) => {
+            // filter out campaigns that are not listed or have ended
+            return (
+                campaign.listingStatus === TideListingStatus.Listed &&
+                new Date(campaign.endTime) > new Date(CAMPAIGN_END_DATE_CUT_OFF)
+            )
+        })
+        .sort((campaignA, campaignB) => {
+            // show active before ended
+            const hasAEnded = new Date(campaignA.endTime) < new Date()
+            const hasBEnded = new Date(campaignB.endTime) < new Date()
+            if (hasAEnded && !hasBEnded) {
+                return 1
+            } else if (!hasAEnded && hasBEnded) {
+                return -1
+            }
+
+            // then featured before non-featured
+            const isAFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignA.id)
+            const isBFeatured = featuredCampaigns.some((featuredId) => featuredId === campaignB.id)
+            if (isAFeatured && !isBFeatured) {
+                return -1
+            } else if (!isAFeatured && isBFeatured) {
+                return 1
+            } else {
+                // then sort by end date
+                return new Date(campaignA.endTime) > new Date(campaignB.endTime) ? 1 : -1
+            }
+        })
 
     let searchTerm: string = ''
     $: queriedCampaigns = sortedCampaigns.filter((campaign) => {
@@ -89,7 +107,7 @@
         <div class="flex flex-row text-left gap-2 items-center flex-1">
             <Text type="h6">{localize('views.campaigns.gallery.title')}</Text>
             <Pill color="neutral">
-                <Text textColor="secondary">{String(campaigns.length ?? '')}</Text>
+                <Text textColor="secondary">{String(sortedCampaigns.length ?? '')}</Text>
             </Pill>
         </div>
         <TideLogo class="text-primary dark:text-primary-dark" />

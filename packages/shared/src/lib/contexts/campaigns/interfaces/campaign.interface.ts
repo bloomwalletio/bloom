@@ -1,3 +1,5 @@
+import { TideListingStatus } from '@core/tide'
+
 export interface ICampaign {
     id: string
     projectId: number
@@ -10,6 +12,6 @@ export interface ICampaign {
     endTime: string
     url: string
     chainId: number
-    listingStatus: 'LISTED'
+    listingStatus: TideListingStatus
     ERC20Reward: unknown
 }

@@ -1,0 +1,1 @@
+export const CAMPAIGN_END_DATE_CUT_OFF = '2024-01-31'
