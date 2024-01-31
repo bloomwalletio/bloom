@@ -104,12 +104,18 @@
         numberOfTasks = (await tideApi.getCampaign($selectedCampaign.id)).numberOfTasks
     }
 
-    let pollInterval: NodeJS.Timer
-    onMount(() => {
+    $: $selectedAccount, restartPolling()
+    function restartPolling(): void {
+        clearInterval(pollInterval)
         pollInterval = setInterval(
             () => void fetchAndPersistTideData($selectedAccount, chainConfiguration?.id),
             CAMPAIGN_POLL_INTERVAL
         )
+    }
+
+    let pollInterval: NodeJS.Timer
+    onMount(() => {
+        restartPolling()
         void fetchTasks()
     })
 
