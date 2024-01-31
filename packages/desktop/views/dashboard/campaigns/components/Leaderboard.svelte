@@ -65,11 +65,11 @@
                         <Text type="sm" fontWeight="bold">{truncateString(leaderboardItem.address, 8, 8)}</Text>
                     {/if}
                 </div>
+                <Text type="body1" align="right">{leaderboardItem.totalXp} xp</Text>
                 <div class="flex flex-row gap-2">
                     <Pill color="neutral" compact>Badges: {leaderboardItem.rewardClaimed}</Pill>
                     <Pill color="neutral" compact>Tasks: {leaderboardItem.taskDone}</Pill>
                 </div>
-                <Text type="body1" align="right">{leaderboardItem.totalXp} xp</Text>
             </div>
         {/each}
     {:else}
