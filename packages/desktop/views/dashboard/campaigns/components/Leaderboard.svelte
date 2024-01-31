@@ -43,7 +43,7 @@
                                     customTextColor={top3Colors[index]}
                                     backgroundColor="surface/00"
                                 />
-                            {:else if user?.type === 'account'}
+                            {:else if leaderboardItem.address === userAddress}
                                 <Avatar text={String(index + 1)} />
                             {:else}
                                 <Avatar
