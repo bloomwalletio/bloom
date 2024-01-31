@@ -1,3 +1,4 @@
+import { TideListingStatus } from '@core/tide'
 import { CampaignStatus } from '../enums'
 import { ICampaign } from '../interfaces'
 
@@ -5,7 +6,7 @@ export function calculateCampaignStatus(campaign: ICampaign, now: Date): Campaig
     const startDate = new Date(campaign.startTime)
     const endDate = new Date(campaign.endTime)
 
-    if (campaign.listingStatus === 'LISTED') {
+    if (campaign.listingStatus === TideListingStatus.Listed) {
         if (now < startDate) {
             return CampaignStatus.Upcoming
         } else if (now > endDate) {
