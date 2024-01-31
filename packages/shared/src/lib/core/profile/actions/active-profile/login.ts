@@ -34,7 +34,7 @@ import {
     updateActiveProfile,
 } from '../../stores'
 import { isLedgerProfile, waitForPreviousManagerToBeDestroyed } from '../../utils'
-import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
+// import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
 import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfileNetwork'
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
@@ -79,7 +79,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         await refreshAccountTokensForActiveProfile(_activeProfile.forceAssetRefresh, _activeProfile.forceAssetRefresh)
         updateActiveProfile({ forceAssetRefresh: false })
         await loadNftsForActiveProfile()
-        checkAndRemoveProfilePicture()
+        // checkAndRemoveProfilePicture()
 
         // Step 5: generate and store activities for all accounts
         incrementLoginProgress()
