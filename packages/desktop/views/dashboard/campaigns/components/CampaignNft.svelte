@@ -21,22 +21,22 @@
         </div>
     </Pill>
 </div>
-{#if nft}
-    <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted>
-        <MediaPlaceholder
-            type={nft?.type}
-            textColor="primary"
-            downloading={$downloadingNftId === nft?.id}
-            size="md"
-            slot="placeholder"
-        />
-    </NftMedia>
-{:else}
-    <div
-        bind:clientWidth={placeholderWidth}
-        style={`height: ${placeholderWidth}px;`}
-        class="flex w-full min-w-full aspect-square"
-    >
+<div
+    bind:clientWidth={placeholderWidth}
+    style={`max-height: ${placeholderWidth}px;`}
+    class="flex w-full h-full overflow-hidden"
+>
+    {#if nft}
+        <NftMedia {nft} classes="w-full h-full object-cover" loop muted>
+            <MediaPlaceholder
+                type={nft?.type}
+                textColor="primary"
+                downloading={$downloadingNftId === nft?.id}
+                size="md"
+                slot="placeholder"
+            />
+        </NftMedia>
+    {:else}
         <MediaPlaceholder type={MimeType.ImagePng} textColor="primary" size="lg" />
-    </div>
-{/if}
+    {/if}
+</div>

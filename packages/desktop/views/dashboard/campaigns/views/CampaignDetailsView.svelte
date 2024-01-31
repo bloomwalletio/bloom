@@ -107,8 +107,8 @@
 <div class="h-full flex flex-col gap-4">
     <CampaignHeader campaign={$selectedCampaign} />
 
-    <div class="flex-grow grid grid-cols-7 gap-4 items-start shrink-0 h-3/4">
-        <div class="col-span-5 h-full overflow-scroll pb-6">
+    <div class="flex-1 grid grid-cols-7 gap-4 items-start overflow-hidden">
+        <div class="h-full col-span-5 overflow-hidden">
             <Leaderboard
                 leaderboardItems={leaderboard}
                 {userAddress}
@@ -117,7 +117,7 @@
                 error={leaderboardError}
             />
         </div>
-        <div class="h-full flex flex-col flex-grow gap-8 col-span-2">
+        <div class="h-full col-span-2">
             <UserPositionCard {userPosition} nft={userNft} {numberOfTasks} />
         </div>
     </div>
