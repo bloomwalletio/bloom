@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { truncateString } from '@core/utils'
     import { Button, IconName, Link, Text } from '@bloomwalletio/ui'
     import { ICampaign } from '@contexts/campaigns'
     import { openUrlInBrowser } from '@core/app'
@@ -108,7 +109,11 @@
                     <CampaignParticipantsPill {campaign} />
                     <CampaignRewardsPill {campaign} />
                 </div>
-                <Link text={campaign.url} external on:click={() => openUrlInBrowser(campaign.url)} />
+                <Link
+                    text={truncateString(campaign.url, 30, 10)}
+                    external
+                    on:click={() => openUrlInBrowser(campaign.url)}
+                />
             </div>
         </div>
     </div>
