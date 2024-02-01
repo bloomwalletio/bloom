@@ -1,4 +1,3 @@
-import { getSelectedAccount } from '@core/account/stores'
 import { addAccountActivity, addPersistedTransaction } from '@core/activity/stores'
 import { EvmTransactionData } from '@core/layer-2'
 import { IChain } from '@core/network'
@@ -14,16 +13,14 @@ import {
 import { IAccountState } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
-import { modifyPopupState } from '../../../../../../../desktop/lib/auxiliary/popup/helpers'
 
 export async function signAndSendTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
     chain: IChain,
+    account: IAccountState,
     signAndSend: boolean
 ): Promise<unknown> {
-    const account = getSelectedAccount()
     const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
-    modifyPopupState({ preventClose: true })
     if (!signedTransaction) {
         throw Error('No signed transaction!')
     }

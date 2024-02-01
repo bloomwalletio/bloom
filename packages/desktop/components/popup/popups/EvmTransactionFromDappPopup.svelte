@@ -4,7 +4,7 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { signAndSendTransactionFromEvm } from '@core/wallet/actions'
-    import { selectedAccount } from '@core/account/stores'
+    import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -84,8 +84,16 @@
         }
 
         try {
-            const response = await signAndSendTransactionFromEvm(preparedTransaction, chain, signAndSend)
+            updateSelectedAccount({ isTransferring: true })
+            modifyPopupState({ preventClose: true })
+            const response = await signAndSendTransactionFromEvm(
+                preparedTransaction,
+                chain,
+                $selectedAccount,
+                signAndSend
+            )
             modifyPopupState({ preventClose: false }, true)
+            updateSelectedAccount({ isTransferring: false })
             callback({ result: response })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
@@ -95,6 +103,7 @@
                 },
             })
         } catch (err) {
+            updateSelectedAccount({ isTransferring: false })
             modifyPopupState({ preventClose: false }, true)
             handleError(err)
         }
@@ -137,6 +146,7 @@
     continueButton={{
         text: localize(`popups.${localeKey}.action`),
         onClick: onConfirmClick,
+        disabled: $selectedAccount?.isTransferring,
     }}
     busy={$selectedAccount?.isTransferring}
 >

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Spinner } from '@bloomwalletio/ui'
     import { PopupTemplate } from '@components'
-    import { selectedAccount } from '@core/account/stores'
+    import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { IChain, getNetwork, isEvmChain } from '@core/network'
@@ -33,8 +33,8 @@
     $: void prepareTransactions($sendFlowParameters)
     $: isSourceNetworkLayer2 = !!chain
     $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters?.destinationNetworkId)
-    $: busy = !!$selectedAccount?.isTransferring || !hasMounted
-    $: isDisabled = isInvalid || busy || (!preparedTransaction && !preparedOutput)
+    $: busy = !!$selectedAccount?.isTransferring
+    $: isDisabled = isInvalid || !hasMounted || (!preparedTransaction && !preparedOutput)
 
     let hasMounted = false
     let isInvalid: boolean
@@ -91,7 +91,7 @@
     }
 
     async function onConfirmClick(): Promise<void> {
-        if (!isValidTransaction) {
+        if (!isValidTransaction()) {
             return
         }
 
@@ -102,12 +102,15 @@
         }
 
         try {
+            updateSelectedAccount({ isTransferring: true })
             if (isSourceNetworkLayer2) {
-                await signAndSendTransactionFromEvm(preparedTransaction, chain, true)
+                await signAndSendTransactionFromEvm(preparedTransaction, chain, $selectedAccount, true)
             } else {
                 await signAndSendStardustTransaction(preparedOutput, $selectedAccount)
             }
+            updateSelectedAccount({ isTransferring: false })
         } catch (err) {
+            updateSelectedAccount({ isTransferring: false })
             handleError(err)
             return
         }
