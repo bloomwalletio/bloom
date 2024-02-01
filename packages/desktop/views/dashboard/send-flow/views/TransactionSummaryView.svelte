@@ -10,11 +10,11 @@
     import {
         createEvmTransactionFromSendFlowParameters,
         createStardustOutputFromSendFlowParameters,
-        sendOutputFromStardust,
-        sendTransactionFromEvm,
+        signAndSendTransactionFromEvm,
+        signAndSendStardustTransaction,
     } from '@core/wallet/actions'
     import { sendFlowParameters } from '@core/wallet/stores'
-    import { getNetworkIdFromSendFlowParameters } from '@core/wallet/utils'
+    import { getNetworkIdFromSendFlowParameters, validateSendConfirmation } from '@core/wallet/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
     import { onMount } from 'svelte'
@@ -23,6 +23,9 @@
     import { TransactionSummaryProps } from './types'
     import { setGasFee } from '@core/layer-2/actions'
     import { showNotification } from '@auxiliary/notification'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
+    import { getIsActiveLedgerProfile } from '@core/profile/stores'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -68,23 +71,53 @@
         }
     }
 
+    function isValidTransaction(): boolean {
+        if (isSourceNetworkLayer2) {
+            return !!preparedTransaction
+        } else {
+            try {
+                validateSendConfirmation(preparedOutput)
+
+                if (getIsActiveLedgerProfile()) {
+                    ledgerPreparedOutput.set(preparedOutput)
+                }
+
+                return true
+            } catch (err) {
+                handleError(err)
+                return false
+            }
+        }
+    }
+
     async function onConfirmClick(): Promise<void> {
+        if (!isValidTransaction) {
+            return
+        }
+
+        try {
+            await checkActiveProfileAuthAsync(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
+        } catch (error) {
+            return
+        }
+
         try {
             if (isSourceNetworkLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain, true)
+                await signAndSendTransactionFromEvm(preparedTransaction, chain, true)
             } else {
-                await sendOutputFromStardust(preparedOutput, $selectedAccount)
+                await signAndSendStardustTransaction(preparedOutput, $selectedAccount)
             }
-
-            showNotification({
-                variant: 'success',
-                text: localize('notifications.transaction.success'),
-            })
-            modifyPopupState({ confirmClickOutside: false, preventClose: false })
-            closePopup({ forceClose: true })
         } catch (err) {
             handleError(err)
+            return
         }
+
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.transaction.success'),
+        })
+        modifyPopupState({ confirmClickOutside: false, preventClose: false })
+        closePopup({ forceClose: true })
     }
 
     function onBackClick(): void {

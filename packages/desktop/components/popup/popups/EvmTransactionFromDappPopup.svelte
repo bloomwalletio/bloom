@@ -3,7 +3,7 @@
     import { handleError } from '@core/error/handlers'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { sendTransactionFromEvm } from '@core/wallet/actions'
+    import { signAndSendTransactionFromEvm } from '@core/wallet/actions'
     import { selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { TransactionAssetSection } from '@ui'
@@ -25,6 +25,8 @@
     import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
     import { ActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { LedgerAppName } from '@core/ledger'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -76,7 +78,13 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            const response = await sendTransactionFromEvm(preparedTransaction, chain, signAndSend)
+            checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+        } catch (error) {
+            return
+        }
+
+        try {
+            const response = await signAndSendTransactionFromEvm(preparedTransaction, chain, signAndSend)
             modifyPopupState({ preventClose: false }, true)
             callback({ result: response })
             openPopup({
