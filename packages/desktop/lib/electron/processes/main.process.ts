@@ -509,12 +509,12 @@ ipcMain.handle('close-transak', () => {
     transakManager?.closeWindow()
 })
 
-ipcMain.handle('minimize-transak', () => {
-    transakManager?.minimizeWindow()
+ipcMain.handle('hide-transak', () => {
+    transakManager?.hideWindow()
 })
 
-ipcMain.handle('restore-transak', () => {
-    transakManager?.restoreWindow()
+ipcMain.handle('show-transak', () => {
+    transakManager?.showWindow()
 })
 
 ipcMain.handle('update-transak-bounds', (event, rect) => {

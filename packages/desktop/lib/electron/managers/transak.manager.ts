@@ -18,12 +18,12 @@ export default class TransakManager implements ITransakManager {
         }
     }
 
-    public minimizeWindow(): void {
-        windows.transak?.minimize()
+    public hideWindow(): void {
+        windows.transak?.hide()
     }
 
-    public restoreWindow(): void {
-        windows.transak?.restore()
+    public showWindow(): void {
+        windows.transak?.show()
     }
 
     public openWindow(data: ITransakWindowData): BrowserWindow {
@@ -47,6 +47,7 @@ export default class TransakManager implements ITransakManager {
             resizable: false,
             minimizable: false,
             skipTaskbar: true,
+            hiddenInMissionControl: true,
             acceptFirstMouse: true,
             hasShadow: false,
             thickFrame: false,

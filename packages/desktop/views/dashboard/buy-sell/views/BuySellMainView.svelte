@@ -23,10 +23,10 @@
         settingsState: ISettingsState
     ): Promise<void> {
         if (state.active || profilePopupState.active || settingsState.open) {
-            await Platform.minimizeTransak()
+            await Platform.hideTransak()
         } else {
             await tick()
-            await Platform.restoreTransak()
+            await Platform.showTransak()
         }
     }
 
