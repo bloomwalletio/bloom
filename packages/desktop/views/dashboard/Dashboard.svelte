@@ -25,6 +25,7 @@
     import { Settings } from '../settings'
     import { Background } from '@views/components'
     import { BuySell } from './buy-sell'
+    import { CampaignsRouterView } from './campaigns'
 
     const tabs = {
         wallet: Wallet,
@@ -33,6 +34,7 @@
         governance: Governance,
         developer: Developer,
         buySell: BuySell,
+        campaigns: CampaignsRouterView,
     }
 
     let previousAccountIndex = get(selectedAccountIndex)

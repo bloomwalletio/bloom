@@ -1,13 +1,15 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
-    import { SupportedNetworkId, TokenSupply, getActiveNetworkId, getNameFromNetworkId } from '@core/network'
-    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
+    import { SupportedNetworkId, TokenSupply, getActiveNetworkId } from '@core/network'
+    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { TokenAvatar, NetworkAvatar } from '@ui'
     import { Text } from '@bloomwalletio/ui'
     import { activeProfile } from '@core/profile/stores'
+    import TokenStandardPill from './TokenStandardPill.svelte'
+    import ChainTypePill from './ChainTypePill.svelte'
 
     export let token: ITokenWithBalance
 
@@ -60,20 +62,20 @@
 </script>
 
 <button on:click={onTokenRowClick} class="token-row">
-    <div class="flex flex-row gap-4 items-start">
-        <TokenAvatar {token} size="lg" />
+    <div class="flex flex-row gap-4 items-center">
+        <TokenAvatar {token} size="lg" hideNetworkBadge />
         <div class="flex flex-col items-start justify-between text-start">
             <Text>
                 {token.metadata?.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)}
             </Text>
-            <Text type="sm" textColor="secondary">
-                {token.metadata ? getUnitFromTokenMetadata(token.metadata) : ''}
-            </Text>
+            <div class="flex gap-2">
+                <TokenStandardPill {token} />
+                <ChainTypePill {token} />
+            </div>
         </div>
     </div>
-    <div class="flex flex-row gap-2 text-start items-center">
-        <NetworkAvatar size="xs" networkId={token.networkId} />
-        <Text>{getNameFromNetworkId(token.networkId)}</Text>
+    <div class="h-full flex flex-row gap-2 justify-center items-center">
+        <NetworkAvatar networkId={token.networkId} showTooltip />
     </div>
     <div class="text-end">
         <Text>{getTokenSupply(token)}</Text>

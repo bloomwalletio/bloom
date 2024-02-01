@@ -348,10 +348,12 @@
             },
             "activity": {
                 "tab": "Activity",
+                "activity": "Activity",
                 "asset": "Asset",
                 "action": "Action",
                 "address": "Address",
                 "amount": "Amount",
+                "fee": "Fee",
                 "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
@@ -471,8 +473,16 @@
                     "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
-                        "emptyTitle": "No apps found",
-                        "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        "paired": {
+                            "tab": "Paired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "expired": {
+                            "tab": "Expired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
@@ -589,6 +599,26 @@
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Campaigns",
+                "emptyTitle": "No campaigns found",
+                "noResults": "No results found",
+                "emptyDescription": "Browse and participate in campaigns with Tide",
+                "emptyAction": "Visit Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "My position",
+                "points": "Points",
+                "tasksComplete": "Tasks Complete",
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "No NFT Badge Claimed"
+            }
+        },
         "governance": {
             "votingPower": {
                 "title": "Voting power",
@@ -651,6 +681,13 @@
             "changePassword": {
                 "title": "Change your password",
                 "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
+                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
+                "changingAccounts": "Changing accounts will reset all information."
             }
         }
     },
@@ -1510,7 +1547,14 @@
         "verified": "Verified",
         "methodName": "Method name",
         "data": "Data",
-        "success": "Success"
+        "success": "Success",
+        "info": "Info",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming",
+        "featured": "Featured",
+        "raffle": "Raffle"
     },
     "filters":{
         "title": "Filters",
@@ -2011,10 +2055,11 @@
         "wallet": "Wallet",
         "collectibles": "Collectibles",
         "governance": "Governance",
+        "campaigns": "Campaigns",
+        "buySell": "Buy & Sell",
         "developer": "Developer",
         "tokens": "Tokens",
-        "settings": "Settings",
-        "buySell": "Buy & Sell"
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {

@@ -12,12 +12,20 @@ export async function persistNftWithContractMetadata(
     tokenId: string,
     contract: Contract
 ): Promise<IPersistedErc721Nft | undefined> {
-    const { address } = contractMetadata
-    const nftId = `${address}:${tokenId}`
+    const nftId = tokenId
+        ? `${contractMetadata.address.toLowerCase()}:${tokenId.toLowerCase()}`
+        : contractMetadata.address.toLowerCase()
     if (isNftPersisted(nftId)) {
         return
     }
-    const persistedNft = await buildPersistedErc721Nft(ownerAddress, networkId, tokenId, contract, contractMetadata)
+    const persistedNft = await buildPersistedErc721Nft(
+        nftId,
+        ownerAddress,
+        networkId,
+        tokenId,
+        contract,
+        contractMetadata
+    )
     addPersistedNft(nftId, persistedNft)
     return persistedNft
 }

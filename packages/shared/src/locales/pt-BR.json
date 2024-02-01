@@ -347,10 +347,12 @@
             },
             "activity": {
                 "tab": "Atividade",
+                "activity": "Activity",
                 "asset": "Ativo",
                 "action": "Ação",
                 "address": "Endereço",
                 "amount": "Quantidade",
+                "fee": "Fee",
                 "claimableTransactions": "Você tem {amount} {amount, select, 1 {transação que precisa} other {transações que precisam}}",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
@@ -469,8 +471,16 @@
                     "dappsList": {
                         "title": "dApps conectados",
                         "connectDapp": "Conectar dApp",
-                        "emptyTitle": "Nenhum app encontrado",
-                        "emptySubtitle": "Conecte Bloom aos seus dApps favoritos"
+                        "paired": {
+                            "tab": "Paired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "expired": {
+                            "tab": "Expired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Conectar a um dApp",
@@ -649,6 +659,13 @@
             "changePassword": {
                 "title": "Altere sua senha",
                 "hint": "Seu Stronghold estava desatualizado e foi atualizado. Recomendamos que você altere sua senha."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
+                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
+                "changingAccounts": "Changing accounts will reset all information."
             }
         }
     },
@@ -1508,7 +1525,8 @@
         "verified": "Verificado",
         "methodName": "Method name",
         "data": "Data",
-        "success": "Success"
+        "success": "Success",
+        "info": "Info"
     },
     "filters": {
         "title": "Filters",
@@ -1769,7 +1787,6 @@
         "send": {
             "addressLength": "Endereços devem ter pelo menos {length, plural, one {# caractere} other {# caracteres}}.",
             "amountTooHigh": "Isto é maior do que o seu saldo disponível.",
-            "amountNoFloat": "Não é possível usar casas decimais com a menor unidade selecionada",
             "amountInvalidFormat": "O valor parece ser um número inválido.",
             "amountSmallerThanSubunit": "A quantidade deve ser maior do que a menor subunidade.",
             "tagTooLong": "A tag não pode ter mais de 64 bytes.",

@@ -15,6 +15,7 @@ export interface IAnalyticsFeatures extends IFeatureFlag {
             sendFlow: IFeatureFlag
         }
         buySell: IFeatureFlag
+        campaigns: IFeatureFlag
     }
     loginRoute: IFeatureFlag
     onboardingRoute: IFeatureFlag

@@ -32,4 +32,5 @@ export const externalAllowedLinks = [
     // Other
     'support.ledger.com',
     'medium.com',
+    'tideprotocol.xyz',
 ]

@@ -1,28 +1,18 @@
-import { BrowserWindow, app } from 'electron'
+import { BrowserWindow, app, shell } from 'electron'
 import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
 
-const SIDEBAR_WIDTH_EXPANDED = 256
-const SIDEBAR_WIDTH_CLOSED = 80
-const BORDER_HEIGHT = 1
-const WINDOWS_TITLEBAR_HEIGHT = 28
-const NAVBAR_HEIGHT = 40
-const DASHBOARD_CONTAINER_PADDING = 32
-
 export default class TransakManager implements ITransakManager {
-    private sidebarExpanded = false
+    private rect: Electron.Rectangle
+
     private htmlPath = app.isPackaged
         ? path.join(app.getAppPath(), '/public/transak.html')
         : path.join(__dirname, '../transak.html')
     private preloadPath = app.isPackaged
         ? path.join(app.getAppPath(), '/public/build/transak.preload.js')
         : path.join(__dirname, 'transak.preload.js')
-
-    public setSidebarExpanded(isOpen: boolean): void {
-        this.sidebarExpanded = isOpen
-    }
 
     public closeWindow(): void {
         if (windows.transak) {
@@ -44,10 +34,12 @@ export default class TransakManager implements ITransakManager {
             return windows.transak
         }
 
+        this.rect = { x: 0, y: 0, width: 480, height: 613 }
+
         windows.transak = new BrowserWindow({
             parent: windows.main,
             width: 480,
-            height: this.getWindowHeight(),
+            height: 613,
             useContentSize: true,
             titleBarStyle: 'hidden',
             frame: false,
@@ -77,13 +69,7 @@ export default class TransakManager implements ITransakManager {
             windows.transak.setWindowButtonVisibility(false)
         }
 
-        this.positionWindow()
-        this.sizeWindow()
         windows.main.on('move', () => this.positionWindow())
-        windows.main.on('resize', () => {
-            this.positionWindow()
-            this.sizeWindow()
-        })
 
         windows.transak.once('closed', () => {
             windows.transak = null
@@ -109,42 +95,39 @@ export default class TransakManager implements ITransakManager {
             windows.transak.webContents.send('transak-data', _data)
         })
 
+        windows.transak.webContents.setWindowOpenHandler(({ url }) => {
+            void shell.openExternal(url)
+            return { action: 'deny' }
+        })
+
         windows.transak.setMenu(null)
 
         return windows.transak
     }
 
+    public updateTransakBounds(_rect: Electron.Rectangle): void {
+        this.rect = _rect
+        this.positionWindow()
+    }
+
     public positionWindow(): void {
-        if (windows.transak) {
-            const [mainWindowX, mainWindowY] = windows.main.getPosition()
-            const [mainWindowWidth] = windows.main.getSize()
-            const [transakWidth] = windows.transak.getSize()
+        try {
+            if (windows.transak) {
+                const [mainWindowX, mainWindowY] = windows.main.getPosition()
+                const [, mainWindowHeight] = windows.main.getSize()
+                const [, bodyHeight] = windows.main.getContentSize()
 
-            const sidebarWidth = this.sidebarExpanded ? SIDEBAR_WIDTH_EXPANDED : SIDEBAR_WIDTH_CLOSED
-            const dashboardWidth = mainWindowWidth - sidebarWidth
-            const transakX = Math.floor(mainWindowX + sidebarWidth + dashboardWidth / 2 - transakWidth / 2)
-            const topBarHeight = this.getTopBarHeight()
-            const transakY = mainWindowY + topBarHeight + DASHBOARD_CONTAINER_PADDING + BORDER_HEIGHT
+                const menuHeight = mainWindowHeight - bodyHeight
 
-            windows.transak.setPosition(transakX, transakY)
+                windows.transak.setBounds({
+                    x: Math.floor(mainWindowX + this.rect.x),
+                    y: Math.floor(mainWindowY + menuHeight + this.rect.y),
+                    height: this.rect.height,
+                    width: this.rect.width,
+                })
+            }
+        } catch (error) {
+            console.error('positionWindow error', error)
         }
-    }
-
-    private sizeWindow(): void {
-        const [transakWidth] = windows.transak.getSize()
-        const transakHeight = this.getWindowHeight()
-        windows.transak.setBounds({ width: transakWidth, height: transakHeight })
-    }
-
-    private getTopBarHeight(): number {
-        const titleBarHeight = process.platform === 'win32' ? WINDOWS_TITLEBAR_HEIGHT + BORDER_HEIGHT : 0
-        const topBarHeight = NAVBAR_HEIGHT + BORDER_HEIGHT + titleBarHeight
-        return topBarHeight
-    }
-
-    private getWindowHeight(): number {
-        const [, mainWindowHeight] = windows.main.getSize()
-        const topBarHeight = this.getTopBarHeight()
-        return mainWindowHeight - topBarHeight - (DASHBOARD_CONTAINER_PADDING + BORDER_HEIGHT) * 2
     }
 }

@@ -83,11 +83,11 @@
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
                     successMessage: getSuccessMessage(),
-                    url: dapp.metadata?.url,
+                    url: dapp?.metadata?.url,
                 },
             })
         } catch (err) {
-            callback({ error: err })
+            modifyPopupState({ preventClose: false }, true)
             handleError(err)
         }
     }
