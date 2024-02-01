@@ -1,5 +1,5 @@
 import { updateProfileAuthProps } from '../stores/profile-auth-popup.store'
 
-export function unlockProfileAuthPopup(): void {
+export function allowClosingProfileAuthPopup(): void {
     updateProfileAuthProps({ preventClose: false })
 }
