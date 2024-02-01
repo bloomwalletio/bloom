@@ -141,9 +141,9 @@ export default class TransakManager implements ITransakManager {
                         windowBounds.y + windowBounds.height > displayBounds.y + displayBounds.height
 
                     if (isOutOfBounds) {
-                        windows.transak.minimize()
-                    } else if (windows.transak.isMinimized()) {
-                        windows.transak.restore()
+                        windows.transak.hide()
+                    } else if (!windows.transak.isVisible()) {
+                        windows.transak.show()
                     }
                 }
             }
