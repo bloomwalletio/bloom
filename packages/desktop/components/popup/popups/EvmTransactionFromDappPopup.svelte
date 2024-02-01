@@ -17,7 +17,6 @@
     import { Nft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import DappDataBanner from '@components/DappDataBanner.svelte'
-    import { onMount } from 'svelte'
     import { Alert, Table } from '@bloomwalletio/ui'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { truncateString } from '@core/utils'
@@ -33,8 +32,6 @@
     export let dapp: IConnectedDapp | undefined
     export let signAndSend: boolean
     export let callback: (params: CallbackParameters) => void
-
-    export let _onMount: () => Promise<void> = async () => {}
 
     const { id } = chain.getConfiguration()
     $: localeKey = signAndSend ? (isSmartContractCall ? 'smartContractCall' : 'sendTransaction') : 'signTransaction'
@@ -125,15 +122,6 @@
         const explorerUrl = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
         openUrlInBrowser(`${explorerUrl}/${contractAddress}`)
     }
-
-    // Required to trigger callback after profile authentication
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            handleError(err)
-        }
-    })
 </script>
 
 <PopupTemplate
