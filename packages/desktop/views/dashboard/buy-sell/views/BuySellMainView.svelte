@@ -69,7 +69,7 @@
 
 <svelte:window on:resize={updateTransakBounds} />
 
-<div class="flex gap-4 h-full">
+<div class="flex justify-center gap-4 h-full w-full">
     <div class="account-panel flex flex-col gap-4">
         <TransakConnectionPanel />
         <TransakAccountPanel />
@@ -86,15 +86,15 @@
 
 <style lang="postcss">
     .transak-panel {
-        @apply flex-1 min-w-[360px];
+        @apply flex-1 min-w-[360px] max-w-[480px] max-h-[786px];
     }
 
     .account-panel,
     .info-panel {
-        @apply max-w-md;
+        @apply max-w-[312px];
     }
 
     .account-panel {
-        @apply shrink-0 w-[287px];
+        @apply shrink-0 w-[312px];
     }
 </style>
