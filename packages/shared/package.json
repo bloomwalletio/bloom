@@ -26,7 +26,7 @@
         "sha3": "2.1.4",
         "svelte": "3.58.0",
         "svelte-i18n": "3.7.4",
-        "svelte-markdown": "0.4.0",
+        "svelte-markdown": "0.4.1",
         "web3": "1.10.0",
         "zxcvbn": "4.4.2"
     },
