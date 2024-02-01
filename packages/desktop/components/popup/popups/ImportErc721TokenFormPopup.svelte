@@ -8,6 +8,7 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
     import {
+        addNftsToDownloadQueue,
         addNewTrackedNftToActiveProfile,
         persistErc721Nft,
         updateAllAccountNftsForAccount,
@@ -45,6 +46,7 @@
                 const l2Address = getAddressFromAccountForNetwork(account, networkId)
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, l2Address)
                 updateAllAccountNftsForAccount(account.index, nft)
+                void addNftsToDownloadQueue([nft])
             }
 
             showNotification({

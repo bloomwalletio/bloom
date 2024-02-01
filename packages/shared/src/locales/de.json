@@ -597,6 +597,26 @@
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Campaigns",
+                "emptyTitle": "No campaigns found",
+                "noResults": "No results found",
+                "emptyDescription": "Browse and participate in campaigns with Tide",
+                "emptyAction": "Visit Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "My position",
+                "points": "Points",
+                "tasksComplete": "Tasks Complete",
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "No NFT Badge Claimed"
+            }
+        },
         "governance": {
             "votingPower": {
                 "title": "Stimmrecht",
@@ -1526,7 +1546,13 @@
         "methodName": "Method name",
         "data": "Daten",
         "success": "Success",
-        "info": "Info"
+        "info": "Info",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming",
+        "featured": "Featured",
+        "raffle": "Raffle"
     },
     "filters": {
         "title": "Filter",
@@ -2027,10 +2053,11 @@
         "wallet": "Wallet",
         "collectibles": "Sammlerstücke",
         "governance": "Governance",
+        "campaigns": "Campaigns",
+        "buySell": "Buy & Sell",
         "developer": "Entwickler",
         "tokens": "Token",
-        "settings": "Einstellungen",
-        "buySell": "Buy & Sell"
+        "settings": "Einstellungen"
     },
     "pills": {
         "asyncStatus": {

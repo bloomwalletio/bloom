@@ -1,9 +1,9 @@
 <script lang="typescript">
-    import { IconName, Pill, Text, Tooltip, TooltipIcon } from '@bloomwalletio/ui'
+    import { IconName, Pill, Text, Tooltip, TooltipIcon, type TextColor } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { IDownloadMetadata, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
-    import { selectedNftId } from '@core/nfts/stores'
+    import { downloadingNftId, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
     import { MediaPlaceholder, NftMedia } from '@ui'
@@ -14,6 +14,12 @@
     let anchor: HTMLElement
 
     $: isLocked = isNftLocked(nft)
+
+    $: placeHolderColor = nft.downloadMetadata?.error
+        ? 'danger'
+        : nft.downloadMetadata?.warning
+        ? 'warning'
+        : ('brand' as TextColor)
 
     function onNftClick(): void {
         $selectedNftId = nft.id
@@ -42,7 +48,13 @@
             style="height: {nftWrapperClientWidth}px; "
         >
             <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted>
-                <MediaPlaceholder {nft} size="md" slot="placeholder" />
+                <MediaPlaceholder
+                    type={nft?.type}
+                    textColor={placeHolderColor}
+                    downloading={$downloadingNftId === nft?.id}
+                    size="md"
+                    slot="placeholder"
+                />
             </NftMedia>
             <error-container bind:this={anchor}>
                 {#if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
