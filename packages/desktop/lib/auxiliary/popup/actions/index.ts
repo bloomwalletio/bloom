@@ -1,4 +1,6 @@
 export * from './closePopup'
 export * from './openPopup'
+export * from './lockProfileAuthPopup'
 export * from './openProfileAuthPopup'
 export * from './closeProfileAuthPopup'
+export * from './unlockProfileAuthPopup'

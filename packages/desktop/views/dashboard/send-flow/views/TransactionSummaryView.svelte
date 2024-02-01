@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Spinner } from '@bloomwalletio/ui'
     import { PopupTemplate } from '@components'
-    import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { IChain, getNetwork, isEvmChain } from '@core/network'
@@ -33,11 +33,11 @@
     $: void prepareTransactions($sendFlowParameters)
     $: isSourceNetworkLayer2 = !!chain
     $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters?.destinationNetworkId)
-    $: busy = !!$selectedAccount?.isTransferring
     $: isDisabled = isInvalid || !hasMounted || (!preparedTransaction && !preparedOutput)
 
     let hasMounted = false
     let isInvalid: boolean
+    let busy = false
     let recipientAddress: string
     let chain: IChain | undefined
 
@@ -102,15 +102,18 @@
         }
 
         try {
-            updateSelectedAccount({ isTransferring: true })
+            busy = true
+            modifyPopupState({ preventClose: true })
             if (isSourceNetworkLayer2) {
                 await signAndSendTransactionFromEvm(preparedTransaction, chain, $selectedAccount, true)
             } else {
                 await signAndSendStardustTransaction(preparedOutput, $selectedAccount)
             }
-            updateSelectedAccount({ isTransferring: false })
+            modifyPopupState({ preventClose: false }, true)
+            busy = false
         } catch (err) {
-            updateSelectedAccount({ isTransferring: false })
+            busy = false
+            modifyPopupState({ preventClose: false }, true)
             handleError(err)
             return
         }

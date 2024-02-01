@@ -4,7 +4,7 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { signAndSendTransactionFromEvm } from '@core/wallet/actions'
-    import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
+    import { selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -43,6 +43,7 @@
     let tokenTransfer: TokenTransferData | undefined
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false
+    let busy = false
 
     setTokenTransfer()
     function setTokenTransfer(): void {
@@ -84,7 +85,7 @@
         }
 
         try {
-            updateSelectedAccount({ isTransferring: true })
+            busy = true
             modifyPopupState({ preventClose: true })
             const response = await signAndSendTransactionFromEvm(
                 preparedTransaction,
@@ -93,7 +94,7 @@
                 signAndSend
             )
             modifyPopupState({ preventClose: false }, true)
-            updateSelectedAccount({ isTransferring: false })
+            busy = false
             callback({ result: response })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
@@ -103,7 +104,7 @@
                 },
             })
         } catch (err) {
-            updateSelectedAccount({ isTransferring: false })
+            busy = false
             modifyPopupState({ preventClose: false }, true)
             handleError(err)
         }
@@ -146,9 +147,9 @@
     continueButton={{
         text: localize(`popups.${localeKey}.action`),
         onClick: onConfirmClick,
-        disabled: $selectedAccount?.isTransferring,
+        disabled: busy,
     }}
-    busy={$selectedAccount?.isTransferring}
+    {busy}
 >
     <DappDataBanner slot="banner" {dapp} />
 

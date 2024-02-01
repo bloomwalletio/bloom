@@ -2,7 +2,7 @@
     import { PasswordInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { unlockStronghold } from '@core/profile/actions'
-    import { closeProfileAuthPopup } from '@desktop/auxiliary/popup'
+    import { closeProfileAuthPopup, lockProfileAuthPopup, unlockProfileAuthPopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let subtitle: string | undefined = undefined
@@ -17,10 +17,15 @@
     async function onSubmit(): Promise<void> {
         try {
             isBusy = true
+            lockProfileAuthPopup()
+
             const response = await unlockStronghold(password)
+
+            unlockProfileAuthPopup()
             closeProfileAuthPopup()
             onSuccess(returnPassword ? password : response)
         } catch (err) {
+            unlockProfileAuthPopup()
             console.error(err)
             error = localize(err?.message ?? err)
         } finally {
