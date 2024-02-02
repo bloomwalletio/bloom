@@ -2,4 +2,5 @@ export { default as ActivityActionSection } from './ActivityActionSection.svelte
 export { default as ActivityAddressSection } from './ActivityAddressSection.svelte'
 export { default as ActivityAmountSection } from './ActivityAmountSection.svelte'
 export { default as ActivityAssetSection } from './ActivityAssetSection.svelte'
+export { default as ActivityDateSection } from './ActivityDateSection.svelte'
 export { default as ActivityFeeSection } from './ActivityFeeSection.svelte'

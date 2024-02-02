@@ -351,6 +351,7 @@
                 "activity": "Activity",
                 "asset": "Asset",
                 "action": "Action",
+                "date": "Date",
                 "address": "Address",
                 "amount": "Amount",
                 "fee": "Fee",

@@ -8,6 +8,7 @@
         ActivityAmountSection,
         ActivityAddressSection,
         ActivityFeeSection,
+        ActivityDateSection,
     } from './row-sections'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
 
@@ -40,6 +41,7 @@
 >
     <ActivityAssetSection {activity} />
     <ActivityActionSection {activity} />
+    <ActivityDateSection {activity} />
     <ActivityAddressSection {activity} />
     <ActivityAmountSection {activity} />
     <ActivityFeeSection {activity} />
@@ -53,7 +55,7 @@
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
         @apply grid gap-2;
-        grid-template-columns: 3fr 2fr 2fr 2fr 2fr;
+        grid-template-columns: 3fr 2fr 2fr 2fr 2fr 2fr;
 
         &.expired {
             opacity: 0.5;
