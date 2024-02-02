@@ -12,6 +12,7 @@
     import CampaignTimestampPill from './CampaignTimestampPill.svelte'
     import sanitizeHtml from 'sanitize-html'
     import { localize } from '@core/i18n'
+    import CampaignUsersPill from './CampaignUsersPill.svelte'
 
     export let campaign: ICampaign
 
@@ -106,6 +107,7 @@
                 <div class="flex flex-row gap-2">
                     <CampaignStatusPill {campaign} />
                     <CampaignTimestampPill {campaign} />
+                    <CampaignUsersPill {campaign} />
                     <CampaignParticipantsPill {campaign} />
                     <CampaignRewardsPill {campaign} />
                 </div>
