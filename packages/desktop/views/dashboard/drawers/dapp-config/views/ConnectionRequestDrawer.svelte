@@ -118,7 +118,7 @@
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
             {@const metadata = $sessionProposal.params.proposer.metadata}
-            <DappInformationCard {metadata} />
+            <DappInformationCard {metadata} verifiedState={$sessionProposal.verifyContext.verified.validation} />
 
             <div class="flex-grow overflow-hidden">
                 <div class="h-full overflow-scroll flex flex-col gap-5 p-6">
