@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { TransakConnectionStatus } from '@auxiliary/transak/enums'
     import { Icon, IconButton, IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
@@ -10,12 +11,6 @@
     Platform.onEvent('transak-url', (transakUrl) => (url = transakUrl))
 
     const TRANSAK_URL = 'https://global-stg.transak.com'
-
-    enum TransakConnectionStatus {
-        Connected = 'connected',
-        Redirected = 'redirected',
-        Disconnected = 'disconnected',
-    }
 
     $: connectionStatus = calculateConnectionStatus(url)
 
