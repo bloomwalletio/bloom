@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { TRANSAK_HOSTNAME, TRANSAK_WIDGET_URL } from '@auxiliary/transak'
     import { TransakConnectionStatus } from '@auxiliary/transak/enums'
     import { Icon, IconButton, IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
     import { Platform } from '@core/app'
@@ -10,12 +11,10 @@
     let url = ''
     Platform.onEvent('transak-url', (transakUrl) => (url = transakUrl))
 
-    const TRANSAK_URL = 'https://global-stg.transak.com'
+    $: connectionStatus = getConnectionStatus(url)
 
-    $: connectionStatus = calculateConnectionStatus(url)
-
-    function calculateConnectionStatus(url: string): TransakConnectionStatus {
-        if (url.includes('transak.com')) {
+    function getConnectionStatus(url: string): TransakConnectionStatus {
+        if (url.includes(TRANSAK_HOSTNAME)) {
             return TransakConnectionStatus.Connected
         } else if (url) {
             return TransakConnectionStatus.Redirected
@@ -48,7 +47,7 @@
                 <Text type="sm" textColor="secondary" truncate>{url}</Text>
             {:else}
                 <Icon name={IconName.DangerCircle} textColor="danger" size="xs" />
-                <Text type="sm" textColor="secondary" truncate>{TRANSAK_URL}</Text>
+                <Text type="sm" textColor="secondary" truncate>{TRANSAK_WIDGET_URL}</Text>
             {/if}
         </div>
         <IconButton icon={IconName.Refresh} size="xs" on:click={refreshFunction} />
