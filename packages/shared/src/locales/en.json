@@ -688,6 +688,11 @@
                 "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
                 "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
                 "changingAccounts": "Changing accounts will reset all information."
+            },
+            "tooltip": {
+                "connected": "connected securely",
+                "redirected": "redirected, be careful!",
+                "disconnected": "disconnected, try refreshing"
             }
         }
     },

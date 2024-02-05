@@ -55,20 +55,25 @@
     <div class="flex flex-row justify-between w-full items-center">
         <div class="flex items-center gap-1 w-full h-3">
             {#if connectionStatus === TransakConnectionStatus.Connected}
-                <TooltipIcon icon={IconName.ShieldOn} textColor="success" size="xs" tooltip="connected securely" />
+                <TooltipIcon
+                    icon={IconName.ShieldOn}
+                    textColor="success"
+                    size="xs"
+                    tooltip={localize('views.buySell.tooltip.connected')}
+                />
             {:else if connectionStatus === TransakConnectionStatus.Redirected}
                 <TooltipIcon
                     icon={IconName.DangerTriangle}
                     textColor="warning"
                     size="xs"
-                    tooltip="redirected, be careful!"
+                    tooltip={localize('views.buySell.tooltip.redirected')}
                 />
             {:else}
                 <TooltipIcon
                     icon={IconName.DangerCircle}
                     textColor="danger"
                     size="xs"
-                    tooltip="disconnected, try refreshing"
+                    tooltip={localize('views.buySell.tooltip.disconnected')}
                 />
             {/if}
             <div bind:this={textContainer} class="truncate">
