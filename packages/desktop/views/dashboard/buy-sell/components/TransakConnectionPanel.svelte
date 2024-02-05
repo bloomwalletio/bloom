@@ -14,8 +14,8 @@
     $: connectionStatus = getConnectionStatus(url)
 
     function getConnectionStatus(url: string): TransakConnectionStatus {
-        const _url = new URL(url)
-        if (_url.hostname === TRANSAK_HOSTNAME) {
+        const _url = URL.canParse(url) ? new URL(url) : null
+        if (_url?.hostname === TRANSAK_HOSTNAME) {
             return TransakConnectionStatus.Connected
         } else if (url) {
             return TransakConnectionStatus.Redirected
