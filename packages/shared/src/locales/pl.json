@@ -347,12 +347,12 @@
             },
             "activity": {
                 "tab": "Aktywność",
-                "activity": "Activity",
+                "activity": "Aktywność",
                 "asset": "Token",
                 "action": "Akcja",
                 "address": "Adres",
                 "amount": "Ilość",
-                "fee": "Fee",
+                "fee": "Opłata",
                 "claimableTransactions": "Masz {amount} {amount, select, 1 {transakcję, która wymaga} other {transakcji, które wymagają}} odbioru",
                 "consolidatedOutputs": "Skonsolidowane wyjścia: {amount}"
             },
@@ -472,14 +472,14 @@
                         "title": "Połączone aplikacje dApp",
                         "connectDapp": "Połącz dApp",
                         "paired": {
-                            "tab": "Paired",
-                            "emptyTitle": "No apps found",
-                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                            "tab": "Sparowano",
+                            "emptyTitle": "Nie znaleziono aplikacji",
+                            "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
                         },
                         "expired": {
-                            "tab": "Expired",
-                            "emptyTitle": "No apps found",
-                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                            "tab": "Wygasło",
+                            "emptyTitle": "Nie znaleziono aplikacji",
+                            "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
                         }
                     },
                     "inputConnectionCode": {
@@ -597,6 +597,26 @@
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Campaigns",
+                "emptyTitle": "No campaigns found",
+                "noResults": "No results found",
+                "emptyDescription": "Browse and participate in campaigns with Tide",
+                "emptyAction": "Visit Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "My position",
+                "points": "Points",
+                "tasksComplete": "Tasks Complete",
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "No NFT Badge Claimed"
+            }
+        },
         "governance": {
             "votingPower": {
                 "title": "Siła głosu",
@@ -663,9 +683,9 @@
         },
         "buySell": {
             "info": {
-                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
-                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
-                "changingAccounts": "Changing accounts will reset all information."
+                "receive": "Wybrane konto otrzyma tokeny bezpośrednio od Transak po autoryzacji metody płatności.",
+                "multipleAccounts": "Jeśli posiadasz kilka kont, możesz przełączyć je, zanim dokonasz zakupu.",
+                "changingAccounts": "Zmiana kont zresetuje wszystkie informacje."
             }
         }
     },
@@ -1526,7 +1546,13 @@
         "methodName": "Metoda",
         "data": "Data",
         "success": "Sukces",
-        "info": "Info"
+        "info": "Informacje",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming",
+        "featured": "Featured",
+        "raffle": "Raffle"
     },
     "filters": {
         "title": "Filtry",
@@ -2027,10 +2053,11 @@
         "wallet": "Portfel",
         "collectibles": "Kolekcje",
         "governance": "Zarządzanie",
+        "campaigns": "Campaigns",
+        "buySell": "Kup i sprzedaj",
         "developer": "Deweloper",
         "tokens": "Tokeny",
-        "settings": "Ustawienia",
-        "buySell": "Kup i sprzedaj"
+        "settings": "Ustawienia"
     },
     "pills": {
         "asyncStatus": {

@@ -1,4 +1,4 @@
-import { BrowserWindow, app, shell } from 'electron'
+import { BrowserWindow, app, shell, screen } from 'electron'
 import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
@@ -7,9 +7,6 @@ import path from 'path'
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
 
-    private htmlPath = app.isPackaged
-        ? path.join(app.getAppPath(), '/public/transak.html')
-        : path.join(__dirname, '../transak.html')
     private preloadPath = app.isPackaged
         ? path.join(app.getAppPath(), '/public/build/transak.preload.js')
         : path.join(__dirname, 'transak.preload.js')
@@ -21,12 +18,12 @@ export default class TransakManager implements ITransakManager {
         }
     }
 
-    public minimizeWindow(): void {
-        windows.transak?.minimize()
+    public hideWindow(): void {
+        windows.transak?.hide()
     }
 
-    public restoreWindow(): void {
-        windows.transak?.restore()
+    public showWindow(): void {
+        windows.transak?.show()
     }
 
     public openWindow(data: ITransakWindowData): BrowserWindow {
@@ -50,6 +47,7 @@ export default class TransakManager implements ITransakManager {
             resizable: false,
             minimizable: false,
             skipTaskbar: true,
+            hiddenInMissionControl: true,
             acceptFirstMouse: true,
             hasShadow: false,
             thickFrame: false,
@@ -83,17 +81,8 @@ export default class TransakManager implements ITransakManager {
             }
         })
 
-        void windows.transak.loadFile(this.htmlPath)
-        windows.transak.webContents.on('did-finish-load', () => {
-            const _data = {
-                currency: data.currency,
-                address: data.address,
-                stage: app.isPackaged ? 'production' : 'staging',
-                apiKey: process.env.TRANSAK_API_KEY,
-                service: data.service,
-            }
-            windows.transak.webContents.send('transak-data', _data)
-        })
+        const url = this.getUrl(data)
+        void windows.transak.loadURL(url)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
             void shell.openExternal(url)
@@ -101,6 +90,11 @@ export default class TransakManager implements ITransakManager {
         })
 
         windows.transak.setMenu(null)
+
+        windows.transak.webContents.addListener('did-navigate', (_, url) => {
+            const _url = new URL(url)
+            windows.main.webContents.send('transak-url', _url.origin)
+        })
 
         return windows.transak
     }
@@ -119,15 +113,45 @@ export default class TransakManager implements ITransakManager {
 
                 const menuHeight = mainWindowHeight - bodyHeight
 
+                const newX = Math.floor(mainWindowX + this.rect.x)
+                const newY = Math.floor(mainWindowY + menuHeight + this.rect.y)
+
                 windows.transak.setBounds({
-                    x: Math.floor(mainWindowX + this.rect.x),
-                    y: Math.floor(mainWindowY + menuHeight + this.rect.y),
+                    x: newX,
+                    y: newY,
                     height: this.rect.height,
                     width: this.rect.width,
                 })
+
+                if (process.platform === 'linux') {
+                    const windowBounds = windows.transak.getBounds()
+                    const nearestDisplay = screen.getDisplayNearestPoint({ x: windowBounds.x, y: windowBounds.y })
+                    const displayBounds = nearestDisplay.bounds
+
+                    const isOutOfBounds =
+                        windowBounds.x < displayBounds.x ||
+                        windowBounds.y < displayBounds.y ||
+                        windowBounds.x + windowBounds.width > displayBounds.x + displayBounds.width ||
+                        windowBounds.y + windowBounds.height > displayBounds.y + displayBounds.height
+
+                    if (isOutOfBounds) {
+                        windows.transak.hide()
+                    } else if (!windows.transak.isVisible()) {
+                        windows.transak.show()
+                    }
+                }
             }
         } catch (error) {
             console.error('positionWindow error', error)
         }
+    }
+
+    private getUrl(data: ITransakWindowData): string {
+        const { address, currency, service } = data
+        const stage = app.isPackaged ? 'production' : 'staging'
+        const apiKey = process.env.TRANSAK_API_KEY
+
+        const transakUrl = stage === 'production' ? 'https://global.transak.com' : 'https://global-stg.transak.com'
+        return `${transakUrl}/?apiKey=${apiKey}&defaultFiatCurrency=${currency}&walletAddress=${address}&productsAvailed=${service}&cryptoCurrencyCode=IOTA&network=miota&themeColor=7C41C9&hideMenu=true`
     }
 }

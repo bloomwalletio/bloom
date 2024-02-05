@@ -2,7 +2,7 @@
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
+    import { IIrc27Nft, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -17,9 +17,10 @@
     $: isCurrentPfp = $activeProfile.pfp?.id === nft.id
 
     function onSetPfpClick(): void {
-        updateActiveProfile({
-            pfp: isCurrentPfp ? undefined : nft,
-        })
+        const pfp = isCurrentPfp ? undefined : structuredClone(nft)
+        // It's not possible to store bigint's in stores
+        delete (pfp as IIrc27Nft)?.storageDeposit
+        updateActiveProfile({ pfp })
         menu?.close()
     }
 
