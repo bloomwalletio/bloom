@@ -1,12 +1,14 @@
 <script lang="ts">
-    import { TRANSAK_HOSTNAME, TRANSAK_WIDGET_URL } from '@auxiliary/transak'
+    import { TRANSAK_WIDGET_URL } from '@auxiliary/transak'
     import { TransakConnectionStatus } from '@auxiliary/transak/enums'
-    import { Icon, IconButton, IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { Icon, IconButton, IconName, Pill, Text, TooltipIcon, Tooltip } from '@bloomwalletio/ui'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { Pane } from '@ui'
 
     export let refreshFunction: () => Promise<void>
+
+    let refreshButton: HTMLElement
 
     let url = ''
     Platform.onEvent('transak-url', (transakUrl) => (url = transakUrl))
@@ -15,7 +17,7 @@
 
     function getConnectionStatus(url: string): TransakConnectionStatus {
         const _url = URL.canParse(url) ? new URL(url) : null
-        if (_url?.hostname === TRANSAK_HOSTNAME) {
+        if (_url?.origin === TRANSAK_WIDGET_URL) {
             return TransakConnectionStatus.Connected
         } else if (url) {
             return TransakConnectionStatus.Redirected
@@ -51,6 +53,9 @@
                 <Text type="sm" textColor="secondary" truncate>{TRANSAK_WIDGET_URL}</Text>
             {/if}
         </div>
-        <IconButton icon={IconName.Refresh} size="xs" on:click={refreshFunction} />
+        <Tooltip anchor={refreshButton} text={localize('actions.refresh')} event="hover" placement="top" />
+        <div bind:this={refreshButton}>
+            <IconButton icon={IconName.Refresh} size="xs" on:click={refreshFunction} />
+        </div>
     </div>
 </Pane>
