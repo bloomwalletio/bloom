@@ -7,7 +7,7 @@
 
 <Pill color="neutral" compact>
     <div class="flex flex-row space-x-1 items-center">
-        <Icon size="xxs" customColor="neutral" name={IconName.Users} />
+        <Icon size="xxs" customColor="neutral" name={IconName.Trophy} />
         <div>
             {campaign.participants ?? 0}
         </div>

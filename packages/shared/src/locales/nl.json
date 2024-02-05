@@ -347,7 +347,7 @@
             },
             "activity": {
                 "tab": "Activiteit",
-                "activity": "Activity",
+                "activity": "Activiteit",
                 "asset": "Bezit",
                 "action": "Actie",
                 "address": "Adres",
@@ -472,14 +472,14 @@
                         "title": "Verbonden dApps",
                         "connectDapp": "Verbind dApp",
                         "paired": {
-                            "tab": "Paired",
-                            "emptyTitle": "No apps found",
-                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                            "tab": "Verbonden",
+                            "emptyTitle": "Geen apps gevonden",
+                            "emptySubtitle": "Verbind Bloom met jouw favoriete dApps"
                         },
                         "expired": {
-                            "tab": "Expired",
-                            "emptyTitle": "No apps found",
-                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                            "tab": "Verlopen",
+                            "emptyTitle": "Geen apps gevonden",
+                            "emptySubtitle": "Verbind Bloom met jouw favoriete dApps"
                         }
                     },
                     "inputConnectionCode": {
@@ -495,7 +495,7 @@
                         "reconnectHint": "U heeft eerder verbinding gemaakt met deze dApp.",
                         "insecure": "De URL van deze dApp kan niet worden geverifieerd. Mogelijk is je verbinding met deze app onveilig.",
                         "unsupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een niet-ondersteund netwerk draait.",
-                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
+                        "noSupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een ander netwerk draait.",
                         "unsupportedMethods": "Deze dApp is niet volledig compatibel met Bloom. Sommige methoden of gebeurtenissen worden niet ondersteund.",
                         "supportedOnOtherProfile": "Deze dApp draait op een ondersteund netwerk, maar is niet toegankelijk met dit profiel. Gebruik een profiel verbonden met het vereiste netwerk.",
                         "acceptInsecureConnection": "Ik begrijp dat deze dApp mogelijk onveilig is en nog steeds verbinding wil maken."
@@ -519,7 +519,7 @@
                             "signTransaction": "Verzoek om een transactie te ondertekenen",
                             "sendTransaction": "Verzoek om een transactie te ondertekenen",
                             "empty": "U moet ten minste één machtiging selecteren",
-                            "noPermissionsRequired": "No permissions required to use this app"
+                            "noPermissionsRequired": "Geen machtigingen nodig om deze app te gebruiken"
                         },
                         "networks": {
                             "step": "Netwerken",
@@ -597,6 +597,26 @@
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Campaigns",
+                "emptyTitle": "No campaigns found",
+                "noResults": "No results found",
+                "emptyDescription": "Browse and participate in campaigns with Tide",
+                "emptyAction": "Visit Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "My position",
+                "points": "Points",
+                "tasksComplete": "Tasks Complete",
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "No NFT Badge Claimed"
+            }
+        },
         "governance": {
             "votingPower": {
                 "title": "Stemkracht",
@@ -663,9 +683,9 @@
         },
         "buySell": {
             "info": {
-                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
-                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
-                "changingAccounts": "Changing accounts will reset all information."
+                "receive": "Je geselecteerde account ontvangt tokens direct van Transak zodra je betaalmethode is geautoriseerd.",
+                "multipleAccounts": "Als je meerdere accounts hebt, kun je vóór de aankoop wisselen met de accountselector dropdown.",
+                "changingAccounts": "Het veranderen van accounts zal alle informatie resetten."
             }
         }
     },
@@ -794,12 +814,12 @@
         },
         "confirmAssetTracking": {
             "ERC721": {
-                "title": "Add new NFT",
-                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+                "title": "Nieuwe NFT toevoegen",
+                "description": "\"{dappName}\" wil een NFT met id \"{tokenId}\" en adres \"{address}\" aan jouw wallet toevoegen."
             },
             "ERC20": {
-                "title": "Add new token",
-                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+                "title": "Voeg nieuwe token toe",
+                "description": "\"{dappName}\" wil {assetName, select, undefined { een token met adres \"{address}\" } other { {assetName} }} toevoegen aan jouw wallet."
             }
         },
         "node": {
@@ -1523,10 +1543,16 @@
         "no": "Nee",
         "tip": "Tip",
         "verified": "Geverifiëerd",
-        "methodName": "Method name",
+        "methodName": "Methodenaam",
         "data": "Gegevens",
         "success": "Succesvol",
-        "info": "Info"
+        "info": "Info",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming",
+        "featured": "Featured",
+        "raffle": "Raffle"
     },
     "filters": {
         "title": "Filters",
@@ -1697,7 +1723,7 @@
             "success": "NFT minting transactie verzonden"
         },
         "transaction": {
-            "success": "Transaction sent"
+            "success": "Transactie verzonden"
         },
         "burnNft": {
             "success": "NFT burning transactie verzonden"
@@ -1773,7 +1799,7 @@
         "account": {
             "length": "Je wallet naam kan niet langer zijn dan {length, plural, one {# karakter} other {# karakters}}.",
             "emptyName": "Een profielnaam moet ten minste 1 teken bevatten.",
-            "colorRequired": "A color is required.",
+            "colorRequired": "Een kleur is vereist.",
             "duplicate": "Een wallet met deze naam bestaat al.",
             "tilde": "Een profielnaam kan niet beginnen met het teken '~'.",
             "control": "Een profielnaam mag geen controleteken bevatten.",
@@ -1893,8 +1919,8 @@
                 "long": "Url schema wordt niet ondersteund"
             },
             "unsupportedMediaType": {
-                "short": "Unsupported media type",
-                "long": "The media type is not currently supported"
+                "short": "Niet-ondersteund mediatype",
+                "long": "Het mediatype wordt momenteel niet ondersteund"
             },
             "notMatchingFileTypes": {
                 "short": "Laden geblokkeerd",
@@ -2027,10 +2053,11 @@
         "wallet": "Wallet",
         "collectibles": "Verzamelingen",
         "governance": "Governance",
+        "campaigns": "Campaigns",
+        "buySell": "Kopen & verkopen",
         "developer": "Ontwikkelaar",
         "tokens": "Tokens",
-        "settings": "Instellingen",
-        "buySell": "Buy & Sell"
+        "settings": "Instellingen"
     },
     "pills": {
         "asyncStatus": {

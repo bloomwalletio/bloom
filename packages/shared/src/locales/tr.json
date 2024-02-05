@@ -597,6 +597,26 @@
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Campaigns",
+                "emptyTitle": "No campaigns found",
+                "noResults": "No results found",
+                "emptyDescription": "Browse and participate in campaigns with Tide",
+                "emptyAction": "Visit Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "My position",
+                "points": "Points",
+                "tasksComplete": "Tasks Complete",
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "No NFT Badge Claimed"
+            }
+        },
         "governance": {
             "votingPower": {
                 "title": "Oy gücü",
@@ -1526,7 +1546,13 @@
         "methodName": "Yöntem Adı",
         "data": "Veri",
         "success": "Başarılı",
-        "info": "Info"
+        "info": "Info",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming",
+        "featured": "Featured",
+        "raffle": "Raffle"
     },
     "filters": {
         "title": "Filtreler",
@@ -2027,10 +2053,11 @@
         "wallet": "Cüzdan",
         "collectibles": "Koleksiyonlar",
         "governance": "Yönetim",
+        "campaigns": "Campaigns",
+        "buySell": "Al & Sat",
         "developer": "Geliştirici",
         "tokens": "Tokenler",
-        "settings": "Ayarlar",
-        "buySell": "Al & Sat"
+        "settings": "Ayarlar"
     },
     "pills": {
         "asyncStatus": {
