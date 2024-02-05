@@ -19,10 +19,9 @@
     import DappDataBanner from '@components/DappDataBanner.svelte'
     import { onMount } from 'svelte'
     import { Alert, Table } from '@bloomwalletio/ui'
-    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
-    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
     import { ActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
 
