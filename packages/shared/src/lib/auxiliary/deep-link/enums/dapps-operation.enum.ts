@@ -3,4 +3,5 @@
  */
 export enum DappsOperation {
     Connect = 'connect',
+    Wc = 'wc',
 }
