@@ -109,10 +109,10 @@ const Platform: IPlatform = {
     closeTransak(): Promise<void> {
         return Promise.resolve()
     },
-    minimizeTransak(): Promise<void> {
+    hideTransak(): Promise<void> {
         return Promise.resolve()
     },
-    restoreTransak(): Promise<void> {
+    showTransak(): Promise<void> {
         return Promise.resolve()
     },
     updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void> {

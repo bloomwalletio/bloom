@@ -67,6 +67,7 @@
         bind:selectionOptions={accountSelections}
         title={localize(`${localeKey}.title`)}
         error={checkedAccounts.length ? undefined : localize(`${localeKey}.empty`)}
+        showPrimary
     />
 {:else}
     <Alert variant="danger" text="No valid accounts" />
