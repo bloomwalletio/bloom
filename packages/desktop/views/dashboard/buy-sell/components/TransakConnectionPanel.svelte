@@ -5,15 +5,20 @@
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { Pane } from '@ui'
+    import { tick } from 'svelte'
 
     export let refreshFunction: () => Promise<void>
 
     let refreshButton: HTMLElement
+    let textContainer: HTMLElement
+    let showTextTooltip: boolean = false
 
     let url = ''
     Platform.onEvent('transak-url', (transakUrl) => (url = transakUrl))
 
     $: connectionStatus = getConnectionStatus(url)
+
+    $: url, void updateShowTextTooltip(textContainer)
 
     function getConnectionStatus(url: string): TransakConnectionStatus {
         const _url = URL.canParse(url) ? new URL(url) : null
@@ -24,6 +29,13 @@
         } else {
             return TransakConnectionStatus.Disconnected
         }
+    }
+
+    async function updateShowTextTooltip(element: HTMLElement): Promise<void> {
+        await tick()
+        showTextTooltip =
+            ((element?.firstChild as HTMLElement)?.scrollWidth ?? 0) >
+            ((element?.firstChild as HTMLElement)?.offsetWidth ?? 0)
     }
 </script>
 
@@ -44,7 +56,6 @@
         <div class="flex items-center gap-1 w-full h-3">
             {#if connectionStatus === TransakConnectionStatus.Connected}
                 <TooltipIcon icon={IconName.ShieldOn} textColor="success" size="xs" tooltip="connected securely" />
-                <Text type="sm" textColor="secondary" truncate>{url}</Text>
             {:else if connectionStatus === TransakConnectionStatus.Redirected}
                 <TooltipIcon
                     icon={IconName.DangerTriangle}
@@ -52,7 +63,6 @@
                     size="xs"
                     tooltip="redirected, be careful!"
                 />
-                <Text type="sm" textColor="secondary" truncate>{url}</Text>
             {:else}
                 <TooltipIcon
                     icon={IconName.DangerCircle}
@@ -60,7 +70,12 @@
                     size="xs"
                     tooltip="disconnected, try refreshing"
                 />
-                <Text type="sm" textColor="secondary" truncate>{TRANSAK_WIDGET_URL}</Text>
+            {/if}
+            <div bind:this={textContainer} class="truncate">
+                <Text type="sm" textColor="secondary" truncate>{url ?? TRANSAK_WIDGET_URL}</Text>
+            </div>
+            {#if showTextTooltip}
+                <Tooltip anchor={textContainer} event="hover" placement="top" text={url ?? TRANSAK_WIDGET_URL} />
             {/if}
         </div>
         <Tooltip anchor={refreshButton} text={localize('actions.refresh')} event="hover" placement="top" />
