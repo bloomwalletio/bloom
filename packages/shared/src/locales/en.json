@@ -532,7 +532,7 @@
                         "accounts": {
                             "step": "Accounts",
                             "title": "Select accounts",
-                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access.",
+                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
                             "empty": "You have to select at least one account"
                         }
                     },
