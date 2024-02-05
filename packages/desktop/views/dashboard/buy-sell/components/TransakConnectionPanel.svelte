@@ -1,7 +1,7 @@
 <script lang="ts">
     import { TRANSAK_WIDGET_URL } from '@auxiliary/transak'
     import { TransakConnectionStatus } from '@auxiliary/transak/enums'
-    import { Icon, IconButton, IconName, Pill, Text, TooltipIcon, Tooltip } from '@bloomwalletio/ui'
+    import { IconButton, IconName, Pill, Text, TooltipIcon, Tooltip } from '@bloomwalletio/ui'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { Pane } from '@ui'
@@ -46,10 +46,20 @@
                 <TooltipIcon icon={IconName.ShieldOn} textColor="success" size="xs" tooltip="connected securely" />
                 <Text type="sm" textColor="secondary" truncate>{url}</Text>
             {:else if connectionStatus === TransakConnectionStatus.Redirected}
-                <Icon name={IconName.DangerTriangle} textColor="warning" size="xs" />
+                <TooltipIcon
+                    icon={IconName.DangerTriangle}
+                    textColor="warning"
+                    size="xs"
+                    tooltip="redirected, be careful!"
+                />
                 <Text type="sm" textColor="secondary" truncate>{url}</Text>
             {:else}
-                <Icon name={IconName.DangerCircle} textColor="danger" size="xs" />
+                <TooltipIcon
+                    icon={IconName.DangerCircle}
+                    textColor="danger"
+                    size="xs"
+                    tooltip="disconnected, try refreshing"
+                />
                 <Text type="sm" textColor="secondary" truncate>{TRANSAK_WIDGET_URL}</Text>
             {/if}
         </div>
