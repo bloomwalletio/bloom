@@ -65,7 +65,7 @@ export interface IPlatform {
 
     openTransak(data: ITransakWindowData): Promise<void>
     closeTransak(): Promise<void>
-    minimizeTransak(): Promise<void>
-    restoreTransak(): Promise<void>
+    hideTransak(): Promise<void>
+    showTransak(): Promise<void>
     updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void>
 }
