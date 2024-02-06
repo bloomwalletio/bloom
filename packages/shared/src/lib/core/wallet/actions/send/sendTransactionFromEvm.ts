@@ -17,7 +17,7 @@ import { IAccountState } from '@core/account'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
 import { getSdkError } from '@walletconnect/utils'
-import { modifyPopupState } from '../../../../../../../desktop/lib/auxiliary/popup/helpers'
+import { modifyPopupState } from '../../../../../../../desktop/lib/auxiliary/popup'
 
 export async function sendTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
