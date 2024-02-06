@@ -14,12 +14,6 @@ module.exports = {
     plugins: [exposeDarkModeStrategy],
     safelist: [
         {
-            pattern: /^from-/,
-        },
-        {
-            pattern: /^to-/,
-        },
-        {
             pattern: /^bg-/,
             variants: ['dark'],
         },
@@ -30,35 +24,10 @@ module.exports = {
             pattern: /^text-/,
         },
         {
-            pattern: /^font-/,
-        },
-        {
-            pattern: /^grid-cols-/,
-            variants: ['sm', 'md', 'lg', 'xl', '2xl'],
-        },
-        {
             pattern: /^col-span-/,
         },
         {
-            pattern: /^rounded-/,
-        },
-        {
-            pattern: /^p-/,
-        },
-        {
-            pattern: /^px-/,
-        },
-        {
-            pattern: /^divide-/,
-        },
-        {
             pattern: /^shadow/,
-        },
-        {
-            pattern: /^sr-only/,
-        },
-        {
-            pattern: /^h-/,
         },
     ].concat(BLOOM_UI_PRESET?.safelist),
     theme: {
