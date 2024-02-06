@@ -10,11 +10,11 @@
     import {
         createEvmTransactionFromSendFlowParameters,
         createStardustOutputFromSendFlowParameters,
-        sendOutputFromStardust,
-        sendTransactionFromEvm,
+        signAndSendTransactionFromEvm,
+        signAndSendStardustTransaction,
     } from '@core/wallet/actions'
     import { sendFlowParameters } from '@core/wallet/stores'
-    import { getNetworkIdFromSendFlowParameters } from '@core/wallet/utils'
+    import { getNetworkIdFromSendFlowParameters, validateSendConfirmation } from '@core/wallet/utils'
     import { closePopup, modifyPopupState } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
@@ -22,6 +22,9 @@
     import { TransactionSummaryProps } from './types'
     import { setGasFee } from '@core/layer-2/actions'
     import { showNotification } from '@auxiliary/notification'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
+    import { getIsActiveLedgerProfile } from '@core/profile/stores'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -29,11 +32,11 @@
     $: void prepareTransactions($sendFlowParameters)
     $: isSourceNetworkLayer2 = !!chain
     $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters?.destinationNetworkId)
-    $: busy = !!$selectedAccount?.isTransferring || !hasMounted
-    $: isDisabled = isInvalid || busy || (!preparedTransaction && !preparedOutput)
+    $: isDisabled = isInvalid || !hasMounted || (!preparedTransaction && !preparedOutput)
 
     let hasMounted = false
     let isInvalid: boolean
+    let busy = false
     let recipientAddress: string
     let chain: IChain | undefined
 
@@ -67,23 +70,59 @@
         }
     }
 
-    async function onConfirmClick(): Promise<void> {
-        try {
-            if (isSourceNetworkLayer2) {
-                await sendTransactionFromEvm(preparedTransaction, chain, true)
-            } else {
-                await sendOutputFromStardust(preparedOutput, $selectedAccount)
-            }
+    function isValidTransaction(): boolean {
+        if (isSourceNetworkLayer2) {
+            return !!preparedTransaction
+        } else {
+            try {
+                validateSendConfirmation(preparedOutput)
 
-            showNotification({
-                variant: 'success',
-                text: localize('notifications.transaction.success'),
-            })
-            modifyPopupState({ confirmClickOutside: false, preventClose: false })
-            closePopup({ forceClose: true })
-        } catch (err) {
-            handleError(err)
+                if (getIsActiveLedgerProfile()) {
+                    ledgerPreparedOutput.set(preparedOutput)
+                }
+
+                return true
+            } catch (err) {
+                handleError(err)
+                return false
+            }
         }
+    }
+
+    async function onConfirmClick(): Promise<void> {
+        if (!isValidTransaction()) {
+            return
+        }
+
+        try {
+            await checkActiveProfileAuthAsync(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
+        } catch (error) {
+            return
+        }
+
+        try {
+            busy = true
+            modifyPopupState({ preventClose: true })
+            if (isSourceNetworkLayer2) {
+                await signAndSendTransactionFromEvm(preparedTransaction, chain, $selectedAccount, true)
+            } else {
+                await signAndSendStardustTransaction(preparedOutput, $selectedAccount)
+            }
+            modifyPopupState({ preventClose: false }, true)
+            busy = false
+        } catch (err) {
+            busy = false
+            modifyPopupState({ preventClose: false }, true)
+            handleError(err)
+            return
+        }
+
+        showNotification({
+            variant: 'success',
+            text: localize('notifications.transaction.success'),
+        })
+        modifyPopupState({ confirmClickOutside: false, preventClose: false })
+        closePopup({ forceClose: true })
     }
 
     function onBackClick(): void {
