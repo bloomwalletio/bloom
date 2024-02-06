@@ -12,6 +12,9 @@
     import { ITokenWithBalance } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { truncateString } from '@core/utils'
+    import { selectedAccountIndex } from '@core/account/stores'
 
     export let activity: Activity
 
@@ -27,6 +30,9 @@
                 _activity.governanceAction === GovernanceAction.IncreaseVotingPower
 
             return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
+        } else if (_activity.type === ActivityType.Nft) {
+            const nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, _activity.nftId)
+            return nft?.name ? truncateString(nft.name, 13, 0) : truncateString(nft.id, 7, 7)
         } else {
             return '-'
         }
