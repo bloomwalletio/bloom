@@ -3,9 +3,10 @@
     import { Avatar, Icon, IconName, Link, Text } from '@bloomwalletio/ui'
     import { CoreTypes } from '@walletconnect/types'
     import { localize } from '@core/i18n'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
 
     export let metadata: CoreTypes.Metadata
-    export let verifiedState: 'UNKNOWN' | 'VALID' | 'INVALID' | undefined = undefined
+    export let verifiedState: DappVerification | undefined = undefined
 </script>
 
 <dapp-information>
@@ -19,11 +20,11 @@
             {metadata?.name ?? localize('general.unknown')}
         </Text>
         <div class="flex flex-row items-center gap-1">
-            {#if verifiedState === 'VALID'}
+            {#if verifiedState === DappVerification.Valid}
                 <Icon name={IconName.ShieldOn} size="xs" textColor="success" />
-            {:else if verifiedState === 'INVALID'}
+            {:else if verifiedState === DappVerification.Invalid}
                 <Icon name={IconName.ShieldOff} size="xs" textColor="danger" />
-            {:else if verifiedState === 'UNKNOWN'}
+            {:else if verifiedState === DappVerification.Unknown}
                 <Icon name={IconName.ShieldOff} size="xs" textColor="warning" />
             {/if}
             <Link text={metadata?.url} on:click={() => openUrlInBrowser(metadata.url)} />
