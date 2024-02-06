@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Platform } from '@core/app'
     import { SendFlowType, sendFlowParameters } from '@core/wallet'
-    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
+    import { modifyPopupState } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { SendFlowRoute } from './send-flow-route.enum'
     import { sendFlowRoute } from './send-flow.router'

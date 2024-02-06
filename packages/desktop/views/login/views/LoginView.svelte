@@ -104,6 +104,12 @@
         }
     }
 
+    function onKey(event: KeyboardEvent): void {
+        if (event.key === 'Escape') {
+            onBackClick()
+        }
+    }
+
     function onBackClick(): void {
         if (!hasReachedMaxAttempts) {
             resetActiveProfile()
@@ -116,6 +122,8 @@
         clearTimeout(shakeTimeout)
     })
 </script>
+
+<svelte:window on:keydown={onKey} />
 
 <LoggedOutLayout gradient="center">
     <CloseButton slot="button" on:click={onBackClick} />
