@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ITokenWithBalance, getUnitFromTokenMetadata } from '@core/token'
+    import { ITokenWithBalance } from '@core/token'
     import { truncateString } from '@core/utils'
     import { ExpiredActivityPill, TimelockActivityPill, NftAvatar, TokenAvatar, UnclaimedActivityPill } from '@ui'
     import { ActivityType } from '@core/activity'
@@ -7,8 +7,7 @@
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { selectedAccountIndex } from '@core/account/stores'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
-    import AssetInfo from '../AssetInfo.svelte'
-    import { IconName, Avatar } from '@bloomwalletio/ui'
+    import { IconName, Avatar, Text } from '@bloomwalletio/ui'
     import { darkMode } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
@@ -29,30 +28,22 @@
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined)
 
-    let title: string | undefined, subtitle: string | undefined
-    $: setTitleAndSubtitle(activity)
+    let title: string | undefined
+    $: setTitle(activity)
 
-    function setTitleAndSubtitle(_activity: Activity): void {
+    function setTitle(_activity: Activity): void {
         if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
             title = token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)
-            subtitle = getUnitFromTokenMetadata(token.metadata)
         } else if (_activity.type === ActivityType.Nft) {
             title = nft?.name ? truncateString(nft.name, 13, 0) : 'NFT'
-            subtitle = nft ? truncateString(nft.id, 6, 7) : ''
         } else if (_activity.type === ActivityType.SmartContract) {
             title = localize('general.smartContract')
-            subtitle = _activity.methodName
         } else if (_activity.type === ActivityType.Alias) {
             title = 'Alias'
-            subtitle = truncateString(_activity.aliasId, 6, 7)
         } else if (_activity.type === ActivityType.Consolidation) {
             title = 'Consolidation'
-            subtitle = localize('views.dashboard.activity.consolidatedOutputs', {
-                amount: _activity.amountConsolidatedInputs,
-            })
         } else if (_activity.type === ActivityType.Governance) {
             title = 'Governance'
-            subtitle = truncateString(_activity.participation?.eventId ?? '', 6, 7)
         }
     }
 
@@ -104,38 +95,44 @@
     }
 </script>
 
-<div class="flex flex-row justify-between">
-    <AssetInfo {title} {subtitle}>
-        {#if token}
-            <TokenAvatar {token} hideNetworkBadge size="lg" />
-        {:else if activity.type === ActivityType.Nft}
-            <NftAvatar {nft} size="lg" shape="square" />
-        {:else if activity.type === ActivityType.SmartContract}
-            <Avatar
-                icon={IconName.FileLock}
-                size="lg"
-                textColor="brand"
-                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-            />
-        {:else if activity.type === ActivityType.Alias}
-            <Avatar
-                icon={IconName.Alias}
-                size="lg"
-                textColor="brand"
-                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-            />
-        {/if}
-    </AssetInfo>
-
-    {#if pill}
-        <div class="flex flex-col w-1/2 items-center justify-center">
-            {#if pill === 'unclaimed'}
-                <UnclaimedActivityPill {timeDiff} direction={activity.direction} />
-            {:else if pill === 'expired'}
-                <ExpiredActivityPill />
-            {:else if pill === 'timelock'}
-                <TimelockActivityPill {timeDiff} />
+<div class="w-full flex flex-row justify-between">
+    <div class="w-full flex flex-row gap-4 items-center">
+        <div class="py-1">
+            {#if token}
+                <TokenAvatar {token} hideNetworkBadge size="lg" />
+            {:else if activity.type === ActivityType.Nft}
+                <NftAvatar {nft} size="lg" shape="square" />
+            {:else if activity.type === ActivityType.SmartContract}
+                <Avatar
+                    icon={IconName.FileLock}
+                    size="lg"
+                    textColor="brand"
+                    backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+                />
+            {:else if activity.type === ActivityType.Alias}
+                <Avatar
+                    icon={IconName.Alias}
+                    size="lg"
+                    textColor="brand"
+                    backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+                />
             {/if}
         </div>
-    {/if}
+        <div class="flex-grow flex flex-col items-start justify-between shrink-0">
+            <Text>
+                {title}
+            </Text>
+            <div class="flex">
+                {#if pill}
+                    {#if pill === 'unclaimed'}
+                        <UnclaimedActivityPill {timeDiff} direction={activity.direction} />
+                    {:else if pill === 'expired'}
+                        <ExpiredActivityPill />
+                    {:else if pill === 'timelock'}
+                        <TimelockActivityPill {timeDiff} />
+                    {/if}
+                {/if}
+            </div>
+        </div>
+    </div>
 </div>
