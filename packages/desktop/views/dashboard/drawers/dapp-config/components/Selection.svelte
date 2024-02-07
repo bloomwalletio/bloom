@@ -19,8 +19,12 @@
         if (allChecked) {
             selectionOptions = selectionOptions.map((option) => ({ ...option, checked: true }))
         } else {
-            selectionOptions = selectionOptions.map((option) => ({ ...option, checked: false }))
+            selectionOptions = selectionOptions.map((option) => ({ ...option, checked: false || option.required }))
         }
+    }
+
+    $: {
+        allChecked = selectionOptions.every((option) => option.checked)
     }
 </script>
 
