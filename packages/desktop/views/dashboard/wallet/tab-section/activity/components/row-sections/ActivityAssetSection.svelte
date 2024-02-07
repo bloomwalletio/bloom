@@ -14,6 +14,7 @@
     import { time } from '@core/app/stores'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { Nft } from '@core/nfts/interfaces'
+    import { getActivityActionColor } from './getActivityActionColor'
 
     export let activity: Activity
 
@@ -28,6 +29,8 @@
                 : undefined)
 
     $: $time, activity, setPill()
+    $: color = getActivityActionColor(activity, $darkMode)
+
     let pill: 'timelock' | 'unclaimed' | 'expired' | undefined = undefined
     let timeDiff: string | undefined
 
@@ -98,8 +101,8 @@
             {/if}
         </div>
         <div class="flex-grow flex flex-col items-start justify-between shrink-0">
-            <div class="flex flex-row">
-                <Text>{localize(getActivityTileAction(activity))}</Text>
+            <div class="flex flex-row gap-1">
+                <Text customColor={color}>{localize(getActivityTileAction(activity))}</Text>
                 <Text>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
             </div>
             <div class="flex">

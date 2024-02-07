@@ -2,7 +2,7 @@ import { ActivityAction, ActivityDirection, ActivityType, GovernanceAction, Incl
 import { Activity } from '../types'
 
 export function getActivityTileAction(activity: Activity): string | undefined {
-    const { type, isInternal, direction, inclusionState, action } = activity
+    const { isInternal, direction, inclusionState, action } = activity
     const isConfirmed = inclusionState === InclusionState.Confirmed
 
     if (activity.type === ActivityType.Basic && activity.isShimmerClaiming) {
@@ -28,9 +28,9 @@ export function getActivityTileAction(activity: Activity): string | undefined {
     } else if (activity.type === ActivityType.Consolidation) {
         return isConfirmed ? 'general.consolidated' : 'general.consolidating'
     } else if (action === ActivityAction.Mint) {
-        return isConfirmed ? `general.minted${type}` : `general.minting${type}`
+        return isConfirmed ? 'general.minted' : 'general.minting'
     } else if (action === ActivityAction.Burn) {
-        return isConfirmed ? `general.burned${type}` : `general.burning${type}`
+        return isConfirmed ? 'general.burned' : 'general.burning'
     } else if (action === ActivityAction.BalanceChange) {
         return direction === ActivityDirection.Outgoing ? 'general.balanceDecreased' : 'general.balanceIncreased'
     } else if (action === ActivityAction.InitialBalance) {
