@@ -34,7 +34,6 @@
 <activity-tab>
     <header-row>
         <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.activity')}</Text>
-        <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.action')}</Text>
         <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.date')}</Text>
         <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.address')}</Text>
         <div class="text-end">
@@ -85,7 +84,7 @@
             @apply border-y border-solid border-stroke dark:border-stroke-dark;
 
             @apply grid;
-            grid-template-columns: 3fr 2fr 2fr 2fr 2fr 2fr;
+            grid-template-columns: 3fr 2fr 2fr 2fr 2fr;
         }
 
         info-section {

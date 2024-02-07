@@ -71,7 +71,7 @@
 
 <div class="flex justify-center gap-4 h-full w-full">
     <div class="account-panel flex flex-col gap-4">
-        <TransakConnectionPanel />
+        <TransakConnectionPanel refreshFunction={resetTransak} />
         <TransakAccountPanel />
     </div>
     <div class="transak-panel" bind:this={transakContainer}>

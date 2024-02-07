@@ -1,8 +1,9 @@
-import { BrowserWindow, app, shell } from 'electron'
+import { BrowserWindow, app, shell, screen } from 'electron'
 import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
+import { TRANSAK_WIDGET_URL } from '@auxiliary/transak'
 
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
@@ -113,12 +114,33 @@ export default class TransakManager implements ITransakManager {
 
                 const menuHeight = mainWindowHeight - bodyHeight
 
+                const newX = Math.floor(mainWindowX + this.rect.x)
+                const newY = Math.floor(mainWindowY + menuHeight + this.rect.y)
+
                 windows.transak.setBounds({
-                    x: Math.floor(mainWindowX + this.rect.x),
-                    y: Math.floor(mainWindowY + menuHeight + this.rect.y),
+                    x: newX,
+                    y: newY,
                     height: this.rect.height,
                     width: this.rect.width,
                 })
+
+                if (process.platform === 'linux') {
+                    const windowBounds = windows.transak.getBounds()
+                    const nearestDisplay = screen.getDisplayNearestPoint({ x: windowBounds.x, y: windowBounds.y })
+                    const displayBounds = nearestDisplay.bounds
+
+                    const isOutOfBounds =
+                        windowBounds.x < displayBounds.x ||
+                        windowBounds.y < displayBounds.y ||
+                        windowBounds.x + windowBounds.width > displayBounds.x + displayBounds.width ||
+                        windowBounds.y + windowBounds.height > displayBounds.y + displayBounds.height
+
+                    if (isOutOfBounds) {
+                        windows.transak.hide()
+                    } else if (!windows.transak.isVisible()) {
+                        windows.transak.show()
+                    }
+                }
             }
         } catch (error) {
             console.error('positionWindow error', error)
@@ -127,10 +149,8 @@ export default class TransakManager implements ITransakManager {
 
     private getUrl(data: ITransakWindowData): string {
         const { address, currency, service } = data
-        const stage = app.isPackaged ? 'production' : 'staging'
         const apiKey = process.env.TRANSAK_API_KEY
 
-        const transakUrl = stage === 'production' ? 'https://global.transak.com' : 'https://global-stg.transak.com'
-        return `${transakUrl}/?apiKey=${apiKey}&defaultFiatCurrency=${currency}&walletAddress=${address}&productsAvailed=${service}&cryptoCurrencyCode=IOTA&network=miota&themeColor=7C41C9&hideMenu=true`
+        return `${TRANSAK_WIDGET_URL}/?apiKey=${apiKey}&defaultFiatCurrency=${currency}&walletAddress=${address}&productsAvailed=${service}&cryptoCurrencyCode=IOTA&network=miota&themeColor=7C41C9&hideMenu=true`
     }
 }
