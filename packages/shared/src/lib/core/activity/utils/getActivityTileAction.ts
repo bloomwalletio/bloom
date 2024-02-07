@@ -37,7 +37,7 @@ export function getActivityTileAction(activity: Activity): string | undefined {
         return 'general.initialBalance'
     } else if (action === ActivityAction.Send) {
         const isReceived = [
-            direction === ActivityDirection.Incoming,
+            ActivityDirection.Incoming,
             ActivityDirection.SelfTransaction,
             ActivityDirection.Genesis,
         ].includes(direction)
