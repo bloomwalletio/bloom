@@ -36,24 +36,19 @@ export function getActivityTileAction(activity: Activity): string | undefined {
     } else if (action === ActivityAction.InitialBalance) {
         return 'general.initialBalance'
     } else if (action === ActivityAction.Send) {
-        if (isInternal) {
-            if (direction === ActivityDirection.Incoming || direction === ActivityDirection.SelfTransaction) {
-                return isConfirmed ? 'general.transferIn' : 'general.transferringIn'
-            }
-            if (direction === ActivityDirection.Outgoing) {
-                return isConfirmed ? 'general.transferOut' : 'general.transferringOut'
-            }
-        }
-        if (
-            direction === ActivityDirection.Incoming ||
-            direction === ActivityDirection.SelfTransaction ||
-            direction === ActivityDirection.Genesis
-        ) {
+        const isReceived = [
+            direction === ActivityDirection.Incoming,
+            ActivityDirection.SelfTransaction,
+            ActivityDirection.Genesis,
+        ].includes(direction)
+        if (isReceived) {
             return isConfirmed ? 'general.received' : 'general.receiving'
         }
-        if (direction === ActivityDirection.Outgoing) {
-            return isConfirmed ? 'general.sent' : 'general.sending'
+
+        if (isInternal) {
+            return isConfirmed ? 'general.transferred' : 'general.transferring'
         }
+        return isConfirmed ? 'general.sent' : 'general.sending'
     } else {
         return 'general.unknown'
     }

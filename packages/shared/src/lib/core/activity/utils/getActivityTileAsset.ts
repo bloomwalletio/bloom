@@ -17,10 +17,12 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
     } else if (activity.type === ActivityType.SmartContract) {
         return localize('general.smartContract')
     } else if (activity.type === ActivityType.Alias) {
-        return 'Alias'
+        return 'Alias ' + truncateString(activity.aliasId, 7, 7)
     } else if (activity.type === ActivityType.Consolidation) {
-        return 'Consolidation'
+        return ''
     } else if (activity.type === ActivityType.Governance) {
-        return 'Governance'
+        return ''
+    } else {
+        return ''
     }
 }
