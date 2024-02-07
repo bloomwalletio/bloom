@@ -1,7 +1,13 @@
 <script lang="ts">
     import { ITokenWithBalance } from '@core/token'
     import { ExpiredActivityPill, TimelockActivityPill, NftAvatar, TokenAvatar, UnclaimedActivityPill } from '@ui'
-    import { ActivityType, getActivityTileAction, getActivityTileAsset } from '@core/activity'
+    import {
+        ActivityType,
+        getActivityActionColor,
+        getActivityActionPill,
+        getActivityTileAction,
+        getActivityTileAsset,
+    } from '@core/activity'
     import { selectedAccountTokens } from '@core/token/stores'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { selectedAccountIndex } from '@core/account/stores'
@@ -13,8 +19,6 @@
     import { time } from '@core/app/stores'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { Nft } from '@core/nfts/interfaces'
-    import { getActivityActionColor } from './getActivityActionColor'
-    import { getActivityActionPill } from './getActivityActionPill'
 
     export let activity: Activity
 
