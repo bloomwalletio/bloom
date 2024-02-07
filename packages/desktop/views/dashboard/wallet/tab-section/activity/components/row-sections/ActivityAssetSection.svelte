@@ -1,8 +1,7 @@
 <script lang="ts">
     import { ITokenWithBalance } from '@core/token'
-    import { truncateString } from '@core/utils'
     import { ExpiredActivityPill, TimelockActivityPill, NftAvatar, TokenAvatar, UnclaimedActivityPill } from '@ui'
-    import { ActivityType } from '@core/activity'
+    import { ActivityType, getActivityTileAction, getActivityTileAsset } from '@core/activity'
     import { selectedAccountTokens } from '@core/token/stores'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { selectedAccountIndex } from '@core/account/stores'
@@ -28,27 +27,7 @@
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined)
 
-    let title: string | undefined
-    $: setTitle(activity)
-
-    function setTitle(_activity: Activity): void {
-        if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
-            title = token.metadata.name ? truncateString(token.metadata.name, 13, 0) : truncateString(token.id, 6, 7)
-        } else if (_activity.type === ActivityType.Nft) {
-            title = nft?.name ? truncateString(nft.name, 13, 0) : 'NFT'
-        } else if (_activity.type === ActivityType.SmartContract) {
-            title = localize('general.smartContract')
-        } else if (_activity.type === ActivityType.Alias) {
-            title = 'Alias'
-        } else if (_activity.type === ActivityType.Consolidation) {
-            title = 'Consolidation'
-        } else if (_activity.type === ActivityType.Governance) {
-            title = 'Governance'
-        }
-    }
-
     $: $time, activity, setPill()
-
     let pill: 'timelock' | 'unclaimed' | 'expired' | undefined = undefined
     let timeDiff: string | undefined
 
@@ -119,18 +98,17 @@
             {/if}
         </div>
         <div class="flex-grow flex flex-col items-start justify-between shrink-0">
-            <Text>
-                {title}
-            </Text>
+            <div class="flex flex-row">
+                <Text>{localize(getActivityTileAction(activity))}</Text>
+                <Text>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
+            </div>
             <div class="flex">
-                {#if pill}
-                    {#if pill === 'unclaimed'}
-                        <UnclaimedActivityPill {timeDiff} direction={activity.direction} />
-                    {:else if pill === 'expired'}
-                        <ExpiredActivityPill />
-                    {:else if pill === 'timelock'}
-                        <TimelockActivityPill {timeDiff} />
-                    {/if}
+                {#if pill === 'unclaimed'}
+                    <UnclaimedActivityPill {timeDiff} direction={activity.direction} />
+                {:else if pill === 'expired'}
+                    <ExpiredActivityPill />
+                {:else if pill === 'timelock'}
+                    <TimelockActivityPill {timeDiff} />
                 {/if}
             </div>
         </div>

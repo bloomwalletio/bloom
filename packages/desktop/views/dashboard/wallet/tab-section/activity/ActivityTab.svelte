@@ -34,7 +34,6 @@
 <activity-tab>
     <header-row>
         <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.activity')}</Text>
-        <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.action')}</Text>
         <Text type="sm" fontWeight="medium" textColor="secondary">{localize('views.dashboard.activity.address')}</Text>
         <div class="text-end">
             <Text type="sm" fontWeight="medium" textColor="secondary">
