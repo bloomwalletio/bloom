@@ -12,24 +12,7 @@ module.exports = {
     content: [...SHARED_CONTENT_ROUTES, ...NODE_MODULES_ROUTES, ...DESKTOP_CONTENT_ROUTES],
     presets: [BLOOM_UI_PRESET],
     plugins: [exposeDarkModeStrategy],
-    safelist: [
-        {
-            pattern: /^bg-/,
-            variants: ['dark'],
-        },
-        {
-            pattern: /^border-/,
-        },
-        {
-            pattern: /^text-/,
-        },
-        {
-            pattern: /^col-span-/,
-        },
-        {
-            pattern: /^shadow/,
-        },
-    ].concat(BLOOM_UI_PRESET?.safelist),
+    safelist: [BLOOM_UI_PRESET?.safelist],
     theme: {
         extend: {
             ...BLOOM_UI_PRESET?.theme?.extend,
