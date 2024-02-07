@@ -44,7 +44,7 @@
             <NftAvatar {nft} size="lg" shape="square" />
         {:else if activity.type === ActivityType.SmartContract}
             <Avatar
-                icon={IconName.FileLock}
+                icon={IconName.FileCode}
                 size="lg"
                 textColor="brand"
                 backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
