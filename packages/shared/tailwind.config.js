@@ -12,7 +12,6 @@ module.exports = {
     content: [...SHARED_CONTENT_ROUTES, ...NODE_MODULES_ROUTES, ...DESKTOP_CONTENT_ROUTES],
     presets: [BLOOM_UI_PRESET],
     plugins: [exposeDarkModeStrategy],
-    safelist: [BLOOM_UI_PRESET?.safelist],
     theme: {
         extend: {
             ...BLOOM_UI_PRESET?.theme?.extend,
