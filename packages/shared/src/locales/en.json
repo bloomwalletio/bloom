@@ -1715,6 +1715,9 @@
         "disconnectDapp": {
             "success": "Disconnected from {dappName}"
         },
+        "clearExpiredDapps": {
+            "success": "Expired dApps cleared"
+        },
         "removeDapp": {
             "success": "{dappName} removed"
         },

@@ -18,11 +18,11 @@
             icon: IconName.Trash,
             title: localize(`${localeKey}.actions.clearExpired`),
             variant: 'danger',
-            onClick: onDisconnectClick,
+            onClick: onClearClick,
         } as IMenuItem,
     ]
 
-    function onDisconnectClick(): void {
+    function onClearClick(): void {
         openPopup({
             id: PopupId.Confirmation,
             props: {
@@ -34,7 +34,7 @@
                         removeAllDisconnectedDapps()
                         showNotification({
                             variant: 'success',
-                            text: localize('notifications.disconnectDapp.success'),
+                            text: localize('notifications.clearExpiredDapps.success'),
                         })
                         closePopup()
                         drawerRouter.previous()
