@@ -32,45 +32,43 @@
     $: pill = getActivityActionPill(activity, $time)
 </script>
 
-<div class="w-full flex flex-row justify-between">
-    <div class="w-full flex flex-row gap-4 items-center">
-        <div class="py-1">
-            {#if token}
-                <TokenAvatar {token} hideNetworkBadge size="lg" />
-            {:else if activity.type === ActivityType.Nft}
-                <NftAvatar {nft} size="lg" shape="square" />
-            {:else if activity.type === ActivityType.SmartContract}
-                <Avatar
-                    icon={IconName.FileLock}
-                    size="lg"
-                    textColor="brand"
-                    backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-                />
-            {:else if activity.type === ActivityType.Alias}
-                <Avatar
-                    icon={IconName.Alias}
-                    size="lg"
-                    textColor="brand"
-                    backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-                />
-            {/if}
+<div class="flex flex-row gap-4 items-center overflow-hidden">
+    <div class="py-1">
+        {#if token}
+            <TokenAvatar {token} hideNetworkBadge size="lg" />
+        {:else if activity.type === ActivityType.Nft}
+            <NftAvatar {nft} size="lg" shape="square" />
+        {:else if activity.type === ActivityType.SmartContract}
+            <Avatar
+                icon={IconName.FileLock}
+                size="lg"
+                textColor="brand"
+                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+            />
+        {:else if activity.type === ActivityType.Alias}
+            <Avatar
+                icon={IconName.Alias}
+                size="lg"
+                textColor="brand"
+                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+            />
+        {/if}
+    </div>
+    <div class="flex flex-col items-start justify-between overflow-hidden">
+        <div class="w-full flex flex-row gap-1 overflow-hidden">
+            <Text customColor={color}>{localize(getActivityTileAction(activity))}</Text>
+            <Text truncate>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
         </div>
-        <div class="flex-grow flex flex-col items-start justify-between shrink-0">
-            <div class="flex flex-row gap-1">
-                <Text customColor={color}>{localize(getActivityTileAction(activity))}</Text>
-                <Text>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
-            </div>
-            <div class="flex">
-                {#if pill}
-                    {#if pill.type === 'unclaimed'}
-                        <UnclaimedActivityPill timeDiff={pill.timeDiff} direction={activity.direction} />
-                    {:else if pill.type === 'expired'}
-                        <ExpiredActivityPill />
-                    {:else if pill.type === 'timelock'}
-                        <TimelockActivityPill timeDiff={pill.timeDiff} />
-                    {/if}
+        <div class="flex">
+            {#if pill}
+                {#if pill.type === 'unclaimed'}
+                    <UnclaimedActivityPill timeDiff={pill.timeDiff} direction={activity.direction} />
+                {:else if pill.type === 'expired'}
+                    <ExpiredActivityPill />
+                {:else if pill.type === 'timelock'}
+                    <TimelockActivityPill timeDiff={pill.timeDiff} />
                 {/if}
-            </div>
+            {/if}
         </div>
     </div>
 </div>
