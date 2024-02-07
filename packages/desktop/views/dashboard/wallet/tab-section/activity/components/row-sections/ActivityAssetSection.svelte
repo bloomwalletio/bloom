@@ -9,12 +9,12 @@
     import { IconName, Avatar, Text } from '@bloomwalletio/ui'
     import { darkMode } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
-    import { getTimeDifference } from '@core/utils/time'
+    import { Activity } from '@core/activity'
     import { time } from '@core/app/stores'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { Nft } from '@core/nfts/interfaces'
     import { getActivityActionColor } from './getActivityActionColor'
+    import { getActivityActionPill } from './getActivityActionPill'
 
     export let activity: Activity
 
@@ -28,53 +28,8 @@
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined)
 
-    $: $time, activity, setPill()
     $: color = getActivityActionColor(activity, $darkMode)
-
-    let pill: 'timelock' | 'unclaimed' | 'expired' | undefined = undefined
-    let timeDiff: string | undefined
-
-    function setPill(): void {
-        if (!activity?.asyncData?.asyncStatus) {
-            pill = undefined
-            return
-        }
-
-        const { asyncStatus, expirationDate, timelockDate } = activity.asyncData
-
-        switch (asyncStatus) {
-            case ActivityAsyncStatus.Claimed: {
-                pill = undefined
-                break
-            }
-            case ActivityAsyncStatus.Timelocked: {
-                if (activity.direction === ActivityDirection.Outgoing) {
-                    if (expirationDate) {
-                        timeDiff = getTimeDifference(expirationDate, $time)
-                        pill = 'unclaimed'
-                    } else {
-                        pill = undefined
-                    }
-                } else {
-                    timeDiff = getTimeDifference(timelockDate, $time)
-                    pill = 'timelock'
-                }
-                break
-            }
-            case ActivityAsyncStatus.Unclaimed: {
-                timeDiff = expirationDate ? getTimeDifference(expirationDate, $time) : undefined
-                pill = 'unclaimed'
-                break
-            }
-            case ActivityAsyncStatus.Expired: {
-                pill = 'expired'
-                break
-            }
-            default: {
-                pill = undefined
-            }
-        }
-    }
+    $: pill = getActivityActionPill(activity, $time)
 </script>
 
 <div class="w-full flex flex-row justify-between">
@@ -106,12 +61,14 @@
                 <Text>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
             </div>
             <div class="flex">
-                {#if pill === 'unclaimed'}
-                    <UnclaimedActivityPill {timeDiff} direction={activity.direction} />
-                {:else if pill === 'expired'}
-                    <ExpiredActivityPill />
-                {:else if pill === 'timelock'}
-                    <TimelockActivityPill {timeDiff} />
+                {#if pill}
+                    {#if pill.type === 'unclaimed'}
+                        <UnclaimedActivityPill timeDiff={pill.timeDiff} direction={activity.direction} />
+                    {:else if pill.type === 'expired'}
+                        <ExpiredActivityPill />
+                    {:else if pill.type === 'timelock'}
+                        <TimelockActivityPill timeDiff={pill.timeDiff} />
+                    {/if}
                 {/if}
             </div>
         </div>
