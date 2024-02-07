@@ -9,7 +9,7 @@ export function getActivityTileAction(activity: Activity): string | undefined {
         return isConfirmed ? 'general.shimmerClaimed' : 'general.shimmerClaiming'
     }
     if (activity.type === ActivityType.SmartContract) {
-        return 'general.smartContract'
+        return 'general.contractCall'
     }
     if (activity.type === ActivityType.Governance) {
         if (activity.governanceAction === GovernanceAction.IncreaseVotingPower) {

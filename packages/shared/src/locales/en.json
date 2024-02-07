@@ -1492,6 +1492,7 @@
         "immutableIssuer": "Immutable Issuer",
         "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
+        "contractCall": "Contract call",
         "targetContract": "Target contract",
         "contractFunction": "Contract function",
         "standard": "Standard",
