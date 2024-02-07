@@ -8,16 +8,24 @@ const DEFAULT_MAX_DECIMALS = 6
 export function formatTokenAmountBestMatch(
     amount: bigint,
     tokenMetadata: TokenMetadata,
-    withUnit = true,
-    round = true
+    options?: Partial<{
+        withUnit: boolean
+        round: boolean
+    }>
 ): string {
-    const unit = withUnit ? getUnitFromTokenMetadata(tokenMetadata) : undefined
+    const defaultOptions = {
+        withUnit: true,
+        round: true,
+    }
+    const mergedOptions = { ...defaultOptions, ...options }
+
+    const unit = mergedOptions.withUnit ? getUnitFromTokenMetadata(tokenMetadata) : undefined
 
     if (typeof amount !== 'bigint') {
         return '-'
     }
 
-    const stringAmount = getStringAmountFromBigInt(amount, round, tokenMetadata?.decimals)
+    const stringAmount = getStringAmountFromBigInt(amount, mergedOptions.round, tokenMetadata?.decimals)
     return getAmountWithUnit(stringAmount, unit)
 }
 
