@@ -4,8 +4,8 @@
         getPersistedDappNamespacesForDapp,
         setSelectedDapp,
     } from '@auxiliary/wallet-connect/stores'
-    import { Button, IconName, Tabs } from '@bloomwalletio/ui'
-    import { DrawerTemplate, EmptyListPlaceholder } from '@components'
+    import { Button, IconName, Tabs, Text } from '@bloomwalletio/ui'
+    import { DappListActionsMenu, DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import DappCard from '../components/DappCard.svelte'
@@ -15,14 +15,15 @@
 
     export let drawerRouter: Router<unknown>
 
+    const localeKey = 'views.dashboard.drawers.dapps.dappsList'
     const tabs = [
         {
-            key: localize('views.dashboard.drawers.dapps.dappsList.paired.tab'),
-            value: localize('views.dashboard.drawers.dapps.dappsList.paired.tab'),
+            key: localize(`${localeKey}.paired.tab`),
+            value: localize(`${localeKey}.paired.tab`),
         },
         {
-            key: localize('views.dashboard.drawers.dapps.dappsList.expired.tab'),
-            value: localize('views.dashboard.drawers.dapps.dappsList.expired.tab'),
+            key: localize(`${localeKey}.expired.tab`),
+            value: localize(`${localeKey}.expired.tab`),
         },
     ]
     let selectedTab = tabs[0]
@@ -50,7 +51,11 @@
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.dapps.dappsList.title')} {drawerRouter}>
+<DrawerTemplate {drawerRouter}>
+    <div slot="header" class="flex flex-row items-center w-full justify-between">
+        <Text type="h6">{localize(`${localeKey}.title`)}</Text>
+        <DappListActionsMenu {drawerRouter} />
+    </div>
     <div class="px-6 pb-6">
         <Tabs bind:selectedTab bind:selectedIndex {tabs} />
     </div>
