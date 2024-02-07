@@ -5,6 +5,7 @@
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
     import { handleError } from '@core/error/handlers'
+    import { removeAllDisconnectedDapps } from '@auxiliary/wallet-connect/actions/removeAllDisconnectedDapps'
 
     export let drawerRouter: Router<unknown>
 
@@ -30,6 +31,7 @@
                 variant: 'danger',
                 onConfirm: () => {
                     try {
+                        removeAllDisconnectedDapps()
                         showNotification({
                             variant: 'success',
                             text: localize('notifications.disconnectDapp.success'),

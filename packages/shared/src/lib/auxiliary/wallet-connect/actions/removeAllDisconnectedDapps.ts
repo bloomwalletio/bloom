@@ -1,8 +1,12 @@
-import { connectedDapps, getPersistedDappNamespacesForDapp, getWalletClient } from '../stores'
+import {
+    connectedDapps,
+    getPersistedDappNamespacesForDapp,
+    getWalletClient,
+    removeDappNamespacesForDapp,
+} from '../stores'
 import { get } from 'svelte/store'
-import { removeDapp } from './removeDapp'
 
-export async function removeAllDisconnectedDapps(): Promise<void> {
+export function removeAllDisconnectedDapps(): void {
     const client = getWalletClient()
     if (!client) {
         return
@@ -13,6 +17,8 @@ export async function removeAllDisconnectedDapps(): Promise<void> {
     )
 
     for (const dapp of connectedDappsForProfile) {
-        await removeDapp(dapp)
+        if (dapp.metadata) {
+            removeDappNamespacesForDapp(dapp.metadata.url)
+        }
     }
 }
