@@ -5,6 +5,7 @@
     import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { Router } from '@core/router'
     import { Animation, FontWeight, Icon, Pane, Text, TextType } from '@ui'
+    import { Icon as IconName } from '@auxiliary/icon'
     import { NetworkConfigRoute, networkConfigRouter } from '../'
 
     export let drawerRouter: Router<NetworkConfigRoute>
@@ -42,10 +43,10 @@
                 {#each requirements as [bool, locale], idx}
                     <div class="flex flex-row items-center space-x-2 p-4">
                         <Icon
-                            icon={`status-${bool ? 'success' : 'error'}`}
-                            classes={`text-white bg-${bool ? 'green' : 'red'}-600 rounded-full`}
+                            icon={bool ? IconName.StatusSuccess : IconName.StatusError}
+                            classes={`text-white ${bool ? 'bg-green' : 'bg-red'}-600 rounded-full`}
                         />
-                        <Text type="p" fontWeight={FontWeight.semibold}
+                        <Text type={TextType.p} fontWeight={FontWeight.semibold}
                             >{localize(`${LOCALE_BASE_PATH}.requirements.${locale}`)}</Text
                         >
                     </div>
