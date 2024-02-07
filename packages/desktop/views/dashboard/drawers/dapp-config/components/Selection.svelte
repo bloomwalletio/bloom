@@ -23,9 +23,7 @@
         }
     }
 
-    $: {
-        allChecked = selectionOptions.every((option) => option.checked)
-    }
+    $: allChecked = selectionOptions.every((option) => option.checked)
 </script>
 
 <selection-component class="flex flex-col gap-4">
