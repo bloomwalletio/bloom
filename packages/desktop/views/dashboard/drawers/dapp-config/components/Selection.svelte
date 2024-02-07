@@ -29,11 +29,13 @@
 </script>
 
 <selection-component class="flex flex-col gap-4">
-    <div class="flex flex-row justify-between items-center">
+    <div class="flex flex-row justify-between items-center px-4">
         <Text textColor="secondary">{title}</Text>
-        <Checkbox size="md" on:click={onAllClick} bind:checked={allChecked} />
+        <div class="flex flex-row items-center gap-3">
+            <Text textColor="secondary">{localize('general.all')}</Text>
+            <Checkbox size="md" on:click={onAllClick} bind:checked={allChecked} />
+        </div>
     </div>
-
     <selection-options>
         {#each selectionOptions as option, index}
             <div class="w-full flex flex-row items-center justify-between p-4">
