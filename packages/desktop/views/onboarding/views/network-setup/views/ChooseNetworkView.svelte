@@ -97,7 +97,6 @@
             icon={IconName.Iota}
             iconSize="md"
             iconColor="#ffffff"
-            backgroundColor="black"
             hidden={features?.onboarding?.[OnboardingNetworkType.Iota]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Iota]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Iota)}
@@ -112,9 +111,7 @@
             )}
             icon={IconName.Shimmer}
             iconSize="md"
-            iconColor="blue"
-            iconColorShade="900"
-            backgroundColor="shimmer"
+            iconColor="blue-900"
             hidden={features?.onboarding?.[OnboardingNetworkType.Shimmer]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Shimmer]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Shimmer)}
