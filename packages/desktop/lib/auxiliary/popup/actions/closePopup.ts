@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
-import { modifyPopupState } from '../helpers'
 import { popupState } from '../stores'
+import { modifyPopupState } from './modifyPopupState'
 
 export function closePopup(options?: { forceClose?: boolean; callOnCancel?: boolean }): void {
     const props = get(popupState).props
