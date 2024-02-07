@@ -356,7 +356,8 @@
                 "amount": "Amount",
                 "fee": "Fee",
                 "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
-                "consolidatedOutputs": "{amount} outputs consolidated"
+                "consolidatedOutputs": "{amount} outputs consolidated",
+                "unverifiedContract": "Unverified Contract"
             },
             "profileMenu": {
                 "allSettings": "All settings",

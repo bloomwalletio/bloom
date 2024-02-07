@@ -28,7 +28,7 @@
             standardPill = nft?.standard ?? ''
             typePill = 'NFT'
         } else if (activity.type === ActivityType.SmartContract) {
-            typePill = 'Smart Contract'
+            typePill = localize('views.dashboard.activity.unverifiedContract')
             standardPill = ''
         } else if (activity.type === ActivityType.Alias) {
             typePill = 'Alias'
