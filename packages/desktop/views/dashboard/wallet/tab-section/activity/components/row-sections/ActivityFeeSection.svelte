@@ -23,8 +23,9 @@
     }
 
     function getFormattedMarketPrice(_activity: Activity): string | undefined {
-        if (_activity.transactionFee) {
-            const marketPrice = getFiatValueFromTokenAmount(_activity.transactionFee, token)
+        const baseCoin = $selectedAccountTokens?.[activity.sourceNetworkId]?.baseCoin
+        if (_activity.transactionFee && baseCoin) {
+            const marketPrice = getFiatValueFromTokenAmount(_activity.transactionFee, baseCoin)
             return marketPrice ? formatCurrency(marketPrice) : '-'
         } else {
             return undefined
