@@ -492,6 +492,13 @@
                             "tab": "Expired",
                             "emptyTitle": "No apps found",
                             "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "actions": {
+                            "clearExpired": "Clear expired list"
+                        },
+                        "clearExpired": {
+                            "title": "Clear expired list",
+                            "description": "Are you sure you want to clear the list of expired dApp connections?"
                         }
                     },
                     "inputConnectionCode": {
@@ -1706,6 +1713,9 @@
         },
         "disconnectDapp": {
             "success": "Disconnected from {dappName}"
+        },
+        "clearExpiredDapps": {
+            "success": "Expired dApps cleared"
         },
         "removeDapp": {
             "success": "{dappName} removed"
