@@ -3,11 +3,16 @@ import { MethodRegistry } from 'eth-method-registry'
 import HttpProvider from '@metamask/ethjs-provider-http'
 import { ETHEREUM_MAINNET_NODE } from '../constants'
 import { EvmTransactionData } from '../types'
+import featuresObject from '@features/features'
 
 export async function getMethodNameForEvmTransaction(evmTransactionData: EvmTransactionData): Promise<string> {
     const data = String(evmTransactionData.data ?? '')
     const fourBytePrefix = data.substring(0, 10)
     try {
+        if (!featuresObject.wallet.smartContracts.infuraRegistry.enabled) {
+            return fourBytePrefix
+        }
+
         const provider = new HttpProvider(ETHEREUM_MAINNET_NODE)
         const registry = new MethodRegistry({ provider, network: '1' })
         const result = await registry.lookup(fourBytePrefix)
