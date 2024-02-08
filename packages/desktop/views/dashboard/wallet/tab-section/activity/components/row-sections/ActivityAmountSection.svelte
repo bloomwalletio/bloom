@@ -32,7 +32,7 @@
             return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
         } else if (_activity.type === ActivityType.Nft) {
             const nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, _activity.nftId)
-            return nft?.name ? truncateString(nft.name, 13, 0) : truncateString(nft.id, 7, 7)
+            return nft?.name ? truncateString(nft.name, 13, 0) : truncateString(nft?.id, 7, 7)
         } else {
             return '-'
         }
