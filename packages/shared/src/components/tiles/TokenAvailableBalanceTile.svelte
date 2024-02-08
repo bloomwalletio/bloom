@@ -24,7 +24,7 @@
                     </Text>
                     <div class="flex flex-row justify-between items-center text-left">
                         <Text textColor="secondary" fontWeight="medium">
-                            {formatTokenAmountBestMatch(availableBalance, token.metadata, true, false)}
+                            {formatTokenAmountBestMatch(availableBalance, token.metadata, { round: false })}
                         </Text>
                     </div>
                 </div>
