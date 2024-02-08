@@ -1566,7 +1566,10 @@
         "draft": "Draft",
         "upcoming": "Upcoming",
         "featured": "Featured",
-        "raffle": "Raffle"
+        "raffle": "Raffle",
+        "governance": "Governance",
+        "baseCoin": "Base Coin",
+        "unverifiedContract": "Unverified Contract"
     },
     "filters":{
         "title": "Filters",

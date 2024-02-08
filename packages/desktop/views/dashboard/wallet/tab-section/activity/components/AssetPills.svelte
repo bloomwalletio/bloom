@@ -51,7 +51,7 @@
     <div class="flex flex-row gap-2">
         {#if typePill}
             <Pill color="neutral" compact>
-                {localize(`views.dashboard.activity.type.${typePill}`)}
+                {localize(`general.${typePill}`)}
             </Pill>
         {/if}
         {#if standardPill}
