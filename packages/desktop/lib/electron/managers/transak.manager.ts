@@ -82,10 +82,22 @@ export default class TransakManager implements ITransakManager {
             }
         })
 
+        // const currentUserAgent = windows.transak.webContents.getUserAgent()
+        // const newUserAgent = currentUserAgent.replace(/Electron\/[^\s]+\s*/, '') // Necessary for Google Pay to work
+        // windows.transak.webContents.setUserAgent(newUserAgent)
+
         const url = this.getUrl(data)
         void windows.transak.loadURL(url)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
+            // console.log(url)
+            // if (!url.includes(TRANSAK_WIDGET_URL)) {
+            // }
+            
+            // if (url.includes('https://pay.google.com')) {
+            //     return { action: 'allow' }
+            // }
+            
             void shell.openExternal(url)
             return { action: 'deny' }
         })
@@ -95,6 +107,14 @@ export default class TransakManager implements ITransakManager {
         windows.transak.webContents.addListener('did-navigate', (_, url) => {
             const _url = new URL(url)
             windows.main.webContents.send('transak-url', _url.origin)
+        })
+
+        windows.transak.webContents.addListener('will-navigate', (event) => {
+            // if (url.includes(TRANSAK_WIDGET_URL)) {
+            //     return
+            // }
+            event.preventDefault()
+            void shell.openExternal(event.url)
         })
 
         return windows.transak
