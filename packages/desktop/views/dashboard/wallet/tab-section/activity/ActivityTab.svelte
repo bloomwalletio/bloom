@@ -83,7 +83,7 @@
             @apply bg-surface-1 dark:bg-surface-1-dark;
             @apply border-y border-solid border-stroke dark:border-stroke-dark;
 
-            @apply grid;
+            @apply grid gap-8;
             grid-template-columns: 3fr 1fr 2fr 2fr 1fr;
         }
 

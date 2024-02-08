@@ -18,6 +18,7 @@ export function formatTokenAmountBestMatch(
     const defaultOptions = {
         withUnit: true,
         round: true,
+        decimals: tokenMetadata?.decimals,
     }
     const mergedOptions = { ...defaultOptions, ...options }
 
@@ -27,11 +28,21 @@ export function formatTokenAmountBestMatch(
         return '-'
     }
 
-    const stringAmount = getStringAmountFromBigInt(amount, mergedOptions.round, tokenMetadata?.decimals)
+    const stringAmount = getStringAmountFromBigInt(
+        amount,
+        mergedOptions.round,
+        tokenMetadata?.decimals,
+        mergedOptions.decimals
+    )
     return getAmountWithUnit(stringAmount, unit)
 }
 
-function getStringAmountFromBigInt(value: bigint, round: boolean, decimals?: number): string {
+function getStringAmountFromBigInt(
+    value: bigint,
+    round: boolean,
+    decimals: number | undefined,
+    maxDecimalLength: number | undefined
+): string {
     let stringValue = String(value)
 
     if (!decimals) {
@@ -55,11 +66,14 @@ function getStringAmountFromBigInt(value: bigint, round: boolean, decimals?: num
     integerPart = allIntegersZero ? '0' : getGroupedStringAmount(integerPart)
     stringAmountParts.push(integerPart)
 
-    const maxDecimalLength = Math.max(DEFAULT_MAX_DECIMALS - (integerPart.length - 1), 0)
+    const _maxDecimalLength =
+        maxDecimalLength !== undefined
+            ? Math.min(maxDecimalLength, DEFAULT_MAX_DECIMALS - (integerPart.length - 1))
+            : Math.max(DEFAULT_MAX_DECIMALS - (integerPart.length - 1), 0)
 
     let decimalPart = stringValue.slice(
         indexOfDecimalSeparator,
-        round ? indexOfDecimalSeparator + maxDecimalLength : undefined
+        round ? indexOfDecimalSeparator + _maxDecimalLength : undefined
     )
     const allDecimalsZero = decimalPart.split('').every((decimal) => decimal === '0')
     decimalPart = removeTrailingZero(decimalPart)
