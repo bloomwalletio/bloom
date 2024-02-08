@@ -4,6 +4,7 @@ import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
 import { TRANSAK_WIDGET_URL } from '@auxiliary/transak'
+import { validateUrlDomain } from '@core/utils/url'
 
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
@@ -52,7 +53,7 @@ export default class TransakManager implements ITransakManager {
             acceptFirstMouse: true,
             hasShadow: false,
             thickFrame: false,
-            roundedCorners: false,
+            roundedCorners: true,
             webPreferences: {
                 nodeIntegration: false,
                 contextIsolation: true,
@@ -90,14 +91,15 @@ export default class TransakManager implements ITransakManager {
         void windows.transak.loadURL(url)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
+            console.log('setWindowOpenHandler', url)
             // console.log(url)
             // if (!url.includes(TRANSAK_WIDGET_URL)) {
             // }
-            
-            // if (url.includes('https://pay.google.com')) {
-            //     return { action: 'allow' }
-            // }
-            
+
+            if (validateUrlDomain(url, 'google.com')) {
+               return { action: 'deny' }
+            }
+
             void shell.openExternal(url)
             return { action: 'deny' }
         })
@@ -110,9 +112,10 @@ export default class TransakManager implements ITransakManager {
         })
 
         windows.transak.webContents.addListener('will-navigate', (event) => {
-            // if (url.includes(TRANSAK_WIDGET_URL)) {
-            //     return
-            // }
+            if (validateUrlDomain(event.url, 'google.com')) {
+                return
+            }
+
             event.preventDefault()
             void shell.openExternal(event.url)
         })

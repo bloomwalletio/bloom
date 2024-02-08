@@ -152,7 +152,6 @@
                     <AutoUpdateToast />
                     <BackupToast />
                 {/if}
-                <VersionToast />
                 {#if $isSoftwareProfile}
                     <StrongholdStatusTile />
                 {:else}
