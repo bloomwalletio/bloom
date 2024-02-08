@@ -350,6 +350,7 @@
                 "activity": "Aktywność",
                 "asset": "Token",
                 "action": "Akcja",
+                "date": "Date",
                 "address": "Adres",
                 "amount": "Ilość",
                 "fee": "Opłata",
@@ -472,12 +473,12 @@
                         "title": "Połączone aplikacje dApp",
                         "connectDapp": "Połącz dApp",
                         "paired": {
-                            "tab": "Sparowano",
+                            "tab": "Sparowane",
                             "emptyTitle": "Nie znaleziono aplikacji",
                             "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
                         },
                         "expired": {
-                            "tab": "Wygasło",
+                            "tab": "Wygasłe",
                             "emptyTitle": "Nie znaleziono aplikacji",
                             "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
                         }
@@ -530,7 +531,7 @@
                         "accounts": {
                             "step": "Konta",
                             "title": "Wybierz konta",
-                            "tip": "Połącz się przy użyciu określonych kont, aby zarządzać środkami oddzielnie. Ty kontrolujesz, do czego dApp ma dostęp.",
+                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
                             "empty": "Musisz wybrać przynajmniej jedno konto"
                         }
                     },
@@ -599,22 +600,22 @@
         },
         "campaigns": {
             "gallery": {
-                "title": "Campaigns",
-                "emptyTitle": "No campaigns found",
-                "noResults": "No results found",
-                "emptyDescription": "Browse and participate in campaigns with Tide",
-                "emptyAction": "Visit Tide"
+                "title": "Kampanie",
+                "emptyTitle": "Nie znaleziono kampanii",
+                "noResults": "Brak wyników",
+                "emptyDescription": "Przeglądaj i bierz udział w kampaniach z Tide",
+                "emptyAction": "Odwiedź Tide"
             },
             "details": {
-                "top10": "Top 10 Leaderboard",
-                "myPosition": "My position",
-                "points": "Points",
-                "tasksComplete": "Tasks Complete",
-                "rewardsClaimed": "Rewards Claimed",
-                "project": "Project",
-                "campaign": "Campaign",
-                "nftBadge": "NFT Badge",
-                "noNftBadge": "No NFT Badge Claimed"
+                "top10": "10 najlepszych wyników",
+                "myPosition": "Moja pozycja",
+                "points": "Punkty",
+                "tasksComplete": "Zadania wykonane",
+                "rewardsClaimed": "Nagrody odebrane",
+                "project": "Projekt",
+                "campaign": "Kampania",
+                "nftBadge": "Odznaka NFT",
+                "noNftBadge": "Nie odebrano odznaki NFT"
             }
         },
         "governance": {
@@ -686,6 +687,11 @@
                 "receive": "Wybrane konto otrzyma tokeny bezpośrednio od Transak po autoryzacji metody płatności.",
                 "multipleAccounts": "Jeśli posiadasz kilka kont, możesz przełączyć je, zanim dokonasz zakupu.",
                 "changingAccounts": "Zmiana kont zresetuje wszystkie informacje."
+            },
+            "tooltip": {
+                "connected": "connected securely",
+                "redirected": "redirected, be careful!",
+                "disconnected": "disconnected, try refreshing"
             }
         }
     },
@@ -1182,7 +1188,7 @@
         },
         "receiveAddress": {
             "title": "Odbierz",
-            "body": "Otrzymuj tokeny, NFT i inne aktywa cyfrowe na swój adres konta podany poniżej.",
+            "body": "Otrzymuj tokeny, NFT i inne aktywa cyfrowe na swój poniższy adres konta.",
             "networkAddress": "Adres {networkName}"
         },
         "createAccount": {
@@ -1352,27 +1358,15 @@
         "revoting": "Odnawianie głosów",
         "unvoted": "Zatrzymano głos",
         "unvoting": "Wycofywanie głosu",
-        "transferIn": "Transfer przychodzący",
-        "transferringIn": "Odbieranie",
-        "transferOut": "Transfer wychodzący",
-        "transferringOut": "Wysyłanie",
+        "transferred": "Transferred",
+        "transferring": "Transferring",
         "shimmerClaimed": "Odebrano",
         "shimmerClaiming": "Odbieranie",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "Mintowano alias",
-        "mintingalias": "Mintowanie aliasu",
-        "mintednft": "Mintowane NFT",
-        "mintingnft": "Mintowanie NFT",
-        "mintedfoundry": "Mintowano token",
-        "mintingfoundry": "Mintowanie tokena",
-        "burnedalias": "Spalono alias",
-        "burningalias": "Spalanie aliasu",
-        "burnednft": "Spalono NFT",
-        "burningnft": "Spalanie NFT",
-        "burnedfoundry": "Spalono token",
-        "burningfoundry": "Spalanie tokena",
-        "burnedbasic": "Spalono token",
-        "burningbasic": "Spalanie tokena",
+        "minted": "Minted",
+        "minting": "Minting",
+        "burned": "Burned",
+        "burning": "Burning",
         "balanceDecreased": "Saldo zmniejszyło się",
         "balanceIncreased": "Saldo zwiększyło się",
         "initialBalance": "Saldo początkowe",
@@ -1497,6 +1491,7 @@
         "immutableIssuer": "Niezmienny wydawca",
         "magicContract": "Magiczny kontrakt",
         "smartContract": "Smart kontrakt",
+        "contractCall": "Contract call",
         "targetContract": "Kontrakt docelowy",
         "contractFunction": "Funkcja kontraktu",
         "standard": "Standard",
@@ -1529,6 +1524,7 @@
         "networks": "Sieci",
         "ledgerDevice": "Urządzenie Ledger",
         "disconnected": "Rozłączono",
+        "redirected": "Redirected",
         "balanceBreakdown": "Zestawienie środków",
         "primary": "Główny",
         "color": "Kolor",
@@ -1547,12 +1543,12 @@
         "data": "Data",
         "success": "Sukces",
         "info": "Informacje",
-        "active": "Active",
-        "ended": "Ended",
-        "draft": "Draft",
-        "upcoming": "Upcoming",
-        "featured": "Featured",
-        "raffle": "Raffle"
+        "active": "Aktywna",
+        "ended": "Zakończona",
+        "draft": "Szkic",
+        "upcoming": "Nadchodząca",
+        "featured": "Wyróźniona",
+        "raffle": "Loteria"
     },
     "filters": {
         "title": "Filtry",
@@ -2053,7 +2049,7 @@
         "wallet": "Portfel",
         "collectibles": "Kolekcje",
         "governance": "Zarządzanie",
-        "campaigns": "Campaigns",
+        "campaigns": "Kampanie",
         "buySell": "Kup i sprzedaj",
         "developer": "Deweloper",
         "tokens": "Tokeny",
