@@ -44,6 +44,8 @@
 
             const marketPrice = getFiatValueFromTokenAmount(amount, token)
             return marketPrice ? formatCurrency(marketPrice) : '-'
+        } else if (_activity.type === ActivityType.Nft) {
+            return '-'
         } else {
             return undefined
         }
