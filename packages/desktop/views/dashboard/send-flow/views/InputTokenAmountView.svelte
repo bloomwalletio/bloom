@@ -35,7 +35,7 @@
         }
         const available = token.id === BASE_TOKEN_ID ? token.balance.available - gasFee : token.balance.available
         if (token?.metadata?.decimals) {
-            amount = formatTokenAmountBestMatch(available, token?.metadata, false, false)
+            amount = formatTokenAmountBestMatch(available, token?.metadata, { withUnit: false, round: false })
         } else {
             amount = available.toString() ?? '0'
         }
