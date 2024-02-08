@@ -13,11 +13,27 @@
     export let error: string | undefined = undefined
 
     $: indexOfPrimary = selectionOptions.findIndex((option) => option.checked)
+
+    let allChecked = true
+    function onAllClick() {
+        if (allChecked) {
+            selectionOptions = selectionOptions.map((option) => ({ ...option, checked: true }))
+        } else {
+            selectionOptions = selectionOptions.map((option) => ({ ...option, checked: false || option.required }))
+        }
+    }
+
+    $: allChecked = selectionOptions.every((option) => option.checked)
 </script>
 
 <selection-component class="flex flex-col gap-4">
-    <Text textColor="secondary">{title}</Text>
-
+    <div class="flex flex-row justify-between items-center px-4">
+        <Text textColor="secondary">{title}</Text>
+        <div class="flex flex-row items-center gap-3">
+            <Text textColor="secondary">{localize('general.all')}</Text>
+            <Checkbox size="md" on:click={onAllClick} bind:checked={allChecked} />
+        </div>
+    </div>
     <selection-options>
         {#each selectionOptions as option, index}
             <div class="w-full flex flex-row items-center justify-between p-4">

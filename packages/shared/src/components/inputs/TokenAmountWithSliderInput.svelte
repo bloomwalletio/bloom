@@ -32,7 +32,9 @@
     $: setRawAmountIfInputMismatch(inputtedAmount)
 
     function getTokenAmount(rawAmount: bigint): string | undefined {
-        return token?.metadata ? formatTokenAmountBestMatch(rawAmount, token?.metadata, false, false) : undefined
+        return token?.metadata
+            ? formatTokenAmountBestMatch(rawAmount, token?.metadata, { withUnit: false, round: false })
+            : undefined
     }
 
     function setRawAmountIfInputMismatch(inputtedAmount: string | undefined): void {
@@ -133,10 +135,8 @@
     <div class="flex flex-col mt-5">
         <SliderInput bind:value={rawAmount} max={availableBalance} {disabled} />
         <div class="flex flex-row justify-between">
-            <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata, true)}</Text>
-            <Text textColor="secondary" type="sm"
-                >{formatTokenAmountBestMatch(availableBalance, token?.metadata, true)}</Text
-            >
+            <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata)}</Text>
+            <Text textColor="secondary" type="sm">{formatTokenAmountBestMatch(availableBalance, token?.metadata)}</Text>
         </div>
     </div>
 </InputContainer>
