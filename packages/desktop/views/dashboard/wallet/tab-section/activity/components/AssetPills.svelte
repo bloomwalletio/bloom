@@ -17,28 +17,28 @@
         if (activity.type === ActivityType.Basic) {
             if (activity.tokenTransfer && activity.tokenTransfer?.tokenId !== BASE_TOKEN_ID) {
                 const token = getTokenFromActivity(activity)
-                typePill = 'Token'
+                typePill = 'token'
                 standardPill = token.standard
             } else {
-                typePill = 'Base Coin'
+                typePill = 'baseCoin'
                 standardPill = ''
             }
         } else if (activity.type === ActivityType.Nft) {
             const nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
             standardPill = nft?.standard ?? ''
-            typePill = 'NFT'
+            typePill = 'nft'
         } else if (activity.type === ActivityType.SmartContract) {
-            typePill = localize('views.dashboard.activity.unverifiedContract')
+            typePill = 'unverifiedContract'
             standardPill = ''
         } else if (activity.type === ActivityType.Alias) {
-            typePill = 'Alias'
+            typePill = 'alias'
             standardPill = ''
         } else if (activity.type === ActivityType.Foundry) {
             const token = getTokenFromActivity(activity)
-            typePill = 'Foundry'
+            typePill = 'foundry'
             standardPill = token?.standard ?? ''
         } else if (activity.type === ActivityType.Governance) {
-            typePill = 'Governance'
+            typePill = 'governance'
             standardPill = ''
         } else {
             typePill = ''
@@ -51,12 +51,12 @@
     <div class="flex flex-row gap-2">
         {#if typePill}
             <Pill color="neutral" compact>
-                {localize(typePill)}
+                {localize(`views.dashboard.activity.type.${typePill}`)}
             </Pill>
         {/if}
         {#if standardPill}
             <Pill color="neutral" compact>
-                {localize(standardPill)}
+                {standardPill}
             </Pill>
         {/if}
     </div>

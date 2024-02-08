@@ -357,7 +357,15 @@
                 "fee": "Fee",
                 "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated",
-                "unverifiedContract": "Unverified Contract"
+                "type": {
+                    "alias": "Alias",
+                    "foundry": "Foundry",
+                    "baseCoin": "Base Coin",
+                    "token": "Token",
+                    "governance": "Governance",
+                    "nft": "NFT",
+                    "unverifiedContract": "Unverified Contract"
+                }
             },
             "profileMenu": {
                 "allSettings": "All settings",
