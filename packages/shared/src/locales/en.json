@@ -351,6 +351,7 @@
                 "activity": "Activity",
                 "asset": "Asset",
                 "action": "Action",
+                "date": "Date",
                 "address": "Address",
                 "amount": "Amount",
                 "fee": "Fee",
@@ -482,6 +483,13 @@
                             "tab": "Expired",
                             "emptyTitle": "No apps found",
                             "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "actions": {
+                            "clearExpired": "Clear expired list"
+                        },
+                        "clearExpired": {
+                            "title": "Clear expired list",
+                            "description": "Are you sure you want to clear the list of expired dApp connections?"
                         }
                     },
                     "inputConnectionCode": {
@@ -1359,27 +1367,15 @@
         "revoting": "Revoting",
         "unvoted": "Unvoted",
         "unvoting": "Unvoting",
-        "transferIn": "Transfer in",
-        "transferringIn": "Transferring in",
-        "transferOut": "Transfer out",
-        "transferringOut": "Transferring out",
+        "transferred": "Transferred",
+        "transferring": "Transferring",
         "shimmerClaimed": "Claimed",
         "shimmerClaiming": "Claiming",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "Minted alias",
-        "mintingalias": "Minting alias",
-        "mintednft": "Minted NFT",
-        "mintingnft": "Minting NFT",
-        "mintedfoundry": "Minted token",
-        "mintingfoundry": "Minting token",
-        "burnedalias": "Burned alias",
-        "burningalias": "Burning alias",
-        "burnednft": "Burned NFT",
-        "burningnft": "Burning NFT",
-        "burnedfoundry": "Burned token",
-        "burningfoundry": "Burning token",
-        "burnedbasic": "Burned token",
-        "burningbasic": "Burning token",
+        "minted": "Minted",
+        "minting": "Minting",
+        "burned": "Burned",
+        "burning": "Burning",
         "balanceDecreased": "Balance decreased",
         "balanceIncreased": "Balance increased",
         "initialBalance": "Initial balance",
@@ -1504,6 +1500,7 @@
         "immutableIssuer": "Immutable Issuer",
         "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
+        "contractCall": "Contract call",
         "targetContract": "Target contract",
         "contractFunction": "Contract function",
         "standard": "Standard",
@@ -1707,6 +1704,9 @@
         },
         "disconnectDapp": {
             "success": "Disconnected from {dappName}"
+        },
+        "clearExpiredDapps": {
+            "success": "Expired dApps cleared"
         },
         "removeDapp": {
             "success": "{dappName} removed"

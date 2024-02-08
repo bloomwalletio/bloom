@@ -5,19 +5,29 @@ import { MAX_SUPPORTED_DECIMALS } from '@core/wallet'
 
 const DEFAULT_MAX_DECIMALS = 6
 
+type FormatOptions = Partial<{
+    withUnit: boolean
+    round: boolean
+}>
+
 export function formatTokenAmountBestMatch(
     amount: bigint,
     tokenMetadata: TokenMetadata,
-    withUnit = true,
-    round = true
+    options?: FormatOptions
 ): string {
-    const unit = withUnit ? getUnitFromTokenMetadata(tokenMetadata) : undefined
+    const defaultOptions = {
+        withUnit: true,
+        round: true,
+    }
+    const mergedOptions = { ...defaultOptions, ...options }
+
+    const unit = mergedOptions.withUnit ? getUnitFromTokenMetadata(tokenMetadata) : undefined
 
     if (typeof amount !== 'bigint') {
         return '-'
     }
 
-    const stringAmount = getStringAmountFromBigInt(amount, round, tokenMetadata?.decimals)
+    const stringAmount = getStringAmountFromBigInt(amount, mergedOptions.round, tokenMetadata?.decimals)
     return getAmountWithUnit(stringAmount, unit)
 }
 
