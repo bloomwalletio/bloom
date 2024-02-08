@@ -7,7 +7,7 @@
         getFormattedVotingPowerFromGovernanceActivity,
     } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
-    import { formatCurrency } from '@core/i18n'
+    import { formatCurrency, localize } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { ITokenWithBalance } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
@@ -28,7 +28,7 @@
 
             return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
         } else if (_activity.type === ActivityType.Nft) {
-            return '1 NFT'
+            return '1 ' + localize('general.nft')
         } else {
             return '-'
         }
