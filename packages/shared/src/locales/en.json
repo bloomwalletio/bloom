@@ -1776,7 +1776,8 @@
         "profile": {
             "length": "Your profile name can't be longer than {length, plural, one {# character} other {# characters}}.",
             "duplicate": "A profile with this name already exists.",
-            "type": "Unable to determine the profile type"
+            "type": "Unable to determine the profile type",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "Passwords do not match.",
@@ -1898,9 +1899,6 @@
             "disconnected": "Your Ledger device was disconnected.",
             "noStronghold": "Unable to use Stronghold with Ledger profile.",
             "rejected": "Action was rejected on the Ledger device"
-        },
-        "stronghold": {
-            "passwordCancelled": "You didn't unlock your Stronghold to complete the action."
         },
         "popup": {
             "preventClose": "This popup is unable to be closed."
