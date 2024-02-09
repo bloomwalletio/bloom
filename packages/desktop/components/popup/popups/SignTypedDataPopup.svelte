@@ -9,16 +9,13 @@
     import { selectedAccount } from '@core/account/stores'
     import { IChain } from '@core/network'
     import { AccountLabel } from '@ui'
-    import { onMount } from 'svelte'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import DappDataBanner from '@components/DappDataBanner.svelte'
-    import { getSdkError } from '@walletconnect/utils'
     import { SignTypedDataVersion } from '@metamask/eth-sig-util'
     import { signEip712Message } from '@core/wallet/actions/signEip712Message'
 
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let data: string
     export let version: SignTypedDataVersion
     export let account: IAccountState
@@ -29,33 +26,16 @@
     let isBusy = false
 
     async function unlockAndSign(): Promise<string> {
-        return new Promise((resolve, reject) => {
-            checkActiveProfileAuth(
-                async () => {
-                    try {
-                        const { coinType } = chain.getConfiguration()
-                        const result = await signEip712Message(data, version, coinType, account)
-                        closePopup({ forceClose: true })
-                        resolve(result)
-                        return
-                    } catch (error) {
-                        closePopup({ forceClose: true })
-                        reject(error)
-                    }
-                },
-                { stronghold: true, ledger: true },
-                LedgerAppName.Ethereum,
-                () => {
-                    reject(getSdkError('USER_REJECTED'))
-                }
-            )
-        })
+        await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+        const { coinType } = chain.getConfiguration()
+        return await signEip712Message(data, version, coinType, account)
     }
 
     async function onConfirmClick(): Promise<void> {
         isBusy = true
         try {
             const result = await unlockAndSign()
+            closePopup({ forceClose: true })
 
             callback({ result })
             openPopup({
@@ -66,7 +46,8 @@
                 },
             })
         } catch (err) {
-            callback({ error: err })
+            closePopup({ forceClose: true })
+            callback({ error: err ?? localize('error.global.generic') })
             handleError(err)
         } finally {
             isBusy = false
@@ -76,14 +57,6 @@
     function onCancelClick(): void {
         closePopup({ callOnCancel: true })
     }
-
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            handleError(err)
-        }
-    })
 </script>
 
 <PopupTemplate

@@ -1899,6 +1899,9 @@
             "noStronghold": "Unable to use Stronghold with Ledger profile.",
             "rejected": "Action was rejected on the Ledger device"
         },
+        "stronghold": {
+            "passwordCancelled": "You didn't unlock your Stronghold to complete the action."
+        },
         "popup": {
             "preventClose": "This popup is unable to be closed."
         },

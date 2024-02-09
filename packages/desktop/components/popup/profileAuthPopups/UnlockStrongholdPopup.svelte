@@ -13,6 +13,7 @@
     export let returnPassword = false
 
     export let onSuccess: (..._: any[]) => void = () => {}
+    export let onCancel: (..._: any[]) => void = () => {}
 
     let password: string
     let error = ''
@@ -30,8 +31,8 @@
             onSuccess(returnPassword ? password : response)
         } catch (err) {
             allowClosingProfileAuthPopup()
-            console.error(err)
             error = localize(err?.message ?? err)
+            onCancel(error)
         } finally {
             isBusy = false
         }
