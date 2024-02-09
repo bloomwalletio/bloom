@@ -22,3 +22,16 @@ export function cleanUrl(
 
     return cleanedUrl
 }
+
+export function buildQueryParametersFromObject(obj: Record<string, string | number | boolean | string[]>): string {
+    return Object.keys(obj)
+        .map(
+            (key) =>
+                `${encodeURIComponent(key)}=${
+                    Array.isArray(obj[key])
+                        ? encodeURIComponent((obj[key] as unknown[]).join(','))
+                        : encodeURIComponent(obj[key] as string | number | boolean)
+                }`
+        )
+        .join('&')
+}

@@ -1,21 +1,17 @@
 <script lang="ts">
-    import { Nft } from '@core/nfts'
-    import { TextColor, AvatarSize } from '@bloomwalletio/ui'
+    import { AvatarSize, TextColor } from '@bloomwalletio/ui'
+    import { MimeType } from '@core/nfts'
     import MediaIcon from './MediaIcon.svelte'
 
-    export let nft: Nft
+    export let type: MimeType = MimeType.ImagePng
     export let size: AvatarSize
-
-    $: placeHolderColor = nft.downloadMetadata?.error
-        ? 'danger'
-        : nft.downloadMetadata?.warning
-        ? 'warning'
-        : ('brand' as TextColor)
+    export let textColor: TextColor = 'brand'
+    export let downloading: boolean = false
 </script>
 
 <media-placeholder class="w-full h-full flex justify-center items-center bg-surface-2 dark:bg-surface-2-dark">
     <icon-container class={size}>
-        <MediaIcon type={nft?.type} nftId={nft.id} textColor={placeHolderColor} {size} />
+        <MediaIcon {type} {textColor} {size} {downloading} />
     </icon-container>
 </media-placeholder>
 

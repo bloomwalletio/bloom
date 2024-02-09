@@ -7,6 +7,7 @@ import { IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } fr
 import { composeUrlFromNftUri } from '.'
 
 export async function buildPersistedErc721Nft(
+    nftId: string,
     ownerAddress: string,
     networkId: NetworkId,
     tokenId: string,
@@ -14,6 +15,7 @@ export async function buildPersistedErc721Nft(
     contractMetadata: IErc721ContractMetadata
 ): Promise<IPersistedErc721Nft> {
     const persistedNft: IPersistedErc721Nft = {
+        id: nftId,
         ownerAddress,
         networkId,
         standard: NftStandard.Erc721,

@@ -347,10 +347,13 @@
             },
             "activity": {
                 "tab": "Aktivität",
+                "activity": "Activity",
                 "asset": "Asset",
                 "action": "Aktion",
+                "date": "Date",
                 "address": "Adresse",
                 "amount": "Betrag",
+                "fee": "Fee",
                 "claimableTransactions": "Du hast {amount} {amount, select, 1 {Transaktion, die beansprucht} other {Transaktionen, die beanspruchen}} ",
                 "consolidatedOutputs": "{amount} Outputs zusammengefügt"
             },
@@ -469,8 +472,16 @@
                     "dappsList": {
                         "title": "Verbundene dApps",
                         "connectDapp": "dApp verbinden",
-                        "emptyTitle": "Keine dApps gefunden",
-                        "emptySubtitle": "Verbinde Bloom mit deinen Lieblings-dApps"
+                        "paired": {
+                            "tab": "Paired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "expired": {
+                            "tab": "Expired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Mit einer dApp verbinden",
@@ -520,7 +531,7 @@
                         "accounts": {
                             "step": "Konten",
                             "title": "Konten auswählen",
-                            "tip": "Verbinde dich mit bestimmten Konten, um Guthaben separat zu verwalten. Du kontrollierst, worauf die dApp zugreifen kann.",
+                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
                             "empty": "Es muss mindestens ein Konto ausgewählt werden"
                         }
                     },
@@ -587,6 +598,26 @@
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Campaigns",
+                "emptyTitle": "No campaigns found",
+                "noResults": "No results found",
+                "emptyDescription": "Browse and participate in campaigns with Tide",
+                "emptyAction": "Visit Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "My position",
+                "points": "Points",
+                "tasksComplete": "Tasks Complete",
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "No NFT Badge Claimed"
+            }
+        },
         "governance": {
             "votingPower": {
                 "title": "Stimmrecht",
@@ -649,6 +680,18 @@
             "changePassword": {
                 "title": "Passwort ändern",
                 "hint": "Dein Stronghold war veraltet und wurde aktualisiert. Wir empfehlen dir, dein Stronghold-Passwort zu ändern."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
+                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
+                "changingAccounts": "Changing accounts will reset all information."
+            },
+            "tooltip": {
+                "connected": "connected securely",
+                "redirected": "redirected, be careful!",
+                "disconnected": "disconnected, try refreshing"
             }
         }
     },
@@ -1315,27 +1358,15 @@
         "revoting": "Erneut abstimmen",
         "unvoted": "Nicht abgestimmt",
         "unvoting": "Stimme zurücknehmen",
-        "transferIn": "Transfer in",
-        "transferringIn": "Transferiere zu",
-        "transferOut": "Transfer aus",
-        "transferringOut": "Transferiere aus",
+        "transferred": "Transferred",
+        "transferring": "Transferring",
         "shimmerClaimed": "Beansprucht",
         "shimmerClaiming": "Beanspruche",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "geminteter Alias",
-        "mintingalias": "Alias minten",
-        "mintednft": "Gemintetes NFT",
-        "mintingnft": "Minte NFT",
-        "mintedfoundry": "Gemintete Token",
-        "mintingfoundry": "Minte Token",
-        "burnedalias": "Verbrannter Alias",
-        "burningalias": "Verbrenne Alias",
-        "burnednft": "Verbranntes NFT",
-        "burningnft": "Verbrenne NFT",
-        "burnedfoundry": "Verbrannte Token",
-        "burningfoundry": "Verbrenne Token",
-        "burnedbasic": "Verbrannte Token",
-        "burningbasic": "Token verbrennen",
+        "minted": "Minted",
+        "minting": "Minting",
+        "burned": "Burned",
+        "burning": "Burning",
         "balanceDecreased": "Kontostand verringert",
         "balanceIncreased": "Kontostand erhöht",
         "initialBalance": "Anfangs-Kontostand",
@@ -1460,6 +1491,7 @@
         "immutableIssuer": "Unveränderlicher Aussteller",
         "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
+        "contractCall": "Contract call",
         "targetContract": "Zielvertrag",
         "contractFunction": "Vertragsfunktion",
         "standard": "Standard",
@@ -1492,6 +1524,7 @@
         "networks": "Netzwerke",
         "ledgerDevice": "Ledger",
         "disconnected": "Nicht verbunden",
+        "redirected": "Redirected",
         "balanceBreakdown": "Guthaben Aufteilung",
         "primary": "Primär",
         "color": "Farbe",
@@ -1508,7 +1541,14 @@
         "verified": "Verifiziert",
         "methodName": "Method name",
         "data": "Daten",
-        "success": "Success"
+        "success": "Success",
+        "info": "Info",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming",
+        "featured": "Featured",
+        "raffle": "Raffle"
     },
     "filters": {
         "title": "Filter",
@@ -1769,7 +1809,6 @@
         "send": {
             "addressLength": "Adressen sollten {length, plural, one {1 Zeichen} other {# Zeichen}} lang sein.",
             "amountTooHigh": "Das übersteigt dein verfügbares Guthaben.",
-            "amountNoFloat": "Bei der kleinsten gewählten Einheit können keine Dezimalstellen verwendet werden",
             "amountInvalidFormat": "Der Betrag scheint eine ungültige Zahl zu sein.",
             "amountSmallerThanSubunit": "Der Betrag muss größer sein als die kleinste Untereinheit.",
             "tagTooLong": "Der Tag darf nicht größer als 64 Bytes sein.",
@@ -2010,10 +2049,11 @@
         "wallet": "Wallet",
         "collectibles": "Sammlerstücke",
         "governance": "Governance",
+        "campaigns": "Campaigns",
+        "buySell": "Buy & Sell",
         "developer": "Entwickler",
         "tokens": "Token",
-        "settings": "Einstellungen",
-        "buySell": "Buy & Sell"
+        "settings": "Einstellungen"
     },
     "pills": {
         "asyncStatus": {

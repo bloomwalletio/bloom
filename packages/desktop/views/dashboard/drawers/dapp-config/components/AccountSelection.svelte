@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { IAccountState } from '@core/account'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import Selection from './Selection.svelte'
     import { localize } from '@core/i18n'
@@ -39,9 +39,9 @@
             })
     }
 
-    function hasAddressForAllChains(account: IAccountState, chainIds: string[]): boolean {
-        return chainIds.every((chainId) => getAddressFromAccountForNetwork(account, chainId as NetworkId))
-    }
+    // function hasAddressForAllChains(account: IAccountState, chainIds: string[]): boolean {
+    //     return chainIds.every((chainId) => getAddressFromAccountForNetwork(account, chainId as NetworkId))
+    // }
 
     function getAccountsFromPersistedNamespaces(_persistedNamespaces: ISupportedNamespace[]): number[] {
         return _persistedNamespaces.flatMap((namespace) => {
@@ -67,6 +67,7 @@
         bind:selectionOptions={accountSelections}
         title={localize(`${localeKey}.title`)}
         error={checkedAccounts.length ? undefined : localize(`${localeKey}.empty`)}
+        showPrimary
     />
 {:else}
     <Alert variant="danger" text="No valid accounts" />

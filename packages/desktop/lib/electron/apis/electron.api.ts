@@ -256,11 +256,11 @@ export default {
     closeTransak(): Promise<void> {
         return ipcRenderer.invoke('close-transak')
     },
-    minimizeTransak(): Promise<void> {
-        return ipcRenderer.invoke('minimize-transak')
+    hideTransak(): Promise<void> {
+        return ipcRenderer.invoke('hide-transak')
     },
-    restoreTransak(): Promise<void> {
-        return ipcRenderer.invoke('restore-transak')
+    showTransak(): Promise<void> {
+        return ipcRenderer.invoke('show-transak')
     },
     updateTransakBounds(rect: Electron.Rectangle): Promise<void> {
         return ipcRenderer.invoke('update-transak-bounds', rect)

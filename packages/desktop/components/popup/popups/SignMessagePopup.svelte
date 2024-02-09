@@ -63,7 +63,6 @@
                 },
             })
         } catch (err) {
-            callback({ error: err })
             handleError(err)
         } finally {
             isBusy = false

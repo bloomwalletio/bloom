@@ -11,6 +11,7 @@ import {
     settingsRouter,
 } from '@core/router/routers'
 import { loginRouter, LoginRouter } from '@core/router/subrouters'
+import { CampaignsRouter, campaignsRouter } from '@views/dashboard/campaigns'
 import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
 
 export function initialiseRouters(): void {
@@ -33,6 +34,7 @@ function initialiseBaseRouters(): void {
     settingsRouter.set(new SettingsRouter())
     collectiblesRouter.set(new CollectiblesRouter())
     governanceRouter.set(new GovernanceRouter())
+    campaignsRouter.set(new CampaignsRouter())
     initialiseBaseOnboardingRouters()
 }
 

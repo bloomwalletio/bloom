@@ -77,7 +77,7 @@
 
             const supportedNamespaces = buildSupportedNamespacesFromSelections(
                 {
-                    chains: ["eip155:5"],
+                    chains: ['eip155:5'],
                     methods: persistedNamespaces ? undefined : checkedMethods,
                     accounts: persistedNamespaces ? undefined : checkedAccounts,
                 },
@@ -85,9 +85,6 @@
                 $sessionProposal.params.optionalNamespaces,
                 persistedNamespaces
             )
-
-            console.log(supportedNamespaces);
-            
 
             await clearOldPairings(dappUrl)
             await approveSession($sessionProposal, supportedNamespaces, $selectedAccount)
@@ -106,7 +103,10 @@
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
-            <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
+            <DappInformationCard
+                metadata={$sessionProposal.params.proposer.metadata}
+                verifiedState={$sessionProposal.verifyContext.verified.validation}
+            />
 
             <div class="px-6 flex-grow overflow-hidden">
                 {#if persistedNamespaces}

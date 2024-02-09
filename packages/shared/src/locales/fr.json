@@ -347,10 +347,13 @@
             },
             "activity": {
                 "tab": "Activity",
+                "activity": "Activity",
                 "asset": "Asset",
                 "action": "Action",
+                "date": "Date",
                 "address": "Address",
                 "amount": "Amount",
+                "fee": "Fee",
                 "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
@@ -469,8 +472,16 @@
                     "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
-                        "emptyTitle": "No apps found",
-                        "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        "paired": {
+                            "tab": "Paired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "expired": {
+                            "tab": "Expired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
@@ -520,7 +531,7 @@
                         "accounts": {
                             "step": "Accounts",
                             "title": "Select accounts",
-                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access.",
+                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
                             "empty": "You have to select at least one account"
                         }
                     },
@@ -587,6 +598,26 @@
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Campaigns",
+                "emptyTitle": "No campaigns found",
+                "noResults": "No results found",
+                "emptyDescription": "Browse and participate in campaigns with Tide",
+                "emptyAction": "Visit Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "My position",
+                "points": "Points",
+                "tasksComplete": "Tasks Complete",
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "No NFT Badge Claimed"
+            }
+        },
         "governance": {
             "votingPower": {
                 "title": "Voting power",
@@ -649,6 +680,18 @@
             "changePassword": {
                 "title": "Change your password",
                 "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
+                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
+                "changingAccounts": "Changing accounts will reset all information."
+            },
+            "tooltip": {
+                "connected": "connected securely",
+                "redirected": "redirected, be careful!",
+                "disconnected": "disconnected, try refreshing"
             }
         }
     },
@@ -1315,27 +1358,15 @@
         "revoting": "Revoting",
         "unvoted": "Arrêt du vote",
         "unvoting": "Arrêt du vote",
-        "transferIn": "Transfer in",
-        "transferringIn": "Transferring in",
-        "transferOut": "Transfer out",
-        "transferringOut": "Transferring out",
+        "transferred": "Transferred",
+        "transferring": "Transferring",
         "shimmerClaimed": "Claimed",
         "shimmerClaiming": "Claiming",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "Minted alias",
-        "mintingalias": "Minting alias",
-        "mintednft": "Minted NFT",
-        "mintingnft": "Minting NFT",
-        "mintedfoundry": "Minted token",
-        "mintingfoundry": "Minting token",
-        "burnedalias": "Burned alias",
-        "burningalias": "Burning alias",
-        "burnednft": "Burned NFT",
-        "burningnft": "Burning NFT",
-        "burnedfoundry": "Burned token",
-        "burningfoundry": "Burning token",
-        "burnedbasic": "Burned token",
-        "burningbasic": "Burning token",
+        "minted": "Minted",
+        "minting": "Minting",
+        "burned": "Burned",
+        "burning": "Burning",
         "balanceDecreased": "Balance decreased",
         "balanceIncreased": "Balance increased",
         "initialBalance": "Initial balance",
@@ -1460,6 +1491,7 @@
         "immutableIssuer": "Immutable Issuer",
         "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
+        "contractCall": "Contract call",
         "targetContract": "Target contract",
         "contractFunction": "Contract function",
         "standard": "Standard",
@@ -1492,6 +1524,7 @@
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
+        "redirected": "Redirected",
         "balanceBreakdown": "Balance breakdown",
         "primary": "Primary",
         "color": "Color",
@@ -1508,7 +1541,14 @@
         "verified": "Verified",
         "methodName": "Method name",
         "data": "Data",
-        "success": "Success"
+        "success": "Success",
+        "info": "Info",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming",
+        "featured": "Featured",
+        "raffle": "Raffle"
     },
     "filters": {
         "title": "Filters",
@@ -1769,7 +1809,6 @@
         "send": {
             "addressLength": "Les adresses doivent contenir {length, plural, one {# caractère} other {# caractères}}.",
             "amountTooHigh": "Ceci est supérieur à votre solde disponible.",
-            "amountNoFloat": "Cannot use decimal places with the smallest unit selected",
             "amountInvalidFormat": "Le montant semble être un nombre invalide.",
             "amountSmallerThanSubunit": "Le montant doit être supérieur à la plus petite sous-unité.",
             "tagTooLong": "The tag cannot be longer than 64 bytes.",
@@ -2010,10 +2049,11 @@
         "wallet": "Portefeuille",
         "collectibles": "Collectibles",
         "governance": "Gouvernance",
+        "campaigns": "Campaigns",
+        "buySell": "Buy & Sell",
         "developer": "Developer",
         "tokens": "Jetons",
-        "settings": "Settings",
-        "buySell": "Buy & Sell"
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {

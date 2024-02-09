@@ -83,11 +83,7 @@ async function trackAsset(params: WatchAssetParams, networkId: NetworkId): Promi
             if (!persistedNft) {
                 return
             }
-            addNewTrackedNftToActiveProfile(
-                networkId,
-                `${persistedNft.contractMetadata.address.toLowerCase()}:${persistedNft.tokenId}`,
-                TokenTrackingStatus.ManuallyTracked
-            )
+            addNewTrackedNftToActiveProfile(networkId, persistedNft.id, TokenTrackingStatus.ManuallyTracked)
             break
         }
         default:

@@ -2,8 +2,13 @@
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
     import { CloseButton } from '@bloomwalletio/ui'
-    import { closePopup, PopupComponentMap, PopupId, profileAuthPopup } from '@desktop/auxiliary/popup'
-    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
+    import {
+        closePopup,
+        PopupComponentMap,
+        PopupId,
+        modifyPopupState,
+        profileAuthPopup,
+    } from '@desktop/auxiliary/popup'
 
     import { IS_WINDOWS } from '@core/app/constants'
     import { clickOutside } from '@core/utils/ui'

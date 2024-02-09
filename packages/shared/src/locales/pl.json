@@ -347,10 +347,13 @@
             },
             "activity": {
                 "tab": "Aktywność",
+                "activity": "Aktywność",
                 "asset": "Token",
                 "action": "Akcja",
+                "date": "Date",
                 "address": "Adres",
                 "amount": "Ilość",
+                "fee": "Opłata",
                 "claimableTransactions": "Masz {amount} {amount, select, 1 {transakcję, która wymaga} other {transakcji, które wymagają}} odbioru",
                 "consolidatedOutputs": "Skonsolidowane wyjścia: {amount}"
             },
@@ -469,8 +472,16 @@
                     "dappsList": {
                         "title": "Połączone aplikacje dApp",
                         "connectDapp": "Połącz dApp",
-                        "emptyTitle": "Nie znaleziono aplikacji",
-                        "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
+                        "paired": {
+                            "tab": "Sparowane",
+                            "emptyTitle": "Nie znaleziono aplikacji",
+                            "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
+                        },
+                        "expired": {
+                            "tab": "Wygasłe",
+                            "emptyTitle": "Nie znaleziono aplikacji",
+                            "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Połącz dApp",
@@ -509,7 +520,7 @@
                             "signTransaction": "Prośba o podpisanie transakcji",
                             "sendTransaction": "Poproś o wysłanie transakcji",
                             "empty": "Musisz wybrać co najmniej jedno uprawnienie",
-                            "noPermissionsRequired": "No permissions required to use this app"
+                            "noPermissionsRequired": "Do korzystania z tej aplikacji nie są wymagane żadne uprawnienia"
                         },
                         "networks": {
                             "step": "Sieci",
@@ -520,7 +531,7 @@
                         "accounts": {
                             "step": "Konta",
                             "title": "Wybierz konta",
-                            "tip": "Połącz się przy użyciu określonych kont, aby zarządzać środkami oddzielnie. Ty kontrolujesz, do czego dApp ma dostęp.",
+                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
                             "empty": "Musisz wybrać przynajmniej jedno konto"
                         }
                     },
@@ -587,6 +598,26 @@
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Kampanie",
+                "emptyTitle": "Nie znaleziono kampanii",
+                "noResults": "Brak wyników",
+                "emptyDescription": "Przeglądaj i bierz udział w kampaniach z Tide",
+                "emptyAction": "Odwiedź Tide"
+            },
+            "details": {
+                "top10": "10 najlepszych wyników",
+                "myPosition": "Moja pozycja",
+                "points": "Punkty",
+                "tasksComplete": "Zadania wykonane",
+                "rewardsClaimed": "Nagrody odebrane",
+                "project": "Projekt",
+                "campaign": "Kampania",
+                "nftBadge": "Odznaka NFT",
+                "noNftBadge": "Nie odebrano odznaki NFT"
+            }
+        },
         "governance": {
             "votingPower": {
                 "title": "Siła głosu",
@@ -649,6 +680,18 @@
             "changePassword": {
                 "title": "Zmień swoje hasło",
                 "hint": "Twoja kopia Stronghold była nieaktualna i została zaktualizowana. Zalecamy zmianę hasła."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Wybrane konto otrzyma tokeny bezpośrednio od Transak po autoryzacji metody płatności.",
+                "multipleAccounts": "Jeśli posiadasz kilka kont, możesz przełączyć je, zanim dokonasz zakupu.",
+                "changingAccounts": "Zmiana kont zresetuje wszystkie informacje."
+            },
+            "tooltip": {
+                "connected": "connected securely",
+                "redirected": "redirected, be careful!",
+                "disconnected": "disconnected, try refreshing"
             }
         }
     },
@@ -777,12 +820,12 @@
         },
         "confirmAssetTracking": {
             "ERC721": {
-                "title": "Add new NFT",
-                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+                "title": "Dodaj nowe NFT",
+                "description": "\"{dappName}\" chce dodać NFT o ID \"{tokenId}\" i adresie \"{address}\" do Twojego portfela."
             },
             "ERC20": {
-                "title": "Add new token",
-                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+                "title": "Dodaj nowy token",
+                "description": "\"{dappName}\" chce dodać {assetName, select, undefined { token o adresie \"{address}\" } other { {assetName} }}  do Twojego portfela."
             }
         },
         "node": {
@@ -1145,7 +1188,7 @@
         },
         "receiveAddress": {
             "title": "Odbierz",
-            "body": "Otrzymuj tokeny, NFT i inne aktywa cyfrowe na swój adres konta podany poniżej.",
+            "body": "Otrzymuj tokeny, NFT i inne aktywa cyfrowe na swój poniższy adres konta.",
             "networkAddress": "Adres {networkName}"
         },
         "createAccount": {
@@ -1315,27 +1358,15 @@
         "revoting": "Odnawianie głosów",
         "unvoted": "Zatrzymano głos",
         "unvoting": "Wycofywanie głosu",
-        "transferIn": "Transfer przychodzący",
-        "transferringIn": "Odbieranie",
-        "transferOut": "Transfer wychodzący",
-        "transferringOut": "Wysyłanie",
+        "transferred": "Transferred",
+        "transferring": "Transferring",
         "shimmerClaimed": "Odebrano",
         "shimmerClaiming": "Odbieranie",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "Mintowano alias",
-        "mintingalias": "Mintowanie aliasu",
-        "mintednft": "Mintowane NFT",
-        "mintingnft": "Mintowanie NFT",
-        "mintedfoundry": "Mintowano token",
-        "mintingfoundry": "Mintowanie tokena",
-        "burnedalias": "Spalono alias",
-        "burningalias": "Spalanie aliasu",
-        "burnednft": "Spalono NFT",
-        "burningnft": "Spalanie NFT",
-        "burnedfoundry": "Spalono token",
-        "burningfoundry": "Spalanie tokena",
-        "burnedbasic": "Spalono token",
-        "burningbasic": "Spalanie tokena",
+        "minted": "Minted",
+        "minting": "Minting",
+        "burned": "Burned",
+        "burning": "Burning",
         "balanceDecreased": "Saldo zmniejszyło się",
         "balanceIncreased": "Saldo zwiększyło się",
         "initialBalance": "Saldo początkowe",
@@ -1460,6 +1491,7 @@
         "immutableIssuer": "Niezmienny wydawca",
         "magicContract": "Magiczny kontrakt",
         "smartContract": "Smart kontrakt",
+        "contractCall": "Contract call",
         "targetContract": "Kontrakt docelowy",
         "contractFunction": "Funkcja kontraktu",
         "standard": "Standard",
@@ -1492,6 +1524,7 @@
         "networks": "Sieci",
         "ledgerDevice": "Urządzenie Ledger",
         "disconnected": "Rozłączono",
+        "redirected": "Redirected",
         "balanceBreakdown": "Zestawienie środków",
         "primary": "Główny",
         "color": "Kolor",
@@ -1506,9 +1539,16 @@
         "no": "Nie",
         "tip": "Wskazówka",
         "verified": "Zweryfikowano",
-        "methodName": "Method name",
+        "methodName": "Metoda",
         "data": "Data",
-        "success": "Sukces"
+        "success": "Sukces",
+        "info": "Informacje",
+        "active": "Aktywna",
+        "ended": "Zakończona",
+        "draft": "Szkic",
+        "upcoming": "Nadchodząca",
+        "featured": "Wyróźniona",
+        "raffle": "Loteria"
     },
     "filters": {
         "title": "Filtry",
@@ -1679,7 +1719,7 @@
             "success": "Transakcja mintowania NFT została wysłana"
         },
         "transaction": {
-            "success": "Transaction sent"
+            "success": "Transakcja wysłana"
         },
         "burnNft": {
             "success": "Transakcja spalenia NFT została wysłana"
@@ -1755,7 +1795,7 @@
         "account": {
             "length": "Nazwa Twojego portfela nie może być dłuższa niż {length, plural, one {# znak} few {# znaki} many {# znaków} other {# znaków}}.",
             "emptyName": "Nazwa profilu musi zawierać co najmniej 1 znak.",
-            "colorRequired": "A color is required.",
+            "colorRequired": "Kolor jest wymagany.",
             "duplicate": "Portfel o tej nazwie już istnieje.",
             "tilde": "Nazwa profilu nie może zaczynać się od znaku '~'.",
             "control": "Nazwa profilu nie może zawierać znaku kontrolnego.",
@@ -1769,7 +1809,6 @@
         "send": {
             "addressLength": "Adresy powinny składać się z {length, plural, one {# znaku} few {# znaków} many {# znaków} other {# znaków}}.",
             "amountTooHigh": "To więcej niż Twoje dostępne saldo.",
-            "amountNoFloat": "Nie można używać miejsc dziesiętnych, kiedy wybrana jest najmniejsza jednostka",
             "amountInvalidFormat": "Wartość wydaje się być niepoprawna.",
             "amountSmallerThanSubunit": "Ilość musi być większa niż najmniejsza podjednostka.",
             "tagTooLong": "Tag nie może być dłuższy niż 64 bajty.",
@@ -1876,8 +1915,8 @@
                 "long": "Schemat Url nie jest obsługiwany"
             },
             "unsupportedMediaType": {
-                "short": "Unsupported media type",
-                "long": "The media type is not currently supported"
+                "short": "Nieobsługiwany typ multimediów",
+                "long": "Ten typ mediów nie jest obecnie obsługiwany"
             },
             "notMatchingFileTypes": {
                 "short": "Ładowanie zablokowane",
@@ -2010,10 +2049,11 @@
         "wallet": "Portfel",
         "collectibles": "Kolekcje",
         "governance": "Zarządzanie",
+        "campaigns": "Kampanie",
+        "buySell": "Kup i sprzedaj",
         "developer": "Deweloper",
         "tokens": "Tokeny",
-        "settings": "Ustawienia",
-        "buySell": "Buy & Sell"
+        "settings": "Ustawienia"
     },
     "pills": {
         "asyncStatus": {

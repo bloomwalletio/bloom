@@ -347,10 +347,13 @@
             },
             "activity": {
                 "tab": "Aktivite",
+                "activity": "Aktivite",
                 "asset": "Varlık",
                 "action": "İşlem",
+                "date": "Date",
                 "address": "Adres",
                 "amount": "Miktar",
+                "fee": "Ücretsiz",
                 "claimableTransactions": "{amount} {amount, select, 1 {transaction that require} other {transactions that require}} hak talebiniz var",
                 "consolidatedOutputs": "{miktar} çıktılar birleştirildi"
             },
@@ -469,8 +472,16 @@
                     "dappsList": {
                         "title": "Bağlı Uygulamalar",
                         "connectDapp": "dApp'e bağlandı",
-                        "emptyTitle": "Hiçbir uygulama bulunamadı",
-                        "emptySubtitle": "Bloom'u favori dApp'lerinize bağlayın"
+                        "paired": {
+                            "tab": "Eşleştirilmiş",
+                            "emptyTitle": "Hiçbir uygulama bulunamadı",
+                            "emptySubtitle": "Bloom'u favori dApp'lerinize bağlayın"
+                        },
+                        "expired": {
+                            "tab": "Süresi dolmuş",
+                            "emptyTitle": "Hiçbir uygulama bulunamadı",
+                            "emptySubtitle": "Bloom'u favori dApp'lerinize bağlayın"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Bir dApp'e bağlanın",
@@ -485,7 +496,7 @@
                         "reconnectHint": "Daha önce bu dApp'e bağlandınız.",
                         "insecure": "Bu dApp'in URL'si doğrulanamıyor. Bu uygulamaya bağlantınız güvenli olmayabilir.",
                         "unsupportedNetworks": "Bu dApp, desteklenmeyen bir ağ üzerinde çalıştığı için Bloom ile uyumlu değildir.",
-                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
+                        "noSupportedNetworks": "Bu dApp, farklı ağlarda çalıştığı için Bloom ile uyumlu değildir.",
                         "unsupportedMethods": "Bu dApp, Bloom ile tam uyumlu değil. Bazı yöntemler veya olaylar desteklenmiyor.",
                         "supportedOnOtherProfile": "Bu dApp, desteklenen bir ağda çalışır ancak bu profille erişilemez. Lütfen gerekli ağa bağlı bir profil kullanın.",
                         "acceptInsecureConnection": " Bu dApp'in güvenli olmayabileceğini anlıyorum ama hala bağlanmak istiyorum."
@@ -509,7 +520,7 @@
                             "signTransaction": "Bir işlemi imzalama isteği",
                             "sendTransaction": "İşlem gönderme isteği",
                             "empty": "En az bir izin seçmeniz gerekiyor",
-                            "noPermissionsRequired": "No permissions required to use this app"
+                            "noPermissionsRequired": "Bu uygulamayı kullanmak için izne gerek yok"
                         },
                         "networks": {
                             "step": "Ağlar",
@@ -520,7 +531,7 @@
                         "accounts": {
                             "step": "Hesaplar",
                             "title": "Hesapları seçin",
-                            "tip": "Fonları ayrı ayrı yönetmek için belirli hesaplara bağlanın. dApp'in neye erişebileceğini siz kontrol edersiniz.",
+                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
                             "empty": "En az bir hesap seçmeniz gerekiyor"
                         }
                     },
@@ -587,6 +598,26 @@
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Kampanyalar",
+                "emptyTitle": "Hiçbir kampanya bulunamadı",
+                "noResults": "Hiçbir sonuç bulunamadı",
+                "emptyDescription": "Tide ile kampanyalara göz atın ve kampanyalara katılın",
+                "emptyAction": "Tide'yi ziyaret edin"
+            },
+            "details": {
+                "top10": "En iyi 10 skor tablosu",
+                "myPosition": "Pozisyonum",
+                "points": "Puanlar",
+                "tasksComplete": "Görevler tamamlandı",
+                "rewardsClaimed": "Talep Edilen Ödüller",
+                "project": "Proje",
+                "campaign": "Kampanya",
+                "nftBadge": "NFT Rozeti",
+                "noNftBadge": "NFT Rozeti Talep Edilmedi"
+            }
+        },
         "governance": {
             "votingPower": {
                 "title": "Oy gücü",
@@ -649,6 +680,18 @@
             "changePassword": {
                 "title": "Şifrenizi değiştirin",
                 "hint": "Stronghold güncel değildi ve güncellendi. Parolanızı değiştirmenizi öneririz."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Ödeme yönteminiz yetkilendirildikten sonra seçtiğiniz hesabınız, jetonları doğrudan Transak'tan alacaktır.",
+                "multipleAccounts": "Birden fazla hesabınız varsa satın almadan önce hesap seçici açılır menüsünü kullanarak geçiş yapabilirsiniz.",
+                "changingAccounts": "Hesapları değiştirmek tüm bilgileri sıfırlayacaktır."
+            },
+            "tooltip": {
+                "connected": "connected securely",
+                "redirected": "redirected, be careful!",
+                "disconnected": "disconnected, try refreshing"
             }
         }
     },
@@ -777,12 +820,12 @@
         },
         "confirmAssetTracking": {
             "ERC721": {
-                "title": "Add new NFT",
-                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+                "title": "Yeni NFT ekle",
+                "description": "\"{dappName}\", cüzdanınıza \"{tokenId}\" kimliğine ve \"{address}\" adresine sahip bir NFT eklemek istiyor."
             },
             "ERC20": {
-                "title": "Add new token",
-                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+                "title": "Yeni token ekle",
+                "description": "\"{dappName}\", cüzdanınıza {assetName, select, undefined { \"{address}\" adresli bir token } other { {assetName} }} eklemek istiyor."
             }
         },
         "node": {
@@ -902,26 +945,26 @@
             "hint": "Bu mesajın imzalanması sürecinde {dappName}'a bakiye gönderilmeyecek.",
             "warning": "dApp belirlenemedi. Bu mesajın imzalanması sürecinde bakiye gönderilmeyecektir.",
             "action": "Giriş yap",
-            "success": "Signed message"
+            "success": "İmzalı mesaj"
         },
         "signTransaction": {
             "title": "İşlemi imzala",
             "action": "İmza",
-            "success": "Signed transaction"
+            "success": "İmzalı işlem"
         },
         "sendTransaction": {
             "title": "İşlemi gönder",
             "action": "Gönder",
-            "success": "Sent {assetName} to {recipient}"
+            "success": "{assetName}, {recipient} alıcısına gönderildi"
         },
         "smartContractCall": {
             "title": "{contractAddress} adresine akıllı sözleşme çağrısı",
             "unableToVerify": "Bloom akıllı sözleşme çağrısını doğrulayamıyor. Yalnızca güvendiğiniz uygulamalarla devam edin.",
             "action": "Onayla",
-            "success": "Smart contract call to {recipient}"
+            "success": "{recipient} adlı kişiye akıllı sözleşme çağrısı"
         },
         "successfulDappInteraction": {
-            "alert": "You can close this screen and return to the dApp when you are ready."
+            "alert": "Hazır olduğunuzda bu ekranı kapatabilir ve dApp'e dönebilirsiniz."
         },
         "activityDetails": {
             "title": {
@@ -938,9 +981,9 @@
                         "Conflicting": "Gönderme başarısız"
                     },
                     "genesis": {
-                        "Pending": "Receiving from {subject}",
-                        "Confirmed": "Received from {subject}",
-                        "Conflicting": "Failed to receive"
+                        "Pending": "{subject} adlı kişiden alınıyor",
+                        "Confirmed": "{subject} adlı kişiden alındı",
+                        "Conflicting": "Alınamadı"
                     }
                 },
                 "internal": {
@@ -1064,14 +1107,14 @@
             }
         },
         "importToken": {
-            "title": "Import {type} token",
+            "title": "{type} tokeni içe aktar",
             "property": {
-                "tokenAddress": "Token address"
+                "tokenAddress": "Token adresi"
             },
-            "success": "Imported {tokenSymbol} token",
+            "success": "{tokenSymbol} tokeni içe aktarıldı",
             "errors": {
-                "otherOwner": "You're not the owner of the NFT!",
-                "alreadyAdded": "You already have this NFT in your portfolio"
+                "otherOwner": "NFT'nin sahibi değilsiniz!",
+                "alreadyAdded": "Bu NFT'yi portföyünüzde zaten var"
             }
         },
         "noAlias": {
@@ -1287,7 +1330,7 @@
         "untrackToken": "Token'i izlemeyi kaldır",
         "switchAccount": "Hesap değiştir",
         "syncAccounts": "Hesabları senkronize et",
-        "importToken": "Import {type} token",
+        "importToken": "{type} tokeni içe aktar",
         "syncTokens": "Tokenları zorla senkronizasyon yap"
     },
     "general": {
@@ -1315,27 +1358,15 @@
         "revoting": "İptal ediliyor",
         "unvoted": "Oy geri alındı",
         "unvoting": "Oylama iptali",
-        "transferIn": "İçeriye transfer et",
-        "transferringIn": "İçe aktarma",
-        "transferOut": "Dışarı aktar",
-        "transferringOut": "Dışarı aktarma",
+        "transferred": "Transferred",
+        "transferring": "Transferring",
         "shimmerClaimed": "Talep edildi",
         "shimmerClaiming": "Talep etme",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "Basılmış takma ad",
-        "mintingalias": "Takma ad oluşturma",
-        "mintednft": "Basılmış NFT",
-        "mintingnft": "NFT basımı",
-        "mintedfoundry": "Basılmış token (Jeton)",
-        "mintingfoundry": "Token basma",
-        "burnedalias": "Yanmış takma ad",
-        "burningalias": "Takma ad yakma",
-        "burnednft": "Yanmış NFT",
-        "burningnft": "NFT'yi yakma",
-        "burnedfoundry": "Yanmış token (Jeton)",
-        "burningfoundry": "Token'i yakma",
-        "burnedbasic": "Yanmış token (Jeton)",
-        "burningbasic": "Token'i yakma",
+        "minted": "Minted",
+        "minting": "Minting",
+        "burned": "Burned",
+        "burning": "Burning",
         "balanceDecreased": "Bakiye azaldı",
         "balanceIncreased": "Bakiye arttı",
         "initialBalance": "Başlangıç bakiyesi",
@@ -1460,6 +1491,7 @@
         "immutableIssuer": "Değişmez İhraççı",
         "magicContract": "Sihirli Sözleşme",
         "smartContract": "Akıllı Sözleşme",
+        "contractCall": "Contract call",
         "targetContract": "Hedfef sözleşme",
         "contractFunction": "Sözleşme işlevi",
         "standard": "Standart",
@@ -1492,6 +1524,7 @@
         "networks": "Ağlar",
         "ledgerDevice": "Ledger Cihazı",
         "disconnected": "Bağlı değil",
+        "redirected": "Redirected",
         "balanceBreakdown": "Bakiye dökümü",
         "primary": "Birincil",
         "color": "Renk",
@@ -1506,9 +1539,16 @@
         "no": "Hayır",
         "tip": "Bahşiş",
         "verified": "Doğrulandı",
-        "methodName": "Method name",
+        "methodName": "Yöntem Adı",
         "data": "Veri",
-        "success": "Success"
+        "success": "Başarılı",
+        "info": "Bilgi",
+        "active": "Aktif",
+        "ended": "Bitti",
+        "draft": "Taslak",
+        "upcoming": "Yakında",
+        "featured": "Öne Çıkanlar",
+        "raffle": "Çekiliş"
     },
     "filters": {
         "title": "Filtreler",
@@ -1573,7 +1613,7 @@
         "status": {
             "label": "Durum",
             "confirmed": "onaylandı",
-            "timelocked": "timelocked",
+            "timelocked": "zaman kilitli",
             "pending": "bekleniyor",
             "claimed": "talep edildi",
             "unclaimed": "sahipsiz"
@@ -1679,7 +1719,7 @@
             "success": "NFT basım işlemi gönderildi"
         },
         "transaction": {
-            "success": "Transaction sent"
+            "success": "İşlem gönderildi"
         },
         "burnNft": {
             "success": "NFT yakma işlemi gönderildi"
@@ -1755,7 +1795,7 @@
         "account": {
             "length": "Cüzdan adınız şundan uzun olamaz {length, plural, one {# karakter} other {# karakterler}}.\n",
             "emptyName": "hata -> hesap -> boş ad",
-            "colorRequired": "A color is required.",
+            "colorRequired": "Bir renk gereklidir.",
             "duplicate": "Bu isimde bir cüzdan zaten var.",
             "tilde": "Profile ismi '~' karakteri ile başlayamaz.",
             "control": "Profil ismi bir kontrol karakteri içermemeli.",
@@ -1769,7 +1809,6 @@
         "send": {
             "addressLength": "Adresler şu şekilde olmalıdır {length, plural, one {# karakter} other {# karakterler}} long.",
             "amountTooHigh": "Bu, mevcut bakiyenizden daha büyüktür.",
-            "amountNoFloat": "En küçük birim seçiliyken ondalık basamaklar kullanılamaz",
             "amountInvalidFormat": "Miktar geçersiz görünüyor.",
             "amountSmallerThanSubunit": "Miktar, en küçük alt birimden daha büyük olmalıdır.",
             "tagTooLong": "Etiket 64 byte'tan uzun olamaz.",
@@ -1876,8 +1915,8 @@
                 "long": "URL şeması desteklenmiyor"
             },
             "unsupportedMediaType": {
-                "short": "Unsupported media type",
-                "long": "The media type is not currently supported"
+                "short": "Desteklenmeyen medya türü",
+                "long": "Medya türü şu anda desteklenmiyor"
             },
             "notMatchingFileTypes": {
                 "short": "Yükleme engellendi",
@@ -1965,7 +2004,7 @@
                 "transactionFee": "İşlem ücreti, kodun yürütülmesi için gaz ücretini ve depozito ücretini içerir."
             },
             "genesis": {
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
+                "timelockDate": "Gönderen, bu fonlara bir zaman aşımı belirledi. Zaman kilidi sona erdiğinde bunları harcayabileceksiniz."
             },
             "nftMetadata": {
                 "type": "NFT'nin MimeType'ı. Örneğin. image/png.",
@@ -2010,10 +2049,11 @@
         "wallet": "Cüzdan",
         "collectibles": "Koleksiyonlar",
         "governance": "Yönetim",
+        "campaigns": "Kampanyalar",
+        "buySell": "Al & Sat",
         "developer": "Geliştirici",
         "tokens": "Tokenler",
-        "settings": "Ayarlar",
-        "buySell": "Buy & Sell"
+        "settings": "Ayarlar"
     },
     "pills": {
         "asyncStatus": {
