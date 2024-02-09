@@ -35,16 +35,3 @@ export function buildQueryParametersFromObject(obj: Record<string, string | numb
         )
         .join('&')
 }
-
-export function validateUrlDomain(url: string, domain: string, checkHttps: boolean = true): boolean {
-    const origin = new URL(url).origin;
-    console.log('hostname', origin)
-    const escapedDomain = domain.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-    console.log('escapedDomain', escapedDomain)
-    const pattern = `^${checkHttps ? 'https' : 'https?'}:\\/\\/(?:www\\.)?(?:[a-zA-Z0-9_-]+\\.)*${escapedDomain}$`;
-    console.log('pattern', pattern)
-    const regex = new RegExp(pattern, 'i');
-    console.log('compare', regex.test(origin))
-
-    return regex.test(origin);
-}

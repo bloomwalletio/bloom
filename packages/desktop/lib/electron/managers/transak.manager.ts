@@ -3,8 +3,7 @@ import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
-import { TRANSAK_WIDGET_URL } from '@auxiliary/transak'
-import { validateUrlDomain } from '@core/utils/url'
+import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
 
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
@@ -83,23 +82,10 @@ export default class TransakManager implements ITransakManager {
             }
         })
 
-        // const currentUserAgent = windows.transak.webContents.getUserAgent()
-        // const newUserAgent = currentUserAgent.replace(/Electron\/[^\s]+\s*/, '') // Necessary for Google Pay to work
-        // windows.transak.webContents.setUserAgent(newUserAgent)
-
-        const url = this.getUrl(data)
-        void windows.transak.loadURL(url)
+        const initialUrl = this.getUrl(data)
+        void windows.transak.loadURL(initialUrl)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
-            console.log('setWindowOpenHandler', url)
-            // console.log(url)
-            // if (!url.includes(TRANSAK_WIDGET_URL)) {
-            // }
-
-            if (validateUrlDomain(url, 'google.com')) {
-               return { action: 'deny' }
-            }
-
             void shell.openExternal(url)
             return { action: 'deny' }
         })
@@ -111,11 +97,15 @@ export default class TransakManager implements ITransakManager {
             windows.main.webContents.send('transak-url', _url.origin)
         })
 
-        windows.transak.webContents.addListener('will-navigate', (event) => {
-            if (validateUrlDomain(event.url, 'google.com')) {
-                return
+        windows.transak.webContents.addListener('did-navigate-in-page', (_, url) => {
+            const urlToBeMatched = TRANSAK_WIDGET_URL + '/googlepay'
+            if (url.startsWith(urlToBeMatched)) {
+                void shell.openExternal(url)
+                void windows.transak.loadURL(initialUrl)
             }
+        })
 
+        windows.transak.webContents.addListener('will-navigate', (event) => {
             event.preventDefault()
             void shell.openExternal(event.url)
         })
