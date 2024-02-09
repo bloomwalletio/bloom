@@ -1,11 +1,11 @@
 diff --git a/node_modules/svelte-markdown/package.json b/node_modules/svelte-markdown/package.json
-index fda9d18..1ff9e90 100644
+index e55ed56..d673846 100644
 --- a/node_modules/svelte-markdown/package.json
 +++ b/node_modules/svelte-markdown/package.json
-@@ -6,7 +6,6 @@
-   "module": "dist/sveltemarkdown.es.js",
-   "jsnext:main": "dist/sveltemarkdown.es.js",
-   "svelte": "src/index.js",
+@@ -13,7 +13,6 @@
+     },
+     "./package.json": "./package.json"
+   },
 -  "type": "module",
    "files": [
      "dist",

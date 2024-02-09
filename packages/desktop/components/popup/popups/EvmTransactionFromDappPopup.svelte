@@ -10,7 +10,11 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { EvmTransactionData } from '@core/layer-2/types'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
-    import { calculateEstimatedGasFeeFromTransactionData, calculateMaxGasFeeFromTransactionData } from '@core/layer-2'
+    import {
+        calculateEstimatedGasFeeFromTransactionData,
+        calculateMaxGasFeeFromTransactionData,
+        getMethodNameForEvmTransaction,
+    } from '@core/layer-2'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
     import { TokenTransferData } from '@core/wallet'
@@ -39,6 +43,7 @@
     let tokenTransfer: TokenTransferData | undefined
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false
+    let methodName: string | undefined = undefined
     let busy = false
 
     setTokenTransfer()
@@ -75,7 +80,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
         } catch (error) {
             return
         }
@@ -104,6 +109,12 @@
             modifyPopupState({ preventClose: false }, true)
             handleError(err)
         }
+    }
+
+    $: setMethodName(preparedTransaction)
+    async function setMethodName(preparedTransaction: EvmTransactionData): Promise<void> {
+        const result = await getMethodNameForEvmTransaction(preparedTransaction)
+        methodName = result?.startsWith('0x') ? undefined : result
     }
 
     function getSuccessMessage(): string {
@@ -151,6 +162,7 @@
                             value: truncateString(String(preparedTransaction.to), 16, 16),
                             onClick: () => onExplorerClick(String(preparedTransaction.to)),
                         },
+                        { key: localize('general.methodName'), value: methodName },
                         { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                     ]}
                 />
