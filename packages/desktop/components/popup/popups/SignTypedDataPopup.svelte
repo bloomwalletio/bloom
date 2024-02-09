@@ -94,7 +94,9 @@
         {#if dapp}
             <Alert
                 variant="info"
-                text={localize('popups.signMessage.hint', { dappName: dapp.metadata?.name ?? 'Unkown' })}
+                text={localize('popups.signMessage.hint', {
+                    dappName: dapp.metadata?.name ?? localize('general.unknown'),
+                })}
             />
         {:else}
             <Alert variant="warning" text={localize('popups.signMessage.warning')} />
