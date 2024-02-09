@@ -348,8 +348,11 @@ ipcMain.on(LedgerApiMethod.SignMessage, (_e, messageHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignMessage, payload: [messageHex, bip32Path] })
 })
 
-ipcMain.on(LedgerApiMethod.SignEIP712, (_e, jsonString, bip32Path, version) => {
-    ledgerProcess?.postMessage({ method: LedgerApiMethod.SignEIP712, payload: [jsonString, bip32Path, version] })
+ipcMain.on(LedgerApiMethod.SignEIP712, (_e, hashedDomain, hashedMessage, bip32Path) => {
+    ledgerProcess?.postMessage({
+        method: LedgerApiMethod.SignEIP712,
+        payload: [hashedDomain, hashedMessage, bip32Path],
+    })
 })
 
 export function getOrInitWindow(windowName: string, ...args: unknown[]): BrowserWindow {

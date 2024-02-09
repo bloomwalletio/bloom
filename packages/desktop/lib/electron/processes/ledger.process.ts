@@ -51,11 +51,7 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
                 break
             }
             case LedgerApiMethod.SignEIP712: {
-                data = await signEIP712Message(
-                    payload[0] as string,
-                    payload[1] as string,
-                    payload[2] as 'V1' | 'V2' | 'V3' | 'V4'
-                )
+                data = await signEIP712Message(payload[0] as string, payload[1] as string, payload[2] as string)
                 break
             }
             default:
