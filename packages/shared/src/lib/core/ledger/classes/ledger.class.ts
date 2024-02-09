@@ -146,21 +146,21 @@ export class Ledger {
         bip44: Bip44,
         version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4
     ): Promise<string | undefined> {
+        const rawMessage = JSON.parse(jsonString)
         openPopup({
             id: PopupId.VerifyLedgerTransaction,
             hideClose: true,
             preventClose: true,
             props: {
-                eip712Message: JSON.parse(jsonString),
+                rawMessage,
             },
         })
 
         const bip32Path = buildBip32PathFromBip44(bip44)
 
-        const typedData = JSON.parse(jsonString)
-        const sanitizedData = TypedDataUtils.sanitizeData(typedData)
+        const sanitizedData = TypedDataUtils.sanitizeData(rawMessage)
 
-        const hashedDomain = '0x' + TypedDataUtils.eip712DomainHash(typedData, version).toString('hex')
+        const hashedDomain = '0x' + TypedDataUtils.eip712DomainHash(rawMessage, version).toString('hex')
         const hashedMessage =
             '0x' +
             TypedDataUtils.hashStruct(
@@ -169,7 +169,6 @@ export class Ledger {
                 sanitizedData.types,
                 version
             ).toString('hex')
-
         const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEIP712, hashedDomain, hashedMessage, bip32Path),
             'signed-eip712'
