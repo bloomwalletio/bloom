@@ -347,12 +347,13 @@
             },
             "activity": {
                 "tab": "Aktivite",
-                "activity": "Activity",
+                "activity": "Aktivite",
                 "asset": "Varlık",
                 "action": "İşlem",
+                "date": "Date",
                 "address": "Adres",
                 "amount": "Miktar",
-                "fee": "Fee",
+                "fee": "Ücretsiz",
                 "claimableTransactions": "{amount} {amount, select, 1 {transaction that require} other {transactions that require}} hak talebiniz var",
                 "consolidatedOutputs": "{miktar} çıktılar birleştirildi"
             },
@@ -472,14 +473,14 @@
                         "title": "Bağlı Uygulamalar",
                         "connectDapp": "dApp'e bağlandı",
                         "paired": {
-                            "tab": "Paired",
-                            "emptyTitle": "No apps found",
-                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                            "tab": "Eşleştirilmiş",
+                            "emptyTitle": "Hiçbir uygulama bulunamadı",
+                            "emptySubtitle": "Bloom'u favori dApp'lerinize bağlayın"
                         },
                         "expired": {
-                            "tab": "Expired",
-                            "emptyTitle": "No apps found",
-                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                            "tab": "Süresi dolmuş",
+                            "emptyTitle": "Hiçbir uygulama bulunamadı",
+                            "emptySubtitle": "Bloom'u favori dApp'lerinize bağlayın"
                         }
                     },
                     "inputConnectionCode": {
@@ -530,7 +531,7 @@
                         "accounts": {
                             "step": "Hesaplar",
                             "title": "Hesapları seçin",
-                            "tip": "Fonları ayrı ayrı yönetmek için belirli hesaplara bağlanın. dApp'in neye erişebileceğini siz kontrol edersiniz.",
+                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
                             "empty": "En az bir hesap seçmeniz gerekiyor"
                         }
                     },
@@ -599,22 +600,22 @@
         },
         "campaigns": {
             "gallery": {
-                "title": "Campaigns",
-                "emptyTitle": "No campaigns found",
-                "noResults": "No results found",
-                "emptyDescription": "Browse and participate in campaigns with Tide",
-                "emptyAction": "Visit Tide"
+                "title": "Kampanyalar",
+                "emptyTitle": "Hiçbir kampanya bulunamadı",
+                "noResults": "Hiçbir sonuç bulunamadı",
+                "emptyDescription": "Tide ile kampanyalara göz atın ve kampanyalara katılın",
+                "emptyAction": "Tide'yi ziyaret edin"
             },
             "details": {
-                "top10": "Top 10 Leaderboard",
-                "myPosition": "My position",
-                "points": "Points",
-                "tasksComplete": "Tasks Complete",
-                "rewardsClaimed": "Rewards Claimed",
-                "project": "Project",
-                "campaign": "Campaign",
-                "nftBadge": "NFT Badge",
-                "noNftBadge": "No NFT Badge Claimed"
+                "top10": "En iyi 10 skor tablosu",
+                "myPosition": "Pozisyonum",
+                "points": "Puanlar",
+                "tasksComplete": "Görevler tamamlandı",
+                "rewardsClaimed": "Talep Edilen Ödüller",
+                "project": "Proje",
+                "campaign": "Kampanya",
+                "nftBadge": "NFT Rozeti",
+                "noNftBadge": "NFT Rozeti Talep Edilmedi"
             }
         },
         "governance": {
@@ -683,9 +684,14 @@
         },
         "buySell": {
             "info": {
-                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
-                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
-                "changingAccounts": "Changing accounts will reset all information."
+                "receive": "Ödeme yönteminiz yetkilendirildikten sonra seçtiğiniz hesabınız, jetonları doğrudan Transak'tan alacaktır.",
+                "multipleAccounts": "Birden fazla hesabınız varsa satın almadan önce hesap seçici açılır menüsünü kullanarak geçiş yapabilirsiniz.",
+                "changingAccounts": "Hesapları değiştirmek tüm bilgileri sıfırlayacaktır."
+            },
+            "tooltip": {
+                "connected": "connected securely",
+                "redirected": "redirected, be careful!",
+                "disconnected": "disconnected, try refreshing"
             }
         }
     },
@@ -1352,27 +1358,15 @@
         "revoting": "İptal ediliyor",
         "unvoted": "Oy geri alındı",
         "unvoting": "Oylama iptali",
-        "transferIn": "İçeriye transfer et",
-        "transferringIn": "İçe aktarma",
-        "transferOut": "Dışarı aktar",
-        "transferringOut": "Dışarı aktarma",
+        "transferred": "Transferred",
+        "transferring": "Transferring",
         "shimmerClaimed": "Talep edildi",
         "shimmerClaiming": "Talep etme",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "Basılmış takma ad",
-        "mintingalias": "Takma ad oluşturma",
-        "mintednft": "Basılmış NFT",
-        "mintingnft": "NFT basımı",
-        "mintedfoundry": "Basılmış token (Jeton)",
-        "mintingfoundry": "Token basma",
-        "burnedalias": "Yanmış takma ad",
-        "burningalias": "Takma ad yakma",
-        "burnednft": "Yanmış NFT",
-        "burningnft": "NFT'yi yakma",
-        "burnedfoundry": "Yanmış token (Jeton)",
-        "burningfoundry": "Token'i yakma",
-        "burnedbasic": "Yanmış token (Jeton)",
-        "burningbasic": "Token'i yakma",
+        "minted": "Minted",
+        "minting": "Minting",
+        "burned": "Burned",
+        "burning": "Burning",
         "balanceDecreased": "Bakiye azaldı",
         "balanceIncreased": "Bakiye arttı",
         "initialBalance": "Başlangıç bakiyesi",
@@ -1497,6 +1491,7 @@
         "immutableIssuer": "Değişmez İhraççı",
         "magicContract": "Sihirli Sözleşme",
         "smartContract": "Akıllı Sözleşme",
+        "contractCall": "Contract call",
         "targetContract": "Hedfef sözleşme",
         "contractFunction": "Sözleşme işlevi",
         "standard": "Standart",
@@ -1529,6 +1524,7 @@
         "networks": "Ağlar",
         "ledgerDevice": "Ledger Cihazı",
         "disconnected": "Bağlı değil",
+        "redirected": "Redirected",
         "balanceBreakdown": "Bakiye dökümü",
         "primary": "Birincil",
         "color": "Renk",
@@ -1546,13 +1542,13 @@
         "methodName": "Yöntem Adı",
         "data": "Veri",
         "success": "Başarılı",
-        "info": "Info",
-        "active": "Active",
-        "ended": "Ended",
-        "draft": "Draft",
-        "upcoming": "Upcoming",
-        "featured": "Featured",
-        "raffle": "Raffle"
+        "info": "Bilgi",
+        "active": "Aktif",
+        "ended": "Bitti",
+        "draft": "Taslak",
+        "upcoming": "Yakında",
+        "featured": "Öne Çıkanlar",
+        "raffle": "Çekiliş"
     },
     "filters": {
         "title": "Filtreler",
@@ -2053,7 +2049,7 @@
         "wallet": "Cüzdan",
         "collectibles": "Koleksiyonlar",
         "governance": "Yönetim",
-        "campaigns": "Campaigns",
+        "campaigns": "Kampanyalar",
         "buySell": "Al & Sat",
         "developer": "Geliştirici",
         "tokens": "Tokenler",

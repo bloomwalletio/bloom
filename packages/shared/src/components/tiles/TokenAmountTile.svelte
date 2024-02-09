@@ -31,7 +31,7 @@
                         </Text>
                     {/if}
                     <Text align="right">
-                        {token.metadata ? formatTokenAmountBestMatch(amount, token.metadata, true, false) : '-'}
+                        {token.metadata ? formatTokenAmountBestMatch(amount, token.metadata, { round: false }) : '-'}
                     </Text>
                 </div>
                 <div class="flex flex-row w-full {hideTokenInfo ? 'justify-end' : 'justify-between'}">
