@@ -14,7 +14,7 @@ export default class TransakManager implements ITransakManager {
 
     public closeWindow(): void {
         if (windows.transak) {
-            windows.transak.close()
+            windows.transak.destroy()
             windows.transak = null
         }
     }

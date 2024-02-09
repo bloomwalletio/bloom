@@ -2,23 +2,22 @@ import { Activity, ActivityAction, ActivityDirection, ActivityType } from '@core
 
 export function getActivityActionColor(activity: Activity, darkMode: boolean): string {
     const { type, direction, action } = activity
-    const neutralColor = darkMode ? 'neutral-1' : 'neutral-7'
 
     if (type === ActivityType.Basic && activity.isShimmerClaiming) {
         return 'info'
     }
     if (type === ActivityType.Governance) {
-        return neutralColor
+        return darkMode ? 'neutral-1' : 'neutral-7'
     } else if (type === ActivityType.Consolidation) {
-        return neutralColor
+        return darkMode ? 'neutral-1' : 'neutral-7'
     } else if (type === ActivityType.SmartContract) {
-        return neutralColor
+        return 'brand'
     } else if (action === ActivityAction.Mint) {
         return 'success'
     } else if (action === ActivityAction.Burn) {
         return 'danger'
     } else if (action === ActivityAction.InitialBalance) {
-        return neutralColor
+        return darkMode ? 'neutral-1' : 'neutral-7'
     } else if (action === ActivityAction.Send || action === ActivityAction.BalanceChange) {
         const isReceived = [
             ActivityDirection.Incoming,
@@ -31,9 +30,9 @@ export function getActivityActionColor(activity: Activity, darkMode: boolean): s
         } else if (isReceived) {
             return 'info'
         } else {
-            return neutralColor
+            return darkMode ? 'neutral-1' : 'neutral-7'
         }
     } else {
-        return neutralColor
+        return darkMode ? 'neutral-1' : 'neutral-7'
     }
 }
