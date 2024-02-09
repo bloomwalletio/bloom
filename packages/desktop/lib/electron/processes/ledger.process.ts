@@ -35,7 +35,7 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
         const { method, payload } = message
         switch (method) {
             case LedgerApiMethod.GenerateEvmAddress: {
-                data = await getEvmAddress(payload[0] as string)
+                data = await getEvmAddress(payload[0])
                 break
             }
             case LedgerApiMethod.GetEthereumAppSettings: {
@@ -43,15 +43,15 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
                 break
             }
             case LedgerApiMethod.SignEvmTransaction: {
-                data = await signTransactionData(payload[0] as string, payload[1] as string)
+                data = await signTransactionData(payload[0], payload[1])
                 break
             }
             case LedgerApiMethod.SignMessage: {
-                data = await signMessage(payload[0] as string, payload[1] as string)
+                data = await signMessage(payload[0], payload[1])
                 break
             }
             case LedgerApiMethod.SignEIP712: {
-                data = await signEIP712Message(payload[0] as string, payload[1] as string, payload[2] as string)
+                data = await signEIP712Message(payload[0], payload[1], payload[2])
                 break
             }
             default:
