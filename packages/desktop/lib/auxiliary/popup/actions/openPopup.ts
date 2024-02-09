@@ -1,6 +1,6 @@
 import { isLoggedIn } from '@core/profile/stores'
-import { modifyPopupState } from '../helpers'
 import { IPopupState } from '../interfaces'
+import { modifyPopupState } from './modifyPopupState'
 
 export function openPopup(
     {

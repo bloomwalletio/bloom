@@ -16,7 +16,7 @@
     export let toAddress: string = undefined
     export let toAmount: string = undefined
     export let chainId: string = undefined
-    export let maxGasFee: string = undefined
+    export let maxGasFee: bigint = undefined
 
     // Blindly signed transaction
     export let hash: string = undefined
@@ -80,7 +80,7 @@
                             key: localize('general.maxFees'),
                             value:
                                 !useBlindSigning && isEvmTransaction
-                                    ? formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken())
+                                    ? formatTokenAmountBestMatch(maxGasFee, getBaseToken())
                                     : undefined,
                         },
                         {

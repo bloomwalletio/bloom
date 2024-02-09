@@ -3,36 +3,38 @@
     import { handleError } from '@core/error/handlers'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { sendTransactionFromEvm } from '@core/wallet/actions'
+    import { signAndSendTransactionFromEvm } from '@core/wallet/actions'
     import { selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { EvmTransactionData } from '@core/layer-2/types'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
-    import { calculateEstimatedGasFeeFromTransactionData, calculateMaxGasFeeFromTransactionData } from '@core/layer-2'
+    import {
+        calculateEstimatedGasFeeFromTransactionData,
+        calculateMaxGasFeeFromTransactionData,
+        getMethodNameForEvmTransaction,
+    } from '@core/layer-2'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
     import { TokenTransferData } from '@core/wallet'
     import { Nft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import DappDataBanner from '@components/DappDataBanner.svelte'
-    import { onMount } from 'svelte'
     import { Alert, Table } from '@bloomwalletio/ui'
-    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
-    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
     import { ActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { LedgerAppName } from '@core/ledger'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
     export let signAndSend: boolean
     export let callback: (params: CallbackParameters) => void
-
-    export let _onMount: () => Promise<void> = async () => {}
 
     const { id } = chain.getConfiguration()
     $: localeKey = signAndSend ? (isSmartContractCall ? 'smartContractCall' : 'sendTransaction') : 'signTransaction'
@@ -41,6 +43,8 @@
     let tokenTransfer: TokenTransferData | undefined
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false
+    let methodName: string | undefined = undefined
+    let busy = false
 
     setTokenTransfer()
     function setTokenTransfer(): void {
@@ -76,8 +80,22 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            const response = await sendTransactionFromEvm(preparedTransaction, chain, signAndSend)
+            checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+        } catch (error) {
+            return
+        }
+
+        try {
+            busy = true
+            modifyPopupState({ preventClose: true })
+            const response = await signAndSendTransactionFromEvm(
+                preparedTransaction,
+                chain,
+                $selectedAccount,
+                signAndSend
+            )
             modifyPopupState({ preventClose: false }, true)
+            busy = false
             callback({ result: response })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
@@ -87,9 +105,16 @@
                 },
             })
         } catch (err) {
+            busy = false
             modifyPopupState({ preventClose: false }, true)
             handleError(err)
         }
+    }
+
+    $: setMethodName(preparedTransaction)
+    async function setMethodName(preparedTransaction: EvmTransactionData): Promise<void> {
+        const result = await getMethodNameForEvmTransaction(preparedTransaction)
+        methodName = result?.startsWith('0x') ? undefined : result
     }
 
     function getSuccessMessage(): string {
@@ -107,15 +132,6 @@
         const explorerUrl = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
         openUrlInBrowser(`${explorerUrl}/${contractAddress}`)
     }
-
-    // Required to trigger callback after profile authentication
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            handleError(err)
-        }
-    })
 </script>
 
 <PopupTemplate
@@ -129,8 +145,9 @@
     continueButton={{
         text: localize(`popups.${localeKey}.action`),
         onClick: onConfirmClick,
+        disabled: busy,
     }}
-    busy={$selectedAccount?.isTransferring}
+    {busy}
 >
     <DappDataBanner slot="banner" {dapp} />
 
@@ -145,6 +162,7 @@
                             value: truncateString(String(preparedTransaction.to), 16, 16),
                             onClick: () => onExplorerClick(String(preparedTransaction.to)),
                         },
+                        { key: localize('general.methodName'), value: methodName },
                         { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                     ]}
                 />

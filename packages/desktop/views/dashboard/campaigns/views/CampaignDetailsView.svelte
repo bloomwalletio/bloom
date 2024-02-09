@@ -90,7 +90,8 @@
             addCampaignLeaderboard(
                 $selectedCampaign.projectId,
                 $selectedCampaign.id,
-                leaderboardResponse.filteredLeaderboard
+                leaderboardResponse.filteredLeaderboard,
+                leaderboardResponse.leaderboardUserCount
             )
             leaderboardLoading = false
         } catch (error) {

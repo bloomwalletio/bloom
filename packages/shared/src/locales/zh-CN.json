@@ -350,6 +350,7 @@
                 "activity": "Activity",
                 "asset": "Asset",
                 "action": "Action",
+                "date": "Date",
                 "address": "Address",
                 "amount": "Amount",
                 "fee": "Fee",
@@ -530,7 +531,7 @@
                         "accounts": {
                             "step": "Accounts",
                             "title": "Select accounts",
-                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access.",
+                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
                             "empty": "You have to select at least one account"
                         }
                     },
@@ -595,6 +596,26 @@
                     "view": "在浏览器中查看",
                     "burn": "烧毁 NFT"
                 }
+            }
+        },
+        "campaigns": {
+            "gallery": {
+                "title": "Campaigns",
+                "emptyTitle": "No campaigns found",
+                "noResults": "No results found",
+                "emptyDescription": "Browse and participate in campaigns with Tide",
+                "emptyAction": "Visit Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "My position",
+                "points": "Points",
+                "tasksComplete": "Tasks Complete",
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "No NFT Badge Claimed"
             }
         },
         "governance": {
@@ -666,6 +687,11 @@
                 "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
                 "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
                 "changingAccounts": "Changing accounts will reset all information."
+            },
+            "tooltip": {
+                "connected": "connected securely",
+                "redirected": "redirected, be careful!",
+                "disconnected": "disconnected, try refreshing"
             }
         }
     },
@@ -1332,27 +1358,15 @@
         "revoting": "重新投票",
         "unvoted": "已取消投票",
         "unvoting": "取消投票中...",
-        "transferIn": "Transfer in",
-        "transferringIn": "Transferring in",
-        "transferOut": "Transfer out",
-        "transferringOut": "Transferring out",
+        "transferred": "Transferred",
+        "transferring": "Transferring",
         "shimmerClaimed": "已认领",
         "shimmerClaiming": "认领中...",
         "shimmerGenesis": "Shimmer 创世块",
-        "mintedalias": "Minted alias",
-        "mintingalias": "Minting alias",
-        "mintednft": "Minted NFT",
-        "mintingnft": "Minting NFT",
-        "mintedfoundry": "Minted token",
-        "mintingfoundry": "Minting token",
-        "burnedalias": "Burned alias",
-        "burningalias": "Burning alias",
-        "burnednft": "Burned NFT",
-        "burningnft": "Burning NFT",
-        "burnedfoundry": "Burned token",
-        "burningfoundry": "Burning token",
-        "burnedbasic": "Burned token",
-        "burningbasic": "Burning token",
+        "minted": "Minted",
+        "minting": "Minting",
+        "burned": "Burned",
+        "burning": "Burning",
         "balanceDecreased": "Balance decreased",
         "balanceIncreased": "Balance increased",
         "initialBalance": "Initial balance",
@@ -1477,6 +1491,7 @@
         "immutableIssuer": "不可变发行者",
         "magicContract": "Magic Contract",
         "smartContract": "智能合约",
+        "contractCall": "Contract call",
         "targetContract": "目标合约",
         "contractFunction": "合约功能",
         "standard": "标准",
@@ -1509,6 +1524,7 @@
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
+        "redirected": "Redirected",
         "balanceBreakdown": "Balance breakdown",
         "primary": "Primary",
         "color": "Color",
@@ -1526,7 +1542,13 @@
         "methodName": "Method name",
         "data": "Data",
         "success": "Success",
-        "info": "Info"
+        "info": "Info",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming",
+        "featured": "Featured",
+        "raffle": "Raffle"
     },
     "filters": {
         "title": "过滤",
@@ -2027,10 +2049,11 @@
         "wallet": "钱包",
         "collectibles": "合集",
         "governance": "治理",
+        "campaigns": "Campaigns",
+        "buySell": "Buy & Sell",
         "developer": "开发者",
         "tokens": "代币",
-        "settings": "Settings",
-        "buySell": "Buy & Sell"
+        "settings": "Settings"
     },
     "pills": {
         "asyncStatus": {
