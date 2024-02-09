@@ -75,7 +75,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
         } catch (error) {
             return
         }
