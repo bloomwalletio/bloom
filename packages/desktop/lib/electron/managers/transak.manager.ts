@@ -53,7 +53,7 @@ export default class TransakManager implements ITransakManager {
             acceptFirstMouse: true,
             hasShadow: false,
             thickFrame: false,
-            roundedCorners: true,
+            roundedCorners: false,
             webPreferences: {
                 nodeIntegration: false,
                 contextIsolation: true,
