@@ -4,6 +4,7 @@ import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
 import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
+import { buildQueryParametersFromObject } from '@core/utils/url'
 
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
@@ -164,6 +165,19 @@ export default class TransakManager implements ITransakManager {
         const { address, currency, service } = data
         const apiKey = process.env.TRANSAK_API_KEY
 
-        return `${TRANSAK_WIDGET_URL}/?apiKey=${apiKey}&defaultFiatCurrency=${currency}&walletAddress=${address}&productsAvailed=${service}&cryptoCurrencyCode=IOTA&network=miota&themeColor=7C41C9&hideMenu=true`
+        const queryParams = buildQueryParametersFromObject({
+            apiKey,
+            defaultFiatCurrency: currency,
+            walletAddress: address,
+            productsAvailed: service,
+            cryptoCurrencyCode: 'IOTA',
+            network: 'miota',
+            themeColor: '7C41C9',
+            hideMenu: true,
+            disableWalletAddressForm: true,
+            isFeeCalculationHidden: true,
+        })
+
+        return `${TRANSAK_WIDGET_URL}/?${queryParams}`
     }
 }
