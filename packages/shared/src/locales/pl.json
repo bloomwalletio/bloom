@@ -350,7 +350,7 @@
                 "activity": "Aktywność",
                 "asset": "Token",
                 "action": "Akcja",
-                "date": "Date",
+                "date": "Data",
                 "address": "Adres",
                 "amount": "Ilość",
                 "fee": "Opłata",
@@ -481,6 +481,13 @@
                             "tab": "Wygasłe",
                             "emptyTitle": "Nie znaleziono aplikacji",
                             "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
+                        },
+                        "actions": {
+                            "clearExpired": "Clear expired list"
+                        },
+                        "clearExpired": {
+                            "title": "Clear expired list",
+                            "description": "Are you sure you want to clear the list of expired dApp connections?"
                         }
                     },
                     "inputConnectionCode": {
@@ -531,7 +538,7 @@
                         "accounts": {
                             "step": "Konta",
                             "title": "Wybierz konta",
-                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
+                            "tip": "To Ty kontrolujesz, do czego dApp może mieć dostęp. Niektóre aplikacje łączą się tylko z głównym kontem.",
                             "empty": "Musisz wybrać przynajmniej jedno konto"
                         }
                     },
@@ -689,9 +696,9 @@
                 "changingAccounts": "Zmiana kont zresetuje wszystkie informacje."
             },
             "tooltip": {
-                "connected": "connected securely",
-                "redirected": "redirected, be careful!",
-                "disconnected": "disconnected, try refreshing"
+                "connected": "bezpieczne połączenie",
+                "redirected": "przekierowano, bądź ostrożny!",
+                "disconnected": "rozłączono, spróbuj odświeżyć"
             }
         }
     },
@@ -1358,15 +1365,15 @@
         "revoting": "Odnawianie głosów",
         "unvoted": "Zatrzymano głos",
         "unvoting": "Wycofywanie głosu",
-        "transferred": "Transferred",
-        "transferring": "Transferring",
+        "transferred": "Przesłano",
+        "transferring": "Przesyłanie",
         "shimmerClaimed": "Odebrano",
         "shimmerClaiming": "Odbieranie",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Minted",
-        "minting": "Minting",
-        "burned": "Burned",
-        "burning": "Burning",
+        "minted": "Mintowano",
+        "minting": "Mintowanie",
+        "burned": "Spalono",
+        "burning": "Spalanie",
         "balanceDecreased": "Saldo zmniejszyło się",
         "balanceIncreased": "Saldo zwiększyło się",
         "initialBalance": "Saldo początkowe",
@@ -1491,7 +1498,7 @@
         "immutableIssuer": "Niezmienny wydawca",
         "magicContract": "Magiczny kontrakt",
         "smartContract": "Smart kontrakt",
-        "contractCall": "Contract call",
+        "contractCall": "Wywołanie kontraktu",
         "targetContract": "Kontrakt docelowy",
         "contractFunction": "Funkcja kontraktu",
         "standard": "Standard",
@@ -1524,7 +1531,7 @@
         "networks": "Sieci",
         "ledgerDevice": "Urządzenie Ledger",
         "disconnected": "Rozłączono",
-        "redirected": "Redirected",
+        "redirected": "Przekierowano",
         "balanceBreakdown": "Zestawienie środków",
         "primary": "Główny",
         "color": "Kolor",
@@ -1548,7 +1555,10 @@
         "draft": "Szkic",
         "upcoming": "Nadchodząca",
         "featured": "Wyróźniona",
-        "raffle": "Loteria"
+        "raffle": "Loteria",
+        "governance": "Governance",
+        "baseCoin": "Base Coin",
+        "unverifiedContract": "Unverified Contract"
     },
     "filters": {
         "title": "Filtry",
@@ -1695,6 +1705,9 @@
         },
         "disconnectDapp": {
             "success": "Odłączono od aplikacji {dappName}"
+        },
+        "clearExpiredDapps": {
+            "success": "Expired dApps cleared"
         },
         "removeDapp": {
             "success": "Usunięto aplikację {dappName}"

@@ -350,7 +350,7 @@
                 "activity": "Activiteit",
                 "asset": "Bezit",
                 "action": "Actie",
-                "date": "Date",
+                "date": "Datum",
                 "address": "Adres",
                 "amount": "Hoeveelheid",
                 "fee": "Fee",
@@ -481,6 +481,13 @@
                             "tab": "Verlopen",
                             "emptyTitle": "Geen apps gevonden",
                             "emptySubtitle": "Verbind Bloom met jouw favoriete dApps"
+                        },
+                        "actions": {
+                            "clearExpired": "Clear expired list"
+                        },
+                        "clearExpired": {
+                            "title": "Clear expired list",
+                            "description": "Are you sure you want to clear the list of expired dApp connections?"
                         }
                     },
                     "inputConnectionCode": {
@@ -531,7 +538,7 @@
                         "accounts": {
                             "step": "Accounts",
                             "title": "Selecteer accounts",
-                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
+                            "tip": "Jij bepaalt waar de dApp toegang voor kan vragen. Sommige apps verbinden alleen met het primaire account.",
                             "empty": "Je moet ten minste één account selecteren"
                         }
                     },
@@ -600,22 +607,22 @@
         },
         "campaigns": {
             "gallery": {
-                "title": "Campaigns",
-                "emptyTitle": "No campaigns found",
-                "noResults": "No results found",
-                "emptyDescription": "Browse and participate in campaigns with Tide",
-                "emptyAction": "Visit Tide"
+                "title": "Campagnes",
+                "emptyTitle": "Geen campagnes gevonden",
+                "noResults": "Geen resultaten gevonden",
+                "emptyDescription": "Bekijk en neem deel aan campagnes met Tide",
+                "emptyAction": "Bezoek Tide"
             },
             "details": {
                 "top10": "Top 10 Leaderboard",
-                "myPosition": "My position",
-                "points": "Points",
-                "tasksComplete": "Tasks Complete",
-                "rewardsClaimed": "Rewards Claimed",
+                "myPosition": "Mijn positie",
+                "points": "Punten",
+                "tasksComplete": "Taken voltooid",
+                "rewardsClaimed": "Beloning geclaimd",
                 "project": "Project",
-                "campaign": "Campaign",
+                "campaign": "Campagne",
                 "nftBadge": "NFT Badge",
-                "noNftBadge": "No NFT Badge Claimed"
+                "noNftBadge": "Geen NFT Badge geclaimd"
             }
         },
         "governance": {
@@ -689,9 +696,9 @@
                 "changingAccounts": "Het veranderen van accounts zal alle informatie resetten."
             },
             "tooltip": {
-                "connected": "connected securely",
-                "redirected": "redirected, be careful!",
-                "disconnected": "disconnected, try refreshing"
+                "connected": "beveiligde verbinding",
+                "redirected": "omgeleid, wees voorzichtig!",
+                "disconnected": "verbinding verbroken, probeer verversen"
             }
         }
     },
@@ -1358,13 +1365,13 @@
         "revoting": "Herstemmen",
         "unvoted": "Niet gestemd",
         "unvoting": "Niet stemmen",
-        "transferred": "Transferred",
-        "transferring": "Transferring",
+        "transferred": "Verzonden",
+        "transferring": "Aan het verzenden",
         "shimmerClaimed": "Geclaimed",
         "shimmerClaiming": "Claimen",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Minted",
-        "minting": "Minting",
+        "minted": "Gemint",
+        "minting": "Minten",
         "burned": "Burned",
         "burning": "Burning",
         "balanceDecreased": "Saldo verlaagd",
@@ -1491,7 +1498,7 @@
         "immutableIssuer": "Onveranderlijke uitgever",
         "magicContract": "Magisch Contract",
         "smartContract": "Smart Contract",
-        "contractCall": "Contract call",
+        "contractCall": "Contract oproep",
         "targetContract": "Doel contract",
         "contractFunction": "Contract functie",
         "standard": "Standaard",
@@ -1524,7 +1531,7 @@
         "networks": "Netwerken",
         "ledgerDevice": "Ledger apparaat",
         "disconnected": "Verbroken",
-        "redirected": "Redirected",
+        "redirected": "Doorverwezen",
         "balanceBreakdown": "Saldo verdeling",
         "primary": "Primair",
         "color": "Kleur",
@@ -1543,12 +1550,15 @@
         "data": "Gegevens",
         "success": "Succesvol",
         "info": "Info",
-        "active": "Active",
-        "ended": "Ended",
-        "draft": "Draft",
-        "upcoming": "Upcoming",
-        "featured": "Featured",
-        "raffle": "Raffle"
+        "active": "Actief",
+        "ended": "Afgelopen",
+        "draft": "Concept",
+        "upcoming": "Aankomend",
+        "featured": "Aanbevolen",
+        "raffle": "Verloting",
+        "governance": "Governance",
+        "baseCoin": "Base Coin",
+        "unverifiedContract": "Unverified Contract"
     },
     "filters": {
         "title": "Filters",
@@ -1695,6 +1705,9 @@
         },
         "disconnectDapp": {
             "success": "Verbinding verbroken met {dappName}"
+        },
+        "clearExpiredDapps": {
+            "success": "Expired dApps cleared"
         },
         "removeDapp": {
             "success": "{dappName} verwijderd"
@@ -2049,7 +2062,7 @@
         "wallet": "Wallet",
         "collectibles": "Verzamelingen",
         "governance": "Governance",
-        "campaigns": "Campaigns",
+        "campaigns": "Campagnes",
         "buySell": "Kopen & verkopen",
         "developer": "Ontwikkelaar",
         "tokens": "Tokens",

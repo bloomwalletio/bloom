@@ -53,6 +53,7 @@ export function handleWatchAsset(
             onConfirm: () => {
                 void trackAsset(params, chain.getConfiguration().id)
                 responseCallback({ result: null })
+                closePopup()
             },
             onCancel: () => {
                 responseCallback({ error: getSdkError('USER_REJECTED') })
