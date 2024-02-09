@@ -17,7 +17,7 @@
     import { signEip712Message } from '@core/wallet/actions/signEip712Message'
 
     export let data: string
-    export let version: SignTypedDataVersion
+    export let version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined

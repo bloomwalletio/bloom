@@ -6,6 +6,7 @@ import { switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app/classes'
 import { SignTypedDataVersion } from '@metamask/eth-sig-util'
+import { localize } from '@core/i18n'
 
 export async function handleEthSignTypedData(
     params: unknown,
@@ -26,7 +27,12 @@ export async function handleEthSignTypedData(
         responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
+
     const version = getVersion(method)
+    if (version === SignTypedDataVersion.V1) {
+        responseCallback({ error: { code: 501, message: localize('error.walletConnect.signTypedData') } })
+        return
+    }
 
     Platform.focusWindow()
 

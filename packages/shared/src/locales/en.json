@@ -1985,7 +1985,8 @@
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
             "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
-            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",

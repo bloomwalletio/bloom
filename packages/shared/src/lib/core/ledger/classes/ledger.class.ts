@@ -144,12 +144,8 @@ export class Ledger {
     static async signEip712Message(
         jsonString: string,
         bip44: Bip44,
-        version: SignTypedDataVersion
+        version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4
     ): Promise<string | undefined> {
-        if (version === SignTypedDataVersion.V1) {
-            return Promise.reject(localize('error.ledger.eip712.notSupported'))
-        }
-
         openPopup({
             id: PopupId.VerifyLedgerTransaction,
             hideClose: true,

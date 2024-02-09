@@ -8,7 +8,7 @@ import { SignTypedDataVersion } from '@metamask/eth-sig-util'
 
 export async function signEip712Message(
     jsonString: string,
-    version: SignTypedDataVersion,
+    version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4,
     coinType: number,
     account: IAccountState
 ): Promise<string | undefined> {
