@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IAccountState } from '@core/account'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import Selection from './Selection.svelte'
     import { localize } from '@core/i18n'
@@ -30,18 +30,18 @@
             : undefined
 
         accountSelections = $visibleActiveAccounts
-            // .filter((account) => {
-            //     return hasAddressForAllChains(account, _chainIds)
-            // })
+            .filter((account) => {
+                return hasAddressForAllChains(account, _chainIds)
+            })
             .map((account) => {
                 const isChecked = persistedAccountIndexes?.includes(account.index) ?? true
                 return { label: account.name, value: account, checked: isChecked, required: false }
             })
     }
 
-    // function hasAddressForAllChains(account: IAccountState, chainIds: string[]): boolean {
-    //     return chainIds.every((chainId) => getAddressFromAccountForNetwork(account, chainId as NetworkId))
-    // }
+    function hasAddressForAllChains(account: IAccountState, chainIds: string[]): boolean {
+        return chainIds.every((chainId) => getAddressFromAccountForNetwork(account, chainId as NetworkId))
+    }
 
     function getAccountsFromPersistedNamespaces(_persistedNamespaces: ISupportedNamespace[]): number[] {
         return _persistedNamespaces.flatMap((namespace) => {
