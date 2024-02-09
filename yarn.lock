@@ -10579,10 +10579,10 @@ svelte-loader@3.1.9:
     svelte-dev-helper "^1.1.9"
     svelte-hmr "^0.14.2"
 
-svelte-markdown@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/svelte-markdown/-/svelte-markdown-0.4.0.tgz#372e2db47b2c1bbf5295dfdecb86c566a51a5184"
-  integrity sha512-d8xYJoPhhiLn/tFrO54V5p22q2+I7It8w3CpTv+O+h99LlgehxK9XwdISVBl2aNcLbLX128Nz/vu7GScWhVZjw==
+svelte-markdown@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/svelte-markdown/-/svelte-markdown-0.4.1.tgz#ddf13cfd6e0f29a02a82854b48766b527ec90f8d"
+  integrity sha512-pOlLY6EruKJaWI9my/2bKX8PdTeP5CM0s4VMmwmC2prlOkjAf+AOmTM4wW/l19Y6WZ87YmP8+ZCJCCwBChWjYw==
   dependencies:
     "@types/marked" "^5.0.1"
     marked "^5.1.2"
