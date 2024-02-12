@@ -1,12 +1,10 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { handleError } from '@core/error/handlers'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { Alert, JsonTree, Table, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { selectedAccount } from '@core/account/stores'
     import { IChain } from '@core/network'
     import { AccountLabel } from '@ui'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
@@ -25,16 +23,18 @@
 
     let isBusy = false
 
-    async function unlockAndSign(): Promise<string> {
-        await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
-        const { coinType } = chain.getConfiguration()
-        return await signEip712Message(data, version, coinType, account)
-    }
-
     async function onConfirmClick(): Promise<void> {
-        isBusy = true
         try {
-            const result = await unlockAndSign()
+            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+        } catch {
+            return
+        }
+
+        isBusy = true
+
+        try {
+            const { coinType } = chain.getConfiguration()
+            const result = await signEip712Message(data, version, coinType, account)
             closePopup({ forceClose: true })
 
             callback({ result })
@@ -48,7 +48,6 @@
         } catch (err) {
             closePopup({ forceClose: true })
             callback({ error: err ?? localize('error.global.generic') })
-            handleError(err)
         } finally {
             isBusy = false
         }
@@ -69,7 +68,7 @@
         text: localize('popups.signMessage.action'),
         onClick: onConfirmClick,
     }}
-    busy={$selectedAccount?.isTransferring || isBusy}
+    busy={isBusy}
 >
     <DappDataBanner slot="banner" {dapp} />
 
