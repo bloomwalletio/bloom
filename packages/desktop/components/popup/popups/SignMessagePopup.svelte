@@ -16,6 +16,7 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import DappDataBanner from '@components/DappDataBanner.svelte'
     import { getSdkError } from '@walletconnect/utils'
+    import { parseSiweMessage } from '@core/layer-2/utils/parseSiweMessage'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
@@ -24,8 +25,9 @@
     export let dapp: IConnectedDapp | undefined
     export let callback: (params: CallbackParameters) => void
 
+    let isSiwe = false
     let isBusy = false
-
+    $: title = isSiwe ? localize('popups.siwe.title') : localize('popups.signMessage.title')
     async function unlockAndSign(): Promise<string> {
         return new Promise((resolve, reject) => {
             checkActiveProfileAuth(
@@ -74,6 +76,7 @@
     }
 
     onMount(async () => {
+        isSiwe = !!parseSiweMessage(message)
         try {
             await _onMount()
         } catch (err) {
@@ -83,7 +86,7 @@
 </script>
 
 <PopupTemplate
-    title={localize('popups.signMessage.title')}
+    {title}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
