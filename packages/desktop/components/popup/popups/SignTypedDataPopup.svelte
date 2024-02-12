@@ -47,7 +47,7 @@
             })
         } catch (err) {
             closePopup({ forceClose: true })
-            callback({ error: err ?? localize('error.global.generic') })
+            callback({ error: err.message ?? localize('error.global.generic') })
         } finally {
             isBusy = false
         }
