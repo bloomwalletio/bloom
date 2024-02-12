@@ -42,8 +42,8 @@
                 {isFocused
                 ? 'border-brand'
                 : error
-                ? 'border-red-300 hover:border-red-500'
-                : 'border-stroke dark:border-stroke-dark'}"
+                  ? 'border-red-300 hover:border-red-500'
+                  : 'border-stroke dark:border-stroke-dark'}"
             {...$$restProps}
         >
             <slot />

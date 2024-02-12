@@ -149,8 +149,8 @@
             {dropdown
             ? 'border-blue-500'
             : showBorderWhenClosed
-            ? 'focus:border-blue-500 border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700'
-            : 'border-transparent'}"
+              ? 'focus:border-blue-500 border-gray-300 dark:border-gray-700 hover:border-gray-500 dark:hover:border-gray-700'
+              : 'border-transparent'}"
         tabindex="0"
         bind:this={divContainer}
     >

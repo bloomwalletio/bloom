@@ -18,8 +18,8 @@
     $: placeHolderColor = nft.downloadMetadata?.error
         ? 'danger'
         : nft.downloadMetadata?.warning
-        ? 'warning'
-        : ('brand' as TextColor)
+          ? 'warning'
+          : ('brand' as TextColor)
 
     function onNftClick(): void {
         $selectedNftId = nft.id
