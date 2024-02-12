@@ -18,7 +18,9 @@
     export let unit: string | undefined = undefined
     export let availableBalance: bigint
     export let inputtedAmount: string | undefined =
-        rawAmount && token?.metadata ? formatTokenAmountBestMatch(rawAmount, token.metadata, false, false) : undefined
+        rawAmount && token?.metadata
+            ? formatTokenAmountBestMatch(rawAmount, token.metadata, { withUnit: false, round: false })
+            : undefined
 
     let amountInputElement: HTMLInputElement | undefined
     let error: string | undefined
@@ -58,8 +60,9 @@
         const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
 
         const integerLengthOfBalance =
-            formatTokenAmountBestMatch(availableBalance, metadata, false, false).split(decimalSeparator)?.[0]?.length ??
-            0
+            formatTokenAmountBestMatch(availableBalance, metadata, { withUnit: false, round: false }).split(
+                decimalSeparator
+            )?.[0]?.length ?? 0
 
         return (
             allowedDecimalAmount +

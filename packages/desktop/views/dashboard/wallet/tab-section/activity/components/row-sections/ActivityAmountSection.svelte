@@ -7,14 +7,11 @@
         getFormattedVotingPowerFromGovernanceActivity,
     } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
-    import { formatCurrency } from '@core/i18n'
+    import { formatCurrency, localize } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { ITokenWithBalance } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { truncateString } from '@core/utils'
-    import { selectedAccountIndex } from '@core/account/stores'
 
     export let activity: Activity
 
@@ -31,8 +28,7 @@
 
             return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
         } else if (_activity.type === ActivityType.Nft) {
-            const nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, _activity.nftId)
-            return nft?.name ? truncateString(nft.name, 13, 0) : truncateString(nft.id, 7, 7)
+            return '1 ' + localize('general.nft')
         } else {
             return '-'
         }
@@ -44,6 +40,8 @@
 
             const marketPrice = getFiatValueFromTokenAmount(amount, token)
             return marketPrice ? formatCurrency(marketPrice) : '-'
+        } else if (_activity.type === ActivityType.Nft) {
+            return '-'
         } else {
             return undefined
         }

@@ -23,6 +23,7 @@ import {
 } from '@core/ledger'
 import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
+import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
 
 declare global {
     interface Window {
@@ -127,6 +128,50 @@ export class Ledger {
         const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
             'signed-message'
+        )
+
+        const { r, v, s } = transactionSignature
+        if (r && v && s) {
+            const vBig = BigInt(v)
+            const rBuffer = Buffer.from(r, 'hex')
+            const sBuffer = Buffer.from(s, 'hex')
+            return toRpcSig(vBig, rBuffer, sBuffer)
+        } else {
+            throw new Error(localize('error.ledger.rejected'))
+        }
+    }
+
+    static async signEip712Message(
+        jsonString: string,
+        bip44: Bip44,
+        version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4
+    ): Promise<string | undefined> {
+        const rawMessage = JSON.parse(jsonString)
+        openPopup({
+            id: PopupId.VerifyLedgerTransaction,
+            hideClose: true,
+            preventClose: true,
+            props: {
+                rawMessage,
+            },
+        })
+
+        const bip32Path = buildBip32PathFromBip44(bip44)
+
+        const sanitizedData = TypedDataUtils.sanitizeData(rawMessage)
+
+        const hashedDomain = '0x' + TypedDataUtils.eip712DomainHash(rawMessage, version).toString('hex')
+        const hashedMessage =
+            '0x' +
+            TypedDataUtils.hashStruct(
+                sanitizedData.primaryType as string,
+                sanitizedData.message,
+                sanitizedData.types,
+                version
+            ).toString('hex')
+        const transactionSignature = await this.callLedgerApiAsync<IEvmSignature>(
+            () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEIP712, hashedDomain, hashedMessage, bip32Path),
+            'signed-eip712'
         )
 
         const { r, v, s } = transactionSignature

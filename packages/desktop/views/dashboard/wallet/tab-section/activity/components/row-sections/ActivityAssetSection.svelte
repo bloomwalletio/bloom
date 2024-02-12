@@ -19,6 +19,7 @@
     import { time } from '@core/app/stores'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { Nft } from '@core/nfts/interfaces'
+    import AssetPills from '../AssetPills.svelte'
 
     export let activity: Activity
 
@@ -63,7 +64,8 @@
             <Text customColor={color} class="shrink-0">{localize(getActivityTileAction(activity))}</Text>
             <Text truncate>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
         </div>
-        <div class="flex">
+        <div class="flex gap-2">
+            <AssetPills {activity} />
             {#if pill}
                 {#if pill.type === 'unclaimed'}
                     <UnclaimedActivityPill timeDiff={pill.timeDiff} direction={activity.direction} />
