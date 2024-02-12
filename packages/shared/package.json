@@ -14,6 +14,7 @@
         "@iota/transaction-converter": "1.0.0-beta.30",
         "@iota/unit-converter": "1.0.0-beta.30",
         "@iota/util.js": "2.0.0-rc.2",
+        "@metamask/eth-sig-util": "7.0.1",
         "@metamask/ethjs-provider-http": "0.3.0",
         "@spruceid/siwe-parser": "2.0.2",
         "@sveltejs/svelte-virtual-list": "3.0.1",

@@ -62,6 +62,28 @@ export async function signTransactionData(transactionHex: string, bip32Path: str
     }
 }
 
+export async function signEIP712Message(
+    hashedDomain: string,
+    hashedMessage: string,
+    bip32Path: string
+): Promise<IEvmSignature> {
+    try {
+        const appEth = new AppEth(transport)
+        const signature = await appEth.signEIP712HashedMessage(bip32Path, hashedDomain, hashedMessage)
+        return {
+            r: signature.r,
+            s: signature.s,
+            v: signature.v.toString(),
+        }
+    } catch (error) {
+        return {
+            r: undefined,
+            s: undefined,
+            v: undefined,
+        }
+    }
+}
+
 export async function signMessage(messageHex: string, bip32Path: string): Promise<IEvmSignature> {
     try {
         const appEth = new AppEth(transport)

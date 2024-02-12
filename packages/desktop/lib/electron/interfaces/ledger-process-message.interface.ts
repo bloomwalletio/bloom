@@ -2,6 +2,6 @@ import { LedgerApiMethod } from '@core/ledger/enums'
 
 export interface ILedgerProcessMessage {
     method: LedgerApiMethod
-    payload: (number | string | unknown)[] | unknown
+    payload: string[]
     error?: string | Error | unknown
 }
