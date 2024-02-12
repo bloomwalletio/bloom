@@ -315,6 +315,9 @@ ipcMain.on('start-ledger-process', () => {
                     case LedgerApiMethod.SignMessage:
                         windows.main.webContents.send('signed-message', payload)
                         break
+                    case LedgerApiMethod.SignEIP712:
+                        windows.main.webContents.send('signed-eip712', payload)
+                        break
                     default:
                         /* eslint-disable-next-line no-console */
                         console.log('Unhandled Ledger Message: ', message)
@@ -343,6 +346,13 @@ ipcMain.on(LedgerApiMethod.SignEvmTransaction, (_e, transactionHex, bip32Path) =
 
 ipcMain.on(LedgerApiMethod.SignMessage, (_e, messageHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignMessage, payload: [messageHex, bip32Path] })
+})
+
+ipcMain.on(LedgerApiMethod.SignEIP712, (_e, hashedDomain, hashedMessage, bip32Path) => {
+    ledgerProcess?.postMessage({
+        method: LedgerApiMethod.SignEIP712,
+        payload: [hashedDomain, hashedMessage, bip32Path],
+    })
 })
 
 export function getOrInitWindow(windowName: string, ...args: unknown[]): BrowserWindow {

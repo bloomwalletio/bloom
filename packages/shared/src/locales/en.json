@@ -1776,7 +1776,8 @@
         "profile": {
             "length": "Your profile name can't be longer than {length, plural, one {# character} other {# characters}}.",
             "duplicate": "A profile with this name already exists.",
-            "type": "Unable to determine the profile type"
+            "type": "Unable to determine the profile type",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "Passwords do not match.",
@@ -1982,7 +1983,8 @@
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
             "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
-            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",

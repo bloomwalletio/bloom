@@ -20,6 +20,7 @@ export interface IPlatformEventMap {
     'nft-download-done': INFTDownloadState
     'nft-download-interrupted': INFTDownloadState
     'notification-activated': unknown
+    'signed-eip712': IEvmSignature
     'signed-message': IEvmSignature
     'transak-url': string
     'version-complete': void
