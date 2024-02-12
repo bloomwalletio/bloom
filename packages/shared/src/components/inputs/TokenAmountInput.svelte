@@ -37,7 +37,7 @@
     $: rawAmount =
         inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : BigInt(0)
     $: fiatAmount = token ? getFiatValueFromTokenAmount(rawAmount, token) : undefined
-    $: maxWidth = `${(inputLength * Number((/\d+/.exec(fontSize))?.[0] ?? 0) * 2) / 3}px`
+    $: maxWidth = `${(inputLength * Number(/\d+/.exec(fontSize)?.[0] ?? 0) * 2) / 3}px`
 
     function getInputLength(): number {
         const length = inputtedAmount?.length || 1
