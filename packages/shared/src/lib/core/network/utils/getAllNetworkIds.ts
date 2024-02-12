@@ -12,5 +12,5 @@ export function getAllNetworkIds(): string[] {
     for (const chain of network.getChains()) {
         networkIds.push(chain.getConfiguration().id)
     }
-    return [...networkIds, 'eip155:5']
+    return networkIds
 }

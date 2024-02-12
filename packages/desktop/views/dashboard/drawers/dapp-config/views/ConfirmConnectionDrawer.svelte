@@ -77,7 +77,7 @@
 
             const supportedNamespaces = buildSupportedNamespacesFromSelections(
                 {
-                    chains: ['eip155:5'],
+                    chains: persistedNamespaces ? undefined : checkedNetworks,
                     methods: persistedNamespaces ? undefined : checkedMethods,
                     accounts: persistedNamespaces ? undefined : checkedAccounts,
                 },
