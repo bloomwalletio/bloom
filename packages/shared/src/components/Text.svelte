@@ -17,6 +17,7 @@
     export let darkColor = ''
     export let overrideLeading = false
     export let classes = '' // ISSUE: https://github.com/tailwindlabs/tailwindcss/discussions/1446
+    export let whitespace: 'whitespace-pre' | undefined = undefined
 
     const DEFAULT_TEXT_COLOUR = 'text-gray-800'
     const DEFAULT_TEXT_DARK_COLOUR = 'dark:text-white'
@@ -93,16 +94,14 @@
     }
 
     $: formattedFontSize = fontSize ?? ''
-    $: formattedLineHeight = lineHeight ? 'leading-160' : ''
+    $: formattedLineHeight = lineHeight ? 'leading-140' : ''
     $: formattedColor = color ?? ''
     $: formattedDarkColor = darkColor ?? ''
-    $: formattedWhitespace = 'whitespace-pre'
 
     let _fontSize: string
     let _lineHeight: string
     let _color: string
     let _darkColor: string
-    let _whitespace: string
 
     // Format custom inputs
     function setCustomStyles(): void {
@@ -110,7 +109,6 @@
         _lineHeight = formattedLineHeight
         _color = formattedColor
         _darkColor = formattedDarkColor
-        _whitespace = formattedWhitespace
     }
 
     // Adjust font for old override classes
@@ -161,7 +159,7 @@
         ...(_lineHeight && { lineHeight: _lineHeight }),
         ...((overrideColor || _color) && { color: _color }),
         ...((overrideColor || _darkColor) && { darkColor: _darkColor }),
-        ...(_whitespace && { whitespace: _whitespace }),
+        ...(whitespace && { whitespace }),
     }
 
     let customClassesString: string

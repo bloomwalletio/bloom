@@ -83,7 +83,7 @@
     >
         <div slot="right">
             {#if selected?.key && selected?.value}
-                <Text slot="right" type={TextType.pre} fontSize="sm" color="gray-600" whitespace="pre">
+                <Text slot="right" type={TextType.pre} fontSize="sm" color="gray-600" whitespace="whitespace-pre">
                     {truncateString(selected.displayedValue ?? selected.value, 9, 9)}
                 </Text>
             {/if}
