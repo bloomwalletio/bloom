@@ -9,7 +9,6 @@
     import { MediaPlaceholder, NftMedia } from '@ui'
 
     export let nft: Nft
-    export let disabled: boolean = false
 
     let nftWrapperClientWidth: number
     let anchor: HTMLElement
@@ -23,10 +22,6 @@
         : ('brand' as TextColor)
 
     function onNftClick(): void {
-        if (disabled) {
-            return
-        }
-
         $selectedNftId = nft.id
         $collectiblesRouter.goTo(CollectiblesRoute.Details)
         $collectiblesRouter.setBreadcrumb(nft?.name)
@@ -45,7 +40,7 @@
     }
 </script>
 
-<button type="button" on:click={onNftClick} class="nft-gallery-item" class:disabled {disabled}>
+<button type="button" on:click={onNftClick} class="nft-gallery-item">
     <container>
         <div
             class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
@@ -96,8 +91,8 @@
             transition-property: background-color, border-color, box-shadow;
         }
 
-        &:hover :not(.disabled),
-        &:focus :not(.disabled) {
+        &:hover,
+        &:focus {
             container {
                 @apply shadow-lg dark:shadow-violet-900/25;
                 @apply border-2 border-brand-500;

@@ -1,35 +1,33 @@
 <script lang="ts">
-    import {
-        connectedDapps,
-        getPersistedDappNamespacesForDapp,
-        setSelectedDapp,
-    } from '@auxiliary/wallet-connect/stores'
-    import { Button, IconName, Tabs } from '@bloomwalletio/ui'
-    import { DrawerTemplate, EmptyListPlaceholder } from '@components'
+    import { connectedDapps, persistedDappNamespaces, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
+    import { Button, IconName, Tabs, Text } from '@bloomwalletio/ui'
+    import { DappListActionsMenu, DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import DappCard from '../components/DappCard.svelte'
     import { DappConfigRoute } from '../dapp-config-route.enum'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { updateDrawerProps } from '@desktop/auxiliary/drawer'
+    import { activeProfileId } from '@core/profile/stores'
 
     export let drawerRouter: Router<unknown>
 
+    const localeKey = 'views.dashboard.drawers.dapps.dappsList'
     const tabs = [
         {
-            key: localize('views.dashboard.drawers.dapps.dappsList.paired.tab'),
-            value: localize('views.dashboard.drawers.dapps.dappsList.paired.tab'),
+            key: localize(`${localeKey}.paired.tab`),
+            value: localize(`${localeKey}.paired.tab`),
         },
         {
-            key: localize('views.dashboard.drawers.dapps.dappsList.expired.tab'),
-            value: localize('views.dashboard.drawers.dapps.dappsList.expired.tab'),
+            key: localize(`${localeKey}.expired.tab`),
+            value: localize(`${localeKey}.expired.tab`),
         },
     ]
     let selectedTab = tabs[0]
     let selectedIndex = 0
 
     $: connectedDappsForProfile = $connectedDapps.filter(
-        (dapp) => !!getPersistedDappNamespacesForDapp(dapp.metadata?.url)
+        (dapp) => !!$persistedDappNamespaces[$activeProfileId]?.[dapp.metadata?.url]
     )
     $: displayedDapps = connectedDappsForProfile.filter(
         (dapp) => (selectedIndex === 0 && !!dapp.session) || (selectedIndex === 1 && !dapp.session)
@@ -50,7 +48,11 @@
     }
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.dapps.dappsList.title')} {drawerRouter}>
+<DrawerTemplate {drawerRouter}>
+    <div slot="header" class="flex flex-row items-center w-full justify-between">
+        <Text type="h6">{localize(`${localeKey}.title`)}</Text>
+        <DappListActionsMenu {drawerRouter} />
+    </div>
     <div class="px-6 pb-6">
         <Tabs bind:selectedTab bind:selectedIndex {tabs} />
     </div>

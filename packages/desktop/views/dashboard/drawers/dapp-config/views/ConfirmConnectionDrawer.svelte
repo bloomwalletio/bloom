@@ -103,7 +103,10 @@
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
-            <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
+            <DappInformationCard
+                metadata={$sessionProposal.params.proposer.metadata}
+                verifiedState={$sessionProposal.verifyContext.verified.validation}
+            />
 
             <div class="px-6 flex-grow overflow-hidden">
                 {#if persistedNamespaces}

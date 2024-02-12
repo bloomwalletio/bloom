@@ -5,6 +5,7 @@ import { handleDeepLinkAddWCConnectionOperation } from './operations'
 export function handleDeepLinkDappsContext(pathnameParts: string[], searchParams: URLSearchParams): void {
     switch (pathnameParts[0]) {
         case DappsOperation.Connect:
+        case DappsOperation.Wc:
             handleDeepLinkAddWCConnectionOperation(searchParams)
             break
         default: {

@@ -7,32 +7,26 @@
     import { Pane } from '@ui'
     import { onDestroy, tick } from 'svelte'
     import { TransakAccountPanel, TransakConnectionPanel, TransakInfoPanel } from '../components'
+    import { isDashboardSideBarExpanded } from '@core/ui'
 
-    async function resetTransak(): Promise<void> {
-        await Platform.closeTransak()
-        await Platform.openTransak({
-            currency: $activeProfile?.settings.marketCurrency,
-            address: $selectedAccount.depositAddress,
-            service: 'BUY',
-        })
-        await updateTransakBounds()
-    }
+    $: $isDashboardSideBarExpanded, void updateTransakBounds()
 
     $: if ($selectedAccountIndex !== undefined) {
         void resetTransak()
     }
 
     $: void handlePopupState($popupState, $profileAuthPopup, $settingsState)
+
     async function handlePopupState(
         state: IPopupState,
         profilePopupState: IProfileAuthPopupState,
         settingsState: ISettingsState
     ): Promise<void> {
         if (state.active || profilePopupState.active || settingsState.open) {
-            await Platform.minimizeTransak()
+            await Platform.hideTransak()
         } else {
             await tick()
-            await Platform.restoreTransak()
+            await Platform.showTransak()
         }
     }
 
@@ -51,11 +45,21 @@
         const borderRight = extractDigitsToNumbers(transakPaneStyles?.borderRightWidth)
 
         await Platform.updateTransakBounds({
-            x: rect.x + borderLeft + borderRight,
+            x: rect.x + borderLeft,
             y: rect.y + borderTop,
             width: rect.width - borderLeft - borderRight,
             height: rect.height - borderTop - borderBottom,
         })
+    }
+
+    async function resetTransak(): Promise<void> {
+        await Platform.closeTransak()
+        await Platform.openTransak({
+            currency: $activeProfile?.settings.marketCurrency,
+            address: $selectedAccount.depositAddress,
+            service: 'BUY',
+        })
+        await updateTransakBounds()
     }
 
     onDestroy(() => {
@@ -65,9 +69,9 @@
 
 <svelte:window on:resize={updateTransakBounds} />
 
-<div class="flex gap-4 h-full">
+<div class="flex justify-center gap-4 h-full w-full">
     <div class="account-panel flex flex-col gap-4">
-        <TransakConnectionPanel />
+        <TransakConnectionPanel refreshFunction={resetTransak} />
         <TransakAccountPanel />
     </div>
     <div class="transak-panel" bind:this={transakContainer}>
@@ -82,15 +86,15 @@
 
 <style lang="postcss">
     .transak-panel {
-        @apply flex-1 min-w-[360px];
+        @apply flex-1 min-w-[360px] max-w-[480px] max-h-[786px];
     }
 
     .account-panel,
     .info-panel {
-        @apply max-w-md;
+        @apply max-w-[312px];
     }
 
     .account-panel {
-        @apply shrink-0 w-[287px];
+        @apply shrink-0 w-[312px];
     }
 </style>
