@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
-import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { closeProfileAuthPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { signEIP712MessageWithStronghold } from '@core/stronghold/utils'
 import { Ledger } from '@core/ledger/classes'
 import { SignTypedDataVersion } from '@metamask/eth-sig-util'
@@ -30,9 +30,7 @@ export async function signEip712Message(
     }
 
     if (!signedMessage) {
-        if (get(isActiveLedgerProfile)) {
-            closePopup({ forceClose: true })
-        }
+        closeProfileAuthPopup({ forceClose: true })
         throw new Error('No signature provided')
     }
 
