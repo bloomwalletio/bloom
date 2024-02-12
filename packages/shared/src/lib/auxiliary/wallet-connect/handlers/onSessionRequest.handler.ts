@@ -27,12 +27,12 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
                   jsonrpc: '2.0',
               }
             : error
-            ? {
-                  id,
-                  error,
-                  jsonrpc: '2.0',
-              }
-            : undefined
+              ? {
+                    id,
+                    error,
+                    jsonrpc: '2.0',
+                }
+              : undefined
 
         if (response) {
             try {

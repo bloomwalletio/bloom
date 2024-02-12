@@ -22,7 +22,7 @@
         text={chainType === ChainType.Evm
             ? 'Ethereum'
             : chainType === ChainType.Iscp
-            ? 'IOTA Smart Contracts'
-            : undefined}
+              ? 'IOTA Smart Contracts'
+              : undefined}
     />
 {/if}

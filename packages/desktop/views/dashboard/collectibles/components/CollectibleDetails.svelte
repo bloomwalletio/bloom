@@ -24,8 +24,8 @@
     $: placeHolderColor = nft.downloadMetadata?.error
         ? 'danger'
         : nft.downloadMetadata?.warning
-        ? 'warning'
-        : ('brand' as TextColor)
+          ? 'warning'
+          : ('brand' as TextColor)
 
     function getAlertText(downloadMetadata: IDownloadMetadata): string {
         const { error, warning } = downloadMetadata ?? {}
