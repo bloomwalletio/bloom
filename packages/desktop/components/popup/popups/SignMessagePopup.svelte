@@ -16,7 +16,7 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import DappDataBanner from '@components/DappDataBanner.svelte'
     import { getSdkError } from '@walletconnect/utils'
-    import { parseSiweMessage } from '@core/layer-2/utils/parseSiweMessage'
+    import { parseSiweMessage } from '@core/layer-2/utils'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
@@ -27,7 +27,9 @@
 
     let isSiwe = false
     let isBusy = false
+
     $: title = isSiwe ? localize('popups.siwe.title') : localize('popups.signMessage.title')
+
     async function unlockAndSign(): Promise<string> {
         return new Promise((resolve, reject) => {
             checkActiveProfileAuth(

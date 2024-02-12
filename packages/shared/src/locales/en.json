@@ -957,7 +957,7 @@
             "success": "Signed message"
         },
         "siwe": {
-            "title": "Sign-in-with-Ethereum"
+            "title": "Sign-In with Ethereum"
         },
         "signTransaction": {
             "title": "Sign transaction",

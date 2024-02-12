@@ -15,7 +15,7 @@
         "@iota/unit-converter": "1.0.0-beta.30",
         "@iota/util.js": "2.0.0-rc.2",
         "@metamask/ethjs-provider-http": "0.3.0",
-        "@spruceid/siwe-parser": "^2.0.2",
+        "@spruceid/siwe-parser": "2.0.2",
         "@sveltejs/svelte-virtual-list": "3.0.1",
         "@walletconnect/jsonrpc-types": "1.0.3",
         "@walletconnect/types": "2.11.0",
