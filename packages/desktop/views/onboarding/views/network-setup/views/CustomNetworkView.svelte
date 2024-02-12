@@ -26,8 +26,8 @@
         return features?.onboarding?.shimmer?.enabled
             ? OnboardingNetworkType.Shimmer
             : features?.onboarding?.testnet?.enabled
-            ? OnboardingNetworkType.Testnet
-            : OnboardingNetworkType.Custom
+              ? OnboardingNetworkType.Testnet
+              : OnboardingNetworkType.Custom
     }
 
     function onBackClick(): void {

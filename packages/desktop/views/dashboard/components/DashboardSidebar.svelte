@@ -13,12 +13,14 @@
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
     import { dashboardRoute } from '@core/router'
     import { StardustNetworkId } from '@core/network'
+    import { isDashboardSideBarExpanded } from '@core/ui'
     import { campaignsRouter } from '../campaigns'
 
     let expanded = true
     function toggleExpand(): void {
         expanded = !expanded
     }
+    $: $isDashboardSideBarExpanded = expanded
 
     let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [

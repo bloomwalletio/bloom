@@ -24,10 +24,10 @@
     let selectedNetworkType: OnboardingNetworkType = features.onboarding.iota.enabled
         ? OnboardingNetworkType.Iota
         : features.onboarding.shimmer.enabled
-        ? OnboardingNetworkType.Shimmer
-        : features.onboarding.testnet.enabled
-        ? OnboardingNetworkType.Testnet
-        : OnboardingNetworkType.Custom
+          ? OnboardingNetworkType.Shimmer
+          : features.onboarding.testnet.enabled
+            ? OnboardingNetworkType.Testnet
+            : OnboardingNetworkType.Custom
     function onNetworkClick(networkType: OnboardingNetworkType): void {
         if (selectedNetworkType === networkType) {
             onContinueClick()

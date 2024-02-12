@@ -2,8 +2,6 @@ import { DEFAULT_BASE_TOKEN, SupportedNetworkId } from '@core/network'
 import { TokenStandard } from '../enums'
 import { TokenMetadata } from '../types'
 import { convertToRawAmount } from '../utils'
-import Big from 'big.js'
-import { MAX_SUPPORTED_DECIMALS } from '@core/wallet/constants'
 
 const WEB3_TOKEN_METADATA: TokenMetadata = {
     name: 'RAWR',
@@ -15,12 +13,6 @@ const WEB3_TOKEN_METADATA: TokenMetadata = {
     standard: TokenStandard.BaseToken,
 }
 
-const IRC30_TOKEN_HIGH_DECIMALS_METADATA: TokenMetadata = {
-    standard: TokenStandard.Irc30,
-    name: 'Test Token',
-    symbol: 'TEST',
-    decimals: 100000,
-}
 const IRC30_TOKEN_LOW_DECIMALS_METADATA: TokenMetadata = {
     standard: TokenStandard.Irc30,
     name: 'Test Token',
@@ -42,21 +34,21 @@ describe('File: convertToRawAmount.ts', () => {
     describe('given the tokenMetadata standard is BaseToken', () => {
         describe("given useMetricPrefix is false (currently Shimmer's case)", () => {
             const networkId = SupportedNetworkId.Shimmer
-            it("should return Big(amount) * decimal property if selectedUnit is unit and baseToken's decimal is less than MAX_SUPPORTED_DECIMALS", () => {
+            it("should return amount * decimal property if selectedUnit is unit and baseToken's decimal is less than MAX_SUPPORTED_DECIMALS", () => {
                 let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'SMR')?.toString() ?? '0'
-                expect(Big(value)).toStrictEqual(Big(10).pow(DEFAULT_BASE_TOKEN[networkId].decimals))
+                expect(value).toStrictEqual('1000000')
             })
             it("should return XXX if selectedUnit is unit and baseToken's decimals property is greater than MAX_SUPPORTED_DECIMALS", () => {
                 let value = convertToRawAmount('1', WEB3_TOKEN_METADATA, 'RAWR')?.toString() ?? '0'
-                expect(Big(value)).toStrictEqual(Big(10).pow(WEB3_TOKEN_METADATA.decimals))
+                expect(value).toStrictEqual('1000000000000000000000000000000000000000000000000000000000000')
             })
-            it('should return same Big(amount) if selectedUnit is subunit', () => {
+            it('should return same amount if selectedUnit is subunit', () => {
                 let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'glow')?.toString() ?? '0'
-                expect(Big(value)).toStrictEqual(Big('1'))
+                expect(value).toStrictEqual('1')
             })
-            it('should return tokens unit if no unit is provided', () => {
+            it('should return base tokens unit if no unit is provided', () => {
                 let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId])?.toString() ?? '0'
-                expect(Big(value)).toStrictEqual(Big(10).pow(DEFAULT_BASE_TOKEN[networkId].decimals))
+                expect(value).toStrictEqual('1000000')
             })
             it('should return undefined if provided unit does not match the tokenMetadata unit or subunit', () => {
                 expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'test')).toStrictEqual(undefined)
@@ -66,11 +58,7 @@ describe('File: convertToRawAmount.ts', () => {
     describe('given the tokenMetadata standard is Irc30', () => {
         it('should depend on tokenMetadata.decimals if tokenMetadata.decimals <= MAX_SUPPORTED_DECIMALS', () => {
             let value = convertToRawAmount('1', IRC30_TOKEN_LOW_DECIMALS_METADATA)?.toString() ?? '0'
-            expect(Big(value)).toStrictEqual(Big(10).pow(IRC30_TOKEN_LOW_DECIMALS_METADATA.decimals))
-        })
-        it('should depend on tokenMetadata.decimals if > tokenMetadata.decimals if MAX_SUPPORTED_DECIMALS', () => {
-            let value = convertToRawAmount('1', IRC30_TOKEN_HIGH_DECIMALS_METADATA)?.toString() ?? '0'
-            expect(Big(value)).toStrictEqual(Big(10).pow(IRC30_TOKEN_HIGH_DECIMALS_METADATA.decimals))
+            expect(value).toStrictEqual('1000000')
         })
     })
     it('should throw an error if tokenMetadata standard is not BaseToken or Irc30', () => {
