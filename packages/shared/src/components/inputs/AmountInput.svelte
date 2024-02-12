@@ -4,7 +4,7 @@
     import { activeProfile } from '@core/profile/stores'
 
     export let inputElement: HTMLInputElement | undefined = undefined
-    export let fontSize = '64'
+    export let fontSize = 'text-64'
     export let fontWeight = FontWeight.semibold
     export let disabled = false
     export let hasFocus = false

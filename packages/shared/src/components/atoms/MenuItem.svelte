@@ -49,12 +49,18 @@
         {/if}
         <div class="flex flex-col text-left">
             <text-container class:disabled={isDisabled} class={variant}>
-                <Text color={isDisabled ? 'gray-400' : 'gray-800'} darkColor={isDisabled ? 'gray-700' : 'white'}>
+                <Text
+                    color={isDisabled ? 'text-gray-400' : 'text-gray-800'}
+                    darkColor={isDisabled ? 'dark:text-gray-700' : 'dark:text-white'}
+                >
                     {title}
                 </Text>
             </text-container>
             {#if subtitle}
-                <Text color={isDisabled ? 'gray-400' : 'gray-600'} darkColor={isDisabled ? 'gray-700' : 'gray-500'}>
+                <Text
+                    color={isDisabled ? 'text-gray-400' : 'text-gray-600'}
+                    darkColor={isDisabled ? 'dark:text-gray-700' : 'dark:text-ray-500'}
+                >
                     {subtitle}
                 </Text>
             {/if}

@@ -17,19 +17,14 @@
     export let darkColor = ''
     export let overrideLeading = false
     export let classes = '' // ISSUE: https://github.com/tailwindlabs/tailwindcss/discussions/1446
-    export let whitespace: 'normal' | 'nowrap' | 'pre' | 'pre-line' | 'pre-wrap' | undefined = undefined
 
-    const DARKMODE_PREFIX = 'dark:'
-    const TEXT_PREFIX = 'text-'
-    const LEADING_PREFIX = 'leading-'
-    const WHITESPACE_PREFIX = 'whitespace-'
-    const DEFAULT_TEXT_COLOUR = TEXT_PREFIX + 'gray-800'
-    const DEFAULT_TEXT_DARK_COLOUR = DARKMODE_PREFIX + TEXT_PREFIX + 'white'
-    const ERROR_TEXT_COLOUR = TEXT_PREFIX + 'red-500'
-    const DISABLED_TEXT_COLOUR = TEXT_PREFIX + 'gray-400'
-    const DISABLED_TEXT_DARK_COLOUR = TEXT_PREFIX + 'gray-600'
-    const HIGHLIGHT_TEXT_COLOUR = TEXT_PREFIX + 'blue-500'
-    const SECONDARY_TEXT_COLOUR = TEXT_PREFIX + 'gray-500'
+    const DEFAULT_TEXT_COLOUR = 'text-gray-800'
+    const DEFAULT_TEXT_DARK_COLOUR = 'dark:text-white'
+    const ERROR_TEXT_COLOUR = 'text-red-500'
+    const DISABLED_TEXT_COLOUR = 'text-gray-400'
+    const DISABLED_TEXT_DARK_COLOUR = 'text-gray-600'
+    const HIGHLIGHT_TEXT_COLOUR = 'text-blue-500'
+    const SECONDARY_TEXT_COLOUR = 'text-gray-500'
 
     interface ICustomClass {
         fontWeight: FontWeight
@@ -97,11 +92,11 @@
         },
     }
 
-    $: formattedFontSize = fontSize ? TEXT_PREFIX + fontSize : ''
-    $: formattedLineHeight = lineHeight ? LEADING_PREFIX + lineHeight : ''
-    $: formattedColor = color ? TEXT_PREFIX + color : ''
-    $: formattedDarkColor = darkColor ? DARKMODE_PREFIX + TEXT_PREFIX + darkColor : ''
-    $: formattedWhitespace = whitespace ? WHITESPACE_PREFIX + whitespace : undefined
+    $: formattedFontSize = fontSize ?? ''
+    $: formattedLineHeight = lineHeight ? 'leading-160' : ''
+    $: formattedColor = color ?? ''
+    $: formattedDarkColor = darkColor ?? ''
+    $: formattedWhitespace = 'whitespace-pre'
 
     let _fontSize: string
     let _lineHeight: string

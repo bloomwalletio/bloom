@@ -7,8 +7,8 @@
     export let isFocused: boolean = false
     export let error: string = ''
     export let classes: string = ''
-    export let backgroundColor: string | undefined
-    export let darkBackgroundColor: string | undefined
+    export let backgroundColor: string | undefined = undefined
+    export let darkBackgroundColor: string | undefined = undefined
     export let clearBackground = false
     export let clearPadding = false
     export let clearBorder = false
