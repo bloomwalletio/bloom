@@ -6,22 +6,21 @@ import { sendPreparedTransaction } from '@core/wallet'
 import { localize } from '@core/i18n'
 import { getActiveNetworkId } from '@core/network'
 
-export async function setVotingPower(rawAmount: string): Promise<void> {
+export async function setVotingPower(rawAmount: bigint): Promise<void> {
     try {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
         const votingPower = account.votingPower
-        const amount = BigInt(rawAmount)
 
         updateSelectedAccount({ hasVotingPowerTransactionInProgress: true, isTransferring: true })
 
         let preparedTransaction: PreparedTransaction
-        if (amount > votingPower) {
-            const amountToIncrease = amount - votingPower
+        if (rawAmount > votingPower) {
+            const amountToIncrease = rawAmount - votingPower
             preparedTransaction = await account?.prepareIncreaseVotingPower(amountToIncrease.toString())
-        } else if (amount < votingPower) {
-            const amountToDecrease = votingPower - amount
+        } else if (rawAmount < votingPower) {
+            const amountToDecrease = votingPower - rawAmount
             preparedTransaction = await account?.prepareDecreaseVotingPower(amountToDecrease.toString())
         } else {
             return
