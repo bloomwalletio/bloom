@@ -11,8 +11,8 @@ import { handleDeepLinkSendTransactionOperation, handleDeepLinkSendFormOperation
  *
  * @return {void} The formatted content of a deep link request within the wallet context.
  */
-export function handleDeepLinkWalletContext(pathnameParts: string[], searchParams: URLSearchParams): void {
-    switch (pathnameParts[0]) {
+export function handleDeepLinkWalletContext(walletOperation: WalletOperation, searchParams: URLSearchParams): void {
+    switch (walletOperation) {
         case WalletOperation.SendForm:
             handleDeepLinkSendFormOperation(searchParams)
             break
@@ -22,7 +22,7 @@ export function handleDeepLinkWalletContext(pathnameParts: string[], searchParam
         default: {
             throw new Error(
                 localize('notifications.deepLinkingRequest.wallet.unrecognizedOperation', {
-                    values: { operation: pathnameParts[0] },
+                    values: { operation: walletOperation },
                 })
             )
         }
