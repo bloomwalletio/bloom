@@ -20,7 +20,11 @@
             <Proposals />
         {:else}
             <div class="w-full h-full flex flex-col items-center justify-center">
-                <EmptyListPlaceholder title={localize('views.governance.proposals.emptyTitle')} icon={IconName.Data} />
+                <EmptyListPlaceholder
+                    title={localize('views.governance.proposals.emptyTitle')}
+                    subtitle={localize('views.governance.proposals.emptyDescription')}
+                    icon={IconName.BookmarkX}
+                />
             </div>
         {/if}
     </div>
