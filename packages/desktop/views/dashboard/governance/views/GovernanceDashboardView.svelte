@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Proposals, ProposalsDetails } from '@components'
-    import { Illustration, Pane, Text } from '@ui'
-    import { FontWeight } from '@ui/enums'
+    import { IconName } from '@bloomwalletio/ui'
+    import { EmptyListPlaceholder, Proposals, ProposalsDetails } from '@components'
+    import { Pane } from '@ui'
     import { ManageVotingPowerPane } from '../components'
     import { localize } from '@core/i18n'
     import { registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
@@ -20,10 +20,7 @@
             <Proposals />
         {:else}
             <div class="w-full h-full flex flex-col items-center justify-center">
-                <Illustration illustration="empty-collectibles" width="134" height="134" />
-                <Text fontSize="text-14" fontWeight={FontWeight.semibold} color="gray-500" classes="mt-8"
-                    >{localize('views.governance.proposals.emptyTitle')}</Text
-                >
+                <EmptyListPlaceholder title={localize('views.governance.proposals.emptyTitle')} icon={IconName.Data} />
             </div>
         {/if}
     </div>
