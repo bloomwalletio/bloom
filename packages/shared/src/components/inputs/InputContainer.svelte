@@ -37,13 +37,13 @@
             {darkBackgroundColor}
             classes="w-full flex
                 {!clearPadding ? 'p-4' : ''}
-                {!clearBorder ? 'border border-solid' : ''}
+                {!clearBorder ? 'border border-solid rounded-xl' : ''}
                 {classes}
                 {isFocused
                 ? 'border-brand'
                 : error
-                ? 'border-red-300 hover:border-red-500'
-                : 'border-stroke dark:border-stroke-dark'}"
+                  ? 'border-red-300 hover:border-red-500'
+                  : 'border-stroke dark:border-stroke-dark'}"
             {...$$restProps}
         >
             <slot />

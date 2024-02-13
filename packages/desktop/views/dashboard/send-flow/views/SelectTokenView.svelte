@@ -22,8 +22,8 @@
         $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer && $sendFlowParameters.baseCoinTransfer?.token
             ? $sendFlowParameters.baseCoinTransfer.token
             : $sendFlowParameters?.type === SendFlowType.TokenTransfer && $sendFlowParameters.tokenTransfer?.token
-            ? $sendFlowParameters.tokenTransfer.token
-            : $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin
+              ? $sendFlowParameters.tokenTransfer.token
+              : $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin
 
     let accountTokens: AccountTokens
     $: accountTokens = $selectedAccount

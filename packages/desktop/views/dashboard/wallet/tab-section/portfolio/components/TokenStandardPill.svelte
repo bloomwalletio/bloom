@@ -11,10 +11,10 @@
             {token.standard === TokenStandard.BaseToken
                 ? 'Base'
                 : token.standard === TokenStandard.Erc20
-                ? 'ERC20'
-                : token.standard === TokenStandard.Irc30
-                ? 'IRC30'
-                : undefined}
+                  ? 'ERC20'
+                  : token.standard === TokenStandard.Irc30
+                    ? 'IRC30'
+                    : undefined}
         </Pill>
     </token-standard-pill>
 {/if}

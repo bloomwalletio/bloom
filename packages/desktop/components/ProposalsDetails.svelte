@@ -19,7 +19,6 @@
     import { Text } from '@ui'
     import { FontWeight } from '@ui/enums'
     import { onMount } from 'svelte'
-    import { GovernanceDetailsMenu } from './menus'
     import { Button } from '@bloomwalletio/ui'
 
     let details = <IProposalsDetails>{
@@ -61,12 +60,9 @@
 </script>
 
 <proposals-details class="space-y-4">
-    <header-container class="flex justify-between items-center relative">
-        <Text fontSize="14" fontWeight={FontWeight.semibold}>
-            {localize('views.governance.proposalsDetails.title')}
-        </Text>
-        <GovernanceDetailsMenu />
-    </header-container>
+    <Text fontSize="14" fontWeight={FontWeight.semibold}>
+        {localize('views.governance.proposalsDetails.title')}
+    </Text>
     <Table
         items={Object.keys(details).map((key) => ({
             key: localize(`views.governance.proposalsDetails.${key}`),

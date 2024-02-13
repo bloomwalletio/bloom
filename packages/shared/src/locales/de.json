@@ -347,12 +347,13 @@
             },
             "activity": {
                 "tab": "Aktivität",
-                "activity": "Activity",
+                "activity": "Aktivität",
                 "asset": "Asset",
                 "action": "Aktion",
+                "date": "Datum",
                 "address": "Adresse",
                 "amount": "Betrag",
-                "fee": "Fee",
+                "fee": "Gebühr",
                 "claimableTransactions": "Du hast {amount} {amount, select, 1 {Transaktion, die beansprucht} other {Transaktionen, die beanspruchen}} ",
                 "consolidatedOutputs": "{amount} Outputs zusammengefügt"
             },
@@ -472,14 +473,21 @@
                         "title": "Verbundene dApps",
                         "connectDapp": "dApp verbinden",
                         "paired": {
-                            "tab": "Paired",
-                            "emptyTitle": "No apps found",
-                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                            "tab": "Verbunden",
+                            "emptyTitle": "Keine Apps gefunden",
+                            "emptySubtitle": "Verbinde Bloom mit deinen Lieblings-dApps"
                         },
                         "expired": {
-                            "tab": "Expired",
-                            "emptyTitle": "No apps found",
-                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                            "tab": "Abgelaufen",
+                            "emptyTitle": "Keine Apps gefunden",
+                            "emptySubtitle": "Verbinde Bloom mit deinen Lieblings-dApps"
+                        },
+                        "actions": {
+                            "clearExpired": "Clear expired list"
+                        },
+                        "clearExpired": {
+                            "title": "Clear expired list",
+                            "description": "Are you sure you want to clear the list of expired dApp connections?"
                         }
                     },
                     "inputConnectionCode": {
@@ -495,7 +503,7 @@
                         "reconnectHint": "Du hast dich bereits mit dieser dApp verbunden.",
                         "insecure": "Die URL für diese dApp kann nicht verifiziert werden. Ihre Verbindung zu dieser Anwendung ist möglicherweise nicht sicher.",
                         "unsupportedNetworks": "Diese dApp ist nicht kompatibel mit Bloom, da sie auf einem nicht unterstützten Netzwerk läuft.",
-                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
+                        "noSupportedNetworks": "Diese dApp ist nicht mit Bloom kompatibel, da sie auf einem anderen Netzwerk läuft.",
                         "unsupportedMethods": "Diese dApp ist nicht vollständig mit Bloom kompatibel. Einige Methoden oder Events werden nicht unterstützt.",
                         "supportedOnOtherProfile": "Diese dApp läuft in einem unterstützten Netzwerk, ist aber mit diesem Profil nicht zugänglich. Bitte verwenden Sie ein Profil, das mit dem benötigten Netzwerk verbunden ist.",
                         "acceptInsecureConnection": "Ich verstehe, dass diese dApp möglicherweise unsicher ist und trotzdem eine Verbindung aufnehmen möchte."
@@ -519,7 +527,7 @@
                             "signTransaction": "Anfrage zur Signierung einer Transaktion",
                             "sendTransaction": "Anfrage zum Senden einer Transaktion",
                             "empty": "Mindestens eine Berechtigung muss ausgewählt sein",
-                            "noPermissionsRequired": "No permissions required to use this app"
+                            "noPermissionsRequired": "Keine Berechtigungen für die Nutzung dieser App erforderlich"
                         },
                         "networks": {
                             "step": "Netzwerke",
@@ -530,7 +538,7 @@
                         "accounts": {
                             "step": "Konten",
                             "title": "Konten auswählen",
-                            "tip": "Verbinde dich mit bestimmten Konten, um Guthaben separat zu verwalten. Du kontrollierst, worauf die dApp zugreifen kann.",
+                            "tip": "Sie kontrollieren, wofür die dApp Zugriff verlangen kann. Einige Apps verbinden sich nur mit dem primären Konto.",
                             "empty": "Es muss mindestens ein Konto ausgewählt werden"
                         }
                     },
@@ -595,6 +603,26 @@
                     "view": "Medien im Browser anzeigen",
                     "burn": "Lösche das NFT"
                 }
+            }
+        },
+        "campaigns": {
+            "gallery": {
+                "title": "Kampagnen",
+                "emptyTitle": "Keine Kampagnen gefunden",
+                "noResults": "Keine Ergebnisse gefunden",
+                "emptyDescription": "Durchsuche und beteilige dich an Kampagnen mit Tide",
+                "emptyAction": "Besuche Tide"
+            },
+            "details": {
+                "top10": "Top 10 Rangliste",
+                "myPosition": "Meine Position",
+                "points": "Punkte",
+                "tasksComplete": "Erledigte Aufgaben",
+                "rewardsClaimed": "Rewards beansprucht",
+                "project": "Projekt",
+                "campaign": "Kampagne",
+                "nftBadge": "NFT-Badge",
+                "noNftBadge": "Kein NFT-Badge beansprucht"
             }
         },
         "governance": {
@@ -663,9 +691,14 @@
         },
         "buySell": {
             "info": {
-                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
-                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
-                "changingAccounts": "Changing accounts will reset all information."
+                "receive": "Dein ausgewähltes Konto wird Token direkt von Transak erhalten, sobald deine Zahlungsmethode autorisiert wurde.",
+                "multipleAccounts": "Wenn du mehrere Konten hast, kannst du vor dem Kauf mit der Dropdown-Liste das Konto wechseln.",
+                "changingAccounts": "Das Ändern von Konten wird alle Informationen zurücksetzen."
+            },
+            "tooltip": {
+                "connected": "sicher verbunden",
+                "redirected": "umgeleitet, sei vorsichtig!",
+                "disconnected": "getrennt, bitte aktualisieren"
             }
         }
     },
@@ -794,12 +827,12 @@
         },
         "confirmAssetTracking": {
             "ERC721": {
-                "title": "Add new NFT",
-                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+                "title": "NFT hinzufügen",
+                "description": "\"{dappName}\" möchte ein NFT mit der ID \"{tokenId}\" und der Adresse \"{address}\" zu deiner Wallet hinzufügen."
             },
             "ERC20": {
-                "title": "Add new token",
-                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+                "title": "Token hinzufügen",
+                "description": "\"{dappName}\" möchte {assetName, select, undefined { ein Token mit der Adresse \"{address}\" } other { {assetName} }} zu deiner Wallet hinzufügen."
             }
         },
         "node": {
@@ -919,26 +952,26 @@
             "hint": "Beim Signieren dieser Nachricht wird kein Guthaben an {dappName} gesendet.",
             "warning": "dApp kann nicht ermittelt werden. Es wird kein Guthaben bei der Signierung dieser Nachricht gesendet.",
             "action": "Signieren",
-            "success": "Signed message"
+            "success": "Signierte Nachricht"
         },
         "signTransaction": {
             "title": "Transaktion signieren",
             "action": "Signieren",
-            "success": "Signed transaction"
+            "success": "Signierte Transaktion"
         },
         "sendTransaction": {
             "title": "Transaktion senden",
             "action": "Senden",
-            "success": "Sent {assetName} to {recipient}"
+            "success": "{assetName} an {recipient} gesendet"
         },
         "smartContractCall": {
             "title": "Aufruf des Smart Contracts an {contractAddress}",
             "unableToVerify": "Bloom kann den Smart Contract nicht verifizieren. Fahre nur mit Apps fort, denen du vertraust.",
             "action": "Bestätigen",
-            "success": "Smart contract call to {recipient}"
+            "success": "Aufruf des Smart Contracts an {recipient}"
         },
         "successfulDappInteraction": {
-            "alert": "You can close this screen and return to the dApp when you are ready."
+            "alert": "Du kannst diesen Bildschirm schließen und zur dApp zurückkehren."
         },
         "activityDetails": {
             "title": {
@@ -955,9 +988,9 @@
                         "Conflicting": "Senden fehlgeschlagen"
                     },
                     "genesis": {
-                        "Pending": "Receiving from {subject}",
-                        "Confirmed": "Received from {subject}",
-                        "Conflicting": "Failed to receive"
+                        "Pending": "Empfange von {subject}",
+                        "Confirmed": "Empfangen von {subject}",
+                        "Conflicting": "Empfang fehlgeschlagen"
                     }
                 },
                 "internal": {
@@ -1081,14 +1114,14 @@
             }
         },
         "importToken": {
-            "title": "Import {type} token",
+            "title": "{type} Token importiert",
             "property": {
-                "tokenAddress": "Token address"
+                "tokenAddress": "Token-Adresse"
             },
-            "success": "Imported {tokenSymbol} token",
+            "success": "{tokenSymbol} Token importiert",
             "errors": {
-                "otherOwner": "You're not the owner of the NFT!",
-                "alreadyAdded": "You already have this NFT in your portfolio"
+                "otherOwner": "Du bist nicht der Besitzer des NFT!",
+                "alreadyAdded": "Du hast diese NFT bereits in deinem Portfolio"
             }
         },
         "noAlias": {
@@ -1304,7 +1337,7 @@
         "untrackToken": "Token entfolgen",
         "switchAccount": "Konto wechseln",
         "syncAccounts": "Konten synchronisieren",
-        "importToken": "Import {type} token",
+        "importToken": "{type} Token importiert",
         "syncTokens": "Token-Synchronisation erzwingen"
     },
     "general": {
@@ -1332,27 +1365,15 @@
         "revoting": "Erneut abstimmen",
         "unvoted": "Nicht abgestimmt",
         "unvoting": "Stimme zurücknehmen",
-        "transferIn": "Transfer in",
-        "transferringIn": "Transferiere zu",
-        "transferOut": "Transfer aus",
-        "transferringOut": "Transferiere aus",
+        "transferred": "Transferiert",
+        "transferring": "Transferiere",
         "shimmerClaimed": "Beansprucht",
         "shimmerClaiming": "Beanspruche",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "geminteter Alias",
-        "mintingalias": "Alias minten",
-        "mintednft": "Gemintetes NFT",
-        "mintingnft": "Minte NFT",
-        "mintedfoundry": "Gemintete Token",
-        "mintingfoundry": "Minte Token",
-        "burnedalias": "Verbrannter Alias",
-        "burningalias": "Verbrenne Alias",
-        "burnednft": "Verbranntes NFT",
-        "burningnft": "Verbrenne NFT",
-        "burnedfoundry": "Verbrannte Token",
-        "burningfoundry": "Verbrenne Token",
-        "burnedbasic": "Verbrannte Token",
-        "burningbasic": "Token verbrennen",
+        "minted": "Gemintet",
+        "minting": "Minte",
+        "burned": "Verbrannt",
+        "burning": "Verbrenne",
         "balanceDecreased": "Kontostand verringert",
         "balanceIncreased": "Kontostand erhöht",
         "initialBalance": "Anfangs-Kontostand",
@@ -1477,6 +1498,7 @@
         "immutableIssuer": "Unveränderlicher Aussteller",
         "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
+        "contractCall": "Vertragsaufruf",
         "targetContract": "Zielvertrag",
         "contractFunction": "Vertragsfunktion",
         "standard": "Standard",
@@ -1509,6 +1531,7 @@
         "networks": "Netzwerke",
         "ledgerDevice": "Ledger",
         "disconnected": "Nicht verbunden",
+        "redirected": "Weitergeleitet",
         "balanceBreakdown": "Guthaben Aufteilung",
         "primary": "Primär",
         "color": "Farbe",
@@ -1523,10 +1546,19 @@
         "no": "Nein",
         "tip": "Tipp",
         "verified": "Verifiziert",
-        "methodName": "Method name",
+        "methodName": "Methodenname",
         "data": "Daten",
-        "success": "Success",
-        "info": "Info"
+        "success": "Abgeschlossen",
+        "info": "Info",
+        "active": "Aktiv",
+        "ended": "Beendet",
+        "draft": "Entwurf",
+        "upcoming": "Bevorstehende",
+        "featured": "Vorgestellt",
+        "raffle": "Tombola",
+        "governance": "Governance",
+        "baseCoin": "Base Coin",
+        "unverifiedContract": "Unverified Contract"
     },
     "filters": {
         "title": "Filter",
@@ -1591,7 +1623,7 @@
         "status": {
             "label": "Status",
             "confirmed": "bestätigt",
-            "timelocked": "timelocked",
+            "timelocked": "zeitgesperrt",
             "pending": "ausstehend",
             "claimed": "beansprucht",
             "unclaimed": "unbeansprucht"
@@ -1674,6 +1706,9 @@
         "disconnectDapp": {
             "success": "Verbindung zu {dappName} getrennt"
         },
+        "clearExpiredDapps": {
+            "success": "Expired dApps cleared"
+        },
         "removeDapp": {
             "success": "{dappName} entfernt"
         },
@@ -1697,7 +1732,7 @@
             "success": "NFT-Minting-Transaktion gesendet"
         },
         "transaction": {
-            "success": "Transaction sent"
+            "success": "Transaktion gesendet"
         },
         "burnNft": {
             "success": "NFT-Verbrenn-Transaktion gesendet"
@@ -1773,7 +1808,7 @@
         "account": {
             "length": "Der Name deiner Wallet darf nicht länger als {length, plural, one {1 Zeichen} other {# Zeichen}} sein.",
             "emptyName": "Ein Profilname muss mindestens 1 Zeichen enthalten.",
-            "colorRequired": "A color is required.",
+            "colorRequired": "Eine Farbe ist erforderlich.",
             "duplicate": "Eine Wallet mit diesem Namen existiert bereits.",
             "tilde": "Ein Profilname darf nicht mit dem Zeichen '~' beginnen.",
             "control": "Ein Profilname darf kein Kontrollzeichen enthalten.",
@@ -1893,8 +1928,8 @@
                 "long": "Url-Schema nicht unterstützt"
             },
             "unsupportedMediaType": {
-                "short": "Unsupported media type",
-                "long": "The media type is not currently supported"
+                "short": "Nicht unterstützter Medientyp",
+                "long": "Der Medientyp wird derzeit nicht unterstützt"
             },
             "notMatchingFileTypes": {
                 "short": "Laden blockiert",
@@ -1982,7 +2017,7 @@
                 "transactionFee": "Die Transaktionsgebühr enthält die Gasgebühr für die Ausführung sowie das Storage Deposit."
             },
             "genesis": {
-                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
+                "timelockDate": "Der Absender hat eine Zeitsperre für dieses Guthaben definiert. Du kannst sie ausgeben, sobald die Sperre abgelaufen ist."
             },
             "nftMetadata": {
                 "type": "Der MimeType des NFT, z.B. image/png.",
@@ -2027,10 +2062,11 @@
         "wallet": "Wallet",
         "collectibles": "Sammlerstücke",
         "governance": "Governance",
+        "campaigns": "Kampagnen",
+        "buySell": "Kaufen & Verkaufen",
         "developer": "Entwickler",
         "tokens": "Token",
-        "settings": "Einstellungen",
-        "buySell": "Buy & Sell"
+        "settings": "Einstellungen"
     },
     "pills": {
         "asyncStatus": {
