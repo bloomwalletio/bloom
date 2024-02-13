@@ -7,6 +7,7 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Button, Text } from '@bloomwalletio/ui'
     import { Pane } from '@ui'
+    import { ManageVotingPowerMenu } from './'
 
     const token = $visibleSelectedAccountTokens?.[$activeProfile?.network.id]?.baseCoin
 
@@ -27,9 +28,12 @@
 </script>
 
 <Pane classes="p-6 h-fit space-y-4">
-    <Text type="sm" textColor="secondary">
-        {localize('views.governance.votingPower.title')}
-    </Text>
+    <div class="flex justify-between items-center relative">
+        <Text type="sm" textColor="secondary">
+            {localize('views.governance.votingPower.title')}
+        </Text>
+        <ManageVotingPowerMenu />
+    </div>
     <div class="flex-col space-y-1">
         <Text type="h2">{formattedVotingPower}</Text>
         <Text textColor="secondary">
