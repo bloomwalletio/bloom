@@ -7,6 +7,6 @@ export const profileAuthPopup = writable<IProfileAuthPopupState>({
     props: undefined,
 })
 
-export function updateProfileAuthProps(payload: IProfileAuthPopupState): void {
+export function updateProfileAuthProps(payload: Partial<IProfileAuthPopupState>): void {
     profileAuthPopup?.update((state) => ({ ...state, ...payload }))
 }

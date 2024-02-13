@@ -2,8 +2,13 @@
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
     import { CloseButton } from '@bloomwalletio/ui'
-    import { closePopup, PopupComponentMap, PopupId, profileAuthPopup } from '@desktop/auxiliary/popup'
-    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
+    import {
+        closePopup,
+        PopupComponentMap,
+        PopupId,
+        modifyPopupState,
+        profileAuthPopup,
+    } from '@desktop/auxiliary/popup'
 
     import { IS_WINDOWS } from '@core/app/constants'
     import { clickOutside } from '@core/utils/ui'
@@ -45,6 +50,7 @@
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
+    import SignTypedDataPopup from './popups/SignTypedDataPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
     import SuccessfulDappInteraction from './popups/SuccessfulDappInteraction.svelte'
@@ -121,6 +127,7 @@
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
+        [PopupId.SignTypedData]: SignTypedDataPopup,
         [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
         [PopupId.SuccessfulDappInteraction]: SuccessfulDappInteraction,
@@ -232,7 +239,7 @@
 
 <style lang="postcss">
     :global(.popup) {
-        @apply w-full p-0;
+        @apply w-full p-0 max-h-full;
         @apply bg-surface dark:bg-surface-dark;
         @apply border border-solid border-stroke dark:border-stroke-dark;
         @apply shadow-elevation-4;

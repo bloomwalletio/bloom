@@ -5,23 +5,44 @@ import { MAX_SUPPORTED_DECIMALS } from '@core/wallet'
 
 const DEFAULT_MAX_DECIMALS = 6
 
+type FormatOptions = Partial<{
+    withUnit: boolean
+    round: boolean
+}>
+
 export function formatTokenAmountBestMatch(
     amount: bigint,
     tokenMetadata: TokenMetadata,
-    withUnit = true,
-    round = true
+    options?: FormatOptions
 ): string {
-    const unit = withUnit ? getUnitFromTokenMetadata(tokenMetadata) : undefined
+    const defaultOptions = {
+        withUnit: true,
+        round: true,
+        decimals: tokenMetadata?.decimals,
+    }
+    const mergedOptions = { ...defaultOptions, ...options }
+
+    const unit = mergedOptions.withUnit ? getUnitFromTokenMetadata(tokenMetadata) : undefined
 
     if (typeof amount !== 'bigint') {
         return '-'
     }
 
-    const stringAmount = getStringAmountFromBigInt(amount, round, tokenMetadata?.decimals)
+    const stringAmount = getStringAmountFromBigInt(
+        amount,
+        mergedOptions.round,
+        tokenMetadata?.decimals,
+        mergedOptions.decimals
+    )
     return getAmountWithUnit(stringAmount, unit)
 }
 
-function getStringAmountFromBigInt(value: bigint, round: boolean, decimals?: number): string {
+function getStringAmountFromBigInt(
+    value: bigint,
+    round: boolean,
+    decimals: number | undefined,
+    maxDecimalLength: number | undefined
+): string {
     let stringValue = String(value)
 
     if (!decimals) {
@@ -45,11 +66,14 @@ function getStringAmountFromBigInt(value: bigint, round: boolean, decimals?: num
     integerPart = allIntegersZero ? '0' : getGroupedStringAmount(integerPart)
     stringAmountParts.push(integerPart)
 
-    const maxDecimalLength = Math.max(DEFAULT_MAX_DECIMALS - (integerPart.length - 1), 0)
+    const _maxDecimalLength =
+        maxDecimalLength !== undefined
+            ? Math.min(maxDecimalLength, DEFAULT_MAX_DECIMALS - (integerPart.length - 1))
+            : Math.max(DEFAULT_MAX_DECIMALS - (integerPart.length - 1), 0)
 
     let decimalPart = stringValue.slice(
         indexOfDecimalSeparator,
-        round ? indexOfDecimalSeparator + maxDecimalLength : undefined
+        round ? indexOfDecimalSeparator + _maxDecimalLength : undefined
     )
     const allDecimalsZero = decimalPart.split('').every((decimal) => decimal === '0')
     decimalPart = removeTrailingZero(decimalPart)
