@@ -4,11 +4,11 @@
         color?: 'primary' | 'success' | 'danger' | 'info' | 'warning'
         disabled?: boolean
         restProps?: Record<string, unknown> | undefined
-        form?: string
     }
 
     interface IFormButtonProps extends IBaseButtonProps {
         type: 'submit'
+        form?: string
     }
 
     interface IButtonProps extends IBaseButtonProps {

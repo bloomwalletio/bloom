@@ -6,7 +6,7 @@ import { dashboardRouter } from '@core/router/routers'
 import { DashboardRoute } from '@core/router/enums'
 
 import { resetDeepLink } from '../actions'
-import { DeepLinkContext } from '../enums'
+import { DappsOperation, DeepLinkContext, GovernanceOperation, WalletOperation } from '../enums'
 import { isDeepLinkRequestActive } from '../stores'
 
 import { handleDeepLinkDappsContext } from './dapps/handleDeepLinkDappsContext'
@@ -64,17 +64,23 @@ function handleDeepLinkForHostname(url: URL): void {
             throw new Error('No operation specified in the URL')
         }
 
-        switch (url.hostname) {
+        switch (url.hostname as DeepLinkContext) {
             case DeepLinkContext.Wallet:
                 get(dashboardRouter).goTo(DashboardRoute.Wallet)
-                openAccountSwitcherFirst(() => handleDeepLinkWalletContext(pathnameParts, url.searchParams), url)
+                openAccountSwitcherFirst(
+                    () => handleDeepLinkWalletContext(pathnameParts[0] as WalletOperation, url.searchParams),
+                    url
+                )
                 break
             case DeepLinkContext.Governance:
                 get(dashboardRouter).goTo(DashboardRoute.Governance)
-                openAccountSwitcherFirst(() => handleDeepLinkGovernanceContext(pathnameParts, url.searchParams), url)
+                openAccountSwitcherFirst(
+                    () => handleDeepLinkGovernanceContext(pathnameParts[0] as GovernanceOperation, url.searchParams),
+                    url
+                )
                 break
             case DeepLinkContext.WalletConnect:
-                handleDeepLinkDappsContext(pathnameParts, url.searchParams)
+                handleDeepLinkDappsContext(pathnameParts[0] as DappsOperation, url.searchParams)
                 break
             default:
                 throw new Error(`Unrecognized context '${url.hostname}'`)

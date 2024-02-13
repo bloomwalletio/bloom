@@ -2,8 +2,8 @@ import { localize } from '@core/i18n'
 import { DappsOperation } from '../../enums'
 import { handleDeepLinkAddWCConnectionOperation } from './operations'
 
-export function handleDeepLinkDappsContext(pathnameParts: string[], searchParams: URLSearchParams): void {
-    switch (pathnameParts[0]) {
+export function handleDeepLinkDappsContext(pathnameParts: DappsOperation, searchParams: URLSearchParams): void {
+    switch (pathnameParts) {
         case DappsOperation.Connect:
         case DappsOperation.Wc:
             handleDeepLinkAddWCConnectionOperation(searchParams)
@@ -11,7 +11,7 @@ export function handleDeepLinkDappsContext(pathnameParts: string[], searchParams
         default: {
             throw new Error(
                 localize('notifications.deepLinkingRequest.dapps.unrecognizedOperation', {
-                    values: { operation: pathnameParts[0] },
+                    values: { operation: pathnameParts },
                 })
             )
         }

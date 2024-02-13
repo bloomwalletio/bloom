@@ -8,7 +8,7 @@
     import { DATE_FORMAT, milestoneToDate } from '@core/utils'
 
     export let milestones: Record<EventStatus, number>
-    export let status: string
+    export let status: EventStatus
     export let anchor: HTMLElement
     export let position: Position = Position.Right
 

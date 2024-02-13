@@ -37,7 +37,7 @@
             {darkBackgroundColor}
             classes="w-full flex
                 {!clearPadding ? 'p-4' : ''}
-                {!clearBorder ? 'border border-solid' : ''}
+                {!clearBorder ? 'border border-solid rounded-xl' : ''}
                 {classes}
                 {isFocused
                 ? 'border-brand'
