@@ -1,4 +1,5 @@
-import { TxData } from '@ethereumjs/tx'
+import { TypedTxData } from '@ethereumjs/tx'
+import { BigIntLike } from '@ethereumjs/util'
 import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
@@ -24,7 +25,7 @@ type TransferInfo =
     | { type: ActivityType.Nft; nftId: string; additionalBaseTokenAmount?: bigint; recipientAddress: string }
     | { type: ActivityType.SmartContract }
 
-export function getTransferInfoFromTransactionData(transaction: TxData, chain: IChain): TransferInfo | undefined {
+export function getTransferInfoFromTransactionData(transaction: TypedTxData, chain: IChain): TransferInfo | undefined {
     const networkId = chain.getConfiguration().id
 
     const recipientAddress = transaction.to?.toString()
@@ -128,7 +129,7 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
         return {
             type: ActivityType.Basic,
             tokenId: BASE_TOKEN_ID,
-            rawAmount: Converter.bigIntLikeToBigInt(transaction.value) / WEI_PER_GLOW,
+            rawAmount: Converter.bigIntLikeToBigInt(transaction.value as BigIntLike) / WEI_PER_GLOW,
             recipientAddress,
         }
     }
