@@ -39,8 +39,8 @@
             </div>
         </div>
         <div>
-            <AvatarGroup avatarSize="base" avatarShape="circle" maxAmount={3}>
-                {#each networkIds as networkId}
+            <AvatarGroup avatarSize="base" avatarShape="circle" remainder={networkIds.length - 3}>
+                {#each networkIds.slice(0, 3) as networkId}
                     <NetworkAvatar {networkId} />
                 {/each}
             </AvatarGroup>
