@@ -645,7 +645,8 @@
                 "successAdd": "{numberOfProposals, select, one {Proposta} other {Proposte}} aggiunte con successo",
                 "successAddAll": "{numberOfProposals, select, one {Proposta} other {Proposte}} aggiunte con successo",
                 "successRemove": "Proposta rimossa con successo",
-                "emptyTitle": "Nessuna proposta"
+                "emptyTitle": "Nessuna proposta",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
                 "upcoming": "Annuncio",
@@ -953,6 +954,9 @@
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign",
             "success": "Signed message"
+        },
+        "siwe": {
+            "title": "Sign-In with Ethereum"
         },
         "signTransaction": {
             "title": "Sign transaction",
@@ -1774,7 +1778,8 @@
         "profile": {
             "length": "Il nome del tuo profilo non può essere più lungo di {length, plural, one {1 carattere} other {# caratteri}}.",
             "duplicate": "Esiste già un profilo con questo nome.",
-            "type": "Impossibile determinare il tipo di profilo"
+            "type": "Impossibile determinare il tipo di profilo",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "Le password non corrispondono.",
@@ -1980,7 +1985,8 @@
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
             "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
-            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
