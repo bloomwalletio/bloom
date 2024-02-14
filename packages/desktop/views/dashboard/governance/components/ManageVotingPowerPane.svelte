@@ -5,9 +5,9 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Text } from '@ui'
-    import { FontWeight, TextType } from '@ui/enums'
-    import { Button } from '@bloomwalletio/ui'
+    import { Button, Text } from '@bloomwalletio/ui'
+    import { Pane } from '@ui'
+    import { ManageVotingPowerMenu } from './'
 
     const token = $visibleSelectedAccountTokens?.[$activeProfile?.network.id]?.baseCoin
 
@@ -27,14 +27,19 @@
     }
 </script>
 
-<voting-power>
-    <Text fontSize="14" fontWeight={FontWeight.semibold} classes="mb-4">
-        {localize('views.governance.votingPower.title')}
-    </Text>
-    <Text type={TextType.h1}>{formattedVotingPower}</Text>
-    <Text fontWeight={FontWeight.medium} overrideColor classes="mb-4 text-gray-600 dark:text-white">
-        {localize('views.governance.votingPower.maximal', { values: { value: formattedMaxVotingPower } })}
-    </Text>
+<Pane classes="p-6 h-fit space-y-4">
+    <div class="flex justify-between items-center relative">
+        <Text type="sm" textColor="secondary">
+            {localize('views.governance.votingPower.title')}
+        </Text>
+        <ManageVotingPowerMenu />
+    </div>
+    <div class="flex-col space-y-1">
+        <Text type="h2">{formattedVotingPower}</Text>
+        <Text textColor="secondary">
+            {localize('views.governance.votingPower.maximal', { values: { value: formattedMaxVotingPower } })}
+        </Text>
+    </div>
     <Button
         on:click={onManageVotingPowerClick}
         width="full"
@@ -42,4 +47,4 @@
         busy={hasTransactionInProgress}
         text={localize('views.governance.votingPower.manage')}
     />
-</voting-power>
+</Pane>

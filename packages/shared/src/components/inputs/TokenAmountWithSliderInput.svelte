@@ -17,17 +17,12 @@
     let amountInputElement: HTMLInputElement
     let error: string
     let inputLength = 0
-    let fontSize = '64'
     let maxLength = 0
 
     $: isFocused && (error = '')
     $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token?.metadata)
     $: availableBalance = (token.balance.available ?? BigInt(0)) + votingPower
-    $: inputtedAmount,
-        (error = ''),
-        (inputLength = getInputLength()),
-        (fontSize = getFontSizeForInputLength()),
-        (maxLength = getMaxAmountOfDigits())
+    $: inputtedAmount, (error = ''), (inputLength = getInputLength()), (maxLength = getMaxAmountOfDigits())
     $: inputtedAmount = getTokenAmount(rawAmount)
     $: setRawAmountIfInputMismatch(inputtedAmount)
 
@@ -78,16 +73,6 @@
         return length - (isDecimal ? 0.5 : 0)
     }
 
-    function getFontSizeForInputLength(): string {
-        if (inputLength < 10) {
-            return '64'
-        } else if (inputLength < 14) {
-            return '48'
-        } else {
-            return '32'
-        }
-    }
-
     function getMaxAmountOfDigits(): number {
         const metadata = token?.metadata
         if (!metadata) {
@@ -114,10 +99,8 @@
 </script>
 
 <InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} col {isFocused} {error}>
-    <div class="w-fit mx-auto">
+    <div class="flex flex-row w-full items-center space-x-2 relative">
         <TokenLabel {token} />
-    </div>
-    <div class="flex flex-row w-full items-center space-x-0.5 relative">
         <AmountInput
             bind:inputElement={amountInputElement}
             bind:amount={inputtedAmount}
@@ -128,7 +111,7 @@
             clearPadding
             clearBorder
             {disabled}
-            {fontSize}
+            fontSize="32"
         />
     </div>
 

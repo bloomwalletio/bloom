@@ -3,4 +3,5 @@ export enum LedgerApiMethod {
     GetEthereumAppSettings = 'get-ethereum-app-settings',
     SignEvmTransaction = 'sign-evm-transaction',
     SignMessage = 'sign-message',
+    SignEIP712 = 'sign-eip712',
 }
