@@ -10,14 +10,11 @@
     import { selectedAccount } from '@core/account/stores'
     import { IChain } from '@core/network'
     import { AccountLabel } from '@ui'
-    import { onMount } from 'svelte'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import DappDataBanner from '@components/DappDataBanner.svelte'
-    import { getSdkError } from '@walletconnect/utils'
 
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let rawMessage: string
     export let siweObject: Record<string, any>
     export let account: IAccountState
@@ -27,34 +24,19 @@
 
     let isBusy = false
 
-    async function unlockAndSign(): Promise<string> {
-        return new Promise((resolve, reject) => {
-            checkActiveProfileAuth(
-                async () => {
-                    try {
-                        const { coinType } = chain.getConfiguration()
-                        const result = await signMessage(rawMessage, coinType, account)
-                        closePopup({ forceClose: true })
-                        resolve(result)
-                        return
-                    } catch (error) {
-                        closePopup({ forceClose: true })
-                        reject(error)
-                    }
-                },
-                { stronghold: true, ledger: true },
-                LedgerAppName.Ethereum,
-                () => {
-                    reject(getSdkError('USER_REJECTED'))
-                }
-            )
-        })
-    }
-
     async function onConfirmClick(): Promise<void> {
+        try {
+            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+        } catch {
+            return
+        }
+
         isBusy = true
         try {
-            const result = await unlockAndSign()
+            const { coinType } = chain.getConfiguration()
+            const result = await signMessage(rawMessage, coinType, account)
+            closePopup({ forceClose: true })
+
             callback({ result })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
@@ -73,14 +55,6 @@
     function onCancelClick(): void {
         closePopup({ callOnCancel: true })
     }
-
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            handleError(err)
-        }
-    })
 </script>
 
 <PopupTemplate
