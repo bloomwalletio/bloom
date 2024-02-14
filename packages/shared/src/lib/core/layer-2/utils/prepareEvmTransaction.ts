@@ -15,7 +15,7 @@ export function prepareEvmTransaction(
     const preparedTransactionData = isSigned ? { ...transactionData, r, v, s } : transactionData
     const transaction = TransactionFactory.fromTxData(preparedTransactionData, getEvmTransactionOptions(chainId))
 
-    const transactionBuffer = isSigned ? transaction.raw() : transaction.getMessageToSign()
-    const transactionHex = Buffer.from(RLP.encode(transactionBuffer)).toString('hex')
+    const rawMessage = isSigned ? transaction.raw() : transaction.getMessageToSign()
+    const transactionHex = Buffer.from(RLP.encode(rawMessage)).toString('hex')
     return isSigned ? HEX_PREFIX + transactionHex : transactionHex
 }
