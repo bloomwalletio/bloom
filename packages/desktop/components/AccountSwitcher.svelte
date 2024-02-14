@@ -4,16 +4,14 @@
     import { setSelectedAccount } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
     import { formatCurrency, localize } from '@core/i18n'
-    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
-    import { allAccountFiatBalances, selectedAccountTokens } from '@core/token/stores'
+    import { visibleActiveAccounts } from '@core/profile/stores'
+    import { allAccountFiatBalances } from '@core/token/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
     export let navbar: boolean = false
     export let placement: 'bottom-start' | 'bottom-end' = 'bottom-start'
 
     const menu: Menu | undefined = undefined
-
-    $: baseCoin = $selectedAccountTokens[$activeProfile?.network?.id]?.baseCoin
 
     function onAccountClick(accountIndex: number): void {
         setSelectedAccount(accountIndex)
