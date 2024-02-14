@@ -6,6 +6,7 @@ import { CallbackParameters } from '../types'
 import { switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
+import { parseSiweMessage } from '@core/layer-2'
 
 export async function handleSignMessage(
     params: unknown,
@@ -33,17 +34,34 @@ export async function handleSignMessage(
 
     try {
         const account = await switchToRequiredAccount(accountAddress, chain)
-        openPopup({
-            id: PopupId.SignMessage,
-            props: {
-                message,
-                dapp,
-                account,
-                chain,
-                callback: responseCallback,
-                onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
-            },
-        })
+
+        const siweObject = parseSiweMessage(message)
+        if (siweObject) {
+            openPopup({
+                id: PopupId.Siwe,
+                props: {
+                    siweObject,
+                    message,
+                    dapp,
+                    account,
+                    chain,
+                    callback: responseCallback,
+                    onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
+                },
+            })
+        } else {
+            openPopup({
+                id: PopupId.SignMessage,
+                props: {
+                    message,
+                    dapp,
+                    account,
+                    chain,
+                    callback: responseCallback,
+                    onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
+                },
+            })
+        }
     } catch (err) {
         responseCallback({ error: getSdkError(err) })
     }

@@ -18,7 +18,8 @@
     import { getSdkError } from '@walletconnect/utils'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
-    export let message: string
+    export let rawMessage: string
+    export let siweObject: Record<string, any>
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
@@ -32,7 +33,7 @@
                 async () => {
                     try {
                         const { coinType } = chain.getConfiguration()
-                        const result = await signMessage(message, coinType, account)
+                        const result = await signMessage(rawMessage, coinType, account)
                         closePopup({ forceClose: true })
                         resolve(result)
                         return
@@ -83,7 +84,7 @@
 </script>
 
 <PopupTemplate
-    title={localize('popups.signMessage.title')}
+    title={localize('popups.siwe.title')}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
@@ -99,7 +100,7 @@
     <div class="space-y-5">
         <div>
             <Text fontWeight="medium">{localize('general.message')}</Text>
-            <Text textColor="secondary" type="sm" fontWeight="medium">{message}</Text>
+            <Text textColor="secondary" type="sm" fontWeight="medium">{rawMessage}</Text>
         </div>
         <Table
             items={[
