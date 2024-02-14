@@ -112,8 +112,9 @@
     <account-network-summary-assets class="flex flex-row justify-between items-center">
         <div>
             {#if hasTokens}
-                <AvatarGroup avatarSize="md">
-                    {#each tokens?.nativeTokens ?? [] as token}
+                {@const nativeTokens = tokens?.nativeTokens ?? []}
+                <AvatarGroup avatarSize="md" remainder={nativeTokens.length - 4}>
+                    {#each nativeTokens.slice(0, 4) ?? [] as token}
                         <TokenAvatar hideNetworkBadge size="md" {token} />
                     {/each}
                 </AvatarGroup>
@@ -121,8 +122,8 @@
         </div>
         <div>
             {#if hasNfts}
-                <AvatarGroup avatarSize="md" avatarShape="square">
-                    {#each sortedNfts as nft}
+                <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
+                    {#each sortedNfts.slice(0, 4) as nft}
                         <NftAvatar {nft} size="md" shape="square" />
                     {/each}
                 </AvatarGroup>
