@@ -8,8 +8,8 @@ export function logAndNotifyError(errorParameters: IErrorParameters): void {
     const localisedMessage = errorParameters?.localizationKey
         ? localize(errorParameters?.localizationKey)
         : errorParameters?.message
-        ? errorParameters.message
-        : localize('error.global.generic')
+          ? errorParameters.message
+          : localize('error.global.generic')
 
     if (errorParameters?.logToConsole) {
         console.error(errorParameters?.message)

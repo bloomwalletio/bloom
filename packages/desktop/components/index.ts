@@ -26,6 +26,5 @@ export { default as ProposalStatusTimelineTooltip } from './ProposalStatusTimeli
 export { default as SidebarTab } from './SidebarTab.svelte'
 export { default as StatusTile, type StatusTileProps } from './StatusTile.svelte'
 export { default as TitleBar } from './TitleBar.svelte'
-export { default as VotingPower } from './VotingPower.svelte'
 export { default as WindowsControlButtons } from './WindowsControlButtons.svelte'
 export { default as WindowsPopupMenu } from './WindowsPopupMenu.svelte'
