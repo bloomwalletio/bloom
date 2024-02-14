@@ -5,18 +5,18 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { signMessage } from '@core/wallet/actions'
-    import { Alert, Table, Text } from '@bloomwalletio/ui'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { selectedAccount } from '@core/account/stores'
     import { IChain } from '@core/network'
     import { AccountLabel } from '@ui'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import DappDataBanner from '@components/DappDataBanner.svelte'
+    import { ParsedMessage } from '@spruceid/siwe-parser'
 
     export let rawMessage: string
-    export let siweObject: Record<string, any>
+    export let siweObject: ParsedMessage
     export let account: IAccountState
     export let chain: IChain
     export let dapp: IConnectedDapp | undefined
@@ -64,20 +64,28 @@
         onClick: onCancelClick,
     }}
     continueButton={{
-        text: localize('popups.signMessage.action'),
+        text: localize('popups.siwe.action'),
         onClick: onConfirmClick,
     }}
-    busy={$selectedAccount?.isTransferring || isBusy}
+    busy={isBusy}
 >
     <DappDataBanner slot="banner" {dapp} />
 
     <div class="space-y-5">
-        <div>
-            <Text fontWeight="medium">{localize('general.message')}</Text>
-            <Text textColor="secondary" type="sm" fontWeight="medium">{rawMessage}</Text>
-        </div>
         <Table
             items={[
+                {
+                    key: localize('popups.siwe.domain'),
+                    value: siweObject.domain,
+                },
+                {
+                    key: localize('popups.siwe.statement'),
+                    value: siweObject.statement,
+                },
+                {
+                    key: localize('popups.siwe.resources'),
+                    value: siweObject.resources,
+                },
                 {
                     key: localize('general.account'),
                     slot: {
