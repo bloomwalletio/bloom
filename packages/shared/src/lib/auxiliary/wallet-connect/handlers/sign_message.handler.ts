@@ -6,7 +6,9 @@ import { CallbackParameters } from '../types'
 import { switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
-import { parseSiweMessage } from '@core/layer-2'
+import { parseSiweMessage, validateSiwe } from '@core/layer-2'
+import { showNotification } from '@auxiliary/notification'
+import { localize } from '@core/i18n'
 
 export async function handleSignMessage(
     params: unknown,
@@ -37,18 +39,27 @@ export async function handleSignMessage(
 
         const siweObject = parseSiweMessage(message)
         if (siweObject) {
-            openPopup({
-                id: PopupId.Siwe,
-                props: {
-                    siweObject,
-                    message,
-                    dapp,
-                    account,
-                    chain,
-                    callback: responseCallback,
-                    onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
-                },
-            })
+            const isValidSiwe = validateSiwe(siweObject, origin)
+            if (isValidSiwe) {
+                openPopup({
+                    id: PopupId.Siwe,
+                    props: {
+                        siweObject,
+                        message,
+                        dapp,
+                        account,
+                        chain,
+                        callback: responseCallback,
+                        onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
+                    },
+                })
+            } else {
+                showNotification({
+                    variant: 'error',
+                    text: localize('notifications.siwe.rejected'),
+                })
+                responseCallback({ error: getSdkError('INVALID_METHOD') })
+            }
         } else {
             openPopup({
                 id: PopupId.SignMessage,
