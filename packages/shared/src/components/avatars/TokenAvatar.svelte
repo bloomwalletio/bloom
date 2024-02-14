@@ -70,6 +70,14 @@
     $: icon = DEFAULT_TOKEN_ICON[token.networkId as SupportedNetworkId]?.[token?.id]
     $: image = getImageUrlFromToken(token, IMAGE_SIZES[size])
     $: text = getTokenInitials(token)
+    $: magnify =
+        token.id === BASE_TOKEN_ID &&
+        [
+            SupportedNetworkId.Shimmer,
+            SupportedNetworkId.Testnet,
+            SupportedNetworkId.ShimmerEvm,
+            SupportedNetworkId.TestnetEvm,
+        ].includes(token.networkId as SupportedNetworkId)
 </script>
 
 <div class="avatar">
@@ -79,6 +87,7 @@
         {icon}
         customTextColor={textColor}
         text={icon || (image && !imageLoadError) ? '' : text}
+        {magnify}
     >
         {#if image && !imageLoadError}
             <img
