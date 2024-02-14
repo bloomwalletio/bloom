@@ -886,7 +886,9 @@
                     "decimals": "Decimals",
                     "useMetricPrefix": "Use metric prefix"
                 }
-            }
+            },
+            "jwt": "JSON web token",
+            "credentials": "Sign-in credentials"
         },
         "errorLog": {
             "title": "Error Log",
@@ -1348,6 +1350,7 @@
     },
     "general": {
         "recipient": "Recipient",
+        "username": "Username",
         "password": "Password",
         "confirmPassword": "Confirm password",
         "currentPassword": "Current password",
