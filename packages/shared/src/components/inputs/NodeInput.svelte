@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { SelectorInput, IOption, Modal } from '@ui'
+    import { SelectInput, IOption } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
     import { isValidUrl, stripTrailingSlash } from '@core/utils'
@@ -8,12 +8,10 @@
     export let error: string
     export let nodeUrl: string
 
-    let inputElement: HTMLInputElement
-    let modal: Modal
     let nodeOptions: IOption[]
     let selected: IOption = { value: nodeUrl }
 
-    $: clientOptionsNodes = $activeProfile?.clientOptions?.nodes
+    $: clientOptionsNodes = $activeProfile?.clientOptions?.nodes ?? []
     $: clientOptionsNodes, (nodeOptions = getNodeOptionsFromClientOptions())
     $: nodeUrl = stripTrailingSlash(selected?.value?.trim())
 
@@ -24,7 +22,7 @@
             }
             return Promise.resolve()
         } catch (err) {
-            error = err?.message ?? err
+            error = (err as Error)?.message
             return Promise.reject(error)
         }
     }
@@ -40,13 +38,10 @@
     }
 </script>
 
-<SelectorInput
-    labelLocale="views.governance.details.proposalInformation.nodeUrl"
+<SelectInput
+    label={localize('views.governance.details.proposalInformation.nodeUrl')}
     bind:selected
-    bind:inputElement
-    bind:modal
     bind:error
     {disabled}
     options={nodeOptions}
-    {...$$restProps}
 />
