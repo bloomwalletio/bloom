@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ProposalStatusTimelineTooltip } from '@components'
+    import { ProposalStatusTimelineTooltip } from '@views/governance'
     import { InformationTooltip, ProposalStatusPill } from '@ui'
     import { Position } from '@ui/enums'
 
