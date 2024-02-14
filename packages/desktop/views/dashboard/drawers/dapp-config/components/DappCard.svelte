@@ -1,7 +1,7 @@
 <script lang="ts">
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { ClickableTile, NetworkAvatar } from '@ui'
-    import { Avatar, IconName, Text } from '@bloomwalletio/ui'
+    import { Avatar, AvatarGroup, IconName, Text } from '@bloomwalletio/ui'
     import { NetworkId } from '@core/network'
     import { getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
     import { localize } from '@core/i18n'
@@ -38,8 +38,12 @@
                 {/if}
             </div>
         </div>
-        {#each networkIds as networkId}
-            <NetworkAvatar {networkId} />
-        {/each}
+        <div>
+            <AvatarGroup avatarSize="base" avatarShape="circle" maxAmount={3}>
+                {#each networkIds as networkId}
+                    <NetworkAvatar {networkId} />
+                {/each}
+            </AvatarGroup>
+        </div>
     </div>
 </ClickableTile>
