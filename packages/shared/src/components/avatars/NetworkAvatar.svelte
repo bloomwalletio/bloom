@@ -34,7 +34,7 @@
 </script>
 
 <!-- TODO: Add initials for not supported network IDs -->
-<network-avatar bind:this={anchor}>
+<network-avatar bind:this={anchor} class="avatar">
     <Avatar {size} {shape} {backgroundColor} {customTextColor} {icon} />
 </network-avatar>
 {#if showTooltip && networkName}
