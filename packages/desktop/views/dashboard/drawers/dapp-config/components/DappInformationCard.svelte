@@ -4,6 +4,7 @@
     import { CoreTypes } from '@walletconnect/types'
     import { localize } from '@core/i18n'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { DappVerificationPill } from '@ui/pills'
 
     export let metadata: CoreTypes.Metadata
     export let verifiedState: DappVerification | undefined = undefined
@@ -30,6 +31,9 @@
             <Link text={metadata?.url} on:click={() => openUrlInBrowser(metadata.url)} />
         </div>
     </div>
+    {#if verifiedState && verifiedState !== DappVerification.Valid}
+        <DappVerificationPill {verifiedState} />
+    {/if}
 </dapp-information>
 
 <style lang="scss">

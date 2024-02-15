@@ -2,6 +2,7 @@
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { Avatar, Icon, IconName, Text } from '@bloomwalletio/ui'
+    import { DappVerificationPill } from '@ui/pills'
 
     export let dapp: IConnectedDapp | undefined
     export let verifiedState: DappVerification | undefined = undefined
@@ -33,6 +34,9 @@
             </div>
         {/if}
     </div>
+    {#if verifiedState && verifiedState !== DappVerification.Valid}
+        <DappVerificationPill {verifiedState} />
+    {/if}
 </dapp-banner>
 
 <style lang="scss">
