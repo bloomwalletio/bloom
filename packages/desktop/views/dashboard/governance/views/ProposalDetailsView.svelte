@@ -35,7 +35,8 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { MarkdownBlock, Pane, ProposalStatusPill, Text, TextType } from '@ui'
+    import { ProposalStatusPill } from '@views/governance'
+    import { MarkdownBlock, Pane, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
