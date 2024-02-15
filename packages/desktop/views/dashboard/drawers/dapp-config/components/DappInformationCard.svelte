@@ -22,7 +22,7 @@
         <div class="flex flex-row items-center gap-1">
             {#if verifiedState === DappVerification.Valid}
                 <Icon name={IconName.ShieldOn} size="xs" textColor="success" />
-            {:else if verifiedState === DappVerification.Invalid}
+            {:else if verifiedState === DappVerification.Invalid || verifiedState === DappVerification.Scam}
                 <Icon name={IconName.ShieldOff} size="xs" textColor="danger" />
             {:else if verifiedState === DappVerification.Unknown}
                 <Icon name={IconName.ShieldOff} size="xs" textColor="warning" />

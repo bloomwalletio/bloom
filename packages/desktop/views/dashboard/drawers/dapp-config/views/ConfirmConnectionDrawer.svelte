@@ -27,6 +27,7 @@
     import { DappConfigRoute } from '../dapp-config-route.enum'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { selectedAccount } from '@core/account/stores'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
 
     export let drawerRouter: Router<unknown>
 
@@ -45,6 +46,9 @@
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
 
+    $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
+        ? DappVerification.Scam
+        : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
     $: dappUrl = $sessionProposal?.params?.proposer?.metadata?.url ?? undefined
     $: persistedNamespaces = dappUrl ? getPersistedDappNamespacesForDapp(dappUrl) : undefined
 
@@ -103,10 +107,7 @@
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
-            <DappInformationCard
-                metadata={$sessionProposal.params.proposer.metadata}
-                verifiedState={$sessionProposal.verifyContext.verified.validation}
-            />
+            <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
 
             <div class="px-6 flex-grow overflow-hidden">
                 {#if persistedNamespaces}

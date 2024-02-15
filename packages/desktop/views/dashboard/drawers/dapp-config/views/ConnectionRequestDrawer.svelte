@@ -13,6 +13,7 @@
     import { showNotification } from '@auxiliary/notification'
     import { onDestroy } from 'svelte'
     import { Web3WalletTypes } from '@walletconnect/web3wallet'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
 
     enum SessionVerification {
         Valid = 'VALID',
@@ -33,6 +34,9 @@
         unsupportedMethods.length === 0 &&
         unsupportedRequiredNetworks.networks.length === 0 &&
         supportedNetworks.networks.length > 0
+    $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
+        ? DappVerification.Scam
+        : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
 
     let timeout: ReturnType<typeof setTimeout> | undefined
     $: {
@@ -118,7 +122,7 @@
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
             {@const metadata = $sessionProposal.params.proposer.metadata}
-            <DappInformationCard {metadata} verifiedState={$sessionProposal.verifyContext.verified.validation} />
+            <DappInformationCard {metadata} {verifiedState} />
 
             <div class="flex-grow overflow-hidden">
                 <div class="h-full overflow-scroll flex flex-col gap-5 p-6">
