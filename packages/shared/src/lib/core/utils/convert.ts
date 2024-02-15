@@ -1,5 +1,4 @@
-/* eslint-disable no-bitwise */
-import { BigIntLike, bufferToBigInt } from '@ethereumjs/util'
+import { BigIntLike, bytesToBigInt } from '@ethereumjs/util'
 
 import { HEX_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
 import { isValidDate } from './date'
@@ -306,8 +305,8 @@ export class Converter {
      * @returns The bytes.
      */
     public static bigIntLikeToBigInt(number: BigIntLike | undefined): bigint {
-        if (Buffer.isBuffer(number)) {
-            return bufferToBigInt(number)
+        if (ArrayBuffer.isView(number)) {
+            return bytesToBigInt(number)
         } else {
             return BigInt(String(number ?? '0'))
         }

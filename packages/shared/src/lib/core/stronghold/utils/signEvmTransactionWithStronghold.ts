@@ -1,7 +1,7 @@
 import { LegacyTransaction, TransactionFactory, TypedTxData } from '@ethereumjs/tx'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { EvmChainId, getEvmTransactionOptions } from '@core/network'
-import { removeLeadingZeros } from '@core/utils/buffer'
+import { removeLeadingZeros } from '@core/utils/array'
 import { ECDSASignature } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/sdk/out/types'
 import { getSignatureForStringWithStronghold } from './getSignatureForStringWithStronghold'
