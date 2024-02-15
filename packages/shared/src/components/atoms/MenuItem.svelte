@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, Text, Spinner, Position, InformationTooltip } from '@ui'
+    import { Icon, Text, Spinner, InformationTooltip } from '@ui'
     import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let icon: string = ''
@@ -66,7 +66,7 @@
 </button>
 
 {#if showTooltip}
-    <InformationTooltip anchor={menuItem} position={Position.Right} body={tooltip} />
+    <InformationTooltip anchor={menuItem} body={tooltip} />
 {/if}
 
 <style lang="scss">

@@ -1,14 +1,13 @@
 <script lang="ts">
     import { ProposalStatusTimelineTooltip } from '@components'
     import { InformationTooltip, ProposalStatusPill } from '@ui'
-    import { Position } from '@ui/enums'
 
     import { IProposal } from '@contexts/governance/interfaces'
     import { localize } from '@core/i18n'
     import { ProposalError } from '@lib/contexts/governance'
 
     export let proposal: IProposal
-    export let position: Position = Position.Right
+    export let placement: 'top' | 'bottom' | 'left' | 'right' = 'right'
 
     let anchor: HTMLElement
     let isTooltipVisible = false
@@ -51,14 +50,14 @@
     {#if proposal?.error}
         {@const { title, body } = getProposalErrorText(proposal)}
         {#if title && body}
-            <InformationTooltip {anchor} {position} {title} {body} />
+            <InformationTooltip {anchor} {placement} {title} {body} />
         {/if}
     {:else}
         <ProposalStatusTimelineTooltip
             bind:anchor
             milestones={proposal.milestones}
             status={proposal?.status}
-            {position}
+            position={placement}
         />
     {/if}
 {/if}

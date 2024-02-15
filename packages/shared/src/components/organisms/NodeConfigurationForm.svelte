@@ -1,7 +1,7 @@
 <script lang="ts">
     import { OnboardingNetworkType } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { IAuth, INode } from '@iota/sdk/out/types'
+    import { INode } from '@iota/sdk/out/types'
     import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
@@ -14,7 +14,8 @@
     import { activeProfile } from '@core/profile/stores'
     import { cleanUrl } from '@core/utils'
     import features from '@features/features'
-    import { Error, IOption, NumberInput, PasswordInput, SelectInput, TextInput } from '@bloomwalletio/ui'
+    import { NodeAuthTab } from '@ui'
+    import { Alert, Error, IOption, NumberInput, SelectInput, TextInput } from '@bloomwalletio/ui'
 
     interface INodeValidationOptions {
         checkNodeInfo: boolean
@@ -28,6 +29,7 @@
     export let coinType: string = ''
     export let isBusy = false
     export let formError = ''
+    export let requiresAuth = false
     export let currentClientOptions: IClientOptions | undefined = undefined
     export let isDeveloperProfile: boolean = false
     export let onSubmit: () => void = () => {}
@@ -35,17 +37,14 @@
 
     const networkOptions: IOption[] = getNetworkTypeOptions()
 
-    let [username, password] = node.auth?.basicAuthNamePwd ?? ['', '']
-    let jwt = node.auth?.jwt ?? ''
+    let auth = node?.auth
 
     $: networkType, (coinType = '')
     $: networkType, coinType, node.url, (formError = '')
-    $: jwt,
-        username,
-        password,
+    $: auth,
         (node = {
             url: node.url,
-            auth: getAuth(),
+            auth,
         })
 
     function getNetworkTypeOptions(): IOption[] {
@@ -59,17 +58,6 @@
         })
 
         return options.filter((item) => features.onboarding?.[item.value]?.enabled)
-    }
-
-    function getAuth(): IAuth {
-        const auth: IAuth = {}
-        if ([username, password].every((value) => value !== '')) {
-            auth.basicAuthNamePwd = [username, password]
-        }
-        if (jwt !== '') {
-            auth.jwt = jwt
-        }
-        return auth
     }
 
     function cleanNodeUrl(): void {
@@ -146,13 +134,9 @@
         disabled={isBusy}
         on:change={cleanNodeUrl}
     />
-    <TextInput bind:value={username} label={localize('popups.node.optionalUsername')} disabled={isBusy} />
-    <PasswordInput
-        bind:value={password}
-        label={localize('popups.node.optionalPassword')}
-        required={!!username}
-        disabled={isBusy}
-    />
-    <PasswordInput bind:value={jwt} label={localize('popups.node.optionalJwt')} required={false} disabled={isBusy} />
+    {#if requiresAuth}
+        <NodeAuthTab bind:auth />
+        <Alert variant="warning" text={localize('popups.node.requiresAuthentication')} />
+    {/if}
     {#if formError}<Error error={formError} />{/if}
 </form>
