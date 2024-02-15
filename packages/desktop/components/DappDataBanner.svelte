@@ -1,8 +1,10 @@
 <script lang="ts">
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-    import { Avatar, IconName, Text } from '@bloomwalletio/ui'
+    import { Avatar, Icon, IconName, Text } from '@bloomwalletio/ui'
 
     export let dapp: IConnectedDapp | undefined
+    export let verifiedState: DappVerification | undefined = undefined
 </script>
 
 <dapp-banner>
@@ -17,9 +19,18 @@
         </Text>
 
         {#if dapp?.metadata?.url}
-            <Text type="sm" textColor="secondary" truncate>
-                {dapp.metadata.url}
-            </Text>
+            <div class="flex flex-row items-center gap-1">
+                {#if verifiedState === DappVerification.Valid}
+                    <Icon name={IconName.ShieldOn} size="xs" textColor="success" />
+                {:else if verifiedState === DappVerification.Invalid || verifiedState === DappVerification.Scam}
+                    <Icon name={IconName.ShieldOff} size="xs" textColor="danger" />
+                {:else if verifiedState === DappVerification.Unknown}
+                    <Icon name={IconName.ShieldOff} size="xs" textColor="warning" />
+                {/if}
+                <Text type="sm" textColor="secondary" truncate>
+                    {dapp.metadata.url}
+                </Text>
+            </div>
         {/if}
     </div>
 </dapp-banner>

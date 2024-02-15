@@ -29,11 +29,13 @@
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
-    export let dapp: IConnectedDapp | undefined
+    export let dapp: IConnectedDapp
     export let signAndSend: boolean
+    export let verifiedState: DappVerification
     export let callback: (params: CallbackParameters) => void
 
     const { id } = chain.getConfiguration()
@@ -149,7 +151,7 @@
     }}
     {busy}
 >
-    <DappDataBanner slot="banner" {dapp} />
+    <DappDataBanner slot="banner" {dapp} {verifiedState} />
 
     <div class="space-y-5">
         {#if isSmartContractCall}

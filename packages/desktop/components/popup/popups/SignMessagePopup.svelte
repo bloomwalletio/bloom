@@ -17,12 +17,14 @@
     import DappDataBanner from '@components/DappDataBanner.svelte'
     import { getSdkError } from '@walletconnect/utils'
     import { parseSiweMessage } from '@core/layer-2/utils'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
     export let message: string
     export let account: IAccountState
     export let chain: IChain
-    export let dapp: IConnectedDapp | undefined
+    export let dapp: IConnectedDapp
+    export let verifiedState: DappVerification
     export let callback: (params: CallbackParameters) => void
 
     let isSiwe = false
@@ -99,7 +101,7 @@
     }}
     busy={$selectedAccount?.isTransferring || isBusy}
 >
-    <DappDataBanner slot="banner" {dapp} />
+    <DappDataBanner slot="banner" {dapp} {verifiedState} />
 
     <div class="space-y-5">
         <div>
