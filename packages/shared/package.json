@@ -6,6 +6,7 @@
     "license": "Apache-2.0",
     "dependencies": {
         "@bloomwalletio/ui": "0.20.1",
+        "@ethereumjs/util": "9.0.2",
         "@iota/bundle": "1.0.0-beta.30",
         "@iota/converter": "1.0.0-beta.30",
         "@iota/crypto.js": "1.8.6",
