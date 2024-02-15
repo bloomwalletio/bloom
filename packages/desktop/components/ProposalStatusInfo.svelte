@@ -1,6 +1,7 @@
 <script lang="ts">
+    import { ProposalStatusPill } from '@views/governance'
     import { ProposalStatusTimelineTooltip } from '@components'
-    import { InformationTooltip, ProposalStatusPill } from '@ui'
+    import { InformationTooltip } from '@ui'
     import { Position } from '@ui/enums'
 
     import { IProposal } from '@contexts/governance/interfaces'
