@@ -2109,7 +2109,7 @@
         "dappVerification": {
             "valid": "Verified",
             "invalid": "Invalid",
-            "unknown": "Cannot be verified",
+            "unknown": "Cannot verify",
             "scam": "Scam"
         }
     },
