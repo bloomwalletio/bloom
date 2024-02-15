@@ -53,30 +53,34 @@
         <Text type="h6">{localize(`${localeKey}.title`)}</Text>
         <DappListActionsMenu {drawerRouter} />
     </div>
-    <div class="px-6 pb-6">
-        <Tabs bind:selectedTab bind:selectedIndex {tabs} />
+    <div class="h-full flex flex-col">
+        <div class="px-6 pb-6">
+            <Tabs bind:selectedTab bind:selectedIndex {tabs} />
+        </div>
+        <div class="flex-grow">
+            {#if displayedDapps.length}
+                <div class="h-full flex flex-col scrollable px-6 items-start gap-3">
+                    {#each displayedDapps as dapp}
+                        <DappCard {dapp} disabled={selectedIndex === 1} onClick={() => onDappCardClick(dapp)} />
+                    {/each}
+                </div>
+            {:else}
+                <div class="w-full h-full flex flex-col items-center justify-center gap-6 px-6">
+                    <EmptyListPlaceholder
+                        title={localize(
+                            `views.dashboard.drawers.dapps.dappsList.${selectedIndex === 0 ? 'paired' : 'expired'}.emptyTitle`
+                        )}
+                        subtitle={localize(
+                            `views.dashboard.drawers.dapps.dappsList.${
+                                selectedIndex === 0 ? 'paired' : 'expired'
+                            }.emptySubtitle`
+                        )}
+                        icon={IconName.LinkBroken}
+                    />
+                </div>
+            {/if}
+        </div>
     </div>
-    {#if displayedDapps.length}
-        <div class="h-full flex flex-col scrollable px-6 items-start gap-3">
-            {#each displayedDapps as dapp}
-                <DappCard {dapp} disabled={selectedIndex === 1} onClick={() => onDappCardClick(dapp)} />
-            {/each}
-        </div>
-    {:else}
-        <div class="w-full h-full flex flex-col items-center justify-center gap-6 px-6">
-            <EmptyListPlaceholder
-                title={localize(
-                    `views.dashboard.drawers.dapps.dappsList.${selectedIndex === 0 ? 'paired' : 'expired'}.emptyTitle`
-                )}
-                subtitle={localize(
-                    `views.dashboard.drawers.dapps.dappsList.${
-                        selectedIndex === 0 ? 'paired' : 'expired'
-                    }.emptySubtitle`
-                )}
-                icon={IconName.LinkBroken}
-            />
-        </div>
-    {/if}
     <div slot="footer" class="flex justify-center p-3">
         <Button
             variant="text"

@@ -31,11 +31,12 @@
     $: customTextColor = isSupported ? AVATAR_TEXT_COLOR[networkId as SupportedNetworkId] : undefined
     $: icon = isSupported ? DEFAULT_NETWORK_ICON[networkId as SupportedNetworkId] : undefined
     $: networkName = networkName ? networkName : networkId ? getNameFromNetworkId(networkId) : undefined
+    $: magnify = Object.values(SupportedNetworkId).includes(networkId as SupportedNetworkId)
 </script>
 
 <!-- TODO: Add initials for not supported network IDs -->
-<network-avatar bind:this={anchor}>
-    <Avatar {size} {shape} {backgroundColor} {customTextColor} {icon} />
+<network-avatar bind:this={anchor} class="avatar">
+    <Avatar {size} {shape} {backgroundColor} {customTextColor} {icon} {magnify} />
 </network-avatar>
 {#if showTooltip && networkName}
     <Tooltip {anchor} text={networkName} placement="right" event="hover" />
