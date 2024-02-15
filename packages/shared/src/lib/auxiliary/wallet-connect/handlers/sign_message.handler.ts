@@ -12,7 +12,7 @@ import { localize } from '@core/i18n'
 
 export async function handleSignMessage(
     params: unknown,
-    dapp: IConnectedDapp | undefined,
+    dapp: IConnectedDapp,
     method: 'personal_sign' | 'eth_sign',
     chain: IChain,
     responseCallback: (params: CallbackParameters) => void
@@ -39,13 +39,13 @@ export async function handleSignMessage(
 
         const siweObject = parseSiweMessage(message)
         if (siweObject) {
-            const isValidSiwe = validateSiwe(siweObject, origin)
+            const isValidSiwe = validateSiwe(siweObject, dapp.metadata?.url)
             if (isValidSiwe) {
                 openPopup({
                     id: PopupId.Siwe,
                     props: {
                         siweObject,
-                        message,
+                        rawMessage: message,
                         dapp,
                         account,
                         chain,
