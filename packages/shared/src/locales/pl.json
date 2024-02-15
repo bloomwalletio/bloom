@@ -483,11 +483,11 @@
                             "emptySubtitle": "Połącz Bloom ze swoimi ulubionymi aplikacjami typu dApp"
                         },
                         "actions": {
-                            "clearExpired": "Clear expired list"
+                            "clearExpired": "Wyczyść listę wygasłych"
                         },
                         "clearExpired": {
-                            "title": "Clear expired list",
-                            "description": "Are you sure you want to clear the list of expired dApp connections?"
+                            "title": "Wyczyść listę wygasłych",
+                            "description": "Czy na pewno chcesz wyczyścić listę wygasłych połączeń dApp?"
                         }
                     },
                     "inputConnectionCode": {
@@ -645,7 +645,8 @@
                 "successAdd": "{numberOfProposals, select, one {Propozycja dodana} other {Propozycje dodane}} pomyślnie",
                 "successAddAll": "{numberOfProposals, select, one {Propozycja została pomyślnie dodana} other {Propozycje zostały pomyślnie dodane}} do wszystkich kont",
                 "successRemove": "Propozycja została usunięta",
-                "emptyTitle": "Brak propozycji"
+                "emptyTitle": "Brak propozycji",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
                 "upcoming": "Ogłoszenie propozycji",
@@ -788,7 +789,7 @@
             "prod": "Wczesny dostęp",
             "alpha": "Alpha",
             "beta": "Beta",
-            "releasedAt": "Opublikowano",
+            "releasedAt": "Opublikowana",
             "updateAvailable": "Aktualizacja jest dostępna",
             "updatesDisabled": "Dostępne są aktualizacje, ale aktualizacja automatyczna jest niedostępna dla Twojego systemu operacyjnego.",
             "latestInstalled": "Używasz najnowszej i najbezpieczniejszej wersji"
@@ -953,6 +954,9 @@
             "warning": "Nie można określić dApp. W procesie podpisywania tej wiadomości nie zostanie wysłane żadne saldo.",
             "action": "Podpisz",
             "success": "Podpisana wiadomość"
+        },
+        "siwe": {
+            "title": "Sign-In with Ethereum"
         },
         "signTransaction": {
             "title": "Podpisz transakcję",
@@ -1556,9 +1560,9 @@
         "upcoming": "Nadchodząca",
         "featured": "Wyróźniona",
         "raffle": "Loteria",
-        "governance": "Governance",
-        "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract"
+        "governance": "Zarządzanie",
+        "baseCoin": "Token podstawowy",
+        "unverifiedContract": "Niezweryfikowany kontrakt"
     },
     "filters": {
         "title": "Filtry",
@@ -1707,7 +1711,7 @@
             "success": "Odłączono od aplikacji {dappName}"
         },
         "clearExpiredDapps": {
-            "success": "Expired dApps cleared"
+            "success": "Wyczyszczono wygasłe dApps"
         },
         "removeDapp": {
             "success": "Usunięto aplikację {dappName}"
@@ -1774,7 +1778,8 @@
         "profile": {
             "length": "Twoja nazwa profilu nie może być dłuższa niż {length, plural, one {# znak} few {# znaki} many {# znaków} other {# znaków}}.",
             "duplicate": "Profil o takiej nazwie już istnieje.",
-            "type": "Nie można określić typu profilu"
+            "type": "Nie można określić typu profilu",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "Hasła nie są zgodne.",
@@ -1980,7 +1985,8 @@
             "invalidUri": "Błędny URI",
             "invalidProtocol": "Nieprawidłowy protokół, musi zaczynać się od \"wc\".",
             "deprecatedVersion": "dApp używa przestarzałej wersji wallet connect.",
-            "invalidV2UriFormat": "Link nie jest zgodny ze specyfikacją WalletConnect V2."
+            "invalidV2UriFormat": "Link nie jest zgodny ze specyfikacją WalletConnect V2.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Nie można pozyskać dostawcy web3.",

@@ -1,54 +1,58 @@
 <script lang="ts">
-    import { Text, TextInput, TextType } from '@ui'
+    import { NodeAuthTab } from '@ui'
     import type { IAuth } from '@iota/sdk'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Button } from '@bloomwalletio/ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
+    import { IError } from '@core/error'
 
     export let onSubmit: (auth: IAuth) => unknown = () => {}
 
     let isBusy = false
+    let auth: IAuth
+    let jwtError: string | undefined
 
-    let jwt: string
-    let jwtError: string
+    $: disabled = isBusy || !auth
 
-    $: disabled = !jwt || isBusy
-
-    async function handleSubmit(): Promise<void> {
+    async function onConfirmClick(): Promise<void> {
         try {
             isBusy = true
-            const auth = { jwt }
             await onSubmit(auth)
             isBusy = false
         } catch (err) {
+            const error = err as IError
             isBusy = false
-            const authenticationError = err?.error?.match(/(jwt)/g)?.[0]
+            const authenticationError = error?.error?.match(/(jwt)/g)?.[0]
             switch (authenticationError) {
                 case 'jwt':
-                    jwtError = err.error
+                    jwtError = error?.error
                     break
                 default:
-                    handleError(err)
+                    handleError(error)
                     break
             }
         }
     }
+
+    function onCancelClick(): void {
+        closePopup()
+    }
 </script>
 
-<form id="node-auth-required" on:submit|preventDefault={handleSubmit}>
-    <Text type={TextType.h3} classes="mb-6">{localize('popups.nodeAuthRequired.title')}</Text>
-    <Text fontSize="15">{localize('popups.nodeAuthRequired.body')}</Text>
-    <div class="flex flex-col w-full space-y-5 mt-4">
-        <TextInput
-            bind:value={jwt}
-            bind:error={jwtError}
-            placeholder={localize('general.jwt')}
-            label={localize('general.jwt')}
-        />
-    </div>
-    <div class="flex w-full space-x-4 mt-6">
-        <Button variant="outlined" width="full" on:click={() => closePopup()} text={localize('actions.cancel')} />
-        <Button {disabled} busy={isBusy} type="submit" width="full" text={localize('actions.confirm')} />
-    </div>
-</form>
+<PopupTemplate
+    title={localize('popups.nodeAuthRequired.title')}
+    description={localize('popups.nodeAuthRequired.body')}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        text: localize('actions.confirm'),
+        onClick: onConfirmClick,
+        disabled,
+    }}
+    busy={isBusy}
+>
+    <NodeAuthTab bind:auth {jwtError} />
+</PopupTemplate>

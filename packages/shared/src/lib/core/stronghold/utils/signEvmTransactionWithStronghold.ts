@@ -1,20 +1,19 @@
-import { TxData } from '@ethereumjs/tx'
+import { LegacyTransaction, TransactionFactory, TypedTxData } from '@ethereumjs/tx'
 import { prepareEvmTransaction } from '@core/layer-2/utils'
 import { EvmChainId, getEvmTransactionOptions } from '@core/network'
-import { removeLeadingZeros } from '@core/utils/buffer'
-import { Transaction } from '@ethereumjs/tx'
+import { removeLeadingZeros } from '@core/utils/array'
 import { ECDSASignature } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/sdk/out/types'
 import { getSignatureForStringWithStronghold } from './getSignatureForStringWithStronghold'
 import { HEX_PREFIX } from '@core/utils'
 
 export async function signEvmTransactionWithStronghold(
-    txData: TxData,
+    txData: TypedTxData,
     chainId: EvmChainId,
     bip44Path: Bip44
 ): Promise<string> {
     const unsignedTransactionMessageHex = HEX_PREFIX + prepareEvmTransaction(txData, chainId)
-    const transaction = Transaction.fromTxData(txData, getEvmTransactionOptions(chainId))
+    const transaction = TransactionFactory.fromTxData(txData, getEvmTransactionOptions(chainId)) as LegacyTransaction
 
     const signature = await getSignatureForStringWithStronghold(unsignedTransactionMessageHex, bip44Path, chainId)
     const signedTransaction = createSignedTransaction(transaction, signature, chainId)
@@ -22,24 +21,24 @@ export async function signEvmTransactionWithStronghold(
 }
 
 function createSignedTransaction(
-    transaction: Transaction,
+    transaction: LegacyTransaction,
     signature: ECDSASignature,
     chainId: EvmChainId
-): Transaction {
+): LegacyTransaction {
     const rawTx = transaction.raw()
 
     const vHex = padHexString(signature.v.toString(16))
     rawTx[6] = Buffer.from(vHex, 'hex')
     rawTx[7] = removeLeadingZeros(signature.r)
     rawTx[8] = removeLeadingZeros(signature.s)
-    const signedTransaction = Transaction.fromValuesArray(rawTx, getEvmTransactionOptions(chainId))
+    const signedTransaction = LegacyTransaction.fromValuesArray(rawTx, getEvmTransactionOptions(chainId))
 
     return signedTransaction
 }
 
-function getHexEncodedTransaction(transaction: Transaction): string {
+function getHexEncodedTransaction(transaction: LegacyTransaction): string {
     const serializedTransaction = transaction.serialize()
-    const hexEncodedTransaction = HEX_PREFIX + serializedTransaction.toString('hex')
+    const hexEncodedTransaction = HEX_PREFIX + Buffer.from(serializedTransaction).toString('hex')
     return hexEncodedTransaction
 }
 

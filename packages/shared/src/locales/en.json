@@ -647,7 +647,8 @@
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added",
                 "successAddAll": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added to all accounts",
                 "successRemove": "Proposal successfully removed",
-                "emptyTitle": "No proposals"
+                "emptyTitle": "No proposals",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
                 "upcoming": "Announcement",
@@ -847,10 +848,8 @@
             "updatingNode": "Updating node",
             "loadingNodeInfo": "Loading node info",
             "nodeAddress": "Node address",
-            "optionalUsername": "Username (optional)",
-            "optionalPassword": "Password (optional)",
-            "optionalJwt": "JSON web token (optional)",
             "removeConfirmation": "Are you sure you want to remove this node?",
+            "requiresAuthentication": "Node requires authentication",
             "info": {
                 "general": {
                     "tab": "General",
@@ -885,7 +884,9 @@
                     "decimals": "Decimals",
                     "useMetricPrefix": "Use metric prefix"
                 }
-            }
+            },
+            "jwt": "JSON web token",
+            "credentials": "Sign-in credentials"
         },
         "errorLog": {
             "title": "Error Log",
@@ -1347,6 +1348,7 @@
     },
     "general": {
         "recipient": "Recipient",
+        "username": "Username",
         "password": "Password",
         "confirmPassword": "Confirm password",
         "currentPassword": "Current password",

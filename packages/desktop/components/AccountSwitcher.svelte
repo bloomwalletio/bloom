@@ -42,6 +42,7 @@
     compact={navbar}
     {...!navbar && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
     {placement}
+    class="max-h-80 overflow-auto"
 >
     <Breadcrumb slot="anchor" tooltip={navbar ? localize('actions.switchAccount') : undefined}>
         <div class="flex flex-row justify-center items-center space-x-2">
