@@ -18,6 +18,9 @@
 
     let nodeConfigurationForm: NodeConfigurationForm
     let isBusy = false
+    let requiresAuth = false
+
+    $: disabled = !node?.url || (requiresAuth && !node?.auth)
 
     async function onSubmit(): Promise<void> {
         try {
@@ -40,7 +43,9 @@
 
             onSuccess()
         } catch (err) {
-            if (err.type !== 'validationError') {
+            if (err?.error?.match(/(username)|(password)|(jwt)/g)) {
+                requiresAuth = true
+            } else if (err.type !== 'validationError') {
                 showNotification({
                     variant: 'error',
                     text: localize(err?.error ?? 'error.global.generic'),
@@ -63,12 +68,13 @@
         type: 'submit',
         form: 'node-configuration-form',
         text: localize(`actions.${isEditingNode ? 'updateNode' : 'addNode'}`),
-        disabled: !node.url,
+        disabled,
     }}
 >
     <NodeConfigurationForm
         bind:this={nodeConfigurationForm}
         bind:node
+        {requiresAuth}
         {onSubmit}
         {isBusy}
         isDeveloperProfile={$activeProfile.isDeveloperProfile}
