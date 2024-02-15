@@ -645,7 +645,8 @@
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added",
                 "successAddAll": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added to all accounts",
                 "successRemove": "提案成功移除",
-                "emptyTitle": "暂无提案"
+                "emptyTitle": "暂无提案",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
                 "upcoming": "通知",
@@ -953,6 +954,9 @@
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
             "action": "Sign",
             "success": "Signed message"
+        },
+        "siwe": {
+            "title": "Sign-In with Ethereum"
         },
         "signTransaction": {
             "title": "Sign transaction",
@@ -1774,7 +1778,8 @@
         "profile": {
             "length": "您的配置名称不能超过 {length, plural, one {1 个字符} other {# 字符}}。",
             "duplicate": "同名配置文件已存在。",
-            "type": "无法确定配置文件类型"
+            "type": "无法确定配置文件类型",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "密码不匹配。",
@@ -1980,7 +1985,8 @@
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
             "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
-            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
