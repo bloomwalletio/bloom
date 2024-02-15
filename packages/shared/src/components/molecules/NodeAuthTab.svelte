@@ -5,7 +5,7 @@
     import { IAuth } from '@iota/sdk'
 
     export let auth: IAuth | undefined
-    export let jwtError: string | undefined
+    export let jwtError: string | undefined = undefined
 
     let [username, password] = auth?.basicAuthNamePwd ?? ['', '']
     let jwt = auth?.jwt ?? ''
@@ -41,6 +41,6 @@
         <TextInput bind:value={jwt} error={jwtError} label={localize('popups.node.jwt')} />
     {:else}
         <TextInput bind:value={username} label={localize('general.username')} />
-        <PasswordInput bind:value={password} label={localize('general.password')} />
+        <PasswordInput bind:value={password} minlength={1} label={localize('general.password')} />
     {/if}
 </div>

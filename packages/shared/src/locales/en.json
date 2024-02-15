@@ -848,10 +848,8 @@
             "updatingNode": "Updating node",
             "loadingNodeInfo": "Loading node info",
             "nodeAddress": "Node address",
-            "optionalUsername": "Username (optional)",
-            "optionalPassword": "Password (optional)",
-            "optionalJwt": "JSON web token (optional)",
             "removeConfirmation": "Are you sure you want to remove this node?",
+            "requiresAuthentication": "Node requires authentication",
             "info": {
                 "general": {
                     "tab": "General",
