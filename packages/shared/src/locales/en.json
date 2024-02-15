@@ -2108,9 +2108,9 @@
         },
         "dappVerification": {
             "valid": "Verified",
-            "invalid": "Invalid",
+            "invalid": "Domain Mismatch",
             "unknown": "Cannot verify",
-            "scam": "Scam"
+            "scam": "Security Risk"
         }
     },
     "menus": {
