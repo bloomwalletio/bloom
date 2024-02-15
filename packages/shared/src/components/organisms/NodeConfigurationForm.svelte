@@ -25,7 +25,7 @@
     }
 
     export let node: INode = structuredClone(EMPTY_NODE)
-    export let networkType: OnboardingNetworkType
+    export let networkType: OnboardingNetworkType | undefined = undefined
     export let coinType: string = ''
     export let isBusy = false
     export let formError = ''

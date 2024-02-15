@@ -9,7 +9,6 @@
         getNetworkIdFromOnboardingNetworkType,
         getNodeInfoWhileLoggedOut,
     } from '@core/network'
-    import features from '@features/features'
     import { NodeConfigurationForm } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
@@ -21,17 +20,9 @@
     let busy = false
     let formError = ''
     let requiresAuth = false
-    let networkType: OnboardingNetworkType = getInitialSelectedNetworkType()
+    let networkType: OnboardingNetworkType
 
-    $: disableContinue = !node?.url || (requiresAuth && !node?.auth)
-
-    function getInitialSelectedNetworkType(): OnboardingNetworkType {
-        return features?.onboarding?.shimmer?.enabled
-            ? OnboardingNetworkType.Shimmer
-            : features?.onboarding?.testnet?.enabled
-              ? OnboardingNetworkType.Testnet
-              : OnboardingNetworkType.Custom
-    }
+    $: disableContinue = !node?.url || !networkType || (requiresAuth && !node?.auth)
 
     function onBackClick(): void {
         $networkSetupRouter.previous()
