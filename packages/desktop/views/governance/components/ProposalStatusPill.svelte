@@ -21,7 +21,7 @@
     <Pill color={STATUS_COLORS[status]}>
         <div class="flex flex-row space-x-1 items-center">
             {#if error}
-                <Icon name={error ? IconName.CrossClose : undefined} textColor="danger" size="xs" />
+                <Icon name={IconName.CrossClose} textColor="danger" size="xs" />
             {/if}
             <Text textColor="current">{localize(`pills.governance.proposalStatus.${error ? error : status}`)}</Text>
         </div>
