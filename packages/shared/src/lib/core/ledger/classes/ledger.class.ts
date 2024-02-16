@@ -9,7 +9,7 @@ import {
     prepareEvmTransaction,
 } from '@core/layer-2/utils'
 import { Converter, MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
-import { TxData } from '@ethereumjs/tx'
+import { TypedTxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
 import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
@@ -65,7 +65,7 @@ export class Ledger {
     }
 
     static async signEvmTransaction(
-        transactionData: TxData,
+        transactionData: TypedTxData,
         chainId: EvmChainId,
         bip44: Bip44
     ): Promise<string | undefined> {

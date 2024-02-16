@@ -1,22 +1,27 @@
 <script lang="ts">
-    import { Text, Tooltip } from '@ui'
-    import { TextType } from './enums'
+    import { Popover, Text, type TextColor } from '@bloomwalletio/ui'
 
     export let title: string = ''
     export let body: string = ''
+
+    export let titleColor: TextColor | undefined = undefined
+    export let bodyColor: TextColor | undefined = undefined
 </script>
 
-<Tooltip {...$$restProps}>
-    <div class="flex flex-col text-left space-y-2">
-        {#if title}
-            <Text type={TextType.h4} color={$$restProps?.titleColor ?? undefined}>
-                {title}
-            </Text>
-        {/if}
-        {#if body}
-            <Text type={TextType.p} color={$$restProps?.bodyColor ?? undefined}>
-                {body}
-            </Text>
-        {/if}
-    </div>
-</Tooltip>
+<Popover
+    showArrow
+    event="hover"
+    class="shadow-elevation-4 p-4 rounded-xl flex flex-col text-left space-y-2 max-w-[15rem]"
+    {...$$restProps}
+>
+    {#if title}
+        <Text type="h6" textColor={titleColor}>
+            {title}
+        </Text>
+    {/if}
+    {#if body}
+        <Text textColor={bodyColor} fontWeight="medium">
+            {body}
+        </Text>
+    {/if}
+</Popover>
