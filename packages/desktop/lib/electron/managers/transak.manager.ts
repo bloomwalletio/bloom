@@ -168,6 +168,7 @@ export default class TransakManager implements ITransakManager {
         const queryParams = buildQueryParametersFromObject({
             apiKey,
             defaultFiatCurrency: currency,
+            defaultFiatAmount: 100,
             walletAddress: address,
             productsAvailed: service,
             cryptoCurrencyCode: 'IOTA',
@@ -176,6 +177,7 @@ export default class TransakManager implements ITransakManager {
             hideMenu: true,
             disableWalletAddressForm: true,
             isFeeCalculationHidden: true,
+            disablePaymentMethods: ['apple_pay', 'google_pay'],
         })
 
         return `${TRANSAK_WIDGET_URL}/?${queryParams}`
