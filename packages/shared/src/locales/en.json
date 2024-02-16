@@ -958,7 +958,11 @@
             "success": "Signed message"
         },
         "siwe": {
-            "title": "Sign-In with Ethereum"
+            "title": "Sign-In with Ethereum",
+            "domain": "Domain",
+            "statement": "Statement",
+            "resources": "Resources",
+            "action": "Sign in"
         },
         "signTransaction": {
             "title": "Sign transaction",
@@ -1772,6 +1776,9 @@
         },
         "updateNetworkAddresses": {
             "success": "Contact addresses successfully updated"
+        },
+        "siwe": {
+            "rejected": "Invalid SIWE request"
         },
         "syncTokens": {
             "success": "Tokens successfully synced"
