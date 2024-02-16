@@ -645,7 +645,8 @@
                 "successAdd": "{numberOfProposals, select, one {Proposta} other {Propostas}} adicionadas com sucesso a todas as contas",
                 "successAddAll": "{numberOfProposals, select, one {Proposta} other {Propostas}} adicionadas com sucesso a todas as contas",
                 "successRemove": "Proposta removida com sucesso",
-                "emptyTitle": "Nenhuma proposta"
+                "emptyTitle": "Nenhuma proposta",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
                 "upcoming": "Anúncio",
@@ -953,6 +954,9 @@
             "warning": "dApp não pôde ser determinado. Nenhum saldo será enviado no processo de assinatura desta mensagem.",
             "action": "Assinar",
             "success": "Signed message"
+        },
+        "siwe": {
+            "title": "Sign-In with Ethereum"
         },
         "signTransaction": {
             "title": "Assinar transação",
@@ -1774,7 +1778,8 @@
         "profile": {
             "length": "Seu nome de perfil não pode ser maior do que {length, plural, one {# caractere} other {# caracteres}}.",
             "duplicate": "Já existe um perfil com este nome.",
-            "type": "Não foi possível determinar o tipo de perfil"
+            "type": "Não foi possível determinar o tipo de perfil",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "As senhas não conferem.",
@@ -1980,7 +1985,8 @@
             "invalidUri": "URI inválido",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
             "deprecatedVersion": "dApp usa uma versão WalletConnect obsoleta.",
-            "invalidV2UriFormat": "O link não segue a especificação V2 do WalletConnect."
+            "invalidV2UriFormat": "O link não segue a especificação V2 do WalletConnect.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Não foi possível obter o provedor web3.",

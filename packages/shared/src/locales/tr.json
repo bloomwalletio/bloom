@@ -350,7 +350,7 @@
                 "activity": "Aktivite",
                 "asset": "Varlık",
                 "action": "İşlem",
-                "date": "Date",
+                "date": "Tarih",
                 "address": "Adres",
                 "amount": "Miktar",
                 "fee": "Ücretsiz",
@@ -483,11 +483,11 @@
                             "emptySubtitle": "Bloom'u favori dApp'lerinize bağlayın"
                         },
                         "actions": {
-                            "clearExpired": "Clear expired list"
+                            "clearExpired": "Süresi dolmuş listeyi temizle"
                         },
                         "clearExpired": {
-                            "title": "Clear expired list",
-                            "description": "Are you sure you want to clear the list of expired dApp connections?"
+                            "title": "Süresi dolmuş listeyi temizle",
+                            "description": "Süresi dolmuş dApp bağlantılarının listesini temizlemek istediğinizden emin misiniz?"
                         }
                     },
                     "inputConnectionCode": {
@@ -538,7 +538,7 @@
                         "accounts": {
                             "step": "Hesaplar",
                             "title": "Hesapları seçin",
-                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
+                            "tip": "DApp'in ne için erişim talep edebileceğini siz kontrol edersiniz. Bazı uygulamalar yalnızca birincil hesaba bağlanır.",
                             "empty": "En az bir hesap seçmeniz gerekiyor"
                         }
                     },
@@ -645,7 +645,8 @@
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} başarıyla eklendi",
                 "successAddAll": "{numberOfProposals, select, one {Proposal} other {Proposals}} tüm hesaplara başarıyla eklendi",
                 "successRemove": "Teklif başarıyla güncellendi",
-                "emptyTitle": "Henüz teklif yok"
+                "emptyTitle": "Henüz teklif yok",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
                 "upcoming": "Duyuru",
@@ -696,9 +697,9 @@
                 "changingAccounts": "Hesapları değiştirmek tüm bilgileri sıfırlayacaktır."
             },
             "tooltip": {
-                "connected": "connected securely",
-                "redirected": "redirected, be careful!",
-                "disconnected": "disconnected, try refreshing"
+                "connected": "güvenli bir şekilde bağlandı",
+                "redirected": "yönlendirildi, dikkatli olun!",
+                "disconnected": "bağlantı kesildi, yenilemeyi deneyin"
             }
         }
     },
@@ -953,6 +954,9 @@
             "warning": "dApp belirlenemedi. Bu mesajın imzalanması sürecinde bakiye gönderilmeyecektir.",
             "action": "Giriş yap",
             "success": "İmzalı mesaj"
+        },
+        "siwe": {
+            "title": "Sign-In with Ethereum"
         },
         "signTransaction": {
             "title": "İşlemi imzala",
@@ -1365,15 +1369,15 @@
         "revoting": "İptal ediliyor",
         "unvoted": "Oy geri alındı",
         "unvoting": "Oylama iptali",
-        "transferred": "Transferred",
-        "transferring": "Transferring",
+        "transferred": "Transfer edildi",
+        "transferring": "Transfer ediliyor",
         "shimmerClaimed": "Talep edildi",
         "shimmerClaiming": "Talep etme",
         "shimmerGenesis": "Shimmer Genesis",
-        "minted": "Minted",
-        "minting": "Minting",
-        "burned": "Burned",
-        "burning": "Burning",
+        "minted": "Basıldı",
+        "minting": "Mintlemek",
+        "burned": "Yanmış",
+        "burning": "Yanan",
         "balanceDecreased": "Bakiye azaldı",
         "balanceIncreased": "Bakiye arttı",
         "initialBalance": "Başlangıç bakiyesi",
@@ -1498,7 +1502,7 @@
         "immutableIssuer": "Değişmez İhraççı",
         "magicContract": "Sihirli Sözleşme",
         "smartContract": "Akıllı Sözleşme",
-        "contractCall": "Contract call",
+        "contractCall": "Sözleşme çağrısı",
         "targetContract": "Hedfef sözleşme",
         "contractFunction": "Sözleşme işlevi",
         "standard": "Standart",
@@ -1531,7 +1535,7 @@
         "networks": "Ağlar",
         "ledgerDevice": "Ledger Cihazı",
         "disconnected": "Bağlı değil",
-        "redirected": "Redirected",
+        "redirected": "Yönlendirildi",
         "balanceBreakdown": "Bakiye dökümü",
         "primary": "Birincil",
         "color": "Renk",
@@ -1556,9 +1560,9 @@
         "upcoming": "Yakında",
         "featured": "Öne Çıkanlar",
         "raffle": "Çekiliş",
-        "governance": "Governance",
-        "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract"
+        "governance": "Yönetim",
+        "baseCoin": "Temel coin",
+        "unverifiedContract": "Doğrulanmamış Sözleşme"
     },
     "filters": {
         "title": "Filtreler",
@@ -1707,7 +1711,7 @@
             "success": "{dappName} ile bağlantı kesildi"
         },
         "clearExpiredDapps": {
-            "success": "Expired dApps cleared"
+            "success": "Süresi dolmuş dApp'ler temizlendi"
         },
         "removeDapp": {
             "success": "{dappName} kaldırıldı"
@@ -1774,7 +1778,8 @@
         "profile": {
             "length": "Profil adınız şundan uzun olamaz {length, plural, one {# karakter} other {# karakterler}}.",
             "duplicate": "Bu isimde bir profil zaten var.",
-            "type": "Profil tipi belirlenemiyor"
+            "type": "Profil tipi belirlenemiyor",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "Parolalar eşleşmiyor.",
@@ -1980,7 +1985,8 @@
             "invalidUri": "Geçersiz URI",
             "invalidProtocol": "Geçersiz protokol, 'wc' ile başlamalıdır.",
             "deprecatedVersion": "dApp, kullanımdan kaldırılmış bir cüzdan bağlantı sürümü kullanıyor.",
-            "invalidV2UriFormat": "Bağlantı WalletConnect V2 spesifikasyonuna uymuyor."
+            "invalidV2UriFormat": "Bağlantı WalletConnect V2 spesifikasyonuna uymuyor.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Web3 sağlayıcısı alınamıyor.",

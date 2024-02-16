@@ -50,6 +50,7 @@
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
+    import SiwePopup from './popups/SiwePopup.svelte'
     import SignTypedDataPopup from './popups/SignTypedDataPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
@@ -127,6 +128,7 @@
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
+        [PopupId.Siwe]: SiwePopup,
         [PopupId.SignTypedData]: SignTypedDataPopup,
         [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
