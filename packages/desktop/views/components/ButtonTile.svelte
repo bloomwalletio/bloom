@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, IconName, type IconSize, Tile, Text, TailwindPreset } from '@bloomwalletio/ui'
+    import { getHexColorFromColor, Icon, IconName, type IconSize, Tile, Text, TailwindPreset } from '@bloomwalletio/ui'
 
     const colors = TailwindPreset.theme.extend.colors
 
@@ -8,20 +8,14 @@
     export let icon: IconName | undefined = undefined
     export let iconSize: IconSize = 'base'
     export let iconColor: keyof typeof colors = 'brand'
+    export let backgroundColor: string | undefined = undefined
     export let disabled: boolean = false
     export let hidden: boolean = false
     export let selected: boolean = false
 
     export let onClick: () => unknown
 
-    const ICON_BACKGROUND_MAP: Record<string, string> = {
-        'blue-900': 'bg-shimmer',
-        '#ffffff': 'bg-black', // IOTA
-        brand: 'bg-brand/20',
-        info: 'bg-info/20',
-        orange: 'bg-orange/20',
-        success: 'bg-success/20',
-    }
+    const background = getHexColorFromColor(backgroundColor ?? `${iconColor}/20`)
 </script>
 
 {#if !hidden}
@@ -32,7 +26,8 @@
                     <slot name="icon" />
                 {:else if icon}
                     <icon-container
-                        class="w-12 h-12 flex justify-center items-center rounded-xl {ICON_BACKGROUND_MAP[iconColor]}"
+                        class="w-12 h-12 flex justify-center items-center rounded-xl"
+                        style={`background-color: ${background}`}
                     >
                         <Icon name={icon} customColor={iconColor} size={iconSize} />
                     </icon-container>
