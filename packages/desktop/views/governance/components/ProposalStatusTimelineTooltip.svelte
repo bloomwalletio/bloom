@@ -7,7 +7,8 @@
     import { DATE_FORMAT, milestoneToDate } from '@core/utils'
 
     export let milestones: Record<EventStatus, number>
-    export let status: EventStatus
+    // export let status: EventStatus
+    const status = EventStatus.Holding
     export let anchor: HTMLElement
     export let placement: 'top' | 'bottom' | 'left' | 'right' = 'right'
 
@@ -34,22 +35,31 @@
     <ul class="space-y-3 text-left">
         {#each Object.keys(EventStatus) as status, index}
             {@const hasProgressed = eventProgress >= index}
+            {@const currentProgress = eventProgress === index}
             <li
                 class="grid grid-rows-2 relative
                 before:justify-self-end before:mr-4 before:row-span-2 before:self-center
                 {hasProgressed
-                    ? 'before:text-2xl before:text-brand before:dark:text-brand-dark'
+                    ? currentProgress
+                        ? 'before:text-2xl before:text-brand before:dark:text-brand-dark'
+                        : 'before:text-xl before:text-brand before:dark:text-brand-dark before:ml-[1px]'
                     : 'before:text-xl before:text-secondary before:ml-[1px]'}
+                {currentProgress
+                    ? 'text-primary dark:text-primary-dark'
+                    : hasProgressed
+                      ? 'text-secondary/75'
+                      : 'text-secondary'}
                 "
+                class:has-progressed={hasProgressed}
             >
-                <Text textColor={!hasProgressed ? 'secondary' : 'primary'} fontWeight="medium">
-                    {formatDate(
-                        milestoneToDate($networkStatus.currentMilestone, milestones[EventStatus[status]]),
-                        DATE_FORMAT
-                    )}
-                </Text>
-                <Text textColor={!hasProgressed ? 'secondary' : 'primary'} fontWeight="medium">
+                <Text textColor="current" fontWeight="semibold">
                     {localize(`views.governance.statusTimeline.${EventStatus[status]}`)}
+                </Text>
+                <Text textColor="current" fontWeight="medium">
+                    {formatDate(milestoneToDate($networkStatus.currentMilestone, milestones[EventStatus[status]]), {
+                        ...DATE_FORMAT,
+                        timeZoneName: undefined,
+                    })}
                 </Text>
             </li>
         {/each}
@@ -62,6 +72,10 @@
 
         &::before {
             content: '●';
+        }
+
+        &.has-progressed:not(:first-child)::after {
+            @apply border-text-brand dark:border-text-brand-dark;
         }
 
         &:not(:first-child)::after {
