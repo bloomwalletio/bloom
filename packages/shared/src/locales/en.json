@@ -651,10 +651,26 @@
                 "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
-                "upcoming": "Announcement",
-                "commencing": "Voting open",
-                "holding": "Counting starts",
-                "ended": "Counting stops"
+                "upcoming": {
+                    "past": "Announced",
+                    "present": "Announcement",
+                    "future": "Announcement"
+                },
+                "commencing": {
+                    "past": "Voting opened",
+                    "present": "Voting open",
+                    "future": "Voting opens"
+                },
+                "holding": {
+                    "past": "Counting started",
+                    "present": "Counting started",
+                    "future": "Counting starts"
+                },
+                "ended": {
+                    "past": "Counting stopped",
+                    "present": "Counting stopped",
+                    "future": "Counting stops"
+                }
             },
             "details": {
                 "yourVote": {
@@ -848,10 +864,8 @@
             "updatingNode": "Updating node",
             "loadingNodeInfo": "Loading node info",
             "nodeAddress": "Node address",
-            "optionalUsername": "Username (optional)",
-            "optionalPassword": "Password (optional)",
-            "optionalJwt": "JSON web token (optional)",
             "removeConfirmation": "Are you sure you want to remove this node?",
+            "requiresAuthentication": "Node requires authentication",
             "info": {
                 "general": {
                     "tab": "General",
@@ -886,7 +900,9 @@
                     "decimals": "Decimals",
                     "useMetricPrefix": "Use metric prefix"
                 }
-            }
+            },
+            "jwt": "JSON web token",
+            "credentials": "Sign-in credentials"
         },
         "errorLog": {
             "title": "Error Log",
@@ -958,7 +974,11 @@
             "success": "Signed message"
         },
         "siwe": {
-            "title": "Sign-In with Ethereum"
+            "title": "Sign-In with Ethereum",
+            "domain": "Domain",
+            "statement": "Statement",
+            "resources": "Resources",
+            "action": "Sign in"
         },
         "signTransaction": {
             "title": "Sign transaction",
@@ -1167,7 +1187,8 @@
         "addProposal": {
             "title": "Add proposal",
             "body": "Please provide the information listed below to add a proposal.",
-            "addToAllAccounts": "Add the proposal to all accounts"
+            "addToAllAccounts": "Add the proposal to all accounts",
+            "addAllProposalsOnNode": "Add all proposals on this node"
         },
         "editProposal": {
             "title": "Edit proposal",
@@ -1348,6 +1369,7 @@
     },
     "general": {
         "recipient": "Recipient",
+        "username": "Username",
         "password": "Password",
         "confirmPassword": "Confirm password",
         "currentPassword": "Current password",
@@ -1772,6 +1794,9 @@
         "updateNetworkAddresses": {
             "success": "Contact addresses successfully updated"
         },
+        "siwe": {
+            "rejected": "Invalid SIWE request"
+        },
         "syncTokens": {
             "success": "Tokens successfully synced"
         }
@@ -2071,7 +2096,7 @@
         "collectibles": "Collectibles",
         "governance": "Governance",
         "campaigns": "Campaigns",
-        "buySell": "Buy & Sell",
+        "buySell": "Buy IOTA",
         "developer": "Developer",
         "tokens": "Tokens",
         "settings": "Settings"

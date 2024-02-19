@@ -58,8 +58,10 @@
  delete mode 100644 packages/desktop/components/AccountActivity.svelte
  delete mode 100644 packages/desktop/components/AccountSummary.svelte
  delete mode 100644 packages/desktop/components/OnboardingLayout.svelte
+ delete mode 100644 packages/desktop/components/ProposalStatusInfo.svelte
  delete mode 100644 packages/desktop/components/Scroller.svelte
  delete mode 100644 packages/desktop/components/SendButton.svelte
+ delete mode 100644 packages/desktop/components/VotingPower.svelte
  delete mode 100644 packages/desktop/components/buttons/NetworkDrawerButton.svelte
  delete mode 100644 packages/desktop/components/buttons/index.js
  delete mode 100644 packages/desktop/components/buttons/menu-buttons/AccountActionsButton.svelte
@@ -72,7 +74,7 @@
  delete mode 100644 packages/desktop/components/drawers/network-config/drawers/DrawerTemplate.svelte
  delete mode 100644 packages/desktop/components/drawers/network-config/drawers/components/IscpChainInformation.svelte
  rename packages/desktop/components/filter/{index.js => index.ts} (100%)
- rename packages/desktop/components/{index.js => index.ts} (50%)
+ delete mode 100644 packages/desktop/components/index.js
  delete mode 100644 packages/desktop/components/menu-buttons/index.js
  rename packages/{shared/components/modals => desktop/components/menus}/NodeActionsMenu.svelte (52%)
  rename packages/desktop/components/{menu-buttons/ProposalDetailsButton.svelte => menus/ProposalDetailsMenu.svelte} (55%)
@@ -80,17 +82,11 @@
  delete mode 100644 packages/desktop/components/modals/AccountSwitcherModal.svelte
  delete mode 100644 packages/desktop/components/modals/index.js
  rename packages/desktop/components/panes/{index.js => index.ts} (100%)
- rename packages/desktop/components/{ => popup}/popups/AddNodePopup.svelte (58%)
+ rename packages/desktop/components/{ => popup}/popups/AddNodePopup.svelte (56%)
  rename packages/desktop/components/{ => popup}/popups/AddProposalPopup.svelte (77%)
- rename packages/desktop/components/{ => popup}/popups/ManageVotingPowerPopup.svelte (67%)
  rename packages/desktop/components/{ => popup}/popups/MintNativeTokenFormPopup.svelte (69%)
  rename packages/desktop/components/{ => popup}/popups/MintNftFormPopup.svelte (84%)
- rename packages/desktop/components/{ => popup}/popups/NodeAuthRequiredPopup.svelte (73%)
- rename packages/desktop/components/{ => popup}/popups/RemoveProposalPopup.svelte (64%)
- rename packages/desktop/components/{ => popup}/popups/RevotePopup.svelte (70%)
- rename packages/desktop/components/{ => popup}/popups/StopVotingPopup.svelte (64%)
- rename packages/desktop/components/{ => popup}/popups/VoteForProposalPopup.svelte (69%)
- rename packages/desktop/components/{ => popup}/popups/VotingPowerToZeroPopup.svelte (67%)
+ rename packages/desktop/components/{ => popup}/popups/RemoveProposalPopup.svelte (52%)
  delete mode 100644 packages/desktop/components/popups/AccountSwitcherPopup.svelte
  delete mode 100644 packages/desktop/components/popups/ActivityDetailsPopup.svelte
  delete mode 100644 packages/desktop/components/popups/AliasConfirmationPopup.svelte
@@ -114,17 +110,23 @@
  delete mode 100644 packages/desktop/components/popups/LedgerConnectionGuidePopup.svelte
  delete mode 100644 packages/desktop/components/popups/LegalUpdatePopup.svelte
  delete mode 100644 packages/desktop/components/popups/ManageAccountPopup.svelte
+ delete mode 100644 packages/desktop/components/popups/ManageVotingPowerPopup.svelte
  delete mode 100644 packages/desktop/components/popups/MintNativeTokenConfirmationPopup.svelte
  delete mode 100644 packages/desktop/components/popups/MintNftConfirmationPopup.svelte
+ delete mode 100644 packages/desktop/components/popups/NodeAuthRequiredPopup.svelte
  delete mode 100644 packages/desktop/components/popups/NodeInfoPopup.svelte
  delete mode 100644 packages/desktop/components/popups/Popup.svelte
  delete mode 100644 packages/desktop/components/popups/ReceiveAddressPopup.svelte
  delete mode 100644 packages/desktop/components/popups/RemoveNode.svelte
+ delete mode 100644 packages/desktop/components/popups/RevotePopup.svelte
  delete mode 100644 packages/desktop/components/popups/SendFlowPopup.svelte
+ delete mode 100644 packages/desktop/components/popups/StopVotingPopup.svelte
  delete mode 100644 packages/desktop/components/popups/TestDeepLinkFormPopup.svelte
  delete mode 100644 packages/desktop/components/popups/TokenInformationPopup.svelte
  delete mode 100644 packages/desktop/components/popups/UnlockStrongholdPopup.svelte
  delete mode 100644 packages/desktop/components/popups/VerifyLedgerTransactionPopup.svelte
+ delete mode 100644 packages/desktop/components/popups/VoteForProposalPopup.svelte
+ delete mode 100644 packages/desktop/components/popups/VotingPowerToZeroPopup.svelte
  delete mode 100644 packages/desktop/components/popups/WalletFinderPopup.svelte
  delete mode 100644 packages/desktop/components/popups/index.js
  delete mode 100644 packages/desktop/components/popups/send/SendConfirmationPopup.svelte
@@ -154,7 +156,7 @@
  delete mode 100644 packages/desktop/lib/auxiliary/popup/helpers/index.ts
  rename packages/desktop/lib/{electron.ts => electron/index.ts} (54%)
  rename packages/desktop/{electron/lib/menuState.js => lib/electron/menus/menu-state.constant.ts} (86%)
- rename packages/desktop/{electron/main.js => lib/electron/processes/main.process.ts} (61%)
+ rename packages/desktop/{electron/main.js => lib/electron/processes/main.process.ts} (60%)
  rename packages/desktop/{electron/lib/analytics.js => lib/electron/utils/analytics.utils.ts} (82%)
  rename packages/desktop/{electron/lib/errorHandling.js => lib/electron/utils/error.utils.ts} (69%)
  delete mode 100644 packages/desktop/lib/routers/actions/openSettings.ts
@@ -676,6 +678,8 @@
  delete mode 100644 packages/shared/assets/illustrations/onboarding/ledger-live-updated-desktop-darkmode.svg
  delete mode 100644 packages/shared/assets/illustrations/onboarding/ledger-live-updated-desktop.svg
  delete mode 100644 packages/shared/assets/illustrations/onboarding/ledger-search-apps-desktop.svg
+ delete mode 100644 packages/shared/assets/illustrations/wallet/empty-collectibles-darkmode.svg
+ delete mode 100644 packages/shared/assets/illustrations/wallet/empty-collectibles.svg
  delete mode 100644 packages/shared/components/Alert.svelte
  delete mode 100644 packages/shared/components/Animation.svelte
  delete mode 100644 packages/shared/components/Button.svelte
@@ -683,6 +687,7 @@
  delete mode 100644 packages/shared/components/ColorPicker.svelte
  delete mode 100644 packages/shared/components/Error.svelte
  delete mode 100644 packages/shared/components/HR.svelte
+ delete mode 100644 packages/shared/components/Illustration.svelte
  delete mode 100644 packages/shared/components/LoadingScreen.svelte
  delete mode 100644 packages/shared/components/Logo.svelte
  delete mode 100644 packages/shared/components/OutdatedNodeTooltip.svelte
@@ -714,7 +719,9 @@
  delete mode 100644 packages/shared/components/atoms/badges/VerificationBadge.svelte
  delete mode 100644 packages/shared/components/atoms/badges/index.js
  delete mode 100644 packages/shared/components/atoms/boxes/AddressBox.svelte
+ delete mode 100644 packages/shared/components/atoms/boxes/CopyableBox.svelte
  delete mode 100644 packages/shared/components/atoms/boxes/KeyValueBox.svelte
+ delete mode 100644 packages/shared/components/atoms/boxes/index.js
  delete mode 100644 packages/shared/components/atoms/buttons/AddInputButton.svelte
  delete mode 100644 packages/shared/components/atoms/buttons/AssetActionsButton.svelte
  delete mode 100644 packages/shared/components/atoms/buttons/ExportStrongholdButton.svelte
@@ -1081,9 +1088,11 @@
  delete mode 100644 packages/shared/lib/core/utils/constants/iota-unit-map.constant.ts
  delete mode 100644 packages/shared/lib/core/utils/crypto/utils/validateAssetId.ts
  delete mode 100644 packages/shared/lib/core/utils/crypto/utils/validateEthereumAddress.ts
+ delete mode 100644 packages/shared/lib/core/utils/function.ts
  delete mode 100644 packages/shared/lib/core/utils/interfaces/format-iota-unit-options.interface.ts
  delete mode 100644 packages/shared/lib/core/utils/interfaces/index.ts
  delete mode 100644 packages/shared/lib/core/utils/interfaces/key-value-box-list.interface.ts
+ delete mode 100644 packages/shared/lib/core/utils/tests/function.test.ts
  delete mode 100644 packages/shared/lib/core/utils/tests/ui.test.ts
  delete mode 100644 packages/shared/lib/core/utils/tests/unit.test.ts
  delete mode 100644 packages/shared/lib/core/utils/time.ts
@@ -1210,17 +1219,14 @@
  delete mode 100644 packages/shared/locales/sv.json
  delete mode 100644 packages/shared/locales/tr.json
  rename packages/shared/{ => src}/components/Idle.svelte (93%)
- rename packages/shared/{ => src}/components/Illustration.svelte (53%)
  rename packages/shared/{ => src}/components/Link.svelte (90%)
  rename packages/shared/{ => src}/components/QR.svelte (66%)
  rename packages/shared/{ => src}/components/Spinner.svelte (79%)
  rename packages/shared/{ => src}/components/Text.svelte (98%)
  rename packages/shared/{ => src}/components/Tooltip.svelte (97%)
  rename packages/shared/{ => src}/components/Transition.svelte (75%)
- rename packages/shared/{ => src}/components/atoms/Icon.svelte (94%)
+ rename packages/shared/{ => src}/components/atoms/Icon.svelte (90%)
  rename packages/shared/{components/atoms => src/components}/boxes/Box.svelte (85%)
- rename packages/shared/{components/atoms => src/components}/boxes/CopyableBox.svelte (81%)
- rename packages/shared/{components/atoms/boxes/index.js => src/components/boxes/index.ts} (73%)
  rename packages/shared/{components/atoms => src/components}/buttons/ReceiveButton.svelte (81%)
  rename packages/shared/{ => src}/components/enums/font-weight.enum.ts (100%)
  rename packages/shared/{ => src}/components/enums/index.ts (50%)
@@ -1232,9 +1238,9 @@
  rename packages/shared/{components/index.js => src/components/index.ts} (53%)
  rename packages/shared/{ => src}/components/inputs/AliasInput.svelte (51%)
  rename packages/shared/{ => src}/components/inputs/Checkbox.svelte (98%)
- rename packages/shared/{components/inputs/Dropdown2.svelte => src/components/inputs/Dropdown.svelte} (98%)
+ rename packages/shared/{components/inputs/Dropdown2.svelte => src/components/inputs/Dropdown.svelte} (96%)
  rename packages/shared/{ => src}/components/inputs/Input.svelte (93%)
- rename packages/shared/{ => src}/components/inputs/InputContainer.svelte (75%)
+ rename packages/shared/{ => src}/components/inputs/InputContainer.svelte (69%)
  rename packages/shared/{ => src}/components/inputs/NodeInput.svelte (95%)
  rename packages/shared/{ => src}/components/inputs/OptionalInput.svelte (55%)
  rename packages/shared/{ => src}/components/inputs/Radio.svelte (94%)
@@ -1617,7 +1623,7 @@
  rename packages/shared/{ => src}/lib/core/account/utils/sumBalanceForAccounts.ts (100%)
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/generateAndStoreActivitiesForAccount.ts (54%)
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/hideActivitiesForFoundries.ts (77%)
- rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/linkTransactionsWithClaimingTransactions.ts (88%)
+ rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/linkTransactionsWithClaimingTransactions.ts (92%)
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/preprocessOutputsForAccount.ts (68%)
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/preprocessTransactionsForAccount.ts (80%)
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/setAsyncStatusOfAccountActivities.ts (79%)
@@ -1637,7 +1643,7 @@
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/all-account-activities.store.ts (83%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/claimed-activities.store.ts (78%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/hidden-activities.store.ts (74%)
- rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/selected-account-activities.store.ts (56%)
+ rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/selected-account-activities.store.ts (59%)
  rename packages/shared/{lib/core/wallet/interfaces => src/lib/core/activity/types}/activity-filter.interface.ts (90%)
  rename packages/shared/{lib/core/wallet/interfaces => src/lib/core/activity/types}/activity-generation-parameters.interface.ts (82%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/types/activity.type.ts (81%)
@@ -1690,7 +1696,7 @@
  rename packages/shared/{ => src}/lib/core/app/interfaces/managers/notification-manager.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/managers/pincode-manager.interface.ts (77%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/nft-download-state.interface.ts (74%)
- rename packages/shared/{ => src}/lib/core/app/interfaces/platform-event-map.interface.ts (54%)
+ rename packages/shared/{ => src}/lib/core/app/interfaces/platform-event-map.interface.ts (53%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/platform.interface.ts (81%)
  rename packages/shared/{ => src}/lib/core/app/stores/app-settings.store.ts (55%)
  rename packages/shared/{ => src}/lib/core/app/stores/app-version-details.store.ts (100%)
@@ -1707,7 +1713,7 @@
  rename specs/images/.gitkeep => packages/shared/src/lib/core/contact/helpers/index.ts (100%)
  rename packages/shared/{lib/core/app => src/lib/core/contact}/index.ts (72%)
  rename packages/shared/{ => src}/lib/core/error/actions/index.ts (100%)
- rename packages/shared/{ => src}/lib/core/error/actions/logAndNotifyError.ts (79%)
+ rename packages/shared/{ => src}/lib/core/error/actions/logAndNotifyError.ts (70%)
  rename packages/shared/{ => src}/lib/core/error/classes/base-error.class.ts (81%)
  rename packages/shared/{ => src}/lib/core/error/classes/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/error/constants/default-app-error-parameters.constant.ts (100%)
@@ -2148,7 +2154,6 @@
  rename packages/shared/{ => src}/lib/core/utils/enums/time-period.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/filter.ts (63%)
  rename packages/shared/{ => src}/lib/core/utils/format.ts (77%)
- rename packages/shared/{ => src}/lib/core/utils/function.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/index.ts (86%)
  rename packages/shared/{ => src}/lib/core/utils/interfaces/date-difference.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/interfaces/dropdown-item.interface.ts (100%)
@@ -2172,7 +2177,6 @@
  rename packages/shared/{ => src}/lib/core/utils/tests/crypto.test.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/tests/date.test.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/tests/format.test.ts (100%)
- rename packages/shared/{ => src}/lib/core/utils/tests/function.test.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/tests/math.test.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/tests/number.test.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/tests/object.test.ts (95%)

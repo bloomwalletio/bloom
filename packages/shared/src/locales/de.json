@@ -483,11 +483,11 @@
                             "emptySubtitle": "Verbinde Bloom mit deinen Lieblings-dApps"
                         },
                         "actions": {
-                            "clearExpired": "Clear expired list"
+                            "clearExpired": "Abgelaufene Liste leeren"
                         },
                         "clearExpired": {
-                            "title": "Clear expired list",
-                            "description": "Are you sure you want to clear the list of expired dApp connections?"
+                            "title": "Abgelaufene Verbindungen löschen",
+                            "description": "Liste mit abgelaufenen dApp-Verbindungen löschen?"
                         }
                     },
                     "inputConnectionCode": {
@@ -645,7 +645,8 @@
                 "successAdd": "{numberOfProposals, select, one {Vorschlag} other {Vorschläge}} erfolgreich hinzugefügt",
                 "successAddAll": "{numberOfProposals, select, one {Vorschlag} other {Vorschläge}} erfolgreich zu allen Konten hinzugefügt",
                 "successRemove": "Abstimmung erfolgreich entfernt",
-                "emptyTitle": "Keine Vorschläge"
+                "emptyTitle": "Keine Vorschläge",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
                 "upcoming": "Ankündigung",
@@ -953,6 +954,9 @@
             "warning": "dApp kann nicht ermittelt werden. Es wird kein Guthaben bei der Signierung dieser Nachricht gesendet.",
             "action": "Signieren",
             "success": "Signierte Nachricht"
+        },
+        "siwe": {
+            "title": "Sign-In with Ethereum"
         },
         "signTransaction": {
             "title": "Transaktion signieren",
@@ -1557,8 +1561,8 @@
         "featured": "Vorgestellt",
         "raffle": "Tombola",
         "governance": "Governance",
-        "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract"
+        "baseCoin": "Basis-Token",
+        "unverifiedContract": "Unverifizierter Vertrag"
     },
     "filters": {
         "title": "Filter",
@@ -1707,7 +1711,7 @@
             "success": "Verbindung zu {dappName} getrennt"
         },
         "clearExpiredDapps": {
-            "success": "Expired dApps cleared"
+            "success": "Abgelaufene dApps gelöscht"
         },
         "removeDapp": {
             "success": "{dappName} entfernt"
@@ -1774,7 +1778,8 @@
         "profile": {
             "length": "Dein Profilname darf nicht länger als {length, plural, one {1 Zeichen} other {# Zeichen}} sein.",
             "duplicate": "Ein Profil mit diesem Namen existiert bereits.",
-            "type": "Profiltyp konnte nicht ermittelt werden"
+            "type": "Profiltyp konnte nicht ermittelt werden",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "Die Passwörter stimmen nicht überein.",
@@ -1980,7 +1985,8 @@
             "invalidUri": "Ungültige URI",
             "invalidProtocol": "Ungültiges Protokoll, muss mit 'wc' beginnen.",
             "deprecatedVersion": "dApp verwendet eine veraltete WalletConnect-Version.",
-            "invalidV2UriFormat": "Der Link entspricht nicht der WalletConnect V2 Spezifikation."
+            "invalidV2UriFormat": "Der Link entspricht nicht der WalletConnect V2 Spezifikation.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Web3-Anbieter konnte nicht geladen werden.",

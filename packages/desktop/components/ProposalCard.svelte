@@ -2,7 +2,7 @@
     import { onMount } from 'svelte'
     import { EventStatus } from '@iota/sdk/out/types'
 
-    import { ProposalStatusInfo } from '@components'
+    import { ProposalStatusInfo } from '@views/governance'
     import { Text, TooltipIcon, IconName } from '@bloomwalletio/ui'
 
     import { localize } from '@core/i18n'

@@ -6,8 +6,7 @@
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Text, TextType } from '@ui'
-    import { Button } from '@bloomwalletio/ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     $: hasGovernanceTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress || $selectedAccount?.hasVotingTransactionInProgress
@@ -24,28 +23,18 @@
     }
 </script>
 
-<stop-voting>
-    <Text type={TextType.h3}>{localize('popups.stopVoting.title')}</Text>
-    <div class="flex flex-col w-full space-y-5 mt-6">
-        <Text fontSize="15"
-            >{localize('popups.stopVoting.body', { values: { proposalName: $selectedProposal?.title } })}</Text
-        >
-        <Alert variant="info" text={localize('popups.stopVoting.hint')} />
-    </div>
-    <div class="flex w-full space-x-4 mt-6">
-        <Button
-            variant="outlined"
-            width="full"
-            disabled={hasGovernanceTransactionInProgress}
-            on:click={onCancelClick}
-            text={localize('actions.cancel')}
-        />
-        <Button
-            width="full"
-            on:click={onStopVotingClick}
-            disabled={hasGovernanceTransactionInProgress}
-            busy={hasGovernanceTransactionInProgress}
-            text={localize('actions.stopVoting')}
-        />
-    </div>
-</stop-voting>
+<PopupTemplate
+    title={localize('popups.stopVoting.title')}
+    description={localize('popups.stopVoting.body', { values: { proposalName: $selectedProposal?.title } })}
+    backButton={{
+        onClick: onCancelClick,
+        text: localize('actions.cancel'),
+    }}
+    continueButton={{
+        onClick: onStopVotingClick,
+        text: localize('actions.stopVoting'),
+    }}
+    busy={hasGovernanceTransactionInProgress}
+>
+    <Alert variant="info" text={localize('popups.stopVoting.hint')} />
+</PopupTemplate>

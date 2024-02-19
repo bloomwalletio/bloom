@@ -14,8 +14,7 @@
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
     import { governanceRouter } from '@core/router'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { Text, TextType } from '@ui'
-    import { Button } from '@bloomwalletio/ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     function onCancelClick(): void {
         closePopup()
@@ -50,16 +49,16 @@
         $selectedProposal?.status === EventStatus.Commencing || $selectedProposal?.status === EventStatus.Holding
 </script>
 
-<remove-proposal>
-    <Text type={TextType.h3}>{localize('popups.removeProposal.title')}</Text>
-    <div class="flex flex-col w-full space-y-4 mt-6">
-        <Text fontSize="15">{localize('popups.removeProposal.body')}</Text>
-        {#if showAlert}
-            <Alert variant="info" text={localize('popups.removeProposal.hint')} />
-        {/if}
-    </div>
-    <div class="flex w-full space-x-4 mt-6">
-        <Button variant="outlined" width="full" on:click={onCancelClick} text={localize('actions.cancel')} />
-        <Button color="warning" width="full" on:click={onConfirmClick} text={localize('actions.remove')} />
-    </div>
-</remove-proposal>
+<PopupTemplate
+    title={localize('popups.removeProposal.title')}
+    description={localize('popups.removeProposal.body')}
+    backButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
+    continueButton={{
+        text: localize('actions.remove'),
+        onClick: onConfirmClick,
+    }}
+>
+    {#if showAlert}
+        <Alert variant="info" text={localize('popups.removeProposal.hint')} />
+    {/if}
+</PopupTemplate>

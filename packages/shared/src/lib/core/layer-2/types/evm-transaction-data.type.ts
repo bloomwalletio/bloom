@@ -1,3 +1,3 @@
-import type { TxData } from '@ethereumjs/tx'
+import type { TypedTxData } from '@ethereumjs/tx'
 
-export type EvmTransactionData = TxData & { estimatedGas?: number; timestamp?: number }
+export type EvmTransactionData = TypedTxData & { estimatedGas?: number; timestamp?: number }

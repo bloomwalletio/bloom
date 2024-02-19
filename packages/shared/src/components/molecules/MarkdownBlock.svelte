@@ -34,16 +34,9 @@
     <SvelteMarkdown source={text} {renderers} />
 </div>
 
-<style lang="scss">
-    .markdown {
-        :global(p) {
-            @apply text-gray-600;
-        }
-        :global(p),
-        :global(p a) {
-            @apply leading-140;
-            @apply font-500;
-            @apply text-14;
-        }
+<style lang="postcss">
+    :global(.markdown p),
+    :global(.markdown p a) {
+        @apply font-semibold text-sm;
     }
 </style>
