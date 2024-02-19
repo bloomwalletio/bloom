@@ -3,11 +3,8 @@
     import { EventStatus } from '@iota/sdk/out/types'
 
     import { ProposalStatusInfo } from '@components'
-    import { Text } from '@ui'
-    import { FontWeight } from '@ui/enums'
-    import { TooltipIcon, IconName } from '@bloomwalletio/ui'
+    import { Text, TooltipIcon, IconName } from '@bloomwalletio/ui'
 
-    import { darkMode } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { GovernanceRoute, governanceRouter } from '@core/router'
 
@@ -37,34 +34,27 @@
 <proposal-card
     on:click={onProposalClick}
     on:keydown={(e) => e.key === 'Enter' && onProposalClick()}
-    class:dark={$darkMode}
-    class:ended={proposal?.status === EventStatus.Ended}
     class="flex flex-col p-6 border border-solid border-gray-200 dark:border-transparent rounded-xl cursor-pointer h-fit shadow-elevation-1 focus:shadow-inner
-    {proposal?.status === EventStatus.Ended ? 'bg-transparent dark:bg-gray-900' : 'bg-white dark:bg-gray-800'}"
+    {proposal?.status === EventStatus.Ended
+        ? 'bg-surface-1 dark:bg-surface-1-dark'
+        : 'bg-surface-0 dark:bg-surface-0-dark'}"
 >
     <div class="flex items-center gap-1.5 mb-4">
         {#if proposal.organization}
             <TooltipIcon icon={proposal.organization.icon} tooltip={proposal.organization.name} size="sm" />
         {/if}
-        <Text fontWeight={FontWeight.semibold} fontSize="14" classes="truncate" lineHeight="5">{proposal.title}</Text>
+        <Text truncate>{proposal.title}</Text>
     </div>
     <div class="flex justify-between items-center">
         <ProposalStatusInfo {proposal} />
         {#if hasVoted}
-            <!-- TODO: Add correct icon once we have designs -->
             <TooltipIcon
                 tooltip={localize('views.governance.proposals.voted')}
-                icon={IconName.Bank}
+                icon={IconName.PackageCheck}
                 size="sm"
                 placement="left"
+                textColor="brand"
             />
         {/if}
     </div>
 </proposal-card>
-
-<style lang="scss">
-    proposal-card.ended,
-    proposal-card.dark.ended {
-        @apply bg-transparent;
-    }
-</style>
