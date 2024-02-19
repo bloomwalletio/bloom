@@ -7,8 +7,7 @@
     import { DATE_FORMAT, milestoneToDate } from '@core/utils'
 
     export let milestones: Record<EventStatus, number>
-    // export let status: EventStatus
-    const status = EventStatus.Holding
+    export let status: EventStatus
     export let anchor: HTMLElement
     export let placement: 'top' | 'bottom' | 'left' | 'right' = 'right'
 
@@ -29,6 +28,20 @@
         default:
             break
     }
+
+    function getLocaleTenseKey(index: number): 'past' | 'present' | 'future' {
+        if (index < eventProgress) {
+            return 'past'
+        }
+
+        if (index === eventProgress) {
+            return 'present'
+        }
+
+        if (index > eventProgress) {
+            return 'future'
+        }
+    }
 </script>
 
 <Popover {anchor} {placement} showArrow event="hover" class="p-4 rounded-xl shadow-elevation-4">
@@ -38,7 +51,7 @@
             {@const currentProgress = eventProgress === index}
             <li
                 class="grid grid-rows-2 relative
-                before:justify-self-end before:mr-4 before:row-span-2 before:self-center
+                before:justify-self-center before:mr-4 before:row-span-2 before:self-center
                 {hasProgressed
                     ? currentProgress
                         ? 'before:text-2xl before:text-brand before:dark:text-brand-dark'
@@ -53,7 +66,7 @@
                 class:has-progressed={hasProgressed}
             >
                 <Text textColor="current" fontWeight="semibold">
-                    {localize(`views.governance.statusTimeline.${EventStatus[status]}`)}
+                    {localize(`views.governance.statusTimeline.${EventStatus[status]}.${getLocaleTenseKey(index)}`)}
                 </Text>
                 <Text textColor="current" fontWeight="medium">
                     {formatDate(milestoneToDate($networkStatus.currentMilestone, milestones[EventStatus[status]]), {
