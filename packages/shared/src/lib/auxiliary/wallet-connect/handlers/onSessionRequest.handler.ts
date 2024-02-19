@@ -43,6 +43,11 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         }
     }
 
+    if (!dapp) {
+        returnResponse({ error: getSdkError('SESSION_SETTLEMENT_FAILED') })
+        return
+    }
+
     const chain = getNetwork()?.getChain(chainId as NetworkId)
     if (!chain) {
         returnResponse({ error: getSdkError('UNSUPPORTED_CHAINS') })
