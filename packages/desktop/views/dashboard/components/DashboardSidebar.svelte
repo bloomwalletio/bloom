@@ -65,7 +65,7 @@
         ...(features?.buySell?.enabled && $activeProfile?.network?.id === StardustNetworkId.Iota
             ? [
                   {
-                      icon: IconName.CoinSwap,
+                      icon: IconName.ArrowDownUp,
                       label: localize('tabs.buySell'),
                       route: DashboardRoute.BuySell,
                       onClick: openBuySell,
