@@ -2,7 +2,6 @@
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
     import { ClosableInput, AddInputButton, FontWeight, InformationTooltip } from '@ui'
-    import { Position } from '@ui/enums'
 
     export let label: string = ''
     export let description: string = ''
@@ -64,11 +63,10 @@
             <tooltip-container transition:fade={{ duration: 100 }}>
                 <InformationTooltip
                     anchor={buttonElement}
-                    position={Position.Right}
                     title={label}
-                    titleColor="gray-900"
+                    titleColor="primary"
                     body={description}
-                    bodyColor="gray-700"
+                    bodyColor="secondary"
                 />
             </tooltip-container>
         {/if}

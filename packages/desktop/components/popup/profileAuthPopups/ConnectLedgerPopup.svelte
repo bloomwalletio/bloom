@@ -2,7 +2,6 @@
     import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
-    import { isFunction } from '@core/utils'
     import { closeProfileAuthPopup } from '@desktop/auxiliary/popup'
     import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -53,12 +52,8 @@
     }
 
     function continueFlow(): void {
-        if (isFunction(onContinue)) {
-            closeProfileAuthPopup()
-            onContinue()
-        } else {
-            closeProfileAuthPopup()
-        }
+        closeProfileAuthPopup()
+        onContinue?.()
     }
 
     function onCancelClick(): void {
