@@ -8,6 +8,9 @@ const developerToolsFeatures: IDeveloperFeatures = {
     mintNft: {
         enabled: true,
     },
+    mintNftCollection: {
+        enabled: true,
+    },
     mintNativeTokens: {
         enabled: true,
     },

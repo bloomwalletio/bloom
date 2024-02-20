@@ -3,7 +3,8 @@ import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
-import { TRANSAK_WIDGET_URL } from '@auxiliary/transak'
+import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
+import { buildQueryParametersFromObject } from '@core/utils/url'
 
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
@@ -82,8 +83,8 @@ export default class TransakManager implements ITransakManager {
             }
         })
 
-        const url = this.getUrl(data)
-        void windows.transak.loadURL(url)
+        const initialUrl = this.getUrl(data)
+        void windows.transak.loadURL(initialUrl)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
             void shell.openExternal(url)
@@ -95,6 +96,19 @@ export default class TransakManager implements ITransakManager {
         windows.transak.webContents.addListener('did-navigate', (_, url) => {
             const _url = new URL(url)
             windows.main.webContents.send('transak-url', _url.origin)
+        })
+
+        windows.transak.webContents.addListener('did-navigate-in-page', (_, url) => {
+            const urlToBeMatched = TRANSAK_WIDGET_URL + '/googlepay'
+            if (url.startsWith(urlToBeMatched)) {
+                void shell.openExternal(url)
+                void windows.transak.loadURL(initialUrl)
+            }
+        })
+
+        windows.transak.webContents.addListener('will-navigate', (event) => {
+            event.preventDefault()
+            void shell.openExternal(event.url)
         })
 
         return windows.transak
@@ -151,6 +165,21 @@ export default class TransakManager implements ITransakManager {
         const { address, currency, service } = data
         const apiKey = process.env.TRANSAK_API_KEY
 
-        return `${TRANSAK_WIDGET_URL}/?apiKey=${apiKey}&defaultFiatCurrency=${currency}&walletAddress=${address}&productsAvailed=${service}&cryptoCurrencyCode=IOTA&network=miota&themeColor=7C41C9&hideMenu=true`
+        const queryParams = buildQueryParametersFromObject({
+            apiKey,
+            defaultFiatCurrency: currency,
+            defaultFiatAmount: 100,
+            walletAddress: address,
+            productsAvailed: service,
+            cryptoCurrencyCode: 'IOTA',
+            network: 'miota',
+            themeColor: '7C41C9',
+            hideMenu: true,
+            disableWalletAddressForm: true,
+            isFeeCalculationHidden: true,
+            disablePaymentMethods: ['apple_pay', 'google_pay'],
+        })
+
+        return `${TRANSAK_WIDGET_URL}/?${queryParams}`
     }
 }

@@ -1,26 +1,20 @@
 <script lang="ts">
-    import { Icon, Text } from '@ui'
+    import { Icon } from '@ui'
+    import { Icon as IconName } from '@auxiliary/icon'
 
     export let busy = false
-    export let message = ''
     export let size = 24
-    export let color = 'gray-500'
-    export let darkColor = 'white'
-    export let classes = ''
 </script>
 
-{#if busy || message}
-    <spinner-container class={`flex flex-row items-center ${classes}`}>
+{#if busy}
+    <spinner-container class={'flex flex-row items-center'}>
         {#if busy}
             <Icon
-                icon="refresh"
+                icon={IconName.Refresh}
                 width={size}
                 height={size}
-                classes={`animate-spin-reverse text-${color} dark:text-${darkColor}`}
+                classes={'animate-spin-reverse text-gray-500 dark:text-white'}
             />
-        {/if}
-        {#if message}
-            <Text type="p" classes="ml-2" secondary>{message}</Text>
         {/if}
     </spinner-container>
 {/if}

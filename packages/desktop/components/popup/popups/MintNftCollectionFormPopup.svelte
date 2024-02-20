@@ -1,38 +1,19 @@
 <script lang="ts">
     import { BaseError } from '@core/error/classes'
     import { localize } from '@core/i18n'
-    import { composeUrlFromNftUri, NftStandard } from '@core/nfts'
+    import { NftStandard, composeUrlFromNftUri } from '@core/nfts'
     import { MimeType } from '@core/nfts/enums'
     import { fetchWithTimeout } from '@core/nfts/utils/fetchWithTimeout'
-    import { getNetworkHrp } from '@core/profile/actions'
     import { HttpHeader } from '@core/utils'
-    import { validateBech32Address } from '@core/utils/crypto'
     import { isValidUri } from '@core/utils/validation'
-    import { IMintNftDetails } from '@core/wallet'
-    import { mintNftDetails, setMintNftDetails } from '@core/wallet/stores'
+    import { IMintNftCollectionDetails } from '@core/wallet'
+    import { mintNftCollectionDetails, setMintNftCollectionDetails } from '@core/wallet/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { AliasInput, OptionalInput } from '@ui'
+    import { OptionalInput } from '@ui'
     import { Error, TextInput } from '@bloomwalletio/ui'
     import PopupTemplate from '../PopupTemplate.svelte'
 
-    let {
-        standard,
-        version,
-        type,
-        uri,
-        quantity,
-        name,
-        collectionId,
-        collectionName,
-        royalties,
-        issuerName,
-        description,
-        attributes,
-        startIndex,
-    } = $mintNftDetails || {}
-
-    let collectionIdInput: AliasInput
-    let collectionIdError: string
+    let { standard, version, type, uri, name, issuerName, description, attributes } = $mintNftCollectionDetails || {}
 
     interface IOptionalInputs {
         [key: string]: {
@@ -50,11 +31,6 @@
             value: issuerName,
             error: '',
         },
-        collectionName: {
-            inputType: 'text',
-            value: collectionName,
-            error: '',
-        },
         description: {
             inputType: 'text',
             value: description,
@@ -63,23 +39,6 @@
         attributes: {
             inputType: 'text',
             value: attributes ? JSON.stringify(attributes) : undefined,
-            error: '',
-        },
-        royalties: {
-            inputType: 'text',
-            value: royalties ? JSON.stringify(royalties) : undefined,
-            error: '',
-        },
-        quantity: {
-            inputType: 'number',
-            isInteger: true,
-            value: quantity ? String(quantity <= 1 ? '' : quantity) : '',
-            error: '',
-        },
-        startIndex: {
-            inputType: 'number',
-            isInteger: true,
-            value: startIndex ? String(startIndex <= 1 ? '' : startIndex) : '',
             error: '',
         },
     }
@@ -96,9 +55,9 @@
         resetErrors()
         const valid = await validate()
         if (valid) {
-            setMintNftDetails(convertInputsToMetadataType())
+            setMintNftCollectionDetails(convertInputsToMetadataType())
             openPopup({
-                id: PopupId.MintNftConfirmation,
+                id: PopupId.MintNftCollectionConfirmation,
                 overflow: true,
                 confirmClickOutside: true,
             })
@@ -114,31 +73,24 @@
             if (Number(optionalInputs.quantity.value) < 1) {
                 optionalInputs.quantity.error = localize('popups.mintNftForm.errors.quantityTooSmall')
             }
-            if (Number(optionalInputs.quantity.value) > 126) {
+            if (Number(optionalInputs.quantity.value) >= 64) {
                 optionalInputs.quantity.error = localize('popups.mintNftForm.errors.quantityTooLarge')
             }
         }
 
-        const dummyUri = uri.replace('{id}', '1')
-        if (uri.length === 0 || !isValidUri(dummyUri)) {
+        if (uri.length === 0 || !isValidUri(uri)) {
             uriError = localize('popups.mintNftForm.errors.invalidURI')
         } else {
             try {
-                const response = await fetchWithTimeout(composeUrlFromNftUri(dummyUri), 1, {
-                    method: 'HEAD',
-                })
+                const response = await fetchWithTimeout(composeUrlFromNftUri(uri), 1, { method: 'HEAD' })
                 if (response.status === 200 || response.status === 304) {
-                    type = response.headers.get(HttpHeader.ContentType) as MimeType
+                    type = response.headers.get(HttpHeader.ContentType)
                 } else {
                     uriError = localize('popups.mintNftForm.errors.notReachable')
                 }
             } catch (err) {
                 uriError = localize('popups.mintNftForm.errors.notReachable')
             }
-        }
-
-        if (optionalInputs.royalties.isOpen) {
-            validateRoyalties()
         }
 
         if (optionalInputs.attributes.isOpen) {
@@ -158,43 +110,6 @@
 
         for (const key of Object.keys(optionalInputs)) {
             optionalInputs[key].error = ''
-        }
-    }
-
-    function validateRoyalties(): void {
-        let royalties: unknown
-        try {
-            royalties = JSON.parse(optionalInputs.royalties.value)
-        } catch (err) {
-            optionalInputs.royalties.error = localize('popups.mintNftForm.errors.royaltiesMustBeJSON')
-            return
-        }
-
-        const isObject = typeof royalties === 'object' && !Array.isArray(royalties) && royalties !== null
-
-        if (!isObject) {
-            optionalInputs.royalties.error = localize('popups.mintNftForm.errors.royaltiesMustBeObject')
-            return
-        }
-
-        try {
-            Object.keys(royalties).forEach((key) => validateBech32Address(getNetworkHrp(), key))
-        } catch (err) {
-            optionalInputs.royalties.error = localize('popups.mintNftForm.errors.invalidAddress', {
-                values: { networkHrp: getNetworkHrp() },
-            })
-            return
-        }
-
-        const areValuesValid = Object.values(royalties).every((value) => value >= 0 && value <= 1)
-        if (!areValuesValid) {
-            optionalInputs.royalties.error = localize('popups.mintNftForm.errors.invalidRoyaltyValue')
-            return
-        }
-        const isSumValid = Object.values(royalties).reduce((acc, val) => acc + val, 0) <= 1
-        if (!isSumValid) {
-            optionalInputs.royalties.error = localize('popups.mintNftForm.errors.invalidRoyaltyValueSum')
-            return
         }
     }
 
@@ -241,27 +156,22 @@
         }
     }
 
-    function convertInputsToMetadataType(): IMintNftDetails {
+    function convertInputsToMetadataType(): IMintNftCollectionDetails {
         return {
             standard: standard ?? NftStandard.Irc27,
             version,
             issuerName: optionalInputs.issuerName?.value,
             description: optionalInputs.description?.value,
-            collectionId,
-            collectionName: optionalInputs.collectionName?.value,
-            quantity: optionalInputs.quantity?.value ? Number(optionalInputs.quantity.value) : 1,
-            startIndex: optionalInputs.startIndex?.value ? Number(optionalInputs.startIndex.value) : 1,
             uri,
             name,
-            royalties: optionalInputs.royalties?.value ? JSON.parse(optionalInputs.royalties.value) : undefined,
             attributes: optionalInputs.attributes?.value ? JSON.parse(optionalInputs.attributes.value) : undefined,
-            type,
+            type: type as MimeType,
         }
     }
 </script>
 
 <PopupTemplate
-    title={localize('popups.mintNftForm.title')}
+    title={localize('actions.mintNftCollection')}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
@@ -272,7 +182,6 @@
     }}
 >
     <popup-inputs class="block space-y-5 max-h-100 scrollable-y overflow-x-hidden flex-1">
-        <AliasInput bind:this={collectionIdInput} bind:alias={collectionId} bind:error={collectionIdError} />
         <TextInput bind:value={uri} bind:error={uriError} label={localize('general.uri')} />
         <TextInput bind:value={name} bind:error={nameError} label={localize('general.name')} />
         <optional-inputs class="flex flex-row flex-wrap gap-4">

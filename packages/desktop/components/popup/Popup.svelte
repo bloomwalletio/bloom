@@ -42,6 +42,8 @@
     import ManageVotingPowerPopup from './popups/ManageVotingPowerPopup.svelte'
     import MintNativeTokenConfirmationPopup from './popups/MintNativeTokenConfirmationPopup.svelte'
     import MintNativeTokenFormPopup from './popups/MintNativeTokenFormPopup.svelte'
+    import MintNftCollectionConfirmationPopup from './popups/MintNftCollectionConfirmationPopup.svelte'
+    import MintNftCollectionFormPopup from './popups/MintNftCollectionFormPopup.svelte'
     import MintNftConfirmationPopup from './popups/MintNftConfirmationPopup.svelte'
     import MintNftFormPopup from './popups/MintNftFormPopup.svelte'
     import NodeAuthRequiredPopup from './popups/NodeAuthRequiredPopup.svelte'
@@ -50,6 +52,7 @@
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
+    import SiwePopup from './popups/SiwePopup.svelte'
     import SignTypedDataPopup from './popups/SignTypedDataPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
@@ -121,12 +124,15 @@
         [PopupId.MintNativeTokenForm]: MintNativeTokenFormPopup,
         [PopupId.MintNftConfirmation]: MintNftConfirmationPopup,
         [PopupId.MintNftForm]: MintNftFormPopup,
+        [PopupId.MintNftCollectionForm]: MintNftCollectionFormPopup,
+        [PopupId.MintNftCollectionConfirmation]: MintNftCollectionConfirmationPopup,
         [PopupId.NodeAuthRequired]: NodeAuthRequiredPopup,
         [PopupId.NodeInfo]: NodeInfoPopup,
         [PopupId.ReceiveAddress]: ReceiveAddressPopup,
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
+        [PopupId.Siwe]: SiwePopup,
         [PopupId.SignTypedData]: SignTypedDataPopup,
         [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,

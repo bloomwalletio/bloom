@@ -5,7 +5,7 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { signMessage } from '@core/wallet/actions'
-    import { Alert, Table, Text } from '@bloomwalletio/ui'
+    import { Alert, Table } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { IChain } from '@core/network'
     import { AccountLabel } from '@ui'
@@ -13,13 +13,13 @@
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import DappDataBanner from '@components/DappDataBanner.svelte'
-    import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { ParsedMessage } from '@spruceid/siwe-parser'
 
-    export let message: string
+    export let rawMessage: string
+    export let siweObject: ParsedMessage
     export let account: IAccountState
     export let chain: IChain
-    export let dapp: IConnectedDapp
-    export let verifiedState: DappVerification
+    export let dapp: IConnectedDapp | undefined
     export let callback: (params: CallbackParameters) => void
 
     let isBusy = false
@@ -34,7 +34,7 @@
         isBusy = true
         try {
             const { coinType } = chain.getConfiguration()
-            const result = await signMessage(message, coinType, account)
+            const result = await signMessage(rawMessage, coinType, account)
             closePopup({ forceClose: true })
 
             callback({ result })
@@ -58,26 +58,33 @@
 </script>
 
 <PopupTemplate
-    title={localize('popups.signMessage.title')}
+    title={localize('popups.siwe.title')}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
     }}
     continueButton={{
-        text: localize('popups.signMessage.action'),
+        text: localize('popups.siwe.action'),
         onClick: onConfirmClick,
     }}
     busy={isBusy}
 >
-    <DappDataBanner slot="banner" {dapp} {verifiedState} />
-
+    <DappDataBanner slot="banner" {dapp} />
     <div class="space-y-5">
-        <div>
-            <Text fontWeight="medium">{localize('general.message')}</Text>
-            <Text textColor="secondary" type="sm" fontWeight="medium">{message}</Text>
-        </div>
         <Table
             items={[
+                {
+                    key: localize('popups.siwe.domain'),
+                    value: siweObject.domain,
+                },
+                {
+                    key: localize('popups.siwe.statement'),
+                    value: siweObject.statement,
+                },
+                {
+                    key: localize('popups.siwe.resources'),
+                    value: siweObject.resources,
+                },
                 {
                     key: localize('general.account'),
                     slot: {
