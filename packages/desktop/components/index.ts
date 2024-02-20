@@ -2,7 +2,6 @@ export * from './drawers'
 export * from './filter'
 export * from './menus'
 export * from './modals'
-export * from './panes'
 export * from './popup'
 
 export { default as AccountSwitcher } from './AccountSwitcher.svelte'
