@@ -70,7 +70,7 @@
     busy={isBusy}
 >
     <DappDataBanner slot="banner" {dapp} />
-    <div class="space-y-5">
+    <div class="space-y-5 overflow-auto">
         <Table
             items={[
                 {
@@ -93,6 +93,44 @@
                             account,
                         },
                     },
+                },
+            ]}
+        />
+        <Table
+            collapsible
+            collapsibleTitle={localize('popups.siwe.collapsibleTitle')}
+            items={[
+                {
+                    key: localize('general.uri'),
+                    value: siweObject.uri,
+                },
+                {
+                    key: localize('general.version'),
+                    value: siweObject.version,
+                },
+                {
+                    key: localize('popups.siwe.chainId'),
+                    value: siweObject.chainId,
+                },
+                {
+                    key: localize('popups.siwe.nonce'),
+                    value: siweObject.nonce,
+                },
+                {
+                    key: localize('popups.siwe.issuedAt'),
+                    value: siweObject.issuedAt,
+                },
+                {
+                    key: localize('general.expirationTime'),
+                    value: siweObject.expirationTime,
+                },
+                {
+                    key: localize('popups.siwe.notBefore'),
+                    value: siweObject.notBefore,
+                },
+                {
+                    key: localize('popups.siwe.requestId'),
+                    value: siweObject.requestId,
                 },
             ]}
         />
