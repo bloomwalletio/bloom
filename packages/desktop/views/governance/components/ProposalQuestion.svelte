@@ -2,15 +2,11 @@
     import { AnswerStatus, EventStatus, Question } from '@iota/sdk/out/types'
 
     import { ProposalAnswer } from '@components'
-    import { Icon, Text } from '@ui'
-    import { FontWeight } from '@ui/enums'
-    import { TooltipIcon } from '@bloomwalletio/ui'
+    import { Icon, IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
 
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import { getPercentagesFromAnswerStatuses, IProposalAnswerPercentages } from '@contexts/governance'
     import { selectedProposal } from '@contexts/governance/stores'
-
-    import { Icon as IconEnum } from '@auxiliary/icon'
 
     export let onQuestionClick: (questionIndex: number) => void
     export let onAnswerClick: (answerValue: number, questionIndex: number) => void
@@ -49,23 +45,17 @@
 </script>
 
 <proposal-question
-    class="flex flex-col px-5 py-4 rounded-xl border border-solid border-gray-200
-    cursor-pointer dark:border-transparent dark:bg-gray-900"
+    class="flex flex-col px-5 py-4 rounded-xl border border-solid border-stroke
+    cursor-pointer dark:border-stroke-dark dark:bg-surface-dark"
     class:animate-pulse={isLoading}
 >
     <button on:click={() => onQuestionClick(questionIndex)} class="flex justify-between items-center">
         <div class="flex flex-col min-w-0">
             {#if questionIndex !== undefined}
-                <Text smaller fontWeight={FontWeight.bold} overrideColor classes="mb-1 text-blue-500">
-                    Question {questionIndex + 1}
-                </Text>
+                <Text align="left">Question {questionIndex + 1}</Text>
             {/if}
             <div class="flex flex-row space-x-1.5 items-center">
-                <Text
-                    fontWeight={FontWeight.bold}
-                    overrideColor
-                    classes="text-gray-900 dark:text-white {isOpened ? '' : 'truncate'}"
-                >
+                <Text align="left" fontWeight="medium" textColor="secondary" truncate={!isOpened}>
                     {question.text}
                 </Text>
                 {#if question.additionalInfo}
@@ -73,7 +63,9 @@
                 {/if}
             </div>
         </div>
-        <Icon icon={IconEnum.ChevronDown} classes="text-gray-500 transform {isOpened ? 'rotate-180' : 'rotate-0'}" />
+        <div class="transform {isOpened ? 'rotate-180' : 'rotate-0'}">
+            <Icon name={IconName.ChevronDown} textColor="secondary" />
+        </div>
     </button>
     <proposal-answers class:mt-4={showMargin} class="flex flex-col gap-2">
         {#each answers as answer, answerIndex}

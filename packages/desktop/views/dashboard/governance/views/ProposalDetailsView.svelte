@@ -6,7 +6,8 @@
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
     import { Alert, Button, Table } from '@bloomwalletio/ui'
-    import { ProposalDetailsMenu, ProposalInformationPane, ProposalQuestion } from '@components'
+    import { ProposalDetailsMenu, ProposalInformationPane } from '@components'
+    import { ProposalQuestion } from '@views/governance'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
         clearParticipationEventStatusPoll,
