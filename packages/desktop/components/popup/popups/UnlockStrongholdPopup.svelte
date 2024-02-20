@@ -9,7 +9,6 @@
     export let returnPassword = false
 
     export let onSuccess: (..._: any[]) => void = () => {}
-    export let onCancel: (..._: any[]) => void = () => {}
 
     let password: string
     let error = ''
@@ -30,10 +29,7 @@
     }
 
     function onCancelClick(): void {
-        closePopup()
-        if ('function' === typeof onCancel) {
-            onCancel()
-        }
+        closePopup({ callOnCancel: true })
     }
 </script>
 

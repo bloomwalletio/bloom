@@ -11,10 +11,10 @@
     export let drawerRouter: Router<unknown>
 
     const localeKey = 'views.dashboard.drawers.dapps.details'
+    const dapp = structuredClone($selectedDapp)
 
-    $: persistedDappNamespace = $selectedDapp?.metadata
-        ? getPersistedDappNamespacesForDapp($selectedDapp.metadata.url)
-        : undefined
+    $: persistedNamespaces = dapp?.metadata ? getPersistedDappNamespacesForDapp(dapp?.metadata.url) : undefined
+
     onMount(() => {
         if (!$selectedDapp) {
             drawerRouter.previous()
@@ -22,26 +22,30 @@
     })
 </script>
 
-<DrawerTemplate {drawerRouter}>
+<DrawerTemplate {drawerRouter} onBack={() => ($selectedDapp = undefined)}>
     <div slot="header" class="flex flex-row items-center w-full justify-between">
         <Text type="h6">{localize(`${localeKey}.title`)}</Text>
-        <DappActionsMenu {drawerRouter} dapp={$selectedDapp} />
+        <DappActionsMenu {drawerRouter} {dapp} />
     </div>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
-        <DappInformationCard metadata={$selectedDapp.metadata} />
+        <DappInformationCard metadata={dapp?.metadata} />
 
-        <div class="px-6 flex-grow overflow-hidden">
-            <div class="h-full space-y-6 overflow-scroll">
-                {#if $selectedDapp.metadata.description}
+        <div class="flex-grow overflow-hidden">
+            <div class="h-full space-y-6 overflow-scroll px-6 pb-4">
+                {#if dapp?.metadata?.description}
                     <Table
-                        items={[{ key: localize('general.description'), value: $selectedDapp.metadata.description }]}
+                        items={[{ key: localize('general.description'), value: dapp.metadata.description }]}
                         orientation="vertical"
                     />
                 {/if}
-                <ConnectionSummary
-                    requiredNamespaces={$selectedDapp.session?.requiredNamespaces}
-                    {persistedDappNamespace}
-                />
+                {#if persistedNamespaces}
+                    <ConnectionSummary
+                        requiredNamespaces={dapp.session?.requiredNamespaces}
+                        editable={!!dapp.session}
+                        {persistedNamespaces}
+                        {drawerRouter}
+                    />
+                {/if}
             </div>
         </div>
     </div>

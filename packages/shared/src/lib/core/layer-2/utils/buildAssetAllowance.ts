@@ -4,12 +4,12 @@ import { TransferredAsset } from '../types'
 
 export function buildAssetAllowance(
     transferredAsset: TransferredAsset,
-    storageDepositRequired?: number
+    storageDepositRequired?: bigint
 ): ILayer2AssetAllowance {
-    const baseTokens = (storageDepositRequired ?? 0).toString()
+    const baseTokens = String(storageDepositRequired ?? 0)
     if (transferredAsset.type === AssetType.BaseCoin) {
         return {
-            baseTokens: transferredAsset.amount,
+            baseTokens: transferredAsset.amount.toString(),
             nativeTokens: [],
             nfts: [],
         }
@@ -19,7 +19,7 @@ export function buildAssetAllowance(
             nativeTokens: [
                 {
                     ID: [transferredAsset.token.id],
-                    amount: transferredAsset.amount,
+                    amount: String(transferredAsset.amount),
                 },
             ],
             nfts: [],

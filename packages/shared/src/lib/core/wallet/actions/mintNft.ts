@@ -8,10 +8,10 @@ import { generateSingleNftActivity } from '@core/activity/utils/generateSingleNf
 import { preprocessTransaction } from '@core/activity/utils/outputs'
 import { localize } from '@core/i18n'
 import { IIrc27Metadata } from '@core/nfts'
-import { addOrUpdateNftInAllAccountNfts, buildNftFromNftOutput } from '@core/nfts/actions'
+import { updateAllAccountNftsForAccount, buildNftFromNftOutput } from '@core/nfts/actions'
 import { Converter } from '@core/utils'
 import { MintNftParams, OutputType } from '@iota/sdk/out/types'
-import { DEFAULT_TRANSACTION_OPTIONS } from '../constants'
+import { getTransactionOptions } from '../utils'
 import { resetMintNftDetails } from '../stores'
 import { getActiveNetworkId } from '@core/network'
 
@@ -30,7 +30,10 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number, collec
         const allNftParams: MintNftParams[] = Array(quantity).fill(mintNftParams)
 
         // Mint NFT
-        const preparedTransaction = await account.prepareMintNfts(allNftParams, DEFAULT_TRANSACTION_OPTIONS)
+        const preparedTransaction = await account.prepareMintNfts(
+            allNftParams,
+            getTransactionOptions(account.depositAddress)
+        )
         const mintNftTransaction = await sendPreparedTransaction(preparedTransaction)
         resetMintNftDetails()
         showNotification({
@@ -54,7 +57,7 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number, collec
 
                 // Store NFT metadata for each minted NFT
                 const nft = buildNftFromNftOutput(output, networkId, account.depositAddress, false)
-                addOrUpdateNftInAllAccountNfts(account.index, nft)
+                updateAllAccountNftsForAccount(account.index, nft)
             }
         }
     } catch (err) {

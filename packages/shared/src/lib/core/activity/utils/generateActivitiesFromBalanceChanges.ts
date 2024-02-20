@@ -37,7 +37,10 @@ export async function generateActivitiesFromTokenBalanceChanges(
     const tokenIds = tokenBalanceChanges ? Object.keys(tokenBalanceChanges) : []
     for (const tokenId of tokenIds) {
         for (const balanceChangeForToken of tokenBalanceChanges[tokenId]) {
-            if (!balanceChangeForToken.hidden) {
+            if (balanceChangeForToken.hidden) {
+                continue
+            }
+            try {
                 const activity = await generateTokenBalanceChangeActivity(
                     networkId,
                     tokenId,
@@ -45,6 +48,8 @@ export async function generateActivitiesFromTokenBalanceChanges(
                     account
                 )
                 activities.push(activity)
+            } catch (error) {
+                console.error(error)
             }
         }
     }
@@ -62,9 +67,14 @@ export function generateActivitiesFromNftBalanceChanges(
     const nftIds = nftBalanceChanges ? Object.keys(nftBalanceChanges) : []
     for (const nftId of nftIds) {
         for (const balanceChangeForNft of nftBalanceChanges[nftId]) {
-            if (!balanceChangeForNft.hidden) {
+            if (balanceChangeForNft.hidden) {
+                continue
+            }
+            try {
                 const activity = generateNftBalanceChangeActivity(networkId, nftId, balanceChangeForNft, account)
                 activities.push(activity)
+            } catch (error) {
+                console.error(error)
             }
         }
     }

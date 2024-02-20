@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountDefault, getUnitFromTokenMetadata } from '@core/token'
+    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch, getUnitFromTokenMetadata } from '@core/token'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { SendFlowParameters, SendFlowType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
     import { TokenAmountInput, TokenAvailableBalanceTile } from '@ui'
@@ -12,7 +12,7 @@
 
     let tokenAmountInput: TokenAmountInput
     let token: ITokenWithBalance
-    let rawAmount: string
+    let rawAmount: bigint
     let amount: string
     let unit: string
 
@@ -26,8 +26,8 @@
         unit = $sendFlowParameters[sendFlowType].unit || getUnitFromTokenMetadata(token?.metadata)
     }
 
-    $: gasFee = Number($sendFlowParameters.gasFee ?? 0)
-    $: available = token.balance.available - (token.id === BASE_TOKEN_ID ? gasFee : 0)
+    $: gasFee = $sendFlowParameters.gasFee ?? BigInt(0)
+    $: available = token.balance.available - (token.id === BASE_TOKEN_ID ? gasFee : BigInt(0))
 
     function setToMax(): void {
         if (fetchingGasFee) {
@@ -35,7 +35,7 @@
         }
         const available = token.id === BASE_TOKEN_ID ? token.balance.available - gasFee : token.balance.available
         if (token?.metadata?.decimals) {
-            amount = formatTokenAmountDefault(available, token?.metadata, unit, false)
+            amount = formatTokenAmountBestMatch(available, token?.metadata, { withUnit: false, round: false })
         } else {
             amount = available.toString() ?? '0'
         }
@@ -67,7 +67,7 @@
                 rawAmount: undefined,
                 unit,
             },
-            gasFee: 0,
+            gasFee: BigInt(0),
         })
         $sendFlowRouter.previous()
     }
@@ -78,7 +78,7 @@
             ...$sendFlowParameters,
             [sendFlowType]: {
                 token,
-                rawAmount: token.balance.available.toString(),
+                rawAmount: token.balance.available,
                 unit,
             },
         }

@@ -4,25 +4,71 @@ import { marketCoinPrices } from '@core/market/stores/market-coin-prices.store'
 import { NetworkId } from '@core/network'
 import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { derived, get, Readable, writable, Writable } from 'svelte/store'
-import { getAccountTokensForSelectedAccount } from '../actions/getAccountTokensForSelectedAccount'
+import { getAccountTokensForAccount } from '../actions/getAccountTokensForAccount'
 import { DEFAULT_ASSET_FILTER } from '../constants'
 import { ITokenWithBalance, TokenFilter } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getPersistedToken, persistedTokens } from './persisted-tokens.store'
-import { activeProfile } from '@core/profile/stores'
+import { activeAccounts, activeProfile } from '@core/profile/stores'
 
 export const tokenFilter: Writable<TokenFilter> = writable(DEFAULT_ASSET_FILTER)
 
 export const tokenSearchTerm: Writable<string> = writable('')
 
-export const selectedAccountTokens: Readable<AccountTokens> = derived(
-    [activeProfileId, marketCoinPrices, activeProfile, selectedAccount, persistedTokens, tokenFilter, layer2Balances],
-    ([$activeProfileId, $marketCoinPrices]) => {
+export const allAccountTokens: Readable<{ [accountIndex: string]: AccountTokens }> = derived(
+    [
+        activeProfileId,
+        activeAccounts,
+        marketCoinPrices,
+        activeProfile,
+        selectedAccount,
+        persistedTokens,
+        tokenFilter,
+        layer2Balances,
+    ],
+    ([$activeProfileId, $activeAccounts, $marketCoinPrices, $activeProfile]) => {
+        const _allAccountTokens: Record<number, AccountTokens> = {}
         if ($activeProfileId) {
-            return getAccountTokensForSelectedAccount($marketCoinPrices)
+            for (const account of $activeAccounts) {
+                _allAccountTokens[account.index] = getAccountTokensForAccount(
+                    account,
+                    $marketCoinPrices,
+                    $activeProfile?.settings?.marketCurrency
+                )
+            }
+            return _allAccountTokens
         } else {
-            return {}
+            return _allAccountTokens
         }
+    }
+)
+
+export const allAccountFiatBalances: Readable<{ [accountIndex: string]: string }> = derived(
+    [allAccountTokens],
+    ([$allAccountTokens]) => {
+        const _allAccountFiatBalances: Record<string, string> = {}
+        for (const accountIndex of Object.keys($allAccountTokens)) {
+            const accountTokens = $allAccountTokens[accountIndex]
+            let fiatBalance = 0
+            for (const networkId of Object.keys(accountTokens)) {
+                const tokens = accountTokens[networkId as NetworkId]
+                fiatBalance += Number(tokens?.baseCoin?.balance?.totalFiat ?? 0)
+                for (const token of tokens?.nativeTokens ?? []) {
+                    const totalFiat = Number(token.balance.totalFiat) ?? 0
+                    const fiatValue = Number.isFinite(totalFiat) ? totalFiat : 0
+                    fiatBalance += fiatValue
+                }
+            }
+            _allAccountFiatBalances[accountIndex] = fiatBalance.toString()
+        }
+        return _allAccountFiatBalances
+    }
+)
+
+export const selectedAccountTokens: Readable<AccountTokens> = derived(
+    [allAccountTokens, selectedAccount],
+    ([$allAccountTokens, $selectedAccount]) => {
+        return $selectedAccount ? $allAccountTokens?.[$selectedAccount.index] ?? {} : {}
     }
 )
 
@@ -61,8 +107,8 @@ export function getTokenFromSelectedAccountTokens(
                       ...persistedToken,
                       networkId,
                       balance: {
-                          total: 0,
-                          available: 0,
+                          total: BigInt(0),
+                          available: BigInt(0),
                       },
                   }
                 : undefined

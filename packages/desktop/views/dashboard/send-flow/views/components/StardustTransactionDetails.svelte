@@ -4,15 +4,14 @@
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { TimePeriod } from '@core/utils'
-    import { BigIntLike } from '@ethereumjs/util'
     import { NetworkLabel } from '@ui'
     import { NetworkId } from '@core/network'
     import { DateTimePickerMenu } from '.'
     import StorageDepositButton from './StorageDepositButton.svelte'
 
     export let destinationNetworkId: NetworkId = undefined
-    export let storageDeposit: number | undefined = undefined
-    export let transactionFee: BigIntLike | undefined = undefined
+    export let storageDeposit: bigint | undefined = undefined
+    export let transactionFee: bigint | undefined = undefined
     export let giftStorageDeposit: boolean | undefined = undefined
     export let expirationDate: Date | undefined = undefined
     export let selectedExpirationPeriod: TimePeriod | undefined = undefined
@@ -36,7 +35,7 @@
         },
         {
             key: localize('general.transactionFee'),
-            value: transactionFee ? formatTokenAmountBestMatch(Number(transactionFee), getBaseToken()) : undefined,
+            value: transactionFee ? formatTokenAmountBestMatch(transactionFee, getBaseToken()) : undefined,
             tooltip: localize(localeKey + 'transactionFee'),
         },
     ]

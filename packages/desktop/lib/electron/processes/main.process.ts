@@ -6,35 +6,40 @@ import {
     ipcMain,
     nativeTheme,
     PopupOptions,
-    powerMonitor,
     session,
     shell,
     utilityProcess,
     UtilityProcess,
 } from 'electron'
 import { WebPreferences } from 'electron/main'
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
 
 import features from '@features/features'
 
 import { LedgerApiMethod } from '@core/ledger/enums'
 
 import { windows } from '../constants/windows.constant'
+import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
 import AutoUpdateManager from '../managers/auto-update.manager'
 import KeychainManager from '../managers/keychain.manager'
 import NftDownloadManager from '../managers/nft-download.manager'
+import TransakManager from '../managers/transak.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
 import { initialiseAnalytics } from '../utils/analytics.utils'
 import { checkWindowArgsForDeepLinkRequest, initialiseDeepLinks } from '../utils/deep-link.utils'
 import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
+import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
-import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
+import { registerPowerMonitorListeners } from '../listeners'
+
+export let appIsReady = false
 
 initialiseAnalytics()
 initialiseDeepLinks()
+
 /*
  * NOTE: Ignored because defined by Webpack.
  */
@@ -237,6 +242,7 @@ export function createMainWindow(): BrowserWindow {
     windows.main.on('close', () => {
         closeAboutWindow()
         closeErrorWindow()
+        transakManager?.closeWindow()
     })
 
     windows.main.on('closed', () => {
@@ -272,6 +278,8 @@ export function createMainWindow(): BrowserWindow {
         return cb(permissionAllowlist.indexOf(permission) > -1)
     })
 
+    registerPowerMonitorListeners()
+
     return windows.main
 }
 
@@ -279,6 +287,7 @@ void app.whenReady().then(() => {
     // Doesn't open & close a new window when the app is already open
     if (isFirstInstance) {
         createMainWindow()
+        appIsReady = true
     }
 })
 
@@ -305,6 +314,9 @@ ipcMain.on('start-ledger-process', () => {
                         break
                     case LedgerApiMethod.SignMessage:
                         windows.main.webContents.send('signed-message', payload)
+                        break
+                    case LedgerApiMethod.SignEIP712:
+                        windows.main.webContents.send('signed-eip712', payload)
                         break
                     default:
                         /* eslint-disable-next-line no-console */
@@ -336,16 +348,28 @@ ipcMain.on(LedgerApiMethod.SignMessage, (_e, messageHex, bip32Path) => {
     ledgerProcess?.postMessage({ method: LedgerApiMethod.SignMessage, payload: [messageHex, bip32Path] })
 })
 
-export function getOrInitWindow(windowName: string): BrowserWindow {
+ipcMain.on(LedgerApiMethod.SignEIP712, (_e, hashedDomain, hashedMessage, bip32Path) => {
+    ledgerProcess?.postMessage({
+        method: LedgerApiMethod.SignEIP712,
+        payload: [hashedDomain, hashedMessage, bip32Path],
+    })
+})
+
+export function getOrInitWindow(windowName: string, ...args: unknown[]): BrowserWindow {
     if (!windows[windowName]) {
-        if (windowName === 'main') {
-            return createMainWindow()
-        }
-        if (windowName === 'about') {
-            return openAboutWindow()
-        }
-        if (windowName === 'error') {
-            return openErrorWindow()
+        switch (windowName) {
+            case 'main':
+                return createMainWindow()
+            case 'about':
+                return openAboutWindow()
+            case 'error':
+                return openErrorWindow()
+            case 'transak':
+                return transakManager?.openWindow(
+                    args[0] as { currency: string; address: string; service: 'BUY' | 'SELL' }
+                )
+            default:
+                throw Error(`Window ${windowName} not found`)
         }
     }
     return windows[windowName]
@@ -377,16 +401,6 @@ app.once('ready', () => {
     })
 })
 
-powerMonitor.on('suspend', () => {
-    // MacOS, Windows and Linux
-    windows.main?.webContents?.send('lock-screen')
-})
-
-powerMonitor.on('lock-screen', () => {
-    // MacOS and Windows
-    windows.main?.webContents?.send('lock-screen')
-})
-
 // IPC handlers for APIs exposed from main process
 
 // URLs
@@ -399,7 +413,6 @@ const keychainManager = new KeychainManager()
 ipcMain.handle('keychain-get', (_e, key) => keychainManager.get(key))
 ipcMain.handle('keychain-set', (_e, key, content) => keychainManager.set(key, content))
 ipcMain.handle('keychain-remove', (_e, key) => keychainManager.remove(key))
-
 // Dialogs
 ipcMain.handle('show-open-dialog', (_e, options) => dialog.showOpenDialog(options))
 ipcMain.handle('show-save-dialog', (_e, options) => dialog.showSaveDialog(options))
@@ -418,18 +431,11 @@ ipcMain.handle('focus-window', () => {
         if (windows.main.isMinimized()) {
             windows.main.restore()
         }
-        windows.main.focus()
+        windows.main.show()
+        windows.main.setAlwaysOnTop(true)
+        windows.main.setAlwaysOnTop(false)
     }
 })
-
-function ensureDirectoryExistence(filePath: string): void | boolean {
-    const dirname = path.dirname(filePath)
-    if (fs.existsSync(dirname)) {
-        return true
-    }
-    ensureDirectoryExistence(dirname)
-    fs.mkdirSync(dirname)
-}
 
 ipcMain.handle('copy-file', (_e, sourceFilePath, destinationFilePath) => {
     const src = path.resolve(sourceFilePath)
@@ -500,6 +506,29 @@ if (!isFirstInstance) {
 ipcMain.on('notification-activated', (ev, contextData) => {
     windows.main.focus()
     windows.main.webContents.send('notification-activated', contextData)
+})
+
+// Transak
+
+const transakManager = features?.buySell?.enabled ? new TransakManager() : null
+ipcMain.handle('open-transak', (_, data) => {
+    getOrInitWindow('transak', data)
+})
+
+ipcMain.handle('close-transak', () => {
+    transakManager?.closeWindow()
+})
+
+ipcMain.handle('hide-transak', () => {
+    transakManager?.hideWindow()
+})
+
+ipcMain.handle('show-transak', () => {
+    transakManager?.showWindow()
+})
+
+ipcMain.handle('update-transak-bounds', (event, rect) => {
+    transakManager?.updateTransakBounds(rect)
 })
 
 /**

@@ -27,7 +27,7 @@
             activity.type === ActivityType.Nft
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined
-        hasMetadata = !!storedNft?.metadata
+        hasMetadata = !!storedNft?.rawMetadata
     }
 
     let tabs: KeyValue<string>[] = []
@@ -35,6 +35,9 @@
         switch (activity.type) {
             case ActivityType.Basic:
                 tabs = getTabItems([PopupTab.Transaction, ...(activity.smartContract ? [PopupTab.SmartContract] : [])])
+                break
+            case ActivityType.SmartContract:
+                tabs = getTabItems([PopupTab.Transaction, PopupTab.SmartContract])
                 break
             case ActivityType.Alias:
                 tabs = getTabItems([PopupTab.Transaction, PopupTab.Alias])

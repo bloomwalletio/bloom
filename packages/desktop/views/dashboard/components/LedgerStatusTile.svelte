@@ -20,6 +20,12 @@
                 iconName = IconName.Hardware
                 iconColor = 'neutral'
                 break
+            case LedgerConnectionState.IotaAppOpen:
+                subtitle = 'IOTA App'
+                iconName = IconName.Iota
+                iconColor = '#ffffff'
+                iconBackgroundColor = '#000000'
+                break
             case LedgerConnectionState.ShimmerAppOpen:
                 subtitle = 'Shimmer App'
                 iconName = IconName.Shimmer

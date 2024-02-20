@@ -3,10 +3,11 @@
     import { NotVerifiedStatus } from '@core/token'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import {
-        ActivityActionSection,
         ActivityAssetSection,
         ActivityAmountSection,
         ActivityAddressSection,
+        ActivityFeeSection,
+        ActivityDateSection,
     } from './row-sections'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
 
@@ -38,9 +39,10 @@
     class:expired={activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired}
 >
     <ActivityAssetSection {activity} />
-    <ActivityActionSection {activity} />
+    <ActivityDateSection {activity} />
     <ActivityAddressSection {activity} />
     <ActivityAmountSection {activity} />
+    <ActivityFeeSection {activity} />
 </button>
 
 <style lang="scss">
@@ -50,8 +52,8 @@
         @apply border-b border-solid border-stroke dark:border-stroke-dark;
         @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
 
-        @apply grid gap-2;
-        grid-template-columns: 3fr 2fr 2fr 2fr;
+        @apply grid gap-8;
+        grid-template-columns: 3fr 1fr 2fr 2fr 1fr;
 
         &.expired {
             opacity: 0.5;

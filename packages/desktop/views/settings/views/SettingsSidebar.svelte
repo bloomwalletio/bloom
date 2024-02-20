@@ -58,7 +58,7 @@
 
 <style lang="postcss">
     aside {
-        @apply w-64 px-4 py-8;
+        @apply w-72 px-4 py-8;
         @apply bg-surface-1/90 dark:bg-surface-1-dark/60;
         @apply border-solid border-r border-stroke dark:border-stroke-dark;
         border-top-left-radius: 32px;

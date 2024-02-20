@@ -8,7 +8,6 @@ import {
     NumberFilterOption,
     StatusFilterOption,
 } from '@core/utils/enums/filters'
-import Big from 'big.js'
 import { get } from 'svelte/store'
 import { ActivityAsyncStatus, ActivityType, InclusionState } from '../enums'
 import { activityFilter } from '../stores'
@@ -100,7 +99,6 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
     if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
         const { tokenId, rawAmount } = activity.tokenTransfer ?? activity.baseTokenTransfer
         const token = getPersistedToken(tokenId)
-        const activityAmount = Big(rawAmount)
 
         if (!token || !token.metadata) {
             return false
@@ -112,7 +110,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.amount
         ) {
             const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
-            const isEqual = activityAmount.eq(amount)
+            const isEqual = amount && rawAmount === amount
             if (!isEqual) {
                 return false
             }
@@ -125,7 +123,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         ) {
             const startAmount = convertToRawAmount(String(filter.amount.subunit.start), token.metadata)
             const endAmount = convertToRawAmount(String(filter.amount.subunit.end), token.metadata)
-            const isInRange = activityAmount.lte(endAmount) && activityAmount.gte(startAmount)
+            const isInRange = startAmount && endAmount && rawAmount <= endAmount && rawAmount >= startAmount
             if (!isInRange) {
                 return false
             }
@@ -136,7 +134,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.amount
         ) {
             const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
-            const isGreater = activityAmount.gte(amount)
+            const isGreater = amount && rawAmount >= amount
             if (!isGreater) {
                 return false
             }
@@ -147,7 +145,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
             filter.amount.subunit.amount
         ) {
             const amount = convertToRawAmount(String(filter.amount.subunit.amount), token.metadata)
-            const isLess = activityAmount.lte(amount)
+            const isLess = amount && rawAmount <= amount
             if (!isLess) {
                 return false
             }
@@ -158,31 +156,52 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
 
 function isVisibleWithActiveDateFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.date.active) {
-        if (filter.date.selected === DateFilterOption.Equals && filter.date.subunit.type === 'single') {
+        if (
+            filter.date.selected === DateFilterOption.Equals &&
+            filter.date.subunit.type === 'single' &&
+            filter.date.subunit.value
+        ) {
             const filterDate = new Date(filter.date.subunit.value)
             if (!datesOnSameDay(activity.time, filterDate)) {
                 return false
             }
         }
-        if (filter.date.selected === DateFilterOption.Before && filter.date.subunit.type === 'single') {
+        if (
+            filter.date.selected === DateFilterOption.Before &&
+            filter.date.subunit.type === 'single' &&
+            filter.date.subunit.value
+        ) {
             const filterDate = new Date(filter.date.subunit.value)
             if (!dateIsBeforeOtherDate(activity.time, filterDate)) {
                 return false
             }
         }
-        if (filter.date.selected === DateFilterOption.After && filter.date.subunit.type === 'single') {
+        if (
+            filter.date.selected === DateFilterOption.After &&
+            filter.date.subunit.type === 'single' &&
+            filter.date.subunit.value
+        ) {
             const filterDate = new Date(filter.date.subunit.value)
             if (!dateIsAfterOtherDate(activity.time, filterDate)) {
                 return false
             }
         }
-        if (filter.date.selected === DateFilterOption.AfterOrEquals && filter.date.subunit.type === 'single') {
+        if (
+            filter.date.selected === DateFilterOption.AfterOrEquals &&
+            filter.date.subunit.type === 'single' &&
+            filter.date.subunit.value
+        ) {
             const filterDate = new Date(filter.date.subunit.value)
             if (!(dateIsAfterOtherDate(activity.time, filterDate) || datesOnSameDay(activity.time, filterDate))) {
                 return false
             }
         }
-        if (filter.date.selected === DateFilterOption.Range && filter.date.subunit.type === 'range') {
+        if (
+            filter.date.selected === DateFilterOption.Range &&
+            filter.date.subunit.type === 'range' &&
+            filter.date.subunit.start &&
+            filter.date.subunit.end
+        ) {
             const startFilterDate = new Date(filter.date.subunit.start)
             const endFilterDate = new Date(filter.date.subunit.end)
 
@@ -234,6 +253,12 @@ function isVisibleWithActiveStatusFilter(activity: Activity, filter: ActivityFil
         if (
             filter.status.selected === StatusFilterOption.Pending &&
             activity.inclusionState !== InclusionState.Pending
+        ) {
+            return false
+        }
+        if (
+            filter.status.selected === StatusFilterOption.Timelocked &&
+            activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Timelocked
         ) {
             return false
         }

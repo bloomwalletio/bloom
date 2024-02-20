@@ -2,8 +2,13 @@
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
     import { CloseButton } from '@bloomwalletio/ui'
-    import { closePopup, PopupComponentMap, PopupId } from '@desktop/auxiliary/popup'
-    import { modifyPopupState } from '@desktop/auxiliary/popup/helpers'
+    import {
+        closePopup,
+        PopupComponentMap,
+        PopupId,
+        modifyPopupState,
+        profileAuthPopup,
+    } from '@desktop/auxiliary/popup'
 
     import { IS_WINDOWS } from '@core/app/constants'
     import { clickOutside } from '@core/utils/ui'
@@ -32,6 +37,7 @@
     import EvmTransactionFromDappPopup from './popups/EvmTransactionFromDappPopup.svelte'
     import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
     import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
+    import ImportErc721TokenFormPopup from './popups/ImportErc721TokenFormPopup.svelte'
     import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
     import ManageVotingPowerPopup from './popups/ManageVotingPowerPopup.svelte'
     import MintNativeTokenConfirmationPopup from './popups/MintNativeTokenConfirmationPopup.svelte'
@@ -46,8 +52,11 @@
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
+    import SiwePopup from './popups/SiwePopup.svelte'
+    import SignTypedDataPopup from './popups/SignTypedDataPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
+    import SuccessfulDappInteraction from './popups/SuccessfulDappInteraction.svelte'
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
     import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
@@ -108,6 +117,7 @@
         [PopupId.EvmTransactionFromDapp]: EvmTransactionFromDappPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
+        [PopupId.ImportErc721Token]: ImportErc721TokenFormPopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
         [PopupId.ManageVotingPower]: ManageVotingPowerPopup,
         [PopupId.MintNativeTokenConfirmation]: MintNativeTokenConfirmationPopup,
@@ -122,8 +132,11 @@
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
+        [PopupId.Siwe]: SiwePopup,
+        [PopupId.SignTypedData]: SignTypedDataPopup,
         [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
+        [PopupId.SuccessfulDappInteraction]: SuccessfulDappInteraction,
         [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,
@@ -141,22 +154,19 @@
 
     function tryClosePopup(): void {
         if (!preventClose) {
-            if ('function' === typeof props?.onCancel) {
-                props?.onCancel()
-            }
-            closePopup()
+            closePopup({ callOnCancel: true })
         }
     }
 
     function tryClosePopupOnClickOutside(): void {
+        if ($profileAuthPopup.active) {
+            return
+        }
         if (!preventClose) {
-            if ('function' === typeof props?.onCancel) {
-                props?.onCancel()
-            }
             if (confirmClickOutside) {
                 confirmationDialog?.openDialog()
             } else {
-                closePopup()
+                closePopup({ callOnCancel: true })
             }
         }
     }
@@ -200,7 +210,9 @@
     class:overflow-hidden={overflow}
     class="flex items-center justify-center fixed {IS_WINDOWS
         ? 'top-7'
-        : 'top-0'} left-0 w-screen h-full z-30 bg-neutral-6/75"
+        : 'top-0'} left-0 w-screen h-full z-30 bg-neutral-6/75
+        {$profileAuthPopup.active && 'opacity-0 pointer-events-none'}
+        "
 >
     <button type="button" tabindex="0" on:focus={onFocusFirst} />
     <popup
@@ -233,7 +245,7 @@
 
 <style lang="postcss">
     :global(.popup) {
-        @apply w-full p-8;
+        @apply w-full p-0 max-h-full;
         @apply bg-surface dark:bg-surface-dark;
         @apply border border-solid border-stroke dark:border-stroke-dark;
         @apply shadow-elevation-4;

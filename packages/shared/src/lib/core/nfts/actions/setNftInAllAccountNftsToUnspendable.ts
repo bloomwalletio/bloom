@@ -1,4 +1,5 @@
 import { allAccountNfts } from '../stores'
+import { isIrc27Nft } from '@core/nfts'
 
 export function setNftInAllAccountNftsToUnspendable(accountIndex: number, ...unspendableNftIds: string[]): void {
     allAccountNfts.update((state) => {
@@ -7,7 +8,7 @@ export function setNftInAllAccountNftsToUnspendable(accountIndex: number, ...uns
         }
         for (const nftId of unspendableNftIds) {
             const nft = state[accountIndex].find((_nft) => _nft.id === nftId)
-            if (nft) {
+            if (nft && isIrc27Nft(nft)) {
                 nft.isSpendable = false
                 Object.assign(nft, nft)
             }

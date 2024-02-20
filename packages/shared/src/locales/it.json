@@ -86,7 +86,7 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger",
+                    "open": "Open the {appName} app on your Ledger",
                     "tip": "Tips if your Ledger isn't connecting"
                 },
                 "ledgerConnectionGuide": {
@@ -120,6 +120,10 @@
                     "title": "Claim your Shimmer rewards",
                     "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
                     "success": "Successfully found {amount}"
+                },
+                "balanceFinder": {
+                    "title": "Find your recovered accounts",
+                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
                 }
             },
             "restoreFromMnemonic": {
@@ -248,7 +252,7 @@
             },
             "hiddenAccounts": {
                 "title": "Hidden accounts",
-                "description": "Selezionare queste opzioni mostrerà i portafogli precedentemente nascosti"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
                 "title": "Elimina il profilo",
@@ -343,10 +347,13 @@
             },
             "activity": {
                 "tab": "Activity",
+                "activity": "Activity",
                 "asset": "Asset",
                 "action": "Action",
+                "date": "Date",
                 "address": "Address",
                 "amount": "Amount",
+                "fee": "Fee",
                 "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
                 "consolidatedOutputs": "{amount} outputs consolidated"
             },
@@ -420,14 +427,14 @@
                     "contactList": {
                         "title": "Contact list",
                         "emptyHeader": "No contacts found",
-                        "emptyBody": "Connect with your favorite people in Bloom.",
+                        "emptyBody": "Connect with your favourite people in Bloom.",
                         "addContact": "Add contact"
                     },
                     "contactInformation": {
                         "title": "Contact Information",
                         "editContact": "Edit contact",
                         "removeContact": "Remove contact",
-                        "addNetworkAddress": "Add network address"
+                        "addNetworkAddress": "Add address"
                     },
                     "contactAddress": {
                         "title": "Contact address",
@@ -465,42 +472,78 @@
                     "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
-                        "emptyTitle": "No apps found",
-                        "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        "paired": {
+                            "tab": "Paired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "expired": {
+                            "tab": "Expired",
+                            "emptyTitle": "No apps found",
+                            "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        },
+                        "actions": {
+                            "clearExpired": "Clear expired list"
+                        },
+                        "clearExpired": {
+                            "title": "Clear expired list",
+                            "description": "Are you sure you want to clear the list of expired dApp connections?"
+                        }
                     },
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "addDapp": "Add a dApp",
+                        "addDappDescription": "Add new dApps by adding a Wallet Connect code below.",
                         "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
                     },
                     "connectionRequest": {
                         "title": "Connection request",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
+                        "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
+                        "reconnectHint": "You have previously connected with this dApp.",
                         "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
+                        "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
+                        "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
+                        "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
                         "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "editPermissions": {
+                        "title": "Edit permissions"
+                    },
+                    "editNetworks": {
+                        "title": "Edit networks"
+                    },
+                    "editAccounts": {
+                        "title": "Edit accounts"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
                         "permissions": {
                             "step": "Permission",
-                            "title": "This dApp will be abe to ask to:",
+                            "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
+                            "title": "Select permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
-                            "sendTransaction": "Request to send a transaction"
+                            "sendTransaction": "Request to send a transaction",
+                            "empty": "You have to select at least one permission",
+                            "noPermissionsRequired": "No permissions required to use this app"
                         },
                         "networks": {
                             "step": "Networks",
-                            "title": "Select networks"
+                            "title": "Select networks",
+                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
+                            "empty": "You have to select at least one network"
                         },
                         "accounts": {
                             "step": "Accounts",
-                            "title": "Select accounts"
+                            "title": "Select accounts",
+                            "tip": "You control what the dApp can request access for. Some apps only connect to the primary account.",
+                            "empty": "You have to select at least one account"
                         }
                     },
                     "details": {
                         "title": "Connection details",
-                        "falbackName": "dApp",
                         "name": "Name",
                         "description": "Description",
                         "url": "URL",
@@ -552,7 +595,7 @@
                 "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
-                "storageDepositDescription": "Un deposito rimborsabile è richiesto per memorizzare il vostro NFT sul Tangle.",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
@@ -560,6 +603,26 @@
                     "view": "Visualizza il media nel browser",
                     "burn": "Brucia NFT"
                 }
+            }
+        },
+        "campaigns": {
+            "gallery": {
+                "title": "Campaigns",
+                "emptyTitle": "No campaigns found",
+                "noResults": "No results found",
+                "emptyDescription": "Browse and participate in campaigns with Tide",
+                "emptyAction": "Visit Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "My position",
+                "points": "Points",
+                "tasksComplete": "Tasks Complete",
+                "rewardsClaimed": "Rewards Claimed",
+                "project": "Project",
+                "campaign": "Campaign",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "No NFT Badge Claimed"
             }
         },
         "governance": {
@@ -582,7 +645,8 @@
                 "successAdd": "{numberOfProposals, select, one {Proposta} other {Proposte}} aggiunte con successo",
                 "successAddAll": "{numberOfProposals, select, one {Proposta} other {Proposte}} aggiunte con successo",
                 "successRemove": "Proposta rimossa con successo",
-                "emptyTitle": "Nessuna proposta"
+                "emptyTitle": "Nessuna proposta",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
                 "upcoming": "Annuncio",
@@ -624,6 +688,18 @@
             "changePassword": {
                 "title": "Change your password",
                 "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
+                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
+                "changingAccounts": "Changing accounts will reset all information."
+            },
+            "tooltip": {
+                "connected": "connected securely",
+                "redirected": "redirected, be careful!",
+                "disconnected": "disconnected, try refreshing"
             }
         }
     },
@@ -750,6 +826,16 @@
             "title": "Cancella il nodo principale",
             "body": "Sei sicuro di voler cancellare {url} come nodo principale?"
         },
+        "confirmAssetTracking": {
+            "ERC721": {
+                "title": "Add new NFT",
+                "description": "\"{dappName}\" wants to add an NFT with id \"{tokenId}\" and address \"{address}\" to your wallet."
+            },
+            "ERC20": {
+                "title": "Add new token",
+                "description": "\"{dappName}\" wants to add {assetName, select, undefined { a token with address \"{address}\" } other { {assetName} }}  to your wallet."
+            }
+        },
         "node": {
             "titleAdd": "Aggiungi un nodo",
             "titleUpdate": "Aggiorna un nodo",
@@ -841,7 +927,7 @@
             "title": "Collega il tuo Ledger",
             "notConnected": "Collega il tuo dispositivo Ledger per continuare.",
             "locked": "Sblocca il tuo dispositivo Ledger per continuare.",
-            "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
+            "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger collegato con successo, per favore continua."
         },
         "verifyLedgerTransaction": {
@@ -866,11 +952,30 @@
             "title": "Sign message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
-            "action": "Sign message"
+            "action": "Sign",
+            "success": "Signed message"
+        },
+        "siwe": {
+            "title": "Sign-In with Ethereum"
         },
         "signTransaction": {
             "title": "Sign transaction",
-            "action": "Sign transaction"
+            "action": "Sign",
+            "success": "Signed transaction"
+        },
+        "sendTransaction": {
+            "title": "Send transaction",
+            "action": "Send",
+            "success": "Sent {assetName} to {recipient}"
+        },
+        "smartContractCall": {
+            "title": "Smart contract call to {contractAddress}",
+            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "action": "Confirm",
+            "success": "Smart contract call to {recipient}"
+        },
+        "successfulDappInteraction": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
             "title": {
@@ -885,6 +990,11 @@
                         "Pending": "Sending to {subject}",
                         "Confirmed": "Sent to {subject}",
                         "Conflicting": "Failed to send"
+                    },
+                    "genesis": {
+                        "Pending": "Receiving from {subject}",
+                        "Confirmed": "Received from {subject}",
+                        "Conflicting": "Failed to receive"
                     }
                 },
                 "internal": {
@@ -930,12 +1040,12 @@
                     "increaseVotingPower": {
                         "Pending": "Increasing voting power",
                         "Confirmed": "Increased voting power",
-                        "Conflicting": "Failed to increased voting power"
+                        "Conflicting": "Failed to increase voting power"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Decreasing voting power",
                         "Confirmed": "Decreased voting power",
-                        "Conflicting": "Failed to decreased voting power"
+                        "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
                         "Pending": "Voting for {proposalName}",
@@ -945,7 +1055,7 @@
                     "stopVoting": {
                         "Pending": "Stopping voting for {proposalName}",
                         "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stopped voting for"
+                        "Conflicting": "Failed to stop voting for"
                     },
                     "changedVote": {
                         "Pending": "Changing vote for {proposalName}",
@@ -1007,13 +1117,16 @@
                 "tokenId": "Token Id"
             }
         },
-        "importErc20Token": {
-            "title": "Importa token ERC20",
+        "importToken": {
+            "title": "Import {type} token",
             "property": {
-                "tokenAddress": "Indirizzo del token"
+                "tokenAddress": "Token address"
             },
-            "success": "Token {tokenSymbol} importato",
-            "error": "Impossibile importare il token ERC20"
+            "success": "Imported {tokenSymbol} token",
+            "errors": {
+                "otherOwner": "You're not the owner of the NFT!",
+                "alreadyAdded": "You already have this NFT in your portfolio"
+            }
         },
         "noAlias": {
             "title": "Impossibile coniare",
@@ -1228,7 +1341,8 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token"
+        "importToken": "Import {type} token",
+        "syncTokens": "Force sync tokens"
     },
     "general": {
         "recipient": "Destinatario",
@@ -1255,27 +1369,15 @@
         "revoting": "In fase di revocazione",
         "unvoted": "Non Votato",
         "unvoting": "Annulla Voto",
-        "transferIn": "Transfer in",
-        "transferringIn": "Transferring in",
-        "transferOut": "Transfer out",
-        "transferringOut": "Transferring out",
+        "transferred": "Transferred",
+        "transferring": "Transferring",
         "shimmerClaimed": "Rivendicato",
         "shimmerClaiming": "Rivendicazione in corso",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "Minted alias",
-        "mintingalias": "Minting alias",
-        "mintednft": "Minted NFT",
-        "mintingnft": "Minting NFT",
-        "mintedfoundry": "Minted token",
-        "mintingfoundry": "Minting token",
-        "burnedalias": "Burned alias",
-        "burningalias": "Burning alias",
-        "burnednft": "Burned NFT",
-        "burningnft": "Burning NFT",
-        "burnedfoundry": "Burned token",
-        "burningfoundry": "Burning token",
-        "burnedbasic": "Burned token",
-        "burningbasic": "Burning token",
+        "minted": "Minted",
+        "minting": "Minting",
+        "burned": "Burned",
+        "burning": "Burning",
         "balanceDecreased": "Balance decreased",
         "balanceIncreased": "Balance increased",
         "initialBalance": "Initial balance",
@@ -1364,6 +1466,7 @@
         "claimedTime": "Rivendicato il",
         "nftId": "NFT ID",
         "aliasId": "Alias ID",
+        "tokenId": "Token ID",
         "governorAddress": "Indirizzo Governor",
         "stateControllerAddress": "State Controller Address\n",
         "copiedToClipboard": "Copiato negli appunti",
@@ -1399,6 +1502,7 @@
         "immutableIssuer": "Emittente Immutabile",
         "magicContract": "Magic Contract",
         "smartContract": "Smart Contract",
+        "contractCall": "Contract call",
         "targetContract": "Contratto di destinazione",
         "contractFunction": "Funzione del contratto",
         "standard": "Standard",
@@ -1420,6 +1524,7 @@
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "Indirizzo EVM",
+        "contractAddress": "Contract Address",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1430,6 +1535,7 @@
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
+        "redirected": "Redirected",
         "balanceBreakdown": "Balance breakdown",
         "primary": "Primary",
         "color": "Color",
@@ -1441,7 +1547,22 @@
         "failed": "failed",
         "required": "Required",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "tip": "Tip",
+        "verified": "Verified",
+        "methodName": "Method name",
+        "data": "Data",
+        "success": "Success",
+        "info": "Info",
+        "active": "Active",
+        "ended": "Ended",
+        "draft": "Draft",
+        "upcoming": "Upcoming",
+        "featured": "Featured",
+        "raffle": "Raffle",
+        "governance": "Governance",
+        "baseCoin": "Base Coin",
+        "unverifiedContract": "Unverified Contract"
     },
     "filters": {
         "title": "Filtri",
@@ -1506,6 +1627,7 @@
         "status": {
             "label": "Stato",
             "confirmed": "confermato",
+            "timelocked": "timelocked",
             "pending": "in sospeso",
             "claimed": "rivendicato",
             "unclaimed": "non richiesto"
@@ -1570,8 +1692,7 @@
         "updateError": "Si è verificato un errore durante l'aggiornamento, si prega di riprovare",
         "copiedToClipboard": "Copiato negli appunti",
         "newDappConnection": {
-            "success": "Connected to new dApp",
-            "rejected": "Connection rejected"
+            "noProposal": "No proposal from dApp received"
         },
         "deepLinkingRequest": {
             "receivedWhileLoggedOut": "Effettua il login per avviare il link",
@@ -1588,6 +1709,9 @@
         },
         "disconnectDapp": {
             "success": "Disconnected from {dappName}"
+        },
+        "clearExpiredDapps": {
+            "success": "Expired dApps cleared"
         },
         "removeDapp": {
             "success": "{dappName} removed"
@@ -1611,6 +1735,9 @@
         "mintNft": {
             "success": "Transazione di conio del NFT inviata"
         },
+        "transaction": {
+            "success": "Transaction sent"
+        },
         "burnNft": {
             "success": "Transazione di distruzione del NFT inviata"
         },
@@ -1620,9 +1747,6 @@
         "restoreFromStrongholdBackup": {
             "wrongProtocol": "Il protocollo non corrisponde al tipo di moneta trovato nel backup di Stronghold",
             "wrongProtocolForClaiming": "Devi usare un backup di Stronghold basato su IOTA per rivendicare le ricompense di Shimmer"
-        },
-        "signMessage": {
-            "success": "Message successfully signed"
         },
         "signTransaction": {
             "success": "Transaction successfully signed"
@@ -1645,13 +1769,17 @@
         },
         "updateNetworkAddresses": {
             "success": "Contact addresses successfully updated"
+        },
+        "syncTokens": {
+            "success": "Tokens successfully synced"
         }
     },
     "error": {
         "profile": {
             "length": "Il nome del tuo profilo non può essere più lungo di {length, plural, one {1 carattere} other {# caratteri}}.",
             "duplicate": "Esiste già un profilo con questo nome.",
-            "type": "Impossibile determinare il tipo di profilo"
+            "type": "Impossibile determinare il tipo di profilo",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "Le password non corrispondono.",
@@ -1685,6 +1813,7 @@
         "account": {
             "length": "Il nome del wallet non può essere più lungo di {length, plural, one {1 carattere} other {# caratteri}}.",
             "emptyName": "Un nome del profilo deve contenere almeno 1 carattere.",
+            "colorRequired": "A color is required.",
             "duplicate": "Un wallet con questo nome esiste già.",
             "tilde": "Un nome del profilo non può iniziare con il carattere '~'.",
             "control": "Un nome del profilo non può contenere un carattere di controllo.",
@@ -1698,7 +1827,6 @@
         "send": {
             "addressLength": "Gli indirizzi dovrebbero essere lunghi {length, plural, one {1 carattere} other {# caratteri}}.",
             "amountTooHigh": "Questo è maggiore del tuo saldo disponibile.",
-            "amountNoFloat": "Impossibile usare le posizioni decimali con l'unità più piccola selezionata",
             "amountInvalidFormat": "L'importo sembra essere un numero non valido.",
             "amountSmallerThanSubunit": "L'importo deve essere maggiore della subunità più piccola.",
             "tagTooLong": "Il tag non può essere più lungo di 64 byte.",
@@ -1804,9 +1932,9 @@
                 "short": "Url non supportato",
                 "long": "Schema URL non supportato"
             },
-            "unsupportedFileType": {
-                "short": "Tipo multimediale non supportato",
-                "long": "Il formato non è attualmente supportato"
+            "unsupportedMediaType": {
+                "short": "Unsupported media type",
+                "long": "The media type is not currently supported"
             },
             "notMatchingFileTypes": {
                 "short": "Caricamento bloccato",
@@ -1857,7 +1985,8 @@
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
             "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
-            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -1892,6 +2021,9 @@
                 "metadata": "Campo di dati opzionale per memorizzare i dati in modo persistente sul Tangle.",
                 "tag": "Breve campo di dati opzionale. I gruppi di transazioni possono facilitarne la ricerca.",
                 "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
+            },
+            "genesis": {
+                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires."
             },
             "nftMetadata": {
                 "type": "Il MimeType del NFT, es. immagine/png.",
@@ -1936,6 +2068,8 @@
         "wallet": "Portafoglio",
         "collectibles": "Collezionabili",
         "governance": "Governance",
+        "campaigns": "Campaigns",
+        "buySell": "Buy & Sell",
         "developer": "Sviluppatore",
         "tokens": "Token",
         "settings": "Settings"

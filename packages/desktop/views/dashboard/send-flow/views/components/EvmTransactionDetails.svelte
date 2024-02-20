@@ -3,13 +3,12 @@
     import { NetworkId } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
-    import { BigIntLike } from '@ethereumjs/util'
     import { NetworkLabel } from '@ui'
     import { Table } from '@bloomwalletio/ui'
 
     export let destinationNetworkId: NetworkId | undefined = undefined
-    export let estimatedGasFee: number | undefined = undefined
-    export let maxGasFee: BigIntLike | undefined = undefined
+    export let estimatedGasFee: bigint | undefined = undefined
+    export let maxGasFee: bigint | undefined = undefined
 </script>
 
 <Table
@@ -25,11 +24,11 @@
         },
         {
             key: localize('general.estimatedFee'),
-            value: estimatedGasFee ? formatTokenAmountBestMatch(Number(estimatedGasFee), getBaseToken()) : undefined,
+            value: estimatedGasFee ? formatTokenAmountBestMatch(estimatedGasFee, getBaseToken()) : undefined,
         },
         {
             key: localize('general.maxFees'),
-            value: maxGasFee ? formatTokenAmountBestMatch(Number(maxGasFee), getBaseToken()) : undefined,
+            value: maxGasFee ? formatTokenAmountBestMatch(maxGasFee, getBaseToken()) : undefined,
         },
     ]}
 />

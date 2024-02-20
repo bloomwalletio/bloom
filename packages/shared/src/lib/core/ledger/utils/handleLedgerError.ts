@@ -12,6 +12,8 @@ import { LedgerAppName, LedgerError } from '../enums'
 import { deriveLedgerError } from '../helpers'
 import { checkOrConnectLedger, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger'
 import { sendOutput } from '@core/wallet'
+import { activeProfile } from '@core/profile/stores'
+import { SupportedNetworkId } from '@core/network/enums'
 
 export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial = true): void {
     const ledgerError = deriveLedgerError(error?.error)
@@ -30,7 +32,7 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
             resetMintNftDetails()
         }
 
-        closePopup(true)
+        closePopup({ forceClose: true })
 
         /**
          * NOTE: Because the device has a warning prompt about blind signing when trying it
@@ -39,10 +41,12 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
          */
         const hadToEnableBlindSinging = popupType === PopupId.EnableLedgerBlindSigning && wasDeniedByUser
         if (hadToEnableBlindSinging) {
+            const appName =
+                get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
             openPopup({
                 id: PopupId.EnableLedgerBlindSigning,
                 props: {
-                    appName: LedgerAppName.Shimmer,
+                    appName,
                     onEnabled: () => {
                         checkOrConnectLedger(async () => {
                             try {

@@ -5,7 +5,7 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { fade } from 'svelte/transition'
 
-    export let storageDeposit: number
+    export let storageDeposit: bigint
     export let giftStorageDeposit: boolean
     export let disabled: boolean = false
 

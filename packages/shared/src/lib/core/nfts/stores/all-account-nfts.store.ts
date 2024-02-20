@@ -1,9 +1,13 @@
-import { writable } from 'svelte/store'
+import { get, writable } from 'svelte/store'
 
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 
-export const allAccountNfts = writable<INft[][]>([])
+export const allAccountNfts = writable<Nft[][]>([])
 
 export function clearAccountNfts(): void {
     allAccountNfts.set([])
+}
+
+export function getAllAccountNfts(): Nft[][] {
+    return get(allAccountNfts)
 }

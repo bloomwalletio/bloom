@@ -1,17 +1,15 @@
 <script lang="ts">
     import { handleDeepLink } from '@auxiliary/deep-link/handlers/handleDeepLink'
-    import { Popup } from '@components/popup'
+    import { Popup, ProfileAuthPopup } from '@components/popup'
     import TitleBar from '@components/TitleBar.svelte'
     import { IS_WINDOWS, Platform } from '@core/app'
     import { registerAppEvents, getAndUpdateDarkMode } from '@core/app/actions'
     import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
-    import { downloadNextNftInQueue } from '@core/nfts/actions'
-    import { nftDownloadQueue } from '@core/nfts/stores'
     import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { AppRoute, RouterManagerExtensionName, appRoute, initialiseRouterManager } from '@core/router'
-    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
+    import { PopupId, openPopup, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
     import {
         getAppRouter,
         getRouterForAppContext,
@@ -29,6 +27,7 @@
     import { settingsState, openSettings } from '@contexts/settings/stores'
     import { _ } from '@core/i18n'
     import { getAndUpdateShimmerEvmTokensMetadata } from '@core/market/actions'
+    import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 
     $: $activeProfile, saveActiveProfile()
 
@@ -43,8 +42,6 @@
     $: if (document.dir !== $localeDirection) {
         document.dir = $localeDirection
     }
-
-    $: $nftDownloadQueue, downloadNextNftInQueue()
 
     let splash = true
 
@@ -94,7 +91,7 @@
         }
 
         registerMenuButtons()
-
+        void initializeWalletConnect()
         await getAndUpdateShimmerEvmTokensMetadata()
     })
 
@@ -124,7 +121,16 @@
                         transition={$popupState.transition}
                         overflow={$popupState.overflow}
                         relative={$popupState.relative}
+                        preventClose={$popupState.preventClose}
                         confirmClickOutside={$popupState.confirmClickOutside}
+                    />
+                {/if}
+                {#if $profileAuthPopup.active}
+                    <ProfileAuthPopup
+                        id={$profileAuthPopup.id}
+                        props={$profileAuthPopup.props}
+                        hideClose={$profileAuthPopup.hideClose}
+                        preventClose={$profileAuthPopup.preventClose}
                     />
                 {/if}
                 {#if $appRoute === AppRoute.Dashboard}
@@ -135,7 +141,7 @@
                     <OnboardingRouterView />
                 {/if}
 
-                <ToastContainer classes="absolute right-5 bottom-5 w-100" />
+                <ToastContainer classes="absolute right-5 bottom-5 w-[23.75rem]" />
             {/if}
             <app-container />
         </app-container>

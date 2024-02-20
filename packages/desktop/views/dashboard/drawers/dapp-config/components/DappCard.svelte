@@ -1,12 +1,13 @@
 <script lang="ts">
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { ClickableTile, NetworkAvatar } from '@ui'
-    import { Avatar, IconName, Text } from '@bloomwalletio/ui'
+    import { Avatar, AvatarGroup, IconName, Text } from '@bloomwalletio/ui'
     import { NetworkId } from '@core/network'
     import { getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
     import { localize } from '@core/i18n'
 
     export let dapp: IConnectedDapp
+    export let disabled: boolean = false
     export let onClick: (() => unknown) | undefined = undefined
 
     $: networkIds = Object.values(
@@ -16,6 +17,7 @@
 
 <ClickableTile
     classes="bg-surface-0 dark:bg-surface-0-dark border border-solid border-stroke dark:border-stroke-dark"
+    {disabled}
     {onClick}
 >
     <div class="w-full flex flex-row justify-between items-center p-2 gap-3">
@@ -36,8 +38,12 @@
                 {/if}
             </div>
         </div>
-        {#each networkIds as networkId}
-            <NetworkAvatar {networkId} />
-        {/each}
+        <div>
+            <AvatarGroup avatarSize="base" avatarShape="circle" remainder={networkIds.length - 3}>
+                {#each networkIds.slice(0, 3) as networkId}
+                    <NetworkAvatar {networkId} />
+                {/each}
+            </AvatarGroup>
+        </div>
     </div>
 </ClickableTile>

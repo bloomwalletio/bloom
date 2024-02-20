@@ -5,15 +5,13 @@
     import { localize } from '@core/i18n'
     import { CURRENT_IRC27_VERSION } from '@core/nfts'
     import { getClient } from '@core/profile-manager'
-    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { MediaIcon, PopupTab, getTabItems } from '@ui'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
-
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     const TABS = getTabItems([PopupTab.Transaction, PopupTab.Nft, PopupTab.NftMetadata])
 
@@ -61,15 +59,6 @@
         }
     }
 
-    async function mintAction(): Promise<void> {
-        try {
-            await mintNft(irc27Metadata, Number(quantity), collectionId)
-            closePopup()
-        } catch (err) {
-            handleError(err)
-        }
-    }
-
     function onBackClick(): void {
         closePopup()
         openPopup({
@@ -81,16 +70,22 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuth(mintAction, { stronghold: true, ledger: false })
+            await checkActiveProfileAuthAsync()
+        } catch (err) {
+            return
+        }
+
+        try {
+            await mintNft(irc27Metadata, Number(quantity), collectionId)
+            closePopup()
         } catch (err) {
             handleError(err)
         }
     }
 
-    onMount(async () => {
+    onMount(() => {
         try {
             void setStorageDeposit()
-            await _onMount()
         } catch (err) {
             handleError(err)
         }

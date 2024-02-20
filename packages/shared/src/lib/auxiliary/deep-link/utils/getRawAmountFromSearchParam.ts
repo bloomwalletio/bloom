@@ -1,16 +1,13 @@
 import { AmountNotAnIntegerError, SendTransactionParameter } from '@auxiliary/deep-link'
+import { BigIntAbs } from '@core/utils'
 
 export function getRawAmountFromSearchParam(
     searchParams: URLSearchParams,
     parameterKey: SendTransactionParameter
-): string {
-    let rawAmount = searchParams.get(parameterKey)
-    const amount = Number(rawAmount)
-    if (!Number.isInteger(amount)) {
+): bigint {
+    const rawAmount = searchParams.get(parameterKey) ?? '0'
+    if (!new RegExp(/^[+|-]?\d+$/).test(rawAmount)) {
         throw new AmountNotAnIntegerError(rawAmount)
     }
-    if (amount < 0) {
-        rawAmount = Math.abs(amount).toString()
-    }
-    return rawAmount
+    return BigIntAbs(rawAmount)
 }

@@ -12,11 +12,15 @@
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
     import { dashboardRoute } from '@core/router'
+    import { StardustNetworkId } from '@core/network'
+    import { isDashboardSideBarExpanded } from '@core/ui'
+    import { campaignsRouter } from '../campaigns'
 
     let expanded = true
     function toggleExpand(): void {
         expanded = !expanded
     }
+    $: $isDashboardSideBarExpanded = expanded
 
     let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [
@@ -43,6 +47,28 @@
                       label: localize('tabs.governance'),
                       route: DashboardRoute.Governance,
                       onClick: openGovernance,
+                  },
+              ]
+            : []),
+        ...(features?.campaigns?.enabled &&
+        ($activeProfile?.network?.id === StardustNetworkId.Shimmer ||
+            $activeProfile?.network?.id === StardustNetworkId.Testnet)
+            ? [
+                  {
+                      icon: IconName.Trophy,
+                      label: localize('tabs.campaigns'),
+                      route: DashboardRoute.Campaigns,
+                      onClick: openCampaigns,
+                  },
+              ]
+            : []),
+        ...(features?.buySell?.enabled && $activeProfile?.network?.id === StardustNetworkId.Iota
+            ? [
+                  {
+                      icon: IconName.ArrowDownUp,
+                      label: localize('tabs.buySell'),
+                      route: DashboardRoute.BuySell,
+                      onClick: openBuySell,
                   },
               ]
             : []),
@@ -77,11 +103,22 @@
         $dashboardRouter.goTo(DashboardRoute.Developer)
     }
 
+    function openBuySell(): void {
+        resetAllRouters()
+        $dashboardRouter.goTo(DashboardRoute.BuySell)
+    }
+
+    function openCampaigns(): void {
+        resetAllRouters()
+        $dashboardRouter.goTo(DashboardRoute.Campaigns)
+    }
+
     function resetAllRouters(): void {
         $dashboardRouter.reset()
         $collectiblesRouter.reset()
-        $settingsRouter.reset()
+        $campaignsRouter.reset()
         $governanceRouter.reset()
+        $settingsRouter.reset()
     }
 </script>
 

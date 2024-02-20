@@ -2,169 +2,173 @@
     "views": {
         "onboarding": {
             "welcome": {
-                "title": "Welcome to",
-                "subtitle": "A new journey awaits...",
-                "legalAction": "Confirm you've read and accept the",
+                "title": "Welkom bij",
+                "subtitle": "Een nieuw avontuur begint...",
+                "legalAction": "Ik bevestig dat ik het volgende heb gelezen en hiermee akkoord ga",
                 "button": "Setup starten"
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Choose your network",
+                    "title": "Kies je netwerk",
                     "iota": {
                         "primary": "IOTA Mainnet",
-                        "secondary": "Production network with stable features"
+                        "secondary": "Productie netwerk met stabiele functies"
                     },
                     "shimmer": {
                         "primary": "Shimmer",
-                        "secondary": "Experimental network with the latest features"
+                        "secondary": "Test netwerk met de nieuwste functies"
                     },
                     "testnet": {
-                        "primary": "Testnet",
-                        "secondary": "Test network using valueless tokens"
+                        "primary": "Test netwerk",
+                        "secondary": "Test netwerk met test tokens"
                     },
                     "custom": {
-                        "primary": "Advanced configuration",
-                        "secondary": "Connect to any network with custom settings"
+                        "primary": "Geavanceerde instellingen",
+                        "secondary": "Verbind met een elk netwerk met de standaard instellingen"
                     }
                 },
                 "setupCustomNetwork": {
-                    "title": "Advanced configuration"
+                    "title": "Geavanceerde instellingen"
                 }
             },
             "chooseOnboardingFlow": {
-                "title": "Choose your setup type",
+                "title": "Kies je instellingen type",
                 "new": {
-                    "primary": "New profile",
-                    "secondary": "Create a new profile with a mnemonic or Ledger Nano"
+                    "primary": "Nieuw profiel",
+                    "secondary": "Maak een nieuw profiel aan met een mnemonic of Ledger Nano"
                 },
                 "restore": {
-                    "primary": "Restore profile",
-                    "secondary": "Restore existing profile with a backup or Ledger Nano"
+                    "primary": "Profiel herstellen",
+                    "secondary": "Bestaand profiel herstellen met een back-up of Ledger Nano"
                 },
                 "claim": {
-                    "primary": "Claim Shimmer rewards",
-                    "secondary": "Claim staking rewards using an IOTA backup"
+                    "primary": "Claim Shimmer staking beloningen",
+                    "secondary": "Claim je staking rewards op door de IOTA backup te gebruiken"
                 }
             },
             "createProfile": {
                 "chooseCreateProfileFlow": {
-                    "title": "Choose your key storage",
+                    "title": "Kies je sleutel opslag",
                     "software": {
-                        "primary": "Software storage",
-                        "secondary": "Store keys in a Stronghold file with your recovery phrase"
+                        "primary": "Software opslagruimte",
+                        "secondary": "Sla sleutels op in een Stronghold bestand met jouw herstel zin"
                     },
                     "hardware": {
-                        "primary": "Hardware storage",
-                        "secondary": "Use the keys stored on your Ledger Nano device"
+                        "primary": "Hardware opslagruimte",
+                        "secondary": "Gebruik de sleutels die zijn opgeslagen op je Ledger Nano apparaat"
                     }
                 }
             },
             "createFromMnemonic": {
                 "viewMnemonic": {
-                    "title": "Record your recovery phrase",
-                    "description": "This recovery phrase is your most important secret. It is the master key to all your funds. Do not show this to anyone."
+                    "title": "Bewaar je herstel zin",
+                    "description": "Deze herstel zin is jouw belangrijkste geheim. Het is de hoofdsleutel voor al jouw tegoeden. Laat dit aan niemand zien."
                 },
                 "verifyMnemonic": {
-                    "title": "Verify your recovery phrase",
-                    "description": "Let’s check you wrote down your phrase correctly. Please select the word with the corresponding number below.",
-                    "matchWord": "Match word #{number}:",
-                    "noMatch": "Does not match"
+                    "title": "Verifieer jouw herstel zin",
+                    "description": "Laten we controleren of je je zin goed opgeschreven hebt. Selecteer het woord met het bijbehorende nummer hieronder.",
+                    "matchWord": "Overeenkomende woord #{number}:",
+                    "noMatch": "Komt niet overeen"
                 },
                 "verifyMnemonicSuccess": {
-                    "status": "Verification Success",
-                    "title": "Recovery phrase matched",
-                    "description": "Remember to keep your copies private and secure"
+                    "status": "Verificatie Succesvol",
+                    "title": "Herstel zin komt overeen",
+                    "description": "Vergeet niet om jouw kopieën privé en veilig te bewaren"
                 }
             },
             "createFromLedger": {
                 "installLedger": {
-                    "title": "Install the Ledger app",
-                    "description": "Use Ledger Live to find and install the required app on your Ledger Nano device."
+                    "title": "Installeer de Ledger app",
+                    "description": "Gebruik Ledger Live om de benodigde app te vinden en te installeren op je Ledger Nano apparaat."
                 },
                 "connectLedger": {
-                    "title": "Connect your Ledger to Bloom",
-                    "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
-                    "connect": "Connect your Ledger device",
-                    "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger",
-                    "tip": "Tips if your Ledger isn't connecting"
+                    "title": "Verbind jouw Ledger met Bloom",
+                    "description": "Zorg ervoor dat de officiële Ledger Live applicatie is gesloten en volg de onderstaande stappen.",
+                    "connect": "Verbind jouw Ledger apparaat",
+                    "unlock": "Ontgrendel je Ledger met zijn pin",
+                    "open": "Open de {appName} app op je Ledger",
+                    "tip": "Tips voor als jouw Ledger geen verbinding kan maken"
                 },
                 "ledgerConnectionGuide": {
-                    "title": "Ledger isn't connecting?",
-                    "ledgerLiveNotOpen": "Ensure the Ledger Live app is not open on your computer",
-                    "ledgerDeviceUnlocked": "Ensure your Ledger device is unlocked with your PIN",
-                    "ledgerAppOpen": "Open the {appName} app on your Ledger device",
+                    "title": "Ledger maakt geen verbinding?",
+                    "ledgerLiveNotOpen": "Zorg ervoor dat de Ledger Live app niet geopend is op je computer",
+                    "ledgerDeviceUnlocked": "Zorg ervoor dat je Ledger apparaat ontgrendeld is met je pincode",
+                    "ledgerAppOpen": "Open de {appName} app op jouw Ledger apparaat",
                     "ledgerStillNotConnected": {
-                        "question": "Still not working?",
-                        "answer": "Try the official Ledger support"
+                        "question": "Werkt het nog steeds niet?",
+                        "answer": "Probeer de officiële Ledger support pagina"
                     }
                 }
             },
             "restoreProfile": {
                 "chooseRestoreProfileFlow": {
-                    "title": "Choose your recovery method",
+                    "title": "Kies jouw herstelmethode",
                     "mnemonic": {
-                        "primary": "Recovery phrase",
-                        "secondary": "Restore keys with a 12 or 24 word recovery phrase"
+                        "primary": "Herstel zin",
+                        "secondary": "Herstel sleutels met een herstel zin van 12 of 24 woorden"
                     },
                     "file": {
-                        "primary": "Backup file",
-                        "secondary": "Restore profile with a Stronghold backup file"
+                        "primary": "Back-up bestand",
+                        "secondary": "Herstel profiel met een Stronghold back-up bestand"
                     },
                     "hardware": {
-                        "primary": "Hardware device",
-                        "secondary": "Restore profile with a Ledger Nano device"
+                        "primary": "Hardware apparaat",
+                        "secondary": "Herstel profiel met een Ledger Nano apparaat"
                     }
                 },
                 "claimFinder": {
-                    "title": "Claim your Shimmer rewards",
-                    "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
-                    "success": "Successfully found {amount}"
+                    "title": "Claim je Shimmer beloningen",
+                    "description": "Gebruik de onderstaande balanszoeker en controleer of je Shimmer staking beloningen saldo correct is voordat je claimt.",
+                    "success": "Succesvol {amount} gevonden"
+                },
+                "balanceFinder": {
+                    "title": "Vind je herstelde accounts",
+                    "description": "Gebruik de onderstaande balanszoeker en controleer of uw account saldi correct zijn voordat u verder gaat."
                 }
             },
             "restoreFromMnemonic": {
                 "inputMnemonic": {
-                    "title": "Enter your recovery phrase",
-                    "description": "A recovery phrase is a 12 or 24 word master key to all your funds that you will have recorded when making an existing profile. Enter it below and separate each word with spaces.",
+                    "title": "Voer jouw herstel zin in",
+                    "description": "Een herstel zin is een 12 of 24 woord hoofdsleutel voor al jouw tegoeden die je hebt bewaard bij het maken van een bestaand profiel. Voer het hieronder in en scheid elk woord met spaties.",
                     "phraseDetected": {
-                        "12": "12 word recovery phrase detected",
-                        "24": "24 word recovery phrase detected"
+                        "12": "12 woord herstel zin gedetecteerd",
+                        "24": "24 woord herstel zin gedetecteerd"
                     }
                 }
             },
             "restoreFromStronghold": {
                 "importStronghold": {
-                    "title": "Import your backup file",
-                    "description": "Drop your Stronghold backup file or choose one from the file explorer to restore your profile."
+                    "title": "Importeer jouw back-up bestand",
+                    "description": "Sleep jouw Stronghold back-up bestand of kies er een uit de bestandsverkenner om jouw profiel te herstellen."
                 },
                 "unlockBackup": {
-                    "title": "Unlock your backup",
-                    "description": "Please provide the password for the backup below to decrypt your keys."
+                    "title": "Ontgrendel je back-up",
+                    "description": "Geef het wachtwoord voor de onderstaande back-up op om jouw sleutels te decoderen."
                 }
             },
             "shared": {
                 "encryptMnemonic": {
-                    "title": "Secure your profile",
-                    "description": "Make your password highly secure to encrypt your keys. This will be required to send tokens and assets."
+                    "title": "Beveilig je profiel",
+                    "description": "Maak je wachtwoord zeer veilig voor het versleutelen van je sleutels. Dit zal vereist zijn voor het verzenden van tokens en assets."
                 }
             },
             "completeOnboarding": {
                 "enterName": {
-                    "title": "Give your profile a name",
-                    "description": "Be as creative as you like! You can change this later."
+                    "title": "Geef je profiel een naam",
+                    "description": "Wees zo creatief als je wilt! Je kunt dit later veranderen."
                 },
                 "enterPin": {
-                    "title": "Add a PIN number",
-                    "description": "The 6-digit PIN gives you quick entry to your profile and helps prevent unwanted access."
+                    "title": "Pincode toevoegen",
+                    "description": "De 6-cijferige pincode geeft je snel toegang tot jouw profiel en helpt ongewenste toegang te voorkomen."
                 },
                 "finishOnboarding": {
-                    "status": "Setup complete",
+                    "status": "Setup voltooid",
                     "appSetup": {
-                        "title": "Bloom is ready",
-                        "action": "Enter Bloom"
+                        "title": "Bloom is klaar",
+                        "action": "Ga Bloom binnen"
                     },
                     "profileSetup": {
-                        "title": "Profile is ready"
+                        "title": "Profiel is klaar"
                     }
                 }
             }
@@ -178,7 +182,7 @@
                 "title": "Profiel"
             },
             "collectibles": {
-                "title": "Collectibles"
+                "title": "Verzameling"
             },
             "security": {
                 "title": "Beveiliging"
@@ -205,37 +209,37 @@
             },
             "exportStronghold": {
                 "title": "Exporteer back-up",
-                "description": "Exporteren naar een Stronghold bestand - een complete versleutelde back-up van uw portemonnees en de nieuwste transactiegeschiedenis"
+                "description": "Exporteren naar een Stronghold bestand - een complete versleutelde back-up van jouw wallets en de nieuwste transactiegeschiedenis"
             },
             "autoLogout": {
-                "title": "Automatic logout",
-                "description": "Inactivity time before your wallets lock and you are logged out"
+                "title": "Automatisch uitloggen",
+                "description": "Inactiviteit tijd voordat jouw wallets vergrendelen en je wordt uitgelogd"
             },
             "strongholdTimeout": {
-                "title": "Stronghold timeout",
-                "description": "Length of time before your Stronghold password is required again"
+                "title": "Stronghold time-out",
+                "description": "Tijdsduur voordat je je Stronghold wachtwoord opnieuw moet invoeren"
             },
             "maxMediaSize": {
-                "title": "Maximum media size",
-                "description": "NFT media with sizes greater than this limit will not be downloaded and a placeholder representing the media type will be displayed instead",
-                "input": "Media size"
+                "title": "Maximale mediagrootte",
+                "description": "NFT media met grootte groter dan deze limiet zal niet worden gedownload en in plaats daarvan zal een placeholder die het mediatype vertegenwoordigt worden weergegeven",
+                "input": "Media grootte"
             },
             "maxMediaDownloadTime": {
-                "title": "Maximum download time",
-                "description": "NFT media which take longer than this limit to download will be canceled and a placeholder representing the media type will be displayed instead",
-                "input": "Download time"
+                "title": "Maximale downloadtijd",
+                "description": "NFT media die langer duren dan deze limiet om te downloaden zullen worden geannuleerd en een placeholder die het mediatype vertegenwoordigt zal in plaats daarvan worden weergegeven",
+                "input": "Download tijd"
             },
             "refreshNftMedia": {
-                "title": "Refresh NFT media",
-                "description": "NFT media cached for this account will be deleted and then downloaded again"
+                "title": "NFT media vernieuwen",
+                "description": "NFT media gecached voor dit account wordt verwijderd en vervolgens opnieuw gedownload"
             },
             "changePassword": {
                 "title": "Wachtwoord wijzigen",
-                "description": "Uw wachtwoord wordt gebruikt om uw portemonnees te beveiligen. Gebruik een sterk wachtwoord om uw tegoeden te beschermen"
+                "description": "Je wachtwoord wordt gebruikt om jouw wallets te beveiligen. Gebruik een sterk wachtwoord om je tegoeden te beschermen"
             },
             "changePincode": {
                 "title": "Wijzig PIN code",
-                "description": "Uw pincode houdt uw saldo en transacties privé",
+                "description": "Je pincode houdt jouw saldo en transacties privé",
                 "currentPincode": "Huidige PIN",
                 "newPincode": "Nieuwe PIN",
                 "confirmNewPincode": "Bevestig nieuwe PIN",
@@ -243,20 +247,20 @@
             },
             "changeProfileName": {
                 "title": "Verander profielnaam",
-                "description": "Change your Bloom profile name",
+                "description": "Verander je Bloom profielnaam",
                 "success": "Je hebt je profielnaam gewijzigd"
             },
             "hiddenAccounts": {
-                "title": "Hidden accounts",
-                "description": "Door deze optie te selecteren, worden portefeuilles die voorheen verborgen waren getoond"
+                "title": "Verborgen accounts",
+                "description": "Door deze optie te selecteren, worden wallets die voorheen verborgen waren getoond"
             },
             "deleteProfile": {
                 "title": "Profiel verwijderen",
-                "description": "Verwijdert uw hele profiel, portemonnees en transactiegeschiedenis. Zorg ervoor dat u een back-up hebt"
+                "description": "Verwijdert je hele profiel, wallets en transactiegeschiedenis. Zorg ervoor dat je een back-up hebt"
             },
             "deepLinks": {
                 "title": "Diepe links",
-                "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
+                "description": "Automatisch transactiegegevens invullen in Bloom bij het klikken op een diepe link beginnend met {appProtocol}://"
             },
             "errorLog": {
                 "title": "Foutenlogboek",
@@ -264,9 +268,9 @@
             },
             "crashReporting": {
                 "title": "Crashrapporten",
-                "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
+                "body": "Help de ontwikkelaars om Bloom te verbeteren door automatisch diagnostische gegevens te verzenden als er een fout of crash optreedt",
                 "checkbox": "Verstuur crashrapporten",
-                "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
+                "advice": "Start de Bloom applicatie opnieuw op om {sendCrashReports, select, true {te beginnen met het delen van crashrapporten} false {te stoppen met het delen van crashrapporten} other {deze wijziging toe te passen}}"
             },
             "diagnostics": {
                 "title": "Foutrapportages",
@@ -296,32 +300,32 @@
                 "description": "Meld een probleem aan de ontwikkelaars. Controleer eerst of deze niet al eerder gemeld is"
             },
             "developerToggle": {
-                "title": "Developer Mode",
-                "description": "Switch developer mode on to enable more features in experimental state"
+                "title": "Ontwikkelaar Modus",
+                "description": "Schakel de ontwikkelaarsmodus in om meer functies die experimenteel zijn in te schakelen"
             }
         },
         "login": {
-            "incorrectPin": "Incorrect PIN code",
-            "hintStronghold": "Your Stronghold's version is out of date. Please log in to update your Stronghold.",
+            "incorrectPin": "Onjuiste pincode",
+            "hintStronghold": "De versie van jouw Stronghold is verouderd. Log in om jouw Stronghold bij te werken.",
             "maxAttempts": {
-                "title": "Couldn't sign you in",
-                "body1": "You have entered an",
-                "body2": "incorrect PIN code {times, plural, one {# time} other {# times}}.",
-                "body3": "For security purposes, your profile has been temporarily locked. Please wait for",
-                "body4": "before attempting to login again."
+                "title": "Kan u niet aanmelden",
+                "body1": "Je betreedt een",
+                "body2": "onjuiste pincode {times, plural, one {# keer} other {# keer}}.",
+                "body3": "Om veiligheidsredenen is jouw profiel tijdelijk vergrendeld. Wacht op",
+                "body4": "voordat je opnieuw probeert in te loggen."
             }
         },
         "loadProfile": {
             "loginSteps": {
-                "buildProfileManager": "Initialising profile manager",
-                "updateNodeInfo": "Checking node health",
-                "recoverAccounts": "Generating accounts",
-                "loadAccounts": "Syncing accounts",
-                "loadAssets": "Loading native assets",
-                "loadActivities": "Building activity history",
-                "setStrongholdStatus": "Securing stronghold",
-                "startBackgroundSync": "Starting background sync",
-                "loggingIn": "Loading dashboard"
+                "buildProfileManager": "Initialiseren profielbeheer",
+                "updateNodeInfo": "Controleren van knooppunt gezondheid",
+                "recoverAccounts": "Accounts genereren",
+                "loadAccounts": "Accounts synchroniseren",
+                "loadAssets": "Native assets laden",
+                "loadActivities": "Maken van activiteit geschiedenis",
+                "setStrongholdStatus": "Exporteren van Stronghold",
+                "startBackgroundSync": "Beginnen van achtergrondsynchronisatie",
+                "loggingIn": "Dashboard wordt geladen"
             }
         },
         "dashboard": {
@@ -329,211 +333,250 @@
                 "operational": "Netwerk Operationeel",
                 "degraded": "Netwerk gedegradeerd",
                 "down": "Netwerk Inactief",
-                "disconnected": "Verbinding met node verbroken",
+                "disconnected": "Verbinding verbroken met knooppunt",
                 "status": "Status"
             },
             "portfolio": {
-                "tab": "Portfolio",
-                "asset": "Asset",
-                "network": "Network",
-                "marketCap": "Market cap",
-                "price": "Price",
-                "total": "Total",
-                "available": "Available"
+                "tab": "Portefeuille",
+                "asset": "Bezit",
+                "network": "Netwerk",
+                "marketCap": "Marktkapitalisatie",
+                "price": "Prijs",
+                "total": "Totaal",
+                "available": "Beschikbaar"
             },
             "activity": {
-                "tab": "Activity",
-                "asset": "Asset",
-                "action": "Action",
-                "address": "Address",
-                "amount": "Amount",
-                "claimableTransactions": "You have {amount} {amount, select, 1 {transaction that requires} other {transactions that require}} claiming",
-                "consolidatedOutputs": "{amount} outputs consolidated"
+                "tab": "Activiteit",
+                "activity": "Activiteit",
+                "asset": "Bezit",
+                "action": "Actie",
+                "date": "Datum",
+                "address": "Adres",
+                "amount": "Hoeveelheid",
+                "fee": "Fee",
+                "claimableTransactions": "Je hebt {amount} {amount, select, 1 {transactie die je nodig hebt} other {transacties die nodig zijn}}",
+                "consolidatedOutputs": "{amount} uitgangen geconsolideerd"
             },
             "profileMenu": {
-                "allSettings": "All settings",
-                "logout": "Log out"
+                "allSettings": "Alle instellingen",
+                "logout": "Uitloggen"
             },
             "drawers": {
                 "networkConfig": {
                     "addChain": {
-                        "title": "Add chain"
+                        "title": "Chain toevoegen"
                     },
                     "chain": {
                         "chainId": "Chain ID",
-                        "aliasAddress": "Alias Address",
-                        "rpcEndpoint": "RPC Endpoint",
-                        "explorerUrl": "Explorer URL (optional)",
+                        "aliasAddress": "Alias Adres",
+                        "rpcEndpoint": "RPC Eindpunt",
+                        "explorerUrl": "Explorer URL (optioneel)",
                         "errors": {
-                            "cannotBeEmpty": "Name cannot be empty",
-                            "nameTooLong": "Name is too long",
-                            "aliasAddressWrongFormat": "Must be in either hex or Bech32 format",
-                            "aliasAddressAlreadyInUse": "Alias address already in use",
-                            "invalidUrl": "Invalid URL"
+                            "cannotBeEmpty": "Naam kan niet leeg zijn",
+                            "nameTooLong": "Naam is te lang",
+                            "aliasAddressWrongFormat": "Moet in hex of Bech32 formaat zijn",
+                            "aliasAddressAlreadyInUse": "Alias adres is al in gebruik",
+                            "invalidUrl": "Ongeldige URL"
                         }
                     },
                     "chainDepositAddress": {
-                        "title": "Chain deposit address",
-                        "networkTitle": "Network deposit address"
+                        "title": "Chain stortingsadres",
+                        "networkTitle": "Netwerk stortingsadres"
                     },
                     "confirmLedgerEvmAddress": {
-                        "title": "Confirm EVM address",
-                        "header": "We have generated your EVM address"
+                        "title": "Bevestig EVM-adres",
+                        "header": "We hebben jouw EVM-adres gegenereerd"
                     },
                     "connectedChains": {
-                        "title": "Connected chains"
+                        "title": "Verbonden chains"
                     },
                     "connectLedgerDevice": {
-                        "title": "Connect Ledger Device",
-                        "header": "Open the Ethereum app",
-                        "body": "For your Ledger device to be found by Bloom, please ensure that the official Ledger Live application is closed before following these steps.",
+                        "title": "Ledger Apparaat verbinden",
+                        "header": "Open de Ethereum app",
+                        "body": "Zorg ervoor dat de officiële Ledger Live applicatie gesloten is voordat je deze stappen volgt, om te zorgen dat Bloom jouw Ledger apparaat vindt.",
                         "requirements": {
-                            "connect": "Connect and unlock your Ledger",
-                            "openApp": "Open the Ethereum app on your Ledger"
+                            "connect": "Verbind en ontgrendel je Ledger",
+                            "openApp": "Open de Ethereum app op jouw Ledger"
                         }
                     },
                     "editChain": {
-                        "title": "Edit chain"
+                        "title": "Bewerk chain"
                     },
                     "removeChain": {
-                        "title": "Remove chain"
+                        "title": "Verwijder chain"
                     },
                     "networkSettings": {
                         "configureNodeList": {
-                            "title": "Node configuration",
-                            "description": "Manage the list of nodes you connect to",
-                            "excludeNode": "Exclude node",
-                            "includeNode": "Include node",
-                            "editDetails": "Edit details",
-                            "setAsPrimary": "Set primary node",
-                            "unsetAsPrimary": "Clear primary node",
-                            "removeNode": "Remove node",
-                            "noNodes": "There are no nodes, unable to connect to the network"
+                            "title": "Knooppunt configuratie",
+                            "description": "Beheer de lijst met knooppunten waarmee u verbinding maakt",
+                            "excludeNode": "Knooppunt uitsluiten",
+                            "includeNode": "Knooppunt toevoegen",
+                            "editDetails": "Bewerk details",
+                            "setAsPrimary": "Instellen primaire knooppunt",
+                            "unsetAsPrimary": "Wissen primaire knooppunt",
+                            "removeNode": "Verwijder knooppunt",
+                            "noNodes": "Er zijn geen knooppunten, niet mogelijk om verbinding te maken met het netwerk"
                         },
                         "localProofOfWork": {
-                            "title": "Proof of work",
-                            "description": "Complete proof of work locally on your device or outsource to the node"
+                            "title": "Bewijs van werk",
+                            "description": "Voltooi bewijs van werk lokaal op je apparaat of besteed uit aan het knooppunt"
                         }
                     }
                 },
                 "contactBook": {
                     "contactList": {
-                        "title": "Contact list",
-                        "emptyHeader": "No contacts found",
-                        "emptyBody": "Connect with your favorite people in Bloom.",
-                        "addContact": "Add contact"
+                        "title": "Contactlijst",
+                        "emptyHeader": "Geen contacten gevonden",
+                        "emptyBody": "Maak contact met je favoriete mensen in Bloom.",
+                        "addContact": "Contact toevoegen"
                     },
                     "contactInformation": {
-                        "title": "Contact Information",
-                        "editContact": "Edit contact",
-                        "removeContact": "Remove contact",
-                        "addNetworkAddress": "Add network address"
+                        "title": "Contactinformatie",
+                        "editContact": "Contact bewerken",
+                        "removeContact": "Contact verwijderen",
+                        "addNetworkAddress": "Adres toevoegen"
                     },
                     "contactAddress": {
-                        "title": "Contact address",
-                        "viewQrCode": "Vew QR code"
+                        "title": "Contactadres",
+                        "viewQrCode": "Bekijk QR-code"
                     },
                     "addContact": {
-                        "title": "Add contact",
-                        "identity": "Their identity",
-                        "address": "Their address",
-                        "color": "Contact color"
+                        "title": "Contact toevoegen",
+                        "identity": "Hun identiteit",
+                        "address": "Hun adres",
+                        "color": "Kleur van contact"
                     },
                     "editContact": {
-                        "title": "Edit contact",
-                        "identity": "Their identity",
-                        "color": "Contact color"
+                        "title": "Contact bewerken",
+                        "identity": "Hun identiteit",
+                        "color": "Kleur van contact"
                     },
                     "removeContact": {
-                        "title": "Remove contact",
-                        "body": "Are you sure you want to remove this contact?",
-                        "hint": "Please note after removing a contact Bloom will show its actual addresses."
+                        "title": "Contact verwijderen",
+                        "body": "Weet u zeker dat u dit contact wilt verwijderen?",
+                        "hint": "Let op: na het verwijderen van een contactpersoon toont Bloom de werkelijke adressen."
                     },
                     "addNetworkAddress": {
-                        "title": "Add network address"
+                        "title": "Netwerkadres toevoegen"
                     },
                     "editNetworkAddresses": {
-                        "title": "Edit network addresses"
+                        "title": "Netwerkadressen bewerken"
                     },
                     "removeNetworkAddresses": {
-                        "title": "Remove network addresses",
-                        "body": "Are you sure you want to remove the contact’s {network} network addresses?",
-                        "hint": "Please note after removing a contact’s network addresses Bloom will no longer associate it with them in transactions or activities."
+                        "title": "Netwerk adressen verwijderen",
+                        "body": "Weet je zeker dat je het {network} netwerkadres van de contactpersoon wilt verwijderen?",
+                        "hint": "Let op, na het verwijderen van de netwerkadressen van een contactpersoon, zal Bloom deze niet langer koppelen aan transacties of activiteiten."
                     }
                 },
                 "dapps": {
                     "dappsList": {
-                        "title": "Connected dApps",
-                        "connectDapp": "Connect dApp",
-                        "emptyTitle": "No apps found",
-                        "emptySubtitle": "Connect Bloom with your favourite dApps"
+                        "title": "Verbonden dApps",
+                        "connectDapp": "Verbind dApp",
+                        "paired": {
+                            "tab": "Verbonden",
+                            "emptyTitle": "Geen apps gevonden",
+                            "emptySubtitle": "Verbind Bloom met jouw favoriete dApps"
+                        },
+                        "expired": {
+                            "tab": "Verlopen",
+                            "emptyTitle": "Geen apps gevonden",
+                            "emptySubtitle": "Verbind Bloom met jouw favoriete dApps"
+                        },
+                        "actions": {
+                            "clearExpired": "Verlopen lijst wissen"
+                        },
+                        "clearExpired": {
+                            "title": "Verlopen lijst wissen",
+                            "description": "Weet je zeker dat je de lijst met verlopen dApp-verbindingen wilt wissen?"
+                        }
                     },
                     "inputConnectionCode": {
-                        "title": "Connect to a dApp",
+                        "title": "Verbinding maken met een dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below.",
-                        "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
+                        "addDapp": "Voeg een dApp toe",
+                        "addDappDescription": "Voeg nieuwe dApps toe door een Wallet Connect code hieronder toe te voegen.",
+                        "deprecated": "De dApp waarmee u verbinding probeert te maken maakt gebruik van een verouderde versie van WalletConnect. Kan geen verbinding tot stand brengen"
                     },
                     "connectionRequest": {
-                        "title": "Connection request",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
-                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
-                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                        "title": "Verbindingsverzoek",
+                        "firstTimeHint": "Deze dApp wil voor de eerste keer verbinding maken. Verbind enkel met sites die je vertrouwt.",
+                        "reconnectHint": "U heeft eerder verbinding gemaakt met deze dApp.",
+                        "insecure": "De URL van deze dApp kan niet worden geverifieerd. Mogelijk is je verbinding met deze app onveilig.",
+                        "unsupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een niet-ondersteund netwerk draait.",
+                        "noSupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een ander netwerk draait.",
+                        "unsupportedMethods": "Deze dApp is niet volledig compatibel met Bloom. Sommige methoden of gebeurtenissen worden niet ondersteund.",
+                        "supportedOnOtherProfile": "Deze dApp draait op een ondersteund netwerk, maar is niet toegankelijk met dit profiel. Gebruik een profiel verbonden met het vereiste netwerk.",
+                        "acceptInsecureConnection": "Ik begrijp dat deze dApp mogelijk onveilig is en nog steeds verbinding wil maken."
+                    },
+                    "editPermissions": {
+                        "title": "Bewerk permissies"
+                    },
+                    "editNetworks": {
+                        "title": "Bewerk netwerken"
+                    },
+                    "editAccounts": {
+                        "title": "Bewerk accounts"
                     },
                     "confirmConnection": {
-                        "title": "Connect with an application",
+                        "title": "Verbinding maken met een applicatie",
                         "permissions": {
-                            "step": "Permission",
-                            "title": "This dApp will be abe to ask to:",
-                            "signData": "Request to sign data",
-                            "signTransaction": "Request to sign a transaction",
-                            "sendTransaction": "Request to send a transaction"
+                            "step": "Permissie",
+                            "tip": "Dit zijn beperkte machtigingen voor de dApp om een interactieverzoek te sturen voor jouw goedkeuring. Keur alleen apps goed die je kent en vertrouwt.",
+                            "title": "Selecteer machtigingen",
+                            "signData": "Verzoek om data te ondertekenen",
+                            "signTransaction": "Verzoek om een transactie te ondertekenen",
+                            "sendTransaction": "Verzoek om een transactie te ondertekenen",
+                            "empty": "U moet ten minste één machtiging selecteren",
+                            "noPermissionsRequired": "Geen machtigingen nodig om deze app te gebruiken"
                         },
                         "networks": {
-                            "step": "Networks",
-                            "title": "Select networks"
+                            "step": "Netwerken",
+                            "title": "Selecteer netwerken",
+                            "tip": "De vereiste netwerken zijn vooraf geselecteerd door de dApp en kunnen later ook opnieuw worden geconfigureerd.",
+                            "empty": "Je moet tenminste één netwerk selecteren"
                         },
                         "accounts": {
                             "step": "Accounts",
-                            "title": "Select accounts"
+                            "title": "Selecteer accounts",
+                            "tip": "Jij bepaalt waar de dApp toegang voor kan vragen. Sommige apps verbinden alleen met het primaire account.",
+                            "empty": "Je moet ten minste één account selecteren"
                         }
                     },
                     "details": {
-                        "title": "Connection details",
-                        "falbackName": "dApp",
-                        "name": "Name",
-                        "description": "Description",
+                        "title": "Connectie details",
+                        "name": "Naam",
+                        "description": "Beschrijving",
                         "url": "URL",
-                        "verifyUrl": "Verify URL",
+                        "verifyUrl": "URL verifiëren",
                         "disconnect": {
-                            "title": "Disconnect",
-                            "description": "Do you want to disconnect from {dappName}?"
+                            "title": "Verbinding verbreken",
+                            "description": "Wil je de verbinding met {dappName} verbreken?"
                         },
                         "remove": {
-                            "title": "Remove",
-                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
+                            "title": "Verwijder",
+                            "description": "Wil je de verbinding met {dappName} verbreken en hier verwijderen?"
                         },
                         "actions": {
-                            "disconnect": "Disconnect",
-                            "remove": "Remove"
+                            "disconnect": "Verbinding verbreken",
+                            "remove": "Verwijder"
                         }
                     }
                 }
             },
             "toasts": {
                 "backup": {
-                    "header": "Backup Required",
-                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
-                    "button": "Backup now"
+                    "header": "Back-up vereist",
+                    "body": "Je hebt nog geen back-up van je profiel gemaakt! We raden je sterk aan om je account te back-uppen in het geval je de toegang tot dit apparaat verliest.",
+                    "button": "Maak een back-up"
                 },
                 "version": {
-                    "body": "You are currently using an early version of Bloom.",
-                    "button": "Find out more"
+                    "body": "Je gebruikt momenteel een \"early version\" van Bloom.",
+                    "button": "Meer informatie"
                 },
                 "update": {
-                    "header": "Update Required",
-                    "body": "A new Bloom update is available today.",
-                    "button": "Update now"
+                    "header": "Update vereist",
+                    "body": "Er is vandaag een nieuwe Bloom update beschikbaar.",
+                    "button": "Nu updaten"
                 }
             }
         },
@@ -545,225 +588,268 @@
         },
         "collectibles": {
             "gallery": {
-                "title": "Collectibles",
-                "emptyTitle": "No collectibles found",
-                "noResults": "No results found",
-                "timelocked": "Locked for {timeDiff}",
-                "emptyDescription": "Deposit or receive your first collectible!"
+                "title": "Verzamelingen",
+                "emptyTitle": "Geen verzamelingen gevonden",
+                "noResults": "Geen resultaten gevonden",
+                "timelocked": "Vergrendeld voor {timeDiff}",
+                "emptyDescription": "Stort of ontvang je eerste verzameling!"
             },
             "details": {
-                "storageDepositDescription": "A refundable deposit required to store your NFT on the Tangle.",
+                "storageDepositDescription": "Een terugvorderbare-storting is nodig om jouw NFT op de Tangle op te slaan.",
                 "menu": {
                     "download": "Download",
-                    "setPfp": "Set NFT profile pic",
-                    "unsetPfp": "Unset NFT profile pic",
-                    "view": "View media in browser",
+                    "setPfp": "Stel NFT-profiel plaatje in",
+                    "unsetPfp": "Verwijder NFT profiel plaatje",
+                    "view": "Bekijk media in browser",
                     "burn": "Burn NFT"
                 }
             }
         },
+        "campaigns": {
+            "gallery": {
+                "title": "Campagnes",
+                "emptyTitle": "Geen campagnes gevonden",
+                "noResults": "Geen resultaten gevonden",
+                "emptyDescription": "Bekijk en neem deel aan campagnes met Tide",
+                "emptyAction": "Bezoek Tide"
+            },
+            "details": {
+                "top10": "Top 10 Leaderboard",
+                "myPosition": "Mijn positie",
+                "points": "Punten",
+                "tasksComplete": "Taken voltooid",
+                "rewardsClaimed": "Beloning geclaimd",
+                "project": "Project",
+                "campaign": "Campagne",
+                "nftBadge": "NFT Badge",
+                "noNftBadge": "Geen NFT Badge geclaimd"
+            }
+        },
         "governance": {
             "votingPower": {
-                "title": "Voting power",
-                "maximal": "Maximal voting power: {value}",
-                "manage": "Manage voting power"
+                "title": "Stemkracht",
+                "maximal": "Maximale stemkracht: {value}",
+                "manage": "Beheer stemkracht"
             },
             "proposalsDetails": {
                 "title": "Details",
-                "totalProposals": "Total proposals",
-                "activeProposals": "Active proposals",
-                "votingProposals": "Proposals you are voting on",
-                "votedProposals": "Total proposals you voted on"
+                "totalProposals": "Alle voorstellen",
+                "activeProposals": "Actieve voorstellen",
+                "votingProposals": "Voorstellen waar je over stemt",
+                "votedProposals": "Totaal aantal voorstellen waarop je gestemd hebt"
             },
             "proposals": {
-                "title": "Proposals",
-                "voted": "Voted",
-                "successEdit": "Proposal successfully edited",
-                "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added",
-                "successAddAll": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added to all accounts",
-                "successRemove": "Proposal successfully removed",
-                "emptyTitle": "No proposals"
+                "title": "Voorstellen",
+                "voted": "Gestemd",
+                "successEdit": "Voorstel succesvol bijgewerkt",
+                "successAdd": "{numberOfProposals, select, one {Voorstel} other {Voorstellen}} succesvol toegevoegd",
+                "successAddAll": "{numberOfProposals, select, one {Voorstel} other {Voorstellen}} succesvol toegevoegd aan alle accounts",
+                "successRemove": "Voorstel succesvol verwijderd",
+                "emptyTitle": "Geen voorstellen",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
-                "upcoming": "Announcement",
-                "commencing": "Voting open",
-                "holding": "Counting starts",
-                "ended": "Counting stops"
+                "upcoming": "Aankondiging",
+                "commencing": "Stemmen geopend",
+                "holding": "Tellen begint",
+                "ended": "Tellen stopt"
             },
             "details": {
                 "yourVote": {
-                    "title": "Your vote",
-                    "total": "Total votes counted",
-                    "power": "Voting power"
+                    "title": "Jouw stem",
+                    "total": "Totaal getelde stemmen",
+                    "power": "Stemkracht"
                 },
                 "proposalInformation": {
-                    "title": "Proposal information",
-                    "votingOpens": "Voting opens on",
-                    "countingStarts": "Counting starts on",
-                    "countingEnds": "Counting ends on",
-                    "countingEnded": "Counting ended on",
+                    "title": "Voorstel informatie",
+                    "votingOpens": "Stemmen begint op",
+                    "countingStarts": "Tellen begint op",
+                    "countingEnds": "Tellen eindigt op",
+                    "countingEnded": "Tellen eindigde op",
                     "eventId": "Event ID",
-                    "nodeUrl": "Node URL"
+                    "nodeUrl": "Knooppunt URL"
                 },
-                "fetching": "Fetching proposal data",
-                "hintVote": "You can not vote on a proposal that is in the announcement phase, voting will open in {time}."
+                "fetching": "Ophalen voorstel gegevens",
+                "hintVote": "Je kunt niet stemmen over een voorstel dat in de aankondigingsfase verkeert, de stemming wordt geopend in {time}."
             }
         },
         "updateStronghold": {
             "update": {
-                "title": "Update your Stronghold",
-                "loginBody": "Your Stronghold's version is out of date. Provide your password to update Stronghold.",
-                "recoveryBody": "The imported Stronghold’s version is out of date, to continue we will need to update the stronghold to the latest version."
+                "title": "Werk je Stronghold bij",
+                "loginBody": "Je Stronghold versie is verouderd. Log in om je Stronghold bij te werken.",
+                "recoveryBody": "De geïmporteerde Stronghold versie is te verouderd om door te gaan, om door te gaan zal Stronghold geupdated moeten worden naar de nieuwste versie."
             },
             "updateBackup": {
-                "title": "Stronghold updated",
-                "loginBody": "It's all good now - you're running the latest Stronghold version",
-                "recoveryBody": "You can now continue setting up your wallet",
-                "hint": "We highly recommend to delete all previous Stronghold backup files and save a new one"
+                "title": "Stronghold geüpdate",
+                "loginBody": "Het is nu allemaal in orde - je gebruikt de nieuwste versie van Stronghold",
+                "recoveryBody": "Je kunt nu doorgaan met het instellen van jouw wallet",
+                "hint": "We raden ten zeerste aan om alle vorige Stronghold back-upbestanden te verwijderen en een nieuwe op te slaan"
             },
             "changePassword": {
-                "title": "Change your password",
-                "hint": "Your Stronghold was out of date and has been updated. We recommend that you change your password."
+                "title": "Wijzig je wachtwoord",
+                "hint": "Je Stronghold was verouderd en is nu bijgewerkt. We raden je aan je wachtwoord te wijzigen."
+            }
+        },
+        "buySell": {
+            "info": {
+                "receive": "Je geselecteerde account ontvangt tokens direct van Transak zodra je betaalmethode is geautoriseerd.",
+                "multipleAccounts": "Als je meerdere accounts hebt, kun je vóór de aankoop wisselen met de accountselector dropdown.",
+                "changingAccounts": "Het veranderen van accounts zal alle informatie resetten."
+            },
+            "tooltip": {
+                "connected": "beveiligde verbinding",
+                "redirected": "omgeleid, wees voorzichtig!",
+                "disconnected": "verbinding verbroken, probeer verversen"
             }
         }
     },
     "popups": {
         "enableLedgerBlindSigning": {
-            "title": "Enable Blind Signing",
-            "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
-            "step_1": "Connect and unlock your Ledger device",
-            "step_2": "Open the {appName} application",
-            "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
-            "step_4": "Press both buttons to enable transaction blind signing. The device displays Enabled. You're done."
+            "title": "Blind Ondertekenen inschakelen",
+            "info": "Je moet Blind Ondertekenen op je Ledger apparaat inschakelen om deze transactie te bevestigen.",
+            "step_1": "Verbind en ontgrendel je Ledger apparaat",
+            "step_2": "Open de {appName} applicatie",
+            "step_3": "Druk op de rechterknop om naar Instellingen te gaan, druk vervolgens op beide knoppen om te valideren. Je Ledger-apparaat geeft Blind Ondertekenen weer.",
+            "step_4": "Druk op beide knoppen om transactie Blind Ondertekenen in te schakelen. Het apparaat toont: Ingeschakeld. Je bent klaar."
         },
         "balanceBreakdown": {
-            "title": "Balance breakdown",
+            "title": "Saldo verdeling",
             "available": {
-                "title": "Available",
-                "subtitle": "Funds fully available for spending"
+                "title": "Beschikbaar",
+                "subtitle": "Volledig beschikbaar voor uitgaven"
             },
             "unavailable": {
-                "title": "Unavailable",
-                "subtitle": "Locked or temporarily unavailable in transactions"
+                "title": "Niet beschikbaar",
+                "subtitle": "Vergrendeld of tijdelijk niet beschikbaar in transacties"
             },
             "storageDeposit": {
-                "title": "Storage deposit",
-                "subtitle": "Reserved for storing native assets."
+                "title": "Opslag waarborg",
+                "subtitle": "Gereserveerd voor het opslaan van native assets."
             },
             "totalBalance": {
-                "title": "Total balance",
+                "title": "Totaalsaldo",
                 "subtitle": ""
             },
             "basicOutputs": {
                 "title": "Native tokens",
-                "subtitle": "Reserved for Native Token storage"
+                "subtitle": "Gereserveerd voor native token opslag"
             },
             "nftOutputs": {
                 "title": "NFTs",
-                "subtitle": "Reserved for NFT storage"
+                "subtitle": "Gereserveerd voor NFT-opslag"
             },
             "aliasOutputs": {
-                "title": "Aliases",
-                "subtitle": "Reserved for Alias storage"
+                "title": "Aliassen",
+                "subtitle": "Gereserveerd voor Alias opslag"
             },
             "foundryOutputs": {
                 "title": "Foundries",
-                "subtitle": "Reserved for Native Token Foundry storage"
+                "subtitle": "Gereserveerd voor Native Token Foundry opslag"
             },
             "unclaimed": {
-                "title": "Unclaimed transaction",
-                "subtitle": "Temporarily locked in unclaimed transactions"
+                "title": "Niet-geclaimde transactie",
+                "subtitle": "Tijdelijk vergrendeld in niet-geclaimde transacties"
             },
             "timelock": {
-                "title": "Timelocked",
-                "subtitle": "Temporarily locked in timelocked transactions"
+                "title": "Tijdsvergrendeling",
+                "subtitle": "Tijdelijk vergrendeld in tijdsvergrendelde transacties"
             },
             "storageDepositReturn": {
-                "title": "Storage deposit return",
-                "subtitle": "Temporarily locked in Storage Deposit Return"
+                "title": "Opslag waarborg teruggave",
+                "subtitle": "Tijdelijk vergrendeld in opslag waarborg teruggave"
             },
             "governance": {
                 "title": "Governance",
-                "subtitle": "Reserved for voting power"
+                "subtitle": "Gereserveerd voor stemkracht"
             },
-            "minimizeStorageDepositButton": "Minimize storage deposit"
+            "minimizeStorageDepositButton": "Minimaliseer waarborg opslag"
         },
         "dappAccountSwitcher": {
-            "title": "Switch account",
-            "body": "The dApp requires you to switch to the following account. Do you want to continue?"
+            "title": "Account wisselen",
+            "body": "De dApp vereist dat je overschakelt naar het volgende account. Wil je doorgaan?"
         },
         "minimizeStorageDeposit": {
-            "title": "Minimize storage deposit",
-            "description": "Consolidate outputs to minimize your required storage deposit and increase your available balance.",
-            "confirmButton": "Consolidate"
+            "title": "Minimaliseer waarborg opslag",
+            "description": "Consolideer outputs om je benodigde waarborg opslag te verlagen en jouw beschikbare saldo te verhogen.",
+            "confirmButton": "Consolideren"
         },
         "alias": {
-            "title": "Confirm alias creation"
+            "title": "Bevestig aanmaken alias"
         },
         "password": {
             "title": "Wachtwoord vereist",
-            "subtitle": "Geef je wachtwoord op om je portemonnees te ontgrendelen",
-            "backup": "Voer uw wachtwoord in om een back-up te exporteren"
+            "subtitle": "Voer je wachtwoord in om je wallets te ontgrendelen",
+            "backup": "Voer je wachtwoord in om een back-up te exporteren"
         },
         "appUpdate": {
-            "title": "Check for updates",
-            "installedVersion": "Installed version",
-            "newVersion": "New version",
+            "title": "Controleer op updates",
+            "installedVersion": "Geïnstalleerde versie",
+            "newVersion": "Nieuwe versie",
             "stage": "Stage",
             "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
-            "releasedAt": "Released at",
-            "updateAvailable": "Update is available",
-            "updatesDisabled": "There are updates available, but in-app upgrade is disabled for your operating system.",
-            "latestInstalled": "You are running the latest and safest version"
+            "releasedAt": "Uitgebracht op",
+            "updateAvailable": "Update is beschikbaar",
+            "updatesDisabled": "Er zijn updates beschikbaar, maar in-app updaten is uitgeschakeld voor jouw besturingssysteem.",
+            "latestInstalled": "Je gebruikt de nieuwste en veiligste versie"
         },
         "backupStronghold": {
-            "title": "Back-up uw stronghold bestand",
-            "body": "Het is belangrijk om regelmatig een back-up van uw portemonnee te maken om ervoor te zorgen dat u een kopie hebt van uw portemonnees en de transactiegeschiedenis. Als u uw back-up- en herstelzin kwijtraakt, verliest u toegang tot uw fondsen."
+            "title": "Back-up jouw stronghold bestand",
+            "body": "Het is belangrijk om regelmatig een back-up van je wallet te maken om ervoor te zorgen dat je een kopie hebt van je wallets en de transactiegeschiedenis. Als je je back-up- en herstelzin kwijtraakt, verlies je toegang tot je middelen."
         },
         "deeplinkAccountSwitch": {
-            "title": "Select an account",
-            "body": "You just followed a deep link. Please select the wallet with which you want to continue."
+            "title": "Selecteer een account",
+            "body": "Je hebt net een deep link gevolgd. Selecteer de wallet waarmee je wilt doorgaan."
         },
         "deeplinkError": {
-            "title": "Failed link",
-            "body": "This link failed or is invalid. Please try again or double check the source of the link."
+            "title": "Mislukte link",
+            "body": "Deze link is mislukt of is ongeldig. Probeer het opnieuw of controleer de bron van de link."
         },
         "deleteAccount": {
             "title": "Verwijder {name}?",
-            "body": "Are you sure you want to delete this wallet?",
-            "hint": "Note: once deleted, you can restore this wallet by using the \"Wallet Finder\" in the settings.",
-            "typePassword": "Voer uw portemonnee wachtwoord in om te bevestigen."
+            "body": "Weet je zeker dat je deze wallet wilt verwijderen?",
+            "hint": "Opmerking: eenmaal verwijderd, kun je deze wallet herstellen met behulp van de \"Wallet Finder\" in de instellingen.",
+            "typePassword": "Voer je wallet wachtwoord in om te bevestigen."
         },
         "externalUrl": {
-            "title": "Open URL in Browser",
-            "body": "Are you sure you want to open \"{url}\" in the browser?",
+            "title": "Open URL in browser",
+            "body": "Weet je zeker dat je \"{url}\" in de browser wilt openen?",
             "action": "Open URL",
-            "invalidProtocol": "Cannot open URL with invalid protocol"
+            "invalidProtocol": "Kan de URL met een ongeldig protocol niet openen"
         },
         "excludeNode": {
-            "title": "Exclude node",
-            "body": "Are you sure you want to exclude {url} from the available node pool?"
+            "title": "Uitsluiten knooppunt",
+            "body": "Weet u zeker dat u {url} wilt uitsluiten van de beschikbare knooppunt pool?"
         },
         "unsetAsPrimaryNode": {
-            "title": "Clear primary node",
-            "body": "Are you sure you want to clear {url} as the primary node?"
+            "title": "Wissen primaire knooppunt",
+            "body": "Weet u zeker dat u {url} wilt wissen als primaire knooppunt?"
+        },
+        "confirmAssetTracking": {
+            "ERC721": {
+                "title": "Nieuwe NFT toevoegen",
+                "description": "\"{dappName}\" wil een NFT met id \"{tokenId}\" en adres \"{address}\" aan jouw wallet toevoegen."
+            },
+            "ERC20": {
+                "title": "Voeg nieuwe token toe",
+                "description": "\"{dappName}\" wil {assetName, select, undefined { een token met adres \"{address}\" } other { {assetName} }} toevoegen aan jouw wallet."
+            }
         },
         "node": {
-            "titleAdd": "Node toevoegen",
-            "titleUpdate": "Een node bijwerken",
-            "titleRemove": "Verwijder node",
-            "titleRemoveAll": "Alle nodes verwijderen",
-            "titleInfo": "Node informatie",
-            "addingNode": "Toevoegen node",
-            "updatingNode": "Node bijwerken",
-            "loadingNodeInfo": "Laden van node info",
-            "nodeAddress": "Node adres",
+            "titleAdd": "Knooppunt toevoegen",
+            "titleUpdate": "Een knooppunt bijwerken",
+            "titleRemove": "Verwijder knooppunt",
+            "titleRemoveAll": "Alle knooppunten verwijderen",
+            "titleInfo": "Knooppunt informatie",
+            "addingNode": "Toevoegen knooppunt",
+            "updatingNode": "Knooppunt bijwerken",
+            "loadingNodeInfo": "Laden van knooppunt info",
+            "nodeAddress": "Knooppunt adres",
             "optionalUsername": "Gebruikersnaam (optioneel)",
             "optionalPassword": "Wachtwoord (optioneel)",
             "optionalJwt": "JSON webtoken (optioneel)",
-            "removeConfirmation": "Weet u zeker dat u deze node wilt verwijderen?",
+            "removeConfirmation": "Weet u zeker dat u dit knooppunt wilt verwijderen?",
             "info": {
                 "general": {
                     "tab": "Algemeen",
@@ -786,8 +872,8 @@
                     "network": "Netwerk",
                     "bech32Hrp": "Bech32 HRP",
                     "tokenSupply": "Token voorraad",
-                    "version": "Version",
-                    "minPowScore": "Min PoW Score"
+                    "version": "Versie",
+                    "minPowScore": "Minimale PoW Score"
                 },
                 "baseToken": {
                     "tab": "Basis token",
@@ -807,13 +893,13 @@
         "deleteProfile": {
             "title": "Profiel verwijderen",
             "confirmation": "Weet u zeker dat u dit profiel wil verwijderen? Deze handeling kan niet ongedaan worden gemaakt.",
-            "typePassword": "Voer uw wachtwoord in om te bevestigen."
+            "typePassword": "Voer je wachtwoord in om te bevestigen."
         },
         "diagnostics": {
             "title": "Foutrapportages",
             "app": "App",
-            "system": "System",
-            "node": "Node",
+            "system": "Systeem",
+            "node": "Knooppunt",
             "platform": "Platform",
             "platformVersion": "Platform Versie",
             "platformArchitecture": "Platform Architectuur",
@@ -823,278 +909,305 @@
             "userPath": "Gebruikerspad"
         },
         "transaction": {
-            "selectToken": "Select a token",
-            "selectAmount": "Send {tokenName}",
-            "selectRecipient": "Send {assetName} to",
-            "transactionSummary": "Transaction to {recipient}",
+            "selectToken": "Selecteer een token",
+            "selectAmount": "Verzend {tokenName}",
+            "selectRecipient": "Verzend {assetName} naar",
+            "transactionSummary": "Transactie naar {recipient}",
             "surplusIncluded": "Deze transactie bevat een overschot. Controleer of dit het bedrag is dat u wilt versturen."
         },
         "walletFinder": {
-            "title": "Sync accounts",
-            "body": "Voer een meer uitvoerigere zoekopdracht uit van adressen om ontbrekende saldi en portemonnees te vinden.",
-            "accountsSearched": "Accounts searched",
-            "accountsFound": "Accounts found",
+            "title": "Synchroniseer accounts",
+            "body": "Voer een meer uitvoerigere zoekopdracht uit van adressen om ontbrekende saldi en wallets te vinden.",
+            "accountsSearched": "Accounts doorzocht",
+            "accountsFound": "Gevonden accounts",
             "totalWalletBalance": "Totaalsaldo",
-            "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
+            "searchAgainHint": "Is jouw saldo of aantal wallets onjuist? Zoek opnieuw totdat jouw volledige saldo wordt weergegeven."
         },
         "ledgerNotConnected": {
-            "title": "Connect your Ledger",
-            "notConnected": "Connect your Ledger device to continue.",
-            "locked": "Unlock your Ledger device to continue.",
-            "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
-            "correctAppOpen": "Ledger successfully connected, please continue."
+            "title": "Sluit jouw Ledger aan",
+            "notConnected": "Sluit jouw Ledger apparaat aan om door te gaan.",
+            "locked": "Ontgrendel jouw Ledger apparaat om door te gaan.",
+            "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
+            "correctAppOpen": "Ledger succesvol verbonden, ga verder."
         },
         "verifyLedgerTransaction": {
-            "title": "Verify transaction",
-            "info": "Compare and confirm the transaction information displayed on your ledger device against the information below."
+            "title": "Verifieer transactie",
+            "info": "Vergelijk en bevestig de transactieinformatie die op jouw Ledger wordt weergegeven met de onderstaande informatie."
         },
         "verifyInternalLedgerTransaction": {
-            "title": "Verify internal transaction",
-            "info": "Please confirm the internal transaction on your ledger.",
-            "hint": "All assets will remain on your wallet when sending an internal transaction."
+            "title": "Verifieer interne transactie",
+            "info": "Bevestig aub de interne transactie op jouw Ledger.",
+            "hint": "Alle assets blijven in je wallet bij het verzenden van een interne transactie."
         },
         "verifyMessageSigning": {
-            "title": "Verify message signing",
-            "info": "Please confirm the message signing on your ledger."
+            "title": "Verifieer ondertekening bericht",
+            "info": "Bevestig aub het bericht ondertekenen op jouw Ledger."
         },
         "crashReporting": {
             "title": "Crashrapportage",
-            "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
+            "body": "Help de ontwikkelaars om Bloom te verbeteren door automatisch diagnostische gegevens te verzenden als er een fout of crash optreedt. Als dit is geselecteerd, zal dit van kracht worden na het herstarten van Bloom.",
             "checkbox": "Stuur crashrapporten naar de IOTA Foundation"
         },
         "signMessage": {
-            "title": "Sign message",
-            "hint": "No balance will be sent to {dappName} in the process of signing this message.",
-            "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
-            "action": "Sign message"
+            "title": "Bericht ondertekenen",
+            "hint": "Er wordt geen saldo verzonden naar {dappName} tijdens het ondertekenen van dit bericht.",
+            "warning": "dApp kan niet worden bepaald. Er wordt geen saldo verzonden tijdens het ondertekenen van dit bericht.",
+            "action": "Ondertekenen",
+            "success": "Ondertekend bericht"
+        },
+        "siwe": {
+            "title": "Sign-In with Ethereum"
         },
         "signTransaction": {
-            "title": "Sign transaction",
-            "action": "Sign transaction"
+            "title": "Transactie ondertekenen",
+            "action": "Ondertekenen",
+            "success": "Ondertekende transactie"
+        },
+        "sendTransaction": {
+            "title": "Transactie verzenden",
+            "action": "Verzend",
+            "success": "{assetName} verzonden naar {recipient}"
+        },
+        "smartContractCall": {
+            "title": "Smart Contract-oproep naar {contractAddress}",
+            "unableToVerify": "Bloom is niet in staat om de smart Contract-oproep te verifiëren. Ga alleen verder met apps die je vertrouwt.",
+            "action": "Bevestig",
+            "success": "Smart contract oproep naar {recipient}"
+        },
+        "successfulDappInteraction": {
+            "alert": "Je kunt dit scherm sluiten en terugkeren naar de dApp wanneer je klaar bent."
         },
         "activityDetails": {
             "title": {
-                "fallback": "Activity details",
+                "fallback": "Details activiteiten",
                 "external": {
                     "incoming": {
-                        "Pending": "Receiving from {subject}",
-                        "Confirmed": "Received from {subject}",
-                        "Conflicting": "Failed to receive"
+                        "Pending": "Ontvangen van {subject}",
+                        "Confirmed": "Ontvangen van {subject}",
+                        "Conflicting": "Ontvangen is mislukt"
                     },
                     "outgoing": {
-                        "Pending": "Sending to {subject}",
-                        "Confirmed": "Sent to {subject}",
-                        "Conflicting": "Failed to send"
+                        "Pending": "Verzenden naar {subject}",
+                        "Confirmed": "Verzonden naar {subject}",
+                        "Conflicting": "Verzenden mislukt"
+                    },
+                    "genesis": {
+                        "Pending": "Ontvangen van {subject}",
+                        "Confirmed": "Ontvangen van {subject}",
+                        "Conflicting": "Ontvangen mislukt"
                     }
                 },
                 "internal": {
                     "incoming": {
-                        "Pending": "Transferring from {subject}",
-                        "Confirmed": "Transferred from {subject}",
-                        "Conflicting": "Failed to transfer"
+                        "Pending": "Verzenden van {subject}",
+                        "Confirmed": "Verzonden van {subject}",
+                        "Conflicting": "Verzenden mislukt"
                     },
                     "outgoing": {
-                        "Pending": "Transferring to {subject}",
-                        "Confirmed": "Transferred to {subject}",
-                        "Conflicting": "Failed to transfer"
+                        "Pending": "Verzenden naar {subject}",
+                        "Confirmed": "Verzonden naar {subject}",
+                        "Conflicting": "Verzenden mislukt"
                     },
                     "selfTransaction": {
-                        "Pending": "Transferring to {subject}",
-                        "Confirmed": "Transferred to {subject}",
-                        "Conflicting": "Failed to transfer"
+                        "Pending": "Verzenden naar {subject}",
+                        "Confirmed": "Verzonden naar {subject}",
+                        "Conflicting": "Verzenden mislukt"
                     }
                 },
                 "mint": {
-                    "Pending": "Minting",
-                    "Confirmed": "Minted",
-                    "Conflicting": "Failed to mint"
+                    "Pending": "Minten",
+                    "Confirmed": "Gemint",
+                    "Conflicting": "Minten mislukt"
                 },
                 "burn": {
                     "Pending": "Burning",
                     "Confirmed": "Burned",
-                    "Conflicting": "Failed to burn"
+                    "Conflicting": "Burnen mislukt"
                 },
                 "consolidation": {
-                    "Pending": "Consolidating",
-                    "Confirmed": "Consolidated",
-                    "Conflicting": "Failed to consolidate"
+                    "Pending": "Consolideren",
+                    "Confirmed": "Geconsolideerd",
+                    "Conflicting": "Consolideren mislukt"
                 },
                 "alias": {
                     "creation": {
-                        "Pending": "Creating alias",
-                        "Confirmed": "Alias created",
-                        "Failed": "Failed to create alias"
+                        "Pending": "Alias aanmaken",
+                        "Confirmed": "Alias aangemaakt",
+                        "Failed": "Alias aanmaken mislukt"
                     }
                 },
                 "governance": {
                     "increaseVotingPower": {
-                        "Pending": "Increasing voting power",
-                        "Confirmed": "Increased voting power",
-                        "Conflicting": "Failed to increased voting power"
+                        "Pending": "Stemkracht vergroten",
+                        "Confirmed": "Stemkracht vergroot",
+                        "Conflicting": "Stemkracht vergroten mislukt"
                     },
                     "decreaseVotingPower": {
-                        "Pending": "Decreasing voting power",
-                        "Confirmed": "Decreased voting power",
-                        "Conflicting": "Failed to decreased voting power"
+                        "Pending": "Stemkracht verminderen",
+                        "Confirmed": "Stemkracht verminderd",
+                        "Conflicting": "Stemkracht verminderen mislukt"
                     },
                     "startVoting": {
-                        "Pending": "Voting for {proposalName}",
-                        "Confirmed": "Voted for {proposalName}",
-                        "Conflicting": "Failed to vote for"
+                        "Pending": "Stemmen voor {proposalName}",
+                        "Confirmed": "Gestemd voor {proposalName}",
+                        "Conflicting": "Mislukt te stemmen op"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting for {proposalName}",
-                        "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stopped voting for"
+                        "Pending": "Stemmen voor {proposalName} wordt gestopt",
+                        "Confirmed": "Stemmen voor {proposalName} gestopt",
+                        "Conflicting": "Niet gelukt om te stoppen met stemmen voor"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote for {proposalName}",
-                        "Confirmed": "Changed vote for {proposalName}",
-                        "Conflicting": "Failed to change vote for"
+                        "Pending": "Stem wijzigen voor {proposalName}",
+                        "Confirmed": "Stem gewijzigd voor {proposalName}",
+                        "Conflicting": "Mislukt de stem te wijzigen voor"
                     },
                     "revote": {
-                        "Pending": "Revoting",
-                        "Confirmed": "Revote",
-                        "Conflicting": "Failed to revote"
+                        "Pending": "Herstemmen",
+                        "Confirmed": "Stem opnieuw",
+                        "Conflicting": "Opnieuw stemmen mislukt"
                     }
                 }
             }
         },
         "legalUpdate": {
-            "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
-            "tosBody": "We have updated Bloom's Terms of Service.",
-            "privPolicyBody": "We have updated Bloom's Privacy Policy.",
+            "tosAndPrivPolicyBody": "We hebben de gebruikersvoorwaarden en het privacybeleid van Bloom bijgewerkt.",
+            "tosBody": "We hebben de gebruiksvoorwaarden van Bloom bijgewerkt.",
+            "privPolicyBody": "We hebben het privacybeleid van Bloom bijgewerkt.",
             "tosAndPrivPolicyCheckbox": "Ik heb de bijgewerkte gebruikersvoorwaarden en privacybeleid gelezen en ga hiermee akkoord",
             "tosCheckbox": "Ik heb de bijgewerkte gebruikersvoorwaarden gelezen en ga hiermee akkoord",
             "privPolicyCheckbox": "Ik heb de bijgewerkte privacybeleid gelezen en ga hiermee akkoord"
         },
         "giftedStorageDeposit": {
-            "tooltipTitle": "Gift storage deposit",
-            "tooltipDescription": "Amount kept by the recipient"
+            "tooltipTitle": "Gift-opslag storting",
+            "tooltipDescription": "Bedrag gehouden door de ontvanger"
         },
         "tokenInformation": {
-            "verificationWarning": "This token is unverified. Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust.",
+            "verificationWarning": "Deze token is niet geverifieerd. Vergelijk de token metadata met de officiële website van het betreffende team. Verifieer alleen tokens die je vertrouwt.",
             "tokenMetadata": {
-                "standard": "Standard",
+                "standard": "Standaard",
                 "tokenId": "Token ID",
                 "url": "URL",
-                "description": "Description"
+                "description": "Beschrijving"
             },
             "buttons": {
-                "verifyToken": "I verify this token"
+                "verifyToken": "Ik verifieer deze token"
             }
         },
         "nativeToken": {
             "formTitle": "Mint native tokens",
             "confirmationTitle": "Mint native tokens",
             "property": {
-                "totalSupply": "Total supply",
-                "maximumSupply": "Maximum supply",
+                "totalSupply": "Totale voorraad",
+                "maximumSupply": "Maximale voorraad",
                 "mintedTokens": "Minted tokens",
                 "meltedTokens": "Melted tokens",
-                "circulatingSupply": "Circulating supply",
-                "aliasAddress": "Alias controller address",
-                "tokenName": "Name",
-                "storageDeposit": "Storage Deposit",
-                "description": "Description",
-                "symbol": "Symbol",
-                "decimals": "Decimals",
+                "circulatingSupply": "Circulerende voorraad",
+                "aliasAddress": "Alias controller adres",
+                "tokenName": "Naam",
+                "storageDeposit": "Opslag waarborg",
+                "description": "Beschrijving",
+                "symbol": "Symbool",
+                "decimals": "Decimalen",
                 "url": "URL",
                 "logoUrl": "Logo URL",
                 "logo": "Logo",
-                "unit": "Unit",
+                "unit": "Eenheid",
                 "alias": "Alias",
-                "tokenId": "Token Id"
+                "tokenId": "Token-Id"
             }
         },
-        "importErc20Token": {
-            "title": "Import ERC20 token",
+        "importToken": {
+            "title": "Importeer {type} token",
             "property": {
-                "tokenAddress": "Token address"
+                "tokenAddress": "Token adres"
             },
-            "success": "Imported {tokenSymbol} token",
-            "error": "Unable to import ERC20 token"
+            "success": "Geïmporteerde {tokenSymbol} token",
+            "errors": {
+                "otherOwner": "Je bent niet de eigenaar van de NFT!",
+                "alreadyAdded": "Je hebt deze NFT al in je portfolio"
+            }
         },
         "noAlias": {
-            "title": "Unable to mint",
-            "description": "You must own an alias output to mint native tokens. To continue, please create an alias first"
+            "title": "Minten mislukt",
+            "description": "Je moet een alias output hebben om native tokens te kunnen minten. Maak eerst een alias aan om door te gaan"
         },
         "mintNftForm": {
-            "title": "Mint simple NFT",
+            "title": "Mint eenvoudige NFT",
             "errors": {
-                "invalidMimetype": "Invalid MimeType, check if the file type is supported",
-                "quantityTooSmall": "Quantity needs to be greater than 0",
-                "quantityTooLarge": "Quantity needs to be smaller than 64",
-                "emptyName": "Name is a required field",
-                "invalidURI": "Invalid URI, please provide a valid URI",
-                "notReachable": "URI not reachable, unable to check NFT type",
-                "royaltiesMustBeObject": "Royalties must be an object",
-                "royaltiesMustBeJSON": "Royalties must be a valid JSON",
-                "invalidAddress": "Invalid address, must be a valid {networkHrp} address where royalties will be sent to",
-                "invalidRoyaltyValue": "Invalid value, it must be a numeric decimal representative of the percentage required ie. 0.05",
-                "invalidRoyaltyValueSum": "Invalid value, the sum of all royalties must be less than or equal to 1'",
-                "attributesMustBeJSON": "Attributes must be a valid JSON",
-                "attributesMustBeArrayOfObjects": "Attributes must be an array of objects",
-                "attributesInvalidKeys": "Invalid key, attributes must have the keys \"trait_type\" and \"value\"",
-                "attributesInvalidValues": "Invalid value, \"trait_type\" must be a non empty string and \"value\" must be a non empty string or a number"
+                "invalidMimetype": "Ongeldige MimeType, controleer of het bestandstype wordt ondersteund",
+                "quantityTooSmall": "Hoeveelheid moet groter zijn dan 0",
+                "quantityTooLarge": "Hoeveelheid moet kleiner zijn dan 64",
+                "emptyName": "Naam is een verplicht veld",
+                "invalidURI": "Ongeldige URI, geef een geldige URI op",
+                "notReachable": "URI niet bereikbaar, niet mogelijk het NFT type te controleren",
+                "royaltiesMustBeObject": "Royalties moeten een object zijn",
+                "royaltiesMustBeJSON": "Royalties moeten een geldige JSON zijn",
+                "invalidAddress": "Ongeldig adres, moet een geldig {networkHrp} adres zijn waar royalties naar worden verzonden",
+                "invalidRoyaltyValue": "Ongeldige waarde, het moet een numerieke decimale representatie zijn van het vereiste percentage. Bijv. 0.05",
+                "invalidRoyaltyValueSum": "Ongeldige waarde, de som van alle royalties moet lager of gelijk zijn aan 1'",
+                "attributesMustBeJSON": "Attributen moeten een geldige JSON zijn",
+                "attributesMustBeArrayOfObjects": "Attributen moeten een array van objecten zijn",
+                "attributesInvalidKeys": "Ongeldige sleutel, attributen moeten de sleutels \"trait_type\" en \"value\" hebben",
+                "attributesInvalidValues": "Ongeldige waarde, \"trait_type\" moet een niet lege tekenreeks zijn en \"value\" moet een niet-lege tekenreeks of een getal zijn"
             }
         },
         "faucetRequest": {
-            "title": "Faucet request",
-            "body": "Are you sure you want to request {token} tokens from the {network} faucet?"
+            "title": "Faucet verzoek",
+            "body": "Weet je zeker dat je {token} tokens van de {network} Faucet wilt aanvragen?"
         },
         "manageVotingPower": {
-            "title": "Manage voting power",
-            "body": "Define your voting power to vote on proposals.",
-            "hint": "All funds that you allocate to voting are locked. In order to make them spendable again, you need to decrease your voting power. This affects all proposals with an active vote.",
-            "amountZero": "Please be aware that setting your voting power to zero will stop all your votes for all proposals you are currently voting on."
+            "title": "Beheer stemkracht",
+            "body": "Definieer je stemkracht om over voorstellen te stemmen.",
+            "hint": "Alle middelen die je toewijst aan stemmen zijn vergrendeld. Om ze opnieuw uit te kunnen geven, moet je jouw stemvermogen verkleinen. Dit geldt voor alle voorstellen met een actieve stem.",
+            "amountZero": "Houd er rekening mee dat het instellen van jouw stemkracht op nul alle stemmen op alle voorstellen waarover je momenteel stemt, zal onderbreken."
         },
         "addProposal": {
-            "title": "Add proposal",
-            "body": "Please provide the information listed below to add a proposal.",
-            "addToAllAccounts": "Add the proposal to all accounts"
+            "title": "Voorstel toevoegen",
+            "body": "Lever onderstaande informatie aan om een voorstel toe te voegen.",
+            "addToAllAccounts": "Voeg het voorstel toe aan alle accounts"
         },
         "editProposal": {
-            "title": "Edit proposal",
-            "body": "Please provide the new url for the node that contains this proposal."
+            "title": "Voorstel bewerken",
+            "body": "Geef de nieuwe url voor het knooppunt dat dit voorstel bevat."
         },
         "voteForProposal": {
-            "title": "Vote for proposal",
-            "body": "You're about to vote for {proposal} proposal.",
-            "key": "Your voting power",
-            "hasAbstained": "You are abstaining from answering {numberOfQuestions, plural, one {# question} other {# questions}}.",
-            "noVotingPower": "You do not have any voting power. Please increase your voting power from the Governance dashboard."
+            "title": "Stem voor voorstel",
+            "body": "Je staat op het punt om voor het {proposal} voorstel te stemmen.",
+            "key": "Je stemkracht",
+            "hasAbstained": "Je onthoudt je van het beantwoorden van {numberOfQuestions, plural, one {# vraag} other {# vragen}}.",
+            "noVotingPower": "Je hebt geen stemkracht. Vergroot je stemkracht via het Governance dashboard."
         },
         "revote": {
-            "title": "Revote on proposals",
-            "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
+            "title": "Herstem voor voorstellen",
+            "body": "Het wijzigen van jouw stemkracht zorgt ervoor dat jouw stemmen voor alle voorstellen tijdelijk niet meer geteld worden. Klik simpelweg op \"Herstem\" om de stemming te hervatten.",
+            "hint": "Bloom onthoudt alle voorstellen en antwoordopties waarvoor je eerder hebt gestemd."
         },
         "removeProposal": {
-            "title": "Remove proposal",
-            "body": "Are you sure you want to remove this proposal?",
-            "hint": "Please note that removing a proposal during the counting period will stop your votes but won't impact any votes that have already been counted."
+            "title": "Voorstel verwijderen",
+            "body": "Weet je zeker dat je dit voorstel wilt verwijderen?",
+            "hint": "Houd er rekening mee dat het verwijderen van een voorstel tijdens de optelperiode je stemmen zal stoppen, maar geen invloed heeft op je stemmen die al geteld zijn."
         },
         "stopVoting": {
-            "title": "Stop voting",
-            "body": "You're about to stop voting for the {proposalName} proposal.",
-            "hint": "Please note that stopping voting during the counting period won't impact any votes that have already been counted."
+            "title": "Stoppen met stemmen",
+            "body": "Je staat op het punt te stoppen met stemmen voor het {proposalName} voorstel.",
+            "hint": "Houd er rekening mee dat het stoppen met stemmen tijdens de telperiode geen invloed heeft op de stemmen die al geteld zijn."
         },
         "nodeAuthRequired": {
-            "title": "Authentication required",
-            "body": "This node requires additional authentication. Please fill in the appropriate information."
+            "title": "Verificatie vereist",
+            "body": "Dit knooppunt vereist extra verificatie. Vul de juiste informatie in."
         },
         "receiveAddress": {
-            "title": "Receive",
-            "body": "Receive tokens, NFTs, and other digital assets to your account address shown below.",
-            "networkAddress": "{networkName} address"
+            "title": "Ontvang",
+            "body": "Ontvang tokens, NFT's en andere digitale assets naar je account adres hieronder weergegeven.",
+            "networkAddress": "{networkName} adres"
         },
         "createAccount": {
-            "title": "Create account"
+            "title": "Account aanmaken"
         }
     },
     "actions": {
-        "apply": "Apply",
+        "apply": "Toepassen",
         "continue": "Doorgaan",
         "back": "Terug",
         "previous": "Vorige",
@@ -1103,7 +1216,7 @@
         "close": "Sluiten",
         "claim": "Claim",
         "claiming": "Claimen",
-        "claimingRewards": "Claiming rewards",
+        "claimingRewards": "Beloningen claimen",
         "reject": "Afwijzen",
         "confirmRejection": {
             "title": "Transactie afwijzen",
@@ -1112,71 +1225,71 @@
         },
         "confirmTokenBurn": {
             "title": "Burn {assetName}",
-            "hint": "Please note that burning a token may free storage deposit attached to it and is not reversible"
+            "hint": "Houd er rekening mee dat het burnen van een token mogelijk de opslag waarborg die erbij hoort zal vrijgeven en dat dit niet teruggedraaid kan worden"
         },
         "confirmNftBurn": {
             "title": "Burn {nftName}",
-            "description": "Are you sure you want to burn this NFT?",
-            "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
+            "description": "Weet je zeker dat je deze NFT wilt burnen?",
+            "hint": "Houd er rekening mee dat het burnen van een NFT de opslag waarborg die erbij hoort zal vrijgeven en dat dit niet teruggedraaid kan worden."
         },
         "save": "Opslaan",
         "refreshNftMedia": {
-            "title": "Refresh NFT media",
-            "description": "Do you want to delete and re-download all NFT media for this account?"
+            "title": "NFT media vernieuwen",
+            "description": "Wil je alle NFT media voor dit account verwijderen en opnieuw downloaden?"
         },
-        "createAlias": "Create alias",
-        "createAliasDescription": "Create alias output",
+        "createAlias": "Alias aanmaken",
+        "createAliasDescription": "Maak alias uitvoer",
         "setPin": "Pincode instellen",
         "confirmPin": "Pincode bevestigen",
-        "enterYourPin": "Voer uw pincode in",
+        "enterYourPin": "Voer je pincode in",
         "send": "Verstuur",
         "receive": "Ontvang",
         "create": "Creëer",
-        "updateAndContinue": "Update and continue",
+        "updateAndContinue": "Bijwerken en doorgaan",
         "tryAgain": "Probeer opnieuw",
         "visitDiscord": "Bezoek Discord",
-        "importExtensions": ".stronghold file",
-        "dropHere": "Sleep uw bestand hier naartoe",
-        "dropOrBrowse": "Drop here or browse your files",
-        "import": "Import",
-        "importing": "Importing",
+        "importExtensions": ".stronghold bestand",
+        "dropHere": "Sleep jouw bestand hier naartoe",
+        "dropOrBrowse": "Sleep hier naartoe of blader door je bestanden",
+        "import": "Importeer",
+        "importing": "Importeren",
         "export": "Exporteer",
         "exporting": "Exporteren",
         "exportNewStronghold": "Exporteer een nieuwe Stronghold",
-        "enableDeepLinks": "Enable deep links",
+        "enableDeepLinks": "Deep links inschakelen",
         "enableDeveloperMode": "Ontwikkelaarsmodus inschakelen",
         "enableSystemNotifications": "Notificaties inschakelen",
         "exportTransactionHistory": "Transactiegeschiedenis exporteren",
         "localProofOfWork": "Lokaal bewijs van werk",
         "unlock": "Ontgrendel",
-        "updateBloom": "Update Bloom",
-        "restart": "Restart",
-        "refresh": "Refresh",
-        "saveBackup": "Save backup",
-        "customizeAccount": "Customise account",
-        "hideAccount": "Hide account",
-        "showAccount": "Unhide account",
-        "deleteAccount": "Delete account",
-        "addNode": "Node toevoegen",
-        "addingNode": "Adding node",
-        "addOfficialNodes": "Add official nodes",
-        "updateNode": "Node bijwerken",
-        "removeNode": "Verwijder node",
+        "updateBloom": "Bloom bijwerken",
+        "restart": "Herstart",
+        "refresh": "Vernieuwen",
+        "saveBackup": "Back-up opslaan",
+        "customizeAccount": "Account aanpassen",
+        "hideAccount": "Account verbergen",
+        "showAccount": "Account zichtbaar maken",
+        "deleteAccount": "Account verwijderen",
+        "addNode": "Knooppunt toevoegen",
+        "addingNode": "Toevoegen knooppunt",
+        "addOfficialNodes": "Toevoegen officiële knooppunten",
+        "updateNode": "Knooppunt bijwerken",
+        "removeNode": "Verwijder knooppunt",
         "hide": "Verberg",
         "hideOthers": "Verberg Andere",
         "showAll": "Toon Alles",
-        "useMax": "Use Max",
+        "useMax": "Max gebruiken",
         "quit": "Afsluiten",
         "edit": "Bewerken",
         "undo": "Ongedaan maken",
         "redo": "Opnieuw",
         "cut": "Knippen",
         "copy": "Kopiëren",
-        "copyAddress": "Copy address",
+        "copyAddress": "Adres kopiëren",
         "copyAllInformation": "Kopieer alle informatie",
         "paste": "Plakken",
         "selectAll": "Selecteer Alles",
-        "addAccount": "Add account",
+        "addAccount": "Account toevoegen",
         "checkForUpdates": "Controleren op Updates",
         "reportAnIssue": "Een probleem melden",
         "clear": "Wis",
@@ -1185,12 +1298,12 @@
         "skip": "Overslaan",
         "reset": "Herstel",
         "downloadRecoveryKit": "Download recovery kit template",
-        "skipBackup": "Skip wallet backup",
+        "skipBackup": "Wallet back-up overslaan",
         "finishSetup": "Installatie voltooien",
         "readDocumentation": "Lees de documentatie",
         "visitFaq": "Bezoek veelgestelde vragen",
-        "viewDownloads": "View downloads",
-        "showHiddenAccounts": "Show hidden accounts",
+        "viewDownloads": "Bekijk downloads",
+        "showHiddenAccounts": "Toon verborgen accounts",
         "confirm": "Bevestig",
         "hideNetworkStatistics": "Netwerkstatistieken verbergen",
         "search": "Zoek",
@@ -1199,36 +1312,37 @@
         "generateAddress": "Genereer adres",
         "claimRewards": "Claim beloningen",
         "rerunClaimProcess": "Opnieuw uitvoeren claim proces",
-        "useFinder": "Use balance finder",
-        "backup": "Backup",
+        "useFinder": "Saldo zoeker gebruiken",
+        "backup": "Back-up",
         "mint": "Mint",
-        "mintNativeToken": "Mint native token",
+        "mintNativeToken": "Mint native tokens",
         "mintNft": "Mint NFT",
-        "verifyToken": "Verify token",
-        "unverifyToken": "Unverify token",
-        "hideToken": "Hide token",
-        "unhideToken": "Unhide token",
+        "verifyToken": "Verifieer token",
+        "unverifyToken": "Token verificatie ongedaan maken",
+        "hideToken": "Verberg token",
+        "unhideToken": "Token zichtbaar maken",
         "burn": "Burn",
         "burnToken": "Burn token",
-        "faucetRequest": "Get {token} tokens",
-        "refreshTokenMetadata": "Refresh token metadata",
+        "faucetRequest": "Ontvang {token} tokens",
+        "refreshTokenMetadata": "Ververs token metagegevens",
         "test": "Test",
         "testDeepLink": "Test deep link",
-        "delete": "Delete",
-        "remove": "Remove",
-        "getStarted": "Get started",
-        "vote": "Vote",
-        "addProposal": "Add proposal",
-        "removeProposal": "Remove proposal",
-        "changeNode": "Change node",
-        "stopVoting": "Stop voting",
-        "revote": "Revote",
-        "skipAndKeep": "Skip and keep old password",
-        "addChain": "Add chain",
-        "untrackToken": "Untrack token",
-        "switchAccount": "Switch account",
-        "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token"
+        "delete": "Verwijder",
+        "remove": "Verwijder",
+        "getStarted": "Aan de slag",
+        "vote": "Stem",
+        "addProposal": "Voorstel toevoegen",
+        "removeProposal": "Voorstel verwijderen",
+        "changeNode": "Wijzig knooppunt",
+        "stopVoting": "Stoppen met stemmen",
+        "revote": "Stem opnieuw",
+        "skipAndKeep": "Overslaan en behoud oude wachtwoord",
+        "addChain": "Chain toevoegen",
+        "untrackToken": "Token ontvolgen",
+        "switchAccount": "Account wisselen",
+        "syncAccounts": "Synchroniseer accounts",
+        "importToken": "Importeer {type} token",
+        "syncTokens": "Forceer synchronisatie tokens"
     },
     "general": {
         "recipient": "Ontvanger",
@@ -1241,94 +1355,82 @@
         "sending": "Verzenden",
         "received": "Ontvangen",
         "receiving": "Ontvangen",
-        "newVotingPower": "New voting power",
-        "votingPower": "Voting power",
-        "increased": "Voting power increased",
-        "increasing": "Increasing voting power",
-        "decreased": "Voting power decreased",
-        "decreasing": "Decreasing voting power",
+        "newVotingPower": "Nieuwe stemkracht",
+        "votingPower": "Stemkracht",
+        "increased": "Stemkracht vergroot",
+        "increasing": "Stemkracht vergroten",
+        "decreased": "Stemkracht verkleind",
+        "decreasing": "Stemkracht verkleinen",
         "voted": "Gestemd",
         "voting": "Stemmen",
-        "changedVote": "Changed vote",
-        "changingVote": "Changing vote",
-        "revoted": "Revoted",
-        "revoting": "Revoting",
+        "changedVote": "Stem gewijzigd",
+        "changingVote": "Stem wijzigen",
+        "revoted": "Herstemd",
+        "revoting": "Herstemmen",
         "unvoted": "Niet gestemd",
         "unvoting": "Niet stemmen",
-        "transferIn": "Transfer in",
-        "transferringIn": "Transferring in",
-        "transferOut": "Transfer out",
-        "transferringOut": "Transferring out",
-        "shimmerClaimed": "Claimed",
-        "shimmerClaiming": "Claiming",
+        "transferred": "Verzonden",
+        "transferring": "Aan het verzenden",
+        "shimmerClaimed": "Geclaimed",
+        "shimmerClaiming": "Claimen",
         "shimmerGenesis": "Shimmer Genesis",
-        "mintedalias": "Minted alias",
-        "mintingalias": "Minting alias",
-        "mintednft": "Minted NFT",
-        "mintingnft": "Minting NFT",
-        "mintedfoundry": "Minted token",
-        "mintingfoundry": "Minting token",
-        "burnedalias": "Burned alias",
-        "burningalias": "Burning alias",
-        "burnednft": "Burned NFT",
-        "burningnft": "Burning NFT",
-        "burnedfoundry": "Burned token",
-        "burningfoundry": "Burning token",
-        "burnedbasic": "Burned token",
-        "burningbasic": "Burning token",
-        "balanceDecreased": "Balance decreased",
-        "balanceIncreased": "Balance increased",
-        "initialBalance": "Initial balance",
-        "consolidated": "Consolidated",
-        "consolidating": "Consolidating",
+        "minted": "Gemint",
+        "minting": "Minten",
+        "burned": "Burned",
+        "burning": "Burning",
+        "balanceDecreased": "Saldo verlaagd",
+        "balanceIncreased": "Saldo verhoogd",
+        "initialBalance": "Beginsaldo",
+        "consolidated": "Geconsolideerd",
+        "consolidating": "Consolideren",
         "sendTo": "Verzend naar",
-        "sendAssets": "Send assets",
-        "sendAssetToAddress": "Send asset to an address",
-        "manageAccount": "Manage account",
+        "sendAssets": "Stuur assets",
+        "sendAssetToAddress": "Stuur asset naar een adres",
+        "manageAccount": "Account beheren",
         "account": "Account",
         "amount": "Aantal",
-        "addAddress": "Add address",
+        "addAddress": "Adres toevoegen",
         "to": "Naar",
-        "and": "and",
+        "and": "en",
         "receiveFunds": "Fondsen ontvangen",
         "address": "Adres",
-        "addressName": "Address name",
-        "myAddress": "My address",
-        "viewOnExplorer": "View on explorer",
-        "viewQrCode": "View QR code",
+        "addressName": "Adres naam",
+        "myAddress": "Mijn adres",
+        "viewOnExplorer": "Bekijk op explorer",
+        "viewQrCode": "Bekijk QR-code",
         "import": "Importeer",
         "stronghold": "Stronghold",
-        "locked": "Locked",
-        "unlocked": "Unlocked",
+        "locked": "Vergrendeld",
+        "unlocked": "Ontgrendeld",
         "lightTheme": "Licht",
         "darkTheme": "Donker",
         "systemTheme": "Systeem",
         "balance": "Saldo",
-        "balanceWithValue": "Balance: {balance}",
-        "balanceWithNetwork": "{network} Balance",
+        "balanceWithValue": "Saldo: {balance}",
+        "balanceWithNetwork": "{network} saldo",
         "all": "Alle",
         "incoming": "Inkomend",
         "outgoing": "Uitgaand",
         "dev": "Ontwikkelaar",
-        "newAccount": "New account",
-        "accountName": "Account name",
+        "newAccount": "Nieuw account",
+        "accountName": "Accountnaam",
         "activity": "Activiteit",
         "security": "Beveiliging",
         "network": "Netwerk",
-        "networkSelection": "Network selection",
-        "destinationNetwork": "Destination network",
-        "nodes": "Nodes",
-        "wallet": "Portemonnee",
+        "networkSelection": "Netwerk selectie",
+        "destinationNetwork": "Bestemmingsnetwerk",
+        "nodes": "Knooppunten",
+        "wallet": "Wallet",
         "help": "Help",
         "confirmed": "Bevestigd",
         "pending": "Lopende",
         "addProfile": "Profiel Toevoegen",
         "noRecentHistory": "Geen recente geschiedenis",
-        "noFilteredActivity": "No matching activities",
-        "noAssets": "No assets",
-        "noFilteredAsset": "No matching assets",
+        "noFilteredActivity": "Geen overeenkomende activiteiten",
+        "noAssets": "Geen assets",
+        "noFilteredAsset": "Geen overeenkomende assets",
         "thisMonth": "Deze maand",
-        "search": "Search...",
+        "search": "Zoek...",
         "passwordUpdating": "Wachtwoord bijwerken...",
         "passwordSuccess": "Wachtwoord succesvol bijgewerkt",
         "passwordFailed": "Wachtwoord bijwerken mislukt",
@@ -1339,7 +1441,7 @@
         "pinCodeFailed": "PIN-code bijwerken mislukt",
         "passwordStrength": "Wachtwoord sterkte",
         "passwordStrength0": "Slecht",
-        "passwordStrength1": "Very weak",
+        "passwordStrength1": "Zeer zwak",
         "passwordStrength2": "Zwak",
         "passwordStrength3": "Gemiddeld",
         "passwordStrength4": "Sterk",
@@ -1347,167 +1449,187 @@
         "fromAddress": "van {account}",
         "toAddress": "naar {account}",
         "capsLock": "Caps Lock staat aan",
-        "version": "Version",
-        "versionFull": "Version {version}",
+        "version": "Versie",
+        "versionFull": "Versie {version}",
         "unknown": "Onbekend",
         "unknownAddress": "Onbekend adres",
         "none": "Geen",
-        "accountColor": "Account color",
+        "accountColor": "Account kleur",
         "transactionTime": "Transactie tijd",
-        "storageDeposit": "Opslag borg",
-        "transactionFee": "Transaction fee",
-        "storageDepositPerNft": "Storage deposit per NFT",
-        "totalStorageDeposit": "Total storage deposit",
-        "expirationTime": "Expiration time",
-        "expiration": "Expiration",
-        "timelockDate": "Timelock",
-        "claimedTime": "Claimed at",
+        "storageDeposit": "Opslag waarborg",
+        "transactionFee": "Transactie fee",
+        "storageDepositPerNft": "Opslag waarborg per NFT",
+        "totalStorageDeposit": "Totale waarborg opslag",
+        "expirationTime": "Verlooptijd",
+        "expiration": "Vervaldatum",
+        "timelockDate": "Tijdslot",
+        "claimedTime": "Geclaimed op",
         "nftId": "NFT ID",
         "aliasId": "Alias ID",
-        "governorAddress": "Governor Address",
-        "stateControllerAddress": "State Controller Address",
-        "copiedToClipboard": "Copied to clipboard",
-        "availableBalanceWithValue": "Available balance: {balance}",
+        "tokenId": "Token ID",
+        "governorAddress": "Governor adres",
+        "stateControllerAddress": "State controller adres",
+        "copiedToClipboard": "Gekopieerd naar het klembord",
+        "availableBalanceWithValue": "Beschikbare saldo: {balance}",
         "metadata": "Metadata",
-        "amountConsolidatedInputs": "Consolidated outputs",
-        "name": "Name",
-        "note": "Note",
-        "tag": "Tag",
-        "nodeList": "Node list",
-        "claimed": "claimed",
-        "claimedIn": "Claimed in",
-        "claimingIn": "Claiming in",
+        "amountConsolidatedInputs": "Gecombineerde outputs",
+        "name": "Naam",
+        "note": "Notitie",
+        "tag": "Label",
+        "nodeList": "Knooppunt lijst",
+        "claimed": "geclaimed",
+        "claimedIn": "Geclaimed in",
+        "claimingIn": "Claimen in",
         "assets": "Assets",
         "nativeTokens": "Native tokens",
-        "mintNativeTokenDescription": "Mint native token following IRC30 standard",
-        "mintNftDescription": "Mint NFT following IRC27 standard",
-        "faucetRequestDescription": "Request tokens from the {network} faucet",
-        "refreshTokenMetadataHint": "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
-        "excluded": "Excluded",
-        "developerTools": "Developer tools",
-        "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
+        "mintNativeTokenDescription": "Mint native token volgens IRC30 standaard",
+        "mintNftDescription": "Mint NFT volgens IRC27 standaard",
+        "faucetRequestDescription": "Vraag tokens aan van de {network} faucet",
+        "refreshTokenMetadataHint": "Dit zal de metadata van al je tokens resetten, inclusief de verificatiestatus, en maakt verborgen activa weer zichtbaar.",
+        "excluded": "Uitgesloten",
+        "developerTools": "Opties voor ontwikkelaars",
+        "testDeepLinkDescription": "Simuleer een deep link-verzoek die verzonden wordt naar Bloom",
         "url": "URL",
         "hash": "Hash",
-        "creating": "Creating",
-        "updating": "Updating",
-        "transaction": "Transaction",
+        "creating": "Aanmaken",
+        "updating": "Bijwerken",
+        "transaction": "Transactie",
         "alias": "Alias",
         "foundry": "Foundry",
         "token": "Token",
         "nft": "NFT",
         "type": "Type",
-        "immutableIssuer": "Immutable Issuer",
-        "magicContract": "Magic Contract",
+        "immutableIssuer": "Onveranderlijke uitgever",
+        "magicContract": "Magisch Contract",
         "smartContract": "Smart Contract",
-        "targetContract": "Target contract",
-        "contractFunction": "Contract function",
-        "standard": "Standard",
+        "contractCall": "Contract oproep",
+        "targetContract": "Doel contract",
+        "contractFunction": "Contract functie",
+        "standard": "Standaard",
         "uri": "URI",
-        "issuer": "Issuer",
-        "issuerAddress": "Issuer Address",
-        "issuerName": "Issuer Name",
-        "quantity": "Quantity",
-        "collection": "Collection",
-        "collectionId": "Collection ID",
-        "collectionName": "Collection Name",
+        "issuer": "Uitgever",
+        "issuerAddress": "Uitgever adres",
+        "issuerName": "Naam uitgever",
+        "quantity": "Aantal",
+        "collection": "Verzameling",
+        "collectionId": "Verzameling ID",
+        "collectionName": "Verzameling Naam",
         "royalties": "Royalties",
-        "description": "Description",
-        "attributes": "Attributes",
+        "description": "Beschrijving",
+        "attributes": "Attributen",
         "details": "Details",
-        "properties": "Properties",
-        "statistics": "Statistics",
-        "internalTransaction": "Internal transaction",
-        "coinType": "Coin type",
-        "custom": "Custom",
-        "evmAddress": "EVM address",
-        "optionalField": "{field} (optional)",
-        "gifted": "Gifted",
-        "connected": "Connected",
-        "estimatedFee": "Estimated fee",
+        "properties": "Eigenschappen",
+        "statistics": "Statistieken",
+        "internalTransaction": "Interne transactie",
+        "coinType": "Munt type",
+        "custom": "Aangepast",
+        "evmAddress": "EVM adres",
+        "contractAddress": "Contract Adres",
+        "optionalField": "{field} (optioneel)",
+        "gifted": "Geschonken",
+        "connected": "Verbonden",
+        "estimatedFee": "Geschatte fee",
         "maxFees": "Max fees",
-        "contacts": "Contacts",
+        "contacts": "Contacten",
         "apps": "Apps",
-        "networks": "Networks",
-        "ledgerDevice": "Ledger device",
-        "disconnected": "Disconnected",
-        "balanceBreakdown": "Balance breakdown",
-        "primary": "Primary",
-        "color": "Color",
-        "privacyPolicy": "Privacy Policy",
-        "termsOfService": "Terms of Service",
-        "message": "Message",
-        "error": "Error",
-        "warning": "Warning",
-        "failed": "failed",
-        "required": "Required",
-        "yes": "Yes",
-        "no": "No"
+        "networks": "Netwerken",
+        "ledgerDevice": "Ledger apparaat",
+        "disconnected": "Verbroken",
+        "redirected": "Doorverwezen",
+        "balanceBreakdown": "Saldo verdeling",
+        "primary": "Primair",
+        "color": "Kleur",
+        "privacyPolicy": "Privacybeleid",
+        "termsOfService": "Gebruikersvoorwaarden",
+        "message": "Bericht",
+        "error": "Foutmelding",
+        "warning": "Waarschuwing",
+        "failed": "mislukt",
+        "required": "Vereist",
+        "yes": "Ja",
+        "no": "Nee",
+        "tip": "Tip",
+        "verified": "Geverifiëerd",
+        "methodName": "Methodenaam",
+        "data": "Gegevens",
+        "success": "Succesvol",
+        "info": "Info",
+        "active": "Actief",
+        "ended": "Afgelopen",
+        "draft": "Concept",
+        "upcoming": "Aankomend",
+        "featured": "Aanbevolen",
+        "raffle": "Verloting",
+        "governance": "Governance",
+        "baseCoin": "Basis token",
+        "unverifiedContract": "Ongeverifieerd contract"
     },
     "filters": {
         "title": "Filters",
         "showHidden": {
-            "label": "Show hidden",
-            "yes": "Yes",
-            "no": "No"
+            "label": "Verborgen items weergeven",
+            "yes": "Ja",
+            "no": "Nee"
         },
         "showRejected": {
-            "label": "Show rejected",
-            "yes": "Yes",
-            "no": "No"
+            "label": "Toon afgewezen",
+            "yes": "Ja",
+            "no": "Nee"
         },
         "showValueless": {
-            "label": "Show valueless",
-            "yes": "Yes",
-            "no": "No"
+            "label": "Toon waardeloos",
+            "yes": "Ja",
+            "no": "Nee"
         },
         "ascDesc": {
-            "Asc": "Ascending",
-            "Desc": "Descending"
+            "Asc": "Oplopend",
+            "Desc": "Aflopend"
         },
         "assetOrder": {
-            "label": "Order",
-            "Name": "Name",
-            "Amount": "Amount"
+            "label": "Volgorde",
+            "Name": "Naam",
+            "Amount": "Aantal"
         },
         "internalExternal": {
-            "label": "Internal / External",
-            "internal": "Internal",
-            "external": "External"
+            "label": "Intern / Extern",
+            "internal": "Intern",
+            "external": "Extern"
         },
         "verificationStatus": {
-            "label": "Verification status",
-            "new": "New",
-            "skipped": "Skipped verification",
-            "selfVerified": "Self-verified",
-            "official": "Official"
+            "label": "Verificatiestatus",
+            "new": "Nieuw",
+            "skipped": "Verificatie overgeslagen",
+            "selfVerified": "Zelf geverifieerd",
+            "official": "Officieel"
         },
         "asset": {
             "label": "Assets"
         },
         "amount": {
-            "label": "Amount",
-            "equal": "is equal to",
-            "range": "is between",
-            "greater": "is greater than",
-            "less": "is less than"
+            "label": "Aantal",
+            "equal": "is gelijk aan",
+            "range": "ligt tussen",
+            "greater": "is meer dan",
+            "less": "is minder dan"
         },
         "date": {
-            "label": "Date",
-            "equals": "is equal to",
-            "last": "in the last",
-            "range": "is between",
-            "after": "is after",
-            "afterOrEquals": "is on or after",
-            "before": "is before",
-            "Days": "days",
-            "Months": "months",
-            "Years": "years"
+            "label": "Datum",
+            "equals": "is gelijk aan",
+            "last": "in de laatste",
+            "range": "ligt tussen",
+            "after": "is na",
+            "afterOrEquals": "ligt op of na",
+            "before": "ligt voor",
+            "Days": "dagen",
+            "Months": "maanden",
+            "Years": "jaren"
         },
         "status": {
             "label": "Status",
-            "confirmed": "confirmed",
-            "pending": "pending",
-            "claimed": "claimed",
+            "confirmed": "bevestigd",
+            "timelocked": "tijdsvergrendeling",
+            "pending": "in behandeling",
+            "claimed": "geclaimed",
             "unclaimed": "niet-opgeëist"
         },
         "type": {
@@ -1517,34 +1639,34 @@
             "alias": "Alias",
             "foundry": "Foundry",
             "governance": "Governance",
-            "consolidation": "Consolidation"
+            "consolidation": "Consolidatie"
         },
         "direction": {
-            "label": "Direction",
-            "incoming": "Incoming",
-            "outgoing": "Outgoing",
-            "selfTransaction": "Self transaction"
+            "label": "Richting",
+            "incoming": "Inkomend",
+            "outgoing": "Uitgaand",
+            "selfTransaction": "Eigen transactie"
         },
         "proposalType": {
             "label": "Type",
-            "official": "Official",
-            "custom": "Custom"
+            "official": "Officieel",
+            "custom": "Aangepast"
         },
         "phase": {
-            "label": "Phase"
+            "label": "Fase"
         },
         "participated": {
-            "label": "Participated",
-            "yes": "Yes",
-            "no": "No"
+            "label": "Deelgenomen",
+            "yes": "Ja",
+            "no": "Nee"
         },
         "proposalOrder": {
-            "label": "Order",
-            "name": "Name",
-            "phase": "Phase"
+            "label": "Volgorde",
+            "name": "Naam",
+            "phase": "Fase"
         },
         "network": {
-            "label": "Network"
+            "label": "Netwerk"
         }
     },
     "dates": {
@@ -1570,65 +1692,67 @@
         "updateError": "Er is een fout opgetreden tijdens het updaten, probeer het opnieuw",
         "copiedToClipboard": "Gekopieerd naar het klembord",
         "newDappConnection": {
-            "success": "Connected to new dApp",
-            "rejected": "Connection rejected"
+            "noProposal": "Geen voorstel van dApp ontvangen"
         },
         "deepLinkingRequest": {
-            "receivedWhileLoggedOut": "Please login to initiate the deep link",
-            "invalidFormat": "The deep link you followed is invalid",
-            "invalidAmount": "The amount in deep link is not an integer number {amount}",
+            "receivedWhileLoggedOut": "Log in om de deep link te starten",
+            "invalidFormat": "De deep link die je hebt gevolgd is ongeldig",
+            "invalidAmount": "Het bedrag in de deep link is geen nummer {amount}",
             "invalidSurplus": "Het overschot in de diepe link is geen nummer {surplus}",
-            "surplusNotSupported": "The surplus is only supported for native tokens",
+            "surplusNotSupported": "Het overschot wordt alleen ondersteund voor native tokens",
             "governance": {
-                "unrecognizedOperation": "Unrecognized Governance operation: {operation}"
+                "unrecognizedOperation": "Niet-herkende governance-actie: {operation}"
             },
             "wallet": {
-                "unrecognizedOperation": "Unrecognized wallet operation: {operation}"
+                "unrecognizedOperation": "Niet-herkende wallet actie: {operation}"
             }
         },
         "disconnectDapp": {
-            "success": "Disconnected from {dappName}"
+            "success": "Verbinding verbroken met {dappName}"
+        },
+        "clearExpiredDapps": {
+            "success": "Verlopen dApps gewist"
         },
         "removeDapp": {
-            "success": "{dappName} removed"
+            "success": "{dappName} verwijderd"
         },
         "claimed": {
-            "success": "Transaction claimed",
-            "error": "Claiming transaction failed"
+            "success": "Transactie geclaimd",
+            "error": "Transactie claimen mislukt"
         },
         "hideActivity": {
             "success": "Activiteit is verborgen"
         },
         "faucetRequest": {
-            "success": "Request for tokens sent to the faucet"
+            "success": "Verzoek voor tokens verzonden naar de faucet"
         },
         "mintNativeToken": {
-            "success": "Native token minting transaction sent"
+            "success": "Native token minting transactie verzonden"
         },
         "burnNativeToken": {
-            "success": "Native token burning transaction sent"
+            "success": "Native token burning transactie verzonden"
         },
         "mintNft": {
-            "success": "NFT minting transaction sent"
+            "success": "NFT minting transactie verzonden"
+        },
+        "transaction": {
+            "success": "Transactie verzonden"
         },
         "burnNft": {
-            "success": "NFT burning transaction sent"
+            "success": "NFT burning transactie verzonden"
         },
         "refreshTokenMetadata": {
-            "success": "All token metadata has been reset and refreshed"
+            "success": "Alle token metadata is gereset en vernieuwd"
         },
         "restoreFromStrongholdBackup": {
-            "wrongProtocol": "Protocol doesn't match coin type found in Stronghold backup",
-            "wrongProtocolForClaiming": "You must use an IOTA-based Stronghold backup to claim Shimmer rewards"
-        },
-        "signMessage": {
-            "success": "Message successfully signed"
+            "wrongProtocol": "Protocol komt niet overeen met het type munt gevonden in de Stronghold back-up",
+            "wrongProtocolForClaiming": "Je moet een IOTA-gebaseerde Stronghold back-up gebruiken om Shimmer beloningen te claimen"
         },
         "signTransaction": {
-            "success": "Transaction successfully signed"
+            "success": "Transactie succesvol ondertekend"
         },
         "findShimmerRewards": {
-            "error": "An error occurred while searching for rewards"
+            "error": "Er is een fout opgetreden tijdens het zoeken naar beloningen"
         },
         "claimShimmerRewards": {
             "success": "Schimmer beloning opgeëist voor {accountAlias}",
@@ -1638,24 +1762,28 @@
             "success": "Stem succesvol verzonden"
         },
         "stopVoting": {
-            "success": "Voting successfully stopped"
+            "success": "Stemmen succesvol gestopt"
         },
         "updateContact": {
-            "success": "Contact successfully updated"
+            "success": "Contact succesvol bijgewerkt"
         },
         "updateNetworkAddresses": {
-            "success": "Contact addresses successfully updated"
+            "success": "Contactadressen succesvol bijgewerkt"
+        },
+        "syncTokens": {
+            "success": "Tokens succesvol gesynchroniseerd"
         }
     },
     "error": {
         "profile": {
             "length": "Je profielnaam kan niet langer zijn dan {length, plural, one {# karakter} other {# karakters}}.",
             "duplicate": "Een account met deze naam bestaat al.",
-            "type": "Unable to determine the profile type"
+            "type": "Niet in staat om het profiel type te bepalen",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "Wachtwoorden komen niet overeen.",
-            "tooWeak": "Uw nieuwe wachtwoord is te zwak.",
+            "tooWeak": "Jouw nieuwe wachtwoord is te zwak.",
             "row": "Opeenvolgende toetsen afkomstig uit dezelfde rij zijn makkelijk te raden.",
             "pattern": "Korte toetsenbordpatronen zijn makkelijk te raden.",
             "names": "Veelvoorkomende namen en achternamen zijn makkelijk te raden.",
@@ -1667,112 +1795,112 @@
             "common": "Dit is een veelvoorkomend wachtwoord.",
             "similar": "Dit is vergelijkbaar met een veelgebruikt wachtwoord.",
             "word": "Een enkel woord is makkelijk te raden.",
-            "incorrect": "Uw wachtwoord is niet correct.",
+            "incorrect": "Jouw wachtwoord is niet correct.",
             "length": "Je wachtwoord kan niet langer zijn dan {length, plural, one {# karakter} other {# karakters}}.",
-            "sameAsOld": "Your new password must be different from your old password."
+            "sameAsOld": "Jouw nieuwe wachtwoord moet anders zijn dan je oude wachtwoord."
         },
         "pincode": {
             "length": "Je pincode moet {length, plural, one {# cijfer} other {# cijfers}} lang zijn.",
             "match": "Pincodes komen niet overeen.",
-            "incorrect": "Uw huidige pincode is onjuist."
+            "incorrect": "Je huidige pincode is onjuist."
         },
         "address": {
-            "wrongAddressType": "Wrong address type",
-            "invalidBech32Format": "Invalid Bech32 format",
-            "belongsToAccount": "Cannot belong to any of your accounts",
-            "checksum": "Address checksum is invalid"
+            "wrongAddressType": "Verkeerd adres type",
+            "invalidBech32Format": "Ongeldig Bech32 formaat",
+            "belongsToAccount": "Kan niet tot een van je accounts behoren",
+            "checksum": "Adres checksum is ongeldig"
         },
         "account": {
             "length": "Je wallet naam kan niet langer zijn dan {length, plural, one {# karakter} other {# karakters}}.",
             "emptyName": "Een profielnaam moet ten minste 1 teken bevatten.",
-            "duplicate": "Een portemonnee met deze naam bestaat al.",
+            "colorRequired": "Een kleur is vereist.",
+            "duplicate": "Een wallet met deze naam bestaat al.",
             "tilde": "Een profielnaam kan niet beginnen met het teken '~'.",
             "control": "Een profielnaam mag geen controleteken bevatten.",
             "startDot": "Een profielnaam kan niet beginnen met het '.' karakter.",
             "chars": "Een profielnaam mag de volgende tekens niet bevatten <>:\"/\\×?*",
-            "cannotRemove": "Kan portemonnee niet verwijderen.",
-            "withBalance": "U moet uw saldo overmaken voordat u deze portemonnee kunt verwijderen.",
-            "notLast": "U kunt alleen uw laatste portemonnee verwijderen.",
-            "cannotGetBoundAccount": "Unable to get bound account"
+            "cannotRemove": "Kan wallet niet verwijderen.",
+            "withBalance": "Je moet al je saldo overmaken voordat je deze wallet kunt verwijderen.",
+            "notLast": "Je kunt alleen je laatste wallet verwijderen.",
+            "cannotGetBoundAccount": "Kan gekoppelde account niet opvragen"
         },
         "send": {
             "addressLength": "Adressen moeten {length, plural, one {1 teken} other {# tekens}} lang zijn.",
-            "amountTooHigh": "Dit is hoger dan uw beschikbare saldo.",
-            "amountNoFloat": "Kan geen decimaal teken gebruiken voor de kleinste geselecteerde eenheid",
+            "amountTooHigh": "Dit is hoger dan jouw beschikbare saldo.",
             "amountInvalidFormat": "De opgegeven waarde lijkt een ongeldige waarde te zijn.",
-            "amountSmallerThanSubunit": "The amount must be greater than the smallest subunit.",
-            "tagTooLong": "The tag cannot be longer than 64 bytes.",
-            "metadataTooLong": "The metadata cannot be longer than 8192 bytes.",
+            "amountSmallerThanSubunit": "Het bedrag moet groter zijn dan de kleinste subunit.",
+            "tagTooLong": "Het label kan niet langer zijn dan 64 bytes.",
+            "metadataTooLong": "De metadata kan niet langer zijn dan 8192 bytes.",
             "amountZero": "De waarde moet groter zijn dan 0.",
             "wrongAddressPrefix": "Adressen beginnen met het voorvoegsel {prefix}.",
             "wrongAddressFormat": "Het adres is niet correct opgemaakt.",
             "invalidAddress": "Het adres is niet geldig.",
-            "invalidTokenId": "The token id is not valid.",
-            "unknownAsset": "The asset is not known to this account.",
-            "insufficientFunds": "Deze portemonnee heeft onvoldoende saldo.",
-            "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
-            "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
-            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
-            "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
+            "invalidTokenId": "De token is niet geldig.",
+            "unknownAsset": "De asset is niet bekend bij dit account.",
+            "insufficientFunds": "Deze wallet heeft onvoldoende saldo.",
+            "insufficientFundsGasFee": "Onvoldoende middelen om de gas fee te betalen.",
+            "insufficientFundsStorageDeposit": "Onvoldoende middelen om de opslag waarborg te betalen.",
+            "insufficientFundsTransaction": "Onvoldoende saldo voor een transactie.",
+            "ongoingTransaction": "Als je lopende transacties hebt, wacht dan op hun bevestiging.",
             "cancelled": "De transactie is geannuleerd.",
-            "invalidExpirationDateTime": "The chosen expiration date/time is invalid.",
-            "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
-            "noInputs": "No inputs found.",
-            "notEnoughBalance": "Not enough balance.",
-            "missingTransactionId": "The transaction ID is missing",
-            "missingTransactionProgressEventPayload": "The transaction progress event payload is missing",
-            "recipientRequired": "Recipient is required",
+            "invalidExpirationDateTime": "De gekozen vervaldatum is ongeldig.",
+            "invalidTimelockDateTime": "De gekozen tijdslot is ongeldig.",
+            "noInputs": "Geen inputs gevonden.",
+            "notEnoughBalance": "Onvoldoende saldo.",
+            "missingTransactionId": "Het transactie-ID ontbreekt",
+            "missingTransactionProgressEventPayload": "De transactie voortgang gebeurtenis payload ontbreekt",
+            "recipientRequired": "Ontvanger is vereist",
             "reservedTagKeyword": "Gereserveerd tag trefwoord kan niet worden gebruikt",
-            "invalidSendParameters": "Invalid send parameters.",
-            "unableToGetOriginAddress": "Unable to get the origin address."
+            "invalidSendParameters": "Ongeldige verzendparameters.",
+            "unableToGetOriginAddress": "Kan het oorsprong adres niet ophalen."
         },
         "layer2": {
-            "layer1Recipient": "A layer 2 transaction cannot be sent to a layer 1 account."
+            "layer1Recipient": "Een laag 2 transactie kan niet worden verzonden naar een laag 1 account."
         },
         "node": {
             "invalid": "Voer een geldige URL in.",
-            "dns": "Unable to find DNS resolution for node",
-            "handshake": "Handshake met node kon niet worden voltooid.",
+            "dns": "Kan de DNS-resolutie voor knooppunt niet vinden",
+            "handshake": "Handshake met knooppunt kon niet worden voltooid.",
             "invalidCertificate": "Kan niet verbinden met ongeldig certificaat.",
             "https": "HTTPS is vereist; onveilige verbindingen over HTTP worden op dit moment niet ondersteund.",
-            "duplicate": "Deze node is reeds toegevoegd.",
-            "noSyncedNode": "No synced node is available.",
-            "timeNotSynced": "Device time is incorrect, unable to sync node.",
-            "unabledToConnect": "Unable to connect to the node",
-            "differentNetwork": "The node is located on a different network",
-            "duplicateNodes": "Unable to add duplicate node",
-            "noCoinType": "No coin type specified"
+            "duplicate": "Dit knooppunt is reeds toegevoegd.",
+            "noSyncedNode": "Geen gesynchroniseerde knooppunt beschikbaar.",
+            "timeNotSynced": "Apparaat tijd is onjuist, kan knooppunt niet synchroniseren.",
+            "unabledToConnect": "Kan niet verbinden met knooppunt",
+            "differentNetwork": "Het knooppunt bevindt zich op een ander netwerk",
+            "duplicateNodes": "Kan dubbel knooppunt niet toevoegen",
+            "noCoinType": "Geen munt type opgegeven"
         },
         "network": {
-            "mismatch": "De netwerk-ID voor deze node is \"{networkId}\", welke niet overeenkomt met het huidige netwerk.",
-            "notReachable": "Het netwerk-ID voor deze node kon niet worden opgehaald, kan node niet toevoegen."
+            "mismatch": "De netwerk ID voor dit knooppunt is \"{networkId}\", welke niet overeenkomt met het huidige netwerk.",
+            "notReachable": "Het netwerk ID voor dit knooppunt kon niet worden opgehaald, kan knooppunt niet toevoegen."
         },
         "global": {
             "generic": "Er ging iets mis."
         },
         "backup": {
-            "invalid": "The backup file was not recognized.",
+            "invalid": "Het back-up bestand is niet herkend.",
             "destination": "De back-up bestemming was niet geldig.",
-            "migrationRequired": "Stronghold migration is required.",
-            "phraseWordCount": "Your recovery phrase consists of 12 or 24 words, currently there {length, plural, one {is #} other {are #}}.",
-            "phraseUnrecognizedWord": "Het woord \"{word}\" is niet herkend in uw herstel zin",
+            "migrationRequired": "Stronghold migration is nodig.",
+            "phraseWordCount": "Jouw herstel zin bestaat uit 12 of 24 woorden, op dit moment {length, plural, one {is er #} other {zijn er #}}.",
+            "phraseUnrecognizedWord": "Het woord \"{word}\" is niet herkend in jouw herstel zin",
             "phraseCaseWord": "Het woord \"{word}\" mag alleen uit kleine letters bestaan",
-            "unableToCopyFile": "Unable to copy Stronghold backup file",
-            "unableToRestoreForProfileManager": "Unable to restore Stronghold backup for profile manager"
+            "unableToCopyFile": "Kan Stronghold back-upbestand niet kopiëren",
+            "unableToRestoreForProfileManager": "Kan de Stronghold backup voor profielbeheer niet herstellen"
         },
         "ledger": {
-            "generic": "Er is een fout opgetreden bij het verbinden met uw Ledger apparaat.",
-            "legacyConnected": "De verkeerde app staat open op uw Ledger apparaat.",
-            "locked": "Ontgrendel uw Ledger apparaat door de pincode in te voeren.",
+            "generic": "Er is een fout opgetreden bij het verbinden met jouw Ledger apparaat.",
+            "legacyConnected": "De verkeerde app staat open op jouw Ledger apparaat.",
+            "locked": "Ontgrendel jouw Ledger apparaat door de pincode in te voeren.",
             "mnemonicMismatch": "U heeft het verkeerde Ledger apparaat verbonden of de mnemonic is veranderd.",
-            "notConnected": "No Ledger device detected.",
+            "notConnected": "Geen Ledger apparaat gedetecteerd.",
             "notFound": "Ledger apparaat niet gevonden.",
-            "otherConnected": "De verkeerde app staat open op uw Ledger apparaat.",
-            "generateAddress": "Er is iets misgegaan bij het genereren van uw adres.",
-            "timeout": "Uw Ledger apparaat heeft een time-out gekregen.",
-            "disconnected": "Uw Ledger apparaat is losgekoppeld.",
+            "otherConnected": "De verkeerde app staat open op jouw Ledger apparaat.",
+            "generateAddress": "Er is iets misgegaan bij het genereren van jouw adres.",
+            "timeout": "Jouw Ledger apparaat heeft een time-out gekregen.",
+            "disconnected": "Jouw Ledger apparaat is losgekoppeld.",
             "noStronghold": "Kan Stronghold met Ledger profiel niet gebruiken.",
-            "rejected": "Action was rejected on the Ledger device"
+            "rejected": "Actie werd geweigerd op het Ledger apparaat"
         },
         "popup": {
             "preventClose": "Deze pop-up kan niet worden gesloten."
@@ -1781,203 +1909,209 @@
             "cannotDecodeBech32": "Kan tekenreeks niet decoderen als Bech32 adres."
         },
         "shimmerClaiming": {
-            "missingProfileManager": "Unable to find Shimmer claiming profile manager",
-            "cannotInitialiseAccount": "Unable to initialize Shimmer claiming account",
-            "missingAccount": "Unable to find Shimmer claiming account"
+            "missingProfileManager": "Kan geen Shimmer claiming profielbeheerder vinden",
+            "cannotInitialiseAccount": "Kan Shimmer claiming account niet initialiseren",
+            "missingAccount": "Kan geen Shimmer claiming account vinden"
         },
         "walletApiEvent": {
-            "invalidAccountIndex": "Invalid account index for {eventName} event",
-            "invalidPayload": "Invalid payload for {eventName} event"
+            "invalidAccountIndex": "Ongeldige accountindex voor {eventName} event",
+            "invalidPayload": "Ongeldige payload voor {eventName} event"
         },
         "aliasMinting": {
-            "aliasRequired": "Alias is required",
-            "aliasNotInPossession": "Alias not in possession"
+            "aliasRequired": "Alias is vereist",
+            "aliasNotInPossession": "Alias is niet in bezit"
         },
-        "noOutputsToConsolidate": "Not enough outputs to consolidate",
+        "noOutputsToConsolidate": "Niet genoeg outputs om te consolideren",
         "eventId": {
-            "doesNotStartWith0x": "Event ID should start with '0x'",
-            "insufficientLength": "Event ID should be 66 characters long",
-            "alreadyRegistered": "Event ID already registered"
+            "doesNotStartWith0x": "Event ID moet beginnen met '0x'",
+            "insufficientLength": "Event ID moet 66 tekens lang zijn",
+            "alreadyRegistered": "Event ID reeds geregistreerd"
         },
         "nft": {
             "unsupportedUrl": {
-                "short": "Url not supported",
-                "long": "Url schema not supported"
+                "short": "Url wordt niet ondersteund",
+                "long": "Url schema wordt niet ondersteund"
             },
-            "unsupportedFileType": {
-                "short": "Unsupported media type",
-                "long": "The media type is not currently supported"
+            "unsupportedMediaType": {
+                "short": "Niet-ondersteund mediatype",
+                "long": "Het mediatype wordt momenteel niet ondersteund"
             },
             "notMatchingFileTypes": {
-                "short": "Loading blocked",
-                "long": "NFT file type does not match the expected media type"
+                "short": "Laden geblokkeerd",
+                "long": "NFT bestandstype komt niet overeen met het verwachte mediatype"
             },
             "notReachable": {
-                "short": "Not reachable",
-                "long": "NFT file is not reachable"
+                "short": "Niet bereikbaar",
+                "long": "NFT-bestand is niet bereikbaar"
             },
             "tooLargeFile": {
-                "short": "File is too large",
-                "long": "Loading NFT blocked because the file is too large"
+                "short": "Bestand is te groot",
+                "long": "Laden van NFT geblokkeerd omdat het bestand te groot is"
             },
             "downloadTooLong": {
-                "short": "File took too long to download",
-                "long": "Loading NFT blocked because the file took too long to download"
+                "short": "Bestand heeft te lang geduurd om te downloaden",
+                "long": "Laden van NFT geblokkeerd omdat het bestand te lang duurde om te downloaden"
             },
             "corsError": {
-                "short": "Loading blocked",
-                "long": "Loading NFT blocked by CORS policy"
+                "short": "Laden geblokkeerd",
+                "long": "Laden van NFT geblokkeerd door CORS-beleid"
             },
             "unsafeToLoad": {
-                "short": "Unsafe to load",
-                "long": "An error occurred while checking if the NFT was safe to load"
+                "short": "Onveilig om te laden",
+                "long": "Er is een fout opgetreden tijdens het controleren of het NFT veilig was om te laden"
             },
             "loadingError": {
-                "short": "Unable to load",
-                "long": "An error occurred while loading the NFT"
+                "short": "Laden mislukt",
+                "long": "Er is een fout opgetreden tijdens het laden van het NFT"
             }
         },
         "governance": {
             "unableToAddProposal": {
-                "short": "Unable to add proposal",
-                "long": "Unable to find proposal {proposalId} on the specified node"
+                "short": "Kan voorstel niet toevoegen",
+                "long": "Kan voorstel {proposalId} op het opgegeven knooppunt niet vinden"
             }
         },
         "erc20Token": {
-            "invalidAddressFormat": "Must be hexadecimal format",
-            "invalidAddressLength": "Length is invalid"
+            "invalidAddressFormat": "Moet een hexadecimaal formaat zijn",
+            "invalidAddressLength": "Lengte is ongeldig"
         },
         "input": {
-            "invalid": "{field} input is invalid",
-            "required": "{field} is required",
-            "alreadyUsed": "{field} is already being used",
-            "tooLong": "{field} must be {numCharacters} or less characters"
+            "invalid": "{field} invoer is ongeldig",
+            "required": "{field} is vereist",
+            "alreadyUsed": "{field} wordt al gebruikt",
+            "tooLong": "{field} moet {numCharacters} of minder tekens bevatten"
         },
         "walletConnect": {
-            "invalidUri": "Invalid URI",
-            "invalidProtocol": "Invalid protocol, must start with 'wc'.",
-            "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
-            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
+            "invalidUri": "Ongeldige URI",
+            "invalidProtocol": "Ongeldig protocol, moet beginnen met 'wc'.",
+            "deprecatedVersion": "dApp maakt gebruik van een verouderde wallet connectie versie.",
+            "invalidV2UriFormat": "De link voldoet niet aan de WalletConnect V2-specificatie.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
-            "unableToGetProvider": "Unable to get web3 provider.",
-            "unableToFormSmartContractData": "Unable to form smart contract data."
+            "unableToGetProvider": "Kan web3-provider niet ophalen.",
+            "unableToFormSmartContractData": "Kan geen smart contract gegevens vormen."
         },
         "token": {
-            "missingMetadata": "The token metadata is missing."
+            "missingMetadata": "De token metagegevens ontbreken."
         }
     },
     "warning": {
         "transaction": {
-            "invalidDateTime": "The chosen date must be in the future."
+            "invalidDateTime": "De gekozen datum moet in de toekomst zijn."
         },
-        "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
+        "closePopup": "Weet je zeker dat je de pop-up wilt sluiten? Je huidige voortgang zal verloren gaan."
     },
     "tooltips": {
         "optionalInput": "Deze optionele gegevens zullen openbaar zijn op de verkenner en zichtbaar zijn voor iedereen.",
         "transactionDetails": {
             "incoming": {
-                "storageDeposit": "Een terugvorderbare-storting is nodig om uw transactie op de Tangle op te slaan.",
+                "storageDeposit": "Een terugvorderbare-storting is nodig om jouw transactie op de Tangle op te slaan.",
                 "giftedStorageDeposit": "De opslag-storting voor deze transactie is aan u cadeau gedaan. U hoeft de storting niet terug te betalen.",
-                "expirationTime": "Claim these funds before the expiration time or they will be returned to the sender.",
+                "expirationTime": "Claim deze middelen voor de vervaltijd anders worden ze teruggestuurd naar de afzender.",
                 "timelockDate": "De afzender stelt een tijdslot in voor deze fondsen. U kunt deze besteden zodra het tijdslot verloopt.",
                 "metadata": "Een optioneel gegevensveld voor het blijvend opslaan van gegevens op de Tangle.",
                 "tag": "Een kort optioneel gegevensveld. Door groepen transacties te taggen zouden deze makkelijker vindbaar kunnen worden."
             },
             "outgoing": {
-                "storageDeposit": "Een opslag-storting is een terugvorderbare storting die nodig is om uw transactie op de Tangle op te slaan.",
+                "storageDeposit": "Een opslag-storting is een terugvorderbare storting die nodig is om jouw transactie op de Tangle op te slaan.",
                 "giftedStorageDeposit": "De ontvanger hoeft de storting niet terug te betalen.",
                 "expirationTime": "Als de ontvanger niet op tijd claimt dan worden je tokens aan jou teruggestuurd.",
                 "timelockDate": "U heeft een tijdslot toegevoegd aan deze transactie. De ontvanger zal deze gelden niet kunnen uitgeven totdat het tijdslot verloopt.",
                 "metadata": "Een optioneel gegevensveld voor het blijvend opslaan van gegevens op de Tangle.",
                 "tag": "Een kort optioneel gegevensveld. Door groepen transacties te taggen zouden deze makkelijker vindbaar kunnen worden.",
-                "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
+                "transactionFee": "De transactiefee bevat de gas fee voor de uitvoering van de code en de waarborg stortingskosten."
+            },
+            "genesis": {
+                "timelockDate": "De afzender stelt een tijdslot in voor deze fondsen. U kunt deze besteden zodra het tijdslot verloopt."
             },
             "nftMetadata": {
-                "type": "The MimeType of the NFT. e.g. image/png.",
-                "issuerName": "The name of the creator"
+                "type": "Het MimeType van de NFT. b.v. afbeelding/png.",
+                "issuerName": "De naam van de maker"
             }
         },
         "mintNativeToken": {
-            "decimals": "IRC30 optional parameter: Number of decimals the token uses (divide the token amount by 10^decimals to get its user representation).",
-            "description": "IRC30 optional parameter: The human-readable description of the token.",
-            "url": "IRC30 optional parameter: URL pointing to more resources about the token like a website or social media page.",
-            "logoUrl": "IRC30 optional parameter: URL pointing to an image resource of the token logo."
+            "decimals": "IRC30 optionele parameter: Aantal decimalen dat de token gebruikt (deel het tokenbedrag met 10^decimalen om de gebruikersvertegenwoordiging te krijgen).",
+            "description": "IRC30 optionele parameter: De menselijk leesbare beschrijving van de token.",
+            "url": "IRC30 optionele parameter: URL verwijzing naar meer informatie over de token zoals een website of socialemedia pagina.",
+            "logoUrl": "IRC30 optionele parameter: URL verwijzing naar een afbeeldingsbron van de token logo."
         },
         "mintNftForm": {
-            "collectionName": "Optional parameter: The collection's name",
-            "royalties": "Optional parameter: An object containing key-value pairs of addresses that map to payout percentages",
-            "issuerName": "Optional parameter: The name of the creator",
-            "description": "Optional parameter: A description of the NFT",
-            "attributes": "Optional parameter: An array of traits and values that define attributes of the NFT",
-            "uri": "To create a URI using custom media, first upload your file to IPFS via a storage service (e.g. https://nft.storage/)",
-            "quantity": "Optional parameter: The quantity of copies minted with this metadata."
+            "collectionName": "Optionele parameter: De naam van de verzameling",
+            "royalties": "Optionele parameter: Een object met sleutelwaarde paren van adressen die koppelen aan uitbetalings percentages",
+            "issuerName": "Optionele parameter: De naam van de maker",
+            "description": "Optionele parameter: Een beschrijving van de NFT",
+            "attributes": "Optionele parameter: Een reeks van eigenschappen en waarden die kenmerken van de NFT definiëren",
+            "uri": "Om een URI met eigen media te maken, upload eerst je bestand naar IPFS via een opslagservice (bijv. https://nft.storage/)",
+            "quantity": "Optionele parameter: Het aantal geminte kopieën met deze metadata."
         },
         "governance": {
-            "removeProposalWarning": "You must stop voting for this proposal before removing it.",
+            "removeProposalWarning": "Je moet eerst stoppen met stemmen voor dit voorstel voordat je het verwijdert.",
             "outdatedNode": {
-                "title": "Outdated node URL",
-                "body": "The node URL for this proposal is outdated. Please update it to access the latest voting results."
+                "title": "Verouderde knooppunt URL",
+                "body": "Het knooppunt URL voor dit voorstel is verouderd. Alstublieft update het om toegang te krijgen tot de laatste stem resultaten."
             },
             "resultsNotAvailable": {
-                "title": "Results not available",
-                "body": "The results are no longer available on this proposal's corresponding node. Please update it to access the results."
+                "title": "Resultaten niet beschikbaar",
+                "body": "De resultaten zijn niet langer beschikbaar op het corresponderende knooppunt van dit voorstel. Update het voor toegang tot de resultaten."
             }
         },
         "updateStronghold": {
-            "profileBadge": "Your Stronghold is out of date. Log in to update Stronghold."
+            "profileBadge": "Jouw Stronghold is verouderd. Log in om jouw Stronghold bij te werken."
         },
         "tokenIsNotVerified": {
-            "title": "Token is not verified",
-            "text": "Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust."
+            "title": "Token is niet geverifieerd",
+            "text": "Vergelijk de token metadata met de officiële website van het relevante team. Verifieer alleen tokens die je vertrouwt."
         }
     },
     "tabs": {
-        "wallet": "Portemonnee",
-        "collectibles": "Collectibles",
-        "governance": "Bestuur",
-        "developer": "Developer",
+        "wallet": "Wallet",
+        "collectibles": "Verzamelingen",
+        "governance": "Governance",
+        "campaigns": "Campagnes",
+        "buySell": "Kopen & verkopen",
+        "developer": "Ontwikkelaar",
         "tokens": "Tokens",
-        "settings": "Settings"
+        "settings": "Instellingen"
     },
     "pills": {
         "asyncStatus": {
             "claim": "Claim {timeDiff, select, undefined {} other { {timeDiff} }}",
-            "unclaimed": "Unclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
-            "claimed": "Claimed",
-            "expired": "Expired",
-            "timelocked": "Locked {timeDiff, select, undefined {} other { {timeDiff}}}"
+            "unclaimed": "Niet geclaimed {timeDiff, select, undefined {} other { {timeDiff}}}",
+            "claimed": "Geclaimed",
+            "expired": "Verlopen",
+            "timelocked": "Vergrendeld {timeDiff, select, undefined {} other { {timeDiff}}}"
         },
         "governance": {
             "proposalStatus": {
-                "upcoming": "Announcement",
-                "commencing": "Voting open",
-                "holding": "Counting",
-                "ended": "Closed",
-                "nodeOutdated": "Outdated node URL",
-                "resultsNotAvailable": "Results not available"
+                "upcoming": "Aankondiging",
+                "commencing": "Stemmen geopend",
+                "holding": "Telling",
+                "ended": "Gesloten",
+                "nodeOutdated": "Verouderde knooppunt URL",
+                "resultsNotAvailable": "Resultaten niet beschikbaar"
             }
         },
         "networkHealth": {
-            "down": "Down",
-            "degraded": "Degraded",
-            "operational": "Operational",
-            "disconnected": "Disconnected"
+            "down": "Omlaag",
+            "degraded": "Verminderd",
+            "operational": "Operationeel",
+            "disconnected": "Verbroken"
         },
         "ledgerStatus": {
-            "notConnected": "Not connected",
-            "locked": "Device locked",
-            "appNotOpen": "App not open"
+            "notConnected": "Niet verbonden",
+            "locked": "Apparaat vergrendeld",
+            "appNotOpen": "App niet geopend"
         }
     },
     "menus": {
         "dateTimePicker": {
-            "1hour": "In 1 hour",
-            "1day": "In 1 day",
-            "1week": "In 1 week",
+            "1hour": "Over 1 uur",
+            "1day": "Over 1 dag",
+            "1week": "Over 1 week",
             "customDate": {
-                "title": "Custom date",
-                "subtitle": "Set custom date"
+                "title": "Aangepaste datum",
+                "subtitle": "Aangepaste datum instellen"
             }
         }
     }

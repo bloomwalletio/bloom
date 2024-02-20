@@ -1,19 +1,18 @@
 <script lang="ts">
     import { AvatarGroup, Copyable, Text } from '@bloomwalletio/ui'
     import { FormattedBalance } from '@components'
-    import { NftAvatar, TokenAvatar } from '@ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
-    import { INft } from '@core/nfts'
+    import { MimeType, Nft } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { IAccountTokensPerNetwork } from '@core/token'
     import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
-    import { NetworkAvatar, NetworkStatusIndicator } from '@ui'
+    import { NetworkAvatar, NetworkStatusIndicator, NftAvatar, TokenAvatar } from '@ui'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
 
@@ -24,10 +23,41 @@
     export let tokenBalance: string
     export let fiatBalance: string
     export let tokens: IAccountTokensPerNetwork
-    export let nfts: INft[]
+    export let nfts: Nft[]
 
     $: hasTokens = tokens?.nativeTokens?.length > 0
     $: hasNfts = nfts?.length > 0
+
+    // sort nfts by image first then by if media is downloaded
+    $: sortedNfts = sortNftsByLoadedImagesFirst(nfts)
+    function sortNftsByLoadedImagesFirst(nfts: Nft[]): Nft[] {
+        return nfts.sort((a, b) => {
+            if (isImage(a) && !isImage(b)) {
+                return -1
+            }
+            if (!isImage(a) && isImage(b)) {
+                return 1
+            }
+            if (isImage(a) && isImage(b)) {
+                if (a.isLoaded && !b.isLoaded) {
+                    return -1
+                }
+                if (!a.isLoaded && b.isLoaded) {
+                    return 1
+                }
+            }
+            return 0
+        })
+    }
+
+    function isImage(nft: Nft): boolean {
+        return (
+            nft.type === MimeType.ImageGif ||
+            nft.type === MimeType.ImageJpeg ||
+            nft.type === MimeType.ImagePng ||
+            nft.type === MimeType.ImageWebp
+        )
+    }
 
     function onGenerateAddressClick(): void {
         const chain = $network.getChain(networkId)
@@ -82,8 +112,9 @@
     <account-network-summary-assets class="flex flex-row justify-between items-center">
         <div>
             {#if hasTokens}
-                <AvatarGroup avatarSize="md">
-                    {#each tokens?.nativeTokens ?? [] as token}
+                {@const nativeTokens = tokens?.nativeTokens ?? []}
+                <AvatarGroup avatarSize="md" remainder={nativeTokens.length - 4}>
+                    {#each nativeTokens.slice(0, 4) ?? [] as token}
                         <TokenAvatar hideNetworkBadge size="md" {token} />
                     {/each}
                 </AvatarGroup>
@@ -91,8 +122,8 @@
         </div>
         <div>
             {#if hasNfts}
-                <AvatarGroup avatarSize="md" avatarShape="square">
-                    {#each nfts as nft}
+                <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
+                    {#each sortedNfts.slice(0, 4) as nft}
                         <NftAvatar {nft} size="md" shape="square" />
                     {/each}
                 </AvatarGroup>

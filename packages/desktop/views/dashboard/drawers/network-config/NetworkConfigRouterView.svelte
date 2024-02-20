@@ -8,7 +8,6 @@
         ChainInformationDrawer,
         ConfirmLedgerEvmAddressDrawer,
         ConnectedChainsDrawer,
-        ConnectLedgerDeviceDrawer,
         EditChainDrawer,
         NetworkSettingsDrawer,
         RemoveChainDrawer,
@@ -48,8 +47,6 @@
     <RemoveChainDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.ChainDepositAddress}
     <ChainDepositAddressDrawer {drawerRouter} />
-{:else if $networkConfigRoute === NetworkConfigRoute.ConnectLedgerDevice}
-    <ConnectLedgerDeviceDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.ConfirmLedgerEvmAddress}
     <ConfirmLedgerEvmAddressDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.AddChain}

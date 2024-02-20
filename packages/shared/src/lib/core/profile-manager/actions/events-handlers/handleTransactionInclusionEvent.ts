@@ -12,7 +12,7 @@ import {
     updateClaimingTransactionInclusion,
 } from '@core/activity'
 import { GovernanceActivity } from '@core/activity/types'
-import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 import { updateActiveAccountPersistedData } from '@core/profile/actions'
 import { activeAccounts, updateActiveAccount } from '@core/profile/stores'
 import { PopupId, closePopup, openPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
@@ -42,7 +42,7 @@ export function handleTransactionInclusionEventInternal(
             (activity.direction === ActivityDirection.Incoming ||
                 activity.direction === ActivityDirection.SelfTransaction) &&
             activity.action !== ActivityAction.Burn
-        updateNftInAllAccountNfts(accountIndex, activity.nftId, { isSpendable })
+        updateNftInAllAccountNftsForAccount(accountIndex, activity.nftId, { isSpendable })
     }
 
     if (activity?.type === ActivityType.Governance) {
@@ -63,7 +63,7 @@ function handleGovernanceTransactionInclusionEvent(
         // we should think about making this consistent in the future
         updateActiveAccount(accountIndex, { isTransferring: false })
         // TODO: move this
-        closePopup(true)
+        closePopup({ forceClose: true })
 
         const account = get(activeAccounts)?.find((_account) => _account.index === accountIndex)
         if (!account) {
@@ -71,7 +71,7 @@ function handleGovernanceTransactionInclusionEvent(
         }
         if (account.hasVotingPowerTransactionInProgress) {
             updateActiveAccount(accountIndex, { hasVotingPowerTransactionInProgress: false })
-            if (isAccountVoting(accountIndex) && activity.votingPower !== 0) {
+            if (isAccountVoting(accountIndex) && activity.votingPower !== BigInt(0)) {
                 updateActiveAccountPersistedData(accountIndex, { shouldRevote: true })
                 openPopup({ id: PopupId.Revote })
             }

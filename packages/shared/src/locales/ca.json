@@ -886,12 +886,12 @@
                     "increaseVotingPower": {
                         "Pending": "Increasing voting power",
                         "Confirmed": "Increased voting power",
-                        "Conflicting": "Failed to increased voting power"
+                        "Conflicting": "Failed to increase voting power"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Decreasing voting power",
                         "Confirmed": "Decreased voting power",
-                        "Conflicting": "Failed to decreased voting power"
+                        "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
                         "Pending": "Voting for {proposalName}",
@@ -901,7 +901,7 @@
                     "stopVoting": {
                         "Pending": "Stopping voting for {proposalName}",
                         "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stopped voting for"
+                        "Conflicting": "Failed to stop voting for"
                     },
                     "changedVote": {
                         "Pending": "Changing vote for {proposalName}",
@@ -963,7 +963,7 @@
                 "tokenId": "Token Id"
             }
         },
-        "importErc20Token": {
+        "importToken": {
             "title": "Import ERC20 token",
             "property": {
                 "tokenAddress": "Token address"
@@ -1184,7 +1184,7 @@
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token"
+        "importToken": "Import {type} token"
     },
     "general": {
         "recipient": "Recipient",
@@ -1748,7 +1748,7 @@
                 "short": "Url not supported",
                 "long": "Url schema not supported"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Unsupported media type",
                 "long": "The media type is not currently supported"
             },

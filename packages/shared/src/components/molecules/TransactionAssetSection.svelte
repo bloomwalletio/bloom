@@ -1,12 +1,12 @@
 <script lang="ts">
     import { TokenTransferData } from '@core/wallet'
     import { NftTile, TokenAmountTile, AliasTile } from '@ui'
-    import { INft } from '@core/nfts'
+    import { Nft } from '@core/nfts'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 
     export let baseCoinTransfer: TokenTransferData | undefined = undefined
     export let tokenTransfer: TokenTransferData | undefined = undefined
-    export let nft: INft | undefined = undefined
+    export let nft: Nft | undefined = undefined
     export let aliasId: string | undefined = undefined
     export let onNftClick: (() => void) | undefined = undefined
 
@@ -24,7 +24,7 @@
     <asset-section class="w-full flex flex-row gap-2 justify-between overflow-hidden">
         {#if tokenTransfer?.token && tokenWithBalance}
             <div class="flex-grow overflow-hidden">
-                <TokenAmountTile token={tokenWithBalance} amount={Number(tokenTransfer.rawAmount)} />
+                <TokenAmountTile token={tokenWithBalance} amount={tokenTransfer.rawAmount} />
             </div>
         {:else if nft}
             <div class="flex-grow overflow-hidden">
@@ -38,7 +38,7 @@
         {#if baseCoinTransfer?.token && baseTokenWithBalance && Number(baseCoinTransfer?.rawAmount) > 0}
             <TokenAmountTile
                 token={baseTokenWithBalance}
-                amount={Number(baseCoinTransfer.rawAmount)}
+                amount={baseCoinTransfer.rawAmount}
                 hideTokenInfo={!!tokenTransfer || !!nft}
             />
         {/if}

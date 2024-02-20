@@ -60,7 +60,7 @@
             },
             {
                 icon: IconName.Import,
-                title: localize('actions.importErc20Token'),
+                title: localize('actions.importToken', { values: { type: 'ERC-20' } }),
                 onClick: onImportErc20TokenClick,
             },
             {

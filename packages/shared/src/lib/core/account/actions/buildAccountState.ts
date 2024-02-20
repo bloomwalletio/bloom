@@ -33,14 +33,20 @@ export async function buildAccountState(
     const accountIndex = account.getMetadata().index
     const evmAddresses = getActiveProfilePersistedEvmAddressesByAccountIndex(accountIndex)
     let depositAddress = accountPersistedData.depositAddress
-    let votingPower = ''
+    let otherAddresses: string[] = accountPersistedData.otherAddresses
+    let votingPower = BigInt(0)
     try {
         balances = await account.getBalance()
-        votingPower = balances.baseCoin.votingPower
+        votingPower = BigInt(balances.baseCoin.votingPower)
+
+        const addresses = await account.addresses()
+        otherAddresses = addresses.map((address) => address.address)
+        updateAccountPersistedDataOnActiveProfile(accountIndex, { otherAddresses })
 
         if (!depositAddress) {
             depositAddress = await getDepositAddress(account)
-            updateAccountPersistedDataOnActiveProfile(accountIndex, { depositAddress })
+            const { address } = addresses.find((address) => address.internal === false && address.keyIndex === 0) ?? {}
+            updateAccountPersistedDataOnActiveProfile(accountIndex, { depositAddress: address })
         }
     } catch (err) {
         console.error(err)
@@ -51,6 +57,7 @@ export async function buildAccountState(
         ...account,
         ...accountPersistedData,
         depositAddress,
+        otherAddresses,
         evmAddresses,
         balances,
         hasVotingPowerTransactionInProgress: false,

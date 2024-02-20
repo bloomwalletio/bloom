@@ -5,7 +5,7 @@ import { appSettings } from '@core/app/stores'
 import { ensureZeroes } from './ensureZeroes'
 
 export function formatNumber(
-    value: number,
+    value: number | bigint,
     minDecimals: number | undefined = undefined,
     maxDecimals: number | undefined = undefined,
     maxZeros: number = 2,
@@ -18,7 +18,7 @@ export function formatNumber(
 
     // The maximum decimals are equal to the max decimals of Ethereum.
     // Larger values throw an error when trying to format.
-    if (maxDecimals > 18) {
+    if (maxDecimals && maxDecimals > 18) {
         return String(value)
     }
 

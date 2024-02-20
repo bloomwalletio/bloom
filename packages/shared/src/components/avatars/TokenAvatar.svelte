@@ -14,6 +14,9 @@
     export let hideNetworkBadge: boolean = false
 
     const AVATAR_BACKGROUND_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
+        [SupportedNetworkId.Iota]: {
+            [BASE_TOKEN_ID]: '#000000',
+        },
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
@@ -29,6 +32,9 @@
     }
 
     const AVATAR_TEXT_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
+        [SupportedNetworkId.Iota]: {
+            [BASE_TOKEN_ID]: '#FFFFFF',
+        },
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer-background',
         },
@@ -55,15 +61,17 @@
     let imageLoadError = false
 
     $: backgroundColor =
-        AVATAR_BACKGROUND_COLOR[token.networkId]?.[token.id] ??
+        AVATAR_BACKGROUND_COLOR[token.networkId]?.[token?.id] ??
         getIconColorFromString(token.metadata?.name, {
             shades: ['400', '500', '600', '700', '800'],
             colorsToExclude: ['gray'],
         })
-    $: textColor = AVATAR_TEXT_COLOR[token.networkId]?.[token.id]
-    $: icon = DEFAULT_TOKEN_ICON[token.networkId as SupportedNetworkId]?.[token.id]
+    $: textColor = AVATAR_TEXT_COLOR[token.networkId]?.[token?.id]
+    $: icon = DEFAULT_TOKEN_ICON[token.networkId as SupportedNetworkId]?.[token?.id]
     $: image = getImageUrlFromToken(token, IMAGE_SIZES[size])
     $: text = getTokenInitials(token)
+    $: magnify =
+        token.id === BASE_TOKEN_ID && Object.values(SupportedNetworkId).includes(token.networkId as SupportedNetworkId)
 </script>
 
 <div class="avatar">
@@ -73,6 +81,7 @@
         {icon}
         customTextColor={textColor}
         text={icon || (image && !imageLoadError) ? '' : text}
+        {magnify}
     >
         {#if image && !imageLoadError}
             <img

@@ -7,8 +7,8 @@
         getFormattedVotingPowerFromGovernanceActivity,
     } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
-    import { formatCurrency } from '@core/i18n'
-    import { getFiatAmountFromTokenValue } from '@core/market/actions'
+    import { formatCurrency, localize } from '@core/i18n'
+    import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { ITokenWithBalance } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
@@ -27,6 +27,8 @@
                 _activity.governanceAction === GovernanceAction.IncreaseVotingPower
 
             return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
+        } else if (_activity.type === ActivityType.Nft) {
+            return '1 ' + localize('general.nft')
         } else {
             return '-'
         }
@@ -36,8 +38,10 @@
         if ((_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) && token) {
             const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
 
-            const marketPrice = getFiatAmountFromTokenValue(Number(amount), token)
+            const marketPrice = getFiatValueFromTokenAmount(amount, token)
             return marketPrice ? formatCurrency(marketPrice) : '-'
+        } else if (_activity.type === ActivityType.Nft) {
+            return '-'
         } else {
             return undefined
         }

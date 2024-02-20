@@ -1,4 +1,4 @@
-import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS } from '@core/utils'
+import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS, buildQueryParametersFromObject } from '@core/utils'
 import { MARKET_API_BASE_URL } from '../constants'
 import { CoinGeckoApiEndpoint, CoinGeckoNetworkId, MarketCoinId, MarketCurrency } from '../enums'
 import { MarketCoinPrices } from '../types'
@@ -19,7 +19,10 @@ export class CoinGeckoApi {
         }
     }
 
-    static async getSimplePrices(ids: MarketCoinId[], vsCurrencies: MarketCurrency[]): Promise<MarketCoinPrices> {
+    static async getSimplePrices(
+        ids: (MarketCoinId | string)[],
+        vsCurrencies: MarketCurrency[]
+    ): Promise<MarketCoinPrices> {
         const queryParams = buildQueryParametersFromObject({
             ids: ids.join(','),
             vs_currencies: vsCurrencies.join(','),
@@ -42,10 +45,4 @@ export class CoinGeckoApi {
     static async getCoinDetails(id: string): Promise<CoinGeckoCoin> {
         return this.makeRequest<CoinGeckoCoin>(`${CoinGeckoApiEndpoint.COIN_DETAILS}/${id}`)
     }
-}
-
-function buildQueryParametersFromObject(obj: Record<string, string | number | boolean>): string {
-    return Object.keys(obj)
-        .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
-        .join('&')
 }

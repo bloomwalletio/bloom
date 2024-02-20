@@ -2,10 +2,11 @@ import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popu
 import { IChain } from '@core/network'
 import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-import { buildEvmTransactionData } from '@core/layer-2/actions'
+import { buildEvmTransactionData } from '@core/layer-2/utils'
 import { EvmTransactionData } from '@core/layer-2'
 import { switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 import { getSdkError } from '@walletconnect/utils'
+import { Platform } from '@core/app'
 
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string },
@@ -26,17 +27,29 @@ export async function handleEthTransaction(
     }
 
     if (!nonce || !gasPrice || !gasLimit) {
-        const { nonce, gasPrice, gasLimit } = await buildEvmTransactionData(
-            chain,
-            from,
-            to?.toString(),
-            value?.toString() ?? '0',
-            data?.toString()
-        )
-        evmTransactionData.nonce = nonce
-        evmTransactionData.gasPrice = gasPrice
-        evmTransactionData.gasLimit = gasLimit
+        try {
+            const { nonce, gasPrice, gasLimit } = await buildEvmTransactionData(
+                chain,
+                from.toString(),
+                to?.toString(),
+                BigInt(value?.toString() ?? '0'),
+                data?.toString()
+            )
+            evmTransactionData.nonce = nonce
+            evmTransactionData.gasPrice = gasPrice
+            evmTransactionData.gasLimit = gasLimit
+        } catch (err) {
+            responseCallback({
+                error: {
+                    message: err.message,
+                    code: 1000,
+                },
+            })
+            return
+        }
     }
+
+    Platform.focusWindow()
 
     try {
         await switchToRequiredAccount(from, chain)
@@ -47,6 +60,7 @@ export async function handleEthTransaction(
                 dapp,
                 preparedTransaction: evmTransactionData,
                 signAndSend,
+                callback: responseCallback,
                 onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
             },
         })

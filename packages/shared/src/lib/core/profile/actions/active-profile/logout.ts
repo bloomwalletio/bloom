@@ -25,7 +25,6 @@ import { closeSettings } from '@contexts/settings/stores'
 import { clearLayer2Balance } from '@core/layer-2/stores'
 import { clearAccountNfts } from '@core/nfts/stores'
 import { clearAccountActivities } from '@core/activity/stores'
-import { disconnectAllDapps } from '@auxiliary/wallet-connect/utils'
 
 /**
  * Logout from active profile
@@ -47,7 +46,6 @@ export function logout(clearActiveProfile = true, _lockStronghold = true): void 
     clearMarketPricesPoll()
     clearAccountNfts()
     clearAccountActivities()
-    void disconnectAllDapps()
 
     const _activeProfile = get(activeProfile)
     if (_activeProfile) {

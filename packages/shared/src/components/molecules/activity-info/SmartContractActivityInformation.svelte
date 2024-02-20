@@ -1,22 +1,35 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { TransactionActivity } from '@core/activity'
+    import { ActivityType, SmartContractActivity, TransactionActivity } from '@core/activity'
 
-    export let activity: TransactionActivity
+    export let activity: TransactionActivity | SmartContractActivity
 </script>
 
 <Table
-    items={[
-        {
-            key: localize('general.targetContract'),
-            value: activity?.smartContract?.targetContract,
-            copyable: true,
-        },
-        {
-            key: localize('general.contractFunction'),
-            value: activity?.smartContract?.contractFunction,
-            copyable: true,
-        },
-    ]}
+    items={activity.type === ActivityType.SmartContract
+        ? [
+              {
+                  key: localize('general.methodName'),
+                  value: activity.methodName,
+                  copyable: true,
+              },
+              {
+                  key: localize('general.data'),
+                  value: activity.data,
+                  copyable: true,
+              },
+          ]
+        : [
+              {
+                  key: localize('general.targetContract'),
+                  value: activity?.smartContract?.targetContract,
+                  copyable: true,
+              },
+              {
+                  key: localize('general.contractFunction'),
+                  value: activity?.smartContract?.contractFunction,
+                  copyable: true,
+              },
+          ]}
 />

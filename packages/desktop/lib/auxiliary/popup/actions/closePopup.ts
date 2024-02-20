@@ -1,6 +1,13 @@
-import { modifyPopupState } from '../helpers'
+import { get } from 'svelte/store'
+import { popupState } from '../stores'
+import { modifyPopupState } from './modifyPopupState'
 
-export function closePopup(forceClose: boolean = false): void {
+export function closePopup(options?: { forceClose?: boolean; callOnCancel?: boolean }): void {
+    const props = get(popupState).props
+    if (options?.callOnCancel && 'function' === typeof props?.onCancel) {
+        props.onCancel()
+    }
+
     modifyPopupState(
         {
             active: false,
@@ -11,6 +18,6 @@ export function closePopup(forceClose: boolean = false): void {
             overflow: false,
             relative: false,
         },
-        forceClose
+        options?.forceClose
     )
 }

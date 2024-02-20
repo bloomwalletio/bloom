@@ -6,7 +6,7 @@
     import { RestoreFromStrongholdRouterView } from '../restore-from-stronghold'
     import { RestoreProfileRoute } from './restore-profile-route.enum'
     import { restoreProfileRoute } from './restore-profile-router'
-    import { ChooseRestoreProfileFlowView, ClaimFinderView } from './views'
+    import { BalanceFinderView, ChooseRestoreProfileFlowView, ClaimFinderView } from './views'
 
     $: if (features.analytics.onboardingRoute.enabled && $restoreProfileRoute) {
         Platform.trackEvent('restore-profile-route', { route: $restoreProfileRoute })
@@ -21,6 +21,8 @@
     <RestoreFromStrongholdRouterView />
 {:else if $restoreProfileRoute === RestoreProfileRoute.RestoreFromLedger}
     <CreateFromLedgerRouterView />
+{:else if $restoreProfileRoute === RestoreProfileRoute.BalanceFinder}
+    <BalanceFinderView />
 {:else if $restoreProfileRoute === RestoreProfileRoute.ClaimFinder}
     <ClaimFinderView />
 {/if}

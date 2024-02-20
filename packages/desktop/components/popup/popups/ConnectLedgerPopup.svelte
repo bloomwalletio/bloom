@@ -2,7 +2,6 @@
     import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
-    import { isFunction } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -43,25 +42,27 @@
 
     function getIllustrationVariant(appName: LedgerAppName): LedgerIllustrationVariant {
         switch (appName) {
+            case LedgerAppName.Iota:
+                return LedgerIllustrationVariant.OpenIota
+            case LedgerAppName.Shimmer:
+                return LedgerIllustrationVariant.OpenShimmer
             case LedgerAppName.Ethereum:
                 return LedgerIllustrationVariant.OpenEthereum
-            default:
-                return LedgerIllustrationVariant.OpenShimmer
         }
     }
 
     function continueFlow(): void {
-        if (isFunction(onContinue)) {
-            closePopup()
-            onContinue()
-        } else {
-            closePopup()
-        }
+        closePopup()
+        onContinue?.()
+    }
+
+    function onCancelClick(): void {
+        closePopup({ callOnCancel: true })
     }
 
     const backButton = {
         text: localize('actions.cancel'),
-        onClick: closePopup,
+        onClick: onCancelClick,
     }
 </script>
 

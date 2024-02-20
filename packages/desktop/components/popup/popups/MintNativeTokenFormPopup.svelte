@@ -9,10 +9,11 @@
     import { MAX_SUPPORTED_DECIMALS } from '@core/wallet/constants/max-supported-decimals.constants'
     import { handleError } from '@core/error/handlers/handleError'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { Converter } from '@core/utils'
 
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    const DEFAULT = {
+    const DEFAULT: IMintTokenDetails = {
         name: undefined,
         totalSupply: undefined,
         circulatingSupply: undefined,
@@ -36,12 +37,17 @@
         aliasId,
     } = $mintTokenDetails ?? DEFAULT
 
+    let totalSupplyString = totalSupply?.toString()
+    $: totalSupply = Converter.bigIntLikeToBigInt(totalSupplyString ?? '0')
+    let circulatingSupplyString = circulatingSupply?.toString()
+    $: circulatingSupply = Converter.bigIntLikeToBigInt(circulatingSupplyString ?? '0')
+
     let nameError = ''
     $: tokenName, (nameError = '')
     let totalSupplyError = ''
-    $: totalSupply, (totalSupplyError = '')
+    $: totalSupplyString, (totalSupplyError = '')
     let circulatingSupplyError = ''
-    $: circulatingSupply, (circulatingSupplyError = '')
+    $: circulatingSupplyString, (circulatingSupplyError = '')
     let symbolError = ''
     $: symbol, (symbolError = '')
     let aliasIdError = ''
@@ -116,10 +122,10 @@
     }
 
     function isTotalSupplyValid(): Promise<void> {
-        if (totalSupply === undefined || totalSupply.toString().length < 1) {
+        if (totalSupply === undefined || totalSupply?.toString().length < 1) {
             totalSupplyError = 'Total supply is required'
             return Promise.reject(totalSupplyError)
-        } else if (Number(totalSupply) < 1) {
+        } else if (totalSupply < 1) {
             totalSupplyError = 'Total supply must be greater than 0'
             return Promise.reject(totalSupplyError)
         } else {
@@ -131,10 +137,10 @@
         if (circulatingSupply === undefined || circulatingSupply.toString().length < 1) {
             circulatingSupplyError = 'Circulating supply is required'
             return Promise.reject(circulatingSupplyError)
-        } else if (Number(circulatingSupply) < 1) {
+        } else if (circulatingSupply < BigInt(1)) {
             circulatingSupplyError = 'Circulating supply must be greater than 0'
             return Promise.reject(circulatingSupplyError)
-        } else if (Number(circulatingSupply) > Number(totalSupply)) {
+        } else if (circulatingSupply > totalSupply) {
             circulatingSupplyError = 'Circulating supply must be less than or equal to the total supply'
             return Promise.reject(circulatingSupplyError)
         } else {
@@ -143,10 +149,10 @@
     }
 
     function isDecimalsValid(): Promise<void> {
-        if (decimals === undefined || decimals.toString().length < 1) {
+        if (decimals === undefined || decimals?.toString().length < 1) {
             decimalsError = 'Decimals is required'
             return Promise.reject(decimalsError)
-        } else if (Number(decimals) < 0) {
+        } else if (decimals < 0) {
             decimalsError = 'Decimals must be greater than or equal to 0'
             return Promise.reject(decimalsError)
         } else {
@@ -193,12 +199,12 @@
             error={symbolError}
         />
         <NumberInput
-            bind:value={totalSupply}
+            bind:value={totalSupplyString}
             label={localize('popups.nativeToken.property.totalSupply')}
             error={totalSupplyError}
         />
         <NumberInput
-            bind:value={circulatingSupply}
+            bind:value={circulatingSupplyString}
             label={localize('popups.nativeToken.property.circulatingSupply')}
             error={circulatingSupplyError}
         />

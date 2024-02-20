@@ -25,14 +25,14 @@
             case NumberFilterOption.Less:
                 filterUnit.subunit = {
                     type: 'single',
-                    amount: '',
+                    amount: 0,
                 }
                 break
             case NumberFilterOption.Range:
                 filterUnit.subunit = {
                     type: 'range',
-                    start: '',
-                    end: '',
+                    start: 0,
+                    end: 0,
                 }
                 break
         }

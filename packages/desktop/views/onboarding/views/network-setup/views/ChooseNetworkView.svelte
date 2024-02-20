@@ -21,7 +21,13 @@
     import { ButtonTile } from '../../../../components'
     import { networkSetupRouter } from '../network-setup-router'
 
-    let selectedNetworkType: OnboardingNetworkType = OnboardingNetworkType.Shimmer
+    let selectedNetworkType: OnboardingNetworkType = features.onboarding.iota.enabled
+        ? OnboardingNetworkType.Iota
+        : features.onboarding.shimmer.enabled
+          ? OnboardingNetworkType.Shimmer
+          : features.onboarding.testnet.enabled
+            ? OnboardingNetworkType.Testnet
+            : OnboardingNetworkType.Custom
     function onNetworkClick(networkType: OnboardingNetworkType): void {
         if (selectedNetworkType === networkType) {
             onContinueClick()
@@ -45,6 +51,8 @@
         networkType: OnboardingNetworkType
     ): StardustNetworkName | undefined {
         switch (networkType) {
+            case OnboardingNetworkType.Iota:
+                return StardustNetworkName.Iota
             case OnboardingNetworkType.Shimmer:
                 return StardustNetworkName.Shimmer
             case OnboardingNetworkType.Testnet:
@@ -82,6 +90,20 @@
 >
     <div slot="content" class="flex flex-col space-y-3">
         <ButtonTile
+            primaryText={localize(`views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Iota}.primary`)}
+            secondaryText={localize(
+                `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Iota}.secondary`
+            )}
+            icon={IconName.Iota}
+            iconSize="md"
+            iconColor="#ffffff"
+            backgroundColor="#000000"
+            hidden={features?.onboarding?.[OnboardingNetworkType.Iota]?.hidden}
+            disabled={!features?.onboarding?.[OnboardingNetworkType.Iota]?.enabled}
+            onClick={() => onNetworkClick(OnboardingNetworkType.Iota)}
+            selected={selectedNetworkType === OnboardingNetworkType.Iota}
+        />
+        <ButtonTile
             primaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.primary`
             )}
@@ -90,8 +112,7 @@
             )}
             icon={IconName.Shimmer}
             iconSize="md"
-            iconColor="blue"
-            iconColorShade="900"
+            iconColor="blue-900"
             backgroundColor="shimmer"
             hidden={features?.onboarding?.[OnboardingNetworkType.Shimmer]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Shimmer]?.enabled}

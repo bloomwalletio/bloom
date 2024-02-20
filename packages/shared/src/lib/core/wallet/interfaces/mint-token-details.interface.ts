@@ -1,7 +1,7 @@
 export interface IMintTokenDetails {
     name: string
-    totalSupply: number
-    circulatingSupply: number
+    totalSupply: bigint
+    circulatingSupply: bigint
     decimals: number
     symbol: string
     description?: string

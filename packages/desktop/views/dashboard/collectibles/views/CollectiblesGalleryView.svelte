@@ -5,7 +5,8 @@
     import { Button, IconName, Text, Pill } from '@bloomwalletio/ui'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { getActiveNetworkId } from '@core/network'
-    import { EmptyListPlaceholder } from '@components'
+    import features from '@features/features'
+    import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
 
     function onReceiveClick(): void {
         openPopup({
@@ -18,19 +19,23 @@
 </script>
 
 <collectibles-gallery-view>
-    {#if $ownedNfts.length}
-        <div class="flex flex-row justify-between">
-            <div class="flex flex-row text-left gap-2 items-center">
-                <Text type="h6">{localize('views.collectibles.gallery.title')}</Text>
-                <Pill color="neutral">
-                    <Text textColor="secondary">{String($queriedNfts.length ?? '')}</Text>
-                </Pill>
-            </div>
-            <div class="flex items-center" style="height: 40px">
-                <SearchInput bind:value={$nftSearchTerm} />
-            </div>
+    <div class="flex flex-row justify-between">
+        <div class="flex flex-row text-left gap-2 items-center">
+            <Text type="h6">{localize('views.collectibles.gallery.title')}</Text>
+            <Pill color="neutral">
+                <Text textColor="secondary">{String($queriedNfts.length ?? '')}</Text>
+            </Pill>
         </div>
-
+        <div class="flex items-center gap-2" style="height: 40px">
+            {#if $ownedNfts.length}
+                <SearchInput bind:value={$nftSearchTerm} />
+            {/if}
+            {#if features.collectibles.erc721.enabled}
+                <CollectiblesListMenu />
+            {/if}
+        </div>
+    </div>
+    {#if $ownedNfts.length}
         {#if $queriedNfts.length}
             <NftGallery nfts={$queriedNfts} />
         {:else}

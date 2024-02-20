@@ -1,14 +1,21 @@
 <script lang="ts">
     import { Icon, IconName, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
+    import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
     import { OnboardingLayout } from '@views/components'
     import { createFromLedgerRouter } from '..'
     import { CreateFromLedgerRoute } from '../create-from-ledger-route.enum'
+    import { onboardingProfile } from '@contexts/onboarding'
+    import { SupportedNetworkId } from '@core/network'
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked
-    $: isCorrectAppOpen = $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
+    $: appName =
+        $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+    $: isCorrectAppOpen =
+        $onboardingProfile?.network?.id === SupportedNetworkId.Iota
+            ? $ledgerConnectionState === LedgerConnectionState.IotaAppOpen
+            : $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
 
     function onConnectionGuideClick(): void {
         $createFromLedgerRouter.goTo(CreateFromLedgerRoute.LedgerConnectionGuide)
@@ -69,7 +76,9 @@
                 <icon-container>
                     <Icon name={IconName.LinkExternal} textColor="current" />
                 </icon-container>
-                <Text align="center">{localize('views.onboarding.createFromLedger.connectLedger.open')}</Text>
+                <Text align="center"
+                    >{localize('views.onboarding.createFromLedger.connectLedger.open', { appName })}</Text
+                >
             </connect-card>
         </div>
         <div class="flex gap-2 justify-center items-center">

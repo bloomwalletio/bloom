@@ -5,6 +5,7 @@ import { IAppSettings } from './app-settings.interface'
 import { IAppVersionDetails } from './app-version-details.interface'
 import { IPlatformEventMap } from './platform-event-map.interface'
 import { AppTheme } from '../enums'
+import { ITransakWindowData } from './transak-window-data.interface'
 
 export interface IPlatform {
     getStrongholdBackupDestination(defaultPath: string): Promise<string | null>
@@ -29,7 +30,7 @@ export interface IPlatform {
     openUrl(url: string): void
     copyFile(sourceFilePath: string, destinationFilePath: string): Promise<void>
     deleteFile(filePath: string): Promise<void>
-    downloadNft(url: string, destinationFilePath: string, nftId: string, accountIndex: number): Promise<void>
+    downloadNft(url: string, destinationFilePath: string, nftId: string): Promise<void>
     cancelNftDownload(nftId: string): Promise<void>
     checkIfFileExists(filePath: string): Promise<boolean>
 
@@ -61,4 +62,10 @@ export interface IPlatform {
 
     startLedgerProcess(): void
     killLedgerProcess(): void
+
+    openTransak(data: ITransakWindowData): Promise<void>
+    closeTransak(): Promise<void>
+    hideTransak(): Promise<void>
+    showTransak(): Promise<void>
+    updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void>
 }

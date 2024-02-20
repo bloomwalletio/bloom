@@ -8,6 +8,7 @@ import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransacti
 import { IProcessedTransaction } from '@core/activity/types'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getSenderAddressFromInputs } from '../getSenderAddressFromInputs'
+import { EMPTY_HEX_ID } from '@core/wallet'
 
 export function preprocessGroupedOutputs(
     outputDatas: OutputData[],
@@ -43,6 +44,11 @@ function getDirectionForOutputs(
     wrappedInputs: IWrappedOutput[],
     accountAddress: string
 ): ActivityDirection {
+    const isGenesis =
+        wrappedInputs.length === 0 && outputs.some((outputData) => outputData.metadata?.blockId === EMPTY_HEX_ID)
+    if (isGenesis) {
+        return ActivityDirection.Genesis
+    }
     const nonRemainderOutputs = outputs.filter((output) => !output.remainder)
     if (nonRemainderOutputs.length === 0) {
         return ActivityDirection.Outgoing

@@ -5,7 +5,6 @@ export enum NetworkConfigRoute {
     NetworkSettings = 'networkSettings',
     ConfirmLedgerEvmAddress = 'confirmLedgerEvmAddress',
     ConnectedChains = 'connectedChains',
-    ConnectLedgerDevice = 'connectLedgerDevice',
     EditChain = 'editChain',
     RemoveChain = 'removeChain',
 }

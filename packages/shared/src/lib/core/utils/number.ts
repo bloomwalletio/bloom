@@ -32,11 +32,27 @@ export function isNumberLetterOrPunctuation(key: string): boolean {
     return isNumber || isUpperCaseLetter || isLowerCaseLetter
 }
 
-export function round(value: number, precision: number = 0): number {
+export function round(value: number, precision: number = 0): number | null {
     if (typeof value !== 'number' || Number.isNaN(value) || typeof precision !== 'number' || Number.isNaN(precision)) {
         return null
     }
 
     const multiplier = 10 ** precision
     return Math.round(value * multiplier) / multiplier
+}
+
+export function isScientificNotation(num: number | string): boolean {
+    return num.toString().includes('e')
+}
+
+/**
+ * Takes the absolute value of a bigint or a string that represents a bigint.
+ * @param bigInt A string or bigint that represents a number.
+ * @returns The bytes.
+ */
+export function BigIntAbs(bigInt: bigint | string): bigint {
+    if (typeof bigInt === 'string') {
+        bigInt = BigInt(bigInt)
+    }
+    return bigInt < 0 ? bigInt * BigInt(-1) : bigInt
 }

@@ -24,12 +24,7 @@
         getTemporaryProfileManagerStorageDirectory,
     } from '@contexts/onboarding/helpers'
     import { localize } from '@core/i18n'
-    import {
-        checkOrConnectLedger,
-        handleLedgerError,
-        pollLedgerDeviceState,
-        stopPollingLedgerDeviceState,
-    } from '@core/ledger'
+    import { checkOrConnectLedger, handleLedgerError, ledgerRaceConditionProtectionWrapper } from '@core/ledger'
     import { unsubscribeFromWalletApiEvents } from '@core/profile-manager'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { ShimmerClaimingAccountList } from '@ui'
@@ -58,21 +53,6 @@
 
     function onContinueClick(): void {
         $restoreProfileRouter.next()
-    }
-
-    async function ledgerRaceConditionProtectionWrapper(_function: () => unknown): Promise<void> {
-        try {
-            if ($isOnboardingLedgerProfile) {
-                stopPollingLedgerDeviceState()
-            }
-            await _function()
-        } catch (err) {
-            console.error('Error in ledgerRaceConditionProtectionWrapper')
-        } finally {
-            if ($isOnboardingLedgerProfile) {
-                pollLedgerDeviceState()
-            }
-        }
     }
 
     async function searchForRewards(): Promise<void> {
@@ -112,7 +92,7 @@
             }
         } finally {
             if ($isOnboardingLedgerProfile) {
-                closePopup(true)
+                closePopup({ forceClose: true })
             }
             hasTriedClaimingRewards = true
         }

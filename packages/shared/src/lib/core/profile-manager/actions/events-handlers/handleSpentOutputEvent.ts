@@ -4,11 +4,12 @@ import {
     allAccountActivities,
     updateAsyncDataByTransactionId,
 } from '@core/activity/stores/all-account-activities.store'
-import { getNftByIdFromAllAccountNfts, updateNftInAllAccountNfts } from '@core/nfts/actions'
+import { getNftByIdFromAllAccountNfts, updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 import { activeAccounts } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
 import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
+import { IIrc27Nft } from '@core/nfts'
 
 export async function handleSpentOutputEvent(error: Error, event: Event): Promise<void> {
     const walletEvent = validateWalletApiEvent<SpentOutputWalletEvent>(error, event, WalletEventType.SpentOutput)
@@ -33,13 +34,18 @@ export async function handleSpentOutputEventInternal(
     }
 
     if (activity?.type === ActivityType.Nft) {
-        const previousOutputId = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)?.latestOutputId
-        const previousOutput = await account?.getOutput(previousOutputId)
-        if (
-            previousOutput &&
-            output.metadata.milestoneTimestampBooked > previousOutput.metadata.milestoneTimestampBooked
-        ) {
-            updateNftInAllAccountNfts(accountIndex, activity.nftId, { isSpendable: false })
+        const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId) as IIrc27Nft
+        const previousOutputId = nft?.latestOutputId
+        if (previousOutputId) {
+            const previousOutput = await account?.getOutput(previousOutputId)
+            if (
+                previousOutput &&
+                output.metadata.milestoneTimestampBooked > previousOutput.metadata.milestoneTimestampBooked
+            ) {
+                updateNftInAllAccountNftsForAccount(accountIndex, activity.nftId, { isSpendable: false })
+            }
+        } else {
+            throw new Error(`Unable to find latest output ID for NFT ${nft.id}`)
         }
     }
 }

@@ -2,13 +2,15 @@ import { get } from 'svelte/store'
 
 import Web3 from 'web3'
 
+import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
+import { ContractType } from '@core/layer-2/enums'
+import { Contract } from '@core/layer-2/types'
+
 import { NetworkHealth } from '../enums'
 import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
 import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
-import { Contract } from '@core/layer-2/types'
-import { ContractType } from '@core/layer-2/enums'
-import { getAbiForContractType } from '@core/layer-2/utils'
+import { Converter } from '@core/utils'
 
 export class IscpChain implements IChain {
     private readonly _provider: Web3Provider
@@ -47,11 +49,14 @@ export class IscpChain implements IChain {
     }
 
     getStatus(): IChainStatus {
-        return get(chainStatuses)?.[this._configuration.id] ?? { health: NetworkHealth.Disconnected }
+        return get(chainStatuses)?.[this._configuration?.id] ?? { health: NetworkHealth.Disconnected }
     }
 
     getContract(type: ContractType, address: string): Contract {
-        const abi = getAbiForContractType(type)
+        const abi = EVM_CONTRACT_ABIS[type]
+        if (!abi) {
+            throw new Error(`Unable to determine contract type "${type}"`)
+        }
         return new this._provider.eth.Contract(abi, address)
     }
 
@@ -84,7 +89,7 @@ export class IscpChain implements IChain {
         return this._provider.eth.getBlock(number)
     }
 
-    async getGasEstimate(hex: string): Promise<number> {
+    async getGasEstimate(hex: string): Promise<bigint> {
         const URL = `${this._chainApi}/estimategas-onledger`
         const body = JSON.stringify({ outputBytes: hex })
 
@@ -101,8 +106,8 @@ export class IscpChain implements IChain {
         const data = await response.json()
 
         if (response.status === 200) {
-            const gasEstimate = Number(data.gasFeeCharged ?? '0')
-            if (Number.isNaN(gasEstimate) || gasEstimate === 0) {
+            const gasEstimate = Converter.bigIntLikeToBigInt(data.gasFeeCharged)
+            if (gasEstimate === BigInt(0)) {
                 throw new Error(`Gas fee has an invalid value: ${gasEstimate}!`)
             }
 

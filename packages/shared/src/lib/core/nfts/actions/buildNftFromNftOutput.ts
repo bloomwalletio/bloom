@@ -1,21 +1,22 @@
 import { Address, AddressType, NftOutput } from '@iota/sdk/out/types'
 import { getIssuerFromNftOutput, getMetadataFromNftOutput, getNftId } from '@core/activity/utils/outputs'
-import { activeProfileId } from '@core/profile/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
-import { get } from 'svelte/store'
 import { DEFAULT_NFT_NAME } from '../constants'
-import { INft } from '../interfaces'
+import { IIrc27Nft } from '../interfaces'
 import { composeUrlFromNftUri, getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
 import { NetworkId } from '@core/network/types'
 import { isEvmChain } from '@core/network'
+import { MimeType, NftStandard } from '@core/nfts'
+import { persistedNftForActiveProfile } from '../stores'
+import { get } from 'svelte/store'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
     networkId: NetworkId,
     accountAddress: string,
     calculateStatus: boolean = true
-): INft {
+): IIrc27Nft {
     const nftOutput = wrappedOutput.output as NftOutput
 
     let isSpendable = false
@@ -27,35 +28,36 @@ export function buildNftFromNftOutput(
         timeLockTime = status.timeLockTime
     }
 
-    const profileId: string = get(activeProfileId)
     const id = getNftId(nftOutput.nftId, wrappedOutput.outputId)
-    const address = getBech32AddressFromAddressTypes({ type: AddressType.Nft, nftId: id } as unknown as Address)
+    const address = getBech32AddressFromAddressTypes({
+        type: AddressType.Nft,
+        nftId: id,
+    } as unknown as Address) as string
     const issuer = getIssuerFromNftOutput(nftOutput)
-    const metadata = getMetadataFromNftOutput(nftOutput)
-    const parsedMetadata = parseNftMetadata(metadata)
-    const composedUrl = composeUrlFromNftUri(parsedMetadata?.uri)
-    const filePath = `${profileId}/nfts/${id}`
-    const storageDeposit = Number(nftOutput.amount)
+    const rawMetadata = getMetadataFromNftOutput(nftOutput)
+    const parsedMetadata = parseNftMetadata(rawMetadata)
+    const composedUrl = composeUrlFromNftUri(parsedMetadata?.uri) ?? ''
+    const storageDeposit = BigInt(nftOutput.amount)
+
+    const persistedNft = get(persistedNftForActiveProfile)?.[id]
 
     return {
+        standard: NftStandard.Irc27,
+        type: parsedMetadata?.type ?? MimeType.TextPlain,
         id,
-        address,
+        nftAddress: address,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
+        description: parsedMetadata?.description,
         issuer,
         isSpendable: isEvmChain(networkId) ? true : isSpendable,
         timelockTime: timeLockTime ? Number(timeLockTime) : undefined,
-        metadata,
-        parsedMetadata,
+        rawMetadata,
+        metadata: parsedMetadata,
         latestOutputId: wrappedOutput.outputId,
         composedUrl,
-        downloadUrl: composedUrl,
-        filePath,
         storageDeposit,
         networkId,
-        downloadMetadata: {
-            error: undefined,
-            warning: undefined,
-            isLoaded: false,
-        },
+        isLoaded: false,
+        downloadMetadata: persistedNft?.downloadMetadata,
     }
 }

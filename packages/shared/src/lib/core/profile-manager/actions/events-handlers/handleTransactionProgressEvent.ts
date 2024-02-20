@@ -3,7 +3,7 @@ import { selectedAccountIndex } from '@core/account/stores'
 import { LedgerAppName } from '@core/ledger/enums'
 import { ledgerDeviceState, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger/stores'
 import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
-import { isActiveLedgerProfile } from '@core/profile/stores'
+import { activeProfile, isActiveLedgerProfile } from '@core/profile/stores'
 import {
     Event,
     PreparedTransactionEssenceHashProgress,
@@ -19,6 +19,7 @@ import { validateWalletApiEvent } from '../../utils'
 import { checkOrConnectLedger } from '@core/ledger/actions'
 import { handleError } from '@core/error/handlers'
 import { sendOutput } from '@core/wallet/actions'
+import { SupportedNetworkId } from '@core/network/enums'
 
 export function handleTransactionProgressEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<TransactionProgressWalletEvent>(
@@ -58,7 +59,9 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                 },
             })
         } else if (type === TransactionProgressType.PreparedTransactionEssenceHash) {
-            if (get(ledgerDeviceState)?.settings?.[LedgerAppName.Shimmer]?.blindSigningEnabled) {
+            const appName =
+                get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+            if (get(ledgerDeviceState)?.settings?.[appName]?.blindSigningEnabled) {
                 openPopup({
                     id: PopupId.VerifyLedgerTransaction,
                     hideClose: true,
@@ -74,7 +77,7 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                     hideClose: true,
                     preventClose: true,
                     props: {
-                        appName: LedgerAppName.Shimmer,
+                        appName,
                         onEnabled: () => {
                             checkOrConnectLedger(async () => {
                                 try {
@@ -91,7 +94,7 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                 })
             }
         } else if (type === TransactionProgressType.PerformingPow) {
-            closePopup(true)
+            closePopup({ forceClose: true })
         }
     } else {
         throw new MissingTransactionProgressEventPayloadError()

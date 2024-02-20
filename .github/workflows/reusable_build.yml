@@ -35,7 +35,7 @@ jobs:
             - name: Setup NodeJS
               uses: actions/setup-node@v1
               with:
-                  node-version: 18.15.0
+                  node-version: 18.19.1
 
             # Used to read the `binding.gyp` file from `@iota/sdk`
             - name: Set up Python 3.10
@@ -137,6 +137,7 @@ jobs:
               env:
                   HARDCODE_NODE_ENV: true
                   AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
+                  TRANSAK_API_KEY: ${{ secrets.TRANSAK_API_KEY }}
 
             - name: Build signed Electron app (MacOS)
               run: yarn compile:${STAGE}:mac

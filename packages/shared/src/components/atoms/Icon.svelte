@@ -58,8 +58,8 @@
                         fill={path?.fillPriority === 'primary'
                             ? primaryColor ?? path.fill ?? ''
                             : path?.fillPriority === 'secondary'
-                            ? secondaryColor ?? path.fill ?? ''
-                            : path.fill ?? ''}
+                              ? secondaryColor ?? path.fill ?? ''
+                              : path.fill ?? ''}
                     />
                 {/each}
                 {#if selected.circles}
@@ -107,8 +107,8 @@
                     fill={path?.fillPriority === 'primary'
                         ? primaryColor ?? path.fill ?? ''
                         : path?.fillPriority === 'secondary'
-                        ? secondaryColor ?? path.fill ?? ''
-                        : path.fill ?? ''}
+                          ? secondaryColor ?? path.fill ?? ''
+                          : path.fill ?? ''}
                 />
             {/each}
             {#if selected.circles}

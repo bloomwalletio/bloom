@@ -25,7 +25,7 @@
 </stronghold-badge>
 {#if isTooltipVisible}
     <Tooltip anchor={tooltipAnchor} size="small" position={Position.Right} offset={6}>
-        <Text color="gray-600" darkColor="gray-400" classes="text-left" smaller>
+        <Text color="text-gray-600" darkColor="dark:text-gray-400" classes="text-left" smaller>
             {localize('tooltips.updateStronghold.profileBadge').replace('. ', '.\n')}
         </Text>
     </Tooltip>

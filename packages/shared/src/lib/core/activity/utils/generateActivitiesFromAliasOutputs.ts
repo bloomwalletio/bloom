@@ -16,13 +16,17 @@ export async function generateActivitiesFromAliasOutputs(
 
     const aliasOutputs = outputs.filter((output) => output.output?.type === OutputType.Alias)
     for (const aliasOutput of aliasOutputs) {
-        const output = aliasOutput.output as AliasOutput
-        const activity = await generateSingleAliasActivity(account, networkId, {
-            action: output.aliasId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,
-            processedTransaction,
-            wrappedOutput: aliasOutput,
-        })
-        activities.push(activity)
+        try {
+            const output = aliasOutput.output as AliasOutput
+            const activity = await generateSingleAliasActivity(account, networkId, {
+                action: output.aliasId === EMPTY_HEX_ID ? ActivityAction.Mint : ActivityAction.Send,
+                processedTransaction,
+                wrappedOutput: aliasOutput,
+            })
+            activities.push(activity)
+        } catch (error) {
+            console.error(error)
+        }
     }
     return activities
 }

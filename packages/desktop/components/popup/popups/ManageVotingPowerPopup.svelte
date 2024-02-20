@@ -5,39 +5,29 @@
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { convertToRawAmount } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import { Text, TokenAmountWithSliderInput } from '@ui'
-    import { TextType } from '@ui/enums'
-    import { onMount } from 'svelte'
-    import { Button } from '@bloomwalletio/ui'
+    import { TokenAmountWithSliderInput } from '@ui'
+    import { PopupTemplate } from '@components/popup'
 
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
-    export let newVotingPower: string = undefined
+    export let newVotingPower: bigint = undefined
 
-    let tokenAmountInput: TokenAmountWithSliderInput
-    let amount: string
+    let tokenAmountInputWithSlider: TokenAmountWithSliderInput
     let rawAmount = newVotingPower ?? $selectedAccount?.votingPower
     let confirmDisabled = false
 
-    $: token = $visibleSelectedAccountTokens[$activeProfile?.network.id].baseCoin
-    $: votingPower = parseInt($selectedAccount?.votingPower, 10)
+    $: token = $visibleSelectedAccountTokens[$activeProfile?.network?.id]?.baseCoin
+    $: votingPower = $selectedAccount?.votingPower
     $: hasTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress ||
         $selectedAccount?.hasVotingTransactionInProgress ||
         $selectedAccount?.isTransferring
-    $: amount, hasTransactionInProgress, setConfirmDisabled()
+    $: rawAmount, hasTransactionInProgress, setConfirmDisabled()
 
     function setConfirmDisabled(): void {
-        if (!amount) {
-            confirmDisabled = true
-            return
-        }
-        const convertedSliderAmount = convertToRawAmount(amount, token?.metadata)?.toString()
-        confirmDisabled = convertedSliderAmount === $selectedAccount?.votingPower || hasTransactionInProgress
+        confirmDisabled = rawAmount === $selectedAccount?.votingPower || hasTransactionInProgress
     }
 
     function onCancelClick(): void {
@@ -46,64 +36,50 @@
 
     async function onSubmit(): Promise<void> {
         try {
-            await tokenAmountInput?.validate(true)
+            tokenAmountInputWithSlider?.validate(true)
 
-            if (amount === '0' && isAccountVoting($selectedAccount.index)) {
+            if (!rawAmount && isAccountVoting($selectedAccount.index)) {
                 openPopup({ id: PopupId.VotingPowerToZero })
+                return
+            }
+
+            try {
+                await checkActiveProfileAuthAsync()
+            } catch {
                 return
             }
 
             // After unlocking stronghold popup, the popup tracks newVotingPower to show it when reopened.
             $popupState.props = { newVotingPower: rawAmount }
-
-            await checkActiveProfileAuth(
-                async () => {
-                    await setVotingPower(rawAmount)
-                },
-                { stronghold: true, ledger: false }
-            )
+            await setVotingPower(rawAmount)
         } catch (err) {
             handleError(err)
         }
     }
-
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            handleError(err)
-        }
-    })
 </script>
 
-<form id="manage-voting-power" on:submit|preventDefault={onSubmit}>
-    <Text type={TextType.h4} classes="mb-3">{localize('popups.manageVotingPower.title')}</Text>
-    <Text type={TextType.p} classes="mb-5">{localize('popups.manageVotingPower.body')}</Text>
-    <div class="space-y-5 mb-6">
-        <TokenAmountWithSliderInput
-            bind:this={tokenAmountInput}
-            bind:rawAmount
-            bind:amount
-            {token}
-            disabled={hasTransactionInProgress}
-            {votingPower}
-        />
-        <Alert variant="info" text={localize('popups.manageVotingPower.hint')} />
-    </div>
-    <div class="flex flex-row flex-nowrap w-full space-x-4">
-        <Button
-            variant="outlined"
-            disabled={hasTransactionInProgress}
-            width="full"
-            on:click={onCancelClick}
-            text={localize('actions.cancel')}
-        />
-        <Button
-            type="submit"
-            disabled={confirmDisabled}
-            busy={hasTransactionInProgress}
-            width="full"
-            text={localize('actions.confirm')}
-        />
-    </div>
-</form>
+<PopupTemplate
+    title={localize('popups.manageVotingPower.title')}
+    description={localize('popups.manageVotingPower.body')}
+    backButton={{ text: localize('actions.cancel'), onClick: onCancelClick }}
+    continueButton={{
+        type: 'submit',
+        text: localize('actions.confirm'),
+        disabled: confirmDisabled,
+        form: 'manage-voting-power',
+    }}
+    busy={hasTransactionInProgress}
+>
+    <form id="manage-voting-power" on:submit|preventDefault={onSubmit}>
+        <div class="space-y-4">
+            <TokenAmountWithSliderInput
+                bind:this={tokenAmountInputWithSlider}
+                bind:rawAmount
+                {token}
+                disabled={hasTransactionInProgress}
+                {votingPower}
+            />
+            <Alert variant="info" text={localize('popups.manageVotingPower.hint')} />
+        </div>
+    </form>
+</PopupTemplate>

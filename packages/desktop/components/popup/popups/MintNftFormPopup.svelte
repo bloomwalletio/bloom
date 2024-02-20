@@ -2,11 +2,10 @@
     import { BaseError } from '@core/error/classes'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { composeUrlFromNftUri } from '@core/nfts'
-    import { MimeType } from '@core/nfts/types'
+    import { composeUrlFromNftUri, NftStandard } from '@core/nfts'
+    import { MimeType } from '@core/nfts/enums'
     import { fetchWithTimeout } from '@core/nfts/utils/fetchWithTimeout'
     import { getNetworkHrp } from '@core/profile/actions'
-    import { TokenStandard } from '@core/token'
     import { HttpHeader } from '@core/utils'
     import { validateBech32Address } from '@core/utils/crypto'
     import { isValidUri } from '@core/utils/validation'
@@ -123,7 +122,7 @@
             try {
                 const response = await fetchWithTimeout(composeUrlFromNftUri(uri), 1, { method: 'HEAD' })
                 if (response.status === 200 || response.status === 304) {
-                    type = response.headers.get(HttpHeader.ContentType)
+                    type = response.headers.get(HttpHeader.ContentType) as MimeType
                 } else {
                     uriError = localize('popups.mintNftForm.errors.notReachable')
                 }
@@ -238,7 +237,7 @@
 
     function convertInputsToMetadataType(): IMintNftDetails {
         return {
-            standard: standard ?? TokenStandard.Irc27,
+            standard: standard ?? NftStandard.Irc27,
             version,
             issuerName: optionalInputs.issuerName?.value,
             description: optionalInputs.description?.value,
@@ -249,7 +248,7 @@
             name,
             royalties: optionalInputs.royalties?.value ? JSON.parse(optionalInputs.royalties.value) : undefined,
             attributes: optionalInputs.attributes?.value ? JSON.parse(optionalInputs.attributes.value) : undefined,
-            type: type as MimeType,
+            type,
         }
     }
 

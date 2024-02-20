@@ -1,9 +1,8 @@
 <script lang="ts">
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app'
-    import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { INft, rewriteIpfsUri } from '@core/nfts'
+    import { IIrc27Nft, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -11,40 +10,23 @@
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
     export let menu: Menu = undefined
-    export let nft: INft
+    export let nft: Nft
 
-    $: url = nft?.parsedMetadata?.uri && composeUrl(nft.parsedMetadata.uri)
-    $: isLocked = nft.timelockTime > $time.getTime()
+    $: isLocked = isNftLocked(nft)
+    $: isBurnDisabled = isLocked || !isIrc27Nft(nft)
     $: isCurrentPfp = $activeProfile.pfp?.id === nft.id
 
-    function composeUrl(targetUrl: string): string | undefined {
-        if (!targetUrl) {
-            return undefined
-        }
-        const url = new URL(targetUrl)
-
-        switch (url.protocol) {
-            case 'http:':
-                return targetUrl.replace('http:', 'https:')
-            case 'https:':
-                return targetUrl
-            case 'ipfs:':
-                return rewriteIpfsUri(targetUrl)
-            default:
-                return undefined
-        }
-    }
-
     function onSetPfpClick(): void {
-        updateActiveProfile({
-            pfp: isCurrentPfp ? undefined : nft,
-        })
+        const pfp = isCurrentPfp ? undefined : structuredClone(nft)
+        // It's not possible to store bigint's in stores
+        delete (pfp as IIrc27Nft)?.storageDeposit
+        updateActiveProfile({ pfp })
         menu?.close()
     }
 
     function onOpenMediaClick(): void {
-        if (url) {
-            openUrlInBrowser(url)
+        if (nft.composedUrl) {
+            openUrlInBrowser(nft.composedUrl)
         }
         menu?.close()
     }
@@ -90,14 +72,14 @@
             {
                 icon: IconName.LinkExternal,
                 title: localize('views.collectibles.details.menu.view'),
-                disabled: !url,
+                disabled: !nft.composedUrl,
                 onClick: onOpenMediaClick,
             },
             {
                 icon: IconName.Trash,
                 title: localize('views.collectibles.details.menu.burn'),
                 variant: 'danger',
-                disabled: isLocked,
+                disabled: isBurnDisabled,
                 onClick: openBurnNft,
             },
         ]}

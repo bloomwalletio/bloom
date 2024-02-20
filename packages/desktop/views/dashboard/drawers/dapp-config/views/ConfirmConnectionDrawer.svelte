@@ -4,13 +4,17 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { buildSupportedNamespacesFromSelections, clearOldPairings } from '@auxiliary/wallet-connect/actions'
+    import {
+        buildSupportedNamespacesFromSelections,
+        clearOldPairings,
+        approveSession,
+    } from '@auxiliary/wallet-connect/actions'
     import {
         getPersistedDappNamespacesForDapp,
         persistDappNamespacesForDapp,
         sessionProposal,
     } from '@auxiliary/wallet-connect/stores'
-    import { approveSession } from '@auxiliary/wallet-connect/utils'
+    import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import {
         AccountSelection,
         ConnectionSummary,
@@ -18,10 +22,11 @@
         NetworkSelection,
         PermissionSelection,
     } from '../components'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { handleError } from '@core/error/handlers'
-    import { showNotification } from '@auxiliary/notification'
     import { IAccountState } from '@core/account'
+    import { DappConfigRoute } from '../dapp-config-route.enum'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { selectedAccount } from '@core/account/stores'
 
     export let drawerRouter: Router<unknown>
 
@@ -35,16 +40,28 @@
         localize(`${localeKey}.accounts.step`),
     ]
 
+    let permissionSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
-    const persistedDappNamespace = $sessionProposal
-        ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
-        : undefined
+
+    $: dappUrl = $sessionProposal?.params?.proposer?.metadata?.url ?? undefined
+    $: persistedNamespaces = dappUrl ? getPersistedDappNamespacesForDapp(dappUrl) : undefined
+
+    $: isButtonDisabled =
+        loading ||
+        (!persistedNamespaces && currentStep === 0 && permissionSelections.length && checkedMethods.length === 0) ||
+        (currentStep === 1 && checkedNetworks.length === 0) ||
+        (currentStep === 2 && checkedAccounts.length === 0)
 
     function onBackClick(): void {
         if (currentStep === 0) {
-            drawerRouter.previous()
+            if (drawerRouter.hasHistory()) {
+                drawerRouter.previous()
+            } else {
+                rejectSession()
+                closeDrawer()
+            }
         } else {
             currentStep--
         }
@@ -58,30 +75,27 @@
         try {
             loading = true
 
-            const supportedNamespaces =
-                persistedDappNamespace ??
-                buildSupportedNamespacesFromSelections(
-                    {
-                        chains: checkedNetworks,
-                        methods: checkedMethods,
-                        accounts: checkedAccounts,
-                    },
-                    $sessionProposal.params.requiredNamespaces,
-                    $sessionProposal.params.optionalNamespaces
-                )
-            await clearOldPairings($sessionProposal.params.proposer.metadata.url)
-            await approveSession($sessionProposal, supportedNamespaces)
-            persistDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url, supportedNamespaces)
+            const supportedNamespaces = buildSupportedNamespacesFromSelections(
+                {
+                    chains: persistedNamespaces ? undefined : checkedNetworks,
+                    methods: persistedNamespaces ? undefined : checkedMethods,
+                    accounts: persistedNamespaces ? undefined : checkedAccounts,
+                },
+                $sessionProposal.params.requiredNamespaces,
+                $sessionProposal.params.optionalNamespaces,
+                persistedNamespaces
+            )
 
-            showNotification({
-                variant: 'success',
-                text: localize('notifications.newDappConnection.success'),
-            })
-            closeDrawer()
+            await clearOldPairings(dappUrl)
+            await approveSession($sessionProposal, supportedNamespaces, $selectedAccount)
+            persistDappNamespacesForDapp(dappUrl, supportedNamespaces)
+            $sessionProposal = undefined
+
+            drawerRouter.reset()
+            drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
         } catch (error) {
-            handleError(error)
-        } finally {
             loading = false
+            handleError(error)
         }
     }
 </script>
@@ -89,14 +103,19 @@
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
-            <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} />
+            <DappInformationCard
+                metadata={$sessionProposal.params.proposer.metadata}
+                verifiedState={$sessionProposal.verifyContext.verified.validation}
+            />
 
             <div class="px-6 flex-grow overflow-hidden">
-                {#if persistedDappNamespace}
+                {#if persistedNamespaces}
                     <div class="h-full overflow-scroll">
                         <ConnectionSummary
                             requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                            {persistedDappNamespace}
+                            editable
+                            {persistedNamespaces}
+                            {drawerRouter}
                         />
                     </div>
                 {:else}
@@ -112,14 +131,23 @@
                                     body={localize(`${localeKey}.${tipLocale}.tip`)}
                                     dismissable={false}
                                 />
-                                <div class={currentStep === 0 ? 'visible' : 'hidden'}>
-                                    <PermissionSelection bind:checkedMethods />
+                                <div class="flex-grow {currentStep === 0 ? 'visible' : 'hidden'}">
+                                    <PermissionSelection
+                                        bind:checkedMethods
+                                        bind:permissionSelections
+                                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
+                                    />
                                 </div>
-                                <div class={currentStep === 1 ? 'visible' : 'hidden'}>
-                                    <NetworkSelection bind:checkedNetworks />
+                                <div class="flex-grow {currentStep === 1 ? 'visible' : 'hidden'}">
+                                    <NetworkSelection
+                                        bind:checkedNetworks
+                                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
+                                    />
                                 </div>
-                                <div class={currentStep === 2 ? 'visible' : 'hidden'}>
-                                    <AccountSelection bind:checkedAccounts />
+                                <div class="flex-grow {currentStep === 2 ? 'visible' : 'hidden'}">
+                                    <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} />
                                 </div>
                             </div>
                         </div>
@@ -138,13 +166,13 @@
             width="full"
             on:click={onBackClick}
             disabled={loading}
-            text={localize('actions.back')}
+            text={localize(!drawerRouter.hasHistory() && currentStep === 0 ? 'actions.cancel' : 'actions.back')}
         />
-        {@const isLastStep = persistedDappNamespace || currentStep === steps.length - 1}
+        {@const isLastStep = persistedNamespaces || currentStep === steps.length - 1}
         <Button
             width="full"
             on:click={isLastStep ? onConfirmClick : onNextClick}
-            disabled={loading}
+            disabled={isButtonDisabled}
             busy={loading}
             text={localize(`actions.${isLastStep ? 'confirm' : 'next'}`)}
         />

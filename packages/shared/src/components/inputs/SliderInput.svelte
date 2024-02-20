@@ -1,20 +1,17 @@
 <script lang="ts">
-    import { formatNumber, parseCurrency } from '@core/i18n'
-
-    export let min = 0
-    export let max = 100
-    export let id = null
-    export let decimals = 0
-    export let value: string
     export let disabled = false
+    export let id: string | null = null
+    export let max: bigint = BigInt(100)
+    export let min: bigint = BigInt(0)
+    export let value: bigint
 
-    let container: HTMLElement = null
-    let thumb: HTMLElement = null
-    let progressBar: HTMLElement = null
-    let element: HTMLElement = null
+    let container: HTMLElement
+    let thumb: HTMLElement
+    let progressBar: HTMLElement
+    let element: HTMLElement
 
-    let elementX: number = null
-    let currentThumb: HTMLElement = null
+    let elementX: number
+    let currentThumb: HTMLElement | null
     let holding = false
     let thumbHover = false
 
@@ -27,12 +24,8 @@
         event.stopPropagation()
     })
 
-    function resizeWindow(): void {
+    function onWindowResize(): void {
         elementX = element.getBoundingClientRect().left
-    }
-
-    function setValue(val: number): void {
-        value = formatNumber(val, undefined, decimals > 0 ? decimals : undefined, 0)
     }
 
     function onTrackEvent(event: TouchEvent | MouseEvent): void {
@@ -89,18 +82,16 @@
         let percent = (delta * 100) / (container.clientWidth - 10)
 
         // Limit percent 0 -> 100
-        percent = percent < 0 ? 0 : percent > 100 ? 100 : percent
-
+        percent = percent < 0 ? 0 : percent > 100 ? 100 : Math.floor(percent)
         // Limit value min -> max
-        const val = Math.floor((percent / 100) * (max - min) * 10 ** decimals) / 10 ** decimals + min
-        setValue(val)
+        value = (BigInt(percent) * (max - min)) / BigInt(100) + min
     }
 
     // Handles both dragging of touch/mouse as well as simple one-off click/touches
-    function updateValueOnEvent(event: TouchEvent | MouseEvent): boolean {
+    function updateValueOnEvent(event: TouchEvent | MouseEvent): void {
         // touchstart && mousedown are one-off updates, otherwise expect a currentPointer node
         if (!currentThumb && event.type !== 'touchstart' && event.type !== 'mousedown') {
-            return false
+            return
         }
 
         event.stopPropagation && event.stopPropagation()
@@ -123,7 +114,7 @@
 
     // Update progressbar and thumb styles to represent value
     $: if (progressBar && thumb) {
-        let percent = ((parseCurrency(value) - min) * 100) / (max - min)
+        let percent = (Number(value - min) * 100) / Number(max - min)
         percent = Math.max(Math.min(percent, 100), 0)
         const offsetLeft = (container.clientWidth - 10) * (percent / 100) + 5
 
@@ -139,33 +130,26 @@
     on:touchend={onDragEnd}
     on:mousemove={updateValueOnEvent}
     on:mouseup={onDragEnd}
-    on:resize={resizeWindow}
+    on:resize={onWindowResize}
 />
 
-<slider-input class="range" class:cursor-pointer={!disabled}>
+<slider-input class:cursor-pointer={!disabled}>
     <range-wrapper
-        class="range__wrapper"
         tabindex="0"
         bind:this={element}
         role="slider"
         aria-valuemin={min}
         aria-valuemax={max}
-        aria-valuenow={parseCurrency(value)}
+        aria-valuenow={value}
         {id}
         on:mousedown={onTrackEvent}
         on:touchstart={onTrackEvent}
     >
-        <range-track class="range__track" bind:this={container}>
-            <progress-bar
-                bind:this={progressBar}
-                class="range__track--highlighted
-                {disabled ? 'bg-neutral' : 'bg-primary'}"
-            />
+        <range-track bind:this={container}>
+            <progress-bar bind:this={progressBar} class:disabled />
             <range-thumb
-                class="range__thumb
-                {disabled ? 'bg-neutral' : 'bg-primary'}"
-                class:range__thumb--holding={holding}
-                class:cursor-pointer={!disabled}
+                class:disabled
+                class:holding
                 bind:this={thumb}
                 on:touchstart={onDragStart}
                 on:mousedown={onDragStart}
@@ -178,32 +162,21 @@
     </range-wrapper>
 </slider-input>
 
-<style lang="scss">
+<style lang="postcss">
     :global(.mouse-over-shield) {
-        @apply fixed;
-        @apply top-0;
-        @apply left-0;
-        @apply h-full;
-        @apply w-full;
-        @apply bg-black;
-        @apply opacity-0;
-        @apply z-50;
+        @apply fixed top-0 left-0 z-50;
+        @apply h-full w-full;
+        @apply bg-black opacity-0;
         cursor: grabbing;
     }
 
-    .range {
-        @apply block;
-        @apply relative;
-        @apply flex-1;
+    slider-input {
+        @apply block relative flex-1;
     }
 
-    .range__wrapper {
-        @apply block;
-        @apply relative;
-        @apply box-border;
-        @apply min-w-full;
-        @apply outline-none;
-        @apply p-2;
+    range-wrapper {
+        @apply block relative outline-none;
+        @apply box-border min-w-full p-2;
 
         &:focus-visible > .range__track {
             box-shadow:
@@ -212,39 +185,44 @@
         }
     }
 
-    .range__track {
+    range-track {
         @apply block;
-        @apply rounded-full;
-        @apply h-1.5;
+        @apply rounded-full h-1.5;
         background-color: var(--track-bgcolor, #d8e3f5);
     }
 
-    .range__track--highlighted {
-        @apply block;
-        @apply absolute;
-        @apply rounded-full;
-        @apply w-0;
-        @apply h-1.5;
+    progress-bar {
+        @apply block absolute;
+        @apply rounded-full w-0 h-1.5;
+
+        &:not(.disabled) {
+            @apply bg-primary;
+        }
+
+        &.disabled {
+            @apply bg-neutral;
+        }
     }
 
-    .range__thumb {
-        @apply absolute;
-        @apply flex;
-        @apply items-center;
-        @apply justify-center;
-        @apply select-none;
-        @apply rounded-full;
-        @apply -mt-2;
-        @apply w-5;
-        @apply h-5;
+    range-thumb {
+        @apply absolute flex items-center justify-center select-none;
+        @apply rounded-full -mt-2 w-5 h-5;
         transition: box-shadow 100ms;
         box-shadow: var(--thumb-boxshadow, 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 0px 2px 1px rgba(0, 0, 0, 0.2));
-    }
 
-    .range__thumb--holding {
-        box-shadow:
-            0 1px 1px 0 rgba(0, 0, 0, 0.14),
-            0 1px 2px 1px rgba(0, 0, 0, 0.2),
-            0 0 0 6px var(--thumb-holding-outline, rgba(113, 119, 250, 0.3));
+        &:not(.disabled) {
+            @apply bg-primary cursor-pointer;
+        }
+
+        &.disabled {
+            @apply bg-neutral;
+        }
+
+        &.holding {
+            box-shadow:
+                0 1px 1px 0 rgba(0, 0, 0, 0.14),
+                0 1px 2px 1px rgba(0, 0, 0, 0.2),
+                0 0 0 6px var(--thumb-holding-outline, rgba(113, 119, 250, 0.3));
+        }
     }
 </style>

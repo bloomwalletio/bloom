@@ -1,11 +1,8 @@
 import { parseCurrency } from '@core/i18n'
-import { IOTA_UNIT_MAP, IotaUnit } from '@core/utils'
-import Big from 'big.js'
-import { TokenMetadata } from '@core/token/types'
 import { TokenStandard } from '@core/token/enums'
-import { MAX_SUPPORTED_DECIMALS } from '@core/wallet/constants'
+import { TokenMetadata } from '@core/token/types'
 
-export function convertToRawAmount(amount: string, tokenMetadata: TokenMetadata, unit?: string): Big | undefined {
+export function convertToRawAmount(amount: string, tokenMetadata: TokenMetadata, unit?: string): bigint | undefined {
     if (amount) {
         const parsedAmount = parseCurrency(amount)
         return convertToRawAmountFromMetadata(parsedAmount, tokenMetadata, unit)
@@ -15,32 +12,33 @@ export function convertToRawAmount(amount: string, tokenMetadata: TokenMetadata,
 }
 
 function convertToRawAmountFromMetadata(
-    amount: number,
+    amount: string | undefined,
     tokenMetadata: TokenMetadata,
     selectedUnit?: string
-): Big | undefined {
+): bigint | undefined {
+    if (!amount) {
+        return undefined
+    }
+
     if (tokenMetadata?.standard === TokenStandard.BaseToken) {
-        if (tokenMetadata.useMetricPrefix) {
-            const decimals = IOTA_UNIT_MAP?.[selectedUnit?.substring(0, 1) as IotaUnit]?.decimalPlaces ?? 0
-            return convertAmountToMatchUnit(amount, decimals)
+        if (!selectedUnit || selectedUnit === tokenMetadata.unit) {
+            return convertFloatToBigInt(amount, tokenMetadata.decimals)
+        } else if (selectedUnit === tokenMetadata.subunit) {
+            return BigInt(amount)
         } else {
-            if (!selectedUnit || selectedUnit === tokenMetadata.unit) {
-                const decimals = Math.min(tokenMetadata.decimals, MAX_SUPPORTED_DECIMALS)
-                return convertAmountToMatchUnit(amount, decimals)
-            } else if (selectedUnit === tokenMetadata.subunit) {
-                return Big(amount)
-            } else {
-                return undefined
-            }
+            return undefined
         }
     } else if (tokenMetadata?.standard === TokenStandard.Irc30 || tokenMetadata?.standard === TokenStandard.Erc20) {
-        const decimals = Math.min(tokenMetadata.decimals, MAX_SUPPORTED_DECIMALS)
-        return convertAmountToMatchUnit(amount, decimals)
+        return convertFloatToBigInt(amount, tokenMetadata.decimals)
     } else {
         throw new Error('convertToRawAmountFromMetadata: Invalid token standard')
     }
 }
 
-function convertAmountToMatchUnit(amount: number, decimalsInUnit: number): Big {
-    return Big(amount).mul(Big(10).pow(decimalsInUnit))
+function convertFloatToBigInt(amount: string, maxDecimals: number): bigint {
+    const parts = amount.split('.')
+    const integerPart = parts[0]
+    const decimalPart = parts[1] ?? ''
+    const decimalPartPadded = decimalPart.padEnd(maxDecimals, '0')
+    return BigInt(integerPart + decimalPartPadded)
 }

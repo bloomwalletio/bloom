@@ -1,15 +1,12 @@
 <script lang="ts">
     import { MimeType, ParentMimeType } from '@core/nfts'
     import { TextColor, IconName, AvatarSize, Avatar } from '@bloomwalletio/ui'
-    import { nftDownloadQueue } from '@core/nfts/stores'
 
     export let type: MimeType | undefined
-    export let nftId: string | undefined = undefined
     export let textColor: TextColor = 'primary'
     export let size: AvatarSize
     export let surface: 0 | 1 | 2 | 'invert' | 'brand' = 0
-
-    $: isDownloading = $nftDownloadQueue.some((queueItem) => queueItem.nft.id === nftId)
+    export let downloading: boolean = false
 
     function getIcon(type: MimeType | undefined): IconName {
         const parentMimeType = type?.split('/', 1)?.[0]
@@ -34,7 +31,7 @@
     }
 </script>
 
-<media-icon class:downloading={isDownloading}>
+<media-icon class:downloading>
     <Avatar icon={getIcon(type)} {textColor} {size} {surface} />
 </media-icon>
 

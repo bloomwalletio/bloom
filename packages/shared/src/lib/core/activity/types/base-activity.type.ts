@@ -30,22 +30,22 @@ export type BaseActivity = {
     direction: ActivityDirection
 
     // asset information
-    storageDeposit?: number
+    storageDeposit?: bigint
     baseTokenTransfer: {
-        rawAmount: string
+        rawAmount: bigint
         tokenId: string
     }
     tokenTransfer?: {
-        rawAmount: string
+        rawAmount: bigint
         tokenId: string
     }
 
     // smart contract information
     // TODO: move to separate type
     smartContract?: SmartContract
-    estimatedGasFee?: number
-    maxGasFee?: number
-    transactionFee?: number
+    estimatedGasFee?: bigint
+    maxGasFee?: bigint
+    transactionFee?: bigint
 }
 
 export type AsyncData = {

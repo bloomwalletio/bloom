@@ -4,7 +4,7 @@ import { BaseActivity } from './base-activity.type'
 export type FoundryActivity = BaseActivity & {
     type: ActivityType.Foundry
     aliasAddress: string
-    mintedTokens: string
-    meltedTokens: string
-    maximumSupply: string
+    mintedTokens: bigint
+    meltedTokens: bigint
+    maximumSupply: bigint
 }

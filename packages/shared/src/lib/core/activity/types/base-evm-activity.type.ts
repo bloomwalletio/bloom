@@ -27,7 +27,7 @@ export type BaseEvmActivity = {
 
     // smart contract information
     // TODO: move to separate type
-    estimatedGasFee?: number
-    maxGasFee?: number
-    transactionFee?: number
+    estimatedGasFee?: bigint
+    maxGasFee?: bigint
+    transactionFee?: bigint
 }

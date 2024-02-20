@@ -86,7 +86,7 @@
                     "description": "Please ensure that the official Ledger Live application is closed and follow the steps below.",
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
-                    "open": "Open the Shimmer app on your Ledger",
+                    "open": "Open the {appName} app on your Ledger",
                     "tip": "Tips if your Ledger isn't connecting"
                 },
                 "ledgerConnectionGuide": {
@@ -120,6 +120,10 @@
                     "title": "Claim your Shimmer rewards",
                     "description": "Use the balance finder below, and check if your Shimmer staking rewards balance is correct before claiming.",
                     "success": "Successfully found {amount}"
+                },
+                "balanceFinder": {
+                    "title": "Find your recovered accounts",
+                    "description": "Use the balance finder below, and check if your account balances are correct before continuing."
                 }
             },
             "restoreFromMnemonic": {
@@ -170,43 +174,42 @@
             }
         },
         "settings": {
-            "settings": "Inställningar",
+            "settings": "Settings",
             "general": {
-                "title": "Allmänt"
+                "title": "General"
             },
             "profile": {
-                "title": "Profil"
+                "title": "Profile"
             },
             "collectibles": {
                 "title": "Collectibles"
             },
             "security": {
-                "title": "Säkerhet"
+                "title": "Security"
             },
             "advanced": {
-                "title": "Avancerat"
+                "title": "Advanced"
             },
             "help": {
                 "title": "Help"
             },
             "theme": {
-                "title": "Teman",
-                "advice": "If you change your system theme, you may need to restart Bloom to see the effects"
+                "title": "Theme"
             },
             "language": {
-                "title": "Språk"
+                "title": "Language"
             },
             "currency": {
-                "title": "Valuta",
-                "description": "Justerar saldokonvertering och uppdaterar alternativ för diagram"
+                "title": "Currency",
+                "description": "Adjusts balance conversion and updates chart options"
             },
             "notifications": {
-                "title": "Aviseringar",
-                "description": "Systemaviseringar för transaktionshändelser"
+                "title": "Notifications",
+                "description": "System notifications for transaction events"
             },
             "exportStronghold": {
-                "title": "Exportera säkerhetskopian",
-                "description": "Exportera till en Stronghold-fil - en komplett krypterad säkerhetskopia av dina plånböcker och senaste transaktionshistorik"
+                "title": "Export backup",
+                "description": "Export to a Stronghold file - a complete encrypted backup of your wallets and latest transaction history"
             },
             "autoLogout": {
                 "title": "Automatic logout",
@@ -217,8 +220,8 @@
                 "description": "Length of time before your Stronghold password is required again"
             },
             "maxMediaSize": {
-                "title": "Maximal mediestorlek",
-                "description": "NFT-media med storlekar större än denna gräns kommer inte att laddas ner och en platshållare som representerar mediatypen kommer att visas istället",
+                "title": "Maximum media size",
+                "description": "NFT media with sizes greater than this limit will not be downloaded and a placeholder representing the media type will be displayed instead",
                 "input": "Media size"
             },
             "maxMediaDownloadTime": {
@@ -231,70 +234,70 @@
                 "description": "NFT media cached for this account will be deleted and then downloaded again"
             },
             "changePassword": {
-                "title": "Ändra lösenord",
-                "description": "Ditt lösenord används för att säkra dina plånböcker. Du måste använda ett starkt lösenord för att skydda dina tillgångar"
+                "title": "Change password",
+                "description": "Your password is used to secure your wallets. You must use a strong password to protect your funds"
             },
             "changePincode": {
-                "title": "Ändra PIN-kod",
-                "description": "Din PIN-kod håller ditt saldo och dina transaktioner privata",
-                "currentPincode": "Nuvarande PIN-kod",
-                "newPincode": "Ny PIN-kod",
-                "confirmNewPincode": "Bekräfta ny PIN-kod",
-                "action": "Ändra PIN-kod"
+                "title": "Change PIN code",
+                "description": "Your PIN keeps your balance and transactions private",
+                "currentPincode": "Current PIN",
+                "newPincode": "New PIN",
+                "confirmNewPincode": "Confirm new PIN",
+                "action": "Change PIN"
             },
             "changeProfileName": {
-                "title": "Ändra profilnamn",
+                "title": "Change profile name",
                 "description": "Change your Bloom profile name",
-                "success": "Du ändrade ditt profilnamn"
+                "success": "You changed your profile name"
             },
             "hiddenAccounts": {
                 "title": "Hidden accounts",
-                "description": "Genom att välja detta alternativ visas plånböcker som tidigare varit dolda"
+                "description": "Selecting this option will show wallets that were previously hidden"
             },
             "deleteProfile": {
-                "title": "Ta bort profil",
-                "description": "Tar bort hela din profil, dina plånböcker samt transaktionshistorik. Se till att du har en säkerhetskopia"
+                "title": "Delete profile",
+                "description": "Deletes your entire profile, wallets and transaction history. Make sure you have a backup"
             },
             "deepLinks": {
-                "title": "Hyperlänkar",
+                "title": "Deep links",
                 "description": "Automatically fill transaction data in Bloom upon clicking a deep link starting with {appProtocol}://"
             },
             "errorLog": {
-                "title": "Felmeddelanden",
-                "description": "Visa felmeddelanden för att felsöka ett problem"
+                "title": "Error log",
+                "description": "View errors to debug an issue"
             },
             "crashReporting": {
-                "title": "Kraschrapporter",
+                "title": "Crash reports",
                 "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs",
-                "checkbox": "Skicka kraschrapporter",
+                "checkbox": "Send crash reports",
                 "advice": "Please restart the Bloom application to {sendCrashReports, select, true {start sharing crash reports} false {stop sharing crash reports} other {apply this change}}"
             },
             "diagnostics": {
-                "title": "Diagnostik",
-                "description": "Visa system- och applikationsinformation"
+                "title": "Diagnostics",
+                "description": "View system and application information"
             },
             "troubleshoot": {
-                "title": "Felsök",
-                "description": "Använd felsökningsguiden för att lösa vanliga problem"
+                "title": "Troubleshoot",
+                "description": "Use the troubleshooting wizard to solve common problems"
             },
             "documentation": {
-                "title": "Dokumentation",
-                "description": "Se dokumentationen för utförliga förklaringar av hur saker och ting fungerar"
+                "title": "Documentation",
+                "description": "View the documentation for in depth explanations of how things work"
             },
             "faq": {
-                "title": "Vanliga frågor (FAQ)",
-                "description": "Se FAQ för att få hjälp med ett vanligt problem eller fråga"
+                "title": "FAQ",
+                "description": "View the FAQs to get help with a common problem or question"
             },
             "discord": {
                 "title": "Discord",
-                "description": "Få hjälp från IOTA-communityn på Discord"
+                "description": "Get help from the IOTA community on Discord"
             },
             "about": {
-                "title": "Om"
+                "title": "About"
             },
             "reportAnIssue": {
-                "title": "Rapportera ett fel",
-                "description": "Rapportera ett fel till utvecklarna. Kolla igenom för att se till att det inte redan har rapporterats"
+                "title": "Report an issue",
+                "description": "Report a bug to the developers. Check through to make sure it hasn't already been reported"
             },
             "developerToggle": {
                 "title": "Developer Mode",
@@ -314,23 +317,23 @@
         },
         "loadProfile": {
             "loginSteps": {
-                "buildProfileManager": "Initierar profilhanteraren",
-                "updateNodeInfo": "Kontrollerar nodens hälsa",
-                "recoverAccounts": "Genererar konton",
-                "loadAccounts": "Synkroniserar konton",
-                "loadAssets": "Laddar inhemska tillgångar",
-                "loadActivities": "Bygger aktivitetshistorik",
-                "setStrongholdStatus": "Säkrar Stronghold",
-                "startBackgroundSync": "Startar bakgrundssynkronisering",
-                "loggingIn": "Laddar översikt"
+                "buildProfileManager": "Initialising profile manager",
+                "updateNodeInfo": "Checking node health",
+                "recoverAccounts": "Generating accounts",
+                "loadAccounts": "Syncing accounts",
+                "loadAssets": "Loading native assets",
+                "loadActivities": "Building activity history",
+                "setStrongholdStatus": "Securing stronghold",
+                "startBackgroundSync": "Starting background sync",
+                "loggingIn": "Loading dashboard"
             }
         },
         "dashboard": {
             "network": {
-                "operational": "Nätverk i drift",
-                "degraded": "Nätverk försämrat",
-                "down": "Nätverk nere",
-                "disconnected": "Frånkopplad från noden",
+                "operational": "Network operational",
+                "degraded": "Network degraded",
+                "down": "Network down",
+                "disconnected": "Disconnected from node",
                 "status": "Status"
             },
             "portfolio": {
@@ -420,19 +423,30 @@
                 "contactBook": {
                     "contactList": {
                         "title": "Contact list",
+                        "emptyHeader": "No contacts found",
+                        "emptyBody": "Connect with your favourite people in Bloom.",
                         "addContact": "Add contact"
                     },
                     "contactInformation": {
                         "title": "Contact Information",
                         "editContact": "Edit contact",
                         "removeContact": "Remove contact",
-                        "addNetworkAddress": "Add network address"
+                        "addNetworkAddress": "Add address"
+                    },
+                    "contactAddress": {
+                        "title": "Contact address",
+                        "viewQrCode": "Vew QR code"
                     },
                     "addContact": {
-                        "title": "Add contact"
+                        "title": "Add contact",
+                        "identity": "Their identity",
+                        "address": "Their address",
+                        "color": "Contact color"
                     },
                     "editContact": {
-                        "title": "Edit contact"
+                        "title": "Edit contact",
+                        "identity": "Their identity",
+                        "color": "Contact color"
                     },
                     "removeContact": {
                         "title": "Remove contact",
@@ -455,31 +469,76 @@
                     "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",
-                        "hint": "WalletConnect allows you to connect Bloom with dApps directly or with a connection code."
+                        "emptyTitle": "No apps found",
+                        "emptySubtitle": "Connect Bloom with your favourite dApps"
                     },
                     "inputConnectionCode": {
                         "title": "Connect to a dApp",
                         "inputLabel": "Wallet Connect code",
-                        "hint": "Add new dApps by adding a Wallet Connect code below.",
+                        "addDapp": "Add a dApp",
+                        "addDappDescription": "Add new dApps by adding a Wallet Connect code below.",
                         "deprecated": "The dApp you try to connect to uses a deprecated version of WalletConnect. Cannot establish connection"
+                    },
+                    "connectionRequest": {
+                        "title": "Connection request",
+                        "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
+                        "reconnectHint": "You have previously connected with this dApp.",
+                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
+                        "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
+                        "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
+                        "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
+                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                    },
+                    "editPermissions": {
+                        "title": "Edit permissions"
+                    },
+                    "editNetworks": {
+                        "title": "Edit networks"
+                    },
+                    "editAccounts": {
+                        "title": "Edit accounts"
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
-                        "hint": "A third party service wants to connect with your wallet for the first time. You can choose if you wish to trust this connection.",
-                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
-                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                        "permissions": {
+                            "step": "Permission",
+                            "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
+                            "title": "Select permissions",
+                            "signData": "Request to sign data",
+                            "signTransaction": "Request to sign a transaction",
+                            "sendTransaction": "Request to send a transaction",
+                            "empty": "You have to select at least one permission"
+                        },
+                        "networks": {
+                            "step": "Networks",
+                            "title": "Select networks",
+                            "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
+                            "empty": "You have to select at least one network"
+                        },
+                        "accounts": {
+                            "step": "Accounts",
+                            "title": "Select accounts",
+                            "tip": "Connect with specific accounts to manage funds separately. You control what the dApp can access.",
+                            "empty": "You have to select at least one account"
+                        }
                     },
                     "details": {
                         "title": "Connection details",
-                        "falbackName": "dApp",
                         "name": "Name",
                         "description": "Description",
                         "url": "URL",
                         "verifyUrl": "Verify URL",
-                        "disconnectTitle": "Disconnect",
-                        "disconnectDescription": "Do you want to disconnect from {dappName}",
+                        "disconnect": {
+                            "title": "Disconnect",
+                            "description": "Do you want to disconnect from {dappName}?"
+                        },
+                        "remove": {
+                            "title": "Remove",
+                            "description": "Do you want to disconnect from {dappName} and remove it from here?"
+                        },
                         "actions": {
-                            "disconnect": "Disconnect"
+                            "disconnect": "Disconnect",
+                            "remove": "Remove"
                         }
                     }
                 }
@@ -503,71 +562,71 @@
         },
         "picker": {
             "color": {
-                "title": "Färgväljare",
-                "hexCode": "Färg hex-kod"
+                "title": "Color picker",
+                "hexCode": "Color hex code"
             }
         },
         "collectibles": {
             "gallery": {
-                "title": "Samlingar",
+                "title": "Collectibles",
                 "emptyTitle": "No collectibles found",
                 "noResults": "No results found",
                 "timelocked": "Locked for {timeDiff}",
                 "emptyDescription": "Deposit or receive your first collectible!"
             },
             "details": {
-                "storageDepositDescription": "En återbetalningsbar deposition behövs för att lagra din NFT på Tangle.",
+                "storageDepositDescription": "A refundable deposit is required to store your NFT on the Tangle.",
                 "menu": {
-                    "download": "Ladda ner",
+                    "download": "Download",
                     "setPfp": "Set NFT profile pic",
                     "unsetPfp": "Unset NFT profile pic",
-                    "view": "Visa media i webbläsaren",
-                    "burn": "Bränn NFT"
+                    "view": "View media in browser",
+                    "burn": "Burn NFT"
                 }
             }
         },
         "governance": {
             "votingPower": {
-                "title": "Röstkraft",
-                "maximal": "Maximal röststyrka: {value}",
-                "manage": "Hantera röstkraft"
+                "title": "Voting power",
+                "maximal": "Maximal voting power: {value}",
+                "manage": "Manage voting power"
             },
             "proposalsDetails": {
-                "title": "Detaljer",
+                "title": "Details",
                 "totalProposals": "Total proposals",
-                "activeProposals": "Aktiva förslag",
-                "votingProposals": "Förslag som du röstar om",
-                "votedProposals": "Totalt antal förslag du röstade på"
+                "activeProposals": "Active proposals",
+                "votingProposals": "Proposals you are voting on",
+                "votedProposals": "Total proposals you voted on"
             },
             "proposals": {
-                "title": "Förslag",
-                "voted": "Röstat",
+                "title": "Proposals",
+                "voted": "Voted",
                 "successEdit": "Proposal successfully edited",
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added",
                 "successAddAll": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added to all accounts",
-                "successRemove": "Förslaget har tagits bort",
+                "successRemove": "Proposal successfully removed",
                 "emptyTitle": "No proposals"
             },
             "statusTimeline": {
-                "upcoming": "Meddelande",
-                "commencing": "Röstning öppen",
-                "holding": "Räkning startar",
-                "ended": "Räkning slutar"
+                "upcoming": "Announcement",
+                "commencing": "Voting open",
+                "holding": "Counting starts",
+                "ended": "Counting stops"
             },
             "details": {
                 "yourVote": {
-                    "title": "Din röst",
-                    "total": "Totalt räknade röster",
-                    "power": "Röstkraft"
+                    "title": "Your vote",
+                    "total": "Total votes counted",
+                    "power": "Voting power"
                 },
                 "proposalInformation": {
-                    "title": "Information om förslag",
+                    "title": "Proposal information",
                     "votingOpens": "Voting opens on",
                     "countingStarts": "Counting starts on",
-                    "countingEnds": "Räkning slutar på",
+                    "countingEnds": "Counting ends on",
                     "countingEnded": "Counting ended on",
-                    "eventId": "Händelse ID",
-                    "nodeUrl": "Nod URL"
+                    "eventId": "Event ID",
+                    "nodeUrl": "Node URL"
                 },
                 "fetching": "Fetching proposal data",
                 "hintVote": "You can not vote on a proposal that is in the announcement phase, voting will open in {time}."
@@ -593,12 +652,12 @@
     },
     "popups": {
         "enableLedgerBlindSigning": {
-            "title": "Aktivera blind signering",
+            "title": "Enable Blind Signing",
             "info": "You need to enable Blind Signing on your Ledger device to confirm this transaction.",
             "step_1": "Connect and unlock your Ledger device",
             "step_2": "Open the {appName} application",
             "step_3": "Press the right button to navigate to Settings, then press both buttons to validate. Your Ledger device displays Blind Signing.",
-            "step_4": "Tryck på båda knapparna för att aktivera blind signering. Enheten visar Aktiverad. Du är klar."
+            "step_4": "Press both buttons to enable transaction blind signing. The device displays Enabled. You're done."
         },
         "balanceBreakdown": {
             "title": "Balance breakdown",
@@ -652,25 +711,29 @@
             },
             "minimizeStorageDepositButton": "Minimize storage deposit"
         },
+        "dappAccountSwitcher": {
+            "title": "Switch account",
+            "body": "The dApp requires you to switch to the following account. Do you want to continue?"
+        },
         "minimizeStorageDeposit": {
-            "title": "Minimera lagringsdeposition",
+            "title": "Minimize storage deposit",
             "description": "Consolidate outputs to minimize your required storage deposit and increase your available balance.",
-            "confirmButton": "Sammanslå"
+            "confirmButton": "Consolidate"
         },
         "alias": {
-            "title": "Bekräfta skapandet av alias"
+            "title": "Confirm alias creation"
         },
         "password": {
-            "title": "Lösenord krävs",
-            "subtitle": "Vänligen ange ditt lösenord för att låsa upp dina plånböcker",
-            "backup": "Ange ditt lösenord för att exportera en säkerhetskopia"
+            "title": "Password required",
+            "subtitle": "Please provide your password to unlock your wallets",
+            "backup": "Please enter your password to export a backup"
         },
         "appUpdate": {
             "title": "Check for updates",
             "installedVersion": "Installed version",
             "newVersion": "New version",
             "stage": "Stage",
-            "prod": "Production",
+            "prod": "Early Access",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Released at",
@@ -679,154 +742,178 @@
             "latestInstalled": "You are running the latest and safest version"
         },
         "backupStronghold": {
-            "title": "Säkerhetskopiera din Stronghold-fil",
-            "body": "Det är viktigt att säkerhetskopiera plånboken regelbundet för att se till att du har en kopia av din plånbok och transaktionshistorik. Om du förlorar din backup och återställningsfras förlorar du åtkomst till dina tillgångar."
+            "title": "Backup your stronghold file",
+            "body": "It is important to back up your wallet regularly to ensure you have a copy of your wallets and transaction history. If you lose your backup and recovery phrase you will lose access to your funds."
         },
         "deeplinkAccountSwitch": {
             "title": "Select an account",
-            "body": "Du har precis följt en hyperlänk. Vänligen välj den plånbok du vill fortsätta med."
+            "body": "You just followed a deep link. Please select the wallet with which you want to continue."
         },
         "deeplinkError": {
-            "title": "Misslyckad länk",
-            "body": "Denna länk misslyckades eller är ogiltig. Försök igen eller dubbelkolla källan till länken."
+            "title": "Failed link",
+            "body": "This link failed or is invalid. Please try again or double check the source of the link."
         },
         "deleteAccount": {
-            "title": "Ta bort {name}?",
+            "title": "Delete {name}?",
             "body": "Are you sure you want to delete this wallet?",
             "hint": "Note: once deleted, you can restore this wallet by using the \"Wallet Finder\" in the settings.",
-            "typePassword": "Ange plånbokens lösenord för att bekräfta."
+            "typePassword": "Type your wallet password to confirm."
         },
         "externalUrl": {
-            "title": "Öppna URL i webbläsare",
-            "body": "Är du säker på att du vill öppna \"{url}\" i webbläsaren?",
-            "action": "Öppna URL",
-            "invalidProtocol": "Kan inte öppna URL med ogiltigt protokoll"
+            "title": "Open URL in Browser",
+            "body": "Are you sure you want to open \"{url}\" in the browser?",
+            "action": "Open URL",
+            "invalidProtocol": "Cannot open URL with invalid protocol"
         },
         "excludeNode": {
-            "title": "Exkludera nod",
-            "body": "Är du säker på att du vill exkludera {url} från den tillgängliga nodpoolen?"
+            "title": "Exclude node",
+            "body": "Are you sure you want to exclude {url} from the available node pool?"
         },
         "unsetAsPrimaryNode": {
-            "title": "Rensa primär nod",
-            "body": "Är du säker på att du vill rensa {url} som primär nod?"
+            "title": "Clear primary node",
+            "body": "Are you sure you want to clear {url} as the primary node?"
+        },
+        "confirmAssetTracking": {
+            "title": "Add a new token",
+            "description": "\"{dappName}\" wants to add \"{assetName}\" to your wallet."
         },
         "node": {
-            "titleAdd": "Lägg till nod",
-            "titleUpdate": "Uppdatera en nod",
-            "titleRemove": "Ta bort en nod",
-            "titleRemoveAll": "Ta bort alla noder",
-            "titleInfo": "Nodinformation",
-            "addingNode": "Lägger till nod",
-            "updatingNode": "Uppdaterar nod",
-            "loadingNodeInfo": "Laddar nodinfo",
-            "nodeAddress": "Nod-adress",
-            "optionalUsername": "Användarnamn (valfritt)",
-            "optionalPassword": "Lösenord (valfritt)",
-            "optionalJwt": "JSON webb-token (valfritt)",
-            "removeConfirmation": "Är du säker på att du vill ta bort den här noden?",
+            "titleAdd": "Add a node",
+            "titleUpdate": "Update a node",
+            "titleRemove": "Remove a node",
+            "titleRemoveAll": "Remove all nodes",
+            "titleInfo": "Node information",
+            "addingNode": "Adding node",
+            "updatingNode": "Updating node",
+            "loadingNodeInfo": "Loading node info",
+            "nodeAddress": "Node address",
+            "optionalUsername": "Username (optional)",
+            "optionalPassword": "Password (optional)",
+            "optionalJwt": "JSON web token (optional)",
+            "removeConfirmation": "Are you sure you want to remove this node?",
             "info": {
                 "general": {
-                    "tab": "Allmänt",
-                    "name": "Namn",
+                    "tab": "General",
+                    "name": "Name",
                     "url": "URL",
                     "version": "Version",
-                    "pruningIndex": "Rensnings-index",
-                    "features": "Funktioner"
+                    "pruningIndex": "Pruning index",
+                    "features": "Features"
                 },
                 "metrics": {
-                    "tab": "Metrik",
-                    "blocksPerSecond": "Block per sekund",
-                    "referencedBlocksPerSecond": "Refererade block per sekund",
-                    "referencedRate": "Bekräftade meddelanden",
-                    "latestMilestone": "Senaste milestone",
-                    "confirmedMilestone": "Bekräftad milestone"
+                    "tab": "Metrics",
+                    "blocksPerSecond": "Blocks per second",
+                    "referencedBlocksPerSecond": "Referenced blocks per second",
+                    "referencedRate": "Referenced rate",
+                    "latestMilestone": "Latest milestone",
+                    "confirmedMilestone": "Confirmed milestone"
                 },
                 "protocol": {
-                    "tab": "Protokoll",
-                    "network": "Nätverk",
+                    "tab": "Protocol",
+                    "network": "Network",
                     "bech32Hrp": "Bech32 HRP",
-                    "tokenSupply": "Token i omlopp",
+                    "tokenSupply": "Token supply",
                     "version": "Version",
-                    "minPowScore": "Lägsta PoW-score"
+                    "minPowScore": "Min PoW Score"
                 },
                 "baseToken": {
-                    "tab": "Bas-token",
+                    "tab": "Base token",
                     "token": "Token",
                     "tickerSymbol": "Ticker",
-                    "unit": "Enhet",
-                    "subunit": "Underenhet",
-                    "decimals": "Decimaler",
-                    "useMetricPrefix": "Använd metriskt prefix"
+                    "unit": "Unit",
+                    "subunit": "Sub-unit",
+                    "decimals": "Decimals",
+                    "useMetricPrefix": "Use metric prefix"
                 }
             }
         },
         "errorLog": {
-            "title": "Felmeddelanden",
-            "empty": "Inga felmeddelanden."
+            "title": "Error Log",
+            "empty": "The error log is empty."
         },
         "deleteProfile": {
-            "title": "Ta bort profil",
-            "confirmation": "Är du säker på att du vill ta bort denna profil? Denna åtgärd kan inte ångras.",
-            "typePassword": "Ange ditt lösenord för att bekräfta."
+            "title": "Delete profile",
+            "confirmation": "Are you sure you want to delete this profile? This operation cannot be undone.",
+            "typePassword": "Type your password to confirm."
         },
         "diagnostics": {
-            "title": "Diagnostik",
+            "title": "Diagnostics",
             "app": "App",
             "system": "System",
-            "node": "Nod",
-            "platform": "Plattform",
-            "platformVersion": "Plattformsversion",
-            "platformArchitecture": "Plattformsarkitektur",
-            "cpuCount": "Processorantal",
-            "totalMem": "Totalt minne",
-            "freeMem": "Ledigt minne",
-            "userPath": "Sökväg för användare"
+            "node": "Node",
+            "platform": "Platform",
+            "platformVersion": "Platform Version",
+            "platformArchitecture": "Platform Architecture",
+            "cpuCount": "CPU Count",
+            "totalMem": "Total Memory",
+            "freeMem": "Free Memory",
+            "userPath": "User Path"
         },
         "transaction": {
             "selectToken": "Select a token",
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",
-            "surplusIncluded": "Denna transaktion innehåller ett överskott. Dubbelkolla att detta är det belopp du vill skicka."
+            "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send."
         },
         "walletFinder": {
             "title": "Sync accounts",
-            "body": "Utför en mer uttömmande sökning av adresser för att hitta saknade saldon och plånböcker.",
+            "body": "Perform a more exhaustive search of addresses to find missing balances and wallets.",
             "accountsSearched": "Accounts searched",
             "accountsFound": "Accounts found",
-            "totalWalletBalance": "Totalt saldo",
-            "searchAgainHint": "Är ditt saldo eller antal plånböcker felaktiga? Tryck på sök igen tills ditt saldo visas."
+            "totalWalletBalance": "Total balance",
+            "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
         },
         "ledgerNotConnected": {
-            "title": "Anslut din Ledger",
-            "notConnected": "Anslut din Ledger-enhet för att fortsätta.",
-            "locked": "Lås upp din Ledger-enhet för att fortsätta.",
-            "appNotOpen": "Open the Shimmer app on your Ledger device to continue.",
-            "correctAppOpen": "Ledger har anslutits framgångsrikt, vänligen fortsätt."
+            "title": "Connect your Ledger",
+            "notConnected": "Connect your Ledger device to continue.",
+            "locked": "Unlock your Ledger device to continue.",
+            "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
+            "correctAppOpen": "Ledger successfully connected, please continue."
         },
         "verifyLedgerTransaction": {
-            "title": "Verifiera transaktion",
-            "info": "Jämför och bekräfta transaktionsinformationen som visas på din Ledger-enhet mot informationen nedan."
+            "title": "Verify transaction",
+            "info": "Compare and confirm the transaction information displayed on your ledger device against the information below."
         },
         "verifyInternalLedgerTransaction": {
-            "title": "Verifiera intern transaktion",
-            "info": "Vänligen bekräfta den interna transaktionen på din Ledger.",
-            "hint": "Alla tillgångar kommer att finnas kvar på din plånbok när du skickar en intern transaktion."
+            "title": "Verify internal transaction",
+            "info": "Please confirm the internal transaction on your ledger.",
+            "hint": "All assets will remain on your wallet when sending an internal transaction."
         },
         "verifyMessageSigning": {
             "title": "Verify message signing",
             "info": "Please confirm the message signing on your ledger."
         },
         "crashReporting": {
-            "title": "Kraschrapportering",
+            "title": "Crash reporting",
             "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
-            "checkbox": "Skicka kraschrapporter till IOTA Foundation"
+            "checkbox": "Send crash reports to the IOTA Foundation"
         },
         "signMessage": {
             "title": "Sign message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
             "warning": "dApp cannot be determined. No balance will be sent in the process of signing this message.",
-            "action": "Sign message"
+            "action": "Sign",
+            "success": "Signed message"
+        },
+        "signTransaction": {
+            "title": "Sign transaction",
+            "action": "Sign",
+            "success": "Signed transaction"
+        },
+        "sendTransaction": {
+            "title": "Send transaction",
+            "action": "Send",
+            "success": "Sent {assetName} to {recipient}"
+        },
+        "smartContractCall": {
+            "title": "Smart contract call to {contractAddress}",
+            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "action": "Confirm",
+            "success": "Smart contract call to {recipient}"
+        },
+        "successfulDappInteraction": {
+            "alert": "You can close this screen and return to the dApp when you are ready."
         },
         "activityDetails": {
             "title": {
@@ -886,12 +973,12 @@
                     "increaseVotingPower": {
                         "Pending": "Increasing voting power",
                         "Confirmed": "Increased voting power",
-                        "Conflicting": "Failed to increased voting power"
+                        "Conflicting": "Failed to increase voting power"
                     },
                     "decreaseVotingPower": {
                         "Pending": "Decreasing voting power",
                         "Confirmed": "Decreased voting power",
-                        "Conflicting": "Failed to decreased voting power"
+                        "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
                         "Pending": "Voting for {proposalName}",
@@ -901,7 +988,7 @@
                     "stopVoting": {
                         "Pending": "Stopping voting for {proposalName}",
                         "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stopped voting for"
+                        "Conflicting": "Failed to stop voting for"
                     },
                     "changedVote": {
                         "Pending": "Changing vote for {proposalName}",
@@ -920,16 +1007,16 @@
             "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
             "tosBody": "We have updated Bloom's Terms of Service.",
             "privPolicyBody": "We have updated Bloom's Privacy Policy.",
-            "tosAndPrivPolicyCheckbox": "Jag har läst och jag accepterar de uppdaterade användarvillkoren och sekretesspolicyn",
-            "tosCheckbox": "Jag har läst och jag godkänner de uppdaterade användarvillkoren",
-            "privPolicyCheckbox": "Jag har läst och jag accepterar den uppdaterade sekretesspolicyn"
+            "tosAndPrivPolicyCheckbox": "I've read and I accept the updated Terms of Service and Privacy Policy",
+            "tosCheckbox": "I've read and I accept the updated Terms of Service",
+            "privPolicyCheckbox": "I've read and I accept the updated Privacy Policy"
         },
         "giftedStorageDeposit": {
             "tooltipTitle": "Gift storage deposit",
             "tooltipDescription": "Amount kept by the recipient"
         },
         "tokenInformation": {
-            "verificationWarning": "Denna token är overifierad. Jämför metadata på grundarens officiella hemsida. Verifiera bara tokens som du litar på.",
+            "verificationWarning": "This token is unverified. Compare the token metadata against the relevant team’s official website. Only verify tokens that you trust.",
             "tokenMetadata": {
                 "standard": "Standard",
                 "tokenId": "Token ID",
@@ -937,46 +1024,49 @@
                 "description": "Description"
             },
             "buttons": {
-                "verifyToken": "Jag verifierar denna token"
+                "verifyToken": "I verify this token"
             }
         },
         "nativeToken": {
-            "formTitle": "Minta inhemska tokens",
-            "confirmationTitle": "Minta inhemska tokens",
+            "formTitle": "Mint native tokens",
+            "confirmationTitle": "Mint native tokens",
             "property": {
-                "totalSupply": "Totalt antal",
-                "maximumSupply": "Maximalt antal",
-                "mintedTokens": "Mintade tokens",
-                "meltedTokens": "Smälta tokens",
-                "circulatingSupply": "Cirkulerande antal",
-                "aliasAddress": "Alias controller adress",
-                "tokenName": "Namn",
-                "storageDeposit": "Lagringsdeposition",
-                "description": "Beskrivning",
+                "totalSupply": "Total supply",
+                "maximumSupply": "Maximum supply",
+                "mintedTokens": "Minted tokens",
+                "meltedTokens": "Melted tokens",
+                "circulatingSupply": "Circulating supply",
+                "aliasAddress": "Alias controller address",
+                "tokenName": "Name",
+                "storageDeposit": "Storage Deposit",
+                "description": "Description",
                 "symbol": "Symbol",
-                "decimals": "Decimaler",
+                "decimals": "Decimals",
                 "url": "URL",
-                "logoUrl": "Logotyp URL",
-                "logo": "Logotyp",
+                "logoUrl": "Logo URL",
+                "logo": "Logo",
                 "unit": "Unit",
                 "alias": "Alias",
-                "tokenId": "Tillgångs-ID"
+                "tokenId": "Token Id"
             }
         },
-        "importErc20Token": {
-            "title": "Import ERC20 token",
+        "importToken": {
+            "title": "Import {type} token",
             "property": {
                 "tokenAddress": "Token address"
             },
             "success": "Imported {tokenSymbol} token",
-            "error": "Unable to import ERC20 token"
+            "errors": {
+                "otherOwner": "You're not the owner of the NFT!",
+                "alreadyAdded": "You already have this NFT in your portfolio"
+            }
         },
         "noAlias": {
-            "title": "Det går inte att minta",
-            "description": "Du måste äga en alias utdata för att mynta inhemska tokens. För att fortsätta, vänligen skapa ett alias först"
+            "title": "Unable to mint",
+            "description": "You must own an alias output to mint native tokens. To continue, please create an alias first"
         },
         "mintNftForm": {
-            "title": "Minta enkel NFT",
+            "title": "Mint simple NFT",
             "errors": {
                 "invalidMimetype": "Invalid MimeType, check if the file type is supported",
                 "quantityTooSmall": "Quantity needs to be greater than 0",
@@ -996,12 +1086,12 @@
             }
         },
         "faucetRequest": {
-            "title": "Faucet-begäran",
-            "body": "Är du säker på att du vill begära {token} tokens från {network} faucet?"
+            "title": "Faucet request",
+            "body": "Are you sure you want to request {token} tokens from the {network} faucet?"
         },
         "manageVotingPower": {
-            "title": "Hantera röstkraft",
-            "body": "Definiera din röstkraft för att rösta om förslag.",
+            "title": "Manage voting power",
+            "body": "Define your voting power to vote on proposals.",
             "hint": "All funds that you allocate to voting are locked. In order to make them spendable again, you need to decrease your voting power. This affects all proposals with an active vote.",
             "amountZero": "Please be aware that setting your voting power to zero will stop all your votes for all proposals you are currently voting on."
         },
@@ -1015,9 +1105,9 @@
             "body": "Please provide the new url for the node that contains this proposal."
         },
         "voteForProposal": {
-            "title": "Rösta på förslag",
+            "title": "Vote for proposal",
             "body": "You're about to vote for {proposal} proposal.",
-            "key": "Din röstningsförmåga",
+            "key": "Your voting power",
             "hasAbstained": "You are abstaining from answering {numberOfQuestions, plural, one {# question} other {# questions}}.",
             "noVotingPower": "You do not have any voting power. Please increase your voting power from the Governance dashboard."
         },
@@ -1027,18 +1117,18 @@
             "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
         },
         "removeProposal": {
-            "title": "Ta bort förslag",
-            "body": "Är du säker på att du vill ta bort förslaget?",
+            "title": "Remove proposal",
+            "body": "Are you sure you want to remove this proposal?",
             "hint": "Please note that removing a proposal during the counting period will stop your votes but won't impact any votes that have already been counted."
         },
         "stopVoting": {
-            "title": "Sluta rösta",
-            "body": "Du är på väg att sluta rösta på förslaget {proposalName}.",
-            "hint": "Observera att stopp av röstning under räkningsperioden inte påverkar några röster som redan har räknats."
+            "title": "Stop voting",
+            "body": "You're about to stop voting for the {proposalName} proposal.",
+            "hint": "Please note that stopping voting during the counting period won't impact any votes that have already been counted."
         },
         "nodeAuthRequired": {
-            "title": "Autentisering krävs",
-            "body": "Den här noden kräver ytterligare autentisering. Vänligen fyll i lämplig information."
+            "title": "Authentication required",
+            "body": "This node requires additional authentication. Please fill in the appropriate information."
         },
         "receiveAddress": {
             "title": "Receive",
@@ -1050,61 +1140,61 @@
         }
     },
     "actions": {
-        "apply": "Verkställ",
-        "continue": "Fortsätt",
-        "back": "Bakåt",
-        "previous": "Föregående",
-        "next": "Nästa",
-        "cancel": "Avbryt",
-        "close": "Stäng",
-        "claim": "Anspråk",
-        "claiming": "Gör anspråk",
-        "claimingRewards": "Hämtar belöningar",
-        "reject": "Avvisa",
+        "apply": "Apply",
+        "continue": "Continue",
+        "back": "Back",
+        "previous": "Previous",
+        "next": "Next",
+        "cancel": "Cancel",
+        "close": "Close",
+        "claim": "Claim",
+        "claiming": "Claiming",
+        "claimingRewards": "Claiming rewards",
+        "reject": "Reject",
         "confirmRejection": {
-            "title": "Avvisa transaktion",
-            "description": "Är du säker på att du vill avvisa denna transaktion?",
-            "node": "Vänligen observera att avvisa en transaktion endast döljer det från ditt aktivitetsflöde"
+            "title": "Reject transaction",
+            "description": "Are you sure you want to reject this transaction?",
+            "node": "Please note that rejecting a transaction only hides it from your Activity feed"
         },
         "confirmTokenBurn": {
-            "title": "Bränn {assetName}",
-            "hint": "Observera att bränning av en token kan frigöra lagringsdepositionen ansluten till den men är inte reversibel efteråt"
+            "title": "Burn {assetName}",
+            "hint": "Please note that burning a token may free storage deposit attached to it and is not reversible"
         },
         "confirmNftBurn": {
-            "title": "Bränn {nftName}",
-            "description": "Är du säker på att du vill bränna denna NFT?",
+            "title": "Burn {nftName}",
+            "description": "Are you sure you want to burn this NFT?",
             "hint": "Please note that burning an NFT frees the storage deposit attached to it and is not reversible."
         },
-        "save": "Spara",
+        "save": "Save",
         "refreshNftMedia": {
             "title": "Refresh NFT media",
             "description": "Do you want to delete and re-download all NFT media for this account?"
         },
-        "createAlias": "Skapa alias",
-        "createAliasDescription": "Skapa alias utdata",
-        "setPin": "Ställ in PIN",
-        "confirmPin": "Bekräfta PIN",
-        "enterYourPin": "Ange din PIN-kod",
-        "send": "Skicka",
-        "receive": "Ta emot",
-        "create": "Skapa",
+        "createAlias": "Create alias",
+        "createAliasDescription": "Create alias output",
+        "setPin": "Set PIN",
+        "confirmPin": "Confirm PIN",
+        "enterYourPin": "Enter your PIN",
+        "send": "Send",
+        "receive": "Receive",
+        "create": "Create",
         "updateAndContinue": "Update and continue",
-        "tryAgain": "Försök igen",
-        "visitDiscord": "Besök Discord",
+        "tryAgain": "Try again",
+        "visitDiscord": "Visit Discord",
         "importExtensions": ".stronghold file",
-        "dropHere": "Släpp din fil här",
+        "dropHere": "Drop your file here",
         "dropOrBrowse": "Drop here or browse your files",
-        "import": "Importera",
-        "importing": "Importerar",
-        "export": "Exportera",
-        "exporting": "Exporterar",
-        "exportNewStronghold": "Exportera en ny Stronghold",
-        "enableDeepLinks": "Aktivera hyperlänkar",
-        "enableDeveloperMode": "Aktivera utvecklarläge",
-        "enableSystemNotifications": "Aktivera systemaviseringar",
-        "exportTransactionHistory": "Exportera transaktionshistoriken",
-        "localProofOfWork": "Lokalt proof of work",
-        "unlock": "Lås upp",
+        "import": "Import",
+        "importing": "Importing",
+        "export": "Export",
+        "exporting": "Exporting",
+        "exportNewStronghold": "Export a new Stronghold",
+        "enableDeepLinks": "Enable deep links",
+        "enableDeveloperMode": "Enable developer mode",
+        "enableSystemNotifications": "Enable system notifications",
+        "exportTransactionHistory": "Export transaction history",
+        "localProofOfWork": "Local proof of work",
+        "unlock": "Unlock",
         "updateBloom": "Update Bloom",
         "restart": "Restart",
         "refresh": "Refresh",
@@ -1113,111 +1203,112 @@
         "hideAccount": "Hide account",
         "showAccount": "Unhide account",
         "deleteAccount": "Delete account",
-        "addNode": "Lägg till nod",
-        "addingNode": "Lägger till nod",
-        "addOfficialNodes": "Lägg till officiella noder",
-        "updateNode": "Uppdatera nod",
-        "removeNode": "Ta bort nod",
-        "hide": "Dölj",
-        "hideOthers": "Dölj övriga",
-        "showAll": "Visa alla",
+        "addNode": "Add node",
+        "addingNode": "Adding node",
+        "addOfficialNodes": "Add official nodes",
+        "updateNode": "Update node",
+        "removeNode": "Remove node",
+        "hide": "Hide",
+        "hideOthers": "Hide Others",
+        "showAll": "Show All",
         "useMax": "Use Max",
-        "quit": "Avsluta",
-        "edit": "Redigera",
-        "undo": "Ångra",
-        "redo": "Gör om",
-        "cut": "Klipp ut",
-        "copy": "Kopiera",
+        "quit": "Quit",
+        "edit": "Edit",
+        "undo": "Undo",
+        "redo": "Redo",
+        "cut": "Cut",
+        "copy": "Copy",
         "copyAddress": "Copy address",
-        "copyAllInformation": "Kopiera all information",
-        "paste": "Klistra in",
-        "selectAll": "Välj alla",
+        "copyAllInformation": "Copy all information",
+        "paste": "Paste",
+        "selectAll": "Select All",
         "addAccount": "Add account",
-        "checkForUpdates": "Sök efter uppdateringar",
-        "reportAnIssue": "Rapportera ett fel",
-        "clear": "Rensa",
-        "yes": "Ja",
-        "no": "Nej",
-        "skip": "Hoppa över",
-        "reset": "Återställ",
+        "checkForUpdates": "Check for Updates",
+        "reportAnIssue": "Report an Issue",
+        "clear": "Clear",
+        "yes": "Yes",
+        "no": "No",
+        "skip": "Skip",
+        "reset": "Reset",
         "downloadRecoveryKit": "Download recovery kit template",
         "skipBackup": "Skip wallet backup",
-        "finishSetup": "Slutför installationen",
-        "readDocumentation": "Läs dokumentationen",
-        "visitFaq": "Besök FAQ",
+        "finishSetup": "Finish setup",
+        "readDocumentation": "Read the documentation",
+        "visitFaq": "Visit FAQ",
         "viewDownloads": "View downloads",
         "showHiddenAccounts": "Show hidden accounts",
-        "confirm": "Bekräfta",
-        "hideNetworkStatistics": "Dölj nätverksstatistik",
-        "search": "Sök",
-        "searching": "Söker",
-        "searchAgain": "Sök igen",
-        "generateAddress": "Generera adress",
-        "claimRewards": "Hämta belöningar",
-        "rerunClaimProcess": "Kör anspråks-processen igen",
+        "confirm": "Confirm",
+        "hideNetworkStatistics": "Hide network statistics",
+        "search": "Search",
+        "searching": "Searching",
+        "searchAgain": "Search again",
+        "generateAddress": "Generate address",
+        "claimRewards": "Claim rewards",
+        "rerunClaimProcess": "Rerun claim process",
         "useFinder": "Use balance finder",
-        "backup": "Säkerhetskopiera",
-        "mint": "Minta",
-        "mintNativeToken": "Minta inhemska tokens",
-        "mintNft": "Minta NFT",
-        "verifyToken": "Verifiera token",
-        "unverifyToken": "Avverifiera",
-        "hideToken": "Dölj token",
-        "unhideToken": "Visa token",
+        "backup": "Backup",
+        "mint": "Mint",
+        "mintNativeToken": "Mint native token",
+        "mintNft": "Mint NFT",
+        "verifyToken": "Verify token",
+        "unverifyToken": "Unverify token",
+        "hideToken": "Hide token",
+        "unhideToken": "Unhide token",
         "burn": "Burn",
-        "burnToken": "Bränn token",
-        "faucetRequest": "Skaffa {token} tokens",
-        "refreshTokenMetadata": "Uppdatera metadata för token",
+        "burnToken": "Burn token",
+        "faucetRequest": "Get {token} tokens",
+        "refreshTokenMetadata": "Refresh token metadata",
         "test": "Test",
-        "testDeepLink": "Testa hyperlänk",
-        "delete": "Ta bort",
-        "remove": "Radera",
+        "testDeepLink": "Test deep link",
+        "delete": "Delete",
+        "remove": "Remove",
         "getStarted": "Get started",
-        "vote": "Rösta",
+        "vote": "Vote",
         "addProposal": "Add proposal",
-        "removeProposal": "Ta bort förslag",
+        "removeProposal": "Remove proposal",
         "changeNode": "Change node",
-        "stopVoting": "Sluta rösta",
+        "stopVoting": "Stop voting",
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
         "addChain": "Add chain",
         "untrackToken": "Untrack token",
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
-        "importErc20Token": "Import ERC20 token"
+        "importToken": "Import {type} token",
+        "syncTokens": "Force sync tokens"
     },
     "general": {
-        "recipient": "Mottagare",
-        "password": "Lösenord",
-        "confirmPassword": "Bekräfta lösenord",
-        "currentPassword": "Nuvarande lösenord",
-        "newPassword": "Nytt lösenord",
-        "confirmNewPassword": "Bekräfta nytt lösenord",
-        "sent": "Skickat",
-        "sending": "Skickar",
-        "received": "Mottaget",
-        "receiving": "Tar emot",
+        "recipient": "Recipient",
+        "password": "Password",
+        "confirmPassword": "Confirm password",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "confirmNewPassword": "Confirm new password",
+        "sent": "Sent",
+        "sending": "Sending",
+        "received": "Received",
+        "receiving": "Receiving",
         "newVotingPower": "New voting power",
         "votingPower": "Voting power",
         "increased": "Voting power increased",
         "increasing": "Increasing voting power",
         "decreased": "Voting power decreased",
         "decreasing": "Decreasing voting power",
-        "voted": "Röstat",
-        "voting": "Röstning",
+        "voted": "Voted",
+        "voting": "Voting",
         "changedVote": "Changed vote",
         "changingVote": "Changing vote",
         "revoted": "Revoted",
         "revoting": "Revoting",
-        "unvoted": "Tog bort röst",
-        "unvoting": "Avröstar",
+        "unvoted": "Unvoted",
+        "unvoting": "Unvoting",
         "transferIn": "Transfer in",
         "transferringIn": "Transferring in",
         "transferOut": "Transfer out",
         "transferringOut": "Transferring out",
-        "shimmerClaimed": "Anspråkstagen",
-        "shimmerClaiming": "Gör anspråk",
-        "shimmerGenesis": "Shimmer genesis",
+        "shimmerClaimed": "Claimed",
+        "shimmerClaiming": "Claiming",
+        "shimmerGenesis": "Shimmer Genesis",
         "mintedalias": "Minted alias",
         "mintingalias": "Minting alias",
         "mintednft": "Minted NFT",
@@ -1237,143 +1328,147 @@
         "initialBalance": "Initial balance",
         "consolidated": "Consolidated",
         "consolidating": "Consolidating",
-        "sendTo": "Skicka till",
+        "sendTo": "Send To",
         "sendAssets": "Send assets",
         "sendAssetToAddress": "Send asset to an address",
         "manageAccount": "Manage account",
         "account": "Account",
-        "amount": "Belopp",
+        "amount": "Amount",
         "addAddress": "Add address",
-        "to": "Till",
-        "and": "och",
-        "receiveFunds": "Ta emot tillgångar",
-        "address": "Adress",
+        "to": "To",
+        "and": "and",
+        "receiveFunds": "Receive funds",
+        "address": "Address",
         "addressName": "Address name",
         "myAddress": "My address",
-        "viewOnExplorer": "Visa i Explorer",
-        "import": "Importera",
+        "viewOnExplorer": "View on explorer",
+        "viewQrCode": "View QR code",
+        "import": "Import",
         "stronghold": "Stronghold",
         "locked": "Locked",
         "unlocked": "Unlocked",
-        "lightTheme": "Ljust",
-        "darkTheme": "Mörkt",
+        "lightTheme": "Light",
+        "darkTheme": "Dark",
         "systemTheme": "System",
-        "balance": "Saldo",
-        "balanceWithValue": "Saldo: {balance}",
+        "balance": "Balance",
+        "balanceWithValue": "Balance: {balance}",
         "balanceWithNetwork": "{network} Balance",
-        "all": "Alla",
-        "incoming": "Inkommande",
-        "outgoing": "Utgående",
-        "dev": "Utvecklare",
+        "all": "All",
+        "incoming": "Incoming",
+        "outgoing": "Outgoing",
+        "dev": "Dev",
         "newAccount": "New account",
         "accountName": "Account name",
-        "activity": "Aktivitet",
-        "security": "Säkerhet",
-        "network": "Nätverk",
+        "activity": "Activity",
+        "security": "Security",
+        "network": "Network",
         "networkSelection": "Network selection",
         "destinationNetwork": "Destination network",
-        "nodes": "Noder",
-        "wallet": "Plånbok",
-        "help": "Hjälp",
-        "confirmed": "Bekräftad",
-        "pending": "Väntar",
-        "addProfile": "Lägg till profil",
-        "noRecentHistory": "Ingen historik",
-        "noFilteredActivity": "Inga matchande aktiviteter",
-        "noAssets": "Inga tillgångar",
-        "noFilteredAsset": "Inga matchande tillgångar",
-        "thisMonth": "Denna månad",
+        "nodes": "Nodes",
+        "wallet": "Wallet",
+        "help": "Help",
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "addProfile": "Add Profile",
+        "noRecentHistory": "No recent history",
+        "noFilteredActivity": "No matching activities",
+        "noAssets": "No assets",
+        "noFilteredAsset": "No matching assets",
+        "thisMonth": "This month",
         "search": "Search...",
-        "passwordUpdating": "Uppdaterar lösenord...",
-        "passwordSuccess": "Lösenordet har uppdaterats",
-        "passwordFailed": "Det gick inte att uppdatera lösenord",
-        "exportingStronghold": "Exporterar Stronghold...",
-        "exportingStrongholdSuccess": "Exportering av Stronghold lyckades",
-        "exportingStrongholdFailed": "Exportering av Stronghold misslyckades",
-        "pinCodeSuccess": "Uppdatering av PIN-kod lyckades",
-        "pinCodeFailed": "Uppdatering av PIN-kod misslyckades",
-        "passwordStrength": "Lösenordsstyrka",
-        "passwordStrength0": "Sämst",
+        "passwordUpdating": "Updating password...",
+        "passwordSuccess": "Updated password successfully",
+        "passwordFailed": "Updating password failed",
+        "exportingStronghold": "Exporting Stronghold...",
+        "exportingStrongholdSuccess": "Exported Stronghold successfully",
+        "exportingStrongholdFailed": "Exporting Stronghold failed",
+        "pinCodeSuccess": "Updated PIN code successfully",
+        "pinCodeFailed": "Updating PIN code failed",
+        "passwordStrength": "Password strength",
+        "passwordStrength0": "Bad",
         "passwordStrength1": "Very weak",
-        "passwordStrength2": "Svagt",
-        "passwordStrength3": "Medel",
-        "passwordStrength4": "Starkt",
-        "creatingProfile": "Skapar profil, vänligen vänta...",
-        "fromAddress": "från {account}",
-        "toAddress": "till {account}",
-        "capsLock": "Caps Lock är på",
+        "passwordStrength2": "Weak",
+        "passwordStrength3": "Average",
+        "passwordStrength4": "Strong",
+        "creatingProfile": "Creating profile, please wait...",
+        "fromAddress": "from {account}",
+        "toAddress": "to {account}",
+        "capsLock": "Caps Lock is on",
         "version": "Version",
         "versionFull": "Version {version}",
-        "unknown": "Okänd",
-        "unknownAddress": "Okänd adress",
-        "none": "Ingen",
+        "unknown": "Unknown",
+        "unknownAddress": "Unknown address",
+        "none": "None",
         "accountColor": "Account color",
-        "transactionTime": "Transaktionstid",
-        "storageDeposit": "Lagringsdeposition",
+        "transactionTime": "Transaction time",
+        "storageDeposit": "Storage deposit",
         "transactionFee": "Transaction fee",
         "storageDepositPerNft": "Storage deposit per NFT",
         "totalStorageDeposit": "Total storage deposit",
-        "expirationTime": "Utgångstid",
+        "expirationTime": "Expiration time",
         "expiration": "Expiration",
-        "timelockDate": "Tidlås",
-        "claimedTime": "Gjorde anspråk vid",
+        "timelockDate": "Timelock",
+        "claimedTime": "Claimed at",
         "nftId": "NFT ID",
         "aliasId": "Alias ID",
+        "tokenId": "Token ID",
         "governorAddress": "Governor Address",
         "stateControllerAddress": "State Controller Address",
-        "copiedToClipboard": "Kopierad till urklipp",
-        "availableBalanceWithValue": "Tillgängligt saldo: {balance}",
+        "copiedToClipboard": "Copied to clipboard",
+        "availableBalanceWithValue": "Available balance: {balance}",
         "metadata": "Metadata",
         "amountConsolidatedInputs": "Consolidated outputs",
-        "name": "Namn",
+        "name": "Name",
         "note": "Note",
-        "tag": "Tagg",
-        "nodeList": "Nodlista",
+        "tag": "Tag",
+        "nodeList": "Node list",
         "claimed": "claimed",
-        "claimedIn": "Gjorde anspråk i",
-        "claimingIn": "Gör anspråk i",
-        "assets": "Tillgångar",
-        "nativeTokens": "Inhemska tokens",
-        "mintNativeTokenDescription": "Minta imhemsk token som följer IRC30 standard",
-        "mintNftDescription": "Minta NFT enligt IRC27 standard",
-        "faucetRequestDescription": "Begär tokens från {network} faucet",
-        "refreshTokenMetadataHint": "Detta kommer att återställa alla dina tokens metadata inklusive verifieringsstatus och visa dina dolda tillgångar.",
-        "excluded": "Exkluderad",
-        "developerTools": "Utvecklarverktyg",
+        "claimedIn": "Claimed in",
+        "claimingIn": "Claiming in",
+        "assets": "Assets",
+        "nativeTokens": "Native tokens",
+        "mintNativeTokenDescription": "Mint native token following IRC30 standard",
+        "mintNftDescription": "Mint NFT following IRC27 standard",
+        "faucetRequestDescription": "Request tokens from the {network} faucet",
+        "refreshTokenMetadataHint": "This will reset all your tokens' metadata including the verification status and unhide any hidden assets.",
+        "excluded": "Excluded",
+        "developerTools": "Developer tools",
         "testDeepLinkDescription": "Simulate a deep link request sent to Bloom",
         "url": "URL",
         "hash": "Hash",
-        "creating": "Skapar",
-        "updating": "Uppdaterar",
-        "transaction": "Transaktion",
+        "creating": "Creating",
+        "updating": "Updating",
+        "transaction": "Transaction",
         "alias": "Alias",
         "foundry": "Foundry",
         "token": "Token",
         "nft": "NFT",
-        "type": "Typ",
-        "immutableIssuer": "Oföränderlig utfärdare",
-        "smartContract": "Smartkontrakt",
-        "targetContract": "Målkontrakt",
-        "contractFunction": "Kontraktsfunktion",
+        "type": "Type",
+        "immutableIssuer": "Immutable Issuer",
+        "magicContract": "Magic Contract",
+        "smartContract": "Smart Contract",
+        "targetContract": "Target contract",
+        "contractFunction": "Contract function",
         "standard": "Standard",
         "uri": "URI",
-        "issuer": "Utfärdare",
-        "issuerAddress": "Utfärdarens adress",
-        "issuerName": "Utfärdarens namn",
+        "issuer": "Issuer",
+        "issuerAddress": "Issuer Address",
+        "issuerName": "Issuer Name",
         "quantity": "Quantity",
-        "collection": "Samling",
-        "collectionId": "Samlings-ID",
-        "collectionName": "Samlingsnamn",
-        "royalties": "Royaltyer",
-        "description": "Beskrivning",
-        "attributes": "Attribut",
-        "details": "Detaljer",
-        "properties": "Egenskaper",
-        "statistics": "Statistik",
+        "collection": "Collection",
+        "collectionId": "Collection ID",
+        "collectionName": "Collection Name",
+        "royalties": "Royalties",
+        "description": "Description",
+        "attributes": "Attributes",
+        "details": "Details",
+        "properties": "Properties",
+        "statistics": "Statistics",
         "internalTransaction": "Internal transaction",
         "coinType": "Coin type",
         "custom": "Custom",
         "evmAddress": "EVM address",
+        "contractAddress": "Contract Address",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1392,78 +1487,86 @@
         "message": "Message",
         "error": "Error",
         "warning": "Warning",
-        "failed": "failed"
+        "failed": "failed",
+        "required": "Required",
+        "yes": "Yes",
+        "no": "No",
+        "tip": "Tip",
+        "verified": "Verified",
+        "data": "Data",
+        "success": "Success"
     },
     "filters": {
-        "title": "Filter",
+        "title": "Filters",
         "showHidden": {
-            "label": "Visa dolda",
-            "yes": "Ja",
-            "no": "Nej"
+            "label": "Show hidden",
+            "yes": "Yes",
+            "no": "No"
         },
         "showRejected": {
-            "label": "Visa avvisade",
-            "yes": "Ja",
-            "no": "Nej"
+            "label": "Show rejected",
+            "yes": "Yes",
+            "no": "No"
         },
         "showValueless": {
             "label": "Show valueless",
-            "yes": "Ja",
-            "no": "Nej"
+            "yes": "Yes",
+            "no": "No"
         },
         "ascDesc": {
-            "Asc": "Stigande",
-            "Desc": "Fallande"
+            "Asc": "Ascending",
+            "Desc": "Descending"
         },
         "assetOrder": {
-            "label": "Sortering",
-            "Name": "Namn",
-            "Amount": "Mängd"
+            "label": "Order",
+            "Name": "Name",
+            "Amount": "Amount"
         },
         "internalExternal": {
-            "label": "Intern/Extern",
-            "internal": "Intern",
-            "external": "Extern"
+            "label": "Internal / External",
+            "internal": "Internal",
+            "external": "External"
         },
         "verificationStatus": {
-            "label": "Verifieringsstatus",
-            "new": "Ny",
-            "skipped": "Skippad verifiering",
-            "selfVerified": "Självverifierad",
-            "official": "Officiell"
+            "label": "Verification status",
+            "new": "New",
+            "skipped": "Skipped verification",
+            "selfVerified": "Self-verified",
+            "official": "Official"
         },
         "asset": {
-            "label": "Tillgångar"
+            "label": "Assets"
         },
         "amount": {
-            "label": "Belopp",
-            "equal": "är lika med",
-            "range": "är mellan",
-            "greater": "är större än",
-            "less": "är mindre än"
+            "label": "Amount",
+            "equal": "is equal to",
+            "range": "is between",
+            "greater": "is greater than",
+            "less": "is less than"
         },
         "date": {
-            "label": "Datum",
-            "equals": "är lika med",
-            "last": "i det sista",
-            "range": "är mellan",
-            "after": "är efter",
-            "afterOrEquals": "är på eller efter",
-            "before": "är före",
-            "Days": "dagar",
-            "Months": "månader",
-            "Years": "år"
+            "label": "Date",
+            "equals": "is equal to",
+            "last": "in the last",
+            "range": "is between",
+            "after": "is after",
+            "afterOrEquals": "is on or after",
+            "before": "is before",
+            "Days": "days",
+            "Months": "months",
+            "Years": "years"
         },
         "status": {
             "label": "Status",
-            "confirmed": "bekräftad",
-            "pending": "väntande",
-            "claimed": "anspråkstagen",
-            "unclaimed": "ej taget i anspråk"
+            "confirmed": "confirmed",
+            "timelocked": "timelocked",
+            "pending": "pending",
+            "claimed": "claimed",
+            "unclaimed": "unclaimed"
         },
         "type": {
-            "label": "Typ",
-            "basic": "Enkel",
+            "label": "Type",
+            "basic": "Basic",
             "nft": "NFT",
             "alias": "Alias",
             "foundry": "Foundry",
@@ -1471,10 +1574,10 @@
             "consolidation": "Consolidation"
         },
         "direction": {
-            "label": "Riktning",
-            "incoming": "Inkommande",
-            "outgoing": "Utgående",
-            "selfTransaction": "Egen transaktion"
+            "label": "Direction",
+            "incoming": "Incoming",
+            "outgoing": "Outgoing",
+            "selfTransaction": "Self transaction"
         },
         "proposalType": {
             "label": "Type",
@@ -1499,59 +1602,61 @@
         }
     },
     "dates": {
-        "today": "Idag",
-        "yesterday": "Igår",
-        "daysAgo": "{time, plural, one {# dag} other {# dagar}} sedan",
-        "weeksAgo": "{time, plural, one {# vecka} other {# veckor}} sedan",
-        "monthsAgo": "{time, plural, one {# månad} other {# månader}} sedan",
-        "yearsAgo": "{time, plural, one {# år} other {# år}} sedan"
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "daysAgo": "{time, plural, one {# day} other {# days}} ago",
+        "weeksAgo": "{time, plural, one {# week} other {# weeks}} ago",
+        "monthsAgo": "{time, plural, one {# month} other {# months}} ago",
+        "yearsAgo": "{time, plural, one {# year} other {# years}} ago"
     },
     "times": {
-        "second": "{time, plural, one {# sekund} other {# sekunder}}",
-        "minute": "{time, plural, one {# minut} other {# minuter}}",
-        "hour": "{time, plural, one {# timme} other {# timmar}}",
-        "day": "{time, plural, one {# dag} other {# dagar}}",
-        "week": "{time, plural, one {# vecka} other {# veckor}}",
-        "month": "{time, plural, one {# månad} other {# månader}}",
-        "year": "{time, plural, one {# år} other {# år}}"
+        "second": "{time, plural, one {# second} other {# seconds}}",
+        "minute": "{time, plural, one {# minute} other {# minutes}}",
+        "hour": "{time, plural, one {# hour} other {# hours}}",
+        "day": "{time, plural, one {# day} other {# days}}",
+        "week": "{time, plural, one {# week} other {# weeks}}",
+        "month": "{time, plural, one {# month} other {# months}}",
+        "year": "{time, plural, one {# year} other {# years}}"
     },
     "notifications": {
-        "downloadingUpdate": "Hämtar uppdatering",
-        "updateReady": "Uppdatering redo",
-        "updateError": "Ett fel inträffade under uppdateringen, försök igen",
-        "copiedToClipboard": "Kopierad till urklipp",
+        "downloadingUpdate": "Downloading application update",
+        "updateReady": "Update ready to install",
+        "updateError": "Update failed, please try again",
+        "copiedToClipboard": "Copied to clipboard",
         "newDappConnection": {
-            "success": "Connected to new dApp",
-            "rejected": "Connection rejected"
+            "noProposal": "No proposal from dApp received"
         },
         "deepLinkingRequest": {
-            "receivedWhileLoggedOut": "Vänligen logga in för att initiera hyperlänken",
-            "invalidFormat": "Hyperlänken du följde är ogiltig",
+            "receivedWhileLoggedOut": "Please login to initiate the deep link",
+            "invalidFormat": "The deep link you followed is invalid",
             "invalidAmount": "The amount in deep link is not an integer number {amount}",
-            "invalidSurplus": "Överskottet i hyperlänken är inte ett nummer {surplus}",
+            "invalidSurplus": "The surplus in deep link is not a number {surplus}",
             "surplusNotSupported": "The surplus is only supported for native tokens",
             "governance": {
                 "unrecognizedOperation": "Unrecognized Governance operation: {operation}"
             },
             "wallet": {
-                "unrecognizedOperation": "Okänd plånboksoperation: {operation}"
+                "unrecognizedOperation": "Unrecognized wallet operation: {operation}"
             }
         },
         "disconnectDapp": {
-            "success": "Disconnected from dApp"
+            "success": "Disconnected from {dappName}"
+        },
+        "removeDapp": {
+            "success": "{dappName} removed"
         },
         "claimed": {
-            "success": "Transaktion anspråkstagen",
-            "error": "Anspråk av transaktion misslyckades"
+            "success": "Transaction claimed",
+            "error": "Claiming transaction failed"
         },
         "hideActivity": {
-            "success": "Aktiviteten har dolts"
+            "success": "Activity was hidden"
         },
         "faucetRequest": {
-            "success": "Begäran av tokens skickad till faucet"
+            "success": "Request for tokens sent to the faucet"
         },
         "mintNativeToken": {
-            "success": "Inhemsk token-minting transaktion skickad"
+            "success": "Native token minting transaction sent"
         },
         "burnNativeToken": {
             "success": "Native token burning transaction sent"
@@ -1563,21 +1668,21 @@
             "success": "NFT burning transaction sent"
         },
         "refreshTokenMetadata": {
-            "success": "All token metadata har blivit återställd och förnyad"
+            "success": "All token metadata has been reset and refreshed"
         },
         "restoreFromStrongholdBackup": {
-            "wrongProtocol": "Protokollet matchar inte den mynttyp som finns i Stronghold-backupen",
-            "wrongProtocolForClaiming": "Du måste använda en IOTA-baserad Stronghold säkerhetskopia för att hämta Shimmer-belöningar"
+            "wrongProtocol": "Protocol doesn't match coin type found in Stronghold backup",
+            "wrongProtocolForClaiming": "You must use an IOTA-based Stronghold backup to claim Shimmer rewards"
         },
-        "signMessage": {
-            "success": "Message successfully signed"
+        "signTransaction": {
+            "success": "Transaction successfully signed"
         },
         "findShimmerRewards": {
-            "error": "Ett fel inträffade vid sökning efter belöningar"
+            "error": "An error occurred while searching for rewards"
         },
         "claimShimmerRewards": {
-            "success": "Shimmer-belöningar hämtade för {accountAlias}",
-            "error": "Ett fel inträffade när belöningar skulle hämtas. Försök igen."
+            "success": "Shimmer rewards claimed for {accountAlias}",
+            "error": "An error occurred while claiming. Try again."
         },
         "vote": {
             "success": "Votes successfully cast"
@@ -1590,36 +1695,39 @@
         },
         "updateNetworkAddresses": {
             "success": "Contact addresses successfully updated"
+        },
+        "syncTokens": {
+            "success": "Tokens successfully synced"
         }
     },
     "error": {
         "profile": {
-            "length": "Ditt profilnamn kan inte vara längre än {length, plural, one {# tecken} other {# tecken}}.",
-            "duplicate": "En profil med detta namn finns redan.",
-            "type": "Går inte att fastställa profiltypen"
+            "length": "Your profile name can't be longer than {length, plural, one {# character} other {# characters}}.",
+            "duplicate": "A profile with this name already exists.",
+            "type": "Unable to determine the profile type"
         },
         "password": {
-            "doNotMatch": "Lösenorden matchar inte.",
-            "tooWeak": "Ditt nya lösenord är för svagt.",
-            "row": "Det är lätt att gissa sig till tangenter som ligger i följd.",
-            "pattern": "Korta tangentbordsmönster är lätta att gissa sig till.",
-            "names": "Vanliga namn och efternamn är enkelt att gissa.",
-            "repeats": "Upprepningar som 'aaa' är lätta att gissa.",
-            "repeats2": "Upprepningar som 'abcabcabc' är lätta att gissa.",
-            "sequence": "Sekvenser av tecken är lätta att gissa.",
-            "years": "Senaste åren är lätta att gissa.",
-            "dates": "Datum är lätta att gissa.",
-            "common": "Detta är ett mycket vanligt lösenord.",
-            "similar": "Detta liknar ett vanligt lösenord.",
-            "word": "Ett enda ord är enkelt att gissa.",
-            "incorrect": "Ditt lösenord är felaktigt.",
-            "length": "Ditt lösenord kan inte vara längre än {length, plural, one {# tecken} other {# tecken}}.",
+            "doNotMatch": "Passwords do not match.",
+            "tooWeak": "Your new password is too weak.",
+            "row": "Straight rows of keys are easy to guess.",
+            "pattern": "Short keyboard patterns are easy to guess.",
+            "names": "Common names and surnames are easy to guess.",
+            "repeats": "Repeats like 'aaa' are easy to guess.",
+            "repeats2": "Repeats like 'abcabcabc' are easy to guess.",
+            "sequence": "Sequences of characters are easy to guess.",
+            "years": "Recent years are easy to guess.",
+            "dates": "Dates are easy to guess.",
+            "common": "This is a very common password.",
+            "similar": "This is similar to a common password.",
+            "word": "A single word is easy to guess.",
+            "incorrect": "Your password is incorrect.",
+            "length": "Your password can't be longer than {length, plural, one {# character} other {# characters}}.",
             "sameAsOld": "Your new password must be different from your old password."
         },
         "pincode": {
-            "length": "Din PIN-kod måste vara {length, plural, one {# siffra} other {# siffror}} lång.",
-            "match": "PIN-koder matchar inte.",
-            "incorrect": "Din nuvarande PIN-kod är felaktig."
+            "length": "Your PIN must be {length, plural, one {# digit} other {# digits}} long.",
+            "match": "PINs do not match.",
+            "incorrect": "Your current PIN is incorrect."
         },
         "address": {
             "wrongAddressType": "Wrong address type",
@@ -1628,43 +1736,44 @@
             "checksum": "Address checksum is invalid"
         },
         "account": {
-            "length": "Ditt plånboksnamn kan inte vara längre än {length, plural, one {# tecken} other {# tecken}}.",
-            "emptyName": "Ett profilnamn måste innehålla minst 1 tecken.",
-            "duplicate": "En plånbok med detta namn finns redan.",
-            "tilde": "Ett profilnamn kan inte börja med '~' tecken.",
-            "control": "Ett profilnamn får inte innehålla ett kontrolltecken (TAB, ny rad et cetera).",
-            "startDot": "Ett profilnamn kan inte börja med en punkt.",
-            "chars": "Ett profilnamn får inte innehålla följande tecken <>:\"/\\|?*",
-            "cannotRemove": "Kan inte ta bort plånbok.",
-            "withBalance": "Du måste överföra alla tillgångar innan du kan ta bort denna plånbok.",
-            "notLast": "Du kan bara ta bort din sista plånbok.",
-            "cannotGetBoundAccount": "Det gick inte att hämta bundet konto"
+            "length": "Your wallet name can't be longer than {length, plural, one {# character} other {# characters}}.",
+            "emptyName": "A profile name must contain at least 1 character.",
+            "duplicate": "A wallet with this name already exists.",
+            "tilde": "A profile name can't start with the '~' character.",
+            "control": "A profile name can't contain a control character.",
+            "startDot": "A profile name can't start with the '.' character.",
+            "chars": "A profile name can't contain the following characters <>:\"/\\|?*",
+            "cannotRemove": "Unable to remove wallet.",
+            "withBalance": "You must transfer all balances before you can delete this wallet.",
+            "notLast": "You can only delete your last wallet.",
+            "cannotGetBoundAccount": "Unable to get bound account"
         },
         "send": {
-            "addressLength": "Adresser bör vara {length, plural, one {# tecken} other {# tecken}} lång.",
-            "amountTooHigh": "Detta är större än ditt tillgängliga saldo.",
-            "amountNoFloat": "Kan inte använda decimaltecken med den minsta enhet som valts",
-            "amountInvalidFormat": "Beloppet verkar vara ett ogiltigt nummer.",
-            "amountSmallerThanSubunit": "Beloppet måste vara större än den minsta subenheten.",
+            "addressLength": "Addresses should be {length, plural, one {# character} other {# characters}} long.",
+            "amountTooHigh": "This is greater than your available balance.",
+            "amountNoFloat": "Cannot use decimal places with the smallest unit selected",
+            "amountInvalidFormat": "The amount appears to be an invalid number.",
+            "amountSmallerThanSubunit": "The amount must be greater than the smallest subunit.",
             "tagTooLong": "The tag cannot be longer than 64 bytes.",
             "metadataTooLong": "The metadata cannot be longer than 8192 bytes.",
-            "amountZero": "Beloppet måste vara större än 0.",
-            "wrongAddressPrefix": "Adresser börjar med prefixet {prefix}.",
-            "wrongAddressFormat": "Adressen är inte korrekt formaterad.",
-            "invalidAddress": "Adressen är inte giltig.",
+            "amountZero": "The amount must be greater than 0.",
+            "wrongAddressPrefix": "Addresses start with the prefix {prefix}.",
+            "wrongAddressFormat": "The address is not correctly formatted.",
+            "invalidAddress": "The address is not valid.",
             "invalidTokenId": "The token id is not valid.",
-            "unknownAsset": "Tillgången är inte känd för detta konto.",
-            "insufficientFunds": "Denna plånbok har inte tillräckligt med tillgångar.",
+            "unknownAsset": "The asset is not known to this account.",
+            "insufficientFunds": "This wallet has insufficient funds.",
             "insufficientFundsGasFee": "Insufficient funds to cover the gas fee.",
             "insufficientFundsStorageDeposit": "Insufficient funds to cover the storage deposit.",
+            "insufficientFundsTransaction": "Insufficient funds to make a transaction.",
             "ongoingTransaction": "If you have ongoing transactions, please wait for their confirmation.",
-            "cancelled": "Transaktionen avbröts.",
-            "invalidExpirationDateTime": "Det valda utgångsdatumet/tiden är ogiltig.",
+            "cancelled": "The transaction was cancelled.",
+            "invalidExpirationDateTime": "The chosen expiration date/time is invalid.",
             "invalidTimelockDateTime": "The chosen timelock date/time is invalid.",
             "noInputs": "No inputs found.",
             "notEnoughBalance": "Not enough balance.",
-            "missingTransactionId": "Transaktions-ID saknas",
-            "missingTransactionProgressEventPayload": "Händelseförloppet för transaktionen saknas",
+            "missingTransactionId": "The transaction ID is missing",
+            "missingTransactionProgressEventPayload": "The transaction progress event payload is missing",
             "recipientRequired": "Recipient is required",
             "reservedTagKeyword": "Unable to use reserved tag keyword",
             "invalidSendParameters": "Invalid send parameters.",
@@ -1674,64 +1783,64 @@
             "layer1Recipient": "A layer 2 transaction cannot be sent to a layer 1 account."
         },
         "node": {
-            "invalid": "Ange en giltig URL.",
+            "invalid": "Please enter a valid URL.",
             "dns": "Unable to find DNS resolution for node",
-            "handshake": "Kunde inte slutföra handskakning med nod.",
-            "invalidCertificate": "Kunde inte ansluta med ett ogiltigt certifikat.",
-            "https": "HTTPS krävs; osäkra anslutningar över HTTP stöds inte just nu.",
-            "duplicate": "Den här noden har redan lagts till.",
-            "noSyncedNode": "Ingen synkroniserad nod är tillgänglig.",
-            "timeNotSynced": "Enhetens tid är felaktig, det går inte att synkronisera noden.",
-            "unabledToConnect": "Kan inte ansluta till noden",
-            "differentNetwork": "Noden ligger på ett annat nätverk",
-            "duplicateNodes": "Kunde inte lägga till dubblettnod",
+            "handshake": "Could not complete handshake with node.",
+            "invalidCertificate": "Could not connect with invalid certificate.",
+            "https": "HTTPS is required; insecure connections over HTTP are not supported at this time.",
+            "duplicate": "This node has already been added.",
+            "noSyncedNode": "No synced node is available.",
+            "timeNotSynced": "Device time is incorrect, unable to sync node.",
+            "unabledToConnect": "Unable to connect to the node",
+            "differentNetwork": "The node is located on a different network",
+            "duplicateNodes": "Unable to add duplicate node",
             "noCoinType": "No coin type specified"
         },
         "network": {
-            "mismatch": "Nätverks-ID för denna nod är \"{networkId}\", som inte matchar det nuvarande nätverket.",
-            "notReachable": "Nätverks-ID för denna nod kunde inte hämtas, går ej att lägga till nod."
+            "mismatch": "The network ID for this node is \"{networkId}\", which does not match the current network.",
+            "notReachable": "The network ID for this node could not be retrieved, unable to add node."
         },
         "global": {
-            "generic": "Något gick fel."
+            "generic": "Something went wrong."
         },
         "backup": {
             "invalid": "The backup file was not recognized.",
-            "destination": "Härkomsten för säkerhetskopian var inte giltig.",
+            "destination": "The backup destination was not valid.",
             "migrationRequired": "Stronghold migration is required.",
             "phraseWordCount": "Your recovery phrase consists of 12 or 24 words, currently there {length, plural, one {is #} other {are #}}.",
-            "phraseUnrecognizedWord": "Okänt ord \"{word}\" i din återställningsfras",
-            "phraseCaseWord": "Ordet \"{word}\" ska vara skrivet med små bokstäver",
-            "unableToCopyFile": "Det gick inte att kopiera Stronghold backupfil",
-            "unableToRestoreForProfileManager": "Det går inte att återställa Stronghold backup för profilhanteraren"
+            "phraseUnrecognizedWord": "Unrecognized word \"{word}\" in your recovery phrase",
+            "phraseCaseWord": "The word \"{word}\" should be lower case",
+            "unableToCopyFile": "Unable to copy Stronghold backup file",
+            "unableToRestoreForProfileManager": "Unable to restore Stronghold backup for profile manager"
         },
         "ledger": {
-            "generic": "Det gick inte att ansluta till din Ledger-enhet.",
-            "legacyConnected": "Fel app är öppen på din Ledger-enhet.",
-            "locked": "Lås upp din Ledger-enhet genom att ange PIN-koden.",
-            "mnemonicMismatch": "Du har anslutit fel Ledger-enhet eller så har din mnemonik ändrats.",
-            "notConnected": "Ingen Ledger-enhet upptäckt.",
-            "notFound": "Ledger-enheten hittades inte.",
-            "otherConnected": "Fel app är öppen på din Ledger-enhet.",
-            "generateAddress": "Det gick inte att generera en adress.",
-            "timeout": "Din Ledger-enhet nådde time out.",
-            "disconnected": "Din Ledger-enhet kopplades bort.",
-            "noStronghold": "Kan inte använda Stronghold med Ledger-profil.",
+            "generic": "There was an error connecting to your Ledger device.",
+            "legacyConnected": "The wrong app is open on your Ledger device.",
+            "locked": "Please unlock your Ledger device by entering the PIN.",
+            "mnemonicMismatch": "You have connected the wrong Ledger device or the mnemonic has changed.",
+            "notConnected": "No Ledger device detected.",
+            "notFound": "Ledger device not found.",
+            "otherConnected": "The wrong app is open on your Ledger device.",
+            "generateAddress": "There was an error generating an address.",
+            "timeout": "Your Ledger device timed out.",
+            "disconnected": "Your Ledger device was disconnected.",
+            "noStronghold": "Unable to use Stronghold with Ledger profile.",
             "rejected": "Action was rejected on the Ledger device"
         },
         "popup": {
-            "preventClose": "Detta popup-fönster kan inte stängas."
+            "preventClose": "This popup is unable to be closed."
         },
         "crypto": {
-            "cannotDecodeBech32": "Det går inte att avkoda strängen som Bech32-adress."
+            "cannotDecodeBech32": "Unable to decode string as Bech32 address."
         },
         "shimmerClaiming": {
-            "missingProfileManager": "Det gick inte att hitta profilhanteraren för Shimmer-hämtning",
-            "cannotInitialiseAccount": "Det gick inte att initiera hämtningskonto för Shimmer",
-            "missingAccount": "Det gick inte att hitta hämtningskonto för Shimmer"
+            "missingProfileManager": "Unable to find Shimmer claiming profile manager",
+            "cannotInitialiseAccount": "Unable to initialize Shimmer claiming account",
+            "missingAccount": "Unable to find Shimmer claiming account"
         },
         "walletApiEvent": {
-            "invalidAccountIndex": "Ogiltigt kontoindex för {eventName} händelse",
-            "invalidPayload": "Ogiltig nyttolast för {eventName} händelse"
+            "invalidAccountIndex": "Invalid account index for {eventName} event",
+            "invalidPayload": "Invalid payload for {eventName} event"
         },
         "aliasMinting": {
             "aliasRequired": "Alias is required",
@@ -1748,7 +1857,7 @@
                 "short": "Url not supported",
                 "long": "Url schema not supported"
             },
-            "unsupportedFileType": {
+            "unsupportedMediaType": {
                 "short": "Unsupported media type",
                 "long": "The media type is not currently supported"
             },
@@ -1818,43 +1927,43 @@
         "closePopup": "Are you sure about closing the popup? Your current progress will be lost."
     },
     "tooltips": {
-        "optionalInput": "Denna valfria data kommer att vara offentlig på explorers och synlig för alla.",
+        "optionalInput": "This optional data will be public on the explorer and viewable by everyone.",
         "transactionDetails": {
             "incoming": {
-                "storageDeposit": "En återbetalningsbar tokeninsättning behövs för att lagra din transaktion på Tangle.",
-                "giftedStorageDeposit": "Lagringsdepositionen för denna transaktion skänktes till dig. Du behöver inte återbetala depositionen.",
-                "expirationTime": "Gör anspråk på dessa tillgångar innan utgångstiden annars kommer de att återlämnas till avsändaren.",
-                "timelockDate": "Avsändaren satte ett tidlås på dessa tillgångar. Du kommer att kunna spendera dem när tidsbegränsningen löpt ut.",
-                "metadata": "Ett valfritt datafält för att lagra data konstant på Tangle.",
-                "tag": "Ett kort valfritt datafält. Taggningsgrupper av transaktioner kan göra dem enklare att söka efter."
+                "storageDeposit": "A refundable token deposit needed to store your transaction on the Tangle.",
+                "giftedStorageDeposit": "The storage deposit for this transaction was gifted to you. You do not need to refund the deposit.",
+                "expirationTime": "Claim these funds before the expiration time or they will be returned to the sender.",
+                "timelockDate": "The sender set a timelock on these funds. You will be able to spend them once the timelock expires.",
+                "metadata": "An optional data field for storing data persistently on the Tangle.",
+                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for."
             },
             "outgoing": {
-                "storageDeposit": "En lagringsdeposition är en återbetalningsbar insättning som behövs för att lagra din transaktion på Tangle.",
-                "giftedStorageDeposit": "Mottagaren behöver inte återbetala insättningen.",
-                "expirationTime": "Om mottagaren inte gör anspråk i tid kommer dina tokens att returneras till dig.",
-                "timelockDate": "Du har lagt till en tidsgräns för denna transaktion. Mottagaren kommer inte kunna spendera dessa tillgångar förrän tidsfristen löpt ut.",
-                "metadata": "Ett valfritt datafält för att lagra data konstant på Tangle.",
-                "tag": "Ett kort valfritt datafält. Taggningsgrupper av transaktioner kan göra dem enklare att söka efter.",
+                "storageDeposit": "A storage deposit is a refundable deposit needed to store your transaction on the Tangle.",
+                "giftedStorageDeposit": "The recipient does not need to refund the deposit.",
+                "expirationTime": "If the recipient does not claim in time your tokens will be returned to you.",
+                "timelockDate": "You added a timelock to this transaction. The recipient will not be able to spend these funds until the timelock expires.",
+                "metadata": "An optional data field for storing data persistently on the Tangle.",
+                "tag": "A short optional data field. Tagging groups of transactions can make them easier to search for.",
                 "transactionFee": "The transaction fee contains the gas fee for the code execution and the storage deposit fee."
             },
             "nftMetadata": {
-                "type": "MimeType av NFT. t.ex. image/png.",
-                "issuerName": "Namnet på skaparen"
+                "type": "The MimeType of the NFT. e.g. image/png.",
+                "issuerName": "The name of the creator"
             }
         },
         "mintNativeToken": {
-            "decimals": "IRC30 valfri parameter: Antal decimaler som token använder (dividera token beloppet med 10 ^ decimaler för att få dess användarrepresentation).",
-            "description": "IRC30 valfri parameter: Den mänskliga läsbara beskrivningen av token.",
-            "url": "IRC30 valfri parameter: URL som pekar på mer information om token som en webbplats eller sociala medier-sida.",
-            "logoUrl": "IRC30 valfri parameter: URL som pekar mot en bild för tokenlogotypen."
+            "decimals": "IRC30 optional parameter: Number of decimals the token uses (divide the token amount by 10^decimals to get its user representation).",
+            "description": "IRC30 optional parameter: The human-readable description of the token.",
+            "url": "IRC30 optional parameter: URL pointing to more resources about the token like a website or social media page.",
+            "logoUrl": "IRC30 optional parameter: URL pointing to an image resource of the token logo."
         },
         "mintNftForm": {
-            "collectionName": "Valfri parameter: Samlingens namn",
-            "royalties": "Valfri parameter: Ett objekt som innehåller nyckelvärdepar av adresser som kartlägger utbetalningsprocent",
-            "issuerName": "Valfri parameter: Namnet på skaparen",
-            "description": "Valfri parameter: En beskrivning av NFT",
-            "attributes": "Valfri parameter: En rad egenskaper och värden som definierar attribut för NFT",
-            "uri": "För att skapa en URI med anpassade medier, ladda först upp din fil till IPFS via en lagringstjänst (t.ex. https://nft.storage/)",
+            "collectionName": "Optional parameter: The collection's name",
+            "royalties": "Optional parameter: An object containing key-value pairs of addresses that map to payout percentages",
+            "issuerName": "Optional parameter: The name of the creator",
+            "description": "Optional parameter: A description of the NFT",
+            "attributes": "Optional parameter: An array of traits and values that define attributes of the NFT",
+            "uri": "To create a URI using custom media, first upload your file to IPFS via a storage service (e.g. https://nft.storage/)",
             "quantity": "Optional parameter: The quantity of copies minted with this metadata."
         },
         "governance": {
@@ -1877,10 +1986,10 @@
         }
     },
     "tabs": {
-        "wallet": "Plånbok",
-        "collectibles": "Samlarobjekt",
-        "governance": "Styrning",
-        "developer": "Utvecklare",
+        "wallet": "Wallet",
+        "collectibles": "Collectibles",
+        "governance": "Governance",
+        "developer": "Developer",
         "tokens": "Tokens",
         "settings": "Settings"
     },

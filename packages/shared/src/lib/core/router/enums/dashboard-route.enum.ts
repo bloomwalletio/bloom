@@ -1,7 +1,9 @@
 export enum DashboardRoute {
-    Wallet = 'wallet',
+    BuySell = 'buySell',
+    Campaigns = 'campaigns',
     Collectibles = 'collectibles',
     Developer = 'developer',
     Governance = 'governance',
     Settings = 'settings',
+    Wallet = 'wallet',
 }

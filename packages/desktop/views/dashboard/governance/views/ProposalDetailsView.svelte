@@ -35,7 +35,8 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { MarkdownBlock, Pane, ProposalStatusPill, Text, TextType } from '@ui'
+    import { ProposalStatusPill } from '@views/governance'
+    import { MarkdownBlock, Pane, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
@@ -43,7 +44,7 @@
     let selectedAnswerValues: number[] = []
     let votedAnswerValues: number[] = []
     let votingPayload: VotingEventPayload
-    let totalVotes = 0
+    let totalVotes = BigInt(0)
     let hasMounted = false
     let alertText = ''
     let proposalQuestions: HTMLElement
@@ -125,11 +126,11 @@
         let lastActiveOverview: TrackedParticipationOverview
         switch ($selectedParticipationEventStatus?.status) {
             case EventStatus.Upcoming:
-                totalVotes = 0
+                totalVotes = BigInt(0)
                 break
             case EventStatus.Commencing:
                 lastActiveOverview = trackedParticipations?.find((overview) => overview.endMilestoneIndex === 0)
-                totalVotes = 0
+                totalVotes = BigInt(0)
                 break
             case EventStatus.Holding:
                 lastActiveOverview = trackedParticipations?.find((overview) => overview.endMilestoneIndex === 0)
@@ -236,7 +237,7 @@
                     },
                     {
                         key: localize('views.governance.details.yourVote.power'),
-                        value: formatTokenAmountBestMatch(parseInt($selectedAccount?.votingPower), metadata),
+                        value: formatTokenAmountBestMatch($selectedAccount?.votingPower, metadata),
                     },
                 ]}
             />

@@ -1,18 +1,18 @@
-import { handleSignMessage } from './sign_message.handler'
-import { handleEthTransaction } from './eth_transaction.handler'
-import { handleEthSignTypedData } from './eth_signTypedData.handler'
-import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import { getConnectedDappByOrigin, getWalletClient } from '../stores'
+import { handleError } from '@core/error/handlers'
 import { NetworkId, getNetwork } from '@core/network'
-import { CallbackParameters } from '../types'
-import { Platform } from '@core/app'
+import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { getSdkError } from '@walletconnect/utils'
-import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
+import { getConnectedDappByOrigin, getWalletClient, setConnectedDapps } from '../stores'
+import { CallbackParameters } from '../types'
+import { handleEthSignTypedData } from './eth_signTypedData.handler'
+import { handleEthTransaction } from './eth_transaction.handler'
+import { handleSignMessage } from './sign_message.handler'
+import { handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
-    Platform.focusWindow()
-
+    // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
+    setConnectedDapps()
     const { topic, params, id, verifyContext } = event
     const { request, chainId } = params
     const method = request.method
@@ -27,17 +27,25 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
                   jsonrpc: '2.0',
               }
             : error
-            ? {
-                  id,
-                  error,
-                  jsonrpc: '2.0',
-              }
-            : undefined
+              ? {
+                    id,
+                    error,
+                    jsonrpc: '2.0',
+                }
+              : undefined
 
         if (response) {
-            void getWalletClient()?.respondSessionRequest({ topic, response })
+            try {
+                void getWalletClient()?.respondSessionRequest({ topic, response })
+            } catch (err) {
+                handleError(err)
+            }
         }
-        closePopup(true)
+    }
+
+    if (!dapp) {
+        returnResponse({ error: getSdkError('SESSION_SETTLEMENT_FAILED') })
+        return
     }
 
     const chain = getNetwork()?.getChain(chainId as NetworkId)
@@ -58,9 +66,15 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             void handleSignMessage(request.params, dapp, method, chain, returnResponse)
             break
         case 'eth_signTypedData':
-            handleEthSignTypedData()
+        case 'eth_signTypedData_v3':
+        case 'eth_signTypedData_v4':
+            void handleEthSignTypedData(request.params, method, dapp, chain, returnResponse)
+            break
+        case 'wallet_watchAsset':
+            void handleWatchAsset(request.params, dapp, chain, returnResponse)
             break
         default:
+            returnResponse({ error: getSdkError('INVALID_METHOD') })
             break
     }
 }

@@ -16,7 +16,7 @@
 
     $: proposalDateData = getNextProposalDateData($selectedProposal?.status)
 
-    function getNextProposalDateData(status: string): IProposalDateData {
+    function getNextProposalDateData(status: EventStatus): IProposalDateData {
         switch (status) {
             case EventStatus.Upcoming:
                 return {

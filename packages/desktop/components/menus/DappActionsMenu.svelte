@@ -34,7 +34,7 @@
         } as IMenuItem,
     ]
 
-    $: dappName = dapp.metadata?.name ?? localize(`${localeKey}.fallbackName`)
+    $: dappName = dapp.metadata?.name ?? localize('general.unknown')
     $: hasActiveSession = !!dapp.session
 
     function onRemoveClick(): void {

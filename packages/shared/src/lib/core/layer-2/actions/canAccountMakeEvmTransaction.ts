@@ -16,7 +16,7 @@ export function canAccountMakeEvmTransaction(
         return undefined
     }
 
-    const baseTokenAccountBalance = getLayer2AccountBalanceForToken(accountIndex, networkId) ?? 0
+    const baseTokenAccountBalance = getLayer2AccountBalanceForToken(accountIndex, networkId)
     const gasLimit = Math.floor(
         FALLBACK_ESTIMATED_GAS[sendFlowType ?? SendFlowType.BaseCoinTransfer] * GAS_LIMIT_MULTIPLIER
     )
@@ -25,5 +25,5 @@ export function canAccountMakeEvmTransaction(
         return undefined
     }
     const minimumGasFee = calculateGasFeeInGlow(gasLimit, gasPrice)
-    return BigInt(baseTokenAccountBalance) > BigInt(minimumGasFee.toString())
+    return baseTokenAccountBalance > minimumGasFee
 }

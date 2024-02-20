@@ -9,7 +9,6 @@
         getNetworkIdFromOnboardingNetworkType,
         getNodeInfoWhileLoggedOut,
     } from '@core/network'
-    import features from '@features/features'
     import { NodeConfigurationForm } from '@ui'
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
@@ -20,15 +19,10 @@
     let node: INode
     let busy = false
     let formError = ''
-    let networkType: OnboardingNetworkType = getInitialSelectedNetworkType()
+    let requiresAuth = false
+    let networkType: OnboardingNetworkType
 
-    function getInitialSelectedNetworkType(): OnboardingNetworkType {
-        return features?.onboarding?.shimmer?.enabled
-            ? OnboardingNetworkType.Shimmer
-            : features?.onboarding?.testnet?.enabled
-            ? OnboardingNetworkType.Testnet
-            : OnboardingNetworkType.Custom
-    }
+    $: disableContinue = !node?.url || !networkType || (requiresAuth && !node?.auth)
 
     function onBackClick(): void {
         $networkSetupRouter.previous()
@@ -61,7 +55,9 @@
         } catch (err) {
             console.error(err)
             updateOnboardingProfile({ clientOptions: undefined, network: undefined })
-            if (err?.error?.includes('error sending request for url')) {
+            if (err?.error?.match(/(username)|(password)|(jwt)/g)) {
+                requiresAuth = true
+            } else if (err?.error?.includes('error sending request for url')) {
                 formError = localize('error.node.unabledToConnect')
             } else if (err?.message === 'error.node.differentNetwork') {
                 formError = localize('error.node.differentNetwork')
@@ -86,6 +82,7 @@
     title={localize('views.onboarding.networkSetup.setupCustomNetwork.title')}
     continueButton={{
         onClick: onContinueClick,
+        disabled: disableContinue,
     }}
     backButton={{
         onClick: onBackClick,
@@ -100,6 +97,7 @@
             bind:coinType
             bind:node
             bind:formError
+            {requiresAuth}
             isBusy={busy}
             isDeveloperProfile
             networkEditable

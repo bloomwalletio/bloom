@@ -5,14 +5,14 @@ import { get } from 'svelte/store'
 
 export function setNextSelectedAccount(): void {
     const account = getSelectedAccount()
+    if (!account?.hidden) {
+        return
+    }
     const otherAccounts = get(nonHiddenActiveAccounts)
-    if (otherAccounts.length > 0) {
-        if (account?.hidden) {
-            const nextSelectedAccountIndex =
-                otherAccounts[account?.index]?.index ?? otherAccounts[otherAccounts?.length - 1]?.index
-            setSelectedAccount(nextSelectedAccountIndex)
-        }
-    } else {
+    if (otherAccounts.length === 0) {
         throw new Error('No accounts to select from')
     }
+    const nextSelectedAccountIndex =
+        otherAccounts[account?.index]?.index ?? otherAccounts[otherAccounts?.length - 1]?.index
+    setSelectedAccount(nextSelectedAccountIndex)
 }

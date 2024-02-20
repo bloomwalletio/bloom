@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { formatCurrency, getDecimalSeparator } from '@core/i18n'
-    import { getFiatAmountFromTokenValue } from '@core/market/actions'
+    import { formatCurrency, getDecimalSeparator, localize } from '@core/i18n'
+    import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
     import {
         ITokenWithBalance,
         convertToRawAmount,
-        formatTokenAmountDefault,
+        formatTokenAmountBestMatch,
         getMaxDecimalsFromTokenMetadata,
         validateTokenAmount,
     } from '@core/token'
@@ -14,18 +14,18 @@
 
     export let token: ITokenWithBalance | undefined =
         $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
-    export let rawAmount: string | undefined = undefined
+    export let rawAmount: bigint | undefined = undefined
     export let unit: string | undefined = undefined
-    export let availableBalance: number
+    export let availableBalance: bigint
     export let inputtedAmount: string | undefined =
         rawAmount && token?.metadata
-            ? formatTokenAmountDefault(Number(rawAmount), token.metadata, unit, false)
+            ? formatTokenAmountBestMatch(rawAmount, token.metadata, { withUnit: false, round: false })
             : undefined
 
     let amountInputElement: HTMLInputElement | undefined
     let error: string | undefined
     let inputLength = 0
-    let fontSize = '64'
+    let fontSize: string
     let maxLength = 0
 
     $: inputtedAmount,
@@ -34,9 +34,10 @@
         (fontSize = getFontSizeForInputLength()),
         (maxLength = getMaxAmountOfDigits())
     $: allowedDecimals = token?.metadata && unit ? getMaxDecimalsFromTokenMetadata(token.metadata, unit) : 0
-    $: bigAmount = inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : 0
-    $: fiatAmount = token ? getFiatAmountFromTokenValue(bigAmount, token) : undefined
-    $: rawAmount = bigAmount?.toString()
+    $: rawAmount =
+        inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : BigInt(0)
+    $: fiatAmount = token ? getFiatValueFromTokenAmount(rawAmount, token) : undefined
+    $: maxWidth = `${(inputLength * Number(/\d+/.exec(fontSize)?.[0] ?? 0) * 2) / 3}px`
 
     function getInputLength(): number {
         const length = inputtedAmount?.length || 1
@@ -59,7 +60,9 @@
         const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
 
         const integerLengthOfBalance =
-            formatTokenAmountDefault(availableBalance, metadata).split(decimalSeparator)?.[0]?.length ?? 0
+            formatTokenAmountBestMatch(availableBalance, metadata, { withUnit: false, round: false }).split(
+                decimalSeparator
+            )?.[0]?.length ?? 0
 
         return (
             allowedDecimalAmount +
@@ -71,25 +74,23 @@
 
     function getFontSizeForInputLength(): string {
         if (inputLength < 10) {
-            return '64'
+            return 'text-64'
         } else if (inputLength < 14) {
-            return '48'
+            return 'text-48'
         } else {
-            return '32'
+            return 'text-32'
         }
     }
 
     export async function validate(allowZeroOrNull = false): Promise<void> {
         if (inputtedAmount === undefined || token === undefined || unit === undefined) {
-            return Promise.reject()
+            throw new Error(localize('error.send.amountInvalidFormat'))
         }
         try {
             rawAmount = await validateTokenAmount(inputtedAmount, token, unit, allowZeroOrNull)
-            return Promise.resolve()
         } catch (err) {
             error = err as string
-            console.error(error)
-            return Promise.reject()
+            throw new Error(error)
         }
     }
 </script>
@@ -99,7 +100,7 @@
     <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
         <div class="flex flex-row items-end space-x-0.5">
             <div class="flex flex-row w-full items-center">
-                <amount-wrapper style:--max-width={`${(inputLength * Number(fontSize) * 2) / 3}px`}>
+                <amount-wrapper style:--max-width={maxWidth}>
                     <AmountInput
                         bind:inputElement={amountInputElement}
                         bind:amount={inputtedAmount}
@@ -119,7 +120,7 @@
             </Text>
         </div>
     </InputContainer>
-    <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
+    <Text fontWeight={FontWeight.semibold} color="text-gray-600" darkColor="dark:text-ray-600">
         {formatCurrency(fiatAmount) || '--'}
     </Text>
 </div>

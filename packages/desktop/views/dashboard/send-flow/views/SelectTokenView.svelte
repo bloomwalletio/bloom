@@ -1,19 +1,20 @@
 <script lang="ts">
     import { Alert, Tabs } from '@bloomwalletio/ui'
-    import { selectedAccountIndex } from '@core/account/stores'
+    import { PopupTemplate } from '@components'
+    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
     import { marketCoinPrices } from '@core/market/stores'
     import { canAccountMakeStardustTransaction, getNetwork, isEvmChain, isStardustNetwork } from '@core/network'
+    import { activeProfile } from '@core/profile/stores'
     import { AccountTokens, BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
-    import { getAccountTokensForSelectedAccount, getTokenBalance } from '@core/token/actions'
+    import { getAccountTokensForAccount, getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { SearchInput, TokenAmountTile } from '@ui'
+    import { KeyValue, SearchInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
-    import { PopupTemplate } from '@components'
 
     let searchValue: string = ''
 
@@ -21,11 +22,13 @@
         $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer && $sendFlowParameters.baseCoinTransfer?.token
             ? $sendFlowParameters.baseCoinTransfer.token
             : $sendFlowParameters?.type === SendFlowType.TokenTransfer && $sendFlowParameters.tokenTransfer?.token
-            ? $sendFlowParameters.tokenTransfer.token
-            : $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin
+              ? $sendFlowParameters.tokenTransfer.token
+              : $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin
 
     let accountTokens: AccountTokens
-    $: accountTokens = getAccountTokensForSelectedAccount($marketCoinPrices)
+    $: accountTokens = $selectedAccount
+        ? getAccountTokensForAccount($selectedAccount, $marketCoinPrices, $activeProfile?.settings?.marketCurrency)
+        : {}
     $: accountTokens, searchValue, selectedTab, setFilteredTokenList()
 
     let tokenError: string = ''
@@ -43,9 +46,11 @@
         tokenError = ''
     }
 
-    let selectedTab: { key: string; value: string } = { key: 'all', value: 'All' }
-    function setTabs() {
-        const tabs: { key: string; value: string }[] = [{ key: 'all', value: 'All' }]
+    const tabs = getTabs()
+    let selectedTab = tabs[0]
+
+    function getTabs(): KeyValue<string>[] {
+        const tabs = [{ key: 'all', value: 'All' }]
         const networkMetadata = getNetwork().getMetadata()
         tabs.push({ key: networkMetadata.id, value: networkMetadata.name })
         const chains = getNetwork().getChains()
@@ -159,7 +164,9 @@
 >
     <div class="space-y-4">
         <SearchInput bind:value={searchValue} />
-        <Tabs bind:selectedTab tabs={setTabs()} />
+        {#if tabs.length > 2}
+            <Tabs bind:selectedTab {tabs} />
+        {/if}
         <div class="-mr-3">
             <token-list class="w-full flex flex-col">
                 {#each tokenList as token}

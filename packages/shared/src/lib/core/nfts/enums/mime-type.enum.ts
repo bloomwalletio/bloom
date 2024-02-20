@@ -1,0 +1,16 @@
+export enum MimeType {
+    ImageJpeg = 'image/jpeg',
+    ImagePng = 'image/png',
+    ImageGif = 'image/gif',
+    ImageWebp = 'image/webp',
+    VideoXMsvideo = 'video/x-msvideo',
+    VideoMp4 = 'video/mp4',
+    VideoMpeg = 'video/mpeg',
+    AudioMpeg = 'audio/mpeg',
+    AudioWav = 'audio/wav',
+    ModelObj = 'model/obj',
+    ModelU3d = 'model/u3d',
+    ApplicationPdf = 'application/pdf',
+    TextPlain = 'text/plain',
+    FontTtf = 'font/ttf',
+}

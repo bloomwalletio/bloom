@@ -1,11 +1,11 @@
 import type { NftOutput, OutputResponse } from '@iota/sdk'
 import { buildNftFromNftOutput } from '../actions'
-import { INft } from '../interfaces'
+import { Nft } from '../interfaces'
 import { getClient } from '@core/profile-manager'
 import { getOutputIdFromTransactionIdAndIndex } from '@core/activity'
 import { NetworkId } from '@core/network/types'
 
-export async function getNftsFromNftIds(nftIds: string[], networkId: NetworkId): Promise<INft[]> {
+export async function getNftsFromNftIds(nftIds: string[], networkId: NetworkId): Promise<Nft[]> {
     const client = await getClient()
     const nftOutputIds = []
     for (const nftId of nftIds) {
@@ -27,7 +27,7 @@ export async function getNftsFromNftIds(nftIds: string[], networkId: NetworkId):
         console.error(err)
     }
 
-    const nfts: INft[] = []
+    const nfts: Nft[] = []
     for (const nftOutput of outputs) {
         const outputId = getOutputIdFromTransactionIdAndIndex(
             nftOutput.metadata.transactionId,

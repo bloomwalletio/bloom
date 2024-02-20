@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { INft } from '@core/nfts'
+    import { Nft } from '@core/nfts'
     import NftGalleryItem from './NftGalleryItem.svelte'
 
-    export let nfts: INft[] = []
+    export let nfts: Nft[] = []
 </script>
 
 <div

@@ -4,7 +4,7 @@
     import { NftActivity } from '@core/activity'
     import { localize } from '@core/i18n'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { TokenStandard } from '@core/token'
+    import { NftStandard } from '@core/nfts/enums'
 
     export let activity: NftActivity
 
@@ -12,7 +12,7 @@
 </script>
 
 {#if nft?.parsedMetadata}
-    {@const metadata = nft.parsedMetadata}
+    {@const metadata = nft.metadata}
     <Table
         items={[
             {
@@ -47,7 +47,7 @@
             },
             {
                 key: localize('general.metadata'),
-                value: metadata.standard !== TokenStandard.Irc27 ? metadata : undefined,
+                value: metadata.standard !== NftStandard.Irc27 ? metadata : undefined,
             },
             {
                 key: localize('general.attributes'),
