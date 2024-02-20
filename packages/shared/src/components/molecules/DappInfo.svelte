@@ -10,7 +10,7 @@
     export let classes: string = ''
 </script>
 
-<dapp-info class={classes}>
+<dapp-info class="bg-surface-0 dark:bg-surface-0-dark {classes}">
     {#if metadata?.icons?.[0]}
         <img class="dapp-image" src={metadata.icons[0]} alt={metadata.name} />
     {:else}
@@ -44,7 +44,6 @@
     dapp-info {
         @apply w-full p-6;
         @apply flex flex-row items-center justify-center gap-3;
-        @apply bg-surface-0 dark:bg-surface-0-dark;
     }
 
     .dapp-image {
