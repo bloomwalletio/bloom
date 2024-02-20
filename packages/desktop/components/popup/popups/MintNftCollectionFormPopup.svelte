@@ -2,10 +2,9 @@
     import { BaseError } from '@core/error/classes'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { composeUrlFromNftUri } from '@core/nfts'
-    import { MimeType } from '@core/nfts/types'
+    import { NftStandard, composeUrlFromNftUri } from '@core/nfts'
+    import { MimeType } from '@core/nfts/enums'
     import { fetchWithTimeout } from '@core/nfts/utils/fetchWithTimeout'
-    import { TokenStandard } from '@core/token'
     import { HttpHeader } from '@core/utils'
     import { isValidUri } from '@core/utils/validation'
     import { IMintNftCollectionDetails } from '@core/wallet'
@@ -163,7 +162,7 @@
 
     function convertInputsToMetadataType(): IMintNftCollectionDetails {
         return {
-            standard: standard ?? TokenStandard.Irc27,
+            standard: standard ?? NftStandard.Irc27,
             version,
             issuerName: optionalInputs.issuerName?.value,
             description: optionalInputs.description?.value,
@@ -184,7 +183,7 @@
 </script>
 
 <PopupTemplate
-    title={localize('popups.mintNftForm.title')}
+    title={localize('actions.mintNftCollection')}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
