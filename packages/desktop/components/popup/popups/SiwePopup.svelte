@@ -70,7 +70,7 @@
     busy={isBusy}
 >
     <DappDataBanner slot="banner" {dapp} />
-    <div class="space-y-5 overflow-auto">
+    <div class="space-y-5">
         <Table
             items={[
                 {
