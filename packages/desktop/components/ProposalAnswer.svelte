@@ -1,13 +1,12 @@
 <script lang="ts">
     import { Answer, EventStatus } from '@iota/sdk/out/types'
 
-    import { Icon, Text } from '@ui'
+    import { Icon } from '@ui'
 
     import { darkMode } from '@core/app/stores'
 
     import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Indicator, TooltipIcon } from '@bloomwalletio/ui'
-    import { FontWeight } from '@ui/enums'
+    import { Indicator, Text, TooltipIcon } from '@bloomwalletio/ui'
 
     export let onAnswerClick: () => void
 
@@ -16,7 +15,8 @@
     export let votedAnswerValue: number = undefined
     export let selectedAnswerValue: number = undefined
     export let percentage: string = ''
-    export let disabled = false
+    // export let disabled = false
+    const disabled = false
     export let hidden: boolean = null
     export let isWinner: boolean
     export let proposalStatus: EventStatus
@@ -56,7 +56,7 @@
     class:winner={isWinner}
     class:selected={isSelected}
     class:cursor-default={isLoading}
-    style:--percentage={percentage}
+    style:--percentage={'83%' || percentage}
     on:click={onClick}
 >
     <div class="flex space-x-3 items-center w-full min-w-0">
@@ -75,21 +75,18 @@
                 <answer-index>{answerIndex + 1}</answer-index>
             {/if}
         {/if}
-        <Text fontWeight={FontWeight.medium} classes="w-full {truncate ? 'truncate' : ''}">{answer.text}</Text>
+        <Text
+            fontWeight={isSelected || isVotedFor ? 'semibold' : 'medium'}
+            textColor={isSelected || isVotedFor ? 'primary' : 'secondary'}
+            truncate>{answer.text}</Text
+        >
     </div>
     <div class="flex items-center space-x-1.5">
         {#if isWinner}
             <Icon icon={IconEnum.Trophy} />
         {/if}
         {#if percentage}
-            <Text
-                smaller
-                fontWeight={FontWeight.medium}
-                classes="h-3 ml-auto text-gray-700 dark:text-gray-500"
-                overrideColor
-            >
-                {percentage}
-            </Text>
+            <Text type="sm" textColor="secondary">{percentage}</Text>
         {/if}
         {#if answer.additionalInfo}
             <div class="w-3 h-3">
@@ -101,7 +98,7 @@
 
 <style lang="scss">
     .proposal-answer {
-        @apply rounded-md border border-solid border-gray-200;
+        @apply rounded-lg border border-solid border-stroke dark:border-stroke-dark;
         @apply relative hidden items-center justify-between p-3 overflow-hidden;
         > * {
             z-index: 2;
@@ -109,14 +106,14 @@
 
         &::after {
             @apply z-10 absolute inline-block h-full -ml-3 mr-auto;
-            @apply rounded-l-md bg-gray-100;
+            @apply rounded-l-md bg-surface-2;
             content: '';
             width: var(--percentage);
             z-index: 1;
         }
 
         &:not(.disabled):hover {
-            @apply border-blue-500;
+            @apply border-brand;
         }
 
         &:not(.hidden) {
@@ -128,10 +125,10 @@
         }
 
         &.selected {
-            @apply border-blue-500;
+            @apply border-brand;
 
             answer-index {
-                @apply bg-blue-500 text-white;
+                @apply bg-brand text-white;
             }
         }
 
@@ -146,14 +143,14 @@
         }
 
         &.winner {
-            @apply bg-blue-500;
+            @apply bg-text-brand-dark border-brand;
 
             &::after {
-                @apply bg-blue-600;
+                @apply bg-brand;
             }
 
             answer-index {
-                @apply bg-blue-600 text-white;
+                @apply bg-surface-brand text-white;
             }
 
             :global(*) {
@@ -161,7 +158,7 @@
             }
         }
 
-        &.dark:not(.selected) {
+        &.dark:not(.selected):not(.winner) {
             @apply border-transparent;
         }
 
@@ -183,7 +180,7 @@
 
         answer-index {
             @apply flex items-center justify-center h-5 w-5 bg-white;
-            @apply border border-solid border-gray-200;
+            @apply border border-solid border-stroke rounded-sm;
             @apply font-bold text-12 text-gray-500;
         }
     }
