@@ -25,7 +25,7 @@
     let amountInputElement: HTMLInputElement | undefined
     let error: string | undefined
     let inputLength = 0
-    let fontSize = '64'
+    let fontSize: string
     let maxLength = 0
 
     $: inputtedAmount,
@@ -37,6 +37,7 @@
     $: rawAmount =
         inputtedAmount && token?.metadata ? convertToRawAmount(inputtedAmount, token.metadata, unit) : BigInt(0)
     $: fiatAmount = token ? getFiatValueFromTokenAmount(rawAmount, token) : undefined
+    $: maxWidth = `${(inputLength * Number(/\d+/.exec(fontSize)?.[0] ?? 0) * 2) / 3}px`
 
     function getInputLength(): number {
         const length = inputtedAmount?.length || 1
@@ -73,11 +74,11 @@
 
     function getFontSizeForInputLength(): string {
         if (inputLength < 10) {
-            return '64'
+            return 'text-64'
         } else if (inputLength < 14) {
-            return '48'
+            return 'text-48'
         } else {
-            return '32'
+            return 'text-32'
         }
     }
 
@@ -99,7 +100,7 @@
     <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
         <div class="flex flex-row items-end space-x-0.5">
             <div class="flex flex-row w-full items-center">
-                <amount-wrapper style:--max-width={`${(inputLength * Number(fontSize) * 2) / 3}px`}>
+                <amount-wrapper style:--max-width={maxWidth}>
                     <AmountInput
                         bind:inputElement={amountInputElement}
                         bind:amount={inputtedAmount}
@@ -119,7 +120,7 @@
             </Text>
         </div>
     </InputContainer>
-    <Text fontWeight={FontWeight.semibold} color="gray-600" darkColor="gray-600">
+    <Text fontWeight={FontWeight.semibold} color="text-gray-600" darkColor="dark:text-ray-600">
         {formatCurrency(fiatAmount) || '--'}
     </Text>
 </div>
