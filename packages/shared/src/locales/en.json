@@ -1357,6 +1357,7 @@
         "addProposal": "Add proposal",
         "removeProposal": "Remove proposal",
         "changeNode": "Change node",
+        "changeNodeUrl": "Change node URL",
         "stopVoting": "Stop voting",
         "revote": "Revote",
         "skipAndKeep": "Skip and keep old password",
