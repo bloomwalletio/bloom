@@ -1,12 +1,11 @@
 <script lang="ts">
     import { Alert, Button, Checkbox, Table, TableRow, Text } from '@bloomwalletio/ui'
-    import { Spinner } from '@ui'
+    import { DappInfo, Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import DappInformationCard from '../components/DappInformationCard.svelte'
     import { SupportedNetworkId, getAllNetworkIds } from '@core/network'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
@@ -122,7 +121,7 @@
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
             {@const metadata = $sessionProposal.params.proposer.metadata}
-            <DappInformationCard {metadata} {verifiedState} />
+            <DappInfo {metadata} {verifiedState} />
 
             <div class="flex-grow overflow-hidden">
                 <div class="h-full overflow-scroll flex flex-col gap-5 p-6">

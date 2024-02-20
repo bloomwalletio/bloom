@@ -6,7 +6,7 @@
     import { signAndSendTransactionFromEvm } from '@core/wallet/actions'
     import { selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
-    import { TransactionAssetSection } from '@ui'
+    import { DappInfo, TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { EvmTransactionData } from '@core/layer-2/types'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
@@ -20,7 +20,6 @@
     import { TokenTransferData } from '@core/wallet'
     import { Nft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import DappDataBanner from '@components/DappDataBanner.svelte'
     import { Alert, Table } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { truncateString } from '@core/utils'
@@ -151,7 +150,12 @@
     }}
     {busy}
 >
-    <DappDataBanner slot="banner" {dapp} {verifiedState} />
+    <DappInfo
+        slot="banner"
+        metadata={dapp.metadata}
+        {verifiedState}
+        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+    />
 
     <div class="space-y-5">
         {#if isSmartContractCall}

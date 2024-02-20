@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, SidebarToast, Steps } from '@bloomwalletio/ui'
-    import { Spinner } from '@ui'
+    import { DappInfo, Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
@@ -15,13 +15,7 @@
         sessionProposal,
     } from '@auxiliary/wallet-connect/stores'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
-    import {
-        AccountSelection,
-        ConnectionSummary,
-        DappInformationCard,
-        NetworkSelection,
-        PermissionSelection,
-    } from '../components'
+    import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
     import { DappConfigRoute } from '../dapp-config-route.enum'
@@ -107,7 +101,7 @@
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
-            <DappInformationCard metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
+            <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
 
             <div class="px-6 flex-grow overflow-hidden">
                 {#if persistedNamespaces}

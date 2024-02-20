@@ -10,10 +10,10 @@
         sessionProposal,
     } from '@auxiliary/wallet-connect/stores'
     import { onMount } from 'svelte'
-    import { DappInformationCard } from '.'
     import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
     import { updateSession } from '@auxiliary/wallet-connect/utils'
     import { ISelections } from '@auxiliary/wallet-connect/interface'
+    import { DappInfo } from '@ui'
 
     export let drawerRouter: Router<unknown>
     export let selections: ISelections
@@ -52,7 +52,7 @@
 
 <DrawerTemplate title={localize(`views.dashboard.drawers.${titleLocale}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col">
-        <DappInformationCard metadata={dappMetadata} />
+        <DappInfo metadata={dappMetadata} />
 
         <div class="p-6 flex-grow overflow-hidden">
             <div class="h-full flex flex-col gap-8 overflow-scroll">
