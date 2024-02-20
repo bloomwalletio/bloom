@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import { CURRENT_IRC27_VERSION } from '@core/nfts'
     import { getClient } from '@core/profile-manager'
-    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNftCollection, mintNftCollectionDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
@@ -45,15 +45,6 @@
         }
     }
 
-    async function mintAction(): Promise<void> {
-        try {
-            await mintNftCollection(irc27Metadata)
-            closePopup()
-        } catch (err) {
-            handleError(err)
-        }
-    }
-
     function onBackClick(): void {
         closePopup()
         openPopup({
@@ -65,7 +56,14 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuth(mintAction, { stronghold: true, ledger: false })
+            await checkActiveProfileAuthAsync()
+        } catch (err) {
+            return
+        }
+
+        try {
+            await mintNftCollection(irc27Metadata)
+            closePopup()
         } catch (err) {
             handleError(err)
         }

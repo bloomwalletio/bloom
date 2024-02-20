@@ -32,6 +32,7 @@
         issuerName,
         description,
         attributes,
+        startIndex,
     } = $mintNftDetails || {}
 
     let collectionIdInput: AliasInput
@@ -79,6 +80,12 @@
             value: quantity ? String(quantity <= 1 ? '' : quantity) : '',
             error: '',
         },
+        startIndex: {
+            inputType: 'number',
+            isInteger: true,
+            value: startIndex ? String(startIndex <= 1 ? '' : startIndex) : '',
+            error: '',
+        },
     }
 
     let uriError: string, nameError: string
@@ -111,16 +118,19 @@
             if (Number(optionalInputs.quantity.value) < 1) {
                 optionalInputs.quantity.error = localize('popups.mintNftForm.errors.quantityTooSmall')
             }
-            if (Number(optionalInputs.quantity.value) >= 64) {
+            if (Number(optionalInputs.quantity.value) > 126) {
                 optionalInputs.quantity.error = localize('popups.mintNftForm.errors.quantityTooLarge')
             }
         }
 
-        if (uri.length === 0 || !isValidUri(uri)) {
+        const dummyUri = uri.replace('{id}', '1')
+        if (uri.length === 0 || !isValidUri(dummyUri)) {
             uriError = localize('popups.mintNftForm.errors.invalidURI')
         } else {
             try {
-                const response = await fetchWithTimeout(composeUrlFromNftUri(uri), 1, { method: 'HEAD' })
+                const response = await fetchWithTimeout(composeUrlFromNftUri(dummyUri), 1, {
+                    method: 'HEAD',
+                })
                 if (response.status === 200 || response.status === 304) {
                     type = response.headers.get(HttpHeader.ContentType) as MimeType
                 } else {
@@ -244,6 +254,7 @@
             collectionId,
             collectionName: optionalInputs.collectionName?.value,
             quantity: optionalInputs.quantity?.value ? Number(optionalInputs.quantity.value) : 1,
+            startIndex: optionalInputs.startIndex?.value ? Number(optionalInputs.startIndex.value) : 1,
             uri,
             name,
             royalties: optionalInputs.royalties?.value ? JSON.parse(optionalInputs.royalties.value) : undefined,

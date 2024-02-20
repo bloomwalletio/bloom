@@ -31,6 +31,7 @@
         attributes,
         quantity,
         collectionId,
+        startIndex,
     } = $mintNftDetails || {}
 
     $: irc27Metadata = {
@@ -76,7 +77,7 @@
         }
 
         try {
-            await mintNft(irc27Metadata, Number(quantity), collectionId)
+            await mintNft(irc27Metadata, startIndex, quantity, collectionId)
             closePopup()
         } catch (err) {
             handleError(err)
