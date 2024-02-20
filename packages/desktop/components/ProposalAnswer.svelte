@@ -1,12 +1,6 @@
 <script lang="ts">
     import { Answer, EventStatus } from '@iota/sdk/out/types'
-
-    import { Icon } from '@ui'
-
-    import { darkMode } from '@core/app/stores'
-
-    import { Icon as IconEnum } from '@auxiliary/icon'
-    import { Indicator, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { Icon, IconName, Indicator, Text, TooltipIcon } from '@bloomwalletio/ui'
 
     export let onAnswerClick: () => void
 
@@ -15,8 +9,7 @@
     export let votedAnswerValue: number = undefined
     export let selectedAnswerValue: number = undefined
     export let percentage: string = ''
-    // export let disabled = false
-    const disabled = false
+    export let disabled = false
     export let hidden: boolean = null
     export let isWinner: boolean
     export let proposalStatus: EventStatus
@@ -49,24 +42,21 @@
 <button
     type="button"
     class="proposal-answer"
-    class:dark={$darkMode}
     class:disabled
     class:hidden={isSelected || isWinner ? false : hidden}
     class:voted={isVotedFor}
     class:winner={isWinner}
     class:selected={isSelected}
     class:cursor-default={isLoading}
-    style:--percentage={'83%' || percentage}
+    style:--percentage={percentage}
     on:click={onClick}
 >
     <div class="flex space-x-3 items-center w-full min-w-0">
         {#if answerIndex !== undefined}
             {#if isVotedFor}
                 <status-icon class="flex justify-center items-center w-5 h-5">
-                    {#if proposalStatus === EventStatus.Ended}
-                        <Icon icon={IconEnum.Voted} width={20} height={20} />
-                    {:else if proposalStatus === EventStatus.Commencing}
-                        <Icon icon={IconEnum.History} width={20} height={20} />
+                    {#if proposalStatus === EventStatus.Ended || proposalStatus === EventStatus.Commencing}
+                        <Icon name={IconName.ReceiptCheck} size="sm" textColor={isWinner ? 'invert' : 'brand'} />
                     {:else if proposalStatus === EventStatus.Holding}
                         <Indicator size="sm" ping />
                     {/if}
@@ -83,7 +73,7 @@
     </div>
     <div class="flex items-center space-x-1.5">
         {#if isWinner}
-            <Icon icon={IconEnum.Trophy} />
+            <Icon name={IconName.Trophy} size="xs" />
         {/if}
         {#if percentage}
             <Text type="sm" textColor="secondary">{percentage}</Text>
@@ -120,10 +110,6 @@
             @apply flex;
         }
 
-        &:not(.winner) status-icon :global(svg) {
-            @apply text-blue-500;
-        }
-
         &.selected {
             @apply border-brand;
 
@@ -158,19 +144,19 @@
             }
         }
 
-        &.dark:not(.selected):not(.winner) {
-            @apply border-transparent;
+        &:not(.selected):not(.winner) {
+            @apply dark:border-transparent;
         }
 
-        &.dark:not(.winner) {
-            @apply bg-gray-900;
+        &:not(.winner) {
+            @apply dark:bg-surface-dark;
 
             &::after {
-                @apply bg-gray-950;
+                @apply dark:bg-surface-dark;
             }
 
             answer-index {
-                @apply bg-gray-900 border-gray-800;
+                @apply dark:bg-surface-dark dark:border-stroke-dark;
             }
         }
 
