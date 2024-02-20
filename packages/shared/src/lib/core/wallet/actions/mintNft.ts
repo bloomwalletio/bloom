@@ -15,18 +15,33 @@ import { getTransactionOptions } from '../utils'
 import { resetMintNftDetails } from '../stores'
 import { getActiveNetworkId } from '@core/network'
 
-export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promise<void> {
+export async function mintNft(
+    metadata: IIrc27Metadata,
+    startIndex: number,
+    quantity: number,
+    collectionId?: string
+): Promise<void> {
     try {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
         updateSelectedAccount({ isTransferring: true })
 
-        const mintNftParams: MintNftParams = {
-            issuer: account.depositAddress,
-            immutableMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
+        const allNftParams: MintNftParams[] = []
+        for (let i = startIndex; i < startIndex + quantity; i++) {
+            const updatedMetadata = {
+                ...metadata,
+                name: metadata.name.replace('{id}', i.toString()),
+                description: metadata.description?.replace('{id}', i.toString()),
+                uri: metadata.uri.replace('{id}', i.toString()),
+            }
+            const mintNftParams: MintNftParams = {
+                address: account.depositAddress,
+                issuer: collectionId || account.depositAddress,
+                immutableMetadata: Converter.utf8ToHex(JSON.stringify(updatedMetadata)),
+            }
+            allNftParams.push(mintNftParams)
         }
-        const allNftParams: MintNftParams[] = Array(quantity).fill(mintNftParams)
 
         // Mint NFT
         const preparedTransaction = await account.prepareMintNfts(
