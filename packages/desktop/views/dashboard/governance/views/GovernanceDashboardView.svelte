@@ -7,7 +7,7 @@
     import { registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
 </script>
 
-<governance-dashboard class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-6 bg-gray-50 dark:bg-gray-900">
+<governance-dashboard class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-6">
     <div class="w-1/3 flex flex-col space-y-4">
         <ManageVotingPowerPane />
         <Pane classes="p-6 h-fit">
