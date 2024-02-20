@@ -10,7 +10,6 @@ export function checkOrConnectLedgerAsync(
         : LedgerAppName.Shimmer
 ): Promise<void> {
     const ledgerConnected = get(ledgerConnectionState) === (ledgerAppName as unknown as LedgerConnectionState)
-
     return new Promise((resolve, reject) => {
         if (ledgerConnected) {
             resolve()
