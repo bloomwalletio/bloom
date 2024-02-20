@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Icon, IconName, type IconSize, Tile, Text, TailwindPreset } from '@bloomwalletio/ui'
+    import { getHexColorFromColor, Icon, IconName, type IconSize, Tile, Text, TailwindPreset } from '@bloomwalletio/ui'
 
     const colors = TailwindPreset.theme.extend.colors
 
@@ -8,13 +8,14 @@
     export let icon: IconName | undefined = undefined
     export let iconSize: IconSize = 'base'
     export let iconColor: keyof typeof colors = 'brand'
-    export let iconColorShade: string | undefined = undefined
     export let backgroundColor: string | undefined = undefined
     export let disabled: boolean = false
     export let hidden: boolean = false
     export let selected: boolean = false
 
     export let onClick: () => unknown
+
+    const background = getHexColorFromColor(backgroundColor ?? `${iconColor}/20`)
 </script>
 
 {#if !hidden}
@@ -25,15 +26,10 @@
                     <slot name="icon" />
                 {:else if icon}
                     <icon-container
-                        class="w-12 h-12 flex justify-center items-center rounded-xl {backgroundColor
-                            ? `bg-${backgroundColor}`
-                            : `bg-${iconColor}/20`}"
+                        class="w-12 h-12 flex justify-center items-center rounded-xl"
+                        style={`background-color: ${background}`}
                     >
-                        <Icon
-                            name={icon}
-                            customColor={iconColorShade ? `${iconColor}-${iconColorShade}` : iconColor}
-                            size={iconSize}
-                        />
+                        <Icon name={icon} customColor={iconColor} size={iconSize} />
                     </icon-container>
                 {/if}
             </div>

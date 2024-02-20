@@ -12,7 +12,7 @@
     // Text Props
     export let textType = TextType.p
     export let fontWeight: FontWeight = FontWeight.normal
-    export let fontSize = 'sm'
+    export let fontSize = 'text-32'
     export let lineHeight = '140'
 
     export function validate(): void {
