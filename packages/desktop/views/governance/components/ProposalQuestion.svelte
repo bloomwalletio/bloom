@@ -50,7 +50,7 @@
     class:animate-pulse={isLoading}
 >
     <button on:click={() => onQuestionClick(questionIndex)} class="flex justify-between items-center">
-        <div class="flex flex-col min-w-0">
+        <div class="flex flex-col min-w-0 gap-1">
             {#if questionIndex !== undefined}
                 <Text align="left">Question {questionIndex + 1}</Text>
             {/if}
