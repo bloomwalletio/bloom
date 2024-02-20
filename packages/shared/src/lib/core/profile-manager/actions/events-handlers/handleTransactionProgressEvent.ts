@@ -13,7 +13,7 @@ import {
     WalletEventType,
 } from '@iota/sdk/out/types'
 import { get } from 'svelte/store'
-import { PopupId, closePopup, openPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
+import { ProfileAuthPopupId, closePopup, openProfileAuthPopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { MissingTransactionProgressEventPayloadError } from '../../errors'
 import { validateWalletApiEvent } from '../../utils'
 import { checkOrConnectLedger } from '@core/ledger/actions'
@@ -50,8 +50,8 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
     const { type } = progress
     if (type in TransactionProgressType) {
         if (type === TransactionProgressType.PreparedTransaction) {
-            openPopup({
-                id: PopupId.VerifyLedgerTransaction,
+            openProfileAuthPopup({
+                id: ProfileAuthPopupId.VerifyLedgerTransaction,
                 hideClose: true,
                 preventClose: true,
                 props: {
@@ -62,8 +62,8 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
             const appName =
                 get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
             if (get(ledgerDeviceState)?.settings?.[appName]?.blindSigningEnabled) {
-                openPopup({
-                    id: PopupId.VerifyLedgerTransaction,
+                openProfileAuthPopup({
+                    id: ProfileAuthPopupId.VerifyLedgerTransaction,
                     hideClose: true,
                     preventClose: true,
                     props: {
@@ -72,8 +72,8 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                     },
                 })
             } else {
-                openPopup({
-                    id: PopupId.EnableLedgerBlindSigning,
+                openProfileAuthPopup({
+                    id: ProfileAuthPopupId.EnableLedgerBlindSigning,
                     hideClose: true,
                     preventClose: true,
                     props: {
