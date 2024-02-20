@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { ProposalStatusPill } from '@views/governance'
-    import { ProposalStatusTimelineTooltip } from '@components'
+    import { ProposalStatusPill, ProposalStatusTimelineTooltip } from '@views/governance'
     import { InformationTooltip } from '@ui'
 
     import { IProposal } from '@contexts/governance/interfaces'
@@ -58,7 +57,7 @@
             bind:anchor
             milestones={proposal.milestones}
             status={proposal?.status}
-            position={placement}
+            {placement}
         />
     {/if}
 {/if}
