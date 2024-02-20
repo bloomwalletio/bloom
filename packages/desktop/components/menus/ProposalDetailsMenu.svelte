@@ -62,8 +62,8 @@
     function setItems(proposal: IProposal, isVotingForProposal: boolean): void {
         items = [
             {
-                icon: IconName.SettingsSliders,
-                title: localize('actions.changeNode'),
+                icon: IconName.LinkHorizontal,
+                title: localize('actions.changeNodeUrl'),
                 onClick: onChangeNodeClick,
             },
             {
