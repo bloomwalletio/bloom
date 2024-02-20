@@ -1,6 +1,5 @@
 <script lang="ts">
     import { BaseError } from '@core/error/classes'
-    import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { NftStandard, composeUrlFromNftUri } from '@core/nfts'
     import { MimeType } from '@core/nfts/enums'
@@ -12,10 +11,7 @@
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { OptionalInput } from '@ui'
     import { Error, TextInput } from '@bloomwalletio/ui'
-    import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
-
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     let { standard, version, type, uri, name, issuerName, description, attributes } = $mintNftCollectionDetails || {}
 
@@ -172,14 +168,6 @@
             type: type as MimeType,
         }
     }
-
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            handleError(err)
-        }
-    })
 </script>
 
 <PopupTemplate

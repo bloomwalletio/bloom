@@ -13,8 +13,6 @@
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
-
     const TABS = getTabItems([PopupTab.Transaction, PopupTab.Nft, PopupTab.NftMetadata])
 
     let selectedTab = TABS[0]
@@ -69,10 +67,9 @@
         }
     }
 
-    onMount(async () => {
+    onMount(() => {
         try {
             void setStorageDeposit()
-            await _onMount()
         } catch (err) {
             handleError(err)
         }
