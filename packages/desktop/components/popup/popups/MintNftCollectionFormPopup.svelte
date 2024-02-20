@@ -9,21 +9,11 @@
     import { IMintNftCollectionDetails } from '@core/wallet'
     import { mintNftCollectionDetails, setMintNftCollectionDetails } from '@core/wallet/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { OptionalInput } from '@ui'
+    import { IOptionalInputs, OptionalInput } from '@ui'
     import { Error, TextInput } from '@bloomwalletio/ui'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     let { standard, version, type, uri, name, issuerName, description, attributes } = $mintNftCollectionDetails || {}
-
-    interface IOptionalInputs {
-        [key: string]: {
-            inputType: 'text' | 'number'
-            isInteger?: boolean
-            value: string
-            error: string
-            isOpen?: boolean
-        }
-    }
 
     const optionalInputs: IOptionalInputs = {
         issuerName: {
