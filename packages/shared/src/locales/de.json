@@ -646,13 +646,29 @@
                 "successAddAll": "{numberOfProposals, select, one {Vorschlag} other {Vorschläge}} erfolgreich zu allen Konten hinzugefügt",
                 "successRemove": "Abstimmung erfolgreich entfernt",
                 "emptyTitle": "Keine Vorschläge",
-                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
+                "emptyDescription": "Sie können einen Vorschlag auf einem Knoten mit seiner URL und der optionalen Ereignis-ID abonnieren."
             },
             "statusTimeline": {
-                "upcoming": "Ankündigung",
-                "commencing": "Abstimmen verfügbar",
-                "holding": "Zählung beginnt",
-                "ended": "Zählung endet"
+                "upcoming": {
+                    "past": "Announced",
+                    "present": "Announcement",
+                    "future": "Announcement"
+                },
+                "commencing": {
+                    "past": "Voting opened",
+                    "present": "Voting open",
+                    "future": "Voting opens"
+                },
+                "holding": {
+                    "past": "Counting started",
+                    "present": "Counting started",
+                    "future": "Counting starts"
+                },
+                "ended": {
+                    "past": "Counting stopped",
+                    "present": "Counting stopped",
+                    "future": "Counting stops"
+                }
             },
             "details": {
                 "yourVote": {
@@ -846,10 +862,8 @@
             "updatingNode": "Node aktualisieren",
             "loadingNodeInfo": "Lade Node-Informationen",
             "nodeAddress": "Node-Adresse",
-            "optionalUsername": "Benutzername (optional)",
-            "optionalPassword": "Passwort (optional)",
-            "optionalJwt": "JSON-Web-Token (optional)",
             "removeConfirmation": "Willst du diesen Node wirklich löschen?",
+            "requiresAuthentication": "Node requires authentication",
             "info": {
                 "general": {
                     "tab": "Allgemein",
@@ -884,7 +898,9 @@
                     "decimals": "Dezimalstellen",
                     "useMetricPrefix": "Metrisches Präfix verwenden"
                 }
-            }
+            },
+            "jwt": "JSON web token",
+            "credentials": "Sign-in credentials"
         },
         "errorLog": {
             "title": "Fehlerprotokoll",
@@ -956,7 +972,11 @@
             "success": "Signierte Nachricht"
         },
         "siwe": {
-            "title": "Sign-In with Ethereum"
+            "title": "Anmelden mit Ethereum",
+            "domain": "Domain",
+            "statement": "Statement",
+            "resources": "Resources",
+            "action": "Sign in"
         },
         "signTransaction": {
             "title": "Transaktion signieren",
@@ -1137,7 +1157,7 @@
             "errors": {
                 "invalidMimetype": "Ungültiger MimeTyp, überprüfen Sie, ob der Dateityp unterstützt wird",
                 "quantityTooSmall": "Menge muss größer als Null sein",
-                "quantityTooLarge": "Menge muss kleiner als 64 sein",
+                "quantityTooLarge": "Quantity needs to be smaller than 127",
                 "emptyName": "Name ist ein Pflichtfeld",
                 "invalidURI": "Ungültige URL, bitte gib eine gültige URL ein",
                 "notReachable": "URI nicht erreichbar, NFT Typ kann nicht überprüft werden",
@@ -1165,7 +1185,8 @@
         "addProposal": {
             "title": "Vorschlag hinzufügen",
             "body": "Bitte gib die unten aufgeführten Informationen an, um einen Vorschlag hinzuzufügen.",
-            "addToAllAccounts": "Vorschlag zu allen Konten hinzufügen"
+            "addToAllAccounts": "Vorschlag zu allen Konten hinzufügen",
+            "addAllProposalsOnNode": "Add all proposals on this node"
         },
         "editProposal": {
             "title": "Vorschlag bearbeiten",
@@ -1334,6 +1355,7 @@
         "addProposal": "Vorschlag hinzufügen",
         "removeProposal": "Abstimmung entfernen",
         "changeNode": "Node wechseln",
+        "changeNodeUrl": "Change node URL",
         "stopVoting": "Abstimmen beenden",
         "revote": "Wiederabstimmen",
         "skipAndKeep": "Überspringen und altes Passwort behalten",
@@ -1342,10 +1364,12 @@
         "switchAccount": "Konto wechseln",
         "syncAccounts": "Konten synchronisieren",
         "importToken": "{type} Token importiert",
-        "syncTokens": "Token-Synchronisation erzwingen"
+        "syncTokens": "Token-Synchronisation erzwingen",
+        "mintNftCollection": "Mint NFT collection"
     },
     "general": {
         "recipient": "Empfänger",
+        "username": "Username",
         "password": "Passwort",
         "confirmPassword": "Passwort bestätigen",
         "currentPassword": "Aktuelles Passwort",
@@ -1562,7 +1586,9 @@
         "raffle": "Tombola",
         "governance": "Governance",
         "baseCoin": "Basis-Token",
-        "unverifiedContract": "Unverifizierter Vertrag"
+        "unverifiedContract": "Unverifizierter Vertrag",
+        "startIndex": "Start index",
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
     },
     "filters": {
         "title": "Filter",
@@ -1770,6 +1796,9 @@
         "updateNetworkAddresses": {
             "success": "Kontaktadressen erfolgreich aktualisiert"
         },
+        "siwe": {
+            "rejected": "Invalid SIWE request"
+        },
         "syncTokens": {
             "success": "Token erfolgreich synchronisiert"
         }
@@ -1779,7 +1808,7 @@
             "length": "Dein Profilname darf nicht länger als {length, plural, one {1 Zeichen} other {# Zeichen}} sein.",
             "duplicate": "Ein Profil mit diesem Namen existiert bereits.",
             "type": "Profiltyp konnte nicht ermittelt werden",
-            "authenticationInterrupted": "Authentication was interrupted"
+            "authenticationInterrupted": "Authentifizierung unterbrochen"
         },
         "password": {
             "doNotMatch": "Die Passwörter stimmen nicht überein.",
@@ -1986,7 +2015,7 @@
             "invalidProtocol": "Ungültiges Protokoll, muss mit 'wc' beginnen.",
             "deprecatedVersion": "dApp verwendet eine veraltete WalletConnect-Version.",
             "invalidV2UriFormat": "Der Link entspricht nicht der WalletConnect V2 Spezifikation.",
-            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
+            "signTypedData": "Bloom unterstützt eth_signedTypedData V1 aus Sicherheitsgründen nicht"
         },
         "web3": {
             "unableToGetProvider": "Web3-Anbieter konnte nicht geladen werden.",
@@ -2043,7 +2072,8 @@
             "description": "Optionaler Parameter: Eine Beschreibung des NFT",
             "attributes": "Optionaler Parameter: Eine Reihe von Merkmalen und Werten, die Attribute der NFT definieren",
             "uri": "Um eine URI mittels benutzerdefinierter Medien zu erstellen, laden Sie zuerst Ihre Datei über einen Speicherdienst auf IPFS hoch (z.B. https://nft.storage/)",
-            "quantity": "Optionaler Parameter: Die Anzahl der mit diesen Metadaten gemintete Kopien."
+            "quantity": "Optionaler Parameter: Die Anzahl der mit diesen Metadaten gemintete Kopien.",
+            "startIndex": "Optional parameter: The start index of the NFTs to mint."
         },
         "governance": {
             "removeProposalWarning": "Du musst das Abstimmen für diesen Vorschlag stoppen, bevor du sie entfernen kannst.",
@@ -2069,7 +2099,7 @@
         "collectibles": "Sammlerstücke",
         "governance": "Governance",
         "campaigns": "Kampagnen",
-        "buySell": "Kaufen & Verkaufen",
+        "buySell": "Buy IOTA",
         "developer": "Entwickler",
         "tokens": "Token",
         "settings": "Einstellungen"
@@ -2102,6 +2132,12 @@
             "notConnected": "Nicht verbunden",
             "locked": "Gerät gesperrt",
             "appNotOpen": "App nicht geöffnet"
+        },
+        "dappVerification": {
+            "valid": "Verified",
+            "invalid": "Domain Mismatch",
+            "unknown": "Cannot verify",
+            "scam": "Security Risk"
         }
     },
     "menus": {
