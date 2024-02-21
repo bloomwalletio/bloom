@@ -104,13 +104,13 @@ export class Ledger {
                 ),
             'evm-signed-transaction'
         )
+        closeProfileAuthPopup({ forceClose: true })
 
         if (transactionSignature) {
             const { r, v, s } = transactionSignature
             if (r && v && s) {
                 return prepareEvmTransaction(transactionData, chainId, { r, v, s })
             } else {
-                closeProfileAuthPopup({ forceClose: true })
                 throw new Error(localize('error.ledger.rejected'))
             }
         }
@@ -133,6 +133,7 @@ export class Ledger {
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
             'signed-message'
         )
+        closeProfileAuthPopup({ forceClose: true })
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
@@ -177,6 +178,7 @@ export class Ledger {
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEIP712, hashedDomain, hashedMessage, bip32Path),
             'signed-eip712'
         )
+        closeProfileAuthPopup({ forceClose: true })
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
