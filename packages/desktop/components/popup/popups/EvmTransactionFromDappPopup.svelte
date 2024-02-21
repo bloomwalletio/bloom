@@ -154,6 +154,7 @@
         slot="banner"
         metadata={dapp.metadata}
         {verifiedState}
+        showLink={false}
         classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
     />
 

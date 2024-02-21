@@ -19,7 +19,12 @@
         onClick: closePopup,
     }}
 >
-    <DappInfo slot="banner" metadata={dapp.metadata} classes="bg-surface-1 dark:bg-surface-1-dark pb-4" />
+    <DappInfo
+        slot="banner"
+        metadata={dapp.metadata}
+        showLink={false}
+        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+    />
     <div slot="description">
         <div class="flex flex-col items-center justify-between gap-3">
             <SuccessSvg />

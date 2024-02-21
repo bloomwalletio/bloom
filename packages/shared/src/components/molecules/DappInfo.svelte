@@ -1,12 +1,14 @@
 <script lang="ts">
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { CoreTypes } from '@walletconnect/types'
-    import { Avatar, Icon, IconName, Text } from '@bloomwalletio/ui'
+    import { Avatar, Icon, IconName, Link, Text } from '@bloomwalletio/ui'
     import { DappVerificationPill } from '@ui'
     import { VERIFICATION_ICONS } from '@auxiliary/wallet-connect/constants/verification-icons.constant'
+    import { openUrlInBrowser } from '@core/app/utils'
 
     export let metadata: CoreTypes.Metadata
     export let verifiedState: DappVerification | undefined = undefined
+    export let showLink: boolean = true
     export let classes: string = ''
 </script>
 
@@ -27,9 +29,13 @@
                     {@const { color, icon } = VERIFICATION_ICONS[verifiedState]}
                     <Icon name={icon} size="xs" textColor={color} />
                 {/if}
-                <Text type="sm" textColor="secondary" truncate>
-                    {metadata.url}
-                </Text>
+                {#if showLink}
+                    <Link text={metadata?.url} on:click={() => openUrlInBrowser(metadata.url)} />
+                {:else}
+                    <Text type="sm" textColor="secondary" truncate>
+                        {metadata.url}
+                    </Text>
+                {/if}
             </div>
         {/if}
     </div>
