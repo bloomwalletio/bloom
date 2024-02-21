@@ -267,7 +267,7 @@ export function createMainWindow(): BrowserWindow {
 
     windows.main.webContents.setWindowOpenHandler((details) => {
         try {
-            void shell.openExternal(details.url)
+            windows.main.webContents.send('try-open-url-in-browser', details.url)
         } catch (err) {
             console.error(err)
         }
