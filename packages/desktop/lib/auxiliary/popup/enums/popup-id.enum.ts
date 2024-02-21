@@ -15,7 +15,6 @@ export enum PopupId {
     DeepLinkError = 'deepLinkError',
     DappAccountSwitcher = 'dappAccountSwitcher',
     Diagnostics = 'diagnostics',
-    EnableLedgerBlindSigning = 'enableLedgerBlindSigning',
     ErrorLog = 'errorLog',
     EvmTransactionFromDapp = 'EvmTransactionFromDapp',
     FaucetRequest = 'faucetRequest',

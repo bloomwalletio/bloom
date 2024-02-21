@@ -6,7 +6,7 @@
     import { signAndSendTransactionFromEvm } from '@core/wallet/actions'
     import { selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
-    import { TransactionAssetSection } from '@ui'
+    import { DappInfo, TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { EvmTransactionData } from '@core/layer-2/types'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
@@ -20,7 +20,6 @@
     import { TokenTransferData } from '@core/wallet'
     import { Nft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import DappDataBanner from '@components/DappDataBanner.svelte'
     import { Alert, Table } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { truncateString } from '@core/utils'
@@ -29,11 +28,13 @@
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
-    export let dapp: IConnectedDapp | undefined
+    export let dapp: IConnectedDapp
     export let signAndSend: boolean
+    export let verifiedState: DappVerification
     export let callback: (params: CallbackParameters) => void
 
     const { id } = chain.getConfiguration()
@@ -149,7 +150,13 @@
     }}
     {busy}
 >
-    <DappDataBanner slot="banner" {dapp} />
+    <DappInfo
+        slot="banner"
+        metadata={dapp.metadata}
+        {verifiedState}
+        showLink={false}
+        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+    />
 
     <div class="space-y-5">
         {#if isSmartContractCall}

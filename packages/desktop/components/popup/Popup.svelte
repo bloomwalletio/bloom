@@ -32,7 +32,6 @@
     import DappAccountSwitcherPopup from './popups/DappAccountSwitcherPopup.svelte'
     import DeepLinkErrorPopup from './popups/DeepLinkErrorPopup.svelte'
     import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
-    import EnableLedgerBlindSigningPopup from './popups/EnableLedgerBlindSigningPopup.svelte'
     import ErrorLogPopup from './popups/ErrorLogPopup.svelte'
     import EvmTransactionFromDappPopup from './popups/EvmTransactionFromDappPopup.svelte'
     import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
@@ -61,7 +60,6 @@
     import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
     import UnlockStrongholdPopup from './popups/UnlockStrongholdPopup.svelte'
-    import VerifyLedgerTransactionPopup from './popups/VerifyLedgerTransactionPopup.svelte'
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
     import { localize } from '@core/i18n'
@@ -112,7 +110,6 @@
         [PopupId.DappAccountSwitcher]: DappAccountSwitcherPopup,
         [PopupId.DeepLinkError]: DeepLinkErrorPopup,
         [PopupId.Diagnostics]: DiagnosticsPopup,
-        [PopupId.EnableLedgerBlindSigning]: EnableLedgerBlindSigningPopup,
         [PopupId.ErrorLog]: ErrorLogPopup,
         [PopupId.EvmTransactionFromDapp]: EvmTransactionFromDappPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
@@ -141,7 +138,6 @@
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,
         [PopupId.UnlockStronghold]: UnlockStrongholdPopup,
-        [PopupId.VerifyLedgerTransaction]: VerifyLedgerTransactionPopup,
         [PopupId.VoteForProposal]: VoteForProposal,
         [PopupId.VotingPowerToZero]: VotingPowerToZeroPopup,
     }

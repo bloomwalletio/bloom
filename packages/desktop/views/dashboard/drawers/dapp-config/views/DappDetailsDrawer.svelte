@@ -6,7 +6,8 @@
     import { localize } from '@core/i18n'
     import { Table, Text } from '@bloomwalletio/ui'
     import { DappActionsMenu } from '@components/menus'
-    import { ConnectionSummary, DappInformationCard } from '../components'
+    import { ConnectionSummary } from '../components'
+    import { DappInfo } from '@ui'
 
     export let drawerRouter: Router<unknown>
 
@@ -28,7 +29,7 @@
         <DappActionsMenu {drawerRouter} {dapp} />
     </div>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
-        <DappInformationCard metadata={dapp?.metadata} />
+        <DappInfo metadata={dapp?.metadata} />
 
         <div class="flex-grow overflow-hidden">
             <div class="h-full space-y-6 overflow-scroll px-6 pb-4">

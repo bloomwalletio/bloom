@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { IProposalsDetails } from '@contexts/governance/interfaces'
+    import { IProposalListDetails } from '@contexts/governance/interfaces'
     import {
         participationOverviewForSelectedAccount,
         registeredProposalsForSelectedAccount,
@@ -16,12 +16,10 @@
     import { localize } from '@core/i18n'
     import { activeProfileId } from '@core/profile/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { Text } from '@ui'
-    import { FontWeight } from '@ui/enums'
     import { onMount } from 'svelte'
-    import { Button } from '@bloomwalletio/ui'
+    import { Button, Text } from '@bloomwalletio/ui'
 
-    let details = <IProposalsDetails>{
+    let details = <IProposalListDetails>{
         totalProposals: null,
         activeProposals: null,
         votingProposals: null,
@@ -29,10 +27,10 @@
     }
 
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
-    $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalsDetails()
+    $: $registeredProposalsForSelectedAccount, $participationOverviewForSelectedAccount, updateProposalListDetails()
     $: $selectedAccount, void setParticipationOverview()
 
-    function updateProposalsDetails(): void {
+    function updateProposalListDetails(): void {
         if ($activeProfileId) {
             details = {
                 totalProposals: getNumberOfTotalProposals(),
@@ -59,8 +57,8 @@
     onMount(setParticipationOverview)
 </script>
 
-<proposals-details class="space-y-4">
-    <Text fontSize="14" fontWeight={FontWeight.semibold}>
+<proposal-list-details class="space-y-6">
+    <Text type="body2">
         {localize('views.governance.proposalsDetails.title')}
     </Text>
     <Table
@@ -70,4 +68,4 @@
         }))}
     />
     <Button variant="outlined" on:click={onAddProposalClick} width="full" text={localize('actions.addProposal')} />
-</proposals-details>
+</proposal-list-details>

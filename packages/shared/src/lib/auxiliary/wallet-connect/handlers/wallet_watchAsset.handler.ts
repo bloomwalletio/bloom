@@ -31,7 +31,7 @@ type WatchAssetParams =
 
 export function handleWatchAsset(
     params: WatchAssetParams,
-    dapp: IConnectedDapp | undefined,
+    dapp: IConnectedDapp,
     chain: IChain,
     responseCallback: (params: CallbackParameters) => void
 ): void {

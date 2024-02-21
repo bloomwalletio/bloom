@@ -7,13 +7,15 @@ import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app/classes'
 import { SignTypedDataVersion } from '@metamask/eth-sig-util'
 import { localize } from '@core/i18n'
+import { DappVerification } from '../enums'
 
 export async function handleEthSignTypedData(
     params: unknown,
     method: string,
-    dapp: IConnectedDapp | undefined,
+    dapp: IConnectedDapp,
     chain: IChain,
-    responseCallback: (params: CallbackParameters) => void
+    responseCallback: (params: CallbackParameters) => void,
+    verifiedState: DappVerification
 ): Promise<void> {
     if (!params || !Array.isArray(params)) {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
@@ -46,6 +48,7 @@ export async function handleEthSignTypedData(
                 dapp,
                 account,
                 chain,
+                verifiedState,
                 callback: responseCallback,
                 onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
             },
