@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { LedgerAppName, ledgerDeviceState } from '@core/ledger'
     import { UiEventFunction } from '@core/utils'
-    import { closePopup } from '@desktop/auxiliary/popup'
+    import { closeProfileAuthPopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let appName: LedgerAppName
@@ -12,9 +12,8 @@
     export let onClose: UiEventFunction = () => {}
 
     const STEPS = [1, 2, 3, 4]
-
     $: if ($ledgerDeviceState && $ledgerDeviceState.settings[appName]?.blindSigningEnabled) {
-        closePopup({ forceClose: true })
+        closeProfileAuthPopup({ forceClose: true })
         onEnabled && onEnabled()
     }
 

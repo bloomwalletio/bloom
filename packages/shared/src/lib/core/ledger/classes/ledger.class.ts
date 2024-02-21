@@ -11,7 +11,11 @@ import {
 import { Converter, MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { TypedTxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
-import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
+import {
+    ProfileAuthPopupId,
+    closeProfileAuthPopup,
+    openProfileAuthPopup,
+} from '../../../../../../desktop/lib/auxiliary/popup'
 import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
@@ -79,8 +83,8 @@ export class Ledger {
             await this.userEnablesBlindSigning()
         }
 
-        openPopup({
-            id: PopupId.VerifyLedgerTransaction,
+        openProfileAuthPopup({
+            id: ProfileAuthPopupId.VerifyLedgerTransaction,
             hideClose: true,
             preventClose: true,
             props: {
@@ -100,21 +104,21 @@ export class Ledger {
                 ),
             'evm-signed-transaction'
         )
+        closeProfileAuthPopup({ forceClose: true })
 
         if (transactionSignature) {
             const { r, v, s } = transactionSignature
             if (r && v && s) {
                 return prepareEvmTransaction(transactionData, chainId, { r, v, s })
             } else {
-                closePopup({ forceClose: true })
                 throw new Error(localize('error.ledger.rejected'))
             }
         }
     }
 
     static async signMessage(rawMessage: string, bip44: Bip44): Promise<string | undefined> {
-        openPopup({
-            id: PopupId.VerifyLedgerTransaction,
+        openProfileAuthPopup({
+            id: ProfileAuthPopupId.VerifyLedgerTransaction,
             hideClose: true,
             preventClose: true,
             props: {
@@ -129,6 +133,7 @@ export class Ledger {
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
             'signed-message'
         )
+        closeProfileAuthPopup({ forceClose: true })
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
@@ -147,8 +152,8 @@ export class Ledger {
         version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4
     ): Promise<string | undefined> {
         const rawMessage = JSON.parse(jsonString)
-        openPopup({
-            id: PopupId.VerifyLedgerTransaction,
+        openProfileAuthPopup({
+            id: ProfileAuthPopupId.VerifyLedgerTransaction,
             hideClose: true,
             preventClose: true,
             props: {
@@ -173,6 +178,7 @@ export class Ledger {
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEIP712, hashedDomain, hashedMessage, bip32Path),
             'signed-eip712'
         )
+        closeProfileAuthPopup({ forceClose: true })
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
@@ -219,8 +225,8 @@ export class Ledger {
     private static userEnablesBlindSigning(): Promise<void> {
         return new Promise((resolve, reject) => {
             let isDisabled = true
-            openPopup({
-                id: PopupId.EnableLedgerBlindSigning,
+            openProfileAuthPopup({
+                id: ProfileAuthPopupId.EnableLedgerBlindSigning,
                 props: {
                     appName: LedgerAppName.Ethereum,
                     onEnabled: () => {
