@@ -1,4 +1,6 @@
 export { default as ActivityInformation } from './ActivityInformation.svelte'
+export { default as DappInfo } from './DappInfo.svelte'
+export { default as DappVerificationIcon } from './DappVerificationIcon.svelte'
 export { default as LedgerStatusIllustration } from './LedgerStatusIllustration.svelte'
 export { default as MarkdownBlock } from './MarkdownBlock.svelte'
 export { default as MediaIcon } from './MediaIcon.svelte'
