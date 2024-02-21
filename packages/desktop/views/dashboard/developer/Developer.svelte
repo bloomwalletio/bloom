@@ -9,6 +9,7 @@
         FaucetRequestButton,
         MintNativeTokenButton,
         MintNftButton,
+        MintNftCollectionButton,
         TestDeepLinkButton,
     } from './components'
     import { DashboardRoute, dashboardRouter } from '@core/router'
@@ -29,6 +30,9 @@
                     {/if}
                     {#if features.developerTools.mintNativeTokens.enabled}
                         <MintNativeTokenButton />
+                    {/if}
+                    {#if features.developerTools.mintNftCollection.enabled}
+                        <MintNftCollectionButton />
                     {/if}
                     {#if features.developerTools.mintNft.enabled}
                         <MintNftButton />

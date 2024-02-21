@@ -6,7 +6,7 @@
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
     import { Alert, Button, Table } from '@bloomwalletio/ui'
-    import { ProposalDetailsMenu, ProposalInformationPane, ProposalQuestion } from '@components'
+    import { ProposalDetailsMenu } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
         clearParticipationEventStatusPoll,
@@ -35,7 +35,7 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { ProposalStatusPill } from '@views/governance'
+    import { ProposalInformationPane, ProposalQuestion, ProposalStatusPill } from '@views/governance'
     import { MarkdownBlock, Pane, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
@@ -211,7 +211,7 @@
     })
 </script>
 
-<proposal-details class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-4 bg-gray-50 dark:bg-gray-900">
+<proposal-details class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-4">
     <div class="w-2/5 flex flex-col space-y-4 relative">
         <Pane classes="p-6 flex flex-col h-fit">
             <header-container class="flex justify-between items-center mb-4">
@@ -242,7 +242,7 @@
                 ]}
             />
         </Pane>
-        <ProposalInformationPane classes="shrink-0" />
+        <ProposalInformationPane />
     </div>
     <Pane classes="w-3/5 h-full p-6 pr-3 flex flex-col justify-between">
         <proposal-questions

@@ -1,13 +1,11 @@
 <script lang="ts">
     import { EventStatus } from '@iota/sdk/out/types'
-    import { Table } from '@bloomwalletio/ui'
-    import { Pane, Text } from '@ui'
+    import { Table, Text } from '@bloomwalletio/ui'
+    import { Pane } from '@ui'
     import { formatDate, localize } from '@core/i18n'
     import { DATE_FORMAT, milestoneToDate, truncateString } from '@core/utils'
     import { networkStatus } from '@core/network/stores'
     import { selectedProposal } from '@contexts/governance/stores'
-
-    export let classes: string = ''
 
     interface IProposalDateData {
         propertyKey: 'votingOpens' | 'countingStarts' | 'countingEnds' | 'countingEnded'
@@ -44,10 +42,8 @@
     }
 </script>
 
-<Pane classes="p-6 h-fit {classes}">
-    <Text smaller classes="mb-5">
-        {localize('views.governance.details.proposalInformation.title')}
-    </Text>
+<Pane classes="h-fit shrink-0 space-y-6 p-6">
+    <Text type="body2">{localize('views.governance.details.proposalInformation.title')}</Text>
     <Table
         items={[
             {
