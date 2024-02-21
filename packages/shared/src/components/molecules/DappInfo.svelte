@@ -3,7 +3,7 @@
     import { CoreTypes } from '@walletconnect/types'
     import { Avatar, Icon, IconName, Text } from '@bloomwalletio/ui'
     import { DappVerificationPill } from '@ui'
-    import { VERIFICATION_ICONS } from '@auxiliary/wallet-connect/constants'
+    import { VERIFICATION_ICONS } from '@auxiliary/wallet-connect/constants/verification-icons.constant'
 
     export let metadata: CoreTypes.Metadata
     export let verifiedState: DappVerification | undefined = undefined
