@@ -8,6 +8,8 @@
     // Popups
     import ConnectLedgerPopup from './profileAuthPopups/ConnectLedgerPopup.svelte'
     import UnlockStrongholdPopup from './profileAuthPopups/UnlockStrongholdPopup.svelte'
+    import VerifyLedgerTransactionPopup from './profileAuthPopups/VerifyLedgerTransactionPopup.svelte'
+    import EnableLedgerBlindSigningPopup from './profileAuthPopups/EnableLedgerBlindSigningPopup.svelte'
 
     export let id: ProfileAuthPopupId
     export let props: any
@@ -40,6 +42,10 @@
             <ConnectLedgerPopup {...props} />
         {:else if id === ProfileAuthPopupId.UnlockStronghold}
             <UnlockStrongholdPopup {...props} />
+        {:else if id === ProfileAuthPopupId.EnableLedgerBlindSigning}
+            <EnableLedgerBlindSigningPopup {...props} />
+        {:else if id === ProfileAuthPopupId.VerifyLedgerTransaction}
+            <VerifyLedgerTransactionPopup {...props} />
         {/if}
         {#if !hideClose}
             <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-8 right-8 p-2" />
