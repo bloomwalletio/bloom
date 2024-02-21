@@ -5,7 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Alert, Button, Table } from '@bloomwalletio/ui'
+    import { Alert, Button, MarkdownBlock, Table } from '@bloomwalletio/ui'
     import { ProposalDetailsMenu } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
@@ -36,7 +36,7 @@
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ProposalInformationPane, ProposalQuestion, ProposalStatusPill } from '@views/governance'
-    import { MarkdownBlock, Pane, Text, TextType } from '@ui'
+    import { Pane, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}

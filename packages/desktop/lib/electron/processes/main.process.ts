@@ -265,6 +265,15 @@ export function createMainWindow(): BrowserWindow {
         cb('')
     })
 
+    windows.main.webContents.setWindowOpenHandler((details) => {
+        try {
+            windows.main.webContents.send('try-open-url-in-browser', details.url)
+        } catch (err) {
+            console.error(err)
+        }
+        return { action: 'deny' }
+    })
+
     /**
      * Handle permissions requests
      */
