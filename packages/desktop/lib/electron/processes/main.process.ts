@@ -265,6 +265,15 @@ export function createMainWindow(): BrowserWindow {
         cb('')
     })
 
+    windows.main.webContents.setWindowOpenHandler((details) => {
+        try {
+            void shell.openExternal(details.url)
+        } catch (err) {
+            console.error(err)
+        }
+        return { action: 'deny' }
+    })
+
     /**
      * Handle permissions requests
      */
