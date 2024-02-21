@@ -975,7 +975,10 @@
         },
         "siwe": {
             "title": "Sign-In with Ethereum",
-            "collapsibleTitle": "More details",
+            "details": "Details",
+            "ressources": "Ressources",
+            "raw": "Raw",
+            "rawMessage": "Raw message",
             "domain": "Domain",
             "statement": "Statement",
             "resources": "Resources",
