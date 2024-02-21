@@ -111,7 +111,7 @@
             clearPadding
             clearBorder
             {disabled}
-            fontSize="32"
+            fontSize="text-32"
         />
     </div>
 

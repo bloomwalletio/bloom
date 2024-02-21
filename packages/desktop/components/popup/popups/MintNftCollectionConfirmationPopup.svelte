@@ -7,7 +7,7 @@
     import { getClient } from '@core/profile-manager'
     import { checkActiveProfileAuthAsync, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
-    import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
+    import { buildNftOutputBuilderParams, mintNftCollection, mintNftCollectionDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { MediaIcon, PopupTab, getTabItems } from '@ui'
     import { onMount } from 'svelte'
@@ -18,21 +18,7 @@
     let selectedTab = TABS[0]
 
     let storageDeposit: number = 0
-    let totalStorageDeposit: number = 0
-    const {
-        standard,
-        type,
-        uri,
-        name,
-        collectionName,
-        royalties,
-        issuerName,
-        description,
-        attributes,
-        quantity,
-        collectionId,
-        startIndex,
-    } = $mintNftDetails || {}
+    const { standard, type, uri, name, issuerName, description, attributes } = $mintNftCollectionDetails || {}
 
     $: irc27Metadata = {
         standard,
@@ -40,8 +26,6 @@
         name,
         type,
         uri,
-        ...(collectionName && { collectionName }),
-        ...(royalties && { royalties }),
         ...(issuerName && { issuerName }),
         ...(description && { description }),
         ...(attributes && { attributes }),
@@ -54,7 +38,6 @@
             const preparedOutput = await client.buildNftOutput(outputData)
 
             storageDeposit = Number(preparedOutput.amount) ?? 0
-            totalStorageDeposit = storageDeposit * quantity
         } catch (err) {
             handleError(err)
         }
@@ -63,7 +46,7 @@
     function onBackClick(): void {
         closePopup()
         openPopup({
-            id: PopupId.MintNftForm,
+            id: PopupId.MintNftCollectionForm,
             overflow: true,
             confirmClickOutside: true,
         })
@@ -77,7 +60,7 @@
         }
 
         try {
-            await mintNft(irc27Metadata, startIndex, quantity, collectionId)
+            await mintNftCollection(irc27Metadata)
             closePopup()
         } catch (err) {
             handleError(err)
@@ -118,27 +101,8 @@
                     <Table
                         items={[
                             {
-                                key: localize('general.quantity'),
-                                value: quantity > 1 ? quantity : undefined,
-                            },
-                            {
-                                key: localize('general.storageDepositPerNft'),
-                                value:
-                                    quantity > 1 ? formatTokenAmountPrecise(storageDeposit, getBaseToken()) : undefined,
-                            },
-                            {
-                                key: localize('general.totalStorageDeposit'),
-                                value:
-                                    quantity > 1
-                                        ? formatTokenAmountPrecise(totalStorageDeposit, getBaseToken())
-                                        : undefined,
-                            },
-                            {
                                 key: localize('general.storageDeposit'),
-                                value:
-                                    quantity === 1
-                                        ? formatTokenAmountPrecise(storageDeposit, getBaseToken())
-                                        : undefined,
+                                value: formatTokenAmountPrecise(storageDeposit, getBaseToken()),
                             },
                             {
                                 key: localize('general.immutableIssuer'),
@@ -165,10 +129,6 @@
                             {
                                 key: localize('general.issuerName'),
                                 value: issuerName ? issuerName : undefined,
-                            },
-                            {
-                                key: localize('general.collectionName'),
-                                value: collectionName ? collectionName : undefined,
                             },
                         ]}
                     />
