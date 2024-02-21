@@ -7,8 +7,8 @@
     import { signMessage } from '@core/wallet/actions'
     import { Table, Tabs, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { IChain } from '@core/network'
-    import { AccountLabel, DappInfo, KeyValue } from '@ui'
+    import { IChain, NetworkId, getNameFromNetworkId } from '@core/network'
+    import { AccountLabel, DappInfo, KeyValue, NetworkLabel } from '@ui'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -37,8 +37,8 @@
     ]
 
     let selectedTab = TABS[0]
-
     let isBusy = false
+    const networkId = `eip155:${siweObject.chainId}` as NetworkId
 
     async function onConfirmClick(): Promise<void> {
         try {
@@ -94,14 +94,14 @@
     />
 
     <div class="space-y-5">
+        <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4">
+            <Text fontWeight="medium">{localize('popups.siwe.statement')}</Text>
+            <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
+                >{siweObject.statement}</Text
+            >
+        </div>
         <Tabs bind:selectedTab tabs={TABS} />
         {#if selectedTab.key === Tab.Details}
-            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4">
-                <Text fontWeight="medium">{localize('popups.siwe.statement')}</Text>
-                <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
-                    >{siweObject.statement}</Text
-                >
-            </div>
             <Table
                 items={[
                     {
@@ -110,7 +110,15 @@
                     },
                     {
                         key: localize('popups.siwe.chainId'),
-                        value: siweObject.chainId,
+                        value: networkId,
+                        slot: getNameFromNetworkId(networkId)
+                            ? {
+                                  component: NetworkLabel,
+                                  props: {
+                                      networkId,
+                                  },
+                              }
+                            : undefined,
                     },
                     {
                         key: localize('general.account'),
