@@ -8,8 +8,7 @@ import { showNotification } from '@auxiliary/notification'
 import {
     closeProfileAuthPopup,
     openProfileAuthPopup,
-    PopupId,
-    popupState,
+    profileAuthPopup,
     ProfileAuthPopupId,
 } from '../../../../../../desktop/lib/auxiliary/popup'
 
@@ -27,7 +26,7 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
         handleGenericError(error)
     }
 
-    const popupType = get(popupState)?.id
+    const popupType = get(profileAuthPopup)?.id
 
     const wasDeniedByUser = ledgerError === LedgerError.DeniedByUser
 
@@ -48,7 +47,7 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
      * while it's disabled, the user has to manually reject it on the device. This results in
      * an error, however it is bad UX to display it to the user when they meant to do it.
      */
-    const hadToEnableBlindSinging = popupType === PopupId.EnableLedgerBlindSigning && wasDeniedByUser
+    const hadToEnableBlindSinging = popupType === ProfileAuthPopupId.EnableLedgerBlindSigning && wasDeniedByUser
     if (hadToEnableBlindSinging) {
         const appName =
             get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
