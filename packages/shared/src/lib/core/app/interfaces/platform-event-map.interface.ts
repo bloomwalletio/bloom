@@ -27,4 +27,5 @@ export interface IPlatformEventMap {
     'version-details': IAppVersionDetails
     'version-error': Error
     'version-progress': IAppUpdateDownloadProgress
+    'try-open-url-in-browser': string
 }
