@@ -24,6 +24,7 @@ export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial 
     const ledgerError = deriveLedgerError(error?.error)
     if (!ledgerError || !(ledgerError in LEDGER_ERROR_LOCALES)) {
         handleGenericError(error)
+        return
     }
 
     const popupType = get(profileAuthPopup)?.id
