@@ -1,7 +1,6 @@
 export { default as AccountSelection } from './AccountSelection.svelte'
 export { default as ConnectionSummary } from './ConnectionSummary.svelte'
 export { default as DappCard } from './DappCard.svelte'
-export { default as DappInformationCard } from './DappInformationCard.svelte'
 export { default as EditSelectionDrawer } from './EditSelectionDrawer.svelte'
 export { default as NetworkSelection } from './NetworkSelection.svelte'
 export { default as PermissionSelection } from './PermissionSelection.svelte'

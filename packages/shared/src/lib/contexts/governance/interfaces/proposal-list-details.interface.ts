@@ -1,4 +1,4 @@
-export interface IProposalsDetails {
+export interface IProposalListDetails {
     totalProposals: number
     activeProposals: number
     votingProposals: number

@@ -8,11 +8,10 @@
     import { Alert, Table } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { IChain } from '@core/network'
-    import { AccountLabel } from '@ui'
+    import { AccountLabel, DappInfo } from '@ui'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import DappDataBanner from '@components/DappDataBanner.svelte'
     import { ParsedMessage } from '@spruceid/siwe-parser'
 
     export let rawMessage: string
@@ -69,7 +68,13 @@
     }}
     busy={isBusy}
 >
-    <DappDataBanner slot="banner" {dapp} />
+    <DappInfo
+        slot="banner"
+        metadata={dapp.metadata}
+        showLink={false}
+        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+    />
+
     <div class="space-y-5">
         <Table
             items={[
