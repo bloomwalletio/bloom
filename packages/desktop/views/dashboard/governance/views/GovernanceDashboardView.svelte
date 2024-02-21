@@ -1,6 +1,6 @@
 <script lang="ts">
     import { IconName } from '@bloomwalletio/ui'
-    import { EmptyListPlaceholder, ProposalsDetails } from '@components'
+    import { EmptyListPlaceholder, ProposalListDetails } from '@components'
     import { Pane } from '@ui'
     import { ManageVotingPowerPane } from '../components'
     import { localize } from '@core/i18n'
@@ -12,7 +12,7 @@
     <div class="w-1/3 flex flex-col space-y-4">
         <ManageVotingPowerPane />
         <Pane classes="p-6 h-fit">
-            <ProposalsDetails />
+            <ProposalListDetails />
         </Pane>
     </div>
     <span class="block w-0.5 h-full bg-gray-200 dark:bg-gray-800" />
