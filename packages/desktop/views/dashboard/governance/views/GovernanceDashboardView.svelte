@@ -15,7 +15,6 @@
             <ProposalListDetails />
         </Pane>
     </div>
-    <span class="block w-0.5 h-full bg-gray-200 dark:bg-gray-800" />
     <div class="w-2/3">
         {#if Object.keys($registeredProposalsForSelectedAccount).length}
             <ProposalList />
