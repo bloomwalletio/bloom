@@ -28,6 +28,8 @@ export enum PopupId {
     MintNativeTokenForm = 'mintNativeTokenForm',
     MintNftConfirmation = 'mintNftConfirmation',
     MintNftForm = 'mintNftForm',
+    MintNftCollectionForm = 'mintNftCollectionForm',
+    MintNftCollectionConfirmation = 'mintNftCollectionConfirmation',
     NodeAuthRequired = 'nodeAuthRequired',
     NodeInfo = 'nodeInfo',
     ReceiveAddress = 'receiveAddress',

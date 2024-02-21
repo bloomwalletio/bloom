@@ -6,6 +6,7 @@ import { CallbackParameters } from '../types'
 import { switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
+import { DappVerification } from '../enums'
 import { parseSiweMessage, validateSiwe } from '@core/layer-2'
 import { showNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
@@ -15,7 +16,8 @@ export async function handleSignMessage(
     dapp: IConnectedDapp,
     method: 'personal_sign' | 'eth_sign',
     chain: IChain,
-    responseCallback: (params: CallbackParameters) => void
+    responseCallback: (params: CallbackParameters) => void,
+    verifiedState: DappVerification
 ): Promise<void> {
     if (!params || !Array.isArray(params)) {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
@@ -49,6 +51,7 @@ export async function handleSignMessage(
                         dapp,
                         account,
                         chain,
+                        verifiedState,
                         callback: responseCallback,
                         onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
                     },
@@ -68,6 +71,7 @@ export async function handleSignMessage(
                     dapp,
                     account,
                     chain,
+                    verifiedState,
                     callback: responseCallback,
                     onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
                 },

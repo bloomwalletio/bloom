@@ -8,16 +8,17 @@
     import { Alert, Table, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { IChain } from '@core/network'
-    import { AccountLabel } from '@ui'
+    import { AccountLabel, DappInfo } from '@ui'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import DappDataBanner from '@components/DappDataBanner.svelte'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
 
     export let message: string
     export let account: IAccountState
     export let chain: IChain
-    export let dapp: IConnectedDapp | undefined
+    export let dapp: IConnectedDapp
+    export let verifiedState: DappVerification
     export let callback: (params: CallbackParameters) => void
 
     let isBusy = false
@@ -67,7 +68,13 @@
     }}
     busy={isBusy}
 >
-    <DappDataBanner slot="banner" {dapp} />
+    <DappInfo
+        slot="banner"
+        metadata={dapp.metadata}
+        {verifiedState}
+        showLink={false}
+        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+    />
 
     <div class="space-y-5">
         <div>
