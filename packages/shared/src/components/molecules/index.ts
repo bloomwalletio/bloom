@@ -1,6 +1,5 @@
 export { default as ActivityInformation } from './ActivityInformation.svelte'
 export { default as LedgerStatusIllustration } from './LedgerStatusIllustration.svelte'
-export { default as MarkdownBlock } from './MarkdownBlock.svelte'
 export { default as MediaIcon } from './MediaIcon.svelte'
 export { default as MediaPlaceholder } from './MediaPlaceholder.svelte'
 export { default as NetworkRecipientItem } from './NetworkRecipientItem.svelte'
