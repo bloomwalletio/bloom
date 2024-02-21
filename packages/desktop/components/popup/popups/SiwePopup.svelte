@@ -26,13 +26,13 @@
 
     enum Tab {
         Details = 'details',
-        Ressources = 'ressources',
+        Resources = 'resources',
         RawMessage = 'rawMessage',
     }
 
     const TABS: KeyValue<string>[] = [
         { key: Tab.Details, value: localize('popups.siwe.details') },
-        { key: Tab.Ressources, value: localize('popups.siwe.ressources') },
+        { key: Tab.Resources, value: localize('popups.siwe.resources') },
         { key: Tab.RawMessage, value: localize('popups.siwe.raw') },
     ]
 
@@ -109,8 +109,7 @@
                         value: siweObject.domain,
                     },
                     {
-                        key: localize('popups.siwe.chainId'),
-                        value: networkId,
+                        key: localize('general.network'),
                         slot: getNameFromNetworkId(networkId)
                             ? {
                                   component: NetworkLabel,
@@ -119,6 +118,10 @@
                                   },
                               }
                             : undefined,
+                    },
+                    {
+                        key: localize('popups.siwe.chainId'),
+                        value: getNameFromNetworkId(networkId) ? undefined : networkId,
                     },
                     {
                         key: localize('general.account'),
@@ -131,7 +134,7 @@
                     },
                 ]}
             />
-        {:else if selectedTab.key === Tab.Ressources}
+        {:else if selectedTab.key === Tab.Resources}
             <Table
                 items={siweObject.resources.map((resource, index) => ({
                     key: `Ressource ${index + 1}`,

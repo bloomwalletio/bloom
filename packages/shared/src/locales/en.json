@@ -976,7 +976,6 @@
         "siwe": {
             "title": "Sign-In with Ethereum",
             "details": "Details",
-            "ressources": "Ressources",
             "raw": "Raw",
             "rawMessage": "Raw message",
             "domain": "Domain",
