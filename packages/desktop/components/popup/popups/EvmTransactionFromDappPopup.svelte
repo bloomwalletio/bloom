@@ -20,7 +20,7 @@
     import { TokenTransferData } from '@core/wallet'
     import { Nft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { Alert, Table } from '@bloomwalletio/ui'
+    import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
@@ -161,18 +161,29 @@
     <div class="space-y-5">
         {#if isSmartContractCall}
             <div class="flex flex-col gap-3">
-                <Alert variant="warning" text={localize('popups.smartContractCall.unableToVerify')} />
-                <Table
-                    items={[
-                        {
-                            key: localize('general.address'),
-                            value: truncateString(String(preparedTransaction.to), 16, 16),
-                            onClick: () => onExplorerClick(String(preparedTransaction.to)),
-                        },
-                        { key: localize('general.methodName'), value: methodName },
-                        { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
-                    ]}
-                />
+                <Alert variant="warning">
+                    <Text slot="text">
+                        {localize('popups.smartContractCall.unableToVerify')}
+                        <Link
+                            on:click={() => onExplorerClick(String(preparedTransaction.to))}
+                            text={localize('popups.smartContractCall.viewSmartContract')}
+                        />
+                    </Text>
+                    <Table
+                        collapsible
+                        collapsibleTitle={localize('popups.smartContractCall.details')}
+                        slot="body"
+                        items={[
+                            {
+                                key: localize('general.address'),
+                                value: truncateString(String(preparedTransaction.to), 16, 16),
+                                onClick: () => onExplorerClick(String(preparedTransaction.to)),
+                            },
+                            { key: localize('general.methodName'), value: methodName },
+                            { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
+                        ]}
+                    />
+                </Alert>
             </div>
         {:else}
             <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
