@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ProposalStatusPill, ProposalStatusTimelineTooltip } from '@views/governance'
+    import { ProposalStatusPill, ProposalStatusTimelineTooltip } from './'
     import { InformationTooltip } from '@ui'
 
     import { IProposal } from '@contexts/governance/interfaces'

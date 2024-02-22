@@ -1,10 +1,10 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { getSelectedAccount, selectedAccount, updateSelectedAccount } from '@core/account/stores'
+    import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
     import { processAndAddToActivities } from '@core/activity/utils'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync, getBaseToken } from '@core/profile/actions'
     import { EMPTY_HEX_ID, sendPreparedTransaction } from '@core/wallet'
     import {
         AliasOutputBuilderParams,
@@ -14,12 +14,9 @@
     } from '@iota/sdk/out/types'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { api, getClient } from '@core/profile-manager'
-    import { onMount } from 'svelte'
     import { formatTokenAmountPrecise } from '@core/token'
     import { getActiveNetworkId } from '@core/network'
     import PopupTemplate from '../PopupTemplate.svelte'
-
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     let storageDeposit: string = '0'
 
@@ -47,15 +44,20 @@
         }
     }
 
-    async function createAlias(): Promise<void> {
+    async function onConfirmClick(): Promise<void> {
         try {
-            const account = getSelectedAccount()
+            await checkActiveProfileAuthAsync()
+        } catch (error) {
+            return
+        }
+
+        try {
             const networkId = getActiveNetworkId()
 
             updateSelectedAccount({ isTransferring: true })
             const preparedTransaction = await $selectedAccount.prepareCreateAliasOutput()
             const transaction = await sendPreparedTransaction(preparedTransaction)
-            await processAndAddToActivities(transaction, account, networkId)
+            await processAndAddToActivities(transaction, $selectedAccount, networkId)
             closePopup()
         } catch (err) {
             handleError(err)
@@ -64,21 +66,9 @@
         }
     }
 
-    async function onConfirmClick(): Promise<void> {
-        await checkActiveProfileAuth(createAlias, { stronghold: true, ledger: false })
-    }
-
     function onCancelClick(): void {
         closePopup()
     }
-
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            handleError(err)
-        }
-    })
 </script>
 
 <PopupTemplate
