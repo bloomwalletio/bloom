@@ -8,7 +8,7 @@ import { getProposalStatusForMilestone } from './getProposalStatusForMilestone'
 export function createProposalFromError(
     proposal: IProposalMetadata,
     err: unknown | Record<string, unknown>
-): IProposal {
+): IProposal | undefined {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const isEventError = err?.error?.match(/(the requested data)|(was not found)/)?.length > 0
@@ -22,4 +22,5 @@ export function createProposalFromError(
             error,
         }
     }
+    return undefined
 }

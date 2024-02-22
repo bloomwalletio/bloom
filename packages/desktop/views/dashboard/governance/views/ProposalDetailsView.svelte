@@ -102,24 +102,24 @@
     }
 
     async function setVotingEventPayload(eventId: string): Promise<void> {
-        const event = await getVotingEvent(eventId)
-        if (event) {
+        try {
+            const event = await getVotingEvent(eventId)
+            if (!event) {
+                throw new Error('Event not found')
+            }
+
             if (event.data?.payload?.type === ParticipationEventType.Voting) {
                 votingPayload = event.data.payload
             } else {
                 throw new Error('Event is a staking event')
             }
-        } else {
-            throw new Error('Event not found')
-        }
-    }
-
-    async function updateIsVoting(): Promise<void> {
-        try {
-            isVotingForProposal = await isVotingForSelectedProposal()
         } catch (err) {
             handleError(err)
         }
+    }
+
+    function updateIsVoting(): void {
+        isVotingForProposal = isVotingForSelectedProposal()
     }
 
     function setVotedAnswerValuesAndTotalVotes(): void {
@@ -197,10 +197,13 @@
 
     onMount(async () => {
         // Callbacks used, because we don't want to await the resolution of the promises.
-        pollParticipationEventStatus($selectedProposal?.id).then(() => (statusLoaded = true))
-        updateParticipationOverviewForEventId($selectedProposal?.id).then(() => (overviewLoaded = true))
+        pollParticipationEventStatus($selectedProposal?.id)
+            .then(() => (statusLoaded = true))
+            .catch()
+        updateParticipationOverviewForEventId($selectedProposal?.id)
+            .then(() => (overviewLoaded = true))
+            .catch()
         await setVotingEventPayload($selectedProposal?.id)
-        await updateIsVoting()
         openedQuestionIndex = votingPayload?.questions.length > 1 ? -1 : 0
         hasMounted = true
     })

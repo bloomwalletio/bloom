@@ -4,22 +4,29 @@ import { selectedAccountIndex } from '@core/account/stores'
 import { getAccountsParticipationEventStatusForEvent } from '../actions'
 import { createProposalFromError } from '../utils'
 import { addOrUpdateProposalToRegisteredProposals, registeredProposals } from './registered-proposals.store'
+import { IProposalMetadata } from '@contexts/governance/interfaces'
 
-export const selectedParticipationEventStatus = writable<ParticipationEventStatus>(null)
+export const selectedParticipationEventStatus = writable<ParticipationEventStatus | undefined>(undefined)
 
 export async function getAndSetSelectedParticipationEventStatus(eventId: string): Promise<void> {
-    let eventStatus: ParticipationEventStatus
+    let eventStatus: ParticipationEventStatus | undefined = undefined
     try {
         eventStatus = await getAccountsParticipationEventStatusForEvent(eventId)
     } catch (err) {
         const accountIndex = get(selectedAccountIndex)
-        const proposal = get(registeredProposals)[accountIndex][eventId]
+        const proposal: IProposalMetadata | undefined = get(registeredProposals)?.[accountIndex]?.[eventId]
+        if (!proposal) {
+            return
+        }
+
         const errorProposal = createProposalFromError(proposal, err)
-        addOrUpdateProposalToRegisteredProposals(errorProposal, accountIndex)
+        if (errorProposal) {
+            addOrUpdateProposalToRegisteredProposals(errorProposal, accountIndex)
+        }
     }
     selectedParticipationEventStatus.set(eventStatus)
 }
 
 export function clearSelectedParticipationEventStatus(): void {
-    selectedParticipationEventStatus.set(null)
+    selectedParticipationEventStatus.set(undefined)
 }
