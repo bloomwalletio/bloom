@@ -54,7 +54,7 @@
     <div class="flex space-x-3 items-center w-full min-w-0">
         {#if answerIndex !== undefined}
             {#if isVotedFor}
-                <status-icon class="flex justify-center items-center w-5 h-5">
+                <status-icon class="flex justify-center items-center shrink-0 w-5 h-5">
                     {#if proposalStatus === EventStatus.Ended || proposalStatus === EventStatus.Commencing}
                         <Icon name={IconName.ReceiptCheck} size="sm" textColor={isWinner ? 'invert' : 'brand'} />
                     {:else if proposalStatus === EventStatus.Holding}
@@ -66,10 +66,12 @@
             {/if}
         {/if}
         <Text
+            align="left"
             fontWeight={isSelected || isVotedFor ? 'semibold' : 'medium'}
             textColor={isSelected || isVotedFor ? 'primary' : 'secondary'}
-            truncate>{answer.text}</Text
-        >
+            {truncate}
+            >{answer.text}
+        </Text>
     </div>
     <div class="flex items-center space-x-1.5">
         {#if isWinner}
@@ -165,7 +167,7 @@
         }
 
         answer-index {
-            @apply flex items-center justify-center h-5 w-5 bg-white;
+            @apply flex shrink-0 items-center justify-center h-5 w-5 bg-white;
             @apply border border-solid border-stroke rounded-sm;
             @apply font-bold text-12 text-gray-500;
         }
