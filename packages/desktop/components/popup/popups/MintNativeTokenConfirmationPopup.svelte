@@ -4,14 +4,12 @@
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { getBaseToken, checkActiveProfileAuth } from '@core/profile/actions'
+    import { getBaseToken, checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { mintNativeToken, mintTokenDetails, buildFoundryOutputBuilderParams, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { IIrc30Metadata, TokenStandard, formatTokenAmountPrecise } from '@core/token'
     import { getClient } from '@core/profile-manager'
     import PopupTemplate from '../PopupTemplate.svelte'
-
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     let storageDeposit = '0'
 
@@ -50,7 +48,21 @@
         }
     }
 
-    async function mintAction(): Promise<void> {
+    function onBackClick(): void {
+        closePopup()
+        openPopup({
+            id: PopupId.MintNativeTokenForm,
+            overflow: true,
+        })
+    }
+
+    async function onConfirmClick(): Promise<void> {
+        try {
+            await checkActiveProfileAuthAsync()
+        } catch (error) {
+            return
+        }
+
         try {
             if ($mintTokenDetails && metadata) {
                 await mintNativeToken($mintTokenDetails.totalSupply, $mintTokenDetails.circulatingSupply, metadata)
@@ -63,25 +75,8 @@
         }
     }
 
-    function onBackClick(): void {
-        closePopup()
-        openPopup({
-            id: PopupId.MintNativeTokenForm,
-            overflow: true,
-        })
-    }
-
-    async function onConfirmClick(): Promise<void> {
-        try {
-            await checkActiveProfileAuth(mintAction, { stronghold: true, ledger: false })
-        } catch (err) {
-            handleError(err)
-        }
-    }
-
     onMount(async () => {
         try {
-            await _onMount()
             await prepareFoundryOutput()
         } catch (err) {
             handleError(err.error)
