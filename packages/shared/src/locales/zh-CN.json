@@ -649,10 +649,26 @@
                 "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
-                "upcoming": "通知",
-                "commencing": "投票开放",
-                "holding": "计数开始",
-                "ended": "计数停止"
+                "upcoming": {
+                    "past": "Announced",
+                    "present": "Announcement",
+                    "future": "Announcement"
+                },
+                "commencing": {
+                    "past": "Voting opened",
+                    "present": "Voting open",
+                    "future": "Voting opens"
+                },
+                "holding": {
+                    "past": "Counting started",
+                    "present": "Counting started",
+                    "future": "Counting starts"
+                },
+                "ended": {
+                    "past": "Counting stopped",
+                    "present": "Counting stopped",
+                    "future": "Counting stops"
+                }
             },
             "details": {
                 "yourVote": {
@@ -846,10 +862,8 @@
             "updatingNode": "更新节点",
             "loadingNodeInfo": "加载节点信息",
             "nodeAddress": "节点地址",
-            "optionalUsername": "用户名(选填)",
-            "optionalPassword": "密码 (选填)",
-            "optionalJwt": "JSON web token (可选)",
             "removeConfirmation": "您确定要删除此节点吗？",
+            "requiresAuthentication": "Node requires authentication",
             "info": {
                 "general": {
                     "tab": "常规",
@@ -884,7 +898,9 @@
                     "decimals": "小数位数",
                     "useMetricPrefix": "使用指标前缀"
                 }
-            }
+            },
+            "jwt": "JSON web token",
+            "credentials": "Sign-in credentials"
         },
         "errorLog": {
             "title": "错误日志",
@@ -956,7 +972,11 @@
             "success": "Signed message"
         },
         "siwe": {
-            "title": "Sign-In with Ethereum"
+            "title": "Sign-In with Ethereum",
+            "domain": "Domain",
+            "statement": "Statement",
+            "resources": "Resources",
+            "action": "Sign in"
         },
         "signTransaction": {
             "title": "Sign transaction",
@@ -1137,7 +1157,7 @@
             "errors": {
                 "invalidMimetype": "Invalid MimeType, check if the file type is supported",
                 "quantityTooSmall": "Quantity needs to be greater than 0",
-                "quantityTooLarge": "Quantity needs to be smaller than 64",
+                "quantityTooLarge": "Quantity needs to be smaller than 127",
                 "emptyName": "Name is a required field",
                 "invalidURI": "Invalid URI, please provide a valid URI",
                 "notReachable": "URI not reachable, unable to check NFT type",
@@ -1165,7 +1185,8 @@
         "addProposal": {
             "title": "增加提案",
             "body": "请提供以下信息以添加提案。",
-            "addToAllAccounts": "将提案添加到所有账户"
+            "addToAllAccounts": "将提案添加到所有账户",
+            "addAllProposalsOnNode": "Add all proposals on this node"
         },
         "editProposal": {
             "title": "Edit proposal",
@@ -1334,6 +1355,7 @@
         "addProposal": "增加提案",
         "removeProposal": "移除提案",
         "changeNode": "Change node",
+        "changeNodeUrl": "Change node URL",
         "stopVoting": "停止投票",
         "revote": "重新投票",
         "skipAndKeep": "Skip and keep old password",
@@ -1342,10 +1364,12 @@
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
         "importToken": "Import {type} token",
-        "syncTokens": "Force sync tokens"
+        "syncTokens": "Force sync tokens",
+        "mintNftCollection": "Mint NFT collection"
     },
     "general": {
         "recipient": "接收人",
+        "username": "Username",
         "password": "密码",
         "confirmPassword": "确认密码",
         "currentPassword": "当前使用的密码",
@@ -1562,7 +1586,9 @@
         "raffle": "Raffle",
         "governance": "Governance",
         "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract"
+        "unverifiedContract": "Unverified Contract",
+        "startIndex": "Start index",
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
     },
     "filters": {
         "title": "过滤",
@@ -1769,6 +1795,9 @@
         },
         "updateNetworkAddresses": {
             "success": "Contact addresses successfully updated"
+        },
+        "siwe": {
+            "rejected": "Invalid SIWE request"
         },
         "syncTokens": {
             "success": "Tokens successfully synced"
@@ -2043,7 +2072,8 @@
             "description": "可选参数：NFT 的描述",
             "attributes": "可选参数：定义NFT属性的特性和值数组",
             "uri": "要使用自定义媒体创建一个 URI，请先通过存储服务上传您的文件到IPFS (例如，https://nft.storage/)",
-            "quantity": "Optional parameter: The quantity of copies minted with this metadata."
+            "quantity": "Optional parameter: The quantity of copies minted with this metadata.",
+            "startIndex": "Optional parameter: The start index of the NFTs to mint."
         },
         "governance": {
             "removeProposalWarning": "你必须在删除该提案之前停止对它进行表决。",
@@ -2069,7 +2099,7 @@
         "collectibles": "合集",
         "governance": "治理",
         "campaigns": "Campaigns",
-        "buySell": "Buy & Sell",
+        "buySell": "Buy IOTA",
         "developer": "开发者",
         "tokens": "代币",
         "settings": "Settings"
@@ -2102,6 +2132,12 @@
             "notConnected": "Not connected",
             "locked": "Device locked",
             "appNotOpen": "App not open"
+        },
+        "dappVerification": {
+            "valid": "Verified",
+            "invalid": "Domain Mismatch",
+            "unknown": "Cannot verify",
+            "scam": "Security Risk"
         }
     },
     "menus": {

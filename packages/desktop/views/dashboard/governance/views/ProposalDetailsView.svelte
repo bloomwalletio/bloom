@@ -5,7 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Alert, Button, Table } from '@bloomwalletio/ui'
+    import { Alert, Button, MarkdownBlock, Table } from '@bloomwalletio/ui'
     import { ProposalDetailsMenu } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
@@ -36,7 +36,7 @@
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ProposalInformationPane, ProposalQuestion, ProposalStatusPill } from '@views/governance'
-    import { MarkdownBlock, Pane, Text, TextType } from '@ui'
+    import { Pane, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
@@ -102,24 +102,24 @@
     }
 
     async function setVotingEventPayload(eventId: string): Promise<void> {
-        const event = await getVotingEvent(eventId)
-        if (event) {
+        try {
+            const event = await getVotingEvent(eventId)
+            if (!event) {
+                throw new Error('Event not found')
+            }
+
             if (event.data?.payload?.type === ParticipationEventType.Voting) {
                 votingPayload = event.data.payload
             } else {
                 throw new Error('Event is a staking event')
             }
-        } else {
-            throw new Error('Event not found')
-        }
-    }
-
-    async function updateIsVoting(): Promise<void> {
-        try {
-            isVotingForProposal = await isVotingForSelectedProposal()
         } catch (err) {
             handleError(err)
         }
+    }
+
+    function updateIsVoting(): void {
+        isVotingForProposal = isVotingForSelectedProposal()
     }
 
     function setVotedAnswerValuesAndTotalVotes(): void {
@@ -197,10 +197,13 @@
 
     onMount(async () => {
         // Callbacks used, because we don't want to await the resolution of the promises.
-        pollParticipationEventStatus($selectedProposal?.id).then(() => (statusLoaded = true))
-        updateParticipationOverviewForEventId($selectedProposal?.id).then(() => (overviewLoaded = true))
+        pollParticipationEventStatus($selectedProposal?.id)
+            .then(() => (statusLoaded = true))
+            .catch()
+        updateParticipationOverviewForEventId($selectedProposal?.id)
+            .then(() => (overviewLoaded = true))
+            .catch()
         await setVotingEventPayload($selectedProposal?.id)
-        await updateIsVoting()
         openedQuestionIndex = votingPayload?.questions.length > 1 ? -1 : 0
         hasMounted = true
     })

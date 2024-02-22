@@ -47,7 +47,7 @@
     <Table
         items={[
             {
-                key: localize(`views.governance.details.proposalInformation.${proposalDateData.propertyKey}`),
+                key: localize(`views.governance.details.proposalInformation.${proposalDateData?.propertyKey}`),
                 value: proposalDateData?.propertyKey
                     ? formatDate(
                           milestoneToDate($networkStatus.currentMilestone, proposalDateData.milestone),

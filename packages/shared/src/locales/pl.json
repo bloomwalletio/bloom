@@ -646,13 +646,29 @@
                 "successAddAll": "{numberOfProposals, select, one {Propozycja została pomyślnie dodana} other {Propozycje zostały pomyślnie dodane}} do wszystkich kont",
                 "successRemove": "Propozycja została usunięta",
                 "emptyTitle": "Brak propozycji",
-                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
+                "emptyDescription": "Możesz subskrybować propozycję przy uzyciu jej adresu URL i opcjonalnego identyfikatora zdarzenia."
             },
             "statusTimeline": {
-                "upcoming": "Ogłoszenie propozycji",
-                "commencing": "Otwarcie głosowania",
-                "holding": "Rozpoczęcie zliczania",
-                "ended": "Zakończenie zliczania"
+                "upcoming": {
+                    "past": "Announced",
+                    "present": "Announcement",
+                    "future": "Announcement"
+                },
+                "commencing": {
+                    "past": "Voting opened",
+                    "present": "Voting open",
+                    "future": "Voting opens"
+                },
+                "holding": {
+                    "past": "Counting started",
+                    "present": "Counting started",
+                    "future": "Counting starts"
+                },
+                "ended": {
+                    "past": "Counting stopped",
+                    "present": "Counting stopped",
+                    "future": "Counting stops"
+                }
             },
             "details": {
                 "yourVote": {
@@ -846,10 +862,8 @@
             "updatingNode": "Aktualizacja serwera",
             "loadingNodeInfo": "Wczytywanie informacji o serwerze",
             "nodeAddress": "Adres serwera",
-            "optionalUsername": "Nazwa użytkownika (opcjonalnie)",
-            "optionalPassword": "Hasło (opcjonalnie)",
-            "optionalJwt": "JSON web token (opcjonalnie)",
             "removeConfirmation": "Czy na pewno chcesz usunąć ten serwer?",
+            "requiresAuthentication": "Node requires authentication",
             "info": {
                 "general": {
                     "tab": "Ogólne",
@@ -884,7 +898,9 @@
                     "decimals": "Miejsca po przecinku",
                     "useMetricPrefix": "Użyj prefiksu metrycznego"
                 }
-            }
+            },
+            "jwt": "JSON web token",
+            "credentials": "Sign-in credentials"
         },
         "errorLog": {
             "title": "Dziennik błędów",
@@ -956,7 +972,11 @@
             "success": "Podpisana wiadomość"
         },
         "siwe": {
-            "title": "Sign-In with Ethereum"
+            "title": "Zaloguj się z Ethereum",
+            "domain": "Domain",
+            "statement": "Statement",
+            "resources": "Resources",
+            "action": "Sign in"
         },
         "signTransaction": {
             "title": "Podpisz transakcję",
@@ -1137,7 +1157,7 @@
             "errors": {
                 "invalidMimetype": "Nieprawidłowy MimeType, sprawdź czy typ pliku jest obsługiwany",
                 "quantityTooSmall": "Ilość musi być większa niż 0",
-                "quantityTooLarge": "Ilość musi być mniejsza niż 64",
+                "quantityTooLarge": "Quantity needs to be smaller than 127",
                 "emptyName": "Nazwa jest wymaganym polem",
                 "invalidURI": "Nieprawidłowy URI, proszę podać poprawny URI",
                 "notReachable": "URI nieosiągalny, nie można sprawdzić typu NFT",
@@ -1165,7 +1185,8 @@
         "addProposal": {
             "title": "Dodaj propozycję",
             "body": "Wypełnij poniższe pola, aby dodać propozycję.",
-            "addToAllAccounts": "Dodaj propozycję do wszystkich kont"
+            "addToAllAccounts": "Dodaj propozycję do wszystkich kont",
+            "addAllProposalsOnNode": "Add all proposals on this node"
         },
         "editProposal": {
             "title": "Edytuj propozycję",
@@ -1334,6 +1355,7 @@
         "addProposal": "Dodaj propozycję",
         "removeProposal": "Usuń propozycję",
         "changeNode": "Zmień serwer",
+        "changeNodeUrl": "Change node URL",
         "stopVoting": "Zatrzymaj głosowanie",
         "revote": "Odnów głosy",
         "skipAndKeep": "Pomiń i zachowaj stare hasło",
@@ -1342,10 +1364,12 @@
         "switchAccount": "Przełącz konto",
         "syncAccounts": "Synchronizuj konta",
         "importToken": "Importowanie tokena {type}",
-        "syncTokens": "Wymuś synchronizację tokenów"
+        "syncTokens": "Wymuś synchronizację tokenów",
+        "mintNftCollection": "Mint NFT collection"
     },
     "general": {
         "recipient": "Odbiorca",
+        "username": "Username",
         "password": "Hasło",
         "confirmPassword": "Potwierdź hasło",
         "currentPassword": "Aktualne hasło",
@@ -1562,7 +1586,9 @@
         "raffle": "Loteria",
         "governance": "Zarządzanie",
         "baseCoin": "Token podstawowy",
-        "unverifiedContract": "Niezweryfikowany kontrakt"
+        "unverifiedContract": "Niezweryfikowany kontrakt",
+        "startIndex": "Start index",
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
     },
     "filters": {
         "title": "Filtry",
@@ -1770,6 +1796,9 @@
         "updateNetworkAddresses": {
             "success": "Adresy kontaktu zostały pomyślnie zaktualizowane"
         },
+        "siwe": {
+            "rejected": "Invalid SIWE request"
+        },
         "syncTokens": {
             "success": "Tokeny pomyślnie zsynchronizowane"
         }
@@ -1779,7 +1808,7 @@
             "length": "Twoja nazwa profilu nie może być dłuższa niż {length, plural, one {# znak} few {# znaki} many {# znaków} other {# znaków}}.",
             "duplicate": "Profil o takiej nazwie już istnieje.",
             "type": "Nie można określić typu profilu",
-            "authenticationInterrupted": "Authentication was interrupted"
+            "authenticationInterrupted": "Autoryzacja została przerwana"
         },
         "password": {
             "doNotMatch": "Hasła nie są zgodne.",
@@ -1986,7 +2015,7 @@
             "invalidProtocol": "Nieprawidłowy protokół, musi zaczynać się od \"wc\".",
             "deprecatedVersion": "dApp używa przestarzałej wersji wallet connect.",
             "invalidV2UriFormat": "Link nie jest zgodny ze specyfikacją WalletConnect V2.",
-            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
+            "signTypedData": "Bloom nie obsługuje eth_signedTypedData V1 ze względów bezpieczeństwa"
         },
         "web3": {
             "unableToGetProvider": "Nie można pozyskać dostawcy web3.",
@@ -2043,7 +2072,8 @@
             "description": "Opcjonalny parametr: Opis NFT",
             "attributes": "Opcjonalny parametr: tablica cech i wartości, które definiują atrybuty NFT",
             "uri": "Aby utworzyć URI za pomocą niestandardowych mediów, najpierw prześlij plik do IPFS za pośrednictwem usługi przechowywania danych (np. https://nft.storage/)",
-            "quantity": "Opcjonalny parametr: Ilość kopii mintowanych za pomocą tych metadanych."
+            "quantity": "Opcjonalny parametr: Ilość kopii mintowanych za pomocą tych metadanych.",
+            "startIndex": "Optional parameter: The start index of the NFTs to mint."
         },
         "governance": {
             "removeProposalWarning": "Musisz przestać głosować na tę propozycję, zanim ją usuniesz.",
@@ -2069,7 +2099,7 @@
         "collectibles": "Kolekcje",
         "governance": "Zarządzanie",
         "campaigns": "Kampanie",
-        "buySell": "Kup i sprzedaj",
+        "buySell": "Buy IOTA",
         "developer": "Deweloper",
         "tokens": "Tokeny",
         "settings": "Ustawienia"
@@ -2102,6 +2132,12 @@
             "notConnected": "Nie połączono",
             "locked": "Urządzenie zablokowane",
             "appNotOpen": "Aplikacja nie jest otwarta"
+        },
+        "dappVerification": {
+            "valid": "Verified",
+            "invalid": "Domain Mismatch",
+            "unknown": "Cannot verify",
+            "scam": "Security Risk"
         }
     },
     "menus": {

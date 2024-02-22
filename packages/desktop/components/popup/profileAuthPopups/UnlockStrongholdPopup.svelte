@@ -32,7 +32,6 @@
         } catch (err) {
             allowClosingProfileAuthPopup()
             error = localize(err?.message ?? err)
-            onCancel(error)
         } finally {
             isBusy = false
         }

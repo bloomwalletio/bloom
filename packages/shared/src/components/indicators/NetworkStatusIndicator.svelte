@@ -20,7 +20,6 @@
                 ping = false
                 break
             case NetworkHealth.Disconnected:
-            case NetworkHealth.Down:
                 color = 'orange'
                 ping = false
                 break
