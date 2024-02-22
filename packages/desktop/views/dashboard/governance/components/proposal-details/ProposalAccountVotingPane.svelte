@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table } from '@bloomwalletio/ui'
+    import { Table, Text } from '@bloomwalletio/ui'
     import {
         participationOverviewForSelectedAccount,
         selectedParticipationEventStatus,
@@ -13,7 +13,7 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { EventStatus } from '@iota/sdk/out/types'
-    import { Pane, Text } from '@ui'
+    import { Pane } from '@ui'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
 
@@ -45,8 +45,8 @@
     }
 </script>
 
-<Pane classes="p-6 h-fit shrink-0">
-    <Text smaller classes="mb-5">
+<Pane classes="p-6 h-fit shrink-0 space-y-5">
+    <Text type="body2">
         {localize('views.governance.details.yourVote.title')}
     </Text>
     <Table

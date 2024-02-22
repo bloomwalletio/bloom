@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { MarkdownBlock } from '@bloomwalletio/ui'
-    import { Pane, Text, TextType } from '@ui'
+    import { MarkdownBlock, Text } from '@bloomwalletio/ui'
+    import { Pane } from '@ui'
     import { ProposalDetailsMenu, ProposalStatusPill } from '../'
     import { IProposal } from '@contexts/governance'
 
@@ -13,7 +13,7 @@
         <ProposalDetailsMenu {proposal} modalPosition={{ right: '24px', top: '54px' }} />
     </header-container>
     <div class="flex flex-1 flex-col space-y-4 justify-between scrollable-y">
-        <Text type={TextType.h2}>{proposal?.title}</Text>
+        <Text type="h4">{proposal?.title}</Text>
         {#if proposal?.additionalInfo}
             <MarkdownBlock text={proposal?.additionalInfo} />
         {/if}
