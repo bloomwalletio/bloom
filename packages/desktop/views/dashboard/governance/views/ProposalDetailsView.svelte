@@ -5,7 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Alert, Button, MarkdownBlock, Table } from '@bloomwalletio/ui'
+    import { Alert, Button, Table } from '@bloomwalletio/ui'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
         clearParticipationEventStatusPoll,
@@ -34,9 +34,10 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { ProposalDetailsMenu, ProposalInformationPane, ProposalQuestion, ProposalStatusPill } from '../components'
-    import { Pane, Text, TextType } from '@ui'
+    import { ProposalInformationPane, ProposalQuestion } from '../components'
+    import { Pane, Text } from '@ui'
     import { onDestroy, onMount } from 'svelte'
+    import { ProposalDetailsPane } from '../components/proposal-details'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
 
@@ -215,18 +216,7 @@
 
 <proposal-details class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-4">
     <div class="w-2/5 flex flex-col space-y-4 relative">
-        <Pane classes="p-6 flex flex-col h-fit">
-            <header-container class="flex justify-between items-center mb-4">
-                <ProposalStatusPill proposal={$selectedProposal} />
-                <ProposalDetailsMenu proposal={$selectedProposal} modalPosition={{ right: '24px', top: '54px' }} />
-            </header-container>
-            <div class="flex flex-1 flex-col space-y-4 justify-between scrollable-y">
-                <Text type={TextType.h2}>{$selectedProposal?.title}</Text>
-                {#if $selectedProposal?.additionalInfo}
-                    <MarkdownBlock text={$selectedProposal?.additionalInfo} />
-                {/if}
-            </div>
-        </Pane>
+        <ProposalDetailsPane proposal={$selectedProposal} />
         <Pane classes="p-6 h-fit shrink-0">
             <Text smaller classes="mb-5">
                 {localize('views.governance.details.yourVote.title')}
