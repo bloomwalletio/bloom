@@ -1,7 +1,7 @@
 <script lang="ts">
     import { AnswerStatus, EventStatus, Question } from '@iota/sdk/out/types'
 
-    import { ProposalAnswer } from '@components'
+    import { ProposalAnswer } from './'
     import { Icon, IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
 
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'

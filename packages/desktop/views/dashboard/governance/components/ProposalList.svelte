@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { Filter, ProposalCard } from '@components'
-    import { SearchInput } from '@ui'
     import { Text } from '@bloomwalletio/ui'
-    import { localize } from '@core/i18n'
+    import { Filter } from '@components'
     import { proposalFilter, registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
     import { isVisibleProposal, sortProposals } from '@contexts/governance/utils'
+    import { localize } from '@core/i18n'
+    import { SearchInput } from '@ui'
+    import { ProposalCard } from './'
 
     $: proposals = Object.values($registeredProposalsForSelectedAccount)
 

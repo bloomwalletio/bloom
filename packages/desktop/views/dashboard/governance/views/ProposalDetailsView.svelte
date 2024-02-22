@@ -6,7 +6,6 @@
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
     import { Alert, Button, MarkdownBlock, Table } from '@bloomwalletio/ui'
-    import { ProposalDetailsMenu } from '@components'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
         clearParticipationEventStatusPoll,
@@ -35,7 +34,7 @@
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { ProposalInformationPane, ProposalQuestion, ProposalStatusPill } from '@views/governance'
+    import { ProposalDetailsMenu, ProposalInformationPane, ProposalQuestion, ProposalStatusPill } from '../components'
     import { Pane, Text, TextType } from '@ui'
     import { onDestroy, onMount } from 'svelte'
 
