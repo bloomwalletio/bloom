@@ -1,16 +1,13 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
-    import { EventStatus } from '@iota/sdk/out/types'
-
-    import { ProposalStatusInfo } from '@views/governance'
-    import { Text, TooltipIcon, IconName } from '@bloomwalletio/ui'
-
-    import { localize } from '@core/i18n'
-    import { GovernanceRoute, governanceRouter } from '@core/router'
-
+    import { IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
     import { IProposal } from '@contexts/governance/interfaces'
     import { participationOverviewForSelectedAccount, selectedProposalId } from '@contexts/governance/stores'
     import { isVotingForProposal } from '@contexts/governance/utils'
+    import { localize } from '@core/i18n'
+    import { GovernanceRoute, governanceRouter } from '@core/router'
+    import { EventStatus } from '@iota/sdk/out/types'
+    import { onMount } from 'svelte'
+    import { ProposalStatusInfo } from './'
 
     export let proposal: IProposal
 

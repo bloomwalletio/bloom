@@ -1,11 +1,10 @@
 <script lang="ts">
     import { IconName } from '@bloomwalletio/ui'
-    import { EmptyListPlaceholder, ProposalListDetails } from '@components'
+    import { EmptyListPlaceholder } from '@components'
     import { Pane } from '@ui'
-    import { ManageVotingPowerPane } from '../components'
+    import { ManageVotingPowerPane, ProposalList, ProposalListDetails } from '../components'
     import { localize } from '@core/i18n'
     import { registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
-    import { ProposalList } from '@views/governance'
 </script>
 
 <governance-dashboard class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-6">
