@@ -646,13 +646,29 @@
                 "successAddAll": "{numberOfProposals, select, one {Voorstel} other {Voorstellen}} succesvol toegevoegd aan alle accounts",
                 "successRemove": "Voorstel succesvol verwijderd",
                 "emptyTitle": "Geen voorstellen",
-                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
+                "emptyDescription": "Je kunt je abonneren op een voorstel op een node met de URL ervan en een optioneel event-ID."
             },
             "statusTimeline": {
-                "upcoming": "Aankondiging",
-                "commencing": "Stemmen geopend",
-                "holding": "Tellen begint",
-                "ended": "Tellen stopt"
+                "upcoming": {
+                    "past": "Announced",
+                    "present": "Announcement",
+                    "future": "Announcement"
+                },
+                "commencing": {
+                    "past": "Voting opened",
+                    "present": "Voting open",
+                    "future": "Voting opens"
+                },
+                "holding": {
+                    "past": "Counting started",
+                    "present": "Counting started",
+                    "future": "Counting starts"
+                },
+                "ended": {
+                    "past": "Counting stopped",
+                    "present": "Counting stopped",
+                    "future": "Counting stops"
+                }
             },
             "details": {
                 "yourVote": {
@@ -846,10 +862,8 @@
             "updatingNode": "Knooppunt bijwerken",
             "loadingNodeInfo": "Laden van knooppunt info",
             "nodeAddress": "Knooppunt adres",
-            "optionalUsername": "Gebruikersnaam (optioneel)",
-            "optionalPassword": "Wachtwoord (optioneel)",
-            "optionalJwt": "JSON webtoken (optioneel)",
             "removeConfirmation": "Weet u zeker dat u dit knooppunt wilt verwijderen?",
+            "requiresAuthentication": "Node requires authentication",
             "info": {
                 "general": {
                     "tab": "Algemeen",
@@ -884,7 +898,9 @@
                     "decimals": "Decimalen",
                     "useMetricPrefix": "Metrische voorvoegsel gebruiken"
                 }
-            }
+            },
+            "jwt": "JSON web token",
+            "credentials": "Sign-in credentials"
         },
         "errorLog": {
             "title": "Foutenlogboek",
@@ -956,7 +972,11 @@
             "success": "Ondertekend bericht"
         },
         "siwe": {
-            "title": "Sign-In with Ethereum"
+            "title": "Inloggen met Ethereum",
+            "domain": "Domain",
+            "statement": "Statement",
+            "resources": "Resources",
+            "action": "Sign in"
         },
         "signTransaction": {
             "title": "Transactie ondertekenen",
@@ -1137,7 +1157,7 @@
             "errors": {
                 "invalidMimetype": "Ongeldige MimeType, controleer of het bestandstype wordt ondersteund",
                 "quantityTooSmall": "Hoeveelheid moet groter zijn dan 0",
-                "quantityTooLarge": "Hoeveelheid moet kleiner zijn dan 64",
+                "quantityTooLarge": "Quantity needs to be smaller than 127",
                 "emptyName": "Naam is een verplicht veld",
                 "invalidURI": "Ongeldige URI, geef een geldige URI op",
                 "notReachable": "URI niet bereikbaar, niet mogelijk het NFT type te controleren",
@@ -1165,7 +1185,8 @@
         "addProposal": {
             "title": "Voorstel toevoegen",
             "body": "Lever onderstaande informatie aan om een voorstel toe te voegen.",
-            "addToAllAccounts": "Voeg het voorstel toe aan alle accounts"
+            "addToAllAccounts": "Voeg het voorstel toe aan alle accounts",
+            "addAllProposalsOnNode": "Add all proposals on this node"
         },
         "editProposal": {
             "title": "Voorstel bewerken",
@@ -1334,6 +1355,7 @@
         "addProposal": "Voorstel toevoegen",
         "removeProposal": "Voorstel verwijderen",
         "changeNode": "Wijzig knooppunt",
+        "changeNodeUrl": "Change node URL",
         "stopVoting": "Stoppen met stemmen",
         "revote": "Stem opnieuw",
         "skipAndKeep": "Overslaan en behoud oude wachtwoord",
@@ -1342,10 +1364,12 @@
         "switchAccount": "Account wisselen",
         "syncAccounts": "Synchroniseer accounts",
         "importToken": "Importeer {type} token",
-        "syncTokens": "Forceer synchronisatie tokens"
+        "syncTokens": "Forceer synchronisatie tokens",
+        "mintNftCollection": "Mint NFT collection"
     },
     "general": {
         "recipient": "Ontvanger",
+        "username": "Username",
         "password": "Wachtwoord",
         "confirmPassword": "Bevestig wachtwoord",
         "currentPassword": "Huidig wachtwoord",
@@ -1562,7 +1586,9 @@
         "raffle": "Verloting",
         "governance": "Governance",
         "baseCoin": "Basis token",
-        "unverifiedContract": "Ongeverifieerd contract"
+        "unverifiedContract": "Ongeverifieerd contract",
+        "startIndex": "Start index",
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
     },
     "filters": {
         "title": "Filters",
@@ -1770,6 +1796,9 @@
         "updateNetworkAddresses": {
             "success": "Contactadressen succesvol bijgewerkt"
         },
+        "siwe": {
+            "rejected": "Invalid SIWE request"
+        },
         "syncTokens": {
             "success": "Tokens succesvol gesynchroniseerd"
         }
@@ -1779,7 +1808,7 @@
             "length": "Je profielnaam kan niet langer zijn dan {length, plural, one {# karakter} other {# karakters}}.",
             "duplicate": "Een account met deze naam bestaat al.",
             "type": "Niet in staat om het profiel type te bepalen",
-            "authenticationInterrupted": "Authentication was interrupted"
+            "authenticationInterrupted": "Authenticatie werd onderbroken"
         },
         "password": {
             "doNotMatch": "Wachtwoorden komen niet overeen.",
@@ -1986,7 +2015,7 @@
             "invalidProtocol": "Ongeldig protocol, moet beginnen met 'wc'.",
             "deprecatedVersion": "dApp maakt gebruik van een verouderde wallet connectie versie.",
             "invalidV2UriFormat": "De link voldoet niet aan de WalletConnect V2-specificatie.",
-            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
+            "signTypedData": "Bloom ondersteunt eth_signedTypedData V1 niet vanwege veiligheidsredenen"
         },
         "web3": {
             "unableToGetProvider": "Kan web3-provider niet ophalen.",
@@ -2043,7 +2072,8 @@
             "description": "Optionele parameter: Een beschrijving van de NFT",
             "attributes": "Optionele parameter: Een reeks van eigenschappen en waarden die kenmerken van de NFT definiëren",
             "uri": "Om een URI met eigen media te maken, upload eerst je bestand naar IPFS via een opslagservice (bijv. https://nft.storage/)",
-            "quantity": "Optionele parameter: Het aantal geminte kopieën met deze metadata."
+            "quantity": "Optionele parameter: Het aantal geminte kopieën met deze metadata.",
+            "startIndex": "Optional parameter: The start index of the NFTs to mint."
         },
         "governance": {
             "removeProposalWarning": "Je moet eerst stoppen met stemmen voor dit voorstel voordat je het verwijdert.",
@@ -2069,7 +2099,7 @@
         "collectibles": "Verzamelingen",
         "governance": "Governance",
         "campaigns": "Campagnes",
-        "buySell": "Kopen & verkopen",
+        "buySell": "Buy IOTA",
         "developer": "Ontwikkelaar",
         "tokens": "Tokens",
         "settings": "Instellingen"
@@ -2102,6 +2132,12 @@
             "notConnected": "Niet verbonden",
             "locked": "Apparaat vergrendeld",
             "appNotOpen": "App niet geopend"
+        },
+        "dappVerification": {
+            "valid": "Verified",
+            "invalid": "Domain Mismatch",
+            "unknown": "Cannot verify",
+            "scam": "Security Risk"
         }
     },
     "menus": {

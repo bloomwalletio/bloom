@@ -649,10 +649,26 @@
                 "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
-                "upcoming": "Announcement",
-                "commencing": "Voting open",
-                "holding": "Counting starts",
-                "ended": "Counting stops"
+                "upcoming": {
+                    "past": "Announced",
+                    "present": "Announcement",
+                    "future": "Announcement"
+                },
+                "commencing": {
+                    "past": "Voting opened",
+                    "present": "Voting open",
+                    "future": "Voting opens"
+                },
+                "holding": {
+                    "past": "Counting started",
+                    "present": "Counting started",
+                    "future": "Counting starts"
+                },
+                "ended": {
+                    "past": "Counting stopped",
+                    "present": "Counting stopped",
+                    "future": "Counting stops"
+                }
             },
             "details": {
                 "yourVote": {
@@ -846,10 +862,8 @@
             "updatingNode": "Mise à jour du noeud",
             "loadingNodeInfo": "Chargement des informations du noeud",
             "nodeAddress": "Adresse du noeud",
-            "optionalUsername": "Nom d'utilisateur (facultatif)",
-            "optionalPassword": "Mot de passe (facultatif)",
-            "optionalJwt": "Jeton web JSON (facultatif)",
             "removeConfirmation": "Êtes-vous sûr de vouloir supprimer ce noeud ?",
+            "requiresAuthentication": "Node requires authentication",
             "info": {
                 "general": {
                     "tab": "Général",
@@ -884,7 +898,9 @@
                     "decimals": "Décimales",
                     "useMetricPrefix": "Utiliser le préfixe de la métrique"
                 }
-            }
+            },
+            "jwt": "JSON web token",
+            "credentials": "Sign-in credentials"
         },
         "errorLog": {
             "title": "Journal d'erreur",
@@ -956,7 +972,11 @@
             "success": "Signed message"
         },
         "siwe": {
-            "title": "Sign-In with Ethereum"
+            "title": "Sign-In with Ethereum",
+            "domain": "Domain",
+            "statement": "Statement",
+            "resources": "Resources",
+            "action": "Sign in"
         },
         "signTransaction": {
             "title": "Sign transaction",
@@ -1137,7 +1157,7 @@
             "errors": {
                 "invalidMimetype": "MimeType invalide, vérifiez si le type de fichier est pris en charge",
                 "quantityTooSmall": "La quantité doit être supérieure à 0",
-                "quantityTooLarge": "La quantité doit être inférieure à 64",
+                "quantityTooLarge": "Quantity needs to be smaller than 127",
                 "emptyName": "Le nom est un champ obligatoire",
                 "invalidURI": "URI invalide, veuillez fournir une URI valide",
                 "notReachable": "URI non joignable, impossible de vérifier le type NFT",
@@ -1165,7 +1185,8 @@
         "addProposal": {
             "title": "Ajouter une proposition",
             "body": "Veuillez fournir les informations énumérées ci-dessous pour ajouter une proposition.",
-            "addToAllAccounts": "Ajouter la proposition à tous les comptes"
+            "addToAllAccounts": "Ajouter la proposition à tous les comptes",
+            "addAllProposalsOnNode": "Add all proposals on this node"
         },
         "editProposal": {
             "title": "Modifier la proposition",
@@ -1334,6 +1355,7 @@
         "addProposal": "Ajouter une proposition",
         "removeProposal": "Remove proposal",
         "changeNode": "Changer le noeud",
+        "changeNodeUrl": "Change node URL",
         "stopVoting": "Stop voting",
         "revote": "Voter à nouveau",
         "skipAndKeep": "Ignorer et conserver l'ancien mot de passe",
@@ -1342,10 +1364,12 @@
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
         "importToken": "Import {type} token",
-        "syncTokens": "Force sync tokens"
+        "syncTokens": "Force sync tokens",
+        "mintNftCollection": "Mint NFT collection"
     },
     "general": {
         "recipient": "Destinataire",
+        "username": "Username",
         "password": "Mot de passe",
         "confirmPassword": "Confirmez le mot de passe",
         "currentPassword": "Mot de passe actuel",
@@ -1562,7 +1586,9 @@
         "raffle": "Raffle",
         "governance": "Governance",
         "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract"
+        "unverifiedContract": "Unverified Contract",
+        "startIndex": "Start index",
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
     },
     "filters": {
         "title": "Filters",
@@ -1769,6 +1795,9 @@
         },
         "updateNetworkAddresses": {
             "success": "Contact addresses successfully updated"
+        },
+        "siwe": {
+            "rejected": "Invalid SIWE request"
         },
         "syncTokens": {
             "success": "Tokens successfully synced"
@@ -2043,7 +2072,8 @@
             "description": "Optional parameter: A description of the NFT",
             "attributes": "Optional parameter: An array of traits and values that define attributes of the NFT",
             "uri": "To create a URI using custom media, first upload your file to IPFS via a storage service (e.g. https://nft.storage/)",
-            "quantity": "Paramètre optionnel : La quantité de copies minées avec cette métadonnée."
+            "quantity": "Paramètre optionnel : La quantité de copies minées avec cette métadonnée.",
+            "startIndex": "Optional parameter: The start index of the NFTs to mint."
         },
         "governance": {
             "removeProposalWarning": "Vous devez arrêter de voter pour cette proposition avant de la supprimer.",
@@ -2069,7 +2099,7 @@
         "collectibles": "Collectibles",
         "governance": "Gouvernance",
         "campaigns": "Campaigns",
-        "buySell": "Buy & Sell",
+        "buySell": "Buy IOTA",
         "developer": "Developer",
         "tokens": "Jetons",
         "settings": "Settings"
@@ -2102,6 +2132,12 @@
             "notConnected": "Not connected",
             "locked": "Device locked",
             "appNotOpen": "App not open"
+        },
+        "dappVerification": {
+            "valid": "Verified",
+            "invalid": "Domain Mismatch",
+            "unknown": "Cannot verify",
+            "scam": "Security Risk"
         }
     },
     "menus": {
