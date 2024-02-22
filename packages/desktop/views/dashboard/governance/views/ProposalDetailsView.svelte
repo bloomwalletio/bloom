@@ -5,7 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Alert, Button, Table } from '@bloomwalletio/ui'
+    import { Alert, Button } from '@bloomwalletio/ui'
     import { getVotingEvent } from '@contexts/governance/actions'
     import {
         clearParticipationEventStatusPoll,
@@ -19,32 +19,21 @@
         selectedProposal,
         updateParticipationOverviewForEventId,
     } from '@contexts/governance/stores'
-    import {
-        calculateTotalVotesForTrackedParticipations,
-        getActiveParticipation,
-        isProposalVotable,
-        isVotingForSelectedProposal,
-    } from '@contexts/governance/utils'
+    import { getActiveParticipation, isProposalVotable, isVotingForSelectedProposal } from '@contexts/governance/utils'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { networkStatus } from '@core/network/stores'
-    import { activeProfile } from '@core/profile/stores'
-    import { formatTokenAmountBestMatch } from '@core/token'
-    import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ProposalInformationPane, ProposalQuestion } from '../components'
-    import { Pane, Text } from '@ui'
+    import { Pane } from '@ui'
     import { onDestroy, onMount } from 'svelte'
-    import { ProposalDetailsPane } from '../components/proposal-details'
-
-    const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
+    import { ProposalAccountVotingPane, ProposalDetailsPane } from '../components/proposal-details'
 
     let selectedAnswerValues: number[] = []
     let votedAnswerValues: number[] = []
     let votingPayload: VotingEventPayload
-    let totalVotes = BigInt(0)
     let hasMounted = false
     let alertText = ''
     let proposalQuestions: HTMLElement
@@ -125,22 +114,16 @@
     function setVotedAnswerValuesAndTotalVotes(): void {
         let lastActiveOverview: TrackedParticipationOverview
         switch ($selectedParticipationEventStatus?.status) {
-            case EventStatus.Upcoming:
-                totalVotes = BigInt(0)
-                break
             case EventStatus.Commencing:
                 lastActiveOverview = trackedParticipations?.find((overview) => overview.endMilestoneIndex === 0)
-                totalVotes = BigInt(0)
                 break
             case EventStatus.Holding:
                 lastActiveOverview = trackedParticipations?.find((overview) => overview.endMilestoneIndex === 0)
-                totalVotes = calculateTotalVotesForTrackedParticipations(trackedParticipations)
                 break
             case EventStatus.Ended:
                 lastActiveOverview = trackedParticipations?.find(
                     (overview) => overview.endMilestoneIndex > $selectedProposal.milestones.ended
                 )
-                totalVotes = calculateTotalVotesForTrackedParticipations(trackedParticipations)
                 break
         }
         votedAnswerValues = lastActiveOverview?.answers ?? []
@@ -217,23 +200,7 @@
 <proposal-details class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-4">
     <div class="w-2/5 flex flex-col space-y-4 relative">
         <ProposalDetailsPane proposal={$selectedProposal} />
-        <Pane classes="p-6 h-fit shrink-0">
-            <Text smaller classes="mb-5">
-                {localize('views.governance.details.yourVote.title')}
-            </Text>
-            <Table
-                items={[
-                    {
-                        key: localize('views.governance.details.yourVote.total'),
-                        value: formatTokenAmountBestMatch(totalVotes, metadata),
-                    },
-                    {
-                        key: localize('views.governance.details.yourVote.power'),
-                        value: formatTokenAmountBestMatch($selectedAccount?.votingPower, metadata),
-                    },
-                ]}
-            />
-        </Pane>
+        <ProposalAccountVotingPane />
         <ProposalInformationPane />
     </div>
     <Pane classes="w-3/5 h-full p-6 pr-3 flex flex-col justify-between">
