@@ -27,14 +27,15 @@
     enum Tab {
         Details = 'details',
         Resources = 'resources',
-        RawMessage = 'rawMessage',
+        Raw = 'raw',
     }
 
-    const TABS: KeyValue<string>[] = [
-        { key: Tab.Details, value: localize('popups.siwe.details') },
-        { key: Tab.Resources, value: localize('popups.siwe.resources') },
-        { key: Tab.RawMessage, value: localize('popups.siwe.raw') },
-    ]
+    const TABS: KeyValue<string>[] = (
+        siweObject.resources ? [Tab.Details, Tab.Resources, Tab.Raw] : [Tab.Details, Tab.Raw]
+    ).map((key) => ({
+        key,
+        value: localize(`popups.siwe.${key}`),
+    }))
 
     let selectedTab = TABS[0]
     let isBusy = false
@@ -94,12 +95,14 @@
     />
 
     <div class="space-y-5">
-        <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4">
-            <Text fontWeight="medium">{localize('popups.siwe.statement')}</Text>
-            <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
-                >{siweObject.statement}</Text
-            >
-        </div>
+        {#if siweObject.statement}
+            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4">
+                <Text fontWeight="medium">{localize('popups.siwe.statement')}</Text>
+                <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
+                    >{siweObject.statement}</Text
+                >
+            </div>
+        {/if}
         <Tabs bind:selectedTab tabs={TABS} />
         {#if selectedTab.key === Tab.Details}
             <Table
@@ -136,7 +139,7 @@
             />
         {:else if selectedTab.key === Tab.Resources}
             <Table
-                items={siweObject.resources.map((resource, index) => ({
+                items={siweObject.resources?.map((resource, index) => ({
                     key: `Ressource ${index + 1}`,
                     value: resource,
                     onClick: () => openUrlInBrowser(resource),
