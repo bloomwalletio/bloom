@@ -11,7 +11,7 @@ import { INetworkStatus } from '../interfaces'
  * @returns {INetworkStatus}
  */
 export function getNetworkStatusFromNodeInfo(nodeInfo: INodeInfo): INetworkStatus {
-    let health = NetworkHealth.Down
+    let health = NetworkHealth.Operational
     const timestamp = nodeInfo.status.latestMilestone.timestamp
     if (timestamp) {
         const timeSinceLastMsInMinutes =
@@ -22,8 +22,6 @@ export function getNetworkStatusFromNodeInfo(nodeInfo: INodeInfo): INetworkStatu
         } else if (timeSinceLastMsInMinutes < 5) {
             health = NetworkHealth.Degraded
         }
-    } else {
-        health = NetworkHealth.Operational
     }
 
     return {
