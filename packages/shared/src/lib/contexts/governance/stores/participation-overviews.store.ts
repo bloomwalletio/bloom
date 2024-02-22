@@ -7,7 +7,7 @@ import { DEFAULT_PARTICIPATION_OVERVIEW } from '../constants'
 export const allParticipationOverviews = writable<{ [accountId: number]: ParticipationOverview }>({})
 let isUpdatingParticipationOverview: boolean = false
 
-export const participationOverviewForSelectedAccount: Readable<ParticipationOverview> = derived(
+export const participationOverviewForSelectedAccount: Readable<ParticipationOverview | undefined> = derived(
     [selectedAccountIndex, allParticipationOverviews],
     ([$selectedAccountIndex, $allParticipationOverviews]) => {
         if ($selectedAccountIndex >= 0) {
