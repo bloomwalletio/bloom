@@ -171,7 +171,7 @@
                     </Text>
                     <Table
                         collapsible
-                        collapsibleTitle={localize('popups.smartContractCall.details')}
+                        collapsibleTitle={localize('general.details')}
                         slot="body"
                         items={[
                             {
