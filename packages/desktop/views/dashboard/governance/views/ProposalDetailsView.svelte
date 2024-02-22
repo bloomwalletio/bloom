@@ -26,10 +26,14 @@
     import { networkStatus } from '@core/network/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { ProposalInformationPane, ProposalQuestion } from '../components'
+    import { ProposalQuestion } from '../components'
     import { Pane } from '@ui'
     import { onDestroy, onMount } from 'svelte'
-    import { ProposalAccountVotingPane, ProposalDetailsPane } from '../components/proposal-details'
+    import {
+        ProposalAccountVotingPane,
+        ProposalDetailsPane,
+        ProposalInformationPane,
+    } from '../components/proposal-details'
 
     let selectedAnswerValues: number[] = []
     let votedAnswerValues: number[] = []
