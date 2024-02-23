@@ -11,8 +11,6 @@
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
-        $: console.log($network.getChains())
-
     function onL1NetworkCardClick(): void {
         $networkConfigRouter.goTo(NetworkConfigRoute.NetworkSettings)
     }
