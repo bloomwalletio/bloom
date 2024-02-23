@@ -4,8 +4,9 @@ import { Converter } from '@core/utils'
 
 export function calculateGasFeeInGlow(gasAmount: BigIntLike, gasPriceInWei: BigIntLike | undefined): bigint {
     if (gasAmount && gasPriceInWei) {
-        const gasPriceInGlow = BigInt(Number(gasPriceInWei)) / WEI_PER_GLOW
-        return Converter.bigIntLikeToBigInt(gasAmount) * gasPriceInGlow
+        const totalPriceInWei = Converter.bigIntLikeToBigInt(gasAmount) * Converter.bigIntLikeToBigInt(gasPriceInWei)
+        const totalPriceInGlow = totalPriceInWei / WEI_PER_GLOW
+        return totalPriceInGlow
     } else {
         return BigInt(0)
     }
