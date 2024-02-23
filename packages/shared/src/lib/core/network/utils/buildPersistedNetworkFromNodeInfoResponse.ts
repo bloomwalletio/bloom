@@ -15,8 +15,7 @@ export function buildPersistedNetworkFromNodeInfoResponse(
     const name = DEFAULT_NETWORK_METADATA[id]?.name ?? networkName ?? localize('general.unknown')
     const _coinType = coinType ?? DEFAULT_COIN_TYPE[id] ?? TEST_COIN_TYPE
 
-    const configuration = DEFAULT_CHAIN_CONFIGURATIONS?.[id]
-    const chainConfigurations = configuration ? [configuration] : []
+    const chainConfigurations = DEFAULT_CHAIN_CONFIGURATIONS?.[id] ?? []
     return {
         id,
         name,

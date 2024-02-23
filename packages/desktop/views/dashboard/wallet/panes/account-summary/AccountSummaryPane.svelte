@@ -7,12 +7,12 @@
     export let account: IAccountState
 
     const stardustNetworkId = getActiveNetworkId()
-    const evmChainNetworkId = $network.getChains()[0]?.getConfiguration()?.id
+    const chains = $network.getChains()
 </script>
 
 <Pane
     classes="
-        w-full flex shrink-0 grid {evmChainNetworkId ? 'grid-cols-3' : 'grid-cols-2'}
+        w-full flex shrink-0 grid {chains.length > 0 ? chains.length > 1 ? 'grid-cols-4' : 'grid-cols-3' : 'grid-cols-2'}
         bg-surface dark:bg-surface-dark 
         border border-solid border-stroke dark:border-stroke-dark 
         divide-x divide-solid divide-stroke dark:divide-stroke-dark 
@@ -21,7 +21,7 @@
 >
     <AccountSummary />
     <AccountStardustNetworkSummary {account} networkId={stardustNetworkId} />
-    {#if evmChainNetworkId}
-        <AccountEvmChainSummary {account} networkId={evmChainNetworkId} />
-    {/if}
+    {#each chains as chain}
+        <AccountEvmChainSummary {account} {chain} />
+    {/each}
 </Pane>
