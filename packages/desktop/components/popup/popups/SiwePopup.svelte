@@ -94,12 +94,12 @@
         classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
     />
 
-    <div class="space-y-5">
+    <div class="flex flex-col gap-5">
         {#if siweObject.statement}
-            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4">
+            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4 max-h-20 scrollable-y">
                 <Text fontWeight="medium">{localize('popups.siwe.statement')}</Text>
                 <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
-                    >{siweObject.statement}</Text
+                    >{siweObject.statement}{siweObject.statement}{siweObject.statement}</Text
                 >
             </div>
         {/if}
@@ -146,7 +146,7 @@
                 }))}
             />
         {:else}
-            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4">
+            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4 max-h-64 scrollable-y">
                 <Text fontWeight="medium">{localize('popups.siwe.rawMessage')}</Text>
                 <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
                     >{rawMessage}</Text
