@@ -99,7 +99,7 @@
             <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4 max-h-20 scrollable-y">
                 <Text fontWeight="medium">{localize('popups.siwe.statement')}</Text>
                 <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
-                    >{siweObject.statement}{siweObject.statement}{siweObject.statement}</Text
+                    >{siweObject.statement}</Text
                 >
             </div>
         {/if}
