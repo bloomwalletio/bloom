@@ -102,13 +102,13 @@
             return
         }
 
-        const response = await sendAndPersistTransactionFromEvm(
+        const transactionHash = await sendAndPersistTransactionFromEvm(
             preparedTransaction,
             signedTransaction,
             chain,
             $selectedAccount
         )
-        callback({ result: response })
+        callback({ result: transactionHash })
     }
 
     async function onConfirmClick(): Promise<void> {
