@@ -66,9 +66,9 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             void handleEthTransaction(request.params[0], dapp, chain, method, returnResponse, verifiedState)
             break
         case 'eth_sendRawTransaction': {
-            const _transaction =
-                '0xf8667d85e8d4a510008252089462755b3cd128d8622fd82444f49d19009a6d950f8080820885a08ec84d65d3af77a4233de2f7d090c82d5381f67c175a5d30d7ef33704d458f45a038dfc68b809961e01ca6d21b567fdf35e7f1771143c1268209cc475df5538507'
-            const transactionData = TransactionFactory.fromSerializedData(Converter.hexToBytes(_transaction)).toJSON()
+            const transactionData = TransactionFactory.fromSerializedData(
+                Converter.hexToBytes(request.params[0])
+            ).toJSON()
             const transaction = TransactionFactory.fromTxData(transactionData)
             const sender = transaction.getSenderAddress().toString()
 
