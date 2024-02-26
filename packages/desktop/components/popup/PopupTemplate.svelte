@@ -78,7 +78,7 @@
             <slot />
         {/if}
         {#if backButton || continueButton}
-            <popup-footer class="block flex flex-row space-x-3">
+            <popup-footer class="flex flex-row space-x-3">
                 {#if backButton}
                     <Button
                         type="button"
