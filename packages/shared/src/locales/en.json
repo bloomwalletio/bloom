@@ -1542,6 +1542,7 @@
         "contractFunction": "Contract function",
         "standard": "Standard",
         "uri": "URI",
+        "image": "Image",
         "issuer": "Issuer",
         "issuerAddress": "Issuer Address",
         "issuerName": "Issuer Name",
