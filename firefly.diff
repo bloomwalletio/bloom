@@ -59,6 +59,7 @@
  delete mode 100644 packages/desktop/components/AccountSummary.svelte
  delete mode 100644 packages/desktop/components/OnboardingLayout.svelte
  delete mode 100644 packages/desktop/components/ProposalStatusInfo.svelte
+ delete mode 100644 packages/desktop/components/ProposalStatusTimelineTooltip.svelte
  delete mode 100644 packages/desktop/components/Scroller.svelte
  delete mode 100644 packages/desktop/components/SendButton.svelte
  delete mode 100644 packages/desktop/components/VotingPower.svelte
@@ -71,21 +72,22 @@
  delete mode 100644 packages/desktop/components/drawers/network-config/drawers/ChainDepositAddressDrawer.svelte
  delete mode 100644 packages/desktop/components/drawers/network-config/drawers/ChainInformationDrawer.svelte
  delete mode 100644 packages/desktop/components/drawers/network-config/drawers/ConfirmLedgerEvmAddressDrawer.svelte
+ delete mode 100644 packages/desktop/components/drawers/network-config/drawers/ConnectLedgerDeviceDrawer.svelte
  delete mode 100644 packages/desktop/components/drawers/network-config/drawers/DrawerTemplate.svelte
  delete mode 100644 packages/desktop/components/drawers/network-config/drawers/components/IscpChainInformation.svelte
  rename packages/desktop/components/filter/{index.js => index.ts} (100%)
  delete mode 100644 packages/desktop/components/index.js
  delete mode 100644 packages/desktop/components/menu-buttons/index.js
  rename packages/{shared/components/modals => desktop/components/menus}/NodeActionsMenu.svelte (52%)
- rename packages/desktop/components/{menu-buttons/ProposalDetailsButton.svelte => menus/ProposalDetailsMenu.svelte} (55%)
  delete mode 100644 packages/desktop/components/modals/AccountActionsMenu.svelte
  delete mode 100644 packages/desktop/components/modals/AccountSwitcherModal.svelte
  delete mode 100644 packages/desktop/components/modals/index.js
- rename packages/desktop/components/panes/{index.js => index.ts} (100%)
+ delete mode 100644 packages/desktop/components/panes/ProposalInformationPane.svelte
+ delete mode 100644 packages/desktop/components/panes/index.js
  rename packages/desktop/components/{ => popup}/popups/AddNodePopup.svelte (56%)
- rename packages/desktop/components/{ => popup}/popups/AddProposalPopup.svelte (77%)
+ rename packages/desktop/components/{ => popup}/popups/AddProposalPopup.svelte (50%)
  rename packages/desktop/components/{ => popup}/popups/MintNativeTokenFormPopup.svelte (69%)
- rename packages/desktop/components/{ => popup}/popups/MintNftFormPopup.svelte (84%)
+ rename packages/desktop/components/{ => popup}/popups/MintNftFormPopup.svelte (80%)
  rename packages/desktop/components/{ => popup}/popups/RemoveProposalPopup.svelte (52%)
  delete mode 100644 packages/desktop/components/popups/AccountSwitcherPopup.svelte
  delete mode 100644 packages/desktop/components/popups/ActivityDetailsPopup.svelte
@@ -156,12 +158,13 @@
  delete mode 100644 packages/desktop/lib/auxiliary/popup/helpers/index.ts
  rename packages/desktop/lib/{electron.ts => electron/index.ts} (54%)
  rename packages/desktop/{electron/lib/menuState.js => lib/electron/menus/menu-state.constant.ts} (86%)
- rename packages/desktop/{electron/main.js => lib/electron/processes/main.process.ts} (60%)
+ rename packages/desktop/{electron/main.js => lib/electron/processes/main.process.ts} (59%)
  rename packages/desktop/{electron/lib/analytics.js => lib/electron/utils/analytics.utils.ts} (82%)
  rename packages/desktop/{electron/lib/errorHandling.js => lib/electron/utils/error.utils.ts} (69%)
  delete mode 100644 packages/desktop/lib/routers/actions/openSettings.ts
  delete mode 100644 packages/desktop/lib/routers/enums/index.ts
  delete mode 100644 packages/desktop/lib/routers/routers/index.ts
+ delete mode 100644 packages/desktop/lib/routers/routers/network-config.router.ts
  delete mode 100644 packages/desktop/lib/routers/types/drawer-route.type.ts
  delete mode 100644 packages/desktop/lib/routers/types/index.ts
  delete mode 100644 packages/desktop/public/assets/icons/alpha/icon1024x1024.png
@@ -179,19 +182,23 @@
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/TestDeepLinkButton.svelte (72%)
  rename packages/desktop/{components/buttons/popup-buttons/index.js => views/dashboard/developer/components/index.ts} (68%)
  rename packages/desktop/views/dashboard/developer/{index.js => index.ts} (100%)
- rename packages/desktop/{components/drawers/network-config/NetworkConfigDrawerRouter.svelte => views/dashboard/drawers/network-config/NetworkConfigRouterView.svelte} (70%)
+ rename packages/desktop/{components/drawers/network-config/NetworkConfigDrawerRouter.svelte => views/dashboard/drawers/network-config/NetworkConfigRouterView.svelte} (68%)
  rename packages/desktop/views/dashboard/{settings/views/network/index.js => drawers/network-config/components/index.ts} (54%)
- rename packages/desktop/{lib/routers/enums => views/dashboard/drawers/network-config}/network-config-route.enum.ts (89%)
- rename packages/desktop/{lib/routers/routers => views/dashboard/drawers/network-config}/network-config.router.ts (74%)
+ rename packages/desktop/{lib/routers/enums => views/dashboard/drawers/network-config}/network-config-route.enum.ts (86%)
  rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/AddChainDrawer.svelte (69%)
- rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/ConnectLedgerDeviceDrawer.svelte (67%)
  rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/ConnectedChainsDrawer.svelte (62%)
  rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/EditChainDrawer.svelte (69%)
  rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/RemoveChainDrawer.svelte (60%)
  rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/components/AddIscpChainForm.svelte (69%)
  rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/components/EvmChainInformation.svelte (100%)
  rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/components/index.ts (100%)
- rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/index.ts (88%)
+ rename packages/desktop/{components/drawers/network-config/drawers => views/dashboard/drawers/network-config/views}/index.ts (78%)
+ rename packages/desktop/{ => views/dashboard/governance}/components/ProposalAnswer.svelte (56%)
+ rename packages/desktop/{ => views/dashboard/governance}/components/ProposalCard.svelte (52%)
+ rename packages/desktop/{components/menu-buttons/ProposalDetailsButton.svelte => views/dashboard/governance/components/ProposalDetailsMenu.svelte} (55%)
+ rename packages/desktop/{components/Proposals.svelte => views/dashboard/governance/components/ProposalList.svelte} (77%)
+ rename packages/desktop/{components/ProposalsDetails.svelte => views/dashboard/governance/components/ProposalListDetails.svelte} (50%)
+ rename packages/desktop/{ => views/dashboard/governance}/components/ProposalQuestion.svelte (66%)
  rename packages/desktop/views/dashboard/{index.js => index.ts} (77%)
  rename packages/desktop/views/dashboard/send-flow/{index.js => index.ts} (100%)
  delete mode 100644 packages/desktop/views/dashboard/send-flow/views/SendFlowTemplate.svelte
@@ -696,6 +703,7 @@
  delete mode 100644 packages/shared/components/ProgressBar.svelte
  delete mode 100644 packages/shared/components/RecoveryPhrase.svelte
  delete mode 100644 packages/shared/components/ResultsNotAvailableTooltip.svelte
+ delete mode 100644 packages/shared/components/Spinner.svelte
  delete mode 100644 packages/shared/components/Swiper.svelte
  delete mode 100644 packages/shared/components/TextHint.svelte
  delete mode 100644 packages/shared/components/Toast.svelte
@@ -762,12 +770,14 @@
  delete mode 100644 packages/shared/components/enums/button-size.enum.ts
  delete mode 100644 packages/shared/components/enums/button-type.enum.ts
  delete mode 100644 packages/shared/components/enums/button-variant.enum.ts
+ delete mode 100644 packages/shared/components/enums/font-weight.enum.ts
  delete mode 100644 packages/shared/components/enums/tab.enum.ts
  delete mode 100644 packages/shared/components/inputs/AccountInput.svelte
  delete mode 100644 packages/shared/components/inputs/AmountInput.svelte
  delete mode 100644 packages/shared/components/inputs/AssetAmountInput.svelte
  delete mode 100644 packages/shared/components/inputs/AssetDropdown.svelte
  delete mode 100644 packages/shared/components/inputs/ChainInput.svelte
+ delete mode 100644 packages/shared/components/inputs/Checkbox.svelte
  delete mode 100644 packages/shared/components/inputs/ClosableInput.svelte
  delete mode 100644 packages/shared/components/inputs/DateTimePicker.svelte
  delete mode 100644 packages/shared/components/inputs/Dropdown.svelte
@@ -805,12 +815,14 @@
  delete mode 100644 packages/shared/components/molecules/ExpirationTimePicker.svelte
  delete mode 100644 packages/shared/components/molecules/FoundryActivityDetails.svelte
  delete mode 100644 packages/shared/components/molecules/GovernanceActivityDetails.svelte
+ delete mode 100644 packages/shared/components/molecules/MarkdownBlock.svelte
  delete mode 100644 packages/shared/components/molecules/MediaPlaceholder.svelte
  delete mode 100644 packages/shared/components/molecules/NetworkRecipientItem.svelte
  delete mode 100644 packages/shared/components/molecules/NftActivityDetails.svelte
  delete mode 100644 packages/shared/components/molecules/NftGallery.svelte
  delete mode 100644 packages/shared/components/molecules/NftGalleryItem.svelte
  delete mode 100644 packages/shared/components/molecules/NftImageOrIconBox.svelte
+ delete mode 100644 packages/shared/components/molecules/SelectorInput.svelte
  delete mode 100644 packages/shared/components/molecules/ShimmerClaimingAccountList.svelte
  delete mode 100644 packages/shared/components/molecules/activity-info/AliasActivityInformation.svelte
  delete mode 100644 packages/shared/components/molecules/activity-info/ConsolidationActivityInformation.svelte
@@ -825,6 +837,8 @@
  delete mode 100644 packages/shared/components/molecules/filter-items/OrderFilterItem.svelte
  delete mode 100644 packages/shared/components/molecules/filter-items/SelectionFilterItem.svelte
  delete mode 100644 packages/shared/components/molecules/index.js
+ delete mode 100644 packages/shared/components/molecules/markdown-renderers/LinkBlock.svelte
+ delete mode 100644 packages/shared/components/molecules/markdown-renderers/ParagraphBlock.svelte
  delete mode 100644 packages/shared/components/molecules/menu-items/AccountSwitcherMenuItem.svelte
  delete mode 100644 packages/shared/components/molecules/menu-items/ToggleHiddenAccountMenuItem.svelte
  delete mode 100644 packages/shared/components/molecules/menu-items/index.js
@@ -857,6 +871,7 @@
  delete mode 100644 packages/shared/lib/auxiliary/notification/types/notification-type.type.ts
  delete mode 100644 packages/shared/lib/auxiliary/notification/utils/isNewNotification.ts
  delete mode 100644 packages/shared/lib/contexts/governance/actions/getVotingEvent.ts
+ delete mode 100644 packages/shared/lib/contexts/governance/actions/registerProposalsFromNodes.ts
  delete mode 100644 packages/shared/lib/contexts/governance/actions/setVotingPower.ts
  delete mode 100644 packages/shared/lib/contexts/governance/actions/stopVotingForProposal.ts
  delete mode 100644 packages/shared/lib/contexts/governance/actions/vote.ts
@@ -997,6 +1012,7 @@
  delete mode 100644 packages/shared/lib/core/network/enums/index.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/auth.interface.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/network-metadata.interface.ts
+ delete mode 100644 packages/shared/lib/core/network/interfaces/network-status.interface.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/network.interface.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/node-info.interface.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/node.interface.ts
@@ -1221,14 +1237,12 @@
  rename packages/shared/{ => src}/components/Idle.svelte (93%)
  rename packages/shared/{ => src}/components/Link.svelte (90%)
  rename packages/shared/{ => src}/components/QR.svelte (66%)
- rename packages/shared/{ => src}/components/Spinner.svelte (79%)
- rename packages/shared/{ => src}/components/Text.svelte (98%)
- rename packages/shared/{ => src}/components/Tooltip.svelte (97%)
+ rename packages/shared/{ => src}/components/Text.svelte (81%)
+ rename packages/shared/{ => src}/components/Tooltip.svelte (91%)
  rename packages/shared/{ => src}/components/Transition.svelte (75%)
  rename packages/shared/{ => src}/components/atoms/Icon.svelte (90%)
- rename packages/shared/{components/atoms => src/components}/boxes/Box.svelte (85%)
+ rename packages/shared/{components/atoms => src/components}/boxes/Box.svelte (60%)
  rename packages/shared/{components/atoms => src/components}/buttons/ReceiveButton.svelte (81%)
- rename packages/shared/{ => src}/components/enums/font-weight.enum.ts (100%)
  rename packages/shared/{ => src}/components/enums/index.ts (50%)
  rename packages/shared/{ => src}/components/enums/nft-media-size.enum.ts (100%)
  rename packages/shared/{ => src}/components/enums/position.enum.ts (100%)
@@ -1237,31 +1251,26 @@
  rename packages/shared/{components/atoms/iconButtons/index.js => src/components/iconButtons/index.ts} (100%)
  rename packages/shared/{components/index.js => src/components/index.ts} (53%)
  rename packages/shared/{ => src}/components/inputs/AliasInput.svelte (51%)
- rename packages/shared/{ => src}/components/inputs/Checkbox.svelte (98%)
  rename packages/shared/{components/inputs/Dropdown2.svelte => src/components/inputs/Dropdown.svelte} (96%)
- rename packages/shared/{ => src}/components/inputs/Input.svelte (93%)
+ rename packages/shared/{ => src}/components/inputs/Input.svelte (90%)
  rename packages/shared/{ => src}/components/inputs/InputContainer.svelte (69%)
- rename packages/shared/{ => src}/components/inputs/NodeInput.svelte (95%)
+ rename packages/shared/{ => src}/components/inputs/NodeInput.svelte (79%)
  rename packages/shared/{ => src}/components/inputs/OptionalInput.svelte (55%)
  rename packages/shared/{ => src}/components/inputs/Radio.svelte (94%)
  rename packages/shared/{ => src}/components/inputs/SliderInput.svelte (65%)
- rename packages/shared/{ => src}/components/inputs/TextInput.svelte (63%)
- rename packages/shared/{ => src}/components/inputs/TokenAmountInput.svelte (60%)
- rename packages/shared/{components/inputs/index.js => src/components/inputs/index.ts} (56%)
+ rename packages/shared/{ => src}/components/inputs/TextInput.svelte (60%)
+ rename packages/shared/{ => src}/components/inputs/TokenAmountInput.svelte (56%)
+ rename packages/shared/{components/inputs/index.js => src/components/inputs/index.ts} (54%)
  rename packages/shared/{ => src}/components/interfaces/index.ts (100%)
  rename packages/shared/{ => src}/components/interfaces/network-recipient-selector-option.interface.ts (51%)
- rename packages/shared/{ => src}/components/molecules/MarkdownBlock.svelte (100%)
  rename packages/shared/{ => src}/components/molecules/NetworkRecipientSelector.svelte (67%)
  rename packages/shared/{ => src}/components/molecules/NftMedia.svelte (53%)
- rename packages/shared/{ => src}/components/molecules/SelectorInput.svelte (85%)
  rename packages/{mobile => shared/src}/components/molecules/ShimmerClaimingAccountList.svelte (79%)
- rename packages/shared/{ => src}/components/molecules/activity-info/index.js (100%)
+ rename packages/shared/{components/molecules/activity-info/index.js => src/components/molecules/activity-info/index.ts} (69%)
  rename packages/shared/{ => src}/components/molecules/filter-items/DateFilterItem.svelte (58%)
  rename packages/shared/{ => src}/components/molecules/filter-items/NetworkFilterItem.svelte (55%)
  rename packages/shared/{ => src}/components/molecules/filter-items/NumberFilterItem.svelte (56%)
- rename packages/shared/{ => src}/components/molecules/filter-items/index.js (85%)
- rename packages/shared/{ => src}/components/molecules/markdown-renderers/LinkBlock.svelte (100%)
- rename packages/shared/{ => src}/components/molecules/markdown-renderers/ParagraphBlock.svelte (100%)
+ rename packages/shared/{components/molecules/filter-items/index.js => src/components/molecules/filter-items/index.ts} (85%)
  rename packages/shared/{components/atoms => src/components}/tiles/Tile.svelte (93%)
  rename packages/shared/{components/atoms => src/components}/tiles/index.js (57%)
  rename packages/shared/{ => src}/components/types/text-prop.type.ts (100%)
@@ -1458,7 +1467,6 @@
  rename packages/shared/{ => src}/lib/contexts/governance/actions/registerParticipationEvent.ts (92%)
  rename packages/shared/{ => src}/lib/contexts/governance/actions/registerParticipationEvents.ts (76%)
  rename packages/shared/{ => src}/lib/contexts/governance/actions/registerProposalsForAccounts.ts (83%)
- rename packages/shared/{ => src}/lib/contexts/governance/actions/registerProposalsFromNodes.ts (91%)
  rename packages/shared/{ => src}/lib/contexts/governance/constants/abstain-vote-value.constant.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/constants/default-participation-overview.constant.ts (58%)
  rename packages/shared/{ => src}/lib/contexts/governance/constants/default-proposal-filter.constant.ts (76%)
@@ -1471,20 +1479,20 @@
  rename packages/shared/{ => src}/lib/contexts/governance/enums/proposal-order-option.enum.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/enums/proposal-type.enum.ts (100%)
  rename packages/{mobile/lib/auxiliary/drawer => shared/src/lib/contexts/governance}/index.ts (100%)
- rename packages/shared/{ => src}/lib/contexts/governance/interfaces/index.ts (100%)
+ rename packages/shared/{ => src}/lib/contexts/governance/interfaces/index.ts (78%)
  rename packages/shared/{ => src}/lib/contexts/governance/interfaces/proposal-answer-percentages.interface.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/interfaces/proposal-filter.interface.ts (100%)
+ rename packages/shared/{lib/contexts/governance/interfaces/proposals-details.interface.ts => src/lib/contexts/governance/interfaces/proposal-list-details.interface.ts} (73%)
  rename packages/shared/{ => src}/lib/contexts/governance/interfaces/proposal-state.interface.ts (73%)
- rename packages/shared/{ => src}/lib/contexts/governance/interfaces/proposals-details.interface.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/stores/index.ts (100%)
- rename packages/shared/{ => src}/lib/contexts/governance/stores/participation-overviews.store.ts (96%)
+ rename packages/shared/{ => src}/lib/contexts/governance/stores/participation-overviews.store.ts (94%)
  rename packages/shared/{ => src}/lib/contexts/governance/stores/proposal-filter.store.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/stores/registered-proposals.store.ts (100%)
- rename packages/shared/{ => src}/lib/contexts/governance/stores/selected-participation-event-status.store.ts (94%)
+ rename packages/shared/{ => src}/lib/contexts/governance/stores/selected-participation-event-status.store.ts (59%)
  rename packages/shared/{ => src}/lib/contexts/governance/stores/selected-proposal.store.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/types/index.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/calculateTotalVotesForTrackedParticipations.ts (74%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/createProposalFromError.ts (85%)
+ rename packages/shared/{ => src}/lib/contexts/governance/utils/createProposalFromError.ts (81%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/createProposalFromEvent.ts (53%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getActiveParticipation.ts (88%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfActiveProposals.ts (100%)
@@ -1696,7 +1704,7 @@
  rename packages/shared/{ => src}/lib/core/app/interfaces/managers/notification-manager.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/managers/pincode-manager.interface.ts (77%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/nft-download-state.interface.ts (74%)
- rename packages/shared/{ => src}/lib/core/app/interfaces/platform-event-map.interface.ts (53%)
+ rename packages/shared/{ => src}/lib/core/app/interfaces/platform-event-map.interface.ts (51%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/platform.interface.ts (81%)
  rename packages/shared/{ => src}/lib/core/app/stores/app-settings.store.ts (55%)
  rename packages/shared/{ => src}/lib/core/app/stores/app-version-details.store.ts (100%)
@@ -1846,7 +1854,7 @@
  rename packages/shared/{ => src}/lib/core/network/actions/updateClientOptions.ts (98%)
  rename packages/shared/{ => src}/lib/core/network/classes/index.ts (64%)
  rename packages/shared/{ => src}/lib/core/network/classes/iscp-chain.class.ts (63%)
- rename packages/shared/{ => src}/lib/core/network/classes/stardust-network.class.ts (82%)
+ rename packages/shared/{ => src}/lib/core/network/classes/stardust-network.class.ts (81%)
  rename packages/shared/{ => src}/lib/core/network/constants/chain-statuses-poll-interval.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/constants/empty-node.constant.ts (54%)
  rename packages/shared/{ => src}/lib/core/network/constants/index.ts (54%)
@@ -1856,9 +1864,9 @@
  rename packages/shared/{ => src}/lib/core/network/constants/seconds-per-milestone.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/enums/chain-type.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/enums/explorer-endpoint.enum.ts (54%)
- rename packages/shared/{ => src}/lib/core/network/enums/network-health.enum.ts (100%)
+ rename packages/shared/{ => src}/lib/core/network/enums/network-health.enum.ts (86%)
  rename packages/shared/{ => src}/lib/core/network/enums/token-supply.enum.ts (75%)
- rename packages/shared/{ => src}/lib/core/network/helpers/getNetworkStatusFromNodeInfo.ts (92%)
+ rename packages/shared/{ => src}/lib/core/network/helpers/getNetworkStatusFromNodeInfo.ts (85%)
  rename packages/shared/{ => src}/lib/core/network/helpers/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/block.interface.ts (100%)
@@ -1872,7 +1880,6 @@
  rename packages/shared/{ => src}/lib/core/network/interfaces/gas-fee-policy.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/gas-limits.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/index.ts (78%)
- rename packages/shared/{ => src}/lib/core/network/interfaces/network-status.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/node-info-response.interface.ts (62%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/persisted-network.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/protocol.interface.ts (64%)
@@ -1975,7 +1982,7 @@
  rename packages/shared/{ => src}/lib/core/profile-manager/utils/getSecretManagerPath.ts (100%)
  rename packages/shared/{ => src}/lib/core/profile-manager/utils/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-accounts/index.ts (100%)
- rename packages/shared/{ => src}/lib/core/profile/actions/active-accounts/updateActiveAccountPersistedData.ts (97%)
+ rename packages/shared/{ => src}/lib/core/profile/actions/active-accounts/updateActiveAccountPersistedData.ts (63%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/checkAndRemoveProfilePicture.ts (100%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/checkAndUpdateActiveProfileNetwork.ts (62%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/getBaseToken.ts (81%)
@@ -2206,7 +2213,7 @@
  rename packages/shared/{lib/auxiliary/deep-link => src/lib/core/wallet}/errors/tag-length.error.ts (100%)
  rename packages/shared/{ => src}/lib/core/wallet/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/wallet/interfaces/account-subject.interface.ts (55%)
- rename packages/shared/{ => src}/lib/core/wallet/interfaces/mint-nft-details.interface.ts (100%)
+ rename packages/shared/{ => src}/lib/core/wallet/interfaces/mint-nft-details.interface.ts (72%)
  rename packages/shared/{ => src}/lib/core/wallet/interfaces/mint-token-details.interface.ts (76%)
  rename packages/shared/{ => src}/lib/core/wallet/interfaces/participation.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/wallet/interfaces/wrapped-output.interface.ts (50%)
@@ -2221,7 +2228,7 @@
  rename packages/shared/{ => src}/lib/core/wallet/utils/validateIrc30Metadata.ts (93%)
  rename packages/shared/{ => src}/lib/features/features.ts (100%)
  rename packages/shared/{ => src}/lib/features/interfaces/collectibles-features.interface.ts (85%)
- rename packages/shared/{ => src}/lib/features/interfaces/developer-features.interface.ts (89%)
+ rename packages/shared/{ => src}/lib/features/interfaces/developer-features.interface.ts (88%)
  rename packages/shared/{ => src}/lib/features/interfaces/feature-flag.interface.ts (100%)
  rename packages/shared/{ => src}/lib/features/interfaces/features.interface.ts (56%)
  rename packages/shared/{ => src}/lib/features/interfaces/governance-features.interface.ts (100%)
