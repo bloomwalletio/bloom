@@ -3,7 +3,7 @@
     import { handleError } from '@core/error/handlers'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { signAndSendTransactionFromEvm } from '@core/wallet/actions'
+    import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
     import { selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { DappInfo, TransactionAssetSection } from '@ui'
@@ -31,14 +31,20 @@
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
 
     export let preparedTransaction: EvmTransactionData
+    export let rawTransaction: string
     export let chain: IChain
     export let dapp: IConnectedDapp
-    export let signAndSend: boolean
     export let verifiedState: DappVerification
+    export let method: 'eth_sendTransaction' | 'eth_signTransaction' | 'eth_sendRawTransaction'
     export let callback: (params: CallbackParameters) => void
 
     const { id } = chain.getConfiguration()
-    $: localeKey = signAndSend ? (isSmartContractCall ? 'smartContractCall' : 'sendTransaction') : 'signTransaction'
+    $: localeKey =
+        method === 'eth_signTransaction'
+            ? 'signTransaction'
+            : isSmartContractCall
+              ? 'smartContractCall'
+              : 'sendTransaction'
 
     let nft: Nft | undefined
     let tokenTransfer: TokenTransferData | undefined
@@ -79,6 +85,32 @@
         }
     }
 
+    async function signOrSend(): Promise<void> {
+        let signedTransaction: string | undefined
+        if (method === 'eth_sendRawTransaction') {
+            signedTransaction = rawTransaction
+        } else {
+            signedTransaction = await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+        }
+
+        if (!signedTransaction) {
+            throw Error('No signed transaction!')
+        }
+
+        if (method === 'eth_signTransaction') {
+            callback({ result: signedTransaction })
+            return
+        }
+
+        const response = await sendAndPersistTransactionFromEvm(
+            preparedTransaction,
+            signedTransaction,
+            chain,
+            $selectedAccount
+        )
+        callback({ result: response })
+    }
+
     async function onConfirmClick(): Promise<void> {
         try {
             await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
@@ -89,15 +121,11 @@
         try {
             busy = true
             modifyPopupState({ preventClose: true })
-            const response = await signAndSendTransactionFromEvm(
-                preparedTransaction,
-                chain,
-                $selectedAccount,
-                signAndSend
-            )
+
+            await signOrSend()
+
             modifyPopupState({ preventClose: false }, true)
             busy = false
-            callback({ result: response })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
                 props: {

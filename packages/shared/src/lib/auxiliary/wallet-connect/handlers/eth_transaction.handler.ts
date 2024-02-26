@@ -13,7 +13,7 @@ export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string },
     dapp: IConnectedDapp,
     chain: IChain,
-    signAndSend: boolean,
+    method: 'eth_sendTransaction' | 'eth_signTransaction' | 'eth_sendRawTransaction',
     responseCallback: (params: CallbackParameters) => void,
     verifiedState: DappVerification
 ): Promise<void> {
@@ -61,7 +61,7 @@ export async function handleEthTransaction(
                 chain,
                 dapp,
                 preparedTransaction: evmTransactionData,
-                signAndSend,
+                method,
                 verifiedState,
                 callback: responseCallback,
                 onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),

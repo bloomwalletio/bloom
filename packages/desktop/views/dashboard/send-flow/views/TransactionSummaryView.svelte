@@ -10,8 +10,9 @@
     import {
         createEvmTransactionFromSendFlowParameters,
         createStardustOutputFromSendFlowParameters,
-        signAndSendTransactionFromEvm,
+        sendAndPersistTransactionFromEvm,
         signAndSendStardustTransaction,
+        signEvmTransaction,
     } from '@core/wallet/actions'
     import { sendFlowParameters } from '@core/wallet/stores'
     import { getNetworkIdFromSendFlowParameters, validateSendConfirmation } from '@core/wallet/utils'
@@ -104,7 +105,12 @@
             busy = true
             modifyPopupState({ preventClose: true })
             if (isSourceNetworkLayer2) {
-                await signAndSendTransactionFromEvm(preparedTransaction, chain, $selectedAccount, true)
+                const signedTransaction = await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+                if (!signedTransaction) {
+                    throw Error('No signed transaction!')
+                }
+
+                await sendAndPersistTransactionFromEvm(preparedTransaction, signedTransaction, chain, $selectedAccount)
             } else {
                 await signAndSendStardustTransaction(preparedOutput, $selectedAccount)
             }
