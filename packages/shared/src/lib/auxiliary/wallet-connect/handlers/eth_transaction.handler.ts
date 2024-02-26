@@ -10,7 +10,7 @@ import { Platform } from '@core/app'
 import { DappVerification } from '../enums'
 
 export async function handleEthTransaction(
-    evmTransactionData: EvmTransactionData & { from: string },
+    evmTransactionData: EvmTransactionData & { from?: string },
     dapp: IConnectedDapp,
     chain: IChain,
     method: 'eth_sendTransaction' | 'eth_signTransaction' | 'eth_sendRawTransaction',

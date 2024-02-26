@@ -10,6 +10,8 @@ import { handleEthTransaction } from './eth_transaction.handler'
 import { handleSignMessage } from './sign_message.handler'
 import { handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
 import { DappVerification } from '../enums'
+import { TransactionFactory } from '@ethereumjs/tx'
+import { Converter } from '@core/utils'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
@@ -61,9 +63,13 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     switch (method) {
         case 'eth_sendTransaction':
         case 'eth_signTransaction':
-            case 'eth_sendRawTransaction':
             void handleEthTransaction(request.params[0], dapp, chain, method, returnResponse, verifiedState)
             break
+        case 'eth_sendRawTransaction': {
+            const transaction = TransactionFactory.fromSerializedData(Converter.hexToBytes(request.params[0])).toJSON()
+            void handleEthTransaction(transaction, dapp, chain, method, returnResponse, verifiedState)
+            break
+        }
         case 'eth_sign':
         case 'personal_sign':
             void handleSignMessage(request.params, dapp, method, chain, returnResponse, verifiedState)
