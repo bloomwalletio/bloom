@@ -96,7 +96,7 @@
 
     <div class="flex flex-col gap-5">
         {#if siweObject.statement}
-            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4 max-h-20 scrollable-y">
+            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4 max-h-28 scrollable-y">
                 <Text fontWeight="medium">{localize('popups.siwe.statement')}</Text>
                 <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
                     >{siweObject.statement}</Text
