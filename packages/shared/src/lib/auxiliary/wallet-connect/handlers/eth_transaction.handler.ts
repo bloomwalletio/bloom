@@ -7,13 +7,13 @@ import { EvmTransactionData } from '@core/layer-2'
 import { switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
-import { DappVerification } from '../enums'
+import { DappVerification, RpcMethod } from '../enums'
 
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string },
     dapp: IConnectedDapp,
     chain: IChain,
-    method: 'eth_sendTransaction' | 'eth_signTransaction' | 'eth_sendRawTransaction',
+    method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction,
     responseCallback: (params: CallbackParameters) => void,
     verifiedState: DappVerification
 ): Promise<void> {

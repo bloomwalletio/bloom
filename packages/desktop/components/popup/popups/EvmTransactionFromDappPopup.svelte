@@ -28,19 +28,19 @@
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
 
     export let preparedTransaction: EvmTransactionData
     export let rawTransaction: string
     export let chain: IChain
     export let dapp: IConnectedDapp
     export let verifiedState: DappVerification
-    export let method: 'eth_sendTransaction' | 'eth_signTransaction' | 'eth_sendRawTransaction'
+    export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
     export let callback: (params: CallbackParameters) => void
 
     const { id } = chain.getConfiguration()
     $: localeKey =
-        method === 'eth_signTransaction'
+        method === RpcMethod.EthSignTransaction
             ? 'signTransaction'
             : isSmartContractCall
               ? 'smartContractCall'
@@ -87,11 +87,11 @@
 
     async function signOrSend(): Promise<void> {
         const signedTransaction =
-            method === 'eth_sendRawTransaction'
+            method === RpcMethod.EthSendRawTransaction
                 ? rawTransaction
                 : await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
 
-        if (method === 'eth_signTransaction') {
+        if (method === RpcMethod.EthSignTransaction) {
             callback({ result: signedTransaction })
             return
         }

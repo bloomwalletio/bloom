@@ -9,7 +9,7 @@ import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { handleEthTransaction } from './eth_transaction.handler'
 import { handleSignMessage } from './sign_message.handler'
 import { handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
-import { DappVerification } from '../enums'
+import { DappVerification, RpcMethod } from '../enums'
 import { getEvmTransactionFromHexString } from '@core/layer-2'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
@@ -17,7 +17,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     setConnectedDapps()
     const { topic, params, id, verifyContext } = event
     const { request, chainId } = params
-    const method = request.method
+    const method = request.method as RpcMethod
 
     const dapp = getConnectedDappByOrigin(verifyContext.verified.origin)
     const verifiedState: DappVerification = verifyContext.verified.isScam
@@ -60,27 +60,27 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     }
 
     switch (method) {
-        case 'eth_sendTransaction':
-        case 'eth_signTransaction':
-        case 'eth_sendRawTransaction': {
+        case RpcMethod.EthSendTransaction:
+        case RpcMethod.EthSignTransaction:
+        case RpcMethod.EthSendRawTransaction: {
             const evmTransactionData =
-                method === 'eth_sendRawTransaction'
+                method === RpcMethod.EthSendRawTransaction
                     ? getEvmTransactionFromHexString(request.params[0])
                     : request.params[0]
 
             void handleEthTransaction(evmTransactionData, dapp, chain, method, returnResponse, verifiedState)
             break
         }
-        case 'eth_sign':
-        case 'personal_sign':
+        case RpcMethod.EthSign:
+        case RpcMethod.PersonalSign:
             void handleSignMessage(request.params, dapp, method, chain, returnResponse, verifiedState)
             break
-        case 'eth_signTypedData':
-        case 'eth_signTypedData_v3':
-        case 'eth_signTypedData_v4':
+        case RpcMethod.EthSignTypedData:
+        case RpcMethod.EthSignTypedDataV3:
+        case RpcMethod.EthSignTypedDataV4:
             void handleEthSignTypedData(request.params, method, dapp, chain, returnResponse, verifiedState)
             break
-        case 'wallet_watchAsset':
+        case RpcMethod.WalletWatchAsset:
             void handleWatchAsset(request.params, dapp, chain, returnResponse)
             break
         default:
