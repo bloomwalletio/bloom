@@ -38,7 +38,7 @@
             validateEthereumAddress(tokenAddress)
             const persistedNft = await persistErc721Nft(tokenAddress, tokenId, networkId)
             if (!persistedNft) {
-                throw new Error(localize('popups.importTokens.errors.alreadyAdded'))
+                throw new Error(localize('popups.importToken.errors.alreadyAdded'))
             }
             addNewTrackedNftToActiveProfile(networkId, persistedNft.id, TokenTrackingStatus.ManuallyTracked)
 
@@ -57,7 +57,7 @@
             })
             closePopup()
         } catch (err) {
-            tokenIdError = err
+            tokenIdError = err?.message ?? err
         } finally {
             busy = false
         }
