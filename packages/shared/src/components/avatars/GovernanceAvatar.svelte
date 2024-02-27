@@ -19,6 +19,6 @@
 <Avatar
     icon={ICONS_FOR_ACTION[governanceAction]}
     {size}
-    textColor="brand"
+    textColor="primary"
     backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
 />

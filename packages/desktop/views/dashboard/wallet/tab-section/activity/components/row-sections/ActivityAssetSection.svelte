@@ -56,14 +56,14 @@
             <Avatar
                 icon={IconName.FileCode}
                 size="lg"
-                textColor="brand"
+                textColor="primary"
                 backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
             />
         {:else if activity.type === ActivityType.Alias}
             <Avatar
                 icon={IconName.Alias}
                 size="lg"
-                textColor="brand"
+                textColor="primary"
                 backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
             />
         {/if}
