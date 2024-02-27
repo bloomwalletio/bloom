@@ -2,9 +2,10 @@ import { NftStandard } from '@core/nfts/enums'
 import { TokenStandard } from '@core/token/enums'
 import { QueryParameters } from '@core/utils'
 import { BaseApi } from '@core/utils/api'
-import { DEFAULT_EXPLORER_URLS } from '../constants'
-import { IExplorerApi, IExplorerAsset, IExplorerAssetMetadata } from '../interfaces'
-import { SupportedNetworkId } from '../enums'
+import { DEFAULT_EXPLORER_URLS } from '@core/network/constants'
+import { SupportedNetworkId } from '@core/network/enums'
+import { IBlockscoutApi, IBlockscoutAsset, IBlockscoutAssetMetadata } from '../interfaces'
+import { NetworkId } from '@core/network/types'
 
 interface INextPageParams {
     block_number: number
@@ -17,9 +18,9 @@ interface IPaginationResponse<T> {
     next_page_params: INextPageParams | null
 }
 
-export class EvmExplorerApi extends BaseApi implements IExplorerApi {
-    constructor(networkId: SupportedNetworkId) {
-        const explorerUrl = DEFAULT_EXPLORER_URLS[networkId]
+export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
+    constructor(networkId: NetworkId) {
+        const explorerUrl = DEFAULT_EXPLORER_URLS[networkId as SupportedNetworkId]
         super(`${explorerUrl}/api/v2`)
     }
 
@@ -47,8 +48,8 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
         )
     }
 
-    async getAssetMetadata(assetAddress: string): Promise<IExplorerAssetMetadata | undefined> {
-        const response = await this.get<IExplorerAssetMetadata>(`tokens/${assetAddress}`)
+    async getAssetMetadata(assetAddress: string): Promise<IBlockscoutAssetMetadata | undefined> {
+        const response = await this.get<IBlockscoutAssetMetadata>(`tokens/${assetAddress}`)
         if (response) {
             response.type = response.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721
             return response
@@ -58,10 +59,10 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
     async getAssetsForAddress(
         address: string,
         standard: TokenStandard.Erc20 | NftStandard.Erc721 = TokenStandard.Erc20
-    ): Promise<IExplorerAsset[]> {
+    ): Promise<IBlockscoutAsset[]> {
         const tokenType = standard.replace('ERC', 'ERC-')
         const path = `addresses/${address}/tokens`
-        const response = await this.get<IPaginationResponse<IExplorerAsset>>(path, { token_type: tokenType })
+        const response = await this.get<IPaginationResponse<IBlockscoutAsset>>(path, { token_type: tokenType })
         if (response) {
             return (response?.items ?? []).map((asset) => ({
                 ...asset,
@@ -73,5 +74,11 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
         } else {
             return []
         }
+    }
+
+    async getTransactionsForAddress(address: string): Promise<IBlockscoutAsset[]> {
+        const path = `addresses/${address}/transactions`
+        const items = await this.makePaginatedGetRequest<IBlockscoutAsset>(path)
+        return items
     }
 }

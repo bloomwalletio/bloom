@@ -1,5 +1,5 @@
 // snake_case returned by the API
-export interface IExplorerAssetMetadata {
+export interface IBlockscoutAssetMetadata {
     address: string
     circulating_market_cap: string
     decimals: number
