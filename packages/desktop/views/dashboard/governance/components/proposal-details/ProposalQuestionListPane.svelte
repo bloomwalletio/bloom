@@ -5,7 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Alert, Button } from '@bloomwalletio/ui'
+    import { Alert, Button, Text, Toggle, TooltipIcon } from '@bloomwalletio/ui'
     import { getVotingEvent } from '@contexts/governance/actions'
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import {
@@ -37,6 +37,7 @@
     let openedQuestionIndex: number = -1
     let isUpdatingVotedAnswerValues: boolean = false
     let lastAction: 'vote' | 'stopVote'
+    let projected: boolean = false
 
     $: selectedProposalOverview = $participationOverviewForSelectedAccount?.participations?.[$selectedProposal?.id]
     $: trackedParticipations = Object.values(selectedProposalOverview ?? {})
@@ -179,7 +180,15 @@
     })
 </script>
 
-<Pane classes="w-3/5 h-full p-6 pr-3 flex flex-col justify-between">
+<Pane classes="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
+    {@const isVotable = [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
+    {#if isVotable}
+        <div class="flex justify-end items-center gap-2 px-5">
+            <TooltipIcon tooltip={localize('views.governance.details.projection.tooltip')} />
+            <Text>{localize('views.governance.details.projection.label')}</Text>
+            <Toggle label="" bind:checked={projected} />
+        </div>
+    {/if}
     <proposal-questions
         class="relative flex flex-1 flex-col space-y-5 overflow-y-scroll pr-3"
         bind:this={proposalQuestions}
@@ -196,13 +205,14 @@
                     answerStatuses={$selectedParticipationEventStatus?.questions[questionIndex]?.answers}
                     {onQuestionClick}
                     {onAnswerClick}
+                    {projected}
                 />
             {/each}
         {/if}
     </proposal-questions>
     {#if $selectedProposal?.status === EventStatus.Upcoming}
         <Alert variant="info" text={alertText} />
-    {:else if [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
+    {:else if isVotable}
         {@const isLoaded = questions && overviewLoaded && statusLoaded}
         {@const isStoppingVote = lastAction === 'stopVote' && hasGovernanceTransactionInProgress}
         {@const isStopVotingDisabled = !isLoaded || !isVotingForProposal || isUpdatingVotedAnswerValues}
