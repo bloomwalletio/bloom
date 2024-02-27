@@ -7,13 +7,7 @@
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { Text } from '@bloomwalletio/ui'
     import { getPermissionForMethod } from '@auxiliary/wallet-connect/utils'
-
-    type SelectionOption = {
-        label: string
-        value: string
-        checked: boolean
-        required: boolean
-    }
+    import { SelectionOption } from '@core/utils/interfaces'
 
     export let checkedMethods: string[]
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
@@ -87,7 +81,6 @@
                 bind:selectionOptions={requiredPermissions}
                 disableSelectAll
                 title={localize(`${localeKey}.requiredTitle`)}
-                error={checkedMethods.length ? undefined : localize(`${localeKey}.empty`)}
             />
         {/if}
         {#if optionalPermissions.length}

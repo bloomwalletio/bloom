@@ -6,6 +6,7 @@
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { NetworkId, getChainConfiguration } from '@core/network'
+    import { SelectionOption } from '@core/utils/interfaces'
 
     export let checkedNetworks: string[]
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
@@ -14,9 +15,10 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.networks'
 
-    let networkSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
+    let requiredNetworks: SelectionOption[] = []
+    let optionalNetworks: SelectionOption[] = []
     function setNetworkSelections(): void {
-        const networks = {}
+        const networks: Record<string, SelectionOption> = {}
         for (const namespace of Object.values(requiredNamespaces)) {
             for (const chain of namespace.chains) {
                 const chainName = getChainConfiguration(chain as NetworkId)?.name ?? chain
@@ -34,18 +36,32 @@
                 }
             }
         }
-        networkSelections = Object.values(networks)
+        requiredNetworks = Object.values(networks).filter((network) => network.required)
+        optionalNetworks = Object.values(networks).filter((network) => !network.required)
     }
 
-    $: checkedNetworks = networkSelections.filter((selection) => selection.checked).map((selection) => selection.value)
+    $: checkedNetworks = [...requiredNetworks, ...optionalNetworks]
+        .filter((selection) => selection.checked)
+        .map((selection) => selection.value)
 
     onMount(() => {
         setNetworkSelections()
     })
 </script>
 
-<Selection
-    bind:selectionOptions={networkSelections}
-    title={localize(`${localeKey}.title`)}
-    error={checkedNetworks.length ? undefined : localize(`${localeKey}.empty`)}
-/>
+<div class="h-full flex flex-col gap-8">
+    {#if requiredNetworks.length}
+        <Selection
+            bind:selectionOptions={requiredNetworks}
+            disableSelectAll
+            title={localize(`${localeKey}.requiredTitle`)}
+        />
+    {/if}
+    {#if optionalNetworks.length}
+        <Selection
+            bind:selectionOptions={optionalNetworks}
+            title={localize(`${localeKey}.optionalTitle`)}
+            error={checkedNetworks.length ? undefined : localize(`${localeKey}.empty`)}
+        />
+    {/if}
+</div>
