@@ -35,7 +35,6 @@
         localize(`${localeKey}.accounts.step`),
     ]
 
-    let permissionSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
@@ -48,7 +47,7 @@
 
     $: isButtonDisabled =
         loading ||
-        (!persistedNamespaces && currentStep === 0 && permissionSelections.length && checkedMethods.length === 0) ||
+        (!persistedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
         (currentStep === 1 && checkedNetworks.length === 0) ||
         (currentStep === 2 && checkedAccounts.length === 0)
 
@@ -129,7 +128,6 @@
                                 <div class="flex-grow {currentStep === 0 ? 'visible' : 'hidden'}">
                                     <PermissionSelection
                                         bind:checkedMethods
-                                        bind:permissionSelections
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
                                         optionalNamespaces={$sessionProposal.params.optionalNamespaces}
                                     />
