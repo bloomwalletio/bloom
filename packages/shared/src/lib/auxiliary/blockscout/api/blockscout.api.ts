@@ -4,7 +4,7 @@ import { QueryParameters } from '@core/utils'
 import { BaseApi } from '@core/utils/api'
 import { DEFAULT_EXPLORER_URLS } from '@core/network/constants'
 import { SupportedNetworkId } from '@core/network/enums'
-import { IBlockscoutApi, IBlockscoutAsset, IBlockscoutAssetMetadata } from '../interfaces'
+import { IBlockscoutApi, IBlockscoutAsset, IBlockscoutAssetMetadata, IBlockscoutTransaction } from '../interfaces'
 import { NetworkId } from '@core/network/types'
 
 interface INextPageParams {
@@ -76,9 +76,9 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
         }
     }
 
-    async getTransactionsForAddress(address: string): Promise<IBlockscoutAsset[]> {
+    async getTransactionsForAddress(address: string): Promise<IBlockscoutTransaction[]> {
         const path = `addresses/${address}/transactions`
-        const items = await this.makePaginatedGetRequest<IBlockscoutAsset>(path)
+        const items = await this.makePaginatedGetRequest<IBlockscoutTransaction>(path)
         return items
     }
 }
