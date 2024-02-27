@@ -24,7 +24,7 @@ export function getProjectedPercentages(
     let percentages: IProposalAnswerPercentages = {}
     answerStatusesWithProjection.forEach((answerStatus) => {
         if (answerStatus.value !== undefined) {
-            const divisionResult = (answerStatus.projected ?? 0) / totalVotes
+            const divisionResult = answerStatus.projected / totalVotes
             percentages = {
                 ...percentages,
                 [answerStatus.value]: Number.isNaN(divisionResult) ? '0%' : `${round(divisionResult * 100, 1)}%`,
