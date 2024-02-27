@@ -1,7 +1,7 @@
 import { TextColor } from '@bloomwalletio/ui'
 import { Activity, ActivityAction, ActivityDirection, ActivityType, GovernanceAction } from '@core/activity'
 
-export function getActivityActionColor(activity: Activity): TextColor {
+export function getActivityActionTextColor(activity: Activity): TextColor {
     const { type, direction, action } = activity
 
     if (type === ActivityType.Basic && activity.isShimmerClaiming) {

@@ -10,7 +10,7 @@
     } from '@ui'
     import {
         ActivityType,
-        getActivityActionColor,
+        getActivityActionTextColor,
         getActivityActionPill,
         getActivityTileAction,
         getActivityTileAsset,
@@ -40,7 +40,7 @@
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined)
 
-    $: color = getActivityActionColor(activity)
+    $: color = getActivityActionTextColor(activity)
     $: pill = getActivityActionPill(activity, $time)
 </script>
 
