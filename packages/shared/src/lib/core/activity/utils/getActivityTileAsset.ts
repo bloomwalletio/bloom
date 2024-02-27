@@ -1,7 +1,9 @@
-import { ActivityType } from '../enums'
+import { ActivityType, GovernanceAction } from '../enums'
 import { Activity } from '../types'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { getTokenFromActivity } from './getTokenFromActivity'
+import { get } from 'svelte/store'
+import { registeredProposalsForSelectedAccount } from '@contexts/governance'
 
 export function getActivityTileAsset(activity: Activity, accountIndex: number): string | undefined {
     if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
@@ -19,6 +21,14 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
     } else if (activity.type === ActivityType.Consolidation) {
         return ''
     } else if (activity.type === ActivityType.Governance) {
+        if ([GovernanceAction.StartVoting, GovernanceAction.StopVoting].includes(activity.governanceAction)) {
+            if (activity?.participation?.eventId) {
+                const proposal = get(registeredProposalsForSelectedAccount)?.[activity.participation.eventId]
+                return proposal.title
+            } else {
+                return activity.participation?.eventId
+            }
+        }
         return ''
     } else {
         return ''
