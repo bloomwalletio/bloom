@@ -1,6 +1,13 @@
 <script lang="ts">
     import { ITokenWithBalance } from '@core/token'
-    import { ExpiredActivityPill, TimelockActivityPill, NftAvatar, TokenAvatar, UnclaimedActivityPill } from '@ui'
+    import {
+        ExpiredActivityPill,
+        TimelockActivityPill,
+        NftAvatar,
+        TokenAvatar,
+        UnclaimedActivityPill,
+        GovernanceAvatar,
+    } from '@ui'
     import {
         ActivityType,
         getActivityActionColor,
@@ -39,7 +46,9 @@
 
 <div class="flex flex-row gap-4 items-center overflow-hidden">
     <div class="py-1">
-        {#if token}
+        {#if activity.type === ActivityType.Governance}
+            <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
+        {:else if token}
             <TokenAvatar {token} hideNetworkBadge size="lg" />
         {:else if activity.type === ActivityType.Nft}
             <NftAvatar {nft} size="lg" shape="square" />
