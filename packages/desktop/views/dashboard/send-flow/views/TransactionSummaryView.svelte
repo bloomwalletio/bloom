@@ -106,9 +106,6 @@
             modifyPopupState({ preventClose: true })
             if (isSourceNetworkLayer2) {
                 const signedTransaction = await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
-                if (!signedTransaction) {
-                    throw Error('No signed transaction!')
-                }
 
                 await sendAndPersistTransactionFromEvm(preparedTransaction, signedTransaction, chain, $selectedAccount)
             } else {

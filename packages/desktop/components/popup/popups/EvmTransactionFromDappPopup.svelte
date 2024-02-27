@@ -86,16 +86,10 @@
     }
 
     async function signOrSend(): Promise<void> {
-        let signedTransaction: string | undefined
-        if (method === 'eth_sendRawTransaction') {
-            signedTransaction = rawTransaction
-        } else {
-            signedTransaction = await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
-        }
-
-        if (!signedTransaction) {
-            throw Error('No signed transaction!')
-        }
+        const signedTransaction =
+            method === 'eth_sendRawTransaction'
+                ? rawTransaction
+                : await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
 
         if (method === 'eth_signTransaction') {
             callback({ result: signedTransaction })
