@@ -40,7 +40,7 @@
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined)
 
-    $: color = getActivityActionColor(activity, $darkMode)
+    $: color = getActivityActionColor(activity)
     $: pill = getActivityActionPill(activity, $time)
 </script>
 
@@ -70,7 +70,7 @@
     </div>
     <div class="flex flex-col items-start justify-between overflow-hidden">
         <div class="w-full flex flex-row gap-1 overflow-hidden">
-            <Text customColor={color} class="shrink-0">{localize(getActivityTileAction(activity))}</Text>
+            <Text textColor={color} class="shrink-0">{localize(getActivityTileAction(activity))}</Text>
             <Text truncate>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
         </div>
         <div class="flex gap-2">
