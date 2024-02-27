@@ -85,14 +85,15 @@
         {#if requiredPermissions.length}
             <Selection
                 bind:selectionOptions={requiredPermissions}
-                title={localize(`${localeKey}.title`)}
+                disableSelectAll
+                title={localize(`${localeKey}.requiredTitle`)}
                 error={checkedMethods.length ? undefined : localize(`${localeKey}.empty`)}
             />
         {/if}
         {#if optionalPermissions.length}
             <Selection
                 bind:selectionOptions={optionalPermissions}
-                title={localize(`${localeKey}.title`)}
+                title={localize(`${localeKey}.optionalTitle`)}
                 error={checkedMethods.length ? undefined : localize(`${localeKey}.empty`)}
             />
         {/if}
