@@ -688,7 +688,11 @@
                     "nodeUrl": "Node URL"
                 },
                 "fetching": "Fetching proposal data",
-                "hintVote": "You can not vote on a proposal that is in the announcement phase, voting will open in {time}."
+                "hintVote": "You can not vote on a proposal that is in the announcement phase, voting will open in {time}.",
+                "projection": {
+                    "label": "Projected votes",
+                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                }
             }
         },
         "updateStronghold": {
