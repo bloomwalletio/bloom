@@ -23,14 +23,13 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
         super(`${explorerUrl}/api/v2`)
     }
 
-    private async makePaginatedRequest<T>(
-        api: BaseApi,
+    private async makePaginatedGetRequest<T>(
         path: string,
-        queryParameters: QueryParameters,
+        queryParameters?: QueryParameters,
         items: T[] = [],
-        nextPageParameters: INextPageParams | null = null
+        nextPageParameters?: INextPageParams | null
     ): Promise<T[]> {
-        if (!nextPageParameters) {
+        if (nextPageParameters === null) {
             return Promise.resolve(items)
         }
         return this.get<IPaginationResponse<T>>(path, { ...queryParameters, ...nextPageParameters }).then(
@@ -38,8 +37,7 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
                 if (!response) {
                     return Promise.resolve(items)
                 }
-                return this.makePaginatedRequest(
-                    api,
+                return this.makePaginatedGetRequest(
                     path,
                     queryParameters,
                     items.concat(response.items),
@@ -62,9 +60,8 @@ export class EvmExplorerApi extends BaseApi implements IExplorerApi {
         standard: TokenStandard.Erc20 | NftStandard.Erc721 = TokenStandard.Erc20
     ): Promise<IExplorerAsset[]> {
         const tokenType = standard.replace('ERC', 'ERC-')
-        const response = await this.get<IPaginationResponse<IExplorerAsset>>(`addresses/${address}/tokens`, {
-            token_type: tokenType,
-        })
+        const path = `addresses/${address}/tokens`
+        const response = await this.get<IPaginationResponse<IExplorerAsset>>(path, { token_type: tokenType })
         if (response) {
             return (response?.items ?? []).map((asset) => ({
                 ...asset,
