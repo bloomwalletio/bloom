@@ -45,7 +45,7 @@ export class BaseApi {
                 ...(body && { body }),
                 ...(options?.disableCors && { mode: 'no-cors' }),
             }
-            if (queryParameters) {
+            if (queryParameters && Object.keys(queryParameters).length) {
                 const queryParametersString = buildQueryParametersFromObject(queryParameters)
                 path = `${path}?${queryParametersString}`
             }

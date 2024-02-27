@@ -62,7 +62,7 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     ): Promise<IBlockscoutAsset[]> {
         const tokenType = standard.replace('ERC', 'ERC-')
         const path = `addresses/${address}/tokens`
-        const response = await this.get<IPaginationResponse<IBlockscoutAsset>>(path, { token_type: tokenType })
+        const response = await this.get<IPaginationResponse<IBlockscoutAsset>>(path, { type: tokenType })
         if (response) {
             return (response?.items ?? []).map((asset) => ({
                 ...asset,
