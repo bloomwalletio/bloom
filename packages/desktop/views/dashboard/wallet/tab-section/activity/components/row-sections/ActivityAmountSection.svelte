@@ -35,7 +35,7 @@
     }
 
     function getFormattedMarketPrice(_activity: Activity): string | undefined {
-        if ((_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) && token) {
+        if ([ActivityType.Basic, ActivityType.Governance, ActivityType.Foundry].includes(_activity.type) && token) {
             const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
 
             const marketPrice = getFiatValueFromTokenAmount(amount, token)

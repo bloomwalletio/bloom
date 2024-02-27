@@ -17,7 +17,7 @@ export function getActivityTileAction(activity: Activity): string | undefined {
         } else if (activity.governanceAction === GovernanceAction.DecreaseVotingPower) {
             return isConfirmed ? 'general.decreased' : 'general.decreasing'
         } else if (activity.governanceAction === GovernanceAction.StartVoting) {
-            return isConfirmed ? 'general.voted' : 'general.voting'
+            return isConfirmed ? 'general.voteStarted' : 'general.voteStarting'
         } else if (activity.governanceAction === GovernanceAction.StopVoting) {
             return isConfirmed ? 'general.unvoted' : 'general.unvoting'
         } else if (activity.governanceAction === GovernanceAction.ChangedVote) {

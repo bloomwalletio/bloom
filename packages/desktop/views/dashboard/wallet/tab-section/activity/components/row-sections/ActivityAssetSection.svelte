@@ -1,9 +1,16 @@
 <script lang="ts">
     import { ITokenWithBalance } from '@core/token'
-    import { ExpiredActivityPill, TimelockActivityPill, NftAvatar, TokenAvatar, UnclaimedActivityPill } from '@ui'
+    import {
+        ExpiredActivityPill,
+        TimelockActivityPill,
+        NftAvatar,
+        TokenAvatar,
+        UnclaimedActivityPill,
+        GovernanceAvatar,
+    } from '@ui'
     import {
         ActivityType,
-        getActivityActionColor,
+        getActivityActionTextColor,
         getActivityActionPill,
         getActivityTileAction,
         getActivityTileAsset,
@@ -33,13 +40,15 @@
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined)
 
-    $: color = getActivityActionColor(activity, $darkMode)
+    $: color = getActivityActionTextColor(activity)
     $: pill = getActivityActionPill(activity, $time)
 </script>
 
 <div class="flex flex-row gap-4 items-center overflow-hidden">
     <div class="py-1">
-        {#if token}
+        {#if activity.type === ActivityType.Governance}
+            <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
+        {:else if token}
             <TokenAvatar {token} hideNetworkBadge size="lg" />
         {:else if activity.type === ActivityType.Nft}
             <NftAvatar {nft} size="lg" shape="square" />
@@ -47,21 +56,21 @@
             <Avatar
                 icon={IconName.FileCode}
                 size="lg"
-                textColor="brand"
+                textColor="primary"
                 backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
             />
         {:else if activity.type === ActivityType.Alias}
             <Avatar
                 icon={IconName.Alias}
                 size="lg"
-                textColor="brand"
+                textColor="primary"
                 backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
             />
         {/if}
     </div>
     <div class="flex flex-col items-start justify-between overflow-hidden">
         <div class="w-full flex flex-row gap-1 overflow-hidden">
-            <Text customColor={color} class="shrink-0">{localize(getActivityTileAction(activity))}</Text>
+            <Text textColor={color} class="shrink-0">{localize(getActivityTileAction(activity))}</Text>
             <Text truncate>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
         </div>
         <div class="flex gap-2">
