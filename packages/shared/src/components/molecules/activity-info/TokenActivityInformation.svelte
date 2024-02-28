@@ -46,7 +46,7 @@
             {
                 key: localize('popups.nativeToken.property.logoUrl'),
                 value: metadata.logoUrl || undefined,
-                copyable: true,
+                onClick: () => openUrlInBrowser(metadata?.logoUrl ?? ''),
             },
         ]}
     />
