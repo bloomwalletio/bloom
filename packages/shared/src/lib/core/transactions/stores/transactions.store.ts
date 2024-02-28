@@ -53,7 +53,7 @@ export function addLocalTransactionToPersistedTransaction(
         }
         if (!state[profileId][accountIndex]) {
             state[profileId][accountIndex] = {
-                [networkId]: [],
+                [networkId]: {},
             }
         }
         if (!state[profileId][accountIndex][networkId]) {
@@ -62,7 +62,12 @@ export function addLocalTransactionToPersistedTransaction(
 
         const _transactions = state[get(activeProfileId)][accountIndex][networkId] ?? {}
         for (const transaction of newTransactions) {
-            _transactions[transaction.transactionHash.toLowerCase()].local = transaction
+            const existingTransaction = _transactions?.[transaction.transactionHash.toLowerCase()]
+            const updatedTransaction: PersistedTransaction = {
+                ...existingTransaction,
+                local: transaction,
+            }
+            _transactions[transaction.transactionHash.toLowerCase()] = updatedTransaction
         }
         state[get(activeProfileId)][accountIndex][networkId] = _transactions
 
@@ -82,7 +87,7 @@ export function addBlockscoutTransactionToPersistedTransactions(
         }
         if (!state[profileId][accountIndex]) {
             state[profileId][accountIndex] = {
-                [networkId]: [],
+                [networkId]: {},
             }
         }
         if (!state[profileId][accountIndex][networkId]) {
@@ -91,7 +96,12 @@ export function addBlockscoutTransactionToPersistedTransactions(
 
         const _transactions = state[get(activeProfileId)][accountIndex][networkId] ?? {}
         for (const transaction of newTransactions) {
-            _transactions[transaction.hash.toLowerCase()].blockscout = transaction
+            const existingTransaction = _transactions?.[transaction.hash.toLowerCase()]
+            const updatedTransaction: PersistedTransaction = {
+                ...existingTransaction,
+                blockscout: transaction,
+            }
+            _transactions[transaction.hash.toLowerCase()] = updatedTransaction
         }
         state[get(activeProfileId)][accountIndex][networkId] = _transactions
 
