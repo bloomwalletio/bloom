@@ -24,6 +24,7 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.connectionRequest'
     let acceptedInsecureConnection = false
+    let flash = false
     $: isVerified = $sessionProposal?.verifyContext.verified.validation === SessionVerification.Valid
     $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
     $: unsupportedMethods = getUnsupportedMethods($sessionProposal)
@@ -109,6 +110,14 @@
     }
 
     function onContinueClick(): void {
+        if (!isVerified && !acceptedInsecureConnection) {
+            flash = true
+            setTimeout(() => {
+                flash = false
+            }, 1500)
+            return
+        }
+
         drawerRouter.next()
     }
 
@@ -181,10 +190,12 @@
             {:else if !isVerified}
                 <div class="flex flex-col gap-8 px-6">
                     <Alert variant="warning" text={localize(`${localeKey}.insecure`)} />
-                    <Checkbox
-                        label={localize(`${localeKey}.acceptInsecureConnection`)}
-                        bind:checked={acceptedInsecureConnection}
-                    />
+                    <checkbox-container class:flash>
+                        <Checkbox
+                            label={localize(`${localeKey}.acceptInsecureConnection`)}
+                            bind:checked={acceptedInsecureConnection}
+                        />
+                    </checkbox-container>
                 </div>
             {/if}
         {:else}
@@ -201,12 +212,29 @@
             text={localize(`actions.${fulfillsRequirements ? 'reject' : 'cancel'}`)}
         />
         {#if fulfillsRequirements}
-            <Button
-                width="full"
-                on:click={onContinueClick}
-                disabled={!isVerified && !acceptedInsecureConnection}
-                text={localize('actions.continue')}
-            />
+            <Button width="full" on:click={onContinueClick} text={localize('actions.continue')} />
         {/if}
     </div>
 </DrawerTemplate>
+
+<style lang="postcss">
+    :global(checkbox-container.flash p) {
+        @apply text-danger dark:text-danger-dark;
+    }
+
+    :global(checkbox-container.flash button) {
+        animation: flash 0.5s ease-in-out 3;
+    }
+
+    @keyframes flash {
+        0% {
+            opacity: 0.6;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0.6;
+        }
+    }
+</style>
