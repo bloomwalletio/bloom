@@ -524,7 +524,7 @@
                         "permissions": {
                             "step": "Permission",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
-                            "requiredTitle": "Necessary permissions",
+                            "requiredTitle": "Required permissions",
                             "optionalTitle": "Optional permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
@@ -534,7 +534,7 @@
                         },
                         "networks": {
                             "step": "Networks",
-                            "requiredTitle": "Necessary networks",
+                            "requiredTitle": "Required networks",
                             "optionalTitle": "Optional networks",
                             "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
                             "empty": "You have to select at least one network"
