@@ -63,12 +63,21 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         case RpcMethod.EthSendTransaction:
         case RpcMethod.EthSignTransaction:
         case RpcMethod.EthSendRawTransaction: {
+            const rawMessage = method === RpcMethod.EthSendRawTransaction ? request.params[0] : undefined
             const evmTransactionData =
                 method === RpcMethod.EthSendRawTransaction
                     ? getEvmTransactionFromHexString(request.params[0])
                     : request.params[0]
 
-            void handleEthTransaction(evmTransactionData, dapp, chain, method, returnResponse, verifiedState)
+            void handleEthTransaction(
+                evmTransactionData,
+                rawMessage,
+                dapp,
+                chain,
+                method,
+                returnResponse,
+                verifiedState
+            )
             break
         }
         case RpcMethod.EthSign:

@@ -11,6 +11,7 @@ import { DappVerification, RpcMethod } from '../enums'
 
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string },
+    rawTransaction: string | undefined,
     dapp: IConnectedDapp,
     chain: IChain,
     method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction,
@@ -61,6 +62,7 @@ export async function handleEthTransaction(
                 chain,
                 dapp,
                 preparedTransaction: evmTransactionData,
+                rawTransaction,
                 method,
                 verifiedState,
                 callback: responseCallback,
