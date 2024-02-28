@@ -40,7 +40,7 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
         }
         return this.get<IPaginationResponse<T>>(path, { ...queryParameters, ...nextPageParameters }).then(
             (response) => {
-                if (!response) {
+                if (!response?.items) {
                     return Promise.resolve(items)
                 }
                 return this.makePaginatedGetRequest(
