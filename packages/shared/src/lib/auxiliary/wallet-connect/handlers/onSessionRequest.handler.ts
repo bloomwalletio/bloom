@@ -10,7 +10,7 @@ import { handleEthTransaction } from './eth_transaction.handler'
 import { handleSignMessage } from './sign_message.handler'
 import { handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
 import { DappVerification, RpcMethod } from '../enums'
-import { getEvmTransactionFromHexString } from '@core/layer-2'
+import { EvmTransactionData, getEvmTransactionFromHexString } from '@core/layer-2'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
@@ -64,7 +64,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         case RpcMethod.EthSignTransaction:
         case RpcMethod.EthSendRawTransaction: {
             const rawMessage = method === RpcMethod.EthSendRawTransaction ? request.params[0] : undefined
-            const evmTransactionData =
+            const evmTransactionData: EvmTransactionData & { from: string } =
                 method === RpcMethod.EthSendRawTransaction
                     ? getEvmTransactionFromHexString(request.params[0])
                     : request.params[0]
