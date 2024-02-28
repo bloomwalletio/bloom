@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { FoundryActivity } from '@core/activity'
+    import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { IIrc30Metadata } from '@core/token'
     import { getPersistedToken } from '@core/token/stores'
@@ -35,7 +36,7 @@
             {
                 key: localize('popups.nativeToken.property.url'),
                 value: metadata.url || undefined,
-                copyable: true,
+                onClick: () => openUrlInBrowser(metadata?.url ?? ''),
             },
             {
                 key: localize('popups.nativeToken.property.logo'),
