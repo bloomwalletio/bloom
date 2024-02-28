@@ -51,7 +51,7 @@ enum BlockscoutTransactionType {
     CoinTransfer = 'coin_transfer',
 }
 
-enum BlockscoutTransactionStatus {
+export enum BlockscoutTransactionStatus {
     Ok = 'ok',
     Error = 'error',
 }

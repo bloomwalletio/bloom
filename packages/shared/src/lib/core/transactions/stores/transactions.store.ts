@@ -6,7 +6,7 @@ import { activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
 
-type PersistedTransaction =
+export type PersistedTransaction =
     | {
           blockscout: IBlockscoutTransaction
           local: PersistedEvmTransaction
@@ -30,7 +30,7 @@ type PersistedTransactions = {
     }
 }
 
-export const persistedTransactions = persistent<PersistedTransactions>('transactions', {})
+export const persistedTransactions = persistent<PersistedTransactions>('', {})
 
 export function getPersistedTransactionsForChain(
     profileId: string,
