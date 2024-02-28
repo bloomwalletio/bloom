@@ -1,8 +1,7 @@
 import { IAccountState } from '@core/account/interfaces'
 import { ContractType } from '@core/layer-2/enums'
-import { EvmExplorerApi } from '@core/network/classes'
 import { getNetwork } from '@core/network/stores'
-import { IChain, IExplorerAsset } from '@core/network/interfaces'
+import { IChain } from '@core/network/interfaces'
 import features from '@features/features'
 
 import { NftStandard } from '../enums'
@@ -13,6 +12,8 @@ import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { Nft } from '../interfaces'
 import { addNewTrackedNftToActiveProfile } from './addNewTrackedNftToActiveProfile'
 import { TokenTrackingStatus } from '@core/token'
+import { IBlockscoutAsset } from '@auxiliary/blockscout/interfaces'
+import { BlockscoutApi } from '@auxiliary/blockscout/api'
 
 export async function checkForUntrackedNfts(account: IAccountState): Promise<void> {
     if (!features?.collectibles?.erc721?.enabled) {
@@ -28,9 +29,9 @@ export async function checkForUntrackedNfts(account: IAccountState): Promise<voi
             return
         }
         const networkId = chain.getConfiguration().id
-        const explorerApi = new EvmExplorerApi(networkId)
+        const blockscoutApi = new BlockscoutApi(networkId)
 
-        const explorerNfts = await explorerApi.getAssetsForAddress(evmAddress, NftStandard.Erc721)
+        const explorerNfts = await blockscoutApi.getAssetsForAddress(evmAddress, NftStandard.Erc721)
         for (const explorerNft of explorerNfts) {
             await persistNftsFromExplorerAsset(account, evmAddress, explorerNft, chain)
         }
@@ -40,7 +41,7 @@ export async function checkForUntrackedNfts(account: IAccountState): Promise<voi
 async function persistNftsFromExplorerAsset(
     account: IAccountState,
     evmAddress: string,
-    asset: IExplorerAsset,
+    asset: IBlockscoutAsset,
     chain: IChain
 ): Promise<void> {
     const { token, value } = asset

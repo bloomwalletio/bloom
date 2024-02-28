@@ -1,4 +1,5 @@
 import { stripSpaces, stripTrailingSlash } from './string'
+import { QueryParameters } from './types'
 
 export function cleanUrl(
     url: string,
@@ -23,7 +24,7 @@ export function cleanUrl(
     return cleanedUrl
 }
 
-export function buildQueryParametersFromObject(obj: Record<string, string | number | boolean | string[]>): string {
+export function buildQueryParametersFromObject(obj: QueryParameters): string {
     return Object.keys(obj)
         .map(
             (key) =>
