@@ -115,3 +115,12 @@ export function removePersistedTransactionsForProfile(profileId: string): void {
         return state
     })
 }
+
+export function isBlockscoutTransactionPersisted(
+    profileId: string,
+    accountIndex: number,
+    networkId: EvmNetworkId,
+    transactionHash: string
+): boolean {
+    return !!get(persistedTransactions)?.[profileId]?.[accountIndex]?.[networkId]?.[transactionHash]?.blockscout
+}

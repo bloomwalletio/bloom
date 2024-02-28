@@ -12,11 +12,12 @@ interface INextPageParams {
     index: number
     items_count: number
 }
-
 interface IPaginationResponse<T> {
     items: T[]
     next_page_params: INextPageParams | null
 }
+
+export type BlockscoutExitFunction<T> = (items: T[]) => boolean
 
 export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     constructor(networkId: NetworkId) {
@@ -28,9 +29,13 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
         path: string,
         queryParameters?: QueryParameters,
         items: T[] = [],
-        nextPageParameters?: INextPageParams | null
+        nextPageParameters?: INextPageParams | null,
+        exitFunction?: BlockscoutExitFunction<T>
     ): Promise<T[]> {
         if (nextPageParameters === null) {
+            return Promise.resolve(items)
+        }
+        if (exitFunction && exitFunction(items)) {
             return Promise.resolve(items)
         }
         return this.get<IPaginationResponse<T>>(path, { ...queryParameters, ...nextPageParameters }).then(
@@ -42,7 +47,8 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
                     path,
                     queryParameters,
                     items.concat(response.items),
-                    response.next_page_params
+                    response.next_page_params,
+                    exitFunction
                 )
             }
         )
@@ -76,9 +82,18 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
         }
     }
 
-    async getTransactionsForAddress(address: string): Promise<IBlockscoutTransaction[]> {
+    async getTransactionsForAddress(
+        address: string,
+        exitFunction?: BlockscoutExitFunction<IBlockscoutTransaction>
+    ): Promise<IBlockscoutTransaction[]> {
         const path = `addresses/${address}/transactions`
-        const items = await this.makePaginatedGetRequest<IBlockscoutTransaction>(path)
+        const items = await this.makePaginatedGetRequest<IBlockscoutTransaction>(
+            path,
+            undefined,
+            [],
+            undefined,
+            exitFunction
+        )
         return items
     }
 }
