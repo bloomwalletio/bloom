@@ -1,3 +1,4 @@
+export * from './api.types'
 export * from './currencies.type'
 export * from './duration.type'
 export * from './exchange-rates.type'
