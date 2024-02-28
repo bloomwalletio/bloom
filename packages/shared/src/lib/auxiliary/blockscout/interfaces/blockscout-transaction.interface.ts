@@ -1,7 +1,7 @@
 import { IBlockscoutAssetMetadata } from './blockscout-asset-metadata.interface'
 
 interface IFee {
-    type: string
+    type: 'maximum' | 'actual'
     value: string
 }
 
@@ -43,12 +43,25 @@ interface ITokenTransfer {
     token: IBlockscoutAssetMetadata
 }
 
+enum BlockscoutTransactionType {
+    TokenTransfer = 'token_transfer',
+    ContractCreation = 'contract_creation',
+    ContractCall = 'contract_call',
+    TokenCreation = 'token_creation',
+    CoinTransfer = 'coin_transfer',
+}
+
+enum BlockscoutTransactionStatus {
+    Ok = 'ok',
+    Error = 'error',
+}
+
 export interface IBlockscoutTransaction {
     timestamp: string
     fee: IFee
     gas_limit: number
     block: number
-    status: string // e.g ok | error
+    status: BlockscoutTransactionStatus
     method: string // e.g transferFrom
     confirmations: number
     type: number
@@ -63,7 +76,7 @@ export interface IBlockscoutTransaction {
     base_fee_per_gas: string
     from: IAddressParam
     token_transfers: ITokenTransfer[]
-    tx_types: string[]
+    tx_types: BlockscoutTransactionType[]
     gas_used: string
     created_contract: IAddressParam
     position: number
