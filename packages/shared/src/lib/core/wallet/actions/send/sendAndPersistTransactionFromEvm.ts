@@ -1,4 +1,3 @@
-import { IAccountState } from '@core/account'
 import {
     Activity,
     ActivityDirection,
@@ -12,24 +11,16 @@ import { EvmTransactionData } from '@core/layer-2'
 import { EvmNetworkId, IChain } from '@core/network'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
-import { signEvmTransaction } from '../signEvmTransaction'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
+import { IAccountState } from '@core/account'
 
-export async function signAndSendTransactionFromEvm(
+export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
+    signedTransaction: string,
     chain: IChain,
     account: IAccountState,
-    signAndSend: boolean,
     profileId: string
-): Promise<unknown> {
-    const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
-    if (!signedTransaction) {
-        throw Error('No signed transaction!')
-    }
-    if (!signAndSend) {
-        return signedTransaction
-    }
-
+): Promise<string> {
     const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
     if (!transactionReceipt) {
         throw Error('No transaction receipt!')
