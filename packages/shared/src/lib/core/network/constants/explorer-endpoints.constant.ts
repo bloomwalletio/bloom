@@ -5,18 +5,21 @@ export const EXPLORER_ENDPOINTS: Readonly<{ [key in SupportedNetworkId]: { [key 
         [ExplorerEndpoint.Transaction]: ExplorerEndpoint.Transaction,
         [ExplorerEndpoint.Output]: ExplorerEndpoint.Output,
         [ExplorerEndpoint.Nft]: ExplorerEndpoint.Nft,
+        [ExplorerEndpoint.Foundry]: ExplorerEndpoint.Foundry,
         [ExplorerEndpoint.Address]: 'addr',
     },
     [SupportedNetworkId.Shimmer]: {
         [ExplorerEndpoint.Transaction]: ExplorerEndpoint.Transaction,
         [ExplorerEndpoint.Output]: ExplorerEndpoint.Output,
         [ExplorerEndpoint.Nft]: ExplorerEndpoint.Nft,
+        [ExplorerEndpoint.Foundry]: ExplorerEndpoint.Foundry,
         [ExplorerEndpoint.Address]: 'addr',
     },
     [SupportedNetworkId.Testnet]: {
         [ExplorerEndpoint.Transaction]: ExplorerEndpoint.Transaction,
         [ExplorerEndpoint.Output]: ExplorerEndpoint.Output,
         [ExplorerEndpoint.Nft]: ExplorerEndpoint.Nft,
+        [ExplorerEndpoint.Foundry]: ExplorerEndpoint.Foundry,
         [ExplorerEndpoint.Address]: 'addr',
     },
     [SupportedNetworkId.ShimmerEvm]: {

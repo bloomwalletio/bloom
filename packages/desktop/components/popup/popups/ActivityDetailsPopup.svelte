@@ -41,7 +41,7 @@
             ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
             : undefined
     $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
-    $: explorerUrl = setExplorerUrl(activity)
+    $: explorerUrl = getExplorerUrl(activity)
 
     let title: string = localize('popups.activityDetails.title.fallback')
     $: void setTitle(activity)
@@ -60,7 +60,7 @@
         $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
-    function setExplorerUrl(_activity: Activity): string | undefined {
+    function getExplorerUrl(_activity: Activity): string | undefined {
         if (activity?.direction === ActivityDirection.Genesis) {
             const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Output)
             return explorerUrl ? `${explorerUrl}/${_activity?.outputId}` : undefined
