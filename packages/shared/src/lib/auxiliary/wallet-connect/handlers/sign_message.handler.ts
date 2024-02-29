@@ -6,7 +6,7 @@ import { CallbackParameters } from '../types'
 import { switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
-import { DappVerification } from '../enums'
+import { DappVerification, RpcMethod } from '../enums'
 import { parseSiweMessage, validateSiwe } from '@core/layer-2'
 import { showNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
@@ -14,7 +14,7 @@ import { localize } from '@core/i18n'
 export async function handleSignMessage(
     params: unknown,
     dapp: IConnectedDapp,
-    method: 'personal_sign' | 'eth_sign',
+    method: RpcMethod.PersonalSign | RpcMethod.EthSign,
     chain: IChain,
     responseCallback: (params: CallbackParameters) => void,
     verifiedState: DappVerification
@@ -26,8 +26,8 @@ export async function handleSignMessage(
 
     // Type for `eth_sign` params: [ address, hexMessage ]
     // Type for `personal_sign` params: [ hexMessage, address ]
-    const hexMessage = method === 'personal_sign' ? params[0] : params[1]
-    const accountAddress = method === 'personal_sign' ? params[1] : params[0]
+    const hexMessage = method === RpcMethod.PersonalSign ? params[0] : params[1]
+    const accountAddress = method === RpcMethod.PersonalSign ? params[1] : params[0]
 
     if (typeof hexMessage !== 'string') {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
