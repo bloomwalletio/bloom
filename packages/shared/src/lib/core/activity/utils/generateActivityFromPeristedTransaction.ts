@@ -2,7 +2,7 @@ import { BlockscoutTransactionStatus, IBlockscoutTransaction } from '@auxiliary/
 import { IAccountState } from '@core/account/interfaces'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { IChain } from '@core/network'
-import { PersistedTransaction } from '@core/transactions/stores'
+import { PersistedTransaction } from '@core/transactions'
 import { LegacyTxData, TransactionType } from '@ethereumjs/tx'
 import { TransactionReceipt } from 'web3-core'
 import { ActivityType } from '../enums'
