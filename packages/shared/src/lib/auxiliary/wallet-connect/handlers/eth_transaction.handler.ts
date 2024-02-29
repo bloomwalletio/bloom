@@ -7,13 +7,13 @@ import { EvmTransactionData } from '@core/layer-2'
 import { switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
-import { DappVerification } from '../enums'
+import { DappVerification, RpcMethod } from '../enums'
 
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string },
     dapp: IConnectedDapp,
     chain: IChain,
-    signAndSend: boolean,
+    method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction,
     responseCallback: (params: CallbackParameters) => void,
     verifiedState: DappVerification
 ): Promise<void> {
@@ -28,7 +28,7 @@ export async function handleEthTransaction(
         return
     }
 
-    if (!nonce || !gasPrice || !gasLimit) {
+    if (nonce === undefined || !gasPrice || !gasLimit) {
         try {
             const { nonce, gasPrice, gasLimit } = await buildEvmTransactionData(
                 chain,
@@ -61,7 +61,7 @@ export async function handleEthTransaction(
                 chain,
                 dapp,
                 preparedTransaction: evmTransactionData,
-                signAndSend,
+                method,
                 verifiedState,
                 callback: responseCallback,
                 onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),

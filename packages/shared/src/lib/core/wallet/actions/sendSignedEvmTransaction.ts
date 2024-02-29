@@ -1,6 +1,5 @@
 import { TransactionReceipt } from 'web3-core'
 import { updateSelectedAccount } from '@core/account/stores'
-import { handleError } from '@core/error/handlers'
 import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { IChain } from '@core/network'
 import { getIsActiveLedgerProfile } from '@core/profile/stores'
@@ -17,7 +16,7 @@ export async function sendSignedEvmTransaction(
         if (getIsActiveLedgerProfile()) {
             closePopup({ forceClose: true })
         }
-        handleError(err)
+        throw err
     } finally {
         updateSelectedAccount({ isTransferring: false })
     }

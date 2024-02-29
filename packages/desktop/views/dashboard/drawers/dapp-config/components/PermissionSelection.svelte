@@ -7,6 +7,7 @@
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { Text } from '@bloomwalletio/ui'
     import { getPermissionForMethod } from '@auxiliary/wallet-connect/utils'
+    import { RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { SelectionOption } from '@core/utils/interfaces'
 
     export let checkedMethods: string[]
@@ -37,7 +38,7 @@
             }
             checkedMethods[method.method] = true
 
-            const permission = getPermissionForMethod(method.method)
+            const permission = getPermissionForMethod(method.method as RpcMethod)
             if (!permission || addedPermission[permission]) {
                 continue
             }
