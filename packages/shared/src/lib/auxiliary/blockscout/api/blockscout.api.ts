@@ -4,7 +4,7 @@ import { QueryParameters } from '@core/utils'
 import { BaseApi } from '@core/utils/api'
 import { DEFAULT_EXPLORER_URLS } from '@core/network/constants'
 import { SupportedNetworkId } from '@core/network/enums'
-import { IBlockscoutApi, IBlockscoutAsset, IBlockscoutAssetMetadata, IBlockscoutTransaction } from '../interfaces'
+import { IBlockscoutApi, IBlockscoutAsset, IBlockscoutTokenInfo, IBlockscoutTransaction } from '../interfaces'
 import { NetworkId } from '@core/network/types'
 
 interface INextPageParams {
@@ -54,8 +54,8 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
         )
     }
 
-    async getAssetMetadata(assetAddress: string): Promise<IBlockscoutAssetMetadata | undefined> {
-        const response = await this.get<IBlockscoutAssetMetadata>(`tokens/${assetAddress}`)
+    async getAssetMetadata(assetAddress: string): Promise<IBlockscoutTokenInfo | undefined> {
+        const response = await this.get<IBlockscoutTokenInfo>(`tokens/${assetAddress}`)
         if (response) {
             response.type = response.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721
             return response
