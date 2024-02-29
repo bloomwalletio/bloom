@@ -12,8 +12,8 @@ export function buildPersistedEvmTransactionFromBlockscoutTransaction(
         transactionIndex: blockscoutTransaction.position,
         blockHash: '', // Unknown
         blockNumber: blockscoutTransaction.block,
-        from: blockscoutTransaction.from.hash,
-        to: blockscoutTransaction.to.hash,
+        from: blockscoutTransaction.from.hash.toLowerCase(),
+        to: blockscoutTransaction.to.hash.toLowerCase(),
         // contractAddress?: string,
         cumulativeGasUsed: Number(blockscoutTransaction.gas_used), // Not sure if this is the right field
         gasUsed: Number(blockscoutTransaction.gas_used),
