@@ -67,7 +67,7 @@ function buildPersistedEvmTransactionFromBlockscoutTransaction(
         ...(blockscoutTransaction.gas_price && { gasPrice: blockscoutTransaction.gas_price }),
         ...(blockscoutTransaction.gas_limit && { gasLimit: blockscoutTransaction.gas_limit }),
         // to?: AddressLike,
-        ...(blockscoutTransaction.value && { data: blockscoutTransaction.value }),
+        ...(blockscoutTransaction.value && { value: blockscoutTransaction.value }),
         ...(blockscoutTransaction.raw_input && { data: blockscoutTransaction.raw_input }), // Not sure if this is the right field
         // estimatedGas?: number,
         ...(blockscoutTransaction.timestamp && { timestamp: new Date(blockscoutTransaction.timestamp).getTime() }),
