@@ -1,3 +1,4 @@
+import { BlockscoutTransactionStatus } from '../enums'
 import { IBlockscoutAssetMetadata } from './blockscout-asset-metadata.interface'
 
 interface IFee {
@@ -49,11 +50,6 @@ enum BlockscoutTransactionType {
     ContractCall = 'contract_call',
     TokenCreation = 'token_creation',
     CoinTransfer = 'coin_transfer',
-}
-
-export enum BlockscoutTransactionStatus {
-    Ok = 'ok',
-    Error = 'error',
 }
 
 export interface IBlockscoutTransaction {

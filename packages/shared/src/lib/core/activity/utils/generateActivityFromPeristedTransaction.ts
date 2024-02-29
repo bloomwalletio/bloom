@@ -1,4 +1,4 @@
-import { BlockscoutTransactionStatus, IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
+import { BlockscoutTransactionStatus, IBlockscoutTransaction } from '@auxiliary/blockscout'
 import { IAccountState } from '@core/account/interfaces'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { IChain } from '@core/network'
