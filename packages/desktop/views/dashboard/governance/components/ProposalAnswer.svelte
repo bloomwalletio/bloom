@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Answer, EventStatus } from '@iota/sdk/out/types'
-    import { Icon, IconName, Indicator, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { Icon, IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
 
     export let onAnswerClick: () => void
 
@@ -53,17 +53,7 @@
 >
     <div class="flex space-x-3 items-center w-full min-w-0">
         {#if answerIndex !== undefined}
-            {#if isVotedFor}
-                <status-icon class="flex justify-center items-center shrink-0 w-5 h-5">
-                    {#if proposalStatus === EventStatus.Ended || proposalStatus === EventStatus.Commencing}
-                        <Icon name={IconName.ReceiptCheck} size="sm" textColor={isWinner ? 'invert' : 'brand'} />
-                    {:else if proposalStatus === EventStatus.Holding}
-                        <Indicator size="sm" ping />
-                    {/if}
-                </status-icon>
-            {:else}
-                <answer-index>{answerIndex + 1}</answer-index>
-            {/if}
+            <answer-index>{answerIndex + 1}</answer-index>
         {/if}
         <Text
             align="left"
@@ -74,6 +64,9 @@
         </Text>
     </div>
     <div class="flex items-center space-x-1.5">
+        {#if isVotedFor}
+            <Icon name={IconName.ReceiptCheck} textColor="brand" size="xs" />
+        {/if}
         {#if isWinner}
             <Icon name={IconName.Trophy} size="xs" />
         {/if}
@@ -117,16 +110,6 @@
 
             answer-index {
                 @apply bg-brand text-white;
-            }
-        }
-
-        &.voted {
-            &:hover {
-                @apply bg-blue-50;
-            }
-
-            &::after {
-                @apply bg-blue-100;
             }
         }
 

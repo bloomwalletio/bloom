@@ -522,7 +522,8 @@
                         "permissions": {
                             "step": "Permission",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
-                            "title": "Select permissions",
+                            "requiredTitle": "Required permissions",
+                            "optionalTitle": "Optional permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction",
@@ -531,7 +532,8 @@
                         },
                         "networks": {
                             "step": "Networks",
-                            "title": "Select networks",
+                            "requiredTitle": "Required networks",
+                            "optionalTitle": "Optional networks",
                             "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
                             "empty": "You have to select at least one network"
                         },
@@ -686,7 +688,11 @@
                     "nodeUrl": "Node URL"
                 },
                 "fetching": "Récupération des données de la proposition",
-                "hintVote": "Vous ne pouvez pas voter sur une proposition qui est en phase d'annonce, le vote s'ouvrira dans {time}."
+                "hintVote": "Vous ne pouvez pas voter sur une proposition qui est en phase d'annonce, le vote s'ouvrira dans {time}.",
+                "projection": {
+                    "label": "Projected votes",
+                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                }
             }
         },
         "updateStronghold": {
@@ -973,9 +979,17 @@
         },
         "siwe": {
             "title": "Sign-In with Ethereum",
+            "details": "Details",
+            "raw": "Raw",
+            "rawMessage": "Raw message",
             "domain": "Domain",
             "statement": "Statement",
             "resources": "Resources",
+            "chainId": "Chain Id",
+            "nonce": "Nonce",
+            "issuedAt": "Issued at",
+            "notBefore": "Not before",
+            "requestId": "Request Id",
             "action": "Sign in"
         },
         "signTransaction": {
@@ -991,6 +1005,7 @@
         "smartContractCall": {
             "title": "Smart contract call to {contractAddress}",
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "viewSmartContract": "View Smart Contract",
             "action": "Confirm",
             "success": "Smart contract call to {recipient}"
         },
@@ -1381,18 +1396,18 @@
         "receiving": "Réception en cours",
         "newVotingPower": "Nouveau pouvoir de vote",
         "votingPower": "Pouvoir de vote",
-        "increased": "Augmentation du pouvoir de vote",
-        "increasing": "Augmentation du pouvoir de vote",
-        "decreased": "Diminution du pouvoir de vote",
-        "decreasing": "Diminuer le pouvoir de vote",
+        "increased": "Voting increased",
+        "increasing": "Increasing voting",
+        "decreased": "Voting decreased",
+        "decreasing": "Decreasing voting",
         "voted": "A voté",
         "voting": "Vote",
         "changedVote": "Vote modifié",
         "changingVote": "Changement du vote",
         "revoted": "Voté à nouveau",
         "revoting": "Revoting",
-        "unvoted": "Arrêt du vote",
-        "unvoting": "Arrêt du vote",
+        "unvoted": "Stopped voting",
+        "unvoting": "Stopping voting",
         "transferred": "Transferred",
         "transferring": "Transferring",
         "shimmerClaimed": "Claimed",
@@ -1531,6 +1546,7 @@
         "contractFunction": "Contract function",
         "standard": "Standard",
         "uri": "URI",
+        "image": "Image",
         "issuer": "Issuer",
         "issuerAddress": "Issuer Address",
         "issuerName": "Issuer Name",
