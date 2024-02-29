@@ -17,7 +17,7 @@ type PersistedTransactions = {
     }
 }
 
-export const persistedTransactions = persistent<PersistedTransactions>('', {})
+export const persistedTransactions = persistent<PersistedTransactions>('transactions', {})
 
 export function getPersistedTransactionsForChain(
     profileId: string,
