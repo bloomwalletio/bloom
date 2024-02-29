@@ -25,7 +25,6 @@
                 activity?.votingPower !== undefined
                     ? formatTokenAmountBestMatch(activity?.votingPower, getBaseToken())
                     : undefined,
-            tooltip: localize('tooltips.transactionDetails.votingPower'),
         },
     ]}
 />
