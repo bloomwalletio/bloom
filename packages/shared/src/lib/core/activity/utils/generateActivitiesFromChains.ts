@@ -13,7 +13,6 @@ export async function generateActivitiesFromChains(profileId: string, account: I
         const persistedTransactions = getPersistedTransactionsForChain(profileId, account.index, chain)
         for (const persistedTransaction of persistedTransactions) {
             try {
-                // TODO: build activities from persisted transactions
                 const activity = await generateActivityFromPersistedTransaction(persistedTransaction, chain, account)
                 if (activity) {
                     activities.push(activity)
