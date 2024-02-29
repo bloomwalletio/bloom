@@ -522,7 +522,8 @@
                         "permissions": {
                             "step": "Permissão",
                             "tip": "Estas são permissões limitadas para o dApp enviar uma solicitação de interação para sua aprovação. Aprove somente apps que você conhece e confia.",
-                            "title": "Selecionar permissões",
+                            "requiredTitle": "Required permissions",
+                            "optionalTitle": "Optional permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction",
@@ -531,7 +532,8 @@
                         },
                         "networks": {
                             "step": "Redes",
-                            "title": "Selecionar redes",
+                            "requiredTitle": "Required networks",
+                            "optionalTitle": "Optional networks",
                             "tip": "As redes necessárias são pré-selecionadas para você pelo dApp e também podem ser reconfiguradas mais tarde.",
                             "empty": "You have to select at least one network"
                         },
@@ -686,7 +688,11 @@
                     "nodeUrl": "URL do nó"
                 },
                 "fetching": "Obtendo dados da proposta",
-                "hintVote": "Você não pode votar em uma proposta que está na fase de anúncio, a votação abrirá em {time}."
+                "hintVote": "Você não pode votar em uma proposta que está na fase de anúncio, a votação abrirá em {time}.",
+                "projection": {
+                    "label": "Projected votes",
+                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                }
             }
         },
         "updateStronghold": {
@@ -973,9 +979,17 @@
         },
         "siwe": {
             "title": "Sign-In with Ethereum",
+            "details": "Details",
+            "raw": "Raw",
+            "rawMessage": "Raw message",
             "domain": "Domain",
             "statement": "Statement",
             "resources": "Resources",
+            "chainId": "Chain Id",
+            "nonce": "Nonce",
+            "issuedAt": "Issued at",
+            "notBefore": "Not before",
+            "requestId": "Request Id",
             "action": "Sign in"
         },
         "signTransaction": {
@@ -991,6 +1005,7 @@
         "smartContractCall": {
             "title": "Smart contract call to {contractAddress}",
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "viewSmartContract": "View Smart Contract",
             "action": "Confirm",
             "success": "Smart contract call to {recipient}"
         },
@@ -1381,18 +1396,18 @@
         "receiving": "Recebendo",
         "newVotingPower": "New voting power",
         "votingPower": "Voting power",
-        "increased": "Voting power increased",
-        "increasing": "Increasing voting power",
-        "decreased": "Voting power decreased",
-        "decreasing": "Decreasing voting power",
+        "increased": "Voting increased",
+        "increasing": "Increasing voting",
+        "decreased": "Voting decreased",
+        "decreasing": "Decreasing voting",
         "voted": "Votado",
         "voting": "Votando",
         "changedVote": "Changed vote",
         "changingVote": "Changing vote",
         "revoted": "Revotado",
         "revoting": "Revotando",
-        "unvoted": "Unvoted",
-        "unvoting": "Unvoting",
+        "unvoted": "Stopped voting",
+        "unvoting": "Stopping voting",
         "transferred": "Transferred",
         "transferring": "Transferring",
         "shimmerClaimed": "Resgatado",
@@ -1531,6 +1546,7 @@
         "contractFunction": "Contract function",
         "standard": "Padrão",
         "uri": "URI",
+        "image": "Image",
         "issuer": "Emissor",
         "issuerAddress": "Endereço do Emissor",
         "issuerName": "Nome do Emissor",

@@ -13,7 +13,7 @@
 
     let hasVoted = false
 
-    $: $participationOverviewForSelectedAccount, setHasVoted()
+    $: $participationOverviewForSelectedAccount, proposal, setHasVoted()
 
     function setHasVoted(): void {
         hasVoted = isVotingForProposal(proposal?.id)

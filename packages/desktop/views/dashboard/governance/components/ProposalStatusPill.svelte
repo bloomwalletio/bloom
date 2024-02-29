@@ -18,7 +18,7 @@
 </script>
 
 {#if status}
-    <Pill color={STATUS_COLORS[status]}>
+    <Pill color={error ? 'danger' : STATUS_COLORS[status]}>
         <div class="flex flex-row space-x-1 items-center">
             {#if error}
                 <Icon name={IconName.CrossClose} textColor="danger" size="xs" />
