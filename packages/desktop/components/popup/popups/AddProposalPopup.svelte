@@ -84,6 +84,7 @@
         const options = {
             node: { url: nodeUrl, auth },
             eventsToRegister: isRegisteringAllProposals ? [] : [eventId],
+            eventsToIgnore: [],
         }
         const accounts = isAddingForAllAccounts ? $activeAccounts : $selectedAccount ? [$selectedAccount] : []
         await registerProposalsForAccounts(options, accounts)
