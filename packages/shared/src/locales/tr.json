@@ -522,7 +522,8 @@
                         "permissions": {
                             "step": "İzin",
                             "tip": "Bunlar dApp'in onayınıza etkileşim isteği göndermesine yönelik sınırlı izinlerdir. Yalnızca bildiğiniz ve güvendiğiniz uygulamaları onaylayın.",
-                            "title": "İzinleri seçin",
+                            "requiredTitle": "Required permissions",
+                            "optionalTitle": "Optional permissions",
                             "signData": "Veri imzalama isteği",
                             "signTransaction": "Bir işlemi imzalama isteği",
                             "sendTransaction": "İşlem gönderme isteği",
@@ -531,7 +532,8 @@
                         },
                         "networks": {
                             "step": "Ağlar",
-                            "title": "Ağ seç",
+                            "requiredTitle": "Required networks",
+                            "optionalTitle": "Optional networks",
                             "tip": "Gerekli ağlar sizin için dApp tarafından önceden seçilir ve daha sonra yeniden yapılandırılabilir.",
                             "empty": "En az bir ağ seçmeniz gerekiyor"
                         },
@@ -686,7 +688,11 @@
                     "nodeUrl": "Node URL'si"
                 },
                 "fetching": "Teklif verilerini alma",
-                "hintVote": "Duyuru aşamasında olan bir teklife oy veremezsiniz, oylama {zaman} içinde açılacaktır."
+                "hintVote": "Duyuru aşamasında olan bir teklife oy veremezsiniz, oylama {zaman} içinde açılacaktır.",
+                "projection": {
+                    "label": "Projected votes",
+                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                }
             }
         },
         "updateStronghold": {
@@ -973,9 +979,17 @@
         },
         "siwe": {
             "title": "Sign-In with Ethereum",
+            "details": "Details",
+            "raw": "Raw",
+            "rawMessage": "Raw message",
             "domain": "Domain",
             "statement": "Statement",
             "resources": "Resources",
+            "chainId": "Chain Id",
+            "nonce": "Nonce",
+            "issuedAt": "Issued at",
+            "notBefore": "Not before",
+            "requestId": "Request Id",
             "action": "Sign in"
         },
         "signTransaction": {
@@ -991,6 +1005,7 @@
         "smartContractCall": {
             "title": "{contractAddress} adresine akıllı sözleşme çağrısı",
             "unableToVerify": "Bloom akıllı sözleşme çağrısını doğrulayamıyor. Yalnızca güvendiğiniz uygulamalarla devam edin.",
+            "viewSmartContract": "View Smart Contract",
             "action": "Onayla",
             "success": "{recipient} adlı kişiye akıllı sözleşme çağrısı"
         },
@@ -1381,18 +1396,18 @@
         "receiving": "Alınıyor",
         "newVotingPower": "Yeni oy gücü",
         "votingPower": "Oy gücü",
-        "increased": "Oy kullanma gücü arttı",
-        "increasing": "Oy kullanma gücünün artırılması",
-        "decreased": "Oy kullanma gücü azaldı",
-        "decreasing": "Oy kullanma gücünün azaltılması",
+        "increased": "Voting increased",
+        "increasing": "Increasing voting",
+        "decreased": "Voting decreased",
+        "decreasing": "Decreasing voting",
         "voted": "Oylandı",
         "voting": "Oylama",
         "changedVote": "Oy değiştirildi",
         "changingVote": "Oy değiştiriliyor",
         "revoted": "İptal edildi",
         "revoting": "İptal ediliyor",
-        "unvoted": "Oy geri alındı",
-        "unvoting": "Oylama iptali",
+        "unvoted": "Stopped voting",
+        "unvoting": "Stopping voting",
         "transferred": "Transfer edildi",
         "transferring": "Transfer ediliyor",
         "shimmerClaimed": "Talep edildi",
@@ -1531,6 +1546,7 @@
         "contractFunction": "Sözleşme işlevi",
         "standard": "Standart",
         "uri": "URl",
+        "image": "Image",
         "issuer": "İhraççı",
         "issuerAddress": "İhraççı Adresi",
         "issuerName": "İhraççı Adı",

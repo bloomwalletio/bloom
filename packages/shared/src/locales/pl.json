@@ -522,7 +522,8 @@
                         "permissions": {
                             "step": "Uprawnienie",
                             "tip": "Są to ograniczone uprawnienia dla aplikacji dApp w celu wysyłania żądania interakcji do Twojego zatwierdzenia. Zatwierdzaj tylko aplikacje, które znasz i którym ufasz.",
-                            "title": "Wybierz uprawnienia",
+                            "requiredTitle": "Required permissions",
+                            "optionalTitle": "Optional permissions",
                             "signData": "Prośba o podpisanie danych",
                             "signTransaction": "Prośba o podpisanie transakcji",
                             "sendTransaction": "Poproś o wysłanie transakcji",
@@ -531,7 +532,8 @@
                         },
                         "networks": {
                             "step": "Sieci",
-                            "title": "Wybierz sieci",
+                            "requiredTitle": "Required networks",
+                            "optionalTitle": "Optional networks",
                             "tip": "Wymagane sieci są wstępnie wybierane przez aplikację dApp. Można to później skonfigurować w ustawieniach.",
                             "empty": "Musisz wybrać przynajmniej jedną sieć"
                         },
@@ -650,24 +652,24 @@
             },
             "statusTimeline": {
                 "upcoming": {
-                    "past": "Announced",
-                    "present": "Announcement",
-                    "future": "Announcement"
+                    "past": "Ogłoszono głosowanie",
+                    "present": "Ogłoszenie głosowania",
+                    "future": "Nadchodzące głosowanie"
                 },
                 "commencing": {
-                    "past": "Voting opened",
-                    "present": "Voting open",
-                    "future": "Voting opens"
+                    "past": "Głosowanie otwarto",
+                    "present": "Otwarcie głosowania",
+                    "future": "Głosowanie rozpocznie się"
                 },
                 "holding": {
-                    "past": "Counting started",
-                    "present": "Counting started",
-                    "future": "Counting starts"
+                    "past": "Zliczanie rozpoczęto",
+                    "present": "Zliczanie rozpoczęte",
+                    "future": "Zliczanie rozpocznie się"
                 },
                 "ended": {
-                    "past": "Counting stopped",
-                    "present": "Counting stopped",
-                    "future": "Counting stops"
+                    "past": "Zliczanie zakończono",
+                    "present": "Zliczanie zakończone",
+                    "future": "Zliczanie zakończy się"
                 }
             },
             "details": {
@@ -686,7 +688,11 @@
                     "nodeUrl": "URL serwera"
                 },
                 "fetching": "Pobieranie danych propozycji",
-                "hintVote": "Nie możesz głosować nad propozycją, która dopiero została zapowiedziana. Głosowanie zostanie otwarte za {time}."
+                "hintVote": "Nie możesz głosować nad propozycją, która dopiero została zapowiedziana. Głosowanie zostanie otwarte za {time}.",
+                "projection": {
+                    "label": "Projected votes",
+                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                }
             }
         },
         "updateStronghold": {
@@ -863,7 +869,7 @@
             "loadingNodeInfo": "Wczytywanie informacji o serwerze",
             "nodeAddress": "Adres serwera",
             "removeConfirmation": "Czy na pewno chcesz usunąć ten serwer?",
-            "requiresAuthentication": "Node requires authentication",
+            "requiresAuthentication": "Serwer wymaga uwierzytelniania",
             "info": {
                 "general": {
                     "tab": "Ogólne",
@@ -900,7 +906,7 @@
                 }
             },
             "jwt": "JSON web token",
-            "credentials": "Sign-in credentials"
+            "credentials": "Dane logowania"
         },
         "errorLog": {
             "title": "Dziennik błędów",
@@ -973,10 +979,18 @@
         },
         "siwe": {
             "title": "Zaloguj się z Ethereum",
-            "domain": "Domain",
-            "statement": "Statement",
-            "resources": "Resources",
-            "action": "Sign in"
+            "details": "Details",
+            "raw": "Raw",
+            "rawMessage": "Raw message",
+            "domain": "Domena",
+            "statement": "Oświadczenie",
+            "resources": "Dokumentacja",
+            "chainId": "Chain Id",
+            "nonce": "Nonce",
+            "issuedAt": "Issued at",
+            "notBefore": "Not before",
+            "requestId": "Request Id",
+            "action": "Zaloguj się"
         },
         "signTransaction": {
             "title": "Podpisz transakcję",
@@ -991,6 +1005,7 @@
         "smartContractCall": {
             "title": "Interakcja smart kontraktu z {contractAddress}",
             "unableToVerify": "Bloom nie może zweryfikować interakcji z smart kontraktem. Kontynuuj tylko z aplikacjami, którym ufasz.",
+            "viewSmartContract": "View Smart Contract",
             "action": "Potwierdź",
             "success": "Interakcja smart kontraktu z {recipient}"
         },
@@ -1157,7 +1172,7 @@
             "errors": {
                 "invalidMimetype": "Nieprawidłowy MimeType, sprawdź czy typ pliku jest obsługiwany",
                 "quantityTooSmall": "Ilość musi być większa niż 0",
-                "quantityTooLarge": "Quantity needs to be smaller than 127",
+                "quantityTooLarge": "Ilość musi być mniejsza niż 127",
                 "emptyName": "Nazwa jest wymaganym polem",
                 "invalidURI": "Nieprawidłowy URI, proszę podać poprawny URI",
                 "notReachable": "URI nieosiągalny, nie można sprawdzić typu NFT",
@@ -1186,7 +1201,7 @@
             "title": "Dodaj propozycję",
             "body": "Wypełnij poniższe pola, aby dodać propozycję.",
             "addToAllAccounts": "Dodaj propozycję do wszystkich kont",
-            "addAllProposalsOnNode": "Add all proposals on this node"
+            "addAllProposalsOnNode": "Dodaj wszystkie propozycje z tego serwera"
         },
         "editProposal": {
             "title": "Edytuj propozycję",
@@ -1355,7 +1370,7 @@
         "addProposal": "Dodaj propozycję",
         "removeProposal": "Usuń propozycję",
         "changeNode": "Zmień serwer",
-        "changeNodeUrl": "Change node URL",
+        "changeNodeUrl": "Zmień adres serwera",
         "stopVoting": "Zatrzymaj głosowanie",
         "revote": "Odnów głosy",
         "skipAndKeep": "Pomiń i zachowaj stare hasło",
@@ -1365,11 +1380,11 @@
         "syncAccounts": "Synchronizuj konta",
         "importToken": "Importowanie tokena {type}",
         "syncTokens": "Wymuś synchronizację tokenów",
-        "mintNftCollection": "Mint NFT collection"
+        "mintNftCollection": "Mintuj kolekcję NFT"
     },
     "general": {
         "recipient": "Odbiorca",
-        "username": "Username",
+        "username": "Nazwa użytkownika",
         "password": "Hasło",
         "confirmPassword": "Potwierdź hasło",
         "currentPassword": "Aktualne hasło",
@@ -1381,18 +1396,18 @@
         "receiving": "Odbieranie",
         "newVotingPower": "Nowa siła głosu",
         "votingPower": "Siła głosu",
-        "increased": "Zwiększono siłę głosu",
-        "increasing": "Zwiększanie siły głosu",
-        "decreased": "Zmniejszono siłę głosu",
-        "decreasing": "Zmniejszanie siły głosu",
+        "increased": "Voting increased",
+        "increasing": "Increasing voting",
+        "decreased": "Voting decreased",
+        "decreasing": "Decreasing voting",
         "voted": "Zagłosowano",
         "voting": "Głosowanie",
         "changedVote": "Zmieniono głos",
         "changingVote": "Zmiana głosu",
         "revoted": "Odnowiono głosy",
         "revoting": "Odnawianie głosów",
-        "unvoted": "Zatrzymano głos",
-        "unvoting": "Wycofywanie głosu",
+        "unvoted": "Stopped voting",
+        "unvoting": "Stopping voting",
         "transferred": "Przesłano",
         "transferring": "Przesyłanie",
         "shimmerClaimed": "Odebrano",
@@ -1531,6 +1546,7 @@
         "contractFunction": "Funkcja kontraktu",
         "standard": "Standard",
         "uri": "URI",
+        "image": "Image",
         "issuer": "Wydawca",
         "issuerAddress": "Adres wydawcy",
         "issuerName": "Nazwa wydawcy",
@@ -1587,8 +1603,8 @@
         "governance": "Zarządzanie",
         "baseCoin": "Token podstawowy",
         "unverifiedContract": "Niezweryfikowany kontrakt",
-        "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
+        "startIndex": "Indeks startowy",
+        "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu"
     },
     "filters": {
         "title": "Filtry",
@@ -1797,7 +1813,7 @@
             "success": "Adresy kontaktu zostały pomyślnie zaktualizowane"
         },
         "siwe": {
-            "rejected": "Invalid SIWE request"
+            "rejected": "Nieprawidłowe żądanie SIWE"
         },
         "syncTokens": {
             "success": "Tokeny pomyślnie zsynchronizowane"
@@ -2073,7 +2089,7 @@
             "attributes": "Opcjonalny parametr: tablica cech i wartości, które definiują atrybuty NFT",
             "uri": "Aby utworzyć URI za pomocą niestandardowych mediów, najpierw prześlij plik do IPFS za pośrednictwem usługi przechowywania danych (np. https://nft.storage/)",
             "quantity": "Opcjonalny parametr: Ilość kopii mintowanych za pomocą tych metadanych.",
-            "startIndex": "Optional parameter: The start index of the NFTs to mint."
+            "startIndex": "Opcjonalny parametr: Indeks startowy NFT do mintowania."
         },
         "governance": {
             "removeProposalWarning": "Musisz przestać głosować na tę propozycję, zanim ją usuniesz.",
@@ -2099,7 +2115,7 @@
         "collectibles": "Kolekcje",
         "governance": "Zarządzanie",
         "campaigns": "Kampanie",
-        "buySell": "Buy IOTA",
+        "buySell": "Kup IOTA",
         "developer": "Deweloper",
         "tokens": "Tokeny",
         "settings": "Ustawienia"
@@ -2134,10 +2150,10 @@
             "appNotOpen": "Aplikacja nie jest otwarta"
         },
         "dappVerification": {
-            "valid": "Verified",
-            "invalid": "Domain Mismatch",
-            "unknown": "Cannot verify",
-            "scam": "Security Risk"
+            "valid": "Zweryfikowano",
+            "invalid": "Niezgodność domeny",
+            "unknown": "Nie można zweryfikować",
+            "scam": "Zagrożenie bezpieczeństwa"
         }
     },
     "menus": {
