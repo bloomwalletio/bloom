@@ -5,20 +5,7 @@ import { IChain } from '@core/network/interfaces'
 import { activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
-
-type PersistedTransaction =
-    | {
-          blockscout: IBlockscoutTransaction
-          local: PersistedEvmTransaction
-      }
-    | {
-          blockscout?: IBlockscoutTransaction
-          local: PersistedEvmTransaction
-      }
-    | {
-          blockscout: IBlockscoutTransaction
-          local?: PersistedEvmTransaction
-      }
+import { PersistedTransaction } from '../types/'
 
 type PersistedTransactions = {
     [profileId: string]: {
@@ -30,7 +17,7 @@ type PersistedTransactions = {
     }
 }
 
-export const persistedTransactions = persistent<PersistedTransactions>('transactions', {})
+export const persistedTransactions = persistent<PersistedTransactions>('', {})
 
 export function getPersistedTransactionsForChain(
     profileId: string,
