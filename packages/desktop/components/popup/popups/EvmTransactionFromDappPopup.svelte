@@ -13,6 +13,7 @@
     import {
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
+        getHexEncodedTransaction,
         getMethodNameForEvmTransaction,
     } from '@core/layer-2'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
@@ -29,9 +30,9 @@
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { LegacyTransaction } from '@ethereumjs/tx'
 
     export let preparedTransaction: EvmTransactionData
-    export let rawTransaction: string
     export let chain: IChain
     export let dapp: IConnectedDapp
     export let verifiedState: DappVerification
@@ -85,17 +86,21 @@
         }
     }
 
-    async function signOrSend(): Promise<void> {
-        const signedTransaction =
-            method === RpcMethod.EthSendRawTransaction
-                ? rawTransaction
-                : await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+    async function getSignedTransaction(): Promise<string> {
+        if (preparedTransaction?.v && preparedTransaction?.s && preparedTransaction?.r) {
+            const transaction = LegacyTransaction.fromTxData(preparedTransaction)
+            return getHexEncodedTransaction(transaction)
+        } else {
+            return await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+        }
+    }
 
+    async function signOrSend(): Promise<void> {
+        const signedTransaction = await getSignedTransaction()
         if (method === RpcMethod.EthSignTransaction) {
             callback({ result: signedTransaction })
             return
         }
-
         const transactionHash = await sendAndPersistTransactionFromEvm(
             preparedTransaction,
             signedTransaction,
@@ -134,7 +139,7 @@
         }
     }
 
-    $: setMethodName(preparedTransaction)
+    $: void setMethodName(preparedTransaction)
     async function setMethodName(preparedTransaction: EvmTransactionData): Promise<void> {
         const result = await getMethodNameForEvmTransaction(preparedTransaction)
         methodName = result?.startsWith('0x') ? undefined : result

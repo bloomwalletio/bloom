@@ -233,8 +233,8 @@ export class Converter {
         return prefix ? HEX_PREFIX + number.toString(16) : number.toString(16)
     }
 
-    public static bigIntToHex(bigInt: bigint, prefix = true): string {
-        bigInt = BigInt(bigInt)
+    public static bigIntToHex(bigInt: bigint | undefined, prefix = true): string {
+        bigInt = BigInt(bigInt ?? 0)
         return prefix ? HEX_PREFIX + bigInt.toString(16) : bigInt.toString(16)
     }
 

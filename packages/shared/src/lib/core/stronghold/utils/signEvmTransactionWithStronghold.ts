@@ -1,5 +1,5 @@
 import { LegacyTransaction, TransactionFactory, TypedTxData } from '@ethereumjs/tx'
-import { prepareEvmTransaction } from '@core/layer-2/utils'
+import { getHexEncodedTransaction, prepareEvmTransaction } from '@core/layer-2/utils'
 import { EvmChainId, getEvmTransactionOptions } from '@core/network'
 import { removeLeadingZeros } from '@core/utils/array'
 import { ECDSASignature } from '@ethereumjs/util'
@@ -34,12 +34,6 @@ function createSignedTransaction(
     const signedTransaction = LegacyTransaction.fromValuesArray(rawTx, getEvmTransactionOptions(chainId))
 
     return signedTransaction
-}
-
-function getHexEncodedTransaction(transaction: LegacyTransaction): string {
-    const serializedTransaction = transaction.serialize()
-    const hexEncodedTransaction = HEX_PREFIX + Buffer.from(serializedTransaction).toString('hex')
-    return hexEncodedTransaction
 }
 
 function padHexString(str: string): string {
