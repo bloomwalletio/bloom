@@ -3,7 +3,8 @@
     import { openUrlInBrowser } from '@core/app'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { IIrc27Nft, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
+    import { isEvmChain } from '@core/network'
+    import { IIrc27Nft, Nft, isNftLocked } from '@core/nfts'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -14,7 +15,7 @@
     export let nft: Nft
 
     $: isLocked = isNftLocked(nft)
-    $: isBurnDisabled = isLocked || !isIrc27Nft(nft)
+    $: isBurnDisabled = isLocked || isEvmChain(nft.networkId)
     $: isCurrentPfp = $activeProfile.pfp?.id === nft.id
 
     function onSetPfpClick(): void {
