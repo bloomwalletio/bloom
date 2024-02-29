@@ -2,6 +2,7 @@
     import { Table } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { NftActivity } from '@core/activity'
+    import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { NftStandard } from '@core/nfts/enums'
@@ -31,7 +32,7 @@
                 {
                     key: localize('general.uri'),
                     value: metadata.uri,
-                    copyable: true,
+                    onClick: () => openUrlInBrowser(metadata?.uri ?? ''),
                 },
                 {
                     key: localize('general.description'),
@@ -68,7 +69,7 @@
                 {
                     key: localize('general.image'),
                     value: metadata.image,
-                    copyable: true,
+                    onClick: () => openUrlInBrowser(metadata?.image ?? ''),
                 },
                 {
                     key: localize('general.description'),

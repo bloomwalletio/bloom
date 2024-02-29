@@ -78,9 +78,9 @@
         <AliasActivityInformation {activity} />
     {:else if selectedTab.key === PopupTab.Nft && activity.type === ActivityType.Nft}
         <NftActivityInformation {activity} />
-    {:else if selectedTab.key === PopupTab.Foundry}
+    {:else if selectedTab.key === PopupTab.Foundry && activity.type === ActivityType.Foundry}
         <FoundryActivityInformation {activity} />
-    {:else if selectedTab.key === PopupTab.Token}
+    {:else if selectedTab.key === PopupTab.Token && activity.type === ActivityType.Foundry}
         <TokenActivityInformation {activity} />
     {:else if selectedTab.key === PopupTab.NftMetadata && activity.type === ActivityType.Nft}
         <NftMetadataInformation {activity} />
