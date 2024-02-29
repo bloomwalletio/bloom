@@ -45,7 +45,10 @@ export async function loadNftsForAccount(profileId: string, account: IAccountSta
         const transactionsOnChain = getPersistedTransactionsForChain(profileId, account.index, chain)
         const nftIdsOnChain = []
         for (const transaction of transactionsOnChain) {
-            const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
+            if (!transaction.local) {
+                continue
+            }
+            const transferInfo = getTransferInfoFromTransactionData(transaction.local, chain)
             if (transferInfo?.type !== ActivityType.Nft) {
                 continue
             }
