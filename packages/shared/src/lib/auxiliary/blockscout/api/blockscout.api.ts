@@ -4,7 +4,13 @@ import { QueryParameters } from '@core/utils'
 import { BaseApi } from '@core/utils/api'
 import { DEFAULT_EXPLORER_URLS } from '@core/network/constants'
 import { SupportedNetworkId } from '@core/network/enums'
-import { IBlockscoutApi, IBlockscoutAsset, IBlockscoutTokenInfo, IBlockscoutTransaction } from '../interfaces'
+import {
+    IBlockscoutApi,
+    IBlockscoutAsset,
+    IBlockscoutTokenInfo,
+    IBlockscoutTokenTransfer,
+    IBlockscoutTransaction,
+} from '../interfaces'
 import { NetworkId } from '@core/network/types'
 
 interface INextPageParams {
@@ -90,6 +96,22 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
         const items = await this.makePaginatedGetRequest<IBlockscoutTransaction>(
             path,
             undefined,
+            [],
+            undefined,
+            exitFunction
+        )
+        return items
+    }
+
+    async getTokenTransfersAddress(
+        address: string,
+        standards?: ('ERC-20' | 'ERC-721')[],
+        exitFunction?: BlockscoutExitFunction<IBlockscoutTokenTransfer>
+    ): Promise<IBlockscoutTokenTransfer[]> {
+        const path = `addresses/${address}/token-transfers`
+        const items = await this.makePaginatedGetRequest<IBlockscoutTokenTransfer>(
+            path,
+            standards && standards?.length > 0 ? { type: standards } : undefined,
             [],
             undefined,
             exitFunction
