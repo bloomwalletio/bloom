@@ -1,8 +1,3 @@
-import { addAccountActivity, addPersistedTransaction } from '@core/activity/stores'
-import { EvmTransactionData } from '@core/layer-2'
-import { IChain } from '@core/network'
-import { signEvmTransaction } from '../signEvmTransaction'
-import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
 import {
     Activity,
     ActivityDirection,
@@ -10,24 +5,22 @@ import {
     PersistedEvmTransaction,
     calculateAndAddPersistedNftBalanceChange,
 } from '@core/activity'
-import { IAccountState } from '@core/account'
-import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
+import { addAccountActivity } from '@core/activity/stores'
+import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
+import { EvmTransactionData } from '@core/layer-2'
+import { EvmNetworkId, IChain } from '@core/network'
+import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
+import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
+import { IAccountState } from '@core/account'
 
-export async function signAndSendTransactionFromEvm(
+export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
+    signedTransaction: string,
     chain: IChain,
     account: IAccountState,
-    signAndSend: boolean
-): Promise<unknown> {
-    const signedTransaction = await signEvmTransaction(preparedTransaction, chain, account)
-    if (!signedTransaction) {
-        throw Error('No signed transaction!')
-    }
-    if (!signAndSend) {
-        return signedTransaction
-    }
-
+    profileId: string
+): Promise<string> {
     const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
     if (!transactionReceipt) {
         throw Error('No transaction receipt!')
@@ -40,16 +33,18 @@ export async function signAndSendTransactionFromEvm(
         ...transactionReceipt,
         timestamp: Date.now(),
     }
-    await persistEvmTransaction(evmTransaction, chain, account)
+    await persistEvmTransaction(profileId, account, chain, evmTransaction)
     return transactionReceipt.transactionHash
 }
 
 async function persistEvmTransaction(
-    evmTransaction: PersistedEvmTransaction,
+    profileId: string,
+    account: IAccountState,
     chain: IChain,
-    account: IAccountState
+    evmTransaction: PersistedEvmTransaction
 ): Promise<void> {
-    addPersistedTransaction(account.index, chain, evmTransaction)
+    const networkId = chain.getConfiguration().id as EvmNetworkId
+    addLocalTransactionToPersistedTransaction(profileId, account.index, networkId, [evmTransaction])
 
     const activity = await generateActivityFromEvmTransaction(evmTransaction, chain, account)
     if (!activity) {
@@ -62,7 +57,7 @@ async function persistEvmTransaction(
 
     if (activity.recipient?.type === 'account') {
         const recipientAccount = activity.recipient.account
-        addPersistedTransaction(recipientAccount.index, chain, evmTransaction)
+        addLocalTransactionToPersistedTransaction(profileId, recipientAccount.index, networkId, [evmTransaction])
         const receiveActivity = await generateActivityFromEvmTransaction(evmTransaction, chain, recipientAccount)
         if (!receiveActivity) {
             return

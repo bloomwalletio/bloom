@@ -1,13 +1,14 @@
 import { DappPermission } from '../enums/dapp-permission.enum'
+import { RpcMethod } from '../enums/rpc-method.enum'
 
 export const METHODS_FOR_PERMISSION = {
     [DappPermission.SignData]: [
-        'eth_sign',
-        'personal_sign',
-        'eth_signTypedData',
-        'eth_signTypedData_v3',
-        'eth_signTypedData_v4',
+        RpcMethod.EthSign,
+        RpcMethod.PersonalSign,
+        RpcMethod.EthSignTypedData,
+        RpcMethod.EthSignTypedDataV3,
+        RpcMethod.EthSignTypedDataV4,
     ],
-    [DappPermission.SignTransaction]: ['eth_signTransaction'],
-    [DappPermission.SendTransaction]: ['eth_sendTransaction', 'eth_sendRawTransaction'],
+    [DappPermission.SignTransaction]: [RpcMethod.EthSignTransaction],
+    [DappPermission.SendTransaction]: [RpcMethod.EthSendTransaction, RpcMethod.EthSendRawTransaction],
 }
