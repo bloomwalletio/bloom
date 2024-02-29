@@ -522,7 +522,8 @@
                         "permissions": {
                             "step": "Permissie",
                             "tip": "Dit zijn beperkte machtigingen voor de dApp om een interactieverzoek te sturen voor jouw goedkeuring. Keur alleen apps goed die je kent en vertrouwt.",
-                            "title": "Selecteer machtigingen",
+                            "requiredTitle": "Required permissions",
+                            "optionalTitle": "Optional permissions",
                             "signData": "Verzoek om data te ondertekenen",
                             "signTransaction": "Verzoek om een transactie te ondertekenen",
                             "sendTransaction": "Verzoek om een transactie te ondertekenen",
@@ -531,7 +532,8 @@
                         },
                         "networks": {
                             "step": "Netwerken",
-                            "title": "Selecteer netwerken",
+                            "requiredTitle": "Required networks",
+                            "optionalTitle": "Optional networks",
                             "tip": "De vereiste netwerken zijn vooraf geselecteerd door de dApp en kunnen later ook opnieuw worden geconfigureerd.",
                             "empty": "Je moet tenminste één netwerk selecteren"
                         },
@@ -650,24 +652,24 @@
             },
             "statusTimeline": {
                 "upcoming": {
-                    "past": "Announced",
-                    "present": "Announcement",
-                    "future": "Announcement"
+                    "past": "Aangekondigd",
+                    "present": "Aankondiging",
+                    "future": "Aankondiging"
                 },
                 "commencing": {
-                    "past": "Voting opened",
-                    "present": "Voting open",
-                    "future": "Voting opens"
+                    "past": "Stemmen geopend",
+                    "present": "Stemmen open",
+                    "future": "Stemming opent"
                 },
                 "holding": {
-                    "past": "Counting started",
-                    "present": "Counting started",
-                    "future": "Counting starts"
+                    "past": "Tellen gestart",
+                    "present": "Tellen gestart",
+                    "future": "Tellen begint"
                 },
                 "ended": {
-                    "past": "Counting stopped",
-                    "present": "Counting stopped",
-                    "future": "Counting stops"
+                    "past": "Tellen gestopt",
+                    "present": "Tellen gestopt",
+                    "future": "Tellen stopt"
                 }
             },
             "details": {
@@ -686,7 +688,11 @@
                     "nodeUrl": "Knooppunt URL"
                 },
                 "fetching": "Ophalen voorstel gegevens",
-                "hintVote": "Je kunt niet stemmen over een voorstel dat in de aankondigingsfase verkeert, de stemming wordt geopend in {time}."
+                "hintVote": "Je kunt niet stemmen over een voorstel dat in de aankondigingsfase verkeert, de stemming wordt geopend in {time}.",
+                "projection": {
+                    "label": "Projected votes",
+                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                }
             }
         },
         "updateStronghold": {
@@ -863,7 +869,7 @@
             "loadingNodeInfo": "Laden van knooppunt info",
             "nodeAddress": "Knooppunt adres",
             "removeConfirmation": "Weet u zeker dat u dit knooppunt wilt verwijderen?",
-            "requiresAuthentication": "Node requires authentication",
+            "requiresAuthentication": "Node vereist authenticatie",
             "info": {
                 "general": {
                     "tab": "Algemeen",
@@ -899,8 +905,8 @@
                     "useMetricPrefix": "Metrische voorvoegsel gebruiken"
                 }
             },
-            "jwt": "JSON web token",
-            "credentials": "Sign-in credentials"
+            "jwt": "JSON webtoken",
+            "credentials": "Inloggegevens"
         },
         "errorLog": {
             "title": "Foutenlogboek",
@@ -973,10 +979,18 @@
         },
         "siwe": {
             "title": "Inloggen met Ethereum",
-            "domain": "Domain",
-            "statement": "Statement",
-            "resources": "Resources",
-            "action": "Sign in"
+            "details": "Details",
+            "raw": "Raw",
+            "rawMessage": "Raw message",
+            "domain": "Domein",
+            "statement": "Verklaring",
+            "resources": "Bronnen",
+            "chainId": "Chain Id",
+            "nonce": "Nonce",
+            "issuedAt": "Issued at",
+            "notBefore": "Not before",
+            "requestId": "Request Id",
+            "action": "Inloggen"
         },
         "signTransaction": {
             "title": "Transactie ondertekenen",
@@ -991,6 +1005,7 @@
         "smartContractCall": {
             "title": "Smart Contract-oproep naar {contractAddress}",
             "unableToVerify": "Bloom is niet in staat om de smart Contract-oproep te verifiëren. Ga alleen verder met apps die je vertrouwt.",
+            "viewSmartContract": "View Smart Contract",
             "action": "Bevestig",
             "success": "Smart contract oproep naar {recipient}"
         },
@@ -1157,7 +1172,7 @@
             "errors": {
                 "invalidMimetype": "Ongeldige MimeType, controleer of het bestandstype wordt ondersteund",
                 "quantityTooSmall": "Hoeveelheid moet groter zijn dan 0",
-                "quantityTooLarge": "Quantity needs to be smaller than 127",
+                "quantityTooLarge": "Hoeveelheid moet kleiner zijn dan 127",
                 "emptyName": "Naam is een verplicht veld",
                 "invalidURI": "Ongeldige URI, geef een geldige URI op",
                 "notReachable": "URI niet bereikbaar, niet mogelijk het NFT type te controleren",
@@ -1186,7 +1201,7 @@
             "title": "Voorstel toevoegen",
             "body": "Lever onderstaande informatie aan om een voorstel toe te voegen.",
             "addToAllAccounts": "Voeg het voorstel toe aan alle accounts",
-            "addAllProposalsOnNode": "Add all proposals on this node"
+            "addAllProposalsOnNode": "Voeg alle voorstellen toe aan deze node"
         },
         "editProposal": {
             "title": "Voorstel bewerken",
@@ -1355,7 +1370,7 @@
         "addProposal": "Voorstel toevoegen",
         "removeProposal": "Voorstel verwijderen",
         "changeNode": "Wijzig knooppunt",
-        "changeNodeUrl": "Change node URL",
+        "changeNodeUrl": "Verander node URL",
         "stopVoting": "Stoppen met stemmen",
         "revote": "Stem opnieuw",
         "skipAndKeep": "Overslaan en behoud oude wachtwoord",
@@ -1365,11 +1380,11 @@
         "syncAccounts": "Synchroniseer accounts",
         "importToken": "Importeer {type} token",
         "syncTokens": "Forceer synchronisatie tokens",
-        "mintNftCollection": "Mint NFT collection"
+        "mintNftCollection": "Mint NFT collectie"
     },
     "general": {
         "recipient": "Ontvanger",
-        "username": "Username",
+        "username": "Gebruikersnaam",
         "password": "Wachtwoord",
         "confirmPassword": "Bevestig wachtwoord",
         "currentPassword": "Huidig wachtwoord",
@@ -1381,18 +1396,18 @@
         "receiving": "Ontvangen",
         "newVotingPower": "Nieuwe stemkracht",
         "votingPower": "Stemkracht",
-        "increased": "Stemkracht vergroot",
-        "increasing": "Stemkracht vergroten",
-        "decreased": "Stemkracht verkleind",
-        "decreasing": "Stemkracht verkleinen",
+        "increased": "Voting increased",
+        "increasing": "Increasing voting",
+        "decreased": "Voting decreased",
+        "decreasing": "Decreasing voting",
         "voted": "Gestemd",
         "voting": "Stemmen",
         "changedVote": "Stem gewijzigd",
         "changingVote": "Stem wijzigen",
         "revoted": "Herstemd",
         "revoting": "Herstemmen",
-        "unvoted": "Niet gestemd",
-        "unvoting": "Niet stemmen",
+        "unvoted": "Stopped voting",
+        "unvoting": "Stopping voting",
         "transferred": "Verzonden",
         "transferring": "Aan het verzenden",
         "shimmerClaimed": "Geclaimed",
@@ -1531,6 +1546,7 @@
         "contractFunction": "Contract functie",
         "standard": "Standaard",
         "uri": "URI",
+        "image": "Image",
         "issuer": "Uitgever",
         "issuerAddress": "Uitgever adres",
         "issuerName": "Naam uitgever",
@@ -1588,7 +1604,7 @@
         "baseCoin": "Basis token",
         "unverifiedContract": "Ongeverifieerd contract",
         "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
+        "mintNftCollectionDescription": "Mint collectie NFT in Alias Output"
     },
     "filters": {
         "title": "Filters",
@@ -1797,7 +1813,7 @@
             "success": "Contactadressen succesvol bijgewerkt"
         },
         "siwe": {
-            "rejected": "Invalid SIWE request"
+            "rejected": "Ongeldig SIWE verzoek"
         },
         "syncTokens": {
             "success": "Tokens succesvol gesynchroniseerd"
@@ -2073,7 +2089,7 @@
             "attributes": "Optionele parameter: Een reeks van eigenschappen en waarden die kenmerken van de NFT definiëren",
             "uri": "Om een URI met eigen media te maken, upload eerst je bestand naar IPFS via een opslagservice (bijv. https://nft.storage/)",
             "quantity": "Optionele parameter: Het aantal geminte kopieën met deze metadata.",
-            "startIndex": "Optional parameter: The start index of the NFTs to mint."
+            "startIndex": "Optionele parameter: De startindex van de NFT's om te minten."
         },
         "governance": {
             "removeProposalWarning": "Je moet eerst stoppen met stemmen voor dit voorstel voordat je het verwijdert.",
@@ -2099,7 +2115,7 @@
         "collectibles": "Verzamelingen",
         "governance": "Governance",
         "campaigns": "Campagnes",
-        "buySell": "Buy IOTA",
+        "buySell": "IOTA kopen",
         "developer": "Ontwikkelaar",
         "tokens": "Tokens",
         "settings": "Instellingen"
@@ -2134,10 +2150,10 @@
             "appNotOpen": "App niet geopend"
         },
         "dappVerification": {
-            "valid": "Verified",
-            "invalid": "Domain Mismatch",
-            "unknown": "Cannot verify",
-            "scam": "Security Risk"
+            "valid": "Geverifiëerd",
+            "invalid": "Domein komt niet overeen",
+            "unknown": "Kan niet verifiëren",
+            "scam": "Beveiligingsrisico"
         }
     },
     "menus": {

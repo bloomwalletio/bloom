@@ -18,14 +18,13 @@
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
 
     let totalVotes = BigInt(0)
-    const hasMounted = false
 
     $: selectedProposalOverview = $participationOverviewForSelectedAccount?.participations?.[$selectedProposal?.id]
     $: trackedParticipations = Object.values(selectedProposalOverview ?? {})
     $: currentMilestone = $networkStatus.currentMilestone
 
     // Reactively start updating votes once component has mounted and participation overview is available.
-    $: hasMounted && $selectedParticipationEventStatus && trackedParticipations && currentMilestone && setTotalVotes()
+    $: $selectedParticipationEventStatus && trackedParticipations && currentMilestone && setTotalVotes()
 
     function setTotalVotes(): void {
         switch ($selectedParticipationEventStatus?.status) {

@@ -13,6 +13,7 @@ import { NetworkId } from '@core/network'
 import { setOutgoingAsyncActivitiesToClaimed } from './setOutgoingAsyncActivitiesToClaimed'
 
 export async function generateAndStoreActivitiesForAccount(
+    profileId: string,
     account: IAccountState,
     networkId: NetworkId
 ): Promise<void> {
@@ -34,7 +35,7 @@ export async function generateAndStoreActivitiesForAccount(
     const balanceChangeActivities = await generateActivitiesFromBalanceChanges(account)
     activities.push(...balanceChangeActivities)
 
-    const chainActivities = await generateActivitiesFromChains(account)
+    const chainActivities = await generateActivitiesFromChains(profileId, account)
     activities.push(...chainActivities)
 
     // Step 4: set account activities with generated activities

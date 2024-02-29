@@ -25,6 +25,7 @@ import { get } from 'svelte/store'
 import { ProfileType } from '../../enums'
 import { ILoginOptions } from '../../interfaces'
 import {
+    activeAccounts,
     activeProfile,
     getLastLoggedInProfileId,
     incrementLoginProgress,
@@ -42,6 +43,7 @@ import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletA
 import { disconnectAllDapps } from '@auxiliary/wallet-connect/utils'
 import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 import { cleanupOnboarding } from '@contexts/onboarding'
+import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actions'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
@@ -83,7 +85,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         // Step 5: generate and store activities for all accounts
         incrementLoginProgress()
-        await generateAndStoreActivitiesForAllAccounts()
+        await generateAndStoreActivitiesForAllAccounts(_activeProfile.id)
 
         if (type === ProfileType.Software) {
             // Step 6: set initial stronghold status
@@ -105,6 +107,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         subscribeToWalletApiEventsForActiveProfile()
         await startBackgroundSync({ syncIncomingTransactions: true })
         fetchL2BalanceForAllAccounts()
+        void fetchAndPersistTransactionsForAccounts(_activeProfile.id, get(activeAccounts))
 
         // Step 8: finish login
         incrementLoginProgress()
