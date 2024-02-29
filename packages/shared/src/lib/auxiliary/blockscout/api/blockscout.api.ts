@@ -103,7 +103,7 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
         return items
     }
 
-    async getTokenTransfersAddress(
+    async getTokenTransfersForAddress(
         address: string,
         standards?: ('ERC-20' | 'ERC-721')[],
         exitFunction?: BlockscoutExitFunction<IBlockscoutTokenTransfer>

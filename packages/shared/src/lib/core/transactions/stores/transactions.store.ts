@@ -1,4 +1,4 @@
-import { IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
+import { IBlockscoutTokenTransfer, IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
 import { PersistedEvmTransaction } from '@core/activity'
 import { EvmNetworkId } from '@core/network'
 import { IChain } from '@core/network/interfaces'
@@ -96,6 +96,40 @@ export function addBlockscoutTransactionToPersistedTransactions(
     })
 }
 
+export function addBlockscoutTokenTransferToPersistedTransactions(
+    profileId: string,
+    accountIndex: number,
+    networkId: EvmNetworkId,
+    newTokenTransfers: IBlockscoutTokenTransfer[]
+): void {
+    persistedTransactions.update((state) => {
+        if (!state[profileId]) {
+            state[profileId] = {}
+        }
+        if (!state[profileId][accountIndex]) {
+            state[profileId][accountIndex] = {
+                [networkId]: {},
+            }
+        }
+        if (!state[profileId][accountIndex][networkId]) {
+            state[profileId][accountIndex][networkId] = {}
+        }
+
+        const _transactions = state[get(activeProfileId)][accountIndex][networkId] ?? {}
+        for (const tokenTransfer of newTokenTransfers) {
+            const existingTransaction = _transactions?.[tokenTransfer.tx_hash.toLowerCase()]
+            const updatedTransaction: PersistedTransaction = {
+                ...existingTransaction,
+                tokenTransfer,
+            }
+            _transactions[tokenTransfer.tx_hash.toLowerCase()] = updatedTransaction
+        }
+        state[get(activeProfileId)][accountIndex][networkId] = _transactions
+
+        return state
+    })
+}
+
 export function removePersistedTransactionsForProfile(profileId: string): void {
     persistedTransactions.update((state) => {
         delete state[profileId]
@@ -110,4 +144,13 @@ export function isBlockscoutTransactionPersisted(
     transactionHash: string
 ): boolean {
     return !!get(persistedTransactions)?.[profileId]?.[accountIndex]?.[networkId]?.[transactionHash]?.blockscout
+}
+
+export function isBlockscoutTokenTransferPersisted(
+    profileId: string,
+    accountIndex: number,
+    networkId: EvmNetworkId,
+    transactionHash: string
+): boolean {
+    return !!get(persistedTransactions)?.[profileId]?.[accountIndex]?.[networkId]?.[transactionHash]?.tokenTransfer
 }
