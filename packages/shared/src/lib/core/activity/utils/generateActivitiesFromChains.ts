@@ -1,19 +1,19 @@
 import { IAccountState } from '@core/account'
-import { Activity } from '../types'
-import { getPersistedEvmTransactions } from '../stores'
-import { generateActivityFromEvmTransaction } from './generateActivityFromEvmTransaction'
-import { get } from 'svelte/store'
 import { network } from '@core/network'
+import { getPersistedTransactionsForChain } from '@core/transactions/stores'
+import { get } from 'svelte/store'
+import { Activity } from '../types'
+import { generateActivityFromPersistedTransaction } from './generateActivityFromPeristedTransaction'
 
-export async function generateActivitiesFromChains(account: IAccountState): Promise<Activity[]> {
+export async function generateActivitiesFromChains(profileId: string, account: IAccountState): Promise<Activity[]> {
     const activities: Activity[] = []
 
     const chains = get(network)?.getChains() ?? []
     for (const chain of chains) {
-        const transactions = getPersistedEvmTransactions(account.index, chain)
-        for (const transaction of transactions) {
+        const persistedTransactions = getPersistedTransactionsForChain(profileId, account.index, chain)
+        for (const persistedTransaction of persistedTransactions) {
             try {
-                const activity = await generateActivityFromEvmTransaction(transaction, chain, account)
+                const activity = await generateActivityFromPersistedTransaction(persistedTransaction, chain, account)
                 if (activity) {
                     activities.push(activity)
                 }

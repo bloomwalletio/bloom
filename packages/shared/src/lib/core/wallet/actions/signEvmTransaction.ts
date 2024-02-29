@@ -10,7 +10,7 @@ export async function signEvmTransaction(
     transaction: EvmTransactionData,
     chain: IChain,
     account: IAccountState
-): Promise<string | undefined> {
+): Promise<string> {
     const { chainId, coinType } = chain.getConfiguration() ?? {}
     const bip44Path = {
         coinType,
@@ -21,14 +21,20 @@ export async function signEvmTransaction(
     const { index } = account
 
     const transactionCopy = structuredClone(transaction)
+    let signature: string | undefined
     if (get(isSoftwareProfile)) {
         // Follow MetaMask's convention around incrementing address indices instead of account indices
         bip44Path.addressIndex = index
-        return await signEvmTransactionWithStronghold(transactionCopy, chainId, bip44Path)
+        signature = await signEvmTransactionWithStronghold(transactionCopy, chainId, bip44Path)
     } else if (get(isActiveLedgerProfile)) {
         bip44Path.account = index
         delete transactionCopy?.estimatedGas
 
-        return (await Ledger.signEvmTransaction(transactionCopy, chainId, bip44Path)) as string
+        signature = (await Ledger.signEvmTransaction(transactionCopy, chainId, bip44Path)) as string
     }
+
+    if (!signature) {
+        throw new Error('Failed to sign EVM transaction')
+    }
+    return signature
 }
