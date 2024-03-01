@@ -9,6 +9,6 @@
 
 <AvatarGroup avatarSize={size}>
     {#each networkIds as networkId}
-        <NetworkAvatar {networkId} {size} />
+        <NetworkAvatar {networkId} {size} showTooltip />
     {/each}
 </AvatarGroup>
