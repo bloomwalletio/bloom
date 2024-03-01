@@ -1,17 +1,17 @@
-import { TypedTxData } from '@ethereumjs/tx'
-import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
-import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
-import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
+import { StardustActivityType } from '@core/activity'
+import { IChain } from '@core/network'
+import { BASE_TOKEN_ID } from '@core/token/constants'
+import { LocalEvmTransaction } from '@core/transactions'
 import { AbiDecoder, Converter, HEX_PREFIX } from '@core/utils'
+import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
+import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
+import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import {
     Erc20TransferMethodInputs,
     Erc721SafeTransferMethodInputs,
     IscCallMethodInputs,
     IscSendMethodInputs,
 } from '../interfaces'
-import { BASE_TOKEN_ID } from '@core/token/constants'
-import { IChain } from '@core/network'
-import { StardustActivityType } from '@core/activity'
 
 type TransferInfo =
     | {
@@ -24,10 +24,13 @@ type TransferInfo =
     | { type: StardustActivityType.Nft; nftId: string; additionalBaseTokenAmount?: bigint; recipientAddress: string }
     | { type: StardustActivityType.SmartContract }
 
-export function getTransferInfoFromTransactionData(transaction: TypedTxData, chain: IChain): TransferInfo | undefined {
+export function getTransferInfoFromTransactionData(
+    transaction: LocalEvmTransaction,
+    chain: IChain
+): TransferInfo | undefined {
     const networkId = chain.getConfiguration().id
 
-    const recipientAddress = transaction.to?.toString()
+    const recipientAddress = transaction?.to?.toString()
     if (!recipientAddress) {
         return undefined
     }
