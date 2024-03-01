@@ -7,13 +7,13 @@
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { SecurityWarning, UnsupportedDappHint } from '../components'
-    import { SupportedNetworkId, getAllNetworkIds } from '@core/network'
+    import { getAllNetworkIds } from '@core/network'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
     import { onDestroy } from 'svelte'
-    import { Web3WalletTypes } from '@walletconnect/web3wallet'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { ProposalTypes } from '@walletconnect/types'
 
     export let drawerRouter: Router<unknown>
 
@@ -21,7 +21,12 @@
     let acceptedInsecureConnection = false
     let flashingCheckbox = false
     $: fulfillsRequirements =
-        doesFulfillNetworkRequirements($sessionProposal) && doesFulfillMethodRequirements($sessionProposal)
+        !!$sessionProposal &&
+        doesFulfillNetworkRequirements(
+            $sessionProposal.params.requiredNamespaces,
+            $sessionProposal.params.optionalNamespaces
+        ) &&
+        doesFulfillMethodRequirements($sessionProposal.params.requiredNamespaces)
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
@@ -41,15 +46,21 @@
         }
     }
 
-    function doesFulfillNetworkRequirements(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): boolean {
-        if (!_sessionProposal) return false
+    function doesFulfillNetworkRequirements(
+        requiredNamespaces: ProposalTypes.RequiredNamespaces,
+        optionalNamespaces: ProposalTypes.RequiredNamespaces
+    ): boolean {
+        const supportedNetworksByProfile = getAllNetworkIds()
+        const requiredNetworksByDapp = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
+        const supportedNetworksByDapp = [
+            ...requiredNetworksByDapp,
+            ...Object.values(optionalNamespaces).flatMap((namespace) => namespace.chains),
+        ]
 
-        const { supportedNetworksByProfile, requiredNetworksByDapp, supportedNetworksByDapp } =
-            getNetworkRequirements(_sessionProposal)
-
-        const supportsAllRequiredNetworks = supportedNetworksByProfile.every((networkId) =>
-            requiredNetworksByDapp.includes(networkId)
+        const supportsAllRequiredNetworks = requiredNetworksByDapp.every((networkId) =>
+            supportedNetworksByProfile.includes(networkId)
         )
+
         if (!supportsAllRequiredNetworks) {
             return false
         }
@@ -64,51 +75,17 @@
         return true
     }
 
-    function doesFulfillMethodRequirements(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): boolean {
-        if (!_sessionProposal) return false
-
+    function doesFulfillMethodRequirements(requiredNamespaces: ProposalTypes.RequiredNamespaces): boolean {
         const supportedMethodsByWallet = Object.values(METHODS_FOR_PERMISSION).flat() as RpcMethod[]
-        const requiredMethods = Object.values(_sessionProposal.params.requiredNamespaces).flatMap(
+        const requiredMethods = Object.values(requiredNamespaces).flatMap(
             (namespace) => namespace.methods
         ) as RpcMethod[]
-        const supportsAllRequiredMethods = requiredMethods.every((method) => !supportedMethodsByWallet.includes(method))
+        const supportsAllRequiredMethods = requiredMethods.every((method) => supportedMethodsByWallet.includes(method))
         if (!supportsAllRequiredMethods) {
             return false
         }
 
         return true
-    }
-
-    function getNetworkRequirements(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): {
-        allSupportedNetworksByWallet: string[]
-        supportedNetworksByProfile: string[]
-        requiredNetworksByDapp: string[]
-        supportedNetworksByDapp: string[]
-    } {
-        if (!_sessionProposal)
-            return {
-                allSupportedNetworksByWallet: [],
-                supportedNetworksByProfile: [],
-                requiredNetworksByDapp: [],
-                supportedNetworksByDapp: [],
-            }
-        const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
-        const optionalNamespaces = _sessionProposal?.params.optionalNamespaces
-
-        const supportedNetworksByProfile = getAllNetworkIds()
-        const allSupportedNetworksByWallet: string[] = Object.values(SupportedNetworkId)
-        const requiredNetworksByDapp = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
-        const supportedNetworksByDapp = [
-            ...requiredNetworksByDapp,
-            ...Object.values(optionalNamespaces).flatMap((namespace) => namespace.chains),
-        ]
-
-        return {
-            allSupportedNetworksByWallet,
-            supportedNetworksByProfile,
-            requiredNetworksByDapp,
-            supportedNetworksByDapp,
-        }
     }
 
     function onRejectClick(): void {
@@ -164,7 +141,10 @@
             </div>
             {#if !fulfillsRequirements}
                 <div class="px-6">
-                    <UnsupportedDappHint {unsupportedMethods} />
+                    <UnsupportedDappHint
+                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
+                    />
                 </div>
             {:else if verifiedState !== DappVerification.Valid}
                 <div class="px-6">
