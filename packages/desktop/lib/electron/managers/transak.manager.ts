@@ -6,8 +6,6 @@ import path from 'path'
 import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
 import { buildQueryParametersFromObject } from '@core/utils/url'
 import { Currency } from '@core/utils/enums'
-import { validateBech32Address } from '@core/utils/crypto'
-import { IOTA_BECH32_HRP } from '@core/network'
 
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
@@ -167,8 +165,6 @@ export default class TransakManager implements ITransakManager {
     private getUrl(data: ITransakWindowData): string {
         const { address, currency, service } = data
         const apiKey = process.env.TRANSAK_API_KEY
-
-        validateBech32Address(IOTA_BECH32_HRP, address)
 
         if (Object.values(Currency).includes(currency as Currency)) {
             throw new Error('Invalid Transak currency')
