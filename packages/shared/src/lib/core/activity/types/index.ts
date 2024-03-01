@@ -5,7 +5,6 @@ export * from './evm/base-evm-activity.type'
 export * from './claimed-activities.interface'
 export * from './hidden-activities.interface'
 export * from './nft-balance-change.interface'
-export * from './persisted-evm-transaction.interface'
 export * from './processed-transaction.interface'
 export * from './sender-info.type'
 

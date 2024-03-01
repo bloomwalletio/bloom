@@ -1,13 +1,14 @@
-import { BASE_TOKEN_ID } from '@core/token'
-import { StardustActivityType } from '../../enums'
-import { PersistedEvmTransaction, StardustTransactionActivity } from '../../types'
-import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { IChain } from '@core/network'
-import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { IAccountState } from '@core/account/interfaces'
+import { IChain } from '@core/network'
+import { BASE_TOKEN_ID } from '@core/token'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { LocalEvmTransaction } from '@core/transactions'
+import { StardustActivityType } from '../../enums'
+import { StardustTransactionActivity } from '../../types'
+import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 
 export async function generateTokenActivity(
-    transaction: PersistedEvmTransaction,
+    transaction: LocalEvmTransaction,
     chain: IChain,
     tokenId: string,
     rawAmount: bigint,

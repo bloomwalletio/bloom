@@ -1,18 +1,18 @@
+import { IAccountState } from '@core/account'
 import {
-    StardustActivity,
     ActivityDirection,
+    StardustActivity,
     StardustActivityType,
-    PersistedEvmTransaction,
     calculateAndAddPersistedNftBalanceChange,
 } from '@core/activity'
 import { addAccountActivity } from '@core/activity/stores'
 import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
 import { EvmTransactionData } from '@core/layer-2'
 import { EvmNetworkId, IChain } from '@core/network'
+import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
 import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
-import { IAccountState } from '@core/account'
 
 export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
@@ -28,7 +28,7 @@ export async function sendAndPersistTransactionFromEvm(
 
     // We manually add a timestamp to mitigate balance change activities
     // taking precedence over send/receive activities
-    const evmTransaction: PersistedEvmTransaction = {
+    const evmTransaction: LocalEvmTransaction = {
         ...preparedTransaction,
         ...transactionReceipt,
         timestamp: Date.now(),
@@ -41,7 +41,7 @@ async function persistEvmTransaction(
     profileId: string,
     account: IAccountState,
     chain: IChain,
-    evmTransaction: PersistedEvmTransaction
+    evmTransaction: LocalEvmTransaction
 ): Promise<void> {
     const networkId = chain.getConfiguration().id as EvmNetworkId
     addLocalTransactionToPersistedTransaction(profileId, account.index, networkId, [evmTransaction])

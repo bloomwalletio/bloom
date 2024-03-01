@@ -1,12 +1,13 @@
-import { BASE_TOKEN_ID } from '@core/token'
-import { StardustActivityType } from '../../enums'
-import { StardustNftActivity, PersistedEvmTransaction } from '../../types'
-import { IChain } from '@core/network'
-import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { IAccountState } from '@core/account/interfaces'
+import { IChain } from '@core/network'
+import { BASE_TOKEN_ID } from '@core/token'
+import { LocalEvmTransaction } from '@core/transactions'
+import { StardustActivityType } from '../../enums'
+import { StardustNftActivity } from '../../types'
+import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 
 export async function generateNftActivity(
-    transaction: PersistedEvmTransaction,
+    transaction: LocalEvmTransaction,
     chain: IChain,
     nftId: string,
     baseTokenAmount: bigint | undefined,

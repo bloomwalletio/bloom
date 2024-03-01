@@ -1,9 +1,13 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { IChain } from '@core/network'
-import { PersistedTransaction, buildPersistedEvmTransactionFromBlockscoutTransaction } from '@core/transactions'
+import {
+    LocalEvmTransaction,
+    PersistedTransaction,
+    buildPersistedEvmTransactionFromBlockscoutTransaction,
+} from '@core/transactions'
 import { StardustActivityType } from '../enums'
-import { StardustActivity, PersistedEvmTransaction } from '../types'
+import { StardustActivity } from '../types'
 import { generateNftActivity } from './evm/generateNftActivity'
 import { generateSmartContractActivity } from './evm/generateSmartContractActivity'
 import { generateTokenActivity } from './evm/generateTokenActivity'
@@ -15,7 +19,7 @@ export async function generateActivityFromPersistedTransaction(
 ): Promise<StardustActivity | undefined> {
     const transaction = persistedTransaction.blockscout
         ? buildPersistedEvmTransactionFromBlockscoutTransaction(persistedTransaction.blockscout)
-        : (persistedTransaction.local as PersistedEvmTransaction)
+        : (persistedTransaction.local as LocalEvmTransaction)
     const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
     if (transferInfo?.type === StardustActivityType.SmartContract) {
         return generateSmartContractActivity(transaction, chain, account)

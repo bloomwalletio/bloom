@@ -1,14 +1,15 @@
-import { StardustActivity, PersistedEvmTransaction } from '../types'
-import { IChain } from '@core/network'
+import { IAccountState } from '@core/account/interfaces'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
+import { IChain } from '@core/network'
+import { LocalEvmTransaction } from '@core/transactions'
+import { StardustActivityType } from '../enums'
+import { StardustActivity } from '../types'
+import { generateNftActivity } from './evm/generateNftActivity'
 import { generateSmartContractActivity } from './evm/generateSmartContractActivity'
 import { generateTokenActivity } from './evm/generateTokenActivity'
-import { generateNftActivity } from './evm/generateNftActivity'
-import { IAccountState } from '@core/account/interfaces'
-import { StardustActivityType } from '../enums'
 
 export async function generateActivityFromEvmTransaction(
-    transaction: PersistedEvmTransaction,
+    transaction: LocalEvmTransaction,
     chain: IChain,
     account: IAccountState
 ): Promise<StardustActivity | undefined> {
