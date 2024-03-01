@@ -84,7 +84,12 @@ export default class TransakManager implements ITransakManager {
             }
         })
 
-        const initialUrl = this.getUrl(data)
+        let initialUrl: string
+        try {
+            initialUrl = this.getUrl(data)
+        } catch (err) {
+            console.error(err)
+        }
         void windows.transak.loadURL(initialUrl)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
