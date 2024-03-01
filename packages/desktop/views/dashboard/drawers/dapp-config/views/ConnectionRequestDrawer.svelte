@@ -20,8 +20,8 @@
     const localeKey = 'views.dashboard.drawers.dapps.connectionRequest'
     let acceptedInsecureConnection = false
     let flashingCheckbox = false
-    $: unsupportedMethods = getUnsupportedMethods($sessionProposal)
-    $: fulfillsRequirements = unsupportedMethods.length === 0 && doesFulfillNetworkRequirements($sessionProposal)
+    $: fulfillsRequirements =
+        doesFulfillNetworkRequirements($sessionProposal) && doesFulfillMethodRequirements($sessionProposal)
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
@@ -64,6 +64,21 @@
         return true
     }
 
+    function doesFulfillMethodRequirements(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): boolean {
+        if (!_sessionProposal) return false
+
+        const supportedMethodsByWallet = Object.values(METHODS_FOR_PERMISSION).flat() as RpcMethod[]
+        const requiredMethods = Object.values(_sessionProposal.params.requiredNamespaces).flatMap(
+            (namespace) => namespace.methods
+        ) as RpcMethod[]
+        const supportsAllRequiredMethods = requiredMethods.every((method) => !supportedMethodsByWallet.includes(method))
+        if (!supportsAllRequiredMethods) {
+            return false
+        }
+
+        return true
+    }
+
     function getNetworkRequirements(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): {
         allSupportedNetworksByWallet: string[]
         supportedNetworksByProfile: string[]
@@ -94,15 +109,6 @@
             requiredNetworksByDapp,
             supportedNetworksByDapp,
         }
-    }
-
-    function getUnsupportedMethods(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): string[] {
-        if (!_sessionProposal) return []
-
-        const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
-        const supportedMethods = Object.values(METHODS_FOR_PERMISSION).flat()
-        const requiredMethods = Object.values(requiredNamespaces).flatMap((namespace) => namespace.methods)
-        return requiredMethods.filter((network) => !supportedMethods.includes(network as RpcMethod))
     }
 
     function onRejectClick(): void {
