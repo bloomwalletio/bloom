@@ -21,12 +21,7 @@
     let acceptedInsecureConnection = false
     let flashingCheckbox = false
     $: unsupportedMethods = getUnsupportedMethods($sessionProposal)
-    $: supportedNetworks = getSupportedNetworks($sessionProposal)
-    $: unsupportedRequiredNetworks = getUnsupportedRequiredNetworks($sessionProposal)
-    $: fulfillsRequirements =
-        unsupportedMethods.length === 0 &&
-        unsupportedRequiredNetworks.networks.length === 0 &&
-        supportedNetworks.networks.length > 0
+    $: fulfillsRequirements = unsupportedMethods.length === 0 && doesFulfillNetworkRequirements($sessionProposal)
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
@@ -46,46 +41,59 @@
         }
     }
 
-    function getUnsupportedRequiredNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): {
-        networks: string[]
-        isSupportedOnOtherProfiles: boolean
-    } {
-        if (!_sessionProposal) return { networks: [], isSupportedOnOtherProfiles: false }
+    function doesFulfillNetworkRequirements(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): boolean {
+        if (!_sessionProposal) return false
 
-        const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
-        const networksSupportedByProfile = getAllNetworkIds()
-        const requiredNetworks = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
+        const { supportedNetworksByProfile, requiredNetworksByDapp, supportedNetworksByDapp } =
+            getNetworkRequirements(_sessionProposal)
 
-        const networks = requiredNetworks.filter((network) => !networksSupportedByProfile.includes(network))
+        const supportsAllRequiredNetworks = supportedNetworksByProfile.every((networkId) =>
+            requiredNetworksByDapp.includes(networkId)
+        )
+        if (!supportsAllRequiredNetworks) {
+            return false
+        }
 
-        const allSupportedNetworks: string[] = Object.values(SupportedNetworkId)
-        const isSupportedOnOtherProfiles = networks.every((network) => allSupportedNetworks.includes(network))
+        const supportsAnyNetwork = supportedNetworksByDapp.some((networkId) =>
+            requiredNetworksByDapp.includes(networkId)
+        )
+        if (!supportsAnyNetwork) {
+            return false
+        }
 
-        return { networks, isSupportedOnOtherProfiles }
+        return true
     }
 
-    function getSupportedNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): {
-        networks: string[]
-        networksOnOtherProfiles: string[]
+    function getNetworkRequirements(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): {
+        allSupportedNetworksByWallet: string[]
+        supportedNetworksByProfile: string[]
+        requiredNetworksByDapp: string[]
+        supportedNetworksByDapp: string[]
     } {
-        if (!_sessionProposal) return { networks: [], networksOnOtherProfiles: [] }
-
+        if (!_sessionProposal)
+            return {
+                allSupportedNetworksByWallet: [],
+                supportedNetworksByProfile: [],
+                requiredNetworksByDapp: [],
+                supportedNetworksByDapp: [],
+            }
         const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
         const optionalNamespaces = _sessionProposal?.params.optionalNamespaces
 
-        const networksSupportedByProfile = getAllNetworkIds()
-        const networksSupportedByDapp = []
+        const supportedNetworksByProfile = getAllNetworkIds()
+        const allSupportedNetworksByWallet: string[] = Object.values(SupportedNetworkId)
+        const requiredNetworksByDapp = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
+        const supportedNetworksByDapp = [
+            ...requiredNetworksByDapp,
+            ...Object.values(optionalNamespaces).flatMap((namespace) => namespace.chains),
+        ]
 
-        networksSupportedByDapp.push(...Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains))
-        networksSupportedByDapp.push(...Object.values(optionalNamespaces).flatMap((namespace) => namespace.chains))
-        const networks = networksSupportedByDapp.filter((network) => networksSupportedByProfile.includes(network))
-
-        const allSupportedNetworks: string[] = Object.values(SupportedNetworkId)
-        const networksOnOtherProfiles = networksSupportedByDapp.filter((network) =>
-            allSupportedNetworks.includes(network)
-        )
-
-        return { networks, networksOnOtherProfiles }
+        return {
+            allSupportedNetworksByWallet,
+            supportedNetworksByProfile,
+            requiredNetworksByDapp,
+            supportedNetworksByDapp,
+        }
     }
 
     function getUnsupportedMethods(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): string[] {
@@ -150,7 +158,7 @@
             </div>
             {#if !fulfillsRequirements}
                 <div class="px-6">
-                    <UnsupportedDappHint {unsupportedRequiredNetworks} {supportedNetworks} {unsupportedMethods} />
+                    <UnsupportedDappHint {unsupportedMethods} />
                 </div>
             {:else if verifiedState !== DappVerification.Valid}
                 <div class="px-6">
