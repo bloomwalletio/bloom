@@ -18,7 +18,7 @@ export function validateBech32Address(prefix: string, addr: string, addressType?
         throw new Error(localize('error.send.wrongAddressFormat'))
     }
 
-    const addressTypeLetter = addressType === undefined ? undefined : ADDRESS_TYPE_MAP[addressType] ?? undefined
+    const addressTypeLetter = addressType === undefined ? undefined : ADDRESS_TYPE_MAP[addressType]
     if (addressTypeLetter && !new RegExp(`^${prefix}1${addressTypeLetter}[02-9ac-hj-np-z]{58}$`).test(addr)) {
         throw new Error(localize('error.address.wrongAddressType'))
     }
