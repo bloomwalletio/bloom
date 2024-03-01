@@ -3,7 +3,7 @@ import { IActivityGenerationParameters } from '@core/activity/types'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { ActivityType } from '../enums'
-import { TransactionActivity } from '../types'
+import { StardustTransactionActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 
@@ -13,7 +13,7 @@ export async function generateSingleBasicActivity(
     generationParameters: IActivityGenerationParameters,
     overrideTokenId?: string,
     overrideAmount?: bigint
-): Promise<TransactionActivity> {
+): Promise<StardustTransactionActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     if (baseActivity.smartContract) {

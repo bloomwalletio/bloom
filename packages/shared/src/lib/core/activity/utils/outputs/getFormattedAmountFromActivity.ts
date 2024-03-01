@@ -1,10 +1,10 @@
 import { formatTokenAmountBestMatch } from '@core/token'
 import { ActivityAction, ActivityDirection, ActivityType } from '../../enums'
-import { FoundryActivity, TransactionActivity } from '../../types'
+import { StardustFoundryActivity, StardustTransactionActivity } from '../../types'
 import { getPersistedToken } from '@core/token/stores'
 
 export function getFormattedAmountFromActivity(
-    activity: TransactionActivity | FoundryActivity,
+    activity: StardustTransactionActivity | StardustFoundryActivity,
     signed: boolean = true
 ): string {
     if (!activity) return ''

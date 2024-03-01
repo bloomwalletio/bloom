@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import type { NftOutput } from '@iota/sdk/out/types'
 import { ActivityAction, ActivityType } from '../enums'
-import { NftActivity } from '../types'
+import { StardustNftActivity } from '../types'
 import { NetworkId } from '@core/network/types'
 import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
 import { generateSingleBasicActivity } from './generateSingleBasicActivity'
@@ -13,7 +13,7 @@ export async function generateSingleNftActivity(
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters,
     nftIdFromInput?: string
-): Promise<NftActivity> {
+): Promise<StardustNftActivity> {
     const baseActivity = await generateSingleBasicActivity(account, networkId, generationParameters)
     baseActivity.tokenTransfer = undefined
 

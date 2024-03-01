@@ -2,7 +2,7 @@ import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/netwo
 import { BASE_TOKEN_ID } from '@core/token'
 import { BigIntAbs, Converter, generateRandomId } from '@core/utils'
 import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../../enums'
-import { ITokenBalanceChange, TransactionActivity } from '../../types'
+import { ITokenBalanceChange, StardustTransactionActivity } from '../../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { IAccountState } from '@core/account'
 import { Subject, SubjectType } from '@core/wallet'
@@ -12,7 +12,7 @@ export async function generateTokenBalanceChangeActivity(
     tokenId: string,
     balanceChange: ITokenBalanceChange,
     account: IAccountState
-): Promise<TransactionActivity> {
+): Promise<StardustTransactionActivity> {
     const newBalance = Converter.legacyNumberToBigInt(balanceChange.newBalance)
     const oldBalance = Converter.legacyNumberToBigInt(balanceChange.oldBalance)
 

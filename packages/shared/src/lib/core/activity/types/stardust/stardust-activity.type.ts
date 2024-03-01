@@ -1,18 +1,18 @@
 import {
-    AliasActivity,
-    ConsolidationActivity,
-    FoundryActivity,
-    GovernanceActivity,
-    NftActivity,
-    SmartContractActivity,
-    TransactionActivity,
+    StardustAliasActivity,
+    StardustConsolidationActivity,
+    StardustFoundryActivity,
+    StardustGovernanceActivity,
+    StardustNftActivity,
+    StardustSmartContractActivity,
+    StardustTransactionActivity,
 } from '..'
 
 export type StardustActivity =
-    | TransactionActivity
-    | AliasActivity
-    | FoundryActivity
-    | NftActivity
-    | GovernanceActivity
-    | ConsolidationActivity
-    | SmartContractActivity
+    | StardustTransactionActivity
+    | StardustAliasActivity
+    | StardustFoundryActivity
+    | StardustNftActivity
+    | StardustGovernanceActivity
+    | StardustConsolidationActivity
+    | StardustSmartContractActivity

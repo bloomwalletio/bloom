@@ -7,7 +7,7 @@ import { BASE_TOKEN_ID } from '@core/token'
 import { EMPTY_HEX_ID } from '@core/wallet/constants'
 import { AliasOutput } from '@iota/sdk/out/types'
 import { ActivityAction, ActivityType } from '../enums'
-import { AliasActivity } from '../types'
+import { StardustAliasActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { getGovernorAddressFromAliasOutput, getStateControllerAddressFromAliasOutput } from './helper'
 import { SubjectType } from '@core/wallet/enums'
@@ -16,7 +16,7 @@ export async function generateSingleAliasActivity(
     account: IAccountState,
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters
-): Promise<AliasActivity> {
+): Promise<StardustAliasActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     const { output, outputId } = generationParameters.wrappedOutput

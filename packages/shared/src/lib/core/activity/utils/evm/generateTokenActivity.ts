@@ -1,6 +1,6 @@
 import { BASE_TOKEN_ID } from '@core/token'
 import { ActivityType } from '../../enums'
-import { PersistedEvmTransaction, TransactionActivity } from '../../types'
+import { PersistedEvmTransaction, StardustTransactionActivity } from '../../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { IChain } from '@core/network'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
@@ -14,7 +14,7 @@ export async function generateTokenActivity(
     baseTokenAmount: bigint | undefined,
     recipientAddress: string | undefined,
     account: IAccountState
-): Promise<TransactionActivity> {
+): Promise<StardustTransactionActivity> {
     const networkId = chain.getConfiguration().id
     const baseEvmActivity = await generateBaseEvmActivity(transaction, chain, recipientAddress, account)
 

@@ -3,9 +3,9 @@
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
-    import { GovernanceAction, GovernanceActivity } from '@core/activity'
+    import { GovernanceAction, StardustGovernanceActivity } from '@core/activity'
 
-    export let activity: GovernanceActivity
+    export let activity: StardustGovernanceActivity
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity?.time)
     $: isNewVotingPower =
