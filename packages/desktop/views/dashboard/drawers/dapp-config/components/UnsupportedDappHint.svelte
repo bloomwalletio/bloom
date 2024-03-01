@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Alert, Table, TableRow, Text } from '@bloomwalletio/ui'
-    import { NetworkLabel } from '@ui'
     import { localize } from '@core/i18n'
+    import { NetworkAvatarGroup } from '@ui'
 
     export let unsupportedMethods: string[]
     export let supportedNetworks: {
@@ -29,13 +29,21 @@
     >
         <Table
             slot="body"
-            items={unsupportedRequiredNetworks.networks.map((networkId) => ({
-                key: localize(`${localeKey}.onAnotherProfile`),
-                slot: {
-                    component: NetworkLabel,
-                    props: { networkId },
+            items={[
+                {
+                    key: localize(`${localeKey}.supportedNetworks`),
+                    slot: {
+                        component: NetworkAvatarGroup,
+                        props: {
+                            networkIds: supportedNetworks.networks,
+                        },
+                    },
                 },
-            }))}
+                {
+                    key: localize(`${localeKey}.unsupportedNetworks`),
+                    value: unsupportedRequiredNetworks.networks.join(', '),
+                },
+            ]}
         />
     </Alert>
 {:else if supportedNetworks.networks.length === 0}
@@ -49,13 +57,26 @@
     >
         <Table
             slot="body"
-            items={supportedNetworks.networksOnOtherProfiles.map((networkId) => ({
-                key: localize('onOtherProfile'),
-                slot: {
-                    component: NetworkLabel,
-                    props: { networkId },
+            items={[
+                {
+                    key: localize(`${localeKey}.supportedNetworks`),
+                    slot: {
+                        component: NetworkAvatarGroup,
+                        props: {
+                            networkIds: supportedNetworks.networks,
+                        },
+                    },
                 },
-            }))}
+                {
+                    key: localize(`${localeKey}.unsupportedNetworks`),
+                    slot: {
+                        component: NetworkAvatarGroup,
+                        props: {
+                            networkIds: supportedNetworks.networksOnOtherProfiles,
+                        },
+                    },
+                },
+            ]}
         />
     </Alert>
 {:else if unsupportedMethods.length}
