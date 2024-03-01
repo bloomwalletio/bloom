@@ -1,9 +1,22 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { FoundryActivity } from '@core/activity'
+    import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
+    import { ExplorerEndpoint } from '@core/network/enums'
+    import { getDefaultExplorerUrl } from '@core/network/utils'
 
     export let activity: FoundryActivity
+
+    function onAliasClick(aliasAddress: string) {
+        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
+        openUrlInBrowser(`${explorerUrl}/${aliasAddress}`)
+    }
+
+    function onTokenClick(tokenId: string) {
+        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Foundry)
+        openUrlInBrowser(`${explorerUrl}/${tokenId}`)
+    }
 </script>
 
 <Table
@@ -12,25 +25,25 @@
             key: localize('popups.nativeToken.property.aliasAddress'),
             value: activity.aliasAddress,
             truncate: { firstCharCount: 10, endCharCount: 10 },
-            copyable: true,
+            onClick: () => onAliasClick(activity.aliasAddress),
         },
         {
             key: localize('popups.nativeToken.property.tokenId'),
             value: activity.tokenTransfer?.tokenId,
             truncate: { firstCharCount: 10, endCharCount: 10 },
-            copyable: true,
+            onClick: () => onTokenClick(activity.tokenTransfer?.tokenId ?? ''),
         },
         {
             key: localize('popups.nativeToken.property.maximumSupply'),
-            value: activity.maximumSupply,
+            value: String(activity.maximumSupply),
         },
         {
             key: localize('popups.nativeToken.property.mintedTokens'),
-            value: activity.mintedTokens,
+            value: String(activity.mintedTokens),
         },
         {
             key: localize('popups.nativeToken.property.meltedTokens'),
-            value: activity.meltedTokens,
+            value: String(activity.meltedTokens),
         },
     ]}
 />

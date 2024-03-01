@@ -1,30 +1,22 @@
-import { IBlockscoutAssetMetadata } from './blockscout-asset-metadata.interface'
+import { BlockscoutTransactionStatus } from '../enums'
+import { BlockscoutTransactionType } from '../enums/blockscout-transaction-type.enum'
+import { IBlockscoutAddressParam } from './blockscout-address-param.interface'
+import { IBlockscoutTokenInfo } from './blockscout-token-info.interface'
 
 interface IFee {
     type: 'maximum' | 'actual'
     value: string
 }
 
-interface IAddressTag {
+export interface IAddressTag {
     address_hash: string
     display_name: string
     label: string
 }
 
-interface IWatchlistName {
+export interface IWatchlistName {
     display_name: string
     label: string
-}
-
-interface IAddressParam {
-    hash: string
-    implementation_name: string
-    name: string
-    is_contract: boolean
-    private_tags: IAddressTag[]
-    watchlist_names: IWatchlistName[]
-    public_tags: IAddressTag[]
-    is_verified: boolean
 }
 
 interface IDecodedInput {
@@ -35,25 +27,12 @@ interface IDecodedInput {
 
 interface ITokenTransfer {
     block_hash: string
-    from: IAddressParam
+    from: IBlockscoutAddressParam
     log_index: string
     method: string
     timestamp: string
-    to: IAddressParam
-    token: IBlockscoutAssetMetadata
-}
-
-enum BlockscoutTransactionType {
-    TokenTransfer = 'token_transfer',
-    ContractCreation = 'contract_creation',
-    ContractCall = 'contract_call',
-    TokenCreation = 'token_creation',
-    CoinTransfer = 'coin_transfer',
-}
-
-enum BlockscoutTransactionStatus {
-    Ok = 'ok',
-    Error = 'error',
+    to: IBlockscoutAddressParam
+    token: IBlockscoutTokenInfo
 }
 
 export interface IBlockscoutTransaction {
@@ -66,7 +45,7 @@ export interface IBlockscoutTransaction {
     confirmations: number
     type: number
     exchange_rate: string
-    to: IAddressParam
+    to: IBlockscoutAddressParam
     tx_burnt_fee: string
     max_fee_per_gas: string
     result: string
@@ -74,11 +53,11 @@ export interface IBlockscoutTransaction {
     gas_price: string
     priority_fee: string
     base_fee_per_gas: string
-    from: IAddressParam
+    from: IBlockscoutAddressParam
     token_transfers: ITokenTransfer[]
     tx_types: BlockscoutTransactionType[]
     gas_used: string
-    created_contract: IAddressParam
+    created_contract: IBlockscoutAddressParam
     position: number
     nonce: number
     has_error_in_internal_txs: boolean
