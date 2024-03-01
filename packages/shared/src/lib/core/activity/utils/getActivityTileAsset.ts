@@ -5,10 +5,12 @@ import { getTokenFromActivity } from './getTokenFromActivity'
 import { get } from 'svelte/store'
 import { registeredProposalsForSelectedAccount } from '@contexts/governance'
 
-export function getActivityTileAsset(activity: Activity, accountIndex: number): string | undefined {
+export function getActivityTileAsset(activity: Activity, accountIndex: number): string {
     if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
         const token = getTokenFromActivity(activity)
-        if (!token) return ''
+        if (!token) {
+            return ''
+        }
 
         return token.metadata?.name ? token.metadata.name : token.id
     } else if (activity.type === ActivityType.Nft) {
@@ -24,9 +26,9 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
         if ([GovernanceAction.StartVoting, GovernanceAction.StopVoting].includes(activity.governanceAction)) {
             if (activity?.participation?.eventId) {
                 const proposal = get(registeredProposalsForSelectedAccount)?.[activity.participation.eventId]
-                return proposal.title
+                return proposal?.title ?? ''
             } else {
-                return activity.participation?.eventId
+                return activity.participation?.eventId ?? ''
             }
         }
         return ''
