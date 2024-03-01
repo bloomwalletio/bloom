@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { Activity } from '@core/activity'
+    import { StardustActivity } from '@core/activity'
     import AddressWithNetwork from '../AddressWithNetwork.svelte'
     import AddressIcon from '../AddressIcon.svelte'
 
-    export let activity: Activity
+    export let activity: StardustActivity
 </script>
 
 <div class="h-full w-full flex flex-row items-center text-secondary">
