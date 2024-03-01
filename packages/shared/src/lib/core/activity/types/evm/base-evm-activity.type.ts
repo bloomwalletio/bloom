@@ -1,9 +1,8 @@
 import { Subject } from '@core/wallet/types'
-import { ActivityAsyncStatus, ActivityDirection, InclusionState, ActivityAction } from '../enums'
-import { SmartContract } from '@core/layer-2'
+import { ActivityDirection, InclusionState, ActivityAction } from '../../enums'
 import { NetworkId } from '@core/network'
 
-export type BaseActivity = {
+export type BaseEvmActivity = {
     // meta information
     id: string
     action: ActivityAction
@@ -13,12 +12,9 @@ export type BaseActivity = {
 
     // transaction information
     transactionId?: string
-    outputId?: string
     time: Date
     inclusionState: InclusionState
-    tag?: string
     metadata?: string
-    asyncData?: AsyncData
 
     // sender / recipient information
     sender?: Subject | undefined
@@ -29,31 +25,9 @@ export type BaseActivity = {
     destinationNetworkId: NetworkId
     direction: ActivityDirection
 
-    // asset information
-    storageDeposit?: bigint
-    baseTokenTransfer: {
-        rawAmount: bigint
-        tokenId: string
-    }
-    tokenTransfer?: {
-        rawAmount: bigint
-        tokenId: string
-    }
-
     // smart contract information
     // TODO: move to separate type
-    smartContract?: SmartContract
     estimatedGasFee?: bigint
     maxGasFee?: bigint
     transactionFee?: bigint
-}
-
-export type AsyncData = {
-    asyncStatus: ActivityAsyncStatus
-    timelockDate: Date
-    expirationDate: Date
-    isRejected: boolean
-    isClaiming: boolean
-    claimingTransactionId?: string
-    claimedDate?: Date
 }

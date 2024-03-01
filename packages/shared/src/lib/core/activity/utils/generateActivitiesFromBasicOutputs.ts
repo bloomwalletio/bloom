@@ -3,7 +3,7 @@ import { updateAllAccountNftsForAccount, buildNftFromNftOutput } from '@core/nft
 import { IWrappedOutput } from '@core/wallet'
 import { NftOutput, OutputType } from '@iota/sdk/out/types'
 import { ActivityAction, ActivityDirection } from '../enums'
-import { Activity, IProcessedTransaction } from '../types'
+import { StardustActivity, IProcessedTransaction } from '../types'
 import { generateSingleBasicActivity } from './generateSingleBasicActivity'
 import { generateSingleConsolidationActivity } from './generateSingleConsolidationActivity'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
@@ -15,7 +15,7 @@ export async function generateActivitiesFromBasicOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Promise<Activity[]> {
+): Promise<StardustActivity[]> {
     const activities = []
 
     const basicOutputs = getNonRemainderBasicOutputsFromTransaction(
@@ -31,7 +31,7 @@ export async function generateActivitiesFromBasicOutputs(
     const burnedNftInputs = getBurnedNftInputs(processedTransaction)
     for (const basicOutput of basicOutputs) {
         try {
-            let activity: Activity
+            let activity: StardustActivity
 
             const isSelfTransaction = processedTransaction.direction === ActivityDirection.SelfTransaction
             const burnedNftInputIndex = burnedNftInputs.findIndex(

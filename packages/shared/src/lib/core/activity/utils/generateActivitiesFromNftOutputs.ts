@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import { EMPTY_HEX_ID } from '@core/wallet'
-import { Activity, IProcessedTransaction } from '../types'
+import { StardustActivity, IProcessedTransaction } from '../types'
 import { OutputType, NftOutput } from '@iota/sdk/out/types'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { ActivityAction } from '../enums'
@@ -10,7 +10,7 @@ export async function generateActivitiesFromNftOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Promise<Activity[]> {
+): Promise<StardustActivity[]> {
     const outputs = processedTransaction.outputs
     const activities = []
 

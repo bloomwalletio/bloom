@@ -6,9 +6,9 @@ import {
     NftActivity,
     SmartContractActivity,
     TransactionActivity,
-} from './'
+} from '..'
 
-export type Activity =
+export type StardustActivity =
     | TransactionActivity
     | AliasActivity
     | FoundryActivity

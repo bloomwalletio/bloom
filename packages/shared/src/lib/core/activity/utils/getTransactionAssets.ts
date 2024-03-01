@@ -2,12 +2,12 @@ import { Nft } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { TokenTransferData } from '@core/wallet/types'
 import { ActivityAction, ActivityType, GovernanceAction } from '../enums'
-import { Activity } from '../types'
+import { StardustActivity } from '../types'
 import { getPersistedToken } from '@core/token/stores'
 import { BASE_TOKEN_ID, IToken } from '@core/token'
 
 export function getTransactionAssets(
-    activity: Activity,
+    activity: StardustActivity,
     accountIndex: number
 ):
     | {

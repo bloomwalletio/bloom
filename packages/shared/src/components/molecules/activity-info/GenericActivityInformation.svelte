@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { Activity, ActivityAsyncStatus } from '@core/activity'
+    import { StardustActivity, ActivityAsyncStatus } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
@@ -10,7 +10,7 @@
     import { getTimeDifference } from '@core/utils/time'
     import { NetworkLabel, ExpiredActivityPill, TimelockActivityPill, UnclaimedActivityPill } from '@ui'
 
-    export let activity: Activity
+    export let activity: StardustActivity
 
     $: claimedTime = activity.asyncData?.claimedDate ? getFormattedTimeStamp(activity.asyncData.claimedDate) : undefined
     $: gasLimit = activity.smartContract?.gasLimit

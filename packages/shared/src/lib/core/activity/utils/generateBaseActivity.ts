@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { BaseActivity, IActivityGenerationParameters } from '@core/activity/types'
+import { BaseStardustActivity, IActivityGenerationParameters } from '@core/activity/types'
 import { getNetworkIdFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
@@ -25,7 +25,7 @@ export async function generateBaseActivity(
     account: IAccountState,
     networkId: NetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
-): Promise<BaseActivity> {
+): Promise<BaseStardustActivity> {
     // meta information
     const isHidden = false
     const isTokenHidden = false

@@ -3,7 +3,7 @@ import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTrans
 import { IChain } from '@core/network'
 import { PersistedTransaction, buildPersistedEvmTransactionFromBlockscoutTransaction } from '@core/transactions'
 import { ActivityType } from '../enums'
-import { Activity, PersistedEvmTransaction } from '../types'
+import { StardustActivity, PersistedEvmTransaction } from '../types'
 import { generateNftActivity } from './evm/generateNftActivity'
 import { generateSmartContractActivity } from './evm/generateSmartContractActivity'
 import { generateTokenActivity } from './evm/generateTokenActivity'
@@ -12,7 +12,7 @@ export async function generateActivityFromPersistedTransaction(
     persistedTransaction: PersistedTransaction,
     chain: IChain,
     account: IAccountState
-): Promise<Activity | undefined> {
+): Promise<StardustActivity | undefined> {
     const transaction = persistedTransaction.blockscout
         ? buildPersistedEvmTransactionFromBlockscoutTransaction(persistedTransaction.blockscout)
         : (persistedTransaction.local as PersistedEvmTransaction)

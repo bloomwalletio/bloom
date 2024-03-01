@@ -1,5 +1,5 @@
 import {
-    Activity,
+    StardustActivity,
     ActivityDirection,
     ActivityType,
     PersistedEvmTransaction,
@@ -69,7 +69,7 @@ async function persistEvmTransaction(
 }
 
 // Hidden balance changes mitigate duplicate activities for L2 transactions (balance changed & sent/receive activities).
-async function createHiddenBalanceChange(account: IAccountState, activity: Activity): Promise<void> {
+async function createHiddenBalanceChange(account: IAccountState, activity: StardustActivity): Promise<void> {
     const received = activity.direction === ActivityDirection.Incoming
     const networkId = activity.sourceNetworkId
 

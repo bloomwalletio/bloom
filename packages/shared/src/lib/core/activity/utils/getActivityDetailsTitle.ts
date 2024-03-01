@@ -1,11 +1,11 @@
 import { localize } from '@core/i18n'
 import { ActivityAction, ActivityDirection, ActivityType } from '../enums'
-import { Activity } from '../types'
+import { StardustActivity } from '../types'
 import { getVotingEvent } from '@contexts/governance/actions'
 import { truncateString } from '@core/utils'
 import { getSubjectLocaleFromActivity } from './helper'
 
-export async function getActivityDetailsTitle(activity: Activity): Promise<string> {
+export async function getActivityDetailsTitle(activity: StardustActivity): Promise<string> {
     const localizationPrefix = 'popups.activityDetails.title'
     if (activity.type === ActivityType.Consolidation) {
         const key = `${localizationPrefix}.consolidation.${activity.inclusionState}`

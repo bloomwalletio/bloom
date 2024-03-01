@@ -1,6 +1,6 @@
 <script lang="ts">
     import { selectedAccountIndex } from '@core/account/stores'
-    import { Activity, ActivityType } from '@core/activity'
+    import { StardustActivity, ActivityType } from '@core/activity'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import {
         AliasActivityInformation,
@@ -18,7 +18,7 @@
     } from '@ui'
     import { Tabs } from '@bloomwalletio/ui'
 
-    export let activity: Activity
+    export let activity: StardustActivity
     export let selectedTab: KeyValue<string> = getTabItems([PopupTab.Transaction])[0]
 
     let hasMetadata = false

@@ -4,14 +4,14 @@ import { selectedAccount } from '../../account/stores/selected-account.store'
 import { DEFAULT_ACTIVITY_FILTER } from '../constants'
 import { ActivityType } from '../enums'
 import { ActivityFilter } from '../types'
-import { Activity } from '../types/activity.type'
+import { StardustActivity } from '../types/stardust/stardust-activity.type'
 import { isVisibleActivity } from '../utils/isVisibleActivity'
 import { getFormattedAmountFromActivity } from '../utils/outputs'
 import { allAccountActivities } from './all-account-activities.store'
 import { isValidIrc30Token } from '@core/token/utils'
 import { getPersistedToken } from '@core/token/stores'
 
-export const selectedAccountActivities: Readable<Activity[]> = derived(
+export const selectedAccountActivities: Readable<StardustActivity[]> = derived(
     [selectedAccount, allAccountActivities],
     ([$selectedAccount, $allAccountActivities]) => {
         if ($selectedAccount) {
@@ -26,7 +26,7 @@ export const activityFilter: Writable<ActivityFilter> = writable(DEFAULT_ACTIVIT
 
 export const activitySearchTerm: Writable<string> = writable('')
 
-export const queriedActivities: Readable<Activity[]> = derived(
+export const queriedActivities: Readable<StardustActivity[]> = derived(
     [selectedAccountActivities, activitySearchTerm, activityFilter],
     ([$selectedAccountActivities, $activitySearchTerm]) => {
         let activityList = $selectedAccountActivities.filter((_activity) => {
@@ -59,7 +59,7 @@ export const queriedActivities: Readable<Activity[]> = derived(
     }
 )
 
-function getFieldsToSearchFromActivity(activity: Activity): string[] {
+function getFieldsToSearchFromActivity(activity: StardustActivity): string[] {
     const fieldsToSearch: string[] = []
 
     if (activity?.transactionId) {

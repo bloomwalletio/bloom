@@ -1,8 +1,8 @@
-import { ActivityType, GovernanceAction } from '../enums'
+import { ActivityType, GovernanceAction } from '../../enums'
 import { IParticipation } from '@core/wallet/interfaces'
-import { BaseActivity } from './base-activity.type'
+import { BaseStardustActivity } from './base-stardust-activity.type'
 
-export type GovernanceActivity = BaseActivity & {
+export type GovernanceActivity = BaseStardustActivity & {
     type: ActivityType.Governance
     governanceAction: GovernanceAction
     votingPower: bigint

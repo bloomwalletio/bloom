@@ -1,8 +1,8 @@
-import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
+import { StardustActivity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
 import { getTimeDifference } from '@core/utils/time'
 
 export function getActivityActionPill(
-    activity: Activity,
+    activity: StardustActivity,
     currentDate: Date
 ): { type: 'timelock' | 'unclaimed' | 'expired'; timeDiff?: string } | undefined {
     if (!activity?.asyncData?.asyncStatus) {

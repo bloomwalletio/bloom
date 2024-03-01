@@ -1,7 +1,10 @@
 import { ActivityType } from '@core/activity/enums'
-import { Activity } from '@core/activity/types'
+import { StardustActivity } from '@core/activity/types'
 
-export function updateActivityFromPartialActivity(activity: Activity, partialData: Partial<Activity>): void {
+export function updateActivityFromPartialActivity(
+    activity: StardustActivity,
+    partialData: Partial<StardustActivity>
+): void {
     if (partialData.type === ActivityType.Basic && activity.type === ActivityType.Basic) {
         Object.assign(activity, partialData)
     } else if (partialData.type === ActivityType.Foundry && activity.type === ActivityType.Foundry) {

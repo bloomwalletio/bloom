@@ -1,11 +1,11 @@
 import { ActivityType, GovernanceAction } from '../enums'
-import { Activity } from '../types'
+import { StardustActivity } from '../types'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { getTokenFromActivity } from './getTokenFromActivity'
 import { get } from 'svelte/store'
 import { registeredProposalsForSelectedAccount } from '@contexts/governance'
 
-export function getActivityTileAsset(activity: Activity, accountIndex: number): string {
+export function getActivityTileAsset(activity: StardustActivity, accountIndex: number): string {
     if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
         const token = getTokenFromActivity(activity)
         if (!token) {

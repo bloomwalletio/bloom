@@ -1,9 +1,9 @@
 import { BASE_TOKEN_ID, ITokenWithBalance } from '@core/token'
-import { Activity } from '../types'
+import { StardustActivity } from '../types'
 import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 import { ActivityType } from '../enums'
 
-export function getTokenFromActivity(activity: Activity): ITokenWithBalance | undefined {
+export function getTokenFromActivity(activity: StardustActivity): ITokenWithBalance | undefined {
     if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
         return getTokenFromSelectedAccountTokens(
             activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId,

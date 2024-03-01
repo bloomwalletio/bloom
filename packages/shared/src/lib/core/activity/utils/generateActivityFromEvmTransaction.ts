@@ -1,4 +1,4 @@
-import { Activity, PersistedEvmTransaction } from '../types'
+import { StardustActivity, PersistedEvmTransaction } from '../types'
 import { IChain } from '@core/network'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { generateSmartContractActivity } from './evm/generateSmartContractActivity'
@@ -11,7 +11,7 @@ export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
     chain: IChain,
     account: IAccountState
-): Promise<Activity | undefined> {
+): Promise<StardustActivity | undefined> {
     const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
 
     if (transferInfo?.type === ActivityType.SmartContract) {

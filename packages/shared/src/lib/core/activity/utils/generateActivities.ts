@@ -1,6 +1,6 @@
 import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { Activity, IProcessedTransaction } from '../types'
+import { StardustActivity, IProcessedTransaction } from '../types'
 import { isParticipationOutput } from '@contexts/governance/utils'
 import { NetworkId } from '@core/network/types'
 import { ActivityAction, ActivityDirection, ActivityType } from '../enums'
@@ -19,7 +19,7 @@ export async function generateActivities(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Promise<Activity[]> {
+): Promise<StardustActivity[]> {
     if (processedTransaction.wrappedInputs?.length > 0) {
         return generateActivitiesFromProcessedTransactionsWithInputs(processedTransaction, account, networkId)
     } else {
@@ -31,9 +31,9 @@ async function generateActivitiesFromProcessedTransactionsWithInputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Promise<Activity[]> {
+): Promise<StardustActivity[]> {
     const { outputs, wrappedInputs } = processedTransaction
-    const activities: Activity[] = []
+    const activities: StardustActivity[] = []
 
     const containsFoundryActivity = outputs.some((output) => output.output.type === OutputType.Foundry)
     if (containsFoundryActivity) {
@@ -83,7 +83,7 @@ async function generateActivitiesFromProcessedTransactionsWithoutInputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Promise<Activity[]> {
+): Promise<StardustActivity[]> {
     const nonRemainderOutputs = processedTransaction.outputs.filter((wrappedOutput) => !wrappedOutput.remainder)
     const activities = await Promise.all(
         nonRemainderOutputs.map(async (wrappedOutput) => {
@@ -112,5 +112,5 @@ async function generateActivitiesFromProcessedTransactionsWithoutInputs(
             }
         })
     )
-    return activities.filter((_activity) => _activity) as Activity[]
+    return activities.filter((_activity) => _activity) as StardustActivity[]
 }

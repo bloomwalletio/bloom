@@ -1,7 +1,7 @@
 import { ActivityAction, ActivityDirection, ActivityType, GovernanceAction, InclusionState } from '../enums'
-import { Activity } from '../types'
+import { StardustActivity } from '../types'
 
-export function getActivityTileAction(activity: Activity): string | undefined {
+export function getActivityTileAction(activity: StardustActivity): string | undefined {
     const { isInternal, direction, inclusionState, action } = activity
     const isConfirmed = inclusionState === InclusionState.Confirmed
 
