@@ -1,5 +1,5 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { ActivityAsyncStatus, ActivityType } from '@core/activity'
+import { StardustActivityAsyncStatus, StardustActivityType } from '@core/activity'
 import {
     allAccountActivities,
     updateAsyncDataByTransactionId,
@@ -26,14 +26,14 @@ export async function handleSpentOutputEventInternal(
     const outputId = output?.outputId
     const activity = get(allAccountActivities)?.[accountIndex]?.find((_activity) => _activity.outputId === outputId)
 
-    if (activity && activity.asyncData?.asyncStatus === ActivityAsyncStatus.Unclaimed) {
+    if (activity && activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed) {
         const transactionId = output?.metadata?.transactionId
         updateAsyncDataByTransactionId(accountIndex, transactionId, {
-            asyncStatus: ActivityAsyncStatus.Claimed,
+            asyncStatus: StardustActivityAsyncStatus.Claimed,
         })
     }
 
-    if (activity?.type === ActivityType.Nft) {
+    if (activity?.type === StardustActivityType.Nft) {
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId) as IIrc27Nft
         const previousOutputId = nft?.latestOutputId
         if (previousOutputId) {

@@ -1,7 +1,7 @@
 import { Nft } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { TokenTransferData } from '@core/wallet/types'
-import { ActivityAction, ActivityType, GovernanceAction } from '../enums'
+import { ActivityAction, StardustActivityType, StardustGovernanceAction } from '../enums'
 import { StardustActivity } from '../types'
 import { getPersistedToken } from '@core/token/stores'
 import { BASE_TOKEN_ID, IToken } from '@core/token'
@@ -31,13 +31,13 @@ export function getTransactionAssets(
                   token: baseCoin,
               }
 
-    if (activity.type === ActivityType.Nft) {
+    if (activity.type === StardustActivityType.Nft) {
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
         return {
             nft,
             baseCoinTransfer,
         }
-    } else if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+    } else if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
         const token: IToken | undefined = activity.tokenTransfer?.tokenId
             ? { ...getPersistedToken(activity.tokenTransfer.tokenId), networkId: activity.sourceNetworkId }
             : undefined
@@ -53,10 +53,10 @@ export function getTransactionAssets(
                     : undefined,
             baseCoinTransfer,
         }
-    } else if (activity.type === ActivityType.Governance) {
+    } else if (activity.type === StardustActivityType.Governance) {
         const isVotingPowerActivity =
-            activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
-            activity.governanceAction === GovernanceAction.IncreaseVotingPower
+            activity.governanceAction === StardustGovernanceAction.DecreaseVotingPower ||
+            activity.governanceAction === StardustGovernanceAction.IncreaseVotingPower
         const amount = isVotingPowerActivity ? activity.votingPowerDifference : activity.votingPower
         return {
             baseCoinTransfer: {
@@ -64,7 +64,7 @@ export function getTransactionAssets(
                 token: baseCoin,
             },
         }
-    } else if (activity.type === ActivityType.Alias) {
+    } else if (activity.type === StardustActivityType.Alias) {
         return {
             aliasId: activity.aliasId,
             baseCoinTransfer,

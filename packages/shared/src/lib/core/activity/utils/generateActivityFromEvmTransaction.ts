@@ -5,7 +5,7 @@ import { generateSmartContractActivity } from './evm/generateSmartContractActivi
 import { generateTokenActivity } from './evm/generateTokenActivity'
 import { generateNftActivity } from './evm/generateNftActivity'
 import { IAccountState } from '@core/account/interfaces'
-import { ActivityType } from '../enums'
+import { StardustActivityType } from '../enums'
 
 export async function generateActivityFromEvmTransaction(
     transaction: PersistedEvmTransaction,
@@ -14,9 +14,9 @@ export async function generateActivityFromEvmTransaction(
 ): Promise<StardustActivity | undefined> {
     const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
 
-    if (transferInfo?.type === ActivityType.SmartContract) {
+    if (transferInfo?.type === StardustActivityType.SmartContract) {
         return generateSmartContractActivity(transaction, chain, account)
-    } else if (transferInfo?.type === ActivityType.Basic) {
+    } else if (transferInfo?.type === StardustActivityType.Basic) {
         const { tokenId, rawAmount, additionalBaseTokenAmount, recipientAddress } = transferInfo
         return generateTokenActivity(
             transaction,
@@ -27,7 +27,7 @@ export async function generateActivityFromEvmTransaction(
             recipientAddress,
             account
         )
-    } else if (transferInfo?.type === ActivityType.Nft) {
+    } else if (transferInfo?.type === StardustActivityType.Nft) {
         const { nftId, additionalBaseTokenAmount, recipientAddress } = transferInfo
         return generateNftActivity(transaction, chain, nftId, additionalBaseTokenAmount, recipientAddress, account)
     }

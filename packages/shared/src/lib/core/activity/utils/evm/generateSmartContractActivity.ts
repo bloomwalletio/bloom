@@ -1,5 +1,5 @@
 import { BASE_TOKEN_ID } from '@core/token'
-import { ActivityType } from '../../enums'
+import { StardustActivityType } from '../../enums'
 import { PersistedEvmTransaction, StardustSmartContractActivity } from '../../types'
 import { IChain } from '@core/network'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
@@ -22,7 +22,7 @@ export async function generateSmartContractActivity(
 
     return {
         ...baseEvmActivity,
-        type: ActivityType.SmartContract,
+        type: StardustActivityType.SmartContract,
         methodName,
         data: String(transaction.data ?? ''),
 

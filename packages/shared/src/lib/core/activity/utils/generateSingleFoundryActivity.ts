@@ -11,7 +11,7 @@ import {
     SimpleTokenScheme,
     UnlockConditionType,
 } from '@iota/sdk/out/types'
-import { ActivityAction, ActivityType } from '../enums'
+import { ActivityAction, StardustActivityType } from '../enums'
 import { StardustFoundryActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { SubjectType } from '@core/wallet/enums'
@@ -52,7 +52,7 @@ export async function generateSingleFoundryActivity(
     return {
         ...baseActivity,
         recipient: { type: SubjectType.Account, account, address: account.depositAddress },
-        type: ActivityType.Foundry,
+        type: StardustActivityType.Foundry,
         aliasAddress,
         mintedTokens,
         meltedTokens,

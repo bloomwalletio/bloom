@@ -1,8 +1,8 @@
-import { ActivityType } from '../../enums'
+import { StardustActivityType } from '../../enums'
 import { BaseStardustActivity } from './base-stardust-activity.type'
 
 export type StardustFoundryActivity = BaseStardustActivity & {
-    type: ActivityType.Foundry
+    type: StardustActivityType.Foundry
     aliasAddress: string
     mintedTokens: bigint
     meltedTokens: bigint

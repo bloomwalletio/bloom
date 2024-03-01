@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import type { NftOutput } from '@iota/sdk/out/types'
-import { ActivityAction, ActivityType } from '../enums'
+import { ActivityAction, StardustActivityType } from '../enums'
 import { StardustNftActivity } from '../types'
 import { NetworkId } from '@core/network/types'
 import { IActivityGenerationParameters } from '../types/activity-generation-parameters.interface'
@@ -32,7 +32,7 @@ export async function generateSingleNftActivity(
 
     return {
         ...baseActivity,
-        type: ActivityType.Nft,
+        type: StardustActivityType.Nft,
         nftId,
     }
 }

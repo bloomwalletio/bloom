@@ -1,7 +1,7 @@
-import { ActivityType } from '../../enums'
+import { StardustActivityType } from '../../enums'
 import { BaseStardustActivity } from './base-stardust-activity.type'
 
 export type StardustNftActivity = BaseStardustActivity & {
-    type: ActivityType.Nft
+    type: StardustActivityType.Nft
     nftId: string
 }

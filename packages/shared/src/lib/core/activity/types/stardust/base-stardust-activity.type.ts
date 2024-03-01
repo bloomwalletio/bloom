@@ -1,5 +1,5 @@
 import { Subject } from '@core/wallet/types'
-import { ActivityAsyncStatus, ActivityDirection, InclusionState, ActivityAction } from '../../enums'
+import { StardustActivityAsyncStatus, ActivityDirection, InclusionState, ActivityAction } from '../../enums'
 import { SmartContract } from '@core/layer-2'
 import { NetworkId } from '@core/network'
 
@@ -49,7 +49,7 @@ export type BaseStardustActivity = {
 }
 
 export type AsyncData = {
-    asyncStatus: ActivityAsyncStatus
+    asyncStatus: StardustActivityAsyncStatus
     timelockDate: Date
     expirationDate: Date
     isRejected: boolean

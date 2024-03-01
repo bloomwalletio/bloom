@@ -9,7 +9,7 @@ import {
     StatusFilterOption,
 } from '@core/utils/enums/filters'
 import { get } from 'svelte/store'
-import { ActivityAsyncStatus, ActivityType, InclusionState } from '../enums'
+import { StardustActivityAsyncStatus, StardustActivityType, InclusionState } from '../enums'
 import { activityFilter } from '../stores'
 import { StardustActivity, ActivityFilter } from '../types'
 import { getPersistedToken } from '@core/token/stores'
@@ -84,7 +84,7 @@ function isVisibleWithActiveRejectedFilter(activity: StardustActivity, filter: A
 
 function isVisibleWithActiveTokenFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
     if (filter.token.active && filter.token.selected) {
-        if (activity.type !== ActivityType.Basic && activity.type !== ActivityType.Foundry) {
+        if (activity.type !== StardustActivityType.Basic && activity.type !== StardustActivityType.Foundry) {
             return false
         }
         const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId ?? BASE_TOKEN_ID
@@ -96,7 +96,10 @@ function isVisibleWithActiveTokenFilter(activity: StardustActivity, filter: Acti
 }
 
 function isVisibleWithActiveAmountFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
-    if (filter.amount.active && (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry)) {
+    if (
+        filter.amount.active &&
+        (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry)
+    ) {
         const { tokenId, rawAmount } = activity.tokenTransfer ?? activity.baseTokenTransfer
         const token = getPersistedToken(tokenId)
 
@@ -258,21 +261,22 @@ function isVisibleWithActiveStatusFilter(activity: StardustActivity, filter: Act
         }
         if (
             filter.status.selected === StatusFilterOption.Timelocked &&
-            activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Timelocked
+            activity.asyncData?.asyncStatus !== StardustActivityAsyncStatus.Timelocked
         ) {
             return false
         }
         if (
             filter.status.selected === StatusFilterOption.Claimed &&
-            activity.type === ActivityType.Basic &&
-            activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Claimed
+            activity.type === StardustActivityType.Basic &&
+            activity.asyncData?.asyncStatus !== StardustActivityAsyncStatus.Claimed
         ) {
             return false
         }
         if (
             filter.status.selected === StatusFilterOption.Unclaimed &&
-            activity.type === ActivityType.Basic &&
-            (!activity.asyncData?.asyncStatus || activity.asyncData?.asyncStatus === ActivityAsyncStatus.Claimed)
+            activity.type === StardustActivityType.Basic &&
+            (!activity.asyncData?.asyncStatus ||
+                activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Claimed)
         ) {
             return false
         }

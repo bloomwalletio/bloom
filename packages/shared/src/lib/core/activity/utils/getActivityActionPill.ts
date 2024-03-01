@@ -1,4 +1,4 @@
-import { StardustActivity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
+import { StardustActivity, StardustActivityAsyncStatus, ActivityDirection } from '@core/activity'
 import { getTimeDifference } from '@core/utils/time'
 
 export function getActivityActionPill(
@@ -12,10 +12,10 @@ export function getActivityActionPill(
     const { asyncStatus, expirationDate, timelockDate } = activity.asyncData
 
     switch (asyncStatus) {
-        case ActivityAsyncStatus.Claimed: {
+        case StardustActivityAsyncStatus.Claimed: {
             return undefined
         }
-        case ActivityAsyncStatus.Timelocked: {
+        case StardustActivityAsyncStatus.Timelocked: {
             if (activity.direction === ActivityDirection.Outgoing) {
                 if (expirationDate) {
                     const timeDiff = getTimeDifference(expirationDate, currentDate)
@@ -28,11 +28,11 @@ export function getActivityActionPill(
                 return { type: 'timelock', timeDiff }
             }
         }
-        case ActivityAsyncStatus.Unclaimed: {
+        case StardustActivityAsyncStatus.Unclaimed: {
             const timeDiff = expirationDate ? getTimeDifference(expirationDate, currentDate) : undefined
             return { type: 'unclaimed', timeDiff }
         }
-        case ActivityAsyncStatus.Expired: {
+        case StardustActivityAsyncStatus.Expired: {
             return { type: 'expired' }
         }
         default: {

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { StardustActivity, ActivityAsyncStatus } from '@core/activity'
+    import { StardustActivity, StardustActivityAsyncStatus } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
@@ -79,7 +79,8 @@
             key: localize('general.timelockDate'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
             slot:
-                activity.asyncData?.timelockDate && activity.asyncData?.asyncStatus === ActivityAsyncStatus.Timelocked
+                activity.asyncData?.timelockDate &&
+                activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Timelocked
                     ? {
                           component: TimelockActivityPill,
                           props: {
@@ -95,7 +96,7 @@
             key: localize('general.expiration'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
             slot:
-                activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired
+                activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Expired
                     ? {
                           component: ExpiredActivityPill,
                           props: {
@@ -108,8 +109,8 @@
             key: localize('general.expiration'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
             slot:
-                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Expired &&
-                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Claimed &&
+                activity.asyncData?.asyncStatus !== StardustActivityAsyncStatus.Expired &&
+                activity.asyncData?.asyncStatus !== StardustActivityAsyncStatus.Claimed &&
                 activity.asyncData?.expirationDate
                     ? {
                           component: UnclaimedActivityPill,

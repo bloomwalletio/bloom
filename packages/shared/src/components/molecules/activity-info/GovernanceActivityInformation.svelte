@@ -3,14 +3,14 @@
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
-    import { GovernanceAction, StardustGovernanceActivity } from '@core/activity'
+    import { StardustGovernanceAction, StardustGovernanceActivity } from '@core/activity'
 
     export let activity: StardustGovernanceActivity
 
     $: formattedTransactionTime = getFormattedTimeStamp(activity?.time)
     $: isNewVotingPower =
-        activity?.governanceAction === GovernanceAction.DecreaseVotingPower ||
-        activity?.governanceAction === GovernanceAction.IncreaseVotingPower
+        activity?.governanceAction === StardustGovernanceAction.DecreaseVotingPower ||
+        activity?.governanceAction === StardustGovernanceAction.IncreaseVotingPower
 </script>
 
 <Table

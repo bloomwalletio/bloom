@@ -1,5 +1,5 @@
 import { BASE_TOKEN_ID } from '@core/token'
-import { ActivityType } from '../../enums'
+import { StardustActivityType } from '../../enums'
 import { PersistedEvmTransaction, StardustTransactionActivity } from '../../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { IChain } from '@core/network'
@@ -36,7 +36,7 @@ export async function generateTokenActivity(
 
     return {
         ...baseEvmActivity,
-        type: ActivityType.Basic,
+        type: StardustActivityType.Basic,
 
         // asset information
         baseTokenTransfer,

@@ -1,7 +1,7 @@
 import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { BigIntAbs, Converter, generateRandomId } from '@core/utils'
-import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../../enums'
+import { ActivityAction, ActivityDirection, StardustActivityType, InclusionState } from '../../enums'
 import { ITokenBalanceChange, StardustTransactionActivity } from '../../types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { IAccountState } from '@core/account'
@@ -48,7 +48,7 @@ export async function generateTokenBalanceChangeActivity(
     }
 
     return {
-        type: ActivityType.Basic,
+        type: StardustActivityType.Basic,
 
         // meta information
         id: generateRandomId(),

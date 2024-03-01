@@ -1,5 +1,5 @@
 import { localize } from '@core/i18n'
-import { ActivityAction, ActivityDirection, ActivityType } from '../enums'
+import { ActivityAction, ActivityDirection, StardustActivityType } from '../enums'
 import { StardustActivity } from '../types'
 import { getVotingEvent } from '@contexts/governance/actions'
 import { truncateString } from '@core/utils'
@@ -7,13 +7,13 @@ import { getSubjectLocaleFromActivity } from './helper'
 
 export async function getActivityDetailsTitle(activity: StardustActivity): Promise<string> {
     const localizationPrefix = 'popups.activityDetails.title'
-    if (activity.type === ActivityType.Consolidation) {
+    if (activity.type === StardustActivityType.Consolidation) {
         const key = `${localizationPrefix}.consolidation.${activity.inclusionState}`
         return localize(key)
-    } else if (activity.type === ActivityType.Alias) {
+    } else if (activity.type === StardustActivityType.Alias) {
         const key = `${localizationPrefix}.alias.creation.${activity.inclusionState}`
         return localize(key)
-    } else if (activity.type === ActivityType.Governance) {
+    } else if (activity.type === StardustActivityType.Governance) {
         let proposalName: string = ''
         if (activity?.participation?.eventId) {
             try {

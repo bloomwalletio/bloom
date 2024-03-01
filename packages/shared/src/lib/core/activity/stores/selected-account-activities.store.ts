@@ -2,7 +2,7 @@ import { SubjectType } from '@core/wallet/enums'
 import { derived, Readable, writable, Writable } from 'svelte/store'
 import { selectedAccount } from '../../account/stores/selected-account.store'
 import { DEFAULT_ACTIVITY_FILTER } from '../constants'
-import { ActivityType } from '../enums'
+import { StardustActivityType } from '../enums'
 import { ActivityFilter } from '../types'
 import { StardustActivity } from '../types/stardust/stardust-activity.type'
 import { isVisibleActivity } from '../utils/isVisibleActivity'
@@ -30,14 +30,15 @@ export const queriedActivities: Readable<StardustActivity[]> = derived(
     [selectedAccountActivities, activitySearchTerm, activityFilter],
     ([$selectedAccountActivities, $activitySearchTerm]) => {
         let activityList = $selectedAccountActivities.filter((_activity) => {
-            const containsAssets = _activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry
+            const containsAssets =
+                _activity.type === StardustActivityType.Basic || _activity.type === StardustActivityType.Foundry
             if (!_activity.isHidden && !containsAssets) {
                 return true
             }
 
             const tokenId = _activity.tokenTransfer?.tokenId ?? _activity.baseTokenTransfer.tokenId
             const token =
-                _activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry
+                _activity.type === StardustActivityType.Basic || _activity.type === StardustActivityType.Foundry
                     ? getPersistedToken(tokenId)
                     : undefined
             const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
@@ -66,7 +67,7 @@ function getFieldsToSearchFromActivity(activity: StardustActivity): string[] {
         fieldsToSearch.push(activity.transactionId)
     }
 
-    if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+    if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
         fieldsToSearch.push(activity.baseTokenTransfer.tokenId)
 
         const baseTokenName = getPersistedToken(activity.baseTokenTransfer.tokenId)?.metadata?.name
@@ -84,7 +85,7 @@ function getFieldsToSearchFromActivity(activity: StardustActivity): string[] {
         }
     }
 
-    if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+    if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
         fieldsToSearch.push(String(activity.baseTokenTransfer.rawAmount))
 
         if (activity.tokenTransfer) {

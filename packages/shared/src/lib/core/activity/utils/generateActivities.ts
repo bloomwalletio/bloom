@@ -3,7 +3,7 @@ import { IAccountState } from '@core/account'
 import { StardustActivity, IProcessedTransaction } from '../types'
 import { isParticipationOutput } from '@contexts/governance/utils'
 import { NetworkId } from '@core/network/types'
-import { ActivityAction, ActivityDirection, ActivityType } from '../enums'
+import { ActivityAction, ActivityDirection, StardustActivityType } from '../enums'
 import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAliasOutputs'
 import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
 import { generateActivitiesFromFoundryOutputs } from './generateActivitiesFromFoundryOutputs'
@@ -97,15 +97,15 @@ async function generateActivitiesFromProcessedTransactionsWithoutInputs(
                 wrappedOutput,
             }
             switch (params.type) {
-                case ActivityType.Basic:
+                case StardustActivityType.Basic:
                     return generateSingleBasicActivity(account, networkId, params)
-                case ActivityType.Governance:
+                case StardustActivityType.Governance:
                     return generateSingleGovernanceActivity(account, networkId, params)
-                case ActivityType.Foundry:
+                case StardustActivityType.Foundry:
                     return generateSingleFoundryActivity(account, networkId, params)
-                case ActivityType.Alias:
+                case StardustActivityType.Alias:
                     return generateSingleAliasActivity(account, networkId, params)
-                case ActivityType.Nft:
+                case StardustActivityType.Nft:
                     return generateSingleNftActivity(account, networkId, params)
                 default:
                     return Promise.resolve()

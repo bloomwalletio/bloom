@@ -1,8 +1,8 @@
-import { ActivityType } from '../../enums'
+import { StardustActivityType } from '../../enums'
 import { BaseStardustActivity } from './base-stardust-activity.type'
 
 export type StardustAliasActivity = BaseStardustActivity & {
-    type: ActivityType.Alias
+    type: StardustActivityType.Alias
     aliasId: string
     governorAddress: string
     stateControllerAddress: string

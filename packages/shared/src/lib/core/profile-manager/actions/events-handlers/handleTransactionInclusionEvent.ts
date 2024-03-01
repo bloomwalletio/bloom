@@ -5,7 +5,7 @@ import { get } from 'svelte/store'
 import {
     ActivityAction,
     ActivityDirection,
-    ActivityType,
+    StardustActivityType,
     InclusionState,
     getActivityByTransactionId,
     updateActivityByTransactionId,
@@ -37,7 +37,7 @@ export function handleTransactionInclusionEventInternal(
 
     const activity = getActivityByTransactionId(accountIndex, transactionId)
 
-    if (activity?.type === ActivityType.Nft) {
+    if (activity?.type === StardustActivityType.Nft) {
         const isSpendable =
             (activity.direction === ActivityDirection.Incoming ||
                 activity.direction === ActivityDirection.SelfTransaction) &&
@@ -45,7 +45,7 @@ export function handleTransactionInclusionEventInternal(
         updateNftInAllAccountNftsForAccount(accountIndex, activity.nftId, { isSpendable })
     }
 
-    if (activity?.type === ActivityType.Governance) {
+    if (activity?.type === StardustActivityType.Governance) {
         handleGovernanceTransactionInclusionEvent(accountIndex, inclusionState, activity)
     }
 

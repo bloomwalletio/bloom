@@ -5,7 +5,7 @@ import {
     DateFilterOption,
     BooleanFilterOption,
 } from '@core/utils/enums/filters'
-import { ActivityType, ActivityDirection } from '../enums'
+import { StardustActivityType, ActivityDirection } from '../enums'
 import { ActivityFilter } from '../types'
 
 export const DEFAULT_ACTIVITY_FILTER: ActivityFilter = {
@@ -43,14 +43,14 @@ export const DEFAULT_ACTIVITY_FILTER: ActivityFilter = {
         active: false,
         type: 'selection',
         localeKey: 'filters.type',
-        selected: ActivityType.Basic,
+        selected: StardustActivityType.Basic,
         choices: [
-            ActivityType.Basic,
-            ActivityType.Nft,
-            ActivityType.Alias,
-            ActivityType.Governance,
-            ActivityType.Foundry,
-            ActivityType.Consolidation,
+            StardustActivityType.Basic,
+            StardustActivityType.Nft,
+            StardustActivityType.Alias,
+            StardustActivityType.Governance,
+            StardustActivityType.Foundry,
+            StardustActivityType.Consolidation,
         ],
     },
     direction: {

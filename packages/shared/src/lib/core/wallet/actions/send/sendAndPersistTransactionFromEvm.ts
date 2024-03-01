@@ -1,7 +1,7 @@
 import {
     StardustActivity,
     ActivityDirection,
-    ActivityType,
+    StardustActivityType,
     PersistedEvmTransaction,
     calculateAndAddPersistedNftBalanceChange,
 } from '@core/activity'
@@ -73,7 +73,7 @@ async function createHiddenBalanceChange(account: IAccountState, activity: Stard
     const received = activity.direction === ActivityDirection.Incoming
     const networkId = activity.sourceNetworkId
 
-    if (activity.type === ActivityType.Nft) {
+    if (activity.type === StardustActivityType.Nft) {
         const owned = received ? true : false
         calculateAndAddPersistedNftBalanceChange(account, networkId, activity.nftId, owned, true)
     }

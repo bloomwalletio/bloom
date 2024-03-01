@@ -1,5 +1,5 @@
 import { BASE_TOKEN_ID } from '@core/token'
-import { ActivityType } from '../../enums'
+import { StardustActivityType } from '../../enums'
 import { StardustNftActivity, PersistedEvmTransaction } from '../../types'
 import { IChain } from '@core/network'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
@@ -21,7 +21,7 @@ export async function generateNftActivity(
     }
     return {
         ...baseEvmActivity,
-        type: ActivityType.Nft,
+        type: StardustActivityType.Nft,
 
         // asset information
         baseTokenTransfer,

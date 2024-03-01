@@ -1,18 +1,18 @@
 <script lang="ts">
     import { Avatar, IconName } from '@bloomwalletio/ui'
-    import { GovernanceAction } from '@core/activity'
+    import { StardustGovernanceAction } from '@core/activity'
     import { darkMode } from '@core/app/stores'
 
-    export let governanceAction: GovernanceAction
+    export let governanceAction: StardustGovernanceAction
     export let size: 'xxs' | 'xs' | 'sm' | 'base' | 'md' | 'lg' = 'md'
 
     const ICONS_FOR_ACTION = {
-        [GovernanceAction.StartVoting]: IconName.Package,
-        [GovernanceAction.StopVoting]: IconName.Package,
-        [GovernanceAction.ChangedVote]: IconName.PackageCheck,
-        [GovernanceAction.Revote]: IconName.PackageCheck,
-        [GovernanceAction.IncreaseVotingPower]: IconName.PackagePlus,
-        [GovernanceAction.DecreaseVotingPower]: IconName.PackageMinus,
+        [StardustGovernanceAction.StartVoting]: IconName.Package,
+        [StardustGovernanceAction.StopVoting]: IconName.Package,
+        [StardustGovernanceAction.ChangedVote]: IconName.PackageCheck,
+        [StardustGovernanceAction.Revote]: IconName.PackageCheck,
+        [StardustGovernanceAction.IncreaseVotingPower]: IconName.PackagePlus,
+        [StardustGovernanceAction.DecreaseVotingPower]: IconName.PackageMinus,
     }
 </script>
 

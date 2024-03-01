@@ -6,7 +6,7 @@ import { getNetworkHrp } from '@core/profile/actions'
 import { BASE_TOKEN_ID } from '@core/token'
 import { EMPTY_HEX_ID } from '@core/wallet/constants'
 import { AliasOutput } from '@iota/sdk/out/types'
-import { ActivityAction, ActivityType } from '../enums'
+import { ActivityAction, StardustActivityType } from '../enums'
 import { StardustAliasActivity } from '../types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { getGovernorAddressFromAliasOutput, getStateControllerAddressFromAliasOutput } from './helper'
@@ -36,7 +36,7 @@ export async function generateSingleAliasActivity(
     const aliasId = getAliasId(output as AliasOutput, outputId)
 
     return {
-        type: ActivityType.Alias,
+        type: StardustActivityType.Alias,
         ...baseActivity,
         recipient: { type: SubjectType.Account, account, address: account.depositAddress },
         aliasId,
