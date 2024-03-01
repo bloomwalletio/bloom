@@ -23,10 +23,10 @@ export function validateBech32Address(prefix: string, addr: string, addressType?
         throw new Error(localize('error.address.wrongAddressType'))
     }
 
-    let isValid
+    let isValid = false
     try {
         const decoded = Bech32.decode(addr)
-        isValid = decoded && decoded.humanReadablePart === prefix
+        isValid = !!decoded && decoded.humanReadablePart === prefix
     } catch (err) {
         throw new Error(localize('error.crypto.cannotDecodeBech32'))
     }
