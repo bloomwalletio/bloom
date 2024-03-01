@@ -15,7 +15,7 @@
         "eslint-plugin-svelte3": "3.4.1",
         "husky": "7.0.4",
         "lint-staged": "12.5.0",
-        "node-hid": "2.1.2",
+        "node-hid": "3.0.0",
         "patch-package": "6.5.1",
         "prettier": "3.2.5",
         "prettier-plugin-svelte": "3.0.3",
