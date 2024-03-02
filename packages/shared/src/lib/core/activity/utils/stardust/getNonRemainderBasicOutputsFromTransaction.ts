@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getActiveNetworkId } from '@core/network/actions'
 import { IWrappedOutput } from '@core/wallet/interfaces'
-import { ActivityDirection } from '../enums'
+import { ActivityDirection } from '../../enums'
 import { isOutputSubjectFromActiveAccount } from './isOutputSubjectFromActiveAccount'
 
 export function getNonRemainderBasicOutputsFromTransaction(

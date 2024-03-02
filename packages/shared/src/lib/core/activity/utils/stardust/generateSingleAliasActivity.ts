@@ -6,10 +6,10 @@ import { getNetworkHrp } from '@core/profile/actions'
 import { BASE_TOKEN_ID } from '@core/token'
 import { EMPTY_HEX_ID } from '@core/wallet/constants'
 import { AliasOutput } from '@iota/sdk/out/types'
-import { ActivityAction, StardustActivityType } from '../enums'
-import { StardustAliasActivity } from '../types'
+import { ActivityAction, StardustActivityType } from '../../enums'
+import { StardustAliasActivity } from '../../types'
 import { generateBaseActivity } from './generateBaseActivity'
-import { getGovernorAddressFromAliasOutput, getStateControllerAddressFromAliasOutput } from './helper'
+import { getGovernorAddressFromAliasOutput, getStateControllerAddressFromAliasOutput } from '../helper'
 import { SubjectType } from '@core/wallet/enums'
 
 export async function generateSingleAliasActivity(

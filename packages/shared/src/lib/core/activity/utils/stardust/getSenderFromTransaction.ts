@@ -1,8 +1,8 @@
 import { Output, Subject } from '@core/wallet/types'
-import { getSenderFromOutput } from './outputs'
+import { getSenderFromOutput } from '../outputs'
 import { NetworkId, getNetwork } from '@core/network'
 import { EMPTY_HEX_ID, SubjectType, getSubjectFromAddress } from '@core/wallet'
-import { ActivityDirection } from '../enums'
+import { ActivityDirection } from '../../enums'
 
 export function getSenderFromTransaction(
     output: Output,

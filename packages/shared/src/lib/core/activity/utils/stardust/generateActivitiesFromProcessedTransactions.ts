@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
-import { StardustActivity, IProcessedTransaction } from '../types'
-import { generateActivities } from '.'
+import { StardustActivity, IProcessedTransaction } from '../../types'
 import { NetworkId } from '@core/network/types'
+import { generateActivitiesFromStardustNetwork } from './generateActivitiesFromStardustNetwork'
 
 export async function generateActivitiesFromProcessedTransactions(
     processedTransactions: IProcessedTransaction[],
@@ -11,7 +11,7 @@ export async function generateActivitiesFromProcessedTransactions(
     const activities: StardustActivity[] = []
     for (const _preparedActivity of processedTransactions) {
         try {
-            const activitiesToAdd = await generateActivities(_preparedActivity, account, networkId)
+            const activitiesToAdd = await generateActivitiesFromStardustNetwork(_preparedActivity, account, networkId)
             activities.push(...activitiesToAdd)
         } catch (err) {
             console.error(err)

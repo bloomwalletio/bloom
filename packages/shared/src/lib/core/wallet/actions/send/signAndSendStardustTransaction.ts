@@ -1,6 +1,6 @@
 import { NftOutput, OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { processAndAddToActivities } from '@core/activity/utils'
+import { processAndAddToActivities } from '@core/activity/actions'
 import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 import { Output } from '@core/wallet/types'
 import { getActiveNetworkId } from '@core/network'

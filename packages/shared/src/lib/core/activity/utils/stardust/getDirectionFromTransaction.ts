@@ -1,6 +1,6 @@
 import { OutputData } from '@iota/sdk/out/types'
 import { IWrappedOutput } from '@core/wallet/interfaces'
-import { ActivityDirection } from '../enums'
+import { ActivityDirection } from '../../enums'
 import { EMPTY_HEX_ID } from '@core/wallet'
 import { getActiveNetworkId } from '@core/network/actions'
 import { IAccountState } from '@core/account/interfaces'

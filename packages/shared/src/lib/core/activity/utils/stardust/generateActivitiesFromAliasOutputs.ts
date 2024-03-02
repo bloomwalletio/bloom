@@ -1,9 +1,9 @@
 import { AliasOutput, OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
 import { EMPTY_HEX_ID } from '@core/wallet'
-import { StardustActivity, IProcessedTransaction } from '../types'
+import { StardustActivity, IProcessedTransaction } from '../../types'
 import { generateSingleAliasActivity } from './generateSingleAliasActivity'
-import { ActivityAction } from '../enums'
+import { ActivityAction } from '../../enums'
 import { NetworkId } from '@core/network/types'
 
 export async function generateActivitiesFromAliasOutputs(

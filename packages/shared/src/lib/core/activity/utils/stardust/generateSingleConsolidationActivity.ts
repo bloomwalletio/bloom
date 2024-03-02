@@ -1,8 +1,8 @@
 import { IAccountState } from '@core/account'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { OutputType } from '@iota/sdk/out/types'
-import { StardustActivityType } from '../enums'
-import { StardustConsolidationActivity, IActivityGenerationParameters } from '../types'
+import { StardustActivityType } from '../../enums'
+import { StardustConsolidationActivity, IActivityGenerationParameters } from '../../types'
 import { NetworkId } from '@core/network/types'
 import { generateBaseActivity } from './generateBaseActivity'
 

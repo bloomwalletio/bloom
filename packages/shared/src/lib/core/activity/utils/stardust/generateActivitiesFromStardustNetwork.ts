@@ -1,9 +1,9 @@
 import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { StardustActivity, IProcessedTransaction } from '../types'
+import { StardustActivity, IProcessedTransaction } from '../../types'
 import { isParticipationOutput } from '@contexts/governance/utils'
 import { NetworkId } from '@core/network/types'
-import { ActivityAction, ActivityDirection, StardustActivityType } from '../enums'
+import { ActivityAction, ActivityDirection, StardustActivityType } from '../../enums'
 import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAliasOutputs'
 import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
 import { generateActivitiesFromFoundryOutputs } from './generateActivitiesFromFoundryOutputs'
@@ -13,9 +13,9 @@ import { generateSingleBasicActivity } from './generateSingleBasicActivity'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'
 import { generateSingleGovernanceActivity } from './generateSingleGovernanceActivity'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
-import { getActivityTypeFromOutput } from './helper'
+import { getActivityTypeFromOutput } from '../helper'
 
-export async function generateActivities(
+export async function generateActivitiesFromStardustNetwork(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId

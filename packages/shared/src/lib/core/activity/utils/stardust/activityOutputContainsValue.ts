@@ -1,8 +1,8 @@
-import { StardustActivityType } from '../enums'
+import { StardustActivityType } from '../../enums'
 import { BasicOutput } from '@iota/sdk/out/types'
-import { IWrappedOutput } from '../../wallet/interfaces'
-import { getActivityTypeFromOutput, getAmountFromOutput, getStorageDepositFromOutput } from './helper'
-import { getNativeTokenFromOutput, isOutputAsync } from './outputs'
+import { IWrappedOutput } from '../../../wallet/interfaces'
+import { getActivityTypeFromOutput, getAmountFromOutput, getStorageDepositFromOutput } from '../helper'
+import { getNativeTokenFromOutput, isOutputAsync } from '../outputs'
 
 export async function activityOutputContainsValue(wrappedOutput: IWrappedOutput): Promise<boolean> {
     const type = getActivityTypeFromOutput(wrappedOutput)
