@@ -1,4 +1,4 @@
-export enum AliasSubtype {
+export enum StardustAliasAction {
     Created = 'Created',
     Other = 'Other',
 }

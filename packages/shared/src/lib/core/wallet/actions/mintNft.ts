@@ -3,7 +3,7 @@ import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { ActivityAction } from '@core/activity/enums'
 import { addAccountActivity } from '@core/activity/stores'
 import { sendPreparedTransaction } from '@core/wallet/utils'
-import { NftActivity } from '@core/activity/types'
+import { StardustNftActivity } from '@core/activity/types'
 import { generateSingleNftActivity } from '@core/activity/utils/generateSingleNftActivity'
 import { preprocessTransaction } from '@core/activity/utils/outputs'
 import { localize } from '@core/i18n'
@@ -62,11 +62,11 @@ export async function mintNft(
         for (const output of outputs) {
             if (output.output?.type === OutputType.Nft) {
                 // For each minted NFT, generate a new activity
-                const activity: NftActivity = (await generateSingleNftActivity(account, networkId, {
+                const activity: StardustNftActivity = (await generateSingleNftActivity(account, networkId, {
                     action: ActivityAction.Mint,
                     processedTransaction,
                     wrappedOutput: output,
-                })) as NftActivity
+                })) as StardustNftActivity
                 addAccountActivity(account.index, activity)
 
                 // Store NFT metadata for each minted NFT

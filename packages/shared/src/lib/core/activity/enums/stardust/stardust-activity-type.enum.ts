@@ -1,4 +1,4 @@
-export enum ActivityType {
+export enum StardustActivityType {
     Alias = 'alias',
     Basic = 'basic',
     Foundry = 'foundry',

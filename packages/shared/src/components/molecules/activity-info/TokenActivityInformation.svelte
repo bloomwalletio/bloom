@@ -1,12 +1,12 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { FoundryActivity } from '@core/activity'
+    import { StardustFoundryActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { IIrc30Metadata } from '@core/token'
     import { getPersistedToken } from '@core/token/stores'
 
-    export let activity: FoundryActivity
+    export let activity: StardustFoundryActivity
 
     let metadata: IIrc30Metadata | undefined
     $: metadata = <IIrc30Metadata>(

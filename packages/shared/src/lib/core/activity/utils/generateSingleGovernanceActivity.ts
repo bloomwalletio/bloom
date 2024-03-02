@@ -1,8 +1,8 @@
 import { IAccountState } from '@core/account'
 import type { BasicOutput } from '@iota/sdk/out/types'
 import {} from '../types'
-import { GovernanceActivity, IActivityGenerationParameters } from '../types'
-import { ActivityType } from '../enums'
+import { StardustGovernanceActivity, IActivityGenerationParameters } from '../types'
+import { StardustActivityType } from '../enums'
 import { NetworkId } from '@core/network/types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { getGovernanceInfo } from './helper'
@@ -11,7 +11,7 @@ export async function generateSingleGovernanceActivity(
     account: IAccountState,
     networkId: NetworkId,
     generationParameters: IActivityGenerationParameters
-): Promise<GovernanceActivity> {
+): Promise<StardustGovernanceActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
 
     const output = generationParameters.wrappedOutput.output as BasicOutput
@@ -23,7 +23,7 @@ export async function generateSingleGovernanceActivity(
 
     return {
         ...baseActivity,
-        type: ActivityType.Governance,
+        type: StardustActivityType.Governance,
         ...governanceInfo,
     }
 }

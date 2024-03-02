@@ -1,9 +1,9 @@
 import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { Activity, IProcessedTransaction } from '../types'
+import { StardustActivity, IProcessedTransaction } from '../types'
 import { isParticipationOutput } from '@contexts/governance/utils'
 import { NetworkId } from '@core/network/types'
-import { ActivityAction, ActivityDirection, ActivityType } from '../enums'
+import { ActivityAction, ActivityDirection, StardustActivityType } from '../enums'
 import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAliasOutputs'
 import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
 import { generateActivitiesFromFoundryOutputs } from './generateActivitiesFromFoundryOutputs'
@@ -19,7 +19,7 @@ export async function generateActivities(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Promise<Activity[]> {
+): Promise<StardustActivity[]> {
     if (processedTransaction.wrappedInputs?.length > 0) {
         return generateActivitiesFromProcessedTransactionsWithInputs(processedTransaction, account, networkId)
     } else {
@@ -31,9 +31,9 @@ async function generateActivitiesFromProcessedTransactionsWithInputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Promise<Activity[]> {
+): Promise<StardustActivity[]> {
     const { outputs, wrappedInputs } = processedTransaction
-    const activities: Activity[] = []
+    const activities: StardustActivity[] = []
 
     const containsFoundryActivity = outputs.some((output) => output.output.type === OutputType.Foundry)
     if (containsFoundryActivity) {
@@ -83,7 +83,7 @@ async function generateActivitiesFromProcessedTransactionsWithoutInputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Promise<Activity[]> {
+): Promise<StardustActivity[]> {
     const nonRemainderOutputs = processedTransaction.outputs.filter((wrappedOutput) => !wrappedOutput.remainder)
     const activities = await Promise.all(
         nonRemainderOutputs.map(async (wrappedOutput) => {
@@ -97,20 +97,20 @@ async function generateActivitiesFromProcessedTransactionsWithoutInputs(
                 wrappedOutput,
             }
             switch (params.type) {
-                case ActivityType.Basic:
+                case StardustActivityType.Basic:
                     return generateSingleBasicActivity(account, networkId, params)
-                case ActivityType.Governance:
+                case StardustActivityType.Governance:
                     return generateSingleGovernanceActivity(account, networkId, params)
-                case ActivityType.Foundry:
+                case StardustActivityType.Foundry:
                     return generateSingleFoundryActivity(account, networkId, params)
-                case ActivityType.Alias:
+                case StardustActivityType.Alias:
                     return generateSingleAliasActivity(account, networkId, params)
-                case ActivityType.Nft:
+                case StardustActivityType.Nft:
                     return generateSingleNftActivity(account, networkId, params)
                 default:
                     return Promise.resolve()
             }
         })
     )
-    return activities.filter((_activity) => _activity) as Activity[]
+    return activities.filter((_activity) => _activity) as StardustActivity[]
 }

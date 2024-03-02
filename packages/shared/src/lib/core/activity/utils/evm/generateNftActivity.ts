@@ -1,18 +1,19 @@
-import { BASE_TOKEN_ID } from '@core/token'
-import { ActivityType } from '../../enums'
-import { NftActivity, PersistedEvmTransaction } from '../../types'
-import { IChain } from '@core/network'
-import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { IAccountState } from '@core/account/interfaces'
+import { IChain } from '@core/network'
+import { BASE_TOKEN_ID } from '@core/token'
+import { LocalEvmTransaction } from '@core/transactions'
+import { StardustActivityType } from '../../enums'
+import { StardustNftActivity } from '../../types'
+import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 
 export async function generateNftActivity(
-    transaction: PersistedEvmTransaction,
+    transaction: LocalEvmTransaction,
     chain: IChain,
     nftId: string,
     baseTokenAmount: bigint | undefined,
     recipientAddress: string | undefined,
     account: IAccountState
-): Promise<NftActivity> {
+): Promise<StardustNftActivity> {
     const baseEvmActivity = await generateBaseEvmActivity(transaction, chain, recipientAddress, account)
 
     const baseTokenTransfer = {
@@ -21,7 +22,7 @@ export async function generateNftActivity(
     }
     return {
         ...baseEvmActivity,
-        type: ActivityType.Nft,
+        type: StardustActivityType.Nft,
 
         // asset information
         baseTokenTransfer,

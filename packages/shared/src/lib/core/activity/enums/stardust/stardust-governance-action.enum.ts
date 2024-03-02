@@ -1,4 +1,4 @@
-export enum GovernanceAction {
+export enum StardustGovernanceAction {
     StartVoting = 'startVoting',
     StopVoting = 'stopVoting',
     ChangedVote = 'changedVote',

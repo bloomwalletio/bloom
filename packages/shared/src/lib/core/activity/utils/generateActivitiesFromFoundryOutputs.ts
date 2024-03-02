@@ -1,6 +1,6 @@
 import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
-import { Activity, IProcessedTransaction } from '../types'
+import { StardustActivity, IProcessedTransaction } from '../types'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'
 import { ActivityAction } from '../enums'
 import { NetworkId } from '@core/network/types'
@@ -9,7 +9,7 @@ export async function generateActivitiesFromFoundryOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
     networkId: NetworkId
-): Promise<Activity[]> {
+): Promise<StardustActivity[]> {
     const outputs = processedTransaction.outputs
     const activities = []
 

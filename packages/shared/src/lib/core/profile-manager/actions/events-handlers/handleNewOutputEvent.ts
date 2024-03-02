@@ -1,6 +1,6 @@
 import { Event, NewOutputWalletEvent, WalletEventType, OutputType, AliasOutput } from '@iota/sdk/out/types'
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { ActivityType } from '@core/activity/enums'
+import { StardustActivityType } from '@core/activity/enums'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
 import { activeAccounts } from '@core/profile/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
@@ -47,7 +47,7 @@ export async function handleNewOutputEventInternal(
 
         const activities = await generateActivities(processedOutput, account, networkId)
         for (const activity of activities) {
-            if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+            if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
                 const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId
                 getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId)
             }

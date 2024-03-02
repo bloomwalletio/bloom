@@ -2,11 +2,14 @@ import { IAccountState } from '@core/account'
 import { network } from '@core/network'
 import { getPersistedTransactionsForChain } from '@core/transactions/stores'
 import { get } from 'svelte/store'
-import { Activity } from '../types'
+import { StardustActivity } from '../types'
 import { generateActivityFromPersistedTransaction } from './generateActivityFromPeristedTransaction'
 
-export async function generateActivitiesFromChains(profileId: string, account: IAccountState): Promise<Activity[]> {
-    const activities: Activity[] = []
+export async function generateActivitiesFromChains(
+    profileId: string,
+    account: IAccountState
+): Promise<StardustActivity[]> {
+    const activities: StardustActivity[] = []
 
     const chains = get(network)?.getChains() ?? []
     for (const chain of chains) {

@@ -1,11 +1,11 @@
-import { IBlockscoutTransaction, BlockscoutTransactionStatus } from '@auxiliary/blockscout'
-import { PersistedEvmTransaction } from '@core/activity'
+import { BlockscoutTransactionStatus, IBlockscoutTransaction } from '@auxiliary/blockscout'
 import { LegacyTxData, TransactionType } from '@ethereumjs/tx'
 import { TransactionReceipt } from 'web3-core'
+import { LocalEvmTransaction } from '../types'
 
 export function buildPersistedEvmTransactionFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction
-): PersistedEvmTransaction {
+): LocalEvmTransaction {
     const transactionReceipt: TransactionReceipt = {
         status: blockscoutTransaction.status === BlockscoutTransactionStatus.Ok ? true : false,
         transactionHash: blockscoutTransaction.hash,
@@ -41,5 +41,5 @@ export function buildPersistedEvmTransactionFromBlockscoutTransaction(
     return {
         ...transactionReceipt,
         ...transactionData,
-    } as PersistedEvmTransaction
+    } as LocalEvmTransaction
 }

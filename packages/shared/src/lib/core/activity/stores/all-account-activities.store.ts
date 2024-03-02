@@ -1,13 +1,13 @@
 import { get, writable } from 'svelte/store'
-import { Activity, AsyncData, BaseActivity } from '../types'
+import { StardustActivity, AsyncData, BaseStardustActivity } from '../types'
 
-export const allAccountActivities = writable<Activity[][]>([])
+export const allAccountActivities = writable<StardustActivity[][]>([])
 
 export function addEmptyAccountActivities(accountIndex: number): void {
     setAccountActivities(accountIndex, [])
 }
 
-export function addAccountActivity(accountIndex: number, activity: Activity): void {
+export function addAccountActivity(accountIndex: number, activity: StardustActivity): void {
     allAccountActivities.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
@@ -17,7 +17,7 @@ export function addAccountActivity(accountIndex: number, activity: Activity): vo
     })
 }
 
-export function addAccountActivities(accountIndex: number, activities: Activity[]): void {
+export function addAccountActivities(accountIndex: number, activities: StardustActivity[]): void {
     allAccountActivities.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
@@ -27,21 +27,21 @@ export function addAccountActivities(accountIndex: number, activities: Activity[
     })
 }
 
-export function setAccountActivities(accountIndex: number, accountActivities: Activity[]): void {
+export function setAccountActivities(accountIndex: number, accountActivities: StardustActivity[]): void {
     allAccountActivities.update((state) => {
         state[accountIndex] = accountActivities
         return state
     })
 }
 
-export function getActivityByTransactionId(accountIndex: number, transactionId: string): Activity | undefined {
+export function getActivityByTransactionId(accountIndex: number, transactionId: string): StardustActivity | undefined {
     return get(allAccountActivities)?.[accountIndex]?.find((_activity) => _activity?.transactionId === transactionId)
 }
 
 export function updateActivityByTransactionId(
     accountIndex: number,
     transactionId: string,
-    partialBaseActivity: Partial<BaseActivity>
+    partialBaseActivity: Partial<BaseStardustActivity>
 ): void {
     allAccountActivities.update((state) => {
         const activities = state[accountIndex]?.filter((_activity) => _activity?.transactionId === transactionId)
@@ -54,7 +54,7 @@ export function updateActivityByTransactionId(
 export function updateActivityByActivityId(
     accountIndex: number,
     activityId: string,
-    partialBaseActivity: Partial<BaseActivity>
+    partialBaseActivity: Partial<BaseStardustActivity>
 ): void {
     allAccountActivities.update((state) => {
         const activity = state[accountIndex]?.find((_activity) => _activity.id === activityId)
