@@ -4,7 +4,7 @@ import { getNetworkIdFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { BasicOutput } from '@iota/sdk'
-import { activityOutputContainsValue } from '..'
+import { activityOutputContainsValue } from '../..'
 import {
     getAmountFromOutput,
     getAsyncDataFromOutput,
@@ -12,8 +12,8 @@ import {
     getSendingInformation,
     getStorageDepositFromOutput,
     getTagFromOutput,
-} from './helper'
-import { getNativeTokenFromOutput } from './outputs'
+} from '../helper'
+import { getNativeTokenFromOutput } from '../outputs'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { getActiveNetworkId, isStardustNetwork } from '@core/network'
 import { parseLayer2Metadata } from '@core/layer-2/utils'

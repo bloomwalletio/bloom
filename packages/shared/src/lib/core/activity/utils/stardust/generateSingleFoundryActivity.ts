@@ -11,8 +11,8 @@ import {
     SimpleTokenScheme,
     UnlockConditionType,
 } from '@iota/sdk/out/types'
-import { ActivityAction, StardustActivityType } from '../enums'
-import { StardustFoundryActivity } from '../types'
+import { ActivityAction, StardustActivityType } from '../../enums'
+import { StardustFoundryActivity } from '../../types'
 import { generateBaseActivity } from './generateBaseActivity'
 import { SubjectType } from '@core/wallet/enums'
 

@@ -6,11 +6,11 @@ import {
     PersistedTransaction,
     buildPersistedEvmTransactionFromBlockscoutTransaction,
 } from '@core/transactions'
-import { StardustActivityType } from '../enums'
-import { StardustActivity } from '../types'
-import { generateNftActivity } from './evm/generateNftActivity'
-import { generateSmartContractActivity } from './evm/generateSmartContractActivity'
-import { generateTokenActivity } from './evm/generateTokenActivity'
+import { StardustActivityType } from '../../enums'
+import { StardustActivity } from '../../types'
+import { generateNftActivity } from './generateNftActivity'
+import { generateSmartContractActivity } from './generateSmartContractActivity'
+import { generateTokenActivity } from './generateTokenActivity'
 
 export async function generateActivityFromPersistedTransaction(
     persistedTransaction: PersistedTransaction,

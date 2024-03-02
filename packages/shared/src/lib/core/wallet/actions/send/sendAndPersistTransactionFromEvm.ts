@@ -6,7 +6,7 @@ import {
     calculateAndAddPersistedNftBalanceChange,
 } from '@core/activity'
 import { addAccountActivity } from '@core/activity/stores'
-import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
+import { generateActivityFromEvmTransaction } from '@core/activity/utils/evm'
 import { EvmTransactionData } from '@core/layer-2'
 import { EvmNetworkId, IChain } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'

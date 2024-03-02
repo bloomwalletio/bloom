@@ -2,11 +2,11 @@ import { IAccountState } from '@core/account/interfaces'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { IChain } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
-import { StardustActivityType } from '../enums'
-import { StardustActivity } from '../types'
-import { generateNftActivity } from './evm/generateNftActivity'
-import { generateSmartContractActivity } from './evm/generateSmartContractActivity'
-import { generateTokenActivity } from './evm/generateTokenActivity'
+import { StardustActivityType } from '../../enums'
+import { StardustActivity } from '../../types'
+import { generateNftActivity } from './generateNftActivity'
+import { generateSmartContractActivity } from './generateSmartContractActivity'
+import { generateTokenActivity } from './generateTokenActivity'
 
 export async function generateActivityFromEvmTransaction(
     transaction: LocalEvmTransaction,
