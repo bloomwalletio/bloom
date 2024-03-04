@@ -1,31 +1,37 @@
-import { ActivityAction, ActivityDirection, ActivityType, GovernanceAction, InclusionState } from '../enums'
-import { Activity } from '../types'
+import {
+    ActivityAction,
+    ActivityDirection,
+    StardustActivityType,
+    StardustGovernanceAction,
+    InclusionState,
+} from '../enums'
+import { StardustActivity } from '../types'
 
-export function getActivityTileAction(activity: Activity): string | undefined {
+export function getActivityTileAction(activity: StardustActivity): string | undefined {
     const { isInternal, direction, inclusionState, action } = activity
     const isConfirmed = inclusionState === InclusionState.Confirmed
 
-    if (activity.type === ActivityType.Basic && activity.isShimmerClaiming) {
+    if (activity.type === StardustActivityType.Basic && activity.isShimmerClaiming) {
         return isConfirmed ? 'general.shimmerClaimed' : 'general.shimmerClaiming'
     }
-    if (activity.type === ActivityType.SmartContract) {
+    if (activity.type === StardustActivityType.SmartContract) {
         return 'general.contractCall'
     }
-    if (activity.type === ActivityType.Governance) {
-        if (activity.governanceAction === GovernanceAction.IncreaseVotingPower) {
+    if (activity.type === StardustActivityType.Governance) {
+        if (activity.governanceAction === StardustGovernanceAction.IncreaseVotingPower) {
             return isConfirmed ? 'general.increased' : 'general.increasing'
-        } else if (activity.governanceAction === GovernanceAction.DecreaseVotingPower) {
+        } else if (activity.governanceAction === StardustGovernanceAction.DecreaseVotingPower) {
             return isConfirmed ? 'general.decreased' : 'general.decreasing'
-        } else if (activity.governanceAction === GovernanceAction.StartVoting) {
+        } else if (activity.governanceAction === StardustGovernanceAction.StartVoting) {
             return isConfirmed ? 'general.votedOn' : 'general.votingOn'
-        } else if (activity.governanceAction === GovernanceAction.StopVoting) {
+        } else if (activity.governanceAction === StardustGovernanceAction.StopVoting) {
             return isConfirmed ? 'general.unvoted' : 'general.unvoting'
-        } else if (activity.governanceAction === GovernanceAction.ChangedVote) {
+        } else if (activity.governanceAction === StardustGovernanceAction.ChangedVote) {
             return isConfirmed ? 'general.changedVote' : 'general.changingVote'
-        } else if (activity.governanceAction === GovernanceAction.Revote) {
+        } else if (activity.governanceAction === StardustGovernanceAction.Revote) {
             return isConfirmed ? 'general.revoted' : 'general.revoting'
         }
-    } else if (activity.type === ActivityType.Consolidation) {
+    } else if (activity.type === StardustActivityType.Consolidation) {
         return isConfirmed ? 'general.consolidated' : 'general.consolidating'
     } else if (action === ActivityAction.Mint) {
         return isConfirmed ? 'general.minted' : 'general.minting'

@@ -1,17 +1,18 @@
-import { BASE_TOKEN_ID } from '@core/token'
-import { ActivityType } from '../../enums'
-import { PersistedEvmTransaction, SmartContractActivity } from '../../types'
-import { IChain } from '@core/network'
-import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { IAccountState } from '@core/account/interfaces'
-import { Converter } from '@core/utils/convert'
 import { getMethodNameForEvmTransaction } from '@core/layer-2/utils'
+import { IChain } from '@core/network'
+import { BASE_TOKEN_ID } from '@core/token'
+import { LocalEvmTransaction } from '@core/transactions'
+import { Converter } from '@core/utils/convert'
+import { StardustActivityType } from '../../enums'
+import { StardustSmartContractActivity } from '../../types'
+import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 
 export async function generateSmartContractActivity(
-    transaction: PersistedEvmTransaction,
+    transaction: LocalEvmTransaction,
     chain: IChain,
     account: IAccountState
-): Promise<SmartContractActivity> {
+): Promise<StardustSmartContractActivity> {
     const baseEvmActivity = await generateBaseEvmActivity(transaction, chain, transaction.to?.toString(), account)
 
     const baseTokenTransfer = {
@@ -22,7 +23,7 @@ export async function generateSmartContractActivity(
 
     return {
         ...baseEvmActivity,
-        type: ActivityType.SmartContract,
+        type: StardustActivityType.SmartContract,
         methodName,
         data: String(transaction.data ?? ''),
 
