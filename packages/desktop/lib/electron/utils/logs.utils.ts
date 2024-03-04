@@ -1,8 +1,6 @@
 import fs from 'fs'
 import { app } from 'electron'
 
-import * as IotaSdk from '@iota/sdk'
-import type { ILoggerConfig } from '@iota/sdk/out/types'
 import type { IVersionDetails } from '../interfaces/version-details.interface'
 
 const DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24
@@ -13,7 +11,7 @@ export function initializeLogger(versionDetails: IVersionDetails): void {
         if (process.env.STAGE !== 'prod') {
             const baseDir = app.getPath('userData')
             const logDir = prepareLogDirectory(baseDir)
-            getVersionAndInitLogger(logDir, versionDetails)
+            deleteOldLogs(logDir, versionDetails.currentVersion)
         }
     } catch (err) {
         console.error('[Preload Context] Error:', err)
@@ -26,19 +24,6 @@ function prepareLogDirectory(baseDir: string): string {
         fs.mkdirSync(logDir)
     }
     return logDir
-}
-
-function getVersionAndInitLogger(logDir: string, versionDetails: IVersionDetails): void {
-    const today = new Date().toISOString().slice(0, 16).replace('T', '-').replace(':', '-')
-    const loggerOptions: ILoggerConfig = {
-        colorEnabled: true,
-        name: `${logDir}/wallet-v${versionDetails.currentVersion}-d${today}.log`,
-        levelFilter: 'debug',
-        targetExclusions: ['h2', 'hyper', 'rustls', 'message_handler'],
-    }
-    IotaSdk.initLogger(loggerOptions)
-
-    deleteOldLogs(logDir, versionDetails.currentVersion)
 }
 
 function deleteOldLogs(path: string, currentVersion: string): void {

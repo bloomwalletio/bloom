@@ -8,6 +8,9 @@
 
 import { ipcRenderer, contextBridge } from 'electron'
 
+import * as IotaSdk from '@iota/sdk'
+import type { ILoggerConfig } from '@iota/sdk/out/types'
+
 import ElectronApi from '../apis/electron.api'
 import LedgerApi from '../apis/ledger.api'
 import WalletApi from '../apis/wallet.api'
@@ -23,6 +26,17 @@ window.addEventListener('DOMContentLoaded', () => {
         ipcRenderer.send('dom-content-loaded')
     }, 200)
 })
+
+try {
+    if (process.env.STAGE !== 'prod') {
+        void ipcRenderer.invoke('get-path', 'userData').then(async (baseDir) => {
+            const logDir = `${baseDir}/logs`
+            await getVersionAndInitLogger(logDir)
+        })
+    }
+} catch (err) {
+    console.error('[Preload Context] Error:', err)
+}
 
 try {
     // contextBridge doesn't allow passing custom properties & methods on prototype chain
@@ -54,4 +68,16 @@ function handleUnhandledRejectionEvent(event: PromiseRejectionEvent): void {
     void ipcRenderer.invoke('handle-error', '[Preload Context] Unhandled Rejection', event.reason)
     event.preventDefault()
     console.error(event.reason)
+}
+
+async function getVersionAndInitLogger(logDir: string): Promise<void> {
+    const versionDetails = await ipcRenderer.invoke('get-version-details')
+    const today = new Date().toISOString().slice(0, 16).replace('T', '-').replace(':', '-')
+    const loggerOptions: ILoggerConfig = {
+        colorEnabled: true,
+        name: `${logDir}/wallet-v${versionDetails.currentVersion}-d${today}.log`,
+        levelFilter: 'debug',
+        targetExclusions: ['h2', 'hyper', 'rustls', 'message_handler'],
+    }
+    IotaSdk.initLogger(loggerOptions)
 }
