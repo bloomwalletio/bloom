@@ -1,9 +1,7 @@
 <script lang="ts">
-    import { Text } from '@bloomwalletio/ui'
     import { Filter } from '@components'
     import { proposalFilter, registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
     import { isVisibleProposal, sortProposals } from '@contexts/governance/utils'
-    import { localize } from '@core/i18n'
     import { SearchInput } from '@ui'
     import { ProposalCard } from './'
 
@@ -29,8 +27,7 @@
 </script>
 
 <proposals-container class="flex flex-col h-full">
-    <header-container class="flex justify-between items-center mb-4 h-9">
-        <Text type="body2">{localize('views.governance.proposals.title')}</Text>
+    <header-container class="flex justify-end items-center mb-4 h-9">
         <div class="flex flex-row gap-5 items-center">
             <SearchInput bind:value={searchTerm} />
             <Filter filterStore={proposalFilter} />
