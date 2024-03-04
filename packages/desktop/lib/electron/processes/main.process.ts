@@ -34,6 +34,7 @@ import { shouldReportError } from '../utils/error.utils'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
+import { ClassicLevel } from 'classic-level'
 
 export let appIsReady = false
 
@@ -737,3 +738,20 @@ export function updateAppVersionDetails(details: object): void {
 
     getOrInitWindow('main').webContents.send('version-details', versionDetails)
 }
+
+async function getDataFromFirefly(): Promise<void> {
+    const userPath = app.getPath('userData')
+    const levelDBPath = path.resolve(`${userPath}/../Firefly/Local Storage/leveldb`)
+
+    try {
+        const db = new ClassicLevel(levelDBPath)
+        for await (const [key, value] of db.iterator()) {
+            // eslint-disable-next-line no-console
+            console.log(key, value)
+        }
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+void getDataFromFirefly()
