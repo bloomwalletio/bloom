@@ -636,7 +636,6 @@
                 "manage": "Manage voting power"
             },
             "proposalsDetails": {
-                "title": "Details",
                 "totalProposals": "Total proposals",
                 "activeProposals": "Active proposals",
                 "votingProposals": "Proposals you are voting on",
