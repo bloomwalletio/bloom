@@ -1,12 +1,12 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { FoundryActivity } from '@core/activity'
+    import { StardustFoundryActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network/enums'
     import { getDefaultExplorerUrl } from '@core/network/utils'
 
-    export let activity: FoundryActivity
+    export let activity: StardustFoundryActivity
 
     function onAliasClick(aliasAddress: string) {
         const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)

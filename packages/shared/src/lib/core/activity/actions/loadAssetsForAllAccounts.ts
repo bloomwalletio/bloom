@@ -3,7 +3,7 @@ import { IPersistedToken } from '@core/token/interfaces'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { addPersistedToken } from '@core/token/stores'
 import { get } from 'svelte/store'
-import { ActivityType } from '../enums'
+import { StardustActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
 
 export async function loadAssetsForAllActivities(account: IAccountState): Promise<void> {
@@ -12,7 +12,7 @@ export async function loadAssetsForAllActivities(account: IAccountState): Promis
     const persistedTokens: IPersistedToken[] = []
     for (const activity of accountActivities) {
         try {
-            if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+            if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
                 const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId
                 const token = await getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId, false)
                 if (token) {

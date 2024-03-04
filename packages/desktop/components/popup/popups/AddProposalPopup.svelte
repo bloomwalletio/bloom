@@ -15,8 +15,8 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { IError } from '@core/error'
 
-    export let initialEventId: string
-    export let initialNodeUrl: string
+    export let initialEventId: string | undefined
+    export let initialNodeUrl: string | undefined
 
     let inputtedEventId = initialEventId
     let nodeUrl = initialNodeUrl
@@ -84,6 +84,7 @@
         const options = {
             node: { url: nodeUrl, auth },
             eventsToRegister: isRegisteringAllProposals ? [] : [eventId],
+            eventsToIgnore: [],
         }
         const accounts = isAddingForAllAccounts ? $activeAccounts : $selectedAccount ? [$selectedAccount] : []
         await registerProposalsForAccounts(options, accounts)
