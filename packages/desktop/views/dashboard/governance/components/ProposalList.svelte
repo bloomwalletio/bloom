@@ -4,6 +4,7 @@
     import { isVisibleProposal, sortProposals } from '@contexts/governance/utils'
     import { SearchInput } from '@ui'
     import { ProposalCard } from './'
+    import ProposalListMenu from './ProposalListMenu.svelte'
 
     $: proposals = Object.values($registeredProposalsForSelectedAccount)
 
@@ -31,6 +32,7 @@
         <div class="flex flex-row gap-5 items-center">
             <SearchInput bind:value={searchTerm} />
             <Filter filterStore={proposalFilter} />
+            <ProposalListMenu />
         </div>
     </header-container>
     <ul class="grid grid-cols-2 auto-rows-min gap-4 flex-1 overflow-y-scroll pr-3 -mr-5">
