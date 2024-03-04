@@ -34,6 +34,8 @@ import { shouldReportError } from '../utils/error.utils'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
+import { initializeLogger } from '../utils/logs.utils'
+import type { IVersionDetails } from '../interfaces/version-details.interface'
 
 export let appIsReady = false
 
@@ -115,7 +117,7 @@ const paths = {
     ledger: '',
 }
 
-let versionDetails = {
+let versionDetails: IVersionDetails = {
     upToDate: true,
     currentVersion: app.getVersion(),
     newVersion: '',
@@ -153,6 +155,11 @@ if (app.isPackaged) {
     paths.errorPreload = path.join(__dirname, 'error.preload.js')
     paths.ledger = path.join(__dirname, 'ledger.process.js')
 }
+
+/**
+ * Initializes logger
+ */
+initializeLogger(versionDetails)
 
 /**
  * Handles url navigation events
