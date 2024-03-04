@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { selectedAccount, updateSelectedAccount } from '@core/account/stores'
-    import { processAndAddToActivities } from '@core/activity/utils'
+    import { processAndAddToActivities } from '@core/activity/actions'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuthAsync, getBaseToken } from '@core/profile/actions'

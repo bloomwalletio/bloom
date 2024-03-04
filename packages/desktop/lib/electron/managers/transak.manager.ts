@@ -5,9 +5,7 @@ import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
 import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
 import { buildQueryParametersFromObject } from '@core/utils/url'
-import { Currency } from '@core/utils/enums'
-import { validateBech32Address } from '@core/utils/crypto'
-import { IOTA_BECH32_HRP } from '@core/network'
+import { MarketCurrency } from '@core/market/enums/market-currency.enum'
 
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
@@ -86,7 +84,12 @@ export default class TransakManager implements ITransakManager {
             }
         })
 
-        const initialUrl = this.getUrl(data)
+        let initialUrl: string
+        try {
+            initialUrl = this.getUrl(data)
+        } catch (err) {
+            console.error(err)
+        }
         void windows.transak.loadURL(initialUrl)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
@@ -168,9 +171,7 @@ export default class TransakManager implements ITransakManager {
         const { address, currency, service } = data
         const apiKey = process.env.TRANSAK_API_KEY
 
-        validateBech32Address(IOTA_BECH32_HRP, address)
-
-        if (Object.values(Currency).includes(currency as Currency)) {
+        if (Object.values(MarketCurrency).includes(currency as MarketCurrency)) {
             throw new Error('Invalid Transak currency')
         }
 

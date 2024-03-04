@@ -1,14 +1,15 @@
+import { IAccountState } from '@core/account/interfaces'
+import { getAddressFromAccountForNetwork } from '@core/account/utils'
+import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
+import { IChain } from '@core/network'
+import { LocalEvmTransaction } from '@core/transactions'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
-import { BaseEvmActivity, PersistedEvmTransaction } from '../../types'
-import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
-import { IChain } from '@core/network'
-import { IAccountState } from '@core/account/interfaces'
-import { getAddressFromAccountForNetwork } from '@core/account/utils'
+import { BaseEvmActivity } from '../../types'
 
 export async function generateBaseEvmActivity(
-    transaction: PersistedEvmTransaction,
+    transaction: LocalEvmTransaction,
     chain: IChain,
     recipientAddress: string | undefined,
     account: IAccountState
@@ -55,7 +56,7 @@ export async function generateBaseEvmActivity(
     }
 }
 
-async function getTimeStamp(transaction: PersistedEvmTransaction, chain: IChain): Promise<number> {
+async function getTimeStamp(transaction: LocalEvmTransaction, chain: IChain): Promise<number> {
     if (transaction.timestamp) {
         return transaction.timestamp
     } else {

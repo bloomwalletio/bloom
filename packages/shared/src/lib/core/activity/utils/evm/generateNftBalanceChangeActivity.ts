@@ -1,8 +1,8 @@
 import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { generateRandomId } from '@core/utils'
-import { ActivityAction, ActivityDirection, ActivityType, InclusionState } from '../../enums'
-import { INftBalanceChange, NftActivity } from '../../types'
+import { ActivityAction, ActivityDirection, StardustActivityType, InclusionState } from '../../enums'
+import { INftBalanceChange, StardustNftActivity } from '../../types'
 import { IAccountState } from '@core/account'
 import { Subject, SubjectType } from '@core/wallet'
 
@@ -11,7 +11,7 @@ export function generateNftBalanceChangeActivity(
     nftId: string,
     balanceChange: INftBalanceChange,
     account: IAccountState
-): NftActivity {
+): StardustNftActivity {
     const direction = balanceChange.owned ? ActivityDirection.Incoming : ActivityDirection.Outgoing
 
     let accountSubject: Subject | undefined
@@ -32,7 +32,7 @@ export function generateNftBalanceChangeActivity(
     }
 
     return {
-        type: ActivityType.Nft,
+        type: StardustActivityType.Nft,
 
         // meta information
         id: generateRandomId(),

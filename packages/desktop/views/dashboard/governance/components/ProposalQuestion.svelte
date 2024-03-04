@@ -86,7 +86,6 @@
                 hidden={!isOpened}
                 percentage={percentages[answer.value]}
                 isWinner={answerIndex === winnerAnswerIndex}
-                proposalStatus={$selectedProposal?.status}
                 truncate={!isOpened}
                 onAnswerClick={() => onAnswerClick(answer.value, questionIndex)}
             />
