@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Activity, ActivityAsyncStatus } from '@core/activity'
+    import { StardustActivity, StardustActivityAsyncStatus } from '@core/activity'
     import { NotVerifiedStatus } from '@core/token'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import {
@@ -11,7 +11,7 @@
     } from './row-sections'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
 
-    export let activity: Activity
+    export let activity: StardustActivity
 
     function onActivityClick(): void {
         const token = getTokenFromActivity(activity)
@@ -36,7 +36,7 @@
 <button
     on:click={onActivityClick}
     class="activity-row"
-    class:expired={activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired}
+    class:expired={activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Expired}
 >
     <ActivityAssetSection {activity} />
     <ActivityDateSection {activity} />

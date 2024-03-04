@@ -1,13 +1,13 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
-    import { NftActivity } from '@core/activity'
+    import { StardustNftActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { NftStandard } from '@core/nfts/enums'
 
-    export let activity: NftActivity
+    export let activity: StardustNftActivity
 
     $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
 </script>

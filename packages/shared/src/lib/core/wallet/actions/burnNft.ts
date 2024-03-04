@@ -1,6 +1,6 @@
 import { showNotification } from '@auxiliary/notification'
 import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores/selected-account.store'
-import { processAndAddToActivities } from '@core/activity/utils'
+import { processAndAddToActivities } from '@core/activity/actions'
 import { handleError } from '@core/error/handlers'
 import { localize } from '@core/i18n'
 import { getActiveNetworkId } from '@core/network'

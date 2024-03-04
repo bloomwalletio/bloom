@@ -1,24 +1,24 @@
 import { IBlockscoutTokenTransfer, IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
-import { PersistedEvmTransaction } from '@core/activity'
+import { LocalEvmTransaction } from './local-evm-transaction.interface'
 
 export type PersistedTransaction =
     | {
           blockscout: IBlockscoutTransaction
           tokenTransfer: IBlockscoutTokenTransfer
-          local: PersistedEvmTransaction
+          local: LocalEvmTransaction
       }
     | {
           blockscout?: IBlockscoutTransaction
           tokenTransfer: IBlockscoutTokenTransfer
-          local: PersistedEvmTransaction
+          local: LocalEvmTransaction
       }
     | {
           blockscout: IBlockscoutTransaction
           tokenTransfer: IBlockscoutTokenTransfer
-          local?: PersistedEvmTransaction
+          local?: LocalEvmTransaction
       }
     | {
           blockscout?: IBlockscoutTransaction
           tokenTransfer: IBlockscoutTokenTransfer
-          local?: PersistedEvmTransaction
+          local?: LocalEvmTransaction
       }
