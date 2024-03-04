@@ -3,12 +3,12 @@ import { IParticipation, IWrappedOutput } from '@core/wallet/interfaces'
 import { Output } from '@core/wallet/types'
 import { getAmountFromOutput } from './getAmountFromOutput'
 import { getMetadataFromOutput } from './getMetadataFromOutput'
-import { GovernanceAction } from '@core/activity/enums'
+import { StardustGovernanceAction } from '@core/activity/enums'
 import { parseGovernanceMetadata } from '@core/wallet/utils'
 import { BigIntAbs } from '@core/utils'
 
 interface IGovernanceInfo {
-    governanceAction: GovernanceAction
+    governanceAction: StardustGovernanceAction
     votingPower: bigint
     votingPowerDifference?: bigint
     participation?: IParticipation
@@ -30,8 +30,8 @@ export function getGovernanceInfo(output: Output, inputs: IWrappedOutput[], meta
             return {
                 governanceAction:
                     currentVotingPower - oldVotingPower > 0
-                        ? GovernanceAction.IncreaseVotingPower
-                        : GovernanceAction.DecreaseVotingPower,
+                        ? StardustGovernanceAction.IncreaseVotingPower
+                        : StardustGovernanceAction.DecreaseVotingPower,
                 votingPower: currentVotingPower,
                 votingPowerDifference: BigIntAbs(currentVotingPower - oldVotingPower),
             }
@@ -45,13 +45,13 @@ export function getGovernanceInfo(output: Output, inputs: IWrappedOutput[], meta
 
         if (addedParticipation) {
             return {
-                governanceAction: GovernanceAction.StartVoting,
+                governanceAction: StardustGovernanceAction.StartVoting,
                 votingPower: currentVotingPower,
                 participation: addedParticipation,
             }
         } else if (removedParticipation) {
             return {
-                governanceAction: GovernanceAction.StopVoting,
+                governanceAction: StardustGovernanceAction.StopVoting,
                 votingPower: currentVotingPower,
                 participation: removedParticipation,
             }
@@ -60,20 +60,20 @@ export function getGovernanceInfo(output: Output, inputs: IWrappedOutput[], meta
         const changedParticipation = getChangedParticipation(oldParticipations, participations)
         if (changedParticipation) {
             return {
-                governanceAction: GovernanceAction.ChangedVote,
+                governanceAction: StardustGovernanceAction.ChangedVote,
                 votingPower: currentVotingPower,
                 participation: changedParticipation,
             }
         } else {
             return {
-                governanceAction: GovernanceAction.Revote,
+                governanceAction: StardustGovernanceAction.Revote,
                 votingPower: currentVotingPower,
             }
         }
     } else {
         // There is no governance input when the user first adds voting power
         return {
-            governanceAction: GovernanceAction.IncreaseVotingPower,
+            governanceAction: StardustGovernanceAction.IncreaseVotingPower,
             votingPower: currentVotingPower,
             votingPowerDifference: currentVotingPower,
         }
