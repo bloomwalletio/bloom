@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
-    import { NftActivity } from '@core/activity'
+    import { StardustNftActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network/enums'
@@ -11,7 +11,7 @@
     import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
     import { type Address, AddressType } from '@iota/sdk/out/types'
 
-    export let activity: NftActivity
+    export let activity: StardustNftActivity
 
     $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
     $: issuer = nft?.standard === NftStandard.Irc27 ? nft?.issuer : undefined

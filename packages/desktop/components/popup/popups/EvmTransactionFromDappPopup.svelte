@@ -25,7 +25,7 @@
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
-    import { ActivityType } from '@core/activity'
+    import { StardustActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
@@ -58,7 +58,7 @@
     function setTokenTransfer(): void {
         const transferInfo = getTransferInfoFromTransactionData(preparedTransaction, chain)
         switch (transferInfo?.type) {
-            case ActivityType.Basic: {
+            case StardustActivityType.Basic: {
                 if (transferInfo.tokenId === BASE_TOKEN_ID) {
                     baseCoinTransfer = {
                         token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, id),
@@ -72,11 +72,11 @@
                 }
                 break
             }
-            case ActivityType.Nft: {
+            case StardustActivityType.Nft: {
                 nft = getNftByIdFromAllAccountNfts($selectedAccount.index, transferInfo.nftId)
                 break
             }
-            case ActivityType.SmartContract: {
+            case StardustActivityType.SmartContract: {
                 isSmartContractCall = true
                 break
             }
