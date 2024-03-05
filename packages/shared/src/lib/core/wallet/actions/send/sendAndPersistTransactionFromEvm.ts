@@ -4,15 +4,16 @@ import {
     StardustActivity,
     StardustActivityType,
     calculateAndAddPersistedNftBalanceChange,
+    calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity'
 import { addAccountActivity } from '@core/activity/stores'
 import { generateActivityFromEvmTransaction } from '@core/activity/utils/evm'
-import { EvmTransactionData } from '@core/layer-2'
+import { EvmTransactionData, isIrcAsset } from '@core/layer-2'
 import { EvmNetworkId, IChain } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
-import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
+import { updateLayer2AccountBalanceForTokenOnChain } from '@core/layer-2/stores'
 
 export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
@@ -73,18 +74,15 @@ async function createHiddenBalanceChange(account: IAccountState, activity: Stard
     const received = activity.direction === ActivityDirection.Incoming
     const networkId = activity.sourceNetworkId
 
-    if (activity.type === StardustActivityType.Nft) {
+    if (activity.type === StardustActivityType.Nft && isIrcAsset(activity.nftId)) {
         const owned = received ? true : false
         calculateAndAddPersistedNftBalanceChange(account, networkId, activity.nftId, owned, true)
     }
-    if (activity.tokenTransfer) {
-        const rawAmount = activity.tokenTransfer.rawAmount
-        const amount = received ? rawAmount : BigInt(-1) * rawAmount
-        await updateL2BalanceWithoutActivity(amount, activity.tokenTransfer.tokenId, account, networkId)
-    }
+    if (activity.tokenTransfer && isIrcAsset(activity.tokenTransfer.tokenId)) {
+        const tokenId = activity.tokenTransfer.tokenId
+        const amount = received ? activity.tokenTransfer.rawAmount : BigInt(-1) * activity.tokenTransfer.rawAmount
 
-    const rawBaseTokenAmount = received
-        ? activity.baseTokenTransfer.rawAmount
-        : BigInt(-1) * (activity.baseTokenTransfer.rawAmount + BigInt(activity.transactionFee ?? 0))
-    await updateL2BalanceWithoutActivity(rawBaseTokenAmount, activity.baseTokenTransfer.tokenId, account, networkId)
+        const newBalance = updateLayer2AccountBalanceForTokenOnChain(account.index, networkId, tokenId, amount)
+        await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance, true)
+    }
 }
