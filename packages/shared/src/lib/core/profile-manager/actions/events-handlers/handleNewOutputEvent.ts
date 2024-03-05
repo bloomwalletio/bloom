@@ -1,11 +1,11 @@
 import { Event, NewOutputWalletEvent, WalletEventType, OutputType, AliasOutput } from '@iota/sdk/out/types'
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { ActivityType } from '@core/activity/enums'
+import { StardustActivityType } from '@core/activity/enums'
 import { checkAndRemoveProfilePicture } from '@core/profile/actions'
 import { activeAccounts } from '@core/profile/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { addAccountActivities, allAccountActivities } from '@core/activity/stores/all-account-activities.store'
-import { generateActivities } from '@core/activity/utils'
+import { generateActivitiesFromStardustNetwork } from '@core/activity/utils'
 import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { getActiveNetworkId } from '@core/network'
 import { addNftsToDownloadQueue, updateAllAccountNftsForAccount, buildNftFromNftOutput } from '@core/nfts/actions'
@@ -45,9 +45,9 @@ export async function handleNewOutputEventInternal(
 
         const processedOutput = preprocessGroupedOutputs([output], walletEvent?.transactionInputs ?? [], account)
 
-        const activities = await generateActivities(processedOutput, account, networkId)
+        const activities = await generateActivitiesFromStardustNetwork(processedOutput, account, networkId)
         for (const activity of activities) {
-            if (activity.type === ActivityType.Basic || activity.type === ActivityType.Foundry) {
+            if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
                 const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId
                 getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId)
             }

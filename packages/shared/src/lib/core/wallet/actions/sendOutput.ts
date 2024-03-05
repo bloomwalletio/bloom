@@ -2,7 +2,7 @@ import { NftOutput, OutputType } from '@iota/sdk/out/types'
 import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 
-import { processAndAddToActivities } from '@core/activity/utils'
+import { processAndAddToActivities } from '@core/activity/actions'
 import { getTransactionOptions } from '../utils'
 import { Output } from '../types'
 import { getActiveNetworkId } from '@core/network'
