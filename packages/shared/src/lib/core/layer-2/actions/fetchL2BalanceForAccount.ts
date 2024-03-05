@@ -35,7 +35,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
             return
         }
 
-        await fetchL2Irc30Nfts(evmAddress, chain, account)
+        await fetchL2Irc27Nfts(evmAddress, chain, account)
         if (features.collectibles.erc721.enabled) {
             void updateErc721NftsOwnership(account)
         }
@@ -113,7 +113,7 @@ async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Pr
     return erc20TokenBalances
 }
 
-async function fetchL2Irc30Nfts(evmAddress: string, chain: IChain, account: IAccountState): Promise<void> {
+async function fetchL2Irc27Nfts(evmAddress: string, chain: IChain, account: IAccountState): Promise<void> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('accountNFTs')
     const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
