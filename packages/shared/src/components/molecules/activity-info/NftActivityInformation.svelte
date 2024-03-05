@@ -18,14 +18,14 @@
     $: issuer = nft?.standard === NftStandard.Irc27 ? nft?.issuer : undefined
 
     function onNftIdClick(nftId: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Nft)
-        const url = buildUrl({ origin: explorerUrl ?? '', pathname: nftId })
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Nft)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${nftId}` })
         openUrlInBrowser(url?.href)
     }
 
     function onIssuerClick(issuer: Address) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
-        const url = buildUrl({ origin: explorerUrl ?? '', pathname: getBech32AddressFromAddressTypes(issuer) })
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${getBech32AddressFromAddressTypes(issuer)}` })
         openUrlInBrowser(url?.href)
     }
 </script>

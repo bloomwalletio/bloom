@@ -81,8 +81,12 @@
 
     function getExplorerEndpoint(): string | undefined {
         // We don't use `nft.networkId` on this one, as for IRC27 nfts we still want the L1 explorer
-        const explorerUrl = getDefaultExplorerUrl(getActiveNetworkId(), ExplorerEndpoint.Nft) ?? ''
-        const url = buildUrl({ origin: explorerUrl, pathname: id })
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(getActiveNetworkId(), ExplorerEndpoint.Nft)
+        const url = buildUrl({
+            origin: baseUrl,
+            pathname: `${endpoint}/${id}`,
+        })
+
         return url?.href
     }
 </script>

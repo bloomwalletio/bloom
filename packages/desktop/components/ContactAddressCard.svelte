@@ -21,10 +21,10 @@
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
 
-    const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
+    const explorer = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
 
     function onExplorerClick(address: string): void {
-        const url = buildUrl({ origin: explorerUrl, pathname: address })
+        const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
         openUrlInBrowser(url?.href)
     }
 
@@ -72,7 +72,7 @@
                     </Copyable>
                 </div>
                 <div class="flex flex-row space-x-1">
-                    {#if explorerUrl}
+                    {#if explorer.baseUrl}
                         <IconButton
                             size="sm"
                             icon={IconName.Globe}

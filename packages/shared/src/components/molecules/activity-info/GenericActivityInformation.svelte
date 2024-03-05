@@ -22,9 +22,12 @@
     $: formattedMaxGasFee = formatAmount(BigInt(gasLimit ?? 0))
     $: formattedTransactionFee = formatAmount(activity.transactionFee ?? BigInt(0))
 
-    $: explorerUrl = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction) ?? ''
+    $: explorer = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction) ?? ''
     function onTransactionIdClick(): void {
-        const url = buildUrl({ origin: explorerUrl, pathname: activity.asyncData?.claimingTransactionId })
+        const url = buildUrl({
+            origin: explorer.baseUrl,
+            pathname: `${explorer.endpoint}/${activity.asyncData?.claimingTransactionId}`,
+        })
         openUrlInBrowser(url?.href)
     }
 
@@ -132,7 +135,7 @@
             value: activity.asyncData?.claimingTransactionId,
             copyable: true,
             truncate: { firstCharCount: 12, endCharCount: 12 },
-            onClick: explorerUrl ? onTransactionIdClick : undefined,
+            onClick: explorer.baseUrl ? onTransactionIdClick : undefined,
         },
     ]}
 />

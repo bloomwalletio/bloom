@@ -37,10 +37,10 @@
     let status: NetworkHealth
 
     $: $networkStatus, $chainStatuses, $selectedAccount, setNetworkCardData()
-    $: explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
+    $: explorer = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
 
     function onExplorerClick(address: string): void {
-        const url = buildUrl({ origin: explorerUrl, pathname: address })
+        const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
         openUrlInBrowser(url?.href)
     }
 
@@ -117,7 +117,7 @@
                 {/if}
             </div>
             <div class="flex flex-row space-x-1">
-                {#if explorerUrl && address}
+                {#if explorer.baseUrl && address}
                     <IconButton
                         size="sm"
                         icon={IconName.Globe}

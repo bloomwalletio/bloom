@@ -10,14 +10,14 @@
     export let activity: StardustFoundryActivity
 
     function onAliasClick(aliasAddress: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
-        const url = buildUrl({ origin: explorerUrl ?? '', pathname: aliasAddress })
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${aliasAddress}` })
         openUrlInBrowser(url?.href)
     }
 
     function onTokenClick(tokenId: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Foundry)
-        const url = buildUrl({ origin: explorerUrl ?? '', pathname: tokenId })
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Foundry)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${tokenId}` })
         openUrlInBrowser(url?.href)
     }
 </script>

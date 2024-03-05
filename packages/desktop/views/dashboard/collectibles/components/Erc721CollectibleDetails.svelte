@@ -14,8 +14,11 @@
     const explorerEndpoint = getExplorerEndpoint(networkId)
 
     function getExplorerEndpoint(networkId: NetworkId): string | undefined {
-        const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Token) ?? ''
-        const url = buildUrl({ origin: explorerUrl, pathname: tokenId ? `${address}/instance/${tokenId}` : address })
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Token)
+        const url = buildUrl({
+            origin: baseUrl,
+            pathname: tokenId ? `${endpoint}/${address}/instance/${tokenId}` : address,
+        })
         return url?.href
     }
 

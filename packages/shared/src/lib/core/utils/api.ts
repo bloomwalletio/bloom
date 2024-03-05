@@ -8,9 +8,11 @@ interface IApiRequestOptions {
 
 export class BaseApi {
     private readonly _baseUrl: string
+    private readonly _basePath: string
 
-    constructor(baseUrl: string) {
+    constructor(baseUrl: string, basePath?: string) {
         this._baseUrl = baseUrl
+        this._basePath = basePath ?? ''
     }
 
     protected get<T>(
@@ -47,12 +49,16 @@ export class BaseApi {
                 ...(options?.disableCors && { mode: 'no-cors' }),
             }
 
-            const url = buildUrl({ origin: this._baseUrl, pathname: path, query: queryParameters })
+            const url = buildUrl({
+                origin: this._baseUrl,
+                pathname: `${this._basePath ? this._basePath + '/' : ''}${path}`,
+                query: queryParameters,
+            })
             if (!url) {
                 throw localize('error.global.invalidUrl')
             }
 
-            const response = await fetch(`${this._baseUrl}/${path}`, requestInit)
+            const response = await fetch(url.href, requestInit)
             return (await response.json()) as T
         } catch (err) {
             console.error(err)

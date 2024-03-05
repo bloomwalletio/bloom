@@ -10,7 +10,7 @@ export class CoinGeckoApi {
         try {
             const url = buildUrl({
                 origin: MARKET_API_BASE_URL,
-                pathname: endpoint,
+                pathname: `api/v3/${endpoint}`,
                 query,
             })
 

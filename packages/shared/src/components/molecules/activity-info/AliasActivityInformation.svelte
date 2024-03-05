@@ -10,8 +10,8 @@
     export let activity: StardustAliasActivity
 
     function onAddressClick(address: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address) ?? ''
-        const url = buildUrl({ origin: explorerUrl, pathname: address })
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address) ?? ''
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${address}` })
         openUrlInBrowser(url?.href)
     }
 </script>
