@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
     import { IProposal } from '@contexts/governance/interfaces'
     import { participationOverviewForSelectedAccount, selectedProposalId } from '@contexts/governance/stores'
     import { isVotingForProposal } from '@contexts/governance/utils'
@@ -8,6 +8,9 @@
     import { EventStatus } from '@iota/sdk/out/types'
     import { onMount } from 'svelte'
     import { ProposalStatusInfo } from './'
+    import { getTimeDifference, milestoneToDate } from '@core/utils'
+    import { networkStatus } from '@core/network/stores'
+    import { time } from '@core/app/stores'
 
     export let proposal: IProposal
 
@@ -43,7 +46,16 @@
         <Text truncate>{proposal.title}</Text>
     </div>
     <div class="flex justify-between items-center">
-        <ProposalStatusInfo {proposal} />
+        <div class="flex items-center gap-2">
+            <ProposalStatusInfo {proposal} />
+            {#if proposal?.status === EventStatus.Holding}
+                {@const remainingTime = getTimeDifference(
+                    milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.ended),
+                    $time
+                )}
+                <Pill color="neutral">{remainingTime}</Pill>
+            {/if}
+        </div>
         {#if hasVoted}
             <TooltipIcon
                 tooltip={localize('views.governance.proposals.voted')}
