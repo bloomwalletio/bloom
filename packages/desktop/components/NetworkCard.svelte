@@ -20,7 +20,7 @@
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { UiEventFunction, truncateString } from '@core/utils'
+    import { UiEventFunction, buildUrl, truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
@@ -40,7 +40,8 @@
     $: explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
 
     function onExplorerClick(address: string): void {
-        openUrlInBrowser(`${explorerUrl}/${address}`)
+        const url = buildUrl({ origin: explorerUrl, pathname: address })
+        openUrlInBrowser(url?.href)
     }
 
     function setNetworkCardData(): void {

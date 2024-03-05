@@ -14,6 +14,7 @@
     export let isWinner: boolean
     export let truncate = false
     export let isLoading = false
+    export let projected = false
 
     let isSelected: boolean
     let isVotedFor: boolean
@@ -47,6 +48,7 @@
     class:winner={isWinner}
     class:selected={isSelected}
     class:cursor-default={isLoading}
+    class:projected
     style:--percentage={percentage}
     on:click={onClick}
 >

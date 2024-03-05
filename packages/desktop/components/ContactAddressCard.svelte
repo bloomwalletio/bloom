@@ -5,7 +5,7 @@
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
     import { ExplorerEndpoint, getDefaultExplorerUrl, getNameFromNetworkId, NetworkId } from '@core/network'
     import { Router } from '@core/router'
-    import { truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
@@ -24,7 +24,8 @@
     const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
 
     function onExplorerClick(address: string): void {
-        openUrlInBrowser(`${explorerUrl}/${address}`)
+        const url = buildUrl({ origin: explorerUrl, pathname: address })
+        openUrlInBrowser(url?.href)
     }
 
     function onQrCodeClick(contactAddress: IContactAddress): void {

@@ -1,16 +1,24 @@
-import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS, buildQueryParametersFromObject } from '@core/utils'
+import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS, QueryParameters, buildUrl } from '@core/utils'
 import { MARKET_API_BASE_URL } from '../constants'
 import { CoinGeckoApiEndpoint, CoinGeckoNetworkId, MarketCoinId, MarketCurrency } from '../enums'
 import { MarketCoinPrices } from '../types'
 import { CoinGeckoCoin } from '../interfaces'
+import { localize } from '@core/i18n'
 
 export class CoinGeckoApi {
-    static async makeRequest<T>(endpoint: string, queryParams?: string): Promise<T> {
+    static async makeRequest<T>(endpoint: string, query?: QueryParameters): Promise<T> {
         try {
-            const response = await fetch(
-                `${MARKET_API_BASE_URL}${endpoint}?${queryParams ?? ''}`,
-                DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS
-            )
+            const url = buildUrl({
+                origin: MARKET_API_BASE_URL,
+                pathname: endpoint,
+                query,
+            })
+
+            if (!url) {
+                throw localize('error.global.invalidUrl')
+            }
+
+            const response = await fetch(url.href, DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS)
             const data = await response.json()
             return <T>data
         } catch (err) {
@@ -23,17 +31,12 @@ export class CoinGeckoApi {
         ids: (MarketCoinId | string)[],
         vsCurrencies: MarketCurrency[]
     ): Promise<MarketCoinPrices> {
-        const queryParams = buildQueryParametersFromObject({
-            ids: ids.join(','),
-            vs_currencies: vsCurrencies.join(','),
-        })
+        const queryParams = { ids, vs_currencies: vsCurrencies }
         return this.makeRequest<MarketCoinPrices>(CoinGeckoApiEndpoint.SIMPLE_PRICE, queryParams)
     }
 
     static async getCoinsList(include_platform: boolean): Promise<CoinGeckoCoin[]> {
-        const queryParams = buildQueryParametersFromObject({
-            include_platform,
-        })
+        const queryParams = { include_platform }
         return this.makeRequest<CoinGeckoCoin[]>(CoinGeckoApiEndpoint.COINS_LIST, queryParams)
     }
 

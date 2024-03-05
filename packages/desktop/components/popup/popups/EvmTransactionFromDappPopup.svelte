@@ -23,7 +23,7 @@
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
-    import { truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
     import { StardustActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
@@ -157,8 +157,9 @@
     }
 
     function onExplorerClick(contractAddress: string): void {
-        const explorerUrl = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
-        openUrlInBrowser(`${explorerUrl}/${contractAddress}`)
+        const explorerUrl = getDefaultExplorerUrl(id, ExplorerEndpoint.Address) ?? ''
+        const url = buildUrl({ origin: explorerUrl, pathname: contractAddress })
+        openUrlInBrowser(url?.href)
     }
 </script>
 

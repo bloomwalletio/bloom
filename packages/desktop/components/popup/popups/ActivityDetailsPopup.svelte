@@ -18,7 +18,7 @@
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
-    import { setClipboard, truncateString } from '@core/utils'
+    import { buildUrl, setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { ActivityInformation, TransactionAssetSection } from '@ui'
@@ -63,10 +63,12 @@
     function getExplorerUrl(_activity: StardustActivity): string | undefined {
         if (activity?.direction === ActivityDirection.Genesis) {
             const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Output)
-            return explorerUrl ? `${explorerUrl}/${_activity?.outputId}` : undefined
+            const url = buildUrl({ origin: explorerUrl, pathname: _activity?.outputId })
+            return url?.href
         } else {
             const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
-            return explorerUrl ? `${explorerUrl}/${_activity?.transactionId}` : undefined
+            const url = buildUrl({ origin: explorerUrl, pathname: _activity?.transactionId })
+            return url?.href
         }
     }
 

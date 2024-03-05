@@ -5,12 +5,14 @@
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { ExplorerEndpoint } from '@core/network/enums'
     import { openUrlInBrowser } from '@core/app/utils'
+    import { buildUrl } from '@core/utils/url'
 
     export let activity: StardustAliasActivity
 
     function onAddressClick(address: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
-        openUrlInBrowser(`${explorerUrl}/${address}`)
+        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address) ?? ''
+        const url = buildUrl({ origin: explorerUrl, pathname: address })
+        openUrlInBrowser(url?.href)
     }
 </script>
 
