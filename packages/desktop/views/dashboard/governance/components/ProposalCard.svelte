@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { Icon, IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
     import { IProposal } from '@contexts/governance/interfaces'
     import { participationOverviewForSelectedAccount, selectedProposalId } from '@contexts/governance/stores'
     import { isVotingForProposal } from '@contexts/governance/utils'
@@ -73,7 +73,12 @@
         <div class="flex items-center gap-2">
             <ProposalStatusInfo {proposal} />
             {#if remainingTime}
-                <Pill color="neutral">{remainingTime}</Pill>
+                <Pill color="neutral">
+                    <div class="flex flex-row space-x-1 items-center">
+                        <Icon size="xxs" customColor="neutral" name={IconName.Clock} />
+                        <Text textColor="secondary">{remainingTime}</Text>
+                    </div>
+                </Pill>
             {/if}
         </div>
         {#if hasVoted}
