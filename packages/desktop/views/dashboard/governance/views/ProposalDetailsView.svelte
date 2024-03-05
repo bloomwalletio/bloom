@@ -17,6 +17,7 @@
         ProposalQuestionListPane,
     } from '../components/proposal-details'
     import { EventStatus } from '@iota/sdk/out/types'
+    import { Pane } from '@ui'
 
     let statusLoaded: boolean = false
     let overviewLoaded: boolean = false
@@ -38,8 +39,10 @@
     })
 </script>
 
-<proposal-details class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-4">
-    <div class="w-2/5 flex flex-col space-y-6 relative">
+<Pane
+    classes="w-full h-full flex flex-nowrap relative flex-1 divide-x divide-solid divide-stroke dark:divide-stroke-dark"
+>
+    <div class="w-2/5 flex flex-col p-6 space-y-6 relative overflow-y-scroll">
         <ProposalDetailsPane proposal={$selectedProposal} />
         {#if $selectedProposal.status === EventStatus.Holding}
             <ProjectionTogglePane bind:checked={isProjectionEnabled} />
@@ -48,4 +51,4 @@
         <ProposalInformationPane />
     </div>
     <ProposalQuestionListPane {statusLoaded} {overviewLoaded} projected={isProjectionEnabled} />
-</proposal-details>
+</Pane>

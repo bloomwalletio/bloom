@@ -21,7 +21,6 @@
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ProposalQuestion } from '../../components'
-    import { Pane } from '@ui'
     import { onMount } from 'svelte'
 
     export let statusLoaded: boolean = false
@@ -77,6 +76,8 @@
             isUpdatingVotedAnswerValues = hasGovernanceTransactionInProgress
         }
     }
+
+    $: isVotable = [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)
 
     function hasSelectedNoAnswers(_selectedAnswerValues: number[]): boolean {
         return (
@@ -180,8 +181,7 @@
     })
 </script>
 
-<Pane classes="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
-    {@const isVotable = [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
+<div class="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
     <proposal-questions
         class="relative flex flex-1 flex-col space-y-5 overflow-y-scroll pr-3"
         bind:this={proposalQuestions}
@@ -234,4 +234,4 @@
             />
         </buttons-container>
     {/if}
-</Pane>
+</div>
