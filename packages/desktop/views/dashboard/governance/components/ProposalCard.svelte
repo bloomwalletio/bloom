@@ -28,6 +28,30 @@
         $governanceRouter.setBreadcrumb(proposal?.title)
     }
 
+    let remainingTime: string
+    $: switch (proposal?.status) {
+        case EventStatus.Upcoming:
+            remainingTime = getTimeDifference(
+                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.commencing),
+                $time
+            )
+            break
+        case EventStatus.Commencing:
+            remainingTime = getTimeDifference(
+                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.holding),
+                $time
+            )
+            break
+        case EventStatus.Holding:
+            remainingTime = getTimeDifference(
+                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.ended),
+                $time
+            )
+            break
+        default:
+            break
+    }
+
     onMount(() => setHasVoted())
 </script>
 
@@ -48,11 +72,7 @@
     <div class="flex justify-between items-center">
         <div class="flex items-center gap-2">
             <ProposalStatusInfo {proposal} />
-            {#if proposal?.status === EventStatus.Holding}
-                {@const remainingTime = getTimeDifference(
-                    milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.ended),
-                    $time
-                )}
+            {#if remainingTime}
                 <Pill color="neutral">{remainingTime}</Pill>
             {/if}
         </div>
