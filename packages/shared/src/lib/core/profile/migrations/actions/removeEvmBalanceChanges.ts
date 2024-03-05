@@ -1,6 +1,7 @@
 import { persistedBalanceChanges } from '@core/activity'
-import { isIrcAsset } from '@core/layer-2'
+import { isErcAsset } from '@core/layer-2'
 import { NetworkId } from '@core/network'
+import { BASE_TOKEN_ID } from '@core/token'
 
 export function removeEvmBalanceChanges(profileId: string): void {
     persistedBalanceChanges.update((state) => {
@@ -21,13 +22,13 @@ export function removeEvmBalanceChanges(profileId: string): void {
                 const nfts = networkBalanceChanges.nfts
 
                 for (const nftId of Object.keys(nfts ?? {})) {
-                    if (!isIrcAsset(nftId)) {
+                    if (isErcAsset(nftId)) {
                         delete nfts[nftId]
                     }
                 }
 
                 for (const tokenId of Object.keys(tokens ?? {})) {
-                    if (!isIrcAsset(tokenId)) {
+                    if (tokenId === BASE_TOKEN_ID || isErcAsset(tokenId)) {
                         delete tokens[tokenId]
                     }
                 }

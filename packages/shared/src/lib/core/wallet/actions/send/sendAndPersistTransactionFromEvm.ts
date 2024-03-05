@@ -8,7 +8,7 @@ import {
 } from '@core/activity'
 import { addAccountActivity } from '@core/activity/stores'
 import { generateActivityFromEvmTransaction } from '@core/activity/utils/evm'
-import { EvmTransactionData, isIrcAsset } from '@core/layer-2'
+import { EvmTransactionData, isErcAsset } from '@core/layer-2'
 import { EvmNetworkId, IChain } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
@@ -74,11 +74,11 @@ async function createHiddenBalanceChange(account: IAccountState, activity: Stard
     const received = activity.direction === ActivityDirection.Incoming
     const networkId = activity.sourceNetworkId
 
-    if (activity.type === StardustActivityType.Nft && isIrcAsset(activity.nftId)) {
+    if (activity.type === StardustActivityType.Nft && !isErcAsset(activity.nftId)) {
         const owned = received ? true : false
         calculateAndAddPersistedNftBalanceChange(account, networkId, activity.nftId, owned, true)
     }
-    if (activity.tokenTransfer && isIrcAsset(activity.tokenTransfer.tokenId)) {
+    if (activity.tokenTransfer && !isErcAsset(activity.tokenTransfer.tokenId)) {
         const tokenId = activity.tokenTransfer.tokenId
         const amount = received ? activity.tokenTransfer.rawAmount : BigInt(-1) * activity.tokenTransfer.rawAmount
 
