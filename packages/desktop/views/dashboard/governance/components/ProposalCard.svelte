@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { Icon, IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
     import { IProposal } from '@contexts/governance/interfaces'
     import { participationOverviewForSelectedAccount, selectedProposalId } from '@contexts/governance/stores'
     import { isVotingForProposal } from '@contexts/governance/utils'
@@ -8,6 +8,9 @@
     import { EventStatus } from '@iota/sdk/out/types'
     import { onMount } from 'svelte'
     import { ProposalStatusInfo } from './'
+    import { getTimeDifference, milestoneToDate } from '@core/utils'
+    import { networkStatus } from '@core/network/stores'
+    import { time } from '@core/app/stores'
 
     export let proposal: IProposal
 
@@ -23,6 +26,30 @@
         $selectedProposalId = proposal?.id
         $governanceRouter.goTo(GovernanceRoute.Details)
         $governanceRouter.setBreadcrumb(proposal?.title)
+    }
+
+    let remainingTime: string
+    $: switch (proposal?.status) {
+        case EventStatus.Upcoming:
+            remainingTime = getTimeDifference(
+                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.commencing),
+                $time
+            )
+            break
+        case EventStatus.Commencing:
+            remainingTime = getTimeDifference(
+                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.holding),
+                $time
+            )
+            break
+        case EventStatus.Holding:
+            remainingTime = getTimeDifference(
+                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.ended),
+                $time
+            )
+            break
+        default:
+            break
     }
 
     onMount(() => setHasVoted())
@@ -43,7 +70,17 @@
         <Text truncate>{proposal.title}</Text>
     </div>
     <div class="flex justify-between items-center">
-        <ProposalStatusInfo {proposal} />
+        <div class="flex items-center gap-2">
+            <ProposalStatusInfo {proposal} />
+            {#if remainingTime}
+                <Pill color="neutral">
+                    <div class="flex flex-row space-x-1 items-center">
+                        <Icon size="xxs" customColor="neutral" name={IconName.Clock} />
+                        <Text textColor="secondary">{remainingTime}</Text>
+                    </div>
+                </Pill>
+            {/if}
+        </div>
         {#if hasVoted}
             <TooltipIcon
                 tooltip={localize('views.governance.proposals.voted')}

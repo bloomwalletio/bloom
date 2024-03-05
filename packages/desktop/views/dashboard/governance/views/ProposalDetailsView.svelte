@@ -10,14 +10,18 @@
     } from '@contexts/governance/stores'
     import { onDestroy, onMount } from 'svelte'
     import {
+        ProjectionTogglePane,
         ProposalAccountVotingPane,
         ProposalDetailsPane,
         ProposalInformationPane,
         ProposalQuestionListPane,
     } from '../components/proposal-details'
+    import { EventStatus } from '@iota/sdk/out/types'
+    import { Pane } from '@ui'
 
     let statusLoaded: boolean = false
     let overviewLoaded: boolean = false
+    let isProjectionEnabled: boolean = false
 
     onMount(() => {
         // Callbacks used, because we don't want to await the resolution of the promises.
@@ -35,11 +39,16 @@
     })
 </script>
 
-<proposal-details class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-4">
-    <div class="w-2/5 flex flex-col space-y-4 relative">
+<Pane
+    classes="w-full h-full flex flex-nowrap relative flex-1 divide-x divide-solid divide-stroke dark:divide-stroke-dark"
+>
+    <div class="w-2/5 flex flex-col p-6 space-y-6 relative overflow-y-scroll">
         <ProposalDetailsPane proposal={$selectedProposal} />
+        {#if $selectedProposal.status === EventStatus.Holding}
+            <ProjectionTogglePane bind:checked={isProjectionEnabled} />
+        {/if}
         <ProposalAccountVotingPane />
         <ProposalInformationPane />
     </div>
-    <ProposalQuestionListPane {statusLoaded} {overviewLoaded} />
-</proposal-details>
+    <ProposalQuestionListPane {statusLoaded} {overviewLoaded} projected={isProjectionEnabled} />
+</Pane>
