@@ -68,4 +68,6 @@ export interface IPlatform {
     hideTransak(): Promise<void>
     showTransak(): Promise<void>
     updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void>
+
+    getThirdPartyData(appName: string): Promise<Record<string, unknown> | undefined>
 }

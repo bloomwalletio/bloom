@@ -34,6 +34,7 @@ import { shouldReportError } from '../utils/error.utils'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
+import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
 
 export let appIsReady = false
 
@@ -218,6 +219,7 @@ export function createMainWindow(): BrowserWindow {
     }
 
     new NftDownloadManager()
+    new ThirdPartyAppManager()
 
     /**
      * Right click context menu for inputs

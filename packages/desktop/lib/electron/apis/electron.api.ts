@@ -265,4 +265,7 @@ export default {
     updateTransakBounds(rect: Electron.Rectangle): Promise<void> {
         return ipcRenderer.invoke('update-transak-bounds', rect)
     },
+    getThirdPartyData(appName: string): Promise<Record<string, unknown> | undefined> {
+        return ipcRenderer.invoke('get-data-from-third-party-app', appName)
+    },
 }
