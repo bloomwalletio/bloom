@@ -1,8 +1,9 @@
 <script lang="ts">
     import { Answer } from '@iota/sdk/out/types'
-    import { Icon, IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { Icon, IconButton, IconName, Text } from '@bloomwalletio/ui'
     import { IProposalAnswerPercentage } from '@contexts/governance'
     import { darkMode } from '@core/app/stores'
+    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
 
     export let onAnswerClick: () => void
 
@@ -38,6 +39,17 @@
         } else {
             isSelected = false
         }
+    }
+
+    function onInfoClick(): void {
+        openPopup({
+            id: PopupId.MarkdownBlock,
+            hideClose: true,
+            props: {
+                title: answer.text,
+                markdown: answer.additionalInfo,
+            },
+        })
     }
 </script>
 
@@ -78,9 +90,7 @@
             <Text type="sm" textColor="secondary">{percentage?.accumulated}</Text>
         {/if}
         {#if answer.additionalInfo}
-            <div class="w-3 h-3">
-                <TooltipIcon tooltip={answer.additionalInfo} placement="left" size="xxs" />
-            </div>
+            <IconButton icon={IconName.InfoCircle} size="xs" on:click={onInfoClick} />
         {/if}
     </div>
 </button>
