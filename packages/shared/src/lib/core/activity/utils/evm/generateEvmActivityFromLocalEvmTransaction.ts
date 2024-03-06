@@ -4,7 +4,7 @@ import { EvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } from '
 import { IChain } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
-import { BASE_TOKEN_ID } from '@core/token'
+import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { StardustActivityType } from '@core/activity/enums'
 import { NftStandard } from '@core/nfts'
@@ -16,21 +16,30 @@ export async function generateEvmActivityFromLocalEvmTransaction(
 ): Promise<EvmActivity | undefined> {
     if (transaction.data) {
         const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
-        if (transferInfo?.type === StardustActivityType.Nft) {
-            const { nftId, recipientAddress } = transferInfo
-
-            const baseActivity = await generateBaseEvmActivity(transaction, chain, recipientAddress, account)
-
-            return {
-                ...baseActivity,
-                type: EvmActivityType.TokenTransfer,
-                tokenTransfer: {
-                    standard: NftStandard.Erc721,
-                    tokenId: nftId,
-                    rawAmount: BigInt(1),
-                },
-            } as EvmTokenTransferActivity
+        if (!transferInfo || transferInfo.type === StardustActivityType.SmartContract) {
+            return
         }
+
+        const baseActivity = await generateBaseEvmActivity(transaction, chain, transferInfo.recipientAddress, account)
+
+        const tokenTransfer =
+            transferInfo?.type === StardustActivityType.Basic
+                ? {
+                      standard: TokenStandard.Erc20,
+                      tokenId: transferInfo.tokenId,
+                      rawAmount: transferInfo.rawAmount,
+                  }
+                : {
+                      standard: NftStandard.Erc721,
+                      tokenId: transferInfo.nftId,
+                      rawAmount: BigInt(1),
+                  }
+
+        return {
+            ...baseActivity,
+            type: EvmActivityType.TokenTransfer,
+            tokenTransfer,
+        } as EvmTokenTransferActivity
     } else {
         // i.e must be a coin transfer
         const baseActivity = await generateBaseEvmActivity(transaction, chain, transaction.to, account)
@@ -44,6 +53,4 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             },
         } as EvmCoinTransferActivity
     }
-
-    return Promise.resolve(undefined)
 }
