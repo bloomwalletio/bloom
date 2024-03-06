@@ -129,7 +129,7 @@
         }
 
         &:not(.selected):not(.winner) {
-            @apply dark:border-transparent;
+            @apply dark:border-stroke-dark;
         }
 
         &:not(.winner) {
