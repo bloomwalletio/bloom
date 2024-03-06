@@ -1,23 +1,54 @@
+import { get } from 'svelte/store'
+import { IProposal, IProposalAnswerPercentages, selectedProposal } from '..'
+import { AnswerStatus } from '@iota/sdk'
+import { networkStatus } from '@core/network/stores/network-status.store'
 import { round } from '@core/utils/number'
-import type { AnswerStatus } from '@iota/sdk'
-import { IProposalAnswerPercentages } from '../interfaces'
 
-export function getPercentagesFromAnswerStatuses(answerStatuses: AnswerStatus[]): IProposalAnswerPercentages {
-    const totalVotes = answerStatuses?.reduce((acc, answerStatus) => acc + answerStatus.accumulated, 0) ?? 0
+export function getPercentagesFromAnswerStatuses(
+    answerStatuses: AnswerStatus[],
+    proposal: IProposal = get(selectedProposal)
+): IProposalAnswerPercentages {
+    if (!proposal) {
+        return {}
+    }
+
+    const answerStatusesWithProjection = answerStatuses.map((answerStatus) => {
+        return { ...answerStatus, projected: getProjectedVotesFromAnswerStatus(answerStatus, proposal) }
+    })
+
+    const totalVotes = answerStatusesWithProjection?.reduce((acc, answerStatus) => acc + answerStatus.projected, 0) ?? 0
     if (totalVotes === 0 || Number.isNaN(totalVotes)) {
         return {}
     }
 
     let percentages: IProposalAnswerPercentages = {}
-    answerStatuses.forEach((answerStatus) => {
+    answerStatusesWithProjection.forEach((answerStatus) => {
         if (answerStatus.value !== undefined) {
-            const divisionResult = (answerStatus.accumulated ?? 0) / totalVotes
             percentages = {
                 ...percentages,
-                [answerStatus.value]: Number.isNaN(divisionResult) ? '0%' : `${round(divisionResult * 100, 1)}%`,
+                [answerStatus.value]: {
+                    accumulated: getPercentageStringFromDivisionResult(answerStatus.accumulated / totalVotes),
+                    projected: getPercentageStringFromDivisionResult(answerStatus.projected / totalVotes),
+                },
             }
         }
     })
 
     return percentages
+}
+
+function getProjectedVotesFromAnswerStatus(answerStatus: AnswerStatus, proposal: IProposal): number {
+    const { accumulated, current } = answerStatus
+    const endingMilestone = proposal.milestones?.ended ?? 0
+    const currentMilestone = get(networkStatus)?.currentMilestone ?? 0
+
+    return Math.max(accumulated, accumulated + current * (endingMilestone - currentMilestone))
+}
+
+function getPercentageStringFromDivisionResult(divisionResult: number): string {
+    if (Number.isNaN(divisionResult)) {
+        return '0%'
+    } else {
+        return round(divisionResult * 100, 1) + '%'
+    }
 }
