@@ -1,7 +1,6 @@
 <script lang="ts">
     import { EventStatus } from '@iota/sdk/out/types'
     import { Table, Text } from '@bloomwalletio/ui'
-    import { Pane } from '@ui'
     import { formatDate, localize } from '@core/i18n'
     import { DATE_FORMAT, milestoneToDate, truncateString } from '@core/utils'
     import { networkStatus } from '@core/network/stores'
@@ -42,8 +41,8 @@
     }
 </script>
 
-<Pane classes="h-fit shrink-0 space-y-6 p-6">
-    <Text type="body2">{localize('views.governance.details.proposalInformation.title')}</Text>
+<div class="h-fit shrink-0 space-y-4">
+    <Text type="body2" class="px-2">{localize('views.governance.details.proposalInformation.title')}</Text>
     <Table
         items={[
             {
@@ -67,4 +66,4 @@
             },
         ]}
     />
-</Pane>
+</div>
