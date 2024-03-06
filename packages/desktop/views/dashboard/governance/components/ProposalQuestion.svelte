@@ -5,11 +5,7 @@
     import { Icon, IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
 
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
-    import {
-        getPercentagesFromAnswerStatuses,
-        getProjectedPercentages,
-        IProposalAnswerPercentages,
-    } from '@contexts/governance'
+    import { getPercentagesFromAnswerStatuses, IProposalAnswerPercentages } from '@contexts/governance'
     import { selectedProposal } from '@contexts/governance/stores'
 
     export let onQuestionClick: (questionIndex: number) => void
@@ -28,9 +24,8 @@
     let winnerAnswerIndex: number
 
     $: answers = [...(question?.answers ?? []), { value: 0, text: 'Abstain', additionalInfo: '' }]
-    $: percentages = projected
-        ? getProjectedPercentages(answerStatuses)
-        : getPercentagesFromAnswerStatuses(answerStatuses)
+
+    $: percentages = getPercentagesFromAnswerStatuses(answerStatuses)
     $: disabled =
         $selectedProposal?.status === EventStatus.Upcoming ||
         $selectedProposal?.status === EventStatus.Ended ||
@@ -83,6 +78,7 @@
                 {selectedAnswerValue}
                 {disabled}
                 {isLoading}
+                {projected}
                 hidden={!isOpened}
                 percentage={percentages[answer.value]}
                 isWinner={answerIndex === winnerAnswerIndex}

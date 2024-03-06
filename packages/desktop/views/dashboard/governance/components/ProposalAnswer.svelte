@@ -1,6 +1,8 @@
 <script lang="ts">
     import { Answer } from '@iota/sdk/out/types'
     import { Icon, IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { IProposalAnswerPercentage } from '@contexts/governance'
+    import { darkMode } from '@core/app/stores'
 
     export let onAnswerClick: () => void
 
@@ -8,12 +10,13 @@
     export let answerIndex: number = undefined
     export let votedAnswerValue: number = undefined
     export let selectedAnswerValue: number = undefined
-    export let percentage: string = ''
+    export let percentage: IProposalAnswerPercentage | undefined = undefined
     export let disabled = false
     export let hidden: boolean = null
     export let isWinner: boolean
     export let truncate = false
     export let isLoading = false
+    export let projected: boolean = false
 
     let isSelected: boolean
     let isVotedFor: boolean
@@ -47,7 +50,9 @@
     class:winner={isWinner}
     class:selected={isSelected}
     class:cursor-default={isLoading}
-    style:--percentage={percentage}
+    class:dark={$darkMode}
+    style:--accumulated-percentage={percentage?.accumulated}
+    style:--projected-percentage={projected ? percentage?.projected : '0%'}
     on:click={onClick}
 >
     <div class="flex space-x-3 items-center w-full min-w-0">
@@ -69,8 +74,8 @@
         {#if isWinner}
             <Icon name={IconName.Trophy} size="xs" />
         {/if}
-        {#if percentage}
-            <Text type="sm" textColor="secondary">{percentage}</Text>
+        {#if percentage?.accumulated}
+            <Text type="sm" textColor="secondary">{percentage?.accumulated}</Text>
         {/if}
         {#if answer.additionalInfo}
             <div class="w-3 h-3">
@@ -83,17 +88,30 @@
 <style lang="scss">
     .proposal-answer {
         @apply rounded-lg border border-solid border-stroke dark:border-stroke-dark;
-        @apply relative hidden items-center justify-between p-3 overflow-hidden;
+        @apply relative hidden items-center justify-between p-[0.5625rem] overflow-hidden;
         > * {
             z-index: 2;
         }
 
         &::after {
-            @apply z-10 absolute inline-block h-full -ml-3 mr-auto;
+            @apply absolute inline-block h-full -ml-3 mr-auto;
             @apply rounded-l-md bg-surface-2;
             content: '';
-            width: var(--percentage);
+            width: var(--accumulated-percentage);
             z-index: 1;
+        }
+
+        &::before {
+            @apply absolute inline-block h-full -ml-3 mr-auto rounded-l-md;
+            opacity: 0.05;
+            content: '';
+            width: var(--projected-percentage);
+            z-index: 2;
+            background: repeating-linear-gradient(-45deg, white, white 2px, transparent 2px, transparent 7px);
+        }
+
+        &:not(.winner):not(.dark)::before {
+            background: repeating-linear-gradient(-45deg, black, black 2px, transparent 2px, transparent 7px);
         }
 
         &:not(.disabled):hover {
@@ -132,7 +150,7 @@
             @apply dark:bg-surface-dark;
 
             &::after {
-                @apply dark:bg-surface-dark;
+                @apply dark:bg-surface-2-dark;
             }
 
             answer-index {
