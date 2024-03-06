@@ -92,3 +92,11 @@
         {/if}
     </div>
 </proposal-card>
+
+<style lang="scss">
+    proposal-card {
+        &:hover {
+            @apply border-brand;
+        }
+    }
+</style>

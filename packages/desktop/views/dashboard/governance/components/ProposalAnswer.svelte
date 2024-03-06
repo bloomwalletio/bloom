@@ -105,7 +105,7 @@
         }
 
         &.selected {
-            @apply border-brand;
+            @apply border-brand dark:border-brand;
 
             answer-index {
                 @apply bg-brand text-white;
@@ -126,10 +126,6 @@
             :global(*) {
                 @apply text-white;
             }
-        }
-
-        &:not(.selected):not(.winner) {
-            @apply dark:border-stroke-dark;
         }
 
         &:not(.winner) {
