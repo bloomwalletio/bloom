@@ -71,24 +71,6 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
         fieldsToSearch.push(activity.transactionId)
     }
 
-    if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
-        fieldsToSearch.push(activity.baseTokenTransfer.tokenId)
-
-        const baseTokenName = getPersistedToken(activity.baseTokenTransfer.tokenId)?.metadata?.name
-        if (baseTokenName) {
-            fieldsToSearch.push(baseTokenName)
-        }
-
-        if (activity.tokenTransfer) {
-            fieldsToSearch.push(activity.tokenTransfer.tokenId)
-
-            const tokenName = getPersistedToken(activity.tokenTransfer.tokenId)?.metadata?.name
-            if (tokenName) {
-                fieldsToSearch.push(tokenName)
-            }
-        }
-    }
-
     if (activity.namespace === NetworkNamespace.Stardust) {
         if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
             fieldsToSearch.push(String(activity.baseTokenTransfer.rawAmount))
