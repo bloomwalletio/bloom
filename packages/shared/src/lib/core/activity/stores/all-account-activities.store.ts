@@ -81,6 +81,20 @@ export function updateAsyncDataByActivityId(
     })
 }
 
+export function updateAsyncDataByActivityIds(
+    accountIndex: number,
+    activityIds: string[],
+    partialAsyncData: Partial<AsyncData>
+): void {
+    allAccountActivities.update((state) => {
+        const activity = state[accountIndex]?.filter((_activity) => activityIds.includes(_activity.id))
+        for (const _activity of activity) {
+            Object.assign(_activity, { asyncData: { ..._activity.asyncData, ...partialAsyncData } })
+        }
+        return state
+    })
+}
+
 export function updateAsyncDataByTransactionId(
     accountIndex: number,
     transactionId: string,

@@ -9,9 +9,13 @@
         selectedAccountActivities,
         setAsyncStatusOfAccountActivities,
     } from '@core/activity'
-    import { Text, Icon, IconName } from '@bloomwalletio/ui'
+    import { Button, Text, Icon, IconName } from '@bloomwalletio/ui'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import ActivityListRow from './components/ActivityListRow.svelte'
+    import { claimAllActivities } from '@core/wallet/actions'
+    import { selectedAccount } from '@core/account/stores'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
 
     $: setAsyncStatusOfAccountActivities($time)
 
@@ -20,14 +24,35 @@
         $selectedAccountActivities.filter((_activity) => !_activity.isHidden).length > 0 &&
         $queriedActivities.length === 0
 
-    let amountClaimableTransactions = 0
-    $: $selectedAccountActivities, (amountClaimableTransactions = getClaimableActivities()?.length)
+    let claimableActivities = []
+    $: $selectedAccountActivities, (claimableActivities = getClaimableActivities())
 
     function scrollToTop(): void {
         const listElement = document.querySelector('.activity-list')?.querySelector('svelte-virtual-list-viewport')
         if (listElement) {
             listElement.scroll(0, 0)
         }
+    }
+
+    function onClaimAllActivities(): void {
+        openPopup({
+            id: PopupId.Confirmation,
+            props: {
+                title: localize('popups.deleteAccount.title', { values: { name: $selectedAccount?.name } }),
+                alert: { variant: 'warning', text: localize('popups.deleteAccount.hint') },
+                confirmText: localize('actions.claim'),
+                onConfirm: async () => {
+                    try {
+                        await checkActiveProfileAuthAsync()
+                    } catch (error) {
+                        return
+                    }
+
+                    await claimAllActivities(claimableActivities, $selectedAccount)
+                    closePopup()
+                },
+            },
+        })
     }
 </script>
 
@@ -47,14 +72,17 @@
             </Text>
         </div>
     </header-row>
-    {#if amountClaimableTransactions}
-        <info-section class="flex flex-row items-center">
-            <Icon name={IconName.BellRinging} size="sm" customColor="warning" />
-            <Text customColor="warning"
-                >{localize('views.dashboard.activity.claimableTransactions', {
-                    amount: amountClaimableTransactions,
-                })}</Text
-            >
+    {#if claimableActivities.length}
+        <info-section class="flex flex-row items-center justify-between">
+            <div class="flex flex-row items-center">
+                <Icon name={IconName.BellRinging} size="sm" customColor="warning" />
+                <Text customColor="warning"
+                    >{localize('views.dashboard.activity.claimableTransactions', {
+                        amount: claimableActivities.length,
+                    })}
+                </Text>
+            </div>
+            <Button on:click={onClaimAllActivities} text="Claim all"></Button>
         </info-section>
     {/if}
     {#if $queriedActivities.length > 0}

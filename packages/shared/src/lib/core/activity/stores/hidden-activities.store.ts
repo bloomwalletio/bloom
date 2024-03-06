@@ -20,6 +20,16 @@ export function removeActivityFromHiddenActivities(accountIndex: number, activit
     }
 }
 
+export function removeActivitiesFromHiddenActivities(accountIndex: number, activityIds: string[]): void {
+    const activities = get(hiddenActivities)?.[get(activeProfileId)]?.[accountIndex]
+    if (activities) {
+        hiddenActivities.update((state) => {
+            state[get(activeProfileId)][accountIndex] = activities.filter((id) => !activityIds.includes(id))
+            return state
+        })
+    }
+}
+
 export function removeHiddenActivitiesForProfile(profileId: string): void {
     hiddenActivities.update((state) => {
         delete state[profileId]
