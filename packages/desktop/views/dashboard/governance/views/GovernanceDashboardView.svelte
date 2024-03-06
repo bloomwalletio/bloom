@@ -1,12 +1,9 @@
 <script lang="ts">
     import { IconName, Pill, Text } from '@bloomwalletio/ui'
-    import { EmptyListPlaceholder, Filter } from '@components'
-    import { proposalFilter, registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
+    import { EmptyListPlaceholder } from '@components'
+    import { registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
     import { localize } from '@core/i18n'
-    import { ManageVotingPowerPane, ProposalList, ProposalListDetails, ProposalListMenu } from '../components'
-    import { SearchInput } from '@ui'
-
-    let searchTerm = ''
+    import { ManageVotingPowerPane, ProposalList, ProposalListDetails } from '../components'
 </script>
 
 <governance-dashboard class="w-full h-full flex flex-nowrap relative flex-1 space-x-6">
@@ -23,13 +20,6 @@
         <ProposalListDetails />
     </div>
     <div class="w-2/3">
-        <header-container class="flex justify-end items-center mb-4 h-9">
-            <div class="flex flex-row gap-5 pt-2 items-center">
-                <SearchInput bind:value={searchTerm} />
-                <Filter filterStore={proposalFilter} />
-                <ProposalListMenu />
-            </div>
-        </header-container>
         {#if Object.keys($registeredProposalsForSelectedAccount).length}
             <ProposalList />
         {:else}
