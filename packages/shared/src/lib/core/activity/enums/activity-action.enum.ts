@@ -1,4 +1,4 @@
-export enum ActivityAction {
+export enum ActivityAction { // TODO: individual action enums per activity type
     Send = 'send',
     Burn = 'burn',
     Mint = 'mint',

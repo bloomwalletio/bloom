@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Answer, EventStatus } from '@iota/sdk/out/types'
+    import { Answer } from '@iota/sdk/out/types'
     import { Icon, IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
 
     export let onAnswerClick: () => void
@@ -12,7 +12,6 @@
     export let disabled = false
     export let hidden: boolean = null
     export let isWinner: boolean
-    export let proposalStatus: EventStatus
     export let truncate = false
     export let isLoading = false
 

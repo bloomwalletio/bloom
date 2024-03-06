@@ -1,7 +1,7 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
 import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
-import { ActivityAsyncStatus, ActivityDirection, ActivityType } from '../enums'
+import { StardustActivityAsyncStatus, ActivityDirection, StardustActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
 import { getAsyncStatus } from '../utils/helper'
 
@@ -11,7 +11,10 @@ export function setAsyncStatusOfAccountActivities(time: Date): void {
         state.forEach((accountActivities, accountIndex) => {
             for (const activity of accountActivities.filter((_activity) => _activity.asyncData)) {
                 const oldAsyncStatus = activity.asyncData.asyncStatus
-                if (oldAsyncStatus === ActivityAsyncStatus.Claimed || oldAsyncStatus === ActivityAsyncStatus.Expired) {
+                if (
+                    oldAsyncStatus === StardustActivityAsyncStatus.Claimed ||
+                    oldAsyncStatus === StardustActivityAsyncStatus.Expired
+                ) {
                     continue
                 }
                 activity.asyncData.asyncStatus = getAsyncStatus(
@@ -27,8 +30,8 @@ export function setAsyncStatusOfAccountActivities(time: Date): void {
                     }
 
                     if (
-                        activity.type === ActivityType.Nft &&
-                        activity.asyncData.asyncStatus === ActivityAsyncStatus.Expired &&
+                        activity.type === StardustActivityType.Nft &&
+                        activity.asyncData.asyncStatus === StardustActivityAsyncStatus.Expired &&
                         activity.direction === ActivityDirection.Outgoing
                     ) {
                         updateNftInAllAccountNftsForAccount(accountIndex, activity.nftId, { isSpendable: true })

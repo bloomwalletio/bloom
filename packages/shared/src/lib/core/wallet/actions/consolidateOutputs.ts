@@ -1,5 +1,5 @@
 import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
-import { processAndAddToActivities } from '@core/activity/utils'
+import { processAndAddToActivities } from '@core/activity/actions'
 import { handleError } from '@core/error/handlers'
 import { sendPreparedTransaction } from '@core/wallet/utils'
 import { getActiveNetworkId } from '@core/network'
