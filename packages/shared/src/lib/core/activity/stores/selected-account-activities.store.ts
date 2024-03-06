@@ -4,7 +4,6 @@ import { selectedAccount } from '../../account/stores/selected-account.store'
 import { DEFAULT_ACTIVITY_FILTER } from '../constants'
 import { StardustActivityType } from '../enums'
 import { Activity, ActivityFilter } from '../types'
-import { StardustActivity } from '../types/stardust/stardust-activity.type'
 import { isVisibleActivity } from '../utils/isVisibleActivity'
 import { getFormattedAmountFromActivity } from '../utils/outputs'
 import { allAccountActivities } from './all-account-activities.store'
@@ -14,7 +13,7 @@ import { NetworkNamespace } from '@core/network'
 import { EvmActivityType } from '../enums/evm'
 import { TokenStandard } from '@core/token/enums'
 
-export const selectedAccountActivities: Readable<StardustActivity[]> = derived(
+export const selectedAccountActivities: Readable<Activity[]> = derived(
     [selectedAccount, allAccountActivities],
     ([$selectedAccount, $allAccountActivities]) => {
         if ($selectedAccount) {
@@ -29,7 +28,7 @@ export const activityFilter: Writable<ActivityFilter> = writable(DEFAULT_ACTIVIT
 
 export const activitySearchTerm: Writable<string> = writable('')
 
-export const queriedActivities: Readable<StardustActivity[]> = derived(
+export const queriedActivities: Readable<Activity[]> = derived(
     [selectedAccountActivities, activitySearchTerm, activityFilter],
     ([$selectedAccountActivities, $activitySearchTerm]) => {
         let activityList = $selectedAccountActivities.filter((_activity) => {
