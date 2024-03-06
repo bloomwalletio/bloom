@@ -5,7 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Alert, Button, Text, Toggle, TooltipIcon } from '@bloomwalletio/ui'
+    import { Alert, Button } from '@bloomwalletio/ui'
     import { getVotingEvent } from '@contexts/governance/actions'
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import {
@@ -21,11 +21,11 @@
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ProposalQuestion } from '../../components'
-    import { Pane } from '@ui'
     import { onMount } from 'svelte'
 
     export let statusLoaded: boolean = false
     export let overviewLoaded: boolean = false
+    export let projected: boolean = false
 
     let selectedAnswerValues: number[] = []
     let votedAnswerValues: number[] = []
@@ -37,7 +37,6 @@
     let openedQuestionIndex: number = -1
     let isUpdatingVotedAnswerValues: boolean = false
     let lastAction: 'vote' | 'stopVote'
-    let projected: boolean = false
 
     $: selectedProposalOverview = $participationOverviewForSelectedAccount?.participations?.[$selectedProposal?.id]
     $: trackedParticipations = Object.values(selectedProposalOverview ?? {})
@@ -77,6 +76,8 @@
             isUpdatingVotedAnswerValues = hasGovernanceTransactionInProgress
         }
     }
+
+    $: isVotable = [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)
 
     function hasSelectedNoAnswers(_selectedAnswerValues: number[]): boolean {
         return (
@@ -180,15 +181,7 @@
     })
 </script>
 
-<Pane classes="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
-    {@const isVotable = [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
-    {#if isVotable}
-        <div class="flex justify-end items-center gap-2 px-5">
-            <TooltipIcon tooltip={localize('views.governance.details.projection.tooltip')} />
-            <Text>{localize('views.governance.details.projection.label')}</Text>
-            <Toggle label="" bind:checked={projected} />
-        </div>
-    {/if}
+<div class="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
     <proposal-questions
         class="relative flex flex-1 flex-col space-y-5 overflow-y-scroll pr-3"
         bind:this={proposalQuestions}
@@ -241,4 +234,4 @@
             />
         </buttons-container>
     {/if}
-</Pane>
+</div>
