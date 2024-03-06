@@ -16,7 +16,12 @@ export function getPercentagesFromAnswerStatuses(
         return { ...answerStatus, projected: getProjectedVotesFromAnswerStatus(answerStatus, proposal) }
     })
 
-    const totalVotes = answerStatusesWithProjection?.reduce((acc, answerStatus) => acc + answerStatus.projected, 0) ?? 0
+    let totalVotes = 0
+    let totalProjectedVotes = 0
+    answerStatusesWithProjection.forEach((status) => {
+        totalVotes += status.accumulated
+        totalProjectedVotes += status.projected
+    })
     if (totalVotes === 0 || Number.isNaN(totalVotes)) {
         return {}
     }
@@ -28,7 +33,7 @@ export function getPercentagesFromAnswerStatuses(
                 ...percentages,
                 [answerStatus.value]: {
                     accumulated: getPercentageStringFromDivisionResult(answerStatus.accumulated / totalVotes),
-                    projected: getPercentageStringFromDivisionResult(answerStatus.projected / totalVotes),
+                    projected: getPercentageStringFromDivisionResult(answerStatus.projected / totalProjectedVotes),
                 },
             }
         }

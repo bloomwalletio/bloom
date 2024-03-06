@@ -29,9 +29,9 @@ describe('File: getPercentagesFromAnswerStatuses.ts', () => {
 
         it('should return percentages with projected votes from valid arguments and proposal', () => {
             const expectedPercentages = {
-                0: { accumulated: '16.7%', projected: '25.0%' },
-                1: { accumulated: '33.3%', projected: '37.5%' },
-                2: { accumulated: '50%', projected: '37.5%' },
+                0: { accumulated: '16.7%', projected: '16.7%' },
+                1: { accumulated: '33.3%', projected: '33.3%' },
+                2: { accumulated: '50%', projected: '50%' },
             }
             expect(getPercentagesFromAnswerStatuses(ANSWER_STATUSES, mockProposal as IProposal)).toEqual(
                 expectedPercentages
