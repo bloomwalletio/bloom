@@ -1,32 +1,15 @@
-import { Subject } from '@core/wallet/types'
-import { ActivityDirection, InclusionState, ActivityAction } from '../../enums'
-import { NetworkId } from '@core/network'
+import { BaseActivity } from '../base-activity.type'
 
-export type BaseEvmActivity = {
-    // meta information
-    id: string
-    action: ActivityAction
-    isHidden?: boolean
-    isTokenHidden?: boolean // is this needed?
-    containsValue?: boolean // is this needed?
+export type BaseEvmActivity = BaseActivity & {
+    baseTokenTransfer: {
+        rawAmount: bigint
+        tokenId: string
+    }
+    tokenTransfer?: {
+        rawAmount: bigint
+        tokenId: string
+    }
 
-    // transaction information
-    transactionId?: string
-    time: Date
-    inclusionState: InclusionState
-    metadata?: string
-
-    // sender / recipient information
-    sender?: Subject | undefined
-    recipient?: Subject | undefined
-    subject: Subject | undefined
-    isInternal: boolean
-    sourceNetworkId: NetworkId
-    destinationNetworkId: NetworkId
-    direction: ActivityDirection
-
-    // smart contract information
-    // TODO: move to separate type
     estimatedGasFee?: bigint
     maxGasFee?: bigint
     transactionFee?: bigint
