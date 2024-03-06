@@ -1,6 +1,7 @@
 import { Platform } from '@core/app/classes'
 import { appSettings } from '@core/app/stores'
-import { generateRandomId, PartiallyOptional } from '@core/utils'
+import { generateRandomId } from '@core/utils/random'
+import type { PartiallyOptional } from '@core/utils'
 import { get } from 'svelte/store'
 import { DEFAULT_NOTIFICATION_DURATION, NOTIFICATION_DURATION_NONE } from '../constants'
 import { INotification } from '../interfaces'
