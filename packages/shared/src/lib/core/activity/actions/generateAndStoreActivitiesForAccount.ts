@@ -11,6 +11,7 @@ import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
 import { generateActivitiesFromBalanceChanges, generateActivitiesFromEvmChains } from '../utils'
 import { NetworkId } from '@core/network'
 import { setOutgoingAsyncActivitiesToClaimed } from './setOutgoingAsyncActivitiesToClaimed'
+import { Activity } from '../types/activity.type'
 
 export async function generateAndStoreActivitiesForAccount(
     profileId: string,
@@ -27,7 +28,7 @@ export async function generateAndStoreActivitiesForAccount(
     const linkedProcessedTransactions = linkTransactionsWithClaimingTransactions(processedTransactions, account)
 
     // Step 3: generate activities from processed transactions
-    const activities = await generateActivitiesFromProcessedTransactions(
+    const activities: Activity[] = await generateActivitiesFromProcessedTransactions(
         linkedProcessedTransactions,
         account,
         networkId

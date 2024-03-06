@@ -1,3 +1,3 @@
-import { BaseEvmActivity } from './base-evm-activity.type'
+import { EvmCoinTransferActivity } from './evm-coin-transfer-activity.type'
 
-export type EvmActivity = BaseEvmActivity
+export type EvmActivity = EvmCoinTransferActivity
