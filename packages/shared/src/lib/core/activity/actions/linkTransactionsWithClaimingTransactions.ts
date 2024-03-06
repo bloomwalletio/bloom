@@ -53,21 +53,23 @@ export function linkTransactionsWithClaimingTransactions(
         } else {
             // For 'normal' transactions we search through the async transactions to check if one is the claiming transaction from the other one
             // If we find a match, we update the async transaction and ignore the current one
-            const claimedTransaction = searchClaimedTransactionInIncomingAsyncTransactions(
+            const claimedTransactions = searchClaimedTransactionInIncomingAsyncTransactions(
                 incomingAsyncTransactions,
                 transaction
             )
-            if (claimedTransaction) {
-                claimedTransaction.claimingData = {
-                    claimedDate: transaction.time,
-                    claimingTransactionId: transaction?.transactionId,
-                }
+            if (claimedTransactions.length) {
+                for (const claimedTransaction of claimedTransactions) {
+                    claimedTransaction.claimingData = {
+                        claimedDate: transaction.time,
+                        claimingTransactionId: transaction?.transactionId,
+                    }
 
-                addClaimedActivity(account.index, claimedTransaction?.transactionId, {
-                    id: claimedTransaction?.transactionId,
-                    claimedTimestamp: transaction.time.getTime(),
-                    claimingTransactionId: transaction.transactionId,
-                })
+                    addClaimedActivity(account.index, claimedTransaction?.transactionId, {
+                        id: claimedTransaction?.transactionId,
+                        claimedTimestamp: transaction.time.getTime(),
+                        claimingTransactionId: transaction.transactionId,
+                    })
+                }
             } else {
                 resultingTransactions.push(transaction)
             }
@@ -80,8 +82,8 @@ export function linkTransactionsWithClaimingTransactions(
 function searchClaimedTransactionInIncomingAsyncTransactions(
     allAsyncTransaction: IProcessedTransaction[],
     transaction: IProcessedTransaction
-): IProcessedTransaction {
-    return allAsyncTransaction.find((candidate) =>
+): IProcessedTransaction[] {
+    return allAsyncTransaction.filter((candidate) =>
         transaction.utxoInputs?.some((input) => input?.transactionId === candidate?.transactionId)
     )
 }
