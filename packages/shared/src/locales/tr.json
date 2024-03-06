@@ -634,14 +634,13 @@
                 "manage": "Oy gücünü yönetin"
             },
             "proposalsDetails": {
-                "title": "Detaylar",
                 "totalProposals": "Toplam teklifler",
                 "activeProposals": "Aktif teklifler",
                 "votingProposals": "Oy verdiğiniz teklifler",
                 "votedProposals": "Oyladığınız toplam teklifler"
             },
             "proposals": {
-                "title": "Teklifler",
+                "title": "Governance Proposals",
                 "voted": "Oylandı",
                 "successEdit": "Teklif başarıyla düzenlendi",
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} başarıyla eklendi",
@@ -1083,19 +1082,19 @@
                         "Conflicting": "Oy kullanma gücü azaltılamadı"
                     },
                     "startVoting": {
-                        "Pending": "{proposalName} için oylama",
-                        "Confirmed": "{proposalName} için oy verildi",
-                        "Conflicting": "Oy kullanılamadı"
+                        "Pending": "Voting on {proposalName}",
+                        "Confirmed": "Voted on {proposalName}",
+                        "Conflicting": "Failed to vote on"
                     },
                     "stopVoting": {
-                        "Pending": "{proposalName} için oylama durduruluyor",
-                        "Confirmed": "{proposalName} için oylama durduruldu",
-                        "Conflicting": "Oy verme işlemi durdurulamadı"
+                        "Pending": "Stopping voting on {proposalName}",
+                        "Confirmed": "Stopped voting on {proposalName}",
+                        "Conflicting": "Failed to stop voting on"
                     },
                     "changedVote": {
-                        "Pending": "{proposalName} için verilen oy değiştiriliyor",
-                        "Confirmed": "{proposalName} için oy değiştirildi",
-                        "Conflicting": "Oy değiştirme başarısız oldu"
+                        "Pending": "Changing vote on {proposalName}",
+                        "Confirmed": "Changed vote on {proposalName}",
+                        "Conflicting": "Failed to change vote on"
                     },
                     "revote": {
                         "Pending": "İptal ediliyor",
@@ -1217,7 +1216,7 @@
         "revote": {
             "title": "Teklifleri yeniden oylayın",
             "body": "Oy gücünüzü değiştirmek, tüm teklifler için oylarınızın sayılmasını geçici olarak durdurur. Oylamaya devam etmek için \"İptal Et\" i tıklamanız yeterlidir.",
-            "hint": "Bloom, daha önce oy verdiğiniz tüm teklifleri ve yanıt seçeneklerini hatırlar."
+            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Teklifi kaldır",
@@ -1396,12 +1395,14 @@
         "receiving": "Alınıyor",
         "newVotingPower": "Yeni oy gücü",
         "votingPower": "Oy gücü",
-        "increased": "Voting increased",
-        "increasing": "Increasing voting",
-        "decreased": "Voting decreased",
-        "decreasing": "Decreasing voting",
+        "increased": "Voting power increased",
+        "increasing": "Increasing voting power",
+        "decreased": "Voting power decreased",
+        "decreasing": "Decreasing voting power",
         "voted": "Oylandı",
         "voting": "Oylama",
+        "votingOn": "Voting on",
+        "votedOn": "Voted on",
         "changedVote": "Oy değiştirildi",
         "changingVote": "Oy değiştiriliyor",
         "revoted": "İptal edildi",
