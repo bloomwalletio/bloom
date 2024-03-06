@@ -13,7 +13,6 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { EventStatus } from '@iota/sdk/out/types'
-    import { Pane } from '@ui'
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
 
@@ -44,8 +43,8 @@
     }
 </script>
 
-<Pane classes="p-6 h-fit shrink-0 space-y-5">
-    <Text type="body2">
+<div class="h-fit shrink-0 space-y-4">
+    <Text type="body2" class="px-2">
         {localize('views.governance.details.yourVote.title')}
     </Text>
     <Table
@@ -60,4 +59,4 @@
             },
         ]}
     />
-</Pane>
+</div>
