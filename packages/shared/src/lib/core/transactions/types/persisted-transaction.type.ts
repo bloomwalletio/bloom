@@ -22,3 +22,8 @@ export type PersistedTransaction =
           tokenTransfer: IBlockscoutTokenTransfer
           local?: LocalEvmTransaction
       }
+    | {
+          blockscout?: IBlockscoutTransaction
+          tokenTransfer?: IBlockscoutTokenTransfer
+          local: LocalEvmTransaction
+      }

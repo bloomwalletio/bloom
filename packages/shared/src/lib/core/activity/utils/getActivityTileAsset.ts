@@ -6,6 +6,9 @@ import { get } from 'svelte/store'
 import { registeredProposalsForSelectedAccount } from '@contexts/governance'
 import { NetworkNamespace } from '@core/network'
 import { EvmActivityType } from '../enums/evm'
+import { NftStandard } from '@core/nfts'
+import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
+import { BASE_TOKEN_ID } from '@core/token/constants'
 
 export function getActivityTileAsset(activity: Activity, accountIndex: number): string {
     if (activity.namespace === NetworkNamespace.Stardust) {
@@ -44,8 +47,22 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
         }
     } else if (activity.namespace === NetworkNamespace.Evm) {
         if (activity.type === EvmActivityType.CoinTransfer) {
-            const token = getTokenFromActivity(activity)
+            const token = getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, activity.sourceNetworkId)
             return token?.metadata?.name ? token.metadata.name : token?.id ?? ''
+        } else if (activity.type === EvmActivityType.TokenTransfer) {
+            if (
+                activity.tokenTransfer.standard === NftStandard.Erc721 ||
+                activity.tokenTransfer.standard === NftStandard.Irc27
+            ) {
+                const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.tokenTransfer.tokenId)
+                return nft?.name ? nft.name : 'NFT'
+            } else {
+                const token = getTokenFromSelectedAccountTokens(
+                    activity.tokenTransfer.tokenId,
+                    activity.sourceNetworkId
+                )
+                return token?.metadata?.name ? token.metadata.name : token?.id ?? ''
+            }
         } else {
             return ''
         }

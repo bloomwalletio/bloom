@@ -52,7 +52,7 @@ export function getActivityActionTextColor(activity: Activity): TextColor {
             return 'primary'
         }
     } else if (namespace === NetworkNamespace.Evm) {
-        if (type === EvmActivityType.CoinTransfer) {
+        if (type === EvmActivityType.CoinTransfer || type === EvmActivityType.TokenTransfer) {
             if (direction === ActivityDirection.Outgoing) {
                 return 'brand'
             } else {

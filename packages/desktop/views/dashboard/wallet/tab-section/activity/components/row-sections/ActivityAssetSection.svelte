@@ -26,6 +26,9 @@
         UnclaimedActivityPill,
     } from '@ui'
     import AssetPills from '../AssetPills.svelte'
+    import { NetworkNamespace } from '@core/network'
+    import { EvmActivityType } from '@core/activity/enums/evm'
+    import { NftStandard } from '@core/nfts'
 
     export let activity: Activity
 
@@ -33,14 +36,23 @@
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
     let nft: Nft | undefined
-    $: $selectedAccountNfts,
-        (nft =
-            activity.type === StardustActivityType.Nft
-                ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
-                : undefined)
+    $: $selectedAccountNfts, (nft = getNftFromActivity())
 
     $: color = getActivityActionTextColor(activity)
     $: pill = getActivityActionPill(activity, $time)
+
+    function getNftFromActivity(): Nft | undefined {
+        if (activity.namespace === NetworkNamespace.Evm && activity.type === EvmActivityType.TokenTransfer) {
+            if (
+                activity.tokenTransfer.standard === NftStandard.Erc721 ||
+                activity.tokenTransfer.standard === NftStandard.Irc27
+            ) {
+                return getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.tokenTransfer.tokenId)
+            }
+        } else if (activity.namespace === NetworkNamespace.Stardust && activity.type === StardustActivityType.Nft) {
+            return getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+        }
+    }
 </script>
 
 <div class="flex flex-row gap-4 items-center overflow-hidden">
@@ -49,7 +61,7 @@
             <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
         {:else if token}
             <TokenAvatar {token} hideNetworkBadge size="lg" />
-        {:else if activity.type === StardustActivityType.Nft}
+        {:else if activity.type === StardustActivityType.Nft || (activity.type === EvmActivityType.TokenTransfer && (activity.tokenTransfer.standard === NftStandard.Erc721 || activity.tokenTransfer.standard === NftStandard.Irc27))}
             <NftAvatar {nft} size="lg" shape="square" />
         {:else if activity.type === StardustActivityType.SmartContract}
             <Avatar

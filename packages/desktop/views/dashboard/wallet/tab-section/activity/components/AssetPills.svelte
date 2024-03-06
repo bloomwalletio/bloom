@@ -8,6 +8,7 @@
     import { selectedAccountIndex } from '@core/account/stores'
     import { NetworkNamespace } from '@core/network/enums'
     import { EvmActivityType } from '@core/activity/enums/evm'
+    import { NftStandard } from '@core/nfts'
 
     export let activity: Activity
 
@@ -51,6 +52,10 @@
             if (activity.type === EvmActivityType.CoinTransfer) {
                 typePill = 'baseCoin'
                 standardPill = ''
+            } else if (activity.type === EvmActivityType.TokenTransfer) {
+                const standard = activity.tokenTransfer.standard
+                standardPill = standard
+                typePill = standard === NftStandard.Erc721 || standard === NftStandard.Irc27 ? 'nft' : 'token'
             } else {
                 typePill = ''
                 standardPill = ''

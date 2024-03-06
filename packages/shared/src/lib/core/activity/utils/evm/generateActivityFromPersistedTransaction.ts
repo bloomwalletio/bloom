@@ -10,32 +10,14 @@ export async function generateActivityFromPersistedTransaction(
     chain: IChain,
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
-    const { local, blockscout, tokenTransfer } = persistedTransaction
+    const { local, blockscout } = persistedTransaction
 
-    if (tokenTransfer) {
-        return
-    } else if (blockscout) {
+    // if (tokenTransfer) {
+    //     return
+    // } else if (blockscout) {
+    if (blockscout) {
         return await generateEvmActivityFromBlockscoutTransaction(blockscout, chain, account)
     } else if (local) {
         return await generateEvmActivityFromLocalEvmTransaction(local, chain, account)
     }
-
-    // const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
-    // if (transferInfo?.type === StardustActivityType.SmartContract) {
-    //     return generateSmartContractActivity(transaction, chain, account)
-    // } else if (transferInfo?.type === StardustActivityType.Basic) {
-    //     const { tokenId, rawAmount, additionalBaseTokenAmount, recipientAddress } = transferInfo
-    //     return generateTokenActivity(
-    //         transaction,
-    //         chain,
-    //         tokenId,
-    //         rawAmount,
-    //         additionalBaseTokenAmount,
-    //         recipientAddress,
-    //         account
-    //     )
-    // } else if (transferInfo?.type === StardustActivityType.Nft) {
-    //     const { nftId, additionalBaseTokenAmount, recipientAddress } = transferInfo
-    //     return generateNftActivity(transaction, chain, nftId, additionalBaseTokenAmount, recipientAddress, account)
-    // }
 }

@@ -3,15 +3,17 @@ import { derived, Readable, writable, Writable } from 'svelte/store'
 import { selectedAccount } from '../../account/stores/selected-account.store'
 import { DEFAULT_ACTIVITY_FILTER } from '../constants'
 import { StardustActivityType } from '../enums'
-import { ActivityFilter } from '../types'
-import { StardustActivity } from '../types/stardust/stardust-activity.type'
+import { Activity, ActivityFilter } from '../types'
 import { isVisibleActivity } from '../utils/isVisibleActivity'
 import { getFormattedAmountFromActivity } from '../utils/outputs'
 import { allAccountActivities } from './all-account-activities.store'
 import { isValidIrc30Token } from '@core/token/utils'
 import { getPersistedToken } from '@core/token/stores'
+import { NetworkNamespace } from '@core/network'
+import { EvmActivityType } from '../enums/evm'
+import { TokenStandard } from '@core/token/enums'
 
-export const selectedAccountActivities: Readable<StardustActivity[]> = derived(
+export const selectedAccountActivities: Readable<Activity[]> = derived(
     [selectedAccount, allAccountActivities],
     ([$selectedAccount, $allAccountActivities]) => {
         if ($selectedAccount) {
@@ -26,7 +28,7 @@ export const activityFilter: Writable<ActivityFilter> = writable(DEFAULT_ACTIVIT
 
 export const activitySearchTerm: Writable<string> = writable('')
 
-export const queriedActivities: Readable<StardustActivity[]> = derived(
+export const queriedActivities: Readable<Activity[]> = derived(
     [selectedAccountActivities, activitySearchTerm, activityFilter],
     ([$selectedAccountActivities, $activitySearchTerm]) => {
         let activityList = $selectedAccountActivities.filter((_activity) => {
@@ -60,38 +62,77 @@ export const queriedActivities: Readable<StardustActivity[]> = derived(
     }
 )
 
-function getFieldsToSearchFromActivity(activity: StardustActivity): string[] {
+function getFieldsToSearchFromActivity(activity: Activity): string[] {
+    if (!activity) return []
     const fieldsToSearch: string[] = []
 
-    if (activity?.transactionId) {
+    if (activity.transactionId) {
         fieldsToSearch.push(activity.transactionId)
     }
 
-    if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
-        fieldsToSearch.push(activity.baseTokenTransfer.tokenId)
+    if (activity.namespace === NetworkNamespace.Stardust) {
+        if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
+            fieldsToSearch.push(String(activity.baseTokenTransfer.rawAmount))
+            fieldsToSearch.push(activity.baseTokenTransfer.tokenId)
 
-        const baseTokenName = getPersistedToken(activity.baseTokenTransfer.tokenId)?.metadata?.name
-        if (baseTokenName) {
-            fieldsToSearch.push(baseTokenName)
+            const baseTokenName = getPersistedToken(activity.baseTokenTransfer.tokenId)?.metadata?.name
+            if (baseTokenName) {
+                fieldsToSearch.push(baseTokenName)
+            }
+
+            if (activity.tokenTransfer) {
+                fieldsToSearch.push(activity.tokenTransfer.tokenId)
+                fieldsToSearch.push(String(activity.tokenTransfer.rawAmount))
+
+                const tokenName = getPersistedToken(activity.tokenTransfer.tokenId)?.metadata?.name
+                if (tokenName) {
+                    fieldsToSearch.push(tokenName)
+                }
+            }
+            const { rawAmount, tokenId } = activity.tokenTransfer ?? activity.baseTokenTransfer ?? {}
+
+            fieldsToSearch.push(
+                getFormattedAmountFromActivity(
+                    rawAmount,
+                    tokenId,
+                    activity.direction,
+                    activity.action,
+                    false
+                )?.toLowerCase()
+            )
         }
+    } else if (activity.namespace === NetworkNamespace.Evm) {
+        if (activity.type === EvmActivityType.CoinTransfer) {
+            fieldsToSearch.push(String(activity.baseTokenTransfer.rawAmount))
 
-        if (activity.tokenTransfer) {
-            fieldsToSearch.push(activity.tokenTransfer.tokenId)
+            fieldsToSearch.push(
+                getFormattedAmountFromActivity(
+                    activity.baseTokenTransfer.rawAmount,
+                    activity.baseTokenTransfer.tokenId,
+                    activity.direction,
+                    activity.action,
+                    false
+                )?.toLowerCase()
+            )
+        } else if (activity.type === EvmActivityType.TokenTransfer) {
+            fieldsToSearch.push(String(activity.tokenTransfer.rawAmount))
+            fieldsToSearch.push(String(activity.tokenTransfer.tokenId))
 
-            const tokenName = getPersistedToken(activity.tokenTransfer.tokenId)?.metadata?.name
-            if (tokenName) {
-                fieldsToSearch.push(tokenName)
+            if (
+                activity.tokenTransfer?.standard === TokenStandard.Erc20 ||
+                activity.tokenTransfer?.standard === TokenStandard.Irc30
+            ) {
+                fieldsToSearch.push(
+                    getFormattedAmountFromActivity(
+                        activity.tokenTransfer.rawAmount,
+                        activity.tokenTransfer.tokenId,
+                        activity.direction,
+                        activity.action,
+                        false
+                    )?.toLowerCase()
+                )
             }
         }
-    }
-
-    if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
-        fieldsToSearch.push(String(activity.baseTokenTransfer.rawAmount))
-
-        if (activity.tokenTransfer) {
-            fieldsToSearch.push(String(activity.tokenTransfer.rawAmount))
-        }
-        fieldsToSearch.push(getFormattedAmountFromActivity(activity, false)?.toLowerCase())
     }
 
     if (activity.subject) {
@@ -107,20 +148,22 @@ function getFieldsToSearchFromActivity(activity: StardustActivity): string[] {
         fieldsToSearch.push(activity.subject.name)
     }
 
-    if (activity?.asyncData?.claimingTransactionId) {
-        fieldsToSearch.push(activity.asyncData.claimingTransactionId)
-    }
-
-    if (activity?.metadata) {
+    if (activity.metadata) {
         fieldsToSearch.push(activity.metadata)
     }
 
-    if (activity?.tag) {
-        fieldsToSearch.push(activity.tag)
-    }
+    if (activity.namespace === NetworkNamespace.Stardust) {
+        if (activity.asyncData?.claimingTransactionId) {
+            fieldsToSearch.push(activity.asyncData.claimingTransactionId)
+        }
 
-    if (activity.outputId) {
-        fieldsToSearch.push(activity.outputId)
+        if (activity.tag) {
+            fieldsToSearch.push(activity.tag)
+        }
+
+        if (activity.outputId) {
+            fieldsToSearch.push(activity.outputId)
+        }
     }
 
     return fieldsToSearch

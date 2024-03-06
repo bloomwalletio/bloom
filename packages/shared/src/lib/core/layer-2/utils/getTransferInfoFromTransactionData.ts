@@ -40,7 +40,7 @@ export function getTransferInfoFromTransactionData(
         const isErc721 = isTrackedNftAddress(networkId, recipientAddress)
         const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
-        const abi = isErc20 ? ERC20_ABI : isErc721 ? ERC721_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
+        const abi = isErc721 ? ERC721_ABI : isErc20 ? ERC20_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
 
         if (!abi) {
             return { type: StardustActivityType.SmartContract }
