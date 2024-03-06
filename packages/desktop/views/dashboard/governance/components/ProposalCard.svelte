@@ -58,7 +58,7 @@
 <proposal-card
     on:click={onProposalClick}
     on:keydown={(e) => e.key === 'Enter' && onProposalClick()}
-    class="flex flex-col p-6 border border-solid border-gray-200 dark:border-transparent rounded-xl cursor-pointer h-fit shadow-elevation-1 focus:shadow-inner
+    class="flex flex-col p-6 border border-solid border-gray-200 dark:border-stroke-dark rounded-xl cursor-pointer h-fit shadow-elevation-1 focus:shadow-inner
     {proposal?.status === EventStatus.Ended
         ? 'bg-surface-1 dark:bg-surface-1-dark'
         : 'bg-surface-0 dark:bg-surface-0-dark'}"
@@ -92,3 +92,11 @@
         {/if}
     </div>
 </proposal-card>
+
+<style lang="scss">
+    proposal-card {
+        &:hover {
+            @apply border-brand;
+        }
+    }
+</style>

@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { IconName, Pill, Text } from '@bloomwalletio/ui'
-    import { EmptyListPlaceholder } from '@components'
+    import { Pill, Text } from '@bloomwalletio/ui'
     import { registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
     import { localize } from '@core/i18n'
     import { ManageVotingPowerPane, ProposalList, ProposalListDetails } from '../components'
@@ -20,16 +19,6 @@
         <ProposalListDetails />
     </div>
     <div class="w-2/3">
-        {#if Object.keys($registeredProposalsForSelectedAccount).length}
-            <ProposalList />
-        {:else}
-            <div class="w-full h-full flex flex-col items-center justify-center">
-                <EmptyListPlaceholder
-                    title={localize('views.governance.proposals.emptyTitle')}
-                    subtitle={localize('views.governance.proposals.emptyDescription')}
-                    icon={IconName.BookmarkX}
-                />
-            </div>
-        {/if}
+        <ProposalList />
     </div>
 </governance-dashboard>
