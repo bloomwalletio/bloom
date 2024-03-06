@@ -7,7 +7,7 @@ import {
     calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity'
 import { addAccountActivity } from '@core/activity/stores'
-import { generateActivityFromEvmTransaction } from '@core/activity/utils/evm'
+import { generateActivityFromPersistedTransaction } from '@core/activity/utils/evm'
 import { EvmTransactionData, isErcAsset } from '@core/layer-2'
 import { EvmNetworkId, IChain } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
@@ -46,8 +46,7 @@ async function persistEvmTransaction(
 ): Promise<void> {
     const networkId = chain.getConfiguration().id as EvmNetworkId
     addLocalTransactionToPersistedTransaction(profileId, account.index, networkId, [evmTransaction])
-
-    const activity = await generateActivityFromEvmTransaction(evmTransaction, chain, account)
+    const activity = await generateActivityFromPersistedTransaction({ local: evmTransaction }, chain, account)
     if (!activity) {
         return
     }
@@ -59,7 +58,11 @@ async function persistEvmTransaction(
     if (activity.recipient?.type === 'account') {
         const recipientAccount = activity.recipient.account
         addLocalTransactionToPersistedTransaction(profileId, recipientAccount.index, networkId, [evmTransaction])
-        const receiveActivity = await generateActivityFromEvmTransaction(evmTransaction, chain, recipientAccount)
+        const receiveActivity = await generateActivityFromPersistedTransaction(
+            { local: evmTransaction },
+            chain,
+            recipientAccount
+        )
         if (!receiveActivity) {
             return
         }
