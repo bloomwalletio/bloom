@@ -4,6 +4,7 @@ import { EvmActivity, EvmCoinTransferActivity } from '@core/activity/types'
 import { IChain } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
+import { BASE_TOKEN_ID } from '@core/token'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -17,7 +18,10 @@ export async function generateEvmActivityFromLocalEvmTransaction(
         return {
             ...baseActivity,
             type: EvmActivityType.CoinTransfer,
-            rawAmount: transaction.value,
+            baseTokenTransfer: {
+                tokenId: BASE_TOKEN_ID,
+                rawAmount: transaction.value,
+            },
         } as EvmCoinTransferActivity
     }
 

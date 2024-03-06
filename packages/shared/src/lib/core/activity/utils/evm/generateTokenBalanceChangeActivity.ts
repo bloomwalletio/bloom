@@ -1,4 +1,4 @@
-import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/network'
+import { NetworkId, NetworkNamespace, getChainConfiguration, isStardustNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { BigIntAbs, Converter, generateRandomId } from '@core/utils'
 import { ActivityAction, ActivityDirection, StardustActivityType, InclusionState } from '../../enums'
@@ -48,6 +48,7 @@ export async function generateTokenBalanceChangeActivity(
     }
 
     return {
+        namespace: NetworkNamespace.Evm,
         type: StardustActivityType.Basic,
 
         // meta information

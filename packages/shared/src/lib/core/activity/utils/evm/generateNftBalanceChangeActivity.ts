@@ -1,17 +1,18 @@
-import { NetworkId, getChainConfiguration, isStardustNetwork } from '@core/network'
+import { IAccountState } from '@core/account'
+import { EvmActivityType } from '@core/activity/enums/evm'
+import { NetworkId, NetworkNamespace, getChainConfiguration, isStardustNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { generateRandomId } from '@core/utils'
-import { ActivityAction, ActivityDirection, StardustActivityType, InclusionState } from '../../enums'
-import { INftBalanceChange, StardustNftActivity } from '../../types'
-import { IAccountState } from '@core/account'
 import { Subject, SubjectType } from '@core/wallet'
+import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
+import { EvmActivity, INftBalanceChange } from '../../types'
 
 export function generateNftBalanceChangeActivity(
     networkId: NetworkId,
     nftId: string,
     balanceChange: INftBalanceChange,
     account: IAccountState
-): StardustNftActivity {
+): EvmActivity {
     const direction = balanceChange.owned ? ActivityDirection.Incoming : ActivityDirection.Outgoing
 
     let accountSubject: Subject | undefined
@@ -32,7 +33,8 @@ export function generateNftBalanceChangeActivity(
     }
 
     return {
-        type: StardustActivityType.Nft,
+        namespace: NetworkNamespace.Evm,
+        type: EvmActivityType.TokenTransfer,
 
         // meta information
         id: generateRandomId(),

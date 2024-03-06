@@ -1,34 +1,33 @@
 <script lang="ts">
-    import { ITokenWithBalance } from '@core/token'
+    import { Avatar, IconName, Text } from '@bloomwalletio/ui'
+    import { selectedAccountIndex } from '@core/account/stores'
     import {
-        ExpiredActivityPill,
-        TimelockActivityPill,
-        NftAvatar,
-        TokenAvatar,
-        UnclaimedActivityPill,
-        GovernanceAvatar,
-    } from '@ui'
-    import {
+        Activity,
         StardustActivityType,
-        getActivityActionTextColor,
         getActivityActionPill,
+        getActivityActionTextColor,
         getActivityTileAction,
         getActivityTileAsset,
     } from '@core/activity'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { selectedAccountIndex } from '@core/account/stores'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
-    import { IconName, Avatar, Text } from '@bloomwalletio/ui'
-    import { darkMode } from '@core/app/stores'
+    import { darkMode, time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { StardustActivity } from '@core/activity'
-    import { time } from '@core/app/stores'
-    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { Nft } from '@core/nfts/interfaces'
+    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { ITokenWithBalance } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import {
+        ExpiredActivityPill,
+        GovernanceAvatar,
+        NftAvatar,
+        TimelockActivityPill,
+        TokenAvatar,
+        UnclaimedActivityPill,
+    } from '@ui'
     import AssetPills from '../AssetPills.svelte'
 
-    export let activity: StardustActivity
+    export let activity: Activity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))

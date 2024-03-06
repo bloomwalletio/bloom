@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
-import { IChain } from '@core/network'
+import { IChain, NetworkNamespace } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
@@ -33,6 +33,8 @@ export async function generateBaseEvmActivity(
     const transactionFee = transaction.gasPrice ? calculateGasFeeInGlow(gasUsed ?? 0, transaction.gasPrice) : undefined
 
     return {
+        namespace: NetworkNamespace.Evm,
+
         // meta information
         id: transaction.transactionHash,
         action: ActivityAction.Send,

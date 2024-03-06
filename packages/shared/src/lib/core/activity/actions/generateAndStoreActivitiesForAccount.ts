@@ -11,7 +11,7 @@ import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
 import { generateActivitiesFromBalanceChanges, generateActivitiesFromEvmChains } from '../utils'
 import { NetworkId } from '@core/network'
 import { setOutgoingAsyncActivitiesToClaimed } from './setOutgoingAsyncActivitiesToClaimed'
-import { Activity } from '../types/activity.type'
+import { Activity } from '../types'
 
 export async function generateAndStoreActivitiesForAccount(
     profileId: string,

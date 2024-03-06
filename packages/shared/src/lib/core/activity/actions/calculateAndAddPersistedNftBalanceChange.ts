@@ -1,8 +1,7 @@
-import { addPersistedNftBalanceChange, getBalanceChanges, addAccountActivity } from '../stores'
-import { generateNftBalanceChangeActivity } from '../utils/evm'
-import { INftBalanceChange } from '../types'
-import { NetworkId } from '@core/network'
 import { IAccountState } from '@core/account'
+import { NetworkId } from '@core/network'
+import { addPersistedNftBalanceChange, getBalanceChanges } from '../stores'
+import { INftBalanceChange } from '../types'
 
 export function calculateAndAddPersistedNftBalanceChange(
     account: IAccountState,
@@ -25,8 +24,8 @@ export function calculateAndAddPersistedNftBalanceChange(
     }
 
     if (!hidden) {
-        const activity = generateNftBalanceChangeActivity(networkId, nftId, newBalanceChange, account)
-        addAccountActivity(account.index, activity)
+        // const activity = generateNftBalanceChangeActivity(networkId, nftId, newBalanceChange, account)
+        // addAccountActivity(account.index, activity)
     }
     addPersistedNftBalanceChange(account.index, networkId, nftId, newBalanceChange)
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { StardustActivity } from '@core/activity'
+    import { Activity } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
@@ -8,21 +8,21 @@
     import { selectedAccountTokens } from '@core/token/stores'
     import { getBaseToken } from '@core/profile/actions'
 
-    export let activity: StardustActivity
+    export let activity: Activity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
-    function getFormattedFee(_activity: StardustActivity): string {
+    function getFormattedFee(_activity: Activity): string {
         if (_activity.transactionFee) {
-            const amount = formatTokenAmountBestMatch(_activity.transactionFee, getBaseToken(), { decimals: 3 })
+            const amount = formatTokenAmountBestMatch(_activity.transactionFee, getBaseToken())
             return '- ' + amount
         } else {
             return '-'
         }
     }
 
-    function getFormattedMarketPrice(_activity: StardustActivity): string | undefined {
+    function getFormattedMarketPrice(_activity: Activity): string | undefined {
         const baseCoin = $selectedAccountTokens?.[activity.sourceNetworkId]?.baseCoin
         if (_activity.transactionFee && baseCoin) {
             const marketPrice = getFiatValueFromTokenAmount(_activity.transactionFee, baseCoin)

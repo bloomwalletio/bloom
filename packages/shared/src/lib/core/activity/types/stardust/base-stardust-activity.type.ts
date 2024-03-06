@@ -1,8 +1,11 @@
 import { StardustActivityAsyncStatus } from '../../enums'
 import { SmartContract } from '@core/layer-2'
 import { BaseActivity } from '../base-activity.type'
+import { NetworkNamespace } from '@core/network'
 
 export type BaseStardustActivity = BaseActivity & {
+    namespace: NetworkNamespace.Stardust
+
     outputId?: string
     tag?: string
     asyncData?: AsyncData

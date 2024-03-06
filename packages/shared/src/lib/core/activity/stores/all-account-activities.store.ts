@@ -1,13 +1,13 @@
 import { get, writable } from 'svelte/store'
-import { StardustActivity, AsyncData, BaseStardustActivity } from '../types'
+import { AsyncData, BaseStardustActivity, Activity } from '../types'
 
-export const allAccountActivities = writable<StardustActivity[][]>([])
+export const allAccountActivities = writable<Activity[][]>([])
 
 export function addEmptyAccountActivities(accountIndex: number): void {
     setAccountActivities(accountIndex, [])
 }
 
-export function addAccountActivity(accountIndex: number, activity: StardustActivity): void {
+export function addAccountActivity(accountIndex: number, activity: Activity): void {
     allAccountActivities.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
@@ -17,7 +17,7 @@ export function addAccountActivity(accountIndex: number, activity: StardustActiv
     })
 }
 
-export function addAccountActivities(accountIndex: number, activities: StardustActivity[]): void {
+export function addAccountActivities(accountIndex: number, activities: Activity[]): void {
     allAccountActivities.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
@@ -27,14 +27,14 @@ export function addAccountActivities(accountIndex: number, activities: StardustA
     })
 }
 
-export function setAccountActivities(accountIndex: number, accountActivities: StardustActivity[]): void {
+export function setAccountActivities(accountIndex: number, accountActivities: Activity[]): void {
     allAccountActivities.update((state) => {
         state[accountIndex] = accountActivities
         return state
     })
 }
 
-export function getActivityByTransactionId(accountIndex: number, transactionId: string): StardustActivity | undefined {
+export function getActivityByTransactionId(accountIndex: number, transactionId: string): Activity | undefined {
     return get(allAccountActivities)?.[accountIndex]?.find((_activity) => _activity?.transactionId === transactionId)
 }
 

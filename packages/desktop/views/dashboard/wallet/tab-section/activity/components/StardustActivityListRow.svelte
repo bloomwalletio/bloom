@@ -1,15 +1,15 @@
 <script lang="ts">
     import { StardustActivity, StardustActivityAsyncStatus } from '@core/activity'
+    import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { NotVerifiedStatus } from '@core/token'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import {
-        ActivityAssetSection,
-        ActivityAmountSection,
         ActivityAddressSection,
-        ActivityFeeSection,
+        ActivityAmountSection,
+        ActivityAssetSection,
         ActivityDateSection,
+        ActivityFeeSection,
     } from './row-sections'
-    import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
 
     export let activity: StardustActivity
 

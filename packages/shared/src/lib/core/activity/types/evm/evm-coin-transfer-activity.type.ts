@@ -3,5 +3,8 @@ import { BaseEvmActivity } from './base-evm-activity.type'
 
 export type EvmCoinTransferActivity = BaseEvmActivity & {
     type: EvmActivityType.CoinTransfer
-    rawAmount: bigint
+    baseTokenTransfer: {
+        tokenId: string
+        rawAmount: bigint
+    }
 }

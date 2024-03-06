@@ -1,15 +1,19 @@
 import { formatTokenAmountBestMatch } from '@core/token'
 import { ActivityAction, ActivityDirection, StardustActivityType } from '../../enums'
-import { StardustFoundryActivity, StardustTransactionActivity } from '../../types'
+import { EvmCoinTransferActivity, StardustFoundryActivity, StardustTransactionActivity } from '../../types'
 import { getPersistedToken } from '@core/token/stores'
+import { EvmActivityType } from '@core/activity/enums/evm'
 
 export function getFormattedAmountFromActivity(
-    activity: StardustTransactionActivity | StardustFoundryActivity,
+    activity: StardustTransactionActivity | StardustFoundryActivity | EvmCoinTransferActivity,
     signed: boolean = true
 ): string {
     if (!activity) return ''
 
-    const transferData = activity.tokenTransfer ?? activity.baseTokenTransfer
+    const transferData =
+        activity.type === EvmActivityType.CoinTransfer
+            ? activity.baseTokenTransfer
+            : activity?.tokenTransfer ?? activity.baseTokenTransfer
 
     const metadata = getPersistedToken(transferData?.tokenId)?.metadata
     const amount = metadata ? formatTokenAmountBestMatch(transferData.rawAmount, metadata) : undefined

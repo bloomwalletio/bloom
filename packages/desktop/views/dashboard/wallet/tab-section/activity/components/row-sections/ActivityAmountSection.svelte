@@ -1,6 +1,6 @@
 <script lang="ts">
     import {
-        StardustActivity,
+        Activity,
         StardustActivityType,
         StardustGovernanceAction,
         getFormattedAmountFromActivity,
@@ -12,41 +12,66 @@
     import { ITokenWithBalance } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
+    import { NetworkNamespace } from '@core/network'
+    import { EvmActivityType } from '@core/activity/enums/evm'
 
-    export let activity: StardustActivity
+    export let activity: Activity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
-    function getAmount(_activity: StardustActivity): string {
-        if (_activity.type === StardustActivityType.Basic || _activity.type === StardustActivityType.Foundry) {
-            return getFormattedAmountFromActivity(_activity)
-        } else if (_activity.type === StardustActivityType.Governance) {
-            const isVotingPowerActivity =
-                _activity.governanceAction === StardustGovernanceAction.DecreaseVotingPower ||
-                _activity.governanceAction === StardustGovernanceAction.IncreaseVotingPower
+    function getAmount(_activity: Activity): string {
+        if (_activity.namespace === NetworkNamespace.Stardust) {
+            if (_activity.type === StardustActivityType.Basic || _activity.type === StardustActivityType.Foundry) {
+                return getFormattedAmountFromActivity(_activity)
+            } else if (_activity.type === StardustActivityType.Governance) {
+                const isVotingPowerActivity =
+                    _activity.governanceAction === StardustGovernanceAction.DecreaseVotingPower ||
+                    _activity.governanceAction === StardustGovernanceAction.IncreaseVotingPower
 
-            return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
-        } else if (_activity.type === StardustActivityType.Nft) {
-            return '1 ' + localize('general.nft')
+                return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
+            } else if (_activity.type === StardustActivityType.Nft) {
+                return '1 ' + localize('general.nft')
+            } else {
+                return '-'
+            }
+        } else if (_activity.namespace === NetworkNamespace.Evm) {
+            if (_activity.type === EvmActivityType.CoinTransfer) {
+                return getFormattedAmountFromActivity(_activity)
+            } else {
+                return '-'
+            }
         } else {
             return '-'
         }
     }
 
-    function getFormattedMarketPrice(_activity: StardustActivity): string | undefined {
-        if (
-            [StardustActivityType.Basic, StardustActivityType.Governance, StardustActivityType.Foundry].includes(
-                _activity.type
-            ) &&
-            token
-        ) {
-            const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
+    function getFormattedMarketPrice(_activity: Activity): string | undefined {
+        if (_activity.namespace === NetworkNamespace.Stardust) {
+            if (
+                [StardustActivityType.Basic, StardustActivityType.Governance, StardustActivityType.Foundry].includes(
+                    _activity.type
+                ) &&
+                token
+            ) {
+                const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
 
-            const marketPrice = getFiatValueFromTokenAmount(amount, token)
-            return marketPrice ? formatCurrency(marketPrice) : '-'
-        } else if (_activity.type === StardustActivityType.Nft) {
-            return '-'
+                const marketPrice = getFiatValueFromTokenAmount(amount, token)
+                return marketPrice ? formatCurrency(marketPrice) : '-'
+            } else if (_activity.type === StardustActivityType.Nft) {
+                return '-'
+            } else {
+                return undefined
+            }
+        } else if (_activity.namespace === NetworkNamespace.Evm) {
+            if (_activity.type === EvmActivityType.CoinTransfer) {
+                const amount = _activity.rawAmount
+
+                const marketPrice = getFiatValueFromTokenAmount(amount, token)
+                return marketPrice ? formatCurrency(marketPrice) : '-'
+            } else {
+                return '-'
+            }
         } else {
             return undefined
         }
