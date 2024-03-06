@@ -5,7 +5,7 @@ import { EvmActivity } from '../../types'
 import { generateEvmActivityFromBlockscoutTransaction } from './generateEvmActivityFromBlockscoutTransaction'
 import { generateEvmActivityFromLocalEvmTransaction } from './generateEvmActivityFromLocalEvmTransaction'
 
-export async function generateActivityFromPersistedTransaction(
+export async function generateEvmActivityFromPersistedTransaction(
     persistedTransaction: PersistedTransaction,
     chain: IChain,
     account: IAccountState

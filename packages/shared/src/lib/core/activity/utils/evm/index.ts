@@ -1,5 +1,5 @@
-export * from './generateActivitiesFromEvmChains'
-export * from './generateActivityFromPersistedTransaction'
+export * from './generateEvmActivitiesFromEvmChains'
+export * from './generateEvmActivityFromPersistedTransaction'
 export * from './generateBaseEvmActivity'
 export * from './generateEvmActivityFromLocalEvmTransaction'
 export * from './generateNftBalanceChangeActivity'
