@@ -10,11 +10,12 @@ export async function generateActivityFromPersistedTransaction(
     chain: IChain,
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
-    const { local, blockscout, tokenTransfer } = persistedTransaction
+    const { local, blockscout } = persistedTransaction
 
-    if (tokenTransfer) {
-        return
-    } else if (blockscout) {
+    // if (tokenTransfer) {
+    //     return
+    // } else if (blockscout) {
+    if (blockscout) {
         return await generateEvmActivityFromBlockscoutTransaction(blockscout, chain, account)
     } else if (local) {
         return await generateEvmActivityFromLocalEvmTransaction(local, chain, account)

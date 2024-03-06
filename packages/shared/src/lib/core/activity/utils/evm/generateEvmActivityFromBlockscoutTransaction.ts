@@ -10,7 +10,10 @@ export async function generateEvmActivityFromBlockscoutTransaction(
     chain: IChain,
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
-    if (blockscoutTransaction.tx_types[0] === BlockscoutTransactionType.CoinTransfer) {
+    if (
+        blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.CoinTransfer) ||
+        blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.TokenTransfer)
+    ) {
         // i.e must be a coin transfer
         const localTransaction = buildPersistedEvmTransactionFromBlockscoutTransaction(blockscoutTransaction)
         return generateEvmActivityFromLocalEvmTransaction(localTransaction, chain, account)
