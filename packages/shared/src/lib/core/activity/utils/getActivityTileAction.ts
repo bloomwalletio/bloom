@@ -62,7 +62,7 @@ export function getActivityTileAction(activity: Activity): string | undefined {
             return 'general.unknown'
         }
     } else if (namespace === NetworkNamespace.Evm) {
-        if (activity.type === EvmActivityType.CoinTransfer) {
+        if (activity.type === EvmActivityType.CoinTransfer || activity.type === EvmActivityType.TokenTransfer) {
             if (direction === ActivityDirection.Outgoing) {
                 return isConfirmed ? 'general.sent' : 'general.sending'
             } else {

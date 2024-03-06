@@ -7,6 +7,7 @@ import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { BASE_TOKEN_ID } from '@core/token'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { StardustActivityType } from '@core/activity/enums'
+import { NftStandard } from '@core/nfts'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -24,6 +25,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 ...baseActivity,
                 type: EvmActivityType.TokenTransfer,
                 tokenTransfer: {
+                    standard: NftStandard.Erc721,
                     tokenId: nftId,
                     rawAmount: BigInt(1),
                 },

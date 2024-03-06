@@ -9,11 +9,12 @@
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { formatCurrency, localize } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
-    import { ITokenWithBalance } from '@core/token'
+    import { BASE_TOKEN_ID, ITokenWithBalance, TokenStandard } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
     import { NetworkNamespace } from '@core/network'
     import { EvmActivityType } from '@core/activity/enums/evm'
+    import { NftStandard } from '@core/nfts'
 
     export let activity: Activity
 
@@ -23,7 +24,9 @@
     function getAmount(_activity: Activity): string {
         if (_activity.namespace === NetworkNamespace.Stardust) {
             if (_activity.type === StardustActivityType.Basic || _activity.type === StardustActivityType.Foundry) {
-                return getFormattedAmountFromActivity(_activity)
+                const { rawAmount, tokenId } = _activity.tokenTransfer ?? _activity.baseTokenTransfer ?? {}
+
+                return getFormattedAmountFromActivity(rawAmount, tokenId, _activity.direction, _activity.action)
             } else if (_activity.type === StardustActivityType.Governance) {
                 const isVotingPowerActivity =
                     _activity.governanceAction === StardustGovernanceAction.DecreaseVotingPower ||
@@ -37,7 +40,26 @@
             }
         } else if (_activity.namespace === NetworkNamespace.Evm) {
             if (_activity.type === EvmActivityType.CoinTransfer) {
-                return getFormattedAmountFromActivity(_activity)
+                return getFormattedAmountFromActivity(
+                    _activity.baseTokenTransfer.rawAmount,
+                    BASE_TOKEN_ID,
+                    _activity.direction,
+                    _activity.action
+                )
+            } else if (_activity.type === EvmActivityType.TokenTransfer) {
+                if (
+                    _activity.tokenTransfer?.standard === NftStandard.Erc721 ||
+                    _activity.tokenTransfer?.standard === NftStandard.Irc27
+                ) {
+                    return '1 ' + localize('general.nft')
+                } else {
+                    return getFormattedAmountFromActivity(
+                        _activity.tokenTransfer.rawAmount,
+                        _activity.tokenTransfer.tokenId,
+                        _activity.direction,
+                        _activity.action
+                    )
+                }
             } else {
                 return '-'
             }
@@ -65,10 +87,20 @@
             }
         } else if (_activity.namespace === NetworkNamespace.Evm) {
             if (_activity.type === EvmActivityType.CoinTransfer) {
-                const amount = _activity.rawAmount
-
-                const marketPrice = getFiatValueFromTokenAmount(amount, token)
+                const marketPrice = getFiatValueFromTokenAmount(_activity.baseTokenTransfer.rawAmount, token)
                 return marketPrice ? formatCurrency(marketPrice) : '-'
+            } else if (_activity.type === EvmActivityType.TokenTransfer) {
+                if (
+                    _activity.tokenTransfer?.standard === TokenStandard.Erc20 ||
+                    _activity.tokenTransfer?.standard === TokenStandard.Irc30
+                ) {
+                    const amount = _activity.tokenTransfer.rawAmount
+
+                    const marketPrice = getFiatValueFromTokenAmount(amount, token)
+                    return marketPrice ? formatCurrency(marketPrice) : '-'
+                } else {
+                    return '-'
+                }
             } else {
                 return '-'
             }
