@@ -25,7 +25,7 @@
     import { showNotification } from '@auxiliary/notification'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
-    import { getIsActiveLedgerProfile } from '@core/profile/stores'
+    import { activeProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -107,7 +107,13 @@
             if (isSourceNetworkLayer2) {
                 const signedTransaction = await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
 
-                await sendAndPersistTransactionFromEvm(preparedTransaction, signedTransaction, chain, $selectedAccount)
+                await sendAndPersistTransactionFromEvm(
+                    preparedTransaction,
+                    signedTransaction,
+                    chain,
+                    $selectedAccount,
+                    $activeProfileId
+                )
             } else {
                 await signAndSendStardustTransaction(preparedOutput, $selectedAccount)
             }

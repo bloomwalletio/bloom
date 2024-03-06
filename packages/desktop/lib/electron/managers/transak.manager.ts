@@ -4,7 +4,7 @@ import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
 import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
-import { buildQueryParametersFromObject } from '@core/utils/url'
+import { buildUrl } from '@core/utils/url'
 import { MarketCurrency } from '@core/market/enums/market-currency.enum'
 
 export default class TransakManager implements ITransakManager {
@@ -171,7 +171,7 @@ export default class TransakManager implements ITransakManager {
         const { address, currency, service } = data
         const apiKey = process.env.TRANSAK_API_KEY
 
-        if (Object.values(MarketCurrency).includes(currency as MarketCurrency)) {
+        if (!Object.values(MarketCurrency).includes(currency as MarketCurrency)) {
             throw new Error('Invalid Transak currency')
         }
 
@@ -179,10 +179,10 @@ export default class TransakManager implements ITransakManager {
             throw new Error('Invalid Transak service')
         }
 
-        const queryParams = buildQueryParametersFromObject({
+        const queryParams = {
             apiKey,
             defaultFiatCurrency: currency,
-            defaultFiatAmount: 100,
+            defaultCryptoAmount: 100,
             walletAddress: address,
             productsAvailed: service,
             cryptoCurrencyCode: 'IOTA',
@@ -192,8 +192,10 @@ export default class TransakManager implements ITransakManager {
             disableWalletAddressForm: true,
             isFeeCalculationHidden: true,
             disablePaymentMethods: ['apple_pay', 'google_pay'],
-        })
+        }
 
-        return `${TRANSAK_WIDGET_URL}/?${queryParams}`
+        const urlObject = buildUrl({ origin: TRANSAK_WIDGET_URL, query: queryParams })
+
+        return urlObject?.href ?? ''
     }
 }
