@@ -9,6 +9,7 @@
     import { selectedProposal } from '@contexts/governance/stores'
     import { openPopup } from '@desktop/auxiliary/popup/actions'
     import { PopupId } from '@desktop/auxiliary/popup'
+    import { localize } from '@core/i18n'
 
     export let onQuestionClick: (questionIndex: number) => void
     export let onAnswerClick: (answerValue: number, questionIndex: number) => void
@@ -67,7 +68,7 @@
         <div class="flex flex-col min-w-0 gap-1">
             <div class="flex flex-row gap-2">
                 {#if questionIndex !== undefined}
-                    <Text align="left">Question {questionIndex + 1}</Text>
+                    <Text align="left">{localize('general.question')} {questionIndex + 1}</Text>
                 {/if}
                 {#if question.additionalInfo}
                     <IconButton icon={IconName.InfoCircle} size="xs" on:click={onInfoClick} />

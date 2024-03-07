@@ -1608,7 +1608,8 @@
         "baseCoin": "Base Coin",
         "unverifiedContract": "Unverified Contract",
         "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "question": "Question"
     },
     "filters":{
         "title": "Filters",
