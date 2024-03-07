@@ -5,7 +5,6 @@
     } from '@contexts/governance/actions/pollParticipationEventStatus'
     import {
         clearSelectedParticipationEventStatus,
-        selectedParticipationEventStatus,
         selectedProposal,
         updateParticipationOverviewForEventId,
     } from '@contexts/governance/stores'
@@ -16,17 +15,12 @@
         ProposalDetailsPane,
         ProposalInformationPane,
         ProposalQuestionListPane,
+        QuorumProgress,
     } from '../components/proposal-details'
-    import { Text, Progress } from '@bloomwalletio/ui'
-    import { getCirculatingSupplyVotedPercentage } from '@contexts/governance/utils'
 
     let statusLoaded: boolean = false
     let overviewLoaded: boolean = false
 
-    $: circulatingSupplyVotedPercentage = getCirculatingSupplyVotedPercentage(
-        $selectedParticipationEventStatus,
-        $selectedProposal
-    )
     onMount(() => {
         // Callbacks used, because we don't want to await the resolution of the promises.
         pollParticipationEventStatus($selectedProposal?.id)
@@ -48,16 +42,7 @@
 >
     <div class="w-2/5 flex flex-col p-6 space-y-6 relative overflow-y-scroll">
         <ProposalDetailsPane proposal={$selectedProposal} />
-        <div class="flex flex-col gap-1">
-            <div class="flex justify-between gap-1">
-                <Text align="center">Circulating supply voted</Text>
-                <Text align="center" fontWeight="medium" textColor="brand">{circulatingSupplyVotedPercentage}</Text>
-            </div>
-            <Progress
-                size="sm"
-                progress={Number(circulatingSupplyVotedPercentage.replace('%', '').replace(',', '.'))}
-            />
-        </div>
+        <QuorumProgress proposal={$selectedProposal} />
         <ProposalAccountVotingPane />
         <ProposalInformationPane />
     </div>

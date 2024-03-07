@@ -3,3 +3,4 @@ export { default as ProposalAccountVotingPane } from './ProposalAccountVotingPan
 export { default as ProposalDetailsPane } from './ProposalDetailsPane.svelte'
 export { default as ProposalInformationPane } from './ProposalInformationPane.svelte'
 export { default as ProposalQuestionListPane } from './ProposalQuestionListPane.svelte'
+export { default as QuorumProgress } from './QuorumProgress.svelte'
