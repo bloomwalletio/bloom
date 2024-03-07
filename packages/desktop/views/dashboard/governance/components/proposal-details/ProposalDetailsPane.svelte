@@ -19,7 +19,6 @@
                 title: proposal?.title ?? '',
                 markdown: proposal?.additionalInfo,
             },
-            hideClose: true,
         })
     }
 
