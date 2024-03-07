@@ -57,31 +57,10 @@ export function BigIntAbs(bigInt: bigint | string): bigint {
     return bigInt < 0 ? bigInt * BigInt(-1) : bigInt
 }
 
-export function divideAndRoundBigInt(dividend: bigint, divisor: bigint, precision: number = 2): string {
-    const adjustedDividend = dividend * BigInt(10 ** precision)
-
-    const quotient = adjustedDividend / divisor
-    const remainder = adjustedDividend % divisor
-
-    const shouldRoundUp = remainder * BigInt(2) >= divisor
-
-    const roundedQuotient = shouldRoundUp ? quotient + BigInt(1) : quotient
-
-    let result = roundedQuotient.toString()
-
-    if (precision > 0) {
-        result = result.padStart(precision + 1, '0')
-        const decimalIndex = result.length - precision
-        result = result.slice(0, decimalIndex) + '.' + result.slice(decimalIndex)
-    }
-
-    result = result.replace(/\.?0+$/, '')
-
-    return result
-}
-
 export function getSignificantDigitsAndRound(num: number, significantDigits: number = 2): number {
-    if (num >= 1 || num <= 0) {
+    if (num === 0) {
+        return 0
+    } else if (num >= 1 || num <= 0) {
         throw new Error('Number must be less than 1 and greater than 0.')
     }
 
@@ -110,4 +89,8 @@ export function getSignificantDigitsAndRound(num: number, significantDigits: num
     const resultStr = `0.${zeros}${digitsForRounding}`
 
     return parseFloat(resultStr)
+}
+
+export function calculatePercentageOfBigInt(total: bigint, max: bigint, precision: number): number {
+    return Number((total * BigInt(100) * BigInt(10 ** precision)) / max) / 10 ** precision
 }
