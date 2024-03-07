@@ -15,7 +15,7 @@
 
     function getFormattedFee(_activity: Activity): string {
         if (_activity.transactionFee) {
-            const amount = formatTokenAmountBestMatch(_activity.transactionFee, getBaseToken())
+            const amount = formatTokenAmountBestMatch(_activity.transactionFee, getBaseToken(), { decimals: 3 })
             return '- ' + amount
         } else {
             return '-'
