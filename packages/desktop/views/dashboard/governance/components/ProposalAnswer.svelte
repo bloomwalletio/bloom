@@ -86,7 +86,9 @@
         {#if isWinner}
             <Icon name={IconName.Trophy} size="xs" />
         {/if}
-        {#if percentage?.accumulated}
+        {#if projected && percentage?.projected}
+            <Text type="sm" textColor="secondary">{percentage?.projected}</Text>
+        {:else if percentage?.accumulated}
             <Text type="sm" textColor="secondary">{percentage?.accumulated}</Text>
         {/if}
         {#if answer.additionalInfo}

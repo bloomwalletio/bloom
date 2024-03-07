@@ -12,9 +12,6 @@
             <Text>{localize('views.governance.details.projection.title')}</Text>
             <TooltipIcon icon={IconName.InfoCircle} tooltip={localize('views.governance.details.projection.tooltip')} />
         </div>
-        <Text textColor="secondary" fontWeight="medium" type="sm"
-            >{localize('views.governance.details.projection.description')}</Text
-        >
     </div>
     <Toggle label="" bind:checked />
 </Pane>

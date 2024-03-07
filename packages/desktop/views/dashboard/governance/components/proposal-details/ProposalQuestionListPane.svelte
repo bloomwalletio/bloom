@@ -22,10 +22,10 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ProposalQuestion } from '../../components'
     import { onMount } from 'svelte'
+    import { ProjectionTogglePane } from '.'
 
     export let statusLoaded: boolean = false
     export let overviewLoaded: boolean = false
-    export let projected: boolean = false
 
     let selectedAnswerValues: number[] = []
     let votedAnswerValues: number[] = []
@@ -37,6 +37,7 @@
     let openedQuestionIndex: number = -1
     let isUpdatingVotedAnswerValues: boolean = false
     let lastAction: 'vote' | 'stopVote'
+    let projected: boolean = false
 
     $: selectedProposalOverview = $participationOverviewForSelectedAccount?.participations?.[$selectedProposal?.id]
     $: trackedParticipations = Object.values(selectedProposalOverview ?? {})
@@ -182,6 +183,11 @@
 </script>
 
 <div class="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
+    {#if [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
+        <div class="pr-5">
+            <ProjectionTogglePane bind:checked={projected} />
+        </div>
+    {/if}
     <proposal-questions
         class="relative flex flex-1 flex-col space-y-5 overflow-y-scroll pr-3"
         bind:this={proposalQuestions}
