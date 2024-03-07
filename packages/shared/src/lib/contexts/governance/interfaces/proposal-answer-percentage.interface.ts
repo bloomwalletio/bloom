@@ -1,4 +1,4 @@
 export interface IProposalAnswerPercentage {
-    accumulated: string
+    accumulated?: string
     projected: string
 }

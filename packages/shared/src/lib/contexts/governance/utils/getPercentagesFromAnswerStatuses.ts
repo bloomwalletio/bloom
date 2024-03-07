@@ -22,9 +22,6 @@ export function getPercentagesFromAnswerStatuses(
         totalVotes += status.accumulated
         totalProjectedVotes += status.projected
     })
-    if (totalVotes === 0 || Number.isNaN(totalVotes)) {
-        return {}
-    }
 
     let percentages: IProposalAnswerPercentages = {}
     answerStatusesWithProjection.forEach((answerStatus) => {
@@ -32,7 +29,9 @@ export function getPercentagesFromAnswerStatuses(
             percentages = {
                 ...percentages,
                 [answerStatus.value]: {
-                    accumulated: getPercentageStringFromDivisionResult(answerStatus.accumulated / totalVotes),
+                    ...(!(totalVotes === 0 || Number.isNaN(totalVotes)) && {
+                        accumulated: getPercentageStringFromDivisionResult(answerStatus.accumulated / totalVotes),
+                    }),
                     projected: getPercentageStringFromDivisionResult(answerStatus.projected / totalProjectedVotes),
                 },
             }
