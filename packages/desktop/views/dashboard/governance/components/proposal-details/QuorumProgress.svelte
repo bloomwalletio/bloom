@@ -1,0 +1,37 @@
+<script lang="ts">
+    import {
+        IProposal,
+        getCirculatingSupplyVotedPercentage,
+        selectedParticipationEventStatus,
+    } from '@contexts/governance'
+    import { Text, Progress, TooltipIcon } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
+
+    export let proposal: IProposal
+
+    const QUORUM_PERCENTAGE_DECIMAL = 0.05
+
+    $: circulatingSupplyVotedPercentage = getCirculatingSupplyVotedPercentage(
+        $selectedParticipationEventStatus,
+        proposal
+    )
+</script>
+
+<div class="flex flex-col gap-1">
+    <div class="flex justify-between gap-1">
+        <div class="flex items-center gap-2">
+            <Text align="center">{localize('views.governance.details.quorum.title')}</Text>
+            <TooltipIcon tooltip={localize('views.governance.details.quorum.tooltip')} />
+        </div>
+        <div class="flex gap-1">
+            <Text align="center" fontWeight="medium" textColor="brand"
+                >{circulatingSupplyVotedPercentage} / {QUORUM_PERCENTAGE_DECIMAL * 100}%</Text
+            >
+        </div>
+    </div>
+    <Progress
+        size="sm"
+        progress={Number(circulatingSupplyVotedPercentage.replace('%', '').replace(',', '.')) /
+            QUORUM_PERCENTAGE_DECIMAL}
+    />
+</div>
