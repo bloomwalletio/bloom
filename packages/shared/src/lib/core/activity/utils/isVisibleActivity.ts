@@ -11,11 +11,13 @@ import {
 import { get } from 'svelte/store'
 import { StardustActivityAsyncStatus, StardustActivityType, InclusionState } from '../enums'
 import { activityFilter } from '../stores'
-import { StardustActivity, ActivityFilter } from '../types'
+import { Activity, ActivityFilter } from '../types'
 import { getPersistedToken } from '@core/token/stores'
+import { NetworkNamespace } from '@core/network'
+import { EvmActivityType } from '../enums/evm'
 
 // Filters activities based on activity properties. If none of the conditionals are valid, then activity is shown.
-export function isVisibleActivity(activity: StardustActivity): boolean {
+export function isVisibleActivity(activity: Activity): boolean {
     const filter = get(activityFilter)
 
     if (!isVisibleWithActiveValuelessFilter(activity, filter)) {
@@ -51,7 +53,7 @@ export function isVisibleActivity(activity: StardustActivity): boolean {
     return true
 }
 
-function isVisibleWithActiveHiddenFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
+function isVisibleWithActiveHiddenFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (
         (!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) &&
         activity.isTokenHidden
@@ -61,7 +63,7 @@ function isVisibleWithActiveHiddenFilter(activity: StardustActivity, filter: Act
     return true
 }
 
-function isVisibleWithActiveValuelessFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
+function isVisibleWithActiveValuelessFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (
         (!filter.showValueless.active || filter.showValueless.selected === BooleanFilterOption.No) &&
         (!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) &&
@@ -72,9 +74,10 @@ function isVisibleWithActiveValuelessFilter(activity: StardustActivity, filter: 
     return true
 }
 
-function isVisibleWithActiveRejectedFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
+function isVisibleWithActiveRejectedFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (
         (!filter.showRejected.active || filter.showRejected.selected === BooleanFilterOption.No) &&
+        activity.namespace === NetworkNamespace.Stardust &&
         activity.asyncData?.isRejected
     ) {
         return false
@@ -82,25 +85,53 @@ function isVisibleWithActiveRejectedFilter(activity: StardustActivity, filter: A
     return true
 }
 
-function isVisibleWithActiveTokenFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
+function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.token.active && filter.token.selected) {
-        if (activity.type !== StardustActivityType.Basic && activity.type !== StardustActivityType.Foundry) {
-            return false
+        if (activity.namespace === NetworkNamespace.Stardust) {
+            if (activity.type !== StardustActivityType.Basic && activity.type !== StardustActivityType.Foundry) {
+                return false
+            }
+            const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId ?? BASE_TOKEN_ID
+            if (filter.token.selected && tokenId !== filter.token.selected) {
+                return false
+            }
         }
-        const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId ?? BASE_TOKEN_ID
-        if (filter.token.selected && tokenId !== filter.token.selected) {
-            return false
+        if (activity.namespace === NetworkNamespace.Evm) {
+            const tokenId =
+                activity.type === EvmActivityType.TokenTransfer ? activity.tokenTransfer?.tokenId : BASE_TOKEN_ID
+            if (filter.token.selected && tokenId !== filter.token.selected) {
+                return false
+            }
         }
+        return true
     }
     return true
 }
 
-function isVisibleWithActiveAmountFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
-    if (
-        filter.amount.active &&
-        (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry)
-    ) {
-        const { tokenId, rawAmount } = activity.tokenTransfer ?? activity.baseTokenTransfer
+function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFilter): boolean {
+    if (filter.amount.active) {
+        let rawAmount: bigint | undefined = undefined
+        let tokenId: string | undefined = undefined
+
+        if (activity.namespace === NetworkNamespace.Evm) {
+            if (activity.type === EvmActivityType.TokenTransfer) {
+                rawAmount = activity.tokenTransfer.rawAmount
+                tokenId = activity.tokenTransfer.tokenId
+            } else if (activity.type === EvmActivityType.CoinTransfer) {
+                rawAmount = activity.baseTokenTransfer.rawAmount
+                tokenId = activity.baseTokenTransfer.tokenId
+            } else {
+                return true
+            }
+        } else if (activity.namespace === NetworkNamespace.Stardust) {
+            if (activity.type !== StardustActivityType.Basic && activity.type !== StardustActivityType.Foundry) {
+                return true
+            }
+            rawAmount = (activity.tokenTransfer ?? activity.baseTokenTransfer)?.rawAmount
+            tokenId = (activity.tokenTransfer ?? activity.baseTokenTransfer)?.tokenId
+        } else {
+            return true
+        }
         const token = getPersistedToken(tokenId)
 
         if (!token || !token.metadata) {
@@ -157,7 +188,7 @@ function isVisibleWithActiveAmountFilter(activity: StardustActivity, filter: Act
     return true
 }
 
-function isVisibleWithActiveDateFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
+function isVisibleWithActiveDateFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.date.active) {
         if (
             filter.date.selected === DateFilterOption.Equals &&
@@ -245,7 +276,7 @@ function isVisibleWithActiveDateFilter(activity: StardustActivity, filter: Activ
     return true
 }
 
-function isVisibleWithActiveStatusFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
+function isVisibleWithActiveStatusFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.status.active && filter.status.selected) {
         if (
             filter.status.selected === StatusFilterOption.Confirmed &&
@@ -261,6 +292,7 @@ function isVisibleWithActiveStatusFilter(activity: StardustActivity, filter: Act
         }
         if (
             filter.status.selected === StatusFilterOption.Timelocked &&
+            activity.namespace === NetworkNamespace.Stardust &&
             activity.asyncData?.asyncStatus !== StardustActivityAsyncStatus.Timelocked
         ) {
             return false
@@ -284,7 +316,7 @@ function isVisibleWithActiveStatusFilter(activity: StardustActivity, filter: Act
     return true
 }
 
-function isVisibleWithActiveTypeFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
+function isVisibleWithActiveTypeFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.type.active && filter.type.selected) {
         if (filter.type.selected !== activity.type) {
             return false
@@ -293,7 +325,7 @@ function isVisibleWithActiveTypeFilter(activity: StardustActivity, filter: Activ
     return true
 }
 
-function isVisibleWithActiveDirectionFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
+function isVisibleWithActiveDirectionFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.direction.active && filter.direction.selected) {
         if (filter.direction.selected !== activity.direction) {
             return false
@@ -302,7 +334,7 @@ function isVisibleWithActiveDirectionFilter(activity: StardustActivity, filter: 
     return true
 }
 
-function isVisibleWithInternalExternalFilter(activity: StardustActivity, filter: ActivityFilter): boolean {
+function isVisibleWithInternalExternalFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.internalExternal.active && filter.internalExternal.selected) {
         if (filter.internalExternal.selected === InternalExternalOption.Internal && !activity.isInternal) {
             return false

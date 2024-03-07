@@ -3,6 +3,8 @@ import { get } from 'svelte/store'
 import { StardustActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
 import { updateActivityFromPartialActivity } from '../utils'
+import { NetworkNamespace } from '@core/network'
+import { StardustActivity } from '../types'
 
 export function hideActivitiesForFoundries(account: IAccountState): void {
     const accountActivities = get(allAccountActivities)[account.index]
@@ -10,9 +12,14 @@ export function hideActivitiesForFoundries(account: IAccountState): void {
     const activities = accountActivities.filter((activity) => activity.type === StardustActivityType.Foundry)
 
     for (const activity of activities) {
-        for (const candidate of accountActivities.filter(
-            (_activity) => _activity?.transactionId === activity?.transactionId && _activity.id !== activity.id
-        )) {
+        const candidates = accountActivities.filter(
+            (_activity) =>
+                _activity.namespace === NetworkNamespace.Stardust &&
+                _activity?.transactionId === activity?.transactionId &&
+                _activity.id !== activity.id
+        ) as StardustActivity[]
+
+        for (const candidate of candidates) {
             updateActivityFromPartialActivity(candidate, { isHidden: true })
         }
     }

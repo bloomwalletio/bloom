@@ -4,12 +4,22 @@ import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
 import { StardustActivityAsyncStatus, ActivityDirection, StardustActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
 import { getAsyncStatus } from '../utils/helper'
+import { NetworkNamespace } from '@core/network'
+import { StardustActivity } from '../types'
 
 export function setAsyncStatusOfAccountActivities(time: Date): void {
     const balancesToUpdate: number[] = []
     allAccountActivities.update((state) => {
         state.forEach((accountActivities, accountIndex) => {
-            for (const activity of accountActivities.filter((_activity) => _activity.asyncData)) {
+            const asyncActivities = accountActivities.filter(
+                (_activity) => _activity.namespace === NetworkNamespace.Stardust && _activity.asyncData
+            ) as StardustActivity[]
+
+            for (const activity of asyncActivities) {
+                if (!activity.asyncData) {
+                    continue
+                }
+
                 const oldAsyncStatus = activity.asyncData.asyncStatus
                 if (
                     oldAsyncStatus === StardustActivityAsyncStatus.Claimed ||

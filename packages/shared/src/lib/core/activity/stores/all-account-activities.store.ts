@@ -1,5 +1,6 @@
 import { get, writable } from 'svelte/store'
 import { AsyncData, BaseStardustActivity, Activity } from '../types'
+import { NetworkNamespace } from '@core/network'
 
 export const allAccountActivities = writable<Activity[][]>([])
 
@@ -74,7 +75,7 @@ export function updateAsyncDataByActivityId(
     allAccountActivities.update((state) => {
         const activity = state[accountIndex]?.find((_activity) => _activity.id === activityId)
 
-        if (activity) {
+        if (activity?.namespace === NetworkNamespace.Stardust) {
             Object.assign(activity, { asyncData: { ...activity.asyncData, ...partialAsyncData } })
         }
         return state
@@ -89,7 +90,7 @@ export function updateAsyncDataByTransactionId(
     allAccountActivities.update((state) => {
         const activity = state[accountIndex]?.find((_activity) => _activity?.transactionId === transactionId)
 
-        if (activity) {
+        if (activity?.namespace === NetworkNamespace.Stardust) {
             Object.assign(activity, { asyncData: { ...activity.asyncData, ...partialAsyncData } })
         }
         return state
