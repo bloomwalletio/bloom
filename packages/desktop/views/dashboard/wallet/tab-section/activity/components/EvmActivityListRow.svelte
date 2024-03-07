@@ -50,9 +50,5 @@
 
         @apply grid gap-8;
         grid-template-columns: 3fr 1fr 2fr 2fr 1fr;
-
-        &.expired {
-            opacity: 0.5;
-        }
     }
 </style>
