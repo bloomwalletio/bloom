@@ -19,7 +19,6 @@
 
     let statusLoaded: boolean = false
     let overviewLoaded: boolean = false
-    const isProjectionEnabled: boolean = false
 
     onMount(() => {
         // Callbacks used, because we don't want to await the resolution of the promises.
@@ -45,5 +44,5 @@
         <ProposalAccountVotingPane />
         <ProposalInformationPane />
     </div>
-    <ProposalQuestionListPane {statusLoaded} {overviewLoaded} projected={isProjectionEnabled} />
+    <ProposalQuestionListPane {statusLoaded} {overviewLoaded} />
 </Pane>
