@@ -1,27 +1,13 @@
 <script lang="ts">
-    import { Button, Icon, IconName, MarkdownBlock, Pill, Text } from '@bloomwalletio/ui'
-    import { ProposalDetailsMenu, ProposalStatusPill } from '../'
+    import { Icon, IconName, MarkdownBlock, Pill, Text } from '@bloomwalletio/ui'
     import { IProposal } from '@contexts/governance'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { getTimeDifference, milestoneToDate } from '@core/utils'
-    import { networkStatus } from '@core/network/stores'
     import { time } from '@core/app/stores'
+    import { networkStatus } from '@core/network/stores'
+    import { getTimeDifference, milestoneToDate } from '@core/utils'
     import { EventStatus } from '@iota/sdk/out/types'
-    import { localize } from '@core/i18n'
-
-    const TEXT_LENGTH_TO_TRUNCATE = 40
+    import { ProposalDetailsMenu, ProposalStatusPill } from '../'
 
     export let proposal: IProposal
-
-    function onReadMoreClick(): void {
-        openPopup({
-            id: PopupId.MarkdownBlock,
-            props: {
-                title: proposal?.title ?? '',
-                markdown: proposal?.additionalInfo,
-            },
-        })
-    }
 
     let remainingTime: string = ''
     $: switch (proposal?.status) {
@@ -49,12 +35,19 @@
     }
 </script>
 
-<div class="flex flex-col h-fit px-2">
+<div class="flex flex-col h-fit">
     <header-container class="flex justify-between items-start mb-4 gap-2">
-        <Text type="h5" lineClamp={3}>{proposal?.title}</Text>
+        <Text type="h6" lineClamp={3}>{proposal?.title}</Text>
         <ProposalDetailsMenu {proposal} />
     </header-container>
     <div class="flex flex-1 flex-col space-y-4 justify-between">
+        {#if proposal?.additionalInfo}
+            <div class="flex gap-2">
+                <additional-info-container class="text-red">
+                    <MarkdownBlock text={proposal?.additionalInfo} />
+                </additional-info-container>
+            </div>
+        {/if}
         <div class="flex gap-2">
             <ProposalStatusPill {proposal} />
             {#if remainingTime}
@@ -66,19 +59,6 @@
                 </Pill>
             {/if}
         </div>
-        {#if proposal?.additionalInfo}
-            {@const truncate = proposal?.additionalInfo.length >= TEXT_LENGTH_TO_TRUNCATE}
-            <div class="flex gap-2 whitespace-nowrap">
-                <additional-info-container
-                    class={truncate ? 'truncate truncate-opacity overflow-hidden text-ellipsis' : ''}
-                >
-                    <MarkdownBlock text={proposal?.additionalInfo} />
-                </additional-info-container>
-                {#if truncate}
-                    <Button variant="text" on:click={onReadMoreClick} text={localize('actions.readMore')} size="sm" />
-                {/if}
-            </div>
-        {/if}
     </div>
 </div>
 

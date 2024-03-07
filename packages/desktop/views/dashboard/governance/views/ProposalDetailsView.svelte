@@ -11,7 +11,6 @@
     import { Pane } from '@ui'
     import { onDestroy, onMount } from 'svelte'
     import {
-        ProposalAccountVotingPane,
         ProposalDetailsPane,
         ProposalInformationPane,
         ProposalQuestionListPane,
@@ -43,7 +42,6 @@
     <div class="w-2/5 flex flex-col p-6 space-y-6 relative overflow-y-scroll">
         <ProposalDetailsPane proposal={$selectedProposal} />
         <QuorumProgress proposal={$selectedProposal} />
-        <ProposalAccountVotingPane />
         <ProposalInformationPane />
     </div>
     <ProposalQuestionListPane {statusLoaded} {overviewLoaded} />
