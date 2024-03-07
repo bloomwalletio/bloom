@@ -7,6 +7,7 @@
     import { networkStatus } from '@core/network/stores'
     import { time } from '@core/app/stores'
     import { EventStatus } from '@iota/sdk/out/types'
+    import { localize } from '@core/i18n'
 
     const TEXT_LENGTH_TO_TRUNCATE = 40
 
@@ -19,7 +20,6 @@
                 title: proposal?.title ?? '',
                 markdown: proposal?.additionalInfo,
             },
-            hideClose: true,
         })
     }
 
@@ -75,7 +75,7 @@
                     <MarkdownBlock text={proposal?.additionalInfo} />
                 </additional-info-container>
                 {#if truncate}
-                    <Button variant="text" on:click={onReadMoreClick} text="Read more" size="sm" />
+                    <Button variant="text" on:click={onReadMoreClick} text={localize('actions.readMore')} size="sm" />
                 {/if}
             </div>
         {/if}

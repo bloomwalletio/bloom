@@ -44,7 +44,6 @@
     function onInfoClick(): void {
         openPopup({
             id: PopupId.MarkdownBlock,
-            hideClose: true,
             props: {
                 title: answer.text,
                 markdown: answer.additionalInfo,
@@ -78,6 +77,9 @@
             {truncate}
             >{answer.text}
         </Text>
+        {#if answer.additionalInfo}
+            <IconButton icon={IconName.InfoCircle} size="xs" on:click={onInfoClick} />
+        {/if}
     </div>
     <div class="flex items-center space-x-1.5">
         {#if isVotedFor}
@@ -86,11 +88,10 @@
         {#if isWinner}
             <Icon name={IconName.Trophy} size="xs" />
         {/if}
-        {#if percentage?.accumulated}
+        {#if projected && percentage?.projected}
+            <Text type="sm" textColor="secondary">{percentage?.projected}</Text>
+        {:else if percentage?.accumulated}
             <Text type="sm" textColor="secondary">{percentage?.accumulated}</Text>
-        {/if}
-        {#if answer.additionalInfo}
-            <IconButton icon={IconName.InfoCircle} size="xs" on:click={onInfoClick} />
         {/if}
     </div>
 </button>

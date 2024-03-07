@@ -634,14 +634,13 @@
                 "manage": "管理投票权重"
             },
             "proposalsDetails": {
-                "title": "详情",
                 "totalProposals": "所有提案",
                 "activeProposals": "现行提案",
                 "votingProposals": "您正在投票的提案",
                 "votedProposals": "您投票的所有提案"
             },
             "proposals": {
-                "title": "提案",
+                "title": "Governance Proposals",
                 "voted": "已投票",
                 "successEdit": "Proposal successfully edited",
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added",
@@ -1083,19 +1082,19 @@
                         "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
-                        "Pending": "Voting for {proposalName}",
-                        "Confirmed": "Voted for {proposalName}",
-                        "Conflicting": "Failed to vote for"
+                        "Pending": "Voting on {proposalName}",
+                        "Confirmed": "Voted on {proposalName}",
+                        "Conflicting": "Failed to vote on"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting for {proposalName}",
-                        "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stop voting for"
+                        "Pending": "Stopping voting on {proposalName}",
+                        "Confirmed": "Stopped voting on {proposalName}",
+                        "Conflicting": "Failed to stop voting on"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote for {proposalName}",
-                        "Confirmed": "Changed vote for {proposalName}",
-                        "Conflicting": "Failed to change vote for"
+                        "Pending": "Changing vote on {proposalName}",
+                        "Confirmed": "Changed vote on {proposalName}",
+                        "Conflicting": "Failed to change vote on"
                     },
                     "revote": {
                         "Pending": "Revoting",
@@ -1217,7 +1216,7 @@
         "revote": {
             "title": "对提案重新表决",
             "body": "更改您的投票权暂时停止您对所有建议的投票。只需点击“重新投票”即可继续投票。",
-            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "移除提案",
@@ -1396,12 +1395,14 @@
         "receiving": "接收",
         "newVotingPower": "新的投票权重",
         "votingPower": "投票权重",
-        "increased": "Voting increased",
-        "increasing": "Increasing voting",
-        "decreased": "Voting decreased",
-        "decreasing": "Decreasing voting",
+        "increased": "Voting power increased",
+        "increasing": "Increasing voting power",
+        "decreased": "Voting power decreased",
+        "decreasing": "Decreasing voting power",
         "voted": "已投票",
         "voting": "投票中",
+        "votingOn": "Voting on",
+        "votedOn": "Voted on",
         "changedVote": "变更投票",
         "changingVote": "投票变更中...",
         "revoted": "已重新投票",
