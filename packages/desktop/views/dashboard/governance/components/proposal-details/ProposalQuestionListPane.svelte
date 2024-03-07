@@ -5,7 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Alert, Button } from '@bloomwalletio/ui'
+    import { Alert, Button, Progress, Text } from '@bloomwalletio/ui'
     import { getVotingEvent } from '@contexts/governance/actions'
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import {
@@ -13,7 +13,12 @@
         selectedParticipationEventStatus,
         selectedProposal,
     } from '@contexts/governance/stores'
-    import { getActiveParticipation, isProposalVotable, isVotingForSelectedProposal } from '@contexts/governance/utils'
+    import {
+        getActiveParticipation,
+        getCirculatingSupplyVotedPercentage,
+        isProposalVotable,
+        isVotingForSelectedProposal,
+    } from '@contexts/governance/utils'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -78,6 +83,11 @@
     }
 
     $: isVotable = [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)
+
+    $: circulatingSupplyVotedPercentage = getCirculatingSupplyVotedPercentage(
+        $selectedParticipationEventStatus,
+        $selectedProposal
+    )
 
     function hasSelectedNoAnswers(_selectedAnswerValues: number[]): boolean {
         return (
@@ -181,7 +191,14 @@
     })
 </script>
 
-<div class="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
+<div class="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-5">
+    <div class="flex flex-col gap-1 pr-5">
+        <div class="flex justify-between gap-1">
+            <Text align="center">Circulating supply voted</Text>
+            <Text align="center" fontWeight="medium" textColor="brand">{circulatingSupplyVotedPercentage}</Text>
+        </div>
+        <Progress size="sm" progress={Number(circulatingSupplyVotedPercentage.replace('%', '').replace(',', '.'))} />
+    </div>
     <proposal-questions
         class="relative flex flex-1 flex-col space-y-5 overflow-y-scroll pr-3"
         bind:this={proposalQuestions}
