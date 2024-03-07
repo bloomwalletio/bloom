@@ -9,5 +9,5 @@ export interface IBlockscoutTokenInfo {
     name: string
     symbol: string
     total_supply: string
-    type: string
+    type: 'ERC-20' | 'ERC-721'
 }

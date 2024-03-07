@@ -4,20 +4,20 @@ import { PersistedTransaction } from '@core/transactions'
 import { EvmActivity } from '../../types'
 import { generateEvmActivityFromBlockscoutTransaction } from './generateEvmActivityFromBlockscoutTransaction'
 import { generateEvmActivityFromLocalEvmTransaction } from './generateEvmActivityFromLocalEvmTransaction'
+import { generateEvmTokenTransferActivityFromBlockscoutTokenTransfer } from './generateEvmTokenTransferActivityFromBlockscoutTokenTransfer'
 
 export async function generateEvmActivityFromPersistedTransaction(
     persistedTransaction: PersistedTransaction,
     chain: IChain,
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
-    const { local, blockscout } = persistedTransaction
+    const { local, blockscout, tokenTransfer } = persistedTransaction
 
-    // if (tokenTransfer) {
-    //     return
-    // } else if (blockscout) {
-    if (blockscout) {
-        return await generateEvmActivityFromBlockscoutTransaction(blockscout, chain, account)
+    if (tokenTransfer) {
+        return generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(tokenTransfer, blockscout, chain, account)
+    } else if (blockscout) {
+        return generateEvmActivityFromBlockscoutTransaction(blockscout, chain, account)
     } else if (local) {
-        return await generateEvmActivityFromLocalEvmTransaction(local, chain, account)
+        return generateEvmActivityFromLocalEvmTransaction(local, chain, account)
     }
 }
