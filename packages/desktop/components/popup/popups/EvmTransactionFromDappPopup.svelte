@@ -31,6 +31,7 @@
     import { LedgerAppName } from '@core/ledger'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { LegacyTransaction } from '@ethereumjs/tx'
+    import { activeProfileId } from '@core/profile/stores'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -105,7 +106,8 @@
             preparedTransaction,
             signedTransaction,
             chain,
-            $selectedAccount
+            $selectedAccount,
+            $activeProfileId
         )
         callback({ result: transactionHash })
     }

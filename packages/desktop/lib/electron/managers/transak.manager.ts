@@ -171,7 +171,7 @@ export default class TransakManager implements ITransakManager {
         const { address, currency, service } = data
         const apiKey = process.env.TRANSAK_API_KEY
 
-        if (Object.values(MarketCurrency).includes(currency as MarketCurrency)) {
+        if (!Object.values(MarketCurrency).includes(currency as MarketCurrency)) {
             throw new Error('Invalid Transak currency')
         }
 
@@ -182,7 +182,7 @@ export default class TransakManager implements ITransakManager {
         const queryParams = buildQueryParametersFromObject({
             apiKey,
             defaultFiatCurrency: currency,
-            defaultFiatAmount: 100,
+            defaultCryptoAmount: 100,
             walletAddress: address,
             productsAvailed: service,
             cryptoCurrencyCode: 'IOTA',
