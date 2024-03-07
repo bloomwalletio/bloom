@@ -14,11 +14,10 @@ export async function generateEvmActivityFromPersistedTransaction(
     const { local, blockscout, tokenTransfer } = persistedTransaction
 
     if (tokenTransfer) {
-        const r = generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(tokenTransfer, blockscout, chain, account)
-        return r
+        return generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(tokenTransfer, blockscout, chain, account)
     } else if (blockscout) {
-        return await generateEvmActivityFromBlockscoutTransaction(blockscout, chain, account)
+        return generateEvmActivityFromBlockscoutTransaction(blockscout, chain, account)
     } else if (local) {
-        return await generateEvmActivityFromLocalEvmTransaction(local, chain, account)
+        return generateEvmActivityFromLocalEvmTransaction(local, chain, account)
     }
 }
