@@ -183,7 +183,7 @@
 </script>
 
 <div class="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
-    {#if [EventStatus.Commencing, EventStatus.Holding].find((status) => status === $selectedProposal?.status)}
+    {#if [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
         <div class="pr-5">
             <ProjectionTogglePane bind:checked={projected} />
         </div>
