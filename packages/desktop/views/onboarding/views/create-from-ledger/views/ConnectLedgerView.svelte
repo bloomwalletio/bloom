@@ -1,12 +1,17 @@
 <script lang="ts">
     import { Icon, IconName, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
+    import { LedgerAppName, LedgerConnectionState, ledgerConnectionState, ledgerDeviceState } from '@core/ledger'
     import { OnboardingLayout } from '@views/components'
     import { createFromLedgerRouter } from '..'
     import { CreateFromLedgerRoute } from '../create-from-ledger-route.enum'
     import { onboardingProfile } from '@contexts/onboarding'
     import { SupportedNetworkId } from '@core/network'
+    import { ledgerNanoStatus } from '@core/ledger/stores/ledger-nano-status.store'
+
+    $: console.log('ledgerConnectionState', $ledgerConnectionState)
+    $: console.log('ledgerNanoStatus', $ledgerNanoStatus)
+    $: console.log('ledgerDeviceState', $ledgerDeviceState)
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked

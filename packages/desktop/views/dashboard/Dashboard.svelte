@@ -26,6 +26,8 @@
     import { Background } from '@views/components'
     import { BuySell } from './buy-sell'
     import { CampaignsRouterView } from './campaigns'
+    import { ledgerConnectionState, ledgerDeviceState } from '@core/ledger'
+    import { ledgerNanoStatus } from '@core/ledger/stores/ledger-nano-status.store'
 
     const tabs = {
         wallet: Wallet,
@@ -38,6 +40,10 @@
     }
 
     let previousAccountIndex = get(selectedAccountIndex)
+
+    $: console.log('$ledgerDeviceState', $ledgerDeviceState)
+    $: console.log('ledgerConnectionState', $ledgerConnectionState)
+    $: console.log('$ledgerNanoStatus', $ledgerNanoStatus)
 
     $: $hasStrongholdLocked && reflectLockedStronghold()
 
