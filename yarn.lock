@@ -1678,7 +1678,7 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@ledgerhq/cryptoassets@^11.4.1":
+"@ledgerhq/cryptoassets@^11.0.1", "@ledgerhq/cryptoassets@^11.4.1":
   version "11.4.1"
   resolved "https://registry.yarnpkg.com/@ledgerhq/cryptoassets/-/cryptoassets-11.4.1.tgz#57ade3ddff92a8fa027702607b39ba1c06cc8508"
   integrity sha512-vgOHC0RxuBjoE2ZNiQScpU8hyXnYqkslw0MIuypHGnjLF48XA6rNdABS1JlMuzIFtQB2/NebUbEJ0FUPbQFHeg==
@@ -1707,7 +1707,7 @@
     rxjs "^7.8.1"
     semver "^7.3.5"
 
-"@ledgerhq/domain-service@^1.1.18":
+"@ledgerhq/domain-service@^1.1.13":
   version "1.1.18"
   resolved "https://registry.yarnpkg.com/@ledgerhq/domain-service/-/domain-service-1.1.18.tgz#634d4e82e8b83a26847f7b61eaf425467b1a5366"
   integrity sha512-QZUEvNpuQBa7513S4TvYaaLpUvTerJHV6eXDmWnX3fTmmfrGfFrTYhJbVF5KJ79GCaJfo+Y74zNqGqTwVXgrSA==
@@ -1720,17 +1720,17 @@
     react "^18.2.0"
     react-dom "^18.2.0"
 
+"@ledgerhq/errors@^6.14.0", "@ledgerhq/errors@^6.16.2":
+  version "6.16.2"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-6.16.2.tgz#cf3939dc92ed0871aa7fdd45e6d13446a1eaeccd"
+  integrity sha512-jFpohaSW+p1Obp3NDT9QSByEtT3gtBZIjVNu8m25gnrH5zdtfPVlPwH6UiuS50s+2dHQyehV8hF+IfreKDWAZA==
+
 "@ledgerhq/errors@^6.16.1":
   version "6.16.1"
   resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-6.16.1.tgz#df650a9ba105397dee2e8c0ceddf6931c5b25ede"
   integrity sha512-4D4wKecGzQpIu7sx03Sg4uE1e8g1oZUndWgw9gw776H8h9ov9c5TxPaldTn2j6orPECAERViLf7LTO4L5pE2Cw==
 
-"@ledgerhq/errors@^6.16.2":
-  version "6.16.2"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-6.16.2.tgz#cf3939dc92ed0871aa7fdd45e6d13446a1eaeccd"
-  integrity sha512-jFpohaSW+p1Obp3NDT9QSByEtT3gtBZIjVNu8m25gnrH5zdtfPVlPwH6UiuS50s+2dHQyehV8hF+IfreKDWAZA==
-
-"@ledgerhq/evm-tools@^1.0.16":
+"@ledgerhq/evm-tools@^1.0.9":
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/@ledgerhq/evm-tools/-/evm-tools-1.0.16.tgz#b0a1d59a4871adb728aa65406466f1257e639504"
   integrity sha512-51Cx5CaUpJQaV9JLjEAck/5dct6FRn7dyAomKzZ0mwXjdzq4fRdbv2+9VGlLRWzapLdRtKWxX64nA8zzQnbhoA==
@@ -1741,25 +1741,25 @@
     crypto-js "4.2.0"
     ethers "5.7.2"
 
-"@ledgerhq/hw-app-eth@6.35.6":
-  version "6.35.6"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-6.35.6.tgz#97ccdad943d53b9b303736fc165d35fa93bf6b0a"
-  integrity sha512-ecMY9KTr8ziJ4In0Ve9S+vFCqx1aztFGUMr678krdcBcEx0adohcfG4EKBoeRKOJSVGwp/qkvQMP8Fez4mCL5A==
+"@ledgerhq/hw-app-eth@6.34.8":
+  version "6.34.8"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-6.34.8.tgz#f2e1229307ded234d2cc02e00a7effb9f4b1e721"
+  integrity sha512-sFYRGO7kgiTlgCRPdHJsF69s75TQz3Idi2YGn7eWhM/yxSJiAE1Kt/OLOW2ej68U/mfxI5pDIK8f8AZuK+8RFg==
   dependencies:
     "@ethersproject/abi" "^5.5.0"
     "@ethersproject/rlp" "^5.5.0"
-    "@ledgerhq/cryptoassets" "^11.4.1"
-    "@ledgerhq/domain-service" "^1.1.18"
-    "@ledgerhq/errors" "^6.16.2"
-    "@ledgerhq/evm-tools" "^1.0.16"
-    "@ledgerhq/hw-transport" "^6.30.4"
-    "@ledgerhq/hw-transport-mocker" "^6.28.4"
-    "@ledgerhq/logs" "^6.12.0"
-    "@ledgerhq/types-live" "^6.44.1"
+    "@ledgerhq/cryptoassets" "^11.0.1"
+    "@ledgerhq/domain-service" "^1.1.13"
+    "@ledgerhq/errors" "^6.14.0"
+    "@ledgerhq/evm-tools" "^1.0.9"
+    "@ledgerhq/hw-transport" "^6.28.8"
+    "@ledgerhq/hw-transport-mocker" "^6.27.19"
+    "@ledgerhq/logs" "^6.10.1"
+    "@ledgerhq/types-live" "^6.41.1"
     axios "^1.3.4"
     bignumber.js "^9.1.2"
 
-"@ledgerhq/hw-transport-mocker@^6.28.4":
+"@ledgerhq/hw-transport-mocker@^6.27.19":
   version "6.28.4"
   resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-mocker/-/hw-transport-mocker-6.28.4.tgz#f52c2d77a8616799799c8f832067cd2ea5ce78e5"
   integrity sha512-s4GyN8AdjenO+Y6XsxQyW1bQlbsBwNZJyax4Jz2tf+AbiDC3geblaK3wAg6FTUX0tz5K0mAarEVvM03Qxdxblw==
@@ -1793,6 +1793,16 @@
     node-hid "^2.1.2"
     usb "2.9.0"
 
+"@ledgerhq/hw-transport@^6.28.8", "@ledgerhq/hw-transport@^6.30.4":
+  version "6.30.4"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-6.30.4.tgz#05dee1e9cdec0e430594ecf7f5cf90c13721ad70"
+  integrity sha512-VBcVd7UG8HDrjWMoZI5rqBDz+PBxLHTIPZOGY/fdMoEUwaBbss0Z3MxuJanMyerlfaLqnBSVuL0blz7rOyagkw==
+  dependencies:
+    "@ledgerhq/devices" "^8.2.1"
+    "@ledgerhq/errors" "^6.16.2"
+    "@ledgerhq/logs" "^6.12.0"
+    events "^3.3.0"
+
 "@ledgerhq/hw-transport@^6.30.3":
   version "6.30.3"
   resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-6.30.3.tgz#5904adb57ac4459e219551aa97ce2d0772393f2b"
@@ -1800,16 +1810,6 @@
   dependencies:
     "@ledgerhq/devices" "^8.2.0"
     "@ledgerhq/errors" "^6.16.1"
-    "@ledgerhq/logs" "^6.12.0"
-    events "^3.3.0"
-
-"@ledgerhq/hw-transport@^6.30.4":
-  version "6.30.4"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-6.30.4.tgz#05dee1e9cdec0e430594ecf7f5cf90c13721ad70"
-  integrity sha512-VBcVd7UG8HDrjWMoZI5rqBDz+PBxLHTIPZOGY/fdMoEUwaBbss0Z3MxuJanMyerlfaLqnBSVuL0blz7rOyagkw==
-  dependencies:
-    "@ledgerhq/devices" "^8.2.1"
-    "@ledgerhq/errors" "^6.16.2"
     "@ledgerhq/logs" "^6.12.0"
     events "^3.3.0"
 
@@ -1826,12 +1826,12 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-6.10.1.tgz#5bd16082261d7364eabb511c788f00937dac588d"
   integrity sha512-z+ILK8Q3y+nfUl43ctCPuR4Y2bIxk/ooCQFwZxhtci1EhAtMDzMAx2W25qx8G1PPL9UUOdnUax19+F0OjXoj4w==
 
-"@ledgerhq/logs@^6.12.0":
+"@ledgerhq/logs@^6.10.1", "@ledgerhq/logs@^6.12.0":
   version "6.12.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-6.12.0.tgz#ad903528bf3687a44da435d7b2479d724d374f5d"
   integrity sha512-ExDoj1QV5eC6TEbMdLUMMk9cfvNKhhv5gXol4SmULRVCx/3iyCPhJ74nsb3S0Vb+/f+XujBEj3vQn5+cwS0fNA==
 
-"@ledgerhq/types-live@^6.44.1":
+"@ledgerhq/types-live@^6.41.1", "@ledgerhq/types-live@^6.44.1":
   version "6.45.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/types-live/-/types-live-6.45.0.tgz#96754bfee3eb1d89f6c768d5fad40422ca9137aa"
   integrity sha512-UKcPVtI53wVOGOrcVkHwPMTNo0ajULlxs4dUmmair2al/yBFi4kosKGPw4i2T43J9rbGnKA+KVuS5G4b0dueXA==
