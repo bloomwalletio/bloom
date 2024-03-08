@@ -1,31 +1,36 @@
 import { IProfile } from '@core/profile/interfaces'
 import { activeProfile } from '@core/profile/stores'
-import { get } from 'svelte/store'
+import { calculatePercentageOfBigInt } from '@core/utils/number'
 import { ParticipationEventStatus } from '@iota/sdk'
+import { get } from 'svelte/store'
 import { IProposal } from '../interfaces'
-import { calculatePercentageOfBigInt, getSignificantDigitsAndRound } from '@core/utils/number'
-import { getDecimalSeparator } from '@core/i18n'
 
 export function getCirculatingSupplyVotedPercentage(
     participationEventStatus: ParticipationEventStatus,
     proposal: IProposal,
+    currentMilestone: number,
     profile: IProfile = get(activeProfile)
-): string {
+): number {
     const circulatingSupply = profile.network.protocol?.circulatingSupply
     if (!circulatingSupply || !participationEventStatus?.questions || !proposal?.milestones) {
-        return '0%'
+        return 0
     }
 
+    let milestoneCount: number
+    if (currentMilestone < proposal.milestones.holding) {
+        milestoneCount = 1
+    } else if (currentMilestone > proposal.milestones.ended) {
+        milestoneCount = proposal.milestones.ended - proposal.milestones.holding
+    } else {
+        milestoneCount = currentMilestone - proposal.milestones.holding
+    }
     const totalEventVotes = participationEventStatus.questions[0].answers.reduce(
         (total, answer) => (total += BigInt(answer.accumulated)),
         BigInt(0)
     )
-    const milestoneCount = proposal.milestones.ended - proposal.milestones.holding
     const maximumVotes = BigInt(circulatingSupply) * BigInt(milestoneCount)
 
     const percentage = calculatePercentageOfBigInt(totalEventVotes, maximumVotes, 6)
-    const percentageWithSignificantDigits = getSignificantDigitsAndRound(Number(percentage))
-    const percentageString = String(percentageWithSignificantDigits).replace(/[,.]/g, getDecimalSeparator()) + '%'
 
-    return percentageString
+    return percentage
 }
