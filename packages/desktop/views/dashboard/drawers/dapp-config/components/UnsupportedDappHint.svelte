@@ -42,9 +42,8 @@
         const unsupportedRequiredNetworks = requiredNetworksByDapp.filter(
             (networkId) => !supportedNetworksByProfile.includes(networkId)
         )
-        const otherProfileSupportsRequiredNetworks = requiredNetworksByDapp.some(
-            (networkId) =>
-                !supportedNetworksByProfile.includes(networkId) && allSupportedNetworksByWallet.includes(networkId)
+        const otherProfileSupportsRequiredNetworks = requiredNetworksByDapp.every((networkId) =>
+            allSupportedNetworksByWallet.includes(networkId)
         )
 
         const supportsAnyNetwork = supportedNetworksByDapp.some((networkId) =>

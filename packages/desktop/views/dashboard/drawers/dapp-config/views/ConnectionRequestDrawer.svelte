@@ -66,7 +66,7 @@
         }
 
         const supportsAnyNetwork = supportedNetworksByDapp.some((networkId) =>
-            requiredNetworksByDapp.includes(networkId)
+            supportedNetworksByProfile.includes(networkId)
         )
         if (!supportsAnyNetwork) {
             return false
