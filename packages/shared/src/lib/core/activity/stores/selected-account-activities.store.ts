@@ -32,19 +32,22 @@ export const queriedActivities: Readable<Activity[]> = derived(
     [selectedAccountActivities, activitySearchTerm, activityFilter],
     ([$selectedAccountActivities, $activitySearchTerm]) => {
         let activityList = $selectedAccountActivities.filter((_activity) => {
-            const containsAssets =
-                _activity.type === StardustActivityType.Basic || _activity.type === StardustActivityType.Foundry
-            if (!_activity.isHidden && !containsAssets) {
-                return true
-            }
+            if (_activity.namespace === NetworkNamespace.Stardust) {
+                const containsAssets =
+                    _activity.type === StardustActivityType.Basic || _activity.type === StardustActivityType.Foundry
+                if (!_activity.isHidden && !containsAssets) {
+                    return true
+                }
 
-            const tokenId = _activity.tokenTransfer?.tokenId ?? _activity.baseTokenTransfer.tokenId
-            const token =
-                _activity.type === StardustActivityType.Basic || _activity.type === StardustActivityType.Foundry
-                    ? getPersistedToken(tokenId)
-                    : undefined
-            const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
-            return !_activity.isHidden && hasValidAsset
+                const tokenId = _activity.tokenTransfer?.tokenId ?? _activity.baseTokenTransfer.tokenId
+                const token = containsAssets ? getPersistedToken(tokenId) : undefined
+                const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
+                return !_activity.isHidden && hasValidAsset
+            } else if (_activity.namespace === NetworkNamespace.Evm) {
+                return !_activity.isHidden
+            } else {
+                return false
+            }
         })
 
         activityList = activityList.filter((activity) => isVisibleActivity(activity))
@@ -75,21 +78,15 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
             fieldsToSearch.push(String(activity.baseTokenTransfer.rawAmount))
             fieldsToSearch.push(activity.baseTokenTransfer.tokenId)
 
-            const baseTokenName = getPersistedToken(activity.baseTokenTransfer.tokenId)?.metadata?.name
-            if (baseTokenName) {
-                fieldsToSearch.push(baseTokenName)
-            }
-
-            if (activity.tokenTransfer) {
-                fieldsToSearch.push(activity.tokenTransfer.tokenId)
-                fieldsToSearch.push(String(activity.tokenTransfer.rawAmount))
-
-                const tokenName = getPersistedToken(activity.tokenTransfer.tokenId)?.metadata?.name
-                if (tokenName) {
-                    fieldsToSearch.push(tokenName)
-                }
-            }
             const { rawAmount, tokenId } = activity.tokenTransfer ?? activity.baseTokenTransfer ?? {}
+
+            fieldsToSearch.push(tokenId)
+            fieldsToSearch.push(String(rawAmount))
+
+            const tokenName = getPersistedToken(tokenId)?.metadata?.name
+            if (tokenName) {
+                fieldsToSearch.push(tokenName)
+            }
 
             fieldsToSearch.push(
                 getFormattedAmountFromActivity(
@@ -115,17 +112,21 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
                 )?.toLowerCase()
             )
         } else if (activity.type === EvmActivityType.TokenTransfer) {
-            fieldsToSearch.push(String(activity.tokenTransfer.rawAmount))
-            fieldsToSearch.push(String(activity.tokenTransfer.tokenId))
+            const { rawAmount, tokenId, standard } = activity.tokenTransfer
 
-            if (
-                activity.tokenTransfer?.standard === TokenStandard.Erc20 ||
-                activity.tokenTransfer?.standard === TokenStandard.Irc30
-            ) {
+            fieldsToSearch.push(String(rawAmount))
+            fieldsToSearch.push(tokenId)
+
+            if (standard === TokenStandard.Erc20 || standard === TokenStandard.Irc30) {
+                const tokenName = getPersistedToken(tokenId)?.metadata?.name
+                if (tokenName) {
+                    fieldsToSearch.push(tokenName)
+                }
+
                 fieldsToSearch.push(
                     getFormattedAmountFromActivity(
-                        activity.tokenTransfer.rawAmount,
-                        activity.tokenTransfer.tokenId,
+                        rawAmount,
+                        tokenId,
                         activity.direction,
                         activity.action,
                         false

@@ -31,8 +31,8 @@ export type BaseStardustActivity = BaseActivity & {
 
 export type AsyncData = {
     asyncStatus: StardustActivityAsyncStatus
-    timelockDate: Date
-    expirationDate: Date
+    timelockDate?: Date
+    expirationDate?: Date
     isRejected: boolean
     isClaiming: boolean
     claimingTransactionId?: string

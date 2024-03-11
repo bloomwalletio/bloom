@@ -2,8 +2,8 @@ import { StardustActivityAsyncStatus } from '@core/activity/enums'
 
 export function getAsyncStatus(
     isClaimed: boolean,
-    expirationDate: Date,
-    timelockDate: Date,
+    expirationDate: Date | undefined,
+    timelockDate: Date | undefined,
     hasStorageDeposit: boolean,
     currentTimeStamp: number
 ): StardustActivityAsyncStatus {
