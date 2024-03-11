@@ -23,7 +23,7 @@ export function getTokenFromActivity(activity: Activity): ITokenWithBalance | un
     } else if (activity.namespace === NetworkNamespace.Evm) {
         if (activity.type === EvmActivityType.CoinTransfer) {
             return getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, activity.sourceNetworkId)
-        } else if (activity.type === EvmActivityType.TokenTransfer) {
+        } else if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
             if (
                 activity.tokenTransfer.standard === TokenStandard.Erc20 ||
                 activity.tokenTransfer.standard === TokenStandard.Irc30

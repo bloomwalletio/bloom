@@ -37,12 +37,20 @@
 
     let nft: Nft | undefined
     $: $selectedAccountNfts, (nft = getNftFromActivity())
+    $: showNft =
+        activity.type === StardustActivityType.Nft ||
+        ((activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) &&
+            (activity.tokenTransfer.standard === NftStandard.Erc721 ||
+                activity.tokenTransfer.standard === NftStandard.Irc27))
 
     $: color = getActivityActionTextColor(activity)
     $: pill = getActivityActionPill(activity, $time)
 
     function getNftFromActivity(): Nft | undefined {
-        if (activity.namespace === NetworkNamespace.Evm && activity.type === EvmActivityType.TokenTransfer) {
+        if (
+            activity.namespace === NetworkNamespace.Evm &&
+            (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange)
+        ) {
             if (
                 activity.tokenTransfer.standard === NftStandard.Erc721 ||
                 activity.tokenTransfer.standard === NftStandard.Irc27
@@ -61,7 +69,7 @@
             <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
         {:else if token}
             <TokenAvatar {token} hideNetworkBadge size="lg" />
-        {:else if activity.type === StardustActivityType.Nft || (activity.type === EvmActivityType.TokenTransfer && (activity.tokenTransfer.standard === NftStandard.Erc721 || activity.tokenTransfer.standard === NftStandard.Irc27))}
+        {:else if showNft}
             <NftAvatar {nft} size="lg" shape="square" />
         {:else if activity.type === StardustActivityType.SmartContract}
             <Avatar

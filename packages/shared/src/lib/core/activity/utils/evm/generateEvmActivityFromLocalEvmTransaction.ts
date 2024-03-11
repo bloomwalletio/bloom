@@ -49,7 +49,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             type: EvmActivityType.CoinTransfer,
             baseTokenTransfer: {
                 tokenId: BASE_TOKEN_ID,
-                rawAmount: transaction.value,
+                rawAmount: BigInt(transaction.value),
             },
         } as EvmCoinTransferActivity
     }

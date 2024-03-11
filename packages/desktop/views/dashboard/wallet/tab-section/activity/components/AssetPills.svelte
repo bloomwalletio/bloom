@@ -52,7 +52,10 @@
             if (activity.type === EvmActivityType.CoinTransfer) {
                 typePill = 'baseCoin'
                 standardPill = ''
-            } else if (activity.type === EvmActivityType.TokenTransfer) {
+            } else if (
+                activity.type === EvmActivityType.TokenTransfer ||
+                activity.type === EvmActivityType.BalanceChange
+            ) {
                 const standard = activity.tokenTransfer.standard
                 standardPill = standard
                 typePill = standard === NftStandard.Erc721 || standard === NftStandard.Irc27 ? 'nft' : 'token'
