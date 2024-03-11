@@ -20,7 +20,7 @@
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { UiEventFunction, truncateString } from '@core/utils'
+    import { UiEventFunction, buildUrl, truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
@@ -37,10 +37,11 @@
     let status: NetworkHealth
 
     $: $networkStatus, $chainStatuses, $selectedAccount, setNetworkCardData()
-    $: explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
+    $: explorer = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
 
     function onExplorerClick(address: string): void {
-        openUrlInBrowser(`${explorerUrl}/${address}`)
+        const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
+        openUrlInBrowser(url?.href)
     }
 
     function setNetworkCardData(): void {
@@ -116,7 +117,7 @@
                 {/if}
             </div>
             <div class="flex flex-row space-x-1">
-                {#if explorerUrl && address}
+                {#if explorer.baseUrl && address}
                     <IconButton
                         size="sm"
                         icon={IconName.Globe}

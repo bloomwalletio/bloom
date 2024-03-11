@@ -22,8 +22,8 @@ export type BlockscoutExitFunction<T> = (items: T[]) => boolean
 
 export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     constructor(networkId: NetworkId) {
-        const explorerUrl = DEFAULT_EXPLORER_URLS[networkId as SupportedNetworkId]
-        super(`${explorerUrl}/api/v2`)
+        const explorerBaseUrl = DEFAULT_EXPLORER_URLS[networkId as SupportedNetworkId]
+        super(explorerBaseUrl, 'api/v2')
     }
 
     private async makePaginatedGetRequest<T>(

@@ -4,7 +4,14 @@ import { Platform } from '../classes/platform.class'
 import { externalAllowedLinks } from '../constants'
 import { showNotification } from '@auxiliary/notification'
 
-export function openUrlInBrowser(targetUrl: string): void {
+export function openUrlInBrowser(targetUrl: string | undefined): void {
+    if (!targetUrl) {
+        showNotification({
+            variant: 'error',
+            text: localize('error.global.invalidUrl'),
+        })
+        return
+    }
     // If no protocol is specified, assume https
     if (!targetUrl.includes('://')) {
         targetUrl = 'https://' + targetUrl
