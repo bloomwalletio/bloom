@@ -83,6 +83,7 @@
                 {selectedAnswerValue}
                 {disabled}
                 {isLoading}
+                {projected}
                 hidden={!isOpened}
                 percentage={percentages[answer.value]}
                 isWinner={answerIndex === winnerAnswerIndex}

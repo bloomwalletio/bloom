@@ -27,8 +27,8 @@ export type BlockscoutExitFunction<T> = (items: T[]) => boolean
 
 export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     constructor(networkId: NetworkId) {
-        const explorerUrl = DEFAULT_EXPLORER_URLS[networkId as SupportedNetworkId]
-        super(`${explorerUrl}/api/v2`)
+        const explorerBaseUrl = DEFAULT_EXPLORER_URLS[networkId as SupportedNetworkId]
+        super(explorerBaseUrl, 'api/v2')
     }
 
     private async makePaginatedGetRequest<T>(
@@ -74,18 +74,14 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     ): Promise<IBlockscoutAsset[]> {
         const tokenType = standard.replace('ERC', 'ERC-')
         const path = `addresses/${address}/tokens`
-        const response = await this.get<IPaginationResponse<IBlockscoutAsset>>(path, { type: tokenType })
-        if (response) {
-            return (response?.items ?? []).map((asset) => ({
-                ...asset,
-                token: {
-                    ...asset.token,
-                    type: asset.token.type.replace('-', ''),
-                },
-            }))
-        } else {
-            return []
-        }
+        const items = await this.makePaginatedGetRequest<IBlockscoutAsset>(path, { type: tokenType })
+        return items.map((asset) => ({
+            ...asset,
+            token: {
+                ...asset.token,
+                type: asset.token.type.replace('-', ''),
+            },
+        }))
     }
 
     async getTransactionsForAddress(

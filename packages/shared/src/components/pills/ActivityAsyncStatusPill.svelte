@@ -1,11 +1,11 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { Activity, ActivityAsyncStatus, ActivityDirection } from '@core/activity'
+    import { StardustActivity, StardustActivityAsyncStatus, ActivityDirection } from '@core/activity'
     import { Pill, Icon, IconName } from '@bloomwalletio/ui'
     import { getTimeDifference } from '@core/utils/time'
     import { time } from '@core/app/stores'
 
-    export let activity: Activity
+    export let activity: StardustActivity
 
     let pillProps: { color: string; icon: IconName; text: string } | undefined
     $: $time, activity, (pillProps = getPillStyle())
@@ -17,10 +17,10 @@
         const { asyncStatus, expirationDate, timelockDate } = activity.asyncData
 
         switch (asyncStatus) {
-            case ActivityAsyncStatus.Claimed: {
+            case StardustActivityAsyncStatus.Claimed: {
                 return undefined
             }
-            case ActivityAsyncStatus.Timelocked: {
+            case StardustActivityAsyncStatus.Timelocked: {
                 if (activity.direction === ActivityDirection.Outgoing) {
                     if (expirationDate) {
                         return {
@@ -43,7 +43,7 @@
                     }
                 }
             }
-            case ActivityAsyncStatus.Unclaimed: {
+            case StardustActivityAsyncStatus.Unclaimed: {
                 const timeDiff = expirationDate ? getTimeDifference(expirationDate, $time) : undefined
                 if (activity.direction === ActivityDirection.Outgoing) {
                     return {
@@ -59,7 +59,7 @@
                     }
                 }
             }
-            case ActivityAsyncStatus.Expired: {
+            case StardustActivityAsyncStatus.Expired: {
                 return {
                     color: 'neutral',
                     icon: IconName.EmptyHourglass,

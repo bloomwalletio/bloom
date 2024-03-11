@@ -33,19 +33,6 @@ export function convertUInt16NumberToLittleEndianHex(num: number, withHexPrefix 
     return withHexPrefix ? HEX_PREFIX + hex : hex
 }
 
-export function convertBytesToHexString(bytes: number[], withHexPrefix = true): string {
-    if (!bytes) {
-        throw new Error('"bytes" must be an array of numbers')
-    }
-
-    if (bytes.length === 0) {
-        return ''
-    }
-
-    const hex = bytes.map((byte) => ('0' + (byte & 0xff).toString(16)).slice(-2)).join('')
-    return withHexPrefix ? HEX_PREFIX + hex : hex
-}
-
 // Copyright 2020 IOTA Stiftung
 // SPDX-License-Identifier: Apache-2.0
 

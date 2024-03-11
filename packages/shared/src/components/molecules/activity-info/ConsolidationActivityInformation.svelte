@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { ConsolidationActivity } from '@core/activity'
+    import { StardustConsolidationActivity } from '@core/activity'
 
-    export let activity: ConsolidationActivity
+    export let activity: StardustConsolidationActivity
 </script>
 
 <Table

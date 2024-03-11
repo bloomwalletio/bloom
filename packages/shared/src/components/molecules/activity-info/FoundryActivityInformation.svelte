@@ -1,21 +1,24 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { FoundryActivity } from '@core/activity'
+    import { StardustFoundryActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network/enums'
     import { getDefaultExplorerUrl } from '@core/network/utils'
+    import { buildUrl } from '@core/utils'
 
-    export let activity: FoundryActivity
+    export let activity: StardustFoundryActivity
 
     function onAliasClick(aliasAddress: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
-        openUrlInBrowser(`${explorerUrl}/${aliasAddress}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${aliasAddress}` })
+        openUrlInBrowser(url?.href)
     }
 
     function onTokenClick(tokenId: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Foundry)
-        openUrlInBrowser(`${explorerUrl}/${tokenId}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Foundry)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${tokenId}` })
+        openUrlInBrowser(url?.href)
     }
 </script>
 
