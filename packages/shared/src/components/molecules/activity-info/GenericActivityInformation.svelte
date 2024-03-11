@@ -7,6 +7,7 @@
     import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
+    import { buildUrl } from '@core/utils'
     import { getTimeDifference } from '@core/utils/time'
     import { NetworkLabel, ExpiredActivityPill, TimelockActivityPill, UnclaimedActivityPill } from '@ui'
 
@@ -21,11 +22,13 @@
     $: formattedMaxGasFee = formatAmount(BigInt(gasLimit ?? 0))
     $: formattedTransactionFee = formatAmount(activity.transactionFee ?? BigInt(0))
 
-    $: explorerUrl = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction)
+    $: explorer = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction) ?? ''
     function onTransactionIdClick(): void {
-        if (explorerUrl) {
-            openUrlInBrowser(`${explorerUrl}/${activity.asyncData?.claimingTransactionId}`)
-        }
+        const url = buildUrl({
+            origin: explorer.baseUrl,
+            pathname: `${explorer.endpoint}/${activity.asyncData?.claimingTransactionId}`,
+        })
+        openUrlInBrowser(url?.href)
     }
 
     function formatAmount(amount: bigint | undefined): string | undefined {
@@ -132,7 +135,7 @@
             value: activity.asyncData?.claimingTransactionId,
             copyable: true,
             truncate: { firstCharCount: 12, endCharCount: 12 },
-            onClick: explorerUrl ? onTransactionIdClick : undefined,
+            onClick: explorer.baseUrl ? onTransactionIdClick : undefined,
         },
     ]}
 />

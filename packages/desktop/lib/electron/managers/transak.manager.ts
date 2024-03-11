@@ -4,7 +4,7 @@ import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
 import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
-import { buildQueryParametersFromObject } from '@core/utils/url'
+import { buildUrl } from '@core/utils/url'
 import { MarketCurrency } from '@core/market/enums/market-currency.enum'
 
 export default class TransakManager implements ITransakManager {
@@ -179,7 +179,7 @@ export default class TransakManager implements ITransakManager {
             throw new Error('Invalid Transak service')
         }
 
-        const queryParams = buildQueryParametersFromObject({
+        const queryParams = {
             apiKey,
             defaultFiatCurrency: currency,
             defaultCryptoAmount: 100,
@@ -192,8 +192,10 @@ export default class TransakManager implements ITransakManager {
             disableWalletAddressForm: true,
             isFeeCalculationHidden: true,
             disablePaymentMethods: ['apple_pay', 'google_pay'],
-        })
+        }
 
-        return `${TRANSAK_WIDGET_URL}/?${queryParams}`
+        const urlObject = buildUrl({ origin: TRANSAK_WIDGET_URL, query: queryParams })
+
+        return urlObject?.href ?? ''
     }
 }
