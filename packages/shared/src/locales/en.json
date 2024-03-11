@@ -688,10 +688,15 @@
                     "eventId": "Event ID",
                     "nodeUrl": "Node URL"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Fetching proposal data",
                 "hintVote": "You can not vote on a proposal that is in the announcement phase, voting will open in {time}.",
                 "projection": {
-                    "label": "Projected votes",
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
                     "tooltip": "The projection is based on current voting weight and remaining milestones."
                 }
             }
@@ -1381,7 +1386,8 @@
         "syncAccounts": "Sync accounts",
         "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens",
-        "mintNftCollection": "Mint NFT collection"
+        "mintNftCollection": "Mint NFT collection",
+        "readMore": "Read more"
     },
     "general": {
         "recipient": "Recipient",
@@ -1607,7 +1613,8 @@
         "baseCoin": "Base Coin",
         "unverifiedContract": "Unverified Contract",
         "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "question": "Question"
     },
     "filters":{
         "title": "Filters",
