@@ -3,16 +3,17 @@ import { BASE_TOKEN_CONTRACT_ADDRESS } from '@core/layer-2'
 import { EvmNetworkId } from '@core/network'
 import { NetworkId } from '@core/network/types'
 import { hasTokenBeenUntracked } from '@core/wallet/actions'
-import { addPersistedTokenBalanceChange, getBalanceChanges } from '../stores'
+import { addAccountActivity, addPersistedTokenBalanceChange, getBalanceChanges } from '../stores'
 import { ITokenBalanceChange } from '../types'
+import { generateTokenBalanceChangeActivity } from '../utils'
 
-export async function calculateAndAddPersistedTokenBalanceChange(
+export function calculateAndAddPersistedTokenBalanceChange(
     account: IAccountState,
     networkId: NetworkId,
     tokenId: string,
     newBalanceBigInt: bigint,
     hidden: boolean = false
-): Promise<void> {
+): void {
     const newBalance = newBalanceBigInt.toString() || '0'
 
     const balanceChangesForAsset = getBalanceChanges(account.index, networkId)?.tokens?.[tokenId]
@@ -32,9 +33,8 @@ export async function calculateAndAddPersistedTokenBalanceChange(
     const hasZeroStartingBalance = newBalanceChange.newBalance === '0' && newBalanceChange.oldBalance === undefined
     const isShimmerErc20Token = tokenId === BASE_TOKEN_CONTRACT_ADDRESS[networkId as EvmNetworkId]
     if (!hidden && !hasZeroStartingBalance && !hasTokenBeenUntracked(tokenId, networkId) && !isShimmerErc20Token) {
-        // const activity = await generateTokenBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)
-        // addAccountActivity(account.index, activity)
+        const activity = generateTokenBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)
+        addAccountActivity(account.index, activity)
     }
     addPersistedTokenBalanceChange(account.index, networkId, tokenId, newBalanceChange)
-    return Promise.resolve()
 }

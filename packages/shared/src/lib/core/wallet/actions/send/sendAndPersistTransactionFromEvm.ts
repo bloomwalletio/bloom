@@ -55,7 +55,7 @@ async function persistEvmTransaction(
 
     addAccountActivity(account.index, activity)
 
-    await createHiddenBalanceChange(account, activity)
+    createHiddenBalanceChange(account, activity)
 
     if (activity.recipient?.type === 'account') {
         const recipientAccount = activity.recipient.account
@@ -70,12 +70,12 @@ async function persistEvmTransaction(
         }
 
         addAccountActivity(recipientAccount.index, receiveActivity)
-        await createHiddenBalanceChange(recipientAccount, receiveActivity)
+        createHiddenBalanceChange(recipientAccount, receiveActivity)
     }
 }
 
 // Hidden balance changes mitigate duplicate activities for L2 transactions (balance changed & sent/receive activities).
-async function createHiddenBalanceChange(account: IAccountState, activity: EvmActivity): Promise<void> {
+function createHiddenBalanceChange(account: IAccountState, activity: EvmActivity): void {
     const received = activity.direction === ActivityDirection.Incoming
     const networkId = activity.sourceNetworkId
 
@@ -88,6 +88,6 @@ async function createHiddenBalanceChange(account: IAccountState, activity: EvmAc
         const amount = received ? activity.tokenTransfer.rawAmount : BigInt(-1) * activity.tokenTransfer.rawAmount
 
         const newBalance = updateLayer2AccountBalanceForTokenOnChain(account.index, networkId, tokenId, amount)
-        await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance, true)
+        calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance, true)
     }
 }

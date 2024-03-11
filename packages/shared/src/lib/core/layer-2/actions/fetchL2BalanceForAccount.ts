@@ -52,7 +52,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
             const adjustedBalance = Number.isNaN(Number(balance)) ? BigInt(0) : balance
             if (tokenId !== BASE_TOKEN_ID) {
                 await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
-                await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, adjustedBalance)
+                calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, adjustedBalance)
             }
             l2Balance[tokenId] = adjustedBalance
         }
