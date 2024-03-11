@@ -5,7 +5,7 @@ import { IAccountState } from '@core/account'
 import { generateEvmBalanceChangeActivity } from './generateEvmBalanceChangeActivity'
 import { NftStandard } from '@core/nfts'
 
-export function generateNftBalanceChangeActivity(
+export function generateEvmNftBalanceChangeActivity(
     networkId: NetworkId,
     nftId: string,
     balanceChange: INftBalanceChange,

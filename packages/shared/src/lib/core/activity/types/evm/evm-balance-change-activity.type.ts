@@ -1,11 +1,10 @@
 import { EvmActivityType } from '@core/activity/enums/evm'
 import { TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
-import { NetworkId, NetworkNamespace } from '@core/network'
-import { ActivityAction, ActivityDirection, InclusionState } from '@core/activity/enums'
-import { Subject } from '@core/wallet/types'
+import { NetworkNamespace } from '@core/network'
+import { BaseActivity } from '../base-activity.type'
 
-export type EvmBalanceChangeActivity = {
+export type EvmBalanceChangeActivity = BaseActivity & {
     namespace: NetworkNamespace.Evm
 
     type: EvmActivityType.BalanceChange
@@ -14,24 +13,4 @@ export type EvmBalanceChangeActivity = {
         tokenId: string
         rawAmount: bigint
     }
-
-    // meta information
-    id: string
-    action: ActivityAction
-    isHidden?: boolean
-    isTokenHidden?: boolean // is this needed?
-    containsValue?: boolean // is this needed?
-
-    // transaction information
-    time: Date
-    inclusionState: InclusionState
-
-    // sender / recipient information
-    sender?: Subject
-    recipient?: Subject
-    subject?: Subject
-    isInternal: boolean
-    sourceNetworkId: NetworkId
-    destinationNetworkId: NetworkId
-    direction: ActivityDirection
 }

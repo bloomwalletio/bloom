@@ -6,7 +6,7 @@ import { EvmBalanceChangeActivity, ITokenBalanceChange } from '../../types'
 import { IAccountState } from '@core/account'
 import { generateEvmBalanceChangeActivity } from './generateEvmBalanceChangeActivity'
 
-export function generateTokenBalanceChangeActivity(
+export function generateEvmTokenBalanceChangeActivity(
     networkId: NetworkId,
     tokenId: string,
     balanceChange: ITokenBalanceChange,
