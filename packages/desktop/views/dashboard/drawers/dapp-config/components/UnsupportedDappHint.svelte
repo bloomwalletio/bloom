@@ -10,6 +10,7 @@
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
     export let optionalNamespaces: ProposalTypes.RequiredNamespaces
 
+    const MAX_UNSUPPORTED_METHODS = 3
     const localeKey = 'views.dashboard.drawers.dapps.connectionRequest'
 
     $: ({
@@ -146,7 +147,7 @@
 {:else if unsupportedMethods.length}
     <Alert variant="danger" text={localize(`${localeKey}.unsupportedMethods`)}>
         <Table slot="body">
-            {#each unsupportedMethods as method}
+            {#each unsupportedMethods.slice(0, MAX_UNSUPPORTED_METHODS) as method}
                 <TableRow item={{ key: method }}>
                     <Text textColor="warning" slot="boundValue">{localize(`${localeKey}.notSupported`)}</Text>
                 </TableRow>
