@@ -1,3 +1,4 @@
+export * from './buildProfileFromThirdPartyProfile'
 export * from './getStorageDirectoryOfProfile'
 export * from './getStorageDirectoryOfProfiles'
 export * from './isLedgerProfile'

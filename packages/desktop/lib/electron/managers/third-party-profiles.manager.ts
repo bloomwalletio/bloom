@@ -28,15 +28,16 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
             return
         }
 
-        const data: Record<string, unknown> = {}
+        const data: Record<string, { key: string; value: unknown }> = {}
 
         try {
             const db = new ClassicLevel(levelDBPath)
+            let i = 0
             for await (const [key, value] of db.iterator()) {
-                data[key.toString().replace('_file:// ', '')] = value.toString()
-                // eslint-disable-next-line no-console
-                console.log('KV', key, value)
+                data[i] = { key: key.toString(), value: value.substring(1) }
+                i++
             }
+            db.close()
             return data
         } catch (err) {
             console.error(err)
