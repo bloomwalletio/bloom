@@ -1931,6 +1931,7 @@
             "notReachable": "The network ID for this node could not be retrieved, unable to add node."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Something went wrong."
         },
         "backup": {

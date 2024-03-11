@@ -32,7 +32,7 @@
                 {
                     key: localize('general.uri'),
                     value: metadata.uri,
-                    onClick: () => openUrlInBrowser(metadata?.uri ?? ''),
+                    onClick: () => openUrlInBrowser(metadata?.uri),
                 },
                 {
                     key: localize('general.description'),
@@ -69,7 +69,7 @@
                 {
                     key: localize('general.image'),
                     value: metadata.image,
-                    onClick: () => openUrlInBrowser(metadata?.image ?? ''),
+                    onClick: () => openUrlInBrowser(metadata?.image),
                 },
                 {
                     key: localize('general.description'),
