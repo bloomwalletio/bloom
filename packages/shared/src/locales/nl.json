@@ -522,8 +522,8 @@
                         "permissions": {
                             "step": "Permissie",
                             "tip": "Dit zijn beperkte machtigingen voor de dApp om een interactieverzoek te sturen voor jouw goedkeuring. Keur alleen apps goed die je kent en vertrouwt.",
-                            "requiredTitle": "Required permissions",
-                            "optionalTitle": "Optional permissions",
+                            "requiredTitle": "Vereiste machtigingen",
+                            "optionalTitle": "Optionele machtigingen",
                             "signData": "Verzoek om data te ondertekenen",
                             "signTransaction": "Verzoek om een transactie te ondertekenen",
                             "sendTransaction": "Verzoek om een transactie te ondertekenen",
@@ -532,8 +532,8 @@
                         },
                         "networks": {
                             "step": "Netwerken",
-                            "requiredTitle": "Required networks",
-                            "optionalTitle": "Optional networks",
+                            "requiredTitle": "Vereiste netwerken",
+                            "optionalTitle": "Optionele netwerken",
                             "tip": "De vereiste netwerken zijn vooraf geselecteerd door de dApp en kunnen later ook opnieuw worden geconfigureerd.",
                             "empty": "Je moet tenminste één netwerk selecteren"
                         },
@@ -634,14 +634,13 @@
                 "manage": "Beheer stemkracht"
             },
             "proposalsDetails": {
-                "title": "Details",
                 "totalProposals": "Alle voorstellen",
                 "activeProposals": "Actieve voorstellen",
                 "votingProposals": "Voorstellen waar je over stemt",
                 "votedProposals": "Totaal aantal voorstellen waarop je gestemd hebt"
             },
             "proposals": {
-                "title": "Voorstellen",
+                "title": "Governance Proposals",
                 "voted": "Gestemd",
                 "successEdit": "Voorstel succesvol bijgewerkt",
                 "successAdd": "{numberOfProposals, select, one {Voorstel} other {Voorstellen}} succesvol toegevoegd",
@@ -690,8 +689,8 @@
                 "fetching": "Ophalen voorstel gegevens",
                 "hintVote": "Je kunt niet stemmen over een voorstel dat in de aankondigingsfase verkeert, de stemming wordt geopend in {time}.",
                 "projection": {
-                    "label": "Projected votes",
-                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                    "label": "Geschatte stemmen",
+                    "tooltip": "De verwachting is gebaseerd op het huidige stemkracht en de resterende mijlpalen."
                 }
             }
         },
@@ -980,16 +979,16 @@
         "siwe": {
             "title": "Inloggen met Ethereum",
             "details": "Details",
-            "raw": "Raw",
-            "rawMessage": "Raw message",
+            "raw": "Onbewerkt",
+            "rawMessage": "Onbewerkt bericht",
             "domain": "Domein",
             "statement": "Verklaring",
             "resources": "Bronnen",
             "chainId": "Chain Id",
             "nonce": "Nonce",
-            "issuedAt": "Issued at",
-            "notBefore": "Not before",
-            "requestId": "Request Id",
+            "issuedAt": "Uitgegeven op",
+            "notBefore": "Niet voor",
+            "requestId": "Aanvraag Id",
             "action": "Inloggen"
         },
         "signTransaction": {
@@ -1005,7 +1004,7 @@
         "smartContractCall": {
             "title": "Smart Contract-oproep naar {contractAddress}",
             "unableToVerify": "Bloom is niet in staat om de smart Contract-oproep te verifiëren. Ga alleen verder met apps die je vertrouwt.",
-            "viewSmartContract": "View Smart Contract",
+            "viewSmartContract": "Bekijk Smart Contract",
             "action": "Bevestig",
             "success": "Smart contract oproep naar {recipient}"
         },
@@ -1083,19 +1082,19 @@
                         "Conflicting": "Stemkracht verminderen mislukt"
                     },
                     "startVoting": {
-                        "Pending": "Stemmen voor {proposalName}",
-                        "Confirmed": "Gestemd voor {proposalName}",
-                        "Conflicting": "Mislukt te stemmen op"
+                        "Pending": "Voting on {proposalName}",
+                        "Confirmed": "Voted on {proposalName}",
+                        "Conflicting": "Failed to vote on"
                     },
                     "stopVoting": {
-                        "Pending": "Stemmen voor {proposalName} wordt gestopt",
-                        "Confirmed": "Stemmen voor {proposalName} gestopt",
-                        "Conflicting": "Niet gelukt om te stoppen met stemmen voor"
+                        "Pending": "Stopping voting on {proposalName}",
+                        "Confirmed": "Stopped voting on {proposalName}",
+                        "Conflicting": "Failed to stop voting on"
                     },
                     "changedVote": {
-                        "Pending": "Stem wijzigen voor {proposalName}",
-                        "Confirmed": "Stem gewijzigd voor {proposalName}",
-                        "Conflicting": "Mislukt de stem te wijzigen voor"
+                        "Pending": "Changing vote on {proposalName}",
+                        "Confirmed": "Changed vote on {proposalName}",
+                        "Conflicting": "Failed to change vote on"
                     },
                     "revote": {
                         "Pending": "Herstemmen",
@@ -1217,7 +1216,7 @@
         "revote": {
             "title": "Herstem voor voorstellen",
             "body": "Het wijzigen van jouw stemkracht zorgt ervoor dat jouw stemmen voor alle voorstellen tijdelijk niet meer geteld worden. Klik simpelweg op \"Herstem\" om de stemming te hervatten.",
-            "hint": "Bloom onthoudt alle voorstellen en antwoordopties waarvoor je eerder hebt gestemd."
+            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Voorstel verwijderen",
@@ -1396,18 +1395,20 @@
         "receiving": "Ontvangen",
         "newVotingPower": "Nieuwe stemkracht",
         "votingPower": "Stemkracht",
-        "increased": "Voting increased",
-        "increasing": "Increasing voting",
-        "decreased": "Voting decreased",
-        "decreasing": "Decreasing voting",
+        "increased": "Voting power increased",
+        "increasing": "Increasing voting power",
+        "decreased": "Voting power decreased",
+        "decreasing": "Decreasing voting power",
         "voted": "Gestemd",
         "voting": "Stemmen",
+        "votingOn": "Voting on",
+        "votedOn": "Voted on",
         "changedVote": "Stem gewijzigd",
         "changingVote": "Stem wijzigen",
         "revoted": "Herstemd",
         "revoting": "Herstemmen",
-        "unvoted": "Stopped voting",
-        "unvoting": "Stopping voting",
+        "unvoted": "Gestopt met stemmen",
+        "unvoting": "Stoppen met stemmen",
         "transferred": "Verzonden",
         "transferring": "Aan het verzenden",
         "shimmerClaimed": "Geclaimed",
@@ -1546,7 +1547,7 @@
         "contractFunction": "Contract functie",
         "standard": "Standaard",
         "uri": "URI",
-        "image": "Image",
+        "image": "Afbeelding",
         "issuer": "Uitgever",
         "issuerAddress": "Uitgever adres",
         "issuerName": "Naam uitgever",
