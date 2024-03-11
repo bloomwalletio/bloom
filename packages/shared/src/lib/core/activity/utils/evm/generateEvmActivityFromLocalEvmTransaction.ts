@@ -8,6 +8,7 @@ import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { StardustActivityType } from '@core/activity/enums'
 import { NftStandard } from '@core/nfts'
+import { Converter } from '@core/utils/convert'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -49,7 +50,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             type: EvmActivityType.CoinTransfer,
             baseTokenTransfer: {
                 tokenId: BASE_TOKEN_ID,
-                rawAmount: BigInt(transaction.value),
+                rawAmount: Converter.bigIntLikeToBigInt(transaction.value),
             },
         } as EvmCoinTransferActivity
     }
