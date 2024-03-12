@@ -50,8 +50,11 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
     public copyProfileDirectory(appName: string, profileId: string): void {
         const pathToCopy = path.resolve(this.userDataPath, '..', appName, '__storage__', profileId)
         const destinationPath = path.resolve(this.userDataPath, '__storage__', profileId)
-        fs.cp(pathToCopy, destinationPath, (err) => {
-            console.error(err)
+        if (!fs.existsSync(destinationPath)) {
+            fs.mkdirSync(destinationPath, { recursive: true })
+        }
+        fs.cp(pathToCopy, destinationPath, { recursive: true }, (err) => {
+            if (err) console.error(err)
         })
     }
 
