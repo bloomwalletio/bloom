@@ -9,7 +9,7 @@
     } from '@core/app'
     import { localize } from '@core/i18n'
     import { login, resetActiveProfile } from '@core/profile/actions'
-    import { activeProfile } from '@core/profile/stores'
+    import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { loginRouter } from '@core/router'
     import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import { ProfileAvatarWithBadge } from '@ui'
@@ -89,6 +89,12 @@
     async function onSubmit(): Promise<void> {
         if (!hasReachedMaxAttempts) {
             isBusy = true
+            if ($activeProfile?.pincodeLocation) {
+                // copy pincode from pincode location
+                pinCode = await Platform.PincodeManager.get($activeProfile?.id, $activeProfile.pincodeLocation)
+                await Platform.PincodeManager.set($activeProfile?.id, pinCode)
+                updateActiveProfile({ pincodeLocation: undefined })
+            }
             const isVerified = await Platform.PincodeManager.verify($activeProfile?.id, pinCode)
             if (isVerified) {
                 if (!updateRequired) {

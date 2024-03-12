@@ -10,7 +10,7 @@ export async function importThirdPartyProfiles(
 ): Promise<void> {
     for (const profile of profiles) {
         // 1. build persisted profile
-        const persistedProfile = buildPersistedProfileFromThirdPartyPersistedProfile(profile)
+        const persistedProfile = buildPersistedProfileFromThirdPartyPersistedProfile(profile, appName)
         if (!persistedProfile) {
             continue
         }

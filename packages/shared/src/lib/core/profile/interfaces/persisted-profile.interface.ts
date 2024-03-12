@@ -30,4 +30,5 @@ export interface IPersistedProfile {
     trackedNfts: TrackedTokens
     pfp?: Nft
     color?: string
+    pincodeLocation?: string
 }

@@ -6,9 +6,11 @@ import { DEFAULT_LOCK_SCREEN_TIMEOUT_IN_MINUTES } from '@core/profile/constants/
 import { StrongholdVersion } from '@core/stronghold'
 import { IThirdPartyPersistedProfile } from '../interfaces'
 import { buildPersistedAccountDataFromThirdPartyPersistedAccountData } from './buildPersistedAccountDataFromThirdPartyPersistedAccountData'
+import { ThirdPartyAppName } from '../enums'
 
 export function buildPersistedProfileFromThirdPartyPersistedProfile(
-    thirdPartyProfile: IThirdPartyPersistedProfile
+    thirdPartyProfile: IThirdPartyPersistedProfile,
+    appName: ThirdPartyAppName
 ): IPersistedProfile | undefined {
     if (!thirdPartyProfile || thirdPartyProfile.needsChrysalisToStardustDbMigration) {
         return undefined
@@ -55,6 +57,7 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
         strongholdVersion: thirdPartyProfile.strongholdVersion ?? StrongholdVersion.V2,
         trackedNfts: {},
         trackedTokens: {},
+        pincodeLocation: appName,
     }
 
     return persistedProfile
