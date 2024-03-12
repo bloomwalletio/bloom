@@ -12,6 +12,8 @@
         TransakWindowPlaceholder,
     } from '../components'
     import { isDashboardSideBarExpanded } from '@core/ui'
+    import { MarketCoinId, MarketCurrency } from '@core/market/enums'
+    import { marketCoinPrices } from '@core/market/stores'
 
     $: $isDashboardSideBarExpanded, void updateTransakBounds()
 
@@ -56,12 +58,37 @@
         })
     }
 
+    function getDefaultFiatAmount(currency: MarketCurrency): number {
+        switch (currency) {
+            case MarketCurrency.Usd:
+            case MarketCurrency.Eur:
+            case MarketCurrency.Gbp:
+                return 100
+            default: {
+                const conversionRate =
+                    $marketCoinPrices[MarketCoinId.Iota]?.[currency] /
+                    $marketCoinPrices[MarketCoinId.Iota]?.[MarketCurrency.Usd]
+                const fiatAmount = 100 * conversionRate
+                const roundedAmount = customRound(fiatAmount)
+                return roundedAmount
+            }
+        }
+    }
+
+    function customRound(number) {
+        const magnitude = Math.pow(10, Math.floor(Math.log10(number)))
+        return magnitude <= 10
+            ? Math.round(number / magnitude) * magnitude
+            : Math.round((number / magnitude) * 10) * (magnitude / 10)
+    }
+
     async function resetTransak(): Promise<void> {
         await Platform.closeTransak()
         await Platform.openTransak({
             currency: $activeProfile?.settings.marketCurrency,
             address: $selectedAccount.depositAddress,
             service: 'BUY',
+            amount: getDefaultFiatAmount($activeProfile?.settings.marketCurrency ?? MarketCurrency.Usd),
         })
         await updateTransakBounds()
     }
