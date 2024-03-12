@@ -1,4 +1,3 @@
-export * from './buildPersistedProfileFromThirdPartyPersistedProfile'
 export * from './getStorageDirectoryOfProfile'
 export * from './getStorageDirectoryOfProfiles'
 export * from './isLedgerProfile'

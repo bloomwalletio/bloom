@@ -1,5 +1,5 @@
 import { Platform } from '@core/app/classes'
-import { IThirdPartyPersistedProfile } from '@core/profile/interfaces'
+import { IThirdPartyPersistedProfile } from '../interfaces'
 
 export async function getThirdPartyPersistedProfiles(appName: string): Promise<IThirdPartyPersistedProfile[]> {
     const thirdPartyProfiles: IThirdPartyPersistedProfile[] = []

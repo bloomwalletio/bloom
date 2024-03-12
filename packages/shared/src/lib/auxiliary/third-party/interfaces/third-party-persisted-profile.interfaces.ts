@@ -3,9 +3,9 @@ import { MarketCurrency } from '@core/market'
 import { IClientOptions, IProtocol } from '@core/network'
 import { IBaseToken } from '@core/token'
 import { AccountAddress, ParticipationEventId } from '@iota/sdk/out/types'
-import { ProfileType } from '../enums'
 import { StrongholdVersion } from '@core/stronghold'
 import { Nft } from '@core/nfts'
+import { ProfileType } from '@core/profile'
 
 interface IThirdPartyPersistedNetwork {
     id: OnboardingNetworkType
