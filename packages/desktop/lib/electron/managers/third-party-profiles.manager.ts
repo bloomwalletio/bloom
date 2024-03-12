@@ -2,6 +2,7 @@ import { ClassicLevel } from 'classic-level'
 import fs from 'fs'
 import path from 'path'
 import { app, ipcMain } from 'electron'
+import { KeyValue } from '@ui/types'
 
 interface IThirdPartyAppManager {
     getDataFromApp(appName: string): Promise<Record<string, unknown> | undefined>
@@ -21,14 +22,14 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
         ipcMain.handle('get-data-from-third-party-app', (_e, name) => this.getDataFromApp(name))
     }
 
-    public async getDataFromApp(appName: string): Promise<Record<string, unknown> | undefined> {
+    public async getDataFromApp(appName: string): Promise<Record<number, KeyValue<string>> | undefined> {
         const levelDBPath = path.resolve(`${this.userDataPath}/../${appName}/Local Storage/leveldb`)
         // check if the path exists
         if (!fs.existsSync(levelDBPath)) {
             return
         }
 
-        const data: Record<string, { key: string; value: unknown }> = {}
+        const data: Record<string, KeyValue<string>> = {}
 
         try {
             const db = new ClassicLevel(levelDBPath)
@@ -37,7 +38,7 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
                 data[i] = { key: key.toString(), value: value.substring(1) }
                 i++
             }
-            db.close()
+            await db.close()
             return data
         } catch (err) {
             console.error(err)

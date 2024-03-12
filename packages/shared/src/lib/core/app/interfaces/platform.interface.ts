@@ -6,6 +6,7 @@ import { IAppVersionDetails } from './app-version-details.interface'
 import { IPlatformEventMap } from './platform-event-map.interface'
 import { AppTheme } from '../enums'
 import { ITransakWindowData } from './transak-window-data.interface'
+import { KeyValue } from '@ui/types'
 
 export interface IPlatform {
     getStrongholdBackupDestination(defaultPath: string): Promise<string | null>
@@ -69,5 +70,5 @@ export interface IPlatform {
     showTransak(): Promise<void>
     updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void>
 
-    getThirdPartyData(appName: string): Promise<Record<string, unknown> | undefined>
+    getThirdPartyData(appName: string): Promise<Record<number, KeyValue<string>> | undefined>
 }
