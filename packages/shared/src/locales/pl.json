@@ -522,8 +522,8 @@
                         "permissions": {
                             "step": "Uprawnienie",
                             "tip": "Są to ograniczone uprawnienia dla aplikacji dApp w celu wysyłania żądania interakcji do Twojego zatwierdzenia. Zatwierdzaj tylko aplikacje, które znasz i którym ufasz.",
-                            "requiredTitle": "Required permissions",
-                            "optionalTitle": "Optional permissions",
+                            "requiredTitle": "Uprawnienia wymagane",
+                            "optionalTitle": "Uprawnienia opcjonalne",
                             "signData": "Prośba o podpisanie danych",
                             "signTransaction": "Prośba o podpisanie transakcji",
                             "sendTransaction": "Poproś o wysłanie transakcji",
@@ -532,8 +532,8 @@
                         },
                         "networks": {
                             "step": "Sieci",
-                            "requiredTitle": "Required networks",
-                            "optionalTitle": "Optional networks",
+                            "requiredTitle": "Wymagane sieci",
+                            "optionalTitle": "Opcjonalne sieci",
                             "tip": "Wymagane sieci są wstępnie wybierane przez aplikację dApp. Można to później skonfigurować w ustawieniach.",
                             "empty": "Musisz wybrać przynajmniej jedną sieć"
                         },
@@ -634,14 +634,13 @@
                 "manage": "Zarządzaj siłą głosu"
             },
             "proposalsDetails": {
-                "title": "Szczegóły",
                 "totalProposals": "Wszystkie propozycje",
                 "activeProposals": "Aktywne propozycje",
                 "votingProposals": "Propozycje, nad którymi głosujesz",
                 "votedProposals": "Suma propozycji, nad którymi głosowałeś"
             },
             "proposals": {
-                "title": "Propozycje",
+                "title": "Governance Proposals",
                 "voted": "Zagłosowano",
                 "successEdit": "Propozycja została pomyślnie edytowana",
                 "successAdd": "{numberOfProposals, select, one {Propozycja dodana} other {Propozycje dodane}} pomyślnie",
@@ -690,8 +689,8 @@
                 "fetching": "Pobieranie danych propozycji",
                 "hintVote": "Nie możesz głosować nad propozycją, która dopiero została zapowiedziana. Głosowanie zostanie otwarte za {time}.",
                 "projection": {
-                    "label": "Projected votes",
-                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                    "label": "Przewidywane głosy",
+                    "tooltip": "Prognoza opiera się na aktualnej wadze głosów i pozostałych etapach (milestones)."
                 }
             }
         },
@@ -979,17 +978,17 @@
         },
         "siwe": {
             "title": "Zaloguj się z Ethereum",
-            "details": "Details",
-            "raw": "Raw",
-            "rawMessage": "Raw message",
+            "details": "Szczegóły",
+            "raw": "Surowe dane",
+            "rawMessage": "Surowa wiadomość",
             "domain": "Domena",
             "statement": "Oświadczenie",
             "resources": "Dokumentacja",
-            "chainId": "Chain Id",
-            "nonce": "Nonce",
-            "issuedAt": "Issued at",
-            "notBefore": "Not before",
-            "requestId": "Request Id",
+            "chainId": "ID łańcucha",
+            "nonce": "Chwilowo",
+            "issuedAt": "Wydano",
+            "notBefore": "Nie wcześniej niż",
+            "requestId": "ID żądania",
             "action": "Zaloguj się"
         },
         "signTransaction": {
@@ -1005,7 +1004,7 @@
         "smartContractCall": {
             "title": "Interakcja smart kontraktu z {contractAddress}",
             "unableToVerify": "Bloom nie może zweryfikować interakcji z smart kontraktem. Kontynuuj tylko z aplikacjami, którym ufasz.",
-            "viewSmartContract": "View Smart Contract",
+            "viewSmartContract": "Zobacz Smart Kontrakt",
             "action": "Potwierdź",
             "success": "Interakcja smart kontraktu z {recipient}"
         },
@@ -1083,19 +1082,19 @@
                         "Conflicting": "Zmniejszenie siły głosu nie powiodło się"
                     },
                     "startVoting": {
-                        "Pending": "Głosowanie na {proposalName}",
-                        "Confirmed": "Zagłosowano na {proposalName}",
-                        "Conflicting": "Nie udało się zagłosować na"
+                        "Pending": "Voting on {proposalName}",
+                        "Confirmed": "Voted on {proposalName}",
+                        "Conflicting": "Failed to vote on"
                     },
                     "stopVoting": {
-                        "Pending": "Zatrzymywanie głosowania na {proposalName}",
-                        "Confirmed": "Zatrzymano głosowanie na {proposalName}",
-                        "Conflicting": "Nie udało się zatrzymać głosowania na"
+                        "Pending": "Stopping voting on {proposalName}",
+                        "Confirmed": "Stopped voting on {proposalName}",
+                        "Conflicting": "Failed to stop voting on"
                     },
                     "changedVote": {
-                        "Pending": "Zmiana głosu na {proposalName}",
-                        "Confirmed": "Zmieniono głos na {proposalName}",
-                        "Conflicting": "Nie udało się zmienić głosu na"
+                        "Pending": "Changing vote on {proposalName}",
+                        "Confirmed": "Changed vote on {proposalName}",
+                        "Conflicting": "Failed to change vote on"
                     },
                     "revote": {
                         "Pending": "Odnawianie głosów",
@@ -1217,7 +1216,7 @@
         "revote": {
             "title": "Odnów głosy na propozycje",
             "body": "Zmiana siły głosu tymczasowo wstrzymuje zliczanie wszystkich Twoich głosów. Po prostu kliknij \"Odnów głosy\", aby wznowić głosowanie.",
-            "hint": "Bloom pamięta wszystkie propozycje i opcje odpowiedzi, na które wcześniej głosowałeś."
+            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Usuń propozycję",
@@ -1396,18 +1395,20 @@
         "receiving": "Odbieranie",
         "newVotingPower": "Nowa siła głosu",
         "votingPower": "Siła głosu",
-        "increased": "Voting increased",
-        "increasing": "Increasing voting",
-        "decreased": "Voting decreased",
-        "decreasing": "Decreasing voting",
+        "increased": "Voting power increased",
+        "increasing": "Increasing voting power",
+        "decreased": "Voting power decreased",
+        "decreasing": "Decreasing voting power",
         "voted": "Zagłosowano",
         "voting": "Głosowanie",
+        "votingOn": "Voting on",
+        "votedOn": "Voted on",
         "changedVote": "Zmieniono głos",
         "changingVote": "Zmiana głosu",
         "revoted": "Odnowiono głosy",
         "revoting": "Odnawianie głosów",
-        "unvoted": "Stopped voting",
-        "unvoting": "Stopping voting",
+        "unvoted": "Zatrzymano głosowanie",
+        "unvoting": "Zatrzymywanie głosowania",
         "transferred": "Przesłano",
         "transferring": "Przesyłanie",
         "shimmerClaimed": "Odebrano",
@@ -1546,7 +1547,7 @@
         "contractFunction": "Funkcja kontraktu",
         "standard": "Standard",
         "uri": "URI",
-        "image": "Image",
+        "image": "Obraz",
         "issuer": "Wydawca",
         "issuerAddress": "Adres wydawcy",
         "issuerName": "Nazwa wydawcy",

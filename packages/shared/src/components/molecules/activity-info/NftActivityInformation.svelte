@@ -8,6 +8,7 @@
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { NftStandard } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { buildUrl } from '@core/utils'
     import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
     import { type Address, AddressType } from '@iota/sdk/out/types'
 
@@ -17,13 +18,15 @@
     $: issuer = nft?.standard === NftStandard.Irc27 ? nft?.issuer : undefined
 
     function onNftIdClick(nftId: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Nft)
-        openUrlInBrowser(`${explorerUrl}/${nftId}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Nft)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${nftId}` })
+        openUrlInBrowser(url?.href)
     }
 
     function onIssuerClick(issuer: Address) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
-        openUrlInBrowser(`${explorerUrl}/${getBech32AddressFromAddressTypes(issuer)}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${getBech32AddressFromAddressTypes(issuer)}` })
+        openUrlInBrowser(url?.href)
     }
 </script>
 

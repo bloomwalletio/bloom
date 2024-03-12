@@ -39,6 +39,7 @@
     import ImportErc721TokenFormPopup from './popups/ImportErc721TokenFormPopup.svelte'
     import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
     import ManageVotingPowerPopup from './popups/ManageVotingPowerPopup.svelte'
+    import MarkdownBlockPopup from './popups/MarkdownBlockPopup.svelte'
     import MintNativeTokenConfirmationPopup from './popups/MintNativeTokenConfirmationPopup.svelte'
     import MintNativeTokenFormPopup from './popups/MintNativeTokenFormPopup.svelte'
     import MintNftCollectionConfirmationPopup from './popups/MintNftCollectionConfirmationPopup.svelte'
@@ -117,6 +118,7 @@
         [PopupId.ImportErc721Token]: ImportErc721TokenFormPopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
         [PopupId.ManageVotingPower]: ManageVotingPowerPopup,
+        [PopupId.MarkdownBlock]: MarkdownBlockPopup,
         [PopupId.MintNativeTokenConfirmation]: MintNativeTokenConfirmationPopup,
         [PopupId.MintNativeTokenForm]: MintNativeTokenFormPopup,
         [PopupId.MintNftConfirmation]: MintNftConfirmationPopup,

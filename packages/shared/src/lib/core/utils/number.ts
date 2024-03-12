@@ -56,3 +56,41 @@ export function BigIntAbs(bigInt: bigint | string): bigint {
     }
     return bigInt < 0 ? bigInt * BigInt(-1) : bigInt
 }
+
+export function getSignificantDigitsAndRound(num: number, significantDigits: number = 2): number {
+    if (num === 0) {
+        return 0
+    } else if (num >= 1 || num <= 0) {
+        throw new Error('Number must be less than 1 and greater than 0.')
+    }
+
+    const numStr = num.toString()
+    let indexOfFirstSignificantDigit = numStr.indexOf('.') + 1
+
+    while (numStr[indexOfFirstSignificantDigit] === '0') {
+        indexOfFirstSignificantDigit++
+    }
+
+    let digitsForRounding = numStr.substring(
+        indexOfFirstSignificantDigit,
+        indexOfFirstSignificantDigit + significantDigits + 1
+    )
+
+    if (digitsForRounding.length > significantDigits) {
+        let rounded = Math.round(parseInt(digitsForRounding) / 10)
+        if (rounded.toString().length > significantDigits) {
+            indexOfFirstSignificantDigit -= 1
+            rounded = Math.round(rounded / 10)
+        }
+        digitsForRounding = rounded.toString()
+    }
+
+    const zeros = '0'.repeat(indexOfFirstSignificantDigit - numStr.indexOf('.') - 1)
+    const resultStr = `0.${zeros}${digitsForRounding}`
+
+    return parseFloat(resultStr)
+}
+
+export function calculatePercentageOfBigInt(total: bigint, max: bigint, precision: number): number {
+    return Number((total * BigInt(100) * BigInt(10 ** precision)) / max) / 10 ** precision
+}
