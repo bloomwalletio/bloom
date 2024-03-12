@@ -2,7 +2,9 @@
     import { IThirdPartyPersistedProfile, ThirdPartyAppName } from '@auxiliary/third-party'
     import { getThirdPartyPersistedProfiles, importThirdPartyProfiles } from '@auxiliary/third-party/actions'
     import { IOption, SelectInput } from '@bloomwalletio/ui'
+    import { ImportProfileTile } from '@components/index'
     import { localize } from '@core/i18n'
+    import { profiles } from '@core/profile/stores'
     import { closePopup } from '@desktop/auxiliary/popup/actions'
     import PopupTemplate from '../PopupTemplate.svelte'
 
@@ -13,11 +15,27 @@
 
     let appNameSelected: IOption = appNameOptions[0]
     let busy = false
-    let profiles: IThirdPartyPersistedProfile[] = []
-    let profilesToImport: IThirdPartyPersistedProfile[] = []
+    let thirdPartyProfiles: IThirdPartyPersistedProfile[] = []
+    let profilesWithInfo: {
+        [profileId: string]: {
+            thirdPartyProfile: IThirdPartyPersistedProfile
+            needsChrysalisToStardustDbMigration: boolean
+            alreadyImported: boolean
+            selected: boolean
+        }
+    }
+
+    function onSelectedProfileClick(profileId: string): void {
+        if (profilesWithInfo[profileId]) {
+            profilesWithInfo[profileId].selected = !profilesWithInfo[profileId].selected
+        }
+    }
 
     function onImportClick(): void {
-        importThirdPartyProfiles(appNameSelected.value as ThirdPartyAppName, profilesToImport)
+        importThirdPartyProfiles(
+            appNameSelected.value as ThirdPartyAppName,
+            Object.values(profilesWithInfo).map((profile) => profile.thirdPartyProfile)
+        )
     }
 
     function onCancelClick(): void {
@@ -27,8 +45,20 @@
     async function updateProfiles(appName: ThirdPartyAppName): Promise<void> {
         if (!busy) {
             busy = true
-            profiles = await getThirdPartyPersistedProfiles(appName)
-            profilesToImport = profiles.filter((profile) => !profile.needsChrysalisToStardustDbMigration)
+            thirdPartyProfiles = await getThirdPartyPersistedProfiles(appName)
+            thirdPartyProfiles?.forEach((thirdPartyProfile) => {
+                const profileWithInfo = {
+                    thirdPartyProfile,
+                    needsChrysalisToStardustDbMigration:
+                        thirdPartyProfile?.needsChrysalisToStardustDbMigration ?? false,
+                    alreadyImported: $profiles.findIndex((profile) => (profile.id = thirdPartyProfile.id)) >= 0,
+                    selected: false,
+                }
+                profilesWithInfo = {
+                    ...profilesWithInfo,
+                    [thirdPartyProfile.id]: profileWithInfo,
+                }
+            })
             busy = false
         }
     }
@@ -53,11 +83,19 @@
         label={localize('general.appName')}
         hideValue
     />
-    {#if profiles.length > 0}
-        {#each profiles as profile}
-            <li>{profile.name}</li>
-        {/each}
-    {:else}
-        No profiles
-    {/if}
+    <div class="flex flex-col gap-2 max-h-[392px] overflow-y-scroll">
+        {#if thirdPartyProfiles.length > 0}
+            {#each thirdPartyProfiles as thirdPartyProfile}
+                <ImportProfileTile
+                    profile={thirdPartyProfile}
+                    onClick={() => onSelectedProfileClick(thirdPartyProfile.id)}
+                    selected={profilesWithInfo[thirdPartyProfile.id]?.selected}
+                    disabled={profilesWithInfo[thirdPartyProfile.id]?.alreadyImported ||
+                        profilesWithInfo[thirdPartyProfile.id]?.needsChrysalisToStardustDbMigration}
+                />
+            {/each}
+        {:else}
+            No profiles
+        {/if}
+    </div>
 </PopupTemplate>
