@@ -20,6 +20,7 @@ export enum PopupId {
     FaucetRequest = 'faucetRequest',
     ImportErc20Token = 'importErc20Token',
     ImportErc721Token = 'importErc721Token',
+    ImportProfilesFromThirdParty = 'importProfilesFromThirdParty',
     LegalUpdate = 'legalUpdate',
     CustomiseAccount = 'manageAccount',
     ManageVotingPower = 'manageVotingPower',

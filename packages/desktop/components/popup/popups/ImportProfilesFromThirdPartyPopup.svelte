@@ -17,7 +17,7 @@
     let profilesToImport: IThirdPartyPersistedProfile[] = []
 
     function onImportClick(): void {
-        importThirdPartyProfiles(profilesToImport)
+        importThirdPartyProfiles(appNameSelected.value as ThirdPartyAppName, profilesToImport)
     }
 
     function onCancelClick(): void {

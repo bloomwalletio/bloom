@@ -6,6 +6,7 @@ import { KeyValue } from '@ui/types'
 
 interface IThirdPartyAppManager {
     getDataFromApp(appName: string): Promise<Record<string, unknown> | undefined>
+    copyProfileDirectory(appName: string, profileId: string): void
 }
 
 export default class ThirdPartyAppManager implements IThirdPartyAppManager {
@@ -20,10 +21,11 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
 
         this.removeHandlers()
         ipcMain.handle('get-data-from-third-party-app', (_e, name) => this.getDataFromApp(name))
+        ipcMain.handle('copy-third-party-profile', (_e, name, profileId) => this.copyProfileDirectory(name, profileId))
     }
 
     public async getDataFromApp(appName: string): Promise<Record<number, KeyValue<string>> | undefined> {
-        const levelDBPath = path.resolve(`${this.userDataPath}/../${appName}/Local Storage/leveldb`)
+        const levelDBPath = path.resolve(this.userDataPath, '..', appName, 'Local Storage/leveldb')
         // check if the path exists
         if (!fs.existsSync(levelDBPath)) {
             return
@@ -43,6 +45,14 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
         } catch (err) {
             console.error(err)
         }
+    }
+
+    public copyProfileDirectory(appName: string, profileId: string): void {
+        const pathToCopy = path.resolve(this.userDataPath, '..', appName, '__storage__', profileId)
+        const destinationPath = path.resolve(this.userDataPath, '..', appName, '__storage__', profileId)
+        fs.cp(pathToCopy, destinationPath, (err) => {
+            console.error(err)
+        })
     }
 
     private removeHandlers(): void {

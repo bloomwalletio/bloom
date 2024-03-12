@@ -268,4 +268,7 @@ export default {
     getThirdPartyData(appName: string): Promise<Record<string, unknown> | undefined> {
         return ipcRenderer.invoke('get-data-from-third-party-app', appName)
     },
+    copyProfileDirectory(appName: string, profileId: string): Promise<void> {
+        return ipcRenderer.invoke('copy-third-party-profile', appName, profileId)
+    },
 }

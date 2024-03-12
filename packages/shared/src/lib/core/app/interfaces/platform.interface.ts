@@ -71,4 +71,5 @@ export interface IPlatform {
     updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void>
 
     getThirdPartyData(appName: string): Promise<Record<number, KeyValue<string>> | undefined>
+    copyProfileDirectory(appName: string, profileId: string): Promise<void>
 }
