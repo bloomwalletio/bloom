@@ -4,9 +4,13 @@
     import { Platform } from '@core/app'
     import { activeProfile } from '@core/profile/stores'
     import { IPopupState, IProfileAuthPopupState, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
-    import { Pane } from '@ui'
     import { onDestroy, tick } from 'svelte'
-    import { TransakAccountPanel, TransakConnectionPanel, TransakInfoPanel } from '../components'
+    import {
+        TransakAccountPanel,
+        TransakConnectionPanel,
+        TransakInfoPanel,
+        TransakWindowPlaceholder,
+    } from '../components'
     import { isDashboardSideBarExpanded } from '@core/ui'
 
     $: $isDashboardSideBarExpanded, void updateTransakBounds()
@@ -75,9 +79,7 @@
         <TransakAccountPanel />
     </div>
     <div class="transak-panel" bind:this={transakContainer}>
-        <Pane
-            classes="flex flex-col justify-center items-center w-full h-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
-        ></Pane>
+        <TransakWindowPlaceholder />
     </div>
     <div class="info-panel">
         <TransakInfoPanel />
