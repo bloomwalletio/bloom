@@ -421,7 +421,7 @@ ipcMain.handle('open-external-url', (_e, url) => {
 
 // Keychain
 const keychainManager = new KeychainManager()
-ipcMain.handle('keychain-get', (_e, key) => keychainManager.get(key))
+ipcMain.handle('keychain-get', (_e, key, appName) => keychainManager.get(key, appName))
 ipcMain.handle('keychain-set', (_e, key, content) => keychainManager.set(key, content))
 ipcMain.handle('keychain-remove', (_e, key) => keychainManager.remove(key))
 // Dialogs
