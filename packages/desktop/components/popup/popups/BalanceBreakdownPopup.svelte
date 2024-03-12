@@ -55,7 +55,7 @@
             }
 
             const output = (await $selectedAccount.getOutput(outputId)).output
-            if (output.type !== OutputType.Treasury) {
+            if (output.type === OutputType.Treasury) {
                 continue
             }
 
