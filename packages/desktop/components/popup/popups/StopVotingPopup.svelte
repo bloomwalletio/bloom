@@ -4,7 +4,7 @@
     import { selectedProposal } from '@contexts/governance/stores'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
 
@@ -16,10 +16,14 @@
     }
 
     async function onStopVotingClick(): Promise<void> {
-        await checkActiveProfileAuth(async () => {
-            await stopVotingForProposal($selectedProposal?.id)
-            closePopup()
-        })
+        try {
+            await checkActiveProfileAuthAsync()
+        } catch (error) {
+            return
+        }
+
+        await stopVotingForProposal($selectedProposal?.id)
+        closePopup()
     }
 </script>
 
