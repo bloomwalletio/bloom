@@ -1164,6 +1164,9 @@
                 "alreadyAdded": "You already have this NFT in your portfolio"
             }
         },
+        "importProfilesFromThirdParty": {
+            "title": "Import profiles"
+        },
         "noAlias": {
             "title": "Unable to mint",
             "description": "You must own an alias output to mint native tokens. To continue, please create an alias first"
@@ -1607,7 +1610,8 @@
         "baseCoin": "Base Coin",
         "unverifiedContract": "Unverified Contract",
         "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "appName": "App name"
     },
     "filters":{
         "title": "Filters",
