@@ -2,10 +2,10 @@
     import { Link } from '@bloomwalletio/ui'
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import {
-        Activity,
-        ActivityAsyncStatus,
+        StardustActivity,
+        StardustActivityAsyncStatus,
         ActivityDirection,
-        ActivityType,
+        StardustActivityType,
         getActivityDetailsTitle,
         selectedAccountActivities,
     } from '@core/activity'
@@ -18,7 +18,7 @@
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
-    import { setClipboard, truncateString } from '@core/utils'
+    import { buildUrl, setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { ActivityInformation, TransactionAssetSection } from '@ui'
@@ -29,23 +29,23 @@
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     $: activity = $selectedAccountActivities.find((_activity) => _activity.id === activityId)
-    $: isTimelocked = activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Timelocked
+    $: isTimelocked = activity?.asyncData?.asyncStatus === StardustActivityAsyncStatus.Timelocked
     $: isActivityIncomingAndUnclaimed =
         activity?.asyncData &&
         (activity?.direction === ActivityDirection.Incoming ||
             activity?.direction === ActivityDirection.SelfTransaction) &&
-        activity?.asyncData?.asyncStatus === ActivityAsyncStatus.Unclaimed
+        activity?.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed
     $: transactionAssets = activity ? getTransactionAssets(activity, $selectedAccountIndex) : undefined
     $: nft =
-        activity?.type === ActivityType.Nft
+        activity?.type === StardustActivityType.Nft
             ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
             : undefined
     $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
-    $: explorerUrl = setExplorerUrl(activity)
+    $: explorerUrl = getExplorerUrl(activity)
 
     let title: string = localize('popups.activityDetails.title.fallback')
     $: void setTitle(activity)
-    async function setTitle(_activity: Activity | undefined): Promise<void> {
+    async function setTitle(_activity: StardustActivity | undefined): Promise<void> {
         if (_activity) {
             title = await getActivityDetailsTitle(_activity)
         }
@@ -60,21 +60,23 @@
         $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
-    function setExplorerUrl(_activity: Activity): string | undefined {
+    function getExplorerUrl(_activity: StardustActivity): string | undefined {
         if (activity?.direction === ActivityDirection.Genesis) {
-            const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Output)
-            return explorerUrl ? `${explorerUrl}/${_activity?.outputId}` : undefined
+            const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Output)
+            const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${_activity?.outputId}` })
+            return url?.href
         } else {
-            const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
-            return explorerUrl ? `${explorerUrl}/${_activity?.transactionId}` : undefined
+            const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
+            const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${_activity?.transactionId}` })
+            return url?.href
         }
     }
 
-    function onTransactionIdClick(_activity: Activity): void {
+    function onTransactionIdClick(_activity: StardustActivity): void {
         setClipboard(_activity.transactionId)
     }
 
-    async function onClaimClick(_activity: Activity): Promise<void> {
+    async function onClaimClick(_activity: StardustActivity): Promise<void> {
         await checkActiveProfileAuth(
             async () => {
                 await claimActivity(_activity, $selectedAccount)

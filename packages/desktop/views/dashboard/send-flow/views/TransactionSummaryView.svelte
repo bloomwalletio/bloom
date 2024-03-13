@@ -10,8 +10,9 @@
     import {
         createEvmTransactionFromSendFlowParameters,
         createStardustOutputFromSendFlowParameters,
-        signAndSendTransactionFromEvm,
+        sendAndPersistTransactionFromEvm,
         signAndSendStardustTransaction,
+        signEvmTransaction,
     } from '@core/wallet/actions'
     import { sendFlowParameters } from '@core/wallet/stores'
     import { getNetworkIdFromSendFlowParameters, validateSendConfirmation } from '@core/wallet/utils'
@@ -24,7 +25,7 @@
     import { showNotification } from '@auxiliary/notification'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
-    import { getIsActiveLedgerProfile } from '@core/profile/stores'
+    import { activeProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -104,7 +105,15 @@
             busy = true
             modifyPopupState({ preventClose: true })
             if (isSourceNetworkLayer2) {
-                await signAndSendTransactionFromEvm(preparedTransaction, chain, $selectedAccount, true)
+                const signedTransaction = await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+
+                await sendAndPersistTransactionFromEvm(
+                    preparedTransaction,
+                    signedTransaction,
+                    chain,
+                    $selectedAccount,
+                    $activeProfileId
+                )
             } else {
                 await signAndSendStardustTransaction(preparedOutput, $selectedAccount)
             }

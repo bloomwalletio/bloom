@@ -1,4 +1,5 @@
 import { stripSpaces, stripTrailingSlash } from './string'
+import { QueryParameters } from './types'
 
 export function cleanUrl(
     url: string,
@@ -23,15 +24,27 @@ export function cleanUrl(
     return cleanedUrl
 }
 
-export function buildQueryParametersFromObject(obj: Record<string, string | number | boolean | string[]>): string {
-    return Object.keys(obj)
-        .map(
-            (key) =>
-                `${encodeURIComponent(key)}=${
-                    Array.isArray(obj[key])
-                        ? encodeURIComponent((obj[key] as unknown[]).join(','))
-                        : encodeURIComponent(obj[key] as string | number | boolean)
-                }`
-        )
-        .join('&')
+type UrlParams = {
+    origin: string
+    pathname?: string
+    query?: QueryParameters
+}
+
+export function buildUrl(urlParams: UrlParams): URL | undefined {
+    try {
+        const url = new URL(urlParams.pathname ?? '', urlParams.origin)
+        for (const key of Object.keys(urlParams.query ?? {})) {
+            const value = urlParams.query?.[key]
+            if (!value) continue
+
+            if (Array.isArray(value)) {
+                url.searchParams.set(key, value.join(',') ?? '')
+            } else {
+                url.searchParams.set(key, String(value))
+            }
+        }
+        return url
+    } catch (error) {
+        return undefined
+    }
 }

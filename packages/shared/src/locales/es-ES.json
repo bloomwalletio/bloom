@@ -522,7 +522,8 @@
                         "permissions": {
                             "step": "Permission",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
-                            "title": "Select permissions",
+                            "requiredTitle": "Required permissions",
+                            "optionalTitle": "Optional permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction",
@@ -531,7 +532,8 @@
                         },
                         "networks": {
                             "step": "Networks",
-                            "title": "Select networks",
+                            "requiredTitle": "Required networks",
+                            "optionalTitle": "Optional networks",
                             "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
                             "empty": "You have to select at least one network"
                         },
@@ -632,14 +634,13 @@
                 "manage": "Administrar peso de voto"
             },
             "proposalsDetails": {
-                "title": "Detalles",
                 "totalProposals": "Propuestas totales",
                 "activeProposals": "Propuestas activas",
                 "votingProposals": "Propuestas sobre las que estás votando",
                 "votedProposals": "Total de propuestas en las que votaste"
             },
             "proposals": {
-                "title": "Propuestas",
+                "title": "Governance Proposals",
                 "voted": "Votado",
                 "successEdit": "Propuesta editada correctamente",
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} añadida(s) correctamente",
@@ -686,7 +687,11 @@
                     "nodeUrl": "URL del nodo"
                 },
                 "fetching": "Obteniendo datos de la propuesta",
-                "hintVote": "No puede votar sobre una propuesta que está en la fase de anuncio, la votación se abrirá en {time}."
+                "hintVote": "No puede votar sobre una propuesta que está en la fase de anuncio, la votación se abrirá en {time}.",
+                "projection": {
+                    "label": "Projected votes",
+                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                }
             }
         },
         "updateStronghold": {
@@ -973,9 +978,17 @@
         },
         "siwe": {
             "title": "Sign-In with Ethereum",
+            "details": "Details",
+            "raw": "Raw",
+            "rawMessage": "Raw message",
             "domain": "Domain",
             "statement": "Statement",
             "resources": "Resources",
+            "chainId": "Chain Id",
+            "nonce": "Nonce",
+            "issuedAt": "Issued at",
+            "notBefore": "Not before",
+            "requestId": "Request Id",
             "action": "Sign in"
         },
         "signTransaction": {
@@ -991,6 +1004,7 @@
         "smartContractCall": {
             "title": "Smart contract call to {contractAddress}",
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "viewSmartContract": "View Smart Contract",
             "action": "Confirm",
             "success": "Smart contract call to {recipient}"
         },
@@ -1068,19 +1082,19 @@
                         "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
-                        "Pending": "Voting for {proposalName}",
-                        "Confirmed": "Voted for {proposalName}",
-                        "Conflicting": "Failed to vote for"
+                        "Pending": "Voting on {proposalName}",
+                        "Confirmed": "Voted on {proposalName}",
+                        "Conflicting": "Failed to vote on"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting for {proposalName}",
-                        "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stop voting for"
+                        "Pending": "Stopping voting on {proposalName}",
+                        "Confirmed": "Stopped voting on {proposalName}",
+                        "Conflicting": "Failed to stop voting on"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote for {proposalName}",
-                        "Confirmed": "Changed vote for {proposalName}",
-                        "Conflicting": "Failed to change vote for"
+                        "Pending": "Changing vote on {proposalName}",
+                        "Confirmed": "Changed vote on {proposalName}",
+                        "Conflicting": "Failed to change vote on"
                     },
                     "revote": {
                         "Pending": "Revoting",
@@ -1202,7 +1216,7 @@
         "revote": {
             "title": "Vuelve a votar en las propuestas",
             "body": "Cambiar tu peso de voto detendrá temporalmente el conteo de tus votos en todas las propuestas. Símplemente clica \"Volver a votar\" para continuar el voto.",
-            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Eliminar propuesta",
@@ -1381,18 +1395,20 @@
         "receiving": "Recibiendo",
         "newVotingPower": "Nuevo peso de voto",
         "votingPower": "Peso de voto",
-        "increased": "Peso de voto incrementado",
-        "increasing": "Incrementando peso de voto",
-        "decreased": "Peso de voto disminuido",
-        "decreasing": "Disminuyendo peso de voto",
+        "increased": "Voting power increased",
+        "increasing": "Increasing voting power",
+        "decreased": "Voting power decreased",
+        "decreasing": "Decreasing voting power",
         "voted": "Votado",
         "voting": "Votación",
+        "votingOn": "Voting on",
+        "votedOn": "Voted on",
         "changedVote": "Voto cambiado",
         "changingVote": "Cambiando voto",
         "revoted": "Votado de nuevo",
         "revoting": "Votando de nuevo",
-        "unvoted": "Sin votar",
-        "unvoting": "No votar",
+        "unvoted": "Stopped voting",
+        "unvoting": "Stopping voting",
         "transferred": "Transferred",
         "transferring": "Transferring",
         "shimmerClaimed": "Reclamado",
@@ -1531,6 +1547,7 @@
         "contractFunction": "Función de contrato",
         "standard": "Estándar",
         "uri": "URI",
+        "image": "Image",
         "issuer": "Emisor",
         "issuerAddress": "Dirección del emisor",
         "issuerName": "Nombre del emisor",

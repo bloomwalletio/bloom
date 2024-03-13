@@ -7,18 +7,19 @@
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { Text } from '@bloomwalletio/ui'
     import { getPermissionForMethod } from '@auxiliary/wallet-connect/utils'
+    import { RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { SelectionOption } from '@core/utils/interfaces'
 
     export let checkedMethods: string[]
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
     export let optionalNamespaces: ProposalTypes.RequiredNamespaces
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
-    export let permissionSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.permissions'
+    let requiredPermissions: SelectionOption[] = []
+    let optionalPermissions: SelectionOption[] = []
 
     function setPermissionSelections(): void {
-        const permissions: { label: string; value: string; checked: boolean; required: boolean }[] = []
-
         const checkedMethods: { [method: string]: boolean } = {}
         const addedPermission: { [permission: string]: boolean } = {}
 
@@ -37,7 +38,7 @@
             }
             checkedMethods[method.method] = true
 
-            const permission = getPermissionForMethod(method.method)
+            const permission = getPermissionForMethod(method.method as RpcMethod)
             if (!permission || addedPermission[permission]) {
                 continue
             }
@@ -47,21 +48,24 @@
                 ? Object.values(persistedNamespaces).some((namespace) => namespace.methods.includes(method.method))
                 : true
 
-            permissions.push({
+            const option = {
                 label: localize(`views.dashboard.drawers.dapps.confirmConnection.permissions.${String(permission)}`),
                 value: permission,
                 checked: isChecked,
                 required: method.required,
-            })
+            }
+            if (method.required) {
+                requiredPermissions = [...requiredPermissions, option]
+            } else {
+                optionalPermissions = [...optionalPermissions, option]
+            }
         }
-
-        permissionSelections = permissions
     }
 
-    $: permissionSelections, (checkedMethods = getMethodsFromCheckedPermissions())
+    $: requiredPermissions, optionalPermissions, (checkedMethods = getMethodsFromCheckedPermissions())
 
     function getMethodsFromCheckedPermissions(): string[] {
-        return permissionSelections
+        return [...requiredPermissions, ...optionalPermissions]
             .filter((selection) => selection.checked)
             .flatMap((selection) => METHODS_FOR_PERMISSION[selection.value])
     }
@@ -71,12 +75,23 @@
     })
 </script>
 
-{#if permissionSelections.length}
-    <Selection
-        bind:selectionOptions={permissionSelections}
-        title={localize(`${localeKey}.title`)}
-        error={checkedMethods.length ? undefined : localize(`${localeKey}.empty`)}
-    />
+{#if requiredPermissions.length || optionalPermissions.length}
+    <div class="h-full flex flex-col gap-8">
+        {#if requiredPermissions.length}
+            <Selection
+                bind:selectionOptions={requiredPermissions}
+                disableSelectAll
+                title={localize(`${localeKey}.requiredTitle`)}
+            />
+        {/if}
+        {#if optionalPermissions.length}
+            <Selection
+                bind:selectionOptions={optionalPermissions}
+                title={localize(`${localeKey}.optionalTitle`)}
+                error={checkedMethods.length ? undefined : localize(`${localeKey}.empty`)}
+            />
+        {/if}
+    </div>
 {:else}
     <selection-component class="h-full flex flex-col gap-4">
         <Text textColor="secondary">{localize(`${localeKey}.title`)}</Text>

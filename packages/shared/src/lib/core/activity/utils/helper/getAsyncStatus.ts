@@ -1,4 +1,4 @@
-import { ActivityAsyncStatus } from '@core/activity/enums'
+import { StardustActivityAsyncStatus } from '@core/activity/enums'
 
 export function getAsyncStatus(
     isClaimed: boolean,
@@ -6,18 +6,18 @@ export function getAsyncStatus(
     timelockDate: Date,
     hasStorageDeposit: boolean,
     currentTimeStamp: number
-): ActivityAsyncStatus {
+): StardustActivityAsyncStatus {
     if (isClaimed) {
-        return ActivityAsyncStatus.Claimed
+        return StardustActivityAsyncStatus.Claimed
     } else if (timelockDate && timelockDate.getTime() > currentTimeStamp) {
-        return ActivityAsyncStatus.Timelocked
+        return StardustActivityAsyncStatus.Timelocked
     } else if (expirationDate && expirationDate.getTime() < currentTimeStamp) {
-        return ActivityAsyncStatus.Expired
+        return StardustActivityAsyncStatus.Expired
     } else if (hasStorageDeposit || expirationDate) {
-        return ActivityAsyncStatus.Unclaimed
+        return StardustActivityAsyncStatus.Unclaimed
     } else if (timelockDate) {
-        return ActivityAsyncStatus.Claimed
+        return StardustActivityAsyncStatus.Claimed
     } else {
-        return ActivityAsyncStatus.Unclaimed
+        return StardustActivityAsyncStatus.Unclaimed
     }
 }

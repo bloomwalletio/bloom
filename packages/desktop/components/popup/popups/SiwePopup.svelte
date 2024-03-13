@@ -5,23 +5,41 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { signMessage } from '@core/wallet/actions'
-    import { Alert, Table } from '@bloomwalletio/ui'
+    import { Table, Tabs, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { IChain } from '@core/network'
-    import { AccountLabel, DappInfo } from '@ui'
+    import { IChain, NetworkId, getNameFromNetworkId } from '@core/network'
+    import { AccountLabel, DappInfo, KeyValue, NetworkLabel } from '@ui'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { ParsedMessage } from '@spruceid/siwe-parser'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { openUrlInBrowser } from '@core/app'
 
     export let rawMessage: string
     export let siweObject: ParsedMessage
     export let account: IAccountState
     export let chain: IChain
-    export let dapp: IConnectedDapp | undefined
+    export let dapp: IConnectedDapp
+    export let verifiedState: DappVerification
     export let callback: (params: CallbackParameters) => void
 
+    enum Tab {
+        Details = 'details',
+        Resources = 'resources',
+        Raw = 'raw',
+    }
+
+    const TABS: KeyValue<string>[] = (
+        siweObject.resources ? [Tab.Details, Tab.Resources, Tab.Raw] : [Tab.Details, Tab.Raw]
+    ).map((key) => ({
+        key,
+        value: localize(`popups.siwe.${key}`),
+    }))
+
+    let selectedTab = TABS[0]
     let isBusy = false
+    const networkId = `eip155:${siweObject.chainId}` as NetworkId
 
     async function onConfirmClick(): Promise<void> {
         try {
@@ -71,43 +89,69 @@
     <DappInfo
         slot="banner"
         metadata={dapp.metadata}
+        {verifiedState}
         showLink={false}
         classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
     />
 
-    <div class="space-y-5">
-        <Table
-            items={[
-                {
-                    key: localize('popups.siwe.domain'),
-                    value: siweObject.domain,
-                },
-                {
-                    key: localize('popups.siwe.statement'),
-                    value: siweObject.statement,
-                },
-                {
-                    key: localize('popups.siwe.resources'),
-                    value: siweObject.resources,
-                },
-                {
-                    key: localize('general.account'),
-                    slot: {
-                        component: AccountLabel,
-                        props: {
-                            account,
+    <div class="flex flex-col gap-5">
+        {#if siweObject.statement}
+            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4 max-h-28 scrollable-y">
+                <Text fontWeight="medium">{localize('popups.siwe.statement')}</Text>
+                <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
+                    >{siweObject.statement}</Text
+                >
+            </div>
+        {/if}
+        <Tabs bind:selectedTab tabs={TABS} />
+        {#if selectedTab.key === Tab.Details}
+            <Table
+                items={[
+                    {
+                        key: localize('popups.siwe.domain'),
+                        value: siweObject.domain,
+                    },
+                    {
+                        key: localize('general.network'),
+                        slot: getNameFromNetworkId(networkId)
+                            ? {
+                                  component: NetworkLabel,
+                                  props: {
+                                      networkId,
+                                  },
+                              }
+                            : undefined,
+                    },
+                    {
+                        key: localize('popups.siwe.chainId'),
+                        value: getNameFromNetworkId(networkId) ? undefined : networkId,
+                    },
+                    {
+                        key: localize('general.account'),
+                        slot: {
+                            component: AccountLabel,
+                            props: {
+                                account,
+                            },
                         },
                     },
-                },
-            ]}
-        />
-        {#if dapp}
-            <Alert
-                variant="info"
-                text={localize('popups.signMessage.hint', { dappName: dapp.metadata?.name ?? 'Unkown' })}
+                ]}
+            />
+        {:else if selectedTab.key === Tab.Resources}
+            <Table
+                items={siweObject.resources?.map((resource, index) => ({
+                    key: `Ressource ${index + 1}`,
+                    value: resource,
+                    onClick: () => openUrlInBrowser(resource),
+                }))}
             />
         {:else}
-            <Alert variant="warning" text={localize('popups.signMessage.warning')} />
+            <div class="border border-solid border-stroke dark:border-stroke-dark rounded-lg p-4 max-h-64 scrollable-y">
+                <Text fontWeight="medium">{localize('popups.siwe.rawMessage')}</Text>
+                <Text textColor="secondary" type="sm" fontWeight="medium" class="whitespace-pre-line break-words"
+                    >{rawMessage}</Text
+                >
+            </div>
         {/if}
     </div>
 </PopupTemplate>

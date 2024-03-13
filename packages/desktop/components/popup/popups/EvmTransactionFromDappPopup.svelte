@@ -3,7 +3,7 @@
     import { handleError } from '@core/error/handlers'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { signAndSendTransactionFromEvm } from '@core/wallet/actions'
+    import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
     import { selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { DappInfo, TransactionAssetSection } from '@ui'
@@ -13,6 +13,7 @@
     import {
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
+        getHexEncodedTransaction,
         getMethodNameForEvmTransaction,
     } from '@core/layer-2'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
@@ -22,23 +23,30 @@
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
-    import { truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
-    import { ActivityType } from '@core/activity'
+    import { StardustActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { LegacyTransaction } from '@ethereumjs/tx'
+    import { activeProfileId } from '@core/profile/stores'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
     export let dapp: IConnectedDapp
-    export let signAndSend: boolean
     export let verifiedState: DappVerification
+    export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
     export let callback: (params: CallbackParameters) => void
 
     const { id } = chain.getConfiguration()
-    $: localeKey = signAndSend ? (isSmartContractCall ? 'smartContractCall' : 'sendTransaction') : 'signTransaction'
+    $: localeKey =
+        method === RpcMethod.EthSignTransaction
+            ? 'signTransaction'
+            : isSmartContractCall
+              ? 'smartContractCall'
+              : 'sendTransaction'
 
     let nft: Nft | undefined
     let tokenTransfer: TokenTransferData | undefined
@@ -51,7 +59,7 @@
     function setTokenTransfer(): void {
         const transferInfo = getTransferInfoFromTransactionData(preparedTransaction, chain)
         switch (transferInfo?.type) {
-            case ActivityType.Basic: {
+            case StardustActivityType.Basic: {
                 if (transferInfo.tokenId === BASE_TOKEN_ID) {
                     baseCoinTransfer = {
                         token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, id),
@@ -65,11 +73,11 @@
                 }
                 break
             }
-            case ActivityType.Nft: {
+            case StardustActivityType.Nft: {
                 nft = getNftByIdFromAllAccountNfts($selectedAccount.index, transferInfo.nftId)
                 break
             }
-            case ActivityType.SmartContract: {
+            case StardustActivityType.SmartContract: {
                 isSmartContractCall = true
                 break
             }
@@ -77,6 +85,31 @@
                 break
             }
         }
+    }
+
+    async function getSignedTransaction(): Promise<string> {
+        if (preparedTransaction?.v && preparedTransaction?.s && preparedTransaction?.r) {
+            const transaction = LegacyTransaction.fromTxData(preparedTransaction)
+            return getHexEncodedTransaction(transaction)
+        } else {
+            return await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+        }
+    }
+
+    async function signOrSend(): Promise<void> {
+        const signedTransaction = await getSignedTransaction()
+        if (method === RpcMethod.EthSignTransaction) {
+            callback({ result: signedTransaction })
+            return
+        }
+        const transactionHash = await sendAndPersistTransactionFromEvm(
+            preparedTransaction,
+            signedTransaction,
+            chain,
+            $selectedAccount,
+            $activeProfileId
+        )
+        callback({ result: transactionHash })
     }
 
     async function onConfirmClick(): Promise<void> {
@@ -89,15 +122,11 @@
         try {
             busy = true
             modifyPopupState({ preventClose: true })
-            const response = await signAndSendTransactionFromEvm(
-                preparedTransaction,
-                chain,
-                $selectedAccount,
-                signAndSend
-            )
+
+            await signOrSend()
+
             modifyPopupState({ preventClose: false }, true)
             busy = false
-            callback({ result: response })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
@@ -112,7 +141,7 @@
         }
     }
 
-    $: setMethodName(preparedTransaction)
+    $: void setMethodName(preparedTransaction)
     async function setMethodName(preparedTransaction: EvmTransactionData): Promise<void> {
         const result = await getMethodNameForEvmTransaction(preparedTransaction)
         methodName = result?.startsWith('0x') ? undefined : result
@@ -130,8 +159,9 @@
     }
 
     function onExplorerClick(contractAddress: string): void {
-        const explorerUrl = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
-        openUrlInBrowser(`${explorerUrl}/${contractAddress}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${contractAddress}` })
+        openUrlInBrowser(url?.href)
     }
 </script>
 

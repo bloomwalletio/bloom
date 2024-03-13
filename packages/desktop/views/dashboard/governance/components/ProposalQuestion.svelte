@@ -2,11 +2,14 @@
     import { AnswerStatus, EventStatus, Question } from '@iota/sdk/out/types'
 
     import { ProposalAnswer } from './'
-    import { Icon, IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { Icon, IconName, Text, IconButton } from '@bloomwalletio/ui'
 
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import { getPercentagesFromAnswerStatuses, IProposalAnswerPercentages } from '@contexts/governance'
     import { selectedProposal } from '@contexts/governance/stores'
+    import { openPopup } from '@desktop/auxiliary/popup/actions'
+    import { PopupId } from '@desktop/auxiliary/popup'
+    import { localize } from '@core/i18n'
 
     export let onQuestionClick: (questionIndex: number) => void
     export let onAnswerClick: (answerValue: number, questionIndex: number) => void
@@ -18,11 +21,13 @@
     export let selectedAnswerValue: number = undefined
     export let votedAnswerValue: number = undefined
     export let isLoading: boolean = false
+    export let projected: boolean = false
 
     let percentages: IProposalAnswerPercentages = {}
     let winnerAnswerIndex: number
 
     $: answers = [...(question?.answers ?? []), { value: 0, text: 'Abstain', additionalInfo: '' }]
+
     $: percentages = getPercentagesFromAnswerStatuses(answerStatuses)
     $: disabled =
         $selectedProposal?.status === EventStatus.Upcoming ||
@@ -42,6 +47,16 @@
             winnerAnswerIndex = answersAccumulated?.indexOf(maxAccumulated)
         }
     }
+
+    function onInfoClick(): void {
+        openPopup({
+            id: PopupId.MarkdownBlock,
+            props: {
+                title: question.text,
+                markdown: question.additionalInfo,
+            },
+        })
+    }
 </script>
 
 <proposal-question
@@ -51,16 +66,18 @@
 >
     <button on:click={() => onQuestionClick(questionIndex)} class="flex justify-between items-center">
         <div class="flex flex-col min-w-0 gap-1">
-            {#if questionIndex !== undefined}
-                <Text align="left">Question {questionIndex + 1}</Text>
-            {/if}
+            <div class="flex flex-row gap-2">
+                {#if questionIndex !== undefined}
+                    <Text align="left">{localize('general.question')} {questionIndex + 1}</Text>
+                {/if}
+                {#if question.additionalInfo}
+                    <IconButton icon={IconName.InfoCircle} size="xs" on:click={onInfoClick} />
+                {/if}
+            </div>
             <div class="flex flex-row space-x-1.5 items-center">
                 <Text align="left" fontWeight="medium" textColor="secondary" truncate={!isOpened}>
                     {question.text}
                 </Text>
-                {#if question.additionalInfo}
-                    <TooltipIcon tooltip={question.additionalInfo} placement="bottom" size="xxs" />
-                {/if}
             </div>
         </div>
         <div class="transform {isOpened ? 'rotate-180' : 'rotate-0'}">
@@ -76,10 +93,10 @@
                 {selectedAnswerValue}
                 {disabled}
                 {isLoading}
+                {projected}
                 hidden={!isOpened}
                 percentage={percentages[answer.value]}
                 isWinner={answerIndex === winnerAnswerIndex}
-                proposalStatus={$selectedProposal?.status}
                 truncate={!isOpened}
                 onAnswerClick={() => onAnswerClick(answer.value, questionIndex)}
             />

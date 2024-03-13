@@ -522,7 +522,8 @@
                         "permissions": {
                             "step": "Permission",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
-                            "title": "Select permissions",
+                            "requiredTitle": "Required permissions",
+                            "optionalTitle": "Optional permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction",
@@ -531,7 +532,8 @@
                         },
                         "networks": {
                             "step": "Networks",
-                            "title": "Select networks",
+                            "requiredTitle": "Required networks",
+                            "optionalTitle": "Optional networks",
                             "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
                             "empty": "You have to select at least one network"
                         },
@@ -632,14 +634,13 @@
                 "manage": "管理投票权重"
             },
             "proposalsDetails": {
-                "title": "详情",
                 "totalProposals": "所有提案",
                 "activeProposals": "现行提案",
                 "votingProposals": "您正在投票的提案",
                 "votedProposals": "您投票的所有提案"
             },
             "proposals": {
-                "title": "提案",
+                "title": "Governance Proposals",
                 "voted": "已投票",
                 "successEdit": "Proposal successfully edited",
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added",
@@ -686,7 +687,11 @@
                     "nodeUrl": "节点 URL"
                 },
                 "fetching": "正在获取提案数据",
-                "hintVote": "您不能对处于宣布阶段的提案进行投票，投票将在 {time} 进行。"
+                "hintVote": "您不能对处于宣布阶段的提案进行投票，投票将在 {time} 进行。",
+                "projection": {
+                    "label": "Projected votes",
+                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                }
             }
         },
         "updateStronghold": {
@@ -973,9 +978,17 @@
         },
         "siwe": {
             "title": "Sign-In with Ethereum",
+            "details": "Details",
+            "raw": "Raw",
+            "rawMessage": "Raw message",
             "domain": "Domain",
             "statement": "Statement",
             "resources": "Resources",
+            "chainId": "Chain Id",
+            "nonce": "Nonce",
+            "issuedAt": "Issued at",
+            "notBefore": "Not before",
+            "requestId": "Request Id",
             "action": "Sign in"
         },
         "signTransaction": {
@@ -991,6 +1004,7 @@
         "smartContractCall": {
             "title": "Smart contract call to {contractAddress}",
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "viewSmartContract": "View Smart Contract",
             "action": "Confirm",
             "success": "Smart contract call to {recipient}"
         },
@@ -1068,19 +1082,19 @@
                         "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
-                        "Pending": "Voting for {proposalName}",
-                        "Confirmed": "Voted for {proposalName}",
-                        "Conflicting": "Failed to vote for"
+                        "Pending": "Voting on {proposalName}",
+                        "Confirmed": "Voted on {proposalName}",
+                        "Conflicting": "Failed to vote on"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting for {proposalName}",
-                        "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stop voting for"
+                        "Pending": "Stopping voting on {proposalName}",
+                        "Confirmed": "Stopped voting on {proposalName}",
+                        "Conflicting": "Failed to stop voting on"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote for {proposalName}",
-                        "Confirmed": "Changed vote for {proposalName}",
-                        "Conflicting": "Failed to change vote for"
+                        "Pending": "Changing vote on {proposalName}",
+                        "Confirmed": "Changed vote on {proposalName}",
+                        "Conflicting": "Failed to change vote on"
                     },
                     "revote": {
                         "Pending": "Revoting",
@@ -1202,7 +1216,7 @@
         "revote": {
             "title": "对提案重新表决",
             "body": "更改您的投票权暂时停止您对所有建议的投票。只需点击“重新投票”即可继续投票。",
-            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "移除提案",
@@ -1381,18 +1395,20 @@
         "receiving": "接收",
         "newVotingPower": "新的投票权重",
         "votingPower": "投票权重",
-        "increased": "投票权已增加",
-        "increasing": "增加投票权",
-        "decreased": "投票权重降低",
-        "decreasing": "降低投票权重",
+        "increased": "Voting power increased",
+        "increasing": "Increasing voting power",
+        "decreased": "Voting power decreased",
+        "decreasing": "Decreasing voting power",
         "voted": "已投票",
         "voting": "投票中",
+        "votingOn": "Voting on",
+        "votedOn": "Voted on",
         "changedVote": "变更投票",
         "changingVote": "投票变更中...",
         "revoted": "已重新投票",
         "revoting": "重新投票",
-        "unvoted": "已取消投票",
-        "unvoting": "取消投票中...",
+        "unvoted": "Stopped voting",
+        "unvoting": "Stopping voting",
         "transferred": "Transferred",
         "transferring": "Transferring",
         "shimmerClaimed": "已认领",
@@ -1531,6 +1547,7 @@
         "contractFunction": "合约功能",
         "standard": "标准",
         "uri": "URI",
+        "image": "Image",
         "issuer": "发行者",
         "issuerAddress": "发行者地址",
         "issuerName": "发行者名称",

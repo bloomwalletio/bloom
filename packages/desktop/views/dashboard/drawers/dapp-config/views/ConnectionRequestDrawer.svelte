@@ -1,38 +1,32 @@
 <script lang="ts">
-    import { Alert, Button, Checkbox, Table, TableRow, Text } from '@bloomwalletio/ui'
+    import { Button, Table, TableRow, Text } from '@bloomwalletio/ui'
     import { DappInfo, Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import { sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { SupportedNetworkId, getAllNetworkIds } from '@core/network'
+    import { SecurityWarning, UnsupportedDappHint } from '../components'
+    import { getAllNetworkIds } from '@core/network'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
     import { onDestroy } from 'svelte'
-    import { Web3WalletTypes } from '@walletconnect/web3wallet'
-    import { DappVerification } from '@auxiliary/wallet-connect/enums'
-
-    enum SessionVerification {
-        Valid = 'VALID',
-        Invalid = 'INVALID',
-        Unknown = 'UNKNOWN',
-    }
+    import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { ProposalTypes } from '@walletconnect/types'
 
     export let drawerRouter: Router<unknown>
 
     const localeKey = 'views.dashboard.drawers.dapps.connectionRequest'
     let acceptedInsecureConnection = false
-    $: isVerified = $sessionProposal?.verifyContext.verified.validation === SessionVerification.Valid
-    $: alreadyConnected = !!getPersistedDappNamespacesForDapp($sessionProposal?.params.proposer.metadata.url)
-    $: unsupportedMethods = getUnsupportedMethods($sessionProposal)
-    $: supportedNetworks = getSupportedNetworks($sessionProposal)
-    $: unsupportedRequiredNetworks = getUnsupportedRequiredNetworks($sessionProposal)
+    let flashingCheckbox = false
     $: fulfillsRequirements =
-        unsupportedMethods.length === 0 &&
-        unsupportedRequiredNetworks.networks.length === 0 &&
-        supportedNetworks.networks.length > 0
+        !!$sessionProposal &&
+        doesFulfillNetworkRequirements(
+            $sessionProposal.params.requiredNamespaces,
+            $sessionProposal.params.optionalNamespaces
+        ) &&
+        doesFulfillMethodRequirements($sessionProposal.params.requiredNamespaces)
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
@@ -52,55 +46,46 @@
         }
     }
 
-    function getUnsupportedRequiredNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): {
-        networks: string[]
-        isSupportedOnOtherProfiles: boolean
-    } {
-        if (!_sessionProposal) return { networks: [], isSupportedOnOtherProfiles: false }
+    function doesFulfillNetworkRequirements(
+        requiredNamespaces: ProposalTypes.RequiredNamespaces,
+        optionalNamespaces: ProposalTypes.RequiredNamespaces
+    ): boolean {
+        const supportedNetworksByProfile = getAllNetworkIds()
+        const requiredNetworksByDapp = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
+        const supportedNetworksByDapp = [
+            ...requiredNetworksByDapp,
+            ...Object.values(optionalNamespaces).flatMap((namespace) => namespace.chains),
+        ]
 
-        const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
-        const networksSupportedByProfile = getAllNetworkIds()
-        const requiredNetworks = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
-
-        const networks = requiredNetworks.filter((network) => !networksSupportedByProfile.includes(network))
-
-        const allSupportedNetworks: string[] = Object.values(SupportedNetworkId)
-        const isSupportedOnOtherProfiles = networks.every((network) => allSupportedNetworks.includes(network))
-
-        return { networks, isSupportedOnOtherProfiles }
-    }
-
-    function getSupportedNetworks(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): {
-        networks: string[]
-        hasSupportedOnOtherProfiles: boolean
-    } {
-        if (!_sessionProposal) return { networks: [], hasSupportedOnOtherProfiles: false }
-
-        const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
-        const optionalNamespaces = _sessionProposal?.params.optionalNamespaces
-
-        const networksSupportedByProfile = getAllNetworkIds()
-        const networksSupportedByDapp = []
-
-        networksSupportedByDapp.push(...Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains))
-        networksSupportedByDapp.push(...Object.values(optionalNamespaces).flatMap((namespace) => namespace.chains))
-        const networks = networksSupportedByDapp.filter((network) => networksSupportedByProfile.includes(network))
-
-        const allSupportedNetworks: string[] = Object.values(SupportedNetworkId)
-        const hasSupportedOnOtherProfiles = networksSupportedByDapp.some((network) =>
-            allSupportedNetworks.includes(network)
+        const supportsAllRequiredNetworks = requiredNetworksByDapp.every((networkId) =>
+            supportedNetworksByProfile.includes(networkId)
         )
 
-        return { networks, hasSupportedOnOtherProfiles }
+        if (!supportsAllRequiredNetworks) {
+            return false
+        }
+
+        const supportsAnyNetwork = supportedNetworksByDapp.some((networkId) =>
+            supportedNetworksByProfile.includes(networkId)
+        )
+        if (!supportsAnyNetwork) {
+            return false
+        }
+
+        return true
     }
 
-    function getUnsupportedMethods(_sessionProposal: Web3WalletTypes.SessionProposal | undefined): string[] {
-        if (!_sessionProposal) return []
+    function doesFulfillMethodRequirements(requiredNamespaces: ProposalTypes.RequiredNamespaces): boolean {
+        const supportedMethodsByWallet = Object.values(METHODS_FOR_PERMISSION).flat() as RpcMethod[]
+        const requiredMethods = Object.values(requiredNamespaces).flatMap(
+            (namespace) => namespace.methods
+        ) as RpcMethod[]
+        const supportsAllRequiredMethods = requiredMethods.every((method) => supportedMethodsByWallet.includes(method))
+        if (!supportsAllRequiredMethods) {
+            return false
+        }
 
-        const requiredNamespaces = _sessionProposal?.params.requiredNamespaces
-        const supportedMethods = Object.values(METHODS_FOR_PERMISSION).flat()
-        const requiredMethods = Object.values(requiredNamespaces).flatMap((namespace) => namespace.methods)
-        return requiredMethods.filter((network) => !supportedMethods.includes(network))
+        return true
     }
 
     function onRejectClick(): void {
@@ -109,6 +94,14 @@
     }
 
     function onContinueClick(): void {
+        if (verifiedState !== DappVerification.Valid && !acceptedInsecureConnection) {
+            flashingCheckbox = true
+            setTimeout(() => {
+                flashingCheckbox = false
+            }, 1500)
+            return
+        }
+
         drawerRouter.next()
     }
 
@@ -125,10 +118,6 @@
 
             <div class="flex-grow overflow-hidden">
                 <div class="h-full overflow-scroll flex flex-col gap-5 p-6">
-                    <Alert
-                        variant={alreadyConnected ? 'info' : 'warning'}
-                        text={localize(`${localeKey}.${alreadyConnected ? 'reconnectHint' : 'firstTimeHint'}`)}
-                    />
                     <Table
                         items={[
                             {
@@ -140,51 +129,26 @@
                     >
                         <TableRow item={{ key: localize('general.verified') }} orientation="vertical">
                             <div slot="boundValue">
-                                <Text textColor={isVerified ? 'success' : 'danger'}
-                                    >{localize(`general.${isVerified ? 'yes' : 'no'}`)}</Text
+                                <Text textColor={verifiedState === DappVerification.Valid ? 'success' : 'danger'}
+                                    >{localize(
+                                        `general.${verifiedState === DappVerification.Valid ? 'yes' : 'no'}`
+                                    )}</Text
                                 >
                             </div>
                         </TableRow>
                     </Table>
                 </div>
             </div>
-            {#if unsupportedRequiredNetworks.networks.length}
-                <div class="flex flex-col gap-8 px-6">
-                    <Alert
-                        variant={unsupportedRequiredNetworks.isSupportedOnOtherProfiles ? 'warning' : 'danger'}
-                        text={localize(
-                            `${localeKey}.${
-                                unsupportedRequiredNetworks.isSupportedOnOtherProfiles
-                                    ? 'supportedOnOtherProfile'
-                                    : 'unsupportedNetworks'
-                            }`
-                        )}
+            {#if !fulfillsRequirements}
+                <div class="px-6">
+                    <UnsupportedDappHint
+                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
                     />
                 </div>
-            {:else if supportedNetworks.networks.length === 0}
-                <div class="flex flex-col gap-8 px-6">
-                    <Alert
-                        variant={supportedNetworks.hasSupportedOnOtherProfiles ? 'warning' : 'danger'}
-                        text={localize(
-                            `${localeKey}.${
-                                supportedNetworks.hasSupportedOnOtherProfiles
-                                    ? 'supportedOnOtherProfile'
-                                    : 'noSupportedNetworks'
-                            }`
-                        )}
-                    />
-                </div>
-            {:else if unsupportedMethods.length}
-                <div class="flex flex-col gap-8 px-6">
-                    <Alert variant="danger" text={localize(`${localeKey}.unsupportedMethods`)} />
-                </div>
-            {:else if !isVerified}
-                <div class="flex flex-col gap-8 px-6">
-                    <Alert variant="warning" text={localize(`${localeKey}.insecure`)} />
-                    <Checkbox
-                        label={localize(`${localeKey}.acceptInsecureConnection`)}
-                        bind:checked={acceptedInsecureConnection}
-                    />
+            {:else if verifiedState !== DappVerification.Valid}
+                <div class="px-6">
+                    <SecurityWarning {verifiedState} {flashingCheckbox} bind:acceptedInsecureConnection />
                 </div>
             {/if}
         {:else}
@@ -200,13 +164,8 @@
             on:click={onRejectClick}
             text={localize(`actions.${fulfillsRequirements ? 'reject' : 'cancel'}`)}
         />
-        {#if fulfillsRequirements}
-            <Button
-                width="full"
-                on:click={onContinueClick}
-                disabled={!isVerified && !acceptedInsecureConnection}
-                text={localize('actions.continue')}
-            />
+        {#if fulfillsRequirements && verifiedState !== DappVerification.Scam}
+            <Button width="full" on:click={onContinueClick} text={localize('actions.continue')} />
         {/if}
     </div>
 </DrawerTemplate>

@@ -1,5 +1,5 @@
 import { INftAttribute } from '@core/nfts'
-import { BaseApi, buildQueryParametersFromObject } from '@core/utils'
+import { BaseApi } from '@core/utils'
 import { TIDE_API_BASE_URL } from '../constants'
 import { TideApiEndpoint } from '../enums'
 import { ITideLeaderboardItem, ITideUserPosition } from '../interfaces'
@@ -75,17 +75,15 @@ interface INftUserDataResponse {
 
 export class TideApi extends BaseApi {
     constructor() {
-        super(TIDE_API_BASE_URL)
+        super(TIDE_API_BASE_URL, 'public')
     }
 
     async getProjectLeaderboard(
         projectId: number,
         queryParams?: ProjectLeaderboardQueryParams
     ): Promise<IProjectLeaderboardResponse | undefined> {
-        const path = `${TideApiEndpoint.Project}/${projectId}/leaderboard?${
-            queryParams ? buildQueryParametersFromObject(queryParams) : ''
-        }`
-        const response = await this.get<IProjectLeaderboardResponse>(path)
+        const path = `${TideApiEndpoint.Project}/${projectId}/leaderboard`
+        const response = await this.get<IProjectLeaderboardResponse>(path, queryParams)
         return response
     }
 

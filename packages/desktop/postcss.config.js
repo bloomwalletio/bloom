@@ -16,5 +16,6 @@ module.exports = {
                               .replace(/\\/g, '/')
                     : undefined,
         }),
+        require('autoprefixer'),
     ],
 }

@@ -1,36 +1,78 @@
 import '@mocks/i18n.mock'
 import type { AnswerStatus } from '@iota/sdk/out/types'
-
 import { getPercentagesFromAnswerStatuses } from '../getPercentagesFromAnswerStatuses'
+import type { IProposal } from '../../interfaces'
 
 describe('File: getPercentagesFromAnswerStatuses.ts', () => {
     describe('Function: getPercentagesFromAnswerStatuses', () => {
-        const ANSWER_STATUSES: AnswerStatus[] = [
-            {
-                value: 0,
-                current: 0,
-                accumulated: 1000,
-            },
-            {
-                value: 1,
-                current: 0,
-                accumulated: 2000,
-            },
-            {
-                value: 2,
-                current: 0,
-                accumulated: 3000,
-            },
-        ]
+        const mockProposal = {
+            milestones: { ended: 100 },
+        }
 
-        it('should return percentages from valid arguments', () => {
-            expect(getPercentagesFromAnswerStatuses(ANSWER_STATUSES)).toEqual({ 0: '16.7%', 1: '33.3%', 2: '50%' })
+        it('should return percentages with same projected votes as total votes from valid arguments and proposal', () => {
+            const answerStatuses: AnswerStatus[] = [
+                {
+                    value: 0,
+                    current: 10,
+                    accumulated: 1000,
+                },
+                {
+                    value: 1,
+                    current: 20,
+                    accumulated: 2000,
+                },
+                {
+                    value: 2,
+                    current: 30,
+                    accumulated: 3000,
+                },
+            ]
+
+            const expectedPercentages = {
+                0: { accumulated: '16.7%', projected: '16.7%' },
+                1: { accumulated: '33.3%', projected: '33.3%' },
+                2: { accumulated: '50%', projected: '50%' },
+            }
+            expect(getPercentagesFromAnswerStatuses(answerStatuses, mockProposal as IProposal)).toEqual(
+                expectedPercentages
+            )
         })
+
+        it('should return percentages with different projected votes as total votes from valid arguments and proposal', () => {
+            const answerStatuses: AnswerStatus[] = [
+                {
+                    value: 0,
+                    current: 400,
+                    accumulated: 1000,
+                },
+                {
+                    value: 1,
+                    current: 20,
+                    accumulated: 2000,
+                },
+                {
+                    value: 2,
+                    current: 30,
+                    accumulated: 3000,
+                },
+            ]
+
+            const expectedPercentages = {
+                0: { accumulated: '16.7%', projected: '80.5%' },
+                1: { accumulated: '33.3%', projected: '7.8%' },
+                2: { accumulated: '50%', projected: '11.7%' },
+            }
+            expect(getPercentagesFromAnswerStatuses(answerStatuses, mockProposal as IProposal)).toEqual(
+                expectedPercentages
+            )
+        })
+
         it('should return empty object from invalid arguments', () => {
-            expect(getPercentagesFromAnswerStatuses([{} as AnswerStatus])).toEqual({})
+            expect(getPercentagesFromAnswerStatuses([{} as AnswerStatus], mockProposal as IProposal)).toEqual({})
         })
+
         it('should return empty object from empty arguments', () => {
-            expect(getPercentagesFromAnswerStatuses([])).toEqual({})
+            expect(getPercentagesFromAnswerStatuses([], mockProposal as IProposal)).toEqual({})
         })
     })
 })
