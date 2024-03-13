@@ -4,10 +4,16 @@
     import { Platform } from '@core/app'
     import { activeProfile } from '@core/profile/stores'
     import { IPopupState, IProfileAuthPopupState, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
-    import { Pane } from '@ui'
     import { onDestroy, tick } from 'svelte'
-    import { TransakAccountPanel, TransakConnectionPanel, TransakInfoPanel } from '../components'
+    import {
+        TransakAccountPanel,
+        TransakConnectionPanel,
+        TransakInfoPanel,
+        TransakWindowPlaceholder,
+    } from '../components'
     import { isDashboardSideBarExpanded } from '@core/ui'
+    import { DrawerState } from '@desktop/auxiliary/drawer/types'
+    import { drawerState } from '@desktop/auxiliary/drawer/stores'
 
     $: $isDashboardSideBarExpanded, void updateTransakBounds()
 
@@ -15,14 +21,15 @@
         void resetTransak()
     }
 
-    $: void handlePopupState($popupState, $profileAuthPopup, $settingsState)
+    $: void handleOverlayChanges($popupState, $profileAuthPopup, $settingsState, $drawerState)
 
-    async function handlePopupState(
+    async function handleOverlayChanges(
         state: IPopupState,
         profilePopupState: IProfileAuthPopupState,
-        settingsState: ISettingsState
+        settingsState: ISettingsState,
+        drawerState: DrawerState
     ): Promise<void> {
-        if (state.active || profilePopupState.active || settingsState.open) {
+        if (state.active || profilePopupState.active || settingsState.open || drawerState?.id) {
             await Platform.hideTransak()
         } else {
             await tick()
@@ -75,9 +82,7 @@
         <TransakAccountPanel />
     </div>
     <div class="transak-panel" bind:this={transakContainer}>
-        <Pane
-            classes="flex flex-col justify-center items-center w-full h-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
-        ></Pane>
+        <TransakWindowPlaceholder />
     </div>
     <div class="info-panel">
         <TransakInfoPanel />

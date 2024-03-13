@@ -2,7 +2,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { consolidateOutputs } from '@core/wallet/actions/consolidateOutputs'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { CommonOutput, OutputType, UnlockCondition, UnlockConditionType } from '@iota/sdk/out/types'
@@ -50,30 +50,34 @@
 
         let unavailableTotalAmount = $selectedAccount?.votingPower
         for (const [outputId, unlocked] of Object.entries(accountBalance?.potentiallyLockedOutputs ?? {})) {
-            if (!unlocked) {
-                const output = (await $selectedAccount.getOutput(outputId)).output
-
-                let type: string
-                let amount: bigint
-                if (output.type !== OutputType.Treasury) {
-                    const commonOutput = output as CommonOutput
-                    if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Expiration)) {
-                        type = UnavailableAmountType.Unclaimed
-                        amount = BigInt(output.amount)
-                    } else if (
-                        containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.StorageDepositReturn)
-                    ) {
-                        type = UnavailableAmountType.StorageDepositReturn
-                        amount = getStorageDepositFromOutput(commonOutput)
-                    } else if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Timelock)) {
-                        type = UnavailableAmountType.Timelock
-                        amount = BigInt(output.amount)
-                    }
-                }
-
-                subBreakdown[type] += amount
-                unavailableTotalAmount += amount
+            if (unlocked) {
+                continue
             }
+
+            const output = (await $selectedAccount.getOutput(outputId)).output
+            if (output.type === OutputType.Treasury) {
+                continue
+            }
+
+            let type: string
+            let amount: bigint
+
+            const commonOutput = output as CommonOutput
+            if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Expiration)) {
+                type = UnavailableAmountType.Unclaimed
+                amount = BigInt(output.amount)
+            } else if (
+                containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.StorageDepositReturn)
+            ) {
+                type = UnavailableAmountType.StorageDepositReturn
+                amount = getStorageDepositFromOutput(commonOutput)
+            } else if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Timelock)) {
+                type = UnavailableAmountType.Timelock
+                amount = BigInt(output.amount)
+            }
+
+            subBreakdown[type] += amount
+            unavailableTotalAmount += amount
         }
 
         return { amount: unavailableTotalAmount, subBreakdown }
@@ -110,13 +114,14 @@
                 description: localize('popups.minimizeStorageDeposit.description'),
                 confirmText: localize('popups.minimizeStorageDeposit.confirmButton'),
                 onConfirm: async () => {
-                    await checkActiveProfileAuth(
-                        async () => {
-                            await consolidateOutputs()
-                            closePopup()
-                        },
-                        { stronghold: true }
-                    )
+                    try {
+                        await checkActiveProfileAuthAsync()
+                    } catch (err) {
+                        return
+                    }
+
+                    await consolidateOutputs()
+                    closePopup()
                 },
             },
         })
