@@ -16,7 +16,7 @@ export async function generateEvmActivityFromPersistedTransaction(
     if (tokenTransfer) {
         return generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(tokenTransfer, blockscout, chain, account)
     } else if (blockscout) {
-        return generateEvmActivityFromBlockscoutTransaction(blockscout, chain, account)
+        return generateEvmActivityFromBlockscoutTransaction(blockscout, local, chain, account)
     } else if (local) {
         return generateEvmActivityFromLocalEvmTransaction(local, chain, account)
     }
