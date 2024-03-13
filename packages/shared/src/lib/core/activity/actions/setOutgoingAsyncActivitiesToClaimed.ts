@@ -3,7 +3,7 @@ import { BasicOutput } from '@iota/sdk'
 import { OutputData } from '@iota/sdk'
 import { MILLISECONDS_PER_SECOND } from '@core/utils'
 import { get } from 'svelte/store'
-import { ActivityAsyncStatus, ActivityDirection } from '../enums'
+import { StardustActivityAsyncStatus, ActivityDirection } from '../enums'
 import { allAccountActivities, updateAsyncDataByActivityId } from '../stores'
 import { getExpirationDateFromOutput } from '../utils/outputs'
 
@@ -20,7 +20,7 @@ export async function setOutgoingAsyncActivitiesToClaimed(account: IAccountState
             const isClaimed = detailedOutput && isOutputClaimed(detailedOutput)
             if (isClaimed) {
                 updateAsyncDataByActivityId(account.index, activity.id, {
-                    asyncStatus: ActivityAsyncStatus.Claimed,
+                    asyncStatus: StardustActivityAsyncStatus.Claimed,
                     claimedDate: new Date(detailedOutput.metadata.milestoneTimestampSpent * MILLISECONDS_PER_SECOND),
                 })
             }

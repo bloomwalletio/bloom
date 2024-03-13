@@ -5,7 +5,7 @@
         VotingEventPayload,
         TrackedParticipationOverview,
     } from '@iota/sdk/out/types'
-    import { Alert, Button, Text, Toggle, TooltipIcon } from '@bloomwalletio/ui'
+    import { Alert, Button } from '@bloomwalletio/ui'
     import { getVotingEvent } from '@contexts/governance/actions'
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
     import {
@@ -21,8 +21,8 @@
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ProposalQuestion } from '../../components'
-    import { Pane } from '@ui'
     import { onMount } from 'svelte'
+    import { ProjectionTogglePane } from '.'
 
     export let statusLoaded: boolean = false
     export let overviewLoaded: boolean = false
@@ -77,6 +77,8 @@
             isUpdatingVotedAnswerValues = hasGovernanceTransactionInProgress
         }
     }
+
+    $: isVotable = [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)
 
     function hasSelectedNoAnswers(_selectedAnswerValues: number[]): boolean {
         return (
@@ -180,13 +182,10 @@
     })
 </script>
 
-<Pane classes="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
-    {@const isVotable = [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
-    {#if isVotable}
-        <div class="flex justify-end items-center gap-2 px-5">
-            <TooltipIcon tooltip={localize('views.governance.details.projection.tooltip')} />
-            <Text>{localize('views.governance.details.projection.label')}</Text>
-            <Toggle label="" bind:checked={projected} />
+<div class="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
+    {#if [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
+        <div class="pr-5">
+            <ProjectionTogglePane bind:checked={projected} />
         </div>
     {/if}
     <proposal-questions
@@ -241,4 +240,4 @@
             />
         </buttons-container>
     {/if}
-</Pane>
+</div>

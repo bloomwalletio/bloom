@@ -1,16 +1,18 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { AliasActivity } from '@core/activity'
+    import { StardustAliasActivity } from '@core/activity'
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { ExplorerEndpoint } from '@core/network/enums'
     import { openUrlInBrowser } from '@core/app/utils'
+    import { buildUrl } from '@core/utils/url'
 
-    export let activity: AliasActivity
+    export let activity: StardustAliasActivity
 
     function onAddressClick(address: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
-        openUrlInBrowser(`${explorerUrl}/${address}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address) ?? ''
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${address}` })
+        openUrlInBrowser(url?.href)
     }
 </script>
 

@@ -6,15 +6,16 @@
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
 
-    let tokenBalance: string
-    let fiatBalance: string
+    let tokenBalance: string = ''
+    let fiatBalance: string = ''
 
     function updateBalances(): void {
         const tokens = $selectedAccountTokens?.[$activeProfile.network.id]
-        const networkBaseCoin: ITokenWithBalance = tokens?.baseCoin
+        const networkBaseCoin = tokens?.baseCoin
+        if (!networkBaseCoin) return
         tokenBalance = formatTokenAmountBestMatch(networkBaseCoin.balance.total, networkBaseCoin.metadata)
         fiatBalance = formatCurrency(getFiatValueFromTokenAmount(networkBaseCoin.balance.total, networkBaseCoin))
     }

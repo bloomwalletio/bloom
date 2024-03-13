@@ -5,7 +5,7 @@
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
     import { ExplorerEndpoint, getDefaultExplorerUrl, getNameFromNetworkId, NetworkId } from '@core/network'
     import { Router } from '@core/router'
-    import { truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
@@ -21,10 +21,11 @@
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
 
-    const explorerUrl = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
+    const explorer = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
 
     function onExplorerClick(address: string): void {
-        openUrlInBrowser(`${explorerUrl}/${address}`)
+        const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
+        openUrlInBrowser(url?.href)
     }
 
     function onQrCodeClick(contactAddress: IContactAddress): void {
@@ -71,7 +72,7 @@
                     </Copyable>
                 </div>
                 <div class="flex flex-row space-x-1">
-                    {#if explorerUrl}
+                    {#if explorer.baseUrl}
                         <IconButton
                             size="sm"
                             icon={IconName.Globe}

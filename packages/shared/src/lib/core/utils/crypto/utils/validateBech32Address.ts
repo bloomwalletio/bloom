@@ -2,11 +2,9 @@ import { Bech32 } from '@iota/crypto.js'
 
 import { localize } from '@core/i18n'
 import { ADDRESS_TYPE_MAP } from '@core/wallet/constants'
+import { AddressType } from '@iota/sdk/out/types'
 
-import { convertBytesToHexString } from '../../convert'
-
-export function validateBech32Address(prefix: string, addr: string, addressType?: number): void {
-    const addressTypeLetter = ADDRESS_TYPE_MAP[addressType] ?? ''
+export function validateBech32Address(prefix: string, addr: string, addressType?: AddressType): void {
     if (!addr || !addr.startsWith(prefix)) {
         throw new Error(
             localize('error.send.wrongAddressPrefix', {
@@ -20,6 +18,7 @@ export function validateBech32Address(prefix: string, addr: string, addressType?
         throw new Error(localize('error.send.wrongAddressFormat'))
     }
 
+    const addressTypeLetter = addressType === undefined ? undefined : ADDRESS_TYPE_MAP[addressType]
     if (addressTypeLetter && !new RegExp(`^${prefix}1${addressTypeLetter}[02-9ac-hj-np-z]{58}$`).test(addr)) {
         throw new Error(localize('error.address.wrongAddressType'))
     }
@@ -27,7 +26,7 @@ export function validateBech32Address(prefix: string, addr: string, addressType?
     let isValid = false
     try {
         const decoded = Bech32.decode(addr)
-        isValid = decoded && decoded.humanReadablePart === prefix
+        isValid = !!decoded && decoded.humanReadablePart === prefix
     } catch (err) {
         throw new Error(localize('error.crypto.cannotDecodeBech32'))
     }
@@ -35,12 +34,4 @@ export function validateBech32Address(prefix: string, addr: string, addressType?
     if (!isValid) {
         throw new Error(localize('error.send.invalidAddress'))
     }
-}
-
-export function convertBech32AddressToEd25519Address(bech32Address: string, includeTypeByte: boolean = false): string {
-    if (!bech32Address) {
-        return ''
-    }
-
-    return convertBytesToHexString(Array.from(Bech32.decode(bech32Address).data).slice(includeTypeByte ? 0 : 1))
 }
