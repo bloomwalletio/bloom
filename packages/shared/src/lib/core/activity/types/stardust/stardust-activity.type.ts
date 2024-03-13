@@ -4,7 +4,6 @@ import {
     StardustFoundryActivity,
     StardustGovernanceActivity,
     StardustNftActivity,
-    StardustSmartContractActivity,
     StardustTransactionActivity,
 } from '..'
 
@@ -15,4 +14,3 @@ export type StardustActivity =
     | StardustNftActivity
     | StardustGovernanceActivity
     | StardustConsolidationActivity
-    | StardustSmartContractActivity

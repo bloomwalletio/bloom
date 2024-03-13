@@ -14,9 +14,11 @@ export async function generateEvmActivityFromBlockscoutTransaction(
         blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.CoinTransfer) ||
         blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.TokenTransfer)
     ) {
-        // i.e must be a coin transfer
+        // TODO: use blockscout data to generate activity
+        const localTransaction = buildPersistedEvmTransactionFromBlockscoutTransaction(blockscoutTransaction)
+        return generateEvmActivityFromLocalEvmTransaction(localTransaction, chain, account)
+    } else {
         const localTransaction = buildPersistedEvmTransactionFromBlockscoutTransaction(blockscoutTransaction)
         return generateEvmActivityFromLocalEvmTransaction(localTransaction, chain, account)
     }
-    return Promise.resolve(undefined)
 }

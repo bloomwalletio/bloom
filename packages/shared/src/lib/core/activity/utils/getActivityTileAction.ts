@@ -17,9 +17,6 @@ export function getActivityTileAction(activity: Activity): string | undefined {
         if (activity.type === StardustActivityType.Basic && activity.isShimmerClaiming) {
             return isConfirmed ? 'general.shimmerClaimed' : 'general.shimmerClaiming'
         }
-        if (activity.type === StardustActivityType.SmartContract) {
-            return 'general.contractCall'
-        }
         if (activity.type === StardustActivityType.Governance) {
             if (activity.governanceAction === StardustGovernanceAction.IncreaseVotingPower) {
                 return isConfirmed ? 'general.increased' : 'general.increasing'
@@ -68,6 +65,8 @@ export function getActivityTileAction(activity: Activity): string | undefined {
             } else {
                 return isConfirmed ? 'general.received' : 'general.receiving'
             }
+        } else if (activity.type === EvmActivityType.ContractCall) {
+            return 'general.contractCall'
         } else {
             return 'general.unknown'
         }
