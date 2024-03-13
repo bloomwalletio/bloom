@@ -6,13 +6,38 @@ import path from 'path'
 import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
 import { buildUrl } from '@core/utils/url'
 import { MarketCurrency } from '@core/market/enums/market-currency.enum'
+import fs from 'fs'
 
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
 
-    private preloadPath = app.isPackaged
-        ? path.join(app.getAppPath(), '/public/build/transak.preload.js')
-        : path.join(__dirname, 'transak.preload.js')
+    private getPreloadPath(): string {
+        const preloadPath = app.isPackaged
+            ? path.join(app.getAppPath(), 'public', 'build', 'transak.preload.js')
+            : path.join(__dirname, 'transak.preload.js')
+
+        if (!this.validatePreloadPath(preloadPath)) {
+            throw new Error(`Could not load ${preloadPath}`)
+        }
+
+        return preloadPath
+    }
+
+    private validatePreloadPath(preloadPath: string): boolean {
+        if (!preloadPath) {
+            return false
+        }
+
+        if (!fs.existsSync(preloadPath)) {
+            return false
+        }
+
+        if (path.extname(preloadPath) !== '.js') {
+            return false
+        }
+
+        return true
+    }
 
     public closeWindow(): void {
         if (windows.transak) {
@@ -30,6 +55,15 @@ export default class TransakManager implements ITransakManager {
     }
 
     public openWindow(data: ITransakWindowData): BrowserWindow {
+        let preloadPath: string
+        try {
+            preloadPath = this.getPreloadPath()
+        } catch (err) {
+            windows.main.webContents.send('transak-not-loaded')
+            console.error(err.message)
+            return
+        }
+
         if (windows.transak !== null) {
             return windows.transak
         }
@@ -62,7 +96,7 @@ export default class TransakManager implements ITransakManager {
                 webviewTag: false,
                 enableWebSQL: false,
                 devTools: !app.isPackaged || features?.electron?.developerTools?.enabled,
-                preload: this.preloadPath,
+                preload: preloadPath,
             },
         })
 
