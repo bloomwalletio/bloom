@@ -6,6 +6,7 @@ import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
 import { BaseEvmActivity } from '../../types'
+import type { BigIntLike } from '@ethereumjs/util'
 
 export async function generateBaseEvmActivity(
     transaction: {
@@ -13,9 +14,9 @@ export async function generateBaseEvmActivity(
         to: string
         from: string
         gasUsed: number
-        gasPrice: string
-        estimatedGas?: number
         blockNumber: number
+        estimatedGas?: number
+        gasPrice?: BigIntLike
         timestamp?: number
     },
     chain: IChain,
