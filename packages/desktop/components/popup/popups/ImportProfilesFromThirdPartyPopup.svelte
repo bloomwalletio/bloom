@@ -7,6 +7,7 @@
     import { profiles } from '@core/profile/stores'
     import { closePopup } from '@desktop/auxiliary/popup/actions'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { IPersistedProfile } from '@core/profile'
 
     const appNameOptions: IOption[] = [
         { label: ThirdPartyAppName.Firefly, value: ThirdPartyAppName.Firefly },
@@ -34,7 +35,9 @@
     function onImportClick(): void {
         importThirdPartyProfiles(
             appNameSelected.value as ThirdPartyAppName,
-            Object.values(profilesWithInfo).map((profile) => profile.thirdPartyProfile)
+            Object.values(profilesWithInfo)
+                .filter((profile) => !profile.alreadyImported && profile.selected)
+                .map((profile) => profile.thirdPartyProfile)
         )
     }
 
@@ -42,16 +45,19 @@
         closePopup()
     }
 
-    async function updateProfiles(appName: ThirdPartyAppName): Promise<void> {
+    async function updateProfiles(appName: ThirdPartyAppName, existingProfiles: IPersistedProfile[]): Promise<void> {
         if (!busy) {
             busy = true
             thirdPartyProfiles = await getThirdPartyPersistedProfiles(appName)
             thirdPartyProfiles?.forEach((thirdPartyProfile) => {
+                const alreadyImported = existingProfiles.find(
+                    (existingProfile) => existingProfile.id === thirdPartyProfile.id
+                )
                 const profileWithInfo = {
                     thirdPartyProfile,
                     needsChrysalisToStardustDbMigration:
                         thirdPartyProfile?.needsChrysalisToStardustDbMigration ?? false,
-                    alreadyImported: $profiles.findIndex((profile) => (profile.id = thirdPartyProfile.id)) >= 0,
+                    alreadyImported: !!alreadyImported,
                     selected: false,
                 }
                 profilesWithInfo = {
@@ -62,7 +68,7 @@
             busy = false
         }
     }
-    $: void updateProfiles(appNameSelected.value as ThirdPartyAppName)
+    $: void updateProfiles(appNameSelected.value as ThirdPartyAppName, $profiles)
 </script>
 
 <PopupTemplate
