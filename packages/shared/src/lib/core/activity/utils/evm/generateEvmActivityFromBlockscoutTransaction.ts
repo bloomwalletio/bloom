@@ -9,6 +9,8 @@ import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { EvmActivityType } from '@core/activity/enums/evm'
 import { Converter } from '@core/utils'
 import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
+import { SubjectType } from '@core/wallet'
+import { ActivityDirection } from '@core/activity/enums'
 
 export async function generateEvmActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
@@ -54,13 +56,30 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
             estimatedGas: localTransaction?.estimatedGas,
             gasPrice: blockscoutTransaction.gas_price,
             transactionHash: blockscoutTransaction.hash,
-            timestamp: new Date(blockscoutTransaction.timestamp).getTime(),
+            timestamp: Number(blockscoutTransaction.timestamp),
             blockNumber: blockscoutTransaction.block,
         },
         chain,
         blockscoutTransaction.to.hash.toLowerCase(),
         account
     )
+
+    if (blockscoutTransaction.to.is_contract) {
+        baseActivity.recipient = {
+            type: SubjectType.SmartContract,
+            address: blockscoutTransaction.to.hash.toLowerCase(),
+            name: blockscoutTransaction.to.name,
+        }
+    }
+    if (blockscoutTransaction.from.is_contract) {
+        baseActivity.recipient = {
+            type: SubjectType.SmartContract,
+            address: blockscoutTransaction.from.hash.toLowerCase(),
+            name: blockscoutTransaction.from.name,
+        }
+    }
+    baseActivity.subject =
+        baseActivity.direction === ActivityDirection.Outgoing ? baseActivity.recipient : baseActivity.sender
 
     return {
         ...baseActivity,
@@ -87,7 +106,7 @@ async function generateEvmCoinTransferActivityFromBlockscoutTransaction(
             estimatedGas: localTransaction?.estimatedGas,
             gasPrice: blockscoutTransaction.gas_price,
             transactionHash: blockscoutTransaction.hash,
-            timestamp: new Date(blockscoutTransaction.timestamp).getTime(),
+            timestamp: Number(blockscoutTransaction.timestamp),
             blockNumber: blockscoutTransaction.block,
         },
         chain,
