@@ -1,18 +1,19 @@
+import { IAccountState } from '@core/account'
 import {
-    Activity,
     ActivityDirection,
-    ActivityType,
-    PersistedEvmTransaction,
+    StardustActivity,
+    StardustActivityType,
     calculateAndAddPersistedNftBalanceChange,
+    calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity'
 import { addAccountActivity } from '@core/activity/stores'
-import { generateActivityFromEvmTransaction } from '@core/activity/utils/generateActivityFromEvmTransaction'
-import { EvmTransactionData } from '@core/layer-2'
+import { generateActivityFromEvmTransaction } from '@core/activity/utils/evm'
+import { EvmTransactionData, isErcAsset } from '@core/layer-2'
 import { EvmNetworkId, IChain } from '@core/network'
+import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
-import { updateL2BalanceWithoutActivity } from '../updateL2BalanceWithoutActivity'
-import { IAccountState } from '@core/account'
+import { updateLayer2AccountBalanceForTokenOnChain } from '@core/layer-2/stores'
 
 export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
@@ -28,7 +29,7 @@ export async function sendAndPersistTransactionFromEvm(
 
     // We manually add a timestamp to mitigate balance change activities
     // taking precedence over send/receive activities
-    const evmTransaction: PersistedEvmTransaction = {
+    const evmTransaction: LocalEvmTransaction = {
         ...preparedTransaction,
         ...transactionReceipt,
         timestamp: Date.now(),
@@ -41,7 +42,7 @@ async function persistEvmTransaction(
     profileId: string,
     account: IAccountState,
     chain: IChain,
-    evmTransaction: PersistedEvmTransaction
+    evmTransaction: LocalEvmTransaction
 ): Promise<void> {
     const networkId = chain.getConfiguration().id as EvmNetworkId
     addLocalTransactionToPersistedTransaction(profileId, account.index, networkId, [evmTransaction])
@@ -69,22 +70,19 @@ async function persistEvmTransaction(
 }
 
 // Hidden balance changes mitigate duplicate activities for L2 transactions (balance changed & sent/receive activities).
-async function createHiddenBalanceChange(account: IAccountState, activity: Activity): Promise<void> {
+async function createHiddenBalanceChange(account: IAccountState, activity: StardustActivity): Promise<void> {
     const received = activity.direction === ActivityDirection.Incoming
     const networkId = activity.sourceNetworkId
 
-    if (activity.type === ActivityType.Nft) {
+    if (activity.type === StardustActivityType.Nft && !isErcAsset(activity.nftId)) {
         const owned = received ? true : false
         calculateAndAddPersistedNftBalanceChange(account, networkId, activity.nftId, owned, true)
     }
-    if (activity.tokenTransfer) {
-        const rawAmount = activity.tokenTransfer.rawAmount
-        const amount = received ? rawAmount : BigInt(-1) * rawAmount
-        await updateL2BalanceWithoutActivity(amount, activity.tokenTransfer.tokenId, account, networkId)
-    }
+    if (activity.tokenTransfer && !isErcAsset(activity.tokenTransfer.tokenId)) {
+        const tokenId = activity.tokenTransfer.tokenId
+        const amount = received ? activity.tokenTransfer.rawAmount : BigInt(-1) * activity.tokenTransfer.rawAmount
 
-    const rawBaseTokenAmount = received
-        ? activity.baseTokenTransfer.rawAmount
-        : BigInt(-1) * (activity.baseTokenTransfer.rawAmount + BigInt(activity.transactionFee ?? 0))
-    await updateL2BalanceWithoutActivity(rawBaseTokenAmount, activity.baseTokenTransfer.tokenId, account, networkId)
+        const newBalance = updateLayer2AccountBalanceForTokenOnChain(account.index, networkId, tokenId, amount)
+        await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance, true)
+    }
 }

@@ -634,14 +634,13 @@
                 "manage": "Administrar peso de voto"
             },
             "proposalsDetails": {
-                "title": "Detalles",
                 "totalProposals": "Propuestas totales",
                 "activeProposals": "Propuestas activas",
                 "votingProposals": "Propuestas sobre las que estás votando",
                 "votedProposals": "Total de propuestas en las que votaste"
             },
             "proposals": {
-                "title": "Propuestas",
+                "title": "Governance Proposals",
                 "voted": "Votado",
                 "successEdit": "Propuesta editada correctamente",
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} añadida(s) correctamente",
@@ -1083,19 +1082,19 @@
                         "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
-                        "Pending": "Voting for {proposalName}",
-                        "Confirmed": "Voted for {proposalName}",
-                        "Conflicting": "Failed to vote for"
+                        "Pending": "Voting on {proposalName}",
+                        "Confirmed": "Voted on {proposalName}",
+                        "Conflicting": "Failed to vote on"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting for {proposalName}",
-                        "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stop voting for"
+                        "Pending": "Stopping voting on {proposalName}",
+                        "Confirmed": "Stopped voting on {proposalName}",
+                        "Conflicting": "Failed to stop voting on"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote for {proposalName}",
-                        "Confirmed": "Changed vote for {proposalName}",
-                        "Conflicting": "Failed to change vote for"
+                        "Pending": "Changing vote on {proposalName}",
+                        "Confirmed": "Changed vote on {proposalName}",
+                        "Conflicting": "Failed to change vote on"
                     },
                     "revote": {
                         "Pending": "Revoting",
@@ -1217,7 +1216,7 @@
         "revote": {
             "title": "Vuelve a votar en las propuestas",
             "body": "Cambiar tu peso de voto detendrá temporalmente el conteo de tus votos en todas las propuestas. Símplemente clica \"Volver a votar\" para continuar el voto.",
-            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Eliminar propuesta",
@@ -1396,12 +1395,14 @@
         "receiving": "Recibiendo",
         "newVotingPower": "Nuevo peso de voto",
         "votingPower": "Peso de voto",
-        "increased": "Voting increased",
-        "increasing": "Increasing voting",
-        "decreased": "Voting decreased",
-        "decreasing": "Decreasing voting",
+        "increased": "Voting power increased",
+        "increasing": "Increasing voting power",
+        "decreased": "Voting power decreased",
+        "decreasing": "Decreasing voting power",
         "voted": "Votado",
         "voting": "Votación",
+        "votingOn": "Voting on",
+        "votedOn": "Voted on",
         "changedVote": "Voto cambiado",
         "changingVote": "Cambiando voto",
         "revoted": "Votado de nuevo",

@@ -30,7 +30,7 @@
     $: backgroundColor = isSupported ? AVATAR_BACKGROUND_COLOR[networkId as SupportedNetworkId] : 'neutral-4'
     $: customTextColor = isSupported ? AVATAR_TEXT_COLOR[networkId as SupportedNetworkId] : undefined
     $: icon = isSupported ? DEFAULT_NETWORK_ICON[networkId as SupportedNetworkId] : undefined
-    $: networkName = networkName ? networkName : networkId ? getNameFromNetworkId(networkId) : undefined
+    $: networkName = networkName ? networkName : networkId ? getNameFromNetworkId(networkId) ?? networkId : networkId
     $: magnify = Object.values(SupportedNetworkId).includes(networkId as SupportedNetworkId)
 </script>
 

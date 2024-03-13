@@ -1,16 +1,17 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { Activity, ActivityAsyncStatus } from '@core/activity'
+    import { StardustActivity, StardustActivityAsyncStatus } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
+    import { buildUrl } from '@core/utils'
     import { getTimeDifference } from '@core/utils/time'
     import { NetworkLabel, ExpiredActivityPill, TimelockActivityPill, UnclaimedActivityPill } from '@ui'
 
-    export let activity: Activity
+    export let activity: StardustActivity
 
     $: claimedTime = activity.asyncData?.claimedDate ? getFormattedTimeStamp(activity.asyncData.claimedDate) : undefined
     $: gasLimit = activity.smartContract?.gasLimit
@@ -21,11 +22,13 @@
     $: formattedMaxGasFee = formatAmount(BigInt(gasLimit ?? 0))
     $: formattedTransactionFee = formatAmount(activity.transactionFee ?? BigInt(0))
 
-    $: explorerUrl = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction)
+    $: explorer = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction) ?? ''
     function onTransactionIdClick(): void {
-        if (explorerUrl) {
-            openUrlInBrowser(`${explorerUrl}/${activity.asyncData?.claimingTransactionId}`)
-        }
+        const url = buildUrl({
+            origin: explorer.baseUrl,
+            pathname: `${explorer.endpoint}/${activity.asyncData?.claimingTransactionId}`,
+        })
+        openUrlInBrowser(url?.href)
     }
 
     function formatAmount(amount: bigint | undefined): string | undefined {
@@ -79,7 +82,8 @@
             key: localize('general.timelockDate'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.timelockDate`),
             slot:
-                activity.asyncData?.timelockDate && activity.asyncData?.asyncStatus === ActivityAsyncStatus.Timelocked
+                activity.asyncData?.timelockDate &&
+                activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Timelocked
                     ? {
                           component: TimelockActivityPill,
                           props: {
@@ -95,7 +99,7 @@
             key: localize('general.expiration'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
             slot:
-                activity.asyncData?.asyncStatus === ActivityAsyncStatus.Expired
+                activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Expired
                     ? {
                           component: ExpiredActivityPill,
                           props: {
@@ -108,8 +112,8 @@
             key: localize('general.expiration'),
             tooltip: localize(`tooltips.transactionDetails.${activity.direction}.expirationTime`),
             slot:
-                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Expired &&
-                activity.asyncData?.asyncStatus !== ActivityAsyncStatus.Claimed &&
+                activity.asyncData?.asyncStatus !== StardustActivityAsyncStatus.Expired &&
+                activity.asyncData?.asyncStatus !== StardustActivityAsyncStatus.Claimed &&
                 activity.asyncData?.expirationDate
                     ? {
                           component: UnclaimedActivityPill,
@@ -131,7 +135,7 @@
             value: activity.asyncData?.claimingTransactionId,
             copyable: true,
             truncate: { firstCharCount: 12, endCharCount: 12 },
-            onClick: explorerUrl ? onTransactionIdClick : undefined,
+            onClick: explorer.baseUrl ? onTransactionIdClick : undefined,
         },
     ]}
 />

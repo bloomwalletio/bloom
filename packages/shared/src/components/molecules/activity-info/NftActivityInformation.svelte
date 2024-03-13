@@ -1,29 +1,32 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
-    import { NftActivity } from '@core/activity'
+    import { StardustNftActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network/enums'
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { NftStandard } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { buildUrl } from '@core/utils'
     import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
     import { type Address, AddressType } from '@iota/sdk/out/types'
 
-    export let activity: NftActivity
+    export let activity: StardustNftActivity
 
     $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
     $: issuer = nft?.standard === NftStandard.Irc27 ? nft?.issuer : undefined
 
     function onNftIdClick(nftId: string) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Nft)
-        openUrlInBrowser(`${explorerUrl}/${nftId}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Nft)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${nftId}` })
+        openUrlInBrowser(url?.href)
     }
 
     function onIssuerClick(issuer: Address) {
-        const explorerUrl = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
-        openUrlInBrowser(`${explorerUrl}/${getBech32AddressFromAddressTypes(issuer)}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${getBech32AddressFromAddressTypes(issuer)}` })
+        openUrlInBrowser(url?.href)
     }
 </script>
 

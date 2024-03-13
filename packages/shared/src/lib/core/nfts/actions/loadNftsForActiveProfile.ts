@@ -1,6 +1,6 @@
 import { getAddressFromAccountForNetwork } from '@core/account'
 import { IAccountState } from '@core/account/interfaces'
-import { ActivityType } from '@core/activity'
+import { StardustActivityType } from '@core/activity'
 import { getNftId } from '@core/activity/utils/outputs'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { getActiveNetworkId, getNetwork } from '@core/network'
@@ -49,7 +49,7 @@ export async function loadNftsForAccount(profileId: string, account: IAccountSta
                 continue
             }
             const transferInfo = getTransferInfoFromTransactionData(transaction.local, chain)
-            if (transferInfo?.type !== ActivityType.Nft) {
+            if (transferInfo?.type !== StardustActivityType.Nft) {
                 continue
             }
             if (transferInfo.nftId.includes(':')) {

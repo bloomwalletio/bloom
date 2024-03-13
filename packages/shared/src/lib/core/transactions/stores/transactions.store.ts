@@ -1,11 +1,10 @@
 import { IBlockscoutTokenTransfer, IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
-import { PersistedEvmTransaction } from '@core/activity'
 import { EvmNetworkId } from '@core/network'
 import { IChain } from '@core/network/interfaces'
 import { activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
-import { PersistedTransaction } from '../types/'
+import { LocalEvmTransaction, PersistedTransaction } from '../types/'
 
 type PersistedTransactions = {
     [profileId: string]: {
@@ -32,7 +31,7 @@ export function addLocalTransactionToPersistedTransaction(
     profileId: string,
     accountIndex: number,
     networkId: EvmNetworkId,
-    newTransactions: PersistedEvmTransaction[]
+    newTransactions: LocalEvmTransaction[]
 ): void {
     persistedTransactions.update((state) => {
         if (!state[profileId]) {

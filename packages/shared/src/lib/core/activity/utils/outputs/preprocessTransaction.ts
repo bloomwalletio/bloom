@@ -2,7 +2,7 @@ import { IProcessedTransaction } from '../../types'
 import { OutputType, RegularTransactionEssence, Transaction, UTXOInput } from '@iota/sdk/out/types'
 import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransactionIdAndIndex'
 import { IAccountState } from '@core/account'
-import { getDirectionFromTransaction } from '../getDirectionFromTransaction'
+import { getDirectionFromTransaction } from '../stardust/getDirectionFromTransaction'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { Output } from '@core/wallet/types'
 
