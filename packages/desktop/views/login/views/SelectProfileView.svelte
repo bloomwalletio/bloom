@@ -20,6 +20,18 @@
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
     import { ProfileCard } from '../components'
 
+    if (needsToAcceptLatestPrivacyPolicy() || needsToAcceptLatestTermsOfService()) {
+        openPopup(
+            {
+                id: PopupId.LegalUpdate,
+                hideClose: true,
+                preventClose: true,
+            },
+            false,
+            false
+        )
+    }
+
     function onContinueClick(profileId: string): void {
         loadPersistedProfileIntoActiveProfile(profileId)
         $loginRouter.next()
@@ -29,14 +41,6 @@
         onboardingRouter.set(new OnboardingRouter())
         await initialiseOnboardingProfile()
         $routerManager.goToAppContext(AppContext.Onboarding)
-    }
-
-    $: if (needsToAcceptLatestPrivacyPolicy() || needsToAcceptLatestTermsOfService()) {
-        openPopup({
-            id: PopupId.LegalUpdate,
-            hideClose: true,
-            preventClose: true,
-        })
     }
 
     function updateRequiredForProfile(profile: IPersistedProfile): boolean {
