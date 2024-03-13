@@ -10,7 +10,6 @@
         selectedAccountActivities,
     } from '@core/activity'
     import { getTransactionAssets } from '@core/activity/utils'
-    import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network'
     import { getDefaultExplorerUrl } from '@core/network/utils'
@@ -143,11 +142,7 @@
     >
         <div slot="description" class="flex">
             {#if explorerUrl && activity.transactionId}
-                <Link
-                    text={localize('general.viewOnExplorer')}
-                    external
-                    on:click={() => openUrlInBrowser(explorerUrl)}
-                />
+                <Link href={explorerUrl} text={localize('general.viewOnExplorer')} external />
             {:else if activity.transactionId}
                 <Link
                     text={truncateString(activity.transactionId, 12, 12)}
