@@ -34,6 +34,7 @@ import { shouldReportError } from '../utils/error.utils'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
+import { ITransakWindowData } from '@core/app/interfaces'
 
 export let appIsReady = false
 
@@ -374,9 +375,7 @@ export function getOrInitWindow(windowName: string, ...args: unknown[]): Browser
             case 'error':
                 return openErrorWindow()
             case 'transak':
-                return transakManager?.openWindow(
-                    args[0] as { currency: string; address: string; service: 'BUY' | 'SELL' }
-                )
+                return transakManager?.openWindow(args[0] as ITransakWindowData)
             default:
                 throw Error(`Window ${windowName} not found`)
         }
