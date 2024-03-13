@@ -85,6 +85,13 @@
                 textColor="primary"
                 backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
             />
+        {:else}
+            <Avatar
+                icon={IconName.UnknownMediaType}
+                size="lg"
+                textColor="primary"
+                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+            />
         {/if}
     </div>
     <div class="flex flex-col items-start justify-between overflow-hidden">
