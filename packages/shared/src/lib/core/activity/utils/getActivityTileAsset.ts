@@ -22,8 +22,6 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
         } else if (activity.type === StardustActivityType.Nft) {
             const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
             return nft?.name ? nft.name : 'NFT'
-        } else if (activity.type === StardustActivityType.SmartContract) {
-            return activity.recipient?.address ?? ''
         } else if (activity.type === StardustActivityType.Alias) {
             return 'Alias ' + activity.aliasId
         } else if (activity.type === StardustActivityType.Consolidation) {
@@ -63,6 +61,8 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
                 )
                 return token?.metadata?.name ? token.metadata.name : token?.id ?? ''
             }
+        } else if (activity.type === EvmActivityType.ContractCall) {
+            return activity.recipient?.address ?? ''
         } else {
             return ''
         }

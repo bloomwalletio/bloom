@@ -26,8 +26,6 @@ export function getActivityActionTextColor(activity: Activity): TextColor {
             return 'primary'
         } else if (type === StardustActivityType.Consolidation) {
             return 'primary'
-        } else if (type === StardustActivityType.SmartContract) {
-            return 'primary'
         } else if (action === ActivityAction.Mint) {
             return 'success'
         } else if (action === ActivityAction.Burn) {
@@ -60,6 +58,8 @@ export function getActivityActionTextColor(activity: Activity): TextColor {
             } else {
                 return 'info'
             }
+        } else if (type === EvmActivityType.ContractCall) {
+            return 'primary'
         } else {
             return 'secondary'
         }

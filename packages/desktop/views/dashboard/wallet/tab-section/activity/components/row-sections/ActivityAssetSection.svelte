@@ -71,7 +71,7 @@
             <TokenAvatar {token} hideNetworkBadge size="lg" />
         {:else if showNft}
             <NftAvatar {nft} size="lg" shape="square" />
-        {:else if activity.type === StardustActivityType.SmartContract}
+        {:else if activity.type === EvmActivityType.ContractCall}
             <Avatar
                 icon={IconName.FileCode}
                 size="lg"

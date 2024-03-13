@@ -9,6 +9,8 @@ import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTrans
 import { StardustActivityType } from '@core/activity/enums'
 import { NftStandard } from '@core/nfts'
 import { Converter } from '@core/utils/convert'
+import { getMethodNameForEvmTransaction } from '@core/layer-2/utils'
+import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -17,30 +19,51 @@ export async function generateEvmActivityFromLocalEvmTransaction(
 ): Promise<EvmActivity | undefined> {
     if (transaction.data) {
         const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
-        if (!transferInfo || transferInfo.type === StardustActivityType.SmartContract) {
+        if (!transferInfo) {
             return
         }
 
-        const baseActivity = await generateBaseEvmActivity(transaction, chain, transferInfo.recipientAddress, account)
+        if (transferInfo.type === StardustActivityType.SmartContract) {
+            const baseEvmActivity = await generateBaseEvmActivity(
+                transaction,
+                chain,
+                transaction.to?.toString(),
+                account
+            )
+            const method = await getMethodNameForEvmTransaction(transaction)
 
-        const tokenTransfer =
-            transferInfo?.type === StardustActivityType.Basic
-                ? {
-                      standard: TokenStandard.Erc20,
-                      tokenId: transferInfo.tokenId,
-                      rawAmount: transferInfo.rawAmount,
-                  }
-                : {
-                      standard: NftStandard.Erc721,
-                      tokenId: transferInfo.nftId,
-                      rawAmount: BigInt(1),
-                  }
+            return {
+                ...baseEvmActivity,
+                type: EvmActivityType.ContractCall,
+                method,
+                rawData: String(transaction.data ?? ''),
+            } as EvmContractCallActivity
+        } else {
+            const baseActivity = await generateBaseEvmActivity(
+                transaction,
+                chain,
+                transferInfo.recipientAddress,
+                account
+            )
+            const tokenTransfer =
+                transferInfo?.type === StardustActivityType.Basic
+                    ? {
+                          standard: TokenStandard.Erc20,
+                          tokenId: transferInfo.tokenId,
+                          rawAmount: transferInfo.rawAmount,
+                      }
+                    : {
+                          standard: NftStandard.Erc721,
+                          tokenId: transferInfo.nftId,
+                          rawAmount: BigInt(1),
+                      }
 
-        return {
-            ...baseActivity,
-            type: EvmActivityType.TokenTransfer,
-            tokenTransfer,
-        } as EvmTokenTransferActivity
+            return {
+                ...baseActivity,
+                type: EvmActivityType.TokenTransfer,
+                tokenTransfer,
+            } as EvmTokenTransferActivity
+        }
     } else {
         // i.e must be a coin transfer
         const baseActivity = await generateBaseEvmActivity(transaction, chain, transaction.to, account)

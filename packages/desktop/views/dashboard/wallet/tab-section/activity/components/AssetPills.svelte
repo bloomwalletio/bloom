@@ -31,9 +31,6 @@
                 const nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 standardPill = nft?.standard ?? ''
                 typePill = 'nft'
-            } else if (activity.type === StardustActivityType.SmartContract) {
-                typePill = 'unverifiedContract'
-                standardPill = ''
             } else if (activity.type === StardustActivityType.Alias) {
                 typePill = 'alias'
                 standardPill = ''
@@ -59,6 +56,9 @@
                 const standard = activity.tokenTransfer.standard
                 standardPill = standard
                 typePill = standard === NftStandard.Erc721 || standard === NftStandard.Irc27 ? 'nft' : 'token'
+            } else if (activity.type === EvmActivityType.ContractCall) {
+                typePill = 'unverifiedContract'
+                standardPill = ''
             } else {
                 typePill = ''
                 standardPill = ''
