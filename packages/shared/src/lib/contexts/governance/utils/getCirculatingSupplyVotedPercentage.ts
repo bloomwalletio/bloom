@@ -1,7 +1,7 @@
 import { IProfile } from '@core/profile/interfaces'
 import { activeProfile } from '@core/profile/stores'
 import { calculatePercentageOfBigInt } from '@core/utils/number'
-import { ParticipationEventStatus } from '@iota/sdk'
+import { EventStatus, ParticipationEventStatus } from '@iota/sdk'
 import { get } from 'svelte/store'
 import { IProposal } from '../interfaces'
 
@@ -16,26 +16,42 @@ export function getCirculatingSupplyVotedPercentage(
         return 0
     }
 
-    let totalEventVotes = participationEventStatus.questions[0].answers.reduce(
-        (total, answer) => (total += BigInt(answer.accumulated)),
+    const totalEventVotes = getTotalEventVotes(participationEventStatus)
+    const milestoneCount = getMilestoneCount(participationEventStatus, proposal.milestones, currentMilestone)
+
+    const maximumVotes = BigInt(circulatingSupply) * BigInt(milestoneCount)
+    const percentage = calculatePercentageOfBigInt(totalEventVotes, maximumVotes, 6)
+
+    return percentage
+}
+
+function getTotalEventVotes(participationEventStatus: ParticipationEventStatus): bigint {
+    const isCommencing = participationEventStatus.status === EventStatus.Commencing
+    const participationQuestion = participationEventStatus.questions?.[0]
+
+    if (!participationQuestion) {
+        return BigInt(0)
+    }
+
+    const totalEventVotes = participationQuestion.answers.reduce(
+        (total, answer) => (total += BigInt(answer[isCommencing ? 'current' : 'accumulated'])),
         BigInt(0)
     )
 
-    let milestoneCount: number
-    if (currentMilestone < proposal.milestones.holding) {
-        totalEventVotes = participationEventStatus.questions[0].answers.reduce(
-            (total, answer) => (total += BigInt(answer.current)),
-            BigInt(0)
-        )
-        milestoneCount = 1
-    } else if (currentMilestone > proposal.milestones.ended) {
-        milestoneCount = proposal.milestones.ended - proposal.milestones.holding
-    } else {
-        milestoneCount = currentMilestone - proposal.milestones.holding
+    return totalEventVotes
+}
+
+function getMilestoneCount(
+    participationEventStatus: ParticipationEventStatus,
+    proposalMilestones: Record<EventStatus, number>,
+    currentMilestone: number
+): number {
+    switch (participationEventStatus.status) {
+        case EventStatus.Holding:
+            return Math.max(currentMilestone - proposalMilestones.holding, 1)
+        case EventStatus.Ended:
+            return Math.max(proposalMilestones.ended - proposalMilestones.holding, 1)
+        default:
+            return 1
     }
-    const maximumVotes = BigInt(circulatingSupply) * BigInt(milestoneCount)
-
-    const percentage = calculatePercentageOfBigInt(totalEventVotes, maximumVotes, 12)
-
-    return percentage
 }
