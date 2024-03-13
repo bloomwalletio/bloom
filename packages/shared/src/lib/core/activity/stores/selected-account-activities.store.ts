@@ -111,7 +111,7 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
                     false
                 )?.toLowerCase()
             )
-        } else if (activity.type === EvmActivityType.TokenTransfer) {
+        } else if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
             const { rawAmount, tokenId, standard } = activity.tokenTransfer
 
             fieldsToSearch.push(String(rawAmount))

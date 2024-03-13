@@ -49,7 +49,7 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
         if (activity.type === EvmActivityType.CoinTransfer) {
             const token = getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, activity.sourceNetworkId)
             return token?.metadata?.name ? token.metadata.name : token?.id ?? ''
-        } else if (activity.type === EvmActivityType.TokenTransfer) {
+        } else if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
             if (
                 activity.tokenTransfer.standard === NftStandard.Erc721 ||
                 activity.tokenTransfer.standard === NftStandard.Irc27

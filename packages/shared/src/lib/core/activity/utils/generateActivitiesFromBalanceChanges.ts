@@ -3,7 +3,7 @@ import { INftBalanceChange, ITokenBalanceChange, EvmActivity } from '../types'
 import { getBalanceChanges } from '../stores'
 import { get } from 'svelte/store'
 import { NetworkId, network } from '@core/network'
-// import { generateNftBalanceChangeActivity, generateTokenBalanceChangeActivity } from './evm'
+import { generateEvmNftBalanceChangeActivity, generateEvmTokenBalanceChangeActivity } from './evm'
 
 export async function generateActivitiesFromBalanceChanges(account: IAccountState): Promise<EvmActivity[]> {
     const activities: EvmActivity[] = []
@@ -41,13 +41,13 @@ export async function generateActivitiesFromTokenBalanceChanges(
                 continue
             }
             try {
-                // const activity = await generateTokenBalanceChangeActivity(
-                //     networkId,
-                //     tokenId,
-                //     balanceChangeForToken,
-                //     account
-                // )
-                // activities.push(activity)
+                const activity = generateEvmTokenBalanceChangeActivity(
+                    networkId,
+                    tokenId,
+                    balanceChangeForToken,
+                    account
+                )
+                activities.push(activity)
             } catch (error) {
                 console.error(error)
             }
@@ -71,8 +71,8 @@ export function generateActivitiesFromNftBalanceChanges(
                 continue
             }
             try {
-                // const activity = generateNftBalanceChangeActivity(networkId, nftId, balanceChangeForNft, account)
-                // activities.push(activity)
+                const activity = generateEvmNftBalanceChangeActivity(networkId, nftId, balanceChangeForNft, account)
+                activities.push(activity)
             } catch (error) {
                 console.error(error)
             }

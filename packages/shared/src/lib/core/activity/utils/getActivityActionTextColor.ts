@@ -32,9 +32,7 @@ export function getActivityActionTextColor(activity: Activity): TextColor {
             return 'success'
         } else if (action === ActivityAction.Burn) {
             return 'danger'
-        } else if (action === ActivityAction.InitialBalance) {
-            return 'primary'
-        } else if (action === ActivityAction.Send || action === ActivityAction.BalanceChange) {
+        } else if (action === ActivityAction.Send) {
             const isReceived = [
                 ActivityDirection.Incoming,
                 ActivityDirection.SelfTransaction,
@@ -52,7 +50,11 @@ export function getActivityActionTextColor(activity: Activity): TextColor {
             return 'primary'
         }
     } else if (namespace === NetworkNamespace.Evm) {
-        if (type === EvmActivityType.CoinTransfer || type === EvmActivityType.TokenTransfer) {
+        if (
+            type === EvmActivityType.CoinTransfer ||
+            type === EvmActivityType.TokenTransfer ||
+            type === EvmActivityType.BalanceChange
+        ) {
             if (direction === ActivityDirection.Outgoing) {
                 return 'brand'
             } else {

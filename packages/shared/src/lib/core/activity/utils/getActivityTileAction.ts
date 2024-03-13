@@ -40,10 +40,6 @@ export function getActivityTileAction(activity: Activity): string | undefined {
             return isConfirmed ? 'general.minted' : 'general.minting'
         } else if (action === ActivityAction.Burn) {
             return isConfirmed ? 'general.burned' : 'general.burning'
-        } else if (action === ActivityAction.BalanceChange) {
-            return direction === ActivityDirection.Outgoing ? 'general.balanceDecreased' : 'general.balanceIncreased'
-        } else if (action === ActivityAction.InitialBalance) {
-            return 'general.initialBalance'
         } else if (action === ActivityAction.Send) {
             const isReceived = [
                 ActivityDirection.Incoming,
@@ -62,7 +58,11 @@ export function getActivityTileAction(activity: Activity): string | undefined {
             return 'general.unknown'
         }
     } else if (namespace === NetworkNamespace.Evm) {
-        if (activity.type === EvmActivityType.CoinTransfer || activity.type === EvmActivityType.TokenTransfer) {
+        if (
+            activity.type === EvmActivityType.CoinTransfer ||
+            activity.type === EvmActivityType.TokenTransfer ||
+            activity.type === EvmActivityType.BalanceChange
+        ) {
             if (direction === ActivityDirection.Outgoing) {
                 return isConfirmed ? 'general.sent' : 'general.sending'
             } else {

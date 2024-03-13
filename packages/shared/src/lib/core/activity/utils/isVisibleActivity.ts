@@ -98,7 +98,9 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
         }
         if (activity.namespace === NetworkNamespace.Evm) {
             const tokenId =
-                activity.type === EvmActivityType.TokenTransfer ? activity.tokenTransfer?.tokenId : BASE_TOKEN_ID
+                activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange
+                    ? activity.tokenTransfer?.tokenId
+                    : BASE_TOKEN_ID
             if (filter.token.selected && tokenId !== filter.token.selected) {
                 return false
             }
@@ -114,7 +116,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         let tokenId: string | undefined = undefined
 
         if (activity.namespace === NetworkNamespace.Evm) {
-            if (activity.type === EvmActivityType.TokenTransfer) {
+            if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
                 rawAmount = activity.tokenTransfer.rawAmount
                 tokenId = activity.tokenTransfer.tokenId
             } else if (activity.type === EvmActivityType.CoinTransfer) {

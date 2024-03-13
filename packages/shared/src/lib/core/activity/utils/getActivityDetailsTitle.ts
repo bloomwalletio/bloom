@@ -28,8 +28,6 @@ export async function getActivityDetailsTitle(activity: StardustActivity): Promi
         return localize(
             activity.direction === ActivityDirection.Outgoing ? 'general.balanceDecreased' : 'general.balanceIncreased'
         )
-    } else if (activity.action === ActivityAction.InitialBalance) {
-        return localize('general.initialBalance')
     } else if (activity.action === ActivityAction.Send) {
         const key = `${localizationPrefix}.${(activity.isInternal ? 'internal.' : 'external.') + activity.direction}.${
             activity.inclusionState

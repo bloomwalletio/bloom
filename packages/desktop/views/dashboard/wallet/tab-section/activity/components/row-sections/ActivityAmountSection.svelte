@@ -46,7 +46,10 @@
                     _activity.direction,
                     _activity.action
                 )
-            } else if (_activity.type === EvmActivityType.TokenTransfer) {
+            } else if (
+                _activity.type === EvmActivityType.TokenTransfer ||
+                _activity.type === EvmActivityType.BalanceChange
+            ) {
                 if (
                     _activity.tokenTransfer?.standard === NftStandard.Erc721 ||
                     _activity.tokenTransfer?.standard === NftStandard.Irc27
