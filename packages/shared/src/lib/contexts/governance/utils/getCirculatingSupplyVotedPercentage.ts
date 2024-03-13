@@ -1,7 +1,7 @@
 import { IProfile } from '@core/profile/interfaces'
 import { activeProfile } from '@core/profile/stores'
 import { calculatePercentageOfBigInt } from '@core/utils/number'
-import { EventStatus, ParticipationEventStatus } from '@iota/sdk'
+import { EventStatus, ParticipationEventStatus } from '@iota/sdk/out/types'
 import { get } from 'svelte/store'
 import { IProposal } from '../interfaces'
 
