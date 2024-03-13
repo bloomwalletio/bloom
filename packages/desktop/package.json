@@ -54,7 +54,7 @@
         "cross-env": "7.0.3",
         "css-loader": "6.10.0",
         "electron": "28.2.0",
-        "electron-builder": "24.6.3",
+        "electron-builder": "24.13.3",
         "esbuild": "0.19.5",
         "esbuild-loader": "3.0.1",
         "mini-css-extract-plugin": "2.8.1",
