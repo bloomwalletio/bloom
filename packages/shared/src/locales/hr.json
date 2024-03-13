@@ -920,9 +920,9 @@
             "tosAndPrivPolicyBody": "We have updated Bloom's Terms of Service and Privacy Policy.",
             "tosBody": "We have updated Bloom's Terms of Service.",
             "privPolicyBody": "We have updated Bloom's Privacy Policy.",
-            "tosAndPrivPolicyCheckbox": "Pročitao sam i slažem se s Firefly Uvjetima korištenja i Pravilima o privatnosti",
-            "tosCheckbox": "Pročitao sam i slažem se s Firefly Uvjetima korištenja",
-            "privPolicyCheckbox": "Pročitao sam i slažem se s Firefly Pravilima o privatnosti"
+            "tosAndPrivPolicyCheckbox": "Pročitao sam i slažem se s Bloom Uvjetima korištenja i Pravilima o privatnosti",
+            "tosCheckbox": "Pročitao sam i slažem se s Bloom Uvjetima korištenja",
+            "privPolicyCheckbox": "Pročitao sam i slažem se s Bloom Pravilima o privatnosti"
         },
         "giftedStorageDeposit": {
             "tooltipTitle": "Gift storage deposit",

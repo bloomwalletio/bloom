@@ -6,7 +6,7 @@ import { IIrc27Metadata } from '@core/nfts'
 import { Converter } from '@core/utils'
 import { AliasOutputParams } from '@iota/sdk/out/types'
 import { getActiveNetworkId } from '@core/network/actions'
-import { processAndAddToActivities } from '@core/activity'
+import { processAndAddToActivities } from '@core/activity/actions'
 
 export async function mintNftCollection(metadata: IIrc27Metadata): Promise<void> {
     try {

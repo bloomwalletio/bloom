@@ -1,1 +1,1 @@
-export * from './buildPersistedEvmTransactionFromBlockscoutTransaction'
+export * from './buildLocalEvmTransactionFromBlockscoutTransaction'

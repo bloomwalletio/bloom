@@ -1,4 +1,5 @@
 export * from './organization.interface'
+export * from './proposal-answer-percentage.interface'
 export * from './proposal-answer-percentages.interface'
 export * from './proposal-filter.interface'
 export * from './proposal-state.interface'

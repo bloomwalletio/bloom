@@ -75,7 +75,7 @@ interface INftUserDataResponse {
 
 export class TideApi extends BaseApi {
     constructor() {
-        super(TIDE_API_BASE_URL)
+        super(TIDE_API_BASE_URL, 'public')
     }
 
     async getProjectLeaderboard(
