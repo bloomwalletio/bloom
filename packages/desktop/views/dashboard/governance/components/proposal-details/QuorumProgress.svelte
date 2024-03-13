@@ -5,16 +5,24 @@
         selectedParticipationEventStatus,
     } from '@contexts/governance'
     import { Text, Progress, TooltipIcon } from '@bloomwalletio/ui'
-    import { localize } from '@core/i18n'
+    import { getDecimalSeparator, localize } from '@core/i18n'
+    import { networkStatus } from '@core/network'
+    import { getSignificantDigitsAndRound } from '@core/utils'
 
     export let proposal: IProposal
 
     const QUORUM_PERCENTAGE_DECIMAL = 0.05
 
-    $: circulatingSupplyVotedPercentage = getCirculatingSupplyVotedPercentage(
-        $selectedParticipationEventStatus,
-        proposal
-    )
+    const currentMilestone = $networkStatus.currentMilestone
+
+    $: circulatingSupplyVotedPercentage =
+        getCirculatingSupplyVotedPercentage($selectedParticipationEventStatus, proposal, currentMilestone) ?? 0
+
+    function formatPercentage(percentage: number): string {
+        const percentageWithSignificantDigits = getSignificantDigitsAndRound(Number(percentage))
+        const percentageString = String(percentageWithSignificantDigits).replace(/[,.]/g, getDecimalSeparator()) + '%'
+        return percentageString
+    }
 </script>
 
 <div class="flex flex-col gap-1">
@@ -24,14 +32,10 @@
             <TooltipIcon tooltip={localize('views.governance.details.quorum.tooltip')} />
         </div>
         <div class="flex gap-1">
-            <Text align="center" fontWeight="medium" textColor="brand"
-                >{circulatingSupplyVotedPercentage} / {QUORUM_PERCENTAGE_DECIMAL * 100}%</Text
-            >
+            <Text align="center" fontWeight="medium" textColor="brand">
+                {formatPercentage(circulatingSupplyVotedPercentage)} / {QUORUM_PERCENTAGE_DECIMAL * 100}%
+            </Text>
         </div>
     </div>
-    <Progress
-        size="sm"
-        progress={Number(circulatingSupplyVotedPercentage.replace('%', '').replace(',', '.')) /
-            QUORUM_PERCENTAGE_DECIMAL}
-    />
+    <Progress size="sm" progress={circulatingSupplyVotedPercentage / QUORUM_PERCENTAGE_DECIMAL} />
 </div>

@@ -22,6 +22,7 @@ export interface IPlatformEventMap {
     'notification-activated': unknown
     'signed-eip712': IEvmSignature
     'signed-message': IEvmSignature
+    'transak-not-loaded': void
     'transak-url': string
     'version-complete': void
     'version-details': IAppVersionDetails
