@@ -3,7 +3,7 @@
     import { vote } from '@contexts/governance/actions'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { PopupTemplate } from '@components/popup'
 
@@ -11,10 +11,14 @@
         $selectedAccount?.hasVotingPowerTransactionInProgress || $selectedAccount?.hasVotingTransactionInProgress
 
     async function onSubmit(): Promise<void> {
-        await checkActiveProfileAuth(async () => {
-            await vote()
-            closePopup({ forceClose: true })
-        })
+        try {
+            await checkActiveProfileAuthAsync()
+        } catch (error) {
+            return
+        }
+
+        await vote()
+        closePopup({ forceClose: true })
     }
 
     function onCancelClick(): void {

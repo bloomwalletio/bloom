@@ -55,9 +55,9 @@ export async function signTransactionData(transactionHex: string, bip32Path: str
         }
     } catch (error) {
         return {
-            r: '',
-            v: '',
-            s: '',
+            r: undefined,
+            v: undefined,
+            s: undefined,
         }
     }
 }

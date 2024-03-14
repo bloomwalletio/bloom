@@ -8,4 +8,5 @@ export interface IProtocol {
     belowMaxDepth?: number
     rentStructure: IRent
     tokenSupply: string
+    circulatingSupply?: number
 }

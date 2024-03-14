@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
+    import { Icon, IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
     import { IProposal } from '@contexts/governance/interfaces'
     import { participationOverviewForSelectedAccount, selectedProposalId } from '@contexts/governance/stores'
     import { isVotingForProposal } from '@contexts/governance/utils'
@@ -58,7 +58,7 @@
 <proposal-card
     on:click={onProposalClick}
     on:keydown={(e) => e.key === 'Enter' && onProposalClick()}
-    class="flex flex-col p-6 border border-solid border-gray-200 dark:border-transparent rounded-xl cursor-pointer h-fit shadow-elevation-1 focus:shadow-inner
+    class="flex flex-col p-6 border border-solid border-gray-200 dark:border-stroke-dark rounded-xl cursor-pointer h-fit shadow-elevation-1 focus:shadow-inner
     {proposal?.status === EventStatus.Ended
         ? 'bg-surface-1 dark:bg-surface-1-dark'
         : 'bg-surface-0 dark:bg-surface-0-dark'}"
@@ -73,7 +73,12 @@
         <div class="flex items-center gap-2">
             <ProposalStatusInfo {proposal} />
             {#if remainingTime}
-                <Pill color="neutral">{remainingTime}</Pill>
+                <Pill color="neutral">
+                    <div class="flex flex-row space-x-1 items-center">
+                        <Icon size="xxs" customColor="neutral" name={IconName.Clock} />
+                        <Text textColor="secondary">{remainingTime}</Text>
+                    </div>
+                </Pill>
             {/if}
         </div>
         {#if hasVoted}
@@ -87,3 +92,11 @@
         {/if}
     </div>
 </proposal-card>
+
+<style lang="scss">
+    proposal-card {
+        &:hover {
+            @apply border-brand;
+        }
+    }
+</style>

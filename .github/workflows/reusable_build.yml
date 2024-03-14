@@ -117,6 +117,15 @@ jobs:
               run: echo "DEBUG=electron-builder" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
               if: inputs.os == 'windows-2022'
 
+            - name: Set Transak API key
+              shell: bash
+              run: |
+                  if [ "${{ inputs.stage }}" = "prod" ]; then
+                    echo "TRANSAK_API_KEY=${{ secrets.TRANSAK_API_KEY_PRODUCTION }}" >> $GITHUB_ENV
+                  else
+                    echo "TRANSAK_API_KEY=${{ secrets.TRANSAK_API_KEY_STAGING }}" >> $GITHUB_ENV
+                  fi
+
             - name: Set up .npmrc file to use GitHub Packages
               run: |
                   echo "@bloomwalletio:registry=https://npm.pkg.github.com/" >> .npmrc
@@ -137,7 +146,6 @@ jobs:
               env:
                   HARDCODE_NODE_ENV: true
                   AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
-                  TRANSAK_API_KEY: ${{ secrets.TRANSAK_API_KEY }}
 
             - name: Build signed Electron app (MacOS)
               run: yarn compile:${STAGE}:mac

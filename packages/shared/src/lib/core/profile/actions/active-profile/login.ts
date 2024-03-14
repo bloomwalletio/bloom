@@ -44,6 +44,7 @@ import { disconnectAllDapps } from '@auxiliary/wallet-connect/utils'
 import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 import { cleanupOnboarding } from '@contexts/onboarding'
 import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actions'
+import { updateCirculatingSupplyForActiveProfile } from './updateCirculatingSupplyForActiveProfile'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
@@ -130,6 +131,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         void updateEvmChainGasPrices()
         void pollMarketPrices()
+        void updateCirculatingSupplyForActiveProfile()
         if (Platform.isFeatureFlagEnabled('governance')) {
             void initializeRegisteredProposals()
             void registerProposalsFromNodes(loadedAccounts)
