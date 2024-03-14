@@ -23,28 +23,32 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             return
         }
 
+        const baseActivity = await generateBaseEvmActivity(
+            {
+                to: transaction.to?.toString().toLowerCase(),
+                from: transaction.from?.toString().toLowerCase(),
+                gasUsed: Number(transaction.gasUsed),
+                estimatedGas: transaction?.estimatedGas,
+                gasPrice: transaction.gasPrice ?? undefined,
+                transactionHash: transaction.transactionHash,
+                timestamp: transaction.timestamp,
+                blockNumber: transaction.blockNumber,
+            },
+            chain,
+            transferInfo.recipientAddress,
+            account
+        )
         if (transferInfo.type === StardustActivityType.SmartContract) {
-            const baseEvmActivity = await generateBaseEvmActivity(
-                transaction,
-                chain,
-                transaction.to?.toString(),
-                account
-            )
             const method = await getMethodNameForEvmTransaction(transaction)
-
+            const data = String(transaction.data ?? '')
             return {
-                ...baseEvmActivity,
+                ...baseActivity,
                 type: EvmActivityType.ContractCall,
                 method,
-                rawData: String(transaction.data ?? ''),
+                methodId: data.substring(0, 10),
+                rawData: data,
             } as EvmContractCallActivity
         } else {
-            const baseActivity = await generateBaseEvmActivity(
-                transaction,
-                chain,
-                transferInfo.recipientAddress,
-                account
-            )
             const tokenTransfer =
                 transferInfo?.type === StardustActivityType.Basic
                     ? {
@@ -66,7 +70,21 @@ export async function generateEvmActivityFromLocalEvmTransaction(
         }
     } else {
         // i.e must be a coin transfer
-        const baseActivity = await generateBaseEvmActivity(transaction, chain, transaction.to, account)
+        const baseActivity = await generateBaseEvmActivity(
+            {
+                to: transaction.to?.toString().toLowerCase(),
+                from: transaction.from?.toString().toLowerCase(),
+                gasUsed: Number(transaction.gasUsed),
+                estimatedGas: transaction?.estimatedGas,
+                gasPrice: transaction.gasPrice ?? undefined,
+                transactionHash: transaction.transactionHash,
+                timestamp: transaction.timestamp,
+                blockNumber: transaction.blockNumber,
+            },
+            chain,
+            transaction.to,
+            account
+        )
 
         return {
             ...baseActivity,

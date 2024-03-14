@@ -57,7 +57,7 @@
                 standardPill = standard
                 typePill = standard === NftStandard.Erc721 || standard === NftStandard.Irc27 ? 'nft' : 'token'
             } else if (activity.type === EvmActivityType.ContractCall) {
-                typePill = 'unverifiedContract'
+                typePill = activity.verified ? 'verifiedContract' : 'unverifiedContract'
                 standardPill = ''
             } else {
                 typePill = ''

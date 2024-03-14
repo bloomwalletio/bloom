@@ -3,8 +3,10 @@ import { BaseEvmActivity } from './base-evm-activity.type'
 
 export type EvmContractCallActivity = BaseEvmActivity & {
     type: EvmActivityType.ContractCall
-
-    method: string
-    inputs: string[]
+    verified: boolean
     rawData: string
+
+    methodId?: string
+    method?: string
+    parameters?: Record<string, string>
 }

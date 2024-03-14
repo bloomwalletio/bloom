@@ -143,8 +143,7 @@
 
     $: void setMethodName(preparedTransaction)
     async function setMethodName(preparedTransaction: EvmTransactionData): Promise<void> {
-        const result = await getMethodNameForEvmTransaction(preparedTransaction)
-        methodName = result?.startsWith('0x') ? undefined : result
+        methodName = await getMethodNameForEvmTransaction(preparedTransaction)
     }
 
     function getSuccessMessage(): string {

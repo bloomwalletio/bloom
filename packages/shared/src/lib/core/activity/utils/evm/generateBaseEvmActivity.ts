@@ -2,14 +2,23 @@ import { IAccountState } from '@core/account/interfaces'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
 import { IChain, NetworkNamespace } from '@core/network'
-import { LocalEvmTransaction } from '@core/transactions'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
 import { BaseEvmActivity } from '../../types'
+import type { BigIntLike } from '@ethereumjs/util'
 
 export async function generateBaseEvmActivity(
-    transaction: LocalEvmTransaction,
+    transaction: {
+        transactionHash: string
+        to: string
+        from: string
+        gasUsed: number
+        blockNumber: number
+        estimatedGas?: number
+        gasPrice?: BigIntLike
+        timestamp?: number
+    },
     chain: IChain,
     recipientAddress: string | undefined,
     account: IAccountState
@@ -25,7 +34,7 @@ export async function generateBaseEvmActivity(
 
     const subject = direction === ActivityDirection.Outgoing ? recipient : sender
     const isInternal = isSubjectInternal(recipient)
-    const timestamp = await getTimeStamp(transaction, chain)
+    const timestamp = transaction.timestamp ?? (await getTimeStamp(transaction.blockNumber, chain))
 
     // For native token transfers on L2, gasUsed is 0. Therefor we fallback to the estimatedGas
     // https://discord.com/channels/397872799483428865/930642258427019354/1168854453005332490
@@ -58,12 +67,8 @@ export async function generateBaseEvmActivity(
     }
 }
 
-async function getTimeStamp(transaction: LocalEvmTransaction, chain: IChain): Promise<number> {
-    if (transaction.timestamp) {
-        return transaction.timestamp
-    } else {
-        const provider = chain.getProvider()
-        const { timestamp } = await provider.eth.getBlock(transaction.blockNumber)
-        return Number(timestamp) * MILLISECONDS_PER_SECOND
-    }
+async function getTimeStamp(blockNumber: number, chain: IChain): Promise<number> {
+    const provider = chain.getProvider()
+    const { timestamp } = await provider.eth.getBlock(blockNumber)
+    return Number(timestamp) * MILLISECONDS_PER_SECOND
 }
