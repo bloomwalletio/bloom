@@ -7,35 +7,39 @@
     import { isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { handleError } from '@core/error/handlers'
 
     export let selectedNetworkId: NetworkId = $network.getMetadata().id
     $: selectedNetworkId, updateNetworkNameAndAddress()
 
     let networkName: string
     let receiveAddress: string
-    function updateNetworkNameAndAddress(): void {
-        if (isStardustNetwork(selectedNetworkId)) {
-            networkName = $network.getMetadata().name
-            receiveAddress = $selectedAccount.depositAddress
-        } else if (isEvmChain(selectedNetworkId)) {
-            const { id, name, coinType } = $network.getChain(selectedNetworkId)?.getConfiguration() ?? {}
+    async function updateNetworkNameAndAddress(): Promise<void> {
+        if (isEvmChain(selectedNetworkId)) {
+            const { name, coinType } = $network.getChain(selectedNetworkId)?.getConfiguration() ?? {}
             networkName = name
             receiveAddress = $selectedAccount.evmAddresses?.[coinType]
-            if (!receiveAddress) {
-                void checkActiveProfileAuth(
-                    async () => {
-                        await generateAndStoreEvmAddressForAccounts($activeProfile.type, coinType, $selectedAccount)
-                        pollL2BalanceForAccount($selectedAccount)
-                        networkName = name
-                        receiveAddress = $selectedAccount.evmAddresses?.[coinType]
-                    },
-                    { ledger: true, stronghold: true, props: { selectedNetworkId: id } },
-                    LedgerAppName.Ethereum
-                )
+            if (receiveAddress) return
+
+            try {
+                await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            } catch (error) {
+                return
             }
+
+            try {
+                await generateAndStoreEvmAddressForAccounts($activeProfile.type, coinType, $selectedAccount)
+                pollL2BalanceForAccount($selectedAccount)
+                receiveAddress = $selectedAccount.evmAddresses?.[coinType]
+            } catch (err) {
+                handleError(err)
+            }
+        } else if (isStardustNetwork(selectedNetworkId)) {
+            networkName = $network.getMetadata().name
+            receiveAddress = $selectedAccount.depositAddress
         } else {
             networkName = undefined
             receiveAddress = undefined

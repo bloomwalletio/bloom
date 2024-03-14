@@ -7,7 +7,7 @@
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let ledgerAppName: LedgerAppName
-    export let onContinue: () => void
+    export let onSuccess: () => void
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = $ledgerConnectionState === LedgerConnectionState.Locked
@@ -53,7 +53,7 @@
 
     function continueFlow(): void {
         closeProfileAuthPopup()
-        onContinue?.()
+        onSuccess?.()
     }
 
     function onCancelClick(): void {

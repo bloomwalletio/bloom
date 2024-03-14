@@ -2,12 +2,13 @@
     import { AvatarGroup, Copyable, Text } from '@bloomwalletio/ui'
     import { FormattedBalance } from '@components'
     import { selectedAccount } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { IAccountTokensPerNetwork } from '@core/token'
     import { truncateString } from '@core/utils'
@@ -59,30 +60,35 @@
         )
     }
 
-    function onGenerateAddressClick(): void {
+    async function onGenerateAddressClick(): Promise<void> {
         const chain = $network.getChain(networkId)
         if (!chain) {
             return
         }
-        checkActiveProfileAuth(
-            async () => {
-                await generateAndStoreEvmAddressForAccounts(
-                    $activeProfile.type,
-                    chain.getConfiguration().coinType,
-                    $selectedAccount
-                )
-                pollL2BalanceForAccount($selectedAccount)
-                if ($activeProfile.type === ProfileType.Ledger) {
-                    setSelectedChain(chain)
-                    toggleDashboardDrawer({
-                        id: DashboardDrawerRoute.NetworkConfig,
-                        initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
-                    })
-                }
-            },
-            {},
-            LedgerAppName.Ethereum
-        )
+
+        try {
+            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+        } catch {
+            return
+        }
+
+        try {
+            await generateAndStoreEvmAddressForAccounts(
+                $activeProfile.type,
+                chain.getConfiguration().coinType,
+                $selectedAccount
+            )
+            pollL2BalanceForAccount($selectedAccount)
+            if ($activeProfile.type === ProfileType.Ledger) {
+                setSelectedChain(chain)
+                toggleDashboardDrawer({
+                    id: DashboardDrawerRoute.NetworkConfig,
+                    initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
+                })
+            }
+        } catch (err) {
+            handleError(err)
+        }
     }
 </script>
 

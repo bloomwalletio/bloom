@@ -2,6 +2,7 @@
     import { Button, Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { openUrlInBrowser } from '@core/app'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
@@ -18,7 +19,7 @@
         setSelectedChain,
     } from '@core/network'
     import { ProfileType } from '@core/profile'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, buildUrl, truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
@@ -59,24 +60,24 @@
         }
     }
 
-    function onGenerateAddressClick(): void {
+    async function onGenerateAddressClick(): Promise<void> {
+        if (!chain) return
+
         setSelectedChain(chain)
-        if (chain) {
-            checkActiveProfileAuth(
-                async () => {
-                    await generateAndStoreEvmAddressForAccounts(
-                        $activeProfile.type,
-                        configuration.coinType,
-                        $selectedAccount
-                    )
-                    pollL2BalanceForAccount($selectedAccount)
-                    if ($activeProfile.type === ProfileType.Ledger) {
-                        $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
-                    }
-                },
-                {},
-                LedgerAppName.Ethereum
-            )
+        try {
+            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+        } catch {
+            return
+        }
+
+        try {
+            await generateAndStoreEvmAddressForAccounts($activeProfile.type, configuration.coinType, $selectedAccount)
+            pollL2BalanceForAccount($selectedAccount)
+            if ($activeProfile.type === ProfileType.Ledger) {
+                $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
+            }
+        } catch (err) {
+            handleError(err)
         }
     }
 

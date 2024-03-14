@@ -21,7 +21,7 @@ export async function generateAndStoreEvmAddressForAccounts(
         if (profileType === ProfileType.Software) {
             const profileManagerId = getProfileManager()?.id
             if (!profileManagerId) {
-                return
+                continue
             }
             const manager = await api.getSecretManager(profileManagerId)
             // Follow MetaMask's convention around incrementing address indices instead of account indices
