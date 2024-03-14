@@ -16,11 +16,15 @@ import {
     closeProfileAuthPopup,
     openProfileAuthPopup,
 } from '../../../../../../desktop/lib/auxiliary/popup'
-import { DEFAULT_LEDGER_API_REQUEST_TIMOUT } from '../constants'
+import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
-import { ILedgerEthereumAppSettings, isBlindSigningRequiredForEvmTransaction } from '@core/ledger'
+import {
+    ILedgerApiRequestOptions,
+    ILedgerEthereumAppSettings,
+    isBlindSigningRequiredForEvmTransaction,
+} from '@core/ledger'
 import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
 import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
@@ -39,7 +43,10 @@ export class Ledger {
             return await this.callLedgerApiAsync<ILedgerEthereumAppSettings>(
                 () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
                 'ethereum-app-settings',
-                0.5 * MILLISECONDS_PER_SECOND
+                {
+                    timeout: 0.5 * MILLISECONDS_PER_SECOND,
+                    shouldClosePopup: false,
+                }
             )
         } catch (err) {
             return undefined
@@ -98,7 +105,6 @@ export class Ledger {
                 ),
             'evm-signed-transaction'
         )
-        closeProfileAuthPopup({ forceClose: true })
 
         if (transactionSignature) {
             const { r, v, s } = transactionSignature
@@ -127,7 +133,6 @@ export class Ledger {
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
             'signed-message'
         )
-        closeProfileAuthPopup({ forceClose: true })
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
@@ -172,7 +177,6 @@ export class Ledger {
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEIP712, hashedDomain, hashedMessage, bip32Path),
             'signed-eip712'
         )
-        closeProfileAuthPopup({ forceClose: true })
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
@@ -188,19 +192,28 @@ export class Ledger {
     private static async callLedgerApiAsync<R extends LedgerApiRequestResponse>(
         callback: () => void,
         responseEvent: keyof IPlatformEventMap,
-        requestTimeout: number = DEFAULT_LEDGER_API_REQUEST_TIMOUT
+        requestOptions?: Partial<ILedgerApiRequestOptions>
     ): Promise<R> {
         return new Promise((resolve, reject) => {
+            const options: ILedgerApiRequestOptions = { ...DEFAULT_LEDGER_API_REQUEST_OPTIONS, ...requestOptions }
+
             callback()
 
-            const timeoutId = setTimeout(() => {
+            const onDestroyListener = (): void => {
+                if (options.shouldClosePopup) {
+                    closeProfileAuthPopup({ forceClose: true })
+                }
                 Platform.removeListenersForEvent(responseEvent)
+            }
+
+            const timeoutId = setTimeout(() => {
+                onDestroyListener()
                 reject(localize('error.ledger.timeout'))
-            }, requestTimeout)
+            }, options.timeout)
 
             Platform.onEvent(responseEvent, (value) => {
+                onDestroyListener()
                 clearTimeout(timeoutId)
-                Platform.removeListenersForEvent(responseEvent)
                 resolve(<R>value)
             })
         })
