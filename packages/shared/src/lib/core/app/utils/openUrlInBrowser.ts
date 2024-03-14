@@ -30,7 +30,7 @@ export function openUrlInBrowser(targetUrl: string | undefined): void {
             id: PopupId.Confirmation,
             props: {
                 title: localize('popups.externalUrl.title'),
-                description: localize('popups.externalUrl.body', { values: { url: targetUrl } }),
+                text: localize('popups.externalUrl.body', { values: { url: targetUrl } }),
                 confirmText: localize('popups.externalUrl.action'),
                 onConfirm: () => {
                     openHttpsUrlsOnly(url.protocol, targetUrl)

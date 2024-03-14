@@ -233,11 +233,11 @@ export function createMainWindow(): BrowserWindow {
 
     /**
      * `will-navigate` is emitted whenever window.location is updated.
-     *  This happens e.g. when clicking on a link (<a href="www.iota.org").
-     *  The handler only allows navigation to an external browser.
+     *  Navigation to an external browser happens through open-external-url event.
+     *  For security reasons we prevent any navigation through this event.
      */
-    windows.main.webContents.on('will-navigate', (a, b) => {
-        tryOpenExternalUrl(a as unknown as Event, b)
+    windows.main.webContents.on('will-navigate', (e) => {
+        e.preventDefault()
     })
 
     windows.main.on('close', () => {

@@ -69,10 +69,10 @@ export function registerMenuButtons(): void {
     })
     Platform.onEvent('menu-error-log', () => {
         closeDrawer()
-        openPopup({ id: PopupId.ErrorLog })
+        openPopup({ id: PopupId.ErrorLog }, false, false)
     })
     Platform.onEvent('menu-diagnostics', () => {
         closeDrawer()
-        openPopup({ id: PopupId.Diagnostics })
+        openPopup({ id: PopupId.Diagnostics }, false, false)
     })
 }

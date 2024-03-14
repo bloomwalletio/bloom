@@ -2,14 +2,9 @@
     import { Avatar, IconName, Link, Text } from '@bloomwalletio/ui'
     import { LedgerIllustration } from '@ui'
     import { localize } from '@core/i18n'
-    import { openUrlInBrowser } from '@core/app'
 
-    const LEDGER_USB_TROUBLESHOOTING_URL: string =
+    const LEDGER_USB_TROUBLESHOOTING_URL =
         'https://support.ledger.com/hc/en-us/articles/115005165269-Fix-USB-connection-issues-with-Ledger-Live?support=true'
-
-    function onLinkClick(): void {
-        openUrlInBrowser(LEDGER_USB_TROUBLESHOOTING_URL)
-    }
 </script>
 
 <div class="flex flex-row justify-center items-center">
@@ -18,9 +13,9 @@
     </Text>
     &nbsp;
     <Link
+        href={LEDGER_USB_TROUBLESHOOTING_URL}
         text={localize('views.onboarding.createFromLedger.ledgerConnectionGuide.ledgerStillNotConnected.answer')}
         textType="body2"
-        on:click={onLinkClick}
         external
     />
 </div>

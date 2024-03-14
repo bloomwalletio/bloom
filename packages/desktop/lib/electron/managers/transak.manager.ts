@@ -141,14 +141,14 @@ export default class TransakManager implements ITransakManager {
         windows.transak.webContents.addListener('did-navigate-in-page', (_, url) => {
             const urlToBeMatched = TRANSAK_WIDGET_URL + '/googlepay'
             if (url.startsWith(urlToBeMatched)) {
-                void shell.openExternal(url)
+                windows.main.webContents.send('try-open-url-in-browser', url)
                 void windows.transak.loadURL(initialUrl)
             }
         })
 
         windows.transak.webContents.addListener('will-navigate', (event) => {
             event.preventDefault()
-            void shell.openExternal(event.url)
+            windows.main.webContents.send('try-open-url-in-browser', event.url)
         })
 
         return windows.transak
