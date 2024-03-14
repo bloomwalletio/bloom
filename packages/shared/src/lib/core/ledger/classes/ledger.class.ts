@@ -8,7 +8,7 @@ import {
     getAmountFromEvmTransactionValue,
     prepareEvmTransaction,
 } from '@core/layer-2/utils'
-import { Converter, MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
+import { Converter, MILLISECONDS_PER_SECOND } from '@core/utils'
 import { TypedTxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
 import {
@@ -16,15 +16,11 @@ import {
     closeProfileAuthPopup,
     openProfileAuthPopup,
 } from '../../../../../../desktop/lib/auxiliary/popup'
-import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
+import { DEFAULT_LEDGER_API_REQUEST_TIMOUT } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
-import {
-    ILedgerApiRequestOptions,
-    ILedgerEthereumAppSettings,
-    isBlindSigningRequiredForEvmTransaction,
-} from '@core/ledger'
+import { ILedgerEthereumAppSettings, isBlindSigningRequiredForEvmTransaction } from '@core/ledger'
 import { EvmChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
 import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
@@ -43,9 +39,7 @@ export class Ledger {
             return await this.callLedgerApiAsync<ILedgerEthereumAppSettings>(
                 () => ledgerApiBridge.makeRequest(LedgerApiMethod.GetEthereumAppSettings),
                 'ethereum-app-settings',
-                {
-                    timeout: 0.5 * MILLISECONDS_PER_SECOND,
-                }
+                0.5 * MILLISECONDS_PER_SECOND
             )
         } catch (err) {
             return undefined
@@ -194,32 +188,22 @@ export class Ledger {
     private static async callLedgerApiAsync<R extends LedgerApiRequestResponse>(
         callback: () => void,
         responseEvent: keyof IPlatformEventMap,
-        requestOptions: Partial<ILedgerApiRequestOptions> = {}
+        requestTimeout: number = DEFAULT_LEDGER_API_REQUEST_TIMOUT
     ): Promise<R> {
-        // TODO: Do we need to stop / start polling here? Get's slightly complicated in that
-        // the Ethereum app settings polling uses this function.
+        return new Promise((resolve, reject) => {
+            callback()
 
-        const { timeout, pollingInterval } = { ...DEFAULT_LEDGER_API_REQUEST_OPTIONS, ...requestOptions }
-        const iterationCount = timeout / pollingInterval
-
-        callback()
-
-        let returnValue: R | undefined = undefined
-
-        Platform.onEvent(responseEvent, (value) => {
-            returnValue = <R>value
-        })
-
-        for (let count = 0; count < iterationCount; count++) {
-            if (returnValue) {
+            const timeoutId = setTimeout(() => {
                 Platform.removeListenersForEvent(responseEvent)
-                return returnValue
-            }
-            await sleep(pollingInterval)
-        }
+                reject(localize('error.ledger.timeout'))
+            }, requestTimeout)
 
-        Platform.removeListenersForEvent(responseEvent)
-        return Promise.reject(localize('error.ledger.timeout'))
+            Platform.onEvent(responseEvent, (value) => {
+                clearTimeout(timeoutId)
+                Platform.removeListenersForEvent(responseEvent)
+                resolve(<R>value)
+            })
+        })
     }
 
     private static userEnablesBlindSigning(): Promise<void> {
