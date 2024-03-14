@@ -12,6 +12,7 @@ import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-c
 import { SubjectType } from '@core/wallet'
 import { ActivityDirection } from '@core/activity/enums'
 import { localize } from '@core/i18n'
+import { WEI_PER_GLOW } from '@core/layer-2/constants'
 
 export async function generateEvmActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
@@ -85,7 +86,7 @@ async function generateEvmCoinTransferActivityFromBlockscoutTransaction(
         type: EvmActivityType.CoinTransfer,
         baseTokenTransfer: {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: Converter.bigIntLikeToBigInt(blockscoutTransaction.value),
+            rawAmount: Converter.bigIntLikeToBigInt(blockscoutTransaction.value) / WEI_PER_GLOW,
         },
     } as EvmCoinTransferActivity
 }
