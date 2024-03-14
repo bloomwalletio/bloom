@@ -2,35 +2,17 @@
     import { onMount } from 'svelte'
     import { Button, IconName } from '@bloomwalletio/ui'
     import { initialiseOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
-    import {
-        AppContext,
-        isLatestStrongholdVersion,
-        needsToAcceptLatestPrivacyPolicy,
-        needsToAcceptLatestTermsOfService,
-    } from '@core/app'
+    import { AppContext, isLatestStrongholdVersion } from '@core/app'
     import { localize } from '@core/i18n'
     import { IPersistedProfile, ProfileType, removeProfileFolder } from '@core/profile'
     import { destroyProfileManager } from '@core/profile-manager/actions'
     import { loadPersistedProfileIntoActiveProfile, resetActiveProfile } from '@core/profile/actions'
     import { profiles } from '@core/profile/stores'
     import { loginRouter, routerManager } from '@core/router'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { LoggedOutLayout } from '@views/components'
     import { OnboardingRouter, onboardingRouter } from '@views/onboarding'
     import { ProfileCard } from '../components'
-
-    if (needsToAcceptLatestPrivacyPolicy() || needsToAcceptLatestTermsOfService()) {
-        openPopup(
-            {
-                id: PopupId.LegalUpdate,
-                hideClose: true,
-                preventClose: true,
-            },
-            false,
-            false
-        )
-    }
 
     function onContinueClick(profileId: string): void {
         loadPersistedProfileIntoActiveProfile(profileId)
