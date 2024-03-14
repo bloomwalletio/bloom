@@ -11,6 +11,7 @@ import { NftStandard } from '@core/nfts'
 import { Converter } from '@core/utils/convert'
 import { getMethodNameForEvmTransaction } from '@core/layer-2/utils'
 import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
+import { WEI_PER_GLOW } from '@core/layer-2/constants'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -91,7 +92,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             type: EvmActivityType.CoinTransfer,
             baseTokenTransfer: {
                 tokenId: BASE_TOKEN_ID,
-                rawAmount: Converter.bigIntLikeToBigInt(transaction.value),
+                rawAmount: Converter.bigIntLikeToBigInt(transaction.value) / WEI_PER_GLOW,
             },
         } as EvmCoinTransferActivity
     }
