@@ -2,7 +2,9 @@ import { EvmTransactionData } from '../types'
 import featuresObject from '@features/features'
 import { lookupMethodSignature } from './lookupMethodSignature'
 
-export async function getMethodNameForEvmTransaction(evmTransactionData: EvmTransactionData): Promise<string> {
+export async function getMethodNameForEvmTransaction(
+    evmTransactionData: EvmTransactionData
+): Promise<string | undefined> {
     const data = String(evmTransactionData.data ?? '')
     const fourBytePrefix = data.substring(0, 10)
     try {
@@ -19,7 +21,7 @@ export async function getMethodNameForEvmTransaction(evmTransactionData: EvmTran
 
         return camelCaseToReadable(name)
     } catch (error) {
-        return fourBytePrefix
+        return undefined
     }
 }
 

@@ -40,12 +40,13 @@ export async function generateEvmActivityFromLocalEvmTransaction(
         )
         if (transferInfo.type === StardustActivityType.SmartContract) {
             const method = await getMethodNameForEvmTransaction(transaction)
-
+            const data = String(transaction.data ?? '')
             return {
                 ...baseActivity,
                 type: EvmActivityType.ContractCall,
                 method,
-                rawData: String(transaction.data ?? ''),
+                methodId: data.substring(0, 10),
+                rawData: data,
             } as EvmContractCallActivity
         } else {
             const tokenTransfer =
