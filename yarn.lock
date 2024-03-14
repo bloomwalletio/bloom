@@ -5038,10 +5038,10 @@ electron-updater@6.1.8:
     semver "^7.3.8"
     tiny-typed-emitter "^2.1.0"
 
-electron@28.2.0:
-  version "28.2.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-28.2.0.tgz#ecf7097d4a1e47dd08111c0229a9d03c44f485ad"
-  integrity sha512-22SylXQQ9IHtwLw4D+Z4Si7OUpeDtpHfJVTjy3yv53iLg5zJKKPOCWT4ZwgYGHQZ0eldyBrYBHF/P9FPd2CcVQ==
+electron@28.2.7:
+  version "28.2.7"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-28.2.7.tgz#beec25bc62eea02743cd4eaed45c20e1c7dfcaf2"
+  integrity sha512-iEBTYNFuZtLpAS+8ql0ATUWBPAC9uMYqwNJtMLqlT3/zOzHj6aYpwoJILwWgIuTAx+/yTYgARS46Nr/RazxTpg==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^18.11.18"
