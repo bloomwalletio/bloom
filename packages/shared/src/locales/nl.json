@@ -501,12 +501,17 @@
                         "title": "Verbindingsverzoek",
                         "firstTimeHint": "Deze dApp wil voor de eerste keer verbinding maken. Verbind enkel met sites die je vertrouwt.",
                         "reconnectHint": "U heeft eerder verbinding gemaakt met deze dApp.",
-                        "insecure": "De URL van deze dApp kan niet worden geverifieerd. Mogelijk is je verbinding met deze app onveilig.",
                         "unsupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een niet-ondersteund netwerk draait.",
                         "noSupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een ander netwerk draait.",
                         "unsupportedMethods": "Deze dApp is niet volledig compatibel met Bloom. Sommige methoden of gebeurtenissen worden niet ondersteund.",
                         "supportedOnOtherProfile": "Deze dApp draait op een ondersteund netwerk, maar is niet toegankelijk met dit profiel. Gebruik een profiel verbonden met het vereiste netwerk.",
-                        "acceptInsecureConnection": "Ik begrijp dat deze dApp mogelijk onveilig is en nog steeds verbinding wil maken."
+                        "acceptInsecureConnection": "I understand and wish to proceed",
+                        "supported": "Supported",
+                        "notSupported": "Not supported",
+                        "onAnotherProfile": "On another profile",
+                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
+                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
+                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
                     },
                     "editPermissions": {
                         "title": "Bewerk permissies"
@@ -640,7 +645,7 @@
                 "votedProposals": "Totaal aantal voorstellen waarop je gestemd hebt"
             },
             "proposals": {
-                "title": "Governance Proposals",
+                "title": "Governance voorstellen",
                 "voted": "Gestemd",
                 "successEdit": "Voorstel succesvol bijgewerkt",
                 "successAdd": "{numberOfProposals, select, one {Voorstel} other {Voorstellen}} succesvol toegevoegd",
@@ -686,10 +691,15 @@
                     "eventId": "Event ID",
                     "nodeUrl": "Knooppunt URL"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Ophalen voorstel gegevens",
                 "hintVote": "Je kunt niet stemmen over een voorstel dat in de aankondigingsfase verkeert, de stemming wordt geopend in {time}.",
                 "projection": {
-                    "label": "Geschatte stemmen",
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
                     "tooltip": "De verwachting is gebaseerd op het huidige stemkracht en de resterende mijlpalen."
                 }
             }
@@ -721,6 +731,10 @@
                 "connected": "beveiligde verbinding",
                 "redirected": "omgeleid, wees voorzichtig!",
                 "disconnected": "verbinding verbroken, probeer verversen"
+            },
+            "error": {
+                "title": "Transak could not be loaded",
+                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
             }
         }
     },
@@ -1082,19 +1096,19 @@
                         "Conflicting": "Stemkracht verminderen mislukt"
                     },
                     "startVoting": {
-                        "Pending": "Voting on {proposalName}",
-                        "Confirmed": "Voted on {proposalName}",
-                        "Conflicting": "Failed to vote on"
+                        "Pending": "Stemmen op {proposalName}",
+                        "Confirmed": "Gestemd op {proposalName}",
+                        "Conflicting": "Mislukt om op stemmen"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting on {proposalName}",
-                        "Confirmed": "Stopped voting on {proposalName}",
-                        "Conflicting": "Failed to stop voting on"
+                        "Pending": "Stemmen voor {proposalName} wordt gestopt",
+                        "Confirmed": "Stemmen voor {proposalName} gestopt",
+                        "Conflicting": "Mislukt om te stoppen met stemmen op"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote on {proposalName}",
-                        "Confirmed": "Changed vote on {proposalName}",
-                        "Conflicting": "Failed to change vote on"
+                        "Pending": "Stem wijzigen voor {proposalName}",
+                        "Confirmed": "Stem gewijzigd voor {proposalName}",
+                        "Conflicting": "Mislukt de stem te wijzigen voor"
                     },
                     "revote": {
                         "Pending": "Herstemmen",
@@ -1216,7 +1230,7 @@
         "revote": {
             "title": "Herstem voor voorstellen",
             "body": "Het wijzigen van jouw stemkracht zorgt ervoor dat jouw stemmen voor alle voorstellen tijdelijk niet meer geteld worden. Klik simpelweg op \"Herstem\" om de stemming te hervatten.",
-            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
+            "hint": "Bloom onthoudt alle voorstellen en antwoordopties waarvoor je eerder hebt gestemd."
         },
         "removeProposal": {
             "title": "Voorstel verwijderen",
@@ -1379,7 +1393,8 @@
         "syncAccounts": "Synchroniseer accounts",
         "importToken": "Importeer {type} token",
         "syncTokens": "Forceer synchronisatie tokens",
-        "mintNftCollection": "Mint NFT collectie"
+        "mintNftCollection": "Mint NFT collectie",
+        "readMore": "Read more"
     },
     "general": {
         "recipient": "Ontvanger",
@@ -1395,14 +1410,14 @@
         "receiving": "Ontvangen",
         "newVotingPower": "Nieuwe stemkracht",
         "votingPower": "Stemkracht",
-        "increased": "Voting power increased",
-        "increasing": "Increasing voting power",
-        "decreased": "Voting power decreased",
-        "decreasing": "Decreasing voting power",
+        "increased": "Stemkracht vergroot",
+        "increasing": "Stemkracht vergroten",
+        "decreased": "Stemkracht verkleind",
+        "decreasing": "Stemkracht verkleinen",
         "voted": "Gestemd",
         "voting": "Stemmen",
-        "votingOn": "Voting on",
-        "votedOn": "Voted on",
+        "votingOn": "Stemmen op",
+        "votedOn": "Gestemd op",
         "changedVote": "Stem gewijzigd",
         "changingVote": "Stem wijzigen",
         "revoted": "Herstemd",
@@ -1605,7 +1620,8 @@
         "baseCoin": "Basis token",
         "unverifiedContract": "Ongeverifieerd contract",
         "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collectie NFT in Alias Output"
+        "mintNftCollectionDescription": "Mint collectie NFT in Alias Output",
+        "question": "Question"
     },
     "filters": {
         "title": "Filters",
@@ -1922,6 +1938,7 @@
             "notReachable": "Het netwerk ID voor dit knooppunt kon niet worden opgehaald, kan knooppunt niet toevoegen."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Er ging iets mis."
         },
         "backup": {
