@@ -14,7 +14,7 @@
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
         getHexEncodedTransaction,
-        getMethodNameForEvmTransaction,
+        getMethodForEvmTransaction,
     } from '@core/layer-2'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
@@ -53,6 +53,7 @@
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false
     let methodName: string | undefined = undefined
+    let parameters: Record<string, string> | undefined = undefined
     let busy = false
 
     setTokenTransfer()
@@ -143,7 +144,9 @@
 
     $: void setMethodName(preparedTransaction)
     async function setMethodName(preparedTransaction: EvmTransactionData): Promise<void> {
-        methodName = await getMethodNameForEvmTransaction(preparedTransaction)
+        const [method, _parameters] = (await getMethodForEvmTransaction(String(preparedTransaction.data ?? ''))) ?? []
+        methodName = method
+        parameters = _parameters
     }
 
     function getSuccessMessage(): string {
@@ -209,6 +212,7 @@
                                 onClick: () => onExplorerClick(String(preparedTransaction.to)),
                             },
                             { key: localize('general.methodName'), value: methodName },
+                            { key: localize('general.parameters'), value: parameters },
                             { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                         ]}
                     />

@@ -13,6 +13,7 @@ import { SubjectType } from '@core/wallet'
 import { ActivityDirection } from '@core/activity/enums'
 import { localize } from '@core/i18n'
 import { WEI_PER_GLOW } from '@core/layer-2/constants'
+import { getMethodForEvmTransaction } from '@core/layer-2'
 
 export async function generateEvmActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
@@ -57,13 +58,17 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
         account
     )
 
+    const [method, parameters] = blockscoutTransaction.method
+        ? [blockscoutTransaction.method, blockscoutTransaction.decoded_input?.parameters]
+        : (await getMethodForEvmTransaction(blockscoutTransaction.raw_input)) ?? []
+
     return {
         ...baseActivity,
         type: EvmActivityType.ContractCall,
         verified: blockscoutTransaction.to.is_verified,
         methodId: blockscoutTransaction.decoded_input?.method_id,
-        method: blockscoutTransaction.method,
-        parameters: blockscoutTransaction.decoded_input?.parameters,
+        method: method,
+        parameters: parameters,
         rawData: blockscoutTransaction.raw_input,
     } as EvmContractCallActivity
 }

@@ -9,7 +9,7 @@ import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTrans
 import { StardustActivityType } from '@core/activity/enums'
 import { NftStandard } from '@core/nfts'
 import { Converter } from '@core/utils/convert'
-import { getMethodNameForEvmTransaction } from '@core/layer-2/utils'
+import { getMethodForEvmTransaction } from '@core/layer-2/utils'
 import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
 import { WEI_PER_GLOW } from '@core/layer-2/constants'
 
@@ -40,12 +40,13 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             account
         )
         if (transferInfo.type === StardustActivityType.SmartContract) {
-            const method = await getMethodNameForEvmTransaction(transaction)
             const data = String(transaction.data ?? '')
+            const [method, parameters] = (await getMethodForEvmTransaction(data)) ?? []
             return {
                 ...baseActivity,
                 type: EvmActivityType.ContractCall,
                 method,
+                parameters,
                 methodId: data.substring(0, 10),
                 rawData: data,
             } as EvmContractCallActivity
