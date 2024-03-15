@@ -45,7 +45,7 @@ initialiseDeepLinks()
  * NOTE: Ignored because defined by Webpack.
  */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-ignore
+// @ts-expect-error
 app.setAppUserModelId(APP_ID)
 
 /**
@@ -57,7 +57,7 @@ if (
     argv.includes('inspect') ||
     argv.includes('remote') ||
     /* eslint-disable @typescript-eslint/ban-ts-comment */
-    // @ts-ignore
+    // @ts-expect-error
     typeof v8debug !== 'undefined' ||
     flagBlocklist.some((flag) => app.commandLine.hasSwitch(flag))
 ) {
@@ -665,7 +665,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
         window = win
         Array.from(['resized', 'moved', 'close']).forEach((event) => {
             /* eslint-disable @typescript-eslint/ban-ts-comment */
-            // @ts-ignore
+            // @ts-expect-error
             win.on(event, saveState)
         })
     }
