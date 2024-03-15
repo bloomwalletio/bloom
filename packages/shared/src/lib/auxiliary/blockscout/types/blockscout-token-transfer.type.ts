@@ -1,6 +1,6 @@
 import { IBlockscoutAddressParam } from '../interfaces/blockscout-address-param.interface'
 import { BlockscoutTransactionType } from '../enums/blockscout-transaction-type.enum'
-import { IBlockscoutTokenInfo } from '../interfaces/blockscout-token-info.interface'
+import { IBlockscoutTokenInfoDto } from '../interfaces/blockscout-token-info.interface'
 
 type BlockscoutTokenTransferBase = {
     block_hash: string
@@ -14,7 +14,7 @@ type BlockscoutTokenTransferBase = {
 }
 
 export type BlockscoutErc20Transfer = BlockscoutTokenTransferBase & {
-    token: IBlockscoutTokenInfo & { type: 'ERC-20' }
+    token: IBlockscoutTokenInfoDto & { type: 'ERC-20' }
     total: {
         decimals: number
         value: number
@@ -28,7 +28,7 @@ export function isBlockscoutErc20Transfer(
 }
 
 export type BlockscoutErc721Transfer = BlockscoutTokenTransferBase & {
-    token: IBlockscoutTokenInfo & { type: 'ERC-721' }
+    token: IBlockscoutTokenInfoDto & { type: 'ERC-721' }
     total: { token_id: string }
 }
 
