@@ -4,7 +4,7 @@
     import { Platform } from '@core/app'
     import { activeProfile } from '@core/profile/stores'
     import { IPopupState, IProfileAuthPopupState, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
-    import { onDestroy, tick } from 'svelte'
+    import { onDestroy, onMount, tick } from 'svelte'
     import {
         TransakAccountPanel,
         TransakConnectionPanel,
@@ -100,11 +100,14 @@
         await updateTransakBounds()
     }
 
-    Platform.onEvent('reset-transak', resetTransak)
+    onMount(() => {
+        Platform.onEvent('reset-transak', resetTransak)
+    })
 
     onDestroy(() => {
         void Platform.closeTransak()
         isTransakOpen = false
+        Platform.removeListenersForEvent('reset-transak')
     })
 </script>
 
