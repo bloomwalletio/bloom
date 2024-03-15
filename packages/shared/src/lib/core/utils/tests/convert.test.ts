@@ -1,5 +1,4 @@
 import {
-    convertBytesToHexString,
     convertDateToUnixTimestamp,
     convertUInt16NumberToLittleEndianHex,
     convertUnixTimestampToDate,
@@ -52,26 +51,6 @@ describe('File: convert.ts', () => {
             expect(convertUInt16NumberToLittleEndianHex(1023, false)).toEqual('FF03')
             expect(convertUInt16NumberToLittleEndianHex(32767, false)).toEqual('FF7F')
             expect(convertUInt16NumberToLittleEndianHex(-32768, false)).toEqual('0080')
-        })
-    })
-
-    describe('Function: convertBytesToHexString', () => {
-        it('should handle valid input', () => {
-            expect(convertBytesToHexString([])).toEqual('')
-            expect(convertBytesToHexString([0])).toEqual('0x00')
-            expect(convertBytesToHexString([50, 41, 52, 54, 49, 43, 49, 50, 41, 54, 45])).toEqual(
-                '0x32293436312b313229362d'
-            )
-        })
-        it('should handle invalid input', () => {
-            expect(() => convertBytesToHexString(undefined)).toThrowError()
-        })
-        it('should NOT use the hex prefix if specified', () => {
-            expect(convertBytesToHexString([], false)).toEqual('')
-            expect(convertBytesToHexString([0], false)).toEqual('00')
-            expect(convertBytesToHexString([50, 41, 52, 54, 49, 43, 49, 50, 41, 54, 45], false)).toEqual(
-                '32293436312b313229362d'
-            )
         })
     })
 })

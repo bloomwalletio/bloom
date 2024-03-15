@@ -9,7 +9,7 @@
         GovernanceAvatar,
     } from '@ui'
     import {
-        ActivityType,
+        StardustActivityType,
         getActivityActionTextColor,
         getActivityActionPill,
         getActivityTileAction,
@@ -22,13 +22,13 @@
     import { IconName, Avatar, Text } from '@bloomwalletio/ui'
     import { darkMode } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { Activity } from '@core/activity'
+    import { StardustActivity } from '@core/activity'
     import { time } from '@core/app/stores'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { Nft } from '@core/nfts/interfaces'
     import AssetPills from '../AssetPills.svelte'
 
-    export let activity: Activity
+    export let activity: StardustActivity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
@@ -36,7 +36,7 @@
     let nft: Nft | undefined
     $: $selectedAccountNfts,
         (nft =
-            activity.type === ActivityType.Nft
+            activity.type === StardustActivityType.Nft
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined)
 
@@ -46,20 +46,20 @@
 
 <div class="flex flex-row gap-4 items-center overflow-hidden">
     <div class="py-1">
-        {#if activity.type === ActivityType.Governance}
+        {#if activity.type === StardustActivityType.Governance}
             <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
         {:else if token}
             <TokenAvatar {token} hideNetworkBadge size="lg" />
-        {:else if activity.type === ActivityType.Nft}
+        {:else if activity.type === StardustActivityType.Nft}
             <NftAvatar {nft} size="lg" shape="square" />
-        {:else if activity.type === ActivityType.SmartContract}
+        {:else if activity.type === StardustActivityType.SmartContract}
             <Avatar
                 icon={IconName.FileCode}
                 size="lg"
                 textColor="primary"
                 backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
             />
-        {:else if activity.type === ActivityType.Alias}
+        {:else if activity.type === StardustActivityType.Alias}
             <Avatar
                 icon={IconName.Alias}
                 size="lg"

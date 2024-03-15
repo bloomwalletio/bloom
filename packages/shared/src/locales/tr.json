@@ -501,12 +501,17 @@
                         "title": "Bağlantı isteği",
                         "firstTimeHint": "Bu dApp ilk kez bağlanmak istiyor. Güvendiğiniz sitelere bağlanın.",
                         "reconnectHint": "Daha önce bu dApp'e bağlandınız.",
-                        "insecure": "Bu dApp'in URL'si doğrulanamıyor. Bu uygulamaya bağlantınız güvenli olmayabilir.",
                         "unsupportedNetworks": "Bu dApp, desteklenmeyen bir ağ üzerinde çalıştığı için Bloom ile uyumlu değildir.",
                         "noSupportedNetworks": "Bu dApp, farklı ağlarda çalıştığı için Bloom ile uyumlu değildir.",
                         "unsupportedMethods": "Bu dApp, Bloom ile tam uyumlu değil. Bazı yöntemler veya olaylar desteklenmiyor.",
                         "supportedOnOtherProfile": "Bu dApp, desteklenen bir ağda çalışır ancak bu profille erişilemez. Lütfen gerekli ağa bağlı bir profil kullanın.",
-                        "acceptInsecureConnection": " Bu dApp'in güvenli olmayabileceğini anlıyorum ama hala bağlanmak istiyorum."
+                        "acceptInsecureConnection": "I understand and wish to proceed",
+                        "supported": "Supported",
+                        "notSupported": "Not supported",
+                        "onAnotherProfile": "On another profile",
+                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
+                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
+                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
                     },
                     "editPermissions": {
                         "title": "İzinleri düzenle"
@@ -522,8 +527,8 @@
                         "permissions": {
                             "step": "İzin",
                             "tip": "Bunlar dApp'in onayınıza etkileşim isteği göndermesine yönelik sınırlı izinlerdir. Yalnızca bildiğiniz ve güvendiğiniz uygulamaları onaylayın.",
-                            "requiredTitle": "Required permissions",
-                            "optionalTitle": "Optional permissions",
+                            "requiredTitle": "Gerekli izinler",
+                            "optionalTitle": "İsteğe bağlı izinler",
                             "signData": "Veri imzalama isteği",
                             "signTransaction": "Bir işlemi imzalama isteği",
                             "sendTransaction": "İşlem gönderme isteği",
@@ -532,8 +537,8 @@
                         },
                         "networks": {
                             "step": "Ağlar",
-                            "requiredTitle": "Required networks",
-                            "optionalTitle": "Optional networks",
+                            "requiredTitle": "Gerekli Ağlar",
+                            "optionalTitle": "İsteğe bağlı ağlar",
                             "tip": "Gerekli ağlar sizin için dApp tarafından önceden seçilir ve daha sonra yeniden yapılandırılabilir.",
                             "empty": "En az bir ağ seçmeniz gerekiyor"
                         },
@@ -634,42 +639,41 @@
                 "manage": "Oy gücünü yönetin"
             },
             "proposalsDetails": {
-                "title": "Detaylar",
                 "totalProposals": "Toplam teklifler",
                 "activeProposals": "Aktif teklifler",
                 "votingProposals": "Oy verdiğiniz teklifler",
                 "votedProposals": "Oyladığınız toplam teklifler"
             },
             "proposals": {
-                "title": "Teklifler",
+                "title": "Yönetişim Önerileri",
                 "voted": "Oylandı",
                 "successEdit": "Teklif başarıyla düzenlendi",
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} başarıyla eklendi",
                 "successAddAll": "{numberOfProposals, select, one {Proposal} other {Proposals}} tüm hesaplara başarıyla eklendi",
                 "successRemove": "Teklif başarıyla güncellendi",
                 "emptyTitle": "Henüz teklif yok",
-                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
+                "emptyDescription": "Bir düğümdeki teklife, URL'si ve isteğe bağlı etkinlik kimliğiyle abone olabilirsiniz."
             },
             "statusTimeline": {
                 "upcoming": {
-                    "past": "Announced",
-                    "present": "Announcement",
-                    "future": "Announcement"
+                    "past": "Duyuruldu",
+                    "present": "Duyuru",
+                    "future": "Duyuru"
                 },
                 "commencing": {
-                    "past": "Voting opened",
-                    "present": "Voting open",
-                    "future": "Voting opens"
+                    "past": "Oylama açıldı",
+                    "present": "Oylama açık",
+                    "future": "Oylama açılıyor"
                 },
                 "holding": {
-                    "past": "Counting started",
-                    "present": "Counting started",
-                    "future": "Counting starts"
+                    "past": "Sayım başlıadı",
+                    "present": "Sayım başlıadı",
+                    "future": "Sayım başlıyor"
                 },
                 "ended": {
-                    "past": "Counting stopped",
-                    "present": "Counting stopped",
-                    "future": "Counting stops"
+                    "past": "Sayım durduruldu",
+                    "present": "Sayım durduruldu",
+                    "future": "Sayma durakları"
                 }
             },
             "details": {
@@ -687,11 +691,16 @@
                     "eventId": "Etkinlik Kimliği",
                     "nodeUrl": "Node URL'si"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Teklif verilerini alma",
                 "hintVote": "Duyuru aşamasında olan bir teklife oy veremezsiniz, oylama {zaman} içinde açılacaktır.",
                 "projection": {
-                    "label": "Projected votes",
-                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
+                    "tooltip": "Tahmin, mevcut oy ağırlığına ve kalan kilometre taşlarına dayanmaktadır."
                 }
             }
         },
@@ -722,6 +731,10 @@
                 "connected": "güvenli bir şekilde bağlandı",
                 "redirected": "yönlendirildi, dikkatli olun!",
                 "disconnected": "bağlantı kesildi, yenilemeyi deneyin"
+            },
+            "error": {
+                "title": "Transak could not be loaded",
+                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
             }
         }
     },
@@ -869,7 +882,7 @@
             "loadingNodeInfo": "Düğüm bilgisi yükleniyor",
             "nodeAddress": "Node adresi",
             "removeConfirmation": "Bu klasörü kaldırmak istediğinize emin misiniz?",
-            "requiresAuthentication": "Node requires authentication",
+            "requiresAuthentication": "Düğüm kimlik doğrulaması gerektiriyor",
             "info": {
                 "general": {
                     "tab": "Genel",
@@ -905,8 +918,8 @@
                     "useMetricPrefix": "Metrik öneki kullan"
                 }
             },
-            "jwt": "JSON web token",
-            "credentials": "Sign-in credentials"
+            "jwt": "JSON web belirteci",
+            "credentials": "Oturum açma kimlik bilgileri"
         },
         "errorLog": {
             "title": "Hata Geçmişi",
@@ -978,19 +991,19 @@
             "success": "İmzalı mesaj"
         },
         "siwe": {
-            "title": "Sign-In with Ethereum",
-            "details": "Details",
-            "raw": "Raw",
-            "rawMessage": "Raw message",
-            "domain": "Domain",
-            "statement": "Statement",
-            "resources": "Resources",
-            "chainId": "Chain Id",
-            "nonce": "Nonce",
-            "issuedAt": "Issued at",
-            "notBefore": "Not before",
-            "requestId": "Request Id",
-            "action": "Sign in"
+            "title": "Ethereum ile giriş yapın",
+            "details": "Ayrıntılar",
+            "raw": "İşlenmemiş",
+            "rawMessage": "Ham mesaj",
+            "domain": "Alan",
+            "statement": "Açıklama",
+            "resources": "Kaynaklar",
+            "chainId": "Zincir Kimliği",
+            "nonce": "Geçici",
+            "issuedAt": "Yayınlanan",
+            "notBefore": "Şundan Önce Değil",
+            "requestId": "Talep kimliği",
+            "action": "Oturum aç"
         },
         "signTransaction": {
             "title": "İşlemi imzala",
@@ -1005,7 +1018,7 @@
         "smartContractCall": {
             "title": "{contractAddress} adresine akıllı sözleşme çağrısı",
             "unableToVerify": "Bloom akıllı sözleşme çağrısını doğrulayamıyor. Yalnızca güvendiğiniz uygulamalarla devam edin.",
-            "viewSmartContract": "View Smart Contract",
+            "viewSmartContract": "Akıllı Sözleşmeyi Görüntüle",
             "action": "Onayla",
             "success": "{recipient} adlı kişiye akıllı sözleşme çağrısı"
         },
@@ -1172,7 +1185,7 @@
             "errors": {
                 "invalidMimetype": "Geçersiz MimeType, dosya türünün desteklenip desteklenmediğini kontrol edin",
                 "quantityTooSmall": "Miktar 0'dan büyük olması gerekiyor",
-                "quantityTooLarge": "Quantity needs to be smaller than 127",
+                "quantityTooLarge": "Miktar 127'den küçük olması gerekiyor",
                 "emptyName": "Ad zorunlu bir alandır",
                 "invalidURI": "Geçersiz URI, lütfen geçerli bir URI sağlayın",
                 "notReachable": "URI'ye ulaşılamıyor, NFT türü kontrol edilemiyor",
@@ -1201,7 +1214,7 @@
             "title": "Teklif ekle",
             "body": "Teklif eklemek için lütfen aşağıda listelenen bilgileri sağlayın.",
             "addToAllAccounts": "Teklifi tüm hesaplara ekleyin",
-            "addAllProposalsOnNode": "Add all proposals on this node"
+            "addAllProposalsOnNode": "Bu düğümdeki tüm teklifleri ekle"
         },
         "editProposal": {
             "title": "Teklifi düzenle",
@@ -1370,7 +1383,7 @@
         "addProposal": "Teklif ekle",
         "removeProposal": "Teklifi kaldır",
         "changeNode": "Düğümü değiştir",
-        "changeNodeUrl": "Change node URL",
+        "changeNodeUrl": "Düğüm URL'sini değiştir",
         "stopVoting": "Oy vermeyi durdur",
         "revote": "Yeniden oyla",
         "skipAndKeep": "Atla ve eski şifreyi koru",
@@ -1380,11 +1393,12 @@
         "syncAccounts": "Hesabları senkronize et",
         "importToken": "{type} tokeni içe aktar",
         "syncTokens": "Tokenları zorla senkronizasyon yap",
-        "mintNftCollection": "Mint NFT collection"
+        "mintNftCollection": "NFT koleksiyon basma",
+        "readMore": "Read more"
     },
     "general": {
         "recipient": "Alıcı",
-        "username": "Username",
+        "username": "Kullanıcı Adı",
         "password": "Parola",
         "confirmPassword": "Parolayı doğrula",
         "currentPassword": "Geçerli parola",
@@ -1396,18 +1410,20 @@
         "receiving": "Alınıyor",
         "newVotingPower": "Yeni oy gücü",
         "votingPower": "Oy gücü",
-        "increased": "Voting increased",
-        "increasing": "Increasing voting",
-        "decreased": "Voting decreased",
-        "decreasing": "Decreasing voting",
+        "increased": "Oy kullanma gücü arttı",
+        "increasing": "Oy kullanma gücünün artırılması",
+        "decreased": "Oy kullanma gücü azaldı",
+        "decreasing": "Oy kullanma gücünün azaltılması",
         "voted": "Oylandı",
         "voting": "Oylama",
+        "votingOn": "Oylama açık",
+        "votedOn": "Oy verildi",
         "changedVote": "Oy değiştirildi",
         "changingVote": "Oy değiştiriliyor",
         "revoted": "İptal edildi",
         "revoting": "İptal ediliyor",
-        "unvoted": "Stopped voting",
-        "unvoting": "Stopping voting",
+        "unvoted": "Oy verme durduruluyor",
+        "unvoting": "Oylamayı durdurma",
         "transferred": "Transfer edildi",
         "transferring": "Transfer ediliyor",
         "shimmerClaimed": "Talep edildi",
@@ -1546,7 +1562,7 @@
         "contractFunction": "Sözleşme işlevi",
         "standard": "Standart",
         "uri": "URl",
-        "image": "Image",
+        "image": "Resim",
         "issuer": "İhraççı",
         "issuerAddress": "İhraççı Adresi",
         "issuerName": "İhraççı Adı",
@@ -1603,8 +1619,9 @@
         "governance": "Yönetim",
         "baseCoin": "Temel coin",
         "unverifiedContract": "Doğrulanmamış Sözleşme",
-        "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
+        "startIndex": "Dizini başlat",
+        "mintNftCollectionDescription": "Takma Ad Çıkışında NFT koleksiyonu basma",
+        "question": "Question"
     },
     "filters": {
         "title": "Filtreler",
@@ -1813,7 +1830,7 @@
             "success": "İletişim adresleri başarıyla güncellendi"
         },
         "siwe": {
-            "rejected": "Invalid SIWE request"
+            "rejected": "Geçersiz SIWE isteği"
         },
         "syncTokens": {
             "success": "Token'lar başarıyla senkronize edildi"
@@ -1824,7 +1841,7 @@
             "length": "Profil adınız şundan uzun olamaz {length, plural, one {# karakter} other {# karakterler}}.",
             "duplicate": "Bu isimde bir profil zaten var.",
             "type": "Profil tipi belirlenemiyor",
-            "authenticationInterrupted": "Authentication was interrupted"
+            "authenticationInterrupted": "Kimlik doğrulama kesintiye uğradı"
         },
         "password": {
             "doNotMatch": "Parolalar eşleşmiyor.",
@@ -1921,6 +1938,7 @@
             "notReachable": "Bu düğümün ağ kimliği alınamadı, düğüm eklenemedi."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Bir şeyler yanlış gitti."
         },
         "backup": {
@@ -2031,7 +2049,7 @@
             "invalidProtocol": "Geçersiz protokol, 'wc' ile başlamalıdır.",
             "deprecatedVersion": "dApp, kullanımdan kaldırılmış bir cüzdan bağlantı sürümü kullanıyor.",
             "invalidV2UriFormat": "Bağlantı WalletConnect V2 spesifikasyonuna uymuyor.",
-            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
+            "signTypedData": "Bloom, güvenlik nedeniyle eth_signedTypedData V1'i desteklemiyor"
         },
         "web3": {
             "unableToGetProvider": "Web3 sağlayıcısı alınamıyor.",
@@ -2089,7 +2107,7 @@
             "attributes": "İsteğe bağlı parametre: NFT'nin niteliklerini tanımlayan bir dizi özellik ve değer",
             "uri": "Özel medya kullanarak bir URI oluşturmak için öncelikle dosyanızı bir depolama hizmeti aracılığıyla IPFS'ye yükleyin (ör. https://nft.storage/)",
             "quantity": "İsteğe bağlı parametre: Bu meta verilerle basılan kopyaların miktarı.",
-            "startIndex": "Optional parameter: The start index of the NFTs to mint."
+            "startIndex": "İsteğe bağlı parametre: Basılacak NFT'lerin başlangıç dizini."
         },
         "governance": {
             "removeProposalWarning": "Bu öneriyi kaldırmadan önce oy vermeyi bırakmalısınız.",
@@ -2115,7 +2133,7 @@
         "collectibles": "Koleksiyonlar",
         "governance": "Yönetim",
         "campaigns": "Kampanyalar",
-        "buySell": "Buy IOTA",
+        "buySell": "IOTA al",
         "developer": "Geliştirici",
         "tokens": "Tokenler",
         "settings": "Ayarlar"
@@ -2150,10 +2168,10 @@
             "appNotOpen": "Uygulama açık değil"
         },
         "dappVerification": {
-            "valid": "Verified",
-            "invalid": "Domain Mismatch",
-            "unknown": "Cannot verify",
-            "scam": "Security Risk"
+            "valid": "Doğrulandı",
+            "invalid": "Alan adı uyuşmazlığı",
+            "unknown": "Doğrulanamıyor",
+            "scam": "Güvenlik Riski"
         }
     },
     "menus": {

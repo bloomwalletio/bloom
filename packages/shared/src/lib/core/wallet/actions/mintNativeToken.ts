@@ -1,6 +1,6 @@
 import { showNotification } from '@auxiliary/notification'
 import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
-import { processAndAddToActivities } from '@core/activity/utils'
+import { processAndAddToActivities } from '@core/activity/actions'
 import { localize } from '@core/i18n'
 import { Converter } from '@core/utils'
 import { CreateNativeTokenParams } from '@iota/sdk/out/types'

@@ -2,7 +2,7 @@ import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { showNotification } from '@auxiliary/notification/actions'
 import { localize } from '@core/i18n'
 import { handleError } from '@core/error/handlers'
-import { processAndAddToActivities } from '@core/activity/utils'
+import { processAndAddToActivities } from '@core/activity/actions'
 import { sendPreparedTransaction } from '@core/wallet'
 import { getActiveNetworkId } from '@core/network'
 

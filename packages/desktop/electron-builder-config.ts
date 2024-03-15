@@ -113,6 +113,7 @@ const prodConfig: Configuration = {
         timeStampServer: 'http://timestamp.sectigo.com',
         rfc3161TimeStampServer: 'http://timestamp.sectigo.com',
         sign: process.env.SIGN === 'true' ? './customSign.js' : null,
+        signExts: ['.dll'],
     },
     linux: {
         target: ['AppImage'],

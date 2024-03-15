@@ -1,4 +1,4 @@
-import { ActivityAsyncStatus, ActivityType, InclusionState } from '../enums'
+import { StardustActivityAsyncStatus, StardustActivityType, InclusionState } from '../enums'
 import { allAccountActivities } from '../stores'
 import { localize } from '@core/i18n'
 import { updateActivityFromPartialActivity } from '../utils/helper'
@@ -18,12 +18,12 @@ export function updateClaimingTransactionInclusion(
         if (activity) {
             if (inclusionState === InclusionState.Confirmed) {
                 updateActivityFromPartialActivity(activity, {
-                    type: ActivityType.Basic,
+                    type: StardustActivityType.Basic,
                     asyncData: {
                         ...activity.asyncData,
                         isClaiming: false,
                         claimedDate: new Date(),
-                        asyncStatus: ActivityAsyncStatus.Claimed,
+                        asyncStatus: StardustActivityAsyncStatus.Claimed,
                     },
                 })
                 addClaimedActivity(accountIndex, activity?.transactionId, {
@@ -38,12 +38,12 @@ export function updateClaimingTransactionInclusion(
                 })
             } else if (inclusionState === InclusionState.Conflicting) {
                 updateActivityFromPartialActivity(activity, {
-                    type: ActivityType.Basic,
+                    type: StardustActivityType.Basic,
                     asyncData: {
                         ...activity.asyncData,
                         isClaiming: false,
                         claimingTransactionId: undefined,
-                        asyncStatus: ActivityAsyncStatus.Unclaimed,
+                        asyncStatus: StardustActivityAsyncStatus.Unclaimed,
                     },
                 })
                 showNotification({

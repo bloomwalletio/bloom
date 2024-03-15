@@ -501,12 +501,17 @@
                         "title": "Żądanie połączenia",
                         "firstTimeHint": "Ta aplikacja dApp chce połączyć się po raz pierwszy. Pamiętaj, aby łączyć się jedynie z zaufanymi witrynami.",
                         "reconnectHint": "Wcześniej łączyłeś się z tą aplikacją.",
-                        "insecure": "Nie można zweryfikować adresu URL tej aplikacji dApp. Połączenie z tą aplikacją może nie być bezpieczne.",
                         "unsupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa w nieobsługiwanej sieci.",
                         "noSupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa ona w innej sieci.",
                         "unsupportedMethods": "Ta aplikacja dApp nie jest w pełni kompatybilna z Bloom. Niektóre procesy lub akcje nie są obsługiwane.",
                         "supportedOnOtherProfile": "Ta aplikacja dApp działa w obsługiwanej sieci, ale nie jest dostępna przy użyciu tego profilu. Użyj profilu połączonego z wymaganą siecią.",
-                        "acceptInsecureConnection": "Rozumiem, że ta aplikacja dApp może być niebezpieczna i nadal chcę się z nią połączyć."
+                        "acceptInsecureConnection": "I understand and wish to proceed",
+                        "supported": "Supported",
+                        "notSupported": "Not supported",
+                        "onAnotherProfile": "On another profile",
+                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
+                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
+                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
                     },
                     "editPermissions": {
                         "title": "Edytuj uprawnienia"
@@ -522,8 +527,8 @@
                         "permissions": {
                             "step": "Uprawnienie",
                             "tip": "Są to ograniczone uprawnienia dla aplikacji dApp w celu wysyłania żądania interakcji do Twojego zatwierdzenia. Zatwierdzaj tylko aplikacje, które znasz i którym ufasz.",
-                            "requiredTitle": "Required permissions",
-                            "optionalTitle": "Optional permissions",
+                            "requiredTitle": "Uprawnienia wymagane",
+                            "optionalTitle": "Uprawnienia opcjonalne",
                             "signData": "Prośba o podpisanie danych",
                             "signTransaction": "Prośba o podpisanie transakcji",
                             "sendTransaction": "Poproś o wysłanie transakcji",
@@ -532,8 +537,8 @@
                         },
                         "networks": {
                             "step": "Sieci",
-                            "requiredTitle": "Required networks",
-                            "optionalTitle": "Optional networks",
+                            "requiredTitle": "Wymagane sieci",
+                            "optionalTitle": "Opcjonalne sieci",
                             "tip": "Wymagane sieci są wstępnie wybierane przez aplikację dApp. Można to później skonfigurować w ustawieniach.",
                             "empty": "Musisz wybrać przynajmniej jedną sieć"
                         },
@@ -634,14 +639,13 @@
                 "manage": "Zarządzaj siłą głosu"
             },
             "proposalsDetails": {
-                "title": "Szczegóły",
                 "totalProposals": "Wszystkie propozycje",
                 "activeProposals": "Aktywne propozycje",
                 "votingProposals": "Propozycje, nad którymi głosujesz",
                 "votedProposals": "Suma propozycji, nad którymi głosowałeś"
             },
             "proposals": {
-                "title": "Propozycje",
+                "title": "Propozycje dotyczące zarządzania",
                 "voted": "Zagłosowano",
                 "successEdit": "Propozycja została pomyślnie edytowana",
                 "successAdd": "{numberOfProposals, select, one {Propozycja dodana} other {Propozycje dodane}} pomyślnie",
@@ -687,11 +691,16 @@
                     "eventId": "ID zdarzenia",
                     "nodeUrl": "URL serwera"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Pobieranie danych propozycji",
                 "hintVote": "Nie możesz głosować nad propozycją, która dopiero została zapowiedziana. Głosowanie zostanie otwarte za {time}.",
                 "projection": {
-                    "label": "Projected votes",
-                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
+                    "tooltip": "Prognoza opiera się na aktualnej wadze głosów i pozostałych etapach (milestones)."
                 }
             }
         },
@@ -722,6 +731,10 @@
                 "connected": "bezpieczne połączenie",
                 "redirected": "przekierowano, bądź ostrożny!",
                 "disconnected": "rozłączono, spróbuj odświeżyć"
+            },
+            "error": {
+                "title": "Transak could not be loaded",
+                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
             }
         }
     },
@@ -896,7 +909,7 @@
                     "minPowScore": "Min. wynik PoW"
                 },
                 "baseToken": {
-                    "tab": "Token podstawowy",
+                    "tab": "Token główny",
                     "token": "Token",
                     "tickerSymbol": "Symbol",
                     "unit": "Jednostka",
@@ -979,17 +992,17 @@
         },
         "siwe": {
             "title": "Zaloguj się z Ethereum",
-            "details": "Details",
-            "raw": "Raw",
-            "rawMessage": "Raw message",
+            "details": "Szczegóły",
+            "raw": "Surowe dane",
+            "rawMessage": "Surowa wiadomość",
             "domain": "Domena",
             "statement": "Oświadczenie",
             "resources": "Dokumentacja",
-            "chainId": "Chain Id",
-            "nonce": "Nonce",
-            "issuedAt": "Issued at",
-            "notBefore": "Not before",
-            "requestId": "Request Id",
+            "chainId": "ID łańcucha",
+            "nonce": "Chwilowo",
+            "issuedAt": "Wydano",
+            "notBefore": "Nie wcześniej niż",
+            "requestId": "ID żądania",
             "action": "Zaloguj się"
         },
         "signTransaction": {
@@ -1005,7 +1018,7 @@
         "smartContractCall": {
             "title": "Interakcja smart kontraktu z {contractAddress}",
             "unableToVerify": "Bloom nie może zweryfikować interakcji z smart kontraktem. Kontynuuj tylko z aplikacjami, którym ufasz.",
-            "viewSmartContract": "View Smart Contract",
+            "viewSmartContract": "Zobacz Smart Kontrakt",
             "action": "Potwierdź",
             "success": "Interakcja smart kontraktu z {recipient}"
         },
@@ -1380,7 +1393,8 @@
         "syncAccounts": "Synchronizuj konta",
         "importToken": "Importowanie tokena {type}",
         "syncTokens": "Wymuś synchronizację tokenów",
-        "mintNftCollection": "Mintuj kolekcję NFT"
+        "mintNftCollection": "Mintuj kolekcję NFT",
+        "readMore": "Read more"
     },
     "general": {
         "recipient": "Odbiorca",
@@ -1396,18 +1410,20 @@
         "receiving": "Odbieranie",
         "newVotingPower": "Nowa siła głosu",
         "votingPower": "Siła głosu",
-        "increased": "Voting increased",
-        "increasing": "Increasing voting",
-        "decreased": "Voting decreased",
-        "decreasing": "Decreasing voting",
+        "increased": "Zwiększono siłę głosu",
+        "increasing": "Zwiększanie siły głosu",
+        "decreased": "Zmniejszono siłę głosu",
+        "decreasing": "Zmniejszanie siły głosu",
         "voted": "Zagłosowano",
         "voting": "Głosowanie",
+        "votingOn": "Głosowanie na",
+        "votedOn": "Zagłosowano na",
         "changedVote": "Zmieniono głos",
         "changingVote": "Zmiana głosu",
         "revoted": "Odnowiono głosy",
         "revoting": "Odnawianie głosów",
-        "unvoted": "Stopped voting",
-        "unvoting": "Stopping voting",
+        "unvoted": "Zatrzymano głosowanie",
+        "unvoting": "Zatrzymywanie głosowania",
         "transferred": "Przesłano",
         "transferring": "Przesyłanie",
         "shimmerClaimed": "Odebrano",
@@ -1546,7 +1562,7 @@
         "contractFunction": "Funkcja kontraktu",
         "standard": "Standard",
         "uri": "URI",
-        "image": "Image",
+        "image": "Obraz",
         "issuer": "Wydawca",
         "issuerAddress": "Adres wydawcy",
         "issuerName": "Nazwa wydawcy",
@@ -1604,7 +1620,8 @@
         "baseCoin": "Token podstawowy",
         "unverifiedContract": "Niezweryfikowany kontrakt",
         "startIndex": "Indeks startowy",
-        "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu"
+        "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu",
+        "question": "Question"
     },
     "filters": {
         "title": "Filtry",
@@ -1921,6 +1938,7 @@
             "notReachable": "Nie można pobrać ID sieci dla tego serwera, nie można dodać serwera."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Coś poszło nie tak."
         },
         "backup": {
