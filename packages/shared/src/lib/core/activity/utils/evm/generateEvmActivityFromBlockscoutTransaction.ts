@@ -7,13 +7,14 @@ import { BaseEvmActivity, EvmActivity, EvmCoinTransferActivity } from '@core/act
 import { BASE_TOKEN_ID } from '@core/token'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { EvmActivityType } from '@core/activity/enums/evm'
-import { Converter } from '@core/utils'
+import { Converter, HEX_PREFIX } from '@core/utils'
 import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
 import { SubjectType } from '@core/wallet'
 import { ActivityDirection } from '@core/activity/enums'
 import { localize } from '@core/i18n'
 import { WEI_PER_GLOW } from '@core/layer-2/constants'
 import { getMethodForEvmTransaction } from '@core/layer-2'
+import { addMethodToRegistry, getMethodFromRegistry } from '@core/layer-2/stores/method-registry.store'
 
 export async function generateEvmActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
@@ -58,15 +59,22 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
         account
     )
 
-    const [method, parameters] = blockscoutTransaction.method
-        ? [blockscoutTransaction.method, blockscoutTransaction.decoded_input?.parameters]
-        : (await getMethodForEvmTransaction(blockscoutTransaction.raw_input)) ?? []
+    if (
+        blockscoutTransaction.decoded_input &&
+        !getMethodFromRegistry(HEX_PREFIX + blockscoutTransaction.decoded_input.method_id)
+    ) {
+        const fourBytePrefix = HEX_PREFIX + blockscoutTransaction.decoded_input.method_id
+        addMethodToRegistry(fourBytePrefix, blockscoutTransaction.decoded_input.method_call)
+    }
+    const [_method, _parameters] = (await getMethodForEvmTransaction(blockscoutTransaction.raw_input)) ?? []
+    const method: string | undefined = _method
+    const parameters: Record<string, string> | undefined = _parameters
 
     return {
         ...baseActivity,
         type: EvmActivityType.ContractCall,
         verified: blockscoutTransaction.to.is_verified,
-        methodId: blockscoutTransaction.decoded_input?.method_id,
+        methodId: blockscoutTransaction.decoded_input?.method_id ?? blockscoutTransaction.method, // `method``is the methodId if the inputs cannot be decoded
         method: method,
         parameters: parameters,
         rawData: blockscoutTransaction.raw_input,
