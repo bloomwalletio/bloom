@@ -3,8 +3,8 @@
     export let row = false
     export let clearBackground = false
     export let clearPadding = false
-    export let backgroundColor = 'surface'
-    export let darkBackgroundColor = 'surface-dark'
+    export let backgroundColor = 'bg-surface'
+    export let darkBackgroundColor = 'dark:bg-surface-dark'
     export let classes = ''
 </script>
 
@@ -14,8 +14,8 @@
         ${col ? 'flex-col' : ''}
         ${row ? 'flex-row' : ''}
         ${clearPadding ? '' : 'px-4 py-4'}
-        ${backgroundColor && !clearBackground ? 'bg-' + backgroundColor : ''}  
-        ${darkBackgroundColor && !clearBackground ? 'dark:bg-' + darkBackgroundColor : ''}
+        ${backgroundColor && !clearBackground ? backgroundColor : ''}  
+        ${darkBackgroundColor && !clearBackground ? darkBackgroundColor : ''}
         ${classes}
     `}
 >

@@ -39,7 +39,7 @@ export class StardustNetwork implements INetwork {
     }
 
     getStatus(): INetworkStatus {
-        return get(networkStatus) ?? {}
+        return get(networkStatus)
     }
 
     getChain(networkId: NetworkId): IChain | undefined {

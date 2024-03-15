@@ -3,16 +3,17 @@
     import { handleError } from '@core/error/handlers'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { signAndSendTransactionFromEvm } from '@core/wallet/actions'
+    import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
     import { selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
-    import { TransactionAssetSection } from '@ui'
+    import { DappInfo, TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { EvmTransactionData } from '@core/layer-2/types'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import {
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
+        getHexEncodedTransaction,
         getMethodNameForEvmTransaction,
     } from '@core/layer-2'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
@@ -20,24 +21,32 @@
     import { TokenTransferData } from '@core/wallet'
     import { Nft } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import DappDataBanner from '@components/DappDataBanner.svelte'
-    import { Alert, Table } from '@bloomwalletio/ui'
+    import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
-    import { truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
-    import { ActivityType } from '@core/activity'
+    import { StardustActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
+    import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { LegacyTransaction } from '@ethereumjs/tx'
+    import { activeProfileId } from '@core/profile/stores'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
-    export let dapp: IConnectedDapp | undefined
-    export let signAndSend: boolean
+    export let dapp: IConnectedDapp
+    export let verifiedState: DappVerification
+    export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
     export let callback: (params: CallbackParameters) => void
 
     const { id } = chain.getConfiguration()
-    $: localeKey = signAndSend ? (isSmartContractCall ? 'smartContractCall' : 'sendTransaction') : 'signTransaction'
+    $: localeKey =
+        method === RpcMethod.EthSignTransaction
+            ? 'signTransaction'
+            : isSmartContractCall
+              ? 'smartContractCall'
+              : 'sendTransaction'
 
     let nft: Nft | undefined
     let tokenTransfer: TokenTransferData | undefined
@@ -50,7 +59,7 @@
     function setTokenTransfer(): void {
         const transferInfo = getTransferInfoFromTransactionData(preparedTransaction, chain)
         switch (transferInfo?.type) {
-            case ActivityType.Basic: {
+            case StardustActivityType.Basic: {
                 if (transferInfo.tokenId === BASE_TOKEN_ID) {
                     baseCoinTransfer = {
                         token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, id),
@@ -64,11 +73,11 @@
                 }
                 break
             }
-            case ActivityType.Nft: {
+            case StardustActivityType.Nft: {
                 nft = getNftByIdFromAllAccountNfts($selectedAccount.index, transferInfo.nftId)
                 break
             }
-            case ActivityType.SmartContract: {
+            case StardustActivityType.SmartContract: {
                 isSmartContractCall = true
                 break
             }
@@ -76,6 +85,31 @@
                 break
             }
         }
+    }
+
+    async function getSignedTransaction(): Promise<string> {
+        if (preparedTransaction?.v && preparedTransaction?.s && preparedTransaction?.r) {
+            const transaction = LegacyTransaction.fromTxData(preparedTransaction)
+            return getHexEncodedTransaction(transaction)
+        } else {
+            return await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+        }
+    }
+
+    async function signOrSend(): Promise<void> {
+        const signedTransaction = await getSignedTransaction()
+        if (method === RpcMethod.EthSignTransaction) {
+            callback({ result: signedTransaction })
+            return
+        }
+        const transactionHash = await sendAndPersistTransactionFromEvm(
+            preparedTransaction,
+            signedTransaction,
+            chain,
+            $selectedAccount,
+            $activeProfileId
+        )
+        callback({ result: transactionHash })
     }
 
     async function onConfirmClick(): Promise<void> {
@@ -88,15 +122,11 @@
         try {
             busy = true
             modifyPopupState({ preventClose: true })
-            const response = await signAndSendTransactionFromEvm(
-                preparedTransaction,
-                chain,
-                $selectedAccount,
-                signAndSend
-            )
+
+            await signOrSend()
+
             modifyPopupState({ preventClose: false }, true)
             busy = false
-            callback({ result: response })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
@@ -111,7 +141,7 @@
         }
     }
 
-    $: setMethodName(preparedTransaction)
+    $: void setMethodName(preparedTransaction)
     async function setMethodName(preparedTransaction: EvmTransactionData): Promise<void> {
         const result = await getMethodNameForEvmTransaction(preparedTransaction)
         methodName = result?.startsWith('0x') ? undefined : result
@@ -129,8 +159,9 @@
     }
 
     function onExplorerClick(contractAddress: string): void {
-        const explorerUrl = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
-        openUrlInBrowser(`${explorerUrl}/${contractAddress}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${contractAddress}` })
+        openUrlInBrowser(url?.href)
     }
 </script>
 
@@ -149,23 +180,40 @@
     }}
     {busy}
 >
-    <DappDataBanner slot="banner" {dapp} />
+    <DappInfo
+        slot="banner"
+        metadata={dapp.metadata}
+        {verifiedState}
+        showLink={false}
+        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+    />
 
     <div class="space-y-5">
         {#if isSmartContractCall}
             <div class="flex flex-col gap-3">
-                <Alert variant="warning" text={localize('popups.smartContractCall.unableToVerify')} />
-                <Table
-                    items={[
-                        {
-                            key: localize('general.address'),
-                            value: truncateString(String(preparedTransaction.to), 16, 16),
-                            onClick: () => onExplorerClick(String(preparedTransaction.to)),
-                        },
-                        { key: localize('general.methodName'), value: methodName },
-                        { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
-                    ]}
-                />
+                <Alert variant="warning">
+                    <Text slot="text">
+                        {localize('popups.smartContractCall.unableToVerify')}
+                        <Link
+                            on:click={() => onExplorerClick(String(preparedTransaction.to))}
+                            text={localize('popups.smartContractCall.viewSmartContract')}
+                        />
+                    </Text>
+                    <Table
+                        collapsible
+                        collapsibleTitle={localize('general.details')}
+                        slot="body"
+                        items={[
+                            {
+                                key: localize('general.address'),
+                                value: truncateString(String(preparedTransaction.to), 16, 16),
+                                onClick: () => onExplorerClick(String(preparedTransaction.to)),
+                            },
+                            { key: localize('general.methodName'), value: methodName },
+                            { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
+                        ]}
+                    />
+                </Alert>
             </div>
         {:else}
             <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />

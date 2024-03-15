@@ -64,7 +64,9 @@
         size="sm"
     />
     <div class="flex flex-row space-x-1 items-center">
-        <AccountSwitcher navbar />
+        <div class="shrink-0">
+            <AccountSwitcher navbar />
+        </div>
         <Icon name={IconName.ChevronRight} size="sm" />
         <Breadcrumb
             on:click={onBackClick}

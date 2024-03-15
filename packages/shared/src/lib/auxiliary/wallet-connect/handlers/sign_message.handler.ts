@@ -6,13 +6,18 @@ import { CallbackParameters } from '../types'
 import { switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
+import { DappVerification, RpcMethod } from '../enums'
+import { parseSiweMessage, validateSiwe } from '@core/layer-2'
+import { showNotification } from '@auxiliary/notification'
+import { localize } from '@core/i18n'
 
 export async function handleSignMessage(
     params: unknown,
-    dapp: IConnectedDapp | undefined,
-    method: 'personal_sign' | 'eth_sign',
+    dapp: IConnectedDapp,
+    method: RpcMethod.PersonalSign | RpcMethod.EthSign,
     chain: IChain,
-    responseCallback: (params: CallbackParameters) => void
+    responseCallback: (params: CallbackParameters) => void,
+    verifiedState: DappVerification
 ): Promise<void> {
     if (!params || !Array.isArray(params)) {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
@@ -21,8 +26,8 @@ export async function handleSignMessage(
 
     // Type for `eth_sign` params: [ address, hexMessage ]
     // Type for `personal_sign` params: [ hexMessage, address ]
-    const hexMessage = method === 'personal_sign' ? params[0] : params[1]
-    const accountAddress = method === 'personal_sign' ? params[1] : params[0]
+    const hexMessage = method === RpcMethod.PersonalSign ? params[0] : params[1]
+    const accountAddress = method === RpcMethod.PersonalSign ? params[1] : params[0]
 
     if (typeof hexMessage !== 'string') {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
@@ -33,17 +38,45 @@ export async function handleSignMessage(
 
     try {
         const account = await switchToRequiredAccount(accountAddress, chain)
-        openPopup({
-            id: PopupId.SignMessage,
-            props: {
-                message,
-                dapp,
-                account,
-                chain,
-                callback: responseCallback,
-                onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
-            },
-        })
+
+        const siweObject = parseSiweMessage(message)
+        if (siweObject) {
+            const isValidSiwe = validateSiwe(siweObject, dapp.metadata?.url)
+            if (isValidSiwe) {
+                openPopup({
+                    id: PopupId.Siwe,
+                    props: {
+                        siweObject,
+                        rawMessage: message,
+                        dapp,
+                        account,
+                        chain,
+                        verifiedState,
+                        callback: responseCallback,
+                        onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
+                    },
+                })
+            } else {
+                showNotification({
+                    variant: 'error',
+                    text: localize('notifications.siwe.rejected'),
+                })
+                responseCallback({ error: getSdkError('INVALID_METHOD') })
+            }
+        } else {
+            openPopup({
+                id: PopupId.SignMessage,
+                props: {
+                    message,
+                    dapp,
+                    account,
+                    chain,
+                    verifiedState,
+                    callback: responseCallback,
+                    onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
+                },
+            })
+        }
     } catch (err) {
         responseCallback({ error: getSdkError(err) })
     }

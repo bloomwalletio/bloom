@@ -1,30 +1,24 @@
 <script lang="ts">
-    import { Proposals, ProposalsDetails } from '@components'
-    import { Illustration, Pane, Text } from '@ui'
-    import { FontWeight } from '@ui/enums'
-    import { ManageVotingPowerPane } from '../components'
-    import { localize } from '@core/i18n'
+    import { Pill, Text } from '@bloomwalletio/ui'
     import { registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
+    import { localize } from '@core/i18n'
+    import { ManageVotingPowerPane, ProposalList, ProposalListDetails } from '../components'
 </script>
 
-<governance-dashboard class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-6 bg-gray-50 dark:bg-gray-900">
+<governance-dashboard class="w-full h-full flex flex-nowrap relative flex-1 space-x-6">
     <div class="w-1/3 flex flex-col space-y-4">
+        <div class="flex gap-2 pt-2">
+            <Text type="h6">{localize('views.governance.proposals.title')}</Text>
+            <Pill color="neutral">
+                <Text textColor="secondary">
+                    {String(Object.keys($registeredProposalsForSelectedAccount).length ?? '')}
+                </Text>
+            </Pill>
+        </div>
         <ManageVotingPowerPane />
-        <Pane classes="p-6 h-fit">
-            <ProposalsDetails />
-        </Pane>
+        <ProposalListDetails />
     </div>
-    <span class="block w-0.5 h-full bg-gray-200 dark:bg-gray-800" />
     <div class="w-2/3">
-        {#if Object.keys($registeredProposalsForSelectedAccount).length}
-            <Proposals />
-        {:else}
-            <div class="w-full h-full flex flex-col items-center justify-center">
-                <Illustration illustration="empty-collectibles" width="134" height="134" />
-                <Text fontSize="text-14" fontWeight={FontWeight.semibold} color="gray-500" classes="mt-8"
-                    >{localize('views.governance.proposals.emptyTitle')}</Text
-                >
-            </div>
-        {/if}
+        <ProposalList />
     </div>
 </governance-dashboard>

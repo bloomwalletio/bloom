@@ -6,13 +6,14 @@ import { preprocessTransactionsForAccount } from './preprocessTransactionsForAcc
 import { preprocessOutputsForAccount } from './preprocessOutputsForAccount'
 import { linkTransactionsWithClaimingTransactions } from './linkTransactionsWithClaimingTransactions'
 import { hideActivitiesForFoundries } from './hideActivitiesForFoundries'
-import { generateActivitiesFromProcessedTransactions } from '../utils/generateActivitiesFromProcessedTransactions'
+import { generateActivitiesFromProcessedTransactions } from '../utils/stardust/generateActivitiesFromProcessedTransactions'
 import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
-import { generateActivitiesFromBalanceChanges, generateActivitiesFromChains } from '../utils'
+import { generateActivitiesFromBalanceChanges, generateActivitiesFromEvmChains } from '../utils'
 import { NetworkId } from '@core/network'
 import { setOutgoingAsyncActivitiesToClaimed } from './setOutgoingAsyncActivitiesToClaimed'
 
 export async function generateAndStoreActivitiesForAccount(
+    profileId: string,
     account: IAccountState,
     networkId: NetworkId
 ): Promise<void> {
@@ -34,7 +35,7 @@ export async function generateAndStoreActivitiesForAccount(
     const balanceChangeActivities = await generateActivitiesFromBalanceChanges(account)
     activities.push(...balanceChangeActivities)
 
-    const chainActivities = await generateActivitiesFromChains(account)
+    const chainActivities = await generateActivitiesFromEvmChains(profileId, account)
     activities.push(...chainActivities)
 
     // Step 4: set account activities with generated activities

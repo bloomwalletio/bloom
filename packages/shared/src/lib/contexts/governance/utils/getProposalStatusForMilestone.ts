@@ -1,8 +1,8 @@
 import { EventStatus } from '@iota/sdk/out/types'
 
 export function getProposalStatusForMilestone(
-    milestone: number,
-    milestones: Record<EventStatus, number>
+    milestone: number | undefined,
+    milestones: Record<EventStatus, number> | undefined
 ): EventStatus | undefined {
     if (!milestone || !milestones) {
         return undefined

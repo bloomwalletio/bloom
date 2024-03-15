@@ -1,33 +1,36 @@
-import { TxData } from '@ethereumjs/tx'
-import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
-import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
-import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
+import { StardustActivityType } from '@core/activity'
+import { IChain } from '@core/network'
+import { BASE_TOKEN_ID } from '@core/token/constants'
+import { LocalEvmTransaction } from '@core/transactions'
 import { AbiDecoder, Converter, HEX_PREFIX } from '@core/utils'
+import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
+import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
+import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
 import {
     Erc20TransferMethodInputs,
     Erc721SafeTransferMethodInputs,
     IscCallMethodInputs,
     IscSendMethodInputs,
 } from '../interfaces'
-import { BASE_TOKEN_ID } from '@core/token/constants'
-import { IChain } from '@core/network'
-import { ActivityType } from '@core/activity'
 
 type TransferInfo =
     | {
-          type: ActivityType.Basic
+          type: StardustActivityType.Basic
           tokenId: string
           rawAmount: bigint
           additionalBaseTokenAmount?: bigint
           recipientAddress: string
       }
-    | { type: ActivityType.Nft; nftId: string; additionalBaseTokenAmount?: bigint; recipientAddress: string }
-    | { type: ActivityType.SmartContract }
+    | { type: StardustActivityType.Nft; nftId: string; additionalBaseTokenAmount?: bigint; recipientAddress: string }
+    | { type: StardustActivityType.SmartContract }
 
-export function getTransferInfoFromTransactionData(transaction: TxData, chain: IChain): TransferInfo | undefined {
+export function getTransferInfoFromTransactionData(
+    transaction: LocalEvmTransaction,
+    chain: IChain
+): TransferInfo | undefined {
     const networkId = chain.getConfiguration().id
 
-    const recipientAddress = transaction.to?.toString()
+    const recipientAddress = transaction?.to?.toString()
     if (!recipientAddress) {
         return undefined
     }
@@ -40,7 +43,7 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
         const abi = isErc20 ? ERC20_ABI : isErc721 ? ERC721_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
 
         if (!abi) {
-            return { type: ActivityType.SmartContract }
+            return { type: StardustActivityType.SmartContract }
         }
 
         const abiDecoder = new AbiDecoder(abi, chain.getProvider())
@@ -54,26 +57,26 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
 
                 if (nativeToken) {
                     return {
-                        type: ActivityType.Basic,
+                        type: StardustActivityType.Basic,
                         tokenId: nativeToken.ID.data,
                         rawAmount: BigInt(nativeToken.amount),
                         recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                     }
                 } else if (nftId) {
                     return {
-                        type: ActivityType.Nft,
+                        type: StardustActivityType.Nft,
                         nftId,
                         recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                     }
                 } else {
-                    return { type: ActivityType.SmartContract }
+                    return { type: StardustActivityType.SmartContract }
                 }
             }
             case 'transfer': {
                 const inputs = decoded.inputs as Erc20TransferMethodInputs
 
                 return {
-                    type: ActivityType.Basic,
+                    type: StardustActivityType.Basic,
                     tokenId: recipientAddress,
                     rawAmount: BigInt(inputs._value),
                     recipientAddress: inputs._to,
@@ -83,7 +86,7 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
                 const inputs = decoded.inputs as Erc721SafeTransferMethodInputs
 
                 return {
-                    type: ActivityType.Nft,
+                    type: StardustActivityType.Nft,
                     nftId: `${recipientAddress.toLowerCase()}:${inputs.tokenId}`,
                     recipientAddress: inputs.to,
                 }
@@ -96,7 +99,7 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
 
                 if (nativeToken) {
                     return {
-                        type: ActivityType.Basic,
+                        type: StardustActivityType.Basic,
                         tokenId: nativeToken.ID.data,
                         rawAmount: BigInt(nativeToken.amount),
                         additionalBaseTokenAmount: baseTokenAmount,
@@ -105,28 +108,28 @@ export function getTransferInfoFromTransactionData(transaction: TxData, chain: I
                 }
                 if (nftId) {
                     return {
-                        type: ActivityType.Nft,
+                        type: StardustActivityType.Nft,
                         nftId,
                         additionalBaseTokenAmount: baseTokenAmount,
                         recipientAddress, // for now, set it to the magic contract address
                     }
                 } else if (baseTokenAmount) {
                     return {
-                        type: ActivityType.Basic,
+                        type: StardustActivityType.Basic,
                         tokenId: BASE_TOKEN_ID,
                         rawAmount: baseTokenAmount,
                         recipientAddress, // for now, set it to the magic contract address
                     }
                 }
 
-                return { type: ActivityType.SmartContract }
+                return { type: StardustActivityType.SmartContract }
             }
             default:
-                return { type: ActivityType.SmartContract }
+                return { type: StardustActivityType.SmartContract }
         }
     } else {
         return {
-            type: ActivityType.Basic,
+            type: StardustActivityType.Basic,
             tokenId: BASE_TOKEN_ID,
             rawAmount: Converter.bigIntLikeToBigInt(transaction.value) / WEI_PER_GLOW,
             recipientAddress,

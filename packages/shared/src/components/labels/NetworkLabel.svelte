@@ -5,7 +5,7 @@
 
     export let networkId: NetworkId
 
-    $: network = getNameFromNetworkId(networkId)
+    $: network = getNameFromNetworkId(networkId) ?? networkId
 </script>
 
 <div class="flex items-center gap-2">

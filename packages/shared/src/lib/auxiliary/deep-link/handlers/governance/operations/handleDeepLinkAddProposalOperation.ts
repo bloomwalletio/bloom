@@ -12,15 +12,15 @@ import { get } from 'svelte/store'
  * popup.
  */
 export function handleDeepLinkAddProposalOperation(searchParams: URLSearchParams): void {
-    const eventId = searchParams.get(AddProposalOperationParameter.EventId)
-    if (!isValidProposalId(eventId)) {
+    const initialEventId = searchParams.get(AddProposalOperationParameter.EventId)
+    if (!initialEventId || !isValidProposalId(initialEventId)) {
         throw new Error('Invalid proposal ID')
-    } else if (isProposalAlreadyAddedForSelectedAccount(eventId)) {
-        const proposal = get(registeredProposalsForSelectedAccount)[eventId]
+    } else if (isProposalAlreadyAddedForSelectedAccount(initialEventId)) {
+        const proposal = get(registeredProposalsForSelectedAccount)[initialEventId]
         if (proposal === undefined) {
-            throw new Error(`Event with id ${eventId} not found`)
+            throw new Error(`Event with id ${initialEventId} not found`)
         } else {
-            selectedProposalId.set(eventId)
+            selectedProposalId.set(initialEventId)
             get(governanceRouter).goTo(GovernanceRoute.Details)
 
             showNotification({
@@ -32,13 +32,13 @@ export function handleDeepLinkAddProposalOperation(searchParams: URLSearchParams
         }
     }
 
-    const nodeUrl = searchParams.get(AddProposalOperationParameter.NodeUrl)
-    if (!isValidUrl(nodeUrl)) {
+    const initialNodeUrl = searchParams.get(AddProposalOperationParameter.NodeUrl)
+    if (!initialNodeUrl || !isValidUrl(initialNodeUrl)) {
         throw new Error('Invalid node URL')
     }
 
     openPopup({
         id: PopupId.AddProposal,
-        props: { eventId, nodeUrl },
+        props: { initialEventId, initialNodeUrl },
     })
 }

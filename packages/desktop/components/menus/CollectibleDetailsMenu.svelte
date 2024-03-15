@@ -1,9 +1,11 @@
 <script lang="ts">
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { IIrc27Nft, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { isEvmChain } from '@core/network'
+    import { IIrc27Nft, Nft, isNftLocked } from '@core/nfts'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { burnNft } from '@core/wallet'
@@ -13,7 +15,7 @@
     export let nft: Nft
 
     $: isLocked = isNftLocked(nft)
-    $: isBurnDisabled = isLocked || !isIrc27Nft(nft)
+    $: isBurnDisabled = isLocked || isEvmChain(nft.networkId)
     $: isCurrentPfp = $activeProfile.pfp?.id === nft.id
 
     function onSetPfpClick(): void {
@@ -25,9 +27,7 @@
     }
 
     function onOpenMediaClick(): void {
-        if (nft.composedUrl) {
-            openUrlInBrowser(nft.composedUrl)
-        }
+        openUrlInBrowser(nft?.composedUrl)
         menu?.close()
     }
 
@@ -45,14 +45,19 @@
                 alert: { variant: 'warning', text: localize('actions.confirmNftBurn.hint') },
                 confirmText: localize('actions.burn'),
                 onConfirm: async () => {
-                    await checkActiveProfileAuth(
-                        async () => {
-                            await burnNft(nft.id)
-                            $collectiblesRouter.goTo(CollectiblesRoute.Gallery)
-                            closePopup()
-                        },
-                        { stronghold: true }
-                    )
+                    try {
+                        await checkActiveProfileAuthAsync()
+                    } catch (error) {
+                        return
+                    }
+
+                    try {
+                        await burnNft(nft.id)
+                        $collectiblesRouter.goTo(CollectiblesRoute.Gallery)
+                        closePopup()
+                    } catch (error) {
+                        handleError(error)
+                    }
                 },
             },
         })

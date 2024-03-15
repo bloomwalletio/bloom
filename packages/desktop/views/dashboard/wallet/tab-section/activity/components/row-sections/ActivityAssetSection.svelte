@@ -1,9 +1,16 @@
 <script lang="ts">
     import { ITokenWithBalance } from '@core/token'
-    import { ExpiredActivityPill, TimelockActivityPill, NftAvatar, TokenAvatar, UnclaimedActivityPill } from '@ui'
     import {
-        ActivityType,
-        getActivityActionColor,
+        ExpiredActivityPill,
+        TimelockActivityPill,
+        NftAvatar,
+        TokenAvatar,
+        UnclaimedActivityPill,
+        GovernanceAvatar,
+    } from '@ui'
+    import {
+        StardustActivityType,
+        getActivityActionTextColor,
         getActivityActionPill,
         getActivityTileAction,
         getActivityTileAsset,
@@ -15,13 +22,13 @@
     import { IconName, Avatar, Text } from '@bloomwalletio/ui'
     import { darkMode } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { Activity } from '@core/activity'
+    import { StardustActivity } from '@core/activity'
     import { time } from '@core/app/stores'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { Nft } from '@core/nfts/interfaces'
     import AssetPills from '../AssetPills.svelte'
 
-    export let activity: Activity
+    export let activity: StardustActivity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
@@ -29,39 +36,41 @@
     let nft: Nft | undefined
     $: $selectedAccountNfts,
         (nft =
-            activity.type === ActivityType.Nft
+            activity.type === StardustActivityType.Nft
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined)
 
-    $: color = getActivityActionColor(activity, $darkMode)
+    $: color = getActivityActionTextColor(activity)
     $: pill = getActivityActionPill(activity, $time)
 </script>
 
 <div class="flex flex-row gap-4 items-center overflow-hidden">
     <div class="py-1">
-        {#if token}
+        {#if activity.type === StardustActivityType.Governance}
+            <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
+        {:else if token}
             <TokenAvatar {token} hideNetworkBadge size="lg" />
-        {:else if activity.type === ActivityType.Nft}
+        {:else if activity.type === StardustActivityType.Nft}
             <NftAvatar {nft} size="lg" shape="square" />
-        {:else if activity.type === ActivityType.SmartContract}
+        {:else if activity.type === StardustActivityType.SmartContract}
             <Avatar
                 icon={IconName.FileCode}
                 size="lg"
-                textColor="brand"
+                textColor="primary"
                 backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
             />
-        {:else if activity.type === ActivityType.Alias}
+        {:else if activity.type === StardustActivityType.Alias}
             <Avatar
                 icon={IconName.Alias}
                 size="lg"
-                textColor="brand"
+                textColor="primary"
                 backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
             />
         {/if}
     </div>
     <div class="flex flex-col items-start justify-between overflow-hidden">
         <div class="w-full flex flex-row gap-1 overflow-hidden">
-            <Text customColor={color} class="shrink-0">{localize(getActivityTileAction(activity))}</Text>
+            <Text textColor={color} class="shrink-0">{localize(getActivityTileAction(activity))}</Text>
             <Text truncate>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
         </div>
         <div class="flex gap-2">

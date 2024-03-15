@@ -1,25 +1,27 @@
-import { NftOutput, OutputType } from '@iota/sdk/out/types'
+import { getAddressFromAccountForNetwork } from '@core/account'
 import { IAccountState } from '@core/account/interfaces'
-import { activeAccounts } from '@core/profile/stores'
+import { StardustActivityType } from '@core/activity'
 import { getNftId } from '@core/activity/utils/outputs'
+import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
+import { getActiveNetworkId, getNetwork } from '@core/network'
+import { activeAccounts, activeProfileId } from '@core/profile/stores'
+import { getPersistedTransactionsForChain } from '@core/transactions/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
+import { NftOutput, OutputType } from '@iota/sdk/out/types'
 import { get } from 'svelte/store'
 import { Nft } from '../interfaces'
-import { buildNftFromNftOutput } from './buildNftFromNftOutput'
-import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
-import { getActiveNetworkId, getNetwork } from '@core/network'
-import { ActivityType, getPersistedEvmTransactions } from '@core/activity'
-import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { buildNftFromPersistedErc721Nft, getNftsFromNftIds } from '../utils'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
+import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { getPersistedErc721Nfts } from './getPersistedErc721Nfts'
-import { getAddressFromAccountForNetwork } from '@core/account'
+import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
     let nftsToDownload: Nft[] = []
+    const profileId = get(activeProfileId)
     const allAccounts = get(activeAccounts)
     for (const account of allAccounts) {
-        const accountNfts = await loadNftsForAccount(account)
+        const accountNfts = await loadNftsForAccount(profileId, account)
         nftsToDownload = [...nftsToDownload, ...accountNfts]
     }
 
@@ -27,7 +29,7 @@ export async function loadNftsForActiveProfile(): Promise<void> {
     void addNftsToDownloadQueue(nftsToDownload)
 }
 
-export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]> {
+export async function loadNftsForAccount(profileId: string, account: IAccountState): Promise<Nft[]> {
     const accountNfts: Nft[] = []
     const unspentOutputs = await account.unspentOutputs()
     const networkId = getActiveNetworkId()
@@ -40,11 +42,14 @@ export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]>
 
     for (const chain of getNetwork()?.getChains() ?? []) {
         // Wrapped L1 NFTs
-        const transactionsOnChain = getPersistedEvmTransactions(account.index, chain)
+        const transactionsOnChain = getPersistedTransactionsForChain(profileId, account.index, chain)
         const nftIdsOnChain = []
         for (const transaction of transactionsOnChain) {
-            const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
-            if (transferInfo?.type !== ActivityType.Nft) {
+            if (!transaction.local) {
+                continue
+            }
+            const transferInfo = getTransferInfoFromTransactionData(transaction.local, chain)
+            if (transferInfo?.type !== StardustActivityType.Nft) {
                 continue
             }
             if (transferInfo.nftId.includes(':')) {

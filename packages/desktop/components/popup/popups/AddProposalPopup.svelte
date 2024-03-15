@@ -10,11 +10,13 @@
     import { truncateString } from '@core/utils/string'
     import type { IAuth } from '@iota/sdk/out/types'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { Checkbox, NodeInput, Text, TextInput, TextType } from '@ui'
-    import { Button } from '@bloomwalletio/ui'
+    import { NodeInput } from '@ui'
+    import { Checkbox, TextInput } from '@bloomwalletio/ui'
+    import PopupTemplate from '../PopupTemplate.svelte'
+    import { IError } from '@core/error'
 
-    export let initialEventId: string
-    export let initialNodeUrl: string
+    export let initialEventId: string | undefined
+    export let initialNodeUrl: string | undefined
 
     let inputtedEventId = initialEventId
     let nodeUrl = initialNodeUrl
@@ -41,15 +43,16 @@
                 nodeInput?.validate(),
             ])
             await registerParticipationWrapper()
-            updateActiveAccountPersistedData($selectedAccount.index, {
-                removedProposalIds: $selectedAccount.removedProposalIds?.filter((id) => id !== inputtedEventId),
+            updateActiveAccountPersistedData($selectedAccount?.index, {
+                removedProposalIds: $selectedAccount?.removedProposalIds?.filter((id) => id !== inputtedEventId),
             })
             isBusy = false
         } catch (err) {
             isBusy = false
-            const isAuthenticationError = err?.error?.match(/(username)|(password)|(jwt)/g)?.length > 0
-            const isEventError = err?.error?.match(/(the requested data)|(was not found)/)?.length > 0
-            const isNodeError = err?.error?.match(/(failed to lookup address information)|(dns error)/)?.length > 0
+            const error = err as IError
+            const isAuthenticationError = error?.error?.match(/(username)|(password)|(jwt)/g)
+            const isEventError = error?.error?.match(/(the requested data)|(was not found)/)
+            const isNodeError = error?.error?.match(/(failed to lookup address information)|(dns error)/)
             if (isAuthenticationError) {
                 openNodeAuthRequiredPopup()
             } else if (isEventError) {
@@ -65,7 +68,7 @@
                     text: localize('error.node.dns'),
                 })
             } else if (!nodeInputError && !eventIdError) {
-                handleError(err)
+                handleError(error)
             }
         }
     }
@@ -81,8 +84,9 @@
         const options = {
             node: { url: nodeUrl, auth },
             eventsToRegister: isRegisteringAllProposals ? [] : [eventId],
+            eventsToIgnore: [],
         }
-        const accounts = isAddingForAllAccounts ? $activeAccounts : [$selectedAccount]
+        const accounts = isAddingForAllAccounts ? $activeAccounts : $selectedAccount ? [$selectedAccount] : []
         await registerProposalsForAccounts(options, accounts)
         showNotification({
             variant: 'success',
@@ -120,29 +124,42 @@
     }
 </script>
 
-<form id="add-proposal" on:submit|preventDefault={onSubmit}>
-    <Text type={TextType.h3} classes="mb-6"
-        >{localize(`popups.${isEditMode ? 'editProposal' : 'addProposal'}.title`)}</Text
-    >
-    <Text fontSize="15">{localize(`popups.${isEditMode ? 'editProposal' : 'addProposal'}.body`)}</Text>
-    <div class="flex flex-col w-full space-y-5 mt-4">
-        <NodeInput bind:this={nodeInput} bind:nodeUrl bind:error={nodeInputError} />
-        {#if !isEditMode}
-            <Checkbox label="Add all proposals on this node" bind:checked={isRegisteringAllProposals} />
-        {/if}
-        <TextInput
-            bind:value={inputtedEventId}
-            bind:error={eventIdError}
-            disabled={isRegisteringAllProposals || isEditMode}
-            placeholder={localize('views.governance.details.proposalInformation.eventId')}
-            label={localize('views.governance.details.proposalInformation.eventId')}
-        />
-        {#if !isEditMode}
-            <Checkbox label={localize('popups.addProposal.addToAllAccounts')} bind:checked={isAddingForAllAccounts} />
-        {/if}
-    </div>
-    <div class="flex w-full space-x-4 mt-6">
-        <Button variant="outlined" width="full" on:click={onCancelClick} text={localize('actions.cancel')} />
-        <Button type="submit" {disabled} busy={isBusy} width="full" text={localize('actions.confirm')} />
-    </div>
-</form>
+<PopupTemplate
+    title={localize(`popups.${isEditMode ? 'editProposal' : 'addProposal'}.title`)}
+    description={localize(`popups.${isEditMode ? 'editProposal' : 'addProposal'}.body`)}
+    busy={isBusy}
+    backButton={{
+        text: localize('actions.cancel'),
+        onClick: onCancelClick,
+    }}
+    continueButton={{
+        type: 'submit',
+        form: 'add-proposal',
+        text: localize('actions.confirm'),
+        disabled,
+    }}
+>
+    <form id="add-proposal" on:submit|preventDefault={onSubmit}>
+        <div class="flex flex-col w-full space-y-4">
+            <NodeInput bind:this={nodeInput} bind:nodeUrl bind:error={nodeInputError} />
+            {#if !isEditMode}
+                <Checkbox
+                    label={localize('popups.addProposal.addAllProposalsOnNode')}
+                    bind:checked={isRegisteringAllProposals}
+                />
+            {/if}
+            <TextInput
+                bind:value={inputtedEventId}
+                bind:error={eventIdError}
+                disabled={isRegisteringAllProposals || isEditMode}
+                label={localize('views.governance.details.proposalInformation.eventId')}
+            />
+            {#if !isEditMode}
+                <Checkbox
+                    label={localize('popups.addProposal.addToAllAccounts')}
+                    bind:checked={isAddingForAllAccounts}
+                />
+            {/if}
+        </div>
+    </form>
+</PopupTemplate>

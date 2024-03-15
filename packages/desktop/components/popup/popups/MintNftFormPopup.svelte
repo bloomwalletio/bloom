@@ -1,6 +1,5 @@
 <script lang="ts">
     import { BaseError } from '@core/error/classes'
-    import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
     import { composeUrlFromNftUri, NftStandard } from '@core/nfts'
     import { MimeType } from '@core/nfts/enums'
@@ -12,12 +11,9 @@
     import { IMintNftDetails } from '@core/wallet'
     import { mintNftDetails, setMintNftDetails } from '@core/wallet/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { OptionalInput } from '@ui'
+    import { AliasInput, OptionalInput } from '@ui'
     import { Error, TextInput } from '@bloomwalletio/ui'
-    import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
-
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     let {
         standard,
@@ -26,12 +22,17 @@
         uri,
         quantity,
         name,
+        collectionId,
         collectionName,
         royalties,
         issuerName,
         description,
         attributes,
+        startIndex,
     } = $mintNftDetails || {}
+
+    let collectionIdInput: AliasInput
+    let collectionIdError: string
 
     interface IOptionalInputs {
         [key: string]: {
@@ -75,6 +76,12 @@
             value: quantity ? String(quantity <= 1 ? '' : quantity) : '',
             error: '',
         },
+        startIndex: {
+            inputType: 'number',
+            isInteger: true,
+            value: startIndex ? String(startIndex <= 1 ? '' : startIndex) : '',
+            error: '',
+        },
     }
 
     let uriError: string, nameError: string
@@ -93,6 +100,7 @@
             openPopup({
                 id: PopupId.MintNftConfirmation,
                 overflow: true,
+                confirmClickOutside: true,
             })
         }
     }
@@ -106,16 +114,19 @@
             if (Number(optionalInputs.quantity.value) < 1) {
                 optionalInputs.quantity.error = localize('popups.mintNftForm.errors.quantityTooSmall')
             }
-            if (Number(optionalInputs.quantity.value) >= 64) {
+            if (Number(optionalInputs.quantity.value) > 126) {
                 optionalInputs.quantity.error = localize('popups.mintNftForm.errors.quantityTooLarge')
             }
         }
 
-        if (uri.length === 0 || !isValidUri(uri)) {
+        const dummyUri = uri.replace('{id}', '1')
+        if (uri.length === 0 || !isValidUri(dummyUri)) {
             uriError = localize('popups.mintNftForm.errors.invalidURI')
         } else {
             try {
-                const response = await fetchWithTimeout(composeUrlFromNftUri(uri), 1, { method: 'HEAD' })
+                const response = await fetchWithTimeout(composeUrlFromNftUri(dummyUri), 1, {
+                    method: 'HEAD',
+                })
                 if (response.status === 200 || response.status === 304) {
                     type = response.headers.get(HttpHeader.ContentType) as MimeType
                 } else {
@@ -236,8 +247,10 @@
             version,
             issuerName: optionalInputs.issuerName?.value,
             description: optionalInputs.description?.value,
+            collectionId,
             collectionName: optionalInputs.collectionName?.value,
             quantity: optionalInputs.quantity?.value ? Number(optionalInputs.quantity.value) : 1,
+            startIndex: optionalInputs.startIndex?.value ? Number(optionalInputs.startIndex.value) : 1,
             uri,
             name,
             royalties: optionalInputs.royalties?.value ? JSON.parse(optionalInputs.royalties.value) : undefined,
@@ -245,14 +258,6 @@
             type,
         }
     }
-
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            handleError(err)
-        }
-    })
 </script>
 
 <PopupTemplate
@@ -267,6 +272,7 @@
     }}
 >
     <popup-inputs class="block space-y-5 max-h-100 scrollable-y overflow-x-hidden flex-1">
+        <AliasInput bind:this={collectionIdInput} bind:alias={collectionId} bind:error={collectionIdError} />
         <TextInput bind:value={uri} bind:error={uriError} label={localize('general.uri')} />
         <TextInput bind:value={name} bind:error={nameError} label={localize('general.name')} />
         <optional-inputs class="flex flex-row flex-wrap gap-4">

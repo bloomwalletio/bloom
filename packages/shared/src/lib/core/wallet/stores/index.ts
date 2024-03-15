@@ -1,3 +1,4 @@
+export * from './mint-nft-collection-details.store'
 export * from './mint-nft-details.store'
 export * from './mint-token-details.store'
 export * from './send-flow-parameter.store'

@@ -483,11 +483,11 @@
                             "emptySubtitle": "Verbinde Bloom mit deinen Lieblings-dApps"
                         },
                         "actions": {
-                            "clearExpired": "Clear expired list"
+                            "clearExpired": "Abgelaufene Liste leeren"
                         },
                         "clearExpired": {
-                            "title": "Clear expired list",
-                            "description": "Are you sure you want to clear the list of expired dApp connections?"
+                            "title": "Abgelaufene Verbindungen löschen",
+                            "description": "Liste mit abgelaufenen dApp-Verbindungen löschen?"
                         }
                     },
                     "inputConnectionCode": {
@@ -501,12 +501,17 @@
                         "title": "Verbindungsanfrage",
                         "firstTimeHint": "Diese dApp möchte zum ersten Mal eine Verbindung herstellen. Verbinde deine Wallet nur mit vertrauenswürdigen Seiten.",
                         "reconnectHint": "Du hast dich bereits mit dieser dApp verbunden.",
-                        "insecure": "Die URL für diese dApp kann nicht verifiziert werden. Ihre Verbindung zu dieser Anwendung ist möglicherweise nicht sicher.",
                         "unsupportedNetworks": "Diese dApp ist nicht kompatibel mit Bloom, da sie auf einem nicht unterstützten Netzwerk läuft.",
                         "noSupportedNetworks": "Diese dApp ist nicht mit Bloom kompatibel, da sie auf einem anderen Netzwerk läuft.",
                         "unsupportedMethods": "Diese dApp ist nicht vollständig mit Bloom kompatibel. Einige Methoden oder Events werden nicht unterstützt.",
                         "supportedOnOtherProfile": "Diese dApp läuft in einem unterstützten Netzwerk, ist aber mit diesem Profil nicht zugänglich. Bitte verwenden Sie ein Profil, das mit dem benötigten Netzwerk verbunden ist.",
-                        "acceptInsecureConnection": "Ich verstehe, dass diese dApp möglicherweise unsicher ist und trotzdem eine Verbindung aufnehmen möchte."
+                        "acceptInsecureConnection": "I understand and wish to proceed",
+                        "supported": "Supported",
+                        "notSupported": "Not supported",
+                        "onAnotherProfile": "On another profile",
+                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
+                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
+                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
                     },
                     "editPermissions": {
                         "title": "Berechtigungen bearbeiten"
@@ -522,7 +527,8 @@
                         "permissions": {
                             "step": "Berechtigung",
                             "tip": "Dies sind begrenzte Berechtigungen für die dApp, eine Interaktionsanfrage für Ihre Genehmigung zu senden. Bestätige nur dApps die du kennst und denen du vertraust.",
-                            "title": "Berechtigungen auswählen",
+                            "requiredTitle": "Erforderliche Berechtigungen",
+                            "optionalTitle": "Optionale Berechtigungen",
                             "signData": "Anfrage zur Signierung von Daten",
                             "signTransaction": "Anfrage zur Signierung einer Transaktion",
                             "sendTransaction": "Anfrage zum Senden einer Transaktion",
@@ -531,7 +537,8 @@
                         },
                         "networks": {
                             "step": "Netzwerke",
-                            "title": "Netzwerke auswählen",
+                            "requiredTitle": "Erforderliche Netzwerke",
+                            "optionalTitle": "Optionale Netzwerke",
                             "tip": "Die benötigten Netzwerke werden von der dApp vorausgewählt und können später auch neu konfiguriert werden.",
                             "empty": "Es muss mindestens ein Netzwerk ausgewählt werden"
                         },
@@ -632,26 +639,42 @@
                 "manage": "Stimmrecht verwalten"
             },
             "proposalsDetails": {
-                "title": "Details",
                 "totalProposals": "Alle Vorschläge",
                 "activeProposals": "Aktive Abstimmungen",
                 "votingProposals": "Abstimmungen, an denen du teilnimmst",
                 "votedProposals": "Alle Abstimmungen, über die du abgestimmt hast"
             },
             "proposals": {
-                "title": "Abstimmungen",
+                "title": "Governance-Vorschläge",
                 "voted": "Abgestimmt",
                 "successEdit": "Vorschlag erfolgreich aktualisiert",
                 "successAdd": "{numberOfProposals, select, one {Vorschlag} other {Vorschläge}} erfolgreich hinzugefügt",
                 "successAddAll": "{numberOfProposals, select, one {Vorschlag} other {Vorschläge}} erfolgreich zu allen Konten hinzugefügt",
                 "successRemove": "Abstimmung erfolgreich entfernt",
-                "emptyTitle": "Keine Vorschläge"
+                "emptyTitle": "Keine Vorschläge",
+                "emptyDescription": "Sie können einen Vorschlag auf einem Knoten mit seiner URL und der optionalen Ereignis-ID abonnieren."
             },
             "statusTimeline": {
-                "upcoming": "Ankündigung",
-                "commencing": "Abstimmen verfügbar",
-                "holding": "Zählung beginnt",
-                "ended": "Zählung endet"
+                "upcoming": {
+                    "past": "Angekündigt",
+                    "present": "Ankündigung",
+                    "future": "Ankündigung"
+                },
+                "commencing": {
+                    "past": "Abstimmung begonnen",
+                    "present": "Abstimmung läuft",
+                    "future": "Abstimmung beginnt"
+                },
+                "holding": {
+                    "past": "Zählung gestartet",
+                    "present": "Zählung gestartet",
+                    "future": "Zählung beginnt"
+                },
+                "ended": {
+                    "past": "Zählung beendet",
+                    "present": "Zählung beendet",
+                    "future": "Zählung endet"
+                }
             },
             "details": {
                 "yourVote": {
@@ -668,8 +691,17 @@
                     "eventId": "Event-ID",
                     "nodeUrl": "Node-URL"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Abrufen der Abstimmungsdaten",
-                "hintVote": "Du kannst nicht über eine Abstimmung abstimmen, die sich noch in der Ankündigungsphase befindet. Die Abstimmung wird in {time} geöffnet."
+                "hintVote": "Du kannst nicht über eine Abstimmung abstimmen, die sich noch in der Ankündigungsphase befindet. Die Abstimmung wird in {time} geöffnet.",
+                "projection": {
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
+                    "tooltip": "Die Prognose basiert auf dem aktuellen Stimmgewicht und den verbleibenden Meilensteinen."
+                }
             }
         },
         "updateStronghold": {
@@ -699,6 +731,10 @@
                 "connected": "sicher verbunden",
                 "redirected": "umgeleitet, sei vorsichtig!",
                 "disconnected": "getrennt, bitte aktualisieren"
+            },
+            "error": {
+                "title": "Transak could not be loaded",
+                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
             }
         }
     },
@@ -845,10 +881,8 @@
             "updatingNode": "Node aktualisieren",
             "loadingNodeInfo": "Lade Node-Informationen",
             "nodeAddress": "Node-Adresse",
-            "optionalUsername": "Benutzername (optional)",
-            "optionalPassword": "Passwort (optional)",
-            "optionalJwt": "JSON-Web-Token (optional)",
             "removeConfirmation": "Willst du diesen Node wirklich löschen?",
+            "requiresAuthentication": "Node erfordert Authentifizierung",
             "info": {
                 "general": {
                     "tab": "Allgemein",
@@ -883,7 +917,9 @@
                     "decimals": "Dezimalstellen",
                     "useMetricPrefix": "Metrisches Präfix verwenden"
                 }
-            }
+            },
+            "jwt": "JSON-Web-Token",
+            "credentials": "Anmeldeinformationen"
         },
         "errorLog": {
             "title": "Fehlerprotokoll",
@@ -954,6 +990,21 @@
             "action": "Signieren",
             "success": "Signierte Nachricht"
         },
+        "siwe": {
+            "title": "Anmelden mit Ethereum",
+            "details": "Details",
+            "raw": "Unbearbeitet",
+            "rawMessage": "Unbearbeitete Nachricht",
+            "domain": "Domain",
+            "statement": "Statement",
+            "resources": "Ressourcen",
+            "chainId": "Chain-ID",
+            "nonce": "Nonce",
+            "issuedAt": "Ausgestellt am",
+            "notBefore": "Frühestens",
+            "requestId": "Anfrage-ID",
+            "action": "Einloggen"
+        },
         "signTransaction": {
             "title": "Transaktion signieren",
             "action": "Signieren",
@@ -967,6 +1018,7 @@
         "smartContractCall": {
             "title": "Aufruf des Smart Contracts an {contractAddress}",
             "unableToVerify": "Bloom kann den Smart Contract nicht verifizieren. Fahre nur mit Apps fort, denen du vertraust.",
+            "viewSmartContract": "Smart Contract anzeigen",
             "action": "Bestätigen",
             "success": "Aufruf des Smart Contracts an {recipient}"
         },
@@ -1045,8 +1097,8 @@
                     },
                     "startVoting": {
                         "Pending": "Stimmen für {proposalName}",
-                        "Confirmed": "Für {proposalName} abgestimmt",
-                        "Conflicting": "Abstimmung für    fehlgeschlagen"
+                        "Confirmed": "Stimmen für {proposalName}",
+                        "Conflicting": "Abstimmung fehlgeschlagen für"
                     },
                     "stopVoting": {
                         "Pending": "Abstimmung für {proposalName} stoppen",
@@ -1054,7 +1106,7 @@
                         "Conflicting": "Fehler beim Beenden der Abstimmung für"
                     },
                     "changedVote": {
-                        "Pending": "Änderung der Abstimmung für {proposalName}",
+                        "Pending": "Ändern der Abstimmung für {proposalName}",
                         "Confirmed": "Abstimmung für {proposalName} geändert",
                         "Conflicting": "Fehler beim Ändern der Abstimmung für"
                     },
@@ -1133,7 +1185,7 @@
             "errors": {
                 "invalidMimetype": "Ungültiger MimeTyp, überprüfen Sie, ob der Dateityp unterstützt wird",
                 "quantityTooSmall": "Menge muss größer als Null sein",
-                "quantityTooLarge": "Menge muss kleiner als 64 sein",
+                "quantityTooLarge": "Menge muss kleiner als 127 sein",
                 "emptyName": "Name ist ein Pflichtfeld",
                 "invalidURI": "Ungültige URL, bitte gib eine gültige URL ein",
                 "notReachable": "URI nicht erreichbar, NFT Typ kann nicht überprüft werden",
@@ -1161,7 +1213,8 @@
         "addProposal": {
             "title": "Vorschlag hinzufügen",
             "body": "Bitte gib die unten aufgeführten Informationen an, um einen Vorschlag hinzuzufügen.",
-            "addToAllAccounts": "Vorschlag zu allen Konten hinzufügen"
+            "addToAllAccounts": "Vorschlag zu allen Konten hinzufügen",
+            "addAllProposalsOnNode": "Alle Vorschläge zu diesem Node hinzufügen"
         },
         "editProposal": {
             "title": "Vorschlag bearbeiten",
@@ -1330,6 +1383,7 @@
         "addProposal": "Vorschlag hinzufügen",
         "removeProposal": "Abstimmung entfernen",
         "changeNode": "Node wechseln",
+        "changeNodeUrl": "Node-URL ändern",
         "stopVoting": "Abstimmen beenden",
         "revote": "Wiederabstimmen",
         "skipAndKeep": "Überspringen und altes Passwort behalten",
@@ -1338,10 +1392,13 @@
         "switchAccount": "Konto wechseln",
         "syncAccounts": "Konten synchronisieren",
         "importToken": "{type} Token importiert",
-        "syncTokens": "Token-Synchronisation erzwingen"
+        "syncTokens": "Token-Synchronisation erzwingen",
+        "mintNftCollection": "Minte NFT-Sammlung",
+        "readMore": "Read more"
     },
     "general": {
         "recipient": "Empfänger",
+        "username": "Benutzername",
         "password": "Passwort",
         "confirmPassword": "Passwort bestätigen",
         "currentPassword": "Aktuelles Passwort",
@@ -1359,12 +1416,14 @@
         "decreasing": "Verringere Stimmrecht",
         "voted": "Abgestimmt",
         "voting": "Abstimmung",
+        "votingOn": "Abstimmen für",
+        "votedOn": "Abgestimmt für",
         "changedVote": "Stimme geändert",
         "changingVote": "Stimme ändern",
         "revoted": "Erneut abgestimmt",
         "revoting": "Erneut abstimmen",
-        "unvoted": "Nicht abgestimmt",
-        "unvoting": "Stimme zurücknehmen",
+        "unvoted": "Abstimmung gestoppt",
+        "unvoting": "Stoppe Abstimmung",
         "transferred": "Transferiert",
         "transferring": "Transferiere",
         "shimmerClaimed": "Beansprucht",
@@ -1503,6 +1562,7 @@
         "contractFunction": "Vertragsfunktion",
         "standard": "Standard",
         "uri": "URI",
+        "image": "Bild",
         "issuer": "Aussteller",
         "issuerAddress": "Ausstelleradresse",
         "issuerName": "Name des Ausstellers",
@@ -1557,8 +1617,11 @@
         "featured": "Vorgestellt",
         "raffle": "Tombola",
         "governance": "Governance",
-        "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract"
+        "baseCoin": "Basis-Token",
+        "unverifiedContract": "Unverifizierter Vertrag",
+        "startIndex": "Start-Index",
+        "mintNftCollectionDescription": "Minte Sammlungs-NFT im Alias-Output",
+        "question": "Question"
     },
     "filters": {
         "title": "Filter",
@@ -1707,7 +1770,7 @@
             "success": "Verbindung zu {dappName} getrennt"
         },
         "clearExpiredDapps": {
-            "success": "Expired dApps cleared"
+            "success": "Abgelaufene dApps gelöscht"
         },
         "removeDapp": {
             "success": "{dappName} entfernt"
@@ -1766,6 +1829,9 @@
         "updateNetworkAddresses": {
             "success": "Kontaktadressen erfolgreich aktualisiert"
         },
+        "siwe": {
+            "rejected": "Ungültige SIWE-Anfrage"
+        },
         "syncTokens": {
             "success": "Token erfolgreich synchronisiert"
         }
@@ -1774,7 +1840,8 @@
         "profile": {
             "length": "Dein Profilname darf nicht länger als {length, plural, one {1 Zeichen} other {# Zeichen}} sein.",
             "duplicate": "Ein Profil mit diesem Namen existiert bereits.",
-            "type": "Profiltyp konnte nicht ermittelt werden"
+            "type": "Profiltyp konnte nicht ermittelt werden",
+            "authenticationInterrupted": "Authentifizierung unterbrochen"
         },
         "password": {
             "doNotMatch": "Die Passwörter stimmen nicht überein.",
@@ -1871,6 +1938,7 @@
             "notReachable": "Die Netzwerk-ID für diesen Node konnte nicht abgerufen werden. Hinzufügen des Nodes nicht möglich."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Ein Fehler ist aufgetreten."
         },
         "backup": {
@@ -1980,7 +2048,8 @@
             "invalidUri": "Ungültige URI",
             "invalidProtocol": "Ungültiges Protokoll, muss mit 'wc' beginnen.",
             "deprecatedVersion": "dApp verwendet eine veraltete WalletConnect-Version.",
-            "invalidV2UriFormat": "Der Link entspricht nicht der WalletConnect V2 Spezifikation."
+            "invalidV2UriFormat": "Der Link entspricht nicht der WalletConnect V2 Spezifikation.",
+            "signTypedData": "Bloom unterstützt eth_signedTypedData V1 aus Sicherheitsgründen nicht"
         },
         "web3": {
             "unableToGetProvider": "Web3-Anbieter konnte nicht geladen werden.",
@@ -2037,7 +2106,8 @@
             "description": "Optionaler Parameter: Eine Beschreibung des NFT",
             "attributes": "Optionaler Parameter: Eine Reihe von Merkmalen und Werten, die Attribute der NFT definieren",
             "uri": "Um eine URI mittels benutzerdefinierter Medien zu erstellen, laden Sie zuerst Ihre Datei über einen Speicherdienst auf IPFS hoch (z.B. https://nft.storage/)",
-            "quantity": "Optionaler Parameter: Die Anzahl der mit diesen Metadaten gemintete Kopien."
+            "quantity": "Optionaler Parameter: Die Anzahl der mit diesen Metadaten gemintete Kopien.",
+            "startIndex": "Optionaler Parameter: Der Start-Index der zu mintenden NFTs."
         },
         "governance": {
             "removeProposalWarning": "Du musst das Abstimmen für diesen Vorschlag stoppen, bevor du sie entfernen kannst.",
@@ -2063,7 +2133,7 @@
         "collectibles": "Sammlerstücke",
         "governance": "Governance",
         "campaigns": "Kampagnen",
-        "buySell": "Kaufen & Verkaufen",
+        "buySell": "Kaufe IOTA",
         "developer": "Entwickler",
         "tokens": "Token",
         "settings": "Einstellungen"
@@ -2096,6 +2166,12 @@
             "notConnected": "Nicht verbunden",
             "locked": "Gerät gesperrt",
             "appNotOpen": "App nicht geöffnet"
+        },
+        "dappVerification": {
+            "valid": "Verifiziert",
+            "invalid": "Domain stimmt nicht überein",
+            "unknown": "Verifizierung nicht möglich",
+            "scam": "Sicherheitsrisiko"
         }
     },
     "menus": {

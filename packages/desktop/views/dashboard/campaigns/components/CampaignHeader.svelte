@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { Button, IconName, Link, Text } from '@bloomwalletio/ui'
     import { ICampaign } from '@contexts/campaigns'
     import { openUrlInBrowser } from '@core/app'
@@ -45,11 +45,16 @@
     }
 
     function onProjectClick(): void {
-        openUrlInBrowser(`${TIDE_BASE_URL}/${TideWebsiteEndpoint.Project}/${campaign.projectId}`)
+        const url = buildUrl({
+            origin: TIDE_BASE_URL,
+            pathname: `${TideWebsiteEndpoint.Project}/${campaign.projectId}`,
+        })
+        openUrlInBrowser(url?.href)
     }
 
     function onCampaignClick(): void {
-        openUrlInBrowser(`${TIDE_BASE_URL}/${TideWebsiteEndpoint.Campaign}/${campaign.id}`)
+        const url = buildUrl({ origin: TIDE_BASE_URL, pathname: `${TideWebsiteEndpoint.Campaign}/${campaign.id}` })
+        openUrlInBrowser(url?.href)
     }
 </script>
 
@@ -111,11 +116,7 @@
                     <CampaignParticipantsPill {campaign} />
                     <CampaignRewardsPill {campaign} />
                 </div>
-                <Link
-                    text={truncateString(campaign.url, 30, 10)}
-                    external
-                    on:click={() => openUrlInBrowser(campaign.url)}
-                />
+                <Link href={campaign.url} text={truncateString(campaign.url, 30, 10)} external />
             </div>
         </div>
     </div>

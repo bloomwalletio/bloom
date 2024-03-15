@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, SidebarToast, Steps } from '@bloomwalletio/ui'
-    import { Spinner } from '@ui'
+    import { DappInfo, Spinner } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
@@ -15,18 +15,13 @@
         sessionProposal,
     } from '@auxiliary/wallet-connect/stores'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
-    import {
-        AccountSelection,
-        ConnectionSummary,
-        DappInformationCard,
-        NetworkSelection,
-        PermissionSelection,
-    } from '../components'
+    import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
     import { DappConfigRoute } from '../dapp-config-route.enum'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { selectedAccount } from '@core/account/stores'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
 
     export let drawerRouter: Router<unknown>
 
@@ -40,17 +35,19 @@
         localize(`${localeKey}.accounts.step`),
     ]
 
-    let permissionSelections: { label: string; value: string; checked: boolean; required: boolean }[] = []
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
 
+    $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
+        ? DappVerification.Scam
+        : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
     $: dappUrl = $sessionProposal?.params?.proposer?.metadata?.url ?? undefined
     $: persistedNamespaces = dappUrl ? getPersistedDappNamespacesForDapp(dappUrl) : undefined
 
     $: isButtonDisabled =
         loading ||
-        (!persistedNamespaces && currentStep === 0 && permissionSelections.length && checkedMethods.length === 0) ||
+        (!persistedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
         (currentStep === 1 && checkedNetworks.length === 0) ||
         (currentStep === 2 && checkedAccounts.length === 0)
 
@@ -103,10 +100,7 @@
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
-            <DappInformationCard
-                metadata={$sessionProposal.params.proposer.metadata}
-                verifiedState={$sessionProposal.verifyContext.verified.validation}
-            />
+            <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
 
             <div class="px-6 flex-grow overflow-hidden">
                 {#if persistedNamespaces}
@@ -134,7 +128,6 @@
                                 <div class="flex-grow {currentStep === 0 ? 'visible' : 'hidden'}">
                                     <PermissionSelection
                                         bind:checkedMethods
-                                        bind:permissionSelections
                                         requiredNamespaces={$sessionProposal.params.requiredNamespaces}
                                         optionalNamespaces={$sessionProposal.params.optionalNamespaces}
                                     />

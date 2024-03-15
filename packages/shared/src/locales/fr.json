@@ -501,12 +501,17 @@
                         "title": "Connection request",
                         "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
                         "reconnectHint": "You have previously connected with this dApp.",
-                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
                         "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
                         "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
                         "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
-                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                        "acceptInsecureConnection": "I understand and wish to proceed",
+                        "supported": "Supported",
+                        "notSupported": "Not supported",
+                        "onAnotherProfile": "On another profile",
+                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
+                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
+                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
                     },
                     "editPermissions": {
                         "title": "Edit permissions"
@@ -522,7 +527,8 @@
                         "permissions": {
                             "step": "Permission",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
-                            "title": "Select permissions",
+                            "requiredTitle": "Required permissions",
+                            "optionalTitle": "Optional permissions",
                             "signData": "Request to sign data",
                             "signTransaction": "Request to sign a transaction",
                             "sendTransaction": "Request to send a transaction",
@@ -531,7 +537,8 @@
                         },
                         "networks": {
                             "step": "Networks",
-                            "title": "Select networks",
+                            "requiredTitle": "Required networks",
+                            "optionalTitle": "Optional networks",
                             "tip": "The required networks are pre-selected for you by the dApp and can also be reconfigured later.",
                             "empty": "You have to select at least one network"
                         },
@@ -632,26 +639,42 @@
                 "manage": "Manage voting power"
             },
             "proposalsDetails": {
-                "title": "Details",
                 "totalProposals": "Total des propositions",
                 "activeProposals": "Active proposals",
                 "votingProposals": "Proposals you are voting on",
                 "votedProposals": "Total proposals you voted on"
             },
             "proposals": {
-                "title": "Proposals",
+                "title": "Governance Proposals",
                 "voted": "Voted",
                 "successEdit": "La proposition a été mise à jour avec succès",
                 "successAdd": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added",
                 "successAddAll": "{numberOfProposals, select, one {Proposal} other {Proposals}} successfully added to all accounts",
                 "successRemove": "Proposal successfully removed",
-                "emptyTitle": "Aucune proposition"
+                "emptyTitle": "Aucune proposition",
+                "emptyDescription": "You can subscribe to a proposal on a node with its URL and an optional event ID."
             },
             "statusTimeline": {
-                "upcoming": "Announcement",
-                "commencing": "Voting open",
-                "holding": "Counting starts",
-                "ended": "Counting stops"
+                "upcoming": {
+                    "past": "Announced",
+                    "present": "Announcement",
+                    "future": "Announcement"
+                },
+                "commencing": {
+                    "past": "Voting opened",
+                    "present": "Voting open",
+                    "future": "Voting opens"
+                },
+                "holding": {
+                    "past": "Counting started",
+                    "present": "Counting started",
+                    "future": "Counting starts"
+                },
+                "ended": {
+                    "past": "Counting stopped",
+                    "present": "Counting stopped",
+                    "future": "Counting stops"
+                }
             },
             "details": {
                 "yourVote": {
@@ -668,8 +691,17 @@
                     "eventId": "Event ID",
                     "nodeUrl": "Node URL"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Récupération des données de la proposition",
-                "hintVote": "Vous ne pouvez pas voter sur une proposition qui est en phase d'annonce, le vote s'ouvrira dans {time}."
+                "hintVote": "Vous ne pouvez pas voter sur une proposition qui est en phase d'annonce, le vote s'ouvrira dans {time}.",
+                "projection": {
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
+                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                }
             }
         },
         "updateStronghold": {
@@ -699,6 +731,10 @@
                 "connected": "connected securely",
                 "redirected": "redirected, be careful!",
                 "disconnected": "disconnected, try refreshing"
+            },
+            "error": {
+                "title": "Transak could not be loaded",
+                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
             }
         }
     },
@@ -845,10 +881,8 @@
             "updatingNode": "Mise à jour du noeud",
             "loadingNodeInfo": "Chargement des informations du noeud",
             "nodeAddress": "Adresse du noeud",
-            "optionalUsername": "Nom d'utilisateur (facultatif)",
-            "optionalPassword": "Mot de passe (facultatif)",
-            "optionalJwt": "Jeton web JSON (facultatif)",
             "removeConfirmation": "Êtes-vous sûr de vouloir supprimer ce noeud ?",
+            "requiresAuthentication": "Node requires authentication",
             "info": {
                 "general": {
                     "tab": "Général",
@@ -883,7 +917,9 @@
                     "decimals": "Décimales",
                     "useMetricPrefix": "Utiliser le préfixe de la métrique"
                 }
-            }
+            },
+            "jwt": "JSON web token",
+            "credentials": "Sign-in credentials"
         },
         "errorLog": {
             "title": "Journal d'erreur",
@@ -954,6 +990,21 @@
             "action": "Sign",
             "success": "Signed message"
         },
+        "siwe": {
+            "title": "Sign-In with Ethereum",
+            "details": "Details",
+            "raw": "Raw",
+            "rawMessage": "Raw message",
+            "domain": "Domain",
+            "statement": "Statement",
+            "resources": "Resources",
+            "chainId": "Chain Id",
+            "nonce": "Nonce",
+            "issuedAt": "Issued at",
+            "notBefore": "Not before",
+            "requestId": "Request Id",
+            "action": "Sign in"
+        },
         "signTransaction": {
             "title": "Sign transaction",
             "action": "Sign",
@@ -967,6 +1018,7 @@
         "smartContractCall": {
             "title": "Smart contract call to {contractAddress}",
             "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
+            "viewSmartContract": "View Smart Contract",
             "action": "Confirm",
             "success": "Smart contract call to {recipient}"
         },
@@ -1044,19 +1096,19 @@
                         "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
-                        "Pending": "Voting for {proposalName}",
-                        "Confirmed": "Voted for {proposalName}",
-                        "Conflicting": "Failed to vote for"
+                        "Pending": "Voting on {proposalName}",
+                        "Confirmed": "Voted on {proposalName}",
+                        "Conflicting": "Failed to vote on"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting for {proposalName}",
-                        "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stop voting for"
+                        "Pending": "Stopping voting on {proposalName}",
+                        "Confirmed": "Stopped voting on {proposalName}",
+                        "Conflicting": "Failed to stop voting on"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote for {proposalName}",
-                        "Confirmed": "Changed vote for {proposalName}",
-                        "Conflicting": "Failed to change vote for"
+                        "Pending": "Changing vote on {proposalName}",
+                        "Confirmed": "Changed vote on {proposalName}",
+                        "Conflicting": "Failed to change vote on"
                     },
                     "revote": {
                         "Pending": "Revoting",
@@ -1133,7 +1185,7 @@
             "errors": {
                 "invalidMimetype": "MimeType invalide, vérifiez si le type de fichier est pris en charge",
                 "quantityTooSmall": "La quantité doit être supérieure à 0",
-                "quantityTooLarge": "La quantité doit être inférieure à 64",
+                "quantityTooLarge": "Quantity needs to be smaller than 127",
                 "emptyName": "Le nom est un champ obligatoire",
                 "invalidURI": "URI invalide, veuillez fournir une URI valide",
                 "notReachable": "URI non joignable, impossible de vérifier le type NFT",
@@ -1161,7 +1213,8 @@
         "addProposal": {
             "title": "Ajouter une proposition",
             "body": "Veuillez fournir les informations énumérées ci-dessous pour ajouter une proposition.",
-            "addToAllAccounts": "Ajouter la proposition à tous les comptes"
+            "addToAllAccounts": "Ajouter la proposition à tous les comptes",
+            "addAllProposalsOnNode": "Add all proposals on this node"
         },
         "editProposal": {
             "title": "Modifier la proposition",
@@ -1177,7 +1230,7 @@
         "revote": {
             "title": "Revoter sur les propositions",
             "body": "Changing your voting power temporarily stops your votes for all proposals from being counted. Simply click \"Revote\" to resume voting.",
-            "hint": "Bloom remembers all of the proposals and answer options you previously voted for."
+            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remove proposal",
@@ -1330,6 +1383,7 @@
         "addProposal": "Ajouter une proposition",
         "removeProposal": "Remove proposal",
         "changeNode": "Changer le noeud",
+        "changeNodeUrl": "Change node URL",
         "stopVoting": "Stop voting",
         "revote": "Voter à nouveau",
         "skipAndKeep": "Ignorer et conserver l'ancien mot de passe",
@@ -1338,10 +1392,13 @@
         "switchAccount": "Switch account",
         "syncAccounts": "Sync accounts",
         "importToken": "Import {type} token",
-        "syncTokens": "Force sync tokens"
+        "syncTokens": "Force sync tokens",
+        "mintNftCollection": "Mint NFT collection",
+        "readMore": "Read more"
     },
     "general": {
         "recipient": "Destinataire",
+        "username": "Username",
         "password": "Mot de passe",
         "confirmPassword": "Confirmez le mot de passe",
         "currentPassword": "Mot de passe actuel",
@@ -1353,18 +1410,20 @@
         "receiving": "Réception en cours",
         "newVotingPower": "Nouveau pouvoir de vote",
         "votingPower": "Pouvoir de vote",
-        "increased": "Augmentation du pouvoir de vote",
-        "increasing": "Augmentation du pouvoir de vote",
-        "decreased": "Diminution du pouvoir de vote",
-        "decreasing": "Diminuer le pouvoir de vote",
+        "increased": "Voting power increased",
+        "increasing": "Increasing voting power",
+        "decreased": "Voting power decreased",
+        "decreasing": "Decreasing voting power",
         "voted": "A voté",
         "voting": "Vote",
+        "votingOn": "Voting on",
+        "votedOn": "Voted on",
         "changedVote": "Vote modifié",
         "changingVote": "Changement du vote",
         "revoted": "Voté à nouveau",
         "revoting": "Revoting",
-        "unvoted": "Arrêt du vote",
-        "unvoting": "Arrêt du vote",
+        "unvoted": "Stopped voting",
+        "unvoting": "Stopping voting",
         "transferred": "Transferred",
         "transferring": "Transferring",
         "shimmerClaimed": "Claimed",
@@ -1503,6 +1562,7 @@
         "contractFunction": "Contract function",
         "standard": "Standard",
         "uri": "URI",
+        "image": "Image",
         "issuer": "Issuer",
         "issuerAddress": "Issuer Address",
         "issuerName": "Issuer Name",
@@ -1558,7 +1618,10 @@
         "raffle": "Raffle",
         "governance": "Governance",
         "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract"
+        "unverifiedContract": "Unverified Contract",
+        "startIndex": "Start index",
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "question": "Question"
     },
     "filters": {
         "title": "Filters",
@@ -1766,6 +1829,9 @@
         "updateNetworkAddresses": {
             "success": "Contact addresses successfully updated"
         },
+        "siwe": {
+            "rejected": "Invalid SIWE request"
+        },
         "syncTokens": {
             "success": "Tokens successfully synced"
         }
@@ -1774,7 +1840,8 @@
         "profile": {
             "length": "Votre nom de profil ne peut pas être plus long que {length, plural, one {# caractère} other {# caractères}}.",
             "duplicate": "Un profil portant ce nom existe déjà.",
-            "type": "Unable to determine the profile type"
+            "type": "Unable to determine the profile type",
+            "authenticationInterrupted": "Authentication was interrupted"
         },
         "password": {
             "doNotMatch": "Les mots de passe ne correspondent pas.",
@@ -1871,6 +1938,7 @@
             "notReachable": "L'ID réseau de ce nœud n'a pas pu être récupéré, impossible d'ajouter un nœud."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Une erreur s'est produite."
         },
         "backup": {
@@ -1980,7 +2048,8 @@
             "invalidUri": "Invalid URI",
             "invalidProtocol": "Invalid protocol, must start with 'wc'.",
             "deprecatedVersion": "dApp uses a deprecated wallet connect version.",
-            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification."
+            "invalidV2UriFormat": "The link doesn't adhere to the WalletConnect V2 specification.",
+            "signTypedData": "Bloom doesn't support eth_signedTypedData V1 due to security reasons"
         },
         "web3": {
             "unableToGetProvider": "Unable to get web3 provider.",
@@ -2037,7 +2106,8 @@
             "description": "Optional parameter: A description of the NFT",
             "attributes": "Optional parameter: An array of traits and values that define attributes of the NFT",
             "uri": "To create a URI using custom media, first upload your file to IPFS via a storage service (e.g. https://nft.storage/)",
-            "quantity": "Paramètre optionnel : La quantité de copies minées avec cette métadonnée."
+            "quantity": "Paramètre optionnel : La quantité de copies minées avec cette métadonnée.",
+            "startIndex": "Optional parameter: The start index of the NFTs to mint."
         },
         "governance": {
             "removeProposalWarning": "Vous devez arrêter de voter pour cette proposition avant de la supprimer.",
@@ -2063,7 +2133,7 @@
         "collectibles": "Collectibles",
         "governance": "Gouvernance",
         "campaigns": "Campaigns",
-        "buySell": "Buy & Sell",
+        "buySell": "Buy IOTA",
         "developer": "Developer",
         "tokens": "Jetons",
         "settings": "Settings"
@@ -2096,6 +2166,12 @@
             "notConnected": "Not connected",
             "locked": "Device locked",
             "appNotOpen": "App not open"
+        },
+        "dappVerification": {
+            "valid": "Verified",
+            "invalid": "Domain Mismatch",
+            "unknown": "Cannot verify",
+            "scam": "Security Risk"
         }
     },
     "menus": {

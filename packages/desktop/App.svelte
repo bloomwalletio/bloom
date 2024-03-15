@@ -2,7 +2,7 @@
     import { handleDeepLink } from '@auxiliary/deep-link/handlers/handleDeepLink'
     import { Popup, ProfileAuthPopup } from '@components/popup'
     import TitleBar from '@components/TitleBar.svelte'
-    import { IS_WINDOWS, Platform } from '@core/app'
+    import { IS_WINDOWS, Platform, openUrlInBrowser } from '@core/app'
     import { registerAppEvents, getAndUpdateDarkMode } from '@core/app/actions'
     import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
@@ -60,6 +60,7 @@
         await checkAndMigrateProfiles()
         await cleanupEmptyProfiles()
         Platform.onEvent('deep-link-request', handleDeepLink)
+        Platform.onEvent('try-open-url-in-browser', openUrlInBrowser)
 
         setTimeout(() => {
             splash = false

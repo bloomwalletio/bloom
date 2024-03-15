@@ -9,15 +9,20 @@ import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { handleEthTransaction } from './eth_transaction.handler'
 import { handleSignMessage } from './sign_message.handler'
 import { handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
+import { DappVerification, RpcMethod } from '../enums'
+import { EvmTransactionData, getEvmTransactionFromHexString } from '@core/layer-2'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
     setConnectedDapps()
     const { topic, params, id, verifyContext } = event
     const { request, chainId } = params
-    const method = request.method
+    const method = request.method as RpcMethod
 
     const dapp = getConnectedDappByOrigin(verifyContext.verified.origin)
+    const verifiedState: DappVerification = verifyContext.verified.isScam
+        ? DappVerification.Scam
+        : (verifyContext.verified.validation as DappVerification)
 
     function returnResponse({ result, error }: CallbackParameters): void {
         const response: JsonRpcResponse | undefined = result
@@ -43,29 +48,39 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         }
     }
 
+    if (!dapp) {
+        returnResponse({ error: getSdkError('SESSION_SETTLEMENT_FAILED') })
+        return
+    }
+
     const chain = getNetwork()?.getChain(chainId as NetworkId)
     if (!chain) {
         returnResponse({ error: getSdkError('UNSUPPORTED_CHAINS') })
         return
     }
 
-    const signAndSend = method === 'eth_sendTransaction'
-
     switch (method) {
-        case 'eth_sendTransaction':
-        case 'eth_signTransaction':
-            void handleEthTransaction(request.params[0], dapp, chain, signAndSend, returnResponse)
+        case RpcMethod.EthSendTransaction:
+        case RpcMethod.EthSignTransaction:
+        case RpcMethod.EthSendRawTransaction: {
+            const evmTransactionData: EvmTransactionData & { from: string } =
+                method === RpcMethod.EthSendRawTransaction
+                    ? getEvmTransactionFromHexString(request.params[0])
+                    : request.params[0]
+
+            void handleEthTransaction(evmTransactionData, dapp, chain, method, returnResponse, verifiedState)
             break
-        case 'eth_sign':
-        case 'personal_sign':
-            void handleSignMessage(request.params, dapp, method, chain, returnResponse)
+        }
+        case RpcMethod.EthSign:
+        case RpcMethod.PersonalSign:
+            void handleSignMessage(request.params, dapp, method, chain, returnResponse, verifiedState)
             break
-        case 'eth_signTypedData':
-        case 'eth_signTypedData_v3':
-        case 'eth_signTypedData_v4':
-            void handleEthSignTypedData(request.params, method, dapp, chain, returnResponse)
+        case RpcMethod.EthSignTypedData:
+        case RpcMethod.EthSignTypedDataV3:
+        case RpcMethod.EthSignTypedDataV4:
+            void handleEthSignTypedData(request.params, method, dapp, chain, returnResponse, verifiedState)
             break
-        case 'wallet_watchAsset':
+        case RpcMethod.WalletWatchAsset:
             void handleWatchAsset(request.params, dapp, chain, returnResponse)
             break
         default:

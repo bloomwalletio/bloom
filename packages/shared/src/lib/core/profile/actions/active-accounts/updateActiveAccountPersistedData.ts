@@ -4,11 +4,14 @@ import { updateAccountPersistedDataOnActiveProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
 export function updateActiveAccountPersistedData(
-    acccountIndex: number,
+    accountIndex: number | undefined,
     partialAccountPersistedData: Partial<IPersistedAccountData>
 ): void {
-    if (get(selectedAccountIndex) === acccountIndex) {
+    if (accountIndex === undefined) {
+        return
+    }
+    if (get(selectedAccountIndex) === accountIndex) {
         updateSelectedAccount(partialAccountPersistedData)
     }
-    updateAccountPersistedDataOnActiveProfile(acccountIndex, partialAccountPersistedData)
+    updateAccountPersistedDataOnActiveProfile(accountIndex, partialAccountPersistedData)
 }

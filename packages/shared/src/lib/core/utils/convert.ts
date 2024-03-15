@@ -1,5 +1,4 @@
-/* eslint-disable no-bitwise */
-import { BigIntLike, bufferToBigInt } from '@ethereumjs/util'
+import { BigIntLike, bytesToBigInt } from '@ethereumjs/util'
 
 import { HEX_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
 import { isValidDate } from './date'
@@ -31,19 +30,6 @@ export function convertUnixTimestampToDate(timestamp: number): Date | undefined 
 export function convertUInt16NumberToLittleEndianHex(num: number, withHexPrefix = true): string {
     const littleEndianNumber = ((num & 0xff) << 8) | ((num >> 8) & 0xff)
     const hex = ('0000' + littleEndianNumber.toString(16).toUpperCase()).slice(-4)
-    return withHexPrefix ? HEX_PREFIX + hex : hex
-}
-
-export function convertBytesToHexString(bytes: number[], withHexPrefix = true): string {
-    if (!bytes) {
-        throw new Error('"bytes" must be an array of numbers')
-    }
-
-    if (bytes.length === 0) {
-        return ''
-    }
-
-    const hex = bytes.map((byte) => ('0' + (byte & 0xff).toString(16)).slice(-2)).join('')
     return withHexPrefix ? HEX_PREFIX + hex : hex
 }
 
@@ -234,8 +220,8 @@ export class Converter {
         return prefix ? HEX_PREFIX + number.toString(16) : number.toString(16)
     }
 
-    public static bigIntToHex(bigInt: bigint, prefix = true): string {
-        bigInt = BigInt(bigInt)
+    public static bigIntToHex(bigInt: bigint | undefined, prefix = true): string {
+        bigInt = BigInt(bigInt ?? 0)
         return prefix ? HEX_PREFIX + bigInt.toString(16) : bigInt.toString(16)
     }
 
@@ -306,8 +292,8 @@ export class Converter {
      * @returns The bytes.
      */
     public static bigIntLikeToBigInt(number: BigIntLike | undefined): bigint {
-        if (Buffer.isBuffer(number)) {
-            return bufferToBigInt(number)
+        if (ArrayBuffer.isView(number)) {
+            return bytesToBigInt(number)
         } else {
             return BigInt(String(number ?? '0'))
         }

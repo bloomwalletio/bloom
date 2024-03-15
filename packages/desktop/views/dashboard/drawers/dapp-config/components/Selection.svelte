@@ -10,6 +10,7 @@
     }[]
     export let showPrimary: boolean = false
     export let title: string
+    export let disableSelectAll: boolean = false
     export let error: string | undefined = undefined
 
     $: indexOfPrimary = selectionOptions.findIndex((option) => option.checked)
@@ -29,10 +30,12 @@
 <selection-component class="flex flex-col gap-4">
     <div class="flex flex-row justify-between items-center px-4">
         <Text textColor="secondary">{title}</Text>
-        <div class="flex flex-row items-center gap-3">
-            <Text textColor="secondary">{localize('general.all')}</Text>
-            <Checkbox size="md" on:click={onAllClick} bind:checked={allChecked} />
-        </div>
+        {#if !disableSelectAll}
+            <div class="flex flex-row items-center gap-3">
+                <Text textColor="secondary">{localize('general.all')}</Text>
+                <Checkbox size="md" on:click={onAllClick} bind:checked={allChecked} />
+            </div>
+        {/if}
     </div>
     <selection-options>
         {#each selectionOptions as option, index}

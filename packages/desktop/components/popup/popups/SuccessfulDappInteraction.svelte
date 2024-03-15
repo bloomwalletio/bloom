@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup/actions'
     import { getConnectedDappByOrigin } from '@auxiliary/wallet-connect/stores'
-    import DappDataBanner from '@components/DappDataBanner.svelte'
+    import { DappInfo } from '@ui'
 
     export let url: string | undefined
     export let successMessage: string
@@ -19,7 +19,12 @@
         onClick: closePopup,
     }}
 >
-    <DappDataBanner slot="banner" {dapp} />
+    <DappInfo
+        slot="banner"
+        metadata={dapp.metadata}
+        showLink={false}
+        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+    />
     <div slot="description">
         <div class="flex flex-col items-center justify-between gap-3">
             <SuccessSvg />

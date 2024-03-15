@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { openUrlInBrowser } from '@core/app/utils'
-    import { Avatar, Icon, IconName, Link, Text } from '@bloomwalletio/ui'
+    import { Avatar, IconName, Link, Text } from '@bloomwalletio/ui'
     import { CoreTypes } from '@walletconnect/types'
     import { localize } from '@core/i18n'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { DappVerificationIcon, DappVerificationPill } from '@ui'
 
     export let metadata: CoreTypes.Metadata
     export let verifiedState: DappVerification | undefined = undefined
@@ -20,16 +20,15 @@
             {metadata?.name ?? localize('general.unknown')}
         </Text>
         <div class="flex flex-row items-center gap-1">
-            {#if verifiedState === DappVerification.Valid}
-                <Icon name={IconName.ShieldOn} size="xs" textColor="success" />
-            {:else if verifiedState === DappVerification.Invalid}
-                <Icon name={IconName.ShieldOff} size="xs" textColor="danger" />
-            {:else if verifiedState === DappVerification.Unknown}
-                <Icon name={IconName.ShieldOff} size="xs" textColor="warning" />
-            {/if}
-            <Link text={metadata?.url} on:click={() => openUrlInBrowser(metadata.url)} />
+            <DappVerificationIcon {verifiedState} />
+            <Link href={metadata.url} text={metadata?.url} />
         </div>
     </div>
+    {#if verifiedState && verifiedState !== DappVerification.Valid}
+        <div class="shrink-0">
+            <DappVerificationPill {verifiedState} />
+        </div>
+    {/if}
 </dapp-information>
 
 <style lang="scss">

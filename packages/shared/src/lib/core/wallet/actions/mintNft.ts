@@ -3,8 +3,8 @@ import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
 import { ActivityAction } from '@core/activity/enums'
 import { addAccountActivity } from '@core/activity/stores'
 import { sendPreparedTransaction } from '@core/wallet/utils'
-import { NftActivity } from '@core/activity/types'
-import { generateSingleNftActivity } from '@core/activity/utils/generateSingleNftActivity'
+import { StardustNftActivity } from '@core/activity/types'
+import { generateSingleNftActivity } from '@core/activity/utils/stardust/generateSingleNftActivity'
 import { preprocessTransaction } from '@core/activity/utils/outputs'
 import { localize } from '@core/i18n'
 import { IIrc27Metadata } from '@core/nfts'
@@ -15,18 +15,33 @@ import { getTransactionOptions } from '../utils'
 import { resetMintNftDetails } from '../stores'
 import { getActiveNetworkId } from '@core/network'
 
-export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promise<void> {
+export async function mintNft(
+    metadata: IIrc27Metadata,
+    startIndex: number,
+    quantity: number,
+    collectionId?: string
+): Promise<void> {
     try {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()
 
         updateSelectedAccount({ isTransferring: true })
 
-        const mintNftParams: MintNftParams = {
-            issuer: account.depositAddress,
-            immutableMetadata: Converter.utf8ToHex(JSON.stringify(metadata)),
+        const allNftParams: MintNftParams[] = []
+        for (let i = startIndex; i < startIndex + quantity; i++) {
+            const updatedMetadata = {
+                ...metadata,
+                name: metadata.name.replace('{id}', i.toString()),
+                description: metadata.description?.replace('{id}', i.toString()),
+                uri: metadata.uri.replace('{id}', i.toString()),
+            }
+            const mintNftParams: MintNftParams = {
+                address: account.depositAddress,
+                issuer: collectionId || account.depositAddress,
+                immutableMetadata: Converter.utf8ToHex(JSON.stringify(updatedMetadata)),
+            }
+            allNftParams.push(mintNftParams)
         }
-        const allNftParams: MintNftParams[] = Array(quantity).fill(mintNftParams)
 
         // Mint NFT
         const preparedTransaction = await account.prepareMintNfts(
@@ -47,11 +62,11 @@ export async function mintNft(metadata: IIrc27Metadata, quantity: number): Promi
         for (const output of outputs) {
             if (output.output?.type === OutputType.Nft) {
                 // For each minted NFT, generate a new activity
-                const activity: NftActivity = (await generateSingleNftActivity(account, networkId, {
+                const activity: StardustNftActivity = (await generateSingleNftActivity(account, networkId, {
                     action: ActivityAction.Mint,
                     processedTransaction,
                     wrappedOutput: output,
-                })) as NftActivity
+                })) as StardustNftActivity
                 addAccountActivity(account.index, activity)
 
                 // Store NFT metadata for each minted NFT

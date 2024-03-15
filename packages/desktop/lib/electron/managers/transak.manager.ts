@@ -3,14 +3,41 @@ import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
-import { TRANSAK_WIDGET_URL } from '@auxiliary/transak'
+import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
+import { buildUrl } from '@core/utils/url'
+import { MarketCurrency } from '@core/market/enums/market-currency.enum'
+import fs from 'fs'
 
 export default class TransakManager implements ITransakManager {
     private rect: Electron.Rectangle
 
-    private preloadPath = app.isPackaged
-        ? path.join(app.getAppPath(), '/public/build/transak.preload.js')
-        : path.join(__dirname, 'transak.preload.js')
+    private getPreloadPath(): string {
+        const preloadPath = app.isPackaged
+            ? path.join(app.getAppPath(), 'public', 'build', 'transak.preload.js')
+            : path.join(__dirname, 'transak.preload.js')
+
+        if (!this.validatePreloadPath(preloadPath)) {
+            throw new Error(`Could not load ${preloadPath}`)
+        }
+
+        return preloadPath
+    }
+
+    private validatePreloadPath(preloadPath: string): boolean {
+        if (!preloadPath) {
+            return false
+        }
+
+        if (!fs.existsSync(preloadPath)) {
+            return false
+        }
+
+        if (path.extname(preloadPath) !== '.js') {
+            return false
+        }
+
+        return true
+    }
 
     public closeWindow(): void {
         if (windows.transak) {
@@ -28,6 +55,15 @@ export default class TransakManager implements ITransakManager {
     }
 
     public openWindow(data: ITransakWindowData): BrowserWindow {
+        let preloadPath: string
+        try {
+            preloadPath = this.getPreloadPath()
+        } catch (err) {
+            windows.main.webContents.send('transak-not-loaded')
+            console.error(err.message)
+            return
+        }
+
         if (windows.transak !== null) {
             return windows.transak
         }
@@ -60,7 +96,7 @@ export default class TransakManager implements ITransakManager {
                 webviewTag: false,
                 enableWebSQL: false,
                 devTools: !app.isPackaged || features?.electron?.developerTools?.enabled,
-                preload: this.preloadPath,
+                preload: preloadPath,
             },
         })
 
@@ -82,8 +118,13 @@ export default class TransakManager implements ITransakManager {
             }
         })
 
-        const url = this.getUrl(data)
-        void windows.transak.loadURL(url)
+        let initialUrl: string
+        try {
+            initialUrl = this.getUrl(data)
+        } catch (err) {
+            console.error(err)
+        }
+        void windows.transak.loadURL(initialUrl)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
             void shell.openExternal(url)
@@ -95,6 +136,19 @@ export default class TransakManager implements ITransakManager {
         windows.transak.webContents.addListener('did-navigate', (_, url) => {
             const _url = new URL(url)
             windows.main.webContents.send('transak-url', _url.origin)
+        })
+
+        windows.transak.webContents.addListener('did-navigate-in-page', (_, url) => {
+            const urlToBeMatched = TRANSAK_WIDGET_URL + '/googlepay'
+            if (url.startsWith(urlToBeMatched)) {
+                windows.main.webContents.send('try-open-url-in-browser', url)
+                void windows.transak.loadURL(initialUrl)
+            }
+        })
+
+        windows.transak.webContents.addListener('will-navigate', (event) => {
+            event.preventDefault()
+            windows.main.webContents.send('try-open-url-in-browser', event.url)
         })
 
         return windows.transak
@@ -148,9 +202,34 @@ export default class TransakManager implements ITransakManager {
     }
 
     private getUrl(data: ITransakWindowData): string {
-        const { address, currency, service } = data
+        const { address, currency, service, amount } = data
         const apiKey = process.env.TRANSAK_API_KEY
 
-        return `${TRANSAK_WIDGET_URL}/?apiKey=${apiKey}&defaultFiatCurrency=${currency}&walletAddress=${address}&productsAvailed=${service}&cryptoCurrencyCode=IOTA&network=miota&themeColor=7C41C9&hideMenu=true`
+        if (!Object.values(MarketCurrency).includes(currency as MarketCurrency)) {
+            throw new Error('Invalid Transak currency')
+        }
+
+        if (service !== 'BUY' && service !== 'SELL') {
+            throw new Error('Invalid Transak service')
+        }
+
+        const queryParams = {
+            apiKey,
+            defaultFiatCurrency: currency,
+            defaultFiatAmount: amount,
+            walletAddress: address,
+            productsAvailed: service,
+            cryptoCurrencyCode: 'IOTA',
+            network: 'miota',
+            themeColor: '7C41C9',
+            hideMenu: true,
+            disableWalletAddressForm: true,
+            isFeeCalculationHidden: true,
+            disablePaymentMethods: ['apple_pay', 'google_pay'],
+        }
+
+        const urlObject = buildUrl({ origin: TRANSAK_WIDGET_URL, query: queryParams })
+
+        return urlObject?.href ?? ''
     }
 }

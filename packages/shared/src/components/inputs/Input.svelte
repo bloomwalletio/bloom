@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount, createEventDispatcher, tick } from 'svelte'
     import { Text, InputContainer, TextPropTypes, TextType } from '@ui'
+    import { TextAlignment, TEXT_ALIGNMENT_MAP } from '@bloomwalletio/ui'
     import { DECIMAL_SEPARATORS, formatNumber, getDecimalSeparator, parseCurrency } from '@core/i18n'
     import { localize } from '@core/i18n'
 
@@ -26,7 +27,7 @@
     export let clearBackground = false
     export let clearPadding = false
     export let clearBorder = false
-    export let alignment: 'left' | 'right' | 'center' | 'justify' = 'left'
+    export let alignment: TextAlignment = 'left'
     export let textProps: TextPropTypes = { type: TextType.p, fontSize: '11', lineHeight: '140' }
     export let hasFocus = false
     export let validationFunction: ((arg: string) => void) | undefined = undefined
@@ -161,8 +162,9 @@
                         {value}
                         bind:this={inputElement}
                         {maxlength}
-                        class="w-full text-{alignment}
+                        class="w-full
                             bg-surface dark:bg-surface-dark
+                            {TEXT_ALIGNMENT_MAP[alignment]}
                             {disabled
                             ? 'text-gray-400 dark:text-gray-700'
                             : 'text-gray-800 dark:text-white'} {inputClasses}"

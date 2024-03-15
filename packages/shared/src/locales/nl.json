@@ -483,11 +483,11 @@
                             "emptySubtitle": "Verbind Bloom met jouw favoriete dApps"
                         },
                         "actions": {
-                            "clearExpired": "Clear expired list"
+                            "clearExpired": "Verlopen lijst wissen"
                         },
                         "clearExpired": {
-                            "title": "Clear expired list",
-                            "description": "Are you sure you want to clear the list of expired dApp connections?"
+                            "title": "Verlopen lijst wissen",
+                            "description": "Weet je zeker dat je de lijst met verlopen dApp-verbindingen wilt wissen?"
                         }
                     },
                     "inputConnectionCode": {
@@ -501,12 +501,17 @@
                         "title": "Verbindingsverzoek",
                         "firstTimeHint": "Deze dApp wil voor de eerste keer verbinding maken. Verbind enkel met sites die je vertrouwt.",
                         "reconnectHint": "U heeft eerder verbinding gemaakt met deze dApp.",
-                        "insecure": "De URL van deze dApp kan niet worden geverifieerd. Mogelijk is je verbinding met deze app onveilig.",
                         "unsupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een niet-ondersteund netwerk draait.",
                         "noSupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een ander netwerk draait.",
                         "unsupportedMethods": "Deze dApp is niet volledig compatibel met Bloom. Sommige methoden of gebeurtenissen worden niet ondersteund.",
                         "supportedOnOtherProfile": "Deze dApp draait op een ondersteund netwerk, maar is niet toegankelijk met dit profiel. Gebruik een profiel verbonden met het vereiste netwerk.",
-                        "acceptInsecureConnection": "Ik begrijp dat deze dApp mogelijk onveilig is en nog steeds verbinding wil maken."
+                        "acceptInsecureConnection": "I understand and wish to proceed",
+                        "supported": "Supported",
+                        "notSupported": "Not supported",
+                        "onAnotherProfile": "On another profile",
+                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
+                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
+                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
                     },
                     "editPermissions": {
                         "title": "Bewerk permissies"
@@ -522,7 +527,8 @@
                         "permissions": {
                             "step": "Permissie",
                             "tip": "Dit zijn beperkte machtigingen voor de dApp om een interactieverzoek te sturen voor jouw goedkeuring. Keur alleen apps goed die je kent en vertrouwt.",
-                            "title": "Selecteer machtigingen",
+                            "requiredTitle": "Vereiste machtigingen",
+                            "optionalTitle": "Optionele machtigingen",
                             "signData": "Verzoek om data te ondertekenen",
                             "signTransaction": "Verzoek om een transactie te ondertekenen",
                             "sendTransaction": "Verzoek om een transactie te ondertekenen",
@@ -531,7 +537,8 @@
                         },
                         "networks": {
                             "step": "Netwerken",
-                            "title": "Selecteer netwerken",
+                            "requiredTitle": "Vereiste netwerken",
+                            "optionalTitle": "Optionele netwerken",
                             "tip": "De vereiste netwerken zijn vooraf geselecteerd door de dApp en kunnen later ook opnieuw worden geconfigureerd.",
                             "empty": "Je moet tenminste één netwerk selecteren"
                         },
@@ -632,26 +639,42 @@
                 "manage": "Beheer stemkracht"
             },
             "proposalsDetails": {
-                "title": "Details",
                 "totalProposals": "Alle voorstellen",
                 "activeProposals": "Actieve voorstellen",
                 "votingProposals": "Voorstellen waar je over stemt",
                 "votedProposals": "Totaal aantal voorstellen waarop je gestemd hebt"
             },
             "proposals": {
-                "title": "Voorstellen",
+                "title": "Governance voorstellen",
                 "voted": "Gestemd",
                 "successEdit": "Voorstel succesvol bijgewerkt",
                 "successAdd": "{numberOfProposals, select, one {Voorstel} other {Voorstellen}} succesvol toegevoegd",
                 "successAddAll": "{numberOfProposals, select, one {Voorstel} other {Voorstellen}} succesvol toegevoegd aan alle accounts",
                 "successRemove": "Voorstel succesvol verwijderd",
-                "emptyTitle": "Geen voorstellen"
+                "emptyTitle": "Geen voorstellen",
+                "emptyDescription": "Je kunt je abonneren op een voorstel op een node met de URL ervan en een optioneel event-ID."
             },
             "statusTimeline": {
-                "upcoming": "Aankondiging",
-                "commencing": "Stemmen geopend",
-                "holding": "Tellen begint",
-                "ended": "Tellen stopt"
+                "upcoming": {
+                    "past": "Aangekondigd",
+                    "present": "Aankondiging",
+                    "future": "Aankondiging"
+                },
+                "commencing": {
+                    "past": "Stemmen geopend",
+                    "present": "Stemmen open",
+                    "future": "Stemming opent"
+                },
+                "holding": {
+                    "past": "Tellen gestart",
+                    "present": "Tellen gestart",
+                    "future": "Tellen begint"
+                },
+                "ended": {
+                    "past": "Tellen gestopt",
+                    "present": "Tellen gestopt",
+                    "future": "Tellen stopt"
+                }
             },
             "details": {
                 "yourVote": {
@@ -668,8 +691,17 @@
                     "eventId": "Event ID",
                     "nodeUrl": "Knooppunt URL"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Ophalen voorstel gegevens",
-                "hintVote": "Je kunt niet stemmen over een voorstel dat in de aankondigingsfase verkeert, de stemming wordt geopend in {time}."
+                "hintVote": "Je kunt niet stemmen over een voorstel dat in de aankondigingsfase verkeert, de stemming wordt geopend in {time}.",
+                "projection": {
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
+                    "tooltip": "De verwachting is gebaseerd op het huidige stemkracht en de resterende mijlpalen."
+                }
             }
         },
         "updateStronghold": {
@@ -699,6 +731,10 @@
                 "connected": "beveiligde verbinding",
                 "redirected": "omgeleid, wees voorzichtig!",
                 "disconnected": "verbinding verbroken, probeer verversen"
+            },
+            "error": {
+                "title": "Transak could not be loaded",
+                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
             }
         }
     },
@@ -845,10 +881,8 @@
             "updatingNode": "Knooppunt bijwerken",
             "loadingNodeInfo": "Laden van knooppunt info",
             "nodeAddress": "Knooppunt adres",
-            "optionalUsername": "Gebruikersnaam (optioneel)",
-            "optionalPassword": "Wachtwoord (optioneel)",
-            "optionalJwt": "JSON webtoken (optioneel)",
             "removeConfirmation": "Weet u zeker dat u dit knooppunt wilt verwijderen?",
+            "requiresAuthentication": "Node vereist authenticatie",
             "info": {
                 "general": {
                     "tab": "Algemeen",
@@ -883,7 +917,9 @@
                     "decimals": "Decimalen",
                     "useMetricPrefix": "Metrische voorvoegsel gebruiken"
                 }
-            }
+            },
+            "jwt": "JSON webtoken",
+            "credentials": "Inloggegevens"
         },
         "errorLog": {
             "title": "Foutenlogboek",
@@ -954,6 +990,21 @@
             "action": "Ondertekenen",
             "success": "Ondertekend bericht"
         },
+        "siwe": {
+            "title": "Inloggen met Ethereum",
+            "details": "Details",
+            "raw": "Onbewerkt",
+            "rawMessage": "Onbewerkt bericht",
+            "domain": "Domein",
+            "statement": "Verklaring",
+            "resources": "Bronnen",
+            "chainId": "Chain Id",
+            "nonce": "Nonce",
+            "issuedAt": "Uitgegeven op",
+            "notBefore": "Niet voor",
+            "requestId": "Aanvraag Id",
+            "action": "Inloggen"
+        },
         "signTransaction": {
             "title": "Transactie ondertekenen",
             "action": "Ondertekenen",
@@ -967,6 +1018,7 @@
         "smartContractCall": {
             "title": "Smart Contract-oproep naar {contractAddress}",
             "unableToVerify": "Bloom is niet in staat om de smart Contract-oproep te verifiëren. Ga alleen verder met apps die je vertrouwt.",
+            "viewSmartContract": "Bekijk Smart Contract",
             "action": "Bevestig",
             "success": "Smart contract oproep naar {recipient}"
         },
@@ -1044,14 +1096,14 @@
                         "Conflicting": "Stemkracht verminderen mislukt"
                     },
                     "startVoting": {
-                        "Pending": "Stemmen voor {proposalName}",
-                        "Confirmed": "Gestemd voor {proposalName}",
-                        "Conflicting": "Mislukt te stemmen op"
+                        "Pending": "Stemmen op {proposalName}",
+                        "Confirmed": "Gestemd op {proposalName}",
+                        "Conflicting": "Mislukt om op stemmen"
                     },
                     "stopVoting": {
                         "Pending": "Stemmen voor {proposalName} wordt gestopt",
                         "Confirmed": "Stemmen voor {proposalName} gestopt",
-                        "Conflicting": "Niet gelukt om te stoppen met stemmen voor"
+                        "Conflicting": "Mislukt om te stoppen met stemmen op"
                     },
                     "changedVote": {
                         "Pending": "Stem wijzigen voor {proposalName}",
@@ -1133,7 +1185,7 @@
             "errors": {
                 "invalidMimetype": "Ongeldige MimeType, controleer of het bestandstype wordt ondersteund",
                 "quantityTooSmall": "Hoeveelheid moet groter zijn dan 0",
-                "quantityTooLarge": "Hoeveelheid moet kleiner zijn dan 64",
+                "quantityTooLarge": "Hoeveelheid moet kleiner zijn dan 127",
                 "emptyName": "Naam is een verplicht veld",
                 "invalidURI": "Ongeldige URI, geef een geldige URI op",
                 "notReachable": "URI niet bereikbaar, niet mogelijk het NFT type te controleren",
@@ -1161,7 +1213,8 @@
         "addProposal": {
             "title": "Voorstel toevoegen",
             "body": "Lever onderstaande informatie aan om een voorstel toe te voegen.",
-            "addToAllAccounts": "Voeg het voorstel toe aan alle accounts"
+            "addToAllAccounts": "Voeg het voorstel toe aan alle accounts",
+            "addAllProposalsOnNode": "Voeg alle voorstellen toe aan deze node"
         },
         "editProposal": {
             "title": "Voorstel bewerken",
@@ -1330,6 +1383,7 @@
         "addProposal": "Voorstel toevoegen",
         "removeProposal": "Voorstel verwijderen",
         "changeNode": "Wijzig knooppunt",
+        "changeNodeUrl": "Verander node URL",
         "stopVoting": "Stoppen met stemmen",
         "revote": "Stem opnieuw",
         "skipAndKeep": "Overslaan en behoud oude wachtwoord",
@@ -1338,10 +1392,13 @@
         "switchAccount": "Account wisselen",
         "syncAccounts": "Synchroniseer accounts",
         "importToken": "Importeer {type} token",
-        "syncTokens": "Forceer synchronisatie tokens"
+        "syncTokens": "Forceer synchronisatie tokens",
+        "mintNftCollection": "Mint NFT collectie",
+        "readMore": "Read more"
     },
     "general": {
         "recipient": "Ontvanger",
+        "username": "Gebruikersnaam",
         "password": "Wachtwoord",
         "confirmPassword": "Bevestig wachtwoord",
         "currentPassword": "Huidig wachtwoord",
@@ -1359,12 +1416,14 @@
         "decreasing": "Stemkracht verkleinen",
         "voted": "Gestemd",
         "voting": "Stemmen",
+        "votingOn": "Stemmen op",
+        "votedOn": "Gestemd op",
         "changedVote": "Stem gewijzigd",
         "changingVote": "Stem wijzigen",
         "revoted": "Herstemd",
         "revoting": "Herstemmen",
-        "unvoted": "Niet gestemd",
-        "unvoting": "Niet stemmen",
+        "unvoted": "Gestopt met stemmen",
+        "unvoting": "Stoppen met stemmen",
         "transferred": "Verzonden",
         "transferring": "Aan het verzenden",
         "shimmerClaimed": "Geclaimed",
@@ -1503,6 +1562,7 @@
         "contractFunction": "Contract functie",
         "standard": "Standaard",
         "uri": "URI",
+        "image": "Afbeelding",
         "issuer": "Uitgever",
         "issuerAddress": "Uitgever adres",
         "issuerName": "Naam uitgever",
@@ -1557,8 +1617,11 @@
         "featured": "Aanbevolen",
         "raffle": "Verloting",
         "governance": "Governance",
-        "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract"
+        "baseCoin": "Basis token",
+        "unverifiedContract": "Ongeverifieerd contract",
+        "startIndex": "Start index",
+        "mintNftCollectionDescription": "Mint collectie NFT in Alias Output",
+        "question": "Question"
     },
     "filters": {
         "title": "Filters",
@@ -1707,7 +1770,7 @@
             "success": "Verbinding verbroken met {dappName}"
         },
         "clearExpiredDapps": {
-            "success": "Expired dApps cleared"
+            "success": "Verlopen dApps gewist"
         },
         "removeDapp": {
             "success": "{dappName} verwijderd"
@@ -1766,6 +1829,9 @@
         "updateNetworkAddresses": {
             "success": "Contactadressen succesvol bijgewerkt"
         },
+        "siwe": {
+            "rejected": "Ongeldig SIWE verzoek"
+        },
         "syncTokens": {
             "success": "Tokens succesvol gesynchroniseerd"
         }
@@ -1774,7 +1840,8 @@
         "profile": {
             "length": "Je profielnaam kan niet langer zijn dan {length, plural, one {# karakter} other {# karakters}}.",
             "duplicate": "Een account met deze naam bestaat al.",
-            "type": "Niet in staat om het profiel type te bepalen"
+            "type": "Niet in staat om het profiel type te bepalen",
+            "authenticationInterrupted": "Authenticatie werd onderbroken"
         },
         "password": {
             "doNotMatch": "Wachtwoorden komen niet overeen.",
@@ -1871,6 +1938,7 @@
             "notReachable": "Het netwerk ID voor dit knooppunt kon niet worden opgehaald, kan knooppunt niet toevoegen."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Er ging iets mis."
         },
         "backup": {
@@ -1980,7 +2048,8 @@
             "invalidUri": "Ongeldige URI",
             "invalidProtocol": "Ongeldig protocol, moet beginnen met 'wc'.",
             "deprecatedVersion": "dApp maakt gebruik van een verouderde wallet connectie versie.",
-            "invalidV2UriFormat": "De link voldoet niet aan de WalletConnect V2-specificatie."
+            "invalidV2UriFormat": "De link voldoet niet aan de WalletConnect V2-specificatie.",
+            "signTypedData": "Bloom ondersteunt eth_signedTypedData V1 niet vanwege veiligheidsredenen"
         },
         "web3": {
             "unableToGetProvider": "Kan web3-provider niet ophalen.",
@@ -2037,7 +2106,8 @@
             "description": "Optionele parameter: Een beschrijving van de NFT",
             "attributes": "Optionele parameter: Een reeks van eigenschappen en waarden die kenmerken van de NFT definiëren",
             "uri": "Om een URI met eigen media te maken, upload eerst je bestand naar IPFS via een opslagservice (bijv. https://nft.storage/)",
-            "quantity": "Optionele parameter: Het aantal geminte kopieën met deze metadata."
+            "quantity": "Optionele parameter: Het aantal geminte kopieën met deze metadata.",
+            "startIndex": "Optionele parameter: De startindex van de NFT's om te minten."
         },
         "governance": {
             "removeProposalWarning": "Je moet eerst stoppen met stemmen voor dit voorstel voordat je het verwijdert.",
@@ -2063,7 +2133,7 @@
         "collectibles": "Verzamelingen",
         "governance": "Governance",
         "campaigns": "Campagnes",
-        "buySell": "Kopen & verkopen",
+        "buySell": "IOTA kopen",
         "developer": "Ontwikkelaar",
         "tokens": "Tokens",
         "settings": "Instellingen"
@@ -2096,6 +2166,12 @@
             "notConnected": "Niet verbonden",
             "locked": "Apparaat vergrendeld",
             "appNotOpen": "App niet geopend"
+        },
+        "dappVerification": {
+            "valid": "Geverifiëerd",
+            "invalid": "Domein komt niet overeen",
+            "unknown": "Kan niet verifiëren",
+            "scam": "Beveiligingsrisico"
         }
     },
     "menus": {

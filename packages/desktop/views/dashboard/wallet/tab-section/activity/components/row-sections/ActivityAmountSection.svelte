@@ -1,8 +1,8 @@
 <script lang="ts">
     import {
-        Activity,
-        ActivityType,
-        GovernanceAction,
+        StardustActivity,
+        StardustActivityType,
+        StardustGovernanceAction,
         getFormattedAmountFromActivity,
         getFormattedVotingPowerFromGovernanceActivity,
     } from '@core/activity'
@@ -13,34 +13,39 @@
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
 
-    export let activity: Activity
+    export let activity: StardustActivity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
-    function getAmount(_activity: Activity): string {
-        if (_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) {
+    function getAmount(_activity: StardustActivity): string {
+        if (_activity.type === StardustActivityType.Basic || _activity.type === StardustActivityType.Foundry) {
             return getFormattedAmountFromActivity(_activity)
-        } else if (_activity.type === ActivityType.Governance) {
+        } else if (_activity.type === StardustActivityType.Governance) {
             const isVotingPowerActivity =
-                _activity.governanceAction === GovernanceAction.DecreaseVotingPower ||
-                _activity.governanceAction === GovernanceAction.IncreaseVotingPower
+                _activity.governanceAction === StardustGovernanceAction.DecreaseVotingPower ||
+                _activity.governanceAction === StardustGovernanceAction.IncreaseVotingPower
 
             return isVotingPowerActivity ? getFormattedVotingPowerFromGovernanceActivity(_activity) : '-'
-        } else if (_activity.type === ActivityType.Nft) {
+        } else if (_activity.type === StardustActivityType.Nft) {
             return '1 ' + localize('general.nft')
         } else {
             return '-'
         }
     }
 
-    function getFormattedMarketPrice(_activity: Activity): string | undefined {
-        if ((_activity.type === ActivityType.Basic || _activity.type === ActivityType.Foundry) && token) {
+    function getFormattedMarketPrice(_activity: StardustActivity): string | undefined {
+        if (
+            [StardustActivityType.Basic, StardustActivityType.Governance, StardustActivityType.Foundry].includes(
+                _activity.type
+            ) &&
+            token
+        ) {
             const amount = _activity.tokenTransfer?.rawAmount ?? _activity.baseTokenTransfer.rawAmount
 
             const marketPrice = getFiatValueFromTokenAmount(amount, token)
             return marketPrice ? formatCurrency(marketPrice) : '-'
-        } else if (_activity.type === ActivityType.Nft) {
+        } else if (_activity.type === StardustActivityType.Nft) {
             return '-'
         } else {
             return undefined

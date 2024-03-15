@@ -1,9 +1,10 @@
 import { IAccountState } from '@core/account/interfaces'
-import { EvmExplorerApi, EvmNetworkId } from '@core/network'
+import { EvmNetworkId } from '@core/network'
 import { getNetwork } from '@core/network/stores'
 import { TokenStandard, TokenTrackingStatus } from '@core/token'
 import { addNewTrackedTokenToActiveProfile, hasTokenBeenUntracked } from '@core/wallet/actions'
 import { BASE_TOKEN_CONTRACT_ADDRESS } from '../constants'
+import { BlockscoutApi } from '@auxiliary/blockscout/api'
 
 export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUntracked?: boolean): void {
     const chains = getNetwork()?.getChains()
@@ -14,9 +15,9 @@ export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUnt
             return
         }
         const networkId = chain.getConfiguration().id
-        const explorerApi = new EvmExplorerApi(networkId)
+        const blockscoutApi = new BlockscoutApi(networkId)
 
-        const tokens = await explorerApi.getAssetsForAddress(evmAddress)
+        const tokens = await blockscoutApi.getAssetsForAddress(evmAddress)
         const untrackedTokensToTrack = tokens.filter(
             ({ token }) => addPreviouslyUntracked || !hasTokenBeenUntracked(token.address.toLowerCase(), networkId)
         )

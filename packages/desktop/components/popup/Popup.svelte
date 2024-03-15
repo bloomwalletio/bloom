@@ -32,7 +32,6 @@
     import DappAccountSwitcherPopup from './popups/DappAccountSwitcherPopup.svelte'
     import DeepLinkErrorPopup from './popups/DeepLinkErrorPopup.svelte'
     import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
-    import EnableLedgerBlindSigningPopup from './popups/EnableLedgerBlindSigningPopup.svelte'
     import ErrorLogPopup from './popups/ErrorLogPopup.svelte'
     import EvmTransactionFromDappPopup from './popups/EvmTransactionFromDappPopup.svelte'
     import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
@@ -40,8 +39,11 @@
     import ImportErc721TokenFormPopup from './popups/ImportErc721TokenFormPopup.svelte'
     import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
     import ManageVotingPowerPopup from './popups/ManageVotingPowerPopup.svelte'
+    import MarkdownBlockPopup from './popups/MarkdownBlockPopup.svelte'
     import MintNativeTokenConfirmationPopup from './popups/MintNativeTokenConfirmationPopup.svelte'
     import MintNativeTokenFormPopup from './popups/MintNativeTokenFormPopup.svelte'
+    import MintNftCollectionConfirmationPopup from './popups/MintNftCollectionConfirmationPopup.svelte'
+    import MintNftCollectionFormPopup from './popups/MintNftCollectionFormPopup.svelte'
     import MintNftConfirmationPopup from './popups/MintNftConfirmationPopup.svelte'
     import MintNftFormPopup from './popups/MintNftFormPopup.svelte'
     import NodeAuthRequiredPopup from './popups/NodeAuthRequiredPopup.svelte'
@@ -50,6 +52,7 @@
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
     import SendFlowPopup from './popups/SendFlowPopup.svelte'
+    import SiwePopup from './popups/SiwePopup.svelte'
     import SignTypedDataPopup from './popups/SignTypedDataPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
@@ -58,7 +61,6 @@
     import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
     import UnlockStrongholdPopup from './popups/UnlockStrongholdPopup.svelte'
-    import VerifyLedgerTransactionPopup from './popups/VerifyLedgerTransactionPopup.svelte'
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
     import { localize } from '@core/i18n'
@@ -109,7 +111,6 @@
         [PopupId.DappAccountSwitcher]: DappAccountSwitcherPopup,
         [PopupId.DeepLinkError]: DeepLinkErrorPopup,
         [PopupId.Diagnostics]: DiagnosticsPopup,
-        [PopupId.EnableLedgerBlindSigning]: EnableLedgerBlindSigningPopup,
         [PopupId.ErrorLog]: ErrorLogPopup,
         [PopupId.EvmTransactionFromDapp]: EvmTransactionFromDappPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
@@ -117,16 +118,20 @@
         [PopupId.ImportErc721Token]: ImportErc721TokenFormPopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
         [PopupId.ManageVotingPower]: ManageVotingPowerPopup,
+        [PopupId.MarkdownBlock]: MarkdownBlockPopup,
         [PopupId.MintNativeTokenConfirmation]: MintNativeTokenConfirmationPopup,
         [PopupId.MintNativeTokenForm]: MintNativeTokenFormPopup,
         [PopupId.MintNftConfirmation]: MintNftConfirmationPopup,
         [PopupId.MintNftForm]: MintNftFormPopup,
+        [PopupId.MintNftCollectionForm]: MintNftCollectionFormPopup,
+        [PopupId.MintNftCollectionConfirmation]: MintNftCollectionConfirmationPopup,
         [PopupId.NodeAuthRequired]: NodeAuthRequiredPopup,
         [PopupId.NodeInfo]: NodeInfoPopup,
         [PopupId.ReceiveAddress]: ReceiveAddressPopup,
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
         [PopupId.SendFlow]: SendFlowPopup,
+        [PopupId.Siwe]: SiwePopup,
         [PopupId.SignTypedData]: SignTypedDataPopup,
         [PopupId.SignMessage]: SignMessagePopup,
         [PopupId.StopVoting]: StopVotingPopup,
@@ -135,7 +140,6 @@
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,
         [PopupId.UnlockStronghold]: UnlockStrongholdPopup,
-        [PopupId.VerifyLedgerTransaction]: VerifyLedgerTransactionPopup,
         [PopupId.VoteForProposal]: VoteForProposal,
         [PopupId.VotingPowerToZero]: VotingPowerToZeroPopup,
     }
