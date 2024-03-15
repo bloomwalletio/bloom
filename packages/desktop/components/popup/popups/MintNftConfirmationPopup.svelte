@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Table, Avatar, Tabs } from '@bloomwalletio/ui'
-    import { selectedAccount } from '@core/account/stores'
+    import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { CURRENT_IRC27_VERSION } from '@core/nfts'
+    import { CURRENT_IRC27_VERSION, IIrc27Metadata } from '@core/nfts'
     import { getClient } from '@core/profile-manager'
     import { checkActiveProfileAuthAsync, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
@@ -32,7 +32,7 @@
         quantity,
         collectionId,
         startIndex,
-    } = $mintNftDetails || {}
+    } = $mintNftDetails || { quantity: 1, startIndex: 0 }
 
     $: irc27Metadata = {
         standard,
@@ -45,11 +45,12 @@
         ...(issuerName && { issuerName }),
         ...(description && { description }),
         ...(attributes && { attributes }),
-    }
+    } as IIrc27Metadata
 
     async function setStorageDeposit(): Promise<void> {
         try {
-            const outputData = buildNftOutputBuilderParams(irc27Metadata, $selectedAccount.depositAddress)
+            const { depositAddress } = getSelectedAccount()
+            const outputData = buildNftOutputBuilderParams(irc27Metadata, depositAddress)
             const client = await getClient()
             const preparedOutput = await client.buildNftOutput(outputData)
 
@@ -177,6 +178,7 @@
                         items={[
                             {
                                 key: localize('general.metadata'),
+                                // @ts-expect-error IIrc27Metadata satisfies the type of JsonTreeValue
                                 value: irc27Metadata,
                                 copyable: true,
                             },
