@@ -1,4 +1,4 @@
-import { BrowserWindow, app, shell, screen } from 'electron'
+import { BrowserWindow, app, shell, screen, nativeTheme } from 'electron'
 import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
@@ -213,6 +213,13 @@ export default class TransakManager implements ITransakManager {
             throw new Error('Invalid Transak service')
         }
 
+        const colorMode =
+            nativeTheme.themeSource === 'system'
+                ? nativeTheme.shouldUseDarkColors
+                    ? 'DARK'
+                    : 'LIGHT'
+                : nativeTheme.themeSource.toUpperCase()
+
         const queryParams = {
             apiKey,
             defaultFiatCurrency: currency,
@@ -226,6 +233,7 @@ export default class TransakManager implements ITransakManager {
             disableWalletAddressForm: true,
             isFeeCalculationHidden: true,
             disablePaymentMethods: ['apple_pay', 'google_pay'],
+            colorMode,
         }
 
         const urlObject = buildUrl({ origin: TRANSAK_WIDGET_URL, query: queryParams })
