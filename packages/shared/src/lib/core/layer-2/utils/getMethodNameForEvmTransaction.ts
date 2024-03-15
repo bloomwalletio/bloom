@@ -9,7 +9,7 @@ export async function getMethodNameForEvmTransaction(
     const fourBytePrefix = data.substring(0, 10)
     try {
         if (!featuresObject.wallet.smartContracts.infuraRegistry.enabled) {
-            return fourBytePrefix
+            return undefined
         }
 
         const result = await lookupMethodSignature(fourBytePrefix)
