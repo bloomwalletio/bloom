@@ -10,13 +10,13 @@ export async function getMethodForEvmTransaction(
             throw Error('Method could not be found!')
         }
 
-        const matches = result.match(/(\w+)\((.*)\)/g)
+        const matches = /(\w+)\((.*)\)$/.exec(result)
         if (!matches) {
             throw Error('Method signature could not be parsed!')
         }
 
-        const name = matches[0]
-        const parametersArr = matches[1]
+        const name = matches[1]
+        const parametersArr = matches[2] ?? ''
 
         const parameters: Record<string, string> = parametersArr.split(',').reduce(
             (acc, type, index) => {
