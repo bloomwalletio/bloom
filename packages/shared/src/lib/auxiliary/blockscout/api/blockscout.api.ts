@@ -4,7 +4,14 @@ import { QueryParameters } from '@core/utils'
 import { BaseApi } from '@core/utils/api'
 import { DEFAULT_EXPLORER_URLS } from '@core/network/constants'
 import { SupportedNetworkId } from '@core/network/enums'
-import { IBlockscoutApi, IBlockscoutAsset, IBlockscoutTokenInfo, IBlockscoutTransaction } from '../interfaces'
+import {
+    IBlockscoutApi,
+    IBlockscoutAsset,
+    IBlockscoutAssetDto,
+    IBlockscoutTokenInfo,
+    IBlockscoutTokenInfoDto,
+    IBlockscoutTransaction,
+} from '../interfaces'
 import { NetworkId } from '@core/network/types'
 import { BlockscoutTokenTransfer } from '../types'
 
@@ -56,10 +63,12 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     }
 
     async getAssetMetadata(assetAddress: string): Promise<IBlockscoutTokenInfo | undefined> {
-        const response = await this.get<IBlockscoutTokenInfo>(`tokens/${assetAddress}`)
+        const response = await this.get<IBlockscoutTokenInfoDto>(`tokens/${assetAddress}`)
         if (response) {
-            response.type = response.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721
-            return response
+            return {
+                ...response,
+                type: response.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721,
+            }
         }
     }
 
@@ -69,12 +78,12 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     ): Promise<IBlockscoutAsset[]> {
         const tokenType = standard.replace('ERC', 'ERC-')
         const path = `addresses/${address}/tokens`
-        const items = await this.makePaginatedGetRequest<IBlockscoutAsset>(path, { type: tokenType })
+        const items = await this.makePaginatedGetRequest<IBlockscoutAssetDto>(path, { type: tokenType })
         return items.map((asset) => ({
             ...asset,
             token: {
                 ...asset.token,
-                type: asset.token.type.replace('-', ''),
+                type: asset.token.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721,
             },
         }))
     }

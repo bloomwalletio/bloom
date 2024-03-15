@@ -1,7 +1,7 @@
 import { BlockscoutTransactionStatus } from '../enums'
 import { BlockscoutTransactionType } from '../enums/blockscout-transaction-type.enum'
 import { IBlockscoutAddressParam } from './blockscout-address-param.interface'
-import { IBlockscoutTokenInfo } from './blockscout-token-info.interface'
+import { IBlockscoutTokenInfoDto } from './blockscout-token-info.interface'
 
 interface IFee {
     type: 'maximum' | 'actual'
@@ -32,7 +32,7 @@ interface ITokenTransfer {
     method: string
     timestamp: string
     to: IBlockscoutAddressParam
-    token: IBlockscoutTokenInfo
+    token: IBlockscoutTokenInfoDto
 }
 
 export interface IBlockscoutTransaction {
