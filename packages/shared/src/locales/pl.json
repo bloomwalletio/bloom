@@ -505,13 +505,13 @@
                         "noSupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa ona w innej sieci.",
                         "unsupportedMethods": "Ta aplikacja dApp nie jest w pełni kompatybilna z Bloom. Niektóre procesy lub akcje nie są obsługiwane.",
                         "supportedOnOtherProfile": "Ta aplikacja dApp działa w obsługiwanej sieci, ale nie jest dostępna przy użyciu tego profilu. Użyj profilu połączonego z wymaganą siecią.",
-                        "acceptInsecureConnection": "I understand and wish to proceed",
-                        "supported": "Supported",
-                        "notSupported": "Not supported",
-                        "onAnotherProfile": "On another profile",
-                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
-                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
-                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
+                        "acceptInsecureConnection": "Rozumiem i chcę kontynuować",
+                        "supported": "Obsługiwane",
+                        "notSupported": "Nieobsługiwane",
+                        "onAnotherProfile": "W innym profilu",
+                        "scamHint": "Ta domena jest oznaczona jako niebezpieczna przez wielu dostawców zabezpieczeń. Opuść ją natychmiast, aby chronić swoje aktywa.",
+                        "invalidHint": "Ta strona jest domeną, która nie pasuje do nadawcy żądania. Potwierdzenie może prowadzić do utraty środków.",
+                        "unknownHint": "Ta aplikacja dApp nie została zweryfikowana i może zawierać zagrożenia bezpieczeństwa."
                     },
                     "editPermissions": {
                         "title": "Edytuj uprawnienia"
@@ -692,14 +692,14 @@
                     "nodeUrl": "URL serwera"
                 },
                 "quorum": {
-                    "title": "Quorum progress",
-                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                    "title": "Postęp kworum",
+                    "tooltip": "Kworum na poziomie 5% jest wymagane dla propozycji Tangle Treasury"
                 },
                 "fetching": "Pobieranie danych propozycji",
                 "hintVote": "Nie możesz głosować nad propozycją, która dopiero została zapowiedziana. Głosowanie zostanie otwarte za {time}.",
                 "projection": {
-                    "title": "Show projected votes",
-                    "description": "How voting might finish with current participation",
+                    "title": "Pokaż przewidywane głosy",
+                    "description": "Jak głosowanie może zakończyć się przy obecnym udziale",
                     "tooltip": "Prognoza opiera się na aktualnej wadze głosów i pozostałych etapach (milestones)."
                 }
             }
@@ -733,8 +733,8 @@
                 "disconnected": "rozłączono, spróbuj odświeżyć"
             },
             "error": {
-                "title": "Transak could not be loaded",
-                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
+                "title": "Transak nie mógł zostać załadowany",
+                "description": "Uruchom ponownie aplikację, jeśli problem będzie się powtarzał, poproś o wsparcie na naszym serwerze Discord"
             }
         }
     },
@@ -1394,7 +1394,7 @@
         "importToken": "Importowanie tokena {type}",
         "syncTokens": "Wymuś synchronizację tokenów",
         "mintNftCollection": "Mintuj kolekcję NFT",
-        "readMore": "Read more"
+        "readMore": "Czytaj więcej"
     },
     "general": {
         "recipient": "Odbiorca",
@@ -1621,7 +1621,7 @@
         "unverifiedContract": "Niezweryfikowany kontrakt",
         "startIndex": "Indeks startowy",
         "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu",
-        "question": "Question"
+        "question": "Pytanie"
     },
     "filters": {
         "title": "Filtry",
@@ -1938,7 +1938,7 @@
             "notReachable": "Nie można pobrać ID sieci dla tego serwera, nie można dodać serwera."
         },
         "global": {
-            "invalidUrl": "Invalid URL",
+            "invalidUrl": "Nieprawidłowy URL",
             "generic": "Coś poszło nie tak."
         },
         "backup": {
