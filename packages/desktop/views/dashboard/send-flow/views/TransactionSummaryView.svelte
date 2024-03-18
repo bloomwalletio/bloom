@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Spinner } from '@bloomwalletio/ui'
     import { PopupTemplate } from '@components'
-    import { selectedAccount } from '@core/account/stores'
+    import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { IChain, getNetwork, isEvmChain } from '@core/network'
@@ -25,7 +25,7 @@
     import { showNotification } from '@auxiliary/notification'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
-    import { getIsActiveLedgerProfile } from '@core/profile/stores'
+    import { getActiveProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -106,8 +106,16 @@
             modifyPopupState({ preventClose: true })
             if (isSourceNetworkLayer2) {
                 const signedTransaction = await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+                const profileId = getActiveProfileId()
+                const account = getSelectedAccount()
 
-                await sendAndPersistTransactionFromEvm(preparedTransaction, signedTransaction, chain)
+                await sendAndPersistTransactionFromEvm(
+                    preparedTransaction,
+                    signedTransaction,
+                    chain,
+                    profileId,
+                    account
+                )
             } else {
                 await signAndSendStardustTransaction(preparedOutput, $selectedAccount)
             }
