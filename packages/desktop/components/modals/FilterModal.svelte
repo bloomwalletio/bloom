@@ -34,7 +34,7 @@
 >
     <filter-modal>
         <filter-modal-header
-            class="flex flex-row items-center justify-between bg-gray-50 dark:bg-transparent px-4 py-2 rounded-t-xl"
+            class="flex flex-row items-center justify-between bg-surface-1 dark:bg-transparent px-4 py-2 rounded-t-xl"
         >
             <Button text={localize('actions.clear')} on:click={onClearClick} size="xs" variant="outlined" />
             <Text align="center">

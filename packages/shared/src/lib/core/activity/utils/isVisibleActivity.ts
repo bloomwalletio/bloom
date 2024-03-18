@@ -1,4 +1,4 @@
-import { BASE_TOKEN_ID, convertToRawAmount } from '@core/token'
+import { BASE_TOKEN_ID, TokenStandard, convertToRawAmount } from '@core/token'
 import { dateIsAfterOtherDate, dateIsBeforeOtherDate, datesOnSameDay } from '@core/utils'
 import {
     BooleanFilterOption,
@@ -9,12 +9,13 @@ import {
     StatusFilterOption,
 } from '@core/utils/enums/filters'
 import { get } from 'svelte/store'
-import { StardustActivityAsyncStatus, StardustActivityType, InclusionState } from '../enums'
+import { StardustActivityAsyncStatus, StardustActivityType, InclusionState, ActivityTypeFilterOption } from '../enums'
 import { activityFilter } from '../stores'
 import { Activity, ActivityFilter } from '../types'
 import { getPersistedToken } from '@core/token/stores'
 import { NetworkNamespace } from '@core/network'
 import { EvmActivityType } from '../enums/evm'
+import { NftStandard } from '@core/nfts'
 
 // Filters activities based on activity properties. If none of the conditionals are valid, then activity is shown.
 export function isVisibleActivity(activity: Activity): boolean {
@@ -320,8 +321,79 @@ function isVisibleWithActiveStatusFilter(activity: Activity, filter: ActivityFil
 
 function isVisibleWithActiveTypeFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (filter.type.active && filter.type.selected) {
-        if (filter.type.selected !== activity.type) {
-            return false
+        if (activity.namespace === NetworkNamespace.Stardust) {
+            switch (filter.type.selected) {
+                case ActivityTypeFilterOption.Transfer:
+                    if (activity.type !== StardustActivityType.Basic) {
+                        return false
+                    }
+                    break
+                case ActivityTypeFilterOption.SmartContract:
+                    if (!activity.smartContract) {
+                        return false
+                    }
+                    break
+                case ActivityTypeFilterOption.Nft:
+                    if (activity.type !== StardustActivityType.Nft) {
+                        return false
+                    }
+
+                    break
+                case ActivityTypeFilterOption.Alias:
+                    if (activity.type !== StardustActivityType.Alias) {
+                        return false
+                    }
+                    break
+                case ActivityTypeFilterOption.Consolidation:
+                    if (activity.type !== StardustActivityType.Consolidation) {
+                        return false
+                    }
+                    break
+                case ActivityTypeFilterOption.Foundry:
+                    if (activity.type !== StardustActivityType.Foundry) {
+                        return false
+                    }
+                    break
+                case ActivityTypeFilterOption.Governance:
+                    if (activity.type !== StardustActivityType.Governance) {
+                        return false
+                    }
+                    break
+                default:
+                    return false
+            }
+        } else if (activity.namespace === NetworkNamespace.Evm) {
+            switch (filter.type.selected) {
+                case ActivityTypeFilterOption.Transfer: {
+                    const isTokentransfer =
+                        (activity.type === EvmActivityType.TokenTransfer ||
+                            activity.type === EvmActivityType.BalanceChange) &&
+                        (activity.tokenTransfer.standard === TokenStandard.Erc20 ||
+                            activity.tokenTransfer.standard === TokenStandard.Irc30)
+                    if (activity.type !== EvmActivityType.CoinTransfer && !isTokentransfer) {
+                        return false
+                    }
+                    break
+                }
+                case ActivityTypeFilterOption.SmartContract:
+                    if (activity.type !== EvmActivityType.ContractCall) {
+                        return false
+                    }
+                    break
+                case ActivityTypeFilterOption.Nft: {
+                    const isNftTransfer =
+                        (activity.type === EvmActivityType.TokenTransfer ||
+                            activity.type === EvmActivityType.BalanceChange) &&
+                        (activity.tokenTransfer.standard === NftStandard.Erc721 ||
+                            activity.tokenTransfer.standard === NftStandard.Irc27)
+                    if (!isNftTransfer) {
+                        return false
+                    }
+                    break
+                }
+                default:
+                    return false
+            }
         }
     }
     return true
