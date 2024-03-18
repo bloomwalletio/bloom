@@ -1,11 +1,12 @@
 import { get } from 'svelte/store'
 
-import { activeAccounts } from '@core/profile/stores'
+import { activeAccounts, getActiveProfileId } from '@core/profile/stores'
 import { generateAndStoreActivitiesForAccount } from './generateAndStoreActivitiesForAccount'
 import { getActiveNetworkId } from '@core/network'
 
-export async function generateAndStoreActivitiesForAllAccounts(profileId: string): Promise<void> {
+export async function generateAndStoreActivitiesForAllAccounts(): Promise<void> {
     try {
+        const profileId = getActiveProfileId()
         const networkId = getActiveNetworkId()
         const accounts = get(activeAccounts)
 

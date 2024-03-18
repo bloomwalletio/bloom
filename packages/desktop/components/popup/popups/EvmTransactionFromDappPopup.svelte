@@ -31,7 +31,6 @@
     import { LedgerAppName } from '@core/ledger'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { LegacyTransaction } from '@ethereumjs/tx'
-    import { activeProfileId } from '@core/profile/stores'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -102,13 +101,8 @@
             callback({ result: signedTransaction })
             return
         }
-        const transactionHash = await sendAndPersistTransactionFromEvm(
-            preparedTransaction,
-            signedTransaction,
-            chain,
-            $selectedAccount,
-            $activeProfileId
-        )
+
+        const transactionHash = await sendAndPersistTransactionFromEvm(preparedTransaction, signedTransaction, chain)
         callback({ result: transactionHash })
     }
 

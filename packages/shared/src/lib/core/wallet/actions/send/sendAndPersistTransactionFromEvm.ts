@@ -14,14 +14,17 @@ import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
 import { updateLayer2AccountBalanceForTokenOnChain } from '@core/layer-2/stores'
+import { getActiveProfileId } from '@core/profile/stores'
+import { getSelectedAccount } from '@core/account/stores'
 
 export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
     signedTransaction: string,
-    chain: IChain,
-    account: IAccountState,
-    profileId: string
+    chain: IChain
 ): Promise<string> {
+    const profileId = getActiveProfileId()
+    const account = getSelectedAccount()
+
     const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
     if (!transactionReceipt) {
         throw Error('No transaction receipt!')
