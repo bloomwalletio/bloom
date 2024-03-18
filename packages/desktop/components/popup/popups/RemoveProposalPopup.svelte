@@ -26,7 +26,7 @@
             const account = getSelectedAccount()
             await account.deregisterParticipationEvent($selectedProposalId)
             updateActiveAccountPersistedData(account.index, {
-                removedProposalIds: [...(account?.removedProposalIds ?? []), $selectedProposalId],
+                removedProposalIds: [...(account.removedProposalIds ?? []), $selectedProposalId],
             })
             $governanceRouter?.previous()
             clearEvent(account)
