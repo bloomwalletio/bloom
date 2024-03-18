@@ -337,7 +337,6 @@ function isVisibleWithActiveTypeFilter(activity: Activity, filter: ActivityFilte
                     if (activity.type !== StardustActivityType.Nft) {
                         return false
                     }
-
                     break
                 case ActivityTypeFilterOption.Alias:
                     if (activity.type !== StardustActivityType.Alias) {
