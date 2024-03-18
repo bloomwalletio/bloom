@@ -2,9 +2,11 @@
     import { Checkbox, Error, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
+    type T = $$Generic
+
     export let selectionOptions: {
         label: string
-        value: unknown
+        value: T
         checked: boolean
         required: boolean
     }[]
