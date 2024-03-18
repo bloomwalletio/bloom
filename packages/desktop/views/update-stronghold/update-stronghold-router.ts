@@ -3,8 +3,8 @@ import { IRouter } from '@core/router/interfaces'
 import { get, writable } from 'svelte/store'
 import { UpdateStrongholdRoute } from './update-stronghold-route.enum'
 
-export const updateStrongholdRoute = writable<UpdateStrongholdRoute>(null)
-export const updateStrongholdRouter = writable<UpdateStrongholdRouter>(null)
+export const updateStrongholdRoute = writable<UpdateStrongholdRoute>(undefined)
+export const updateStrongholdRouter = writable<UpdateStrongholdRouter>(undefined)
 
 export class UpdateStrongholdRouter extends Subrouter<UpdateStrongholdRoute> {
     constructor(parentRouter: IRouter) {
