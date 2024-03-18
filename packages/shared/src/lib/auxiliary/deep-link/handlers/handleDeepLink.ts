@@ -18,6 +18,7 @@ import { localize } from '@core/i18n'
 import { addError } from '@core/error/stores'
 import { URL_CLEANUP_REGEX } from '../constants'
 import { closeDrawer } from '../../../../../../desktop/lib/auxiliary/drawer'
+import { IError } from '@core/error'
 
 /**
  * Parses an Bloom deep link, i.e. a URL that begins with the app protocol i.e "bloom://".
@@ -86,11 +87,12 @@ function handleDeepLinkForHostname(url: URL): void {
                 throw new Error(`Unrecognized context '${url.hostname}'`)
         }
     } catch (err) {
+        const error = err as IError
         openPopup({
             id: PopupId.DeepLinkError,
-            props: { error: err, url },
+            props: { error, url },
         })
-        addError({ time: Date.now(), type: 'deepLink', message: `Error handling deep link. ${err.message}` })
+        addError({ time: Date.now(), type: 'deepLink', message: `Error handling deep link. ${error.message}` })
     }
 }
 
@@ -105,14 +107,15 @@ function openAccountSwitcherFirst(handler: () => void, url: URL): void {
                         closePopup()
                         handler()
                     } catch (err) {
+                        const error = err as IError
                         openPopup({
                             id: PopupId.DeepLinkError,
-                            props: { error: err, url },
+                            props: { error, url },
                         })
                         addError({
                             time: Date.now(),
                             type: 'deepLink',
-                            message: `Error handling deep link. ${err.message}`,
+                            message: `Error handling deep link. ${error.message}`,
                         })
                     }
                 },
