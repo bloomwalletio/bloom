@@ -81,7 +81,7 @@
         <div class="w-full flex items-center justify-between gap-2">
             <div class="flex flex-row items-center gap-3">
                 <Indicator color={option.value.color} />
-                <Text>{option.value.name}</Text>
+                <Text truncate>{option.value.name}</Text>
             </div>
             {#if indexOfPrimary === index}
                 <Pill color="info">{localize('general.primary')}</Pill>

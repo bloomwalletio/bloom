@@ -6,7 +6,8 @@
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { NetworkId, getChainConfiguration } from '@core/network'
-    import { SelectionOption } from '@core/utils/interfaces'
+    import { NetworkAvatar } from '@ui'
+    import { Text } from '@bloomwalletio/ui'
 
     export let checkedNetworks: string[]
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
@@ -15,24 +16,36 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.networks'
 
+    type SelectionOption = {
+        label: string
+        value: NetworkId
+        checked: boolean
+        required: boolean
+    }
+
     let requiredNetworks: SelectionOption[] = []
     let optionalNetworks: SelectionOption[] = []
     function setNetworkSelections(): void {
         const networks: Record<string, SelectionOption> = {}
         for (const namespace of Object.values(requiredNamespaces)) {
-            for (const chain of namespace.chains) {
-                const chainName = getChainConfiguration(chain as NetworkId)?.name ?? chain
-                networks[chain] = { label: chainName, value: chain, checked: true, required: true }
+            for (const chainId of namespace.chains) {
+                const chainName = getChainConfiguration(chainId as NetworkId)?.name ?? chainId
+                networks[chainId] = { label: chainName, value: chainId as NetworkId, checked: true, required: true }
             }
         }
         const supportedNetworks = getAllNetworkIds()
         for (const [namespaceId, namespace] of Object.entries(optionalNamespaces)) {
             const persistedNamespace = persistedNamespaces?.[namespaceId]
-            for (const chain of namespace.chains) {
-                if (!networks[chain] && supportedNetworks.includes(chain)) {
-                    const isChecked = persistedNamespace?.chains?.includes(chain) ?? true
-                    const chainName = getChainConfiguration(chain as NetworkId)?.name ?? chain
-                    networks[chain] = { label: chainName, value: chain, checked: isChecked, required: false }
+            for (const chainId of namespace.chains) {
+                if (!networks[chainId] && supportedNetworks.includes(chainId)) {
+                    const isChecked = persistedNamespace?.chains?.includes(chainId) ?? true
+                    const chainName = getChainConfiguration(chainId as NetworkId)?.name ?? chainId
+                    networks[chainId] = {
+                        label: chainName,
+                        value: chainId as NetworkId,
+                        checked: isChecked,
+                        required: false,
+                    }
                 }
             }
         }
@@ -55,7 +68,15 @@
             bind:selectionOptions={requiredNetworks}
             disableSelectAll
             title={localize(`${localeKey}.requiredTitle`)}
-        />
+            let:option
+        >
+            <div class="w-full flex items-center gap-2">
+                {#if option.value}
+                    <NetworkAvatar networkId={option.value} />
+                {/if}
+                <Text truncate>{option.label}</Text>
+            </div>
+        </Selection>
     {/if}
     {#if optionalNetworks.length}
         <Selection
