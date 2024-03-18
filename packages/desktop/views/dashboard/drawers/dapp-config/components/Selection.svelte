@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Checkbox, Error, Pill, Text } from '@bloomwalletio/ui'
+    import { Checkbox, Error, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
     export let selectionOptions: {
@@ -8,12 +8,9 @@
         checked: boolean
         required: boolean
     }[]
-    export let showPrimary: boolean = false
     export let title: string
     export let disableSelectAll: boolean = false
     export let error: string | undefined = undefined
-
-    $: indexOfPrimary = selectionOptions.findIndex((option) => option.checked)
 
     let allChecked = true
     function onAllClick() {
@@ -42,9 +39,6 @@
             <div class="w-full flex flex-row items-center justify-between p-4">
                 <div class="flex items-center gap-2">
                     <Text>{option.label}</Text>
-                    {#if showPrimary && indexOfPrimary === index}
-                        <Pill color="info">{localize('general.primary')}</Pill>
-                    {/if}
                 </div>
                 {#if option.required}
                     <Text textColor="success">{localize('general.required')}</Text>
