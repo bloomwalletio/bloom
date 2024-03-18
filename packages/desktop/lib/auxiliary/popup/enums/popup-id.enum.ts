@@ -1,6 +1,5 @@
 export enum PopupId {
     AccountSwitcher = 'accountSwitcher',
-    ActivityDetails = 'activityDetails',
     AddNode = 'addNode',
     AddProposal = 'addProposal',
     AliasConfirmation = 'aliasConfirmation',
@@ -16,6 +15,7 @@ export enum PopupId {
     DappAccountSwitcher = 'dappAccountSwitcher',
     Diagnostics = 'diagnostics',
     ErrorLog = 'errorLog',
+    EvmActivityDetails = 'evmActivityDetails',
     EvmTransactionFromDapp = 'EvmTransactionFromDapp',
     FaucetRequest = 'faucetRequest',
     ImportErc20Token = 'importErc20Token',
@@ -39,6 +39,7 @@ export enum PopupId {
     SignTypedData = 'signTypedData',
     SignMessage = 'signMessage',
     Siwe = 'siwe',
+    StardustActivityDetails = 'stardustActivityDetails',
     StopVoting = 'stopVoting',
     SuccessfulDappInteraction = 'successfulDappInteraction',
     SyncAccounts = 'syncAccounts',

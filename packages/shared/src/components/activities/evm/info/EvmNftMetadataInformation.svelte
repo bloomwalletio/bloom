@@ -1,15 +1,11 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
-    import { selectedAccountIndex } from '@core/account/stores'
-    import { StardustNftActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { Nft } from '@core/nfts'
     import { NftStandard } from '@core/nfts/enums'
 
-    export let activity: StardustNftActivity
-
-    $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
+    export let nft: Nft
 </script>
 
 {#if nft?.metadata}
@@ -32,7 +28,7 @@
                 {
                     key: localize('general.uri'),
                     value: metadata.uri,
-                    onClick: () => openUrlInBrowser(metadata?.uri),
+                    onClick: () => openUrlInBrowser(metadata?.uri ?? ''),
                 },
                 {
                     key: localize('general.description'),
@@ -69,7 +65,7 @@
                 {
                     key: localize('general.image'),
                     value: metadata.image,
-                    onClick: () => openUrlInBrowser(metadata?.image),
+                    onClick: () => openUrlInBrowser(metadata?.image ?? ''),
                 },
                 {
                     key: localize('general.description'),

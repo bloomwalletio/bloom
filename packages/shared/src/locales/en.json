@@ -1608,6 +1608,7 @@
         "no": "No",
         "tip": "Tip",
         "verified": "Verified",
+        "methodId": "Method ID",
         "methodName": "Method name",
         "data": "Data",
         "success": "Success",

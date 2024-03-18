@@ -16,6 +16,7 @@ export { default as ToastWrapper } from './ToastWrapper.svelte'
 export { default as Tooltip } from './Tooltip.svelte'
 export { default as Transition } from './Transition.svelte'
 
+export * from './activities'
 export * from './atoms'
 export * from './avatars'
 export * from './badges'

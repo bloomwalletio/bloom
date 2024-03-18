@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { StardustTransactionActivity } from '@core/activity'
+    import { StardustActivity } from '@core/activity'
 
-    export let activity: StardustTransactionActivity
+    export let activity: StardustActivity
 </script>
 
 <Table

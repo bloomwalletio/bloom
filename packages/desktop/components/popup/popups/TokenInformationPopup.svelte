@@ -10,17 +10,26 @@
     import { TokenActionsMenu } from '@components'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { truncateString } from '@core/utils'
+    import { selectedAccountActivities } from '@core/activity'
+    import { NetworkNamespace } from '@core/network'
 
     export let token: ITokenWithBalance | undefined
     export let activityId: string = undefined
 
     $: isNewToken = token.verification?.status === NotVerifiedStatus.New
+    $: activity = $selectedAccountActivities.find((_activity) => _activity.id === activityId)
+    $: popupId =
+        activity.namespace === NetworkNamespace.Evm
+            ? PopupId.EvmActivityDetails
+            : activity.namespace === NetworkNamespace.Stardust
+              ? PopupId.StardustActivityDetails
+              : undefined
 
     function onSkipClick(): void {
         unverifyToken(token.id, NotVerifiedStatus.Skipped)
-        if (activityId) {
+        if (activity && popupId) {
             openPopup({
-                id: PopupId.ActivityDetails,
+                id: popupId,
                 props: { activityId },
             })
         } else {
@@ -32,9 +41,9 @@
 
     function onVerifyClick(): void {
         verifyToken(token.id, VerifiedStatus.SelfVerified)
-        if (activityId) {
+        if (activity && popupId) {
             openPopup({
-                id: PopupId.ActivityDetails,
+                id: popupId,
                 props: { activityId },
             })
         } else {

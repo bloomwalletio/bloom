@@ -26,7 +26,7 @@
             })
         } else {
             openPopup({
-                id: PopupId.ActivityDetails,
+                id: PopupId.StardustActivityDetails,
                 props: { activityId: activity.id },
             })
         }

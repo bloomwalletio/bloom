@@ -12,7 +12,7 @@
     import { getTransactionAssets } from '@core/activity/utils'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint } from '@core/network'
+    import { ExplorerEndpoint, NetworkNamespace } from '@core/network'
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
@@ -21,27 +21,29 @@
     import { buildUrl, setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { ActivityInformation, TransactionAssetSection } from '@ui'
+    import { StardustActivityInformation, TransactionAssetSection } from '@ui'
     import { onMount, tick } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let activityId: string
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
-    $: activity = $selectedAccountActivities.find((_activity) => _activity.id === activityId)
-    $: isTimelocked = activity?.asyncData?.asyncStatus === StardustActivityAsyncStatus.Timelocked
+    $: activity = $selectedAccountActivities.find(
+        (_activity) => _activity.namespace === NetworkNamespace.Stardust && _activity.id === activityId
+    ) as StardustActivity
+
+    $: isTimelocked = activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Timelocked
     $: isActivityIncomingAndUnclaimed =
-        activity?.asyncData &&
-        (activity?.direction === ActivityDirection.Incoming ||
-            activity?.direction === ActivityDirection.SelfTransaction) &&
-        activity?.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed
+        activity.asyncData &&
+        (activity.direction === ActivityDirection.Incoming ||
+            activity.direction === ActivityDirection.SelfTransaction) &&
+        activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed
     $: transactionAssets = activity ? getTransactionAssets(activity, $selectedAccountIndex) : undefined
     $: nft =
-        activity?.type === StardustActivityType.Nft
-            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
+        activity.type === StardustActivityType.Nft
+            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
             : undefined
     $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
-    $: explorerUrl = getExplorerUrl(activity)
 
     let title: string = localize('popups.activityDetails.title.fallback')
     $: void setTitle(activity)
@@ -51,15 +53,7 @@
         }
     }
 
-    async function onNftClick(): Promise<void> {
-        closePopup()
-        $selectedNftId = nft?.id
-        $dashboardRouter.goTo(DashboardRoute.Collectibles)
-        await tick()
-        $collectiblesRouter.goTo(CollectiblesRoute.Details)
-        $collectiblesRouter.setBreadcrumb(nft?.name)
-    }
-
+    $: explorerUrl = getExplorerUrl(activity)
     function getExplorerUrl(_activity: StardustActivity): string | undefined {
         if (activity?.direction === ActivityDirection.Genesis) {
             const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Output)
@@ -72,8 +66,13 @@
         }
     }
 
-    function onTransactionIdClick(_activity: StardustActivity): void {
-        setClipboard(_activity.transactionId)
+    async function onNftClick(): Promise<void> {
+        closePopup()
+        $selectedNftId = nft?.id
+        $dashboardRouter.goTo(DashboardRoute.Collectibles)
+        await tick()
+        $collectiblesRouter.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
     async function onClaimClick(_activity: StardustActivity): Promise<void> {
@@ -81,7 +80,7 @@
             async () => {
                 await claimActivity(_activity, $selectedAccount)
                 openPopup({
-                    id: PopupId.ActivityDetails,
+                    id: PopupId.StardustActivityDetails,
                     props: { activityId },
                 })
             },
@@ -107,7 +106,7 @@
                 },
                 onCancel: () =>
                     openPopup({
-                        id: PopupId.ActivityDetails,
+                        id: PopupId.StardustActivityDetails,
                         props: { activityId },
                     }),
             },
@@ -124,7 +123,7 @@
 
     $: backButton = {
         text: localize('actions.reject'),
-        disabled: activity?.asyncData?.isRejected,
+        disabled: activity.asyncData?.isRejected,
         onClick: onRejectClick,
     }
 
@@ -151,13 +150,13 @@
             {:else if activity.transactionId}
                 <Link
                     text={truncateString(activity.transactionId, 12, 12)}
-                    on:click={() => onTransactionIdClick(activity)}
+                    on:click={() => setClipboard(activity.transactionId)}
                 />
             {/if}
         </div>
         <activity-details class="w-full h-full space-y-5 flex flex-auto flex-col shrink-0">
             <TransactionAssetSection {...transactionAssets} onNftClick={nftIsOwned ? onNftClick : undefined} />
-            <ActivityInformation {activity} />
+            <StardustActivityInformation {activity} />
         </activity-details>
     </PopupTemplate>
 {/if}

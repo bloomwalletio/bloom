@@ -26,7 +26,7 @@
             })
         } else {
             openPopup({
-                id: PopupId.ActivityDetails,
+                id: PopupId.EvmActivityDetails,
                 props: { activityId: activity.id },
             })
         }

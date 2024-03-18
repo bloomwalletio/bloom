@@ -1,6 +1,11 @@
 import { IAccountState } from '@core/account'
 import { EvmActivityType } from '@core/activity/enums/evm'
-import { EvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } from '@core/activity/types'
+import {
+    EvmActivity,
+    EvmCoinTransferActivity,
+    EvmContractCallActivity,
+    EvmTokenTransferActivity,
+} from '@core/activity/types'
 import { IChain } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
@@ -10,7 +15,6 @@ import { StardustActivityType } from '@core/activity/enums'
 import { NftStandard } from '@core/nfts'
 import { Converter } from '@core/utils/convert'
 import { getMethodNameForEvmTransaction } from '@core/layer-2/utils'
-import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
 import { WEI_PER_GLOW } from '@core/layer-2/constants'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
