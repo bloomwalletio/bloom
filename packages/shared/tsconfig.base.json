@@ -16,7 +16,8 @@
             "@ui/*": ["src/components/*"]
         },
         "types": ["node", "svelte"],
-        "verbatimModuleSyntax": false
+        "verbatimModuleSyntax": false,
+        "noImplicitAny": false
     },
     "include": ["src/lib"],
     "exclude": ["**/node_modules", "test", "src/lib/**/tests"]
