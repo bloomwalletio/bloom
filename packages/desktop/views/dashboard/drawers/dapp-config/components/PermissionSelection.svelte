@@ -8,22 +8,16 @@
     import { Text } from '@bloomwalletio/ui'
     import { getPermissionForMethod } from '@auxiliary/wallet-connect/utils'
     import { RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { SelectionOption } from '@core/utils/interfaces'
 
     export let checkedMethods: string[]
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
     export let optionalNamespaces: ProposalTypes.RequiredNamespaces
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
 
-    type SelectionOption = {
-        label: string
-        value: string
-        checked: boolean
-        required: boolean
-    }
-
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.permissions'
-    let requiredPermissions: SelectionOption[] = []
-    let optionalPermissions: SelectionOption[] = []
+    let requiredPermissions: SelectionOption<string>[] = []
+    let optionalPermissions: SelectionOption<string>[] = []
 
     function setPermissionSelections(): void {
         const checkedMethods: { [method: string]: boolean } = {}

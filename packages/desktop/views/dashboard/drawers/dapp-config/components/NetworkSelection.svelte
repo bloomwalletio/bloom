@@ -6,8 +6,7 @@
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { NetworkId, getChainConfiguration } from '@core/network'
-    import { NetworkAvatar } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
+    import { SelectionOption } from '@core/utils/interfaces'
 
     export let checkedNetworks: string[]
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
@@ -16,17 +15,10 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.networks'
 
-    type SelectionOption = {
-        label: string
-        value: NetworkId
-        checked: boolean
-        required: boolean
-    }
-
-    let requiredNetworks: SelectionOption[] = []
-    let optionalNetworks: SelectionOption[] = []
+    let requiredNetworks: SelectionOption<NetworkId>[] = []
+    let optionalNetworks: SelectionOption<NetworkId>[] = []
     function setNetworkSelections(): void {
-        const networks: Record<string, SelectionOption> = {}
+        const networks: Record<string, SelectionOption<NetworkId>> = {}
         for (const namespace of Object.values(requiredNamespaces)) {
             for (const chainId of namespace.chains) {
                 const chainName = getChainConfiguration(chainId as NetworkId)?.name ?? chainId
@@ -68,15 +60,7 @@
             bind:selectionOptions={requiredNetworks}
             disableSelectAll
             title={localize(`${localeKey}.requiredTitle`)}
-            let:option
-        >
-            <div class="w-full flex items-center gap-2">
-                {#if option.value}
-                    <NetworkAvatar networkId={option.value} />
-                {/if}
-                <Text truncate>{option.label}</Text>
-            </div>
-        </Selection>
+        />
     {/if}
     {#if optionalNetworks.length}
         <Selection

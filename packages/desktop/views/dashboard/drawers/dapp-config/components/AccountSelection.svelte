@@ -9,6 +9,7 @@
     import { Alert } from '@bloomwalletio/ui'
     import { allAccountFiatBalances } from '@core/token/stores'
     import { Indicator, Pill, Text } from '@bloomwalletio/ui'
+    import { SelectionOption } from '@core/utils/interfaces'
 
     export let checkedAccounts: IAccountState[]
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
@@ -20,7 +21,7 @@
     $: _chainIds, setAccountSelections()
     $: checkedAccounts = accountSelections.filter((selection) => selection.checked).map((selection) => selection.value)
 
-    let accountSelections: { label: string; value: IAccountState; checked: boolean; required: boolean }[] = []
+    let accountSelections: SelectionOption<IAccountState>[] = []
     function setAccountSelections(): void {
         if (!_chainIds || _chainIds.length === 0) {
             accountSelections = []
@@ -81,7 +82,7 @@
         <div class="w-full flex items-center justify-between gap-2">
             <div class="flex flex-row items-center gap-3">
                 <Indicator color={option.value.color} />
-                <Text truncate>{option.value.name}</Text>
+                <Text>{option.value.name}</Text>
             </div>
             {#if indexOfPrimary === index}
                 <Pill color="info">{localize('general.primary')}</Pill>

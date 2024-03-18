@@ -1,15 +1,11 @@
 <script lang="ts">
     import { Checkbox, Error, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { SelectionOption } from '@core/utils'
 
     type T = $$Generic
 
-    export let selectionOptions: {
-        label: string
-        value: T
-        checked: boolean
-        required: boolean
-    }[]
+    export let selectionOptions: SelectionOption<T>[]
     export let title: string
     export let disableSelectAll: boolean = false
     export let error: string | undefined = undefined
