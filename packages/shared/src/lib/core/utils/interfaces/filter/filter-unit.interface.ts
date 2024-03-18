@@ -16,11 +16,11 @@ export type BooleanFilterUnit = {
     localeKey: string
 }
 
-export type SelectionFilterUnit<P> = {
+export type SelectionFilterUnit = {
     type: 'selection'
     active: boolean
-    choices: P[]
-    selected: P
+    choices: string[]
+    selected: string
     labelKey?: string
     localeKey: string
 }
