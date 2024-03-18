@@ -19,6 +19,7 @@
 
     let statusLoaded: boolean = false
     let overviewLoaded: boolean = false
+    let projected: boolean = false
 
     onMount(() => {
         // Callbacks used, because we don't want to await the resolution of the promises.
@@ -41,8 +42,8 @@
 >
     <div class="w-2/5 flex flex-col p-6 space-y-6 relative overflow-y-scroll">
         <ProposalDetailsPane proposal={$selectedProposal} />
-        <QuorumProgress proposal={$selectedProposal} />
+        <QuorumProgress proposal={$selectedProposal} {projected} />
         <ProposalInformationPane />
     </div>
-    <ProposalQuestionListPane {statusLoaded} {overviewLoaded} />
+    <ProposalQuestionListPane bind:projected {statusLoaded} {overviewLoaded} />
 </Pane>
