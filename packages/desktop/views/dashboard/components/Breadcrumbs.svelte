@@ -32,7 +32,7 @@
             case DashboardRoute.Campaigns:
                 return $campaignsRoute !== CampaignsRoute.Gallery
             default:
-                break
+                return false
         }
     }
 

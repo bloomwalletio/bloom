@@ -59,7 +59,7 @@ function getStringAmountFromBigInt(
 
     const indexOfDecimalSeparator = stringValue.length - decimals
 
-    const stringAmountParts = []
+    const stringAmountParts: string[] = []
 
     let integerPart = stringValue.slice(0, indexOfDecimalSeparator)
     const allIntegersZero = integerPart.split('').every((integer) => integer === '0')

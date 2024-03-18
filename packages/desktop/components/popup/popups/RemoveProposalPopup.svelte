@@ -8,13 +8,14 @@
         selectedProposal,
         selectedProposalId,
     } from '@contexts/governance/stores'
-    import { selectedAccount } from '@core/account/stores'
+    import { getSelectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { updateActiveAccountPersistedData } from '@core/profile/actions'
     import { governanceRouter } from '@core/router'
     import { closePopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { IAccountState } from '@core/account'
 
     function onCancelClick(): void {
         closePopup()
@@ -22,12 +23,13 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await $selectedAccount.deregisterParticipationEvent($selectedProposalId)
-            updateActiveAccountPersistedData($selectedAccount.index, {
-                removedProposalIds: [...($selectedAccount.removedProposalIds ?? []), $selectedProposalId],
+            const account = getSelectedAccount()
+            await account.deregisterParticipationEvent($selectedProposalId)
+            updateActiveAccountPersistedData(account.index, {
+                removedProposalIds: [...(account?.removedProposalIds ?? []), $selectedProposalId],
             })
-            $governanceRouter.previous()
-            clearEvent()
+            $governanceRouter?.previous()
+            clearEvent(account)
             closePopup()
             showNotification({
                 variant: 'success',
@@ -38,9 +40,9 @@
         }
     }
 
-    function clearEvent(): void {
-        removePersistedProposal($selectedProposalId, $selectedAccount.index)
-        $selectedProposalId = null
+    function clearEvent(account: IAccountState): void {
+        removePersistedProposal($selectedProposalId, account.index)
+        $selectedProposalId = ''
         clearSelectedParticipationEventStatus()
     }
 
