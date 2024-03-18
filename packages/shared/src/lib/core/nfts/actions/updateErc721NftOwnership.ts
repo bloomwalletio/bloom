@@ -5,7 +5,6 @@ import { IErc721Nft } from '../interfaces'
 import { getAllAccountNfts, persistedNftForActiveProfile, updatePersistedNft } from '../stores'
 import { getOwnerOfErc721Nft } from '../utils'
 import { get } from 'svelte/store'
-import { calculateAndAddPersistedNftBalanceChange } from '@core/activity'
 
 export async function updateErc721NftsOwnership(account: IAccountState): Promise<void> {
     try {
@@ -26,8 +25,6 @@ export async function updateErc721NftsOwnership(account: IAccountState): Promise
             const l2Address = getAddressFromAccountForNetwork(account, nft.networkId)
             const isSpendable = updatedOwner === l2Address?.toLowerCase()
             updateAllAccountNftsForAccount(account.index, { ...nft, isSpendable })
-
-            calculateAndAddPersistedNftBalanceChange(account, nft.networkId, nft.id, isSpendable)
         })
         await Promise.allSettled(promises)
     } catch (error) {

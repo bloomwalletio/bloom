@@ -1,6 +1,6 @@
 <script lang="ts">
     import { selectedAccountIndex } from '@core/account/stores'
-    import { Activity, ActivityType } from '@core/activity'
+    import { StardustActivity, StardustActivityType } from '@core/activity'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import {
         AliasActivityInformation,
@@ -18,13 +18,13 @@
     } from '@ui'
     import { Tabs } from '@bloomwalletio/ui'
 
-    export let activity: Activity
+    export let activity: StardustActivity
     export let selectedTab: KeyValue<string> = getTabItems([PopupTab.Transaction])[0]
 
     let hasMetadata = false
     $: {
         const storedNft =
-            activity.type === ActivityType.Nft
+            activity.type === StardustActivityType.Nft
                 ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
                 : undefined
         hasMetadata = !!storedNft?.metadata
@@ -33,16 +33,16 @@
     let tabs: KeyValue<string>[] = []
     $: {
         switch (activity.type) {
-            case ActivityType.Basic:
+            case StardustActivityType.Basic:
                 tabs = getTabItems([PopupTab.Transaction, ...(activity.smartContract ? [PopupTab.SmartContract] : [])])
                 break
-            case ActivityType.SmartContract:
+            case StardustActivityType.SmartContract:
                 tabs = getTabItems([PopupTab.Transaction, PopupTab.SmartContract])
                 break
-            case ActivityType.Alias:
+            case StardustActivityType.Alias:
                 tabs = getTabItems([PopupTab.Transaction, PopupTab.Alias])
                 break
-            case ActivityType.Nft:
+            case StardustActivityType.Nft:
                 tabs = getTabItems([
                     PopupTab.Transaction,
                     PopupTab.Nft,
@@ -50,11 +50,11 @@
                     ...(activity.smartContract ? [PopupTab.SmartContract] : []),
                 ])
                 break
-            case ActivityType.Foundry:
+            case StardustActivityType.Foundry:
                 tabs = getTabItems([PopupTab.Transaction, PopupTab.Foundry, PopupTab.Token])
                 break
-            case ActivityType.Consolidation:
-            case ActivityType.Governance:
+            case StardustActivityType.Consolidation:
+            case StardustActivityType.Governance:
             default:
                 tabs = getTabItems([PopupTab.Transaction])
                 break
@@ -67,22 +67,22 @@
         <Tabs bind:selectedTab {tabs} />
     {/if}
     {#if selectedTab.key === PopupTab.Transaction}
-        {#if activity.type === ActivityType.Governance}
+        {#if activity.type === StardustActivityType.Governance}
             <GovernanceActivityInformation {activity} />
-        {:else if activity.type === ActivityType.Consolidation}
+        {:else if activity.type === StardustActivityType.Consolidation}
             <ConsolidationActivityInformation {activity} />
         {:else}
             <GenericActivityInformation {activity} />
         {/if}
-    {:else if selectedTab.key === PopupTab.Alias && activity.type === ActivityType.Alias}
+    {:else if selectedTab.key === PopupTab.Alias && activity.type === StardustActivityType.Alias}
         <AliasActivityInformation {activity} />
-    {:else if selectedTab.key === PopupTab.Nft && activity.type === ActivityType.Nft}
+    {:else if selectedTab.key === PopupTab.Nft && activity.type === StardustActivityType.Nft}
         <NftActivityInformation {activity} />
-    {:else if selectedTab.key === PopupTab.Foundry && activity.type === ActivityType.Foundry}
+    {:else if selectedTab.key === PopupTab.Foundry && activity.type === StardustActivityType.Foundry}
         <FoundryActivityInformation {activity} />
-    {:else if selectedTab.key === PopupTab.Token && activity.type === ActivityType.Foundry}
+    {:else if selectedTab.key === PopupTab.Token && activity.type === StardustActivityType.Foundry}
         <TokenActivityInformation {activity} />
-    {:else if selectedTab.key === PopupTab.NftMetadata && activity.type === ActivityType.Nft}
+    {:else if selectedTab.key === PopupTab.NftMetadata && activity.type === StardustActivityType.Nft}
         <NftMetadataInformation {activity} />
     {:else if selectedTab.key === PopupTab.SmartContract}
         <SmartContractActivityInformation {activity} />

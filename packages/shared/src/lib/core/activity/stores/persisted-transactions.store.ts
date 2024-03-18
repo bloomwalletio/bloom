@@ -1,11 +1,11 @@
 import { NetworkId } from '@core/network/types'
+import { LocalEvmTransaction } from '@core/transactions'
 import { persistent } from '@core/utils/store'
-import { PersistedEvmTransaction } from '../types'
 
 type PersistedEvmTransactions = {
     [profileId: string]: {
         [accountId: string]: {
-            [networkId in NetworkId]?: PersistedEvmTransaction[]
+            [networkId in NetworkId]?: LocalEvmTransaction[]
         }
     }
 }

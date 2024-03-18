@@ -15,24 +15,29 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.networks'
 
-    let requiredNetworks: SelectionOption[] = []
-    let optionalNetworks: SelectionOption[] = []
+    let requiredNetworks: SelectionOption<NetworkId>[] = []
+    let optionalNetworks: SelectionOption<NetworkId>[] = []
     function setNetworkSelections(): void {
-        const networks: Record<string, SelectionOption> = {}
+        const networks: Record<string, SelectionOption<NetworkId>> = {}
         for (const namespace of Object.values(requiredNamespaces)) {
-            for (const chain of namespace.chains) {
-                const chainName = getChainConfiguration(chain as NetworkId)?.name ?? chain
-                networks[chain] = { label: chainName, value: chain, checked: true, required: true }
+            for (const chainId of namespace.chains) {
+                const chainName = getChainConfiguration(chainId as NetworkId)?.name ?? chainId
+                networks[chainId] = { label: chainName, value: chainId as NetworkId, checked: true, required: true }
             }
         }
         const supportedNetworks = getAllNetworkIds()
         for (const [namespaceId, namespace] of Object.entries(optionalNamespaces)) {
             const persistedNamespace = persistedNamespaces?.[namespaceId]
-            for (const chain of namespace.chains) {
-                if (!networks[chain] && supportedNetworks.includes(chain)) {
-                    const isChecked = persistedNamespace?.chains?.includes(chain) ?? true
-                    const chainName = getChainConfiguration(chain as NetworkId)?.name ?? chain
-                    networks[chain] = { label: chainName, value: chain, checked: isChecked, required: false }
+            for (const chainId of namespace.chains) {
+                if (!networks[chainId] && supportedNetworks.includes(chainId)) {
+                    const isChecked = persistedNamespace?.chains?.includes(chainId) ?? true
+                    const chainName = getChainConfiguration(chainId as NetworkId)?.name ?? chainId
+                    networks[chainId] = {
+                        label: chainName,
+                        value: chainId as NetworkId,
+                        checked: isChecked,
+                        required: false,
+                    }
                 }
             }
         }

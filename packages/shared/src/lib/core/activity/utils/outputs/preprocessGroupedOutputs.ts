@@ -7,7 +7,7 @@ import { getRecipientAddressFromOutput } from './getRecipientAddressFromOutput'
 import { getOutputIdFromTransactionIdAndIndex } from './getOutputIdFromTransactionIdAndIndex'
 import { IProcessedTransaction } from '@core/activity/types'
 import { IWrappedOutput } from '@core/wallet/interfaces'
-import { getSenderAddressFromInputs } from '../getSenderAddressFromInputs'
+import { getSenderAddressFromInputs } from '../stardust/getSenderAddressFromInputs'
 import { EMPTY_HEX_ID } from '@core/wallet'
 
 export function preprocessGroupedOutputs(
