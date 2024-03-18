@@ -26,6 +26,7 @@
 
     export let statusLoaded: boolean = false
     export let overviewLoaded: boolean = false
+    export let projected: boolean = false
 
     let selectedAnswerValues: number[] = []
     let votedAnswerValues: number[] = []
@@ -37,7 +38,6 @@
     let openedQuestionIndex: number = -1
     let isUpdatingVotedAnswerValues: boolean = false
     let lastAction: 'vote' | 'stopVote'
-    let projected: boolean = false
 
     $: selectedProposalOverview = $participationOverviewForSelectedAccount?.participations?.[$selectedProposal?.id]
     $: trackedParticipations = Object.values(selectedProposalOverview ?? {})
