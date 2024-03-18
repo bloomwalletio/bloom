@@ -1,12 +1,14 @@
 <script lang="ts">
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { visibleActiveAccounts } from '@core/profile/stores'
-    import { Checkbox, Error, Pill, Text } from '@bloomwalletio/ui'
-    import { localize } from '@core/i18n'
+    import Selection from './Selection.svelte'
+    import { formatCurrency, localize } from '@core/i18n'
     import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { findActiveAccountWithAddress } from '@core/profile/actions'
     import { NetworkId } from '@core/network'
     import { Alert } from '@bloomwalletio/ui'
+    import { allAccountFiatBalances } from '@core/token/stores'
+    import { Indicator, Pill, Text } from '@bloomwalletio/ui'
 
     export let checkedAccounts: IAccountState[]
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
@@ -61,49 +63,41 @@
         })
     }
 
-    let allChecked = true
-    function onAllClick() {
-        if (allChecked) {
-            accountSelections = accountSelections.map((option) => ({ ...option, checked: true }))
-        } else {
-            accountSelections = accountSelections.map((option) => ({ ...option, checked: false || option.required }))
-        }
+    function getAccountBalance(accountIndex: number): string {
+        return formatCurrency($allAccountFiatBalances[accountIndex])
     }
 
-    $: allChecked = accountSelections.every((option) => option.checked)
     $: indexOfPrimary = accountSelections.findIndex((option) => option.checked)
 </script>
 
 {#if accountSelections.length}
-    <selection-component class="flex flex-col gap-4">
-        <div class="flex flex-row justify-between items-center px-4">
-            <Text textColor="secondary">{localize(`${localeKey}.title`)}</Text>
+    <Selection
+        bind:selectionOptions={accountSelections}
+        title={localize(`${localeKey}.title`)}
+        error={checkedAccounts.length ? undefined : localize(`${localeKey}.empty`)}
+        let:option
+        let:index
+    >
+        <div class="w-full flex items-center justify-between gap-2">
             <div class="flex flex-row items-center gap-3">
-                <Text textColor="secondary">{localize('general.all')}</Text>
-                <Checkbox size="md" on:click={onAllClick} bind:checked={allChecked} />
+                <Indicator color={option.value.color} />
+                <Text>{option.value.name}</Text>
             </div>
+            {#if indexOfPrimary === index}
+                <Pill color="info">{localize('general.primary')}</Pill>
+            {/if}
+            <Text>{getAccountBalance(option.value.index)}</Text>
         </div>
-        <selection-options>
-            {#each accountSelections as option, index}
-                <div class="w-full flex flex-row items-center justify-between p-4">
-                    <div class="flex items-center gap-2">
-                        <Text>{option.label}</Text>
-                        {#if indexOfPrimary === index}
-                            <Pill color="info">{localize('general.primary')}</Pill>
-                        {/if}
-                    </div>
-                    {#if option.required}
-                        <Text textColor="success">{localize('general.required')}</Text>
-                    {:else}
-                        <Checkbox bind:checked={option.checked} size="md" />
-                    {/if}
-                </div>
-            {/each}
-        </selection-options>
-        {#if !checkedAccounts.length}
-            <Error error={localize(`${localeKey}.empty`)} />
-        {/if}
-    </selection-component>
+    </Selection>
 {:else}
     <Alert variant="danger" text="No valid accounts" />
 {/if}
+
+<style lang="postcss">
+    selection-options {
+        @apply bg-surface-0 dark:bg-surface-0-dark;
+        @apply border border-solid border-stroke dark:border-stroke-dark;
+        @apply divide-y divide-solid divide-stroke dark:divide-stroke-dark;
+        @apply rounded-xl;
+    }
+</style>

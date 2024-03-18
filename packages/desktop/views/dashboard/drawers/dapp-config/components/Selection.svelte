@@ -36,9 +36,13 @@
     </div>
     <selection-options>
         {#each selectionOptions as option, index}
-            <div class="w-full flex flex-row items-center justify-between p-4">
-                <div class="flex items-center gap-2">
-                    <Text>{option.label}</Text>
+            <div class="w-full flex flex-row items-center justify-between p-4 gap-3">
+                <div class="flex-grow flex items-center gap-2">
+                    {#if $$slots.default}
+                        <slot {option} {index} />
+                    {:else}
+                        <Text>{option.label}</Text>
+                    {/if}
                 </div>
                 {#if option.required}
                     <Text textColor="success">{localize('general.required')}</Text>
