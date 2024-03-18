@@ -505,13 +505,13 @@
                         "noSupportedNetworks": "Diese dApp ist nicht mit Bloom kompatibel, da sie auf einem anderen Netzwerk läuft.",
                         "unsupportedMethods": "Diese dApp ist nicht vollständig mit Bloom kompatibel. Einige Methoden oder Events werden nicht unterstützt.",
                         "supportedOnOtherProfile": "Diese dApp läuft in einem unterstützten Netzwerk, ist aber mit diesem Profil nicht zugänglich. Bitte verwenden Sie ein Profil, das mit dem benötigten Netzwerk verbunden ist.",
-                        "acceptInsecureConnection": "I understand and wish to proceed",
-                        "supported": "Supported",
-                        "notSupported": "Not supported",
-                        "onAnotherProfile": "On another profile",
-                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
-                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
-                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
+                        "acceptInsecureConnection": "Ich verstehe und möchte fortfahren",
+                        "supported": "Unterstützt",
+                        "notSupported": "Nicht unterstützt",
+                        "onAnotherProfile": "Auf anderem Profil",
+                        "scamHint": "Diese Domain wurde von mehreren Sicherheitsanbietern als unsicher markiert. Verlasse sie sofort, um deine Assets zu schützen.",
+                        "invalidHint": "Diese Website ist eine Domain, die nicht mit dem Absender der Anfrage übereinstimmt. Genehmigung kann zum Verlust des Guthabens führen.",
+                        "unknownHint": "Diese dApp wurde nicht verifiziert und es kann beim Verbinden zu Sicherheitsrisiken kommen."
                     },
                     "editPermissions": {
                         "title": "Berechtigungen bearbeiten"
@@ -577,7 +577,7 @@
                     "button": "Backup erstellen"
                 },
                 "version": {
-                    "body": "Du verwendest derzeit eine veraltete Version von Bloom.",
+                    "body": "Sie verwenden derzeit eine frühe Version von Bloom.",
                     "button": "Weitere Informationen"
                 },
                 "update": {
@@ -692,14 +692,14 @@
                     "nodeUrl": "Node-URL"
                 },
                 "quorum": {
-                    "title": "Quorum progress",
-                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                    "title": "Quorum Fortschritt",
+                    "tooltip": "Das Quorum von 5 % ist für Tangle Treasury Vorschläge festgelegt"
                 },
                 "fetching": "Abrufen der Abstimmungsdaten",
                 "hintVote": "Du kannst nicht über eine Abstimmung abstimmen, die sich noch in der Ankündigungsphase befindet. Die Abstimmung wird in {time} geöffnet.",
                 "projection": {
-                    "title": "Show projected votes",
-                    "description": "How voting might finish with current participation",
+                    "title": "Prognostizierte Stimmen anzeigen",
+                    "description": "Wie die Abstimmung mit aktueller Beteiligung beendet werden könnte",
                     "tooltip": "Die Prognose basiert auf dem aktuellen Stimmgewicht und den verbleibenden Meilensteinen."
                 }
             }
@@ -733,8 +733,8 @@
                 "disconnected": "getrennt, bitte aktualisieren"
             },
             "error": {
-                "title": "Transak could not be loaded",
-                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
+                "title": "Transak konnte nicht geladen werden",
+                "description": "Bitte starte die App neu, falls das Problem weiterhin besteht, frage bitte auf unserem Discord-Server um Unterstützung"
             }
         }
     },
@@ -1394,7 +1394,7 @@
         "importToken": "{type} Token importiert",
         "syncTokens": "Token-Synchronisation erzwingen",
         "mintNftCollection": "Minte NFT-Sammlung",
-        "readMore": "Read more"
+        "readMore": "Weiterlesen"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1621,7 +1621,7 @@
         "unverifiedContract": "Unverifizierter Vertrag",
         "startIndex": "Start-Index",
         "mintNftCollectionDescription": "Minte Sammlungs-NFT im Alias-Output",
-        "question": "Question"
+        "question": "Frage"
     },
     "filters": {
         "title": "Filter",
@@ -1938,7 +1938,7 @@
             "notReachable": "Die Netzwerk-ID für diesen Node konnte nicht abgerufen werden. Hinzufügen des Nodes nicht möglich."
         },
         "global": {
-            "invalidUrl": "Invalid URL",
+            "invalidUrl": "Ungültige URL",
             "generic": "Ein Fehler ist aufgetreten."
         },
         "backup": {
