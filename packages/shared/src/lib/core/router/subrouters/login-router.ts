@@ -12,8 +12,8 @@ import { LoginRoute } from '../enums'
 import { IRouterEvent } from '../interfaces'
 import { appRouter } from '../routers'
 
-export const loginRoute = writable<LoginRoute>(null)
-export const loginRouter = writable<LoginRouter>(null)
+export const loginRoute = writable<LoginRoute>(undefined)
+export const loginRouter = writable<LoginRouter>(undefined)
 
 export class LoginRouter extends Subrouter<LoginRoute> {
     constructor() {
@@ -21,7 +21,6 @@ export class LoginRouter extends Subrouter<LoginRoute> {
     }
 
     next(event?: IRouterEvent): void {
-        let nextRoute: LoginRoute
         const currentRoute = get(this.routeStore)
 
         const requiresUpdate =
@@ -36,26 +35,24 @@ export class LoginRouter extends Subrouter<LoginRoute> {
                     this.parentRouter.next(event)
                     return
                 } else {
-                    nextRoute = LoginRoute.EnterPin
+                    this.setNext(LoginRoute.EnterPin)
                 }
                 break
             }
             case LoginRoute.EnterPin:
                 if (requiresUpdate) {
                     updateStrongholdRouter.set(new UpdateStrongholdRouter(this))
-                    nextRoute = LoginRoute.UpdateStronghold
+                    this.setNext(LoginRoute.UpdateStronghold)
                 } else {
-                    nextRoute = LoginRoute.LoadProfile
+                    this.setNext(LoginRoute.LoadProfile)
                 }
                 break
             case LoginRoute.UpdateStronghold:
-                nextRoute = LoginRoute.LoadProfile
+                this.setNext(LoginRoute.LoadProfile)
                 break
             case LoginRoute.LoadProfile:
                 this.parentRouter.next(event)
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

@@ -7,8 +7,8 @@ import { AppRoute, LoginRoute } from '../enums'
 import { IRouterEvent } from '../interfaces'
 import { loginRoute } from '../subrouters'
 
-export const appRoute = writable<AppRoute>(null)
-export const appRouter = writable<AppRouter>(null)
+export const appRoute = writable<AppRoute>(undefined)
+export const appRouter = writable<AppRouter>(undefined)
 
 export class AppRouter extends Router<AppRoute> {
     constructor() {
@@ -27,36 +27,33 @@ export class AppRouter extends Router<AppRoute> {
 
     public next(event?: IRouterEvent): void {
         const params = event || {}
-        let nextRoute: AppRoute
 
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case AppRoute.Login: {
                 if (params.shouldAddProfile) {
-                    nextRoute = AppRoute.Onboarding
+                    this.setNext(AppRoute.Onboarding)
                 } else {
-                    nextRoute = AppRoute.Dashboard
+                    this.setNext(AppRoute.Dashboard)
                 }
                 break
             }
             case AppRoute.Dashboard: {
                 if (params.reset) {
-                    nextRoute = AppRoute.Login
+                    this.setNext(AppRoute.Login)
                 }
                 break
             }
             case AppRoute.Onboarding: {
                 if (params.shouldAddProfile) {
-                    nextRoute = AppRoute.Onboarding
+                    this.setNext(AppRoute.Onboarding)
                 } else {
                     loginRoute.set(LoginRoute.LoadProfile)
-                    nextRoute = AppRoute.Login
+                    this.setNext(AppRoute.Login)
                 }
                 break
             }
         }
-
-        this.setNext(nextRoute)
     }
 
     public forceNextRoute(route: AppRoute): void {

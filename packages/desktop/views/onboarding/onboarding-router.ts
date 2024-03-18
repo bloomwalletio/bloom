@@ -19,29 +19,27 @@ export class OnboardingRouter extends Router<OnboardingRoute> {
     }
 
     next(): void {
-        let nextRoute: OnboardingRoute
-
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case OnboardingRoute.Welcome: {
-                nextRoute = OnboardingRoute.NetworkSetup
+                this.setNext(OnboardingRoute.NetworkSetup)
                 break
             }
             case OnboardingRoute.NetworkSetup: {
-                nextRoute = OnboardingRoute.ChooseOnboardingFlow
+                this.setNext(OnboardingRoute.ChooseOnboardingFlow)
                 break
             }
             case OnboardingRoute.ChooseOnboardingFlow: {
                 switch (get(onboardingProfile)?.onboardingType) {
                     case OnboardingType.Create: {
                         createProfileRouter.set(new CreateProfileRouter(get(onboardingRouter)))
-                        nextRoute = OnboardingRoute.CreateProfile
+                        this.setNext(OnboardingRoute.CreateProfile)
                         break
                     }
                     case OnboardingType.Restore:
                     case OnboardingType.Claim:
                         restoreProfileRouter.set(new RestoreProfileRouter(get(onboardingRouter)))
-                        nextRoute = OnboardingRoute.RestoreProfile
+                        this.setNext(OnboardingRoute.RestoreProfile)
                         break
                 }
                 break
@@ -49,23 +47,21 @@ export class OnboardingRouter extends Router<OnboardingRoute> {
             case OnboardingRoute.CreateProfile:
             case OnboardingRoute.RestoreProfile: {
                 completeOnboardingRouter.set(new CompleteOnboardingRouter(get(onboardingRouter)))
-                nextRoute = OnboardingRoute.CompleteOnboarding
+                this.setNext(OnboardingRoute.CompleteOnboarding)
                 break
             }
             case OnboardingRoute.CompleteOnboarding: {
-                get(appRouter).next()
+                get(appRouter)?.next()
                 return
             }
         }
-
-        this.setNext(nextRoute)
     }
 
     previous(): void {
         if (this.history.length > 0) {
             super.previous()
         } else {
-            get(appRouter).previous()
+            get(appRouter)?.previous()
         }
     }
 }

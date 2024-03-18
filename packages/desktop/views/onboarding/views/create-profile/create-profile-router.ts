@@ -14,8 +14,6 @@ export class CreateProfileRouter extends Subrouter<CreateProfileRoute> {
     }
 
     next(): void {
-        let nextRoute: CreateProfileRoute
-
         const _onboardingProfile = get(onboardingProfile)
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
@@ -23,11 +21,11 @@ export class CreateProfileRouter extends Subrouter<CreateProfileRoute> {
                 switch (_onboardingProfile.createProfileType) {
                     case CreateProfileType.Mnemonic:
                         createFromMnemonicRouter.set(new CreateFromMnemonicRouter(get(createProfileRouter)))
-                        nextRoute = CreateProfileRoute.CreateFromMnemonic
+                        this.setNext(CreateProfileRoute.CreateFromMnemonic)
                         break
                     case CreateProfileType.Ledger:
                         createFromLedgerRouter.set(new CreateFromLedgerRouter(get(createProfileRouter)))
-                        nextRoute = CreateProfileRoute.CreateFromLedger
+                        this.setNext(CreateProfileRoute.CreateFromLedger)
                         break
                 }
                 break
@@ -36,7 +34,5 @@ export class CreateProfileRouter extends Subrouter<CreateProfileRoute> {
                 this.parentRouter.next()
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }
