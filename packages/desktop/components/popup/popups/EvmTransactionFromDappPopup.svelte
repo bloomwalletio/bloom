@@ -4,7 +4,7 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
-    import { selectedAccount } from '@core/account/stores'
+    import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { DappInfo, TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -23,7 +23,7 @@
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
-    import { truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
     import { StardustActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
@@ -31,6 +31,8 @@
     import { LedgerAppName } from '@core/ledger'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { LegacyTransaction } from '@ethereumjs/tx'
+    import { getActiveProfileId } from '@core/profile/stores'
+    import { IAccountState } from '@core/account'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -86,26 +88,30 @@
         }
     }
 
-    async function getSignedTransaction(): Promise<string> {
+    async function getSignedTransaction(account: IAccountState): Promise<string> {
         if (preparedTransaction?.v && preparedTransaction?.s && preparedTransaction?.r) {
             const transaction = LegacyTransaction.fromTxData(preparedTransaction)
             return getHexEncodedTransaction(transaction)
         } else {
-            return await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+            return await signEvmTransaction(preparedTransaction, chain, account)
         }
     }
 
     async function signOrSend(): Promise<void> {
-        const signedTransaction = await getSignedTransaction()
+        const profileId = getActiveProfileId()
+        const account = getSelectedAccount()
+        const signedTransaction = await getSignedTransaction(account)
         if (method === RpcMethod.EthSignTransaction) {
             callback({ result: signedTransaction })
             return
         }
+
         const transactionHash = await sendAndPersistTransactionFromEvm(
             preparedTransaction,
             signedTransaction,
             chain,
-            $selectedAccount
+            profileId,
+            account
         )
         callback({ result: transactionHash })
     }
@@ -157,8 +163,9 @@
     }
 
     function onExplorerClick(contractAddress: string): void {
-        const explorerUrl = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
-        openUrlInBrowser(`${explorerUrl}/${contractAddress}`)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
+        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${contractAddress}` })
+        openUrlInBrowser(url?.href)
     }
 </script>
 

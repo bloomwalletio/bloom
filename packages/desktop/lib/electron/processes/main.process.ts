@@ -35,6 +35,7 @@ import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
 import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
+import { ITransakWindowData } from '@core/app/interfaces'
 
 export let appIsReady = false
 
@@ -234,11 +235,11 @@ export function createMainWindow(): BrowserWindow {
 
     /**
      * `will-navigate` is emitted whenever window.location is updated.
-     *  This happens e.g. when clicking on a link (<a href="www.iota.org").
-     *  The handler only allows navigation to an external browser.
+     *  Navigation to an external browser happens through open-external-url event.
+     *  For security reasons we prevent any navigation through this event.
      */
-    windows.main.webContents.on('will-navigate', (a, b) => {
-        tryOpenExternalUrl(a as unknown as Event, b)
+    windows.main.webContents.on('will-navigate', (e) => {
+        e.preventDefault()
     })
 
     windows.main.on('close', () => {
@@ -376,9 +377,7 @@ export function getOrInitWindow(windowName: string, ...args: unknown[]): Browser
             case 'error':
                 return openErrorWindow()
             case 'transak':
-                return transakManager?.openWindow(
-                    args[0] as { currency: string; address: string; service: 'BUY' | 'SELL' }
-                )
+                return transakManager?.openWindow(args[0] as ITransakWindowData)
             default:
                 throw Error(`Window ${windowName} not found`)
         }
@@ -489,7 +488,12 @@ nativeTheme.on('updated', () => {
 })
 
 ipcMain.handle('get-theme', () => nativeTheme.themeSource)
-ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
+ipcMain.handle('update-theme', (_e, theme) => {
+    nativeTheme.themeSource = theme
+    if (features?.buySell?.enabled) {
+        windows.main.webContents.send('reset-transak')
+    }
+})
 ipcMain.handle('should-be-dark-mode', () => nativeTheme.shouldUseDarkColors)
 
 /**

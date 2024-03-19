@@ -27,9 +27,7 @@
     }
 
     function onOpenMediaClick(): void {
-        if (nft.composedUrl) {
-            openUrlInBrowser(nft.composedUrl)
-        }
+        openUrlInBrowser(nft?.composedUrl)
         menu?.close()
     }
 

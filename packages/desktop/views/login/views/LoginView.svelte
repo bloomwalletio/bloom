@@ -1,17 +1,12 @@
 <script lang="ts">
     import { onDestroy, tick } from 'svelte'
     import { Alert, CloseButton, Error, Icon, IconName, PinInput, Text } from '@bloomwalletio/ui'
-    import {
-        Platform,
-        isLatestStrongholdVersion,
-        needsToAcceptLatestPrivacyPolicy,
-        needsToAcceptLatestTermsOfService,
-    } from '@core/app'
+    import { Platform, isLatestStrongholdVersion } from '@core/app'
     import { localize } from '@core/i18n'
     import { login, resetActiveProfile } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { loginRouter } from '@core/router'
-    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
+    import { popupState } from '@desktop/auxiliary/popup'
     import { ProfileAvatarWithBadge } from '@ui'
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
     import { ProfileType } from '@core/profile/enums'
@@ -31,14 +26,6 @@
     let timeRemainingBeforeNextAttempt: number = WAITING_TIME_AFTER_MAX_INCORRECT_ATTEMPTS
     let maxAttemptsTimer: ReturnType<typeof setTimeout> = null
     let shakeTimeout: ReturnType<typeof setTimeout> = null
-
-    if (needsToAcceptLatestPrivacyPolicy() || needsToAcceptLatestTermsOfService()) {
-        openPopup({
-            id: PopupId.LegalUpdate,
-            hideClose: true,
-            preventClose: true,
-        })
-    }
 
     $: updateRequired =
         $activeProfile?.type === ProfileType.Software &&

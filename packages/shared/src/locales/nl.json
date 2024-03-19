@@ -501,12 +501,17 @@
                         "title": "Verbindingsverzoek",
                         "firstTimeHint": "Deze dApp wil voor de eerste keer verbinding maken. Verbind enkel met sites die je vertrouwt.",
                         "reconnectHint": "U heeft eerder verbinding gemaakt met deze dApp.",
-                        "insecure": "De URL van deze dApp kan niet worden geverifieerd. Mogelijk is je verbinding met deze app onveilig.",
                         "unsupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een niet-ondersteund netwerk draait.",
                         "noSupportedNetworks": "Deze dApp is niet compatibel met Bloom omdat het op een ander netwerk draait.",
                         "unsupportedMethods": "Deze dApp is niet volledig compatibel met Bloom. Sommige methoden of gebeurtenissen worden niet ondersteund.",
                         "supportedOnOtherProfile": "Deze dApp draait op een ondersteund netwerk, maar is niet toegankelijk met dit profiel. Gebruik een profiel verbonden met het vereiste netwerk.",
-                        "acceptInsecureConnection": "Ik begrijp dat deze dApp mogelijk onveilig is en nog steeds verbinding wil maken."
+                        "acceptInsecureConnection": "Ik begrijp het en wil verder gaan",
+                        "supported": "Ondersteund",
+                        "notSupported": "Niet ondersteund",
+                        "onAnotherProfile": "Op een ander profiel",
+                        "scamHint": "Dit domein wordt door meerdere beveiligingsaanbieders als onveilig gemarkeerd. Ga direct weg om jouw activa te beschermen.",
+                        "invalidHint": "Deze website is een domein dat niet overeenkomt met de afzender van het verzoek. Goedkeuren kan leiden tot verlies van saldo.",
+                        "unknownHint": "Deze dApp is niet geverifieerd en kan beveiligingsrisico's bevatten door te verbinden."
                     },
                     "editPermissions": {
                         "title": "Bewerk permissies"
@@ -522,8 +527,8 @@
                         "permissions": {
                             "step": "Permissie",
                             "tip": "Dit zijn beperkte machtigingen voor de dApp om een interactieverzoek te sturen voor jouw goedkeuring. Keur alleen apps goed die je kent en vertrouwt.",
-                            "requiredTitle": "Required permissions",
-                            "optionalTitle": "Optional permissions",
+                            "requiredTitle": "Vereiste machtigingen",
+                            "optionalTitle": "Optionele machtigingen",
                             "signData": "Verzoek om data te ondertekenen",
                             "signTransaction": "Verzoek om een transactie te ondertekenen",
                             "sendTransaction": "Verzoek om een transactie te ondertekenen",
@@ -532,8 +537,8 @@
                         },
                         "networks": {
                             "step": "Netwerken",
-                            "requiredTitle": "Required networks",
-                            "optionalTitle": "Optional networks",
+                            "requiredTitle": "Vereiste netwerken",
+                            "optionalTitle": "Optionele netwerken",
                             "tip": "De vereiste netwerken zijn vooraf geselecteerd door de dApp en kunnen later ook opnieuw worden geconfigureerd.",
                             "empty": "Je moet tenminste één netwerk selecteren"
                         },
@@ -634,14 +639,13 @@
                 "manage": "Beheer stemkracht"
             },
             "proposalsDetails": {
-                "title": "Details",
                 "totalProposals": "Alle voorstellen",
                 "activeProposals": "Actieve voorstellen",
                 "votingProposals": "Voorstellen waar je over stemt",
                 "votedProposals": "Totaal aantal voorstellen waarop je gestemd hebt"
             },
             "proposals": {
-                "title": "Voorstellen",
+                "title": "Governance voorstellen",
                 "voted": "Gestemd",
                 "successEdit": "Voorstel succesvol bijgewerkt",
                 "successAdd": "{numberOfProposals, select, one {Voorstel} other {Voorstellen}} succesvol toegevoegd",
@@ -687,11 +691,16 @@
                     "eventId": "Event ID",
                     "nodeUrl": "Knooppunt URL"
                 },
+                "quorum": {
+                    "title": "Quorum voortgang",
+                    "tooltip": "Het quorum van 5% is vastgesteld voor Tangle Treasury voorstellen"
+                },
                 "fetching": "Ophalen voorstel gegevens",
                 "hintVote": "Je kunt niet stemmen over een voorstel dat in de aankondigingsfase verkeert, de stemming wordt geopend in {time}.",
                 "projection": {
-                    "label": "Projected votes",
-                    "tooltip": "The projection is based on current voting weight and remaining milestones."
+                    "title": "Toon geschatte stemmen",
+                    "description": "Hoe stemmen kan eindigen met huidige deelname",
+                    "tooltip": "De verwachting is gebaseerd op het huidige stemkracht en de resterende mijlpalen."
                 }
             }
         },
@@ -722,6 +731,10 @@
                 "connected": "beveiligde verbinding",
                 "redirected": "omgeleid, wees voorzichtig!",
                 "disconnected": "verbinding verbroken, probeer verversen"
+            },
+            "error": {
+                "title": "Transak kon niet worden geladen",
+                "description": "Gelieve de app opnieuw op te starten, als het probleem zich blijft voordoen, vraag dan om ondersteuning in onze Discord server"
             }
         }
     },
@@ -980,16 +993,16 @@
         "siwe": {
             "title": "Inloggen met Ethereum",
             "details": "Details",
-            "raw": "Raw",
-            "rawMessage": "Raw message",
+            "raw": "Onbewerkt",
+            "rawMessage": "Onbewerkt bericht",
             "domain": "Domein",
             "statement": "Verklaring",
             "resources": "Bronnen",
             "chainId": "Chain Id",
             "nonce": "Nonce",
-            "issuedAt": "Issued at",
-            "notBefore": "Not before",
-            "requestId": "Request Id",
+            "issuedAt": "Uitgegeven op",
+            "notBefore": "Niet voor",
+            "requestId": "Aanvraag Id",
             "action": "Inloggen"
         },
         "signTransaction": {
@@ -1005,7 +1018,7 @@
         "smartContractCall": {
             "title": "Smart Contract-oproep naar {contractAddress}",
             "unableToVerify": "Bloom is niet in staat om de smart Contract-oproep te verifiëren. Ga alleen verder met apps die je vertrouwt.",
-            "viewSmartContract": "View Smart Contract",
+            "viewSmartContract": "Bekijk Smart Contract",
             "action": "Bevestig",
             "success": "Smart contract oproep naar {recipient}"
         },
@@ -1083,14 +1096,14 @@
                         "Conflicting": "Stemkracht verminderen mislukt"
                     },
                     "startVoting": {
-                        "Pending": "Stemmen voor {proposalName}",
-                        "Confirmed": "Gestemd voor {proposalName}",
-                        "Conflicting": "Mislukt te stemmen op"
+                        "Pending": "Stemmen op {proposalName}",
+                        "Confirmed": "Gestemd op {proposalName}",
+                        "Conflicting": "Mislukt om op stemmen"
                     },
                     "stopVoting": {
                         "Pending": "Stemmen voor {proposalName} wordt gestopt",
                         "Confirmed": "Stemmen voor {proposalName} gestopt",
-                        "Conflicting": "Niet gelukt om te stoppen met stemmen voor"
+                        "Conflicting": "Mislukt om te stoppen met stemmen op"
                     },
                     "changedVote": {
                         "Pending": "Stem wijzigen voor {proposalName}",
@@ -1380,7 +1393,8 @@
         "syncAccounts": "Synchroniseer accounts",
         "importToken": "Importeer {type} token",
         "syncTokens": "Forceer synchronisatie tokens",
-        "mintNftCollection": "Mint NFT collectie"
+        "mintNftCollection": "Mint NFT collectie",
+        "readMore": "Lees meer"
     },
     "general": {
         "recipient": "Ontvanger",
@@ -1396,18 +1410,20 @@
         "receiving": "Ontvangen",
         "newVotingPower": "Nieuwe stemkracht",
         "votingPower": "Stemkracht",
-        "increased": "Voting increased",
-        "increasing": "Increasing voting",
-        "decreased": "Voting decreased",
-        "decreasing": "Decreasing voting",
+        "increased": "Stemkracht vergroot",
+        "increasing": "Stemkracht vergroten",
+        "decreased": "Stemkracht verkleind",
+        "decreasing": "Stemkracht verkleinen",
         "voted": "Gestemd",
         "voting": "Stemmen",
+        "votingOn": "Stemmen op",
+        "votedOn": "Gestemd op",
         "changedVote": "Stem gewijzigd",
         "changingVote": "Stem wijzigen",
         "revoted": "Herstemd",
         "revoting": "Herstemmen",
-        "unvoted": "Stopped voting",
-        "unvoting": "Stopping voting",
+        "unvoted": "Gestopt met stemmen",
+        "unvoting": "Stoppen met stemmen",
         "transferred": "Verzonden",
         "transferring": "Aan het verzenden",
         "shimmerClaimed": "Geclaimed",
@@ -1431,7 +1447,7 @@
         "addAddress": "Adres toevoegen",
         "to": "Naar",
         "and": "en",
-        "receiveFunds": "Fondsen ontvangen",
+        "receiveFunds": "Middellen ontvangen",
         "address": "Adres",
         "addressName": "Adres naam",
         "myAddress": "Mijn adres",
@@ -1546,7 +1562,7 @@
         "contractFunction": "Contract functie",
         "standard": "Standaard",
         "uri": "URI",
-        "image": "Image",
+        "image": "Afbeelding",
         "issuer": "Uitgever",
         "issuerAddress": "Uitgever adres",
         "issuerName": "Naam uitgever",
@@ -1604,7 +1620,8 @@
         "baseCoin": "Basis token",
         "unverifiedContract": "Ongeverifieerd contract",
         "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collectie NFT in Alias Output"
+        "mintNftCollectionDescription": "Mint collectie NFT in Alias Output",
+        "question": "Vraag"
     },
     "filters": {
         "title": "Filters",
@@ -1882,7 +1899,7 @@
             "invalidAddress": "Het adres is niet geldig.",
             "invalidTokenId": "De token is niet geldig.",
             "unknownAsset": "De asset is niet bekend bij dit account.",
-            "insufficientFunds": "Deze wallet heeft onvoldoende saldo.",
+            "insufficientFunds": "Deze wallet heeft onvoldoende middellen.",
             "insufficientFundsGasFee": "Onvoldoende middelen om de gas fee te betalen.",
             "insufficientFundsStorageDeposit": "Onvoldoende middelen om de opslag waarborg te betalen.",
             "insufficientFundsTransaction": "Onvoldoende saldo voor een transactie.",
@@ -1921,6 +1938,7 @@
             "notReachable": "Het netwerk ID voor dit knooppunt kon niet worden opgehaald, kan knooppunt niet toevoegen."
         },
         "global": {
+            "invalidUrl": "Ongeldige URL",
             "generic": "Er ging iets mis."
         },
         "backup": {

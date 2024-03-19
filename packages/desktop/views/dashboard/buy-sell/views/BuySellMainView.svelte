@@ -4,10 +4,20 @@
     import { Platform } from '@core/app'
     import { activeProfile } from '@core/profile/stores'
     import { IPopupState, IProfileAuthPopupState, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
-    import { Pane } from '@ui'
-    import { onDestroy, tick } from 'svelte'
-    import { TransakAccountPanel, TransakConnectionPanel, TransakInfoPanel } from '../components'
+    import { onDestroy, onMount, tick } from 'svelte'
+    import {
+        TransakAccountPanel,
+        TransakConnectionPanel,
+        TransakInfoPanel,
+        TransakWindowPlaceholder,
+    } from '../components'
     import { isDashboardSideBarExpanded } from '@core/ui'
+    import { MarketCoinId, MarketCurrency } from '@core/market/enums'
+    import { marketCoinPrices } from '@core/market/stores'
+    import { DrawerState } from '@desktop/auxiliary/drawer/types'
+    import { drawerState } from '@desktop/auxiliary/drawer/stores'
+
+    let isTransakOpen: boolean = false
 
     $: $isDashboardSideBarExpanded, void updateTransakBounds()
 
@@ -15,14 +25,15 @@
         void resetTransak()
     }
 
-    $: void handlePopupState($popupState, $profileAuthPopup, $settingsState)
+    $: isTransakOpen, void handleOverlayChanges($popupState, $profileAuthPopup, $settingsState, $drawerState)
 
-    async function handlePopupState(
+    async function handleOverlayChanges(
         state: IPopupState,
         profilePopupState: IProfileAuthPopupState,
-        settingsState: ISettingsState
+        settingsState: ISettingsState,
+        drawerState: DrawerState
     ): Promise<void> {
-        if (state.active || profilePopupState.active || settingsState.open) {
+        if (state.active || profilePopupState.active || settingsState.open || drawerState?.id) {
             await Platform.hideTransak()
         } else {
             await tick()
@@ -52,18 +63,51 @@
         })
     }
 
+    function getDefaultFiatAmount(currency: MarketCurrency): number {
+        switch (currency) {
+            case MarketCurrency.Usd:
+            case MarketCurrency.Eur:
+            case MarketCurrency.Gbp:
+                return 100
+            default: {
+                const conversionRate =
+                    $marketCoinPrices[MarketCoinId.Iota]?.[currency] /
+                    $marketCoinPrices[MarketCoinId.Iota]?.[MarketCurrency.Usd]
+                const fiatAmount = 100 * conversionRate
+                const roundedAmount = customRound(fiatAmount)
+                return roundedAmount
+            }
+        }
+    }
+
+    function customRound(number) {
+        const magnitude = Math.pow(10, Math.floor(Math.log10(number)))
+        return magnitude <= 10
+            ? Math.round(number / magnitude) * magnitude
+            : Math.round((number / magnitude) * 10) * (magnitude / 10)
+    }
+
     async function resetTransak(): Promise<void> {
         await Platform.closeTransak()
+        isTransakOpen = false
         await Platform.openTransak({
             currency: $activeProfile?.settings.marketCurrency,
             address: $selectedAccount.depositAddress,
             service: 'BUY',
+            amount: getDefaultFiatAmount($activeProfile?.settings.marketCurrency ?? MarketCurrency.Usd),
         })
+        isTransakOpen = true
         await updateTransakBounds()
     }
 
+    onMount(() => {
+        Platform.onEvent('reset-transak', resetTransak)
+    })
+
     onDestroy(() => {
         void Platform.closeTransak()
+        isTransakOpen = false
+        Platform.removeListenersForEvent('reset-transak')
     })
 </script>
 
@@ -75,9 +119,7 @@
         <TransakAccountPanel />
     </div>
     <div class="transak-panel" bind:this={transakContainer}>
-        <Pane
-            classes="flex flex-col justify-center items-center w-full h-full px-6 pb-6 pt-4 gap-4 bg-surface dark:bg-surface-dark shadow-lg"
-        ></Pane>
+        <TransakWindowPlaceholder />
     </div>
     <div class="info-panel">
         <TransakInfoPanel />

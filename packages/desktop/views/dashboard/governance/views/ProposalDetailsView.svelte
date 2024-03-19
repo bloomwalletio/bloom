@@ -8,16 +8,18 @@
         selectedProposal,
         updateParticipationOverviewForEventId,
     } from '@contexts/governance/stores'
+    import { Pane } from '@ui'
     import { onDestroy, onMount } from 'svelte'
     import {
-        ProposalAccountVotingPane,
         ProposalDetailsPane,
         ProposalInformationPane,
         ProposalQuestionListPane,
+        QuorumProgress,
     } from '../components/proposal-details'
 
     let statusLoaded: boolean = false
     let overviewLoaded: boolean = false
+    let projected: boolean = false
 
     onMount(() => {
         // Callbacks used, because we don't want to await the resolution of the promises.
@@ -35,11 +37,13 @@
     })
 </script>
 
-<proposal-details class="w-full h-full flex flex-nowrap p-8 relative flex-1 space-x-4">
-    <div class="w-2/5 flex flex-col space-y-4 relative">
+<Pane
+    classes="w-full h-full flex flex-nowrap relative flex-1 divide-x divide-solid divide-stroke dark:divide-stroke-dark"
+>
+    <div class="w-2/5 flex flex-col p-6 space-y-6 relative overflow-y-scroll">
         <ProposalDetailsPane proposal={$selectedProposal} />
-        <ProposalAccountVotingPane />
+        <QuorumProgress proposal={$selectedProposal} {projected} />
         <ProposalInformationPane />
     </div>
-    <ProposalQuestionListPane {statusLoaded} {overviewLoaded} />
-</proposal-details>
+    <ProposalQuestionListPane bind:projected {statusLoaded} {overviewLoaded} />
+</Pane>

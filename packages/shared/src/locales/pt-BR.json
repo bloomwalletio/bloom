@@ -501,12 +501,17 @@
                         "title": "Solicitação de conexão",
                         "firstTimeHint": "Este dApp deseja conectar-se pela primeira vez. Conecte-se a sites que você confia.",
                         "reconnectHint": "You have previously connected with this dApp.",
-                        "insecure": "A URL para este dApp não pôde ser verificada. Sua conexão com este aplicativo pode não ser segura.",
                         "unsupportedNetworks": "Este dApp não é compatível com Bloom, pois é executado em uma rede não suportada.",
                         "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "Este dApp não é totalmente compatível com a Bloom. Alguns métodos ou eventos não são suportados.",
                         "supportedOnOtherProfile": "Este dApp é executado em uma rede suportada, mas não está acessível com este perfil. Por favor, use um perfil conectado à rede necessária.",
-                        "acceptInsecureConnection": "Eu entendo que este dApp pode ser inseguro e ainda desejo me conectar."
+                        "acceptInsecureConnection": "I understand and wish to proceed",
+                        "supported": "Supported",
+                        "notSupported": "Not supported",
+                        "onAnotherProfile": "On another profile",
+                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
+                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
+                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
                     },
                     "editPermissions": {
                         "title": "Editar permissões"
@@ -634,14 +639,13 @@
                 "manage": "Manage voting power"
             },
             "proposalsDetails": {
-                "title": "Detalhes",
                 "totalProposals": "Total de propostas",
                 "activeProposals": "Propostas ativas",
                 "votingProposals": "Propostas que você está votando",
                 "votedProposals": "Total de propostas que você votou"
             },
             "proposals": {
-                "title": "Propostas",
+                "title": "Governance Proposals",
                 "voted": "Votado",
                 "successEdit": "Proposta editada com sucesso",
                 "successAdd": "{numberOfProposals, select, one {Proposta} other {Propostas}} adicionadas com sucesso a todas as contas",
@@ -687,10 +691,15 @@
                     "eventId": "ID do evento",
                     "nodeUrl": "URL do nó"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Obtendo dados da proposta",
                 "hintVote": "Você não pode votar em uma proposta que está na fase de anúncio, a votação abrirá em {time}.",
                 "projection": {
-                    "label": "Projected votes",
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
                     "tooltip": "The projection is based on current voting weight and remaining milestones."
                 }
             }
@@ -722,6 +731,10 @@
                 "connected": "connected securely",
                 "redirected": "redirected, be careful!",
                 "disconnected": "disconnected, try refreshing"
+            },
+            "error": {
+                "title": "Transak could not be loaded",
+                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
             }
         }
     },
@@ -1083,19 +1096,19 @@
                         "Conflicting": "Failed to decrease voting power"
                     },
                     "startVoting": {
-                        "Pending": "Voting for {proposalName}",
-                        "Confirmed": "Voted for {proposalName}",
-                        "Conflicting": "Failed to vote for"
+                        "Pending": "Voting on {proposalName}",
+                        "Confirmed": "Voted on {proposalName}",
+                        "Conflicting": "Failed to vote on"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting for {proposalName}",
-                        "Confirmed": "Stopped voting for {proposalName}",
-                        "Conflicting": "Failed to stop voting for"
+                        "Pending": "Stopping voting on {proposalName}",
+                        "Confirmed": "Stopped voting on {proposalName}",
+                        "Conflicting": "Failed to stop voting on"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote for {proposalName}",
-                        "Confirmed": "Changed vote for {proposalName}",
-                        "Conflicting": "Failed to change vote for"
+                        "Pending": "Changing vote on {proposalName}",
+                        "Confirmed": "Changed vote on {proposalName}",
+                        "Conflicting": "Failed to change vote on"
                     },
                     "revote": {
                         "Pending": "Revotando",
@@ -1217,7 +1230,7 @@
         "revote": {
             "title": "Revote on proposals",
             "body": "Mudar seu poder de votação temporariamente impede que seus votos para todas as propostas sejam contados. Basta clicar em \"Revotar\" para retomar o voto.",
-            "hint": "Bloom lembra todas as propostas e opções de resposta que você votou anteriormente."
+            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
         },
         "removeProposal": {
             "title": "Remover proposta",
@@ -1380,7 +1393,8 @@
         "syncAccounts": "Sync accounts",
         "importToken": "Import {type} token",
         "syncTokens": "Forçar sincronização de tokens",
-        "mintNftCollection": "Mint NFT collection"
+        "mintNftCollection": "Mint NFT collection",
+        "readMore": "Read more"
     },
     "general": {
         "recipient": "Recipient",
@@ -1396,12 +1410,14 @@
         "receiving": "Recebendo",
         "newVotingPower": "New voting power",
         "votingPower": "Voting power",
-        "increased": "Voting increased",
-        "increasing": "Increasing voting",
-        "decreased": "Voting decreased",
-        "decreasing": "Decreasing voting",
+        "increased": "Voting power increased",
+        "increasing": "Increasing voting power",
+        "decreased": "Voting power decreased",
+        "decreasing": "Decreasing voting power",
         "voted": "Votado",
         "voting": "Votando",
+        "votingOn": "Voting on",
+        "votedOn": "Voted on",
         "changedVote": "Changed vote",
         "changingVote": "Changing vote",
         "revoted": "Revotado",
@@ -1604,7 +1620,8 @@
         "baseCoin": "Base Coin",
         "unverifiedContract": "Unverified Contract",
         "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "question": "Question"
     },
     "filters": {
         "title": "Filters",
@@ -1921,6 +1938,7 @@
             "notReachable": "O ID da rede para este nó não pôde ser recuperado, não foi possível adicionar o nó."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Algo deu errado."
         },
         "backup": {

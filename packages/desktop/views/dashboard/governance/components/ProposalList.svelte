@@ -1,10 +1,12 @@
 <script lang="ts">
-    import { Filter } from '@components'
+    import { EmptyListPlaceholder, Filter } from '@components'
+    import { IconName } from '@bloomwalletio/ui'
     import { proposalFilter, registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
     import { isVisibleProposal, sortProposals } from '@contexts/governance/utils'
     import { SearchInput } from '@ui'
     import { ProposalCard } from './'
     import ProposalListMenu from './ProposalListMenu.svelte'
+    import { localize } from '@core/i18n'
 
     $: proposals = Object.values($registeredProposalsForSelectedAccount)
 
@@ -35,9 +37,19 @@
             <ProposalListMenu />
         </div>
     </header-container>
-    <ul class="grid grid-cols-2 auto-rows-min gap-4 flex-1 overflow-y-scroll pr-3 -mr-5">
-        {#each sortedProposals as proposal}
-            <ProposalCard {proposal} />
-        {/each}
-    </ul>
+    {#if sortedProposals.length}
+        <ul class="grid grid-cols-2 auto-rows-min gap-4 flex-1 overflow-y-scroll pr-3 -mr-5">
+            {#each sortedProposals as proposal}
+                <ProposalCard {proposal} />
+            {/each}
+        </ul>
+    {:else}
+        <div class="w-full h-full flex flex-col items-center justify-center">
+            <EmptyListPlaceholder
+                title={localize('views.governance.proposals.emptyTitle')}
+                subtitle={localize('views.governance.proposals.emptyDescription')}
+                icon={IconName.BookmarkX}
+            />
+        </div>
+    {/if}
 </proposals-container>
