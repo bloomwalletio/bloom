@@ -15,8 +15,6 @@ export interface IPlatform {
     getDiagnostics(): Promise<{ label: string; value: string }[]>
     getMachineId(): Promise<string>
     updateAppSettings(settings: Partial<IAppSettings>): Promise<void>
-    getActiveProfile(): string
-    updateActiveProfile(id: string): void
     removeProfileFolder(profilePath: string): Promise<void>
     renameProfileFolder(oldPath: string, newPath: string): Promise<void>
     listProfileFolders(profileStoragePath: string): Promise<string[]>

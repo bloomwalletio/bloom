@@ -12,18 +12,11 @@ import type { IAppSettings, ITransakWindowData } from '@core/app/interfaces'
 import type { IFeatureFlag } from '@lib/features/interfaces'
 import { AppTheme } from '@core/app/enums'
 
-let activeProfileId = null
 const eventListeners = {}
 
 export default {
     updateAppSettings(settings: Partial<IAppSettings>): Promise<void> {
         return ipcRenderer.invoke('update-app-settings', settings)
-    },
-    getActiveProfile(): string {
-        return activeProfileId
-    },
-    updateActiveProfile(id: string): void {
-        activeProfileId = id
     },
     async renameProfileFolder(oldPath: fs.PathLike, newPath: fs.PathLike): Promise<unknown> {
         return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
