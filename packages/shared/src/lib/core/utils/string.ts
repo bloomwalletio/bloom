@@ -107,3 +107,14 @@ export function getNthOccurrenceIndex(string: string, char: string, n: number): 
     }
     return index
 }
+
+export function convertCamelCaseToPhrase(text: string): string {
+    text = text[0].toUpperCase() + text.substring(1)
+    // Split the text using regular expression to identify camel case boundaries
+    const words = text.match(/[A-Z][a-z]*/g) || []
+
+    // Capitalize the first word and join the rest with spaces
+    const result = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+
+    return result
+}
