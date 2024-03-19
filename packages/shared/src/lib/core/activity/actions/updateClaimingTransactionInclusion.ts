@@ -26,7 +26,7 @@ export function updateClaimingTransactionInclusion(
                         asyncStatus: StardustActivityAsyncStatus.Claimed,
                     },
                 })
-                addClaimedActivity(accountIndex, activity?.transactionId, {
+                addClaimedActivity(accountIndex, activity.transactionId, {
                     id: activity.id,
                     claimingTransactionId: transactionId,
                     claimedTimestamp: new Date().getTime(),

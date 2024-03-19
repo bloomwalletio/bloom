@@ -6,8 +6,8 @@ const ASYNC_UNLOCK_CONDITION_TYPES = [
     UnlockConditionType.Timelock,
 ]
 
-export function isOutputAsync(output: Output): boolean {
-    if (output.type === OutputType.Foundry) {
+export function isOutputAsync(output: Output | undefined): boolean {
+    if (!output || output.type === OutputType.Foundry) {
         return false
     }
 
