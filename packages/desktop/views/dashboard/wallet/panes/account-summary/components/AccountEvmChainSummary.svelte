@@ -1,22 +1,23 @@
 <script lang="ts">
-    import { getNetwork, NetworkHealth, NetworkId } from '@core/network'
     import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
-    import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import AccountNetworkSummary from './AccountNetworkSummary.svelte'
-    import type { IAccountNetworkSummaryProps } from '../interfaces'
+    import { IChain, NetworkHealth, NetworkId } from '@core/network'
     import { ownedNfts, selectedAccountNfts } from '@core/nfts/stores'
+    import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import type { IAccountNetworkSummaryProps } from '../interfaces'
+    import AccountNetworkSummary from './AccountNetworkSummary.svelte'
 
     export let account: IAccountState
-    export let networkId: NetworkId
+    export let chain: IChain
+
+    $: networkId = chain?.getConfiguration()?.id as NetworkId 
 
     let props: IAccountNetworkSummaryProps | undefined
     $: $selectedAccountTokens, $selectedAccountNfts, account, (props = buildAccountEvmChainSummaryProps())
 
     function buildAccountEvmChainSummaryProps(): IAccountNetworkSummaryProps | undefined {
-        const chain = getNetwork()?.getChain(networkId)
         const tokens = $selectedAccountTokens?.[networkId]
         const evmChainBaseToken: ITokenWithBalance = tokens?.baseCoin
         const tokenBalance = formatTokenAmountBestMatch(

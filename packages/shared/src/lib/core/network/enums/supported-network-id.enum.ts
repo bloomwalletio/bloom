@@ -11,6 +11,7 @@ export enum StardustNetworkId {
 export enum EvmNetworkId {
     ShimmerEvm = `${NetworkNamespace.Evm}:${EvmChainId.ShimmerEvm}`,
     TestnetEvm = `${NetworkNamespace.Evm}:${EvmChainId.TestnetEvm}`,
+    TestnetKycEvm = `${NetworkNamespace.Evm}:${EvmChainId.TestnetKycEvm}`,
 }
 
 export const SupportedNetworkId = { ...StardustNetworkId, ...EvmNetworkId }
