@@ -1399,7 +1399,8 @@
         "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens",
         "mintNftCollection": "Mint NFT collection",
-        "readMore": "Read more"
+        "readMore": "Read more",
+        "importThirdPartyProfiles": "Import third-party profiles"
     },
     "general": {
         "recipient": "Recipient",
