@@ -10,16 +10,22 @@
     import { getSignificantDigitsAndRound } from '@core/utils'
 
     export let proposal: IProposal
+    export let projected: boolean = false
 
     const QUORUM_PERCENTAGE_DECIMAL = 0.05
 
     const currentMilestone = $networkStatus.currentMilestone
 
-    $: circulatingSupplyVotedPercentage =
-        getCirculatingSupplyVotedPercentage($selectedParticipationEventStatus, proposal, currentMilestone) ?? 0
+    $: ({ actualPercentage, projectedPercentage } = getCirculatingSupplyVotedPercentage(
+        $selectedParticipationEventStatus,
+        proposal,
+        currentMilestone
+    ))
+
+    $: percentage = projected ? projectedPercentage : actualPercentage
 
     function formatPercentage(percentage: number): string {
-        const percentageWithSignificantDigits = getSignificantDigitsAndRound(Number(percentage))
+        const percentageWithSignificantDigits = getSignificantDigitsAndRound(Number(percentage) * 100)
         const percentageString = String(percentageWithSignificantDigits).replace(/[,.]/g, getDecimalSeparator()) + '%'
         return percentageString
     }
@@ -33,9 +39,9 @@
         </div>
         <div class="flex gap-1">
             <Text align="center" fontWeight="medium" textColor="brand">
-                {formatPercentage(circulatingSupplyVotedPercentage)} / {QUORUM_PERCENTAGE_DECIMAL * 100}%
+                {formatPercentage(percentage)} / {QUORUM_PERCENTAGE_DECIMAL * 100}%
             </Text>
         </div>
     </div>
-    <Progress size="sm" progress={circulatingSupplyVotedPercentage / QUORUM_PERCENTAGE_DECIMAL} />
+    <Progress size="sm" progress={(percentage / QUORUM_PERCENTAGE_DECIMAL) * 100} />
 </div>

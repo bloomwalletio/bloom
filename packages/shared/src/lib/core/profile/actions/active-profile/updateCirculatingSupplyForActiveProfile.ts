@@ -5,9 +5,13 @@ import { get } from 'svelte/store'
 
 export async function updateCirculatingSupplyForActiveProfile(): Promise<void> {
     const $profile = get(activeProfile)
-    const circulatingSupply = await ExplorerApi.getCirculatingSupply($profile.network.id as StardustNetworkId)
-    activeProfile.update((state) => {
-        state.network.protocol.circulatingSupply = circulatingSupply
-        return state
-    })
+    try {
+        const circulatingSupply = await ExplorerApi.getCirculatingSupply($profile.network.id as StardustNetworkId)
+        activeProfile.update((state) => {
+            state.network.protocol.circulatingSupply = circulatingSupply
+            return state
+        })
+    } catch (err) {
+        console.error('Error updating circulating supply for active profile', err)
+    }
 }

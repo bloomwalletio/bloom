@@ -4,7 +4,7 @@ import { StardustActivityType } from '@core/activity'
 import { getNftId } from '@core/activity/utils/outputs'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { getActiveNetworkId, getNetwork } from '@core/network'
-import { activeAccounts, activeProfileId } from '@core/profile/stores'
+import { activeAccounts, getActiveProfileId } from '@core/profile/stores'
 import { getPersistedTransactionsForChain } from '@core/transactions/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { NftOutput, OutputType } from '@iota/sdk/out/types'
@@ -18,7 +18,7 @@ import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts
 
 export async function loadNftsForActiveProfile(): Promise<void> {
     let nftsToDownload: Nft[] = []
-    const profileId = get(activeProfileId)
+    const profileId = getActiveProfileId()
     const allAccounts = get(activeAccounts)
     for (const account of allAccounts) {
         const accountNfts = await loadNftsForAccount(profileId, account)

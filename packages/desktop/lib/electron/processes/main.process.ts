@@ -486,7 +486,12 @@ nativeTheme.on('updated', () => {
 })
 
 ipcMain.handle('get-theme', () => nativeTheme.themeSource)
-ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
+ipcMain.handle('update-theme', (_e, theme) => {
+    nativeTheme.themeSource = theme
+    if (features?.buySell?.enabled) {
+        windows.main.webContents.send('reset-transak')
+    }
+})
 ipcMain.handle('should-be-dark-mode', () => nativeTheme.shouldUseDarkColors)
 
 /**

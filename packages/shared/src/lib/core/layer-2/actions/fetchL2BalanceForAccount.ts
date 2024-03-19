@@ -24,6 +24,7 @@ import { setLayer2AccountBalanceForChain } from '../stores'
 import { BASE_TOKEN_ID, TokenTrackingStatus } from '@core/token'
 import features from '@features/features'
 import { KeyValue } from '@ui/types'
+import { IError } from '@core/error'
 
 export function fetchL2BalanceForAccount(account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -106,7 +107,7 @@ async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Pr
             const rawBalance = await contract.methods.balanceOf(evmAddress).call()
             erc20TokenBalances.push({ balance: Converter.bigIntLikeToBigInt(rawBalance), tokenId: erc20Address })
         } catch (err) {
-            const error = err?.message ?? err
+            const error = (err as IError)?.message ?? err
             console.error(error)
         }
     }

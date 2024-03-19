@@ -10,48 +10,80 @@ export function getCirculatingSupplyVotedPercentage(
     proposal: IProposal,
     currentMilestone: number,
     profile: IProfile = get(activeProfile)
-): number {
+): { actualPercentage: number; projectedPercentage: number } {
     const circulatingSupply = profile.network.protocol?.circulatingSupply
     if (!circulatingSupply || !participationEventStatus?.questions || !proposal?.milestones) {
-        return 0
+        return { actualPercentage: 0, projectedPercentage: 0 }
     }
+    const { totalCurrentVotes, totalAccumulatedVotes } = getTotalEventVotes(participationEventStatus)
+    const { elapsedMilestones, remainingMilestones } = getMilestoneCount(
+        participationEventStatus,
+        proposal.milestones,
+        currentMilestone
+    )
 
-    const totalEventVotes = getTotalEventVotes(participationEventStatus)
-    const milestoneCount = getMilestoneCount(participationEventStatus, proposal.milestones, currentMilestone)
+    const maximumAccumulatedVotes = (BigInt(circulatingSupply) * BigInt(elapsedMilestones)) / BigInt(1000) // Divide by 1000 because 1000 microns = 1 vote
+    const maximumRemainingVotes = (BigInt(circulatingSupply) * BigInt(remainingMilestones)) / BigInt(1000) // Divide by 1000 because 1000 microns = 1 vote
 
-    const maximumVotes = BigInt(circulatingSupply) * BigInt(milestoneCount)
-    const percentage = calculatePercentageOfBigInt(totalEventVotes, maximumVotes, 6)
-
-    return percentage
+    const actualPercentage = calculatePercentageOfBigInt(totalAccumulatedVotes, maximumAccumulatedVotes, 6)
+    const projectedPercentage = calculatePercentageOfBigInt(
+        totalAccumulatedVotes + totalCurrentVotes * BigInt(remainingMilestones),
+        maximumAccumulatedVotes + maximumRemainingVotes,
+        6
+    )
+    return { actualPercentage, projectedPercentage }
 }
 
-function getTotalEventVotes(participationEventStatus: ParticipationEventStatus): bigint {
-    const isCommencing = participationEventStatus.status === EventStatus.Commencing
+function getTotalEventVotes(participationEventStatus: ParticipationEventStatus): {
+    totalCurrentVotes: bigint
+    totalAccumulatedVotes: bigint
+} {
     const participationQuestion = participationEventStatus.questions?.[0]
 
     if (!participationQuestion) {
-        return BigInt(0)
+        return { totalCurrentVotes: BigInt(0), totalAccumulatedVotes: BigInt(0) }
     }
 
-    const totalEventVotes = participationQuestion.answers.reduce(
-        (total, answer) => (total += BigInt(answer[isCommencing ? 'current' : 'accumulated'])),
+    const totalCurrentVotes = participationQuestion.answers.reduce(
+        (total, answer) => (total += BigInt(answer.current)),
         BigInt(0)
     )
 
-    return totalEventVotes
+    const totalAccumulatedVotes = participationQuestion.answers.reduce(
+        (total, answer) => (total += BigInt(answer.accumulated)),
+        BigInt(0)
+    )
+
+    return { totalCurrentVotes, totalAccumulatedVotes }
 }
 
 function getMilestoneCount(
     participationEventStatus: ParticipationEventStatus,
     proposalMilestones: Record<EventStatus, number>,
     currentMilestone: number
-): number {
+): { elapsedMilestones: number; remainingMilestones: number } {
+    let elapsedMilestones = 0
+    let remainingMilestones = 0
     switch (participationEventStatus.status) {
-        case EventStatus.Holding:
-            return Math.max(currentMilestone - proposalMilestones.holding, 1)
-        case EventStatus.Ended:
-            return Math.max(proposalMilestones.ended - proposalMilestones.holding, 1)
+        case EventStatus.Upcoming: // Announcement
+            elapsedMilestones = 0
+            remainingMilestones = Math.max(proposalMilestones.ended - proposalMilestones.holding, 0)
+            break
+        case EventStatus.Commencing: // Voting Open
+            elapsedMilestones = 0
+            remainingMilestones = Math.max(proposalMilestones.ended - proposalMilestones.holding, 0)
+            break
+        case EventStatus.Holding: // Counting
+            elapsedMilestones = Math.max(currentMilestone - proposalMilestones.holding, 1)
+            remainingMilestones = Math.max(proposalMilestones.ended - currentMilestone, 0)
+            break
+        case EventStatus.Ended: // Results
+            elapsedMilestones = Math.max(proposalMilestones.ended - proposalMilestones.holding, 1)
+            remainingMilestones = 0
+            break
         default:
-            return 1
+            elapsedMilestones = 1
+            break
     }
+    return { elapsedMilestones, remainingMilestones }
 }
