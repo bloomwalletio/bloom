@@ -1610,6 +1610,7 @@
         "verified": "Verified",
         "methodId": "Method ID",
         "methodName": "Method name",
+        "inputs": "Inputs",
         "data": "Data",
         "success": "Success",
         "info": "Info",
