@@ -9,7 +9,7 @@
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
     import { checkActiveProfileAuth, getBaseToken, loadAccounts } from '@core/profile/actions'
-    import { activeAccounts, activeProfile, visibleActiveAccounts } from '@core/profile/stores'
+    import { activeAccounts, activeProfile, getActiveProfileId, visibleActiveAccounts } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -140,8 +140,9 @@
 
     onDestroy(async () => {
         if (hasUsedWalletFinder) {
+            const profileId = getActiveProfileId()
             await refreshAccountTokensForActiveProfile()
-            await generateAndStoreActivitiesForAllAccounts()
+            await generateAndStoreActivitiesForAllAccounts(profileId)
             loadNftsForActiveProfile()
         }
     })
