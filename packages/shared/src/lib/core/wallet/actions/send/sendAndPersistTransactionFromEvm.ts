@@ -19,8 +19,8 @@ export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
     signedTransaction: string,
     chain: IChain,
-    account: IAccountState,
-    profileId: string
+    profileId: string,
+    account: IAccountState
 ): Promise<string> {
     const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
     if (!transactionReceipt) {
