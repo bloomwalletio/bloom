@@ -1696,8 +1696,9 @@
         },
         "type": {
             "label": "Type",
-            "basic": "Basic",
+            "transfer": "Transfer",
             "nft": "NFT",
+            "smartContract": "Smart Contract",
             "alias": "Alias",
             "foundry": "Foundry",
             "governance": "Governance",
