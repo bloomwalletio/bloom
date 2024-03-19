@@ -1,6 +1,6 @@
-export interface SelectionOption {
+export interface SelectionOption<P> {
     label: string
-    value: string
+    value: P
     checked: boolean
     required: boolean
 }

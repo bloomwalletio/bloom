@@ -4,7 +4,7 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
-    import { selectedAccount } from '@core/account/stores'
+    import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { DappInfo, TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -31,7 +31,8 @@
     import { LedgerAppName } from '@core/ledger'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { LegacyTransaction } from '@ethereumjs/tx'
-    import { activeProfileId } from '@core/profile/stores'
+    import { getActiveProfileId } from '@core/profile/stores'
+    import { IAccountState } from '@core/account'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -87,27 +88,30 @@
         }
     }
 
-    async function getSignedTransaction(): Promise<string> {
+    async function getSignedTransaction(account: IAccountState): Promise<string> {
         if (preparedTransaction?.v && preparedTransaction?.s && preparedTransaction?.r) {
             const transaction = LegacyTransaction.fromTxData(preparedTransaction)
             return getHexEncodedTransaction(transaction)
         } else {
-            return await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+            return await signEvmTransaction(preparedTransaction, chain, account)
         }
     }
 
     async function signOrSend(): Promise<void> {
-        const signedTransaction = await getSignedTransaction()
+        const profileId = getActiveProfileId()
+        const account = getSelectedAccount()
+        const signedTransaction = await getSignedTransaction(account)
         if (method === RpcMethod.EthSignTransaction) {
             callback({ result: signedTransaction })
             return
         }
+
         const transactionHash = await sendAndPersistTransactionFromEvm(
             preparedTransaction,
             signedTransaction,
             chain,
-            $selectedAccount,
-            $activeProfileId
+            profileId,
+            account
         )
         callback({ result: transactionHash })
     }
