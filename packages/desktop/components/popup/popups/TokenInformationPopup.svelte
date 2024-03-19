@@ -19,9 +19,9 @@
     $: isNewToken = token.verification?.status === NotVerifiedStatus.New
     $: activity = $selectedAccountActivities.find((_activity) => _activity.id === activityId)
     $: popupId =
-        activity.namespace === NetworkNamespace.Evm
+        activity?.namespace === NetworkNamespace.Evm
             ? PopupId.EvmActivityDetails
-            : activity.namespace === NetworkNamespace.Stardust
+            : activity?.namespace === NetworkNamespace.Stardust
               ? PopupId.StardustActivityDetails
               : undefined
 
