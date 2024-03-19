@@ -10,7 +10,7 @@ import { addError } from '../stores'
  */
 export class BaseError extends Error {
     constructor(params?: IErrorParameters) {
-        const message = (params?.localizeMessage ? localize(params?.message) : params?.message) ?? ''
+        const message = (params?.localizeMessage ? localize(params?.message ?? '') : params?.message) ?? ''
 
         if (params?.logToConsole) {
             console.error(message)

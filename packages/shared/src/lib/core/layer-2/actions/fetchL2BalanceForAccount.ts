@@ -92,7 +92,7 @@ async function getL2NativeTokenBalancesForAddress(evmAddress: string, chain: ICh
 async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Promise<ILayer2TokenBalance[]> {
     const networkId = chain.getConfiguration().id
     const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? {}
-    const erc20TokenBalances = []
+    const erc20TokenBalances: ILayer2TokenBalance[] = []
     for (const [erc20Address, trackingStatus] of Object.entries(trackedTokens)) {
         try {
             if (trackingStatus === TokenTrackingStatus.Untracked) {

@@ -5,7 +5,7 @@ import { parseLayer2MetadataForTransfer } from '@core/layer-2/utils'
 import { containsControlCharacters, Converter } from '@core/utils'
 import type { Output } from '@core/wallet/types'
 
-export function getMetadataFromOutput(output: Output): string | undefined {
+export function getMetadataFromOutput(output: Output | undefined): string | undefined {
     const { data } = <MetadataFeature>output?.features?.find((feature) => feature.type === FeatureType.Metadata) ?? {
         data: undefined,
     }

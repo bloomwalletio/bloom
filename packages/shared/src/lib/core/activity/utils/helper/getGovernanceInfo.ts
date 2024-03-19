@@ -83,7 +83,7 @@ export function getGovernanceInfo(output: Output, inputs: IWrappedOutput[], meta
 function getParticipationDifference(
     oldParticipations: IParticipation[],
     newParticipations: IParticipation[]
-): IParticipation {
+): IParticipation | undefined {
     const participationDifference = newParticipations.find(
         (newParticipation) =>
             !oldParticipations.some((oldParticipation) => newParticipation.eventId === oldParticipation.eventId)
@@ -94,7 +94,7 @@ function getParticipationDifference(
 function getChangedParticipation(
     oldParticipations: IParticipation[],
     newParticipations: IParticipation[]
-): IParticipation {
+): IParticipation | undefined {
     return newParticipations.find((newParticipation) =>
         oldParticipations.some(
             (oldParticipation) =>
