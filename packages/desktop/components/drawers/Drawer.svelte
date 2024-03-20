@@ -2,6 +2,7 @@
     import { DrawerDirection, closeDrawer, drawerState } from '@desktop/auxiliary/drawer'
     import { CloseButton } from '@bloomwalletio/ui'
     import { fade, fly } from 'svelte/transition'
+    import { style } from '@core/utils/ui'
 
     export let onClose: () => unknown = () => {}
 
@@ -53,13 +54,13 @@
             on:click={onCloseClick}
             on:keydown={() => {}}
             class="fixed left-0 w-full z-0 bg-neutral-6/75"
-            style:height="calc(100% - var(--windows-navbar-height, 0px))"
+            use:style={{ height: 'calc(100% - var(--windows-navbar-height, 0px))' }}
         />
         <panel
             in:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
             out:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
             class="relative flex flex-col flex-auto overflow-hidden {position} {isVertical ? 'vertical' : 'horizontal'}"
-            style:height="calc(100% - var(--windows-navbar-height, 0px))"
+            use:style={{ height: 'calc(100% - var(--windows-navbar-height, 0px))' }}
         >
             <div class="flex flex-col h-full">
                 <slot name="contents" />

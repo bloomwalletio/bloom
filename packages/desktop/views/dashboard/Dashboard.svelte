@@ -26,6 +26,7 @@
     import { Background } from '@views/components'
     import { BuySell } from './buy-sell'
     import { CampaignsRouterView } from './campaigns'
+    import { style } from '@core/utils/ui'
 
     const tabs = {
         wallet: Wallet,
@@ -80,7 +81,7 @@
     <div class="flex flex-col flex-none z-10">
         {#if IS_MAC}
             <NavbarContainer draggable={IS_MAC}>
-                <div style:height="var(--navbar-height, 0px)" />
+                <div use:style={{ height: 'var(--navbar-height, 0px)' }} />
             </NavbarContainer>
         {/if}
         <DashboardSidebar />

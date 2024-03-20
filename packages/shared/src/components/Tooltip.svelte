@@ -2,13 +2,13 @@
     import { darkMode } from '@core/app/stores'
     import { Position } from './enums'
     import { onMount } from 'svelte'
+    import { style } from '@core/utils/ui'
 
     export let classes = ''
     export let anchor: HTMLElement | null = null
     export let position: Position = Position.Top
     export let refresh: boolean = false // prop used to refresh the tooltip position
     export let offset: number = 10
-    export let inlineStyle: string = ''
     export let size: 'small' | 'medium' | undefined = 'medium'
 
     let tooltip: HTMLElement
@@ -68,7 +68,7 @@
     {size === 'small' ? 'px-2 py-1 rounded-md' : 'p-4 rounded-xl'}
     w-auto max-w-60 shadow-lg border border-solid bg-white dark:bg-surface-dark border-white dark:border-stroke-dark {position} {classes}"
     class:darkmode={$darkMode}
-    style="top: {top}px; left:{left}px; {inlineStyle}"
+    use:style={{ top: `${top}px`, left: `${left}px` }}
     bind:this={tooltip}
 >
     <slot />

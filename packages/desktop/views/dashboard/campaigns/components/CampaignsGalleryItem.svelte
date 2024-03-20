@@ -14,7 +14,6 @@
 
     $: featured = featuredCampaigns.some((featuredId) => featuredId === campaign.id)
 
-    let campaignWrapperClientWidth: number
     let imageLoadError = false
 
     function onCampaignClick(): void {
@@ -26,11 +25,7 @@
 
 <button type="button" on:click={onCampaignClick} class="campaign-gallery-item">
     <container>
-        <div
-            class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
-            bind:clientWidth={campaignWrapperClientWidth}
-            style="height: {(campaignWrapperClientWidth * 9) / 16}px; "
-        >
+        <div class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark">
             {#if featured}
                 <div class="absolute top-0 flex w-full p-4">
                     <FeaturedPill />

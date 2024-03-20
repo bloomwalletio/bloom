@@ -133,7 +133,7 @@ const DEFAULT_WEB_PREFERENCES: WebPreferences = {
     disableBlinkFeatures: 'Auxclick',
     webviewTag: false,
     enableWebSQL: false,
-    devTools: !app.isPackaged || features?.electron?.developerTools?.enabled,
+    devTools: true,
 }
 
 if (app.isPackaged) {
@@ -274,6 +274,8 @@ export function createMainWindow(): BrowserWindow {
         }
         return { action: 'deny' }
     })
+
+    windows.main.webContents.openDevTools()
 
     /**
      * Handle permissions requests

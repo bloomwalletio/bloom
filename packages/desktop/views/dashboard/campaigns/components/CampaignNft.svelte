@@ -21,11 +21,7 @@
         </div>
     </Pill>
 </div>
-<div
-    bind:clientWidth={placeholderWidth}
-    style={`max-height: ${placeholderWidth}px;`}
-    class="flex w-full h-full overflow-hidden"
->
+<div bind:clientWidth={placeholderWidth} style:max-height={placeholderWidth} class="flex w-full h-full overflow-hidden">
     {#if nft}
         <NftMedia {nft} classes="w-full h-full object-cover" loop muted>
             <MediaPlaceholder

@@ -26,7 +26,7 @@
                 <Text textColor="secondary">{String($queriedNfts.length ?? '')}</Text>
             </Pill>
         </div>
-        <div class="flex items-center gap-2" style="height: 40px">
+        <div class="flex items-center gap-2 h-[40px]">
             {#if $ownedNfts.length}
                 <SearchInput bind:value={$nftSearchTerm} />
             {/if}

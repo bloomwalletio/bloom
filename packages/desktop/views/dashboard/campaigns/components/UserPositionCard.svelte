@@ -14,7 +14,7 @@
     let nftWidth: number
 </script>
 
-<div class="h-full overflow-hidden" style={`max-height: ${nftWidth + HEADERS_HEIGHT}px`}>
+<div class="h-full overflow-hidden" style:max-height={`${nftWidth + HEADERS_HEIGHT}px`}>
     <Pane classes="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark h-full overflow-hidden">
         <div class="flex flex-row justify-between items-center p-4 h-14">
             <Text>{localize('views.campaigns.details.myPosition')}</Text>

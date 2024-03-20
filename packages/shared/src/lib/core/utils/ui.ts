@@ -119,3 +119,41 @@ export function slidable(node: HTMLElement, use: boolean = true): { destroy: () 
         },
     }
 }
+
+type CSSStyleAttribute = keyof Omit<
+    CSSStyleDeclaration,
+    'length' | 'parentRule' | 'getPropertyPriority' | 'getPropertyValue' | 'item' | 'removeProperty' | 'setProperty'
+>
+
+type StyleActionParam = Partial<Record<CSSStyleAttribute, string>>
+
+export const style: Action<HTMLDivElement, StyleActionParam> = (node: HTMLElement, style?: StyleActionParam) => {
+    if (!style || (Array.isArray(style) && style.length === 0)) {
+        return
+    }
+
+    function setStyle(style: StyleActionParam): void {
+        const keys = Object.keys(style) as CSSStyleAttribute[]
+        keys.forEach((key) => {
+            node.style[key] = style[key] ?? ''
+        })
+    }
+
+    function removeStyle(style: StyleActionParam): void {
+        const keys = Object.keys(style) as CSSStyleAttribute[]
+        keys.forEach((key) => {
+            node.style[key] = ''
+        })
+    }
+
+    setStyle(style)
+
+    return {
+        update(style): void {
+            setStyle(style)
+        },
+        destroy(): void {
+            removeStyle(style)
+        },
+    }
+}

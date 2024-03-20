@@ -11,6 +11,7 @@
     } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { AmountInput, FontWeight, InputContainer, Text } from '@ui'
+    import { style } from '@core/utils/ui'
 
     export let token: ITokenWithBalance | undefined =
         $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
@@ -100,7 +101,7 @@
     <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
         <div class="flex flex-row items-end space-x-0.5">
             <div class="flex flex-row w-full items-center">
-                <amount-wrapper style:--max-width={maxWidth}>
+                <amount-wrapper class="flex" use:style={{ maxWidth }}>
                     <AmountInput
                         bind:inputElement={amountInputElement}
                         bind:amount={inputtedAmount}
@@ -124,10 +125,3 @@
         {formatCurrency(fiatAmount) || '--'}
     </Text>
 </div>
-
-<style lang="postcss">
-    amount-wrapper {
-        max-width: var(--max-width);
-        @apply flex;
-    }
-</style>

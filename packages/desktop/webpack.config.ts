@@ -1,6 +1,8 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
 import { DefinePlugin, NormalModuleReplacementPlugin, ProvidePlugin } from 'webpack'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import path from 'path'
 import sveltePreprocess from 'svelte-preprocess'
 import features from './features/features'
@@ -107,6 +109,10 @@ const rendererRules = [
                 preprocess: sveltePreprocess({
                     sourceMap: false,
                     postcss: true,
+                    replace: [
+                        [/<div/g, '<div nonce="hello"'],
+                        [/<style/g, '<style nonce="hello"'],
+                    ],
                     // typescript({ content }) {
                     //     const { code, map } = transformSync(content, {
                     //         loader: 'ts',
@@ -199,6 +205,28 @@ const rendererPlugins = [
     new ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
     }),
+    new HtmlWebpackPlugin({
+        filename: './index.html',
+        publicPath: './',
+    }),
+    new CspHtmlWebpackPlugin(
+        {
+            // eslint-disable-next-line quotes
+            'style-src': prod ? "'self'" : ["'self'", "'unsafe-inline'"],
+            // eslint-disable-next-line quotes
+            'script-src': prod ? "'self'" : ["'self'", "'unsafe-inline'"],
+        },
+        {
+            hashEnabled: {
+                'script-src': false,
+                'style-src': false,
+            },
+            nonceEnabled: {
+                'script-src': false,
+                'style-src': false,
+            },
+        }
+    ),
 ]
 
 const preloadPlugins = [

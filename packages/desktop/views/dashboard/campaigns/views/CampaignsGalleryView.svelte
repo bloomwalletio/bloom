@@ -111,7 +111,7 @@
             </Pill>
         </div>
         <TideLogo class="text-primary dark:text-primary-dark" />
-        <div class="flex items-center justify-end gap-2 flex-1" style="height: 40px">
+        <div class="flex items-center justify-end gap-2 flex-1 h-[40px]">
             {#if campaigns.length}
                 <SearchInput bind:value={searchTerm} />
             {/if}

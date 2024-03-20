@@ -5,6 +5,7 @@
     import { AppRoute, appRoute } from '@core/router'
     import { onDestroy, onMount } from 'svelte'
     import { NavbarContainer, WindowsControlButtons, WindowsPopupMenu } from './'
+    import { style } from '@core/utils/ui'
 
     const { hasLoadedAccounts } = $activeProfile
 
@@ -30,7 +31,10 @@
 </script>
 
 <NavbarContainer draggable ghost={!isDashboardVisible}>
-    <div class="flex flex-row justify-between w-full" style:height="var(--windows-navbar-height, 0px)">
+    <div
+        class="flex flex-row justify-between w-full"
+        use:style={{ height: 'calc(100% - var(--windows-navbar-height, 0px))' }}
+    >
         <!-- We need to add this element to allow fix the windows resize area issue due to -webkit-app-region: drag -->
         <windows-resize-area />
         <WindowsPopupMenu />

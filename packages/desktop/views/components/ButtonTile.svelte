@@ -1,5 +1,6 @@
 <script lang="ts">
     import { getHexColorFromColor, Icon, IconName, type IconSize, Tile, Text, TailwindPreset } from '@bloomwalletio/ui'
+    import { style } from '@core/utils/ui'
 
     const colors = TailwindPreset.theme.extend.colors
 
@@ -27,7 +28,7 @@
                 {:else if icon}
                     <icon-container
                         class="w-12 h-12 flex justify-center items-center rounded-xl"
-                        style={`background-color: ${background}`}
+                        use:style={{ backgroundColor: background }}
                     >
                         <Icon name={icon} customColor={iconColor} size={iconSize} />
                     </icon-container>

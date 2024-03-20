@@ -7,7 +7,6 @@
     export let classes = ''
     export let boxed = false
     export let boxClasses = 'undefined'
-    export let boxStyles = ''
     export let primaryColor: string = undefined
     export let secondaryColor: string = undefined
     export let removeWhitespace = false
@@ -32,7 +31,7 @@
 
 {#if selected}
     {#if boxed}
-        <div class="boxed w-8 h-8 flex justify-center items-center {boxClasses}" style={boxStyles}>
+        <div class="boxed w-8 h-8 flex justify-center items-center {boxClasses}">
             <svg
                 bind:this={svg}
                 data-label="icon"

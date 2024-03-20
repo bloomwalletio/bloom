@@ -7,10 +7,11 @@
     import features from '@features/features'
     import { DashboardDrawerRoute } from '../drawers'
     import Breadcrumbs from './Breadcrumbs.svelte'
+    import { style } from '@core/utils/ui'
 </script>
 
 <NavbarContainer draggable={IS_MAC}>
-    <div class="flex flex-row justify-between items-center px-4" style:height="var(--navbar-height)">
+    <div class="flex flex-row justify-between items-center px-4" use:style={{ height: 'var(--navbar-height, 0px)' }}>
         <Breadcrumbs />
 
         <div class="right-button flex items-center justify-end gap-2">

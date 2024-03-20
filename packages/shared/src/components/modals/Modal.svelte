@@ -1,5 +1,6 @@
 <script lang="ts">
     import { clickOutside } from '@core/utils'
+    import { style } from '@core/utils/ui'
     import { fade } from 'svelte/transition'
     import { createEventDispatcher, onDestroy, onMount, tick } from 'svelte'
 
@@ -88,12 +89,14 @@
         use:clickOutside
         on:clickOutside={onClickOutside}
         class="{size} {classes}"
-        style:max-height={maxHeight ? `${maxHeight}px` : undefined}
-        style:top
-        style:right
-        style:bottom
-        style:left
-        style:position={fixed ? 'fixed' : absolute ? 'absolute' : 'relative'}
+        use:style={{
+            top,
+            right,
+            bottom,
+            left,
+            position: fixed ? 'fixed' : absolute ? 'absolute' : 'relative',
+            maxHeight: maxHeight ? `${maxHeight}px` : '',
+        }}
     >
         <slot />
     </modal-content>

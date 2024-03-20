@@ -57,7 +57,7 @@
         icon={IconName.Plus}
         on:click={onAddProfileClick}
     />
-    <profile-card-list class="">
+    <profile-card-list>
         {#each $profiles as profile}
             <ProfileCard {profile} onClick={onContinueClick} updateRequired={updateRequiredForProfile(profile)} />
         {/each}
