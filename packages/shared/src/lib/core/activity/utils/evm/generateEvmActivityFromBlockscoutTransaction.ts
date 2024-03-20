@@ -59,16 +59,23 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
         account
     )
 
-    if (
-        blockscoutTransaction.decoded_input &&
-        !getMethodFromRegistry(HEX_PREFIX + blockscoutTransaction.decoded_input.method_id)
-    ) {
-        const fourBytePrefix = HEX_PREFIX + blockscoutTransaction.decoded_input.method_id
-        addMethodToRegistry(fourBytePrefix, blockscoutTransaction.decoded_input.method_call)
+    let method: string | undefined
+    let parameters: Record<string, string> | undefined
+    if (blockscoutTransaction.decoded_input) {
+        // if decoded input is available we know the method and parameters and contract is verified
+        const { method_id, method_call, parameters: _parameters } = blockscoutTransaction.decoded_input
+        method = blockscoutTransaction.method
+        parameters = _parameters
+
+        if (!getMethodFromRegistry(HEX_PREFIX + method_id)) {
+            const fourBytePrefix = HEX_PREFIX + method_id
+            addMethodToRegistry(fourBytePrefix, method_call)
+        }
+    } else {
+        const [_method, _parameters] = (await getMethodForEvmTransaction(blockscoutTransaction.raw_input)) ?? []
+        method = _method
+        parameters = _parameters
     }
-    const [_method, _parameters] = (await getMethodForEvmTransaction(blockscoutTransaction.raw_input)) ?? []
-    const method: string | undefined = _method
-    const parameters: Record<string, string> | undefined = _parameters
 
     return {
         ...baseActivity,
