@@ -42,7 +42,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         const tokenIndex = blockscoutTokenTransfer.total.token_id
         tokenId = `${address}:${tokenIndex}`
         rawAmount = BigInt(1)
-        await persistErc721Nft(address, tokenIndex, networkId)
+        await persistErc721Nft(address, tokenIndex, networkId, false)
     } else {
         tokenId = blockscoutTokenTransfer.token.address.toLowerCase()
         rawAmount = BigInt(blockscoutTokenTransfer.total.value ?? 0)

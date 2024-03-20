@@ -10,7 +10,8 @@ import { localize } from '@core/i18n'
 export async function persistErc721Nft(
     tokenAddress: string,
     tokenId: string,
-    networkId: NetworkId
+    networkId: NetworkId,
+    onlyPersistOwned = true
 ): Promise<IPersistedErc721Nft | undefined> {
     const network = getNetwork()
     const chain = network?.getChain(networkId)
@@ -28,7 +29,7 @@ export async function persistErc721Nft(
     let owner = await contract.methods.ownerOf(tokenId).call()
     owner = owner.toLowerCase()
 
-    if (owner !== expectedOwner) {
+    if (onlyPersistOwned && owner !== expectedOwner) {
         throw new Error(localize('popups.importToken.errors.otherOwner'))
     }
     return persistNftWithContractMetadata(owner, networkId, metadata, tokenId, contract)
