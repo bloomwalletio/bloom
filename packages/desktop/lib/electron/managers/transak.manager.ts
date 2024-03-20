@@ -157,8 +157,10 @@ export default class TransakManager implements ITransakManager {
         })
 
         ipcMain.handle('transak-loaded', () => {
-            windows.main?.webContents.send('transak-loaded')
-            this.showWindow()
+            setTimeout(() => {
+                windows.main?.webContents.send('transak-loaded')
+                this.showWindow()
+            }, 300)
         })
 
         return windows.transak

@@ -18,6 +18,7 @@
     import { drawerState } from '@desktop/auxiliary/drawer/stores'
 
     let isTransakOpen: boolean = false
+    let isTransakLoading: boolean = true
 
     $: $isDashboardSideBarExpanded, void updateTransakBounds()
 
@@ -88,6 +89,7 @@
     }
 
     async function resetTransak(): Promise<void> {
+        isTransakLoading = true
         await Platform.closeTransak()
         isTransakOpen = false
         await Platform.openTransak({
@@ -119,7 +121,7 @@
         <TransakAccountPanel />
     </div>
     <div class="transak-panel" bind:this={transakContainer}>
-        <TransakWindowPlaceholder />
+        <TransakWindowPlaceholder bind:loading={isTransakLoading} />
     </div>
     <div class="info-panel">
         <TransakInfoPanel />

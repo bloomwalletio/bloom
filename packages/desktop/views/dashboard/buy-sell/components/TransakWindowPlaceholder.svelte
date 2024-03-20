@@ -5,11 +5,11 @@
     import { localize } from '@core/i18n'
     import { DISCORD_URL } from '@contexts/settings/constants'
 
+    export let loading: boolean = true
     let error: boolean = false
-    let loading: boolean = true
 
-    Platform.onEvent('transak-not-loaded', () => (error = true))
     Platform.onEvent('transak-loaded', () => (loading = false))
+    Platform.onEvent('transak-not-loaded', () => (error = true))
 
     function onButtonClick(): void {
         openUrlInBrowser(DISCORD_URL)

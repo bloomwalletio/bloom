@@ -29,11 +29,11 @@
     <div class="w-full flex justify-between items-center gap-2">
         <div class="flex items-center gap-2">
             <icon-container class="bg-black p-1 rounded-full">
-                <Icon name={IconName.Iota} size="xs" customColor="#ffffff" />
+                <Icon name={IconName.Iota} size="sm" customColor="#ffffff" />
             </icon-container>
             <Text type="body2">IOTA</Text>
         </div>
-        <AccountSwitcher placement="bottom-end" />
+        <AccountSwitcher compact placement="bottom-end" />
     </div>
     <div class="w-full flex flex-col gap-1 justify-center">
         <FormattedBalance balanceText={tokenBalance} textType="h4" />

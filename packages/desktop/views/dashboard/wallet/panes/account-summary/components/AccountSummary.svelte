@@ -36,7 +36,7 @@
 
 <account-summary class="w-full h-full px-6 pb-6 pt-4 flex flex-col justify-between">
     <account-summary-header class="w-full flex flex-row justify-between items-center">
-        <AccountSwitcher />
+        <AccountSwitcher hasCreateAccount />
         <AccountActionsMenu />
     </account-summary-header>
     <FormattedBalance balanceText={formattedBalance} autoAdjustFontSize />
