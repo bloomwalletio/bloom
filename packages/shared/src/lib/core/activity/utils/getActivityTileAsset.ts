@@ -60,7 +60,7 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
                     activity.tokenTransfer.tokenId,
                     activity.sourceNetworkId
                 )
-                return token?.metadata?.name ? token.metadata.name : token?.id ?? localize('general.token')
+                return token?.metadata?.name ? token.metadata.name : token?.id ?? localize('general.unknownToken')
             }
         } else if (activity.type === EvmActivityType.ContractCall) {
             return activity.recipient?.address ?? localize('general.smartContract')
