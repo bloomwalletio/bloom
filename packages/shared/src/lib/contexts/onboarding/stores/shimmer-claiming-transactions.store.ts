@@ -12,23 +12,13 @@ export const shimmerClaimingTransactions: Writable<IShimmerClaimingTransactionSt
     {}
 )
 
-export function isShimmerClaimingTransaction(transactionId: string, profileId?: string): boolean {
-    const _shimmerClaimingTransactions = get(shimmerClaimingTransactions)
-    profileId = profileId ? profileId : get(onboardingProfile)?.id
-    if (!profileId) {
-        return false
-    }
-
-    return !!_shimmerClaimingTransactions?.[profileId]?.[transactionId]
-}
-
-export function persistShimmerClaimingTransaction(transactionId: string, profileId?: string): void {
+export function persistShimmerClaimingTransaction(transactionId: string): void {
     if (!transactionId) {
         throw new MissingTransactionIdError()
     }
-    profileId = profileId ? profileId : get(onboardingProfile)?.id
+    const profileId = get(onboardingProfile)?.id
     if (!profileId) {
-        throw new Error('Missing profile ID!')
+        throw new Error('Missing onboarding profile!')
     }
 
     shimmerClaimingTransactions.update((_shimmerClaimingTransactions) => {

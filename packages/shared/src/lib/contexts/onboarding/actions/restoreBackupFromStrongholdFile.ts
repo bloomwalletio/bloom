@@ -6,7 +6,7 @@ import { onboardingProfile } from '../stores'
 import { getDefaultClientOptions } from '@core/network'
 
 export async function restoreBackupFromStrongholdFile(strongholdPassword: string): Promise<void> {
-    const { id, importFilePath, clientOptions, network } = get(onboardingProfile)
+    const { id, importFilePath, clientOptions, network } = get(onboardingProfile) ?? {}
     if (!importFilePath || !network) {
         return
     }
