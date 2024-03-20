@@ -11,6 +11,10 @@
     <Table
         items={[
             {
+                key: localize('general.standard'),
+                value: TokenStandard.Irc30,
+            },
+            {
                 key: localize('popups.nativeToken.property.tokenName'),
                 value: token.name || undefined,
             },
@@ -46,6 +50,10 @@
 {:else if token.standard === TokenStandard.Erc20}
     <Table
         items={[
+            {
+                key: localize('general.standard'),
+                value: token.standard || undefined,
+            },
             {
                 key: localize('popups.nativeToken.property.tokenName'),
                 value: token.name || undefined,

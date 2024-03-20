@@ -1,25 +1,17 @@
 <script lang="ts">
+    import { Tabs } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { EvmActivity } from '@core/activity'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import {
-        EvmGenericInformation,
-        EvmSmartContractInformation,
-        EvmNftMetadataInformation,
-        EvmTokenInformation,
-    } from './info'
-    import { getTabItems, KeyValue, PopupTab } from '@ui'
     import { EvmActivityType } from '@core/activity/enums/evm'
     import { Nft, NftStandard } from '@core/nfts'
-    import { getPersistedToken } from '@core/token/stores'
-    import { TokenMetadata } from '@core/token/types'
-    import { Tabs } from '@bloomwalletio/ui'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { KeyValue, PopupTab, getTabItems } from '@ui'
+    import { EvmGenericInformation, EvmNftMetadataInformation, EvmSmartContractInformation } from './info'
 
     export let activity: EvmActivity
     export let selectedTab: KeyValue<string> = getTabItems([PopupTab.Transaction])[0]
 
     let nft: Nft | undefined
-    let token: TokenMetadata | undefined
 
     let tabs: KeyValue<string>[] = []
     $: {
@@ -36,8 +28,7 @@
                     nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.tokenTransfer.tokenId)
                     tabs = getTabItems([PopupTab.Transaction, PopupTab.NftMetadata])
                 } else {
-                    token = getPersistedToken(activity.tokenTransfer.tokenId)?.metadata
-                    tabs = getTabItems([PopupTab.Transaction, PopupTab.Token])
+                    tabs = getTabItems([PopupTab.Transaction])
                 }
                 break
             case EvmActivityType.ContractCall:
@@ -61,8 +52,6 @@
             maxGasFee={activity.maxGasFee}
             transactionFee={activity.transactionFee}
         />
-    {:else if selectedTab.key === PopupTab.Token && token}
-        <EvmTokenInformation {token} />
     {:else if selectedTab.key === PopupTab.NftMetadata && nft}
         <EvmNftMetadataInformation {nft} />
     {:else if selectedTab.key === PopupTab.SmartContract && activity.type === EvmActivityType.ContractCall}

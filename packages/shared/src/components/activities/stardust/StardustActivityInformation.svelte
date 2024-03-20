@@ -1,7 +1,11 @@
 <script lang="ts">
+    import { Tabs } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { StardustActivity, StardustActivityType } from '@core/activity'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { TokenMetadata } from '@core/token'
+    import { getPersistedToken } from '@core/token/stores'
+    import { KeyValue, PopupTab, TokenMetadataTable, getTabItems } from '@ui'
     import {
         StardustAliasInformation,
         StardustConsolidationInformation,
@@ -11,10 +15,7 @@
         StardustNftInformation,
         StardustNftMetadataInformation,
         StardustSmartContractInformation,
-        StardustTokenInformation,
     } from './info'
-    import { Tabs } from '@bloomwalletio/ui'
-    import { getTabItems, KeyValue, PopupTab } from '@ui'
 
     export let activity: StardustActivity
     export let selectedTab: KeyValue<string> = getTabItems([PopupTab.Transaction])[0]
@@ -28,14 +29,12 @@
         hasMetadata = !!storedNft?.metadata
     }
 
+    let token: TokenMetadata | undefined
     let tabs: KeyValue<string>[] = []
     $: {
         switch (activity.type) {
             case StardustActivityType.Basic:
                 tabs = getTabItems([PopupTab.Transaction, ...(activity.smartContract ? [PopupTab.SmartContract] : [])])
-                break
-            case StardustActivityType.SmartContract:
-                tabs = getTabItems([PopupTab.Transaction, PopupTab.SmartContract])
                 break
             case StardustActivityType.Alias:
                 tabs = getTabItems([PopupTab.Transaction, PopupTab.Alias])
@@ -50,6 +49,9 @@
                 break
             case StardustActivityType.Foundry:
                 tabs = getTabItems([PopupTab.Transaction, PopupTab.Foundry, PopupTab.Token])
+                token = activity.tokenTransfer
+                    ? getPersistedToken(activity.tokenTransfer?.tokenId)?.metadata
+                    : undefined
                 break
             case StardustActivityType.Consolidation:
             case StardustActivityType.Governance:
@@ -78,8 +80,8 @@
         <StardustNftInformation {activity} />
     {:else if selectedTab.key === PopupTab.Foundry && activity.type === StardustActivityType.Foundry}
         <StardustFoundryInformation {activity} />
-    {:else if selectedTab.key === PopupTab.Token && activity.type === StardustActivityType.Foundry}
-        <StardustTokenInformation {activity} />
+    {:else if selectedTab.key === PopupTab.Token && token}
+        <TokenMetadataTable {token} />
     {:else if selectedTab.key === PopupTab.NftMetadata && activity.type === StardustActivityType.Nft}
         <StardustNftMetadataInformation {activity} />
     {:else if selectedTab.key === PopupTab.SmartContract}
