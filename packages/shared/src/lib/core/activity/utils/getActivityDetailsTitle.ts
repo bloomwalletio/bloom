@@ -2,7 +2,7 @@ import { localize } from '@core/i18n'
 import { ActivityAction, StardustActivityType } from '../enums'
 import { Activity } from '../types'
 import { getVotingEvent } from '@contexts/governance/actions'
-import { convertCamelCaseToPhrase, truncateString } from '@core/utils'
+import { truncateString } from '@core/utils'
 import { getSubjectLocaleFromActivity } from './helper'
 import { NetworkNamespace } from '@core/network/enums'
 import { EvmActivityType } from '../enums/evm'
@@ -56,7 +56,7 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
 
             return localize(key, { subject: displayedSubject })
         } else if (activity.type === EvmActivityType.ContractCall) {
-            return activity.method ? convertCamelCaseToPhrase(activity.method) : localize('general.smartContract')
+            return localize('general.contractCall') + ` - ${activity.recipient?.address}`
         } else {
             return localize(`${localizationPrefix}.fallback`)
         }
