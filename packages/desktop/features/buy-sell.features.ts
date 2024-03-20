@@ -1,7 +1,7 @@
 import { IFeatureFlag } from '@lib/features/interfaces'
 
 const buySellFeatures: IFeatureFlag = {
-    enabled: false,
+    enabled: true,
 }
 
 export default buySellFeatures
