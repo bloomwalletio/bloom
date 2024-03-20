@@ -32,11 +32,7 @@
     }
 
     function formatAmount(amount: bigint | undefined): string | undefined {
-        if (!amount) {
-            return undefined
-        }
-
-        return formatTokenAmountBestMatch(amount, getBaseToken())
+        return amount ? formatTokenAmountBestMatch(amount, getBaseToken()) : undefined
     }
 </script>
 
