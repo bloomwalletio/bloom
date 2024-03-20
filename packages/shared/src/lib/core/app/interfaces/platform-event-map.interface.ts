@@ -24,6 +24,7 @@ export interface IPlatformEventMap {
     'reset-transak': void
     'signed-eip712': IEvmSignature
     'signed-message': IEvmSignature
+    'transak-loaded': void
     'transak-not-loaded': void
     'transak-url': string
     'version-complete': void
