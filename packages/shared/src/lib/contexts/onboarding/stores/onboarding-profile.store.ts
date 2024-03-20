@@ -3,7 +3,7 @@ import { IBaseToken } from '@core/token/interfaces'
 import { derived, get, Readable, writable } from 'svelte/store'
 import { IOnboardingProfile, IShimmerClaimingAccount } from '../interfaces'
 
-export const onboardingProfile = writable<Partial<IOnboardingProfile>>(undefined)
+export const onboardingProfile = writable<Partial<IOnboardingProfile | undefined>>(undefined)
 
 export const isOnboardingLedgerProfile: Readable<boolean> = derived(onboardingProfile, ($onboardingProfile) =>
     $onboardingProfile?.type ? isLedgerProfile($onboardingProfile.type) : false

@@ -4,7 +4,7 @@ import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile/constants'
 import { IOnboardingProfile } from '../interfaces'
 
 export function convertOnboardingProfileToPersistedProfile(
-    onboardingProfile: Partial<IOnboardingProfile>
+    onboardingProfile?: Partial<IOnboardingProfile>
 ): IPersistedProfile {
     return {
         ...structuredClone(DEFAULT_PERSISTED_PROFILE_OBJECT),

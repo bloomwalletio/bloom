@@ -3,7 +3,7 @@ import { deleteOnboardingProfile } from './deleteOnboardingProfile'
 import { destroyShimmerClaimingProfileManager } from './destroyShimmerClaimingProfileManager'
 
 export async function cleanupOnboarding(deleteProfile: boolean = false): Promise<void> {
-    onboardingProfile.set(null)
+    onboardingProfile.set(undefined)
     await cleanupExtraProfileManagers()
     if (deleteProfile) {
         await deleteOnboardingProfile()

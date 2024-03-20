@@ -8,5 +8,5 @@ export function createNewProfileFromOnboardingProfile(): void {
     const _onboardingProfile = get(onboardingProfile)
     const newProfile = convertOnboardingProfileToPersistedProfile(_onboardingProfile)
     addNewPersistedProfile(newProfile)
-    loadPersistedProfileIntoActiveProfile(_onboardingProfile?.id)
+    loadPersistedProfileIntoActiveProfile(newProfile.id)
 }

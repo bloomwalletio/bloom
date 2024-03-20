@@ -7,13 +7,16 @@ import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_ME
 import { PROFILE_VERSION } from './profile-version.constant'
 import { APP_STAGE } from '@core/app/constants'
 import { StrongholdVersion } from '@core/stronghold'
+import { getDefaultPersistedNetwork } from '@core/network/utils'
+import { StardustNetworkId } from '@core/network'
 
-export const DEFAULT_PERSISTED_PROFILE_OBJECT: Omit<IPersistedProfile, 'network' | 'lastStrongholdBackupTime'> = {
+export const DEFAULT_PERSISTED_PROFILE_OBJECT: IPersistedProfile = {
     id: '',
     version: PROFILE_VERSION[APP_STAGE],
     name: '',
     type: ProfileType.Software,
     contacts: {},
+    network: getDefaultPersistedNetwork(StardustNetworkId.Testnet),
     networkContactAddresses: {},
     settings: {
         marketCurrency: DEFAULT_MARKET_CURRENCY,
@@ -23,6 +26,7 @@ export const DEFAULT_PERSISTED_PROFILE_OBJECT: Omit<IPersistedProfile, 'network'
         maxMediaDownloadTimeInSeconds: DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
         hideNetworkStatistics: true,
     },
+    lastStrongholdBackupTime: undefined,
     accountPersistedData: {},
     isDeveloperProfile: false,
     forceAssetRefresh: false,
