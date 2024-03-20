@@ -10,7 +10,7 @@ export function getFormattedAmountFromActivity(
     signed: boolean = true
 ): string {
     const metadata = getPersistedToken(tokenId)?.metadata
-    const amount = metadata ? formatTokenAmountBestMatch(rawAmount, metadata) : undefined
+    const amount = metadata ? formatTokenAmountBestMatch(rawAmount, metadata) : ''
     return `${
         (direction === ActivityDirection.Outgoing || action === ActivityAction.Burn) && signed ? '- ' : ''
     }${amount}`
