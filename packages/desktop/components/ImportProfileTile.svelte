@@ -25,7 +25,7 @@
         },
     }
 
-    const background = getHexColorFromColor(NETWORK_ICON_PROPS[profile.network.id].backgroundColor)
+    const background = getHexColorFromColor(NETWORK_ICON_PROPS[profile.network.id]?.backgroundColor ?? '#000000')
 </script>
 
 {#if !hidden}
@@ -36,8 +36,8 @@
                 style={`background-color: ${background}`}
             >
                 <Icon
-                    name={NETWORK_ICON_PROPS[profile.network.id].icon}
-                    customColor={NETWORK_ICON_PROPS[profile.network.id].iconColor}
+                    name={NETWORK_ICON_PROPS[profile.network.id]?.icon}
+                    customColor={NETWORK_ICON_PROPS[profile.network.id]?.iconColor}
                     size="base"
                 />
             </icon-container>

@@ -7,7 +7,7 @@ import { StrongholdVersion } from '@core/stronghold'
 import { Nft } from '@core/nfts'
 import { ProfileType } from '@core/profile'
 
-interface IThirdPartyPersistedNetwork {
+export interface IThirdPartyPersistedNetwork {
     id: OnboardingNetworkType
     name: string
     coinType: number
@@ -15,7 +15,7 @@ interface IThirdPartyPersistedNetwork {
     baseToken: IBaseToken
 }
 
-interface IThirdPartyPersistedSettings {
+export interface IThirdPartyPersistedSettings {
     marketCurrency?: MarketCurrency
     lockScreenTimeoutInMinutes?: number
     strongholdPasswordTimeoutInMinutes?: number
