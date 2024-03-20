@@ -10,9 +10,9 @@ const provider = new Web3(ETHEREUM_MAINNET_NODE)
 const registry = new provider.eth.Contract(REGISTRY_ABI, REGISTRY_CONTRACT_ADDRESS)
 
 export async function lookupMethodSignature(fourBytePrefix: string): Promise<string | undefined> {
-    const methodName = get(methodRegistry)[fourBytePrefix]
-    if (methodName) {
-        return methodName
+    const method = get(methodRegistry)[fourBytePrefix]
+    if (method) {
+        return method
     }
 
     try {
