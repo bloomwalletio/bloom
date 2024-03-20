@@ -10,13 +10,15 @@ import { TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
 import { BlockscoutTokenTransfer, isBlockscoutErc721Transfer } from '@auxiliary/blockscout/types'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { persistErc721Nft } from '@core/nfts/actions'
 
-export function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
+export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
     blockscoutTokenTransfer: BlockscoutTokenTransfer,
     blockscoutTransaction: IBlockscoutTransaction | undefined,
     chain: IChain,
     account: IAccountState
-): EvmTokenTransferActivity | undefined {
+): Promise<EvmTokenTransferActivity | undefined> {
     const networkId = chain.getConfiguration().id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === blockscoutTokenTransfer.to.hash.toLowerCase()
@@ -33,12 +35,19 @@ export function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
         ? calculateGasFeeInGlow(blockscoutTransaction.gas_used ?? 0, blockscoutTransaction.gas_price)
         : undefined
 
-    const tokenId = isBlockscoutErc721Transfer(blockscoutTokenTransfer)
-        ? `${blockscoutTokenTransfer.token.address.toLowerCase()}:${blockscoutTokenTransfer.total.token_id}`
-        : blockscoutTokenTransfer.token.address.toLowerCase()
-    const rawAmount = isBlockscoutErc721Transfer(blockscoutTokenTransfer)
-        ? BigInt(1)
-        : BigInt(blockscoutTokenTransfer.total.value ?? 0)
+    let tokenId: string | undefined
+    let rawAmount: bigint | undefined
+    if (isBlockscoutErc721Transfer(blockscoutTokenTransfer)) {
+        const address = blockscoutTokenTransfer.token.address.toLowerCase()
+        const tokenIndex = blockscoutTokenTransfer.total.token_id
+        tokenId = `${address}:${tokenIndex}`
+        rawAmount = BigInt(1)
+        await persistErc721Nft(address, tokenIndex, networkId)
+    } else {
+        tokenId = blockscoutTokenTransfer.token.address.toLowerCase()
+        rawAmount = BigInt(blockscoutTokenTransfer.total.value ?? 0)
+        await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
+    }
 
     const tokenTransfer = {
         standard: blockscoutTokenTransfer.token.type.replace('-', '') as
