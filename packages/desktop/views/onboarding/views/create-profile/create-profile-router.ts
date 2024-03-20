@@ -18,7 +18,7 @@ export class CreateProfileRouter extends Subrouter<CreateProfileRoute> {
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case CreateProfileRoute.ChooseCreateProfileFlow:
-                switch (_onboardingProfile.createProfileType) {
+                switch (_onboardingProfile?.createProfileType) {
                     case CreateProfileType.Mnemonic:
                         createFromMnemonicRouter.set(new CreateFromMnemonicRouter(get(createProfileRouter)))
                         this.setNext(CreateProfileRoute.CreateFromMnemonic)
