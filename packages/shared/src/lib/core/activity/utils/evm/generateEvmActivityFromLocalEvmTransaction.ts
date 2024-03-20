@@ -1,4 +1,5 @@
 import { IAccountState } from '@core/account'
+import { StardustActivityType } from '@core/activity/enums'
 import { EvmActivityType } from '@core/activity/enums/evm'
 import {
     EvmActivity,
@@ -6,16 +7,15 @@ import {
     EvmContractCallActivity,
     EvmTokenTransferActivity,
 } from '@core/activity/types'
-import { IChain } from '@core/network'
-import { LocalEvmTransaction } from '@core/transactions'
-import { generateBaseEvmActivity } from './generateBaseEvmActivity'
-import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
-import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
-import { StardustActivityType } from '@core/activity/enums'
-import { NftStandard } from '@core/nfts'
-import { Converter } from '@core/utils/convert'
-import { getMethodNameForEvmTransaction } from '@core/layer-2/utils'
 import { WEI_PER_GLOW } from '@core/layer-2/constants'
+import { getMethodForEvmTransaction } from '@core/layer-2/utils'
+import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
+import { IChain } from '@core/network'
+import { NftStandard } from '@core/nfts'
+import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
+import { LocalEvmTransaction } from '@core/transactions'
+import { Converter } from '@core/utils/convert'
+import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -44,12 +44,13 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             account
         )
         if (transferInfo.type === StardustActivityType.SmartContract) {
-            const method = await getMethodNameForEvmTransaction(transaction)
             const data = String(transaction.data ?? '')
+            const [method, parameters] = (await getMethodForEvmTransaction(data)) ?? []
             return {
                 ...baseActivity,
                 type: EvmActivityType.ContractCall,
                 method,
+                parameters,
                 methodId: data.substring(0, 10),
                 rawData: data,
             } as EvmContractCallActivity
