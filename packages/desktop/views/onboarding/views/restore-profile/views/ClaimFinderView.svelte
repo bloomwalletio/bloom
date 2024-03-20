@@ -62,7 +62,7 @@
             hasSearchedForRewardsBefore = true
         } catch (err) {
             if ($isOnboardingLedgerProfile) {
-                handleLedgerError(err?.error ?? err)
+                handleLedgerError(err)
             } else {
                 throw new FindShimmerRewardsError(err)
             }
@@ -86,7 +86,7 @@
             await claimShimmerRewards()
         } catch (err) {
             if ($isOnboardingLedgerProfile) {
-                handleLedgerError(err?.error ?? err)
+                handleLedgerError(err)
             } else {
                 throw new ClaimShimmerRewardsError(err)
             }
@@ -115,7 +115,7 @@
                     const shimmerClaimingProfileDirectory = await getTemporaryProfileManagerStorageDirectory()
                     await copyStrongholdFileToProfileDirectory(
                         shimmerClaimingProfileDirectory,
-                        $onboardingProfile?.importFilePath
+                        $onboardingProfile?.importFilePath ?? ''
                     )
                 }
 
@@ -128,10 +128,10 @@
                 })
 
                 if ($onboardingProfile?.restoreProfileType === RestoreProfileType.Mnemonic) {
-                    await $shimmerClaimingProfileManager?.setStrongholdPassword($onboardingProfile?.strongholdPassword)
-                    await $shimmerClaimingProfileManager?.storeMnemonic($onboardingProfile?.mnemonic?.join(' '))
+                    await $shimmerClaimingProfileManager?.setStrongholdPassword($onboardingProfile.strongholdPassword)
+                    await $shimmerClaimingProfileManager?.storeMnemonic($onboardingProfile.mnemonic.join(' '))
                 } else if ($onboardingProfile?.restoreProfileType === RestoreProfileType.Stronghold) {
-                    await $shimmerClaimingProfileManager?.setStrongholdPassword($onboardingProfile?.strongholdPassword)
+                    await $shimmerClaimingProfileManager?.setStrongholdPassword($onboardingProfile.strongholdPassword)
                 }
 
                 await initialiseFirstShimmerClaimingAccount()
@@ -140,7 +140,7 @@
                 onSearchForRewardsClick()
             } catch (err) {
                 if ($isOnboardingLedgerProfile) {
-                    handleLedgerError(err?.error ?? err)
+                    handleLedgerError(err)
                 } else {
                     throw new FindShimmerRewardsError(err)
                 }

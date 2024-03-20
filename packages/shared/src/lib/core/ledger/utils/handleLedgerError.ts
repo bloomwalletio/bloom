@@ -20,8 +20,9 @@ import { sendOutput } from '@core/wallet'
 import { activeProfile } from '@core/profile/stores'
 import { SupportedNetworkId } from '@core/network/enums'
 
-export function handleLedgerError(error: IError, resetConfirmationPropsOnDenial = true): void {
-    const ledgerError = deriveLedgerError(error?.error)
+export function handleLedgerError(err: unknown, resetConfirmationPropsOnDenial = true): void {
+    const error = (err as IError)?.error ?? (err as string)
+    const ledgerError = deriveLedgerError(error)
     if (!ledgerError || !(ledgerError in LEDGER_ERROR_LOCALES)) {
         handleGenericError(error)
         return
