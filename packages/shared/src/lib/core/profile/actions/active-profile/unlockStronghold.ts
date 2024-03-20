@@ -1,3 +1,5 @@
+import { ErrorType, WalletError } from '@core/error'
+import { parseError } from '@core/error/utils/parsers/parseError'
 import { IProfile } from '@core/profile'
 import { setStrongholdPassword } from '@core/profile-manager'
 import { activeProfile, setTimeStrongholdLastUnlocked } from '@core/profile/stores'
@@ -11,8 +13,12 @@ export async function unlockStronghold(password: string, profile: IProfile = get
             isStrongholdLocked.set(false)
             setTimeStrongholdLastUnlocked()
         } catch (err) {
-            console.error(err)
-            throw new Error('error.password.incorrect')
+            const error = parseError(err)
+            if (!(error.type === ErrorType.Wallet && error.error === WalletError.IncorrectPassword)) {
+                error.notify()
+                error.save()
+            }
+            throw error
         }
     }
 }

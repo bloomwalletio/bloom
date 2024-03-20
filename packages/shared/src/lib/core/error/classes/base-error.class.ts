@@ -1,36 +1,42 @@
-import { localize } from '@core/i18n'
 import { showNotification } from '@auxiliary/notification/actions'
-
-import { IErrorParameters } from '../interfaces'
+import { ErrorType } from '../enums'
+import { IBaseError } from '../interfaces'
 import { addError } from '../stores'
 
 /**
  * The base error, containing logic for handling the different
  * error parameters.
  */
-export class BaseError extends Error {
-    constructor(params?: IErrorParameters) {
-        const message = (params?.localizeMessage ? localize(params?.message) : params?.message) ?? ''
+export class BaseError extends Error implements IBaseError {
+    type: ErrorType
+    error: unknown
+    message: string
+    cause?: unknown
+    timestamp?: number
+    locale?: string
 
-        if (params?.logToConsole) {
-            console.error(message)
-        }
+    constructor(err: IBaseError) {
+        super(err.message, { cause: err.cause })
+        this.type = err.type
+        this.error = err.error
+        this.message = err.message
+        this.cause = err.cause
+        this.timestamp = err.timestamp ?? Date.now()
+        this.locale = err.locale
+    }
 
-        if (params?.originalError) {
-            console.error(params?.originalError)
-        }
+    log(): void {
+        console.error(this)
+    }
 
-        if (params?.saveToErrorLog) {
-            addError({ ...params, message, type: 'BaseError', time: Date.now() })
-        }
+    save(): void {
+        addError({ ...this, time: this.timestamp })
+    }
 
-        if (params?.showNotification) {
-            showNotification({
-                variant: 'error',
-                text: message,
-            })
-        }
-
-        super(message)
+    notify(): void {
+        showNotification({
+            variant: 'error',
+            text: this.message,
+        })
     }
 }

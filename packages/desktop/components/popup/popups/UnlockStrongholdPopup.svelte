@@ -21,8 +21,7 @@
             closePopup()
             onSuccess(returnPassword ? password : response)
         } catch (err) {
-            console.error(err)
-            error = localize(err?.message ?? err)
+            error = localize(err?.locale ?? err?.message)
         } finally {
             isBusy = false
         }
