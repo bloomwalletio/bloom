@@ -2,17 +2,16 @@
     import { Link } from '@bloomwalletio/ui'
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import {
+        ActivityDirection,
         StardustActivity,
         StardustActivityAsyncStatus,
-        ActivityDirection,
         StardustActivityType,
         getActivityDetailsTitle,
-        selectedAccountActivities,
     } from '@core/activity'
     import { getTransactionAssets } from '@core/activity/utils'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint, NetworkNamespace } from '@core/network'
+    import { ExplorerEndpoint } from '@core/network'
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
@@ -25,12 +24,8 @@
     import { onMount, tick } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
-    export let activityId: string
+    export let activity: StardustActivity
     export let _onMount: (..._: any[]) => Promise<void> = async () => {}
-
-    $: activity = $selectedAccountActivities.find(
-        (_activity) => _activity.namespace === NetworkNamespace.Stardust && _activity.id === activityId
-    ) as StardustActivity
 
     $: isTimelocked = activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Timelocked
     $: isActivityIncomingAndUnclaimed =
@@ -38,7 +33,7 @@
         (activity.direction === ActivityDirection.Incoming ||
             activity.direction === ActivityDirection.SelfTransaction) &&
         activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed
-    $: transactionAssets = activity ? getTransactionAssets(activity, $selectedAccountIndex) : undefined
+    $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
     $: nft =
         activity.type === StardustActivityType.Nft
             ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
@@ -80,8 +75,8 @@
             async () => {
                 await claimActivity(_activity, $selectedAccount)
                 openPopup({
-                    id: PopupId.StardustActivityDetails,
-                    props: { activityId },
+                    id: PopupId.ActivityDetails,
+                    props: { activityId: activity.id },
                 })
             },
             { stronghold: true, ledger: false }
@@ -101,13 +96,13 @@
                 },
                 confirmText: localize('actions.reject'),
                 onConfirm: () => {
-                    rejectActivity(activityId)
+                    rejectActivity(activity.id)
                     closePopup()
                 },
                 onCancel: () =>
                     openPopup({
-                        id: PopupId.StardustActivityDetails,
-                        props: { activityId },
+                        id: PopupId.ActivityDetails,
+                        props: { activityId: activity.id },
                     }),
             },
         })

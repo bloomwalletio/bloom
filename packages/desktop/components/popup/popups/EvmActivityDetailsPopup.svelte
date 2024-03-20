@@ -1,30 +1,26 @@
 <script lang="ts">
     import { Link } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
-    import { EvmActivity, getActivityDetailsTitle, selectedAccountActivities } from '@core/activity'
+    import { EvmActivity, getActivityDetailsTitle } from '@core/activity'
+    import { EvmActivityType } from '@core/activity/enums/evm'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint, NetworkNamespace } from '@core/network'
+    import { ExplorerEndpoint } from '@core/network'
     import { getDefaultExplorerUrl } from '@core/network/utils'
+    import { NftStandard } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { Nft } from '@core/nfts/interfaces'
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
+    import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { buildUrl, setClipboard, truncateString } from '@core/utils'
+    import { TokenTransferData } from '@core/wallet/types'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { EvmActivityInformation, TransactionAssetSection } from '@ui'
     import { tick } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { EvmActivityType } from '@core/activity/enums/evm'
-    import { Nft } from '@core/nfts/interfaces'
-    import { NftStandard } from '@core/nfts'
-    import { TokenTransferData } from '@core/wallet/types'
-    import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 
-    export let activityId: string
-
-    $: activity = $selectedAccountActivities.find(
-        (_activity) => _activity.namespace === NetworkNamespace.Evm && _activity.id === activityId
-    ) as EvmActivity
+    export let activity: EvmActivity
 
     $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
 

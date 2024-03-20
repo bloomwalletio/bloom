@@ -56,7 +56,9 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
 
             return localize(key, { subject: displayedSubject })
         } else if (activity.type === EvmActivityType.ContractCall) {
-            return localize('general.contractCall') + ` - ${activity.recipient?.address}`
+            const displayedSubject = getSubjectLocaleFromActivity(activity)
+
+            return localize('general.contractCall') + ` - ${displayedSubject}`
         } else {
             return localize(`${localizationPrefix}.fallback`)
         }

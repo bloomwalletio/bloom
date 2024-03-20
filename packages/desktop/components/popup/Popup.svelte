@@ -16,6 +16,7 @@
 
     // Popups
     import AccountSwitcherPopup from './popups/AccountSwitcherPopup.svelte'
+    import ActivityDetailsPopup from './popups/ActivityDetailsPopup.svelte'
     import AddNodePopup from './popups/AddNodePopup.svelte'
     import AddProposalPopup from './popups/AddProposalPopup.svelte'
     import AliasConfirmationPopup from './popups/AliasConfirmationPopup.svelte'
@@ -32,7 +33,6 @@
     import DeepLinkErrorPopup from './popups/DeepLinkErrorPopup.svelte'
     import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
     import ErrorLogPopup from './popups/ErrorLogPopup.svelte'
-    import EvmActivityDetailsPopup from './popups/EvmActivityDetailsPopup.svelte'
     import EvmTransactionFromDappPopup from './popups/EvmTransactionFromDappPopup.svelte'
     import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
     import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
@@ -55,7 +55,6 @@
     import SiwePopup from './popups/SiwePopup.svelte'
     import SignTypedDataPopup from './popups/SignTypedDataPopup.svelte'
     import SignMessagePopup from './popups/SignMessagePopup.svelte'
-    import StardustActivityDetailsPopup from './popups/StardustActivityDetailsPopup.svelte'
     import StopVotingPopup from './popups/StopVotingPopup.svelte'
     import SuccessfulDappInteraction from './popups/SuccessfulDappInteraction.svelte'
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
@@ -96,6 +95,7 @@
 
     const POPUP_MAP: PopupComponentMap = {
         [PopupId.AccountSwitcher]: AccountSwitcherPopup,
+        [PopupId.ActivityDetails]: ActivityDetailsPopup,
         [PopupId.AddNode]: AddNodePopup,
         [PopupId.AddProposal]: AddProposalPopup,
         [PopupId.AliasConfirmation]: AliasConfirmationPopup,
@@ -112,7 +112,6 @@
         [PopupId.DeepLinkError]: DeepLinkErrorPopup,
         [PopupId.Diagnostics]: DiagnosticsPopup,
         [PopupId.ErrorLog]: ErrorLogPopup,
-        [PopupId.EvmActivityDetails]: EvmActivityDetailsPopup,
         [PopupId.EvmTransactionFromDapp]: EvmTransactionFromDappPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
@@ -135,7 +134,6 @@
         [PopupId.Siwe]: SiwePopup,
         [PopupId.SignTypedData]: SignTypedDataPopup,
         [PopupId.SignMessage]: SignMessagePopup,
-        [PopupId.StardustActivityDetails]: StardustActivityDetailsPopup,
         [PopupId.StopVoting]: StopVotingPopup,
         [PopupId.SuccessfulDappInteraction]: SuccessfulDappInteraction,
         [PopupId.SyncAccounts]: SyncAccountsPopup,

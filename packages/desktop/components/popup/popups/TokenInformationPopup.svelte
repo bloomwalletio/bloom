@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Alert, Table } from '@bloomwalletio/ui'
+    import { TokenActionsMenu } from '@components'
     import { localize } from '@core/i18n'
     import { BASE_TOKEN_ID, ITokenWithBalance, NotVerifiedStatus, TokenStandard, VerifiedStatus } from '@core/token'
     import { unverifyToken, verifyToken } from '@core/token/stores'
@@ -7,29 +8,18 @@
     import { PopupId, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
     import { TokenAmountTile } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-    import { TokenActionsMenu } from '@components'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { truncateString } from '@core/utils'
-    import { selectedAccountActivities } from '@core/activity'
-    import { NetworkNamespace } from '@core/network'
 
     export let token: ITokenWithBalance | undefined
     export let activityId: string = undefined
 
     $: isNewToken = token.verification?.status === NotVerifiedStatus.New
-    $: activity = $selectedAccountActivities.find((_activity) => _activity.id === activityId)
-    $: popupId =
-        activity?.namespace === NetworkNamespace.Evm
-            ? PopupId.EvmActivityDetails
-            : activity?.namespace === NetworkNamespace.Stardust
-              ? PopupId.StardustActivityDetails
-              : undefined
 
     function onSkipClick(): void {
         unverifyToken(token.id, NotVerifiedStatus.Skipped)
-        if (activity && popupId) {
+        if (activityId) {
             openPopup({
-                id: popupId,
+                id: PopupId.ActivityDetails,
                 props: { activityId },
             })
         } else {
@@ -41,9 +31,9 @@
 
     function onVerifyClick(): void {
         verifyToken(token.id, VerifiedStatus.SelfVerified)
-        if (activity && popupId) {
+        if (activityId) {
             openPopup({
-                id: popupId,
+                id: PopupId.ActivityDetails,
                 props: { activityId },
             })
         } else {
@@ -71,7 +61,7 @@
 </script>
 
 <PopupTemplate
-    title={truncateString(token.metadata?.name, 16, 0)}
+    title={token.metadata?.name}
     backButton={isNewToken
         ? {
               text: localize('actions.skip'),
