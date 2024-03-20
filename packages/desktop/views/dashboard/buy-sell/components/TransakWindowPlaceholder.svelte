@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Platform, openUrlInBrowser } from '@core/app'
-    import { Pane } from '@ui/panes'
+    import { Pane } from '@ui'
     import { Button, Icon, IconName, Spinner, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { DISCORD_URL } from '@contexts/settings/constants'
