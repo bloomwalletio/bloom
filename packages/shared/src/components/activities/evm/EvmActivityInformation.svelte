@@ -5,8 +5,8 @@
     import { EvmActivityType } from '@core/activity/enums/evm'
     import { Nft, NftStandard } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { KeyValue, PopupTab, getTabItems } from '@ui'
-    import { EvmGenericInformation, EvmNftMetadataInformation, EvmSmartContractInformation } from './info'
+    import { KeyValue, NftMetadataTable, PopupTab, getTabItems } from '@ui'
+    import { EvmGenericInformation, EvmSmartContractInformation } from './info'
 
     export let activity: EvmActivity
     export let selectedTab: KeyValue<string> = getTabItems([PopupTab.Transaction])[0]
@@ -53,7 +53,7 @@
             transactionFee={activity.transactionFee}
         />
     {:else if selectedTab.key === PopupTab.NftMetadata && nft}
-        <EvmNftMetadataInformation {nft} />
+        <NftMetadataTable {nft} />
     {:else if selectedTab.key === PopupTab.SmartContract && activity.type === EvmActivityType.ContractCall}
         <EvmSmartContractInformation {activity} />
     {/if}

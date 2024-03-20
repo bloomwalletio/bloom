@@ -5,5 +5,4 @@ export { default as StardustGenericInformation } from './StardustGenericInformat
 export { default as StardustGovernanceInformation } from './StardustGovernanceInformation.svelte'
 export { default as StardustTokenInformation } from './StardustTokenInformation.svelte'
 export { default as StardustNftInformation } from './StardustNftInformation.svelte'
-export { default as StardustNftMetadataInformation } from './StardustNftMetadataInformation.svelte'
 export { default as StardustSmartContractInformation } from './StardustSmartContractInformation.svelte'
