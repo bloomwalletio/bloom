@@ -9,6 +9,7 @@
     import { NetworkNamespace } from '@core/network/enums'
     import { EvmActivityType } from '@core/activity/enums/evm'
     import { NftStandard } from '@core/nfts'
+    import { convertCamelCaseToPhrase } from '@core/utils/string'
 
     export let activity: Activity
 
@@ -58,7 +59,7 @@
                 typePill = standard === NftStandard.Erc721 || standard === NftStandard.Irc27 ? 'nft' : 'token'
             } else if (activity.type === EvmActivityType.ContractCall) {
                 typePill = activity.verified ? 'verifiedContract' : 'unverifiedContract'
-                standardPill = activity.method ?? ''
+                standardPill = convertCamelCaseToPhrase(activity.method ?? '')
             } else {
                 typePill = ''
                 standardPill = ''

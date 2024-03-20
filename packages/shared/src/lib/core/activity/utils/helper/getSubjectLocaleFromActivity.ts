@@ -1,10 +1,10 @@
 import { StardustActivityType } from '@core/activity/enums'
-import { StardustActivity } from '@core/activity/types'
+import { Activity } from '@core/activity/types'
 import { localize } from '@core/i18n'
 import { truncateString } from '@core/utils'
 import { SubjectType } from '@core/wallet/enums'
 
-export function getSubjectLocaleFromActivity(activity: StardustActivity): string {
+export function getSubjectLocaleFromActivity(activity: Activity): string {
     const subject = activity.subject
 
     if (activity.type === StardustActivityType.Basic && activity?.isShimmerClaiming) {

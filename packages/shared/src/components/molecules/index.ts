@@ -1,4 +1,3 @@
-export { default as ActivityInformation } from './ActivityInformation.svelte'
 export { default as DappInfo } from './DappInfo.svelte'
 export { default as DappVerificationIcon } from './DappVerificationIcon.svelte'
 export { default as LedgerStatusIllustration } from './LedgerStatusIllustration.svelte'
@@ -13,5 +12,4 @@ export { default as NodeAuthTab } from './NodeAuthTab.svelte'
 export { default as ShimmerClaimingAccountList } from './ShimmerClaimingAccountList.svelte'
 export { default as TransactionAssetSection } from './TransactionAssetSection.svelte'
 
-export * from './activity-info'
 export * from './filter-items'
