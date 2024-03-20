@@ -38,6 +38,10 @@ function setAppAsDefaultProtocolClient(): void {
      * Register bloom:// protocol for deep links
      * https://www.electronjs.org/docs/latest/api/protocol#protocolregisterschemesasprivilegedcustomschemes
      */
+    if (!process.env.APP_PROTOCOL) {
+        return
+    }
+
     protocol.registerSchemesAsPrivileged([
         { scheme: process.env.APP_PROTOCOL, privileges: { secure: true, standard: true } },
     ])
