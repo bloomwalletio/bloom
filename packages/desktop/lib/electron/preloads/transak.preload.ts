@@ -1,4 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
-    window.document.getElementById('appRoot').style.borderRadius = '16px'
-    window.document.getElementById('appRoot').style.overflow = 'hidden'
+    const appRoot = window.document.getElementById('appRoot')
+    if (appRoot) {
+        appRoot.style.borderRadius = '16px'
+        appRoot.style.overflow = 'hidden'
+    }
 })
