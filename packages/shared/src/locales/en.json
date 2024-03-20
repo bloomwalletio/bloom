@@ -1608,6 +1608,7 @@
         "no": "No",
         "tip": "Tip",
         "verified": "Verified",
+        "unverified": "Unverified",
         "methodId": "Method ID",
         "methodName": "Method name",
         "inputs": "Inputs",
@@ -1622,8 +1623,6 @@
         "raffle": "Raffle",
         "governance": "Governance",
         "baseCoin": "Base Coin",
-        "verifiedContract": "Verified Contract",
-        "unverifiedContract": "Unverified Contract",
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
         "question": "Question"

@@ -58,7 +58,7 @@
                 standardPill = standard
                 typePill = standard === NftStandard.Erc721 || standard === NftStandard.Irc27 ? 'nft' : 'token'
             } else if (activity.type === EvmActivityType.ContractCall) {
-                typePill = activity.verified ? 'verifiedContract' : 'unverifiedContract'
+                typePill = activity.verified ? 'verified' : 'unverified'
                 standardPill = convertCamelCaseToPhrase(activity.method ?? '')
             } else {
                 typePill = ''
