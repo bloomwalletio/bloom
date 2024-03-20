@@ -1,4 +1,4 @@
-import { BrowserWindow, app, shell, screen, nativeTheme } from 'electron'
+import { BrowserWindow, app, shell, screen, nativeTheme, ipcMain } from 'electron'
 import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
@@ -43,6 +43,7 @@ export default class TransakManager implements ITransakManager {
 
     public closeWindow(): void {
         if (windows.transak) {
+            ipcMain.removeHandler('transak-loaded')
             windows.transak.destroy()
             windows.transak = null
         }
@@ -112,6 +113,8 @@ export default class TransakManager implements ITransakManager {
             windows.transak = null
         })
 
+        windows.transak.once('ready-to-show', () => this.hideWindow())
+
         windows.transak.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
             if (permission === 'media') {
                 callback(true)
@@ -151,6 +154,11 @@ export default class TransakManager implements ITransakManager {
         windows.transak.webContents.addListener('will-navigate', (event) => {
             event.preventDefault()
             windows.main?.webContents.send('try-open-url-in-browser', event.url)
+        })
+
+        ipcMain.handle('transak-loaded', () => {
+            windows.main?.webContents.send('transak-loaded')
+            this.showWindow()
         })
 
         return windows.transak
