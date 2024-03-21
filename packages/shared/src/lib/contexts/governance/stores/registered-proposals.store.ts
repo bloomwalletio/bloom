@@ -38,7 +38,10 @@ export function addOrUpdateProposalToRegisteredProposals(proposal: IProposalMeta
     })
 }
 
-export function removePersistedProposal(proposalId: string, accountId: number): void {
+export function removePersistedProposal(proposalId: string | undefined, accountId: number): void {
+    if (!proposalId) {
+        return
+    }
     registeredProposals.update((proposals) => {
         delete proposals[accountId][proposalId]
         return proposals
