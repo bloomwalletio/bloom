@@ -7,8 +7,8 @@ import { AppRoute, LoginRoute } from '../enums'
 import { IRouterEvent } from '../interfaces'
 import { loginRoute } from '../subrouters'
 
-export const appRoute = writable<AppRoute>(undefined)
-export const appRouter = writable<AppRouter>(undefined)
+export const appRoute = writable<AppRoute | undefined>(undefined)
+export const appRouter = writable<AppRouter | undefined>(undefined)
 
 export class AppRouter extends Router<AppRoute> {
     constructor() {

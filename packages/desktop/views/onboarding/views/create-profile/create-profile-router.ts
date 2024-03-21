@@ -31,7 +31,7 @@ export class CreateProfileRouter extends Subrouter<CreateProfileRoute> {
                 break
             case CreateProfileRoute.CreateFromMnemonic:
             case CreateProfileRoute.CreateFromLedger:
-                this.parentRouter.next()
+                this.parentRouter?.next()
                 return
         }
     }

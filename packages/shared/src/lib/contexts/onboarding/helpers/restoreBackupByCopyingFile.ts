@@ -13,7 +13,7 @@ export async function restoreBackupByCopyingFile(
     storageDirectory: string,
     strongholdPassword: string,
     clientOptions: IClientOptions,
-    manager: Writable<IProfileManager>
+    manager: Writable<IProfileManager | undefined>
 ): Promise<void> {
     try {
         await copyStrongholdFileToProfileDirectory(storageDirectory, importFilePath)

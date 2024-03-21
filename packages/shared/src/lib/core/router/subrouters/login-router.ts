@@ -32,7 +32,7 @@ export class LoginRouter extends Subrouter<LoginRoute> {
         switch (currentRoute) {
             case LoginRoute.SelectProfile: {
                 if (event?.shouldAddProfile) {
-                    this.parentRouter.next(event)
+                    this.parentRouter?.next(event)
                     return
                 } else {
                     this.setNext(LoginRoute.EnterPin)
@@ -51,7 +51,7 @@ export class LoginRouter extends Subrouter<LoginRoute> {
                 this.setNext(LoginRoute.LoadProfile)
                 break
             case LoginRoute.LoadProfile:
-                this.parentRouter.next(event)
+                this.parentRouter?.next(event)
                 return
         }
     }

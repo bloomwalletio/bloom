@@ -15,27 +15,23 @@ export class SendFlowRouter extends Subrouter<SendFlowRoute> {
     }
 
     next(): void {
-        let nextRoute: SendFlowRoute
-
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case SendFlowRoute.SelectToken:
-                nextRoute = SendFlowRoute.SelectRecipient
+                this.setNext(SendFlowRoute.SelectRecipient)
                 break
             case SendFlowRoute.SelectRecipient:
                 if (get(sendFlowParameters)?.type === SendFlowType.NftTransfer) {
-                    nextRoute = SendFlowRoute.TransactionSummary
+                    this.setNext(SendFlowRoute.TransactionSummary)
                 } else {
-                    nextRoute = SendFlowRoute.InputTokenAmount
+                    this.setNext(SendFlowRoute.InputTokenAmount)
                 }
                 break
             case SendFlowRoute.InputTokenAmount:
-                nextRoute = SendFlowRoute.TransactionSummary
+                this.setNext(SendFlowRoute.TransactionSummary)
                 break
             case SendFlowRoute.TransactionSummary:
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

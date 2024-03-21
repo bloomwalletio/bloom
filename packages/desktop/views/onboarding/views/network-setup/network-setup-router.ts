@@ -12,26 +12,22 @@ export class NetworkSetupRouter extends Subrouter<NetworkSetupRoute> {
     }
 
     next(): void {
-        let nextRoute: NetworkSetupRoute
-
         const _onboardingProfile = get(onboardingProfile)
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case NetworkSetupRoute.ChooseNetwork: {
                 const network = _onboardingProfile?.network
                 if (network) {
-                    this.parentRouter.next()
+                    this.parentRouter?.next()
                     return
                 } else {
-                    nextRoute = NetworkSetupRoute.CustomNetwork
+                    this.setNext(NetworkSetupRoute.CustomNetwork)
                     break
                 }
             }
             case NetworkSetupRoute.CustomNetwork:
-                this.parentRouter.next()
+                this.parentRouter?.next()
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

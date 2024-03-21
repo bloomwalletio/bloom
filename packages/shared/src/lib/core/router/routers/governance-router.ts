@@ -3,8 +3,8 @@ import { writable } from 'svelte/store'
 import { Router } from '../classes'
 import { GovernanceRoute } from '../enums'
 
-export const governanceRouter = writable<GovernanceRouter>(undefined)
-export const governanceRoute = writable<GovernanceRoute>(undefined)
+export const governanceRouter = writable<GovernanceRouter | undefined>(undefined)
+export const governanceRoute = writable<GovernanceRoute | undefined>(undefined)
 
 export class GovernanceRouter extends Router<GovernanceRoute> {
     protected breadcrumb: string | undefined

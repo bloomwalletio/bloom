@@ -45,7 +45,7 @@ export class RestoreProfileRouter extends Subrouter<RestoreProfileRoute> {
                 break
             case RestoreProfileRoute.BalanceFinder:
             case RestoreProfileRoute.ClaimFinder:
-                this.parentRouter.next()
+                this.parentRouter?.next()
                 return
         }
     }

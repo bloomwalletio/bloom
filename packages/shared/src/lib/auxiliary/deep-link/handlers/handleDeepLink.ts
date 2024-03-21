@@ -67,14 +67,14 @@ function handleDeepLinkForHostname(url: URL): void {
 
         switch (url.hostname as DeepLinkContext) {
             case DeepLinkContext.Wallet:
-                get(dashboardRouter).goTo(DashboardRoute.Wallet)
+                get(dashboardRouter)?.goTo(DashboardRoute.Wallet)
                 openAccountSwitcherFirst(
                     () => handleDeepLinkWalletContext(pathnameParts[0] as WalletOperation, url.searchParams),
                     url
                 )
                 break
             case DeepLinkContext.Governance:
-                get(dashboardRouter).goTo(DashboardRoute.Governance)
+                get(dashboardRouter)?.goTo(DashboardRoute.Governance)
                 openAccountSwitcherFirst(
                     () => handleDeepLinkGovernanceContext(pathnameParts[0] as GovernanceOperation, url.searchParams),
                     url

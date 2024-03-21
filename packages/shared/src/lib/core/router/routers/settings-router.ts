@@ -3,8 +3,8 @@ import { get, writable } from 'svelte/store'
 import { Router } from '../classes'
 import { SettingsRoute, SettingsRouteNoProfile } from '../enums'
 
-export const settingsRouter = writable<SettingsRouter>(undefined)
-export const settingsRoute = writable<SettingsRoute>(undefined)
+export const settingsRouter = writable<SettingsRouter | undefined>(undefined)
+export const settingsRoute = writable<SettingsRoute | undefined>(undefined)
 
 const settingsChildRoute = writable<string | null>(null)
 
