@@ -82,7 +82,7 @@
     async function claimRewards(): Promise<void> {
         try {
             hasTriedClaimingRewards = true
-            await $shimmerClaimingProfileManager.startBackgroundSync({ syncOnlyMostBasicOutputs: true })
+            await $shimmerClaimingProfileManager?.startBackgroundSync({ syncOnlyMostBasicOutputs: true })
             await claimShimmerRewards()
         } catch (err) {
             if ($isOnboardingLedgerProfile) {
@@ -122,7 +122,7 @@
                 await createShimmerClaimingProfileManager()
 
                 subscribeToWalletApiEventsForShimmerClaiming()
-                await $shimmerClaimingProfileManager.startBackgroundSync({
+                await $shimmerClaimingProfileManager?.startBackgroundSync({
                     syncOnlyMostBasicOutputs: true,
                     syncIncomingTransactions: true,
                 })
