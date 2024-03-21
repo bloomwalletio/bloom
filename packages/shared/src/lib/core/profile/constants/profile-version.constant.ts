@@ -1,7 +1,7 @@
 import { AppStage } from '@core/app/enums'
 
 export const PROFILE_VERSION: Record<AppStage, number> = {
-    [AppStage.ALPHA]: 7,
+    [AppStage.ALPHA]: 8,
     [AppStage.BETA]: 0,
-    [AppStage.PROD]: 4,
+    [AppStage.PROD]: 5,
 }
