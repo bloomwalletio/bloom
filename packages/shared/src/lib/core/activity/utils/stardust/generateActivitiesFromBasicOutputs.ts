@@ -16,7 +16,7 @@ export async function generateActivitiesFromBasicOutputs(
     account: IAccountState,
     networkId: NetworkId
 ): Promise<StardustActivity[]> {
-    const activities = []
+    const activities: StardustActivity[] = []
 
     const basicOutputs = getNonRemainderBasicOutputsFromTransaction(
         processedTransaction.outputs,
@@ -38,7 +38,7 @@ export async function generateActivitiesFromBasicOutputs(
                 (input) => basicOutput.output && input.output?.amount === basicOutput.output.amount
             )
 
-            let burnedNativeToken = undefined
+            let burnedNativeToken: { tokenId: string; amount: bigint } | undefined
             if (burnedNftInputIndex < 0 && tokensBurned) {
                 burnedNativeToken = getBurnedNativeTokens(basicOutput, processedTransaction)
             }

@@ -12,6 +12,7 @@
     import features from '@features/features'
     import { login } from '@core/profile/actions'
     import { SupportedNetworkId } from '@core/network'
+    import { handleError } from '@core/error/handlers'
 
     const LOCALE_KEY = 'views.onboarding.completeOnboarding.finishOnboarding'
 
@@ -27,10 +28,13 @@
     }
 
     async function _continue(): Promise<void> {
-        await completeOnboardingProcess()
-        void login({ isFromOnboardingFlow: true })
-        $onboardingRouter.next()
-        return Promise.resolve()
+        try {
+            await completeOnboardingProcess()
+            void login({ isFromOnboardingFlow: true })
+            $onboardingRouter.next()
+        } catch (err) {
+            handleError(err)
+        }
     }
 </script>
 

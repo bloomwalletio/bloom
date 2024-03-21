@@ -4,5 +4,5 @@ import { profileManager } from '../stores'
 
 export async function removeLatestAccount(): Promise<void> {
     const manager = get(profileManager)
-    return manager.removeLatestAccount()
+    return manager?.removeLatestAccount()
 }

@@ -11,24 +11,20 @@ export class CreateFromMnemonicRouter extends Subrouter<CreateFromMnemonicRoute>
     }
 
     next(): void {
-        let nextRoute: CreateFromMnemonicRoute
-
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case CreateFromMnemonicRoute.ViewMnemonic:
-                nextRoute = CreateFromMnemonicRoute.VerifyMnemonic
+                this.setNext(CreateFromMnemonicRoute.VerifyMnemonic)
                 break
             case CreateFromMnemonicRoute.VerifyMnemonic:
-                nextRoute = CreateFromMnemonicRoute.VerifyMnemonicSuccess
+                this.setNext(CreateFromMnemonicRoute.VerifyMnemonicSuccess)
                 break
             case CreateFromMnemonicRoute.VerifyMnemonicSuccess:
-                nextRoute = CreateFromMnemonicRoute.EncryptMnemonic
+                this.setNext(CreateFromMnemonicRoute.EncryptMnemonic)
                 break
             case CreateFromMnemonicRoute.EncryptMnemonic:
-                this.parentRouter.next()
+                this.parentRouter?.next()
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

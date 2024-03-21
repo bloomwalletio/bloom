@@ -17,7 +17,7 @@ export function linkTransactionsWithClaimingTransactions(
     account: IAccountState,
     profileId: string
 ): IProcessedTransaction[] {
-    const resultingTransactions = []
+    const resultingTransactions: IProcessedTransaction[] = []
     const transactionsIncludedAsClaimingTransactions: string[] = []
 
     const claimedAccountActivities = get(claimedActivities)?.[profileId]?.[account.index]
@@ -80,7 +80,7 @@ export function linkTransactionsWithClaimingTransactions(
 function searchClaimedTransactionInIncomingAsyncTransactions(
     allAsyncTransaction: IProcessedTransaction[],
     transaction: IProcessedTransaction
-): IProcessedTransaction {
+): IProcessedTransaction | undefined {
     return allAsyncTransaction.find((candidate) =>
         transaction.utxoInputs?.some((input) => input?.transactionId === candidate?.transactionId)
     )

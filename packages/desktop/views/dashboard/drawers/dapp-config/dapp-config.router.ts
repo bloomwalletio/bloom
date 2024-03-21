@@ -2,8 +2,8 @@ import { get, writable } from 'svelte/store'
 import { Router } from '@core/router'
 import { DappConfigRoute } from './dapp-config-route.enum'
 
-export const dappConfigRoute = writable<DappConfigRoute | null>(null)
-export const dappConfigRouter = writable<DappConfigRouter | null>(null)
+export const dappConfigRoute = writable<DappConfigRoute>(undefined)
+export const dappConfigRouter = writable<DappConfigRouter>(undefined)
 
 export class DappConfigRouter extends Router<DappConfigRoute> {
     constructor(initialRoute: DappConfigRoute = DappConfigRoute.ConnectedDapps) {
@@ -11,22 +11,18 @@ export class DappConfigRouter extends Router<DappConfigRoute> {
     }
 
     next(): void {
-        let nextRoute: DappConfigRoute
-
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case DappConfigRoute.ConnectedDapps:
                 return
             case DappConfigRoute.InputCode:
-                nextRoute = DappConfigRoute.ConnectionRequest
+                this.setNext(DappConfigRoute.ConnectionRequest)
                 break
             case DappConfigRoute.ConnectionRequest:
-                nextRoute = DappConfigRoute.ConfirmConnection
+                this.setNext(DappConfigRoute.ConfirmConnection)
                 break
             case DappConfigRoute.ConfirmConnection:
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

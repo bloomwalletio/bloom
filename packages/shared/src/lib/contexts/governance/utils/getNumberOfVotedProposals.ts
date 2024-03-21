@@ -4,7 +4,7 @@ import { participationOverviewForSelectedAccount } from '../stores'
 export function getNumberOfVotedProposals(): number {
     const overview = get(participationOverviewForSelectedAccount)
     if (!overview) {
-        return undefined
+        return 0
     }
     return Object.keys(overview.participations).length
 }

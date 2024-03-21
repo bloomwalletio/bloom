@@ -11,7 +11,7 @@ export function goToAppContext(context: AppContext): void {
 
     const appRoute = getAppRouteForContext(context)
     if (appRoute) {
-        get(appRouter).goTo(appRoute)
+        get(appRouter)?.goTo(appRoute)
     } else {
         throw new Error(`No app-level route defined for the "${context}" context.`)
     }

@@ -7,7 +7,7 @@ import { NetworkId } from '@core/network/types'
 
 export async function getNftsFromNftIds(nftIds: string[], networkId: NetworkId): Promise<Nft[]> {
     const client = await getClient()
-    const nftOutputIds = []
+    const nftOutputIds: string[] = []
     for (const nftId of nftIds) {
         try {
             const nftOutputId = await client.nftOutputId(nftId)

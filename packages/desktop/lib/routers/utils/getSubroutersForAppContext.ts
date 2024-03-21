@@ -7,8 +7,10 @@ export function getSubroutersForAppContext(context: AppContext): IRouter[] {
     switch (context) {
         case AppContext.Dashboard:
             return []
-        case AppContext.Login:
-            return [get(updateStrongholdRouter)]
+        case AppContext.Login: {
+            const subrouter = get(updateStrongholdRouter)
+            return subrouter ? [subrouter] : []
+        }
         case AppContext.Onboarding:
             return []
         case AppContext.Settings:

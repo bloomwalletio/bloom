@@ -26,7 +26,7 @@ export default class AutoUpdateManager {
 
         autoUpdater.logger = electronLog
         /* eslint-disable @typescript-eslint/ban-ts-comment */
-        // @ts-ignore
+        // @ts-expect-error
         autoUpdater.logger.transports.file.level = 'info'
         autoUpdater.autoDownload = false
 

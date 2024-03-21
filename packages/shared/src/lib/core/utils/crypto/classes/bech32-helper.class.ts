@@ -60,6 +60,8 @@ export class Bech32Helper {
                 addressType,
                 addressBytes,
             }
+        } else {
+            throw new Error(`Bech32 decoding of ${bech32Text} failed!`)
         }
     }
 }

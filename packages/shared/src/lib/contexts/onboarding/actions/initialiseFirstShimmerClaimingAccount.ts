@@ -58,7 +58,7 @@ export async function initialiseFirstShimmerClaimingAccount(): Promise<void> {
     } catch (err) {
         console.error(err)
         if (get(isOnboardingLedgerProfile)) {
-            handleLedgerError(err?.error ?? err)
+            handleLedgerError(err)
         }
         throw new CannotInitialiseShimmerClaimingAccountError()
     }

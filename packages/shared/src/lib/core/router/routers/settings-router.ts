@@ -3,10 +3,10 @@ import { get, writable } from 'svelte/store'
 import { Router } from '../classes'
 import { SettingsRoute, SettingsRouteNoProfile } from '../enums'
 
-export const settingsRouter = writable<SettingsRouter>(null)
-export const settingsRoute = writable<SettingsRoute>(null)
+export const settingsRouter = writable<SettingsRouter | undefined>(undefined)
+export const settingsRoute = writable<SettingsRoute | undefined>(undefined)
 
-const settingsChildRoute = writable<string>(null)
+const settingsChildRoute = writable<string | null>(null)
 
 export class SettingsRouter extends Router<SettingsRoute | SettingsRouteNoProfile> {
     constructor() {
@@ -23,7 +23,7 @@ export class SettingsRouter extends Router<SettingsRoute | SettingsRouteNoProfil
         settingsChildRoute.set(null)
     }
 
-    getChildRouteAndReset(): string {
+    getChildRouteAndReset(): string | null {
         const childRoute = get(settingsChildRoute)
         settingsChildRoute.set(null)
         return childRoute

@@ -14,24 +14,20 @@ export class RestoreFromStrongholdRouter extends Subrouter<RestoreFromStronghold
     }
 
     next(): void {
-        let nextRoute: RestoreFromStrongholdRoute
-
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case RestoreFromStrongholdRoute.ImportStronghold:
                 if (isLatestStrongholdVersion(get(onboardingProfile)?.strongholdVersion)) {
-                    nextRoute = RestoreFromStrongholdRoute.UnlockBackup
+                    this.setNext(RestoreFromStrongholdRoute.UnlockBackup)
                 } else {
                     updateStrongholdRouter.set(new UpdateStrongholdRouter(this))
-                    nextRoute = RestoreFromStrongholdRoute.UpdateStronghold
+                    this.setNext(RestoreFromStrongholdRoute.UpdateStronghold)
                 }
                 break
             case RestoreFromStrongholdRoute.UnlockBackup:
             case RestoreFromStrongholdRoute.UpdateStronghold:
-                this.parentRouter.next()
+                this.parentRouter?.next()
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

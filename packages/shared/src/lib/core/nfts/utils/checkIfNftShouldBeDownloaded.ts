@@ -6,6 +6,7 @@ import { NFT_MEDIA_FILE_NAME } from '../constants'
 import { DownloadErrorType } from '../enums'
 import { IDownloadMetadata, Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
+import { IError } from '@core/error/interfaces'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: Nft
@@ -69,7 +70,10 @@ export async function checkIfNftShouldBeDownloaded(
         }
     } catch (err) {
         console.error(err)
-        downloadMetadata = { ...downloadMetadata, error: { type: DownloadErrorType.Generic, message: err.message } }
+        downloadMetadata = {
+            ...downloadMetadata,
+            error: { type: DownloadErrorType.Generic, message: (err as IError)?.message },
+        }
 
         return { shouldDownload: false, isLoaded: false, downloadMetadata }
     }

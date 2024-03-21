@@ -11,7 +11,7 @@
     import VerifyLedgerTransactionPopup from './profileAuthPopups/VerifyLedgerTransactionPopup.svelte'
     import EnableLedgerBlindSigningPopup from './profileAuthPopups/EnableLedgerBlindSigningPopup.svelte'
 
-    export let id: ProfileAuthPopupId
+    export let id: ProfileAuthPopupId | undefined
     export let props: any
     export let hideClose: boolean = false
     export let preventClose: boolean = false

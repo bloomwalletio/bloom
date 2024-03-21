@@ -43,7 +43,7 @@ export async function loadNftsForAccount(profileId: string, account: IAccountSta
     for (const chain of getNetwork()?.getChains() ?? []) {
         // Wrapped L1 NFTs
         const transactionsOnChain = getPersistedTransactionsForChain(profileId, account.index, chain)
-        const nftIdsOnChain = []
+        const nftIdsOnChain: string[] = []
         for (const transaction of transactionsOnChain) {
             if (!transaction.local) {
                 continue

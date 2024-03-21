@@ -5,12 +5,12 @@ import { IRouter } from '../interfaces'
 import { Router } from './router.class'
 
 export abstract class Subrouter<R> extends Router<R> {
-    protected parentRouter: IRouter
+    protected parentRouter: IRouter | undefined
 
     constructor(
         protected initialRoute: R,
-        storeRoute: Writable<R>,
-        parentRouter: IRouter
+        storeRoute: Writable<R | undefined>,
+        parentRouter: IRouter | undefined
     ) {
         super(initialRoute, storeRoute)
         this.parentRouter = parentRouter
@@ -20,7 +20,7 @@ export abstract class Subrouter<R> extends Router<R> {
         if (this.hasHistory()) {
             super.previous()
         } else {
-            this.parentRouter.previous()
+            this.parentRouter?.previous()
         }
     }
 
