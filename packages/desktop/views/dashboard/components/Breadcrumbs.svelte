@@ -65,7 +65,7 @@
     />
     <div class="flex flex-row space-x-1 items-center">
         <div class="shrink-0">
-            <AccountSwitcher navbar />
+            <AccountSwitcher breadcrumb compact />
         </div>
         <Icon name={IconName.ChevronRight} size="sm" />
         <Breadcrumb

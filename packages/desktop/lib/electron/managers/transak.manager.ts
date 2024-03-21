@@ -1,4 +1,4 @@
-import { BrowserWindow, app, shell, screen, nativeTheme } from 'electron'
+import { BrowserWindow, app, shell, screen, nativeTheme, ipcMain } from 'electron'
 import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
@@ -7,9 +7,11 @@ import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
 import { buildUrl } from '@core/utils/url'
 import { MarketCurrency } from '@core/market/enums/market-currency.enum'
 import fs from 'fs'
+import { IError } from '@core/error'
+import { QueryParameters } from '@core/utils'
 
 export default class TransakManager implements ITransakManager {
-    private rect: Electron.Rectangle
+    private rect: Electron.Rectangle | undefined
 
     private getPreloadPath(): string {
         const preloadPath = app.isPackaged
@@ -41,6 +43,7 @@ export default class TransakManager implements ITransakManager {
 
     public closeWindow(): void {
         if (windows.transak) {
+            ipcMain.removeHandler('transak-loaded')
             windows.transak.destroy()
             windows.transak = null
         }
@@ -54,13 +57,13 @@ export default class TransakManager implements ITransakManager {
         windows.transak?.show()
     }
 
-    public openWindow(data: ITransakWindowData): BrowserWindow {
+    public openWindow(data: ITransakWindowData): BrowserWindow | undefined {
         let preloadPath: string
         try {
             preloadPath = this.getPreloadPath()
         } catch (err) {
-            windows.main.webContents.send('transak-not-loaded')
-            console.error(err.message)
+            windows.main?.webContents?.send?.('transak-not-loaded')
+            console.error((err as IError).message)
             return
         }
 
@@ -71,7 +74,7 @@ export default class TransakManager implements ITransakManager {
         this.rect = { x: 0, y: 0, width: 480, height: 613 }
 
         windows.transak = new BrowserWindow({
-            parent: windows.main,
+            ...(windows.main && { parent: windows.main }),
             width: 480,
             height: 613,
             useContentSize: true,
@@ -104,11 +107,13 @@ export default class TransakManager implements ITransakManager {
             windows.transak.setWindowButtonVisibility(false)
         }
 
-        windows.main.on('move', () => this.positionWindow())
+        windows.main?.on?.('move', () => this.positionWindow())
 
         windows.transak.once('closed', () => {
             windows.transak = null
         })
+
+        windows.transak.once('ready-to-show', () => this.hideWindow())
 
         windows.transak.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
             if (permission === 'media') {
@@ -121,10 +126,10 @@ export default class TransakManager implements ITransakManager {
         let initialUrl: string
         try {
             initialUrl = this.getUrl(data)
+            void windows.transak.loadURL(initialUrl)
         } catch (err) {
             console.error(err)
         }
-        void windows.transak.loadURL(initialUrl)
 
         windows.transak.webContents.setWindowOpenHandler(({ url }) => {
             void shell.openExternal(url)
@@ -135,20 +140,27 @@ export default class TransakManager implements ITransakManager {
 
         windows.transak.webContents.addListener('did-navigate', (_, url) => {
             const _url = new URL(url)
-            windows.main.webContents.send('transak-url', _url.origin)
+            windows.main?.webContents?.send?.('transak-url', _url.origin)
         })
 
         windows.transak.webContents.addListener('did-navigate-in-page', (_, url) => {
             const urlToBeMatched = TRANSAK_WIDGET_URL + '/googlepay'
             if (url.startsWith(urlToBeMatched)) {
-                windows.main.webContents.send('try-open-url-in-browser', url)
-                void windows.transak.loadURL(initialUrl)
+                windows.main?.webContents?.send?.('try-open-url-in-browser', url)
+                void windows.transak?.loadURL?.(initialUrl)
             }
         })
 
         windows.transak.webContents.addListener('will-navigate', (event) => {
             event.preventDefault()
-            windows.main.webContents.send('try-open-url-in-browser', event.url)
+            windows.main?.webContents.send('try-open-url-in-browser', event.url)
+        })
+
+        ipcMain.handle('transak-loaded', () => {
+            setTimeout(() => {
+                windows.main?.webContents.send('transak-loaded')
+                this.showWindow()
+            }, 300)
         })
 
         return windows.transak
@@ -162,20 +174,20 @@ export default class TransakManager implements ITransakManager {
     public positionWindow(): void {
         try {
             if (windows.transak) {
-                const [mainWindowX, mainWindowY] = windows.main.getPosition()
-                const [, mainWindowHeight] = windows.main.getSize()
-                const [, bodyHeight] = windows.main.getContentSize()
+                const [mainWindowX, mainWindowY] = windows.main?.getPosition() ?? []
+                const [, mainWindowHeight] = windows.main?.getSize() ?? []
+                const [, bodyHeight] = windows.main?.getContentSize() ?? []
 
                 const menuHeight = mainWindowHeight - bodyHeight
 
-                const newX = Math.floor(mainWindowX + this.rect.x)
-                const newY = Math.floor(mainWindowY + menuHeight + this.rect.y)
+                const newX = Math.floor(mainWindowX + (this.rect?.x ?? 0))
+                const newY = Math.floor(mainWindowY + menuHeight + (this.rect?.y ?? 0))
 
                 windows.transak.setBounds({
                     x: newX,
                     y: newY,
-                    height: this.rect.height,
-                    width: this.rect.width,
+                    height: this.rect?.height,
+                    width: this.rect?.width,
                 })
 
                 if (process.platform === 'linux') {
@@ -205,6 +217,10 @@ export default class TransakManager implements ITransakManager {
         const { address, currency, service, amount } = data
         const apiKey = process.env.TRANSAK_API_KEY
 
+        if (typeof apiKey !== 'string') {
+            throw new Error('Undefined Transak API key')
+        }
+
         if (!Object.values(MarketCurrency).includes(currency as MarketCurrency)) {
             throw new Error('Invalid Transak currency')
         }
@@ -220,7 +236,7 @@ export default class TransakManager implements ITransakManager {
                     : 'LIGHT'
                 : nativeTheme.themeSource.toUpperCase()
 
-        const queryParams = {
+        const queryParams: QueryParameters = {
             apiKey,
             defaultFiatCurrency: currency,
             defaultFiatAmount: amount,
