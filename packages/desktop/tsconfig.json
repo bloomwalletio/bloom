@@ -4,6 +4,7 @@
         "allowJs": true,
         "baseUrl": ".",
         "isolatedModules": false,
+        "moduleResolution": "node",
         "resolveJsonModule": true,
         "importsNotUsedAsValues": "remove",
         "lib": ["DOM", "ESNext"],
