@@ -41,7 +41,7 @@
 
 <Pane classes="flex flex-col items-center w-full p-6 gap-4 bg-surface dark:bg-surface-dark shadow-lg">
     <div class="w-full flex justify-between items-center h-8">
-        <img data-label="transak-logo" width="90" height="29" src="assets/logos/transak.png" alt="Transak" />
+        <img data-label="transak-logo" width="90" height="28" src="assets/logos/transak.svg" alt="Transak" />
         <div>
             {#if connectionStatus === TransakConnectionStatus.Connected}
                 <Pill color="success">{localize('general.connected')}</Pill>
