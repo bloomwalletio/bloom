@@ -1,4 +1,4 @@
-import { DEFAULT_MARKET_CURRENCY } from '@core/market'
+import { DEFAULT_MARKET_CURRENCY } from '@core/market/constants'
 import { ProfileType } from '../enums'
 import { IPersistedProfile } from '../interfaces'
 import { DEFAULT_LOCK_SCREEN_TIMEOUT_IN_MINUTES } from './default-lock-screen-timeout-in-minutes.constant'
@@ -6,17 +6,14 @@ import { DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES } from './default_strong
 import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts/constants'
 import { PROFILE_VERSION } from './profile-version.constant'
 import { APP_STAGE } from '@core/app/constants'
-import { StrongholdVersion } from '@core/stronghold'
-import { getDefaultPersistedNetwork } from '@core/network/utils'
-import { StardustNetworkId } from '@core/network'
+import { StrongholdVersion } from '@core/stronghold/enums'
 
-export const DEFAULT_PERSISTED_PROFILE_OBJECT: IPersistedProfile = {
+export const DEFAULT_PERSISTED_PROFILE_OBJECT: Omit<IPersistedProfile, 'network'> = {
     id: '',
     version: PROFILE_VERSION[APP_STAGE],
     name: '',
     type: ProfileType.Software,
     contacts: {},
-    network: getDefaultPersistedNetwork(StardustNetworkId.Testnet),
     networkContactAddresses: {},
     settings: {
         marketCurrency: DEFAULT_MARKET_CURRENCY,
