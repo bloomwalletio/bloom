@@ -1,7 +1,7 @@
 import { AppContext } from '@core/app'
 import { AppRoute } from '@core/router'
 
-export function getAppRouteForContext(context: AppContext): AppRoute {
+export function getAppRouteForContext(context: AppContext): AppRoute | undefined {
     switch (context) {
         case AppContext.Dashboard:
             return AppRoute.Dashboard

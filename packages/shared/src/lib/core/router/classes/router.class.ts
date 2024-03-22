@@ -4,11 +4,11 @@ import { IRouter, IRouterEvent } from '../interfaces'
 
 export abstract class Router<R> implements IRouter {
     protected history: R[] = []
-    protected readonly routeStore: Writable<R>
+    protected readonly routeStore: Writable<R | undefined>
 
     constructor(
         protected initialRoute: R,
-        storeRoute: Writable<R>
+        storeRoute: Writable<R | undefined>
     ) {
         this.routeStore = storeRoute
         this.setRoute(initialRoute)
@@ -20,7 +20,9 @@ export abstract class Router<R> implements IRouter {
 
     private updateHistory(): void {
         const currentRoute = get(this.routeStore)
-        this.history.push(currentRoute)
+        if (currentRoute) {
+            this.history.push(currentRoute)
+        }
     }
 
     protected setNext(route: R): void {

@@ -501,12 +501,17 @@
                         "title": "Connection request",
                         "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
                         "reconnectHint": "You have previously connected with this dApp.",
-                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
                         "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
                         "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
                         "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
-                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                        "acceptInsecureConnection": "I understand and wish to proceed",
+                        "supported": "Supported",
+                        "notSupported": "Not supported",
+                        "onAnotherProfile": "On another profile",
+                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
+                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
+                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
                     },
                     "editPermissions": {
                         "title": "Edit permissions"
@@ -686,10 +691,15 @@
                     "eventId": "Event ID",
                     "nodeUrl": "Node URL"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Récupération des données de la proposition",
                 "hintVote": "Vous ne pouvez pas voter sur une proposition qui est en phase d'annonce, le vote s'ouvrira dans {time}.",
                 "projection": {
-                    "label": "Projected votes",
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
                     "tooltip": "The projection is based on current voting weight and remaining milestones."
                 }
             }
@@ -721,6 +731,10 @@
                 "connected": "connected securely",
                 "redirected": "redirected, be careful!",
                 "disconnected": "disconnected, try refreshing"
+            },
+            "error": {
+                "title": "Transak could not be loaded",
+                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
             }
         }
     },
@@ -1379,7 +1393,8 @@
         "syncAccounts": "Sync accounts",
         "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens",
-        "mintNftCollection": "Mint NFT collection"
+        "mintNftCollection": "Mint NFT collection",
+        "readMore": "Read more"
     },
     "general": {
         "recipient": "Destinataire",
@@ -1605,7 +1620,8 @@
         "baseCoin": "Base Coin",
         "unverifiedContract": "Unverified Contract",
         "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "question": "Question"
     },
     "filters": {
         "title": "Filters",
@@ -1922,6 +1938,7 @@
             "notReachable": "L'ID réseau de ce nœud n'a pas pu être récupéré, impossible d'ajouter un nœud."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Une erreur s'est produite."
         },
         "backup": {

@@ -12,12 +12,12 @@
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let token: ITokenWithBalance | undefined
-    export let activityId: string = undefined
+    export let activityId: string | undefined = undefined
 
-    $: isNewToken = token.verification?.status === NotVerifiedStatus.New
+    $: isNewToken = token?.verification?.status === NotVerifiedStatus.New
 
     function onSkipClick(): void {
-        unverifyToken(token.id, NotVerifiedStatus.Skipped)
+        unverifyToken(token?.id, NotVerifiedStatus.Skipped)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
@@ -31,7 +31,7 @@
     }
 
     function onVerifyClick(): void {
-        verifyToken(token.id, VerifiedStatus.SelfVerified)
+        verifyToken(token?.id, VerifiedStatus.SelfVerified)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
@@ -45,7 +45,7 @@
     }
 
     function onSendClick(): void {
-        const sendFlowType = token.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+        const sendFlowType = token?.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
         setSendFlowParameters({
             type: sendFlowType,
             [sendFlowType]: {
@@ -53,7 +53,7 @@
             },
         })
 
-        sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
+        sendFlowRouter.set(new SendFlowRouter(SendFlowRoute.SelectRecipient))
         openPopup({
             id: PopupId.SendFlow,
             overflow: true,
@@ -62,7 +62,7 @@
 </script>
 
 <PopupTemplate
-    title={token.metadata?.name}
+    title={token?.metadata?.name}
     backButton={isNewToken
         ? {
               text: localize('actions.skip'),
@@ -75,14 +75,14 @@
     }}
 >
     <div slot="menu">
-        {#if token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20}
+        {#if token?.standard === TokenStandard.Irc30 || token?.standard === TokenStandard.Erc20}
             <TokenActionsMenu {token} />
         {/if}
     </div>
     {#if token}
         <div class="space-y-5">
             <TokenAmountTile {token} amount={token.balance.available} />
-            {#if token?.metadata}
+            {#if token.metadata}
                 <TokenMetadataTable token={token.metadata} />
             {/if}
             {#if !token.verification?.verified && token.verification?.status === NotVerifiedStatus.New}

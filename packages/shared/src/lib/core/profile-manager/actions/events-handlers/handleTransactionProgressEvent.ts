@@ -88,8 +88,9 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                     onEnabled: async () => {
                         try {
                             await checkOrConnectLedgerAsync()
-                            if (get(ledgerPreparedOutput)) {
-                                await sendOutput(get(ledgerPreparedOutput))
+                            const preparedOutput = get(ledgerPreparedOutput)
+                            if (preparedOutput) {
+                                await sendOutput(preparedOutput)
                                 resetLedgerPreparedOutput()
                             }
                         } catch (err) {

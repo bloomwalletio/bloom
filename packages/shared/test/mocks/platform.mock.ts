@@ -49,9 +49,6 @@ const Platform: IPlatform = {
     removeProfileFolder(profilePath: string): Promise<void> {
         return Promise.resolve(undefined)
     },
-    renameProfileFolder(oldPath: string, newPath: string): Promise<void> {
-        return Promise.resolve(undefined)
-    },
     saveRecoveryKit(kitData: ArrayBuffer): Promise<void> {
         return Promise.resolve(undefined)
     },
@@ -83,7 +80,9 @@ const Platform: IPlatform = {
     checkIfFileExists(): Promise<boolean> {
         return Promise.resolve(false)
     },
-    updateMenu(attribute: string, value: unknown): void {},
+    updateMenu(attribute: string, value: unknown): Promise<void> | undefined {
+        return Promise.resolve()
+    },
     copyFile(copyFilePath: string, destinationFilePath: string): Promise<void> {
         return Promise.resolve()
     },
@@ -92,9 +91,6 @@ const Platform: IPlatform = {
     },
     isFeatureFlagEnabled(keyPath: string): boolean {
         return false
-    },
-    getLanguageCode(): Promise<string> {
-        return Promise.resolve('')
     },
     updateTheme(): void {},
     getTheme(): string {

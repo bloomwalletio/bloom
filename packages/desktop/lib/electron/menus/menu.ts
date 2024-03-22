@@ -41,7 +41,7 @@ function toggleMaximize(): boolean {
 }
 
 export function initMenu(): void {
-    let mainMenu = null
+    let mainMenu: Electron.Menu
 
     app.once('ready', () => {
         ipcMain.handle('menu-update', (e, args) => {
@@ -50,7 +50,7 @@ export function initMenu(): void {
         })
 
         ipcMain.handle('menu-popup', () => {
-            mainMenu.popup(getOrInitWindow('main'))
+            mainMenu.popup({ window: getOrInitWindow('main') })
         })
         ipcMain.handle('menu-data', () => state)
         handleWindowControls()
@@ -142,7 +142,7 @@ function getFirstSubmenuItems(): Electron.MenuItemConstructorOptions[] {
 function getDarwinSubmenuItems(): Electron.MenuItemConstructorOptions[] {
     return [
         roleMenuItem(`${state.strings.hide} ${app.name}`, 'hide'),
-        roleMenuItem(state.strings.hideOthers, 'hideothers' as Electron.MenuItemConstructorOptions['role']),
+        roleMenuItem(state.strings.hideOthers, 'hideOthers'),
         roleMenuItem(state.strings.showAll, 'unhide'),
     ]
 }

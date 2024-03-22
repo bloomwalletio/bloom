@@ -25,7 +25,11 @@ export async function generateAndStoreActivitiesForAccount(
     ]
 
     // Step 2: link transactions with corresponding claiming transactions
-    const linkedProcessedTransactions = linkTransactionsWithClaimingTransactions(processedTransactions, account)
+    const linkedProcessedTransactions = linkTransactionsWithClaimingTransactions(
+        processedTransactions,
+        account,
+        profileId
+    )
 
     // Step 3: generate activities from processed transactions
     const activities: Activity[] = await generateActivitiesFromProcessedTransactions(

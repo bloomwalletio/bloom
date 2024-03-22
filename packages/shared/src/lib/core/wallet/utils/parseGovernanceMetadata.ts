@@ -2,7 +2,7 @@ import { Converter } from '@core/utils'
 import { ReadStream } from '@iota/util.js'
 import { IParticipation } from '../interfaces'
 
-export function parseGovernanceMetadata(metadata: string): IParticipation[] {
+export function parseGovernanceMetadata(metadata: string | undefined): IParticipation[] {
     if (!metadata) {
         return []
     }

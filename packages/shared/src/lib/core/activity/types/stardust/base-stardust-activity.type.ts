@@ -33,8 +33,8 @@ export type AsyncData = {
     asyncStatus: StardustActivityAsyncStatus
     timelockDate?: Date
     expirationDate?: Date
-    isRejected: boolean
-    isClaiming: boolean
+    isRejected?: boolean
+    isClaiming?: boolean
     claimingTransactionId?: string
     claimedDate?: Date
 }

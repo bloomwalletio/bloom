@@ -116,11 +116,7 @@
                     <CampaignParticipantsPill {campaign} />
                     <CampaignRewardsPill {campaign} />
                 </div>
-                <Link
-                    text={truncateString(campaign.url, 30, 10)}
-                    external
-                    on:click={() => openUrlInBrowser(campaign.url)}
-                />
+                <Link href={campaign.url} text={truncateString(campaign.url, 30, 10)} external />
             </div>
         </div>
     </div>

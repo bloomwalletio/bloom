@@ -8,7 +8,7 @@ import { api, IProfileManager, profileManager } from '..'
 
 export function createAccount(
     payload: CreateAccountPayload,
-    manager: Writable<IProfileManager | null> = profileManager
+    manager: Writable<IProfileManager | undefined> = profileManager
 ): Promise<IAccount> {
     const { id } = get(manager) ?? {}
     if (!id) {

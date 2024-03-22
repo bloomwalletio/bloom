@@ -4,5 +4,5 @@ import { profileManager } from '../stores'
 
 export async function setClientOptions(clientOptions: Partial<IClientOptions>): Promise<void> {
     const manager = get(profileManager)
-    await manager.setClientOptions(clientOptions)
+    await manager?.setClientOptions(clientOptions)
 }

@@ -38,8 +38,12 @@ export async function generateAndStoreEvmAddressForAccounts(
             })
             evmAddress = addresses?.[0]
         } else {
-            evmAddress = await Ledger.generateEvmAddress(accountIndex, coinType)
-            evmAddress = evmAddress.toLowerCase()
+            try {
+                evmAddress = await Ledger.generateEvmAddress(accountIndex, coinType)
+                evmAddress = evmAddress.toLowerCase()
+            } catch {
+                // Do nothing
+            }
         }
 
         const evmAddresses = { [coinType]: evmAddress }

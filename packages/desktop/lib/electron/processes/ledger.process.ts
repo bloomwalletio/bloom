@@ -31,7 +31,7 @@ async function messageHandler(message: ILedgerProcessMessage): Promise<void> {
     try {
         await openTransport()
 
-        let data: LedgerApiRequestResponse
+        let data: LedgerApiRequestResponse | undefined
         const { method, payload } = message
         switch (method) {
             case LedgerApiMethod.GenerateEvmAddress: {

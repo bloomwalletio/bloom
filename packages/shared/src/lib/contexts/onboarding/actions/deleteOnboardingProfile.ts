@@ -13,10 +13,10 @@ export async function deleteOnboardingProfile(): Promise<void> {
     if (profile) {
         try {
             await destroyProfileManager()
-            await removeProfileFolder(profile.id)
+            await removeProfileFolder(profile.id ?? '')
         } catch (err) {
             console.error(err)
         }
     }
-    onboardingProfile.set(null)
+    onboardingProfile.set(undefined)
 }

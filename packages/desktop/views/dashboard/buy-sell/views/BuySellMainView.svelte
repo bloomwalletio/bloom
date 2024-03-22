@@ -4,7 +4,7 @@
     import { Platform } from '@core/app'
     import { activeProfile } from '@core/profile/stores'
     import { IPopupState, IProfileAuthPopupState, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
-    import { onDestroy, tick } from 'svelte'
+    import { onDestroy, onMount, tick } from 'svelte'
     import {
         TransakAccountPanel,
         TransakConnectionPanel,
@@ -17,13 +17,16 @@
     import { DrawerState } from '@desktop/auxiliary/drawer/types'
     import { drawerState } from '@desktop/auxiliary/drawer/stores'
 
+    let isTransakOpen: boolean = false
+    let isTransakLoading: boolean = true
+
     $: $isDashboardSideBarExpanded, void updateTransakBounds()
 
     $: if ($selectedAccountIndex !== undefined) {
         void resetTransak()
     }
 
-    $: void handleOverlayChanges($popupState, $profileAuthPopup, $settingsState, $drawerState)
+    $: isTransakOpen, void handleOverlayChanges($popupState, $profileAuthPopup, $settingsState, $drawerState)
 
     async function handleOverlayChanges(
         state: IPopupState,
@@ -86,18 +89,27 @@
     }
 
     async function resetTransak(): Promise<void> {
+        isTransakLoading = true
         await Platform.closeTransak()
+        isTransakOpen = false
         await Platform.openTransak({
             currency: $activeProfile?.settings.marketCurrency,
             address: $selectedAccount.depositAddress,
             service: 'BUY',
             amount: getDefaultFiatAmount($activeProfile?.settings.marketCurrency ?? MarketCurrency.Usd),
         })
+        isTransakOpen = true
         await updateTransakBounds()
     }
 
+    onMount(() => {
+        Platform.onEvent('reset-transak', resetTransak)
+    })
+
     onDestroy(() => {
         void Platform.closeTransak()
+        isTransakOpen = false
+        Platform.removeListenersForEvent('reset-transak')
     })
 </script>
 
@@ -109,7 +121,7 @@
         <TransakAccountPanel />
     </div>
     <div class="transak-panel" bind:this={transakContainer}>
-        <TransakWindowPlaceholder />
+        <TransakWindowPlaceholder bind:loading={isTransakLoading} />
     </div>
     <div class="info-panel">
         <TransakInfoPanel />

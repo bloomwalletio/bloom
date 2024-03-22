@@ -35,20 +35,20 @@ async function generateActivitiesFromProcessedTransactionsWithInputs(
     const { outputs, wrappedInputs } = processedTransaction
     const activities: StardustActivity[] = []
 
-    const containsFoundryActivity = outputs.some((output) => output.output.type === OutputType.Foundry)
+    const containsFoundryActivity = outputs.some((output) => output.output?.type === OutputType.Foundry)
     if (containsFoundryActivity) {
         const foundryActivities = await generateActivitiesFromFoundryOutputs(processedTransaction, account, networkId)
         activities.push(...foundryActivities)
     }
 
-    const containsNftActivity = outputs.some((output) => output.output.type === OutputType.Nft)
+    const containsNftActivity = outputs.some((output) => output.output?.type === OutputType.Nft)
     if (containsNftActivity) {
         const nftActivities = await generateActivitiesFromNftOutputs(processedTransaction, account, networkId)
         activities.push(...nftActivities)
     }
 
     const containsAliasActivity =
-        outputs.some((output) => output.output.type === OutputType.Alias) && !containsFoundryActivity
+        outputs.some((output) => output.output?.type === OutputType.Alias) && !containsFoundryActivity
     if (containsAliasActivity) {
         const aliasActivities = await generateActivitiesFromAliasOutputs(processedTransaction, account, networkId)
         activities.push(...aliasActivities)

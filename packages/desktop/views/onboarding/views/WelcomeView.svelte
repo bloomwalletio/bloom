@@ -7,7 +7,6 @@
         TERMS_OF_SERVICE_VERSION,
     } from '@core/app/constants'
     import { lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
-    import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { Illustration } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
@@ -15,14 +14,6 @@
 
     let termsAccepted: boolean = false
     let flash: boolean = false
-
-    function onTermsOfServiceClick(): void {
-        openUrlInBrowser(TERMS_OF_SERVICE_URL)
-    }
-
-    function onPrivacyPolicyClick(): void {
-        openUrlInBrowser(PRIVACY_POLICY_URL)
-    }
 
     function onContinueClick(): void {
         if (!termsAccepted) {
@@ -55,14 +46,10 @@
                     <div slot="label" class="flex flex-col">
                         <Text type="body2" fontWeight="medium">{localize('views.onboarding.welcome.legalAction')}</Text>
                         <div class="flex">
-                            <Link
-                                on:click={onPrivacyPolicyClick}
-                                text={localize('general.privacyPolicy')}
-                                textType="body2"
-                            />
+                            <Link href={PRIVACY_POLICY_URL} text={localize('general.privacyPolicy')} textType="body2" />
                             <Text type="body2" fontWeight="medium">&nbsp&&nbsp</Text>
                             <Link
-                                on:click={onTermsOfServiceClick}
+                                href={TERMS_OF_SERVICE_URL}
                                 text={localize('general.termsOfService')}
                                 textType="body2"
                             />

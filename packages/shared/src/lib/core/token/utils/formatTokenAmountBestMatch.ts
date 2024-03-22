@@ -13,7 +13,7 @@ type FormatOptions = Partial<{
 
 export function formatTokenAmountBestMatch(
     amount: bigint,
-    tokenMetadata: TokenMetadata,
+    tokenMetadata?: TokenMetadata,
     options?: FormatOptions
 ): string {
     const defaultOptions = {
@@ -60,7 +60,7 @@ function getStringAmountFromBigInt(
 
     const indexOfDecimalSeparator = stringValue.length - decimals
 
-    const stringAmountParts = []
+    const stringAmountParts: string[] = []
 
     let integerPart = stringValue.slice(0, indexOfDecimalSeparator)
     const allIntegersZero = integerPart.split('').every((integer) => integer === '0')

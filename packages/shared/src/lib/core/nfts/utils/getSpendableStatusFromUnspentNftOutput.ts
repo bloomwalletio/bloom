@@ -11,7 +11,7 @@ export function getSpendableStatusFromUnspentNftOutput(
     nftOutput: NftOutput
 ): { isSpendable: boolean; timeLockTime: number | undefined } {
     let isSpendable = true
-    let timeLockTime = undefined
+    let timeLockTime: number | undefined
 
     const isAsync = isOutputAsync(nftOutput)
     if (isAsync) {

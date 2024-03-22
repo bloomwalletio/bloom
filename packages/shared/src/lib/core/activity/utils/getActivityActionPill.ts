@@ -29,6 +29,9 @@ export function getActivityActionPill(
                     return undefined
                 }
             } else {
+                if (!timelockDate) {
+                    return undefined
+                }
                 const timeDiff = getTimeDifference(timelockDate, currentDate)
                 return { type: 'timelock', timeDiff }
             }

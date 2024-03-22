@@ -28,7 +28,7 @@ describe('File: api.test.ts', () => {
 
     it('should destroy the profile manager correctly', async () => {
         await destroyProfileManager()
-        expect(get(profileManager)).toBeNull()
+        expect(get(profileManager)).toBeUndefined()
     })
 
     describe('Function: generateMnemonic', () => {

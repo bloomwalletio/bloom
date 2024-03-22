@@ -15,42 +15,38 @@ export class RestoreProfileRouter extends Subrouter<RestoreProfileRoute> {
     }
 
     next(): void {
-        let nextRoute: RestoreProfileRoute
-
         const _onboardingProfile = get(onboardingProfile)
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case RestoreProfileRoute.ChooseRestoreProfileFlow:
-                switch (_onboardingProfile.restoreProfileType) {
+                switch (_onboardingProfile?.restoreProfileType) {
                     case RestoreProfileType.Mnemonic:
                         restoreFromMnemonicRouter.set(new RestoreFromMnemonicRouter(get(restoreProfileRouter)))
-                        nextRoute = RestoreProfileRoute.RestoreFromMnemonic
+                        this.setNext(RestoreProfileRoute.RestoreFromMnemonic)
                         break
                     case RestoreProfileType.Stronghold:
                         restoreFromStrongholdRouter.set(new RestoreFromStrongholdRouter(get(restoreProfileRouter)))
-                        nextRoute = RestoreProfileRoute.RestoreFromStronghold
+                        this.setNext(RestoreProfileRoute.RestoreFromStronghold)
                         break
                     case RestoreProfileType.Ledger:
                         createFromLedgerRouter.set(new CreateFromLedgerRouter(get(restoreProfileRouter)))
-                        nextRoute = RestoreProfileRoute.RestoreFromLedger
+                        this.setNext(RestoreProfileRoute.RestoreFromLedger)
                         break
                 }
                 break
             case RestoreProfileRoute.RestoreFromMnemonic:
             case RestoreProfileRoute.RestoreFromStronghold:
             case RestoreProfileRoute.RestoreFromLedger:
-                if (_onboardingProfile.onboardingType === OnboardingType.Claim) {
-                    nextRoute = RestoreProfileRoute.ClaimFinder
+                if (_onboardingProfile?.onboardingType === OnboardingType.Claim) {
+                    this.setNext(RestoreProfileRoute.ClaimFinder)
                 } else {
-                    nextRoute = RestoreProfileRoute.BalanceFinder
+                    this.setNext(RestoreProfileRoute.BalanceFinder)
                 }
                 break
             case RestoreProfileRoute.BalanceFinder:
             case RestoreProfileRoute.ClaimFinder:
-                this.parentRouter.next()
+                this.parentRouter?.next()
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

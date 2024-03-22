@@ -1,19 +1,14 @@
 <script lang="ts">
-    import { Checkbox, Error, Pill, Text } from '@bloomwalletio/ui'
+    import { Checkbox, Error, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { SelectionOption } from '@core/utils'
 
-    export let selectionOptions: {
-        label: string
-        value: unknown
-        checked: boolean
-        required: boolean
-    }[]
-    export let showPrimary: boolean = false
+    type T = $$Generic
+
+    export let selectionOptions: SelectionOption<T>[]
     export let title: string
     export let disableSelectAll: boolean = false
     export let error: string | undefined = undefined
-
-    $: indexOfPrimary = selectionOptions.findIndex((option) => option.checked)
 
     let allChecked = true
     function onAllClick() {
@@ -39,11 +34,12 @@
     </div>
     <selection-options>
         {#each selectionOptions as option, index}
-            <div class="w-full flex flex-row items-center justify-between p-4">
-                <div class="flex items-center gap-2">
-                    <Text>{option.label}</Text>
-                    {#if showPrimary && indexOfPrimary === index}
-                        <Pill color="info">{localize('general.primary')}</Pill>
+            <div class="w-full flex flex-row items-center justify-between p-4 gap-3">
+                <div class="flex-grow flex items-center gap-2">
+                    {#if $$slots.default}
+                        <slot {option} {index} />
+                    {:else}
+                        <Text>{option.label}</Text>
                     {/if}
                 </div>
                 {#if option.required}

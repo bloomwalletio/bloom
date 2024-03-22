@@ -3,6 +3,6 @@ import { get } from 'svelte/store'
 import { IRouter } from '@core/router/interfaces'
 import { appRouter } from '@core/router/routers'
 
-export function getAppRouter(): IRouter {
+export function getAppRouter(): IRouter | undefined {
     return get(appRouter)
 }

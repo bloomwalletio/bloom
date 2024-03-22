@@ -5,7 +5,7 @@
     import { IBaseToken, formatTokenAmountBestMatch } from '@core/token'
 
     export let shimmerClaimingAccount: IShimmerClaimingAccount
-    export let baseToken: IBaseToken
+    export let baseToken: IBaseToken | undefined
 
     $: shouldDisplayFailedState = shimmerClaimingAccount?.state === ShimmerClaimingAccountState.Failed
     $: shouldDisplayClaimedState = shimmerClaimingAccount?.state === ShimmerClaimingAccountState.FullyClaimed

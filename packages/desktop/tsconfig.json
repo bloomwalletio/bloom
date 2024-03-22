@@ -4,6 +4,7 @@
         "allowJs": true,
         "baseUrl": ".",
         "isolatedModules": false,
+        "moduleResolution": "node",
         "resolveJsonModule": true,
         "importsNotUsedAsValues": "remove",
         "lib": ["DOM", "ESNext"],
@@ -21,7 +22,8 @@
             "@views/*": ["./views/*"]
         },
         "types": ["node", "svelte"],
-        "verbatimModuleSyntax": false
+        "verbatimModuleSyntax": false,
+        "noImplicitAny": false
     },
     "include": ["./index.ts", "./lib/**/*.ts", "../shared/src/lib/**/*.ts"],
     "exclude": ["../**/tests"]

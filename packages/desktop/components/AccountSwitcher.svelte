@@ -8,7 +8,9 @@
     import { allAccountFiatBalances } from '@core/token/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
-    export let navbar: boolean = false
+    export let breadcrumb: boolean = false
+    export let compact: boolean = false
+    export let hasCreateAccount: boolean = false
     export let placement: 'bottom-start' | 'bottom-end' = 'bottom-start'
 
     const menu: Menu | undefined = undefined
@@ -39,22 +41,24 @@
 
 <Menu
     {items}
-    compact={navbar}
-    {...!navbar && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
+    {compact}
+    {...hasCreateAccount && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
     {placement}
-    class="max-h-80 overflow-auto"
+    maxHeight={320}
 >
-    <Breadcrumb slot="anchor" tooltip={navbar ? localize('actions.switchAccount') : undefined}>
+    <Breadcrumb slot="anchor" tooltip={breadcrumb ? localize('actions.switchAccount') : undefined}>
         <div class="flex flex-row justify-center items-center space-x-2">
-            {#if navbar}
+            {#if breadcrumb}
                 <Indicator color={$selectedAccount?.color} size="sm" />
             {/if}
-            <Text type={navbar ? 'base' : 'body1'}>
-                {$selectedAccount?.name}
-            </Text>
-            {#if !navbar}
-                <Icon name={IconName.ChevronSelectorVertical} size="sm" textColor="secondary" />
-            {/if}
+            <div class="flex flex-row justify-center items-center {compact ? 'space-x-1' : 'space-x-2'}">
+                <Text type={compact ? 'base' : 'body1'}>
+                    {$selectedAccount?.name}
+                </Text>
+                {#if !breadcrumb}
+                    <Icon name={IconName.ChevronSelectorVertical} size={compact ? 'xs' : 'sm'} textColor="secondary" />
+                {/if}
+            </div>
         </div>
     </Breadcrumb>
 </Menu>

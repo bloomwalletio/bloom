@@ -501,12 +501,17 @@
                         "title": "Żądanie połączenia",
                         "firstTimeHint": "Ta aplikacja dApp chce połączyć się po raz pierwszy. Pamiętaj, aby łączyć się jedynie z zaufanymi witrynami.",
                         "reconnectHint": "Wcześniej łączyłeś się z tą aplikacją.",
-                        "insecure": "Nie można zweryfikować adresu URL tej aplikacji dApp. Połączenie z tą aplikacją może nie być bezpieczne.",
                         "unsupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa w nieobsługiwanej sieci.",
                         "noSupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa ona w innej sieci.",
                         "unsupportedMethods": "Ta aplikacja dApp nie jest w pełni kompatybilna z Bloom. Niektóre procesy lub akcje nie są obsługiwane.",
                         "supportedOnOtherProfile": "Ta aplikacja dApp działa w obsługiwanej sieci, ale nie jest dostępna przy użyciu tego profilu. Użyj profilu połączonego z wymaganą siecią.",
-                        "acceptInsecureConnection": "Rozumiem, że ta aplikacja dApp może być niebezpieczna i nadal chcę się z nią połączyć."
+                        "acceptInsecureConnection": "Rozumiem i chcę kontynuować",
+                        "supported": "Obsługiwane",
+                        "notSupported": "Nieobsługiwane",
+                        "onAnotherProfile": "W innym profilu",
+                        "scamHint": "Ta domena jest oznaczona jako niebezpieczna przez wielu dostawców zabezpieczeń. Opuść ją natychmiast, aby chronić swoje aktywa.",
+                        "invalidHint": "Ta strona jest domeną, która nie pasuje do nadawcy żądania. Potwierdzenie może prowadzić do utraty środków.",
+                        "unknownHint": "Ta aplikacja dApp nie została zweryfikowana i może zawierać zagrożenia bezpieczeństwa."
                     },
                     "editPermissions": {
                         "title": "Edytuj uprawnienia"
@@ -640,7 +645,7 @@
                 "votedProposals": "Suma propozycji, nad którymi głosowałeś"
             },
             "proposals": {
-                "title": "Governance Proposals",
+                "title": "Propozycje dotyczące zarządzania",
                 "voted": "Zagłosowano",
                 "successEdit": "Propozycja została pomyślnie edytowana",
                 "successAdd": "{numberOfProposals, select, one {Propozycja dodana} other {Propozycje dodane}} pomyślnie",
@@ -686,10 +691,15 @@
                     "eventId": "ID zdarzenia",
                     "nodeUrl": "URL serwera"
                 },
+                "quorum": {
+                    "title": "Postęp kworum",
+                    "tooltip": "Kworum na poziomie 5% jest wymagane dla propozycji Tangle Treasury"
+                },
                 "fetching": "Pobieranie danych propozycji",
                 "hintVote": "Nie możesz głosować nad propozycją, która dopiero została zapowiedziana. Głosowanie zostanie otwarte za {time}.",
                 "projection": {
-                    "label": "Przewidywane głosy",
+                    "title": "Pokaż przewidywane głosy",
+                    "description": "Jak głosowanie może zakończyć się przy obecnym udziale",
                     "tooltip": "Prognoza opiera się na aktualnej wadze głosów i pozostałych etapach (milestones)."
                 }
             }
@@ -721,6 +731,10 @@
                 "connected": "bezpieczne połączenie",
                 "redirected": "przekierowano, bądź ostrożny!",
                 "disconnected": "rozłączono, spróbuj odświeżyć"
+            },
+            "error": {
+                "title": "Transak nie mógł zostać załadowany",
+                "description": "Uruchom ponownie aplikację, jeśli problem będzie się powtarzał, poproś o wsparcie na naszym serwerze Discord"
             }
         }
     },
@@ -895,7 +909,7 @@
                     "minPowScore": "Min. wynik PoW"
                 },
                 "baseToken": {
-                    "tab": "Token podstawowy",
+                    "tab": "Token główny",
                     "token": "Token",
                     "tickerSymbol": "Symbol",
                     "unit": "Jednostka",
@@ -1082,19 +1096,19 @@
                         "Conflicting": "Zmniejszenie siły głosu nie powiodło się"
                     },
                     "startVoting": {
-                        "Pending": "Voting on {proposalName}",
-                        "Confirmed": "Voted on {proposalName}",
-                        "Conflicting": "Failed to vote on"
+                        "Pending": "Głosowanie na {proposalName}",
+                        "Confirmed": "Zagłosowano na {proposalName}",
+                        "Conflicting": "Nie udało się zagłosować na"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting on {proposalName}",
-                        "Confirmed": "Stopped voting on {proposalName}",
-                        "Conflicting": "Failed to stop voting on"
+                        "Pending": "Zatrzymywanie głosowania na {proposalName}",
+                        "Confirmed": "Zatrzymano głosowanie na {proposalName}",
+                        "Conflicting": "Nie udało się zatrzymać głosowania na"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote on {proposalName}",
-                        "Confirmed": "Changed vote on {proposalName}",
-                        "Conflicting": "Failed to change vote on"
+                        "Pending": "Zmiana głosu na {proposalName}",
+                        "Confirmed": "Zmieniono głos na {proposalName}",
+                        "Conflicting": "Nie udało się zmienić głosu na"
                     },
                     "revote": {
                         "Pending": "Odnawianie głosów",
@@ -1216,7 +1230,7 @@
         "revote": {
             "title": "Odnów głosy na propozycje",
             "body": "Zmiana siły głosu tymczasowo wstrzymuje zliczanie wszystkich Twoich głosów. Po prostu kliknij \"Odnów głosy\", aby wznowić głosowanie.",
-            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
+            "hint": "Bloom pamięta wszystkie propozycje i opcje odpowiedzi, na które wcześniej głosowałeś."
         },
         "removeProposal": {
             "title": "Usuń propozycję",
@@ -1379,7 +1393,8 @@
         "syncAccounts": "Synchronizuj konta",
         "importToken": "Importowanie tokena {type}",
         "syncTokens": "Wymuś synchronizację tokenów",
-        "mintNftCollection": "Mintuj kolekcję NFT"
+        "mintNftCollection": "Mintuj kolekcję NFT",
+        "readMore": "Czytaj więcej"
     },
     "general": {
         "recipient": "Odbiorca",
@@ -1395,14 +1410,14 @@
         "receiving": "Odbieranie",
         "newVotingPower": "Nowa siła głosu",
         "votingPower": "Siła głosu",
-        "increased": "Voting power increased",
-        "increasing": "Increasing voting power",
-        "decreased": "Voting power decreased",
-        "decreasing": "Decreasing voting power",
+        "increased": "Zwiększono siłę głosu",
+        "increasing": "Zwiększanie siły głosu",
+        "decreased": "Zmniejszono siłę głosu",
+        "decreasing": "Zmniejszanie siły głosu",
         "voted": "Zagłosowano",
         "voting": "Głosowanie",
-        "votingOn": "Voting on",
-        "votedOn": "Voted on",
+        "votingOn": "Głosowanie na",
+        "votedOn": "Zagłosowano na",
         "changedVote": "Zmieniono głos",
         "changingVote": "Zmiana głosu",
         "revoted": "Odnowiono głosy",
@@ -1605,7 +1620,8 @@
         "baseCoin": "Token podstawowy",
         "unverifiedContract": "Niezweryfikowany kontrakt",
         "startIndex": "Indeks startowy",
-        "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu"
+        "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu",
+        "question": "Pytanie"
     },
     "filters": {
         "title": "Filtry",
@@ -1922,6 +1938,7 @@
             "notReachable": "Nie można pobrać ID sieci dla tego serwera, nie można dodać serwera."
         },
         "global": {
+            "invalidUrl": "Nieprawidłowy URL",
             "generic": "Coś poszło nie tak."
         },
         "backup": {

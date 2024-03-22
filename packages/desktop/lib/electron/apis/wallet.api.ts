@@ -1,5 +1,14 @@
-import * as IotaSdk from '@iota/sdk'
-import type { CreateAccountPayload, IAuth, SyncOptions } from '@iota/sdk'
+import {
+    Wallet,
+    WalletOptions,
+    Account,
+    Client,
+    migrateStrongholdSnapshotV2ToV3,
+    SecretManager,
+    SyncOptions,
+    CreateAccountPayload,
+    IAuth,
+} from '@iota/sdk'
 
 import { bindMethodsAcrossContextBridge, bindSdkUtilsMethods } from '../utils/context-bridge.utils'
 import { STRONGHOLD_V2_HASHING_ROUNDS, STRONGHOLD_V2_SALT } from '../constants/stronghold-v2-migration.constants'
@@ -12,7 +21,7 @@ interface PayloadType {
     syncOptions: SyncOptions
 }
 
-const profileManagers: { [id: string]: IotaSdk.Wallet } = {}
+const profileManagers: { [id: string]: Wallet } = {}
 
 const sdkUtilsMethods = bindSdkUtilsMethods()
 
@@ -30,38 +39,38 @@ export default {
             nodeInfo,
         }
     },
-    createWallet(id: string, options: unknown): IotaSdk.Wallet {
-        const manager = new IotaSdk.Wallet(options)
+    createWallet(id: string, options: WalletOptions): Wallet {
+        const manager = new Wallet(options)
         manager['id'] = id
         profileManagers[id] = manager
-        return bindMethodsAcrossContextBridge(IotaSdk.Wallet, manager)
+        return bindMethodsAcrossContextBridge(Wallet, manager)
     },
-    async createAccount(managerId: string, payload: CreateAccountPayload): Promise<IotaSdk.Account> {
+    async createAccount(managerId: string, payload: CreateAccountPayload): Promise<Account> {
         const manager = profileManagers[managerId]
         const account = await manager.createAccount(payload)
-        return bindMethodsAcrossContextBridge(IotaSdk.Account, account)
+        return bindMethodsAcrossContextBridge(Account, account)
     },
     deleteWallet(id: string): void {
         if (id && id in profileManagers) {
             delete profileManagers[id]
         }
     },
-    async getAccount(managerId: string, index: number): Promise<IotaSdk.Account> {
+    async getAccount(managerId: string, index: number): Promise<Account> {
         const manager = profileManagers[managerId]
         const account = await manager.getAccount(index)
-        return bindMethodsAcrossContextBridge(IotaSdk.Account, account)
+        return bindMethodsAcrossContextBridge(Account, account)
     },
-    async getAccounts(managerId: string): Promise<IotaSdk.Account[]> {
+    async getAccounts(managerId: string): Promise<Account[]> {
         const manager = profileManagers[managerId]
         const accounts = await manager.getAccounts()
-        return accounts.map((account) => bindMethodsAcrossContextBridge(IotaSdk.Account, account))
+        return accounts.map((account) => bindMethodsAcrossContextBridge(Account, account))
     },
-    async getClient(managerId: string): Promise<IotaSdk.Client> {
+    async getClient(managerId: string): Promise<Client> {
         const manager = profileManagers[managerId]
         const client = await manager.getClient()
-        return bindMethodsAcrossContextBridge(IotaSdk.Client, client)
+        return bindMethodsAcrossContextBridge(Client, client)
     },
-    async recoverAccounts(managerId: string, payload: PayloadType): Promise<IotaSdk.Account[]> {
+    async recoverAccounts(managerId: string, payload: PayloadType): Promise<Account[]> {
         const manager = profileManagers[managerId]
         const accounts = await manager.recoverAccounts(
             payload.accountStartIndex,
@@ -69,12 +78,12 @@ export default {
             payload.addressGapLimit,
             payload.syncOptions
         )
-        return accounts.map((account) => bindMethodsAcrossContextBridge(IotaSdk.Account, account))
+        return accounts.map((account) => bindMethodsAcrossContextBridge(Account, account))
     },
-    async getSecretManager(managerId: string): Promise<IotaSdk.SecretManager> {
+    async getSecretManager(managerId: string): Promise<SecretManager> {
         const manager = profileManagers[managerId]
         const secretManager = await manager.getSecretManager()
-        return bindMethodsAcrossContextBridge(IotaSdk.SecretManager, secretManager)
+        return bindMethodsAcrossContextBridge(SecretManager, secretManager)
     },
     migrateStrongholdSnapshotV2ToV3(
         currentPath: string,
@@ -82,7 +91,7 @@ export default {
         currentPassword: string,
         newPassword: string
     ): unknown {
-        return IotaSdk.migrateStrongholdSnapshotV2ToV3(
+        return migrateStrongholdSnapshotV2ToV3(
             currentPath,
             newPath,
             STRONGHOLD_V2_SALT,

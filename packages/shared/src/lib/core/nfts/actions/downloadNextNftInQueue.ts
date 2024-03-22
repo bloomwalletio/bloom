@@ -54,7 +54,7 @@ async function checkHeadRequestForNftUrl(
     shouldCheckSoonaverseFallback: boolean
 ): Promise<IDownloadMetadata> {
     try {
-        const response = await headRequest(nft.composedUrl)
+        const response = await headRequest(nft.composedUrl ?? '')
         const updatedDownloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
 
         if (updatedDownloadMetadata.responseCode === StatusCodes.OK) {
