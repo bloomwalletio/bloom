@@ -53,6 +53,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 parameters,
                 methodId: data.substring(0, 10),
                 rawData: data,
+                contractAddress: to?.toString().toLowerCase(),
             } as EvmContractCallActivity
         } else {
             const tokenTransfer =
@@ -71,7 +72,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             return {
                 ...baseActivity,
                 type: EvmActivityType.TokenTransfer,
-                contractAddress: transaction.to?.toString().toLowerCase(),
+                contractAddress: to?.toString().toLowerCase(),
                 tokenTransfer,
             } as EvmTokenTransferActivity
         }

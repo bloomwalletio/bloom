@@ -10,5 +10,4 @@ export type EvmTokenTransferActivity = BaseEvmActivity & {
         tokenId: string
         rawAmount: bigint
     }
-    contractAddress: string
 }

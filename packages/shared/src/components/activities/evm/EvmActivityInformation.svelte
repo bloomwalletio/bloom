@@ -51,7 +51,7 @@
             destinationNetworkId={activity.destinationNetworkId}
             maxGasFee={activity.maxGasFee}
             transactionFee={activity.transactionFee}
-            contractAddress={activity.type === EvmActivityType.TokenTransfer ? activity.contractAddress : undefined}
+            contractAddress={activity.contractAddress}
         />
     {:else if selectedTab.key === PopupTab.NftMetadata && nft}
         <NftMetadataTable {nft} />
