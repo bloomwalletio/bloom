@@ -74,6 +74,7 @@ export function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
         direction,
         isInternal,
 
+        contractAddress: blockscoutTokenTransfer.token.address.toLowerCase(),
         transactionFee,
 
         tokenTransfer,

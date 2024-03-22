@@ -11,8 +11,8 @@ import type { BigIntLike } from '@ethereumjs/util'
 export async function generateBaseEvmActivity(
     transaction: {
         transactionHash: string
-        to: string
         from: string
+        recipient: string
         gasUsed: number
         blockNumber: number
         estimatedGas?: number
@@ -20,17 +20,16 @@ export async function generateBaseEvmActivity(
         timestamp?: number
     },
     chain: IChain,
-    recipientAddress: string | undefined,
     account: IAccountState
 ): Promise<BaseEvmActivity> {
     const networkId = chain.getConfiguration().id
     const direction =
-        getAddressFromAccountForNetwork(account, networkId) === recipientAddress
+        getAddressFromAccountForNetwork(account, networkId) === transaction.recipient
             ? ActivityDirection.Incoming
             : ActivityDirection.Outgoing
 
     const sender = getSubjectFromAddress(transaction.from, networkId)
-    const recipient = getSubjectFromAddress(recipientAddress ?? transaction.to, networkId)
+    const recipient = getSubjectFromAddress(transaction.recipient, networkId)
 
     const subject = direction === ActivityDirection.Outgoing ? recipient : sender
     const isInternal = isSubjectInternal(recipient)

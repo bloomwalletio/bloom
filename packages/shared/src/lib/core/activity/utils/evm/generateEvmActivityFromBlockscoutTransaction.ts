@@ -119,7 +119,7 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
 ): Promise<BaseEvmActivity> {
     const baseActivity = await generateBaseEvmActivity(
         {
-            to: blockscoutTransaction.to.hash.toLowerCase(),
+            recipient: blockscoutTransaction.to.hash.toLowerCase(),
             from: blockscoutTransaction.from.hash.toLowerCase(),
             gasUsed: Number(blockscoutTransaction.gas_used),
             estimatedGas: localTransaction?.estimatedGas,
@@ -129,7 +129,6 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
             blockNumber: blockscoutTransaction.block,
         },
         chain,
-        blockscoutTransaction.to.hash.toLowerCase(),
         account
     )
 
