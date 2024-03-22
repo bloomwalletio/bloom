@@ -8,5 +8,5 @@ const IGNORE_IF_COIN_TYPE_MISMATCH = true
 
 export async function restoreBackup(importFilePath: string, password: string, bech32Hrp: string): Promise<void> {
     const manager = get(profileManager)
-    await manager.restoreBackup(importFilePath, password, IGNORE_IF_COIN_TYPE_MISMATCH, bech32Hrp)
+    await manager?.restoreBackup(importFilePath, password, IGNORE_IF_COIN_TYPE_MISMATCH, bech32Hrp)
 }

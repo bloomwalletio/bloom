@@ -13,6 +13,7 @@ import { SendFlowParameters } from '../../types'
 import { getAmountAndTokenFromSendFlowParameters } from '../../utils'
 import { TokenStandard } from '@core/token/enums'
 import { IIrc27Nft } from '@core/nfts'
+import { IError } from '@core/error'
 
 export async function createEvmChainToStardustNetworkTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -61,7 +62,8 @@ export async function createEvmChainToStardustNetworkTransaction(
         const originAddress = account?.evmAddresses?.[ETHEREUM_COIN_TYPE] ?? ''
         return await buildEvmTransactionData(chain, originAddress, ISC_MAGIC_CONTRACT_ADDRESS, BigInt(0), data)
     } catch (err) {
-        if (err.message && err.message.includes(EvmErrorMessage.RequireMoreGas)) {
+        const error = err as IError
+        if (error.message && error.message.includes(EvmErrorMessage.RequireMoreGas)) {
             throw new Error(localize('error.send.insufficientFundsGasFee'))
         } else {
             throw err

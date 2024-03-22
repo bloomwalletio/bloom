@@ -8,6 +8,7 @@ import { getActiveProfile } from '@core/profile/stores'
 import { ProfileType } from '@core/profile'
 import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
 import { getNetwork } from '@core/network/stores'
+import { IError } from '@core/error/interfaces'
 
 export async function tryCreateAdditionalAccount(alias: string, color: string): Promise<void> {
     try {
@@ -29,8 +30,8 @@ export async function tryCreateAdditionalAccount(alias: string, color: string): 
 
         return Promise.resolve()
     } catch (err) {
-        const errorMessage = err?.error || err
-        if (err) {
+        const errorMessage = (err as IError)?.error ?? (err as string)
+        if (errorMessage) {
             console.error(errorMessage)
             showNotification({
                 variant: 'error',

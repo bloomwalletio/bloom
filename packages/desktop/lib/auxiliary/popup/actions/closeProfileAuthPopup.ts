@@ -10,7 +10,7 @@ export function closeProfileAuthPopup(options?: { forceClose?: boolean; callOnCa
 
     updateProfileAuthProps({
         active: false,
-        id: null,
+        id: undefined,
         hideClose: false,
         preventClose: false,
         props: undefined,

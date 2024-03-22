@@ -8,7 +8,7 @@ import {
     getAmountFromEvmTransactionValue,
     prepareEvmTransaction,
 } from '@core/layer-2/utils'
-import { Converter, MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
+import { Converter, MILLISECONDS_PER_SECOND } from '@core/utils'
 import { TypedTxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
 import {
@@ -45,6 +45,7 @@ export class Ledger {
                 'ethereum-app-settings',
                 {
                     timeout: 0.5 * MILLISECONDS_PER_SECOND,
+                    shouldClosePopup: false,
                 }
             )
         } catch (err) {
@@ -104,7 +105,6 @@ export class Ledger {
                 ),
             'evm-signed-transaction'
         )
-        closeProfileAuthPopup({ forceClose: true })
 
         if (transactionSignature) {
             const { r, v, s } = transactionSignature
@@ -133,7 +133,6 @@ export class Ledger {
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignMessage, messageHex, bip32Path),
             'signed-message'
         )
-        closeProfileAuthPopup({ forceClose: true })
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
@@ -178,7 +177,6 @@ export class Ledger {
             () => ledgerApiBridge.makeRequest(LedgerApiMethod.SignEIP712, hashedDomain, hashedMessage, bip32Path),
             'signed-eip712'
         )
-        closeProfileAuthPopup({ forceClose: true })
 
         const { r, v, s } = transactionSignature
         if (r && v && s) {
@@ -194,32 +192,31 @@ export class Ledger {
     private static async callLedgerApiAsync<R extends LedgerApiRequestResponse>(
         callback: () => void,
         responseEvent: keyof IPlatformEventMap,
-        requestOptions: Partial<ILedgerApiRequestOptions> = {}
+        requestOptions?: Partial<ILedgerApiRequestOptions>
     ): Promise<R> {
-        // TODO: Do we need to stop / start polling here? Get's slightly complicated in that
-        // the Ethereum app settings polling uses this function.
+        return new Promise((resolve, reject) => {
+            const options: ILedgerApiRequestOptions = { ...DEFAULT_LEDGER_API_REQUEST_OPTIONS, ...requestOptions }
 
-        const { timeout, pollingInterval } = { ...DEFAULT_LEDGER_API_REQUEST_OPTIONS, ...requestOptions }
-        const iterationCount = timeout / pollingInterval
+            callback()
 
-        callback()
-
-        let returnValue: R | undefined = undefined
-
-        Platform.onEvent(responseEvent, (value) => {
-            returnValue = <R>value
-        })
-
-        for (let count = 0; count < iterationCount; count++) {
-            if (returnValue) {
+            const onDestroyListener = (): void => {
+                if (options.shouldClosePopup) {
+                    closeProfileAuthPopup({ forceClose: true })
+                }
                 Platform.removeListenersForEvent(responseEvent)
-                return returnValue
             }
-            await sleep(pollingInterval)
-        }
 
-        Platform.removeListenersForEvent(responseEvent)
-        return Promise.reject(localize('error.ledger.timeout'))
+            const timeoutId = setTimeout(() => {
+                onDestroyListener()
+                reject(localize('error.ledger.timeout'))
+            }, options.timeout)
+
+            Platform.onEvent(responseEvent, (value) => {
+                onDestroyListener()
+                clearTimeout(timeoutId)
+                resolve(<R>value)
+            })
+        })
     }
 
     private static userEnablesBlindSigning(): Promise<void> {

@@ -13,7 +13,7 @@ export interface IPersistedProfile {
     name: string
     type: ProfileType
     network: IPersistedNetwork
-    lastStrongholdBackupTime: Date
+    lastStrongholdBackupTime?: Date
     settings: IProfileSettings
     accountPersistedData: {
         [accountId: string]: IPersistedAccountData

@@ -4,5 +4,5 @@ import { profileManager } from '../stores'
 
 export async function startBackgroundSync(options?: SyncOptions, interval?: number): Promise<void> {
     const manager = get(profileManager)
-    await manager.startBackgroundSync(options, interval)
+    await manager?.startBackgroundSync(options, interval)
 }

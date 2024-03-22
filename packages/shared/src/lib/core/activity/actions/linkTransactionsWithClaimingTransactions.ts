@@ -1,6 +1,5 @@
 import { IAccountState } from '@core/account'
 import { addClaimedActivity, claimedActivities } from '@core/activity/stores'
-import { activeProfileId } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { ActivityDirection } from '../enums'
 import { IProcessedTransaction } from '../types'
@@ -15,12 +14,13 @@ import { isOutputAsync } from '../utils/outputs'
  */
 export function linkTransactionsWithClaimingTransactions(
     transactions: IProcessedTransaction[],
-    account: IAccountState
+    account: IAccountState,
+    profileId: string
 ): IProcessedTransaction[] {
-    const resultingTransactions = []
+    const resultingTransactions: IProcessedTransaction[] = []
     const transactionsIncludedAsClaimingTransactions: string[] = []
 
-    const claimedAccountActivities = get(claimedActivities)?.[get(activeProfileId)]?.[account.index]
+    const claimedAccountActivities = get(claimedActivities)?.[profileId]?.[account.index]
     const sortedTransactions = transactions.sort((t1, t2) => (t1.time > t2.time ? 1 : -1))
     const incomingAsyncTransactions: IProcessedTransaction[] = []
     for (const transaction of sortedTransactions) {
@@ -80,7 +80,7 @@ export function linkTransactionsWithClaimingTransactions(
 function searchClaimedTransactionInIncomingAsyncTransactions(
     allAsyncTransaction: IProcessedTransaction[],
     transaction: IProcessedTransaction
-): IProcessedTransaction {
+): IProcessedTransaction | undefined {
     return allAsyncTransaction.find((candidate) =>
         transaction.utxoInputs?.some((input) => input?.transactionId === candidate?.transactionId)
     )

@@ -6,7 +6,6 @@
         TERMS_OF_SERVICE_VERSION,
         needsToAcceptLatestPrivacyPolicy,
         needsToAcceptLatestTermsOfService,
-        openUrlInBrowser,
     } from '@core/app'
     import { lastAcceptedPrivacyPolicy, lastAcceptedTermsOfService } from '@core/app/stores'
     import { localize } from '@core/i18n'
@@ -17,14 +16,6 @@
     let checked = false
     const tos = needsToAcceptLatestTermsOfService()
     const privacyPolicy = needsToAcceptLatestPrivacyPolicy()
-
-    function onTermsOfServiceClick(): void {
-        openUrlInBrowser(TERMS_OF_SERVICE_URL)
-    }
-
-    function onPrivacyPolicyClick(): void {
-        openUrlInBrowser(PRIVACY_POLICY_URL)
-    }
 
     function onConfirmClick(): void {
         if (tos) {
@@ -71,19 +62,9 @@
         <div slot="label" class="flex flex-col">
             <Text type="body2" fontWeight="medium">{localize('views.onboarding.welcome.legalAction')}</Text>
             <div class="flex">
-                <Link
-                    on:click={onPrivacyPolicyClick}
-                    text={localize('general.privacyPolicy')}
-                    textType="body2"
-                    external
-                />
+                <Link href={PRIVACY_POLICY_URL} text={localize('general.privacyPolicy')} textType="body2" external />
                 <Text type="body2" fontWeight="medium">&nbsp&&nbsp</Text>
-                <Link
-                    on:click={onTermsOfServiceClick}
-                    text={localize('general.termsOfService')}
-                    textType="body2"
-                    external
-                />
+                <Link href={TERMS_OF_SERVICE_URL} text={localize('general.termsOfService')} textType="body2" external />
             </div>
         </div>
     </Checkbox>

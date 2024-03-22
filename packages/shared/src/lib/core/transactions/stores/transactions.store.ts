@@ -1,7 +1,6 @@
 import { IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
 import { EvmNetworkId } from '@core/network'
 import { IChain } from '@core/network/interfaces'
-import { activeProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
 import { LocalEvmTransaction, PersistedTransaction } from '../types/'
@@ -47,7 +46,7 @@ export function addLocalTransactionToPersistedTransaction(
             state[profileId][accountIndex][networkId] = {}
         }
 
-        const _transactions = state[get(activeProfileId)][accountIndex][networkId] ?? {}
+        const _transactions = state[profileId][accountIndex][networkId] ?? {}
         for (const transaction of newTransactions) {
             const existingTransaction = _transactions?.[transaction.transactionHash.toLowerCase()]
             const updatedTransaction: PersistedTransaction = {
@@ -56,7 +55,7 @@ export function addLocalTransactionToPersistedTransaction(
             }
             _transactions[transaction.transactionHash.toLowerCase()] = updatedTransaction
         }
-        state[get(activeProfileId)][accountIndex][networkId] = _transactions
+        state[profileId][accountIndex][networkId] = _transactions
 
         return state
     })
@@ -81,7 +80,7 @@ export function addBlockscoutTransactionToPersistedTransactions(
             state[profileId][accountIndex][networkId] = {}
         }
 
-        const _transactions = state[get(activeProfileId)][accountIndex][networkId] ?? {}
+        const _transactions = state[profileId][accountIndex][networkId] ?? {}
         for (const transaction of newTransactions) {
             const existingTransaction = _transactions?.[transaction.hash.toLowerCase()]
             const updatedTransaction: PersistedTransaction = {
@@ -90,7 +89,7 @@ export function addBlockscoutTransactionToPersistedTransactions(
             }
             _transactions[transaction.hash.toLowerCase()] = updatedTransaction
         }
-        state[get(activeProfileId)][accountIndex][networkId] = _transactions
+        state[profileId][accountIndex][networkId] = _transactions
 
         return state
     })
@@ -115,7 +114,7 @@ export function addBlockscoutTokenTransferToPersistedTransactions(
             state[profileId][accountIndex][networkId] = {}
         }
 
-        const _transactions = state[get(activeProfileId)][accountIndex][networkId] ?? {}
+        const _transactions = state[profileId][accountIndex][networkId] ?? {}
         for (const tokenTransfer of newTokenTransfers) {
             const existingTransaction = _transactions?.[tokenTransfer.tx_hash.toLowerCase()]
             const updatedTransaction: PersistedTransaction = {
@@ -124,7 +123,7 @@ export function addBlockscoutTokenTransferToPersistedTransactions(
             }
             _transactions[tokenTransfer.tx_hash.toLowerCase()] = updatedTransaction
         }
-        state[get(activeProfileId)][accountIndex][networkId] = _transactions
+        state[profileId][accountIndex][networkId] = _transactions
 
         return state
     })

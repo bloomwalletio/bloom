@@ -12,18 +12,15 @@ export const shimmerClaimingTransactions: Writable<IShimmerClaimingTransactionSt
     {}
 )
 
-export function isShimmerClaimingTransaction(transactionId: string, profileId?: string): boolean {
-    const _shimmerClaimingTransactions = get(shimmerClaimingTransactions)
-    profileId = profileId ? profileId : get(onboardingProfile)?.id
-    return !!_shimmerClaimingTransactions?.[profileId]?.[transactionId]
-}
-
-export function persistShimmerClaimingTransaction(transactionId: string, profileId?: string): void {
+export function persistShimmerClaimingTransaction(transactionId: string): void {
     if (!transactionId) {
         throw new MissingTransactionIdError()
     }
+    const profileId = get(onboardingProfile)?.id
+    if (!profileId) {
+        throw new Error('Missing onboarding profile!')
+    }
 
-    profileId = profileId ? profileId : get(onboardingProfile)?.id
     shimmerClaimingTransactions.update((_shimmerClaimingTransactions) => {
         if (profileId in _shimmerClaimingTransactions) {
             _shimmerClaimingTransactions[profileId][transactionId] = true
@@ -36,7 +33,9 @@ export function persistShimmerClaimingTransaction(transactionId: string, profile
 
 export function removePersistedShimmerClaimingTransactions(profileId?: string): void {
     profileId = profileId ? profileId : get(onboardingProfile)?.id
-    const _shimmerClaimingTransactions = get(shimmerClaimingTransactions)
-    delete _shimmerClaimingTransactions[profileId]
-    shimmerClaimingTransactions.set(_shimmerClaimingTransactions)
+    if (profileId) {
+        const _shimmerClaimingTransactions = get(shimmerClaimingTransactions)
+        delete _shimmerClaimingTransactions[profileId]
+        shimmerClaimingTransactions.set(_shimmerClaimingTransactions)
+    }
 }

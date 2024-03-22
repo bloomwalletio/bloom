@@ -4,14 +4,17 @@ import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile/constants'
 import { IOnboardingProfile } from '../interfaces'
 
 export function convertOnboardingProfileToPersistedProfile(
-    onboardingProfile: Partial<IOnboardingProfile>
+    onboardingProfile?: Partial<IOnboardingProfile>
 ): IPersistedProfile {
+    if (!onboardingProfile?.network) {
+        throw new Error('Network is undefined!')
+    }
     return {
         ...structuredClone(DEFAULT_PERSISTED_PROFILE_OBJECT),
         ...(onboardingProfile?.id && { id: onboardingProfile.id }),
         ...(onboardingProfile?.name && { name: onboardingProfile.name }),
-        ...(onboardingProfile?.type && { type: onboardingProfile.type }),
         ...(onboardingProfile?.network && { network: onboardingProfile.network }),
+        ...(onboardingProfile?.type && { type: onboardingProfile.type }),
         ...(onboardingProfile?.lastStrongholdBackupTime && {
             lastStrongholdBackupTime: onboardingProfile.lastStrongholdBackupTime,
         }),

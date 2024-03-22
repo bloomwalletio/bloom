@@ -35,6 +35,7 @@ import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
 import { ITransakWindowData } from '@core/app/interfaces'
+import { IError } from '@core/error'
 
 export let appIsReady = false
 
@@ -45,7 +46,7 @@ initialiseDeepLinks()
  * NOTE: Ignored because defined by Webpack.
  */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-ignore
+// @ts-expect-error
 app.setAppUserModelId(APP_ID)
 
 /**
@@ -57,7 +58,7 @@ if (
     argv.includes('inspect') ||
     argv.includes('remote') ||
     /* eslint-disable @typescript-eslint/ban-ts-comment */
-    // @ts-ignore
+    // @ts-expect-error
     typeof v8debug !== 'undefined' ||
     flagBlocklist.some((flag) => app.commandLine.hasSwitch(flag))
 ) {
@@ -233,11 +234,11 @@ export function createMainWindow(): BrowserWindow {
 
     /**
      * `will-navigate` is emitted whenever window.location is updated.
-     *  This happens e.g. when clicking on a link (<a href="www.iota.org").
-     *  The handler only allows navigation to an external browser.
+     *  Navigation to an external browser happens through open-external-url event.
+     *  For security reasons we prevent any navigation through this event.
      */
-    windows.main.webContents.on('will-navigate', (a, b) => {
-        tryOpenExternalUrl(a as unknown as Event, b)
+    windows.main.webContents.on('will-navigate', (e) => {
+        e.preventDefault()
     })
 
     windows.main.on('close', () => {
@@ -252,7 +253,7 @@ export function createMainWindow(): BrowserWindow {
     })
 
     windows.main.webContents.on('did-finish-load', () => {
-        windows.main.webContents.send('version-details', versionDetails)
+        windows.main?.webContents?.send?.('version-details', versionDetails)
     })
 
     /**
@@ -268,7 +269,7 @@ export function createMainWindow(): BrowserWindow {
 
     windows.main.webContents.setWindowOpenHandler((details) => {
         try {
-            windows.main.webContents.send('try-open-url-in-browser', details.url)
+            windows.main?.webContents?.send?.('try-open-url-in-browser', details.url)
         } catch (err) {
             console.error(err)
         }
@@ -310,23 +311,23 @@ ipcMain.on('start-ledger-process', () => {
             const { method, payload, error } = message
 
             if (error) {
-                windows.main.webContents.send('ledger-error', error)
+                windows.main?.webContents?.send?.('ledger-error', error)
             } else {
                 switch (method) {
                     case LedgerApiMethod.GenerateEvmAddress:
-                        windows.main.webContents.send('evm-address', payload)
+                        windows.main?.webContents?.send?.('evm-address', payload)
                         break
                     case LedgerApiMethod.GetEthereumAppSettings:
-                        windows.main.webContents.send('ethereum-app-settings', payload)
+                        windows.main?.webContents?.send?.('ethereum-app-settings', payload)
                         break
                     case LedgerApiMethod.SignEvmTransaction:
-                        windows.main.webContents.send('evm-signed-transaction', payload)
+                        windows.main?.webContents?.send?.('evm-signed-transaction', payload)
                         break
                     case LedgerApiMethod.SignMessage:
-                        windows.main.webContents.send('signed-message', payload)
+                        windows.main?.webContents?.send?.('signed-message', payload)
                         break
                     case LedgerApiMethod.SignEIP712:
-                        windows.main.webContents.send('signed-eip712', payload)
+                        windows.main?.webContents?.send?.('signed-eip712', payload)
                         break
                     default:
                         /* eslint-disable-next-line no-console */
@@ -374,8 +375,13 @@ export function getOrInitWindow(windowName: string, ...args: unknown[]): Browser
                 return openAboutWindow()
             case 'error':
                 return openErrorWindow()
-            case 'transak':
-                return transakManager?.openWindow(args[0] as ITransakWindowData)
+            case 'transak': {
+                const transakWindow = transakManager?.openWindow(args[0] as ITransakWindowData)
+                if (transakWindow) {
+                    return transakWindow
+                }
+                break
+            }
             default:
                 throw Error(`Window ${windowName} not found`)
         }
@@ -482,11 +488,16 @@ ipcMain.handle('update-app-settings', (_e, settings) => updateSettings(settings)
 
 // Theme
 nativeTheme.on('updated', () => {
-    windows.main.webContents.send('native-theme-updated')
+    windows.main?.webContents?.send?.('native-theme-updated')
 })
 
 ipcMain.handle('get-theme', () => nativeTheme.themeSource)
-ipcMain.handle('update-theme', (_e, theme) => (nativeTheme.themeSource = theme))
+ipcMain.handle('update-theme', (_e, theme) => {
+    nativeTheme.themeSource = theme
+    if (features?.buySell?.enabled) {
+        windows.main?.webContents?.send?.('reset-transak')
+    }
+})
 ipcMain.handle('should-be-dark-mode', () => nativeTheme.shouldUseDarkColors)
 
 /**
@@ -512,8 +523,8 @@ if (!isFirstInstance) {
  * Proxy notification activated to the wallet application
  */
 ipcMain.on('notification-activated', (ev, contextData) => {
-    windows.main.focus()
-    windows.main.webContents.send('notification-activated', contextData)
+    windows.main?.focus?.()
+    windows.main?.webContents?.send?.('notification-activated', contextData)
 })
 
 // Transak
@@ -627,7 +638,12 @@ export function closeErrorWindow(): void {
 
 function windowStateKeeper(windowName: string, settingsFilename: string): IAppState {
     let window: BrowserWindow
-    let windowState: IAppState
+    let windowState = <IAppState>{
+        x: 0,
+        y: 0,
+        width: 1280,
+        height: process.platform === 'win32' ? 720 + 28 : 720,
+    }
 
     function setBounds(): void {
         const settings = <ISettings>loadJsonConfig(settingsFilename)
@@ -635,14 +651,6 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
         if (settings && settings.windowState && settings.windowState[windowName]) {
             windowState = settings.windowState[windowName]
             return
-        }
-
-        // Default
-        windowState = <IAppState>{
-            x: undefined,
-            y: undefined,
-            width: 1280,
-            height: process.platform === 'win32' ? 720 + 28 : 720,
         }
     }
 
@@ -665,7 +673,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
         window = win
         Array.from(['resized', 'moved', 'close']).forEach((event) => {
             /* eslint-disable @typescript-eslint/ban-ts-comment */
-            // @ts-ignore
+            // @ts-expect-error
             win.on(event, saveState)
         })
     }
@@ -716,11 +724,11 @@ function saveJsonConfig(filename: string, data: object): void {
     }
 }
 
-function loadJsonConfig(filename: string): object {
+function loadJsonConfig(filename: string): object | undefined {
     try {
         return JSON.parse(fs.readFileSync(getJsonConfig(filename)).toString())
     } catch (err) {
-        if (!err.message.includes('ENOENT')) {
+        if (!(err as IError).message?.includes('ENOENT')) {
             console.error(err)
         }
     }

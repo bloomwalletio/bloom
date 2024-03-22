@@ -8,6 +8,10 @@ import { StardustActivity } from '@core/activity/types'
 import { IAccountState } from '@core/account'
 
 export async function claimActivity(activity: StardustActivity, account: IAccountState): Promise<void> {
+    if (!activity.outputId) {
+        return
+    }
+
     try {
         if (isActivityHiddenForAccountIndex(account.index, activity.id)) {
             removeActivityFromHiddenActivities(account.index, activity.id)

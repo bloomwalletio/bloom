@@ -90,7 +90,7 @@ export function formatDate(
         timeStyle?: 'full' | 'long' | 'medium' | 'short'
     }
 ): string {
-    return getDateFormatter({ locale: getLocaleFromNavigator(), ...options }).format(date)
+    return getDateFormatter({ locale: getLocaleFromNavigator() ?? undefined, ...options }).format(date)
 }
 
 // We expose the svelte-i18n _ store so that our app has a single API for i18n

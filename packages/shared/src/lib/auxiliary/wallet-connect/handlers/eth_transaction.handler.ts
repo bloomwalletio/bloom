@@ -4,7 +4,7 @@ import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { buildEvmTransactionData } from '@core/layer-2/utils'
 import { EvmTransactionData } from '@core/layer-2'
-import { switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
+import { getBloomError, switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
 import { DappVerification, RpcMethod } from '../enums'
@@ -41,12 +41,7 @@ export async function handleEthTransaction(
             evmTransactionData.gasPrice = gasPrice
             evmTransactionData.gasLimit = gasLimit
         } catch (err) {
-            responseCallback({
-                error: {
-                    message: err.message,
-                    code: 1000,
-                },
-            })
+            responseCallback(getBloomError(err))
             return
         }
     }
@@ -68,6 +63,6 @@ export async function handleEthTransaction(
             },
         })
     } catch (err) {
-        responseCallback({ error: getSdkError(err) })
+        responseCallback(getBloomError(err))
     }
 }
