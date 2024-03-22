@@ -65,7 +65,7 @@
         setTimeout(() => {
             splash = false
             // check if deep link request was received while splash screen was active
-            Platform.DeepLinkManager.checkForDeepLinkRequest()
+            Platform.DeepLinkManager?.checkForDeepLinkRequest()
         }, 3000)
         initAppSettings.set($appSettings)
 
@@ -98,7 +98,7 @@
 
     onDestroy(() => {
         Platform.removeListenersForEvent('deep-link-request')
-        Platform.DeepLinkManager.clearDeepLinkRequest()
+        Platform.DeepLinkManager?.clearDeepLinkRequest()
     })
 </script>
 

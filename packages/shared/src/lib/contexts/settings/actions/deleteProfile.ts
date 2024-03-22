@@ -40,7 +40,7 @@ export async function deleteProfile(): Promise<void> {
          * routed to the welcome screen.
          */
         if (get(profiles).length === 0) {
-            get(routerManager).goToAppContext(AppContext.Onboarding)
+            get(routerManager)?.goToAppContext(AppContext.Onboarding)
         }
     } catch (err) {
         console.error(err)

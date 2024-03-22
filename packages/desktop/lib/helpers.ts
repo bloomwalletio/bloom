@@ -47,7 +47,7 @@ export const getLocalisedMenuItems = (): unknown => ({
 
 export function registerMenuButtons(): void {
     Platform.onEvent('menu-navigate-wallet', () => {
-        get(dashboardRouter).goTo(DashboardRoute.Wallet)
+        get(dashboardRouter)?.goTo(DashboardRoute.Wallet)
     })
     Platform.onEvent('menu-navigate-settings', () => {
         closePopup({ callOnCancel: true })

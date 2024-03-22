@@ -19,7 +19,7 @@ export async function deleteAccount(index: number): Promise<void> {
         await removeLatestAccount()
         removeAccountFromActiveAccounts(index)
         setSelectedAccount(get(visibleActiveAccounts)?.[0]?.index ?? null)
-        get(routerManager).resetRouterForAppContext(AppContext.Dashboard)
+        get(routerManager)?.resetRouterForAppContext(AppContext.Dashboard)
     } catch (err) {
         throw new CannotRemoveAccountError()
     }

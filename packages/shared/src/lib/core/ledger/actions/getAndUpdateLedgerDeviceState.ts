@@ -17,7 +17,7 @@ export async function getAndUpdateLedgerDeviceState(
             const ledgerNanoStatus = await getLedgerNanoStatus(profileManager)
 
             let ethereumAppSettings: ILedgerEthereumAppSettings | undefined
-            if (!ledgerNanoStatus?.connected || ledgerNanoStatus.app?.name === LedgerAppName.Ethereum) {
+            if (!ledgerNanoStatus?.connected || ledgerNanoStatus?.app?.name === LedgerAppName.Ethereum) {
                 // We rely on the Ledger process to throw the error states
                 // Additionally, we also need to save the ethereumAppSettings to know if blind signing is enabled
                 ethereumAppSettings = await Ledger.getEthereumAppSettings()

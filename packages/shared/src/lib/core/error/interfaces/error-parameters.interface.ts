@@ -4,7 +4,7 @@
  */
 export interface IErrorParameters {
     type?: string
-    message: string
+    message?: string
     localizationKey?: string
     localizeMessage?: boolean
     logToConsole?: boolean

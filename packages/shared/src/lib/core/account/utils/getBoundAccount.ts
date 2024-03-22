@@ -1,4 +1,5 @@
 import { IAccount, UnableToGetBoundAccountError } from '@core/account'
+import { IError } from '@core/error'
 import { profileManager as _profileManager, createAccount, getAccount } from '@core/profile-manager'
 
 export async function getBoundAccount(
@@ -16,7 +17,8 @@ export async function getBoundAccount(
         return account
     } catch (err) {
         // TODO: improve error handling for iota-sdk errors after their changes
-        if (err?.type === 'wallet' && /^account\s[\d]*\snot\sfound/gm.test(err?.error) && createAccountsIfNotFound) {
+        const { type, error } = err as IError
+        if (type === 'wallet' && /^account\s[\d]*\snot\sfound/gm.test(error ?? '') && createAccountsIfNotFound) {
             for (let indexToCreateAccount = 0; indexToCreateAccount < accountIndex; indexToCreateAccount++) {
                 const account = await createAccount({}, profileManager)
                 if (account?.getMetadata()?.index === accountIndex) {

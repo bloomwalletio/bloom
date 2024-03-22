@@ -17,7 +17,7 @@
     items={[
         {
             key: localize('general.transactionTime'),
-            value: activity?.time ? formattedTransactionTime : undefined,
+            value: formattedTransactionTime,
         },
         {
             key: isNewVotingPower ? localize('general.newVotingPower') : localize('general.votingPower'),

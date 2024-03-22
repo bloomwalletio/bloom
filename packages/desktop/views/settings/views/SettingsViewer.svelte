@@ -3,7 +3,7 @@
     import { onMount } from 'svelte'
     import { SettingsListForCategory, SettingsSidebar } from './'
 
-    function scrollIntoView(id: string, options = null): void {
+    function scrollIntoView(id: string, options?: ScrollIntoViewOptions): void {
         if (id) {
             const elem = document.getElementById(id)
             if (elem) {

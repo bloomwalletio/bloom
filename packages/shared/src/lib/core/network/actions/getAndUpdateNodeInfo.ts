@@ -3,7 +3,7 @@ import { INodeInfoResponse } from '../interfaces/node-info-response.interface'
 import { setNodeInfo } from '../stores/node-info.store'
 
 export async function getAndUpdateNodeInfo(forwardErrors = false): Promise<INodeInfoResponse | undefined> {
-    let nodeInfoResponse: INodeInfoResponse
+    let nodeInfoResponse: INodeInfoResponse | undefined
     try {
         nodeInfoResponse = await getNodeInfo()
         setNodeInfo(nodeInfoResponse?.nodeInfo)

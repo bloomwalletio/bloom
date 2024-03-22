@@ -12,11 +12,11 @@ import { initialiseProfileManagerFromOnboardingProfile } from './initialiseProfi
 
 export async function migrateStrongholdFromOnboardingProfile(password: string): Promise<void> {
     const profile = get(onboardingProfile)
-    const profileDirectory = await getStorageDirectoryOfProfile(profile?.id)
+    const profileDirectory = await getStorageDirectoryOfProfile(String(profile?.id))
     const secretManagerPath = getSecretManagerPath(profileDirectory)
 
     await copyStrongholdFileToProfileDirectory(profileDirectory, profile?.importFilePath ?? '')
-    updateOnboardingProfile({ strongholdPassword: password, importFilePath: secretManagerPath, importFile: null })
+    updateOnboardingProfile({ strongholdPassword: password, importFilePath: secretManagerPath, importFile: undefined })
 
     if (profile?.strongholdVersion === StrongholdVersion.V2) {
         await api.migrateStrongholdSnapshotV2ToV3(secretManagerPath, password, secretManagerPath, password)

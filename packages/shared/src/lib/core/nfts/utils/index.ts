@@ -1,7 +1,6 @@
 export * from './buildNftFromPersistedErc721Nft'
 export * from './checkIfNftShouldBeDownloaded'
 export * from './composeUrlFromNftUri'
-export * from './convertAndFormatNftMetadata'
 export * from './getFilePathForNft'
 export * from './getNftsFromNftIds'
 export * from './getOwnerOfErc721Nft'

@@ -2,8 +2,8 @@ import { Router, Subrouter } from '@core/router'
 import { get, writable } from 'svelte/store'
 import { CompleteOnboardingRoute } from './complete-onboarding-route.enum'
 
-export const completeOnboardingRoute = writable<CompleteOnboardingRoute>(undefined)
-export const completeOnboardingRouter = writable<CompleteOnboardingRouter>(undefined)
+export const completeOnboardingRoute = writable<CompleteOnboardingRoute | undefined>(undefined)
+export const completeOnboardingRouter = writable<CompleteOnboardingRouter | undefined>(undefined)
 
 export class CompleteOnboardingRouter extends Subrouter<CompleteOnboardingRoute> {
     constructor(parentRouter: Router<unknown>) {
@@ -11,21 +11,17 @@ export class CompleteOnboardingRouter extends Subrouter<CompleteOnboardingRoute>
     }
 
     next(): void {
-        let nextRoute: CompleteOnboardingRoute
-
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case CompleteOnboardingRoute.EnterName:
-                nextRoute = CompleteOnboardingRoute.EnterPin
+                this.setNext(CompleteOnboardingRoute.EnterPin)
                 break
             case CompleteOnboardingRoute.EnterPin:
-                nextRoute = CompleteOnboardingRoute.FinishOnboarding
+                this.setNext(CompleteOnboardingRoute.FinishOnboarding)
                 break
             case CompleteOnboardingRoute.FinishOnboarding:
-                this.parentRouter.next()
+                this.parentRouter?.next()
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

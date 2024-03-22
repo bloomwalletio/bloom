@@ -16,8 +16,8 @@ export function setClipboard(input: string, shouldNotify: boolean = true): boole
             const range = document.createRange()
             range.selectNodeContents(textArea)
             const selection = window.getSelection()
-            selection.removeAllRanges()
-            selection.addRange(range)
+            selection?.removeAllRanges()
+            selection?.addRange(range)
             textArea.setSelectionRange(0, 999999)
         } else {
             textArea.select()

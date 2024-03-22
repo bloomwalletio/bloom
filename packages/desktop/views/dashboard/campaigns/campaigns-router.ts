@@ -16,7 +16,7 @@ export class CampaignsRouter extends Router<CampaignsRoute> {
         if (this.history.length > 0) {
             super.previous()
         } else {
-            get(appRouter).previous()
+            get(appRouter)?.previous()
         }
     }
 

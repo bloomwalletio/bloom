@@ -71,21 +71,17 @@ function convertTransactionOutputResponsesToWrappedOutputs(
     transactionId: string,
     outputResponses: OutputResponse[]
 ): IWrappedOutput[] {
-    return outputResponses.map((outputResponse) =>
-        convertTransactionOutputResponseToWrappedOutput(transactionId, outputResponse)
-    )
+    return outputResponses
+        .filter((outputResponse) => outputResponse.output.type !== OutputType.Treasury)
+        .map((outputResponse) => convertTransactionOutputResponseToWrappedOutput(transactionId, outputResponse))
 }
 
 function convertTransactionOutputResponseToWrappedOutput(
     transactionId: string,
     outputResponse: OutputResponse
-): IWrappedOutput | undefined {
-    if (outputResponse.output.type === OutputType.Treasury) {
-        return undefined
-    } else {
-        const outputId = getOutputIdFromTransactionIdAndIndex(transactionId, outputResponse.metadata.outputIndex)
-        return { outputId, output: outputResponse.output as CommonOutput, metadata: outputResponse.metadata }
-    }
+): IWrappedOutput {
+    const outputId = getOutputIdFromTransactionIdAndIndex(transactionId, outputResponse.metadata.outputIndex)
+    return { outputId, output: outputResponse.output as CommonOutput, metadata: outputResponse.metadata }
 }
 
 function getUtxoInputsFromWrappedInputs(wrappedInputs: IWrappedOutput[]): UTXOInput[] {

@@ -10,7 +10,7 @@
     items={[
         {
             key: localize('general.transactionTime'),
-            value: activity?.time ? getFormattedTimeStamp(activity?.time) : undefined,
+            value: getFormattedTimeStamp(activity?.time),
         },
         {
             key: localize('general.amountConsolidatedInputs'),

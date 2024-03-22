@@ -18,10 +18,10 @@
     import { onMount } from 'svelte'
 
     let details = <IProposalListDetails>{
-        totalProposals: null,
-        activeProposals: null,
-        votingProposals: null,
-        votedProposals: null,
+        totalProposals: 0,
+        activeProposals: 0,
+        votingProposals: 0,
+        votedProposals: 0,
     }
 
     $: isOverviewLoaded = !!$participationOverviewForSelectedAccount
@@ -41,7 +41,7 @@
 
     async function setParticipationOverview(): Promise<void> {
         if (!isOverviewLoaded || getNumberOfVotedProposals() === 0) {
-            await updateParticipationOverview($selectedAccount.index)
+            await updateParticipationOverview($selectedAccount?.index)
         }
     }
 
@@ -51,6 +51,6 @@
 <Table
     items={Object.keys(details).map((key) => ({
         key: localize(`views.governance.proposalsDetails.${key}`),
-        value: details[key] ?? 0,
+        value: details[key],
     }))}
 />

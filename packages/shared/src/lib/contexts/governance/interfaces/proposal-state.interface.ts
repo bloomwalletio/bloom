@@ -3,7 +3,7 @@ import { IOrganization, ProposalError } from '..'
 import { ProposalType } from '../enums'
 
 export interface IProposal extends IProposalMetadata {
-    status?: EventStatus
+    status: EventStatus
 }
 
 export interface IProposalState {
@@ -18,7 +18,7 @@ export interface IRegisteredProposals {
 
 export interface IProposalMetadata {
     id: string
-    milestones?: Record<EventStatus, number>
+    milestones: Record<EventStatus, number>
     organization?: IOrganization
     type: ProposalType
     questions: Question[]

@@ -7,5 +7,5 @@ import { timeStrongholdLastUnlocked } from './timeStrongholdLastUnlocked.store'
 export const timeSinceStrongholdUnlocked = derived(
     [time, timeStrongholdLastUnlocked],
     ([$time, $timeStrongholdLastUnlocked]) =>
-        Math.round(($time?.getTime() - $timeStrongholdLastUnlocked?.getTime()) / 1000) ?? 0
+        Math.round(($time?.getTime() - ($timeStrongholdLastUnlocked?.getTime() ?? 0)) / 1000) ?? 0
 )

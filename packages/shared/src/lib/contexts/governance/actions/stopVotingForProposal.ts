@@ -6,7 +6,10 @@ import { processAndAddToActivities } from '@core/activity/actions'
 import { sendPreparedTransaction } from '@core/wallet'
 import { getActiveNetworkId } from '@core/network'
 
-export async function stopVotingForProposal(eventId: string): Promise<void> {
+export async function stopVotingForProposal(eventId: string | undefined): Promise<void> {
+    if (!eventId) {
+        return
+    }
     try {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()

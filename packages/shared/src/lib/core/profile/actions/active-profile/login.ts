@@ -47,7 +47,7 @@ import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actio
 import { updateCirculatingSupplyForActiveProfile } from './updateCirculatingSupplyForActiveProfile'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
-    const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
+    const loginRouter = get(routerManager)?.getRouterForAppContext(AppContext.Login)
     try {
         const _activeProfile = get(activeProfile)
         const { loggedIn, lastActiveAt, id, isStrongholdLocked, type, lastUsedAccountIndex } = _activeProfile

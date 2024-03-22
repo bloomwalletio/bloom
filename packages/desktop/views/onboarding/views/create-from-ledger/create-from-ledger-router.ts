@@ -11,21 +11,17 @@ export class CreateFromLedgerRouter extends Subrouter<CreateFromLedgerRoute> {
     }
 
     next(): void {
-        let nextRoute: CreateFromLedgerRoute
-
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case CreateFromLedgerRoute.InstallLedger:
-                nextRoute = CreateFromLedgerRoute.ConnectLedger
+                this.setNext(CreateFromLedgerRoute.ConnectLedger)
                 break
             case CreateFromLedgerRoute.LedgerConnectionGuide:
                 this.previous()
                 return
             case CreateFromLedgerRoute.ConnectLedger:
-                this.parentRouter.next()
+                this.parentRouter?.next()
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

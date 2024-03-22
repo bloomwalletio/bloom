@@ -6,8 +6,8 @@ import { api } from '../api'
 import { IProfileManager } from '../interfaces'
 
 export async function initialiseProfileManager(
-    storagePath: string,
-    coinType: CoinType,
+    storagePath?: string,
+    coinType?: CoinType,
     clientOptions?: IClientOptions,
     secretManager?: SecretManagerType,
     id?: string
@@ -15,12 +15,12 @@ export async function initialiseProfileManager(
     id = id ?? generateRandomId()
 
     const profileManager = await api.createWallet(id, {
-        storagePath,
+        ...(storagePath && { storagePath }),
         ...(clientOptions &&
             ((clientOptions?.nodes && clientOptions?.nodes?.length > 0) || clientOptions?.primaryNode) && {
                 clientOptions,
             }),
-        coinType,
+        ...(coinType && { coinType }),
         ...(secretManager && { secretManager }),
     })
     return profileManager

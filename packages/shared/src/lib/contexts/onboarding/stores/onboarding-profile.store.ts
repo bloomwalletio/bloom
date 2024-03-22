@@ -3,10 +3,10 @@ import { IBaseToken } from '@core/token/interfaces'
 import { derived, get, Readable, writable } from 'svelte/store'
 import { IOnboardingProfile, IShimmerClaimingAccount } from '../interfaces'
 
-export const onboardingProfile = writable<Partial<IOnboardingProfile>>(null)
+export const onboardingProfile = writable<Partial<IOnboardingProfile | undefined>>(undefined)
 
 export const isOnboardingLedgerProfile: Readable<boolean> = derived(onboardingProfile, ($onboardingProfile) =>
-    isLedgerProfile($onboardingProfile?.type)
+    $onboardingProfile?.type ? isLedgerProfile($onboardingProfile.type) : false
 )
 
 export function updateOnboardingProfile(payload: Partial<IOnboardingProfile>): void {
@@ -29,6 +29,6 @@ export function updateShimmerClaimingAccount(shimmerClaimingAccount: IShimmerCla
     updateOnboardingProfile({ shimmerClaimingAccounts })
 }
 
-export function getOnboardingBaseToken(): IBaseToken {
+export function getOnboardingBaseToken(): IBaseToken | undefined {
     return get(onboardingProfile)?.network?.baseToken
 }

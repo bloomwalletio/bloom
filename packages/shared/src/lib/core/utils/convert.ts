@@ -2,7 +2,6 @@ import { BigIntLike, bytesToBigInt } from '@ethereumjs/util'
 
 import { HEX_PREFIX, MILLISECONDS_PER_SECOND } from './constants'
 import { isValidDate } from './date'
-import { Base64 } from './encode'
 import { isScientificNotation } from './number'
 
 /**
@@ -248,7 +247,7 @@ export class Converter {
      * @returns A binary string of the bytes.
      */
     public static bytesToBinary(bytes: Uint8Array): string {
-        const b = []
+        const b: string[] = []
         for (let i = 0; i < bytes.length; i++) {
             b.push(bytes[i].toString(2).padStart(8, '0'))
         }
@@ -266,24 +265,6 @@ export class Converter {
             bytes[i] = Number.parseInt(binary.slice(i * 8, (i + 1) * 8), 2)
         }
         return bytes
-    }
-
-    /**
-     * Convert bytes to base64 string.
-     * @param bytes The bytes to convert.
-     * @returns A base64 string of the bytes.
-     */
-    public static bytesToBase64(bytes: Uint8Array): string {
-        return Base64.encode(bytes)
-    }
-
-    /**
-     * Convert a base64 string to bytes.
-     * @param base64 The base64 string.
-     * @returns The bytes.
-     */
-    public static base64ToBytes(base64: string): Uint8Array {
-        return Base64.decode(base64)
     }
 
     /**
