@@ -2138,7 +2138,10 @@
         "buySell": "Buy IOTA",
         "developer": "Developer",
         "tokens": "Tokens",
-        "settings": "Settings"
+        "settings": "Settings",
+        "tooltips": {
+            "buySell": "Buying IOTA is only available in IOTA profiles. Create a new profile or log in to an existing one."
+        }
     },
     "pills": {
         "asyncStatus": {

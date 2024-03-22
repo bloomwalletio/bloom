@@ -1,21 +1,31 @@
 <script lang="ts">
-    import { Icon, IconName, Indicator, Text } from '@bloomwalletio/ui'
+    import { Icon, IconName, Indicator, Text, Tooltip } from '@bloomwalletio/ui'
     import { IDashboardSidebarTab, ISettingsSidebarTab } from '@desktop/routers'
 
     export let tab: IDashboardSidebarTab | ISettingsSidebarTab = undefined
     export let selected: boolean = false
     export let expanded: boolean = true
+    export let disabled: boolean = false
+    export let tooltip: string = ''
 
     let hover = false
+    let buttonElement: HTMLButtonElement
 
     function onClick(): void {
         tab?.onClick()
     }
 </script>
 
-<button class:selected on:click={onClick} on:mouseenter={() => (hover = true)} on:mouseleave={() => (hover = false)}>
+<button
+    bind:this={buttonElement}
+    class:selected
+    on:click={onClick}
+    on:mouseenter={() => (hover = true)}
+    on:mouseleave={() => (hover = false)}
+    {disabled}
+>
     <div class="flex flex-row items-center relative space-x-4">
-        <Icon name={tab?.icon} textColor={selected ? 'brand' : 'primary'} />
+        <Icon name={tab?.icon} textColor={disabled ? 'secondary' : selected ? 'brand' : 'primary'} />
         {#if tab?.notificationType}
             <Indicator
                 size="sm"
@@ -25,13 +35,16 @@
             />
         {/if}
         {#if expanded}
-            <Text textColor={selected ? 'brand' : 'primary'}>{tab.label}</Text>
+            <Text textColor={disabled ? 'secondary' : selected ? 'brand' : 'primary'}>{tab.label}</Text>
         {/if}
     </div>
     {#if (selected || hover) && expanded}
         <Icon name={IconName.ChevronRight} textColor={selected ? 'brand' : 'primary'} />
     {/if}
 </button>
+{#if tooltip}
+    <Tooltip anchor={buttonElement} placement="right" text={tooltip} event="hover" />
+{/if}
 
 <style lang="postcss">
     button {
