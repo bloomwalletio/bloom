@@ -20,7 +20,7 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
         this.userDataPath = app.getPath('userData')
 
         this.removeHandlers()
-        ipcMain.handle('get-data-from-third-party-app', (_e, name) => this.getDataFromApp(name))
+        ipcMain.handle('get-data-from-third-party-app', async (_e, name) => await this.getDataFromApp(name))
         ipcMain.handle('copy-third-party-profile', (_e, name, profileId) => this.copyProfileDirectory(name, profileId))
     }
 
