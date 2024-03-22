@@ -16,7 +16,4 @@ export interface IWalletFeatures extends IFeatureFlag {
     portfolio: {
         filter: IFeatureFlag
     }
-    smartContracts: {
-        infuraRegistry: IFeatureFlag
-    }
 }
