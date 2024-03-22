@@ -8,6 +8,10 @@ export async function checkAndUpdateActiveProfileNetwork(): Promise<void> {
     const $activeProfile = get(activeProfile)
     const existingNetwork = $activeProfile?.network
     const nodeInfoResponse = await getAndUpdateNodeInfo(true)
+    if (!nodeInfoResponse) {
+        return
+    }
+
     const network = buildPersistedNetworkFromNodeInfoResponse(nodeInfoResponse, existingNetwork.coinType)
     if (existingNetwork?.id === network.id) {
         network.chainConfigurations = $activeProfile.network?.chainConfigurations || []

@@ -6,7 +6,7 @@ export const claimedActivities = persistent<IClaimedActivitiesPerProfile>('claim
 
 export function addClaimedActivity(
     accountIndex: number,
-    transactionId: string,
+    transactionId: string | undefined,
     claimedActivity: IClaimedActivities
 ): void {
     claimedActivities.update((state) => {
@@ -21,7 +21,10 @@ export function addClaimedActivity(
         if (!state[profileId][accountIndex]) {
             state[profileId][accountIndex] = {}
         }
-        state[profileId][accountIndex][transactionId] = claimedActivity
+
+        if (transactionId) {
+            state[profileId][accountIndex][transactionId] = claimedActivity
+        }
         return state
     })
 }

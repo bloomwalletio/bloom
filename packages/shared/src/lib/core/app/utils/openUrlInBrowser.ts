@@ -41,9 +41,9 @@ export function openUrlInBrowser(targetUrl: string | undefined): void {
     }
 }
 
-function openHttpsUrlsOnly(protocol: string, targetUrl: string): void {
-    if (protocol === 'https:') {
-        Platform.openUrl(targetUrl)
+function openHttpsUrlsOnly(protocol: string, targetUrl: string | undefined): void {
+    if (targetUrl && protocol === 'https:') {
+        void Platform.openUrl(targetUrl)
     } else {
         showNotification({
             variant: 'error',

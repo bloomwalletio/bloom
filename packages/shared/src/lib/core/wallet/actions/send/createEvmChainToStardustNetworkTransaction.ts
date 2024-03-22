@@ -14,6 +14,7 @@ import { getAmountAndTokenFromSendFlowParameters } from '../../utils'
 import { TokenStandard } from '@core/token/enums'
 import { IIrc27Nft } from '@core/nfts'
 import { getTokenBalance } from '@core/token/actions'
+import { IError } from '@core/error'
 
 export async function createEvmChainToStardustNetworkTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -78,7 +79,8 @@ export async function createEvmChainToStardustNetworkTransaction(
                 : evmTransactionData.gasLimit
         return evmTransactionData
     } catch (err) {
-        if (err.message && err.message.includes(EvmErrorMessage.RequireMoreGas)) {
+        const error = err as IError
+        if (error.message && error.message.includes(EvmErrorMessage.RequireMoreGas)) {
             throw new Error(localize('error.send.insufficientFundsGasFee'))
         } else {
             throw err

@@ -3,8 +3,8 @@ import { writable } from 'svelte/store'
 import { Router } from '../classes'
 import { CollectiblesRoute } from '../enums'
 
-export const collectiblesRouter = writable<CollectiblesRouter>(null)
-export const collectiblesRoute = writable<CollectiblesRoute>(null)
+export const collectiblesRouter = writable<CollectiblesRouter | undefined>(undefined)
+export const collectiblesRoute = writable<CollectiblesRoute | undefined>(undefined)
 
 export class CollectiblesRouter extends Router<CollectiblesRoute> {
     protected breadcrumb: string | undefined

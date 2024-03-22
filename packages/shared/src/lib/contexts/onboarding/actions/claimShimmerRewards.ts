@@ -20,6 +20,7 @@ import {
     persistShimmerClaimingTransaction,
     updateShimmerClaimingAccount,
 } from '../stores'
+import { IError } from '@core/error'
 
 export async function claimShimmerRewards(): Promise<void> {
     const shimmerClaimingAccounts = get(onboardingProfile)?.shimmerClaimingAccounts
@@ -39,16 +40,17 @@ async function claimShimmerRewardsForShimmerClaimingAccounts(
             })
             await claimShimmerRewardsForShimmerClaimingAccount(shimmerClaimingAccount)
         } catch (err) {
+            const error = err as IError
             updateShimmerClaimingAccount({
                 ...shimmerClaimingAccount,
                 state: ShimmerClaimingAccountState.Failed,
             })
             if (get(isOnboardingLedgerProfile)) {
-                handleLedgerError(err?.error ?? err)
+                handleLedgerError(error)
             } else {
                 logAndNotifyError({
                     type: 'error',
-                    message: err,
+                    message: error?.message,
                     localizationKey: 'notifications.claimShimmerRewards.error',
                     logToConsole: true,
                     saveToErrorLog: true,

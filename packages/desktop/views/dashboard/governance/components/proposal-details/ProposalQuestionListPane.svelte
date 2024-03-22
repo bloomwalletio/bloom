@@ -74,7 +74,7 @@
         const hasVoted = lastAction === 'vote' && areSelectedAndVotedAnswersEqual
         const hasStoppedVoting = lastAction === 'stopVote' && !areSelectedAndVotedAnswersEqual
         if (hasVoted || hasStoppedVoting) {
-            isUpdatingVotedAnswerValues = hasGovernanceTransactionInProgress
+            isUpdatingVotedAnswerValues = Boolean(hasGovernanceTransactionInProgress)
         }
     }
 
@@ -109,7 +109,7 @@
     }
 
     function setVotedAnswerValues(): void {
-        let lastActiveOverview: TrackedParticipationOverview
+        let lastActiveOverview: TrackedParticipationOverview | undefined
         switch ($selectedParticipationEventStatus?.status) {
             case EventStatus.Commencing:
                 lastActiveOverview = trackedParticipations?.find((overview) => overview.endMilestoneIndex === 0)
@@ -127,7 +127,7 @@
     }
 
     function onQuestionClick(questionIndex: number): void {
-        openedQuestionIndex = questionIndex === openedQuestionIndex ? null : questionIndex
+        openedQuestionIndex = questionIndex === openedQuestionIndex ? 0 : questionIndex
     }
 
     function onStopVotingClick(): void {
@@ -153,7 +153,7 @@
 
         openedQuestionIndex = questionIndex + 1
 
-        const selectedQuestionElement: HTMLElement = proposalQuestions?.querySelector(
+        const selectedQuestionElement: HTMLElement | null = proposalQuestions?.querySelector(
             `proposal-question:nth-child(${openedQuestionIndex})`
         )
         setTimeout(() => {
@@ -201,7 +201,7 @@
                     isLoading={!overviewLoaded || !statusLoaded}
                     selectedAnswerValue={selectedAnswerValues[questionIndex]}
                     votedAnswerValue={votedAnswerValues[questionIndex]}
-                    answerStatuses={$selectedParticipationEventStatus?.questions[questionIndex]?.answers}
+                    answerStatuses={$selectedParticipationEventStatus?.questions?.[questionIndex]?.answers}
                     {onQuestionClick}
                     {onAnswerClick}
                     {projected}

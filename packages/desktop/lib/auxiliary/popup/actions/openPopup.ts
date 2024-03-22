@@ -5,7 +5,7 @@ import { modifyPopupState } from './modifyPopupState'
 export function openPopup(
     {
         id,
-        props = null,
+        props = undefined,
         hideClose = false,
         preventClose = false,
         transition = undefined,

@@ -4,7 +4,7 @@
     import { IBaseToken } from '@core/token'
 
     export let shimmerClaimingAccounts: IShimmerClaimingAccount[]
-    export let baseToken: IBaseToken
+    export let baseToken: IBaseToken | undefined
 </script>
 
 {#if shimmerClaimingAccounts && shimmerClaimingAccounts?.length > 0}

@@ -32,7 +32,7 @@ describe('File: utils.ts', () => {
             expect(range(10, -10)).toEqual([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1])
         })
         it('should create empty ranges from invalid arguments', () => {
-            // @ts-ignore
+            // @ts-expect-error
             expect(range(2, 'string')).toEqual([0, 1])
             expect(range(undefined)).toEqual([])
             expect(range(undefined, undefined)).toEqual([])

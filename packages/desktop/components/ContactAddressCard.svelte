@@ -41,7 +41,7 @@
         })
         resetLedgerPreparedOutput()
         resetShowInternalVerificationPopup()
-        sendFlowRouter.set(new SendFlowRouter(undefined))
+        sendFlowRouter.set(new SendFlowRouter())
         closeDrawer()
         openPopup({
             id: PopupId.SendFlow,

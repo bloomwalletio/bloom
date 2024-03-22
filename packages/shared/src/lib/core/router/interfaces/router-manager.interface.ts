@@ -7,6 +7,6 @@ export interface IRouterManager {
     getRouterForAppContext(context: AppContext): IRouter
     goToAppContext(context: AppContext): void
     openSettings(): void
-    resetRouterForAppContext(context: AppContext, resetSubrouters?: boolean): void
+    resetRouterForAppContext(context: AppContext): void
     resetRouters(): void
 }

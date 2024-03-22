@@ -14,7 +14,7 @@ import { deriveShimmerClaimingAccountState } from './deriveShimmerClaimingAccoun
 
 export async function prepareShimmerClaimingAccount(
     account: IAccount,
-    twinAccount?: IAccount,
+    twinAccount: IAccount,
     syncAccounts?: boolean,
     state?: ShimmerClaimingAccountState,
     claimingTransaction?: Transaction

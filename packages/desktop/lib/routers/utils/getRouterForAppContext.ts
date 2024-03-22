@@ -6,7 +6,7 @@ import { dashboardRouter, settingsRouter } from '@core/router/routers'
 import { loginRouter } from '@core/router/subrouters'
 import { onboardingRouter } from '@views/onboarding'
 
-export function getRouterForAppContext(context: AppContext): IRouter {
+export function getRouterForAppContext(context: AppContext): IRouter | undefined {
     switch (context) {
         case AppContext.Dashboard:
             return get(dashboardRouter)
