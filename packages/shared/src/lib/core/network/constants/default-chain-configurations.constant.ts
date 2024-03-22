@@ -3,6 +3,18 @@ import { ChainType, EvmChainId, NetworkNamespace, StardustNetworkId, SupportedNe
 import { ChainConfiguration } from '../types'
 
 export const DEFAULT_CHAIN_CONFIGURATIONS: Readonly<{ [id in StardustNetworkId]?: ChainConfiguration }> = {
+    [SupportedNetworkId.Iota]: {
+        id: SupportedNetworkId.IotaEvm,
+        type: ChainType.Iscp,
+        name: 'IOTA EVM',
+        chainId: EvmChainId.IotaEvm,
+        namespace: NetworkNamespace.Evm,
+        coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.IotaEvm],
+        aliasAddress: 'iota1pzt3mstq6khgc3tl0mwuzk3eqddkryqnpdxmk4nr25re2466uxwm28qqxu5',
+        rpcEndpoint: 'https://json-rpc.evm.iotaledger.net/',
+        apiEndpoint: 'https://api.evm.iotaledger.net/',
+        explorerUrl: 'https://iota-evm.blockscout.com/',
+    },
     [SupportedNetworkId.Shimmer]: {
         id: SupportedNetworkId.ShimmerEvm,
         type: ChainType.Iscp,

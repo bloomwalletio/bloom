@@ -9,6 +9,7 @@ export enum StardustNetworkId {
 }
 
 export enum EvmNetworkId {
+    IotaEvm = `${NetworkNamespace.Evm}:${EvmChainId.IotaEvm}`,
     ShimmerEvm = `${NetworkNamespace.Evm}:${EvmChainId.ShimmerEvm}`,
     TestnetEvm = `${NetworkNamespace.Evm}:${EvmChainId.TestnetEvm}`,
 }
