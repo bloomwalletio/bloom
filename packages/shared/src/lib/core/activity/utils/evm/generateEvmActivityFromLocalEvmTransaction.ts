@@ -45,7 +45,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
         )
         if (transferInfo.type === StardustActivityType.SmartContract) {
             const data = String(transaction.data ?? '')
-            const [method, parameters] = (await getMethodForEvmTransaction(data)) ?? []
+            const [method, parameters] = getMethodForEvmTransaction(data) ?? []
             return {
                 ...baseActivity,
                 type: EvmActivityType.ContractCall,
