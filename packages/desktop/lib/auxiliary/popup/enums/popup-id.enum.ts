@@ -17,6 +17,7 @@ export enum PopupId {
     Diagnostics = 'diagnostics',
     ErrorLog = 'errorLog',
     EvmTransactionFromDapp = 'EvmTransactionFromDapp',
+    ExportActivities = 'ExportActivities',
     FaucetRequest = 'faucetRequest',
     ImportErc20Token = 'importErc20Token',
     ImportErc721Token = 'importErc721Token',
