@@ -1,7 +1,8 @@
 <script lang="ts">
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { PopupId, openPopup } from '../../lib/auxiliary/popup'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import features from '@features/features'
 
     let menu: Menu | undefined = undefined
 
@@ -11,17 +12,22 @@
         })
         menu?.close()
     }
+
+    const items = [
+        ...(features.wallet.activityHistory.exportCsv.enabled
+            ? [
+                  {
+                      icon: IconName.Download,
+                      title: localize('actions.export'),
+                      onClick: onExportActivitiesClick,
+                  },
+              ]
+            : []),
+    ]
 </script>
 
-<activity-list-menu>
-    <Menu
-        bind:this={menu}
-        items={[
-            {
-                icon: IconName.Download,
-                title: localize('actions.export'),
-                onClick: onExportActivitiesClick,
-            },
-        ]}
-    />
-</activity-list-menu>
+{#if items.length}
+    <activity-list-menu>
+        <Menu bind:this={menu} {items} />
+    </activity-list-menu>
+{/if}
