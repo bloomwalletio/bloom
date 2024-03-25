@@ -1,22 +1,29 @@
 import { IAccountState } from '@core/account/interfaces'
-import { IChain, NetworkNamespace } from '@core/network'
-import { EvmTokenTransferActivity } from '../../types'
+import { EvmNetworkId, IChain, NetworkNamespace } from '@core/network'
+import { BaseEvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } from '../../types'
 import { IBlockscoutTransaction } from '@auxiliary/blockscout'
 import { ActivityAction, ActivityDirection, InclusionState } from '@core/activity/enums'
 import { getAddressFromAccountForNetwork } from '@core/account'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { EvmActivityType } from '@core/activity/enums/evm'
-import { TokenStandard } from '@core/token'
+import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
-import { BlockscoutTokenTransfer, isBlockscoutErc721Transfer } from '@auxiliary/blockscout/types'
+import {
+    BlockscoutTokenTransfer,
+    isBlockscoutErc20Transfer,
+    isBlockscoutErc721Transfer,
+} from '@auxiliary/blockscout/types'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { isNftPersisted, persistErc721Nft } from '@core/nfts/actions'
+import { BASE_TOKEN_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 
-export function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
+export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
     blockscoutTokenTransfer: BlockscoutTokenTransfer,
     blockscoutTransaction: IBlockscoutTransaction | undefined,
     chain: IChain,
     account: IAccountState
-): EvmTokenTransferActivity | undefined {
+): Promise<EvmTokenTransferActivity | EvmCoinTransferActivity | undefined> {
     const networkId = chain.getConfiguration().id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === blockscoutTokenTransfer.to.hash.toLowerCase()
@@ -33,28 +40,28 @@ export function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
         ? calculateGasFeeInGlow(blockscoutTransaction.gas_used ?? 0, blockscoutTransaction.gas_price)
         : undefined
 
-    const tokenId = isBlockscoutErc721Transfer(blockscoutTokenTransfer)
-        ? `${blockscoutTokenTransfer.token.address.toLowerCase()}:${blockscoutTokenTransfer.total.token_id}`
-        : blockscoutTokenTransfer.token.address.toLowerCase()
-    const rawAmount = isBlockscoutErc721Transfer(blockscoutTokenTransfer)
-        ? BigInt(1)
-        : BigInt(blockscoutTokenTransfer.total.value ?? 0)
-
-    const tokenTransfer = {
-        standard: blockscoutTokenTransfer.token.type.replace('-', '') as
-            | TokenStandard.Erc20
-            | TokenStandard.Irc30
-            | NftStandard.Irc27
-            | NftStandard.Erc721,
-        tokenId,
-        rawAmount,
+    let tokenId: string | undefined
+    let rawAmount: bigint | undefined
+    if (isBlockscoutErc721Transfer(blockscoutTokenTransfer)) {
+        const address = blockscoutTokenTransfer.token.address.toLowerCase()
+        const tokenIndex = blockscoutTokenTransfer.total.token_id
+        tokenId = `${address}:${tokenIndex}`
+        rawAmount = BigInt(1)
+        if (!isNftPersisted(tokenId)) {
+            await persistErc721Nft(address, tokenIndex, networkId)
+        }
+    } else if (isBlockscoutErc20Transfer(blockscoutTokenTransfer)) {
+        tokenId = blockscoutTokenTransfer.token.address.toLowerCase()
+        rawAmount = BigInt(blockscoutTokenTransfer.total.value ?? 0)
+        await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
     }
 
-    // For native token transfers on L2, gasUsed is 0. Therefore we fallback to the estimatedGas
-    // https://discord.com/channels/397872799483428865/930642258427019354/1168854453005332490
-    return {
+    if (!tokenId || !rawAmount) {
+        return
+    }
+
+    const baseActivity: BaseEvmActivity = {
         namespace: NetworkNamespace.Evm,
-        type: EvmActivityType.TokenTransfer,
 
         // meta information
         id: blockscoutTokenTransfer.tx_hash.toLowerCase(),
@@ -75,7 +82,32 @@ export function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
         isInternal,
 
         transactionFee,
+    }
 
-        tokenTransfer,
+    if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS[networkId as EvmNetworkId]) {
+        return {
+            ...baseActivity,
+            type: EvmActivityType.CoinTransfer,
+
+            baseTokenTransfer: {
+                tokenId: BASE_TOKEN_ID,
+                rawAmount,
+            },
+        }
+    }
+
+    return {
+        ...baseActivity,
+        type: EvmActivityType.TokenTransfer,
+
+        tokenTransfer: {
+            standard: blockscoutTokenTransfer.token.type.replace('-', '') as
+                | TokenStandard.Erc20
+                | TokenStandard.Irc30
+                | NftStandard.Irc27
+                | NftStandard.Erc721,
+            tokenId,
+            rawAmount,
+        },
     }
 }
