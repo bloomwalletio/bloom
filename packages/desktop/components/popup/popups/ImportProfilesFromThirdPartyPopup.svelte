@@ -71,7 +71,7 @@
         disabled: disableContinue,
     }}
 >
-    <div class="flex flex-col gap-2 max-h-[392px] overflow-y-scroll">
+    <div class="flex flex-col gap-2 max-h-[392px] overflow-y-auto p-0.5">
         {#if Object.keys($thirdPartyProfiles ?? {}).length > 0}
             {#each Object.entries($thirdPartyProfiles) as [thirdPartyProfileId, thirdPartyProfile]}
                 <ImportProfileTile
@@ -79,8 +79,8 @@
                     appName={thirdPartyProfile?.appName}
                     onClick={() => onSelectedProfileClick(thirdPartyProfileId)}
                     selected={selectedProfiles[thirdPartyProfileId]}
-                    disabled={thirdPartyProfile?.alreadyImported ||
-                        thirdPartyProfile?.needsChrysalisToStardustDbMigration}
+                    alreadyImported={thirdPartyProfile?.alreadyImported}
+                    needsChrysalisToStardustDbMigration={thirdPartyProfile?.needsChrysalisToStardustDbMigration}
                 />
             {/each}
         {:else if $thirdPartyProfiles === undefined}
