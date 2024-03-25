@@ -56,6 +56,10 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
     }
 
+    if (!tokenId || !rawAmount) {
+        return
+    }
+
     const baseActivity: BaseEvmActivity = {
         namespace: NetworkNamespace.Evm,
 
