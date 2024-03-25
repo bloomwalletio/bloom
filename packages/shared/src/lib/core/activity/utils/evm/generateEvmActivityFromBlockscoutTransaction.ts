@@ -83,6 +83,8 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
         verified: blockscoutTransaction.to.is_verified,
         methodId: blockscoutTransaction.decoded_input?.method_id ?? blockscoutTransaction.method, // `method` is the methodId if the inputs cannot be decoded
         method: method,
+        contractAddress: to?.toString().toLowerCase(),
+
         parameters: parameters,
         rawData: blockscoutTransaction.raw_input,
     } as EvmContractCallActivity
@@ -138,6 +140,7 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
             address: blockscoutTransaction.to.hash.toLowerCase(),
             name: blockscoutTransaction.to.name ?? localize('general.smartContract'),
         }
+        baseActivity.contractAddress = blockscoutTransaction.to.hash.toLowerCase()
     }
     if (blockscoutTransaction.from.is_contract) {
         baseActivity.sender = {
