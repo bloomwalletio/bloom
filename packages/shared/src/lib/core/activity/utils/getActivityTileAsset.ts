@@ -9,6 +9,7 @@ import { EvmActivityType } from '../enums/evm'
 import { NftStandard } from '@core/nfts'
 import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 import { BASE_TOKEN_ID } from '@core/token/constants'
+import { localize } from '@core/i18n'
 
 export function getActivityTileAsset(activity: Activity, accountIndex: number): string {
     if (activity.namespace === NetworkNamespace.Stardust) {
@@ -53,16 +54,16 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
                 activity.tokenTransfer.standard === NftStandard.Irc27
             ) {
                 const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.tokenTransfer.tokenId)
-                return nft?.name ? nft.name : 'NFT'
+                return nft?.name ? nft.name : localize('general.nft')
             } else {
                 const token = getTokenFromSelectedAccountTokens(
                     activity.tokenTransfer.tokenId,
                     activity.sourceNetworkId
                 )
-                return token?.metadata?.name ? token.metadata.name : token?.id ?? ''
+                return token?.metadata?.name ? token.metadata.name : token?.id ?? localize('general.unknownToken')
             }
         } else if (activity.type === EvmActivityType.ContractCall) {
-            return activity.recipient?.address ?? ''
+            return activity.recipient?.address ?? localize('general.smartContract')
         } else {
             return ''
         }

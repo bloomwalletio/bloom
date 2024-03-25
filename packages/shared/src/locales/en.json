@@ -1554,6 +1554,7 @@
         "alias": "Alias",
         "foundry": "Foundry",
         "token": "Token",
+        "unknownToken": "Unknown Token",
         "nft": "NFT",
         "type": "Type",
         "immutableIssuer": "Immutable Issuer",

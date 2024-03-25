@@ -72,7 +72,7 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
             addMethodToRegistry(fourBytePrefix, method_call)
         }
     } else {
-        const [_method, _parameters] = (await getMethodForEvmTransaction(blockscoutTransaction.raw_input)) ?? []
+        const [_method, _parameters] = getMethodForEvmTransaction(blockscoutTransaction.raw_input) ?? []
         method = _method
         parameters = _parameters
     }

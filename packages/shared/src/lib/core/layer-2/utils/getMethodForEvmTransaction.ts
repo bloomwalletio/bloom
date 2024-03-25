@@ -1,11 +1,9 @@
 import { lookupMethodSignature } from './lookupMethodSignature'
 
-export async function getMethodForEvmTransaction(
-    rawData: string
-): Promise<[string, Record<string, string>] | undefined> {
+export function getMethodForEvmTransaction(rawData: string): [string, Record<string, string>] | undefined {
     const fourBytePrefix = rawData.substring(0, 10)
     try {
-        const result = await lookupMethodSignature(fourBytePrefix)
+        const result = lookupMethodSignature(fourBytePrefix)
         if (!result) {
             throw Error('Method could not be found!')
         }

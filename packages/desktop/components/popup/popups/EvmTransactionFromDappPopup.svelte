@@ -147,8 +147,8 @@
     }
 
     $: void setMethodName(preparedTransaction)
-    async function setMethodName(preparedTransaction: EvmTransactionData): Promise<void> {
-        const [method, _parameters] = (await getMethodForEvmTransaction(String(preparedTransaction.data ?? ''))) ?? []
+    function setMethodName(preparedTransaction: EvmTransactionData): void {
+        const [method, _parameters] = getMethodForEvmTransaction(String(preparedTransaction.data ?? '')) ?? []
         methodName = method
         parameters = _parameters
     }
