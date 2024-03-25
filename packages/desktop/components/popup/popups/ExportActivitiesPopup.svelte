@@ -2,62 +2,31 @@
     import { localize } from '@core/i18n'
     import { Logo } from '@ui'
     import { Text } from '@bloomwalletio/ui'
-    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { closePopup } from '@desktop/auxiliary/popup'
     import { LogoName } from '@auxiliary/logo'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { exportStronghold } from '@contexts/settings/actions'
-    import { showNotification } from '@auxiliary/notification/actions'
 
-    let busy = false
+    const busy = false
 
     function onCancelClick(): void {
         closePopup()
     }
 
-    function handleExportStrongholdResponse(cancelled: boolean, error?: string | undefined): void {
-        busy = false
-        if (cancelled) {
-            return
-        }
-        if (error) {
-            showNotification({
-                variant: 'error',
-                text: localize(error),
-            })
-        } else {
-            showNotification({
-                variant: 'success',
-                text: localize('general.exportingStrongholdSuccess'),
-            })
-        }
-    }
-
     function onExportClick(): void {
-        busy = false
-
-        openPopup({
-            id: PopupId.UnlockStronghold,
-            props: {
-                subtitle: localize('popups.password.backup'),
-                onSuccess: (password: string) => {
-                    busy = true
-                    exportStronghold(password, handleExportStrongholdResponse)
-                },
-                returnPassword: true,
-            },
-        })
+        // TODO: implement CSV export
     }
 </script>
 
 <PopupTemplate
-    title={localize('popups.backupStronghold.title')}
+    title={localize('popups.exportActivities.title')}
+    description={localize('popups.exportActivities.bod')}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
         disabled: busy,
     }}
     continueButton={{
-        text: localize('actions.backup'),
+        text: localize('actions.export'),
         onClick: onExportClick,
         disabled: busy,
     }}
