@@ -3,9 +3,9 @@ import { EventStatus } from '@iota/sdk/out/types'
 export function getProposalStatusForMilestone(
     milestone: number | undefined,
     milestones: Record<EventStatus, number> | undefined
-): EventStatus | undefined {
+): EventStatus {
     if (!milestone || !milestones) {
-        return undefined
+        return EventStatus.Ended
     } else if (milestone >= milestones[EventStatus.Ended]) {
         return EventStatus.Ended
     } else if (milestone >= milestones[EventStatus.Holding]) {
@@ -14,5 +14,7 @@ export function getProposalStatusForMilestone(
         return EventStatus.Commencing
     } else if (milestone >= milestones[EventStatus.Upcoming]) {
         return EventStatus.Upcoming
+    } else {
+        return EventStatus.Ended
     }
 }

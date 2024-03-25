@@ -20,7 +20,7 @@ export function buildNftFromNftOutput(
     const nftOutput = wrappedOutput.output as NftOutput
 
     let isSpendable = false
-    let timeLockTime = undefined
+    let timeLockTime: number | undefined
 
     if (calculateStatus) {
         const status = getSpendableStatusFromUnspentNftOutput(accountAddress, nftOutput)

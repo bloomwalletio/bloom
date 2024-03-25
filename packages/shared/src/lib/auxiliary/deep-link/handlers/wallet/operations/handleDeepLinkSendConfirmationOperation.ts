@@ -28,7 +28,7 @@ export function handleDeepLinkSendTransactionOperation(searchParams: URLSearchPa
 
     if (sendFlowParameters) {
         setSendFlowParameters(sendFlowParameters)
-        sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.TransactionSummary))
+        sendFlowRouter.set(new SendFlowRouter(SendFlowRoute.TransactionSummary))
         openPopup({
             id: PopupId.SendFlow,
             overflow: true,

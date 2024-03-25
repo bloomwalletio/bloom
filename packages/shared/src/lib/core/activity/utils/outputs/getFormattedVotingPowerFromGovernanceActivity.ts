@@ -8,7 +8,7 @@ export function getFormattedVotingPowerFromGovernanceActivity(activity: Stardust
         activity.governanceAction === StardustGovernanceAction.IncreaseVotingPower ||
         activity.governanceAction === StardustGovernanceAction.DecreaseVotingPower
     ) {
-        const amount = formatTokenAmountBestMatch(activity.votingPowerDifference, getBaseToken())
+        const amount = formatTokenAmountBestMatch(activity.votingPowerDifference ?? BigInt(0), getBaseToken())
         return `${activity.governanceAction === StardustGovernanceAction.DecreaseVotingPower ? '- ' : ''}${amount}`
     }
     // TODO

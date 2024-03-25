@@ -1,7 +1,7 @@
 import { english } from '../english'
 
 export function generateRandomWord(excludedWords: string[]): string {
-    let word: string
+    let word: string | undefined
 
     do {
         const wordIndex = Math.floor(Math.random() * english.length)

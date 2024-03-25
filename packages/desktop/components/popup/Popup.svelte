@@ -34,6 +34,7 @@
     import DiagnosticsPopup from './popups/DiagnosticsPopup.svelte'
     import ErrorLogPopup from './popups/ErrorLogPopup.svelte'
     import EvmTransactionFromDappPopup from './popups/EvmTransactionFromDappPopup.svelte'
+    import ExportActivitiesPopup from './popups/ExportActivitiesPopup.svelte'
     import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
     import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
     import ImportErc721TokenFormPopup from './popups/ImportErc721TokenFormPopup.svelte'
@@ -114,6 +115,7 @@
         [PopupId.Diagnostics]: DiagnosticsPopup,
         [PopupId.ErrorLog]: ErrorLogPopup,
         [PopupId.EvmTransactionFromDapp]: EvmTransactionFromDappPopup,
+        [PopupId.ExportActivities]: ExportActivitiesPopup,
         [PopupId.FaucetRequest]: FaucetRequestPopup,
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
         [PopupId.ImportErc721Token]: ImportErc721TokenFormPopup,

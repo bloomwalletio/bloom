@@ -11,10 +11,10 @@ export function closePopup(options?: { forceClose?: boolean; callOnCancel?: bool
     modifyPopupState(
         {
             active: false,
-            id: null,
+            id: undefined,
             hideClose: false,
             preventClose: false,
-            props: null,
+            props: undefined,
             overflow: false,
             relative: false,
         },

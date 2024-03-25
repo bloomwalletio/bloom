@@ -11,18 +11,14 @@ export class RestoreFromMnemonicRouter extends Subrouter<RestoreFromMnemonicRout
     }
 
     next(): void {
-        let nextRoute: RestoreFromMnemonicRoute
-
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case RestoreFromMnemonicRoute.InputMnemonic:
-                nextRoute = RestoreFromMnemonicRoute.EncryptMnemonic
+                this.setNext(RestoreFromMnemonicRoute.EncryptMnemonic)
                 break
             case RestoreFromMnemonicRoute.EncryptMnemonic:
-                this.parentRouter.next()
+                this.parentRouter?.next()
                 return
         }
-
-        this.setNext(nextRoute)
     }
 }

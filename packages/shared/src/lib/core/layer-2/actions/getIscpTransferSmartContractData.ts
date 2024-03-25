@@ -3,7 +3,6 @@ import { getSelectedAccount } from '@core/account/stores'
 import { ContractType } from '@core/layer-2/enums'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { handleError } from '@core/error/handlers'
-import { IError } from '@core/error/interfaces'
 import { TransferredAsset } from '../types'
 import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
 import { buildAssetAllowance } from '../utils'
@@ -35,7 +34,7 @@ export function getIscpTransferSmartContractData(
         const method = contract.methods.call(accountsCoreContract, transferAllowanceTo, parameters, allowance)
         return method.encodeABI() ?? ''
     } catch (err) {
-        handleError(err as IError)
+        handleError(err)
         return ''
     }
 }

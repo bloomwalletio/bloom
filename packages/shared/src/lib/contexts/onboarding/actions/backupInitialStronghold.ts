@@ -12,8 +12,9 @@ import { onboardingProfile, updateOnboardingProfile } from '../stores'
  */
 export async function backupInitialStronghold(): Promise<void> {
     const strongholdBackupDestination = await Platform.getStrongholdBackupDestination(getDefaultStrongholdName())
-    if (strongholdBackupDestination) {
-        await backup(strongholdBackupDestination, get(onboardingProfile)?.strongholdPassword)
+    const password = get(onboardingProfile)?.strongholdPassword
+    if (strongholdBackupDestination && password) {
+        await backup(strongholdBackupDestination, password)
         updateOnboardingProfile({ lastStrongholdBackupTime: new Date() })
     } else {
         throw new InvalidBackupDestinationError()

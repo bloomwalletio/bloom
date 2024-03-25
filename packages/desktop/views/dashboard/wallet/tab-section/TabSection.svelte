@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Tabs } from '@bloomwalletio/ui'
-    import { Filter, TokenListMenu } from '@components'
+    import { ActivityListMenu, Filter, TokenListMenu } from '@components'
     import { activityFilter, activitySearchTerm } from '@core/activity'
     import { localize } from '@core/i18n'
     import { tokenFilter, tokenSearchTerm } from '@core/token/stores'
@@ -26,6 +26,7 @@
         {#if selectedTab.key === 'activity'}
             <SearchInput bind:value={$activitySearchTerm} />
             <Filter filterStore={activityFilter} />
+            <ActivityListMenu />
         {:else if selectedTab.key === 'portfolio'}
             <SearchInput bind:value={$tokenSearchTerm} />
             {#if features.wallet.portfolio.filter.enabled}

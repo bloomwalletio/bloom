@@ -7,6 +7,8 @@ interface IBaseSidebarTab {
     label: string
     onClick: () => void
     notificationType?: NotificationVariant
+    disabled?: boolean
+    tooltip?: string
 }
 
 export interface IDashboardSidebarTab extends IBaseSidebarTab {

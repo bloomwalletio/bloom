@@ -2299,10 +2299,10 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.4.tgz#0b92dcc0cc1c81f6f306a381f28e31b1a56536e9"
   integrity sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==
 
-"@tsconfig/svelte@4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@tsconfig/svelte/-/svelte-4.0.1.tgz#f36c1085fbdd868c10fb0426141956483dd4867b"
-  integrity sha512-B+XlGpmuAQzJqDoBATNCvEPqQg0HkO7S8pM14QDI5NsmtymzRexQ1N+nX2H6RTtFbuFgaZD4I8AAi8voGg0GLg==
+"@tsconfig/svelte@5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@tsconfig/svelte/-/svelte-5.0.2.tgz#c9ed3575c5445afb14965bb76e8446fbf7e4a0e6"
+  integrity sha512-BRbo1fOtyVbhfLyuCWw6wAWp+U8UQle+ZXu84MYYWzYSEB28dyfnRBIE99eoG+qdAC0po6L2ScIEivcT07UaMA==
 
 "@types/babel__core@^7.1.14":
   version "7.20.5"
@@ -2668,6 +2668,11 @@
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.5.tgz#cb6e2a691b70cb177c6e3ae9c1d2e8b2ea8cd304"
   integrity sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==
+
+"@types/valid-url@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@types/valid-url/-/valid-url-1.0.7.tgz#f99e3d89dea90f34a7cc695a6f152728abfb245a"
+  integrity sha512-tgsWVG80dM5PVEBSbXUttPJTBCOo0IKbBh4R4z/SHsC5C81A3aaUH4fsbj+JYk7fopApU/Mao1c0EWTE592TSg==
 
 "@types/verror@^1.10.3":
   version "1.10.10"
@@ -8801,7 +8806,7 @@ on-exit-leak-free@^0.2.0:
   resolved "https://registry.yarnpkg.com/on-exit-leak-free/-/on-exit-leak-free-0.2.0.tgz#b39c9e3bf7690d890f4861558b0d7b90a442d209"
   integrity sha512-dqaz3u44QbRXQooZLTUKU41ZrzYrcvLISVgbrzbyCMxpmSLJvZ3ZamIJIZ29P6OhZIkNIQKosdeM6t1LYbA9hg==
 
-on-finished@2.4.1:
+on-finished@2.4.1, on-finished@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.4.1.tgz#58c8c44116e54845ad57f14ab10b03533184ac3f"
   integrity sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg==
@@ -11832,9 +11837,9 @@ webpack-cli@5.1.4:
     webpack-merge "^5.7.3"
 
 webpack-dev-middleware@^5.3.1:
-  version "5.3.3"
-  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-5.3.3.tgz#efae67c2793908e7311f1d9b06f2a08dcc97e51f"
-  integrity sha512-hj5CYrY0bZLB+eTO+x/j67Pkrquiy7kWepMHmUMoPsmcUaeEnQJqFzHJOyxgWlq746/wUuA64p9ta34Kyb01pA==
+  version "5.3.4"
+  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-5.3.4.tgz#eb7b39281cbce10e104eb2b8bf2b63fce49a3517"
+  integrity sha512-BVdTqhhs+0IfoeAf7EoH5WE+exCmqGerHfDM0IL096Px60Tq2Mn9MAbnaGUe6HiMa41KMCYF19gyzZmBcq/o4Q==
   dependencies:
     colorette "^2.0.10"
     memfs "^3.4.3"
@@ -11843,13 +11848,14 @@ webpack-dev-middleware@^5.3.1:
     schema-utils "^4.0.0"
 
 webpack-dev-middleware@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-7.0.0.tgz#13595dc038a400e3ac9c76f0c9a8c75a59a7d4da"
-  integrity sha512-tZ5hqsWwww/8DislmrzXE3x+4f+v10H1z57mA2dWFrILb4i3xX+dPhTkcdR0DLyQztrhF2AUmO5nN085UYjd/Q==
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-7.1.1.tgz#29aefd73720a03889e1c5c8dd7e552c4d333d572"
+  integrity sha512-NmRVq4AvRQs66dFWyDR4GsFDJggtSi2Yn38MXLk0nffgF9n/AIP4TFBg2TQKYaRAN4sHuKOTiz9BnNCENDLEVA==
   dependencies:
     colorette "^2.0.10"
     memfs "^4.6.0"
     mime-types "^2.1.31"
+    on-finished "^2.4.1"
     range-parser "^1.2.1"
     schema-utils "^4.0.0"
 

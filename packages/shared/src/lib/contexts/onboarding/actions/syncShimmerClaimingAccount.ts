@@ -9,7 +9,11 @@ import { MissingShimmerClaimingProfileManagerError } from '../errors'
 import { prepareShimmerClaimingAccount } from '../helpers'
 import { getOnboardingBaseToken, shimmerClaimingProfileManager, updateShimmerClaimingAccount } from '../stores'
 
-export async function syncShimmerClaimingAccount(account: IAccount): Promise<void> {
+export async function syncShimmerClaimingAccount(account: IAccount | undefined): Promise<void> {
+    if (!account) {
+        return
+    }
+
     const _shimmerClaimingProfileManager = get(shimmerClaimingProfileManager)
     if (!_shimmerClaimingProfileManager) {
         throw new MissingShimmerClaimingProfileManagerError()

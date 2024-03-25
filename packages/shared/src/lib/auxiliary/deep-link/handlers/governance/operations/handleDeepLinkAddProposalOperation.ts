@@ -21,7 +21,7 @@ export function handleDeepLinkAddProposalOperation(searchParams: URLSearchParams
             throw new Error(`Event with id ${initialEventId} not found`)
         } else {
             selectedProposalId.set(initialEventId)
-            get(governanceRouter).goTo(GovernanceRoute.Details)
+            get(governanceRouter)?.goTo(GovernanceRoute.Details)
 
             showNotification({
                 variant: 'warning',

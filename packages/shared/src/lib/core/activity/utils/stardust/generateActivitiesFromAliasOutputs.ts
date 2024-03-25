@@ -12,7 +12,7 @@ export async function generateActivitiesFromAliasOutputs(
     networkId: NetworkId
 ): Promise<StardustActivity[]> {
     const outputs = processedTransaction.outputs
-    const activities = []
+    const activities: StardustActivity[] = []
 
     const aliasOutputs = outputs.filter((output) => output.output?.type === OutputType.Alias)
     for (const aliasOutput of aliasOutputs) {

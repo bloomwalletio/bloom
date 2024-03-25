@@ -11,7 +11,7 @@ export async function generateActivitiesFromFoundryOutputs(
     networkId: NetworkId
 ): Promise<StardustActivity[]> {
     const outputs = processedTransaction.outputs
-    const activities = []
+    const activities: StardustActivity[] = []
 
     const foundryOutputs = outputs.filter((output) => output.output?.type === OutputType.Foundry)
     for (const foundryOutput of foundryOutputs) {

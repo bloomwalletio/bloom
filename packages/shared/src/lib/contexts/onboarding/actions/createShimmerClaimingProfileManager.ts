@@ -12,10 +12,12 @@ export async function createShimmerClaimingProfileManager(): Promise<void> {
         return
     }
 
+    const { restoreProfileType, type, strongholdPassword } = $onboardingProfile
+
     const storagePath = await getTemporaryProfileManagerStorageDirectory()
     const coinType = IOTA_COIN_TYPE
     const clientOptions = $onboardingProfile?.clientOptions
-    const secretManager = getSecretManagerFromProfileType($onboardingProfile?.type, storagePath)
+    const secretManager = getSecretManagerFromProfileType(type, storagePath)
 
     const manager = await initialiseProfileManager(
         storagePath,
@@ -25,8 +27,8 @@ export async function createShimmerClaimingProfileManager(): Promise<void> {
         generateRandomId()
     )
 
-    if ($onboardingProfile?.restoreProfileType !== RestoreProfileType.Ledger) {
-        await manager.setStrongholdPassword($onboardingProfile?.strongholdPassword)
+    if (strongholdPassword && restoreProfileType !== RestoreProfileType.Ledger) {
+        await manager.setStrongholdPassword(strongholdPassword)
     }
 
     shimmerClaimingProfileManager.set(manager)
