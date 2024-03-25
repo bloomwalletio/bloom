@@ -28,19 +28,19 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             return
         }
 
+        const { to, from, gasUsed, estimatedGas, gasPrice, transactionHash, timestamp, blockNumber } = transaction
         const baseActivity = await generateBaseEvmActivity(
             {
-                to: transaction.to?.toString().toLowerCase(),
-                from: transaction.from?.toString().toLowerCase(),
-                gasUsed: Number(transaction.gasUsed),
-                estimatedGas: transaction?.estimatedGas,
-                gasPrice: transaction.gasPrice ?? undefined,
-                transactionHash: transaction.transactionHash,
-                timestamp: transaction.timestamp,
-                blockNumber: transaction.blockNumber,
+                recipient: transferInfo.recipientAddress ?? to?.toString().toLowerCase(),
+                from: from?.toString().toLowerCase(),
+                gasUsed: Number(gasUsed),
+                estimatedGas,
+                gasPrice: gasPrice ?? undefined,
+                transactionHash,
+                timestamp,
+                blockNumber,
             },
             chain,
-            transferInfo.recipientAddress,
             account
         )
         if (transferInfo.type === StardustActivityType.SmartContract) {
@@ -53,6 +53,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 parameters,
                 methodId: data.substring(0, 10),
                 rawData: data,
+                contractAddress: to?.toString().toLowerCase(),
             } as EvmContractCallActivity
         } else {
             const tokenTransfer =
@@ -71,24 +72,25 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             return {
                 ...baseActivity,
                 type: EvmActivityType.TokenTransfer,
+                contractAddress: to?.toString().toLowerCase(),
                 tokenTransfer,
             } as EvmTokenTransferActivity
         }
     } else {
+        const { to, from, gasUsed, estimatedGas, gasPrice, transactionHash, timestamp, blockNumber } = transaction
         // i.e must be a coin transfer
         const baseActivity = await generateBaseEvmActivity(
             {
-                to: transaction.to?.toString().toLowerCase(),
-                from: transaction.from?.toString().toLowerCase(),
-                gasUsed: Number(transaction.gasUsed),
-                estimatedGas: transaction?.estimatedGas,
-                gasPrice: transaction.gasPrice ?? undefined,
-                transactionHash: transaction.transactionHash,
-                timestamp: transaction.timestamp,
-                blockNumber: transaction.blockNumber,
+                recipient: to?.toString().toLowerCase(),
+                from: from?.toString().toLowerCase(),
+                gasUsed: Number(gasUsed),
+                estimatedGas,
+                gasPrice: gasPrice ?? undefined,
+                transactionHash,
+                timestamp,
+                blockNumber,
             },
             chain,
-            transaction.to,
             account
         )
 

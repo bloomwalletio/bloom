@@ -1,7 +1,7 @@
 import { EvmActivityType } from '@core/activity/enums/evm'
-import { BaseEvmActivity } from './base-evm-activity.type'
 import { TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
+import { BaseEvmActivity } from './base-evm-activity.type'
 
 export type EvmTokenTransferActivity = BaseEvmActivity & {
     type: EvmActivityType.TokenTransfer
@@ -10,4 +10,10 @@ export type EvmTokenTransferActivity = BaseEvmActivity & {
         tokenId: string
         rawAmount: bigint
     }
+    verified: boolean
+    rawData: string
+
+    methodId?: string
+    method?: string
+    parameters?: Record<string, string>
 }

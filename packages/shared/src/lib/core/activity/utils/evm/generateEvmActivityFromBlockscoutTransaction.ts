@@ -82,9 +82,10 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
         type: EvmActivityType.ContractCall,
         verified: blockscoutTransaction.to.is_verified,
         methodId: blockscoutTransaction.decoded_input?.method_id ?? blockscoutTransaction.method, // `method` is the methodId if the inputs cannot be decoded
-        method: method,
+        method,
         parameters: parameters,
         rawData: blockscoutTransaction.raw_input,
+        contractAddress: blockscoutTransaction.to?.hash.toLowerCase(),
     } as EvmContractCallActivity
 }
 
@@ -119,7 +120,7 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
 ): Promise<BaseEvmActivity> {
     const baseActivity = await generateBaseEvmActivity(
         {
-            to: blockscoutTransaction.to.hash.toLowerCase(),
+            recipient: blockscoutTransaction.to.hash.toLowerCase(),
             from: blockscoutTransaction.from.hash.toLowerCase(),
             gasUsed: Number(blockscoutTransaction.gas_used),
             estimatedGas: localTransaction?.estimatedGas,
@@ -129,7 +130,6 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
             blockNumber: blockscoutTransaction.block,
         },
         chain,
-        blockscoutTransaction.to.hash.toLowerCase(),
         account
     )
 
@@ -139,6 +139,7 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
             address: blockscoutTransaction.to.hash.toLowerCase(),
             name: blockscoutTransaction.to.name ?? localize('general.smartContract'),
         }
+        baseActivity.contractAddress = blockscoutTransaction.to.hash.toLowerCase()
     }
     if (blockscoutTransaction.from.is_contract) {
         baseActivity.sender = {

@@ -17,6 +17,9 @@ import {
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { isNftPersisted, persistErc721Nft } from '@core/nfts/actions'
 import { BASE_TOKEN_CONTRACT_ADDRESS } from '@core/layer-2/constants'
+import { getMethodForEvmTransaction } from '@core/layer-2/utils'
+import { addMethodToRegistry, getMethodFromRegistry } from '@core/layer-2/stores/method-registry.store'
+import { HEX_PREFIX } from '@core/utils'
 
 export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
     blockscoutTokenTransfer: BlockscoutTokenTransfer,
@@ -55,6 +58,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         rawAmount = BigInt(blockscoutTokenTransfer.total.value ?? 0)
         await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
     }
+    const standard = blockscoutTokenTransfer.token.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721
 
     if (!tokenId || !rawAmount) {
         return
@@ -81,6 +85,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         direction,
         isInternal,
 
+        contractAddress: blockscoutTokenTransfer.token.address.toLowerCase(),
         transactionFee,
     }
 
@@ -96,18 +101,36 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         }
     }
 
+    const method: string = blockscoutTokenTransfer.method
+    let parameters: Record<string, string> | undefined
+    if (blockscoutTransaction?.decoded_input) {
+        const { method_id, method_call, parameters: _parameters } = blockscoutTransaction.decoded_input
+        parameters = _parameters
+
+        if (!getMethodFromRegistry(HEX_PREFIX + method_id)) {
+            const fourBytePrefix = HEX_PREFIX + method_id
+            addMethodToRegistry(fourBytePrefix, method_call)
+        }
+    } else if (blockscoutTransaction?.raw_input) {
+        const [, _parameters] = getMethodForEvmTransaction(blockscoutTransaction.raw_input) ?? []
+        parameters = _parameters
+    }
+
     return {
         ...baseActivity,
         type: EvmActivityType.TokenTransfer,
 
         tokenTransfer: {
-            standard: blockscoutTokenTransfer.token.type.replace('-', '') as
-                | TokenStandard.Erc20
-                | TokenStandard.Irc30
-                | NftStandard.Irc27
-                | NftStandard.Erc721,
+            standard,
             tokenId,
             rawAmount,
         },
+
+        verified: blockscoutTransaction?.to.is_verified ?? false,
+        methodId: blockscoutTransaction?.decoded_input?.method_id ?? blockscoutTransaction?.method,
+        method,
+        parameters,
+        rawData: blockscoutTransaction?.raw_input ?? '',
+        contractAddress: blockscoutTransaction?.to?.hash.toLowerCase(),
     }
 }
