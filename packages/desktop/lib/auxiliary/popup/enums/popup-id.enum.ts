@@ -46,7 +46,6 @@ export enum PopupId {
     TestDeepLinkForm = 'testDeepLinkForm',
     TokenInformation = 'tokenInformation',
     UnlockStronghold = 'unlockStronghold',
-    VerifyLedgerTransaction = 'verifyLedgerTransaction',
     VoteForProposal = 'voteForProposal',
     VotingPowerToZero = 'votingPowerToZero',
 }
