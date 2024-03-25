@@ -9,9 +9,13 @@ import { EvmActivityType } from '@core/activity/enums/evm'
 import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
-import { BlockscoutTokenTransfer, isBlockscoutErc721Transfer } from '@auxiliary/blockscout/types'
+import {
+    BlockscoutTokenTransfer,
+    isBlockscoutErc20Transfer,
+    isBlockscoutErc721Transfer,
+} from '@auxiliary/blockscout/types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { persistErc721Nft } from '@core/nfts/actions'
+import { isNftPersisted, persistErc721Nft } from '@core/nfts/actions'
 import { BASE_TOKEN_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 
 export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
@@ -43,8 +47,10 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         const tokenIndex = blockscoutTokenTransfer.total.token_id
         tokenId = `${address}:${tokenIndex}`
         rawAmount = BigInt(1)
-        await persistErc721Nft(address, tokenIndex, networkId)
-    } else {
+        if (!isNftPersisted(tokenId)) {
+            await persistErc721Nft(address, tokenIndex, networkId)
+        }
+    } else if (isBlockscoutErc20Transfer(blockscoutTokenTransfer)) {
         tokenId = blockscoutTokenTransfer.token.address.toLowerCase()
         rawAmount = BigInt(blockscoutTokenTransfer.total.value ?? 0)
         await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
