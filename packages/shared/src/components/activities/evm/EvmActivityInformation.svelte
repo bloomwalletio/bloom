@@ -7,6 +7,7 @@
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { KeyValue, NftMetadataTable, PopupTab, getTabItems } from '@ui'
     import { EvmGenericInformation, EvmSmartContractInformation } from './info'
+    import { localize } from '@core/i18n'
 
     export let activity: EvmActivity
     export let selectedTab: KeyValue<string> = getTabItems([PopupTab.Transaction])[0]
@@ -29,6 +30,9 @@
                     tabs = getTabItems([PopupTab.Transaction, PopupTab.NftMetadata])
                 } else {
                     tabs = getTabItems([PopupTab.Transaction])
+                }
+                if (activity.type === EvmActivityType.TokenTransfer) {
+                    tabs.push({ key: PopupTab.SmartContract, value: localize(`general.${PopupTab.SmartContract}`) })
                 }
                 break
             case EvmActivityType.ContractCall:
@@ -55,7 +59,7 @@
         />
     {:else if selectedTab.key === PopupTab.NftMetadata && nft}
         <NftMetadataTable {nft} />
-    {:else if selectedTab.key === PopupTab.SmartContract && activity.type === EvmActivityType.ContractCall}
+    {:else if selectedTab.key === PopupTab.SmartContract && (activity.type === EvmActivityType.ContractCall || activity.type === EvmActivityType.TokenTransfer)}
         <EvmSmartContractInformation {activity} />
     {/if}
 </activity-details>

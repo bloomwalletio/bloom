@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { EvmContractCallActivity } from '@core/activity'
+    import { EvmContractCallActivity, EvmTokenTransferActivity } from '@core/activity'
 
-    export let activity: EvmContractCallActivity
+    export let activity: EvmContractCallActivity | EvmTokenTransferActivity
 </script>
 
 <Table

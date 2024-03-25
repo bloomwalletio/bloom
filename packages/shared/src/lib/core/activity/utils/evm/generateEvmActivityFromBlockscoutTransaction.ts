@@ -82,11 +82,10 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
         type: EvmActivityType.ContractCall,
         verified: blockscoutTransaction.to.is_verified,
         methodId: blockscoutTransaction.decoded_input?.method_id ?? blockscoutTransaction.method, // `method` is the methodId if the inputs cannot be decoded
-        method: method,
-        contractAddress: to?.toString().toLowerCase(),
-
+        method,
         parameters: parameters,
         rawData: blockscoutTransaction.raw_input,
+        contractAddress: blockscoutTransaction.to?.hash.toLowerCase(),
     } as EvmContractCallActivity
 }
 
