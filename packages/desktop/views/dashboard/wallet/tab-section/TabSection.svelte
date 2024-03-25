@@ -26,7 +26,9 @@
         {#if selectedTab.key === 'activity'}
             <SearchInput bind:value={$activitySearchTerm} />
             <Filter filterStore={activityFilter} />
-            <ActivityListMenu />
+            {#if features.wallet.activityHistory.exportCsv.enabled}
+                <ActivityListMenu />
+            {/if}
         {:else if selectedTab.key === 'portfolio'}
             <SearchInput bind:value={$tokenSearchTerm} />
             {#if features.wallet.portfolio.filter.enabled}
