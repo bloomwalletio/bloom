@@ -15,17 +15,17 @@
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
     import { buildUrl, setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { StardustActivityInformation, TransactionAssetSection } from '@ui'
-    import { onMount, tick } from 'svelte'
+    import { tick } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { handleError } from '@core/error/handlers'
 
     export let activity: StardustActivity
-    export let _onMount: (..._: any[]) => Promise<void> = async () => {}
 
     $: isTimelocked = activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Timelocked
     $: isActivityIncomingAndUnclaimed =
@@ -38,7 +38,7 @@
         activity.type === StardustActivityType.Nft
             ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
             : undefined
-    $: nftIsOwned = nft ? $ownedNfts.some((_onMountnft) => _onMountnft.id === nft?.id) : false
+    $: nftIsOwned = nft ? $ownedNfts.some((_nft) => _nft.id === nft?.id) : false
 
     let title: string = localize('popups.activityDetails.title.fallback')
     $: void setTitle(activity)
@@ -71,16 +71,17 @@
     }
 
     async function onClaimClick(_activity: StardustActivity): Promise<void> {
-        await checkActiveProfileAuth(
-            async () => {
-                await claimActivity(_activity, $selectedAccount)
-                openPopup({
-                    id: PopupId.ActivityDetails,
-                    props: { activityId: activity.id },
-                })
-            },
-            { stronghold: true, ledger: false }
-        )
+        try {
+            await checkActiveProfileAuthAsync()
+        } catch {
+            return
+        }
+
+        try {
+            await claimActivity(_activity, $selectedAccount)
+        } catch (error) {
+            handleError(error)
+        }
     }
 
     function onRejectClick(): void {
@@ -107,14 +108,6 @@
             },
         })
     }
-
-    onMount(async () => {
-        try {
-            await _onMount()
-        } catch (err) {
-            console.error(err)
-        }
-    })
 
     $: backButton = {
         text: localize('actions.reject'),
