@@ -839,8 +839,6 @@ export const DEFAULT_METHOD_REGISTRY = {
     '0x0a19b14a': 'trade(address,uint256,address,uint256,uint256,uint256,address,uint8,bytes32,bytes32,uint256)',
     '0x911fab44': 'signal(address,uint32,bytes)',
     '0xa40d3060': 'lock(uint8,bytes,bool)',
-    '0x5c86402c': '\'signal(address,uint32,bytes)\'',
-    '0x7db29dd4': '\'lock(uint8,bytes,bool)\'',
     '0x9c9c3e1c': 'purchaseSPRToken()',
     '0xfbf8c5e6': 'purchaseSPRToken(uint256)',
     '0x1249c58b': 'mint()',
