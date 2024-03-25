@@ -4,6 +4,7 @@
     import { OnboardingNetworkType } from '@contexts/onboarding'
 
     export let profile: IThirdPartyPersistedProfile
+    export let appName: string
     export let disabled: boolean = false
     export let hidden: boolean = false
     export let selected: boolean = false
@@ -43,7 +44,10 @@
             </icon-container>
         </div>
         <div class="flex flex-col justify-center flex-1 ml-3">
-            <Text type="body2">{profile.name}</Text>
+            <div class="flex gap-1">
+                <Text type="body2">{profile.name}</Text>
+                <Text type="body2" fontWeight="medium" textColor="secondary">● {appName}</Text>
+            </div>
             <Text type="base" fontWeight="medium" textColor="secondary">
                 {profile.id}
             </Text>

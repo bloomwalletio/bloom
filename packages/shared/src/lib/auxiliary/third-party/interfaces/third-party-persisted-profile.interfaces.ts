@@ -6,6 +6,7 @@ import { AccountAddress, ParticipationEventId } from '@iota/sdk/out/types'
 import { StrongholdVersion } from '@core/stronghold'
 import { Nft } from '@core/nfts'
 import { ProfileType } from '@core/profile'
+import { ThirdPartyAppName } from '../enums'
 
 export interface IThirdPartyPersistedNetwork {
     id: OnboardingNetworkType
@@ -51,4 +52,11 @@ export interface IThirdPartyPersistedProfile {
     strongholdVersion?: StrongholdVersion
     needsChrysalisToStardustDbMigration?: boolean
     pfp?: Nft
+}
+
+export interface IThirdPartyProfileStoreItem {
+    profile: IThirdPartyPersistedProfile
+    needsChrysalisToStardustDbMigration: boolean
+    alreadyImported: boolean
+    appName: ThirdPartyAppName
 }

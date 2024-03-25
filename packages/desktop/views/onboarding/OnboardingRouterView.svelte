@@ -7,14 +7,23 @@
     import { CreateProfileRouterView } from './views/create-profile'
     import { NetworkSetupRouterView } from './views/network-setup'
     import { RestoreProfileRouterView } from './views/restore-profile'
+    import { ImportThirdPartyProfilesView } from './views/import-third-party'
+    import { updateThirdPartyProfilesStore } from '@auxiliary/third-party/actions'
+    import { onMount } from 'svelte'
 
     $: if (features.analytics.onboardingRoute.enabled && $onboardingRoute) {
         Platform.trackEvent('onboarding-route', { route: $onboardingRoute })
     }
+
+    onMount(() => {
+        void updateThirdPartyProfilesStore()
+    })
 </script>
 
 {#if $onboardingRoute === OnboardingRoute.Welcome}
     <WelcomeView />
+{:else if $onboardingRoute === OnboardingRoute.ImportThirdPartyProfiles}
+    <ImportThirdPartyProfilesView />
 {:else if $onboardingRoute === OnboardingRoute.NetworkSetup}
     <NetworkSetupRouterView />
 {:else if $onboardingRoute === OnboardingRoute.ChooseOnboardingFlow}

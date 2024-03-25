@@ -1,13 +1,11 @@
 <script lang="ts">
     import { ThirdPartyAppName, thirdPartyProfiles } from '@auxiliary/third-party'
     import { importThirdPartyProfiles } from '@auxiliary/third-party/actions'
-    import { Spinner } from '@bloomwalletio/ui'
     import { ImportProfileTile } from '@components/index'
     import { localize } from '@core/i18n'
-    import { closePopup } from '@desktop/auxiliary/popup/actions'
-    import PopupTemplate from '../PopupTemplate.svelte'
-    import { onMount } from 'svelte'
-    import { updateThirdPartyProfilesStore } from '@auxiliary/third-party/actions'
+    import OnboardingLayout from '@views/components/OnboardingLayout.svelte'
+    import { onboardingRouter } from '@views/onboarding/onboarding-router'
+    import { Spinner } from '@bloomwalletio/ui'
 
     const selectedProfiles: { [profileId: string]: boolean } = {}
     let busy = false
@@ -41,29 +39,26 @@
                     await importThirdPartyProfiles(appName, profiles)
                 })
             )
+            $onboardingRouter.next()
         } catch (error) {
             console.error(error)
         } finally {
             busy = false
-            closePopup()
         }
     }
 
-    function onCancelClick(): void {
-        closePopup()
+    function onSkipClick(): void {
+        $onboardingRouter.next()
     }
-
-    onMount(() => {
-        void updateThirdPartyProfilesStore()
-    })
 </script>
 
-<PopupTemplate
-    title={localize('popups.importProfilesFromThirdParty.title')}
+<OnboardingLayout
+    title={localize('views.onboarding.importThirdPartyProfiles.title')}
+    description={localize('views.onboarding.importThirdPartyProfiles.description')}
     {busy}
     backButton={{
-        text: localize('actions.cancel'),
-        onClick: onCancelClick,
+        text: localize('actions.skip'),
+        onClick: onSkipClick,
     }}
     continueButton={{
         text: localize('actions.import'),
@@ -71,22 +66,24 @@
         disabled: disableContinue,
     }}
 >
-    <div class="flex flex-col gap-2 max-h-[392px] overflow-y-scroll">
-        {#if Object.keys($thirdPartyProfiles ?? {}).length > 0}
-            {#each Object.entries($thirdPartyProfiles) as [thirdPartyProfileId, thirdPartyProfile]}
-                <ImportProfileTile
-                    profile={thirdPartyProfile.profile}
-                    appName={thirdPartyProfile?.appName}
-                    onClick={() => onSelectedProfileClick(thirdPartyProfileId)}
-                    selected={selectedProfiles[thirdPartyProfileId]}
-                    disabled={thirdPartyProfile?.alreadyImported ||
-                        thirdPartyProfile?.needsChrysalisToStardustDbMigration}
-                />
-            {/each}
-        {:else if $thirdPartyProfiles === undefined}
-            <Spinner />
-        {:else}
-            {localize('popups.importProfilesFromThirdParty.empty')}
-        {/if}
+    <div slot="content" class="flex flex-col space-y-3">
+        <div class="flex flex-col justify-center items-center gap-2 max-h-[392px] overflow-y-scroll">
+            {#if Object.keys($thirdPartyProfiles ?? {}).length > 0}
+                {#each Object.entries($thirdPartyProfiles) as [thirdPartyProfileId, thirdPartyProfile]}
+                    <ImportProfileTile
+                        profile={thirdPartyProfile.profile}
+                        appName={thirdPartyProfile?.appName}
+                        onClick={() => onSelectedProfileClick(thirdPartyProfileId)}
+                        selected={selectedProfiles[thirdPartyProfileId]}
+                        disabled={thirdPartyProfile?.alreadyImported ||
+                            thirdPartyProfile?.needsChrysalisToStardustDbMigration}
+                    />
+                {/each}
+            {:else if $thirdPartyProfiles === undefined}
+                <Spinner />
+            {:else}
+                {localize('views.onboarding.importThirdPartyProfiles.empty')}
+            {/if}
+        </div>
     </div>
-</PopupTemplate>
+</OnboardingLayout>
