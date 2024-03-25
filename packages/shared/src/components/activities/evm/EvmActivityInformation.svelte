@@ -55,7 +55,6 @@
             destinationNetworkId={activity.destinationNetworkId}
             maxGasFee={activity.maxGasFee}
             transactionFee={activity.transactionFee}
-            contractAddress={activity.contractAddress}
         />
     {:else if selectedTab.key === PopupTab.NftMetadata && nft}
         <NftMetadataTable {nft} />
