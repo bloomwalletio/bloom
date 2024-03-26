@@ -3,12 +3,16 @@ import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import {
     addBlockscoutTokenTransferToPersistedTransactions,
     addBlockscoutTransactionToPersistedTransactions,
+    getPersistedTransactionsForChain,
     isBlockscoutTokenTransferPersisted,
     isBlockscoutTransactionPersisted,
 } from '../stores'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
-import { EvmNetworkId, getNetwork } from '@core/network'
+import { EvmNetworkId, IChain, getNetwork } from '@core/network'
 import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
+import { generateEvmActivityFromPersistedTransaction } from '@core/activity/utils'
+import { EvmActivity, addAccountActivities, allAccountActivities } from '@core/activity'
+import { get } from 'svelte/store'
 
 export async function fetchAndPersistTransactionsForAccounts(
     profileId: string,
@@ -47,8 +51,43 @@ export async function fetchAndPersistTransactionsForAccounts(
             } catch (err) {
                 console.error(err)
             }
+
+            const activities = await generateActivityForMissingTransactions(profileId, account, chain)
+            addAccountActivities(account.index, activities)
         }
     }
+}
+
+async function generateActivityForMissingTransactions(
+    profileId: string,
+    account: IAccountState,
+    chain: IChain
+): Promise<EvmActivity[]> {
+    const activities: EvmActivity[] = []
+    const persistedTransactions = getPersistedTransactionsForChain(profileId, account.index, chain)
+    const accountActivities = new Set(
+        get(allAccountActivities)[account.index].map((activity) => activity.transactionId) ?? []
+    )
+
+    const persistedTransactionsWithoutActivity = persistedTransactions.filter((persistedTransaction) => {
+        const transactionHash =
+            persistedTransaction.tokenTransfer?.tx_hash ??
+            persistedTransaction.blockscout?.hash ??
+            persistedTransaction.local?.transactionHash
+        return transactionHash && !accountActivities.has(transactionHash)
+    })
+
+    for (const persistedTransaction of persistedTransactionsWithoutActivity) {
+        try {
+            const activity = await generateEvmActivityFromPersistedTransaction(persistedTransaction, chain, account)
+            if (activity) {
+                activities.push(activity)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    return activities
 }
 
 function getTransactionsExitFunction(
