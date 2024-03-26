@@ -4,11 +4,15 @@ import { ThirdPartyProfileStore, thirdPartyProfiles } from '../stores'
 import { getThirdPartyPersistedProfiles } from './getThirdPartyPersistedProfiles'
 import { get } from 'svelte/store'
 
-export async function updateThirdPartyProfilesStore(): Promise<void> {
+export async function updateThirdPartyProfilesStore(
+    selectedApps: ThirdPartyAppName[]
+): Promise<{ [key in ThirdPartyAppName]?: boolean }> {
     const _thirdPartyProfiles: ThirdPartyProfileStore = {}
-    for (const appName of Object.values(ThirdPartyAppName)) {
+    const updateStatus: { [key in ThirdPartyAppName]?: boolean } = {}
+    for (const appName of selectedApps) {
         try {
             const appProfiles = await getThirdPartyPersistedProfiles(appName)
+            updateStatus[appName] = true
 
             for (const appProfile of appProfiles) {
                 const { needsChrysalisToStardustDbMigration = false } = appProfile
@@ -24,9 +28,9 @@ export async function updateThirdPartyProfilesStore(): Promise<void> {
                 _thirdPartyProfiles[convertedAppProfile.profile.id] = convertedAppProfile
             }
         } catch {
-            // Do nothing
+            updateStatus[appName] = false
         }
     }
-
     thirdPartyProfiles.set(_thirdPartyProfiles)
+    return updateStatus
 }
