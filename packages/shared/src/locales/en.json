@@ -10,7 +10,11 @@
             "importThirdPartyProfiles": {
                 "title": "Import profiles",
                 "description": "We found existing compatible profiles from other apps. Select the profiles you want to import.",
-                "empty": "No profiles found"
+                "empty": "No profiles found",
+                "warnings": {
+                    "alreadyImported": "Already imported",
+                    "needsMigration": "Needs database migration"
+                }
             },
             "networkSetup": {
                 "chooseNetwork": {
