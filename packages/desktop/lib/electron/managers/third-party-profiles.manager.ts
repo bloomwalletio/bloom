@@ -10,7 +10,7 @@ interface IThirdPartyAppManager {
 }
 
 export default class ThirdPartyAppManager implements IThirdPartyAppManager {
-    private userDataPath: string
+    private userDataPath: string = ''
 
     constructor() {
         this.init()
