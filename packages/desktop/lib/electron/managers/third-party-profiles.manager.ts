@@ -3,6 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import { app, ipcMain } from 'electron'
 import { KeyValue } from '@ui/types'
+import { ThirdPartyAppName } from '@auxiliary/third-party/enums/third-party-app-name.enum'
 
 interface IThirdPartyAppManager {
     getDataFromApp(appName: string): Promise<Record<string, unknown> | undefined>
@@ -20,8 +21,17 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
         this.userDataPath = app.getPath('userData')
 
         this.removeHandlers()
+        ipcMain.handle('get-third-party-apps', () => this.getThirdPartyApps())
         ipcMain.handle('get-data-from-third-party-app', async (_e, name) => await this.getDataFromApp(name))
         ipcMain.handle('copy-third-party-profile', (_e, name, profileId) => this.copyProfileDirectory(name, profileId))
+    }
+
+    public getThirdPartyApps(): ThirdPartyAppName[] {
+        const apps = Object.values(ThirdPartyAppName).filter((appName) => {
+            const appPath = path.resolve(this.userDataPath, '..', appName)
+            return fs.existsSync(appPath)
+        })
+        return apps
     }
 
     public async getDataFromApp(appName: string): Promise<Record<number, KeyValue<string>> | undefined> {
