@@ -82,7 +82,7 @@ const settingsFeatures: ISettingsFeatures = {
         hiddenAccounts: {
             enabled: true,
         },
-        developerToggle: {
+        toggleFeatures: {
             enabled: true,
         },
     },
