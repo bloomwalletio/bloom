@@ -11,6 +11,8 @@
     import { OnboardingRoute, onboardingRoute, onboardingRouter } from '@views/onboarding'
     import { showNotification } from '@auxiliary/notification'
 
+    const LOCALE_NAMESPACE = 'views.onboarding.importThirdPartyProfiles.importProfiles'
+
     export let selectedApps: { [key in ThirdPartyAppName]?: boolean } = {}
     export let popup: boolean = false
 
@@ -50,7 +52,7 @@
             )
             showNotification({
                 variant: 'success',
-                text: localize('views.onboarding.importThirdPartyProfiles.importProfiles.notifications.success'),
+                text: localize(`${LOCALE_NAMESPACE}.notifications.success`),
             })
         } catch (error) {
             console.error(error)
@@ -76,9 +78,9 @@
         } catch (err) {
             const _err = err as Error
             if (_err.message.match(/LEVEL_ITERATOR_NOT_OPEN/g)) {
-                error = localize('views.onboarding.importThirdPartyProfiles.importProfiles.errors.appIsOpen')
+                error = localize(`${LOCALE_NAMESPACE}.errors.appIsOpen`)
             } else {
-                error = localize('views.onboarding.importThirdPartyProfiles.importProfiles.errors.unknown')
+                error = localize(`${LOCALE_NAMESPACE}.errors.unknown`)
             }
             return
         } finally {
@@ -96,8 +98,8 @@
 
 <svelte:component
     this={popup ? PopupTemplate : OnboardingLayout}
-    title={localize('views.onboarding.importThirdPartyProfiles.importProfiles.title')}
-    description={localize('views.onboarding.importThirdPartyProfiles.importProfiles.description')}
+    title={localize(`${LOCALE_NAMESPACE}.title`)}
+    description={localize(`${LOCALE_NAMESPACE}.description`)}
     {busy}
     backButton={{
         text: localize('actions.back'),
@@ -129,7 +131,7 @@
             <Spinner />
         {:else}
             <Text align="center" type="body1" textColor="secondary">
-                {localize('views.onboarding.importThirdPartyProfiles.importProfiles.empty')}
+                {localize(`${LOCALE_NAMESPACE}.empty`)}
             </Text>
         {/if}
     </div>

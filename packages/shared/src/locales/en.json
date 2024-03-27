@@ -10,7 +10,8 @@
             "importThirdPartyProfiles": {
                 "selectApps": {
                     "title": "Select apps to import",
-                    "description": "Select the apps you want to import profiles from. You can always import more later.",
+                    "description": "Select the apps you want to import profiles from.",
+                    "descriptionExtension": "You can skip this step and import profiles later.",
                     "empty": "No apps found",
                     "import": "Import"
                 },

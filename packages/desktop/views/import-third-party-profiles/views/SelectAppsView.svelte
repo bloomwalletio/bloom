@@ -8,6 +8,9 @@
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { importThirdPartyProfilesRouter } from '../import-third-party-profiles.router'
+    import { onboardingRouter } from '@views/onboarding'
+
+    const LOCALE_NAMESPACE = 'views.onboarding.importThirdPartyProfiles.selectApps'
 
     export let selectedApps: { [key in ThirdPartyAppName]?: boolean } = {}
     export let popup: boolean = false
@@ -16,6 +19,10 @@
 
     function onCancelClick() {
         closePopup()
+    }
+
+    function onSkipClick() {
+        $onboardingRouter.next()
     }
 
     function onContinueClick() {
@@ -33,11 +40,11 @@
 
 <svelte:component
     this={popup ? PopupTemplate : OnboardingLayout}
-    title={localize('views.onboarding.importThirdPartyProfiles.selectApps.title')}
-    description={localize('views.onboarding.importThirdPartyProfiles.selectApps.description')}
+    title={localize(`${LOCALE_NAMESPACE}.title`)}
+    description={`${localize(`${LOCALE_NAMESPACE}.description`)} ${popup ? '' : localize(`${LOCALE_NAMESPACE}.descriptionExtension`)}`}
     backButton={{
-        text: localize('actions.cancel'),
-        onClick: onCancelClick,
+        text: localize(popup ? 'actions.cancel' : 'actions.skip'),
+        onClick: popup ? onCancelClick : onSkipClick,
     }}
     continueButton={{
         text: localize('actions.continue'),
@@ -48,7 +55,7 @@
     <div slot="content" class="flex flex-col gap-4">
         {#if availableApps.length === 0}
             <Text align="center" type="body1" textColor="secondary">
-                {localize('views.onboarding.importThirdPartyProfiles.selectApps.empty')}
+                {localize(`${LOCALE_NAMESPACE}.empty`)}
             </Text>
         {:else}
             {#each availableApps as appName}
