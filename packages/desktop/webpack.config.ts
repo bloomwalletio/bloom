@@ -252,6 +252,7 @@ const webpackConfig: Configuration[] = [
         },
         externals: {
             '@ledgerhq/hw-transport-node-hid': 'commonjs @ledgerhq/hw-transport-node-hid',
+            'classic-level': 'commonjs2 classic-level',
         },
         resolve,
         output,

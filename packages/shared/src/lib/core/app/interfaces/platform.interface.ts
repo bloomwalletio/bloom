@@ -6,6 +6,8 @@ import { IAppVersionDetails } from './app-version-details.interface'
 import { IPlatformEventMap } from './platform-event-map.interface'
 import { AppTheme } from '../enums'
 import { ITransakWindowData } from './transak-window-data.interface'
+import { KeyValue } from '@ui/types'
+import { ThirdPartyAppName } from '@auxiliary/third-party/enums/third-party-app-name.enum'
 
 export interface IPlatform {
     getStrongholdBackupDestination(defaultPath: string): Promise<string | null>
@@ -62,4 +64,8 @@ export interface IPlatform {
     hideTransak(): Promise<void>
     showTransak(): Promise<void>
     updateTransakBounds(rect: { x: number; y: number; height: number; width: number }): Promise<void>
+
+    getThirdPartyApps(): Promise<ThirdPartyAppName[]>
+    getThirdPartyData(appName: string): Promise<Record<number, KeyValue<string>> | undefined>
+    copyProfileDirectory(appName: string, profileId: string): Promise<void>
 }

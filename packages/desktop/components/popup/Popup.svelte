@@ -38,6 +38,7 @@
     import FaucetRequestPopup from './popups/FaucetRequestPopup.svelte'
     import ImportErc20TokenFormPopup from './popups/ImportErc20TokenFormPopup.svelte'
     import ImportErc721TokenFormPopup from './popups/ImportErc721TokenFormPopup.svelte'
+    import ImportProfilesFromThirdPartyPopup from './popups/ImportProfilesFromThirdPartyPopup.svelte'
     import LegalUpdatePopup from './popups/LegalUpdatePopup.svelte'
     import ManageVotingPowerPopup from './popups/ManageVotingPowerPopup.svelte'
     import MarkdownBlockPopup from './popups/MarkdownBlockPopup.svelte'
@@ -118,6 +119,7 @@
         [PopupId.FaucetRequest]: FaucetRequestPopup,
         [PopupId.ImportErc20Token]: ImportErc20TokenFormPopup,
         [PopupId.ImportErc721Token]: ImportErc721TokenFormPopup,
+        [PopupId.ImportProfilesFromThirdParty]: ImportProfilesFromThirdPartyPopup,
         [PopupId.LegalUpdate]: LegalUpdatePopup,
         [PopupId.ManageVotingPower]: ManageVotingPowerPopup,
         [PopupId.MarkdownBlock]: MarkdownBlockPopup,

@@ -11,6 +11,8 @@ import { bindMethodsAcrossContextBridge } from '../utils/context-bridge.utils'
 import type { IAppSettings, IAppVersionDetails, IPlatform, ITransakWindowData } from '@core/app/interfaces'
 import type { IFeatureFlag } from '@lib/features/interfaces'
 import { AppTheme } from '@core/app/enums'
+import { KeyValue } from '@ui/types'
+import { ThirdPartyAppName } from '@auxiliary/third-party/enums/third-party-app-name.enum'
 
 const eventListeners = {}
 
@@ -244,6 +246,15 @@ const electronApi: IPlatform = {
     },
     updateTransakBounds(rect: Electron.Rectangle): Promise<void> {
         return ipcRenderer.invoke('update-transak-bounds', rect)
+    },
+    getThirdPartyApps(): Promise<ThirdPartyAppName[]> {
+        return ipcRenderer.invoke('get-third-party-apps')
+    },
+    async getThirdPartyData(appName: string): Promise<Record<number, KeyValue<string>> | undefined> {
+        return ipcRenderer.invoke('get-data-from-third-party-app', appName)
+    },
+    copyProfileDirectory(appName: string, profileId: string): Promise<void> {
+        return ipcRenderer.invoke('copy-third-party-profile', appName, profileId)
     },
 }
 

@@ -7,6 +7,7 @@ export interface IPlatformEventMap {
     'ethereum-app-settings': ILedgerEthereumAppSettings
     'evm-address': IEvmAddress
     'evm-signed-transaction': IEvmSignature
+    'import-third-party-profile': void
     'ledger-error': Error
     'lock-screen': void
     'log-error': void

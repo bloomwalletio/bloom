@@ -36,6 +36,7 @@
         "@ledgerhq/logs": "6.12.0",
         "@types/webpack-dev-server": "4.7.2",
         "buffer": "6.0.3",
+        "classic-level": "1.4.1",
         "dotenv": "16.4.5",
         "electron-dl": "3.5.1",
         "electron-log": "4.4.8",
