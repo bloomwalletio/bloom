@@ -16,53 +16,65 @@ import {
 import { NftStandard } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 
+const CSV_KEYS = [
+    'associatedAccount',
+    'transactionId',
+    'transactionTag',
+    'transactionDate',
+    'transactionType',
+    'fromNetworkId',
+    'fromNetworkName',
+    'fromAddress',
+    'fromAddressAlias',
+    'toNetworkId',
+    'toNetworkName',
+    'toAddress',
+    'toAddressAlias',
+    'assetId',
+    'assetType',
+    'assetStandard',
+    'assetName',
+    'assetTicker',
+    'amount',
+    'feeInSMR',
+    'storageDepositInSMR',
+    'sdruc',
+    'sdrucStatus',
+    'expirationDate',
+    'expirationStatus',
+    'timelockDate',
+    'timelockStatus',
+]
+
 type ActivityCsvRow = {
-    associatedAccount: string | undefined
-    transactionId: string | undefined
-    transactionTag: string | undefined
-    transactionDate: string | undefined
-    transactionType: string | undefined
-    fromNetworkId: string | undefined
-    fromNetworkName: string | undefined
-    fromAddress: string | undefined
-    fromAddressAlias: string | undefined
-    toNetworkId: string | undefined
-    toNetworkName: string | undefined
-    toAddress: string | undefined
-    toAddressAlias: string | undefined
-    assetId: string | undefined
-    assetType: string | undefined
-    assetStandard: string | undefined
-    assetName: string | undefined
-    assetTicker: string | undefined
-    amount: string | undefined
-    feeInSMR: string | undefined
-    storageDepositInSMR: string | undefined
-    sdruc: string | undefined
-    sdrucStatus: string | undefined
-    expirationDate: string | undefined
-    expirationStatus: string | undefined
-    timelockDate: string | undefined
-    timelockStatus: string | undefined
+    [key in (typeof CSV_KEYS)[number]]: string | undefined
 }
 
 export function convertActvitiesToCsv(account: IAccountState, activities: Activity[]): string {
-    const keys =
-        'associatedAccount,transactionId,transactionTag,transactionDate,transactionType,fromNetworkId,fromNetworkName,fromAddress,fromAddressAlias,toNetworkId,toNetworkName,toAddress,toAddressAlias,assetId,assetType,assetStandard,assetName,assetTicker,amount,feeInSMR,storageDepositInSMR,sdruc,sdrucStatus,expirationDate,expirationStatus,timelockDate,timelockStatus'
-
     const activityRows = activities.map((activity) => {
         if (activity.namespace === NetworkNamespace.Stardust) {
             const activityRow = getRowForStardustActivity(account, activity)
-            return Object.values(activityRow).join(',')
+            const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
+            return values.join(',')
         } else if (activity.namespace === NetworkNamespace.Evm) {
             const activityRow = getRowForEvmActivity(account, activity)
-            return Object.values(activityRow).join(',')
+            const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
+            return values.join(',')
         } else {
             return ''
         }
     })
 
-    return `${keys}\n${activityRows.join('\n')}`
+    const header = CSV_KEYS.join(',')
+    const table = activityRows.join('\n')
+
+    return `${header}\n${table}`
+}
+
+function escapeValue(value: string): string {
+    const valuesToEscape = ['"', ',']
+
+    return valuesToEscape.some((valueToEscape) => value?.includes(valueToEscape)) ? `"${value}"` : value
 }
 
 function getRowForStardustActivity(account: IAccountState, activity: StardustActivity): ActivityCsvRow {
@@ -77,7 +89,12 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
         if (activity.tokenTransfer) {
             const tokenId = activity.tokenTransfer.tokenId
             const metadata = getPersistedToken(tokenId)?.metadata as IErc20Metadata | IIrc30Metadata
-            amount = metadata ? formatTokenAmountBestMatch(activity.tokenTransfer.rawAmount, metadata) : ''
+            amount = metadata
+                ? formatTokenAmountBestMatch(activity.tokenTransfer.rawAmount, metadata, {
+                      round: false,
+                      withUnit: false,
+                  })
+                : ''
 
             assetId = tokenId
             assetType = 'TOKEN'
@@ -86,7 +103,12 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
             assetTicker = metadata?.symbol
         } else {
             const metadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
-            amount = metadata ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, metadata) : ''
+            amount = metadata
+                ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, metadata, {
+                      round: false,
+                      withUnit: false,
+                  })
+                : ''
 
             assetId = 'BASE_COIN'
             assetType = 'TOKEN'
@@ -110,7 +132,7 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
         transactionId: activity.transactionId,
         transactionTag: activity.tag,
         transactionDate: activity.time.toString(),
-        transactionType: undefined,
+        transactionType: undefined, // Coin Transfer | Token Transfer | Contract call
         fromNetworkId: activity.sourceNetworkId,
         fromNetworkName: getNameFromNetworkId(activity.sourceNetworkId),
         fromAddress: activity.sender?.address,
@@ -127,14 +149,16 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
         amount,
         feeInSMR: String(activity.transactionFee ?? ''),
         storageDepositInSMR: String(activity.storageDeposit ?? ''),
-        sdruc: undefined,
+        sdruc: undefined, // TODO add this
         sdrucStatus: undefined,
         expirationDate: activity.asyncData?.expirationDate?.toString(),
-        expirationStatus:
-            activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Claimed ? 'Claimed' : undefined, //  TODO: Improve this
+        expirationStatus: activity.asyncData?.expirationDate ? activity.asyncData?.asyncStatus : undefined, //  TODO: Improve this
         timelockDate: activity.asyncData?.timelockDate?.toString(),
-        timelockStatus:
-            activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Timelocked ? 'timelocked' : undefined, //  TODO: Improve this
+        timelockStatus: activity.asyncData?.timelockDate
+            ? activity.asyncData?.timelockDate > new Date()
+                ? StardustActivityAsyncStatus.Timelocked
+                : undefined
+            : undefined, //  TODO: Improve this
     }
 }
 
@@ -148,7 +172,12 @@ function getRowForEvmActivity(account: IAccountState, activity: EvmActivity): Ac
 
     if (activity.type === EvmActivityType.CoinTransfer) {
         const metadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
-        amount = metadata ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, metadata) : ''
+        amount = metadata
+            ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, metadata, {
+                  round: false,
+                  withUnit: false,
+              })
+            : ''
 
         assetId = 'BASE_COIN'
         assetType = 'TOKEN'
@@ -159,7 +188,7 @@ function getRowForEvmActivity(account: IAccountState, activity: EvmActivity): Ac
         const { standard, tokenId, rawAmount } = activity.tokenTransfer
         if (standard === TokenStandard.Erc20 || standard === TokenStandard.Irc30) {
             const metadata = getPersistedToken(tokenId)?.metadata as IErc20Metadata | IIrc30Metadata
-            amount = metadata ? formatTokenAmountBestMatch(rawAmount, metadata) : ''
+            amount = metadata ? formatTokenAmountBestMatch(rawAmount, metadata, { round: false, withUnit: false }) : ''
 
             assetId = tokenId
             assetType = 'TOKEN'
