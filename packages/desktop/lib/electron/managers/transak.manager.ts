@@ -249,6 +249,7 @@ export default class TransakManager implements ITransakManager {
             disableWalletAddressForm: true,
             isFeeCalculationHidden: true,
             disablePaymentMethods: ['apple_pay', 'google_pay'],
+            excludeFiatCurrencies: 'USD',
             colorMode,
         }
 

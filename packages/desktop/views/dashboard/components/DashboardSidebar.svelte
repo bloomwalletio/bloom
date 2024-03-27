@@ -62,13 +62,18 @@
                   },
               ]
             : []),
-        ...(features?.buySell?.enabled && $activeProfile?.network?.id === StardustNetworkId.Iota
+        ...(features?.buySell?.enabled
             ? [
                   {
                       icon: IconName.ArrowDownUp,
                       label: localize('tabs.buySell'),
                       route: DashboardRoute.BuySell,
                       onClick: openBuySell,
+                      disabled: $activeProfile?.network?.id !== StardustNetworkId.Iota,
+                      tooltip:
+                          $activeProfile?.network?.id !== StardustNetworkId.Iota
+                              ? localize('tabs.tooltips.buySell')
+                              : '',
                   },
               ]
             : []),
@@ -140,7 +145,13 @@
         <dashboard-sidebar-tabs class="flex flex-col">
             {#each sidebarTabs as tab}
                 <div class="flex">
-                    <SidebarTab {tab} {expanded} selected={$dashboardRoute === tab.route} />
+                    <SidebarTab
+                        {tab}
+                        {expanded}
+                        selected={$dashboardRoute === tab.route}
+                        disabled={tab.disabled}
+                        tooltip={tab.tooltip}
+                    />
                 </div>
             {/each}
         </dashboard-sidebar-tabs>

@@ -28,6 +28,9 @@ const walletFeatures: IWalletFeatures = {
         search: {
             enabled: true,
         },
+        exportCsv: {
+            enabled: false,
+        },
     },
     portfolio: {
         filter: {

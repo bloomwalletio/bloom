@@ -985,6 +985,10 @@
             "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
+        "exportActivities": {
+            "title": "Export activities",
+            "body": "Export your activities as a CSV."
+        },
         "signMessage": {
             "title": "Sign message",
             "hint": "No balance will be sent to {dappName} in the process of signing this message.",
@@ -2138,7 +2142,10 @@
         "buySell": "Buy IOTA",
         "developer": "Developer",
         "tokens": "Tokens",
-        "settings": "Settings"
+        "settings": "Settings",
+        "tooltips": {
+            "buySell": "Buying IOTA is only available in IOTA profiles."
+        }
     },
     "pills": {
         "asyncStatus": {
