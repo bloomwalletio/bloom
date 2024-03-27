@@ -429,7 +429,11 @@ ipcMain.handle('keychain-set', (_e, key, content) => keychainManager.set(key, co
 ipcMain.handle('keychain-remove', (_e, key) => keychainManager.remove(key))
 // Dialogs
 ipcMain.handle('show-open-dialog', (_e, options) => dialog.showOpenDialog(options))
-ipcMain.handle('show-save-dialog', (_e, options) => dialog.showSaveDialog(options))
+ipcMain.handle('show-save-dialog', (_e, options) => {
+    const filePath = path.resolve(app.getPath('documents'), options.defaultPath)
+
+    return dialog.showSaveDialog({ ...options, defaultPath: filePath })
+})
 
 // Miscellaneous
 ipcMain.handle('get-path', (_e, path) => {

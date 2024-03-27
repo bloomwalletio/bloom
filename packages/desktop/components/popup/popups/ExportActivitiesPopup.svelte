@@ -5,17 +5,26 @@
     import { convertActvitiesToCsv } from '@core/activity/utils'
     import { allAccountActivities } from '@core/activity'
     import { activeAccounts } from '@core/profile/stores'
+    import { Platform } from '@core/app/classes'
+    import { handleError } from '@core/error/handlers'
 
-    const busy = false
+    let busy = false
 
     function onCancelClick(): void {
         closePopup()
     }
 
-    function onExportClick(): void {
-        // TODO: Write string to users device
-        convertActvitiesToCsv($activeAccounts, $allAccountActivities)
-        closePopup()
+    async function onExportClick(): Promise<void> {
+        try {
+            busy = true
+            const content = convertActvitiesToCsv($activeAccounts, $allAccountActivities)
+            await Platform.saveTextInFile('activities', 'csv', content)
+            closePopup()
+        } catch (err) {
+            handleError(err)
+        } finally {
+            busy = false
+        }
     }
 </script>
 
@@ -25,12 +34,10 @@
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
-        disabled: busy,
     }}
     continueButton={{
         text: localize('actions.export'),
         onClick: onExportClick,
-        disabled: busy,
     }}
     {busy}
 ></PopupTemplate>
