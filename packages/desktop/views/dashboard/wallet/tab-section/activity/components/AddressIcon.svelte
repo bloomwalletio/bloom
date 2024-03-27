@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { StardustActivity } from '@core/activity'
+    import { Activity } from '@core/activity'
     import { isSubjectInternal } from '@core/wallet'
 
-    export let activity: StardustActivity
+    export let activity: Activity
 </script>
 
 {#if isSubjectInternal(activity.sender) && isSubjectInternal(activity.recipient)}

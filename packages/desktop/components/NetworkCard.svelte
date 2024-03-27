@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Button, Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
+    import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
@@ -67,9 +68,9 @@
                     await generateAndStoreEvmAddressForAccounts(
                         $activeProfile.type,
                         configuration.coinType,
-                        $selectedAccount
+                        $selectedAccount as IAccountState
                     )
-                    pollL2BalanceForAccount($selectedAccount)
+                    pollL2BalanceForAccount($activeProfile.id, $selectedAccount as IAccountState)
                     if ($activeProfile.type === ProfileType.Ledger) {
                         $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
                     }

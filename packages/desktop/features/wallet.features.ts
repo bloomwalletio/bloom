@@ -37,11 +37,6 @@ const walletFeatures: IWalletFeatures = {
             enabled: false,
         },
     },
-    smartContracts: {
-        infuraRegistry: {
-            enabled: false,
-        },
-    },
 }
 
 export default walletFeatures

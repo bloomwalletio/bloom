@@ -1,5 +1,6 @@
 export * from './activity-filter.interface'
 export * from './activity-generation-parameters.interface'
+export * from './activity.type'
 export * from './token-balance-change.interface'
 export * from './evm/base-evm-activity.type'
 export * from './claimed-activities.interface'

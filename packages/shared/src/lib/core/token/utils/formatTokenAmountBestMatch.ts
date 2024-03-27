@@ -8,6 +8,7 @@ const DEFAULT_MAX_DECIMALS = 6
 type FormatOptions = Partial<{
     withUnit: boolean
     round: boolean
+    decimals: number
 }>
 
 export function formatTokenAmountBestMatch(
