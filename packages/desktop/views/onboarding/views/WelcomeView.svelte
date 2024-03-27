@@ -11,7 +11,6 @@
     import { Illustration } from '@ui'
     import { onboardingRouter } from '../onboarding-router'
     import { LoggedOutLayout } from '@views/components'
-    import { thirdPartyProfiles } from '@auxiliary/third-party/stores'
 
     let termsAccepted: boolean = false
     let flash: boolean = false
@@ -64,7 +63,6 @@
                 icon={IconName.ArrowNarrowRight}
                 reverse
                 width="fit"
-                disabled={$thirdPartyProfiles === undefined}
             />
         </div>
         <illustration-container class="relative">
