@@ -86,6 +86,7 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
     let assetName: string | undefined
     let assetTicker: string | undefined
     let amount: string | undefined
+    const baseCoinMetadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
 
     if (activity.type === StardustActivityType.Basic) {
         if (activity.tokenTransfer) {
@@ -104,9 +105,8 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
             assetName = metadata?.name
             assetTicker = metadata?.symbol
         } else {
-            const metadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
-            amount = metadata
-                ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, metadata, {
+            amount = baseCoinMetadata
+                ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, baseCoinMetadata, {
                       round: false,
                       withUnit: false,
                   })
@@ -114,9 +114,9 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
 
             assetId = 'BASE_COIN'
             assetType = 'TOKEN'
-            assetStandard = metadata?.standard
-            assetName = metadata?.name
-            assetTicker = metadata?.tickerSymbol
+            assetStandard = baseCoinMetadata?.standard
+            assetName = baseCoinMetadata?.name
+            assetTicker = baseCoinMetadata?.tickerSymbol
         }
     } else if (activity.type === StardustActivityType.Nft) {
         const nft = getNftByIdFromAllAccountNfts(account.index, activity.nftId)
@@ -128,6 +128,19 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
         assetTicker = ''
         amount = '1'
     }
+
+    const storageDepositInSMR = activity.storageDeposit
+        ? formatTokenAmountBestMatch(activity.storageDeposit, baseCoinMetadata, {
+              round: false,
+              withUnit: false,
+          })
+        : undefined
+    const feeInSMR = activity.transactionFee
+        ? formatTokenAmountBestMatch(activity.transactionFee, baseCoinMetadata, {
+              round: false,
+              withUnit: false,
+          })
+        : undefined
 
     return {
         associatedAccount: account.name,
@@ -149,9 +162,9 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
         assetName,
         assetTicker,
         amount,
-        feeInSMR: String(activity.transactionFee ?? ''),
-        storageDepositInSMR: String(activity.storageDeposit ?? ''),
-        sdruc: String(activity.storageDeposit ?? ''),
+        feeInSMR,
+        storageDepositInSMR,
+        sdruc: activity.storageDeposit ? 'True' : 'False',
         sdrucStatus: activity.storageDeposit ? activity.asyncData?.asyncStatus : undefined,
         expirationDate: activity.asyncData?.expirationDate?.toString(),
         expirationStatus: activity.asyncData?.expirationDate ? activity.asyncData?.asyncStatus : undefined, //  TODO: Improve this
