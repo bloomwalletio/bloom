@@ -151,8 +151,8 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
         amount,
         feeInSMR: String(activity.transactionFee ?? ''),
         storageDepositInSMR: String(activity.storageDeposit ?? ''),
-        sdruc: undefined, // TODO add this
-        sdrucStatus: undefined,
+        sdruc: String(activity.storageDeposit ?? ''),
+        sdrucStatus: activity.storageDeposit ? activity.asyncData?.asyncStatus : undefined,
         expirationDate: activity.asyncData?.expirationDate?.toString(),
         expirationStatus: activity.asyncData?.expirationDate ? activity.asyncData?.asyncStatus : undefined, //  TODO: Improve this
         timelockDate: activity.asyncData?.timelockDate?.toString(),
