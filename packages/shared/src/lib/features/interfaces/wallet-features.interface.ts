@@ -12,6 +12,7 @@ export interface IWalletFeatures extends IFeatureFlag {
     activityHistory: IFeatureFlag & {
         sync: IFeatureFlag
         search: IFeatureFlag
+        exportCsv: IFeatureFlag
     }
     portfolio: {
         filter: IFeatureFlag

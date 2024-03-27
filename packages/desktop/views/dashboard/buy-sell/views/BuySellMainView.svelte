@@ -65,16 +65,17 @@
     }
 
     function getDefaultFiatAmount(currency: MarketCurrency): number {
+        const DEFAULT_FIAT_AMOUNT = 1000
         switch (currency) {
             case MarketCurrency.Usd:
             case MarketCurrency.Eur:
             case MarketCurrency.Gbp:
-                return 100
+                return DEFAULT_FIAT_AMOUNT
             default: {
                 const conversionRate =
                     $marketCoinPrices[MarketCoinId.Iota]?.[currency] /
                     $marketCoinPrices[MarketCoinId.Iota]?.[MarketCurrency.Usd]
-                const fiatAmount = 100 * conversionRate
+                const fiatAmount = DEFAULT_FIAT_AMOUNT * conversionRate
                 const roundedAmount = customRound(fiatAmount)
                 return roundedAmount
             }
