@@ -5,13 +5,14 @@ import { INftBalanceChange } from '../types'
 import { generateEvmNftBalanceChangeActivity } from '../utils'
 
 export function calculateAndAddPersistedNftBalanceChange(
+    profileId: string,
     account: IAccountState,
     networkId: NetworkId,
     nftId: string,
     owned: boolean,
     hidden: boolean = false
 ): void {
-    const balanceChangesForAsset = getBalanceChanges(account.index, networkId)?.nfts?.[nftId]
+    const balanceChangesForAsset = getBalanceChanges(profileId, account.index, networkId)?.nfts?.[nftId]
     const lastBalanceChange = balanceChangesForAsset?.at(-1)
 
     if (lastBalanceChange?.owned === owned || (!lastBalanceChange && !owned)) {
@@ -28,5 +29,5 @@ export function calculateAndAddPersistedNftBalanceChange(
         const activity = generateEvmNftBalanceChangeActivity(networkId, nftId, newBalanceChange, account)
         addAccountActivity(account.index, activity)
     }
-    addPersistedNftBalanceChange(account.index, networkId, nftId, newBalanceChange)
+    addPersistedNftBalanceChange(profileId, account.index, networkId, nftId, newBalanceChange)
 }

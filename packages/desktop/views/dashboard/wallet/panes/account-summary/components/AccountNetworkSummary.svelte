@@ -71,7 +71,7 @@
                     chain.getConfiguration().coinType,
                     $selectedAccount
                 )
-                pollL2BalanceForAccount($selectedAccount)
+                pollL2BalanceForAccount($activeProfile.id, $selectedAccount)
                 if ($activeProfile.type === ProfileType.Ledger) {
                     setSelectedChain(chain)
                     toggleDashboardDrawer({

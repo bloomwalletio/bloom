@@ -8,6 +8,7 @@ import { ITokenBalanceChange } from '../types'
 import { generateEvmTokenBalanceChangeActivity } from '../utils'
 
 export function calculateAndAddPersistedTokenBalanceChange(
+    profileId: string,
     account: IAccountState,
     networkId: NetworkId,
     tokenId: string,
@@ -16,7 +17,7 @@ export function calculateAndAddPersistedTokenBalanceChange(
 ): void {
     const newBalance = newBalanceBigInt.toString() || '0'
 
-    const balanceChangesForAsset = getBalanceChanges(account.index, networkId)?.tokens?.[tokenId]
+    const balanceChangesForAsset = getBalanceChanges(profileId, account.index, networkId)?.tokens?.[tokenId]
     const oldBalance = String(balanceChangesForAsset?.at(-1)?.newBalance ?? 0)
 
     if (oldBalance === newBalance) {
@@ -36,5 +37,5 @@ export function calculateAndAddPersistedTokenBalanceChange(
         const activity = generateEvmTokenBalanceChangeActivity(networkId, tokenId, newBalanceChange, account)
         addAccountActivity(account.index, activity)
     }
-    addPersistedTokenBalanceChange(account.index, networkId, tokenId, newBalanceChange)
+    addPersistedTokenBalanceChange(profileId, account.index, networkId, tokenId, newBalanceChange)
 }

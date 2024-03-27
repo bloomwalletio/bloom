@@ -5,13 +5,16 @@ import { get } from 'svelte/store'
 import { NetworkId, network } from '@core/network'
 import { generateEvmNftBalanceChangeActivity, generateEvmTokenBalanceChangeActivity } from './evm'
 
-export async function generateActivitiesFromBalanceChanges(account: IAccountState): Promise<EvmActivity[]> {
+export async function generateActivitiesFromBalanceChanges(
+    profileId: string,
+    account: IAccountState
+): Promise<EvmActivity[]> {
     const activities: EvmActivity[] = []
 
     const chains = get(network)?.getChains() ?? []
     for (const chain of chains) {
         const networkId = chain.getConfiguration().id
-        const balanceChanges = getBalanceChanges(account.index, networkId)
+        const balanceChanges = getBalanceChanges(profileId, account.index, networkId)
 
         const tokenActivities = await generateActivitiesFromTokenBalanceChanges(
             account,

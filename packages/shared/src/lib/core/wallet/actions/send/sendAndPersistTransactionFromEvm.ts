@@ -55,7 +55,7 @@ async function persistEvmTransaction(
 
     addAccountActivity(account.index, activity)
 
-    createHiddenBalanceChange(account, activity)
+    createHiddenBalanceChange(profileId, account, activity)
 
     if (activity.recipient?.type === 'account') {
         const recipientAccount = activity.recipient.account
@@ -70,24 +70,31 @@ async function persistEvmTransaction(
         }
 
         addAccountActivity(recipientAccount.index, receiveActivity)
-        createHiddenBalanceChange(recipientAccount, receiveActivity)
+        createHiddenBalanceChange(profileId, recipientAccount, receiveActivity)
     }
 }
 
 // Hidden balance changes mitigate duplicate activities for L2 transactions (balance changed & sent/receive activities).
-function createHiddenBalanceChange(account: IAccountState, activity: EvmActivity): void {
+function createHiddenBalanceChange(profileId: string, account: IAccountState, activity: EvmActivity): void {
     const received = activity.direction === ActivityDirection.Incoming
     const networkId = activity.sourceNetworkId
 
     if (activity.type === EvmActivityType.TokenTransfer && activity.tokenTransfer.standard === NftStandard.Irc27) {
         const owned = received ? true : false
-        calculateAndAddPersistedNftBalanceChange(account, networkId, activity.tokenTransfer.tokenId, owned, true)
+        calculateAndAddPersistedNftBalanceChange(
+            profileId,
+            account,
+            networkId,
+            activity.tokenTransfer.tokenId,
+            owned,
+            true
+        )
     }
     if (activity.type === EvmActivityType.TokenTransfer && activity.tokenTransfer.standard === TokenStandard.Irc30) {
         const tokenId = activity.tokenTransfer.tokenId
         const amount = received ? activity.tokenTransfer.rawAmount : BigInt(-1) * activity.tokenTransfer.rawAmount
 
         const newBalance = updateLayer2AccountBalanceForTokenOnChain(account.index, networkId, tokenId, amount)
-        calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance, true)
+        calculateAndAddPersistedTokenBalanceChange(profileId, account, networkId, tokenId, newBalance, true)
     }
 }

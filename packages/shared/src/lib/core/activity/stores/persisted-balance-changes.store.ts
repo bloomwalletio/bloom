@@ -3,7 +3,6 @@ import { ITokenBalanceChange } from '../types/token-balance-change.interface'
 import { INftBalanceChange } from '../types/nft-balance-change.interface'
 import { get } from 'svelte/store'
 import { NetworkId } from '@core/network'
-import { getActiveProfileId } from '@core/profile/stores'
 
 type IPersistedBalanceChangesStore = {
     [profileId: string]: {
@@ -23,6 +22,7 @@ type IPersistedBalanceChangesStore = {
 export const persistedBalanceChanges = persistent<IPersistedBalanceChangesStore>('balanceChanges', {})
 
 export function getBalanceChanges(
+    profileId: string,
     accountIndex: number,
     networkId: NetworkId
 ): {
@@ -33,17 +33,17 @@ export function getBalanceChanges(
         [tokenId: string]: ITokenBalanceChange[]
     }
 } {
-    return get(persistedBalanceChanges)?.[getActiveProfileId()]?.[accountIndex]?.[networkId] ?? { nfts: {}, tokens: {} }
+    return get(persistedBalanceChanges)?.[profileId]?.[accountIndex]?.[networkId] ?? { nfts: {}, tokens: {} }
 }
 
 export function addPersistedTokenBalanceChange(
+    profileId: string,
     accountIndex: number,
     networkId: NetworkId,
     tokenId: string,
     ...newPersistedTokenBalanceChanges: ITokenBalanceChange[]
 ): void {
     persistedBalanceChanges.update((state) => {
-        const profileId = getActiveProfileId()
         let profileBalanceChanges = state[profileId]
 
         if (!profileBalanceChanges) {
@@ -79,13 +79,13 @@ export function addPersistedTokenBalanceChange(
 }
 
 export function addPersistedNftBalanceChange(
+    profileId: string,
     accountIndex: number,
     networkId: NetworkId,
     nftId: string,
     ...newPersistedNftBalanceChanges: INftBalanceChange[]
 ): void {
     persistedBalanceChanges.update((state) => {
-        const profileId = getActiveProfileId()
         let profileBalanceChanges = state[profileId]
 
         if (!profileBalanceChanges) {

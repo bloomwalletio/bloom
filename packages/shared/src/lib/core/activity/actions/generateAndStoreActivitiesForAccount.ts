@@ -37,7 +37,7 @@ export async function generateAndStoreActivitiesForAccount(
         account,
         networkId
     )
-    const balanceChangeActivities = await generateActivitiesFromBalanceChanges(account)
+    const balanceChangeActivities = await generateActivitiesFromBalanceChanges(profileId, account)
     activities.push(...balanceChangeActivities)
 
     const chainActivities = await generateEvmActivitiesFromEvmChains(profileId, account)
