@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ThirdPartyAppName, thirdPartyProfiles } from '@auxiliary/third-party'
     import { importThirdPartyProfiles, updateThirdPartyProfilesStore } from '@auxiliary/third-party/actions'
-    import { Spinner, Text } from '@bloomwalletio/ui'
+    import { Alert, Spinner, Text } from '@bloomwalletio/ui'
     import { ImportProfileTile, PopupTemplate } from '@components/index'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup/actions'
@@ -14,7 +14,9 @@
     export let popup: boolean = false
 
     const selectedProfiles: { [profileId: string]: boolean } = {}
+
     let busy = false
+    let error = ''
 
     $: disableContinue = $thirdPartyProfiles
         ? Object.values($thirdPartyProfiles).filter(
@@ -57,18 +59,34 @@
         }
     }
 
+    async function tryUpdateThirdPartyProfilesStore(): Promise<void> {
+        try {
+            error = ''
+            busy = true
+            await updateThirdPartyProfilesStore(
+                Object.entries(selectedApps)
+                    .filter(([, selected]) => selected)
+                    .map(([appName]) => appName as ThirdPartyAppName)
+            )
+        } catch (err) {
+            const _err = err as Error
+            if (_err.message.match(/LEVEL_ITERATOR_NOT_OPEN/g)) {
+                error = localize('views.onboarding.importThirdPartyProfiles.importProfiles.errors.appIsOpen')
+            } else {
+                error = localize('views.onboarding.importThirdPartyProfiles.importProfiles.errors.unknown')
+            }
+            return
+        } finally {
+            busy = false
+        }
+    }
+
     function onCancelClick(): void {
         thirdPartyProfiles.set(undefined)
         $importThirdPartyProfilesRouter.previous()
     }
 
-    onMount(() => {
-        void updateThirdPartyProfilesStore(
-            Object.entries(selectedApps)
-                .filter(([, selected]) => selected)
-                .map(([appName]) => appName as ThirdPartyAppName)
-        )
-    })
+    onMount(tryUpdateThirdPartyProfilesStore)
 </script>
 
 <svelte:component
@@ -81,13 +99,15 @@
         onClick: onCancelClick,
     }}
     continueButton={{
-        text: localize('actions.import'),
-        onClick: onImportClick,
-        disabled: disableContinue,
+        text: localize(error ? 'actions.refresh' : 'actions.import'),
+        onClick: error ? tryUpdateThirdPartyProfilesStore : onImportClick,
+        disabled: !error && disableContinue,
     }}
 >
     <div slot="content" class="flex flex-col gap-2 max-h-[392px] overflow-y-auto p-0.5">
-        {#if $thirdPartyProfiles === undefined}
+        {#if error}
+            <Alert variant="danger" text={error} />
+        {:else if $thirdPartyProfiles === undefined}
             <Spinner />
         {:else if Object.keys($thirdPartyProfiles ?? {}).length > 0}
             {#each Object.entries($thirdPartyProfiles ?? {}) as [thirdPartyProfileId, thirdPartyProfile]}

@@ -53,7 +53,13 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
             await db.close()
             return data
         } catch (err) {
-            console.error(err)
+            // https://github.com/Level/abstract-level#errors
+            const _err = err as Error & { code?: string }
+            if (_err?.code) {
+                throw new Error(_err.code)
+            } else {
+                console.error(err)
+            }
         }
     }
 

@@ -19,6 +19,6 @@ export async function getThirdPartyPersistedProfiles(
         })
         return thirdPartyProfiles.length ? Promise.resolve(thirdPartyProfiles) : Promise.reject()
     } catch (error) {
-        return Promise.reject()
+        return Promise.reject(error)
     }
 }

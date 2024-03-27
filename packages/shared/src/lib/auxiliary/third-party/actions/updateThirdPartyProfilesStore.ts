@@ -4,33 +4,24 @@ import { ThirdPartyProfileStore, thirdPartyProfiles } from '../stores'
 import { getThirdPartyPersistedProfiles } from './getThirdPartyPersistedProfiles'
 import { get } from 'svelte/store'
 
-export async function updateThirdPartyProfilesStore(
-    selectedApps: ThirdPartyAppName[]
-): Promise<{ [key in ThirdPartyAppName]?: boolean }> {
+export async function updateThirdPartyProfilesStore(selectedApps: ThirdPartyAppName[]): Promise<void> {
     const _thirdPartyProfiles: ThirdPartyProfileStore = {}
-    const updateStatus: { [key in ThirdPartyAppName]?: boolean } = {}
     for (const appName of selectedApps) {
-        try {
-            const appProfiles = await getThirdPartyPersistedProfiles(appName)
-            updateStatus[appName] = true
+        const appProfiles = await getThirdPartyPersistedProfiles(appName)
 
-            for (const appProfile of appProfiles) {
-                const { needsChrysalisToStardustDbMigration = false } = appProfile
-                const alreadyImported = get(profiles).some((profile) => profile.id === appProfile.id)
+        for (const appProfile of appProfiles) {
+            const { needsChrysalisToStardustDbMigration = false } = appProfile
+            const alreadyImported = get(profiles).some((profile) => profile.id === appProfile.id)
 
-                const convertedAppProfile = {
-                    profile: appProfile,
-                    needsChrysalisToStardustDbMigration,
-                    alreadyImported,
-                    appName,
-                }
-
-                _thirdPartyProfiles[convertedAppProfile.profile.id] = convertedAppProfile
+            const convertedAppProfile = {
+                profile: appProfile,
+                needsChrysalisToStardustDbMigration,
+                alreadyImported,
+                appName,
             }
-        } catch {
-            updateStatus[appName] = false
+
+            _thirdPartyProfiles[convertedAppProfile.profile.id] = convertedAppProfile
         }
     }
     thirdPartyProfiles.set(_thirdPartyProfiles)
-    return updateStatus
 }

@@ -21,6 +21,10 @@
                     "warnings": {
                         "alreadyImported": "Already imported",
                         "needsMigration": "Needs database migration"
+                    },
+                    "errors": {
+                        "appIsOpen": "Please close the apps before importing",
+                        "unknown": "An unknown error occurred while trying to import the profiles"
                     }
                 }
             },
