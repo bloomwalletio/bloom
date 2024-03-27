@@ -1,3 +1,4 @@
+export * from './convertActvitiesToCsv'
 export * from './generateActivitiesFromBalanceChanges'
 export * from './getActivityDetailsTitle'
 export * from './getActivityActionTextColor'

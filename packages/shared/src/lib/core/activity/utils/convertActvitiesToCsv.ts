@@ -50,19 +50,21 @@ type ActivityCsvRow = {
     [key in (typeof CSV_KEYS)[number]]: string | undefined
 }
 
-export function convertActvitiesToCsv(account: IAccountState, activities: Activity[]): string {
-    const activityRows = activities.map((activity) => {
-        if (activity.namespace === NetworkNamespace.Stardust) {
-            const activityRow = getRowForStardustActivity(account, activity)
-            const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
-            return values.join(',')
-        } else if (activity.namespace === NetworkNamespace.Evm) {
-            const activityRow = getRowForEvmActivity(account, activity)
-            const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
-            return values.join(',')
-        } else {
-            return ''
-        }
+export function convertActvitiesToCsv(account: IAccountState[], activities: Activity[][]): string {
+    const activityRows = account.flatMap((account) => {
+        return activities[account.index].map((activity) => {
+            if (activity.namespace === NetworkNamespace.Stardust) {
+                const activityRow = getRowForStardustActivity(account, activity)
+                const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
+                return values.join(',')
+            } else if (activity.namespace === NetworkNamespace.Evm) {
+                const activityRow = getRowForEvmActivity(account, activity)
+                const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
+                return values.join(',')
+            } else {
+                return ''
+            }
+        })
     })
 
     const header = CSV_KEYS.join(',')
