@@ -3,7 +3,7 @@ import { ActivityAction, StardustActivityType } from '../enums'
 import { Activity } from '../types'
 import { getVotingEvent } from '@contexts/governance/actions'
 import { truncateString } from '@core/utils'
-import { getSubjectLocaleFromActivity } from './helper'
+import { getNameFromSubject } from './helper'
 import { NetworkNamespace } from '@core/network/enums'
 import { EvmActivityType } from '../enums/evm'
 
@@ -32,12 +32,16 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
             const key = `${localizationPrefix}.${(activity.isInternal ? 'internal.' : 'external.') + activity.direction}.${
                 activity.inclusionState
             }`
-            const displayedSubject = getSubjectLocaleFromActivity(activity)
+            const displayedSubject = getNameFromSubject(
+                activity.subject,
+                true,
+                activity.type === StardustActivityType.Basic && activity?.isShimmerClaiming
+            )
 
             return localize(key, { subject: displayedSubject })
         } else if (activity.action === ActivityAction.Mint || activity.action === ActivityAction.Burn) {
             const key = `${localizationPrefix}.${activity.action}.${activity.inclusionState}`
-            const displayedSubject = getSubjectLocaleFromActivity(activity)
+            const displayedSubject = getNameFromSubject(activity.subject, true)
 
             return localize(key, { subject: displayedSubject })
         } else {
@@ -52,11 +56,11 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
             const key = `${localizationPrefix}.${(activity.isInternal ? 'internal.' : 'external.') + activity.direction}.${
                 activity.inclusionState
             }`
-            const displayedSubject = getSubjectLocaleFromActivity(activity)
+            const displayedSubject = getNameFromSubject(activity.subject, true)
 
             return localize(key, { subject: displayedSubject })
         } else if (activity.type === EvmActivityType.ContractCall) {
-            const displayedSubject = getSubjectLocaleFromActivity(activity)
+            const displayedSubject = getNameFromSubject(activity.subject, true)
 
             return localize('general.contractCall') + ` - ${displayedSubject}`
         } else {

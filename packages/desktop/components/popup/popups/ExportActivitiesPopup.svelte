@@ -2,6 +2,9 @@
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { convertActvitiesToCsv } from '@core/activity/utils'
+    import { allAccountActivities } from '@core/activity'
+    import { activeAccounts } from '@core/profile/stores'
 
     const busy = false
 
@@ -10,7 +13,9 @@
     }
 
     function onExportClick(): void {
-        // TODO: implement CSV export
+        // TODO: Write string to users device
+        convertActvitiesToCsv($activeAccounts, $allAccountActivities)
+        closePopup()
     }
 </script>
 
