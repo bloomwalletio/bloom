@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ThirdPartyAppName, thirdPartyProfiles } from '@auxiliary/third-party'
     import { importThirdPartyProfiles } from '@auxiliary/third-party/actions'
-    import { Spinner } from '@bloomwalletio/ui'
+    import { Spinner, Text } from '@bloomwalletio/ui'
     import { ImportProfileTile, PopupTemplate } from '@components/index'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup/actions'
@@ -21,7 +21,7 @@
         : true
 
     function onSelectedProfileClick(profileId: string): void {
-        if ($thirdPartyProfiles[profileId]) {
+        if ($thirdPartyProfiles?.[profileId]) {
             selectedProfiles[profileId] = !selectedProfiles[profileId]
         }
     }
@@ -31,7 +31,7 @@
             busy = true
             await Promise.allSettled(
                 Object.values(ThirdPartyAppName).map(async (appName) => {
-                    const profiles = Object.values($thirdPartyProfiles)
+                    const profiles = Object.values($thirdPartyProfiles ?? {})
                         .filter(
                             (profile) =>
                                 profile.appName === appName &&
@@ -66,7 +66,8 @@
 </script>
 
 <PopupTemplate
-    title={localize('popups.importProfilesFromThirdParty.title')}
+    title={localize('views.onboarding.importThirdPartyProfiles.importProfiles.title')}
+    description={localize('views.onboarding.importThirdPartyProfiles.importProfiles.description')}
     {busy}
     backButton={{
         text: localize('actions.back'),
@@ -80,7 +81,7 @@
 >
     <div class="flex flex-col gap-2 max-h-[392px] overflow-y-auto p-0.5">
         {#if Object.keys($thirdPartyProfiles ?? {}).length > 0}
-            {#each Object.entries($thirdPartyProfiles) as [thirdPartyProfileId, thirdPartyProfile]}
+            {#each Object.entries($thirdPartyProfiles ?? {}) as [thirdPartyProfileId, thirdPartyProfile]}
                 <ImportProfileTile
                     profile={thirdPartyProfile.profile}
                     appName={thirdPartyProfile?.appName}
@@ -93,7 +94,9 @@
         {:else if $thirdPartyProfiles === undefined}
             <Spinner />
         {:else}
-            {localize('popups.importProfilesFromThirdParty.empty')}
+            <Text align="center" type="body1" textColor="secondary"
+                >{localize('views.onboarding.importThirdPartyProfiles.importProfiles.empty')}</Text
+            >
         {/if}
     </div>
 </PopupTemplate>

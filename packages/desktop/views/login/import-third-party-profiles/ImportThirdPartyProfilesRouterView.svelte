@@ -4,7 +4,7 @@
     import { importThirdPartyProfilesRoute } from './import-third-party-profiles.router'
     import { SelectAppsView, ImportProfilesView } from './views'
 
-    let selectedApps: ThirdPartyAppName[] = []
+    let selectedApps: { [key in ThirdPartyAppName]?: boolean }
 </script>
 
 <send-flow-router>

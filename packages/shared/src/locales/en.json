@@ -8,12 +8,20 @@
                 "button": "Begin setup"
             },
             "importThirdPartyProfiles": {
-                "title": "Import profiles",
-                "description": "We found existing compatible profiles from other apps. Select the profiles you want to import.",
-                "empty": "No profiles found",
-                "warnings": {
-                    "alreadyImported": "Already imported",
-                    "needsMigration": "Needs database migration"
+                "selectApps": {
+                    "title": "Select apps to import",
+                    "description": "Select the apps you want to import profiles from. You can always import more later.",
+                    "empty": "No apps found",
+                    "import": "Import"
+                },
+                "importProfiles": {
+                    "title": "Import profiles",
+                    "description": "We found existing compatible profiles from other apps. Select the profiles you want to import.",
+                    "empty": "No profiles found",
+                    "warnings": {
+                        "alreadyImported": "Already imported",
+                        "needsMigration": "Needs database migration"
+                    }
                 }
             },
             "networkSetup": {
@@ -1190,10 +1198,6 @@
                 "otherOwner": "You're not the owner of the NFT!",
                 "alreadyAdded": "You already have this NFT in your portfolio"
             }
-        },
-        "importProfilesFromThirdParty": {
-            "title": "Import profiles",
-            "empty":"No profiles found"
         },
         "noAlias": {
             "title": "Unable to mint",

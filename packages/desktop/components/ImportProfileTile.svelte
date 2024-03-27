@@ -63,7 +63,7 @@
         <Tooltip
             anchor={iconElement}
             text={localize(
-                `views.onboarding.importThirdPartyProfiles.warnings.${alreadyImported ? 'alreadyImported' : 'needsMigration'}`
+                `views.onboarding.importThirdPartyProfiles.importProfiles.warnings.${alreadyImported ? 'alreadyImported' : 'needsMigration'}`
             )}
             event="hover"
         />
