@@ -9,6 +9,7 @@
     import { onMount } from 'svelte'
     import { importThirdPartyProfilesRouter } from '../import-third-party-profiles.router'
     import { OnboardingRoute, onboardingRoute, onboardingRouter } from '@views/onboarding'
+    import { showNotification } from '@auxiliary/notification'
 
     export let selectedApps: { [key in ThirdPartyAppName]?: boolean } = {}
     export let popup: boolean = false
@@ -47,6 +48,10 @@
                     await importThirdPartyProfiles(appName, profiles)
                 })
             )
+            showNotification({
+                variant: 'success',
+                text: localize('views.onboarding.importThirdPartyProfiles.importProfiles.notifications.success'),
+            })
         } catch (error) {
             console.error(error)
         } finally {

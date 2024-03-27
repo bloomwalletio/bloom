@@ -25,6 +25,9 @@
                     "errors": {
                         "appIsOpen": "Please close the apps before importing",
                         "unknown": "An unknown error occurred while trying to import the profiles"
+                    },
+                    "notifications": {
+                        "success": "Profiles successfully imported!"
                     }
                 }
             },
