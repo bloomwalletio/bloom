@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { Alert, Table } from '@bloomwalletio/ui'
+    import { Alert } from '@bloomwalletio/ui'
+    import { TokenActionsMenu } from '@components'
     import { localize } from '@core/i18n'
     import { BASE_TOKEN_ID, ITokenWithBalance, NotVerifiedStatus, TokenStandard, VerifiedStatus } from '@core/token'
     import { unverifyToken, verifyToken } from '@core/token/stores'
     import { SendFlowType, setSendFlowParameters } from '@core/wallet'
     import { PopupId, openPopup, updatePopupProps } from '@desktop/auxiliary/popup'
     import { TokenAmountTile } from '@ui'
+    import TokenMetadataTable from '@ui/tokens/TokenMetadataTable.svelte'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-    import { TokenActionsMenu } from '@components'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { truncateString } from '@core/utils'
 
     export let token: ITokenWithBalance | undefined
     export let activityId: string | undefined = undefined
@@ -62,7 +62,7 @@
 </script>
 
 <PopupTemplate
-    title={truncateString(token?.metadata?.name, 16, 0)}
+    title={token?.metadata?.name}
     backButton={isNewToken
         ? {
               text: localize('actions.skip'),
@@ -82,31 +82,9 @@
     {#if token}
         <div class="space-y-5">
             <TokenAmountTile {token} amount={token.balance.available} />
-            <Table
-                items={[
-                    {
-                        key: localize('popups.tokenInformation.tokenMetadata.standard'),
-                        value: token.standard,
-                    },
-                    {
-                        key: localize('popups.tokenInformation.tokenMetadata.tokenId'),
-                        value: token.id,
-                        truncate: { firstCharCount: 10, endCharCount: 10 },
-                        copyable: true,
-                    },
-                    {
-                        key: localize('popups.tokenInformation.tokenMetadata.url'),
-                        value: token?.metadata?.standard === TokenStandard.Irc30 ? token.metadata.url : undefined,
-                        copyable: true,
-                    },
-                    {
-                        key: localize('popups.tokenInformation.tokenMetadata.description'),
-                        value:
-                            token?.metadata?.standard === TokenStandard.Irc30 ? token.metadata.description : undefined,
-                    },
-                ]}
-            />
-
+            {#if token.metadata}
+                <TokenMetadataTable token={token.metadata} />
+            {/if}
             {#if !token.verification?.verified && token.verification?.status === NotVerifiedStatus.New}
                 <Alert variant="warning" text={localize('popups.tokenInformation.verificationWarning')} />
             {/if}

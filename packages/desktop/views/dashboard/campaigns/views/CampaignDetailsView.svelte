@@ -70,7 +70,12 @@
         }
 
         try {
-            const persistedNft = await persistErc721Nft($selectedCampaign.address, tokenId, chainConfiguration.id)
+            const persistedNft = await persistErc721Nft(
+                $selectedCampaign.address,
+                tokenId,
+                chainConfiguration.id,
+                $selectedAccount
+            )
             if (persistedNft) {
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
                 void addNftsToDownloadQueue([nft])

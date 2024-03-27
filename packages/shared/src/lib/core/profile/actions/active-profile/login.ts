@@ -107,7 +107,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         incrementLoginProgress()
         subscribeToWalletApiEventsForActiveProfile()
         await startBackgroundSync({ syncIncomingTransactions: true })
-        fetchL2BalanceForAllAccounts()
+        fetchL2BalanceForAllAccounts(id)
         void fetchAndPersistTransactionsForAccounts(_activeProfile.id, get(activeAccounts))
 
         // Step 8: finish login

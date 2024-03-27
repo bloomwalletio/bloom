@@ -1,5 +1,5 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { StardustActivityAsyncStatus, StardustActivityType } from '@core/activity'
+import { StardustActivity, StardustActivityAsyncStatus, StardustActivityType } from '@core/activity'
 import {
     allAccountActivities,
     updateAsyncDataByTransactionId,
@@ -10,6 +10,7 @@ import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
 import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 import { IIrc27Nft } from '@core/nfts'
+import { NetworkNamespace } from '@core/network'
 
 export async function handleSpentOutputEvent(error: Error, event: Event): Promise<void> {
     const walletEvent = validateWalletApiEvent<SpentOutputWalletEvent>(error, event, WalletEventType.SpentOutput)
@@ -24,16 +25,21 @@ export async function handleSpentOutputEventInternal(
     const output = walletEvent?.output
     await syncBalance(accountIndex)
     const outputId = output?.outputId
-    const activity = get(allAccountActivities)?.[accountIndex]?.find((_activity) => _activity.outputId === outputId)
+    const activity = get(allAccountActivities)?.[accountIndex]?.find(
+        (_activity) => _activity.namespace === NetworkNamespace.Stardust && _activity.outputId === outputId
+    ) as StardustActivity | undefined
+    if (!activity) {
+        return
+    }
 
-    if (activity && activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed) {
+    if (activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed) {
         const transactionId = output?.metadata?.transactionId
         updateAsyncDataByTransactionId(accountIndex, transactionId, {
             asyncStatus: StardustActivityAsyncStatus.Claimed,
         })
     }
 
-    if (activity?.type === StardustActivityType.Nft) {
+    if (activity.type === StardustActivityType.Nft) {
         const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId) as IIrc27Nft
         const previousOutputId = nft?.latestOutputId
         if (previousOutputId) {

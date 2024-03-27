@@ -37,7 +37,7 @@
                 <div class="flex flex-row w-full {hideTokenInfo ? 'justify-end' : 'justify-between'}">
                     {#if !hideTokenInfo}
                         <Text fontWeight="medium" textColor="secondary">
-                            {marketPrice ? formatCurrency(marketPrice) : ''}
+                            {marketPrice ? formatCurrency(marketPrice) : '-'}
                         </Text>
                     {/if}
                     <Text fontWeight="medium" textColor="secondary" align="right">

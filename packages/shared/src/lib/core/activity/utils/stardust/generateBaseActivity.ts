@@ -15,7 +15,7 @@ import {
 } from '../helper'
 import { getNativeTokenFromOutput } from '../outputs'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { getActiveNetworkId, isStardustNetwork } from '@core/network'
+import { NetworkNamespace, getActiveNetworkId, isStardustNetwork } from '@core/network'
 import { parseLayer2Metadata } from '@core/layer-2/utils'
 import { getSubjectFromAddress } from '@core/wallet/utils'
 import { HEX_PREFIX } from '@core/utils'
@@ -89,6 +89,8 @@ export async function generateBaseActivity(
     }
 
     return {
+        namespace: NetworkNamespace.Stardust,
+
         // meta information
         id: outputId || transactionId,
         action,

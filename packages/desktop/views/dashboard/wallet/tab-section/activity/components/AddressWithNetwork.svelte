@@ -34,7 +34,7 @@
 
 <div class="flex flex-row items-center gap-2">
     {#if networkId}
-        <NetworkAvatar size="xxs" {networkId} />
+        <NetworkAvatar size="xs" {networkId} />
     {/if}
     <Text
         type={subject?.type === SubjectType.Address ? 'pre-sm' : 'sm'}

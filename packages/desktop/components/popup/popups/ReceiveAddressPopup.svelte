@@ -6,7 +6,7 @@
     import { setClipboard } from '@core/utils'
     import { isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
-    import { activeProfile } from '@core/profile/stores'
+    import { activeProfile, activeProfileId } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -28,7 +28,7 @@
                 void checkActiveProfileAuth(
                     async () => {
                         await generateAndStoreEvmAddressForAccounts($activeProfile.type, coinType, $selectedAccount)
-                        pollL2BalanceForAccount($selectedAccount)
+                        pollL2BalanceForAccount($activeProfileId as string, $selectedAccount)
                         networkName = name
                         receiveAddress = $selectedAccount.evmAddresses?.[coinType]
                     },

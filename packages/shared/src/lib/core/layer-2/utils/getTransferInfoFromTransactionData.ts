@@ -22,7 +22,7 @@ type TransferInfo =
           recipientAddress: string
       }
     | { type: StardustActivityType.Nft; nftId: string; additionalBaseTokenAmount?: bigint; recipientAddress: string }
-    | { type: StardustActivityType.SmartContract }
+    | { type: StardustActivityType.SmartContract; recipientAddress: string }
 
 export function getTransferInfoFromTransactionData(
     transaction: LocalEvmTransaction,
@@ -30,7 +30,7 @@ export function getTransferInfoFromTransactionData(
 ): TransferInfo | undefined {
     const networkId = chain.getConfiguration().id
 
-    const recipientAddress = transaction?.to?.toString()
+    const recipientAddress = transaction?.to?.toString()?.toLowerCase()
     if (!recipientAddress) {
         return undefined
     }
@@ -40,10 +40,10 @@ export function getTransferInfoFromTransactionData(
         const isErc721 = isTrackedNftAddress(networkId, recipientAddress)
         const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
-        const abi = isErc20 ? ERC20_ABI : isErc721 ? ERC721_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
+        const abi = isErc721 ? ERC721_ABI : isErc20 ? ERC20_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
 
         if (!abi) {
-            return { type: StardustActivityType.SmartContract }
+            return { type: StardustActivityType.SmartContract, recipientAddress }
         }
 
         const abiDecoder = new AbiDecoder(abi, chain.getProvider())
@@ -69,7 +69,7 @@ export function getTransferInfoFromTransactionData(
                         recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                     }
                 } else {
-                    return { type: StardustActivityType.SmartContract }
+                    return { type: StardustActivityType.SmartContract, recipientAddress }
                 }
             }
             case 'transfer': {
@@ -122,10 +122,10 @@ export function getTransferInfoFromTransactionData(
                     }
                 }
 
-                return { type: StardustActivityType.SmartContract }
+                return { type: StardustActivityType.SmartContract, recipientAddress }
             }
             default:
-                return { type: StardustActivityType.SmartContract }
+                return { type: StardustActivityType.SmartContract, recipientAddress }
         }
     } else {
         return {

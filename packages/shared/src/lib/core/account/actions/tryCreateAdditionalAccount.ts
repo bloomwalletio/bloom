@@ -19,12 +19,12 @@ export async function tryCreateAdditionalAccount(alias: string, color: string): 
             void registerProposalsFromNodes([account])
         }
 
-        const profileType = getActiveProfile().type
-        if (profileType === ProfileType.Software) {
+        const activeProfile = getActiveProfile()
+        if (activeProfile.type === ProfileType.Software) {
             const coinType = getNetwork()?.getChains()[0]?.getConfiguration()?.coinType
             if (coinType) {
-                void generateAndStoreEvmAddressForAccounts(profileType, coinType, account)
-                void pollL2BalanceForAccount(account)
+                void generateAndStoreEvmAddressForAccounts(activeProfile.type, coinType, account)
+                void pollL2BalanceForAccount(activeProfile.id, account)
             }
         }
 

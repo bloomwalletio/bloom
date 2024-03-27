@@ -26,7 +26,7 @@ import features from '@features/features'
 import { KeyValue } from '@ui/types'
 import { IError } from '@core/error'
 
-export function fetchL2BalanceForAccount(account: IAccountState): void {
+export function fetchL2BalanceForAccount(profileId: string, account: IAccountState): void {
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {
@@ -36,7 +36,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
             return
         }
 
-        await fetchL2Irc27Nfts(evmAddress, chain, account)
+        await fetchL2Irc27Nfts(profileId, evmAddress, chain, account)
         if (features.collectibles.erc721.enabled) {
             void updateErc721NftsOwnership(account)
         }
@@ -53,7 +53,7 @@ export function fetchL2BalanceForAccount(account: IAccountState): void {
             const adjustedBalance = Number.isNaN(Number(balance)) ? BigInt(0) : balance
             if (tokenId !== BASE_TOKEN_ID) {
                 await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
-                await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, adjustedBalance)
+                calculateAndAddPersistedTokenBalanceChange(profileId, account, networkId, tokenId, adjustedBalance)
             }
             l2Balance[tokenId] = adjustedBalance
         }
@@ -114,7 +114,12 @@ async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Pr
     return erc20TokenBalances
 }
 
-async function fetchL2Irc27Nfts(evmAddress: string, chain: IChain, account: IAccountState): Promise<void> {
+async function fetchL2Irc27Nfts(
+    profileId: string,
+    evmAddress: string,
+    chain: IChain,
+    account: IAccountState
+): Promise<void> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('accountNFTs')
     const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
@@ -143,10 +148,10 @@ async function fetchL2Irc27Nfts(evmAddress: string, chain: IChain, account: IAcc
         void addNftsToDownloadQueue(nfts)
 
         for (const nft of nfts) {
-            calculateAndAddPersistedNftBalanceChange(account, networkId, nft.id, true)
+            calculateAndAddPersistedNftBalanceChange(profileId, account, networkId, nft.id, true)
         }
         for (const nftId of unspendableNftIds) {
-            calculateAndAddPersistedNftBalanceChange(account, networkId, nftId, false)
+            calculateAndAddPersistedNftBalanceChange(profileId, account, networkId, nftId, false)
         }
     } catch (err) {
         console.error(err)
