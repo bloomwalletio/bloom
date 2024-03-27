@@ -2,13 +2,15 @@
     import { ThirdPartyAppName } from '@auxiliary/third-party/enums'
     import { Checkbox, Text } from '@bloomwalletio/ui'
     import { PopupTemplate } from '@components/popup'
+    import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { importThirdPartyProfilesRouter } from '../import-third-party-profiles.router'
+    import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
-    import { Platform } from '@core/app'
+    import { importThirdPartyProfilesRouter } from '../import-third-party-profiles.router'
 
-    export let selectedApps: { [key in ThirdPartyAppName]?: boolean }
+    export let selectedApps: { [key in ThirdPartyAppName]?: boolean } = {}
+    export let popup: boolean = false
 
     let availableApps: ThirdPartyAppName[] = []
 
@@ -29,7 +31,8 @@
     })
 </script>
 
-<PopupTemplate
+<svelte:component
+    this={popup ? PopupTemplate : OnboardingLayout}
     title={localize('views.onboarding.importThirdPartyProfiles.selectApps.title')}
     description={localize('views.onboarding.importThirdPartyProfiles.selectApps.description')}
     backButton={{
@@ -42,11 +45,11 @@
         disabled: !Object.values(selectedApps).some((selected) => selected === true),
     }}
 >
-    <div class="flex flex-col gap-4">
+    <div slot="content" class="flex flex-col gap-4">
         {#if availableApps.length === 0}
-            <Text align="center" type="body1" textColor="secondary"
-                >{localize('views.onboarding.importThirdPartyProfiles.selectApps.empty')}</Text
-            >
+            <Text align="center" type="body1" textColor="secondary">
+                {localize('views.onboarding.importThirdPartyProfiles.selectApps.empty')}
+            </Text>
         {:else}
             {#each availableApps as appName}
                 <div class="flex gap-2 items-center">
@@ -56,4 +59,4 @@
             {/each}
         {/if}
     </div>
-</PopupTemplate>
+</svelte:component>
