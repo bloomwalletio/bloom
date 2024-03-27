@@ -23,6 +23,7 @@ export function saveActiveProfile(): void {
             trackedTokens: _activeProfile.trackedTokens,
             trackedNfts: _activeProfile.trackedNfts,
             version: _activeProfile.version,
+            features: _activeProfile.features,
             ...(_activeProfile.hasVisitedDashboard && { hasVisitedDashboard: _activeProfile.hasVisitedDashboard }),
             ...(_activeProfile.lastUsedAccountIndex && { lastUsedAccountIndex: _activeProfile.lastUsedAccountIndex }),
             ...(_activeProfile.accountPersistedData && { accountPersistedData: _activeProfile.accountPersistedData }),
