@@ -2,7 +2,19 @@ import { NetworkNamespace, getNameFromNetworkId } from '@core/network'
 import { Activity, EvmActivity, StardustActivity } from '../types'
 import { IAccountState } from '@core/account'
 import { getNameFromSubject } from './helper'
-import { StardustActivityAsyncStatus } from '../enums'
+import { StardustActivityAsyncStatus, StardustActivityType } from '../enums'
+import { EvmActivityType } from '../enums/evm'
+import { getPersistedToken } from '@core/token/stores'
+import {
+    BASE_TOKEN_ID,
+    IBaseToken,
+    IErc20Metadata,
+    IIrc30Metadata,
+    TokenStandard,
+    formatTokenAmountBestMatch,
+} from '@core/token'
+import { NftStandard } from '@core/nfts'
+import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 
 type ActivityCsvRow = {
     associatedAccount: string | undefined
@@ -54,6 +66,45 @@ export function convertActvitiesToCsv(account: IAccountState, activities: Activi
 }
 
 function getRowForStardustActivity(account: IAccountState, activity: StardustActivity): ActivityCsvRow {
+    let assetId: string | undefined
+    let assetType: string | undefined
+    let assetStandard: string | undefined
+    let assetName: string | undefined
+    let assetTicker: string | undefined
+    let amount: string | undefined
+
+    if (activity.type === StardustActivityType.Basic) {
+        if (activity.tokenTransfer) {
+            const tokenId = activity.tokenTransfer.tokenId
+            const metadata = getPersistedToken(tokenId)?.metadata as IErc20Metadata | IIrc30Metadata
+            amount = metadata ? formatTokenAmountBestMatch(activity.tokenTransfer.rawAmount, metadata) : ''
+
+            assetId = tokenId
+            assetType = 'TOKEN'
+            assetStandard = metadata?.standard
+            assetName = metadata?.name
+            assetTicker = metadata?.symbol
+        } else {
+            const metadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
+            amount = metadata ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, metadata) : ''
+
+            assetId = 'BASE_COIN'
+            assetType = 'TOKEN'
+            assetStandard = metadata?.standard
+            assetName = metadata?.name
+            assetTicker = metadata?.tickerSymbol
+        }
+    } else if (activity.type === StardustActivityType.Nft) {
+        const nft = getNftByIdFromAllAccountNfts(account.index, activity.nftId)
+
+        assetId = activity.nftId
+        assetType = 'NFT'
+        assetStandard = nft?.standard
+        assetName = nft?.metadata?.name
+        assetTicker = ''
+        amount = '1'
+    }
+
     return {
         associatedAccount: account.name,
         transactionId: activity.transactionId,
@@ -68,12 +119,12 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
         toNetworkName: getNameFromNetworkId(activity.destinationNetworkId),
         toAddress: activity.recipient?.address,
         toAddressAlias: getNameFromSubject(activity.recipient),
-        assetId: undefined,
-        assetType: undefined,
-        assetStandard: undefined,
-        assetName: undefined,
-        assetTicker: undefined,
-        amount: undefined,
+        assetId,
+        assetType,
+        assetStandard,
+        assetName,
+        assetTicker,
+        amount,
         feeInSMR: String(activity.transactionFee ?? ''),
         storageDepositInSMR: String(activity.storageDeposit ?? ''),
         sdruc: undefined,
@@ -88,6 +139,45 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
 }
 
 function getRowForEvmActivity(account: IAccountState, activity: EvmActivity): ActivityCsvRow {
+    let assetId: string | undefined
+    let assetType: string | undefined
+    let assetStandard: string | undefined
+    let assetName: string | undefined
+    let assetTicker: string | undefined
+    let amount: string | undefined
+
+    if (activity.type === EvmActivityType.CoinTransfer) {
+        const metadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
+        amount = metadata ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, metadata) : ''
+
+        assetId = 'BASE_COIN'
+        assetType = 'TOKEN'
+        assetStandard = metadata?.standard
+        assetName = metadata?.name
+        assetTicker = metadata?.tickerSymbol
+    } else if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
+        const { standard, tokenId, rawAmount } = activity.tokenTransfer
+        if (standard === TokenStandard.Erc20 || standard === TokenStandard.Irc30) {
+            const metadata = getPersistedToken(tokenId)?.metadata as IErc20Metadata | IIrc30Metadata
+            amount = metadata ? formatTokenAmountBestMatch(rawAmount, metadata) : ''
+
+            assetId = tokenId
+            assetType = 'TOKEN'
+            assetStandard = standard
+            assetName = metadata?.name
+            assetTicker = metadata?.symbol
+        } else if (standard === NftStandard.Erc721 || standard === NftStandard.Irc27) {
+            const nft = getNftByIdFromAllAccountNfts(account.index, tokenId)
+
+            assetId = tokenId
+            assetType = 'NFT'
+            assetStandard = standard
+            assetName = nft?.metadata?.name
+            assetTicker = ''
+            amount = '1'
+        }
+    }
+
     return {
         associatedAccount: account.name,
         transactionId: activity.transactionId,
@@ -102,12 +192,12 @@ function getRowForEvmActivity(account: IAccountState, activity: EvmActivity): Ac
         toNetworkName: getNameFromNetworkId(activity.destinationNetworkId),
         toAddress: activity.recipient?.address,
         toAddressAlias: getNameFromSubject(activity.recipient),
-        assetId: undefined,
-        assetType: undefined,
-        assetStandard: undefined,
-        assetName: undefined,
-        assetTicker: undefined,
-        amount: undefined,
+        assetId,
+        assetType,
+        assetStandard,
+        assetName,
+        assetTicker,
+        amount,
         feeInSMR: String(activity.transactionFee ?? ''),
         storageDepositInSMR: undefined,
         sdruc: undefined,
