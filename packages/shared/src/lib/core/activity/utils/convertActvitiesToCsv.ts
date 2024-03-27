@@ -138,7 +138,7 @@ function getRowForStardustActivity(
         amount = '1'
     }
 
-    const transactionType = assetId === BASE_TOKEN_ID ? 'Coin Transfer' : 'Token Transfer'
+    const transactionType = assetId === BASE_TOKEN_ID ? EvmActivityType.CoinTransfer : EvmActivityType.TokenTransfer
 
     const storageDepositInSMR = activity.storageDeposit
         ? formatTokenAmountBestMatch(activity.storageDeposit, baseCoinMetadata, {
