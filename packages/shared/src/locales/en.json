@@ -300,9 +300,9 @@
                 "title": "Report an issue",
                 "description": "Report a bug to the developers. Check through to make sure it hasn't already been reported"
             },
-            "developerToggle": {
-                "title": "Developer Mode",
-                "description": "Switch developer mode on to enable more features in experimental state"
+            "toggleFeatures": {
+                "title": "Enable / Disable features",
+                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
             }
         },
         "login": {
