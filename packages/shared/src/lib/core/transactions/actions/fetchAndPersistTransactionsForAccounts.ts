@@ -66,7 +66,7 @@ async function generateActivityForMissingTransactions(
     const activities: EvmActivity[] = []
     const persistedTransactions = getPersistedTransactionsForChain(profileId, account.index, chain)
     const accountActivities = new Set(
-        get(allAccountActivities)[account.index].map((activity) => activity.transactionId) ?? []
+        get(allAccountActivities)[account.index]?.map((activity) => activity.transactionId) ?? []
     )
 
     const persistedTransactionsWithoutActivity = persistedTransactions.filter((persistedTransaction) => {
