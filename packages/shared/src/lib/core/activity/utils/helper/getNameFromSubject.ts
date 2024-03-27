@@ -1,13 +1,10 @@
-import { StardustActivityType } from '@core/activity/enums'
-import { Activity } from '@core/activity/types'
 import { localize } from '@core/i18n'
 import { truncateString } from '@core/utils'
+import { Subject } from '@core/wallet'
 import { SubjectType } from '@core/wallet/enums'
 
-export function getSubjectLocaleFromActivity(activity: Activity): string {
-    const subject = activity.subject
-
-    if (activity.type === StardustActivityType.Basic && activity?.isShimmerClaiming) {
+export function getNameFromSubject(subject: Subject | undefined, isShimmerGenesis?: boolean): string {
+    if (isShimmerGenesis) {
         return localize('general.shimmerGenesis')
     } else if (subject?.type === SubjectType.Account) {
         return truncateString(subject.account?.name, 13, 0)
