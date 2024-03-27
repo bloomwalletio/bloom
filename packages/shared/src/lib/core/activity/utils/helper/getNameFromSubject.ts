@@ -3,20 +3,31 @@ import { truncateString } from '@core/utils'
 import { Subject } from '@core/wallet'
 import { SubjectType } from '@core/wallet/enums'
 
-export function getNameFromSubject(subject: Subject | undefined, isShimmerGenesis?: boolean): string {
+export function getNameFromSubject(
+    subject: Subject | undefined,
+    truncate: boolean = false,
+    isShimmerGenesis?: boolean
+): string {
+    let name = ''
     if (isShimmerGenesis) {
         return localize('general.shimmerGenesis')
     } else if (subject?.type === SubjectType.Account) {
-        return truncateString(subject.account?.name, 13, 0)
+        name = subject.account?.name
     } else if (subject?.type === SubjectType.Contact) {
-        return truncateString(subject.contact?.name, 13, 0)
+        name = subject.contact?.name
     } else if (subject?.type === SubjectType.SmartContract) {
-        return truncateString(subject.name, 13, 0)
+        name = subject.name
     } else if (subject?.type === SubjectType.Network) {
-        return truncateString(subject.name, 13, 0)
+        name = subject.name
     } else if (subject?.type === SubjectType.Address) {
-        return truncateString(subject.address, 6, 6)
+        name = subject.address
     } else {
         return localize('general.unknownAddress')
     }
+
+    if (!truncate) {
+        return name
+    }
+
+    return subject?.type === SubjectType.Address ? truncateString(name, 6, 6) : truncateString(name, 13, 0)
 }

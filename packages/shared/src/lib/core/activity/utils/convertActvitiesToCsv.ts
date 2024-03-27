@@ -1,5 +1,14 @@
 import { NetworkNamespace, getNameFromNetworkId } from '@core/network'
-import { Activity, EvmActivity, StardustActivity } from '../types'
+import {
+    Activity,
+    EvmActivity,
+    EvmBalanceChangeActivity,
+    EvmCoinTransferActivity,
+    EvmTokenTransferActivity,
+    StardustActivity,
+    StardustNftActivity,
+    StardustTransactionActivity,
+} from '../types'
 import { IAccountState } from '@core/account'
 import { getNameFromSubject } from './helper'
 import { StardustActivityAsyncStatus, StardustActivityType } from '../enums'
@@ -22,6 +31,7 @@ const CSV_KEYS = [
     'transactionTag',
     'transactionDate',
     'transactionType',
+    'direction',
     'fromNetworkId',
     'fromNetworkName',
     'fromAddress',
@@ -52,19 +62,21 @@ type ActivityCsvRow = {
 
 export function convertActvitiesToCsv(account: IAccountState[], activities: Activity[][]): string {
     const activityRows = account.flatMap((account) => {
-        return activities[account.index].map((activity) => {
-            if (activity.namespace === NetworkNamespace.Stardust) {
-                const activityRow = getRowForStardustActivity(account, activity)
-                const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
-                return values.join(',')
-            } else if (activity.namespace === NetworkNamespace.Evm) {
-                const activityRow = getRowForEvmActivity(account, activity)
-                const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
-                return values.join(',')
-            } else {
-                return ''
-            }
-        })
+        return activities[account.index]
+            .map((activity) => {
+                if (activity.namespace === NetworkNamespace.Stardust && shouldStardustActivityBeInCsv(activity)) {
+                    const activityRow = getRowForStardustActivity(account, activity)
+                    const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
+                    return values.join(',')
+                } else if (activity.namespace === NetworkNamespace.Evm && shouldEvmActivityBeInCsv(activity)) {
+                    const activityRow = getRowForEvmActivity(account, activity)
+                    const values = CSV_KEYS.map((key) => escapeValue(activityRow[key] ?? ''))
+                    return values.join(',')
+                } else {
+                    return ''
+                }
+            })
+            .filter(Boolean)
     })
 
     const header = CSV_KEYS.join(',')
@@ -73,21 +85,18 @@ export function convertActvitiesToCsv(account: IAccountState[], activities: Acti
     return `${header}\n${table}`
 }
 
-function escapeValue(value: string): string {
-    const valuesToEscape = ['"', ',']
-
-    return valuesToEscape.some((valueToEscape) => value?.includes(valueToEscape)) ? `"${value}"` : value
-}
-
-function getRowForStardustActivity(account: IAccountState, activity: StardustActivity): ActivityCsvRow {
+function getRowForStardustActivity(
+    account: IAccountState,
+    activity: StardustTransactionActivity | StardustNftActivity
+): ActivityCsvRow {
     let assetId: string | undefined
     let assetType: string | undefined
     let assetStandard: string | undefined
     let assetName: string | undefined
     let assetTicker: string | undefined
     let amount: string | undefined
-    const baseCoinMetadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
 
+    const baseCoinMetadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
     if (activity.type === StardustActivityType.Basic) {
         if (activity.tokenTransfer) {
             const tokenId = activity.tokenTransfer.tokenId
@@ -112,7 +121,7 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
                   })
                 : ''
 
-            assetId = 'BASE_COIN'
+            assetId = BASE_TOKEN_ID
             assetType = 'TOKEN'
             assetStandard = baseCoinMetadata?.standard
             assetName = baseCoinMetadata?.name
@@ -128,6 +137,8 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
         assetTicker = ''
         amount = '1'
     }
+
+    const transactionType = assetId === BASE_TOKEN_ID ? 'Coin Transfer' : 'Token Transfer'
 
     const storageDepositInSMR = activity.storageDeposit
         ? formatTokenAmountBestMatch(activity.storageDeposit, baseCoinMetadata, {
@@ -147,7 +158,8 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
         transactionId: activity.transactionId,
         transactionTag: activity.tag,
         transactionDate: activity.time.toString(),
-        transactionType: undefined, // Coin Transfer | Token Transfer | Contract call
+        transactionType,
+        direction: activity.direction,
         fromNetworkId: activity.sourceNetworkId,
         fromNetworkName: getNameFromNetworkId(activity.sourceNetworkId),
         fromAddress: activity.sender?.address,
@@ -177,28 +189,31 @@ function getRowForStardustActivity(account: IAccountState, activity: StardustAct
     }
 }
 
-function getRowForEvmActivity(account: IAccountState, activity: EvmActivity): ActivityCsvRow {
+function getRowForEvmActivity(
+    account: IAccountState,
+    activity: EvmCoinTransferActivity | EvmTokenTransferActivity | EvmBalanceChangeActivity
+): ActivityCsvRow {
     let assetId: string | undefined
     let assetType: string | undefined
     let assetStandard: string | undefined
     let assetName: string | undefined
     let assetTicker: string | undefined
     let amount: string | undefined
+    const baseCoinMetadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
 
     if (activity.type === EvmActivityType.CoinTransfer) {
-        const metadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
-        amount = metadata
-            ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, metadata, {
+        amount = baseCoinMetadata
+            ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, baseCoinMetadata, {
                   round: false,
                   withUnit: false,
               })
             : ''
 
-        assetId = 'BASE_COIN'
+        assetId = BASE_TOKEN_ID
         assetType = 'TOKEN'
-        assetStandard = metadata?.standard
-        assetName = metadata?.name
-        assetTicker = metadata?.tickerSymbol
+        assetStandard = baseCoinMetadata?.standard
+        assetName = baseCoinMetadata?.name
+        assetTicker = baseCoinMetadata?.tickerSymbol
     } else if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
         const { standard, tokenId, rawAmount } = activity.tokenTransfer
         if (standard === TokenStandard.Erc20 || standard === TokenStandard.Irc30) {
@@ -222,12 +237,20 @@ function getRowForEvmActivity(account: IAccountState, activity: EvmActivity): Ac
         }
     }
 
+    const feeInSMR = activity.transactionFee
+        ? formatTokenAmountBestMatch(activity.transactionFee, baseCoinMetadata, {
+              round: false,
+              withUnit: false,
+          })
+        : undefined
+
     return {
         associatedAccount: account.name,
         transactionId: activity.transactionId,
         transactionTag: undefined,
         transactionDate: activity.time.toString(),
-        transactionType: undefined,
+        transactionType: activity.type,
+        direction: activity.direction,
         fromNetworkId: activity.sourceNetworkId,
         fromNetworkName: getNameFromNetworkId(activity.sourceNetworkId),
         fromAddress: activity.sender?.address,
@@ -242,7 +265,7 @@ function getRowForEvmActivity(account: IAccountState, activity: EvmActivity): Ac
         assetName,
         assetTicker,
         amount,
-        feeInSMR: String(activity.transactionFee ?? ''),
+        feeInSMR,
         storageDepositInSMR: undefined,
         sdruc: undefined,
         sdrucStatus: undefined,
@@ -251,4 +274,26 @@ function getRowForEvmActivity(account: IAccountState, activity: EvmActivity): Ac
         timelockDate: undefined,
         timelockStatus: undefined,
     }
+}
+
+function escapeValue(value: string): string {
+    const valuesToEscape = ['"', ',']
+
+    return valuesToEscape.some((valueToEscape) => value?.includes(valueToEscape)) ? `"${value}"` : value
+}
+
+function shouldStardustActivityBeInCsv(
+    activity: StardustActivity
+): activity is StardustTransactionActivity | StardustNftActivity {
+    return activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Nft
+}
+
+function shouldEvmActivityBeInCsv(
+    activity: EvmActivity
+): activity is EvmCoinTransferActivity | EvmTokenTransferActivity | EvmBalanceChangeActivity {
+    return (
+        activity.type === EvmActivityType.CoinTransfer ||
+        activity.type === EvmActivityType.TokenTransfer ||
+        activity.type === EvmActivityType.BalanceChange
+    )
 }
