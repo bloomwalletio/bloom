@@ -205,26 +205,31 @@ const electronApi: IPlatform = {
             })
     },
     async saveTextInFile(fileName: string, extension: string, content: string): Promise<void> {
-        return ipcRenderer
-            .invoke('show-save-dialog', {
-                properties: ['createDirectory', 'showOverwriteConfirmation'],
-                defaultPath: `${fileName}.${extension}`,
-                filters: [
-                    { name: `${extension.toUpperCase()} documents`, extensions: [extension] },
-                    { name: 'All Files', extensions: ['*'] },
-                ],
-            })
-            .then((result) => {
-                if (result.canceled) {
-                    return
-                }
+        return new Promise((resolve, reject) => {
+            void ipcRenderer
+                .invoke('show-save-dialog', {
+                    properties: ['createDirectory', 'showOverwriteConfirmation'],
+                    defaultPath: `${fileName}.${extension}`,
+                    filters: [
+                        { name: `${extension.toUpperCase()} documents`, extensions: [extension] },
+                        { name: 'All Files', extensions: ['*'] },
+                    ],
+                })
+                .then((result) => {
+                    if (result.canceled) {
+                        reject('Canceled by user')
+                        return
+                    }
 
-                try {
-                    fs.writeFileSync(result.filePath, content)
-                } catch (err) {
-                    console.error(err)
-                }
-            })
+                    try {
+                        fs.writeFileSync(result.filePath, content)
+                        resolve()
+                    } catch (err) {
+                        reject(err)
+                    }
+                })
+                .catch((err) => reject(err))
+        })
     },
     trackEvent(eventName: string, eventProperties?: unknown): Promise<void> | undefined {
         if (features.analytics.enabled) {
