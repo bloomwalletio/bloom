@@ -34,6 +34,7 @@ import { shouldReportError } from '../utils/error.utils'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
+import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
 import { ITransakWindowData } from '@core/app/interfaces'
 import { IError } from '@core/error'
 
@@ -220,6 +221,7 @@ export function createMainWindow(): BrowserWindow {
     }
 
     new NftDownloadManager()
+    new ThirdPartyAppManager()
 
     /**
      * Right click context menu for inputs
@@ -424,7 +426,7 @@ ipcMain.handle('open-external-url', (_e, url) => {
 
 // Keychain
 const keychainManager = new KeychainManager()
-ipcMain.handle('keychain-get', (_e, key) => keychainManager.get(key))
+ipcMain.handle('keychain-get', (_e, key, appName) => keychainManager.get(key, appName))
 ipcMain.handle('keychain-set', (_e, key, content) => keychainManager.set(key, content))
 ipcMain.handle('keychain-remove', (_e, key) => keychainManager.remove(key))
 // Dialogs

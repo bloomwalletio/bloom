@@ -7,14 +7,23 @@
     import { CreateProfileRouterView } from './views/create-profile'
     import { NetworkSetupRouterView } from './views/network-setup'
     import { RestoreProfileRouterView } from './views/restore-profile'
+    import {
+        ImportThirdPartyProfilesRouter,
+        ImportThirdPartyProfilesRouterView,
+        importThirdPartyProfilesRouter,
+    } from '../import-third-party-profiles'
 
     $: if (features.analytics.onboardingRoute.enabled && $onboardingRoute) {
         Platform.trackEvent('onboarding-route', { route: $onboardingRoute })
     }
+
+    importThirdPartyProfilesRouter.set(new ImportThirdPartyProfilesRouter())
 </script>
 
 {#if $onboardingRoute === OnboardingRoute.Welcome}
     <WelcomeView />
+{:else if $onboardingRoute === OnboardingRoute.ImportThirdPartyProfiles}
+    <ImportThirdPartyProfilesRouterView />
 {:else if $onboardingRoute === OnboardingRoute.NetworkSetup}
     <NetworkSetupRouterView />
 {:else if $onboardingRoute === OnboardingRoute.ChooseOnboardingFlow}

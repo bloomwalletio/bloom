@@ -7,6 +7,31 @@
                 "legalAction": "Confirm you've read and accept the",
                 "button": "Begin setup"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "title": "Select apps to import",
+                    "description": "Select the apps you want to import profiles from.",
+                    "descriptionExtension": "You can skip this step and import profiles later.",
+                    "empty": "No apps found",
+                    "import": "Import"
+                },
+                "importProfiles": {
+                    "title": "Import profiles",
+                    "description": "We found existing compatible profiles from other apps. Select the profiles you want to import.",
+                    "empty": "No profiles found",
+                    "warnings": {
+                        "alreadyImported": "Already imported",
+                        "needsMigration": "Needs database migration"
+                    },
+                    "errors": {
+                        "appIsOpen": "Please close the apps before importing",
+                        "unknown": "An unknown error occurred while trying to import the profiles"
+                    },
+                    "notifications": {
+                        "success": "Profiles successfully imported!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Choose your network",
@@ -300,9 +325,9 @@
                 "title": "Report an issue",
                 "description": "Report a bug to the developers. Check through to make sure it hasn't already been reported"
             },
-            "developerToggle": {
-                "title": "Developer Mode",
-                "description": "Switch developer mode on to enable more features in experimental state"
+            "toggleFeatures": {
+                "title": "Enable / Disable features",
+                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
             }
         },
         "login": {
@@ -1403,7 +1428,8 @@
         "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens",
         "mintNftCollection": "Mint NFT collection",
-        "readMore": "Read more"
+        "readMore": "Read more",
+        "importThirdPartyProfiles": "Import third-party profiles"
     },
     "general": {
         "recipient": "Recipient",
@@ -1633,6 +1659,7 @@
         "baseCoin": "Base Coin",
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "appName": "App name",
         "question": "Question"
     },
     "filters":{

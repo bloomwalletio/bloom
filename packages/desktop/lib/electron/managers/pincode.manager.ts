@@ -8,6 +8,10 @@ export default class PincodeManager implements IPincodeManager {
         return ipcRenderer.invoke('keychain-set', key, hash)
     }
 
+    public async get(key: string, appName?: string): Promise<string | null> {
+        return ipcRenderer.invoke('keychain-get', key, appName)
+    }
+
     public async verify(key: string, pincode: string): Promise<boolean> {
         const hashedPin = this.hashValue(key, pincode)
         const storedHash = await ipcRenderer.invoke('keychain-get', key)

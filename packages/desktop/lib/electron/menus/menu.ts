@@ -111,6 +111,7 @@ function buildTemplate(): Electron.MenuItemConstructorOptions[] {
 
     const template: Electron.MenuItemConstructorOptions[] = [firstMenu, editMenu]
 
+    // TODO: this doesn't work because the state is not updated when the user logs in
     if (state.loggedIn) {
         template.push(walletMenu)
     }
@@ -132,6 +133,7 @@ function getFirstSubmenuItems(): Electron.MenuItemConstructorOptions[] {
             'menu-check-for-update',
             app.isPackaged && state.enabled
         ),
+        commandMenuItem(state.strings.importThirdPartyProfiles, 'import-third-party-profile'),
         { type: 'separator' },
         commandMenuItem(state.strings.settings, 'menu-navigate-settings'),
         { type: 'separator' },

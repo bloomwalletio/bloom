@@ -6,6 +6,7 @@ import { ProfileType } from '../enums'
 import { IProfileSettings } from './profile-settings.interface'
 import { IContactMap, INetworkContactAddressMap } from '@core/contact/interfaces'
 import { TrackedTokens } from '@core/token/types'
+import { DashboardRoute } from '@core/router'
 
 export interface IPersistedProfile {
     id: string
@@ -21,6 +22,7 @@ export interface IPersistedProfile {
     contacts: IContactMap
     networkContactAddresses: INetworkContactAddressMap
     isDeveloperProfile: boolean
+    features: { [key in DashboardRoute]: boolean }
     hasVisitedDashboard?: boolean
     lastUsedAccountIndex?: number
     clientOptions: IClientOptions
@@ -30,4 +32,5 @@ export interface IPersistedProfile {
     trackedNfts: TrackedTokens
     pfp?: Nft
     color?: string
+    pincodeLocation?: string
 }

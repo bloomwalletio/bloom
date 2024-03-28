@@ -21,6 +21,7 @@
         expanded = !expanded
     }
     $: $isDashboardSideBarExpanded = expanded
+    $: profileFeatures = $activeProfile?.features
 
     let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [
@@ -30,7 +31,7 @@
             route: DashboardRoute.Wallet,
             onClick: openWallet,
         },
-        ...(features?.collectibles?.enabled
+        ...(features?.collectibles?.enabled && profileFeatures?.collectibles
             ? [
                   {
                       icon: IconName.Image,
@@ -40,7 +41,7 @@
                   },
               ]
             : []),
-        ...(features?.governance?.enabled
+        ...(features?.governance?.enabled && profileFeatures?.governance
             ? [
                   {
                       icon: IconName.Bank,
@@ -51,6 +52,7 @@
               ]
             : []),
         ...(features?.campaigns?.enabled &&
+        profileFeatures?.campaigns &&
         ($activeProfile?.network?.id === StardustNetworkId.Shimmer ||
             $activeProfile?.network?.id === StardustNetworkId.Testnet)
             ? [
@@ -62,7 +64,7 @@
                   },
               ]
             : []),
-        ...(features?.buySell?.enabled
+        ...(features?.buySell?.enabled && profileFeatures?.buySell
             ? [
                   {
                       icon: IconName.ArrowDownUp,
@@ -77,7 +79,7 @@
                   },
               ]
             : []),
-        ...(features?.developerTools?.enabled && $activeProfile?.isDeveloperProfile
+        ...(features?.developerTools?.enabled && profileFeatures?.developer
             ? [
                   {
                       icon: IconName.Developer,
