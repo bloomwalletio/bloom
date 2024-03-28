@@ -16,7 +16,6 @@ import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { LocalEvmTransaction } from '@core/transactions'
 import { Converter } from '@core/utils/convert'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
-import { localize } from '@core/i18n'
 import { SubjectType } from '@core/wallet'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
@@ -58,7 +57,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 contract: {
                     type: SubjectType.SmartContract,
                     address: to?.toString().toLowerCase(),
-                    name: localize('general.smartContract'),
+                    name: '',
                     verified: false,
                 },
             } as EvmContractCallActivity
@@ -82,7 +81,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 contract: {
                     type: SubjectType.SmartContract,
                     address: to?.toString().toLowerCase(),
-                    name: localize('general.smartContract'),
+                    name: '',
                     verified: false,
                 },
                 tokenTransfer,
