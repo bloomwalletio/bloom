@@ -13,8 +13,11 @@
     import { login } from '@core/profile/actions'
     import { SupportedNetworkId } from '@core/network'
     import { handleError } from '@core/error/handlers'
+    import { onMount } from 'svelte'
 
     const LOCALE_KEY = 'views.onboarding.completeOnboarding.finishOnboarding'
+
+    let isAppSetup = false
 
     $: appName =
         $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
@@ -36,9 +39,15 @@
             handleError(err)
         }
     }
+
+    onMount(() => {
+        if ($profiles.length === 0) {
+            isAppSetup = true
+        }
+    })
 </script>
 
-{#if $profiles.length === 0}
+{#if isAppSetup}
     <LoggedOutLayout hideLogo gradient="spread">
         <setup-complete>
             <SuccessSvg />
