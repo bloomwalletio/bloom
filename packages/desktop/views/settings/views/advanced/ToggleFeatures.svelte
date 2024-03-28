@@ -46,14 +46,16 @@
             label={localize('tabs.buySell')}
             bind:checked={features[DashboardRoute.BuySell]}
         />
-        <div class="flex flex-row space-x-2">
+        <div class="flex flex-row space-x-2 items-center">
             <Checkbox
                 size="md"
                 textType="base"
                 label={localize('tabs.developer')}
                 bind:checked={features[DashboardRoute.Developer]}
             />
-            <Pill compact color="sky">{localize('popups.appUpdate.beta')}</Pill>
+            <div>
+                <Pill compact color="sky">{localize('popups.appUpdate.beta')}</Pill>
+            </div>
         </div>
     </div>
 </SettingsSection>
