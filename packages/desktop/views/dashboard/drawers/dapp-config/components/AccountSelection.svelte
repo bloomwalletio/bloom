@@ -1,7 +1,7 @@
 <script lang="ts">
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { visibleActiveAccounts } from '@core/profile/stores'
-    import Selection from './Selection.svelte'
+    import { Selection } from '@ui'
     import { formatCurrency, localize } from '@core/i18n'
     import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { findActiveAccountWithAddress } from '@core/profile/actions'

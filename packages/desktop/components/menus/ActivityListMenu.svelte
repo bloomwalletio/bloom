@@ -18,7 +18,7 @@
             ? [
                   {
                       icon: IconName.Download,
-                      title: localize('actions.export'),
+                      title: localize('actions.exportActivities'),
                       onClick: onExportActivitiesClick,
                   },
               ]

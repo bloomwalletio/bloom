@@ -25,6 +25,7 @@ export interface IPlatform {
     close(): Promise<void>
     isMaximized(): Promise<boolean>
     saveRecoveryKit(kitData: ArrayBuffer): Promise<void>
+    saveTextInFile(fileName: string, extension: string, content: string): Promise<void>
     openUrl(url: string): Promise<void>
     copyFile(sourceFilePath: string, destinationFilePath: string): Promise<void>
     deleteFile(filePath: string): Promise<void>
