@@ -2,7 +2,7 @@
     import { ProposalTypes } from '@walletconnect/types'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { onMount } from 'svelte'
-    import Selection from './Selection.svelte'
+    import { Selection } from '@ui'
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { Text } from '@bloomwalletio/ui'

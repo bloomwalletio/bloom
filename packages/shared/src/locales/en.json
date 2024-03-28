@@ -987,7 +987,9 @@
         },
         "exportActivities": {
             "title": "Export activities",
-            "body": "Export your activities as a CSV."
+            "body": "Export your activities as a CSV.",
+            "chooseAccounts": "Choose accounts",
+            "emptyAccounts.": "Choose at least 1 account."
         },
         "signMessage": {
             "title": "Sign message",
@@ -1778,6 +1780,9 @@
         },
         "disconnectDapp": {
             "success": "Disconnected from {dappName}"
+        },
+        "exportActivities": {
+            "success": "Activities exported successfully"
         },
         "clearExpiredDapps": {
             "success": "Expired dApps cleared"
