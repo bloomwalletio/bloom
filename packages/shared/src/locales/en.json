@@ -600,7 +600,7 @@
             "toasts": {
                 "backup": {
                     "header": "Backup Required",
-                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+                    "body": "You haven't backed up your profile in while.",
                     "button": "Backup now"
                 },
                 "version": {
