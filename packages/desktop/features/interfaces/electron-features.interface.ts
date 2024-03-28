@@ -7,4 +7,5 @@ export interface IElectronFeatures {
         linux: IFeatureFlag
         darwin: IFeatureFlag
     }
+    importFromThirdParty: IFeatureFlag
 }
