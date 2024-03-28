@@ -983,6 +983,10 @@
             "body": "Bir hata veya çökme meydana geldiğinde tanısal verilerini otomatik olarak göndererek geliştiricilerin Bloom'u geliştirmesine yardımcı olun. Bu seçilirse, Bloom'un yeniden başlatılmasından sonra geçerli olacaktır.",
             "checkbox": "açılır pencereler -> kilitlenme Raporlama -> onay kutusu"
         },
+        "exportActivities": {
+            "title": "Export activities",
+            "body": "Export your activities as a CSV."
+        },
         "signMessage": {
             "title": "Mesajı imzala",
             "hint": "Bu mesajın imzalanması sürecinde {dappName}'a bakiye gönderilmeyecek.",
@@ -1552,6 +1556,7 @@
         "alias": "Takma ad",
         "foundry": "Dökümhane",
         "token": "Token (Jeton)",
+        "unknownToken": "Unknown Token",
         "nft": "NFT (Nitelikli Fikri Tapu)",
         "type": "Tip",
         "immutableIssuer": "Değişmez İhraççı",
@@ -1606,7 +1611,10 @@
         "no": "Hayır",
         "tip": "Bahşiş",
         "verified": "Doğrulandı",
+        "unverified": "Unverified",
+        "methodId": "Method ID",
         "methodName": "Yöntem Adı",
+        "inputs": "Inputs",
         "data": "Veri",
         "success": "Başarılı",
         "info": "Bilgi",
@@ -1618,7 +1626,6 @@
         "raffle": "Çekiliş",
         "governance": "Yönetim",
         "baseCoin": "Temel coin",
-        "unverifiedContract": "Doğrulanmamış Sözleşme",
         "startIndex": "Dizini başlat",
         "mintNftCollectionDescription": "Takma Ad Çıkışında NFT koleksiyonu basma",
         "question": "Question"
@@ -1693,8 +1700,9 @@
         },
         "type": {
             "label": "Tip",
-            "basic": "Temel",
+            "transfer": "Transfer",
             "nft": "NFT (Nitelikli Fikri Tapu)",
+            "smartContract": "Smart Contract",
             "alias": "Takma ad",
             "foundry": "Dökümhane",
             "governance": "Yönetim",
@@ -2136,7 +2144,10 @@
         "buySell": "IOTA al",
         "developer": "Geliştirici",
         "tokens": "Tokenler",
-        "settings": "Ayarlar"
+        "settings": "Ayarlar",
+        "tooltips": {
+            "buySell": "Buying IOTA is only available in IOTA profiles."
+        }
     },
     "pills": {
         "asyncStatus": {
