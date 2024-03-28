@@ -5,7 +5,7 @@
     "author": "Bloom Labs Ltd <contact@bloomwallet.io>",
     "license": "Apache-2.0",
     "dependencies": {
-        "@bloomwalletio/ui": "0.20.10",
+        "@bloomwalletio/ui": "0.20.13",
         "@ethereumjs/rlp": "5.0.2",
         "@ethereumjs/tx": "5.2.1",
         "@ethereumjs/util": "9.0.2",
