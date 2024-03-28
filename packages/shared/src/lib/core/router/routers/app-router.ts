@@ -47,7 +47,7 @@ export class AppRouter extends Router<AppRoute> {
             case AppRoute.Onboarding: {
                 if (params.shouldAddProfile) {
                     this.setNext(AppRoute.Onboarding)
-                } else if (params.thirdPartyProfilesImported) {
+                } else {
                     loginRoute.set(
                         params.thirdPartyProfilesImported ? LoginRoute.SelectProfile : LoginRoute.LoadProfile
                     )
