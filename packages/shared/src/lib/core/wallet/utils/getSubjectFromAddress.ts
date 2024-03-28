@@ -14,7 +14,7 @@ export function getSubjectFromAddress(address: string, networkId: NetworkId): Su
     }
 
     if (address === ISC_MAGIC_CONTRACT_ADDRESS) {
-        return { type: SubjectType.SmartContract, name: localize('general.magicContract'), address }
+        return { type: SubjectType.SmartContract, name: localize('general.magicContract'), address, verified: true }
     }
 
     const network = getNetworkFromAddress(address)
