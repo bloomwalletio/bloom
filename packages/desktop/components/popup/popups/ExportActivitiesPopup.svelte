@@ -32,7 +32,7 @@
         try {
             busy = true
             const timestamp = getTimestampForFilenames()
-            const filename = `bloom-activities-${$activeProfile.name}-${timestamp}`
+            const filename = `bloom-activities-${$activeProfile.name.replaceAll(' ', '')}-${timestamp}`
             const content = convertActvitiesToCsv(checkedAccounts, $allAccountActivities)
 
             await Platform.saveTextInFile(filename, 'csv', content)
