@@ -41,9 +41,7 @@
     }
 
     onMount(() => {
-        if ($profiles.length === 0) {
-            isAppSetup = true
-        }
+        isAppSetup = $profiles.length === 0
     })
 </script>
 
