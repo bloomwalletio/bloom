@@ -1,6 +1,6 @@
-import { getTimestamptForFilenames } from '@core/utils'
+import { getTimestampForFilenames } from '@core/utils'
 
 export function getDefaultStrongholdName(): string {
-    const timestamp = getTimestamptForFilenames()
+    const timestamp = getTimestampForFilenames()
     return `bloom-backup-${timestamp}.stronghold`
 }

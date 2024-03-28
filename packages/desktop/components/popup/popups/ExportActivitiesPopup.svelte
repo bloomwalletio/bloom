@@ -4,10 +4,10 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { convertActvitiesToCsv } from '@core/activity/utils'
     import { allAccountActivities } from '@core/activity'
-    import { visibleActiveAccounts } from '@core/profile/stores'
+    import { activeProfile, visibleActiveAccounts } from '@core/profile/stores'
     import { Platform } from '@core/app/classes'
     import { handleError } from '@core/error/handlers'
-    import { SelectionOption, getTimestamptForFilenames } from '@core/utils'
+    import { SelectionOption, getTimestampForFilenames } from '@core/utils'
     import { IAccountState } from '@core/account/interfaces'
     import { Selection } from '@ui'
     import { Indicator, Text } from '@bloomwalletio/ui'
@@ -17,10 +17,12 @@
     let busy = false
 
     $: checkedAccounts = accountSelections.filter((selection) => selection.checked).map((selection) => selection.value)
-    let accountSelections: SelectionOption<IAccountState>[] = [
-        ...$visibleActiveAccounts,
-        ...$visibleActiveAccounts,
-    ].map((account) => ({ label: account.name, value: account, checked: true, required: false }))
+    let accountSelections: SelectionOption<IAccountState>[] = $visibleActiveAccounts.map((account) => ({
+        label: account.name,
+        value: account,
+        checked: true,
+        required: false,
+    }))
 
     function onCancelClick(): void {
         closePopup()
@@ -29,8 +31,8 @@
     async function onExportClick(): Promise<void> {
         try {
             busy = true
-            const timestamp = getTimestamptForFilenames()
-            const filename = `bloom-activities-${timestamp}`
+            const timestamp = getTimestampForFilenames()
+            const filename = `bloom-activities-${$activeProfile.name}-${timestamp}`
             const content = convertActvitiesToCsv(checkedAccounts, $allAccountActivities)
 
             await Platform.saveTextInFile(filename, 'csv', content)
@@ -61,6 +63,7 @@
     continueButton={{
         text: localize('actions.export'),
         onClick: onExportClick,
+        disabled: checkedAccounts.length === 0,
     }}
     {busy}
 >

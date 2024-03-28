@@ -989,7 +989,7 @@
             "title": "Export activities",
             "body": "Export your activities as a CSV.",
             "chooseAccounts": "Choose accounts",
-            "emptyAccounts.": "Choose at least 1 account."
+            "emptyAccounts": "Choose at least 1 account."
         },
         "signMessage": {
             "title": "Sign message",
@@ -1317,6 +1317,7 @@
         "enableDeveloperMode": "Enable developer mode",
         "enableSystemNotifications": "Enable system notifications",
         "exportTransactionHistory": "Export transaction history",
+        "exportActivities": "Export activities",
         "localProofOfWork": "Local proof of work",
         "unlock": "Unlock",
         "updateBloom": "Update Bloom",
