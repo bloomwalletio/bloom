@@ -75,6 +75,7 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
     }
 
     private removeHandlers(): void {
+        ipcMain.removeHandler('get-third-party-apps')
         ipcMain.removeHandler('get-data-from-third-party-app')
         ipcMain.removeHandler('copy-third-party-profile')
     }
