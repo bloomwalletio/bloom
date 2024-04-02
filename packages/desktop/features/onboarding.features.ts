@@ -173,7 +173,7 @@ const onboardingFeatures: OnboardingFeatures = {
     testnet: onboardingFeaturesForTestnet,
     custom: onboardingFeaturesForCustom,
     importFromThirdParty: {
-        enabled: false,
+        enabled: true,
     },
     strongholdVersionCheck: {
         enabled: true,
