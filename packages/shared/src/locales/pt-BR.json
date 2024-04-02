@@ -983,6 +983,10 @@
             "body": "Ajudar os desenvolvedores a melhorar a Bloom enviando automaticamente dados de diagnóstico quando um erro ou uma falha ocorrer. Se selecionado, isso terá efeito após reiniciar a Bloom.",
             "checkbox": "Send crash reports to the IOTA Foundation"
         },
+        "exportActivities": {
+            "title": "Export activities",
+            "body": "Export your activities as a CSV."
+        },
         "signMessage": {
             "title": "Sign message",
             "hint": "Nenhum saldo será enviado para {dappName} no processo de assinatura desta mensagem.",
@@ -1552,6 +1556,7 @@
         "alias": "Alias",
         "foundry": "Foundry",
         "token": "Token",
+        "unknownToken": "Unknown Token",
         "nft": "NFT",
         "type": "Tipo",
         "immutableIssuer": "Immutable Issuer",
@@ -1606,7 +1611,10 @@
         "no": "Não",
         "tip": "Dica",
         "verified": "Verificado",
+        "unverified": "Unverified",
+        "methodId": "Method ID",
         "methodName": "Method name",
+        "inputs": "Inputs",
         "data": "Data",
         "success": "Success",
         "info": "Info",
@@ -1618,7 +1626,6 @@
         "raffle": "Raffle",
         "governance": "Governance",
         "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract",
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
         "question": "Question"
@@ -1693,8 +1700,9 @@
         },
         "type": {
             "label": "Tipo",
-            "basic": "Básico",
+            "transfer": "Transfer",
             "nft": "NFT",
+            "smartContract": "Smart Contract",
             "alias": "Alias",
             "foundry": "Foundry",
             "governance": "Governance",
@@ -2136,7 +2144,10 @@
         "buySell": "Buy IOTA",
         "developer": "Desenvolvedor",
         "tokens": "Tokens",
-        "settings": "Configurações"
+        "settings": "Configurações",
+        "tooltips": {
+            "buySell": "Buying IOTA is only available in IOTA profiles."
+        }
     },
     "pills": {
         "asyncStatus": {
