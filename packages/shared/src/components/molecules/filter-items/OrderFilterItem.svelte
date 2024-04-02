@@ -16,7 +16,7 @@
         label: localize(`filters.ascDesc.${choice}`),
         value: choice,
     }))
-    let selectedAscDesc = ascDescOptions.find((option) => option.value === filterUnit.selected)
+    let selectedAscDesc = ascDescOptions.find((option) => option.value === filterUnit.ascDesc)
 
     $: selected && onSelect(selected)
     function onSelect(item: IOption): void {
