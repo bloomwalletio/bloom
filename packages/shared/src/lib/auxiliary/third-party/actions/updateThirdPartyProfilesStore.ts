@@ -8,6 +8,7 @@ export async function updateThirdPartyProfilesStore(selectedApps: ThirdPartyAppN
     const _thirdPartyProfiles: ThirdPartyProfileStore = {}
     for (const appName of selectedApps) {
         const appProfiles = await getThirdPartyPersistedProfiles(appName)
+        console.log("appProfiles", appProfiles)
 
         for (const appProfile of appProfiles) {
             const { needsChrysalisToStardustDbMigration = false } = appProfile

@@ -13,6 +13,9 @@
     export let selected: boolean = false
     export let onClick: () => unknown
 
+
+    $: console.log("profile tile", profile)
+
     $: networkId = getNetworkIdFromOnboardingNetworkType(profile.network?.id)
 
     let iconElement: HTMLElement
