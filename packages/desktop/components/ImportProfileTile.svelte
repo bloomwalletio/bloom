@@ -1,22 +1,77 @@
 <script lang="ts">
-    import { IThirdPartyPersistedProfile } from '@auxiliary/third-party'
-    import { Icon, IconName, Pill, Text, Tile, Tooltip } from '@bloomwalletio/ui'
+    import { IThirdPartyPersistedProfile, THIRD_PARTY_PROFILE_VERSION, ThirdPartyAppName } from '@auxiliary/third-party'
+    import { Icon, IconName, Pill, Text, TextColor, Tile, Tooltip } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { getNetworkIdFromOnboardingNetworkType } from '@core/network'
     import { NetworkAvatar } from '@ui'
 
     export let profile: IThirdPartyPersistedProfile
-    export let appName: string
+    export let appName: ThirdPartyAppName
     export let alreadyImported: boolean
     export let needsChrysalisToStardustDbMigration: boolean
     export let hidden: boolean = false
     export let selected: boolean = false
     export let onClick: () => unknown
 
-
-    $: console.log("profile tile", profile)
-
     $: networkId = getNetworkIdFromOnboardingNetworkType(profile.network?.id)
+
+    $: migrationError = (profile.version ?? 0) < THIRD_PARTY_PROFILE_VERSION[appName]
+    $: disabled = needsChrysalisToStardustDbMigration || migrationError
+    $: selectable = !(alreadyImported || disabled)
+
+    enum ThirdPartyProfileStatus {
+        ReadyToImport = 'readyToImport',
+        AlreadyImported = 'alreadyImported',
+        NeedsDbMigration = 'needsDbMigration',
+        FailedProfileMigration = 'failedProfileMigration',
+    }
+
+    interface ThirdPartyProfileStatusIcon {
+        name: IconName
+        color: TextColor
+    }
+
+    $: thirdPartyProfileStatus = getThirdPartyProfileStatus(
+        alreadyImported,
+        needsChrysalisToStardustDbMigration,
+        migrationError
+    )
+
+    function getThirdPartyProfileStatus(
+        alreadyImported: boolean,
+        needsChrysalisToStardustDbMigration: boolean,
+        migrationError: boolean
+    ): ThirdPartyProfileStatus {
+        if (alreadyImported) {
+            return ThirdPartyProfileStatus.AlreadyImported
+        }
+        if (needsChrysalisToStardustDbMigration) {
+            return ThirdPartyProfileStatus.NeedsDbMigration
+        }
+        if (migrationError) {
+            return ThirdPartyProfileStatus.FailedProfileMigration
+        }
+        return ThirdPartyProfileStatus.ReadyToImport
+    }
+
+    const THIRD_PARTY_PROFILE_STATUS_ICON: Readonly<Record<ThirdPartyProfileStatus, ThirdPartyProfileStatusIcon>> = {
+        [ThirdPartyProfileStatus.ReadyToImport]: {
+            name: IconName.SuccessCircle,
+            color: 'success',
+        },
+        [ThirdPartyProfileStatus.AlreadyImported]: {
+            name: IconName.SuccessCircle,
+            color: 'success',
+        },
+        [ThirdPartyProfileStatus.NeedsDbMigration]: {
+            name: IconName.WarningCircle,
+            color: 'warning',
+        },
+        [ThirdPartyProfileStatus.FailedProfileMigration]: {
+            name: IconName.DangerCircle,
+            color: 'danger',
+        },
+    }
 
     let iconElement: HTMLElement
 </script>
@@ -25,8 +80,8 @@
     <Tile
         width="full"
         variant="outlined"
-        onClick={!alreadyImported ? onClick : undefined}
-        disabled={needsChrysalisToStardustDbMigration}
+        onClick={selectable ? onClick : undefined}
+        {disabled}
         {selected}
         surface={1}
         class="items-center"
@@ -47,7 +102,7 @@
                 {profile.id}
             </Text>
         </div>
-        {#if alreadyImported || needsChrysalisToStardustDbMigration}
+        {#if !selectable}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <icon-container
                 bind:this={iconElement}
@@ -55,20 +110,16 @@
                 class="pointer-events-auto cursor-default"
             >
                 <Icon
-                    name={alreadyImported ? IconName.SuccessCircle : IconName.WarningCircle}
-                    textColor={alreadyImported ? 'success' : 'warning'}
+                    name={THIRD_PARTY_PROFILE_STATUS_ICON[thirdPartyProfileStatus].name}
+                    textColor={THIRD_PARTY_PROFILE_STATUS_ICON[thirdPartyProfileStatus].color}
                     size="sm"
                 />
             </icon-container>
         {/if}
     </Tile>
-    {#if alreadyImported || needsChrysalisToStardustDbMigration}
-        <Tooltip
-            anchor={iconElement}
-            text={localize(
-                `views.onboarding.importThirdPartyProfiles.importProfiles.warnings.${alreadyImported ? 'alreadyImported' : 'needsMigration'}`
-            )}
-            event="hover"
-        />
-    {/if}
+    <Tooltip
+        anchor={iconElement}
+        text={localize(`views.onboarding.importThirdPartyProfiles.importProfiles.tooltips.${thirdPartyProfileStatus}`)}
+        event="hover"
+    />
 {/if}
