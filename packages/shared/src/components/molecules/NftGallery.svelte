@@ -1,17 +1,26 @@
 <script lang="ts">
     import { Nft } from '@core/nfts'
     import NftGalleryItem from './NftGalleryItem.svelte'
+    import VirtualList from '@sveltejs/svelte-virtual-list'
 
     export let nfts: Nft[] = []
+
+    let nftChunks: (Nft | undefined)[][] = []
+    $: nftChunks = Array.from({ length: Math.ceil(nfts.length / 5) }, (_, i) => {
+        return Array.from({ length: 5 }, (_, j) => nfts[i * 5 + j])
+    })
 </script>
 
-<div
-    class="overflow-scroll grid
-    sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5
-    gap-3 2xl:gap-4
-    pb-6 -mb-5 pl-4 -ml-4 pr-3 -mr-5"
->
-    {#each nfts as nft}
-        <NftGalleryItem {nft} />
-    {/each}
-</div>
+<VirtualList items={nftChunks} let:item>
+    <div class="flex gap-3 pb-4">
+        {#each item as nft}
+            <div class="flex-1">
+                {#if nft}
+                    <NftGalleryItem {nft} />
+                {:else}
+                    <div />
+                {/if}
+            </div>
+        {/each}
+    </div>
+</VirtualList>
