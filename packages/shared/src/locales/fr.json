@@ -821,7 +821,7 @@
             "installedVersion": "Version installée",
             "newVersion": "New version",
             "stage": "Étape",
-            "prod": "Early Access",
+            "prod": "Production",
             "alpha": "Alpha",
             "beta": "Bêta",
             "releasedAt": "Publié le",
