@@ -29,7 +29,7 @@ const walletFeatures: IWalletFeatures = {
             enabled: true,
         },
         exportCsv: {
-            enabled: false,
+            enabled: true,
         },
     },
     portfolio: {

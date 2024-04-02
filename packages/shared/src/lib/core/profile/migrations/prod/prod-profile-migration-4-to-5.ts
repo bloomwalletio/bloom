@@ -1,9 +1,20 @@
 import { EvmNetworkId, NetworkId } from '@core/network'
+import { IPersistedProfile } from '@core/profile/interfaces'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 
 export function prodProfileMigration4To5(existingProfile: unknown): Promise<void> {
-    const profile = existingProfile as { id: string }
+    const profile = existingProfile as IPersistedProfile
+
+    profile.features = {
+        wallet: true,
+        collectibles: true,
+        campaigns: true,
+        governance: true,
+        buySell: true,
+        developer: profile.isDeveloperProfile,
+        settings: true,
+    }
 
     try {
         const json = localStorage.getItem('evmTransactions')

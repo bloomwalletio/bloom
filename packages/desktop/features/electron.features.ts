@@ -16,6 +16,9 @@ const electronFeatures: IElectronFeatures = {
             enabled: true,
         },
     },
+    importFromThirdParty: {
+        enabled: false,
+    },
 }
 
 export default electronFeatures
