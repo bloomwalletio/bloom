@@ -9,6 +9,7 @@ import { CreateProfileRouter, createProfileRouter } from './views/create-profile
 import { NetworkSetupRouter, networkSetupRouter } from './views/network-setup'
 import { RestoreProfileRouter, restoreProfileRouter } from './views/restore-profile'
 import { Platform } from '@core/app'
+import features from '@features/features'
 
 export const onboardingRoute = writable<OnboardingRoute>(undefined)
 export const onboardingRouter = writable<OnboardingRouter>(undefined)
@@ -23,8 +24,9 @@ export class OnboardingRouter extends Router<OnboardingRoute> {
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case OnboardingRoute.Welcome: {
+                features.onboarding.importFromThirdParty.enabled
                 const thirdPartyApps = await Platform.getThirdPartyApps()
-                if (thirdPartyApps.length > 0) {
+                if (features.onboarding.importFromThirdParty.enabled && thirdPartyApps.length > 0) {
                     this.setNext(OnboardingRoute.ImportThirdPartyProfiles)
                 } else {
                     this.setNext(OnboardingRoute.NetworkSetup)

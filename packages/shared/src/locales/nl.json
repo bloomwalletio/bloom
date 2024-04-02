@@ -983,6 +983,10 @@
             "body": "Help de ontwikkelaars om Bloom te verbeteren door automatisch diagnostische gegevens te verzenden als er een fout of crash optreedt. Als dit is geselecteerd, zal dit van kracht worden na het herstarten van Bloom.",
             "checkbox": "Stuur crashrapporten naar de IOTA Foundation"
         },
+        "exportActivities": {
+            "title": "Export activities",
+            "body": "Export your activities as a CSV."
+        },
         "signMessage": {
             "title": "Bericht ondertekenen",
             "hint": "Er wordt geen saldo verzonden naar {dappName} tijdens het ondertekenen van dit bericht.",
@@ -1552,6 +1556,7 @@
         "alias": "Alias",
         "foundry": "Foundry",
         "token": "Token",
+        "unknownToken": "Unknown Token",
         "nft": "NFT",
         "type": "Type",
         "immutableIssuer": "Onveranderlijke uitgever",
@@ -1606,7 +1611,10 @@
         "no": "Nee",
         "tip": "Tip",
         "verified": "Geverifiëerd",
+        "unverified": "Unverified",
+        "methodId": "Method ID",
         "methodName": "Methodenaam",
+        "inputs": "Inputs",
         "data": "Gegevens",
         "success": "Succesvol",
         "info": "Info",
@@ -1618,7 +1626,6 @@
         "raffle": "Verloting",
         "governance": "Governance",
         "baseCoin": "Basis token",
-        "unverifiedContract": "Ongeverifieerd contract",
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collectie NFT in Alias Output",
         "question": "Vraag"
@@ -1693,8 +1700,9 @@
         },
         "type": {
             "label": "Type",
-            "basic": "Basic",
+            "transfer": "Transfer",
             "nft": "NFT",
+            "smartContract": "Smart Contract",
             "alias": "Alias",
             "foundry": "Foundry",
             "governance": "Governance",
@@ -2136,7 +2144,10 @@
         "buySell": "IOTA kopen",
         "developer": "Ontwikkelaar",
         "tokens": "Tokens",
-        "settings": "Instellingen"
+        "settings": "Instellingen",
+        "tooltips": {
+            "buySell": "Buying IOTA is only available in IOTA profiles."
+        }
     },
     "pills": {
         "asyncStatus": {
