@@ -30,7 +30,7 @@
 </script>
 
 <proposals-container class="flex flex-col h-full">
-    <header-container class="flex justify-end items-center mb-4 h-9">
+    <header-container class="flex justify-end items-center mb-4 h-10 shrink-0">
         <div class="flex flex-row gap-5 items-center">
             <SearchInput bind:value={searchTerm} />
             <Filter filterStore={proposalFilter} />

@@ -18,13 +18,15 @@
     }
 </script>
 
-<SidebarToast
-    color="yellow"
-    header={localize(`${localeKey}.header`)}
-    body={localize(`${localeKey}.body`)}
-    button={{
-        text: localize(`${localeKey}.button`),
-        onClick,
-    }}
-    open={$isSoftwareProfile && requiresBackup}
-/>
+{#if requiresBackup}
+    <SidebarToast
+        color="yellow"
+        header={localize(`${localeKey}.header`)}
+        body={localize(`${localeKey}.body`)}
+        button={{
+            text: localize(`${localeKey}.button`),
+            onClick,
+        }}
+        open={$isSoftwareProfile && requiresBackup}
+    />
+{/if}
