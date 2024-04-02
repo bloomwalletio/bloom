@@ -1,3 +1,5 @@
+// @ts-nocheck - This file is not being type checked because the migrations and types are not defined in our code base
+
 import {
     DEFAULT_CHAIN_CONFIGURATIONS,
     IIscpChainMetadata,
@@ -141,9 +143,8 @@ const COIN_TYPE = {
     [OnboardingNetworkType.Shimmer]: 4219,
 }
 
-export function fireflyStardustProfileMigrationToV11(
-    existingProfile: unknown & { networkType: 'mainnet' | 'devnet' | 'private-net' }
-): void {
+export function fireflyStardustProfileMigrationToV11(existingProfile: unknown): void {
+    existingProfile = existingProfile as unknown & { networkType: 'mainnet' | 'devnet' | 'private-net' }
     if (!existingProfile?.network) {
         let network: IThirdPartyPersistedNetwork
         const onboardingNetworkType = getNetworkIdFromOldNetworkType(existingProfile?.networkType)
@@ -196,9 +197,10 @@ export function fireflyStardustProfileMigrationToV12(existingProfile: unknown): 
     existingProfile.strongholdVersion = StrongholdVersion.V2
 }
 
-export function fireflyStardustProfileMigrationToV13(existingProfile: {
-    accountMetadata: (IThirdPartyPersistedAccountData & { index: number })[]
-}): void {
+export function fireflyStardustProfileMigrationToV13(existingProfile: unknown): void {
+    existingProfile = existingProfile as unknown & {
+        accountMetadata: (IThirdPartyPersistedAccountData & { index: number })[]
+    }
     const newProfile = {}
     const keysToKeep = [
         'id',
