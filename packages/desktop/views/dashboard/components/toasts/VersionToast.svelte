@@ -8,16 +8,12 @@
         [AppStage.BETA]: 'sky',
         [AppStage.PROD]: 'blue',
     }
-
-    const localeKey = 'views.dashboard.toasts.version'
 </script>
 
-{#if APP_STAGE !== AppStage.PROD}
-    <SidebarToast
-        color={TOAST_PROPS[APP_STAGE]}
-        header={localize(`popups.appUpdate.${APP_STAGE}`)}
-        body={localize(`${localeKey}.body`)}
-        open
-        dismissable={false}
-    />
-{/if}
+<SidebarToast
+    color={TOAST_PROPS[APP_STAGE]}
+    header={localize(`popups.appUpdate.${APP_STAGE}`)}
+    body={localize('views.dashboard.toasts.version.body')}
+    open
+    dismissable={false}
+/>

@@ -604,8 +604,7 @@
                     "button": "Backup now"
                 },
                 "version": {
-                    "body": "You are currently using an early version of Bloom.",
-                    "button": "Find out more"
+                    "body": "You are currently using an development version of Bloom."
                 },
                 "update": {
                     "header": "Update Required",
