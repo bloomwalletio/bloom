@@ -7,6 +7,33 @@
                 "legalAction": "Okuduğunuzu ve kabul ettiğinizi onaylayın",
                 "button": "Kuruluma başla"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Third-party wallets found",
+                    "title": "Import from third-party apps",
+                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
+                    "description": "Select the apps you want to import profiles from.",
+                    "empty": "No apps found",
+                    "import": "Import"
+                },
+                "importProfiles": {
+                    "title": "Import third-party profiles",
+                    "description": "Select the profiles you want to import.",
+                    "empty": "No profiles found",
+                    "tooltips": {
+                        "alreadyImported": "Already imported",
+                        "needsDbMigration": "Needs database migration",
+                        "failedProfileMigration": "Unable to migrate profile"
+                    },
+                    "errors": {
+                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
+                        "unknown": "An unknown error occurred while trying to import the profiles"
+                    },
+                    "notifications": {
+                        "success": "Profiles successfully imported!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Ağınızı seçin",
@@ -299,9 +326,9 @@
                 "title": "Sorun rapor et",
                 "description": "Geliştiricilere bir hata bildirin. Daha önce rapor edilmediğinden emin olmak için kontrol edin"
             },
-            "developerToggle": {
-                "title": "Geliştirici Modu",
-                "description": "Deneysel durumda daha fazla özellik etkinleştirmek için geliştirici modunu açın"
+            "toggleFeatures": {
+                "title": "Enable / Disable features",
+                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
             }
         },
         "login": {
@@ -573,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Yedekleme gerekli",
-                    "body": "Profilinizi henüz yedeklemediniz! Bu cihaza erişiminizi kaybetmeniz durumunda bunu yedeklemenizi şiddetle tavsiye ederiz.",
+                    "body": "You haven't backed up your profile in while.",
                     "button": "Şimdi yedekle"
                 },
                 "version": {
-                    "body": "Şu anda Bloom'un erken bir sürümünü kullanıyorsunuz.",
-                    "button": "Daha fazlasını öğrenin"
+                    "body": "You are currently using a development version of Bloom."
                 },
                 "update": {
                     "header": "Güncelleme Gerekli",
@@ -821,7 +847,7 @@
             "installedVersion": "Yüklü versiyon",
             "newVersion": "Yeni versiyon",
             "stage": "Aşama",
-            "prod": "Erken erişim",
+            "prod": "Production",
             "alpha": "Alfa",
             "beta": "Beta",
             "releasedAt": "Yayınlanma",
@@ -985,7 +1011,9 @@
         },
         "exportActivities": {
             "title": "Export activities",
-            "body": "Export your activities as a CSV."
+            "body": "Export your activities as a CSV.",
+            "chooseAccounts": "Choose accounts",
+            "emptyAccounts": "Choose at least 1 account."
         },
         "signMessage": {
             "title": "Mesajı imzala",
@@ -1313,6 +1341,7 @@
         "enableDeveloperMode": "Geliştirici modunu etkinleştir",
         "enableSystemNotifications": "Bildirimleri etkinleştir",
         "exportTransactionHistory": "İşlem geçmişini dışa aktar",
+        "exportActivities": "Export activities",
         "localProofOfWork": "Lokal iş kanıtı",
         "unlock": "Kilidi Aç",
         "updateBloom": "Bloom'u Güncelle",
@@ -1398,7 +1427,8 @@
         "importToken": "{type} tokeni içe aktar",
         "syncTokens": "Tokenları zorla senkronizasyon yap",
         "mintNftCollection": "NFT koleksiyon basma",
-        "readMore": "Read more"
+        "readMore": "Read more",
+        "importThirdPartyProfiles": "Import third-party profiles"
     },
     "general": {
         "recipient": "Alıcı",
@@ -1628,6 +1658,7 @@
         "baseCoin": "Temel coin",
         "startIndex": "Dizini başlat",
         "mintNftCollectionDescription": "Takma Ad Çıkışında NFT koleksiyonu basma",
+        "appName": "App name",
         "question": "Question"
     },
     "filters": {
@@ -1776,6 +1807,9 @@
         },
         "disconnectDapp": {
             "success": "{dappName} ile bağlantı kesildi"
+        },
+        "exportActivities": {
+            "success": "Activities exported successfully"
         },
         "clearExpiredDapps": {
             "success": "Süresi dolmuş dApp'ler temizlendi"

@@ -7,6 +7,33 @@
                 "legalAction": "Confirm you've read and accept the",
                 "button": "Begin setup"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Third-party wallets found",
+                    "title": "Import from third-party apps",
+                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
+                    "description": "Select the apps you want to import profiles from.",
+                    "empty": "No apps found",
+                    "import": "Import"
+                },
+                "importProfiles": {
+                    "title": "Import third-party profiles",
+                    "description": "Select the profiles you want to import.",
+                    "empty": "No profiles found",
+                    "tooltips": {
+                        "alreadyImported": "Already imported",
+                        "needsDbMigration": "Needs database migration",
+                        "failedProfileMigration": "Unable to migrate profile"
+                    },
+                    "errors": {
+                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
+                        "unknown": "An unknown error occurred while trying to import the profiles"
+                    },
+                    "notifications": {
+                        "success": "Profiles successfully imported!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Choose your network",
@@ -299,9 +326,9 @@
                 "title": "反馈问题",
                 "description": "向开发者反馈错误。请检查以确保该问题尚未被反馈过"
             },
-            "developerToggle": {
-                "title": "Developer Mode",
-                "description": "Switch developer mode on to enable more features in experimental state"
+            "toggleFeatures": {
+                "title": "Enable / Disable features",
+                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
             }
         },
         "login": {
@@ -573,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Backup Required",
-                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+                    "body": "You haven't backed up your profile in while.",
                     "button": "Backup now"
                 },
                 "version": {
-                    "body": "You are currently using an early version of Bloom.",
-                    "button": "Find out more"
+                    "body": "You are currently using a development version of Bloom."
                 },
                 "update": {
                     "header": "Update Required",
@@ -985,7 +1011,9 @@
         },
         "exportActivities": {
             "title": "Export activities",
-            "body": "Export your activities as a CSV."
+            "body": "Export your activities as a CSV.",
+            "chooseAccounts": "Choose accounts",
+            "emptyAccounts": "Choose at least 1 account."
         },
         "signMessage": {
             "title": "Sign message",
@@ -1313,6 +1341,7 @@
         "enableDeveloperMode": "打开开发者模式",
         "enableSystemNotifications": "启用系统通知",
         "exportTransactionHistory": "导出交易历史记录",
+        "exportActivities": "Export activities",
         "localProofOfWork": "本地工作量证明",
         "unlock": "解锁",
         "updateBloom": "Update Bloom",
@@ -1398,7 +1427,8 @@
         "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens",
         "mintNftCollection": "Mint NFT collection",
-        "readMore": "Read more"
+        "readMore": "Read more",
+        "importThirdPartyProfiles": "Import third-party profiles"
     },
     "general": {
         "recipient": "接收人",
@@ -1628,6 +1658,7 @@
         "baseCoin": "Base Coin",
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "appName": "App name",
         "question": "Question"
     },
     "filters": {
@@ -1776,6 +1807,9 @@
         },
         "disconnectDapp": {
             "success": "Disconnected from {dappName}"
+        },
+        "exportActivities": {
+            "success": "Activities exported successfully"
         },
         "clearExpiredDapps": {
             "success": "Expired dApps cleared"
