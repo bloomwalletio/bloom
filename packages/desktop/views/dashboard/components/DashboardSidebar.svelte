@@ -167,7 +167,7 @@
 
         {#if expanded}
             <dashboard-sidebar-tiles class="w-full flex flex-col space-y-2">
-                {#if APP_STAGE === AppStage.ALPHA}
+                {#if APP_STAGE === AppStage.PROD}
                     <BackupToast />
                 {:else}
                     <VersionToast />
