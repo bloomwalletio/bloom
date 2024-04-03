@@ -7,6 +7,33 @@
                 "legalAction": "Confirme se você leu e aceita a",
                 "button": "Iniciar configuração"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Third-party wallets found",
+                    "title": "Import from third-party apps",
+                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
+                    "description": "Select the apps you want to import profiles from.",
+                    "empty": "No apps found",
+                    "import": "Import"
+                },
+                "importProfiles": {
+                    "title": "Import third-party profiles",
+                    "description": "Select the profiles you want to import.",
+                    "empty": "No profiles found",
+                    "tooltips": {
+                        "alreadyImported": "Already imported",
+                        "needsDbMigration": "Needs database migration",
+                        "failedProfileMigration": "Unable to migrate profile"
+                    },
+                    "errors": {
+                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
+                        "unknown": "An unknown error occurred while trying to import the profiles"
+                    },
+                    "notifications": {
+                        "success": "Profiles successfully imported!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Escolha sua rede",
@@ -299,9 +326,9 @@
                 "title": "Reporte um problema",
                 "description": "Relate um erro aos desenvolvedores. Assegure-se de que já não tenha sido reportado"
             },
-            "developerToggle": {
-                "title": "Modo desenvolvedor",
-                "description": "Alterne para o modo de desenvolvedor para ativar mais funcionalidades experimentais"
+            "toggleFeatures": {
+                "title": "Enable / Disable features",
+                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
             }
         },
         "login": {
@@ -573,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Backup Required",
-                    "body": "Você ainda não fez o backup do seu perfil! Nós recomendamos que faça um backup antes que você perca o acesso a este dispositivo.",
+                    "body": "You haven't backed up your profile in while.",
                     "button": "Fazer backup agora"
                 },
                 "version": {
-                    "body": "You are currently using an early version of Bloom.",
-                    "button": "Saiba mais"
+                    "body": "You are currently using a development version of Bloom."
                 },
                 "update": {
                     "header": "Atualização Necessária",
@@ -985,7 +1011,9 @@
         },
         "exportActivities": {
             "title": "Export activities",
-            "body": "Export your activities as a CSV."
+            "body": "Export your activities as a CSV.",
+            "chooseAccounts": "Choose accounts",
+            "emptyAccounts": "Choose at least 1 account."
         },
         "signMessage": {
             "title": "Sign message",
@@ -1313,6 +1341,7 @@
         "enableDeveloperMode": "Ativar modo de desenvolvedor",
         "enableSystemNotifications": "Habilitar notificações do sistema",
         "exportTransactionHistory": "Exportar histórico de transações",
+        "exportActivities": "Export activities",
         "localProofOfWork": "Prova de trabalho local",
         "unlock": "Desbloquear",
         "updateBloom": "Atualizar Bloom",
@@ -1398,7 +1427,8 @@
         "importToken": "Import {type} token",
         "syncTokens": "Forçar sincronização de tokens",
         "mintNftCollection": "Mint NFT collection",
-        "readMore": "Read more"
+        "readMore": "Read more",
+        "importThirdPartyProfiles": "Import third-party profiles"
     },
     "general": {
         "recipient": "Recipient",
@@ -1628,6 +1658,7 @@
         "baseCoin": "Base Coin",
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "appName": "App name",
         "question": "Question"
     },
     "filters": {
@@ -1776,6 +1807,9 @@
         },
         "disconnectDapp": {
             "success": "Disconnected from {dappName}"
+        },
+        "exportActivities": {
+            "success": "Activities exported successfully"
         },
         "clearExpiredDapps": {
             "success": "Expired dApps cleared"
