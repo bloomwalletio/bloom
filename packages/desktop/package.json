@@ -1,12 +1,12 @@
 {
     "name": "desktop",
     "productName": "Bloom",
-    "version": "0.1.12",
+    "version": "1.0.0-rc.1",
     "description": "Simple and secure web3 wallet for the IOTA and Shimmer ecosystem",
     "main": "public/build/main.process.js",
     "repository": "git@github.com:bloomwalletio/bloom.git",
     "author": "Bloom Labs Ltd <contact@bloomwallet.io>",
-    "license": "Apache-2.0",
+    "license": "PolyForm Strict License 1.0.0",
     "scripts": {
         "start": "npm-run-all -p start:dev start:electron",
         "start:dev": "cross-env NODE_ENV=development PLATFORM=desktop webpack-dev-server",
