@@ -24,7 +24,7 @@
 
     function onContinueClick(): void {
         if ($isOnboardingLedgerProfile) {
-            checkOrConnectLedger(_continue, false, appName)
+            void checkOrConnectLedger(_continue, false, appName)
         } else {
             void _continue()
         }

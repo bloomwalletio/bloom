@@ -20,9 +20,9 @@
         total: string
     }
 
-    const { network, type } = $onboardingProfile
+    const { network, type } = $onboardingProfile ?? {}
 
-    const DEFAULT_CONFIG = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type]
+    const DEFAULT_CONFIG = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type as ProfileType]
 
     let accountStartIndex = 0
     let accountGapLimit = DEFAULT_CONFIG.initialAccountRange
@@ -101,7 +101,7 @@
         try {
             error = ''
             isBusy = true
-            const _function = networkSearchMethod[network.id] ?? singleAddressSearch
+            const _function = networkSearchMethod[network?.id] ?? singleAddressSearch
             await ledgerRaceConditionProtectionWrapper(_function)
         } catch (err) {
             error = localize(err.error)
@@ -120,7 +120,7 @@
         const alias = account.getMetadata()?.alias
 
         const balance = await account.getBalance()
-        const baseToken = network.baseToken
+        const baseToken = network?.baseToken
         const baseCoinBalance = balance?.baseCoin?.total ?? BigInt(0)
         const total = formatTokenAmountBestMatch(baseCoinBalance, baseToken)
 
@@ -134,7 +134,7 @@
             return checkOrConnectLedger(
                 callback,
                 false,
-                network.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+                network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
             )
         }
     }
