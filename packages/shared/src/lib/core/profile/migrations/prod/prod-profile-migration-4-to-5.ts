@@ -12,6 +12,7 @@ export function prodProfileMigration4To5(existingProfile: unknown): Promise<void
         campaigns: true,
         governance: true,
         buySell: true,
+        // @ts-expect-error isDeveloperProfile was removed in favor of the feature flag, but it exists on old profiles
         developer: profile.isDeveloperProfile,
         settings: true,
     }
