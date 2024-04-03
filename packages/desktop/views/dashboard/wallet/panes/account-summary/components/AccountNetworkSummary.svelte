@@ -16,6 +16,7 @@
     import { NetworkAvatar, NetworkStatusIndicator, NftAvatar, TokenAvatar } from '@ui'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
+    import features from '@features/features'
 
     export let networkId: NetworkId
     export let name: string
@@ -128,7 +129,10 @@
         </div>
         <div>
             {#if hasNfts}
-                <button on:click={() => onNftGroupClick()}>
+                <button
+                    on:click={() => onNftGroupClick()}
+                    disabled={!features?.collectibles?.enabled || !$activeProfile?.features?.collectibles}
+                >
                     <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
                         {#each sortedNfts.slice(0, 4) as nft}
                             <NftAvatar {nft} size="md" shape="square" />
