@@ -20,9 +20,10 @@
                     "title": "Import third-party profiles",
                     "description": "Select the profiles you want to import.",
                     "empty": "No profiles found",
-                    "warnings": {
+                    "tooltips": {
                         "alreadyImported": "Already imported",
-                        "needsMigration": "Needs database migration"
+                        "needsDbMigration": "Needs database migration",
+                        "failedProfileMigration": "Unable to migrate profile"
                     },
                     "errors": {
                         "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
