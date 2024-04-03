@@ -9,14 +9,12 @@
     import { MimeType, Nft } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { DashboardRoute, dashboardRouter } from '@core/router'
     import { IAccountTokensPerNetwork } from '@core/token'
     import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { NetworkAvatar, NetworkStatusIndicator, NftAvatar, TokenAvatar } from '@ui'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
-    import features from '@features/features'
 
     export let networkId: NetworkId
     export let name: string
@@ -59,11 +57,6 @@
             nft.type === MimeType.ImagePng ||
             nft.type === MimeType.ImageWebp
         )
-    }
-
-    function onNftGroupClick(): void {
-        $dashboardRouter?.reset()
-        $dashboardRouter?.goTo(DashboardRoute.Collectibles)
     }
 
     function onGenerateAddressClick(): void {
@@ -129,16 +122,11 @@
         </div>
         <div>
             {#if hasNfts}
-                <button
-                    on:click={() => onNftGroupClick()}
-                    disabled={!features?.collectibles?.enabled || !$activeProfile?.features?.collectibles}
-                >
-                    <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
-                        {#each sortedNfts.slice(0, 4) as nft}
-                            <NftAvatar {nft} size="md" shape="square" />
-                        {/each}
-                    </AvatarGroup>
-                </button>
+                <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
+                    {#each sortedNfts.slice(0, 4) as nft}
+                        <NftAvatar {nft} size="md" shape="square" />
+                    {/each}
+                </AvatarGroup>
             {/if}
         </div>
     </account-network-summary-assets>
