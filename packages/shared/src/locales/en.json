@@ -9,22 +9,24 @@
             },
             "importThirdPartyProfiles": {
                 "selectApps": {
-                    "title": "Select apps to import",
+                    "onboardingTitle": "Third-party wallets found",
+                    "title": "Import from third-party apps",
+                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
                     "description": "Select the apps you want to import profiles from.",
-                    "descriptionExtension": "You can skip this step and import profiles later.",
                     "empty": "No apps found",
                     "import": "Import"
                 },
                 "importProfiles": {
-                    "title": "Import profiles",
-                    "description": "We found existing compatible profiles from other apps. Select the profiles you want to import.",
+                    "title": "Import third-party profiles",
+                    "description": "Select the profiles you want to import.",
                     "empty": "No profiles found",
-                    "warnings": {
+                    "tooltips": {
                         "alreadyImported": "Already imported",
-                        "needsMigration": "Needs database migration"
+                        "needsDbMigration": "Needs database migration",
+                        "failedProfileMigration": "Unable to migrate profile"
                     },
                     "errors": {
-                        "appIsOpen": "Please close the apps before importing",
+                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
                         "unknown": "An unknown error occurred while trying to import the profiles"
                     },
                     "notifications": {

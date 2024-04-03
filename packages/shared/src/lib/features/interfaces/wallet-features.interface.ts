@@ -14,7 +14,4 @@ export interface IWalletFeatures extends IFeatureFlag {
         search: IFeatureFlag
         exportCsv: IFeatureFlag
     }
-    portfolio: {
-        filter: IFeatureFlag
-    }
 }

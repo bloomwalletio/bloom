@@ -7,6 +7,33 @@
                 "legalAction": "Bestätige, dass Du gelesen hast und einverstanden bist",
                 "button": "Starte Setup"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Third-party wallets found",
+                    "title": "Import from third-party apps",
+                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
+                    "description": "Select the apps you want to import profiles from.",
+                    "empty": "No apps found",
+                    "import": "Import"
+                },
+                "importProfiles": {
+                    "title": "Import third-party profiles",
+                    "description": "Select the profiles you want to import.",
+                    "empty": "No profiles found",
+                    "tooltips": {
+                        "alreadyImported": "Already imported",
+                        "needsDbMigration": "Needs database migration",
+                        "failedProfileMigration": "Unable to migrate profile"
+                    },
+                    "errors": {
+                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
+                        "unknown": "An unknown error occurred while trying to import the profiles"
+                    },
+                    "notifications": {
+                        "success": "Profiles successfully imported!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Wähle dein Netzwerk",
@@ -299,9 +326,9 @@
                 "title": "Ein Problem melden",
                 "description": "Melde einen Fehler an die Entwickler. Überprüfe zunächst, ob dieser nicht bereits gemeldet wurde"
             },
-            "developerToggle": {
-                "title": "Entwicklermodus",
-                "description": "Entwicklermodus einschalten, um mehr experimentelle Funktionen zu aktivieren"
+            "toggleFeatures": {
+                "title": "Enable / Disable features",
+                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
             }
         },
         "login": {
@@ -573,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Backup erforderlich",
-                    "body": "Du hast dein Profil noch nicht gesichert! Wir empfehlen dringend, dies zu sichern, falls du den Zugriff auf dieses Gerät verlierst.",
+                    "body": "You haven't backed up your profile in while.",
                     "button": "Backup erstellen"
                 },
                 "version": {
-                    "body": "Sie verwenden derzeit eine frühe Version von Bloom.",
-                    "button": "Weitere Informationen"
+                    "body": "You are currently using a development version of Bloom."
                 },
                 "update": {
                     "header": "Update erforderlich",
@@ -984,8 +1010,10 @@
             "checkbox": "Fehler- und Absturzberichte an die IOTA Foundation senden"
         },
         "exportActivities": {
-            "title": "Export activities",
-            "body": "Export your activities as a CSV."
+            "title": "Aktivitäten exportieren",
+            "body": "Exportiere deine Aktivitäten als CSV.",
+            "chooseAccounts": "Choose accounts",
+            "emptyAccounts": "Choose at least 1 account."
         },
         "signMessage": {
             "title": "Nachricht signieren",
@@ -1313,6 +1341,7 @@
         "enableDeveloperMode": "Entwicklermodus aktivieren",
         "enableSystemNotifications": "Systembenachrichtigungen aktivieren",
         "exportTransactionHistory": "Transaktionsverlauf exportieren",
+        "exportActivities": "Export activities",
         "localProofOfWork": "Lokaler Proof-of-Work",
         "unlock": "Entsperren",
         "updateBloom": "Aktualisiere Bloom",
@@ -1398,7 +1427,8 @@
         "importToken": "{type} Token importiert",
         "syncTokens": "Token-Synchronisation erzwingen",
         "mintNftCollection": "Minte NFT-Sammlung",
-        "readMore": "Weiterlesen"
+        "readMore": "Weiterlesen",
+        "importThirdPartyProfiles": "Import third-party profiles"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1556,7 +1586,7 @@
         "alias": "Alias",
         "foundry": "Foundry-Fabrik",
         "token": "Token",
-        "unknownToken": "Unknown Token",
+        "unknownToken": "Unbekannter Token",
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Unveränderlicher Aussteller",
@@ -1611,8 +1641,8 @@
         "no": "Nein",
         "tip": "Tipp",
         "verified": "Verifiziert",
-        "unverified": "Unverified",
-        "methodId": "Method ID",
+        "unverified": "Unverifiziert",
+        "methodId": "Methoden-ID",
         "methodName": "Methodenname",
         "inputs": "Inputs",
         "data": "Daten",
@@ -1628,6 +1658,7 @@
         "baseCoin": "Basis-Token",
         "startIndex": "Start-Index",
         "mintNftCollectionDescription": "Minte Sammlungs-NFT im Alias-Output",
+        "appName": "App name",
         "question": "Frage"
     },
     "filters": {
@@ -1776,6 +1807,9 @@
         },
         "disconnectDapp": {
             "success": "Verbindung zu {dappName} getrennt"
+        },
+        "exportActivities": {
+            "success": "Activities exported successfully"
         },
         "clearExpiredDapps": {
             "success": "Abgelaufene dApps gelöscht"
@@ -2146,7 +2180,7 @@
         "tokens": "Token",
         "settings": "Einstellungen",
         "tooltips": {
-            "buySell": "Buying IOTA is only available in IOTA profiles."
+            "buySell": "Der Kauf von IOTA ist nur in IOTA-Profilen möglich."
         }
     },
     "pills": {

@@ -5,7 +5,6 @@ import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
 import { calculateFiatValueFromTokenAmountAndMarketPrice } from '@core/market/utils'
 import { NetworkId, EvmNetworkId, getNetwork } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
-import { sortTokens } from '@core/token/utils/sortTokens'
 import { get } from 'svelte/store'
 import { BASE_TOKEN_ID } from '../constants'
 import { IPersistedToken, ITokenWithBalance } from '../interfaces'
@@ -84,7 +83,7 @@ function getAccountAssetForNetwork(
 
     return {
         baseCoin,
-        nativeTokens: sortTokens(nativeTokens),
+        nativeTokens,
     }
 }
 
@@ -138,7 +137,7 @@ function getAccountAssetForChain(
 
     return {
         baseCoin,
-        nativeTokens: sortTokens(nativeTokens),
+        nativeTokens,
     }
 }
 
