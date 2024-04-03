@@ -31,7 +31,6 @@
     export let formError = ''
     export let requiresAuth = false
     export let currentClientOptions: IClientOptions | undefined = undefined
-    export let isDeveloperProfile: boolean = false
     export let onSubmit: () => void = () => {}
     export let networkEditable: boolean = false
 
@@ -70,7 +69,7 @@
             return Promise.reject({ type: 'validationError', error: formError })
         }
 
-        const errorUrlValidity = checkNodeUrlValidity(currentClientOptions?.nodes, node.url, isDeveloperProfile)
+        const errorUrlValidity = checkNodeUrlValidity(currentClientOptions?.nodes, node.url, true)
         if (errorUrlValidity) {
             formError = localize(errorUrlValidity) ?? ''
             return Promise.reject({ type: 'validationError', error: formError })
@@ -104,7 +103,7 @@
         }
 
         if (options.validateClientOptions && currentClientOptions) {
-            const errorNetworkName = checkIfOnSameNetwork(networkName, currentClientOptions.network, isDeveloperProfile)
+            const errorNetworkName = checkIfOnSameNetwork(networkName, currentClientOptions.network)
             if (errorNetworkName) {
                 formError = localize(errorNetworkName?.locale, errorNetworkName?.values) ?? ''
                 return Promise.reject({ type: 'validationError', error: formError })
