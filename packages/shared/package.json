@@ -21,6 +21,7 @@
         "@walletconnect/sync-client": "0.3.8",
         "@walletconnect/types": "2.11.3",
         "@walletconnect/web3wallet": "1.9.5",
+        "assert": "^2.1.0",
         "http-status-codes": "2.3.0",
         "lottie-web": "5.12.2",
         "qrious": "4.0.2",

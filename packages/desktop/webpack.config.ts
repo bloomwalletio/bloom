@@ -36,7 +36,9 @@ const fallback: { [index: string]: string | false | string[] } = {
     path: false,
     fs: false,
     crypto: false,
+    // Wallet connect chat client
     stream: require.resolve('stream-browserify'),
+    assert: require.resolve('assert/'),
     // The Ethereum libraries require zlib and the buffer polyfill
     zlib: false,
     buffer: require.resolve('buffer'),
