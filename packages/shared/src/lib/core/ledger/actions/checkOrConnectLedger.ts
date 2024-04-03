@@ -28,15 +28,19 @@ export function checkOrConnectLedger(
         if (ledgerConnected) {
             return callback()
         } else {
-            openPopup({
-                id: PopupId.ConnectLedger,
-                hideClose: true,
-                props: {
-                    ledgerAppName,
-                    onContinue: _callback,
-                    onCancel,
+            openPopup(
+                {
+                    id: PopupId.ConnectLedger,
+                    hideClose: true,
+                    props: {
+                        ledgerAppName,
+                        onContinue: _callback,
+                        onCancel,
+                    },
                 },
-            })
+                false,
+                false
+            )
         }
     } catch (err) {
         handleError(err)
