@@ -69,7 +69,11 @@
             return Promise.reject({ type: 'validationError', error: formError })
         }
 
-        const errorUrlValidity = checkNodeUrlValidity(currentClientOptions?.nodes, node.url, true)
+        const errorUrlValidity = checkNodeUrlValidity(
+            currentClientOptions?.nodes,
+            node.url,
+            $activeProfile.features.developer
+        )
         if (errorUrlValidity) {
             formError = localize(errorUrlValidity) ?? ''
             return Promise.reject({ type: 'validationError', error: formError })
