@@ -5,14 +5,30 @@
 
     export let nfts: Nft[] = []
 
+    const screenSize = 'xl'
+
     let nftChunks: (Nft | undefined)[][] = []
-    $: nftChunks = Array.from({ length: Math.ceil(nfts.length / 5) }, (_, i) => {
-        return Array.from({ length: 5 }, (_, j) => nfts[i * 5 + j])
-    })
+    $: nftChunks = Array.from(
+        { length: Math.ceil(nfts.length / NFTS_PER_CHUNK_FOR_SCREENSIZE[screenSize]) },
+        (_, i) => {
+            return Array.from(
+                { length: NFTS_PER_CHUNK_FOR_SCREENSIZE[screenSize] },
+                (_, j) => nfts[i * NFTS_PER_CHUNK_FOR_SCREENSIZE[screenSize] + j]
+            )
+        }
+    )
+
+    const NFTS_PER_CHUNK_FOR_SCREENSIZE = {
+        sm: 1, // 640
+        md: 2, // 768
+        lg: 3, // 1024
+        xl: 4, // 1280
+        '2xl': 5, // 1536
+    }
 </script>
 
 <VirtualList items={nftChunks} let:item>
-    <div class="flex gap-3 pb-4">
+    <div class="flex gap-3 pb-3 2xl:gap-4 2xl:pb-4">
         {#each item as nft}
             <div class="flex-1">
                 {#if nft}
