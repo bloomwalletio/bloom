@@ -64,36 +64,34 @@
 </script>
 
 <div class="flex flex-row gap-4 items-center overflow-hidden">
-    <div class="py-1">
-        {#if activity.type === StardustActivityType.Governance}
-            <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
-        {:else if token}
-            <TokenAvatar {token} hideNetworkBadge size="lg" />
-        {:else if showNft}
-            <NftAvatar {nft} size="lg" shape="square" />
-        {:else if activity.type === EvmActivityType.ContractCall}
-            <Avatar
-                icon={IconName.FileCode}
-                size="lg"
-                textColor="primary"
-                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-            />
-        {:else if activity.type === StardustActivityType.Alias}
-            <Avatar
-                icon={IconName.Alias}
-                size="lg"
-                textColor="primary"
-                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-            />
-        {:else}
-            <Avatar
-                icon={IconName.UnknownMediaType}
-                size="lg"
-                textColor="primary"
-                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-            />
-        {/if}
-    </div>
+    {#if activity.type === StardustActivityType.Governance}
+        <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
+    {:else if token}
+        <TokenAvatar {token} hideNetworkBadge size="lg" />
+    {:else if showNft}
+        <NftAvatar {nft} size="lg" shape="square" />
+    {:else if activity.type === EvmActivityType.ContractCall}
+        <Avatar
+            icon={IconName.FileCode}
+            size="lg"
+            textColor="primary"
+            backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+        />
+    {:else if activity.type === StardustActivityType.Alias}
+        <Avatar
+            icon={IconName.Alias}
+            size="lg"
+            textColor="primary"
+            backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+        />
+    {:else}
+        <Avatar
+            icon={IconName.UnknownMediaType}
+            size="lg"
+            textColor="primary"
+            backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+        />
+    {/if}
     <div class="flex flex-col items-start justify-between overflow-hidden">
         <div class="w-full flex flex-row gap-1 overflow-hidden">
             <Text textColor={color} class="shrink-0">{localize(getActivityTileAction(activity))}</Text>

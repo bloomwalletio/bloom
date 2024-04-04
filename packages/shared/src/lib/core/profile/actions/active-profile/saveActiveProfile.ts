@@ -16,7 +16,6 @@ export function saveActiveProfile(): void {
             networkContactAddresses: _activeProfile.networkContactAddresses,
             lastStrongholdBackupTime: _activeProfile.lastStrongholdBackupTime,
             settings: _activeProfile.settings,
-            isDeveloperProfile: _activeProfile.isDeveloperProfile,
             clientOptions: _activeProfile.clientOptions,
             forceAssetRefresh: _activeProfile.forceAssetRefresh,
             strongholdVersion: _activeProfile.strongholdVersion,
