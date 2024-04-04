@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { ProposalTypes } from '@walletconnect/types'
     import { NetworkAvatarGroup } from '@ui'
-    import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
+    import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
     import { SupportedNetworkId, getAllNetworkIds } from '@core/network'
     import { RpcMethod } from '@auxiliary/wallet-connect/enums'
 
@@ -34,10 +34,14 @@
     } {
         const supportedNetworksByProfile = getAllNetworkIds()
         const allSupportedNetworksByWallet: string[] = Object.values(SupportedNetworkId)
-        const requiredNetworksByDapp = Object.values(_requiredNamespaces).flatMap((namespace) => namespace.chains)
+        const requiredNetworksByDapp = Object.values(_requiredNamespaces)
+            .flatMap(({ chains }) => chains)
+            .filter(Boolean)
         const supportedNetworksByDapp = [
             ...requiredNetworksByDapp,
-            ...Object.values(_optionalNamespaces).flatMap((namespace) => namespace.chains),
+            ...(Object.values(_optionalNamespaces)
+                .flatMap(({ chains }) => chains)
+                .filter(Boolean)),
         ]
 
         const unsupportedRequiredNetworks = requiredNetworksByDapp.filter(
@@ -64,12 +68,9 @@
     }
 
     function getUnsupportedMethods(_requiredNamespaces: ProposalTypes.RequiredNamespaces): RpcMethod[] {
-        const supportedMethodsByWallet = Object.values(METHODS_FOR_PERMISSION).flat() as RpcMethod[]
-        const requiredMethods = Object.values(_requiredNamespaces).flatMap(
-            (namespace) => namespace.methods
-        ) as RpcMethod[]
+        const requiredMethods = Object.values(_requiredNamespaces).flatMap(({ methods }) => methods) as RpcMethod[]
 
-        return requiredMethods.filter((method) => !supportedMethodsByWallet.includes(method))
+        return requiredMethods.filter((method) => !ALL_SUPPORTED_METHODS.includes(method))
     }
 </script>
 
