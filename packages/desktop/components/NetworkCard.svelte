@@ -3,6 +3,7 @@
     import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { openUrlInBrowser } from '@core/app'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
@@ -19,65 +20,75 @@
         setSelectedChain,
     } from '@core/network'
     import { ProfileType } from '@core/profile'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, buildUrl, truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
-    export let network: INetwork = undefined
-    export let chain: IChain = undefined
+    export let network: INetwork | undefined = undefined
+    export let chain: IChain | undefined = undefined
     export let onCardClick: UiEventFunction
     export let onQrCodeIconClick: UiEventFunction
 
-    let configuration: IIscpChainConfiguration = undefined
+    let configuration: IIscpChainConfiguration | undefined = undefined
     let networkId: NetworkId | undefined
     let name = ''
-    let address = ''
+    let address: string | undefined = undefined
     let status: NetworkHealth
 
     $: $networkStatus, $chainStatuses, $selectedAccount, setNetworkCardData()
-    $: explorer = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
+    $: explorer = networkId ? getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address) : undefined
 
-    function onExplorerClick(address: string): void {
+    function onExplorerClick(): void {
+        if (!explorer || !address) {
+            return
+        }
         const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
         openUrlInBrowser(url?.href)
     }
 
     function setNetworkCardData(): void {
+        const account = $selectedAccount as IAccountState
         if (network) {
             networkId = network.getMetadata().id
             name = network.getMetadata().name
-            address = $selectedAccount.depositAddress
+            address = account.depositAddress
             status = $networkStatus.health
         } else if (chain) {
             configuration = chain.getConfiguration() as IIscpChainConfiguration
             networkId = configuration.id
             name = configuration.name
-            address = $selectedAccount.evmAddresses[configuration.coinType]
+            address = account.evmAddresses[configuration.coinType]
             status = chain.getStatus().health
         }
     }
 
-    function onGenerateAddressClick(): void {
-        setSelectedChain(chain)
-        if (chain) {
-            checkActiveProfileAuth(
-                async () => {
-                    await generateAndStoreEvmAddressForAccounts(
-                        $activeProfile.type,
-                        configuration.coinType,
-                        $selectedAccount as IAccountState
-                    )
-                    pollL2BalanceForAccount($activeProfile.id, $selectedAccount as IAccountState)
-                    if ($activeProfile.type === ProfileType.Ledger) {
-                        $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
-                    }
-                },
-                {},
-                LedgerAppName.Ethereum
+    async function onGenerateAddressClick(): Promise<void> {
+        if (!chain) {
+            return
+        }
+
+        try {
+            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+        } catch (error) {
+            return
+        }
+
+        try {
+            setSelectedChain(chain)
+            await generateAndStoreEvmAddressForAccounts(
+                $activeProfile.type,
+                configuration.coinType,
+                $selectedAccount as IAccountState
             )
+            pollL2BalanceForAccount($activeProfile.id, $selectedAccount as IAccountState)
+            if ($activeProfile.type === ProfileType.Ledger) {
+                $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
+            }
+        } catch (error) {
+            handleError(error)
         }
     }
 
@@ -118,12 +129,12 @@
                 {/if}
             </div>
             <div class="flex flex-row space-x-1">
-                {#if explorer.baseUrl && address}
+                {#if explorer?.baseUrl && address}
                     <IconButton
                         size="sm"
                         icon={IconName.Globe}
                         tooltip={localize('general.viewOnExplorer')}
-                        on:click={() => onExplorerClick(address)}
+                        on:click={() => onExplorerClick()}
                     />
                 {/if}
                 {#if address}
