@@ -15,21 +15,15 @@
             { key: localize('general.name'), value: profile.name },
             { key: localize('general.id'), value: profile.id, copyable: true },
             { key: localize('general.version'), value: `${profile?.versionTrack} v${profile.version}` },
+            {
+                key: `${localize('general.type')}`,
+                value:
+                    profile.type === ProfileType.Software
+                        ? `${localize('general.stronghold')} v${profile.strongholdVersion}`
+                        : profile.type,
+            },
+            { key: localize('general.location'), value: location || undefined, copyable: true },
         ]
-        if (profile.type === ProfileType.Software) {
-            items = [
-                ...items,
-                {
-                    key: `${localize('general.type')}`,
-                    value: `${localize('general.stronghold')} v${profile.strongholdVersion}`,
-                },
-            ]
-        } else {
-            items = [...items, { key: `${localize('general.type')}`, value: profile.type }]
-        }
-        if (location) {
-            items = [...items, { key: localize('general.location'), value: location, copyable: true }]
-        }
     })
 
     function onCopyClick(): void {
