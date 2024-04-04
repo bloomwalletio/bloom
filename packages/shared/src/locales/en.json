@@ -1647,6 +1647,7 @@
         "methodId": "Method ID",
         "methodName": "Method name",
         "inputs": "Inputs",
+        "parameters": "Parameters",
         "data": "Data",
         "success": "Success",
         "info": "Info",

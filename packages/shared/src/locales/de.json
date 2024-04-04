@@ -9,28 +9,28 @@
             },
             "importThirdPartyProfiles": {
                 "selectApps": {
-                    "onboardingTitle": "Third-party wallets found",
-                    "title": "Import from third-party apps",
-                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
-                    "description": "Select the apps you want to import profiles from.",
-                    "empty": "No apps found",
-                    "import": "Import"
+                    "onboardingTitle": "Geldbörsen von Drittanbietern gefunden",
+                    "title": "Import aus Drittanbieteranwendungen",
+                    "onboardingDescription": "Wir haben festgestellt, dass du kompatible Wallets von Drittanbietern verwendest. Du kannst die Profile jetzt oder später importieren.",
+                    "description": "Wähle die Apps aus, von denen du Profile importieren möchten.",
+                    "empty": "Keine Apps gefunden",
+                    "import": "Importieren"
                 },
                 "importProfiles": {
-                    "title": "Import third-party profiles",
-                    "description": "Select the profiles you want to import.",
-                    "empty": "No profiles found",
+                    "title": "Drittanbieter-Profile importieren",
+                    "description": "Wähle das zu importierende Profil aus.",
+                    "empty": "Keine Profile gefunden",
                     "tooltips": {
-                        "alreadyImported": "Already imported",
-                        "needsDbMigration": "Needs database migration",
-                        "failedProfileMigration": "Unable to migrate profile"
+                        "alreadyImported": "Bereits importiert",
+                        "needsDbMigration": "Benötigt Datenbankmigration",
+                        "failedProfileMigration": "Migration des Profils nicht möglich"
                     },
                     "errors": {
-                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
-                        "unknown": "An unknown error occurred while trying to import the profiles"
+                        "appIsOpen": "Die Drittanbieter-Wallet von der du importieren möchtest, ist geöffnet. Bitte schließen die Wallet und versuche es erneut.",
+                        "unknown": "Ein unbekannter Fehler ist bei der Importierung des Profils aufgetreten"
                     },
                     "notifications": {
-                        "success": "Profiles successfully imported!"
+                        "success": "Profile erfolgreich importiert!"
                     }
                 }
             },
@@ -327,8 +327,8 @@
                 "description": "Melde einen Fehler an die Entwickler. Überprüfe zunächst, ob dieser nicht bereits gemeldet wurde"
             },
             "toggleFeatures": {
-                "title": "Enable / Disable features",
-                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
+                "title": "aktiviere / deaktiviere Funktion",
+                "description": "Schalte Funktionen ein oder aus um die Funktionalität an deine Bedürfnisse anzupassen."
             }
         },
         "login": {
@@ -600,11 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Backup erforderlich",
-                    "body": "You haven't backed up your profile in while.",
+                    "body": "Du hast dein Profil schon lange nicht mehr gesichert.",
                     "button": "Backup erstellen"
                 },
                 "version": {
-                    "body": "You are currently using a development version of Bloom."
+                    "body": "Du verwendest derzeit eine Entwicklungsversion von Bloom."
                 },
                 "update": {
                     "header": "Update erforderlich",
@@ -847,7 +847,7 @@
             "installedVersion": "Installierte Version",
             "newVersion": "Neue Version",
             "stage": "Phase",
-            "prod": "Production",
+            "prod": "Produktion",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Veröffentlicht am",
@@ -1012,8 +1012,8 @@
         "exportActivities": {
             "title": "Aktivitäten exportieren",
             "body": "Exportiere deine Aktivitäten als CSV.",
-            "chooseAccounts": "Choose accounts",
-            "emptyAccounts": "Choose at least 1 account."
+            "chooseAccounts": "Account wählen",
+            "emptyAccounts": "Wähle mindestens 1 Account."
         },
         "signMessage": {
             "title": "Nachricht signieren",
@@ -1341,7 +1341,7 @@
         "enableDeveloperMode": "Entwicklermodus aktivieren",
         "enableSystemNotifications": "Systembenachrichtigungen aktivieren",
         "exportTransactionHistory": "Transaktionsverlauf exportieren",
-        "exportActivities": "Export activities",
+        "exportActivities": "Aktivitäten exportieren",
         "localProofOfWork": "Lokaler Proof-of-Work",
         "unlock": "Entsperren",
         "updateBloom": "Aktualisiere Bloom",
@@ -1428,7 +1428,7 @@
         "syncTokens": "Token-Synchronisation erzwingen",
         "mintNftCollection": "Minte NFT-Sammlung",
         "readMore": "Weiterlesen",
-        "importThirdPartyProfiles": "Import third-party profiles"
+        "importThirdPartyProfiles": "Drittanbieter-Profile importieren"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1658,7 +1658,7 @@
         "baseCoin": "Basis-Token",
         "startIndex": "Start-Index",
         "mintNftCollectionDescription": "Minte Sammlungs-NFT im Alias-Output",
-        "appName": "App name",
+        "appName": "App-Name",
         "question": "Frage"
     },
     "filters": {
@@ -1809,7 +1809,7 @@
             "success": "Verbindung zu {dappName} getrennt"
         },
         "exportActivities": {
-            "success": "Activities exported successfully"
+            "success": "Aktivitäten erfolgreich exportiert"
         },
         "clearExpiredDapps": {
             "success": "Abgelaufene dApps gelöscht"
