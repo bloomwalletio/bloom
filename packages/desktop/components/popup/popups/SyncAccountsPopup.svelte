@@ -8,17 +8,15 @@
     import { loadNftsForActiveProfile } from '@core/nfts/actions'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile'
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
-    import { checkActiveProfileAuth, getBaseToken, loadAccounts } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync, getBaseToken, loadAccounts } from '@core/profile/actions'
     import { activeAccounts, activeProfile, getActiveProfileId, visibleActiveAccounts } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { onDestroy, onMount } from 'svelte'
+    import { onDestroy } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { StardustNetworkId } from '@core/network/enums'
     import { ledgerRaceConditionProtectionWrapper } from '@core/ledger'
-
-    export let searchForBalancesOnLoad = false
 
     const { network, type } = $activeProfile
 
@@ -38,27 +36,6 @@
     let previousAccountsLength = 0
 
     $: totalBalance = sumBalanceForAccounts($visibleActiveAccounts)
-
-    async function searchForBalance(): Promise<void> {
-        try {
-            error = ''
-            isBusy = true
-            const _function = networkSearchMethod[network?.id] ?? singleAddressSearch
-            await ledgerRaceConditionProtectionWrapper(_function)
-            await loadAccounts()
-            previousAccountsLength = $visibleActiveAccounts.length
-            previousAccountGapLimit = accountGapLimit
-            hasUsedWalletFinder = true
-        } catch (err) {
-            error = localize(err.error)
-            showNotification({
-                variant: 'error',
-                text: localize(err.error),
-            })
-        } finally {
-            isBusy = false
-        }
-    }
 
     const networkSearchMethod: { [key in StardustNetworkId]?: () => Promise<void> } = {
         [StardustNetworkId.Iota]: multiAddressSearch,
@@ -123,20 +100,35 @@
     }
 
     async function onFindBalancesClick(): Promise<void> {
-        await checkActiveProfileAuth(() => searchForBalance(), {
-            stronghold: true,
-            ledger: true,
-            props: { searchForBalancesOnLoad: true },
-        })
+        try {
+            await checkActiveProfileAuthAsync()
+        } catch {
+            return
+        }
+
+        try {
+            error = ''
+            isBusy = true
+            const _function = networkSearchMethod[network?.id] ?? singleAddressSearch
+            await ledgerRaceConditionProtectionWrapper(_function)
+            await loadAccounts()
+            previousAccountsLength = $visibleActiveAccounts.length
+            previousAccountGapLimit = accountGapLimit
+            hasUsedWalletFinder = true
+        } catch (err) {
+            error = localize(err.error)
+            showNotification({
+                variant: 'error',
+                text: error,
+            })
+        } finally {
+            isBusy = false
+        }
     }
 
     function onCancelClick(): void {
         closePopup()
     }
-
-    onMount(() => {
-        searchForBalancesOnLoad && void searchForBalance()
-    })
 
     onDestroy(async () => {
         if (hasUsedWalletFinder) {
