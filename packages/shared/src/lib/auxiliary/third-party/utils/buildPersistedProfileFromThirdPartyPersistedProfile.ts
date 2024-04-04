@@ -40,7 +40,6 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
         ),
         contacts: {},
         networkContactAddresses: {},
-        isDeveloperProfile: thirdPartyProfile.isDeveloperProfile,
         features: {
             wallet: true,
             collectibles: true,
