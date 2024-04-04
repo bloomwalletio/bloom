@@ -1287,6 +1287,9 @@
         },
         "createAccount": {
             "title": "Create account"
+        },
+        "profileDiagnostics": {
+            "title": "Profile diagnostics"
         }
     },
     "actions": {
@@ -1662,7 +1665,9 @@
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
         "appName": "App name",
-        "question": "Question"
+        "question": "Question",
+        "id": "ID",
+        "location": "Location"
     },
     "filters":{
         "title": "Filters",
