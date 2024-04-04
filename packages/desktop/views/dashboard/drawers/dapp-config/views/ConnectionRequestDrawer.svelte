@@ -8,7 +8,7 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { SecurityWarning, UnsupportedDappHint } from '../components'
     import { getAllNetworkIds } from '@core/network'
-    import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
+    import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
     import { onDestroy } from 'svelte'
@@ -51,11 +51,15 @@
         optionalNamespaces: ProposalTypes.RequiredNamespaces
     ): boolean {
         const supportedNetworksByProfile = getAllNetworkIds()
-        const requiredNetworksByDapp = Object.values(requiredNamespaces).flatMap((namespace) => namespace.chains)
+        const requiredNetworksByDapp = Object.values(requiredNamespaces)
+            .flatMap(({ chains }) => chains)
+            .filter(Boolean)
         const supportedNetworksByDapp = [
             ...requiredNetworksByDapp,
-            ...Object.values(optionalNamespaces).flatMap((namespace) => namespace.chains),
-        ]
+            ...Object.values(optionalNamespaces)
+                .flatMap(({ chains }) => chains)
+                .filter(Boolean),
+        ] as string[]
 
         const supportsAllRequiredNetworks = requiredNetworksByDapp.every((networkId) =>
             supportedNetworksByProfile.includes(networkId)
@@ -76,16 +80,9 @@
     }
 
     function doesFulfillMethodRequirements(requiredNamespaces: ProposalTypes.RequiredNamespaces): boolean {
-        const supportedMethodsByWallet = Object.values(METHODS_FOR_PERMISSION).flat() as RpcMethod[]
-        const requiredMethods = Object.values(requiredNamespaces).flatMap(
-            (namespace) => namespace.methods
-        ) as RpcMethod[]
-        const supportsAllRequiredMethods = requiredMethods.every((method) => supportedMethodsByWallet.includes(method))
-        if (!supportsAllRequiredMethods) {
-            return false
-        }
-
-        return true
+        const requiredMethods = Object.values(requiredNamespaces).flatMap(({ methods }) => methods) as RpcMethod[]
+        const supportsAllRequiredMethods = requiredMethods.every((method) => ALL_SUPPORTED_METHODS.includes(method))
+        return supportsAllRequiredMethods
     }
 
     function onRejectClick(): void {
