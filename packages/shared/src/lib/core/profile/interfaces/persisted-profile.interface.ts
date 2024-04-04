@@ -21,7 +21,6 @@ export interface IPersistedProfile {
     }
     contacts: IContactMap
     networkContactAddresses: INetworkContactAddressMap
-    isDeveloperProfile: boolean
     features: { [key in DashboardRoute]: boolean }
     hasVisitedDashboard?: boolean
     lastUsedAccountIndex?: number
