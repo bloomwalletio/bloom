@@ -34,6 +34,7 @@ export enum PopupId {
     MintNftCollectionConfirmation = 'mintNftCollectionConfirmation',
     NodeAuthRequired = 'nodeAuthRequired',
     NodeInfo = 'nodeInfo',
+    ProfileDiagnostics = 'profileDiagnostics',
     ReceiveAddress = 'receiveAddress',
     RemoveProposal = 'removeProposal',
     Revote = 'revote',
