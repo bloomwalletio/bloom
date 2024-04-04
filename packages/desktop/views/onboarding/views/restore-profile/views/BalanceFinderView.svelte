@@ -4,12 +4,12 @@
     import { IAccount } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, checkOrConnectLedger, ledgerRaceConditionProtectionWrapper } from '@core/ledger'
+    import { LedgerAppName, checkOrConnectLedgerAsync, ledgerRaceConditionProtectionWrapper } from '@core/ledger'
     import { StardustNetworkId, SupportedNetworkId } from '@core/network'
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
-    import { checkOrUnlockStronghold } from '@core/stronghold/actions'
+    import { checkOrUnlockStrongholdAsync } from '@core/stronghold/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
@@ -127,24 +127,19 @@
         return { alias, total }
     }
 
-    function checkOnboardingProfileAuth(callback: () => Promise<unknown>): Promise<unknown> {
-        if (type === ProfileType.Software) {
-            return checkOrUnlockStronghold(callback)
-        } else {
-            return checkOrConnectLedger(
-                callback,
-                false,
-                network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
-            )
-        }
-    }
-
     function onContinueClick(): void {
         $restoreProfileRouter.next()
     }
 
     async function onFindBalancesClick(): Promise<void> {
-        await checkOnboardingProfileAuth(async () => await findBalances())
+        if (type === ProfileType.Software) {
+            await checkOrUnlockStrongholdAsync()
+        } else {
+            await checkOrConnectLedgerAsync(
+                network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+            )
+        }
+        await findBalances()
     }
 
     onMount(async () => {
