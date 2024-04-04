@@ -7,7 +7,7 @@
 
 <governance-dashboard class="w-full h-full flex flex-nowrap relative flex-1 space-x-6">
     <div class="w-1/3 flex flex-col space-y-4">
-        <div class="flex gap-2 pt-2">
+        <div class="flex items-center gap-2 h-10 shrink-0">
             <Text type="h6">{localize('views.governance.proposals.title')}</Text>
             <Pill color="neutral">
                 <Text textColor="secondary">

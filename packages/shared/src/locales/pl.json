@@ -7,6 +7,33 @@
                 "legalAction": "Potwierdź, że przeczytałeś i akceptujesz:",
                 "button": "Zaczynamy"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Third-party wallets found",
+                    "title": "Import from third-party apps",
+                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
+                    "description": "Select the apps you want to import profiles from.",
+                    "empty": "No apps found",
+                    "import": "Import"
+                },
+                "importProfiles": {
+                    "title": "Import third-party profiles",
+                    "description": "Select the profiles you want to import.",
+                    "empty": "No profiles found",
+                    "tooltips": {
+                        "alreadyImported": "Already imported",
+                        "needsDbMigration": "Needs database migration",
+                        "failedProfileMigration": "Unable to migrate profile"
+                    },
+                    "errors": {
+                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
+                        "unknown": "An unknown error occurred while trying to import the profiles"
+                    },
+                    "notifications": {
+                        "success": "Profiles successfully imported!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Wybierz sieć",
@@ -299,9 +326,9 @@
                 "title": "Zgłoś problem",
                 "description": "Zgłoś błąd deweloperom. Upewnij się, że problem nie został już wcześniej zgłoszony"
             },
-            "developerToggle": {
-                "title": "Tryb deweloperski",
-                "description": "Włącz tryb deweloperski, aby aktywować więcej eksperymentalnych funkcji"
+            "toggleFeatures": {
+                "title": "Enable / Disable features",
+                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
             }
         },
         "login": {
@@ -573,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Wymagana kopa zapasowa",
-                    "body": "Nie utworzono jeszcze kopii zapasowej profilu! Zdecydowanie zalecamy utworzenie kopii zapasowej na wypadek utraty dostępu do tego urządzenia.",
+                    "body": "You haven't backed up your profile in while.",
                     "button": "Utwórz kopię"
                 },
                 "version": {
-                    "body": "Obecnie używasz wczesnej wersji portfela Bloom.",
-                    "button": "Dowiedz się więcej"
+                    "body": "You are currently using a development version of Bloom."
                 },
                 "update": {
                     "header": "Wymagana aktualizacja",
@@ -821,7 +847,7 @@
             "installedVersion": "Zainstalowana wersja",
             "newVersion": "Nowa wersja",
             "stage": "Kanał",
-            "prod": "Wczesny dostęp",
+            "prod": "Production",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Opublikowana",
@@ -982,6 +1008,12 @@
             "title": "Zgłaszanie awarii",
             "body": "Pomóż programistom ulepszać Bloom, automatycznie wysyłając dane diagnostyczne, gdy wystąpi błąd lub awaria. W przypadku wybrania tej opcji, zacznie ona obowiązywać po ponownym uruchomieniu aplikacji Bloom.",
             "checkbox": "Wysyłaj raporty o awariach do Fundacji IOTA"
+        },
+        "exportActivities": {
+            "title": "Eksportuj aktywność",
+            "body": "Eksportuj swoją aktywność do pliku CSV.",
+            "chooseAccounts": "Choose accounts",
+            "emptyAccounts": "Choose at least 1 account."
         },
         "signMessage": {
             "title": "Podpisz wiadomość",
@@ -1309,6 +1341,7 @@
         "enableDeveloperMode": "Włącz tryb deweloperski",
         "enableSystemNotifications": "Włącz powiadomienia systemowe",
         "exportTransactionHistory": "Eksportuj historię transakcji",
+        "exportActivities": "Export activities",
         "localProofOfWork": "Lokalny tryb proof of work",
         "unlock": "Odblokuj",
         "updateBloom": "Aktualizuj Bloom",
@@ -1394,7 +1427,8 @@
         "importToken": "Importowanie tokena {type}",
         "syncTokens": "Wymuś synchronizację tokenów",
         "mintNftCollection": "Mintuj kolekcję NFT",
-        "readMore": "Czytaj więcej"
+        "readMore": "Czytaj więcej",
+        "importThirdPartyProfiles": "Import third-party profiles"
     },
     "general": {
         "recipient": "Odbiorca",
@@ -1552,6 +1586,7 @@
         "alias": "Alias",
         "foundry": "Produkcja",
         "token": "Token",
+        "unknownToken": "Nieznany token",
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Niezmienny wydawca",
@@ -1606,7 +1641,10 @@
         "no": "Nie",
         "tip": "Wskazówka",
         "verified": "Zweryfikowano",
+        "unverified": "Niezweryfikowany",
+        "methodId": "ID metody",
         "methodName": "Metoda",
+        "inputs": "Wejścia",
         "data": "Data",
         "success": "Sukces",
         "info": "Informacje",
@@ -1618,9 +1656,9 @@
         "raffle": "Loteria",
         "governance": "Zarządzanie",
         "baseCoin": "Token podstawowy",
-        "unverifiedContract": "Niezweryfikowany kontrakt",
         "startIndex": "Indeks startowy",
         "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu",
+        "appName": "App name",
         "question": "Pytanie"
     },
     "filters": {
@@ -1693,8 +1731,9 @@
         },
         "type": {
             "label": "Typ",
-            "basic": "Podstawowe",
+            "transfer": "Transfer",
             "nft": "NFT",
+            "smartContract": "Smart kontrakt",
             "alias": "Alias",
             "foundry": "Produkcja",
             "governance": "Zarządzanie",
@@ -1768,6 +1807,9 @@
         },
         "disconnectDapp": {
             "success": "Odłączono od aplikacji {dappName}"
+        },
+        "exportActivities": {
+            "success": "Activities exported successfully"
         },
         "clearExpiredDapps": {
             "success": "Wyczyszczono wygasłe dApps"
@@ -2136,7 +2178,10 @@
         "buySell": "Kup IOTA",
         "developer": "Deweloper",
         "tokens": "Tokeny",
-        "settings": "Ustawienia"
+        "settings": "Ustawienia",
+        "tooltips": {
+            "buySell": "Kupno IOTA jest dostępne tylko w profilach IOTA."
+        }
     },
     "pills": {
         "asyncStatus": {
