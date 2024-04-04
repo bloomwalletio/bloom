@@ -34,15 +34,15 @@
     } {
         const supportedNetworksByProfile = getAllNetworkIds()
         const allSupportedNetworksByWallet: string[] = Object.values(SupportedNetworkId)
-        const requiredNetworksByDapp = Object.values(_requiredNamespaces)
+        const requiredNetworksByDapp: string[] = Object.values(_requiredNamespaces)
             .flatMap(({ chains }) => chains)
             .filter(Boolean)
         const supportedNetworksByDapp = [
             ...requiredNetworksByDapp,
-            ...(Object.values(_optionalNamespaces)
+            ...Object.values(_optionalNamespaces)
                 .flatMap(({ chains }) => chains)
-                .filter(Boolean)),
-        ]
+                .filter(Boolean),
+        ] as string[]
 
         const unsupportedRequiredNetworks = requiredNetworksByDapp.filter(
             (networkId) => !supportedNetworksByProfile.includes(networkId)

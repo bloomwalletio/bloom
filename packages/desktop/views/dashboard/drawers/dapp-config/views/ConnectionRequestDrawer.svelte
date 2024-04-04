@@ -56,10 +56,10 @@
             .filter(Boolean)
         const supportedNetworksByDapp = [
             ...requiredNetworksByDapp,
-            ...(Object.values(optionalNamespaces)
+            ...Object.values(optionalNamespaces)
                 .flatMap(({ chains }) => chains)
-                .filter(Boolean)),
-        ]
+                .filter(Boolean),
+        ] as string[]
 
         const supportsAllRequiredNetworks = requiredNetworksByDapp.every((networkId) =>
             supportedNetworksByProfile.includes(networkId)
