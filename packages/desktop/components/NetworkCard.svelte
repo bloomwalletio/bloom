@@ -72,7 +72,7 @@
 
         try {
             await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
-        } catch (error) {
+        } catch {
             return
         }
 

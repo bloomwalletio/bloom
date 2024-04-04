@@ -3,13 +3,16 @@
     import { IAccountState } from '@core/account'
     import { setNextSelectedAccount } from '@core/account/actions'
     import { selectedAccount } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { deleteAccount } from '@core/profile-manager/actions'
-    import { checkActiveProfileAuth, updateActiveAccountPersistedData } from '@core/profile/actions'
+    import { checkActiveProfileAuthAsync, updateActiveAccountPersistedData } from '@core/profile/actions'
     import { activeAccounts, activeProfile, nonHiddenActiveAccounts, visibleActiveAccounts } from '@core/profile/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
     let menu: Menu | undefined = undefined
+
+    $: account = $selectedAccount as IAccountState
 
     function onSyncAccountsClick(): void {
         openPopup({ id: PopupId.SyncAccounts })
@@ -27,19 +30,15 @@
     }
 
     function onShowAccountClick(): void {
-        if ($selectedAccount) {
-            updateActiveAccountPersistedData($selectedAccount.index, { hidden: false })
-            menu?.close()
-        }
+        updateActiveAccountPersistedData(account.index, { hidden: false })
+        menu?.close()
     }
 
     function onHideAccountClick(): void {
         if ($nonHiddenActiveAccounts.length > 1) {
-            if ($selectedAccount) {
-                updateActiveAccountPersistedData($selectedAccount.index, { hidden: true })
-                if (!$activeProfile.showHiddenAccounts) {
-                    setNextSelectedAccount()
-                }
+            updateActiveAccountPersistedData(account.index, { hidden: true })
+            if (!$activeProfile.showHiddenAccounts) {
+                setNextSelectedAccount()
             }
         } else {
             console.error('Not enough accounts visible: ', $nonHiddenActiveAccounts.length)
@@ -52,17 +51,22 @@
             id: PopupId.Confirmation,
             props: {
                 variant: 'danger',
-                title: localize('popups.deleteAccount.title', { values: { name: $selectedAccount?.name } }),
+                title: localize('popups.deleteAccount.title', { values: { name: account.name } }),
                 alert: { variant: 'warning', text: localize('popups.deleteAccount.hint') },
                 confirmText: localize('actions.delete'),
                 onConfirm: async () => {
-                    await checkActiveProfileAuth(
-                        async () => {
-                            await deleteAccount($selectedAccount?.index)
-                            closePopup()
-                        },
-                        { stronghold: true }
-                    )
+                    try {
+                        await checkActiveProfileAuthAsync()
+                    } catch {
+                        return
+                    }
+
+                    try {
+                        await deleteAccount(account.index)
+                        closePopup()
+                    } catch (error) {
+                        handleError(error)
+                    }
                 },
             },
         })
@@ -112,9 +116,9 @@
         }
     }
     $: setItems(
-        $selectedAccount,
+        account,
         $nonHiddenActiveAccounts,
-        $selectedAccount?.index === $activeAccounts?.length - 1 && $visibleActiveAccounts?.length > 1
+        account.index === $activeAccounts?.length - 1 && $visibleActiveAccounts?.length > 1
     )
 </script>
 

@@ -43,7 +43,7 @@
     async function generateAddress(account: IAccountState, coinType: number): Promise<void> {
         try {
             await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
-        } catch (error) {
+        } catch {
             return
         }
 

@@ -47,7 +47,7 @@
                 onConfirm: async () => {
                     try {
                         await checkActiveProfileAuthAsync()
-                    } catch (error) {
+                    } catch {
                         return
                     }
 
