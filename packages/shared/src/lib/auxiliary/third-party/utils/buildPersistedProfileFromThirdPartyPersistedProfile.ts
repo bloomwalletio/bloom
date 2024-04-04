@@ -18,6 +18,7 @@ import {
     IThirdPartyPersistedSettings,
 } from '../interfaces'
 import { NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP } from '../constants/network-name-to-stardust-network-id-map.constant'
+import { APP_STAGE } from '@core/app'
 
 export function buildPersistedProfileFromThirdPartyPersistedProfile(
     thirdPartyProfile: IThirdPartyPersistedProfile,
@@ -29,6 +30,7 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
 
     const persistedProfile: IPersistedProfile = {
         id: thirdPartyProfile.id,
+        versionTrack: APP_STAGE,
         version: PROFILE_VERSION.prod,
         name: thirdPartyProfile.name,
         type: thirdPartyProfile.type,
