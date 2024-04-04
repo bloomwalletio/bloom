@@ -5,7 +5,7 @@
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { EMPTY_NODE, addNodeToClientOptions, editNodeInClientOptions } from '@core/network'
-    import { activeAccounts, activeProfile } from '@core/profile/stores'
+    import { activeAccounts } from '@core/profile/stores'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { NodeConfigurationForm } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -71,12 +71,5 @@
         disabled,
     }}
 >
-    <NodeConfigurationForm
-        bind:this={nodeConfigurationForm}
-        bind:node
-        {requiresAuth}
-        {onSubmit}
-        {isBusy}
-        isDeveloperProfile={$activeProfile.isDeveloperProfile}
-    />
+    <NodeConfigurationForm bind:this={nodeConfigurationForm} bind:node {requiresAuth} {onSubmit} {isBusy} />
 </PopupTemplate>

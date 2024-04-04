@@ -575,7 +575,7 @@ export function openAboutWindow(): BrowserWindow {
          * NOTE: This only affects Windows.
          */
         titleBarOverlay: {
-            color: '#192742',
+            color: '#161926',
             symbolColor: '#ffffff',
         },
         show: true,

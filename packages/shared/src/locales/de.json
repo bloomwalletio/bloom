@@ -7,6 +7,33 @@
                 "legalAction": "Bestätige, dass Du gelesen hast und einverstanden bist",
                 "button": "Starte Setup"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Geldbörsen von Drittanbietern gefunden",
+                    "title": "Import aus Drittanbieteranwendungen",
+                    "onboardingDescription": "Wir haben festgestellt, dass du kompatible Wallets von Drittanbietern verwendest. Du kannst die Profile jetzt oder später importieren.",
+                    "description": "Wähle die Apps aus, von denen du Profile importieren möchten.",
+                    "empty": "Keine Apps gefunden",
+                    "import": "Importieren"
+                },
+                "importProfiles": {
+                    "title": "Drittanbieter-Profile importieren",
+                    "description": "Wähle das zu importierende Profil aus.",
+                    "empty": "Keine Profile gefunden",
+                    "tooltips": {
+                        "alreadyImported": "Bereits importiert",
+                        "needsDbMigration": "Benötigt Datenbankmigration",
+                        "failedProfileMigration": "Migration des Profils nicht möglich"
+                    },
+                    "errors": {
+                        "appIsOpen": "Die Drittanbieter-Wallet von der du importieren möchtest, ist geöffnet. Bitte schließen die Wallet und versuche es erneut.",
+                        "unknown": "Ein unbekannter Fehler ist bei der Importierung des Profils aufgetreten"
+                    },
+                    "notifications": {
+                        "success": "Profile erfolgreich importiert!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Wähle dein Netzwerk",
@@ -299,9 +326,9 @@
                 "title": "Ein Problem melden",
                 "description": "Melde einen Fehler an die Entwickler. Überprüfe zunächst, ob dieser nicht bereits gemeldet wurde"
             },
-            "developerToggle": {
-                "title": "Entwicklermodus",
-                "description": "Entwicklermodus einschalten, um mehr experimentelle Funktionen zu aktivieren"
+            "toggleFeatures": {
+                "title": "aktiviere / deaktiviere Funktion",
+                "description": "Schalte Funktionen ein oder aus um die Funktionalität an deine Bedürfnisse anzupassen."
             }
         },
         "login": {
@@ -573,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Backup erforderlich",
-                    "body": "Du hast dein Profil noch nicht gesichert! Wir empfehlen dringend, dies zu sichern, falls du den Zugriff auf dieses Gerät verlierst.",
+                    "body": "Du hast dein Profil schon lange nicht mehr gesichert.",
                     "button": "Backup erstellen"
                 },
                 "version": {
-                    "body": "Sie verwenden derzeit eine frühe Version von Bloom.",
-                    "button": "Weitere Informationen"
+                    "body": "Du verwendest derzeit eine Entwicklungsversion von Bloom."
                 },
                 "update": {
                     "header": "Update erforderlich",
@@ -821,7 +847,7 @@
             "installedVersion": "Installierte Version",
             "newVersion": "Neue Version",
             "stage": "Phase",
-            "prod": "Early Access",
+            "prod": "Produktion",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Veröffentlicht am",
@@ -982,6 +1008,12 @@
             "title": "Fehler- und Absturzberichte",
             "body": "Hilf den Entwicklern Bloom zu verbessern, indem Diagnosedaten automatisch gesendet werden, wenn ein Fehler oder ein Absturz auftritt. Nach Auswahl wird diese Option mit einem Neustart von Bloom wirksam.",
             "checkbox": "Fehler- und Absturzberichte an die IOTA Foundation senden"
+        },
+        "exportActivities": {
+            "title": "Aktivitäten exportieren",
+            "body": "Exportiere deine Aktivitäten als CSV.",
+            "chooseAccounts": "Account wählen",
+            "emptyAccounts": "Wähle mindestens 1 Account."
         },
         "signMessage": {
             "title": "Nachricht signieren",
@@ -1309,6 +1341,7 @@
         "enableDeveloperMode": "Entwicklermodus aktivieren",
         "enableSystemNotifications": "Systembenachrichtigungen aktivieren",
         "exportTransactionHistory": "Transaktionsverlauf exportieren",
+        "exportActivities": "Aktivitäten exportieren",
         "localProofOfWork": "Lokaler Proof-of-Work",
         "unlock": "Entsperren",
         "updateBloom": "Aktualisiere Bloom",
@@ -1394,7 +1427,8 @@
         "importToken": "{type} Token importiert",
         "syncTokens": "Token-Synchronisation erzwingen",
         "mintNftCollection": "Minte NFT-Sammlung",
-        "readMore": "Weiterlesen"
+        "readMore": "Weiterlesen",
+        "importThirdPartyProfiles": "Drittanbieter-Profile importieren"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1552,6 +1586,7 @@
         "alias": "Alias",
         "foundry": "Foundry-Fabrik",
         "token": "Token",
+        "unknownToken": "Unbekannter Token",
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Unveränderlicher Aussteller",
@@ -1606,7 +1641,10 @@
         "no": "Nein",
         "tip": "Tipp",
         "verified": "Verifiziert",
+        "unverified": "Unverifiziert",
+        "methodId": "Methoden-ID",
         "methodName": "Methodenname",
+        "inputs": "Inputs",
         "data": "Daten",
         "success": "Abgeschlossen",
         "info": "Info",
@@ -1618,9 +1656,9 @@
         "raffle": "Tombola",
         "governance": "Governance",
         "baseCoin": "Basis-Token",
-        "unverifiedContract": "Unverifizierter Vertrag",
         "startIndex": "Start-Index",
         "mintNftCollectionDescription": "Minte Sammlungs-NFT im Alias-Output",
+        "appName": "App-Name",
         "question": "Frage"
     },
     "filters": {
@@ -1693,8 +1731,9 @@
         },
         "type": {
             "label": "Typ",
-            "basic": "Einfach",
+            "transfer": "Transfer",
             "nft": "NFT",
+            "smartContract": "Smart Contract",
             "alias": "Alias",
             "foundry": "Foundry",
             "governance": "Governance",
@@ -1768,6 +1807,9 @@
         },
         "disconnectDapp": {
             "success": "Verbindung zu {dappName} getrennt"
+        },
+        "exportActivities": {
+            "success": "Aktivitäten erfolgreich exportiert"
         },
         "clearExpiredDapps": {
             "success": "Abgelaufene dApps gelöscht"
@@ -2136,7 +2178,10 @@
         "buySell": "Kaufe IOTA",
         "developer": "Entwickler",
         "tokens": "Token",
-        "settings": "Einstellungen"
+        "settings": "Einstellungen",
+        "tooltips": {
+            "buySell": "Der Kauf von IOTA ist nur in IOTA-Profilen möglich."
+        }
     },
     "pills": {
         "asyncStatus": {

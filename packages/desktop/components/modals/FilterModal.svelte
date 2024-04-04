@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { Filter } from '@core/utils/types'
 
-    export let modal: Modal = undefined
+    export let modal: Modal | undefined = undefined
     export let filter: Filter
     export let isChanged: boolean
     export let setFilters: () => void
@@ -16,12 +16,12 @@
             filter[key].value = undefined
         }
         setFilters()
-        modal.close()
+        modal?.close()
     }
 
     function onConfirmClick(): void {
         setFilters()
-        modal.toggle()
+        modal?.toggle()
     }
 </script>
 

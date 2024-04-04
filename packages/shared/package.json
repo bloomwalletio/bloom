@@ -1,11 +1,11 @@
 {
     "name": "shared",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "TypeScript library for the Bloom application",
     "author": "Bloom Labs Ltd <contact@bloomwallet.io>",
-    "license": "Apache-2.0",
+    "license": "PolyForm Strict License 1.0.0",
     "dependencies": {
-        "@bloomwalletio/ui": "0.20.13",
+        "@bloomwalletio/ui": "0.20.17",
         "@ethereumjs/rlp": "5.0.2",
         "@ethereumjs/tx": "5.2.1",
         "@ethereumjs/util": "9.0.2",
