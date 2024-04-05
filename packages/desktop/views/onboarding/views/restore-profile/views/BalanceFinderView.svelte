@@ -9,7 +9,6 @@
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
-    import { checkOrUnlockStrongholdAsync } from '@core/stronghold/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
@@ -132,9 +131,7 @@
     }
 
     async function onFindBalancesClick(): Promise<void> {
-        if (type === ProfileType.Software) {
-            await checkOrUnlockStrongholdAsync()
-        } else {
+        if (type === ProfileType.Ledger) {
             await checkOrConnectLedgerAsync(
                 network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
             )

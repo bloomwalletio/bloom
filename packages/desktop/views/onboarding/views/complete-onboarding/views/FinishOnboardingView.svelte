@@ -14,7 +14,6 @@
     import { SupportedNetworkId } from '@core/network'
     import { handleError } from '@core/error/handlers'
     import { onMount } from 'svelte'
-    import { checkOrUnlockStrongholdAsync } from '@core/stronghold'
 
     const LOCALE_KEY = 'views.onboarding.completeOnboarding.finishOnboarding'
 
@@ -27,8 +26,6 @@
         try {
             if ($isOnboardingLedgerProfile) {
                 await checkOrConnectLedgerAsync(appName)
-            } else {
-                await checkOrUnlockStrongholdAsync()
             }
             await completeOnboardingProcess()
             void login({ isFromOnboardingFlow: true })
