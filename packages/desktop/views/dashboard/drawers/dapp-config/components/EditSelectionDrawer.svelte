@@ -60,7 +60,7 @@
 
         <div class="p-6 flex-grow overflow-hidden">
             <div class="h-full flex flex-col gap-8 overflow-scroll">
-                <slot persistedNamespaces={persistedSupportedNamespaces} {requiredNamespaces} {optionalNamespaces} />
+                <slot {persistedSupportedNamespaces} {requiredNamespaces} {optionalNamespaces} />
             </div>
         </div>
     </div>

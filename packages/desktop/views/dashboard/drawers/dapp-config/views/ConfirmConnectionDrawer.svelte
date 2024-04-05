@@ -113,7 +113,7 @@
                         <ConnectionSummary
                             {requiredNamespaces}
                             editable
-                            persistedNamespaces={persistedNamespaces.supported}
+                            persistedSupportedNamespaces={persistedNamespaces.supported}
                             {drawerRouter}
                         />
                     </div>
@@ -135,13 +135,23 @@
                                         bind:checkedMethods
                                         {requiredNamespaces}
                                         {optionalNamespaces}
+                                        persistedSupportedNamespaces={persistedNamespaces?.supported}
                                     />
                                 </div>
                                 <div class="flex-grow {currentStep === 1 ? 'visible' : 'hidden'}">
-                                    <NetworkSelection bind:checkedNetworks {requiredNamespaces} {optionalNamespaces} />
+                                    <NetworkSelection
+                                        bind:checkedNetworks
+                                        {requiredNamespaces}
+                                        {optionalNamespaces}
+                                        persistedSupportedNamespaces={persistedNamespaces?.supported}
+                                    />
                                 </div>
                                 <div class="flex-grow {currentStep === 2 ? 'visible' : 'hidden'}">
-                                    <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} />
+                                    <AccountSelection
+                                        bind:checkedAccounts
+                                        chainIds={checkedNetworks}
+                                        persistedSupportedNamespaces={persistedNamespaces?.supported}
+                                    />
                                 </div>
                             </div>
                         </div>
