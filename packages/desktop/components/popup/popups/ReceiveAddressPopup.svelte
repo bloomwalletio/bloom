@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account/stores'
     import { setClipboard } from '@core/utils'
-    import { isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
+    import { getActiveNetworkId, isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { activeProfile, activeProfileId } from '@core/profile/stores'
     import { checkActiveProfileAuthAsync } from '@core/profile/actions'
@@ -13,7 +13,7 @@
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
 
-    export let selectedNetworkId: NetworkId | undefined = $network?.getMetadata().id
+    let selectedNetworkId: NetworkId | undefined = getActiveNetworkId()
     $: selectedNetworkId, updateNetworkNameAndAddress()
 
     let networkName: string | undefined
