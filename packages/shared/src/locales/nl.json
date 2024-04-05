@@ -1285,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Account aanmaken"
+        },
+        "profileDiagnostics": {
+            "title": "Profile diagnostics"
         }
     },
     "actions": {
@@ -1645,6 +1648,7 @@
         "methodId": "Method ID",
         "methodName": "Methodenaam",
         "inputs": "Inputs",
+        "parameters": "Parameters",
         "data": "Gegevens",
         "success": "Succesvol",
         "info": "Info",
@@ -1659,7 +1663,9 @@
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collectie NFT in Alias Output",
         "appName": "App naam",
-        "question": "Vraag"
+        "question": "Vraag",
+        "id": "ID",
+        "location": "Location"
     },
     "filters": {
         "title": "Filters",
