@@ -3,15 +3,7 @@
     import { selectedAccountIndex } from '@core/account/stores'
     import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
-    import {
-        IChain,
-        IIscpChainConfiguration,
-        INetwork,
-        NetworkId,
-        getActiveNetworkId,
-        network,
-        isEvmChain,
-    } from '@core/network'
+    import { IChain, INetwork, NetworkId, getActiveNetworkId, network, isEvmChain } from '@core/network'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import {
         SendFlowType,
@@ -139,13 +131,12 @@
         chain: IChain,
         accountIndexToExclude?: number
     ): INetworkRecipientSelectorOption {
-        const chainConfig = chain.getConfiguration() as IIscpChainConfiguration
         return {
-            networkId: chainConfig.id,
-            name: chainConfig.name,
+            networkId: chain.id,
+            name: chain.name,
             recipients: [
-                ...getLayer2AccountRecipients(chainConfig.coinType, accountIndexToExclude),
-                ...getContactRecipientsForNetwork(chainConfig.id),
+                ...getLayer2AccountRecipients(chain.coinType, accountIndexToExclude),
+                ...getContactRecipientsForNetwork(chain.id),
             ],
         }
     }

@@ -1,6 +1,6 @@
 import { OutputParams, Assets } from '@iota/sdk/out/types'
 import { getLayer2MetadataForTransfer } from '@core/layer-2/actions'
-import { ChainConfiguration, ChainType, getChainConfiguration, isEvmChain } from '@core/network'
+import { ChainType, IChain, getChain, isEvmChain } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
@@ -15,8 +15,8 @@ export function getOutputParameters(sendFlowParameters: SendFlowParameters, send
         throw new Error('Sender address must be defined if sending to Layer 2')
     }
 
-    const chainConfig = isToLayer2 ? getChainConfiguration(destinationNetworkId) : undefined
-    const destinationAddress = getDestinationAddress(recipient, chainConfig)
+    const chain = isToLayer2 ? getChain(destinationNetworkId) : undefined
+    const destinationAddress = getDestinationAddress(recipient, chain)
 
     const amount = getAmountFromTransactionData(sendFlowParameters)
     const assets = getAssetsFromTransactionData(sendFlowParameters)
@@ -49,9 +49,9 @@ export function getOutputParameters(sendFlowParameters: SendFlowParameters, send
     }
 }
 
-function getDestinationAddress(recipient: Subject | undefined, chainConfig: ChainConfiguration | undefined): string {
-    if (chainConfig?.type === ChainType.Iscp) {
-        return chainConfig.aliasAddress
+function getDestinationAddress(recipient: Subject | undefined, chain: IChain | undefined): string {
+    if (chain?.type === ChainType.Iscp) {
+        return chain.aliasAddress
     }
     if (recipient) {
         return recipient.address
