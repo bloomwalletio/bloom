@@ -4,7 +4,7 @@
     import { tryCreateAdditionalAccount, validateAccountName } from '@core/account/actions'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { getTrimmedLength } from '@core/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -36,7 +36,7 @@
         }
 
         try {
-            await checkActiveProfileAuthAsync()
+            await checkActiveProfileAuth()
         } catch (error) {
             return
         }
