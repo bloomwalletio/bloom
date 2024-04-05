@@ -5,7 +5,7 @@ import { activeProfile, isActiveLedgerProfile, isSoftwareProfile } from '@core/p
 import { checkOrUnlockStrongholdAsync } from '@core/stronghold/actions'
 import { get } from 'svelte/store'
 
-export async function checkActiveProfileAuthAsync(
+export async function checkActiveProfileAuth(
     ledgerAppName: LedgerAppName = get(activeProfile)?.network?.id === SupportedNetworkId.Iota
         ? LedgerAppName.Iota
         : LedgerAppName.Shimmer

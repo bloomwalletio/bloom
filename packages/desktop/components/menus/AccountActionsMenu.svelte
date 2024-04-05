@@ -6,7 +6,7 @@
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { deleteAccount } from '@core/profile-manager/actions'
-    import { checkActiveProfileAuthAsync, updateActiveAccountPersistedData } from '@core/profile/actions'
+    import { checkActiveProfileAuth, updateActiveAccountPersistedData } from '@core/profile/actions'
     import { activeAccounts, activeProfile, nonHiddenActiveAccounts, visibleActiveAccounts } from '@core/profile/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
@@ -56,7 +56,7 @@
                 confirmText: localize('actions.delete'),
                 onConfirm: async () => {
                     try {
-                        await checkActiveProfileAuthAsync()
+                        await checkActiveProfileAuth()
                     } catch {
                         return
                     }

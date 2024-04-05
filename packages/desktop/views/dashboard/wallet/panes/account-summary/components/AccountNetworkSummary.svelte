@@ -7,7 +7,7 @@
     import { LedgerAppName } from '@core/ledger'
     import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, dashboardRouter } from '@core/router'
     import { IAccountTokensPerNetwork } from '@core/token'
@@ -75,7 +75,7 @@
         }
 
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch (error) {
             return
         }

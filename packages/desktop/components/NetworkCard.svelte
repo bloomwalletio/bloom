@@ -20,7 +20,7 @@
         setSelectedChain,
     } from '@core/network'
     import { ProfileType } from '@core/profile'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { UiEventFunction, buildUrl, truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
@@ -71,7 +71,7 @@
         }
 
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch {
             return
         }

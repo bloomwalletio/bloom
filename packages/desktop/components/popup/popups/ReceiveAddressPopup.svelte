@@ -7,7 +7,7 @@
     import { getActiveNetworkId, isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { activeProfile, activeProfileId } from '@core/profile/stores'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { handleError } from '@core/error/handlers'
@@ -42,7 +42,7 @@
 
     async function generateAddress(account: IAccountState, coinType: number): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch {
             return
         }

@@ -4,7 +4,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { getBaseToken, checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { getBaseToken, checkActiveProfileAuth } from '@core/profile/actions'
     import { mintNativeToken, mintTokenDetails, buildFoundryOutputBuilderParams, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { IIrc30Metadata, TokenStandard, formatTokenAmountPrecise } from '@core/token'
@@ -58,7 +58,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync()
+            await checkActiveProfileAuth()
         } catch (error) {
             return
         }
