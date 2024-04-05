@@ -69,6 +69,8 @@
     }
 
     async function onConfirmClick(): Promise<void> {
+        if (!$sessionProposal || !dappUrl) return
+
         try {
             loading = true
 
@@ -84,8 +86,13 @@
             )
 
             await clearOldPairings(dappUrl)
-            await approveSession($sessionProposal, supportedNamespaces, $selectedAccount)
-            persistDappNamespacesForDapp(dappUrl, supportedNamespaces)
+            await approveSession($sessionProposal, supportedNamespaces, $selectedAccount as IAccountState)
+            persistDappNamespacesForDapp(
+                dappUrl,
+                supportedNamespaces,
+                $sessionProposal.params.requiredNamespaces,
+                $sessionProposal.params.optionalNamespaces
+            )
             $sessionProposal = undefined
 
             drawerRouter.reset()

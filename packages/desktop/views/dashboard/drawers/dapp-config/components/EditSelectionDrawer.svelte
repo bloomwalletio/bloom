@@ -5,14 +5,14 @@
     import { Router } from '@core/router'
     import {
         getPersistedDappNamespacesForDapp,
-        persistDappNamespacesForDapp,
+        updateSupportedDappNamespacesForDapp,
         selectedDapp,
         sessionProposal,
     } from '@auxiliary/wallet-connect/stores'
     import { onMount } from 'svelte'
     import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
     import { updateSession } from '@auxiliary/wallet-connect/utils'
-    import { ISelections } from '@auxiliary/wallet-connect/interface'
+    import { IDappMetadata, ISelections } from '@auxiliary/wallet-connect/interface'
     import { DappInfo } from '@ui'
 
     export let drawerRouter: Router<unknown>
@@ -20,10 +20,12 @@
     export let titleLocale: string
     export let disableContinue: boolean
 
-    $: dappMetadata = $selectedDapp?.metadata ?? $sessionProposal?.params.proposer.metadata
+    $: dappMetadata = $selectedDapp?.metadata ?? ($sessionProposal?.params.proposer.metadata as IDappMetadata)
     $: persistedNamespaces = dappMetadata ? getPersistedDappNamespacesForDapp(dappMetadata.url) : undefined
-    $: requiredNamespaces = $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces
-    $: optionalNamespaces = $selectedDapp?.session?.optionalNamespaces ?? $sessionProposal?.params.optionalNamespaces
+    $: requiredNamespaces =
+        $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces ?? {}
+    $: optionalNamespaces =
+        $selectedDapp?.session?.optionalNamespaces ?? $sessionProposal?.params.optionalNamespaces ?? {}
 
     function onConfirmClick(): void {
         const updatedNamespace = buildSupportedNamespacesFromSelections(
@@ -32,7 +34,7 @@
             optionalNamespaces,
             persistedNamespaces
         )
-        persistDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
+        updateSupportedDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
         if ($selectedDapp?.session) {
             updateSession($selectedDapp.session.topic, updatedNamespace)
         }

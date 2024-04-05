@@ -2,10 +2,15 @@ import { persistent } from '@core/utils/store'
 import { Writable, get } from 'svelte/store'
 import { SupportedNamespaces } from '../types'
 import { getActiveProfile } from '@core/profile/stores'
+import { ProposalTypes } from '@walletconnect/types'
 
 interface IPersistedNamespaces {
     [profileId: string]: {
-        [dappOriginUrl: string]: SupportedNamespaces
+        [dappOriginUrl: string]: {
+            supported: SupportedNamespaces
+            required: ProposalTypes.RequiredNamespaces
+            optional: ProposalTypes.OptionalNamespaces
+        }
     }
 }
 
@@ -13,17 +18,41 @@ export const persistedDappNamespaces: Writable<IPersistedNamespaces> = persisten
 
 export function getPersistedDappNamespacesForDapp(dappOriginUrl: string): SupportedNamespaces | undefined {
     const profileId = getActiveProfile()?.id
-    return get(persistedDappNamespaces)?.[profileId]?.[dappOriginUrl]
+    return get(persistedDappNamespaces)?.[profileId]?.[dappOriginUrl]?.supported
 }
 
-export function persistDappNamespacesForDapp(dappOriginUrl: string, namespaces: SupportedNamespaces): void {
+export function persistDappNamespacesForDapp(
+    dappOriginUrl: string,
+    supported: SupportedNamespaces,
+    required: ProposalTypes.RequiredNamespaces,
+    optional: ProposalTypes.OptionalNamespaces
+): void {
     const profileId = getActiveProfile()?.id
 
     return persistedDappNamespaces.update((state) => {
         if (!state[profileId]) {
             state[profileId] = {}
         }
-        state[profileId][dappOriginUrl] = namespaces
+        state[profileId][dappOriginUrl] = { supported, required, optional }
+
+        return state
+    })
+}
+
+export function updateSupportedDappNamespacesForDapp(dappOriginUrl: string, supported: SupportedNamespaces): void {
+    const profileId = getActiveProfile()?.id
+
+    return persistedDappNamespaces.update((state) => {
+        const persistedNamespaces = state?.[profileId]?.[dappOriginUrl]
+
+        if (!persistedNamespaces) {
+            return state
+        }
+
+        state[profileId][dappOriginUrl] = {
+            ...persistedNamespaces,
+            supported: { ...persistedNamespaces.supported, ...supported },
+        }
         return state
     })
 }
