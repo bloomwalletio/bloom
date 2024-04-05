@@ -22,7 +22,7 @@ export async function generateBaseEvmActivity(
     chain: IChain,
     account: IAccountState
 ): Promise<BaseEvmActivity> {
-    const networkId = chain.getConfiguration().id
+    const networkId = chain.id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === transaction.recipient
             ? ActivityDirection.Incoming

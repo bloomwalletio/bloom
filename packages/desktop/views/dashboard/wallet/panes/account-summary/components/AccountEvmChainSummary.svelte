@@ -34,7 +34,7 @@
 
         return {
             networkId,
-            name: chain?.getConfiguration().name ?? '',
+            name: chain?.name ?? '',
             health: chain?.getStatus().health ?? NetworkHealth.Disconnected,
             address: getAddressFromAccountForNetwork(account, networkId),
             tokenBalance,

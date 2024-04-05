@@ -28,16 +28,14 @@ export function getTransferInfoFromTransactionData(
     transaction: LocalEvmTransaction,
     chain: IChain
 ): TransferInfo | undefined {
-    const networkId = chain.getConfiguration().id
-
     const recipientAddress = transaction?.to?.toString()?.toLowerCase()
     if (!recipientAddress) {
         return undefined
     }
 
     if (transaction.data) {
-        const isErc20 = isTrackedTokenAddress(networkId, recipientAddress)
-        const isErc721 = isTrackedNftAddress(networkId, recipientAddress)
+        const isErc20 = isTrackedTokenAddress(chain.id, recipientAddress)
+        const isErc721 = isTrackedNftAddress(chain.id, recipientAddress)
         const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
         const abi = isErc721 ? ERC721_ABI : isErc20 ? ERC20_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined

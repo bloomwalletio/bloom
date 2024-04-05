@@ -7,7 +7,7 @@ export function getNameFromNetworkId(networkId: NetworkId): string | undefined {
     if (networkId === getActiveNetworkId()) {
         return getNetwork()?.getMetadata().name
     } else {
-        const networkName = getNetwork()?.getChain(networkId)?.getConfiguration().name
+        const networkName = getNetwork()?.getChain(networkId)?.name
         if (networkName) {
             return networkName
         }

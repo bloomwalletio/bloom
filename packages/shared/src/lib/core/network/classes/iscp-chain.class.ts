@@ -6,29 +6,61 @@ import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
-import { NetworkHealth } from '../enums'
+import { ChainType, EvmChainId, NetworkHealth, NetworkNamespace } from '../enums'
 import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
-import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
+import { CoinType } from '@iota/sdk/out/types'
+import { ChainMetadata, NetworkId, Web3Provider } from '../types'
 import { Converter } from '@core/utils'
 
 export class IscpChain implements IChain {
     public readonly provider: Web3Provider
-    private readonly _configuration: IIscpChainConfiguration
     private readonly _chainApi: string
 
+    public readonly id: NetworkId
+    public readonly namespace: NetworkNamespace.Evm
+    public readonly chainId: EvmChainId
+    public readonly type: ChainType.Iscp
+    public readonly coinType: CoinType
+    public readonly name: string
+    public readonly explorerUrl: string | undefined
+    public readonly rpcEndpoint: string
+    public readonly apiEndpoint: string
+    public readonly aliasAddress: string
+
     private _metadata: IIscpChainMetadata | undefined
-    constructor(payload: IIscpChainConfiguration) {
+    constructor({
+        id,
+        namespace,
+        chainId,
+        type,
+        coinType,
+        name,
+        explorerUrl,
+        rpcEndpoint,
+        aliasAddress,
+        apiEndpoint,
+    }: IIscpChainConfiguration) {
         try {
             /**
              * NOTE: We can assume that the data inside this payload has already
              * been validated.
              */
-            const { aliasAddress, rpcEndpoint, apiEndpoint } = payload
             const evmJsonRpcPath = this.buildEvmJsonRpcPath(aliasAddress)
 
             this.provider = new Web3(`${rpcEndpoint}/${evmJsonRpcPath}`)
-            this._configuration = payload
+
+            this.id = id
+            this.namespace = namespace
+            this.chainId = chainId
+            this.type = type
+            this.coinType = coinType
+            this.name = name
+            this.explorerUrl = explorerUrl
+            this.rpcEndpoint = rpcEndpoint
+            this.aliasAddress = aliasAddress
+            this.apiEndpoint = apiEndpoint
+
             this._chainApi = `${apiEndpoint}v1/chains/${aliasAddress}`
         } catch (err) {
             console.error(err)
@@ -44,12 +76,8 @@ export class IscpChain implements IChain {
         return `v1/chains/${aliasAddress}/evm`
     }
 
-    getConfiguration(): ChainConfiguration {
-        return this._configuration
-    }
-
     getStatus(): IChainStatus {
-        return get(chainStatuses)?.[this._configuration?.id] ?? { health: NetworkHealth.Disconnected }
+        return get(chainStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
     }
 
     getContract(type: ContractType, address: string): Contract {

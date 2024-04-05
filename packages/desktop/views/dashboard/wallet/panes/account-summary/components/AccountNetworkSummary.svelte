@@ -73,11 +73,7 @@
         }
         checkActiveProfileAuth(
             async () => {
-                await generateAndStoreEvmAddressForAccounts(
-                    $activeProfile.type,
-                    chain.getConfiguration().coinType,
-                    $selectedAccount
-                )
+                await generateAndStoreEvmAddressForAccounts($activeProfile.type, chain.coinType, $selectedAccount)
                 pollL2BalanceForAccount($activeProfile.id, $selectedAccount)
                 if ($activeProfile.type === ProfileType.Ledger) {
                     setSelectedChain(chain)

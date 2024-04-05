@@ -20,7 +20,7 @@ export async function fetchAndPersistTransactionsForAccounts(
 ): Promise<void> {
     const chains = getNetwork()?.getChains() ?? []
     for (const chain of chains) {
-        const networkId = chain.getConfiguration().id as EvmNetworkId
+        const networkId = chain.id as EvmNetworkId
         for (const account of accounts) {
             try {
                 const blockscoutTransactions = await fetchBlockscoutTransactionsForAccount(

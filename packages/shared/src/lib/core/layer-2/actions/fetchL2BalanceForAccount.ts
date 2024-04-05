@@ -90,8 +90,7 @@ async function getL2NativeTokenBalancesForAddress(evmAddress: string, chain: ICh
 }
 
 async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Promise<ILayer2TokenBalance[]> {
-    const networkId = chain.getConfiguration().id
-    const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? {}
+    const trackedTokens = getActiveProfile()?.trackedTokens?.[chain.id] ?? {}
     const erc20TokenBalances: ILayer2TokenBalance[] = []
     for (const [erc20Address, trackingStatus] of Object.entries(trackedTokens)) {
         try {
@@ -100,7 +99,7 @@ async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Pr
             }
 
             const contract = chain?.getContract(ContractType.Erc20, erc20Address)
-            const coinType = chain?.getConfiguration().coinType
+            const coinType = chain?.coinType
             if (!contract || !coinType) {
                 continue
             }
@@ -133,7 +132,7 @@ async function fetchL2Irc27Nfts(
         // the element with `key: "0x69"` just represents the length of the list, so it needs to be excluded
         const nftIds = nftResult.items.filter((item) => item.key !== '0x69').map((item) => item.value)
 
-        const networkId = chain.getConfiguration().id
+        const networkId = chain.id
         const nftsForChain = get(selectedAccountNfts).filter((nft) => nft.networkId === networkId && isIrc27Nft(nft))
 
         const newNftIds = nftIds.filter((nftId) => !nftsForChain.some((nft) => nft.id === nftId))
