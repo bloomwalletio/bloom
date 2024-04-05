@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account/stores'
     import { setClipboard } from '@core/utils'
-    import { getActiveNetworkId, isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
+    import { getActiveNetworkId, getChain, isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { activeProfile, activeProfileId } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
@@ -25,7 +25,7 @@
             networkName = $network?.getMetadata().name
             receiveAddress = account.depositAddress
         } else if (selectedNetworkId && isEvmChain(selectedNetworkId)) {
-            const chain = $network?.getChain(selectedNetworkId)
+            const chain = getChain(selectedNetworkId)
             if (!chain) return
 
             networkName = chain.name

@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
+    import { NetworkHealth, NetworkId, getChain, setSelectedChain } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
@@ -69,7 +69,7 @@
     }
 
     async function onGenerateAddressClick(): Promise<void> {
-        const chain = $network?.getChain(networkId)
+        const chain = getChain(networkId)
         if (!chain) {
             return
         }
