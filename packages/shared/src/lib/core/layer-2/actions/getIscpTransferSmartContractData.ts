@@ -13,10 +13,6 @@ export function getIscpTransferSmartContractData(
     chain: IChain
 ): string {
     try {
-        const provider = chain.getProvider()
-        if (!provider) {
-            throw new Error('Unable to find web3 provider.')
-        }
         const coinType = chain.getConfiguration().coinType
         const evmAddress = getSelectedAccount()?.evmAddresses?.[coinType]
         if (!evmAddress) {

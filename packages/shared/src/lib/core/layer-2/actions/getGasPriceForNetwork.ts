@@ -4,12 +4,10 @@ import { Converter } from '@core/utils'
 
 export async function getGasPriceForNetwork(networkId: NetworkId): Promise<string | undefined> {
     const chain = getNetwork()?.getChain(networkId)
-
-    const provider = chain?.getProvider()
-    if (!provider) {
+    if (!chain) {
         return undefined
     }
 
-    const gasPrice = await provider.eth.getGasPrice()
+    const gasPrice = await chain.provider.eth.getGasPrice()
     return Converter.decimalToHex(Number(gasPrice), true)
 }

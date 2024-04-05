@@ -67,7 +67,6 @@ export async function generateBaseEvmActivity(
 }
 
 async function getTimeStamp(blockNumber: number, chain: IChain): Promise<number> {
-    const provider = chain.getProvider()
-    const { timestamp } = await provider.eth.getBlock(blockNumber)
+    const { timestamp } = await chain.provider.eth.getBlock(blockNumber)
     return Number(timestamp) * MILLISECONDS_PER_SECOND
 }

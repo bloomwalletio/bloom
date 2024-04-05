@@ -6,9 +6,10 @@ import { IBlock } from './block.interface'
 import { IChainStatus } from './chain-status.interface'
 
 export interface IChain {
+    provider: Web3Provider
+
     getConfiguration(): ChainConfiguration
     getStatus(): IChainStatus
-    getProvider(): Web3Provider
 
     getMetadata(): Promise<ChainMetadata>
     getContract(type: ContractType, address: string): Contract

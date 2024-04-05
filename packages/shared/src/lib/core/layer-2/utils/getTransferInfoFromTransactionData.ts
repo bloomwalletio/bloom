@@ -46,7 +46,7 @@ export function getTransferInfoFromTransactionData(
             return { type: StardustActivityType.SmartContract, recipientAddress }
         }
 
-        const abiDecoder = new AbiDecoder(abi, chain.getProvider())
+        const abiDecoder = new AbiDecoder(abi, chain.provider)
         const decoded = abiDecoder.decodeData(transaction.data as string)
         switch (decoded?.name) {
             case 'call': {

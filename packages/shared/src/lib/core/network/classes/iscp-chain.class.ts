@@ -13,7 +13,7 @@ import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
 import { Converter } from '@core/utils'
 
 export class IscpChain implements IChain {
-    private readonly _provider: Web3Provider
+    public readonly provider: Web3Provider
     private readonly _configuration: IIscpChainConfiguration
     private readonly _chainApi: string
 
@@ -27,7 +27,7 @@ export class IscpChain implements IChain {
             const { aliasAddress, rpcEndpoint, apiEndpoint } = payload
             const evmJsonRpcPath = this.buildEvmJsonRpcPath(aliasAddress)
 
-            this._provider = new Web3(`${rpcEndpoint}/${evmJsonRpcPath}`)
+            this.provider = new Web3(`${rpcEndpoint}/${evmJsonRpcPath}`)
             this._configuration = payload
             this._chainApi = `${apiEndpoint}v1/chains/${aliasAddress}`
         } catch (err) {
@@ -57,7 +57,7 @@ export class IscpChain implements IChain {
         if (!abi) {
             throw new Error(`Unable to determine contract type "${type}"`)
         }
-        return new this._provider.eth.Contract(abi, address)
+        return new this.provider.eth.Contract(abi, address)
     }
 
     getMetadata(): Promise<ChainMetadata> {
@@ -67,10 +67,6 @@ export class IscpChain implements IChain {
             this._metadata = <IIscpChainMetadata>{} // await this.fetchChainMetadata()
             return Promise.resolve(this._metadata)
         }
-    }
-
-    getProvider(): Web3Provider {
-        return this._provider
     }
 
     /**
@@ -85,8 +81,8 @@ export class IscpChain implements IChain {
     }
 
     async getLatestBlock(): Promise<IBlock> {
-        const number = await this._provider.eth.getBlockNumber()
-        return this._provider.eth.getBlock(number)
+        const number = await this.provider.eth.getBlockNumber()
+        return this.provider.eth.getBlock(number)
     }
 
     async getGasEstimate(hex: string): Promise<bigint> {
