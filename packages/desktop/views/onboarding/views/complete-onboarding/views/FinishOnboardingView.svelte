@@ -3,7 +3,7 @@
     import { Animation, Illustration } from '@ui'
     import { completeOnboardingProcess, isOnboardingLedgerProfile, onboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
+    import { LedgerAppName, checkOrConnectLedgerAsync } from '@core/ledger'
     import { profiles } from '@core/profile/stores'
     import { OnboardingLayout } from '@views/components'
     import SuccessSvg from '@views/onboarding/components/SuccessSvg.svelte'
@@ -22,16 +22,11 @@
     $: appName =
         $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
 
-    function onContinueClick(): void {
-        if ($isOnboardingLedgerProfile) {
-            checkOrConnectLedger(_continue, false, appName)
-        } else {
-            void _continue()
-        }
-    }
-
-    async function _continue(): Promise<void> {
+    async function onContinueClick(): Promise<void> {
         try {
+            if ($isOnboardingLedgerProfile) {
+                await checkOrConnectLedgerAsync(appName)
+            }
             await completeOnboardingProcess()
             void login({ isFromOnboardingFlow: true })
             $onboardingRouter.next()
