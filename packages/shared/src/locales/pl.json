@@ -599,7 +599,7 @@
             },
             "toasts": {
                 "backup": {
-                    "header": "Wymagana kopa zapasowa",
+                    "header": "Wykonaj kopię zapasową",
                     "body": "Przez dłuższy czas nie wykonałeś kopii zapasowej swojego profilu.",
                     "button": "Utwórz kopię"
                 },
@@ -857,7 +857,7 @@
         },
         "backupStronghold": {
             "title": "Kopia zapasowa pliku stronghold",
-            "body": "Ważne jest, aby regularnie wykonywać kopie zapasowe swojego portfela, aby upewnić się, że masz kopię swoich portfeli i historię transakcji. Jeśli stracisz kopię zapasową i wyrazy ratunkowe, stracisz dostęp do swoich środków."
+            "body": "Ważne jest regularne wykonywanie kopii zapasowej swojego portfela, aby być pewnym, że nasze portfele i historie transakcji są bezpieczne. Jeśli stracisz kopię zapasową i wyrazy ratunkowe, stracisz dostęp do swoich środków."
         },
         "deeplinkAccountSwitch": {
             "title": "Wybierz konto",
@@ -1285,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Utwórz konto"
+        },
+        "profileDiagnostics": {
+            "title": "Profile diagnostics"
         }
     },
     "actions": {
@@ -1645,6 +1648,7 @@
         "methodId": "ID metody",
         "methodName": "Metoda",
         "inputs": "Wejścia",
+        "parameters": "Parameters",
         "data": "Data",
         "success": "Sukces",
         "info": "Informacje",
@@ -1659,7 +1663,9 @@
         "startIndex": "Indeks startowy",
         "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu",
         "appName": "Nazwa aplikacji",
-        "question": "Pytanie"
+        "question": "Pytanie",
+        "id": "ID",
+        "location": "Location"
     },
     "filters": {
         "title": "Filtry",
