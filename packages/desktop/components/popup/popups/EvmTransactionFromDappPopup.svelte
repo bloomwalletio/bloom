@@ -27,7 +27,7 @@
     import { openUrlInBrowser } from '@core/app'
     import { StardustActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { LegacyTransaction } from '@ethereumjs/tx'
@@ -118,7 +118,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch (error) {
             return
         }

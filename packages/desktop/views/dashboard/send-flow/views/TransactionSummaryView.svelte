@@ -23,7 +23,7 @@
     import { TransactionSummaryProps } from './types'
     import { setGasFee } from '@core/layer-2/actions'
     import { showNotification } from '@auxiliary/notification'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
     import { getActiveProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
 
@@ -96,7 +96,7 @@
         }
 
         try {
-            await checkActiveProfileAuthAsync(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
+            await checkActiveProfileAuth(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
         } catch (error) {
             return
         }

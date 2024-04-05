@@ -9,7 +9,7 @@
     import { IAccountState } from '@core/account'
     import { IChain, NetworkId, getNameFromNetworkId } from '@core/network'
     import { AccountLabel, DappInfo, KeyValue, NetworkLabel } from '@ui'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { ParsedMessage } from '@spruceid/siwe-parser'
@@ -43,7 +43,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch {
             return
         }
