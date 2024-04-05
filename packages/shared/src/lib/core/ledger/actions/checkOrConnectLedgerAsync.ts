@@ -20,7 +20,7 @@ export function checkOrConnectLedgerAsync(
                 hideClose: true,
                 props: {
                     ledgerAppName,
-                    onContinue: resolve,
+                    onSuccess: resolve,
                     onCancel: reject,
                 },
             })
