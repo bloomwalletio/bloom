@@ -24,7 +24,7 @@ export function deconstructLedgerVerificationProps(): PopupProps | undefined {
             ? _sendFlowParameters.baseCoinTransfer
             : _sendFlowParameters.tokenTransfer) ?? {}
     const toAmount = token?.metadata
-        ? formatTokenAmountBestMatch(rawAmount ?? BigInt(0), token.metadata, { withUnit: false, round: false })
+        ? formatTokenAmountBestMatch(rawAmount ?? BigInt(0), token.metadata, { withUnit: true, round: false })
         : String(rawAmount)
 
     return {
