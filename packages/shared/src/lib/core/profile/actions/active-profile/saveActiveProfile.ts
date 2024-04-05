@@ -21,6 +21,7 @@ export function saveActiveProfile(): void {
             strongholdVersion: _activeProfile.strongholdVersion,
             trackedTokens: _activeProfile.trackedTokens,
             trackedNfts: _activeProfile.trackedNfts,
+            versionTrack: _activeProfile.versionTrack,
             version: _activeProfile.version,
             features: _activeProfile.features,
             ...(_activeProfile.hasVisitedDashboard && { hasVisitedDashboard: _activeProfile.hasVisitedDashboard }),

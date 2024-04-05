@@ -86,7 +86,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         // Step 5: generate and store activities for all accounts
         incrementLoginProgress()
-        await generateAndStoreActivitiesForAllAccounts(_activeProfile.id)
+        void generateAndStoreActivitiesForAllAccounts(_activeProfile.id)
 
         if (type === ProfileType.Software) {
             // Step 6: set initial stronghold status

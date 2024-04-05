@@ -1,6 +1,7 @@
 import { ProfileMigrationMap } from '../../types'
 import { alphaProfileMigration0To1 } from './alpha-profile-migration-0-to-1'
 import { alphaProfileMigration1To2 } from './alpha-profile-migration-1-to-2'
+import { alphaProfileMigration10To11 } from './alpha-profile-migration-10-to-11'
 import { alphaProfileMigration2To3 } from './alpha-profile-migration-2-to-3'
 import { alphaProfileMigration3To4 } from './alpha-profile-migration-3-to-4'
 import { alphaProfileMigration4To5 } from './alpha-profile-migration-4-to-5'
@@ -21,4 +22,5 @@ export const ALPHA_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     7: alphaProfileMigration7To8,
     8: alphaProfileMigration8To9,
     9: alphaProfileMigration9To10,
+    10: alphaProfileMigration10To11,
 }

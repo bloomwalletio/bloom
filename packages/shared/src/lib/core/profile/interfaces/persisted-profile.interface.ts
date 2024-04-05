@@ -7,9 +7,11 @@ import { IProfileSettings } from './profile-settings.interface'
 import { IContactMap, INetworkContactAddressMap } from '@core/contact/interfaces'
 import { TrackedTokens } from '@core/token/types'
 import { DashboardRoute } from '@core/router'
+import { AppStage } from '@core/app'
 
 export interface IPersistedProfile {
     id: string
+    versionTrack: AppStage
     version: number
     name: string
     type: ProfileType
