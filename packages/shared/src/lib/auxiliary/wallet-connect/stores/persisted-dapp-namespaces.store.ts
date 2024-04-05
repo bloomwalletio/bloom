@@ -4,21 +4,23 @@ import { SupportedNamespaces } from '../types'
 import { getActiveProfile } from '@core/profile/stores'
 import { ProposalTypes } from '@walletconnect/types'
 
-interface IPersistedNamespaces {
+interface IPersistedNamespacesStore {
     [profileId: string]: {
-        [dappOriginUrl: string]: {
-            supported: SupportedNamespaces
-            required: ProposalTypes.RequiredNamespaces
-            optional: ProposalTypes.OptionalNamespaces
-        }
+        [dappOriginUrl: string]: IPersistedNamespaces
     }
 }
 
-export const persistedDappNamespaces: Writable<IPersistedNamespaces> = persistent('persistedDappNamespaces', {})
+interface IPersistedNamespaces {
+    supported: SupportedNamespaces
+    required: ProposalTypes.RequiredNamespaces
+    optional: ProposalTypes.OptionalNamespaces
+}
 
-export function getPersistedDappNamespacesForDapp(dappOriginUrl: string): SupportedNamespaces | undefined {
+export const persistedDappNamespaces: Writable<IPersistedNamespacesStore> = persistent('persistedDappNamespaces', {})
+
+export function getPersistedDappNamespacesForDapp(dappOriginUrl: string): IPersistedNamespaces | undefined {
     const profileId = getActiveProfile()?.id
-    return get(persistedDappNamespaces)?.[profileId]?.[dappOriginUrl]?.supported
+    return get(persistedDappNamespaces)?.[profileId]?.[dappOriginUrl]
 }
 
 export function persistDappNamespacesForDapp(

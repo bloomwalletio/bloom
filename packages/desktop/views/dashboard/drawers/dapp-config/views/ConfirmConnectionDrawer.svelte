@@ -34,19 +34,21 @@
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
-    $: persistedSupportedNamespaces = $sessionProposal
+    $: persistedNamespaces = $sessionProposal
         ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
         : undefined
 
     $: isButtonDisabled =
         loading ||
-        (!persistedSupportedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
+        (!persistedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
         (currentStep === 1 && checkedNetworks.length === 0) ||
         (currentStep === 2 && checkedAccounts.length === 0)
 
     $: isPreferenceSelectionRequired = preferenceSelectionRequired()
     function preferenceSelectionRequired(): boolean {
-        return true
+        if (!persistedNamespaces) return true
+
+        return false
     }
 
     function onBackClick(): void {
@@ -71,6 +73,9 @@
 
         try {
             loading = true
+            const persistedSupportedNamespaces = getPersistedDappNamespacesForDapp(
+                $sessionProposal.params.proposer.metadata.url
+            )?.supported
 
             const selections = {
                 chains: persistedSupportedNamespaces ? undefined : checkedNetworks,
@@ -103,12 +108,12 @@
             <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
 
             <div class="px-6 flex-grow overflow-hidden">
-                {#if isPreferenceSelectionRequired && persistedSupportedNamespaces}
+                {#if isPreferenceSelectionRequired && persistedNamespaces}
                     <div class="h-full overflow-scroll">
                         <ConnectionSummary
                             {requiredNamespaces}
                             editable
-                            persistedNamespaces={persistedSupportedNamespaces}
+                            persistedNamespaces={persistedNamespaces.supported}
                             {drawerRouter}
                         />
                     </div>
@@ -157,7 +162,7 @@
             disabled={loading}
             text={localize(!drawerRouter.hasHistory() && currentStep === 0 ? 'actions.cancel' : 'actions.back')}
         />
-        {@const isLastStep = persistedSupportedNamespaces || currentStep === steps.length - 1}
+        {@const isLastStep = persistedNamespaces || currentStep === steps.length - 1}
         <Button
             width="full"
             on:click={isLastStep ? onConfirmClick : onNextClick}

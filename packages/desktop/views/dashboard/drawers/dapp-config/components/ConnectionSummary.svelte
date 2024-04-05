@@ -14,7 +14,7 @@
 
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces | undefined
     export let editable: boolean
-    export let persistedNamespaces: SupportedNamespaces
+    export let persistedSupportedNamespaces: SupportedNamespaces
     export let drawerRouter: Router<unknown>
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
@@ -27,7 +27,7 @@
 
     function getPermissionPreferences(): PermissionPreference[] {
         const namespaces = Object.values(requiredNamespaces ?? {})
-        const _persistedNamespaces = Object.values(persistedNamespaces)
+        const _persistedNamespaces = Object.values(persistedSupportedNamespaces)
 
         return Object.values(DappPermission)
             .map((permission) => {
@@ -53,7 +53,7 @@
     }
 
     function getNetworkPreferences(): string[] {
-        return Object.values(persistedNamespaces).flatMap((namespace) => {
+        return Object.values(persistedSupportedNamespaces).flatMap((namespace) => {
             return namespace.chains.map((chainId) => {
                 const chainConfig = getChainConfiguration(chainId as NetworkId)
                 return chainConfig?.name ?? chainId
@@ -62,7 +62,7 @@
     }
 
     function getAccountPreferences(): IAccountState[] {
-        const accounts = Object.values(persistedNamespaces)
+        const accounts = Object.values(persistedSupportedNamespaces)
             .flatMap((namespace) =>
                 namespace.accounts.map((accountWithNetworkId) => {
                     const [namespace, chainId, address] = accountWithNetworkId.split(':')

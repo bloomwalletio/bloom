@@ -14,7 +14,9 @@
     const localeKey = 'views.dashboard.drawers.dapps.details'
     const dapp = structuredClone($selectedDapp)
 
-    $: persistedNamespaces = dapp?.metadata ? getPersistedDappNamespacesForDapp(dapp?.metadata.url) : undefined
+    $: persistedSupportedNamespaces = dapp?.metadata
+        ? getPersistedDappNamespacesForDapp(dapp?.metadata.url)?.supported
+        : undefined
 
     onMount(() => {
         if (!$selectedDapp) {
@@ -39,11 +41,11 @@
                         orientation="vertical"
                     />
                 {/if}
-                {#if persistedNamespaces}
+                {#if persistedSupportedNamespaces}
                     <ConnectionSummary
                         requiredNamespaces={dapp.session?.requiredNamespaces}
                         editable={!!dapp.session}
-                        {persistedNamespaces}
+                        persistedNamespaces={persistedSupportedNamespaces}
                         {drawerRouter}
                     />
                 {/if}

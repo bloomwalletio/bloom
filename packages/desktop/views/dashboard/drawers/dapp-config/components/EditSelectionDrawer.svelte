@@ -21,7 +21,9 @@
     export let disableContinue: boolean
 
     $: dappMetadata = $selectedDapp?.metadata ?? ($sessionProposal?.params.proposer.metadata as IDappMetadata)
-    $: persistedNamespaces = dappMetadata ? getPersistedDappNamespacesForDapp(dappMetadata.url) : undefined
+    $: persistedSupportedNamespaces = dappMetadata
+        ? getPersistedDappNamespacesForDapp(dappMetadata.url)?.supported
+        : undefined
     $: requiredNamespaces =
         $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces ?? {}
     $: optionalNamespaces =
@@ -32,7 +34,7 @@
             selections,
             requiredNamespaces,
             optionalNamespaces,
-            persistedNamespaces
+            persistedSupportedNamespaces
         )
         updateSupportedDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
         if ($selectedDapp?.session) {
@@ -58,7 +60,7 @@
 
         <div class="p-6 flex-grow overflow-hidden">
             <div class="h-full flex flex-col gap-8 overflow-scroll">
-                <slot {persistedNamespaces} {requiredNamespaces} {optionalNamespaces} />
+                <slot persistedNamespaces={persistedSupportedNamespaces} {requiredNamespaces} {optionalNamespaces} />
             </div>
         </div>
     </div>
