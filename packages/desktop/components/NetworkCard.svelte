@@ -134,7 +134,7 @@
                         size="sm"
                         icon={IconName.Globe}
                         tooltip={localize('general.viewOnExplorer')}
-                        on:click={() => onExplorerClick()}
+                        on:click={onExplorerClick}
                     />
                 {/if}
                 {#if address}
