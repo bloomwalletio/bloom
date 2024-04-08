@@ -24,12 +24,7 @@
         getTemporaryProfileManagerStorageDirectory,
     } from '@contexts/onboarding/helpers'
     import { localize } from '@core/i18n'
-    import {
-        checkOrConnectLedger,
-        checkOrConnectLedgerAsync,
-        handleLedgerError,
-        ledgerRaceConditionProtectionWrapper,
-    } from '@core/ledger'
+    import { checkOrConnectLedger, handleLedgerError, ledgerRaceConditionProtectionWrapper } from '@core/ledger'
     import { unsubscribeFromWalletApiEvents } from '@core/profile-manager'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { ShimmerClaimingAccountList } from '@ui'
@@ -105,7 +100,7 @@
 
     async function onClaimRewardsClick(): Promise<void> {
         if ($isOnboardingLedgerProfile) {
-            await checkOrConnectLedgerAsync()
+            await checkOrConnectLedger()
         }
         await ledgerRaceConditionProtectionWrapper(claimRewards)
     }

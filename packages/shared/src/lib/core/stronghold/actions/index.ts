@@ -1,1 +1,1 @@
-export * from './checkOrUnlockStrongholdAsync'
+export * from './checkOrUnlockStronghold'

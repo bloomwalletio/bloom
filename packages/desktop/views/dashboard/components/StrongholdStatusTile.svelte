@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { lockStronghold } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { checkOrUnlockStrongholdAsync } from '@core/stronghold'
+    import { checkOrUnlockStronghold } from '@core/stronghold'
 
     const title = localize('general.stronghold')
     const { isStrongholdLocked } = $activeProfile
@@ -13,7 +13,7 @@
 
     function onStrongholdToggleClick(): void {
         if ($isStrongholdLocked) {
-            void checkOrUnlockStrongholdAsync()
+            void checkOrUnlockStronghold()
         } else {
             lockStronghold()
         }

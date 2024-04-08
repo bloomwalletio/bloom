@@ -15,7 +15,7 @@ import {
 import { LEDGER_ERROR_LOCALES } from '../constants'
 import { LedgerAppName, LedgerError } from '../enums'
 import { deriveLedgerError } from '../helpers'
-import { checkOrConnectLedgerAsync, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger'
+import { checkOrConnectLedger, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger'
 import { sendOutput } from '@core/wallet'
 import { activeProfile } from '@core/profile/stores'
 import { SupportedNetworkId } from '@core/network/enums'
@@ -59,7 +59,7 @@ export function handleLedgerError(err: unknown, resetConfirmationPropsOnDenial =
                 appName,
                 onEnabled: async () => {
                     try {
-                        await checkOrConnectLedgerAsync()
+                        await checkOrConnectLedger()
                         const preparedOutput = get(ledgerPreparedOutput)
                         if (preparedOutput) {
                             await sendOutput(preparedOutput)

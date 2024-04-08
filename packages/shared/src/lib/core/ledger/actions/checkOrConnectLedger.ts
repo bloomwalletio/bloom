@@ -4,7 +4,7 @@ import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '..'
 import { activeProfile } from '@core/profile/stores'
 import { SupportedNetworkId } from '@core/network/enums'
 
-export function checkOrConnectLedgerAsync(
+export function checkOrConnectLedger(
     ledgerAppName: LedgerAppName = get(activeProfile)?.network?.id === SupportedNetworkId.Iota
         ? LedgerAppName.Iota
         : LedgerAppName.Shimmer
