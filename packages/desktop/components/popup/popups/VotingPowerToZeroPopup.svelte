@@ -4,7 +4,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
     import { PopupTemplate } from '@components/popup'
 
@@ -19,7 +19,7 @@
 
     async function onSubmit(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync()
+            await checkActiveProfileAuth()
         } catch {
             return
         }

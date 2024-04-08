@@ -5,7 +5,7 @@
     import { selectedProposal } from '@contexts/governance/stores'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuthAsync, getBaseToken } from '@core/profile/actions'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -24,7 +24,7 @@
     async function onSubmit(): Promise<void> {
         if (hasVotingPower) {
             try {
-                await checkActiveProfileAuthAsync()
+                await checkActiveProfileAuth()
             } catch {
                 return
             }

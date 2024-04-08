@@ -17,6 +17,8 @@
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
     import features from '@features/features'
+    import { handleError } from '@core/error/handlers'
+    import { IAccountState } from '@core/account'
 
     export let networkId: NetworkId
     export let name: string
@@ -66,30 +68,32 @@
         $dashboardRouter?.goTo(DashboardRoute.Collectibles)
     }
 
-    function onGenerateAddressClick(): void {
-        const chain = $network.getChain(networkId)
+    async function onGenerateAddressClick(): Promise<void> {
+        const chain = $network?.getChain(networkId)
         if (!chain) {
             return
         }
-        checkActiveProfileAuth(
-            async () => {
-                await generateAndStoreEvmAddressForAccounts(
-                    $activeProfile.type,
-                    chain.getConfiguration().coinType,
-                    $selectedAccount
-                )
-                pollL2BalanceForAccount($activeProfile.id, $selectedAccount)
-                if ($activeProfile.type === ProfileType.Ledger) {
-                    setSelectedChain(chain)
-                    toggleDashboardDrawer({
-                        id: DashboardDrawerRoute.NetworkConfig,
-                        initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
-                    })
-                }
-            },
-            {},
-            LedgerAppName.Ethereum
-        )
+
+        try {
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
+        } catch (error) {
+            return
+        }
+
+        try {
+            const account = $selectedAccount as IAccountState
+            await generateAndStoreEvmAddressForAccounts($activeProfile.type, chain.getConfiguration().coinType, account)
+            pollL2BalanceForAccount($activeProfile.id, account)
+            if ($activeProfile.type === ProfileType.Ledger) {
+                setSelectedChain(chain)
+                toggleDashboardDrawer({
+                    id: DashboardDrawerRoute.NetworkConfig,
+                    initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
+                })
+            }
+        } catch (error) {
+            handleError(error)
+        }
     }
 </script>
 

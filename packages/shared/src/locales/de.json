@@ -1285,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Konto erstellen"
+        },
+        "profileDiagnostics": {
+            "title": "Profile diagnostics"
         }
     },
     "actions": {
@@ -1645,6 +1648,7 @@
         "methodId": "Methoden-ID",
         "methodName": "Methodenname",
         "inputs": "Inputs",
+        "parameters": "Parameters",
         "data": "Daten",
         "success": "Abgeschlossen",
         "info": "Info",
@@ -1659,7 +1663,9 @@
         "startIndex": "Start-Index",
         "mintNftCollectionDescription": "Minte Sammlungs-NFT im Alias-Output",
         "appName": "App-Name",
-        "question": "Frage"
+        "question": "Frage",
+        "id": "ID",
+        "location": "Location"
     },
     "filters": {
         "title": "Filter",
