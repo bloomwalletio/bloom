@@ -27,7 +27,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
     chain: IChain,
     account: IAccountState
 ): Promise<EvmTokenTransferActivity | EvmCoinTransferActivity | undefined> {
-    const networkId = chain.getConfiguration().id
+    const networkId = chain.id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === blockscoutTokenTransfer.to.hash.toLowerCase()
             ? ActivityDirection.Incoming

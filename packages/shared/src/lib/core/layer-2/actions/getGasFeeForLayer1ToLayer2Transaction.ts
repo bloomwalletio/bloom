@@ -1,4 +1,4 @@
-import { NetworkId, getNetwork, isStardustNetwork } from '@core/network'
+import { NetworkId, getChain, isStardustNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
 import { SendFlowParameters, SendFlowType, createStardustOutputFromSendFlowParameters } from '@core/wallet'
 import { FALLBACK_ESTIMATED_GAS } from '../constants'
@@ -31,7 +31,7 @@ async function getGasEstimateForIscpCall(
     networkId: NetworkId,
     sendFlowParameters: SendFlowParameters
 ): Promise<bigint> {
-    const chain = getNetwork()?.getChain(networkId)
+    const chain = getChain(networkId)
     if (!chain) {
         return Promise.reject('Invalid chain')
     }

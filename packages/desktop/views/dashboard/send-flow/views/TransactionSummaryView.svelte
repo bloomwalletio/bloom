@@ -4,7 +4,7 @@
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { IChain, getNetwork, isEvmChain } from '@core/network'
+    import { IChain, getChain, isEvmChain } from '@core/network'
     import { truncateString } from '@core/utils'
     import { SendFlowParameters, SubjectType } from '@core/wallet'
     import {
@@ -57,7 +57,7 @@
 
             const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
             if (isEvmChain(networkId)) {
-                chain = getNetwork()?.getChain(networkId)
+                chain = getChain(networkId)
                 preparedTransaction = await createEvmTransactionFromSendFlowParameters(
                     sendFlowParameters,
                     chain,
