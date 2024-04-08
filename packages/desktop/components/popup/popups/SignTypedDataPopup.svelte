@@ -7,7 +7,7 @@
     import { IAccountState } from '@core/account'
     import { IChain } from '@core/network'
     import { AccountLabel, DappInfo } from '@ui'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { SignTypedDataVersion } from '@metamask/eth-sig-util'
@@ -26,7 +26,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch {
             return
         }
@@ -34,8 +34,7 @@
         isBusy = true
 
         try {
-            const { coinType } = chain.getConfiguration()
-            const result = await signEip712Message(data, version, coinType, account)
+            const result = await signEip712Message(data, version, chain.coinType, account)
             closePopup({ forceClose: true })
 
             callback({ result })

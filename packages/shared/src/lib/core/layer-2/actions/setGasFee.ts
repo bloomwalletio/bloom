@@ -2,7 +2,7 @@ import { IAccountState } from '@core/account/interfaces'
 import { handleError } from '@core/error/handlers'
 import { getGasFeeForLayer1ToLayer2Transaction } from '@core/layer-2/actions'
 import { calculateMaxGasFeeFromTransactionData } from '@core/layer-2/utils'
-import { isEvmChain, getNetwork } from '@core/network'
+import { getChain, isEvmChain } from '@core/network'
 import {
     SendFlowParameters,
     getNetworkIdFromSendFlowParameters,
@@ -23,7 +23,7 @@ export async function setGasFee(sendFlowParams: SendFlowParameters, account: IAc
 
         let gasFee: bigint | undefined
         if (isEvmChain(sourceNetworkId)) {
-            const chain = getNetwork()?.getChain(sourceNetworkId)
+            const chain = getChain(sourceNetworkId)
             if (!chain) {
                 throw new Error('Chain is undefined!')
             }

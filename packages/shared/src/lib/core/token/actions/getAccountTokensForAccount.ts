@@ -26,10 +26,9 @@ export function getAccountTokensForAccount(
         const chains = getNetwork()?.getChains() ?? []
 
         for (const chain of chains) {
-            const id = chain.getConfiguration().id
-            const chainAssets = getAccountAssetForChain(account, marketCoinPrices, marketCurrency, id)
+            const chainAssets = getAccountAssetForChain(account, marketCoinPrices, marketCurrency, chain.id)
             if (chainAssets) {
-                accountAssets[id] = chainAssets
+                accountAssets[chain.id] = chainAssets
             }
         }
 

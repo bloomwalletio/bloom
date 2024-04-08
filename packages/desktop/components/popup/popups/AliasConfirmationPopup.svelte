@@ -4,7 +4,7 @@
     import { processAndAddToActivities } from '@core/activity/actions'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuthAsync, getBaseToken } from '@core/profile/actions'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
     import { EMPTY_HEX_ID, sendPreparedTransaction } from '@core/wallet'
     import {
         AliasOutputBuilderParams,
@@ -46,7 +46,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync()
+            await checkActiveProfileAuth()
         } catch (error) {
             return
         }

@@ -51,7 +51,7 @@ export function handleWatchAsset(
                 address: params.options.address,
             }),
             onConfirm: () => {
-                void trackAsset(params, chain.getConfiguration().id)
+                void trackAsset(params, chain.id)
                 responseCallback({ result: null })
                 closePopup()
             },
