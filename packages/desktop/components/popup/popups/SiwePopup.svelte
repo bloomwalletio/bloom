@@ -50,8 +50,7 @@
 
         isBusy = true
         try {
-            const { coinType } = chain.getConfiguration()
-            const result = await signMessage(rawMessage, coinType, account)
+            const result = await signMessage(rawMessage, chain.coinType, account)
             closePopup({ forceClose: true })
 
             callback({ result })

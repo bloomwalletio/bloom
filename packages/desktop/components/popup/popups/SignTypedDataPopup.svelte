@@ -34,8 +34,7 @@
         isBusy = true
 
         try {
-            const { coinType } = chain.getConfiguration()
-            const result = await signEip712Message(data, version, coinType, account)
+            const result = await signEip712Message(data, version, chain.coinType, account)
             closePopup({ forceClose: true })
 
             callback({ result })

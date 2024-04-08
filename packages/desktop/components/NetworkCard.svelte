@@ -10,7 +10,6 @@
     import {
         ExplorerEndpoint,
         IChain,
-        IIscpChainConfiguration,
         INetwork,
         NetworkHealth,
         NetworkId,
@@ -32,10 +31,9 @@
     export let onCardClick: UiEventFunction
     export let onQrCodeIconClick: UiEventFunction
 
-    let configuration: IIscpChainConfiguration | undefined = undefined
     let networkId: NetworkId | undefined
-    let name = ''
-    let address: string | undefined = undefined
+    let name: string | undefined
+    let address: string | undefined
     let status: NetworkHealth
 
     $: $networkStatus, $chainStatuses, $selectedAccount, setNetworkCardData()
@@ -57,10 +55,9 @@
             address = account.depositAddress
             status = $networkStatus.health
         } else if (chain) {
-            configuration = chain.getConfiguration() as IIscpChainConfiguration
-            networkId = configuration.id
-            name = configuration.name
-            address = account.evmAddresses[configuration.coinType]
+            networkId = chain.id
+            name = chain.name
+            address = account.evmAddresses[chain.coinType]
             status = chain.getStatus().health
         }
     }
@@ -80,7 +77,7 @@
             setSelectedChain(chain)
             await generateAndStoreEvmAddressForAccounts(
                 $activeProfile.type,
-                configuration.coinType,
+                chain.coinType,
                 $selectedAccount as IAccountState
             )
             pollL2BalanceForAccount($activeProfile.id, $selectedAccount as IAccountState)

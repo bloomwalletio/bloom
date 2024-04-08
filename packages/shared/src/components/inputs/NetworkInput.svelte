@@ -42,8 +42,7 @@
         if (showLayer2) {
             const layer2Networks: IOption[] =
                 $network?.getChains().map((chain) => {
-                    const chainConfig = chain.getConfiguration()
-                    return { label: chainConfig.name, value: chainConfig.id }
+                    return { label: chain.name, value: chain.id }
                 }) ?? []
             options.push(...layer2Networks)
         }

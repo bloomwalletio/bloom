@@ -10,8 +10,7 @@ export async function sendSignedEvmTransaction(
 ): Promise<TransactionReceipt | undefined> {
     try {
         updateSelectedAccount({ isTransferring: true })
-        const provider = chain.getProvider()
-        return await provider?.eth.sendSignedTransaction(signedTransaction)
+        return await chain.provider.eth.sendSignedTransaction(signedTransaction)
     } catch (err) {
         if (getIsActiveLedgerProfile()) {
             closePopup({ forceClose: true })

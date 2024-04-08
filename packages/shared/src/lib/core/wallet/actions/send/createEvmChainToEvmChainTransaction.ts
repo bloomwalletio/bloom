@@ -19,7 +19,7 @@ export function createEvmChainToEvmChainTransaction(
     const recipientAddress = sendFlowParameters.recipient.address
 
     const { evmAddresses } = account
-    const originAddress = evmAddresses[chain.getConfiguration().coinType]
+    const originAddress = evmAddresses[chain.coinType]
     if (!originAddress) {
         throw new Error(localize('error.send.unableToGetOriginAddress'))
     }
