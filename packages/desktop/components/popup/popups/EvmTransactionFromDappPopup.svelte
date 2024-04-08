@@ -61,21 +61,18 @@
         const transferInfo = getTransferInfoFromTransactionData(preparedTransaction, chain)
         switch (transferInfo?.type) {
             case StardustActivityType.Basic: {
-                const token = getTokenFromSelectedAccountTokens(transferInfo.tokenId, chain.id)
-                if (!token) {
+                const transfer = {
+                    token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, chain.id),
+                    rawAmount: transferInfo.rawAmount,
+                } as TokenTransferData
+                if (!transfer.token) {
                     return
                 }
 
                 if (transferInfo.tokenId === BASE_TOKEN_ID) {
-                    baseCoinTransfer = {
-                        token,
-                        rawAmount: transferInfo.rawAmount,
-                    }
+                    baseCoinTransfer = transfer
                 } else {
-                    tokenTransfer = {
-                        token,
-                        rawAmount: transferInfo.rawAmount,
-                    }
+                    tokenTransfer = transfer
                 }
                 break
             }
