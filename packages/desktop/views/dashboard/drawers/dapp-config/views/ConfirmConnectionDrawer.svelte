@@ -5,7 +5,11 @@
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { connectToDapp } from '@auxiliary/wallet-connect/actions'
-    import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import {
+        IPersistedNamespaces,
+        getPersistedDappNamespacesForDapp,
+        sessionProposal,
+    } from '@auxiliary/wallet-connect/stores'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
@@ -14,6 +18,8 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { selectedAccount } from '@core/account/stores'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { deepEquals } from '@core/utils/object'
+    import { ProposalTypes } from '@walletconnect/types'
 
     export let drawerRouter: Router<unknown>
 
@@ -44,11 +50,23 @@
         (currentStep === 1 && checkedNetworks.length === 0) ||
         (currentStep === 2 && checkedAccounts.length === 0)
 
-    $: isPreferenceSelectionRequired = preferenceSelectionRequired()
-    function preferenceSelectionRequired(): boolean {
-        if (!persistedNamespaces) return true
+    $: isPreferenceSelectionRequired = $sessionProposal
+        ? preferenceSelectionRequired(
+              $sessionProposal.params.requiredNamespaces,
+              $sessionProposal.params.optionalNamespaces,
+              persistedNamespaces
+          )
+        : false
+    function preferenceSelectionRequired(
+        requiredNamespaces: ProposalTypes.RequiredNamespaces,
+        optionalNamespaces: ProposalTypes.OptionalNamespaces,
+        _persistedNamespaces?: IPersistedNamespaces
+    ): boolean {
+        if (!_persistedNamespaces || !$sessionProposal) return true
 
-        return false
+        const didRequiredChange = deepEquals(_persistedNamespaces.required, requiredNamespaces)
+        const didOptionalChange = deepEquals(_persistedNamespaces.optional, optionalNamespaces)
+        return didRequiredChange || didOptionalChange
     }
 
     function onBackClick(): void {

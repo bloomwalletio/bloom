@@ -10,7 +10,7 @@ interface IPersistedNamespacesStore {
     }
 }
 
-interface IPersistedNamespaces {
+export interface IPersistedNamespaces {
     supported: SupportedNamespaces
     required: ProposalTypes.RequiredNamespaces
     optional: ProposalTypes.OptionalNamespaces
