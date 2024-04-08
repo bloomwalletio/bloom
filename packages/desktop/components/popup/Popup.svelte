@@ -50,6 +50,7 @@
     import MintNftFormPopup from './popups/MintNftFormPopup.svelte'
     import NodeAuthRequiredPopup from './popups/NodeAuthRequiredPopup.svelte'
     import NodeInfoPopup from './popups/NodeInfoPopup.svelte'
+    import ProfileDiagnosticsPopup from './popups/ProfileDiagnosticsPopup.svelte'
     import ReceiveAddressPopup from './popups/ReceiveAddressPopup.svelte'
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
@@ -131,6 +132,7 @@
         [PopupId.MintNftCollectionConfirmation]: MintNftCollectionConfirmationPopup,
         [PopupId.NodeAuthRequired]: NodeAuthRequiredPopup,
         [PopupId.NodeInfo]: NodeInfoPopup,
+        [PopupId.ProfileDiagnostics]: ProfileDiagnosticsPopup,
         [PopupId.ReceiveAddress]: ReceiveAddressPopup,
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,

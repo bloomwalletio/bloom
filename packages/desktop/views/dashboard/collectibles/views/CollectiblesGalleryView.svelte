@@ -4,16 +4,12 @@
     import { NftGallery, SearchInput } from '@ui'
     import { Button, IconName, Text, Pill } from '@bloomwalletio/ui'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { getActiveNetworkId } from '@core/network'
     import features from '@features/features'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
 
     function onReceiveClick(): void {
         openPopup({
             id: PopupId.ReceiveAddress,
-            props: {
-                selectedNetworkId: getActiveNetworkId(),
-            },
         })
     }
 </script>
@@ -26,7 +22,7 @@
                 <Text textColor="secondary">{String($queriedNfts.length ?? '')}</Text>
             </Pill>
         </div>
-        <div class="flex items-center gap-2" style="height: 40px">
+        <div class="flex items-center gap-5 h-10 shrink-0">
             {#if $ownedNfts.length}
                 <SearchInput bind:value={$nftSearchTerm} />
             {/if}

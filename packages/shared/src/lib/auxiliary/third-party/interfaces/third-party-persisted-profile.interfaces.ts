@@ -52,6 +52,7 @@ export interface IThirdPartyPersistedProfile {
     strongholdVersion?: StrongholdVersion
     needsChrysalisToStardustDbMigration?: boolean
     pfp?: Nft
+    version?: number
 }
 
 export interface IThirdPartyProfileStoreItem {

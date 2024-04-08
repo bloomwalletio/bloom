@@ -1,5 +1,5 @@
 import { handleError } from '@core/error/handlers'
-import { NetworkId, getNetwork } from '@core/network'
+import { NetworkId, getChain } from '@core/network'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
@@ -53,7 +53,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         return
     }
 
-    const chain = getNetwork()?.getChain(chainId as NetworkId)
+    const chain = getChain(chainId as NetworkId)
     if (!chain) {
         returnResponse({ error: getSdkError('UNSUPPORTED_CHAINS') })
         return

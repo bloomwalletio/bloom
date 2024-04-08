@@ -9,8 +9,8 @@
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
-    $: chain = $selectedChain ?? $network.getChains()[0]
-    $: address = $selectedAccount?.evmAddresses?.[chain.getConfiguration()?.coinType]
+    $: chain = $selectedChain ?? $network?.getChains()[0]
+    $: address = chain ? $selectedAccount?.evmAddresses?.[chain.coinType] : undefined
 
     function onContinueClick(): void {
         $networkConfigRouter.reset()

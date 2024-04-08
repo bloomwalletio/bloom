@@ -3,7 +3,7 @@
     import { Animation, Illustration } from '@ui'
     import { completeOnboardingProcess, isOnboardingLedgerProfile, onboardingProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
+    import { LedgerAppName, checkOrConnectLedgerAsync } from '@core/ledger'
     import { profiles } from '@core/profile/stores'
     import { OnboardingLayout } from '@views/components'
     import SuccessSvg from '@views/onboarding/components/SuccessSvg.svelte'
@@ -13,22 +13,20 @@
     import { login } from '@core/profile/actions'
     import { SupportedNetworkId } from '@core/network'
     import { handleError } from '@core/error/handlers'
+    import { onMount } from 'svelte'
 
     const LOCALE_KEY = 'views.onboarding.completeOnboarding.finishOnboarding'
+
+    let isAppSetup = false
 
     $: appName =
         $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
 
-    function onContinueClick(): void {
-        if ($isOnboardingLedgerProfile) {
-            checkOrConnectLedger(_continue, false, appName)
-        } else {
-            void _continue()
-        }
-    }
-
-    async function _continue(): Promise<void> {
+    async function onContinueClick(): Promise<void> {
         try {
+            if ($isOnboardingLedgerProfile) {
+                await checkOrConnectLedgerAsync(appName)
+            }
             await completeOnboardingProcess()
             void login({ isFromOnboardingFlow: true })
             $onboardingRouter.next()
@@ -36,9 +34,13 @@
             handleError(err)
         }
     }
+
+    onMount(() => {
+        isAppSetup = $profiles.length === 0
+    })
 </script>
 
-{#if $profiles.length === 0}
+{#if isAppSetup}
     <LoggedOutLayout hideLogo gradient="spread">
         <setup-complete>
             <SuccessSvg />

@@ -32,11 +32,6 @@ const walletFeatures: IWalletFeatures = {
             enabled: true,
         },
     },
-    portfolio: {
-        filter: {
-            enabled: false,
-        },
-    },
 }
 
 export default walletFeatures

@@ -17,7 +17,7 @@ const electronFeatures: IElectronFeatures = {
         },
     },
     importFromThirdParty: {
-        enabled: false,
+        enabled: true,
     },
 }
 

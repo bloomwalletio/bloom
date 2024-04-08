@@ -122,7 +122,7 @@ function buildTemplate(): Electron.MenuItemConstructorOptions[] {
 }
 
 function getFirstSubmenuItems(): Electron.MenuItemConstructorOptions[] {
-    const menuItems: Electron.MenuItemConstructorOptions[] = [
+    let menuItems: Electron.MenuItemConstructorOptions[] = [
         {
             label: `${state.strings.about} ${app.name}`,
             click: openAboutWindow,
@@ -137,12 +137,13 @@ function getFirstSubmenuItems(): Electron.MenuItemConstructorOptions[] {
     if (features?.electron?.importFromThirdParty?.enabled) {
         menuItems.push(commandMenuItem(state.strings.importThirdPartyProfiles, 'import-third-party-profile'))
     }
-    menuItems.concat([
+    menuItems = [
+        ...menuItems,
         { type: 'separator' },
         commandMenuItem(state.strings.settings, 'menu-navigate-settings'),
         { type: 'separator' },
         commandMenuItem(state.strings.diagnostics, 'menu-diagnostics'),
-    ])
+    ]
     return menuItems
 }
 

@@ -66,7 +66,7 @@ export async function loadNftsForAccount(profileId: string, account: IAccountSta
         accountNfts.push(...nfts)
 
         // ERC721 NFTs
-        const evmAddress = getAddressFromAccountForNetwork(account, chain.getConfiguration().id)
+        const evmAddress = getAddressFromAccountForNetwork(account, chain.id)
         if (!evmAddress) {
             continue
         }

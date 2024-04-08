@@ -87,8 +87,8 @@ jest.mock('@core/token/actions/getAccountTokensForAccount', () => ({
     }),
 }))
 
-jest.mock('../../network/actions/getChainConfiguration', () => ({
-    getChainConfiguration: jest.fn((_) => destinationNetwork),
+jest.mock('../../network/actions/getChain', () => ({
+    getChain: jest.fn((_) => destinationNetwork),
 }))
 
 jest.mock('../../layer-2/actions/getGasPriceForNetwork', () => ({

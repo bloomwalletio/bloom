@@ -3,18 +3,18 @@ import type { SendFlowParameters } from '@core/wallet/types'
 import { SpecialStream } from '../classes'
 import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_LIMIT_MULTIPLIER, TRANSFER_ALLOWANCE } from '../constants'
 import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } from '../helpers'
-import { getChainConfiguration } from '@core/network'
+import { getChain } from '@core/network'
 
 export function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParameters): string {
     const metadataStream = new SpecialStream()
-    const chainConfig = sendFlowParameters.destinationNetworkId
-        ? getChainConfiguration(sendFlowParameters.destinationNetworkId)
+    const chain = sendFlowParameters.destinationNetworkId
+        ? getChain(sendFlowParameters.destinationNetworkId)
         : undefined
-    if (!chainConfig) {
+    if (!chain) {
         throw new Error('Chain is undefined')
     }
     const address = sendFlowParameters.recipient?.address ?? ''
-    const encodedAddress = encodeAddress(address.toLowerCase(), chainConfig)
+    const encodedAddress = encodeAddress(address.toLowerCase(), chain)
 
     const estimatedGas = sendFlowParameters.gasFee ?? BigInt(0)
     const gasLimit = Math.floor(Number(estimatedGas) * GAS_LIMIT_MULTIPLIER)

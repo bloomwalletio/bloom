@@ -40,8 +40,10 @@
 
 <svelte:component
     this={popup ? PopupTemplate : OnboardingLayout}
-    title={localize(`${LOCALE_NAMESPACE}.title`)}
-    description={`${localize(`${LOCALE_NAMESPACE}.description`)} ${popup ? '' : localize(`${LOCALE_NAMESPACE}.descriptionExtension`)}`}
+    title={popup ? localize(`${LOCALE_NAMESPACE}.title`) : localize(`${LOCALE_NAMESPACE}.onboardingTitle`)}
+    description={popup
+        ? localize(`${LOCALE_NAMESPACE}.description`)
+        : localize(`${LOCALE_NAMESPACE}.onboardingDescription`)}
     backButton={{
         text: localize(popup ? 'actions.cancel' : 'actions.skip'),
         onClick: popup ? onCancelClick : onSkipClick,

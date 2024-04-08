@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ChainType, getActiveNetworkId, getChainConfiguration } from '@core/network'
+    import { ChainType, getActiveNetworkId, getChain } from '@core/network'
     import { ITokenWithBalance } from '@core/token'
     import { Pill, Tooltip } from '@bloomwalletio/ui'
 
@@ -9,7 +9,7 @@
 </script>
 
 {#if token.networkId !== getActiveNetworkId()}
-    {@const chainType = getChainConfiguration(token.networkId).type}
+    {@const chainType = getChain(token.networkId).type}
     <chain-type-pill bind:this={anchor} class="h-fit">
         <Pill color="cyan" compact>
             {chainType === ChainType.Evm ? 'EVM' : chainType === ChainType.Iscp ? 'ISC' : undefined}

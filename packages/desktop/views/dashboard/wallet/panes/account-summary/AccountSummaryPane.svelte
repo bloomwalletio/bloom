@@ -7,7 +7,7 @@
     export let account: IAccountState
 
     const stardustNetworkId = getActiveNetworkId()
-    const evmChainNetworkId = $network.getChains()[0]?.getConfiguration()?.id
+    const evmChainNetworkId = $network?.getChains()[0]?.id
 </script>
 
 <Pane

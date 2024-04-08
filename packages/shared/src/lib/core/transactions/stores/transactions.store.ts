@@ -23,7 +23,7 @@ export function getPersistedTransactionsForChain(
     accountIndex: number,
     chain: IChain
 ): PersistedTransaction[] {
-    const networkId = chain.getConfiguration().id as EvmNetworkId
+    const networkId = chain.id as EvmNetworkId
     return Object.values(get(persistedTransactions)?.[profileId]?.[accountIndex]?.[networkId] ?? {}) ?? []
 }
 
