@@ -46,7 +46,7 @@ async function persistEvmTransaction(
     chain: IChain,
     evmTransaction: LocalEvmTransaction
 ): Promise<void> {
-    const networkId = chain.getConfiguration().id as EvmNetworkId
+    const networkId = chain.id as EvmNetworkId
     addLocalTransactionToPersistedTransaction(profileId, account.index, networkId, [evmTransaction])
     const activity = await generateEvmActivityFromLocalEvmTransaction(evmTransaction, chain, account)
     if (!activity) {

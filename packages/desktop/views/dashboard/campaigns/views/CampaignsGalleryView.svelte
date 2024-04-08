@@ -20,9 +20,10 @@
     const tideApi = new TideApi()
     let loading = false
 
-    const chainIds = getNetwork()
-        .getChains()
-        .map((chain) => Number(chain.getConfiguration().chainId))
+    const chainIds =
+        getNetwork()
+            ?.getChains()
+            .map((chain) => Number(chain.chainId)) ?? []
     let campaigns: ICampaign[] = []
     $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
 

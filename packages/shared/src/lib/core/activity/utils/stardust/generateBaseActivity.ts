@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import { BaseStardustActivity, IActivityGenerationParameters } from '@core/activity/types'
-import { getNetworkIdFromAddress } from '@core/layer-2/actions'
+import { getNetworkFromAddress } from '@core/layer-2/actions'
 import { NetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { BasicOutput } from '@iota/sdk'
@@ -53,7 +53,7 @@ export async function generateBaseActivity(
     // even if we unwrap a token the second transaction is sent from the stardust alias
     // controlling the sub chain to our stardust address
     const sourceNetworkId = getActiveNetworkId()
-    const destinationNetworkId = getNetworkIdFromAddress(recipient?.address) ?? sourceNetworkId
+    const destinationNetworkId = getNetworkFromAddress(recipient?.address)?.id ?? sourceNetworkId
     const direction = processedTransaction.direction
 
     // asset information

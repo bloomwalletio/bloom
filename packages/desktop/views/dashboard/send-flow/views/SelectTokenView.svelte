@@ -62,8 +62,7 @@
 
         const chains = network.getChains()
         for (const chain of chains) {
-            const chainMetadata = chain.getConfiguration()
-            tabs.push({ key: chainMetadata.id, value: chainMetadata.name })
+            tabs.push({ key: chain.id, value: chain.name })
         }
         return tabs
     }
