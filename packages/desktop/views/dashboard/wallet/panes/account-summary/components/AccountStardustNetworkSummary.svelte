@@ -28,7 +28,7 @@
 
         return {
             networkId,
-            name: network.getMetadata().name,
+            name: network.name,
             health: network.getStatus()?.health ?? NetworkHealth.Disconnected,
             address: account.depositAddress,
             tokenBalance,

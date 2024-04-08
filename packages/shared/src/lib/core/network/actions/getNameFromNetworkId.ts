@@ -5,7 +5,7 @@ import { NetworkId } from '../types'
 
 export function getNameFromNetworkId(networkId: NetworkId): string | undefined {
     if (networkId === getActiveNetworkId()) {
-        return getNetwork()?.getMetadata().name
+        return getNetwork()?.name
     } else {
         const networkName = getChain(networkId)?.name
         if (networkName) {

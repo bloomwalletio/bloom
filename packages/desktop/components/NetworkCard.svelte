@@ -50,8 +50,8 @@
     function setNetworkCardData(): void {
         const account = $selectedAccount as IAccountState
         if (network) {
-            networkId = network.getMetadata().id
-            name = network.getMetadata().name
+            networkId = network.id
+            name = network.name
             address = account.depositAddress
             status = $networkStatus.health
         } else if (chain) {
