@@ -52,7 +52,7 @@
     let selectedTab = tabs[0]
 
     function getTabs(): KeyValue<string>[] {
-        const tabs = [{ key: 'all', value: 'All' }]
+        const tabs = [{ key: 'all', value: localize('general.all') }]
 
         const network = getNetwork()
         if (!network) return tabs
