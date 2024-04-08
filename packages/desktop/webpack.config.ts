@@ -37,8 +37,10 @@ const fallback: { [index: string]: string | false | string[] } = {
     fs: false,
     crypto: false,
     // The Ethereum libraries require zlib and the buffer polyfill
-    zlib: false,
+    assert: false,
     buffer: require.resolve('buffer'),
+    stream: false,
+    zlib: false,
     // The Amplitude SDK requires http, https and url polyfills
     http: require.resolve('stream-http'),
     https: require.resolve('https-browserify'),
