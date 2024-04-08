@@ -5,13 +5,13 @@ import { get } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 
 import { ChainType, NetworkNamespace } from '../enums'
-import { IChain, IIscpChainConfiguration, INetwork, INetworkStatus, IProtocol } from '../interfaces'
+import { IChain, IIscpChainConfiguration, INetworkStatus, IProtocol, IStardustNetwork } from '../interfaces'
 import { networkStatus } from '../stores'
 import { ChainConfiguration, NetworkId, NetworkMetadata } from '../types'
 
 import { IscpChain } from './iscp-chain.class'
 
-export class StardustNetwork implements INetwork {
+export class StardustNetwork implements IStardustNetwork {
     public readonly id: NetworkId
     public readonly name: string
     public readonly coinType: number

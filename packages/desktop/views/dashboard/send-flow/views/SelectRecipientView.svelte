@@ -3,7 +3,15 @@
     import { selectedAccountIndex } from '@core/account/stores'
     import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
-    import { IChain, INetwork, NetworkId, getActiveNetworkId, network, isEvmChain } from '@core/network'
+    import {
+        IChain,
+        NetworkId,
+        getActiveNetworkId,
+        network,
+        isEvmChain,
+        IStardustNetwork,
+        getChain,
+    } from '@core/network'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import {
         SendFlowType,
@@ -37,7 +45,7 @@
     let hasNetworkRecipientError: boolean = false
     $: {
         const originNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
-        if (isEvmChain(originNetworkId)) {
+        if (originNetworkId && isEvmChain(originNetworkId)) {
             hasNetworkRecipientError = !canAccountMakeEvmTransaction(
                 $selectedAccountIndex,
                 originNetworkId,
@@ -50,11 +58,11 @@
 
     function getAssetName(): string | undefined {
         if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
-            return $sendFlowParameters.baseCoinTransfer.token?.metadata.name
+            return $sendFlowParameters.baseCoinTransfer?.token?.metadata?.name
         } else if ($sendFlowParameters?.type === SendFlowType.TokenTransfer) {
-            return $sendFlowParameters.tokenTransfer.token?.metadata.name
+            return $sendFlowParameters.tokenTransfer?.token?.metadata?.name
         } else if ($sendFlowParameters?.type === SendFlowType.NftTransfer) {
-            return $sendFlowParameters.nft.name
+            return $sendFlowParameters.nft?.name
         } else {
             return ''
         }
@@ -66,8 +74,8 @@
     }
 
     function setInitialNetworkAndRecipient(): void {
-        selectedIndex = $sendFlowParameters.destinationNetworkId
-            ? selectorOptions.findIndex((option) => option.networkId === $sendFlowParameters.destinationNetworkId)
+        selectedIndex = $sendFlowParameters?.destinationNetworkId
+            ? selectorOptions.findIndex((option) => option.networkId === $sendFlowParameters?.destinationNetworkId)
             : selectorOptions.findIndex(
                   (option) => option.networkId === getNetworkIdFromSendFlowParameters($sendFlowParameters)
               ) ?? 0
@@ -95,13 +103,13 @@
                 type: SubjectType.Contact,
                 address: address.address,
                 contact,
-            }
+            } as Subject
         })
         return [...new Map(recipients.map((recipient) => [recipient?.['contact']?.['id'], recipient])).values()]
     }
 
     function getLayer1RecipientOption(
-        sourceNetwork: INetwork,
+        sourceNetwork: IStardustNetwork,
         accountIndexToExclude?: number
     ): INetworkRecipientSelectorOption {
         return {
@@ -119,11 +127,14 @@
             .filter(
                 (account) => account.index !== accountIndexToExclude && account.evmAddresses?.[coinType] !== undefined
             )
-            .map((account) => ({
-                type: SubjectType.Account,
-                account,
-                address: account.evmAddresses?.[coinType],
-            }))
+            .map(
+                (account) =>
+                    ({
+                        type: SubjectType.Account,
+                        account,
+                        address: account.evmAddresses?.[coinType],
+                    }) as Subject
+            )
     }
 
     function getRecipientOptionFromChain(
@@ -152,9 +163,9 @@
 
         const assetStandard = getTokenStandardFromSendFlowParameters($sendFlowParameters)
         const sourceNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
-        const sourceChain = $network.getChain(sourceNetworkId)
+        const sourceChain = sourceNetworkId ? getChain(sourceNetworkId) : undefined
 
-        let networkRecipientOptions = []
+        let networkRecipientOptions: INetworkRecipientSelectorOption[] = []
 
         switch (assetStandard) {
             case NftStandard.Irc27:
@@ -169,7 +180,7 @@
                 } else if (sourceChain) {
                     // if we are on layer 2
                     networkRecipientOptions = [
-                        ...(features.wallet.assets.unwrapToken.enabled && [getLayer1RecipientOption($network)]),
+                        ...(features.wallet.assets.unwrapToken.enabled ? [getLayer1RecipientOption($network)] : []),
                         getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
                     ]
                 }
