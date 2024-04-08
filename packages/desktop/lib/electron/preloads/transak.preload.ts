@@ -10,6 +10,7 @@ function observeStyleChanges(targetNode: Element): { disconnect: () => void } {
     const callback = (mutationsList: MutationRecord[], observer: MutationObserver) => {
         for (const mutation of mutationsList) {
             if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                clearTimeout(fallbackTimeout)
                 void ipcRenderer.invoke('transak-loaded')
                 observer.disconnect()
                 break
@@ -19,6 +20,10 @@ function observeStyleChanges(targetNode: Element): { disconnect: () => void } {
 
     const observer = new MutationObserver(callback)
     observer.observe(targetNode, config)
+
+    const fallbackTimeout = setTimeout(() => {
+        observer.disconnect()
+    }, 5000)
 
     return {
         disconnect: () => observer.disconnect(),
