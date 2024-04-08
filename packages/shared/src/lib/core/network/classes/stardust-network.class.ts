@@ -5,7 +5,7 @@ import { get } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 
 import { ChainType, NetworkNamespace } from '../enums'
-import { IChain, IIscpChainConfiguration, INetwork, INetworkStatus } from '../interfaces'
+import { IChain, IIscpChainConfiguration, INetwork, INetworkStatus, IProtocol } from '../interfaces'
 import { networkStatus } from '../stores'
 import { ChainConfiguration, NetworkId, NetworkMetadata } from '../types'
 
@@ -14,17 +14,19 @@ import { IscpChain } from './iscp-chain.class'
 export class StardustNetwork implements INetwork {
     public readonly id: NetworkId
     public readonly name: string
+    public readonly coinType: number
     public readonly namespace: NetworkNamespace.Stardust
+    public readonly protocol: IProtocol
 
-    private readonly _metadata: NetworkMetadata
     private readonly _chains: IChain[]
 
     constructor(metadata: NetworkMetadata, chainConfigurations: ChainConfiguration[]) {
         this.id = metadata.id
         this.name = metadata.name
+        this.coinType = metadata.coinType
         this.namespace = metadata.namespace
+        this.protocol = metadata.protocol
 
-        this._metadata = metadata
         this._chains = this.constructChains(chainConfigurations ?? [])
     }
 
@@ -40,10 +42,6 @@ export class StardustNetwork implements INetwork {
             }
         })
         return chains.filter((chain) => chain !== undefined) as IChain[]
-    }
-
-    getMetadata(): NetworkMetadata {
-        return this._metadata
     }
 
     getStatus(): INetworkStatus {

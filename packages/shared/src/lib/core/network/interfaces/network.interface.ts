@@ -1,14 +1,16 @@
 import { NetworkNamespace } from '../enums'
-import { ChainConfiguration, NetworkId, NetworkMetadata } from '../types'
+import { ChainConfiguration, NetworkId } from '../types'
 import { IChain } from './chain.interface'
 import { INetworkStatus } from './network-status.interface'
+import { IProtocol } from './protocol.interface'
 
 export interface INetwork {
     id: NetworkId
     namespace: NetworkNamespace.Stardust
     name: string
+    coinType: number
+    protocol: IProtocol
 
-    getMetadata(): NetworkMetadata
     getStatus(): INetworkStatus
 
     getChain(networkId: NetworkId): IChain | undefined

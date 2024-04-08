@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getNetwork, NetworkHealth, NetworkId } from '@core/network'
+    import { getNetwork, NetworkHealth, NetworkId, networkStatus } from '@core/network'
     import { IAccountState } from '@core/account'
     import { formatTokenAmountBestMatch, ITokenWithBalance } from '@core/token'
     import { formatCurrency } from '@core/i18n'
@@ -29,7 +29,7 @@
         return {
             networkId,
             name: network.name,
-            health: network.getStatus()?.health ?? NetworkHealth.Disconnected,
+            health: $networkStatus.health ?? NetworkHealth.Disconnected,
             address: account.depositAddress,
             tokenBalance,
             fiatBalance,
