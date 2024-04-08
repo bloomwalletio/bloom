@@ -138,15 +138,18 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
             type: SubjectType.SmartContract,
             address: blockscoutTransaction.to.hash.toLowerCase(),
             name: blockscoutTransaction.to.name ?? localize('general.smartContract'),
+            verified: blockscoutTransaction.to.is_verified,
         }
-        baseActivity.contractAddress = blockscoutTransaction.to.hash.toLowerCase()
+        baseActivity.contract = structuredClone(baseActivity.recipient)
     }
     if (blockscoutTransaction.from.is_contract) {
         baseActivity.sender = {
             type: SubjectType.SmartContract,
             address: blockscoutTransaction.from.hash.toLowerCase(),
             name: blockscoutTransaction.from.name ?? localize('general.smartContract'),
+            verified: blockscoutTransaction.from.is_verified,
         }
+        baseActivity.contract = structuredClone(baseActivity.sender)
     }
     baseActivity.subject =
         baseActivity.direction === ActivityDirection.Outgoing ? baseActivity.recipient : baseActivity.sender
