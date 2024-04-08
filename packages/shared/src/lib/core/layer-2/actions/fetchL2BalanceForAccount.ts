@@ -91,7 +91,10 @@ async function getL2NativeTokenBalancesForAddress(evmAddress: string, chain: ICh
 }
 
 async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Promise<ILayer2TokenBalance[]> {
-    const trackedTokens = getActiveProfile()?.trackedTokens?.[chain.id] ?? {}
+    const networkId = chain.id
+    const coinType = chain.coinType
+
+    const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? {}
     const erc20TokenBalances: ILayer2TokenBalance[] = []
     for (const [erc20Address, trackingStatus] of Object.entries(trackedTokens)) {
         try {
@@ -100,7 +103,6 @@ async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Pr
             }
 
             const contract = chain?.getContract(ContractType.Erc20, erc20Address)
-            const coinType = chain?.coinType
             if (!contract || !coinType) {
                 continue
             }

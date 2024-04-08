@@ -26,7 +26,9 @@
             receiveAddress = account.depositAddress
         } else if (selectedNetworkId && isEvmChain(selectedNetworkId)) {
             const chain = getChain(selectedNetworkId)
-            if (!chain) return
+            if (!chain) {
+                return
+            }
 
             networkName = chain.name
             receiveAddress = account.evmAddresses?.[chain.coinType]
