@@ -6,6 +6,7 @@
     "license": "PolyForm Strict License 1.0.0",
     "dependencies": {
         "@bloomwalletio/ui": "0.20.17",
+        "@ethereumjs/common": "4.3.0",
         "@ethereumjs/rlp": "5.0.2",
         "@ethereumjs/tx": "5.2.1",
         "@ethereumjs/util": "9.0.2",
@@ -25,7 +26,7 @@
         "sha3": "2.1.4",
         "svelte": "3.58.0",
         "svelte-i18n": "3.7.4",
-        "web3": "1.10.0",
+        "web3": "1.10.4",
         "zxcvbn": "4.4.2"
     },
     "scripts": {
