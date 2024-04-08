@@ -20,7 +20,6 @@ import { BASE_TOKEN_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { getMethodForEvmTransaction } from '@core/layer-2/utils'
 import { addMethodToRegistry, getMethodFromRegistry } from '@core/layer-2/stores/method-registry.store'
 import { HEX_PREFIX } from '@core/utils'
-import { localize } from '@core/i18n'
 
 export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
     blockscoutTokenTransfer: BlockscoutTokenTransfer,
@@ -69,14 +68,14 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         ? {
               type: SubjectType.SmartContract,
               address: blockscoutTokenTransfer.to.hash.toLowerCase(),
-              name: blockscoutTokenTransfer.to.name ?? localize('general.smartContract'),
+              name: blockscoutTokenTransfer.to.name ?? '',
               verified: blockscoutTokenTransfer.to.is_verified,
           }
         : blockscoutTokenTransfer.from.is_contract
           ? {
                 type: SubjectType.SmartContract,
                 address: blockscoutTokenTransfer.to.hash.toLowerCase(),
-                name: blockscoutTokenTransfer.to.name ?? localize('general.smartContract'),
+                name: blockscoutTokenTransfer.to.name ?? '',
                 verified: blockscoutTokenTransfer.to.is_verified,
             }
           : undefined
