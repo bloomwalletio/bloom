@@ -1,8 +1,8 @@
-import { checkOrConnectLedgerAsync } from '@core/ledger/actions'
+import { checkOrConnectLedger } from '@core/ledger/actions'
 import { LedgerAppName } from '@core/ledger/enums'
 import { SupportedNetworkId } from '@core/network'
 import { activeProfile, isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
-import { checkOrUnlockStrongholdAsync } from '@core/stronghold/actions'
+import { checkOrUnlockStronghold } from '@core/stronghold/actions'
 import { get } from 'svelte/store'
 
 export async function checkActiveProfileAuth(
@@ -11,9 +11,9 @@ export async function checkActiveProfileAuth(
         : LedgerAppName.Shimmer
 ): Promise<void> {
     if (get(isSoftwareProfile)) {
-        await checkOrUnlockStrongholdAsync()
+        await checkOrUnlockStronghold()
     } else if (get(isActiveLedgerProfile)) {
-        await checkOrConnectLedgerAsync(ledgerAppName)
+        await checkOrConnectLedger(ledgerAppName)
     }
     return Promise.resolve()
 }
