@@ -3,21 +3,20 @@ import { checkForUntrackedNfts } from '@core/nfts/actions'
 import { LAYER2_TOKENS_POLL_INTERVAL } from '../constants'
 import { checkForUntrackedTokens, fetchL2BalanceForAccount } from '.'
 import { handleError } from '@core/error/handlers'
-import { IError } from '@core/error'
 
 let pollInterval: number
 
-export function pollL2BalanceForAccount(account: IAccountState): void {
+export function pollL2BalanceForAccount(profileId: string, account: IAccountState): void {
     try {
         clearL2TokensPoll()
         checkForUntrackedTokens(account)
         void checkForUntrackedNfts(account)
-        fetchL2BalanceForAccount(account)
+        fetchL2BalanceForAccount(profileId, account)
         pollInterval = window.setInterval(() => {
-            fetchL2BalanceForAccount(account)
+            fetchL2BalanceForAccount(profileId, account)
         }, LAYER2_TOKENS_POLL_INTERVAL)
     } catch (err) {
-        handleError(err as IError)
+        handleError(err)
     }
 }
 

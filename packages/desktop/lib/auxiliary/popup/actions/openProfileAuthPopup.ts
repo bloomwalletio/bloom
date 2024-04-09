@@ -3,7 +3,7 @@ import { updateProfileAuthProps } from '../stores/profile-auth-popup.store'
 
 export function openProfileAuthPopup({
     id,
-    props = null,
+    props = undefined,
     hideClose = false,
     preventClose = false,
 }: Omit<IProfileAuthPopupState, 'active'>): void {

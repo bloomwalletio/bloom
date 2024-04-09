@@ -1,26 +1,29 @@
 import { IAccountState } from '@core/account'
-import { StardustActivity, INftBalanceChange, ITokenBalanceChange } from '../types'
+import { INftBalanceChange, ITokenBalanceChange, EvmActivity } from '../types'
 import { getBalanceChanges } from '../stores'
 import { get } from 'svelte/store'
 import { NetworkId, network } from '@core/network'
-import { generateNftBalanceChangeActivity, generateTokenBalanceChangeActivity } from './evm'
+import { generateEvmNftBalanceChangeActivity, generateEvmTokenBalanceChangeActivity } from './evm'
 
-export async function generateActivitiesFromBalanceChanges(account: IAccountState): Promise<StardustActivity[]> {
-    const activities: StardustActivity[] = []
+export async function generateActivitiesFromBalanceChanges(
+    profileId: string,
+    account: IAccountState
+): Promise<EvmActivity[]> {
+    const activities: EvmActivity[] = []
 
     const chains = get(network)?.getChains() ?? []
     for (const chain of chains) {
-        const networkId = chain.getConfiguration().id
-        const balanceChanges = getBalanceChanges(account.index, networkId)
+        const networkId = chain.id
+        const balanceChanges = getBalanceChanges(profileId, account.index, networkId)
 
-        const tokenActivites = await generateActivitiesFromTokenBalanceChanges(
+        const tokenActivities = await generateActivitiesFromTokenBalanceChanges(
             account,
             networkId,
             balanceChanges.tokens
         )
-        activities.push(...tokenActivites)
-        const nftActivites = generateActivitiesFromNftBalanceChanges(account, networkId, balanceChanges.nfts)
-        activities.push(...nftActivites)
+        activities.push(...tokenActivities)
+        const nftActivities = generateActivitiesFromNftBalanceChanges(account, networkId, balanceChanges.nfts)
+        activities.push(...nftActivities)
     }
 
     return activities
@@ -32,8 +35,8 @@ export async function generateActivitiesFromTokenBalanceChanges(
     tokenBalanceChanges: {
         [tokenId: string]: ITokenBalanceChange[]
     }
-): Promise<StardustActivity[]> {
-    const activities: StardustActivity[] = []
+): Promise<EvmActivity[]> {
+    const activities: EvmActivity[] = []
     const tokenIds = tokenBalanceChanges ? Object.keys(tokenBalanceChanges) : []
     for (const tokenId of tokenIds) {
         for (const balanceChangeForToken of tokenBalanceChanges[tokenId]) {
@@ -41,7 +44,7 @@ export async function generateActivitiesFromTokenBalanceChanges(
                 continue
             }
             try {
-                const activity = await generateTokenBalanceChangeActivity(
+                const activity = generateEvmTokenBalanceChangeActivity(
                     networkId,
                     tokenId,
                     balanceChangeForToken,
@@ -53,7 +56,7 @@ export async function generateActivitiesFromTokenBalanceChanges(
             }
         }
     }
-    return activities
+    return Promise.resolve(activities)
 }
 
 export function generateActivitiesFromNftBalanceChanges(
@@ -62,8 +65,8 @@ export function generateActivitiesFromNftBalanceChanges(
     nftBalanceChanges: {
         [nftId: string]: INftBalanceChange[]
     }
-): StardustActivity[] {
-    const activities: StardustActivity[] = []
+): EvmActivity[] {
+    const activities: EvmActivity[] = []
     const nftIds = nftBalanceChanges ? Object.keys(nftBalanceChanges) : []
     for (const nftId of nftIds) {
         for (const balanceChangeForNft of nftBalanceChanges[nftId]) {
@@ -71,7 +74,7 @@ export function generateActivitiesFromNftBalanceChanges(
                 continue
             }
             try {
-                const activity = generateNftBalanceChangeActivity(networkId, nftId, balanceChangeForNft, account)
+                const activity = generateEvmNftBalanceChangeActivity(networkId, nftId, balanceChangeForNft, account)
                 activities.push(activity)
             } catch (error) {
                 console.error(error)

@@ -1,10 +1,15 @@
-import { StardustActivity, StardustActivityAsyncStatus, ActivityDirection } from '@core/activity'
+import { StardustActivityAsyncStatus, ActivityDirection, Activity } from '@core/activity'
+import { NetworkNamespace } from '@core/network/enums'
 import { getTimeDifference } from '@core/utils/time'
 
 export function getActivityActionPill(
-    activity: StardustActivity,
+    activity: Activity,
     currentDate: Date
 ): { type: 'timelock' | 'unclaimed' | 'expired'; timeDiff?: string } | undefined {
+    if (activity.namespace === NetworkNamespace.Evm) {
+        return undefined
+    }
+
     if (!activity?.asyncData?.asyncStatus) {
         return undefined
     }
@@ -24,6 +29,9 @@ export function getActivityActionPill(
                     return undefined
                 }
             } else {
+                if (!timelockDate) {
+                    return undefined
+                }
                 const timeDiff = getTimeDifference(timelockDate, currentDate)
                 return { type: 'timelock', timeDiff }
             }

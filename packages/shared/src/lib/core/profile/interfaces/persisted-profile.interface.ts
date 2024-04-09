@@ -6,21 +6,24 @@ import { ProfileType } from '../enums'
 import { IProfileSettings } from './profile-settings.interface'
 import { IContactMap, INetworkContactAddressMap } from '@core/contact/interfaces'
 import { TrackedTokens } from '@core/token/types'
+import { DashboardRoute } from '@core/router'
+import { AppStage } from '@core/app'
 
 export interface IPersistedProfile {
     id: string
+    versionTrack: AppStage
     version: number
     name: string
     type: ProfileType
     network: IPersistedNetwork
-    lastStrongholdBackupTime: Date
+    lastStrongholdBackupTime?: Date
     settings: IProfileSettings
     accountPersistedData: {
         [accountId: string]: IPersistedAccountData
     }
     contacts: IContactMap
     networkContactAddresses: INetworkContactAddressMap
-    isDeveloperProfile: boolean
+    features: { [key in DashboardRoute]: boolean }
     hasVisitedDashboard?: boolean
     lastUsedAccountIndex?: number
     clientOptions: IClientOptions
@@ -30,4 +33,5 @@ export interface IPersistedProfile {
     trackedNfts: TrackedTokens
     pfp?: Nft
     color?: string
+    pincodeLocation?: string
 }

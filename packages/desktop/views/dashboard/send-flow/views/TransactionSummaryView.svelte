@@ -1,10 +1,10 @@
 <script lang="ts">
     import { Spinner } from '@bloomwalletio/ui'
     import { PopupTemplate } from '@components'
-    import { selectedAccount } from '@core/account/stores'
+    import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { IChain, getNetwork, isEvmChain } from '@core/network'
+    import { IChain, getChain, isEvmChain } from '@core/network'
     import { truncateString } from '@core/utils'
     import { SendFlowParameters, SubjectType } from '@core/wallet'
     import {
@@ -23,9 +23,9 @@
     import { TransactionSummaryProps } from './types'
     import { setGasFee } from '@core/layer-2/actions'
     import { showNotification } from '@auxiliary/notification'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
-    import { activeProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
+    import { getActiveProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -57,7 +57,7 @@
 
             const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
             if (isEvmChain(networkId)) {
-                chain = getNetwork()?.getChain(networkId)
+                chain = getChain(networkId)
                 preparedTransaction = await createEvmTransactionFromSendFlowParameters(
                     sendFlowParameters,
                     chain,
@@ -96,7 +96,7 @@
         }
 
         try {
-            await checkActiveProfileAuthAsync(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
+            await checkActiveProfileAuth(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
         } catch (error) {
             return
         }
@@ -106,13 +106,15 @@
             modifyPopupState({ preventClose: true })
             if (isSourceNetworkLayer2) {
                 const signedTransaction = await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+                const profileId = getActiveProfileId()
+                const account = getSelectedAccount()
 
                 await sendAndPersistTransactionFromEvm(
                     preparedTransaction,
                     signedTransaction,
                     chain,
-                    $selectedAccount,
-                    $activeProfileId
+                    profileId,
+                    account
                 )
             } else {
                 await signAndSendStardustTransaction(preparedOutput, $selectedAccount)

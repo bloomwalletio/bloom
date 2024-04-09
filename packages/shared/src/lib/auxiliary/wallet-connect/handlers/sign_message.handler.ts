@@ -3,7 +3,7 @@ import { openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popu
 import { IConnectedDapp } from '../interface'
 import { IChain } from '@core/network'
 import { CallbackParameters } from '../types'
-import { switchToRequiredAccount } from '../utils'
+import { getBloomError, switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app'
 import { DappVerification, RpcMethod } from '../enums'
@@ -78,6 +78,6 @@ export async function handleSignMessage(
             })
         }
     } catch (err) {
-        responseCallback({ error: getSdkError(err) })
+        responseCallback(getBloomError(err))
     }
 }

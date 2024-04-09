@@ -1,6 +1,4 @@
-import { get } from 'svelte/store'
-
-import { activeProfileId } from '@core/profile/stores'
+import { getActiveProfileId } from '@core/profile/stores'
 import { persistent } from '@core/utils/store'
 import { IClaimedActivities, IClaimedActivitiesPerProfile } from '../types'
 
@@ -8,11 +6,11 @@ export const claimedActivities = persistent<IClaimedActivitiesPerProfile>('claim
 
 export function addClaimedActivity(
     accountIndex: number,
-    transactionId: string,
+    transactionId: string | undefined,
     claimedActivity: IClaimedActivities
 ): void {
     claimedActivities.update((state) => {
-        const profileId = get(activeProfileId)
+        const profileId = getActiveProfileId()
         if (Array.isArray(state)) {
             // needed because of legacy way to store claimed activities
             state = {}
@@ -23,7 +21,10 @@ export function addClaimedActivity(
         if (!state[profileId][accountIndex]) {
             state[profileId][accountIndex] = {}
         }
-        state[profileId][accountIndex][transactionId] = claimedActivity
+
+        if (transactionId) {
+            state[profileId][accountIndex][transactionId] = claimedActivity
+        }
         return state
     })
 }

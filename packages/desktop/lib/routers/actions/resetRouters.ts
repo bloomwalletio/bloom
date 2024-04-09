@@ -13,9 +13,9 @@ function resetSubrouters(): void {
 
 function resetBaseRouters(): void {
     // Settings.svelte handles resetting the setting router
-    get(appRouter).reset()
-    get(dashboardRouter).reset()
-    get(onboardingRouter).reset()
-    get(collectiblesRouter).reset()
-    get(governanceRouter).reset()
+    get(appRouter)?.reset()
+    get(dashboardRouter)?.reset()
+    get(onboardingRouter)?.reset()
+    get(collectiblesRouter)?.reset()
+    get(governanceRouter)?.reset()
 }

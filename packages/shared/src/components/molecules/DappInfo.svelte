@@ -4,7 +4,6 @@
     import { Avatar, Icon, IconName, Link, Text } from '@bloomwalletio/ui'
     import { DappVerificationPill } from '@ui'
     import { VERIFICATION_ICONS } from '@auxiliary/wallet-connect/constants/verification-icons.constant'
-    import { openUrlInBrowser } from '@core/app/utils'
 
     export let metadata: CoreTypes.Metadata
     export let verifiedState: DappVerification | undefined = undefined
@@ -30,7 +29,7 @@
                     <Icon name={icon} size="xs" textColor={color} />
                 {/if}
                 {#if showLink}
-                    <Link text={metadata?.url} on:click={() => openUrlInBrowser(metadata.url)} />
+                    <Link href={metadata.url} text={metadata.url} />
                 {:else}
                     <Text type="sm" textColor="secondary" truncate>
                         {metadata.url}

@@ -2,7 +2,7 @@
     import { ProposalTypes } from '@walletconnect/types'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { onMount } from 'svelte'
-    import Selection from './Selection.svelte'
+    import { Selection } from '@ui'
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { Text } from '@bloomwalletio/ui'
@@ -16,8 +16,8 @@
     export let persistedNamespaces: SupportedNamespaces | undefined = undefined
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.permissions'
-    let requiredPermissions: SelectionOption[] = []
-    let optionalPermissions: SelectionOption[] = []
+    let requiredPermissions: SelectionOption<string>[] = []
+    let optionalPermissions: SelectionOption<string>[] = []
 
     function setPermissionSelections(): void {
         const checkedMethods: { [method: string]: boolean } = {}

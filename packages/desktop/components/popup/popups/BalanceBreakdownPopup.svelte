@@ -2,7 +2,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { getStorageDepositFromOutput } from '@core/activity/utils/helper'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { consolidateOutputs } from '@core/wallet/actions/consolidateOutputs'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { CommonOutput, OutputType, UnlockCondition, UnlockConditionType } from '@iota/sdk/out/types'
@@ -115,7 +115,7 @@
                 confirmText: localize('popups.minimizeStorageDeposit.confirmButton'),
                 onConfirm: async () => {
                     try {
-                        await checkActiveProfileAuthAsync()
+                        await checkActiveProfileAuth()
                     } catch (err) {
                         return
                     }

@@ -37,8 +37,10 @@ const fallback: { [index: string]: string | false | string[] } = {
     fs: false,
     crypto: false,
     // The Ethereum libraries require zlib and the buffer polyfill
-    zlib: false,
+    assert: false,
     buffer: require.resolve('buffer'),
+    stream: false,
+    zlib: false,
     // The Amplitude SDK requires http, https and url polyfills
     http: require.resolve('stream-http'),
     https: require.resolve('https-browserify'),
@@ -190,7 +192,6 @@ const rendererPlugins = [
         PRELOAD_SCRIPT: JSON.stringify(false),
         'process.env.APP_PROTOCOL': JSON.stringify(appProtocol),
         'process.env.WALLETCONNECT_PROJECT_ID': JSON.stringify(process.env.WALLETCONNECT_PROJECT_ID),
-        'process.env.INFURA_PROJECT_ID': JSON.stringify(process.env.INFURA_PROJECT_ID),
     }),
     // The ethereumjs libraries require the NormalModuleReplacementPlugin & the ProvidePlugin
     new NormalModuleReplacementPlugin(/node:/, (resource) => {
@@ -253,6 +254,7 @@ const webpackConfig: Configuration[] = [
         },
         externals: {
             '@ledgerhq/hw-transport-node-hid': 'commonjs @ledgerhq/hw-transport-node-hid',
+            'classic-level': 'commonjs2 classic-level',
         },
         resolve,
         output,

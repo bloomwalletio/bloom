@@ -7,7 +7,7 @@ import { sortAccountsByIndex } from '@core/utils'
 
 export async function getSortedRenamedBoundAccounts(
     accounts: IAccount[],
-    profileManager: Writable<IProfileManager> = _profileManager
+    profileManager: Writable<IProfileManager | undefined> = _profileManager
 ): Promise<IAccount[]> {
     return (
         await Promise.all(

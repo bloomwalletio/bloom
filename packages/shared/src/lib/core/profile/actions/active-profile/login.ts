@@ -47,7 +47,7 @@ import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actio
 import { updateCirculatingSupplyForActiveProfile } from './updateCirculatingSupplyForActiveProfile'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
-    const loginRouter = get(routerManager).getRouterForAppContext(AppContext.Login)
+    const loginRouter = get(routerManager)?.getRouterForAppContext(AppContext.Login)
     try {
         const _activeProfile = get(activeProfile)
         const { loggedIn, lastActiveAt, id, isStrongholdLocked, type, lastUsedAccountIndex } = _activeProfile
@@ -86,7 +86,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         // Step 5: generate and store activities for all accounts
         incrementLoginProgress()
-        await generateAndStoreActivitiesForAllAccounts(_activeProfile.id)
+        void generateAndStoreActivitiesForAllAccounts(_activeProfile.id)
 
         if (type === ProfileType.Software) {
             // Step 6: set initial stronghold status
@@ -107,7 +107,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         incrementLoginProgress()
         subscribeToWalletApiEventsForActiveProfile()
         await startBackgroundSync({ syncIncomingTransactions: true })
-        fetchL2BalanceForAllAccounts()
+        fetchL2BalanceForAllAccounts(id)
         void fetchAndPersistTransactionsForAccounts(_activeProfile.id, get(activeAccounts))
 
         // Step 8: finish login

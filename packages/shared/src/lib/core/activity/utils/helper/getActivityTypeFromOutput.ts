@@ -4,7 +4,7 @@ import { StardustActivityType } from '../../enums'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 
 export function getActivityTypeFromOutput(output: IWrappedOutput): StardustActivityType | undefined {
-    switch (output.output.type) {
+    switch (output.output?.type) {
         case OutputType.Nft:
             return StardustActivityType.Nft
         case OutputType.Alias:

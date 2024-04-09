@@ -8,6 +8,7 @@ import { getActiveProfile } from '@core/profile/stores'
 import { ProfileType } from '@core/profile'
 import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
 import { getNetwork } from '@core/network/stores'
+import { IError } from '@core/error/interfaces'
 
 export async function tryCreateAdditionalAccount(alias: string, color: string): Promise<void> {
     try {
@@ -18,19 +19,19 @@ export async function tryCreateAdditionalAccount(alias: string, color: string): 
             void registerProposalsFromNodes([account])
         }
 
-        const profileType = getActiveProfile().type
-        if (profileType === ProfileType.Software) {
-            const coinType = getNetwork()?.getChains()[0]?.getConfiguration()?.coinType
-            if (coinType) {
-                void generateAndStoreEvmAddressForAccounts(profileType, coinType, account)
-                void pollL2BalanceForAccount(account)
+        const activeProfile = getActiveProfile()
+        if (activeProfile.type === ProfileType.Software) {
+            const coinType = getNetwork()?.getChains()[0]?.coinType
+            if (coinType !== undefined) {
+                void generateAndStoreEvmAddressForAccounts(activeProfile.type, coinType, account)
+                void pollL2BalanceForAccount(activeProfile.id, account)
             }
         }
 
         return Promise.resolve()
     } catch (err) {
-        const errorMessage = err?.error || err
-        if (err) {
+        const errorMessage = (err as IError)?.error ?? (err as string)
+        if (errorMessage) {
             console.error(errorMessage)
             showNotification({
                 variant: 'error',

@@ -6,7 +6,7 @@ import { round } from '@core/utils/number'
 
 export function getPercentagesFromAnswerStatuses(
     answerStatuses: AnswerStatus[],
-    proposal: IProposal = get(selectedProposal)
+    proposal: IProposal | undefined = get(selectedProposal)
 ): IProposalAnswerPercentages {
     if (!proposal) {
         return {}

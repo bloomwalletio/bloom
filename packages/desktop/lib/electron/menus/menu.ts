@@ -41,7 +41,7 @@ function toggleMaximize(): boolean {
 }
 
 export function initMenu(): void {
-    let mainMenu = null
+    let mainMenu: Electron.Menu
 
     app.once('ready', () => {
         ipcMain.handle('menu-update', (e, args) => {
@@ -50,7 +50,7 @@ export function initMenu(): void {
         })
 
         ipcMain.handle('menu-popup', () => {
-            mainMenu.popup(getOrInitWindow('main'))
+            mainMenu.popup({ window: getOrInitWindow('main') })
         })
         ipcMain.handle('menu-data', () => state)
         handleWindowControls()
@@ -111,6 +111,7 @@ function buildTemplate(): Electron.MenuItemConstructorOptions[] {
 
     const template: Electron.MenuItemConstructorOptions[] = [firstMenu, editMenu]
 
+    // TODO: this doesn't work because the state is not updated when the user logs in
     if (state.loggedIn) {
         template.push(walletMenu)
     }
@@ -121,7 +122,7 @@ function buildTemplate(): Electron.MenuItemConstructorOptions[] {
 }
 
 function getFirstSubmenuItems(): Electron.MenuItemConstructorOptions[] {
-    return [
+    let menuItems: Electron.MenuItemConstructorOptions[] = [
         {
             label: `${state.strings.about} ${app.name}`,
             click: openAboutWindow,
@@ -132,17 +133,24 @@ function getFirstSubmenuItems(): Electron.MenuItemConstructorOptions[] {
             'menu-check-for-update',
             app.isPackaged && state.enabled
         ),
+    ]
+    if (features?.electron?.importFromThirdParty?.enabled) {
+        menuItems.push(commandMenuItem(state.strings.importThirdPartyProfiles, 'import-third-party-profile'))
+    }
+    menuItems = [
+        ...menuItems,
         { type: 'separator' },
         commandMenuItem(state.strings.settings, 'menu-navigate-settings'),
         { type: 'separator' },
         commandMenuItem(state.strings.diagnostics, 'menu-diagnostics'),
     ]
+    return menuItems
 }
 
 function getDarwinSubmenuItems(): Electron.MenuItemConstructorOptions[] {
     return [
         roleMenuItem(`${state.strings.hide} ${app.name}`, 'hide'),
-        roleMenuItem(state.strings.hideOthers, 'hideothers' as Electron.MenuItemConstructorOptions['role']),
+        roleMenuItem(state.strings.hideOthers, 'hideOthers'),
         roleMenuItem(state.strings.showAll, 'unhide'),
     ]
 }

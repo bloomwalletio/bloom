@@ -62,7 +62,7 @@
             hasSearchedForRewardsBefore = true
         } catch (err) {
             if ($isOnboardingLedgerProfile) {
-                handleLedgerError(err?.error ?? err)
+                handleLedgerError(err)
             } else {
                 throw new FindShimmerRewardsError(err)
             }
@@ -82,11 +82,11 @@
     async function claimRewards(): Promise<void> {
         try {
             hasTriedClaimingRewards = true
-            await $shimmerClaimingProfileManager.startBackgroundSync({ syncOnlyMostBasicOutputs: true })
+            await $shimmerClaimingProfileManager?.startBackgroundSync({ syncOnlyMostBasicOutputs: true })
             await claimShimmerRewards()
         } catch (err) {
             if ($isOnboardingLedgerProfile) {
-                handleLedgerError(err?.error ?? err)
+                handleLedgerError(err)
             } else {
                 throw new ClaimShimmerRewardsError(err)
             }
@@ -100,10 +100,9 @@
 
     async function onClaimRewardsClick(): Promise<void> {
         if ($isOnboardingLedgerProfile) {
-            void checkOrConnectLedger(() => ledgerRaceConditionProtectionWrapper(claimRewards))
-        } else {
-            await ledgerRaceConditionProtectionWrapper(claimRewards)
+            await checkOrConnectLedger()
         }
+        await ledgerRaceConditionProtectionWrapper(claimRewards)
     }
 
     async function setupShimmerClaiming(): Promise<void> {
@@ -115,23 +114,23 @@
                     const shimmerClaimingProfileDirectory = await getTemporaryProfileManagerStorageDirectory()
                     await copyStrongholdFileToProfileDirectory(
                         shimmerClaimingProfileDirectory,
-                        $onboardingProfile?.importFilePath
+                        $onboardingProfile?.importFilePath ?? ''
                     )
                 }
 
                 await createShimmerClaimingProfileManager()
 
                 subscribeToWalletApiEventsForShimmerClaiming()
-                await $shimmerClaimingProfileManager.startBackgroundSync({
+                await $shimmerClaimingProfileManager?.startBackgroundSync({
                     syncOnlyMostBasicOutputs: true,
                     syncIncomingTransactions: true,
                 })
 
                 if ($onboardingProfile?.restoreProfileType === RestoreProfileType.Mnemonic) {
-                    await $shimmerClaimingProfileManager?.setStrongholdPassword($onboardingProfile?.strongholdPassword)
-                    await $shimmerClaimingProfileManager?.storeMnemonic($onboardingProfile?.mnemonic?.join(' '))
+                    await $shimmerClaimingProfileManager?.setStrongholdPassword($onboardingProfile.strongholdPassword)
+                    await $shimmerClaimingProfileManager?.storeMnemonic($onboardingProfile.mnemonic.join(' '))
                 } else if ($onboardingProfile?.restoreProfileType === RestoreProfileType.Stronghold) {
-                    await $shimmerClaimingProfileManager?.setStrongholdPassword($onboardingProfile?.strongholdPassword)
+                    await $shimmerClaimingProfileManager?.setStrongholdPassword($onboardingProfile.strongholdPassword)
                 }
 
                 await initialiseFirstShimmerClaimingAccount()
@@ -140,7 +139,7 @@
                 onSearchForRewardsClick()
             } catch (err) {
                 if ($isOnboardingLedgerProfile) {
-                    handleLedgerError(err?.error ?? err)
+                    handleLedgerError(err)
                 } else {
                     throw new FindShimmerRewardsError(err)
                 }

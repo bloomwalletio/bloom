@@ -20,11 +20,11 @@
         }
         // L2 chains, ISCP only for now
         const iscpChains = features?.network?.layer2?.enabled
-            ? $network.getChains().filter((chain) => chain.getConfiguration().type === ChainType.Iscp)
+            ? $network.getChains().filter((chain) => chain.type === ChainType.Iscp)
             : []
         const iscpChainsOptions = iscpChains.map((chain) => ({
-            label: chain.getConfiguration().name,
-            value: chain.getConfiguration().id,
+            label: chain.name,
+            value: chain.id,
         }))
         return [layer1Network, ...iscpChainsOptions]
     }

@@ -12,7 +12,7 @@
     export let account: IAccountState
     export let chain: IChain
 
-    $: networkId = chain?.getConfiguration()?.id as NetworkId 
+    $: networkId = chain?.id as NetworkId
 
     let props: IAccountNetworkSummaryProps | undefined
     $: $selectedAccountTokens, $selectedAccountNfts, account, (props = buildAccountEvmChainSummaryProps())
@@ -35,7 +35,7 @@
 
         return {
             networkId,
-            name: chain?.getConfiguration().name ?? '',
+            name: chain?.name ?? '',
             health: chain?.getStatus().health ?? NetworkHealth.Disconnected,
             address: getAddressFromAccountForNetwork(account, networkId),
             tokenBalance,

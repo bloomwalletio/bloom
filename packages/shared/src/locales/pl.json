@@ -7,6 +7,33 @@
                 "legalAction": "Potwierdź, że przeczytałeś i akceptujesz:",
                 "button": "Zaczynamy"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Znaleziono portfele innych firm",
+                    "title": "Importuj z innych aplikacji",
+                    "onboardingDescription": "Wykryliśmy, że używasz kompatybilnych portfeli innych firm. Możesz zaimportować swoje profile teraz lub zrobić to później.",
+                    "description": "Wybierz aplikacje, z których chcesz importować profile.",
+                    "empty": "Nie znaleziono aplikacji",
+                    "import": "Importuj"
+                },
+                "importProfiles": {
+                    "title": "Importuj profile firm trzecich",
+                    "description": "Wybierz profile, które chcesz zaimportować.",
+                    "empty": "Nie znaleziono profili",
+                    "tooltips": {
+                        "alreadyImported": "Już zaimportowano",
+                        "needsDbMigration": "Wymaga migracji bazy danych",
+                        "failedProfileMigration": "Nie można dokonać migracji profilu"
+                    },
+                    "errors": {
+                        "appIsOpen": "Portfel z którego próbujesz zaimportować jest uruchomiony. Zamknij portfel i spróbuj ponownie.",
+                        "unknown": "Wystąpił nieznany błąd podczas próby importowania profili"
+                    },
+                    "notifications": {
+                        "success": "Profile pomyślnie zaimportowane!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Wybierz sieć",
@@ -299,9 +326,9 @@
                 "title": "Zgłoś problem",
                 "description": "Zgłoś błąd deweloperom. Upewnij się, że problem nie został już wcześniej zgłoszony"
             },
-            "developerToggle": {
-                "title": "Tryb deweloperski",
-                "description": "Włącz tryb deweloperski, aby aktywować więcej eksperymentalnych funkcji"
+            "toggleFeatures": {
+                "title": "Włącz / Wyłącz funkcje",
+                "description": "Włącz lub wyłącz funkcje, aby dostosować wrażenia do swoich potrzeb."
             }
         },
         "login": {
@@ -501,12 +528,17 @@
                         "title": "Żądanie połączenia",
                         "firstTimeHint": "Ta aplikacja dApp chce połączyć się po raz pierwszy. Pamiętaj, aby łączyć się jedynie z zaufanymi witrynami.",
                         "reconnectHint": "Wcześniej łączyłeś się z tą aplikacją.",
-                        "insecure": "Nie można zweryfikować adresu URL tej aplikacji dApp. Połączenie z tą aplikacją może nie być bezpieczne.",
                         "unsupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa w nieobsługiwanej sieci.",
                         "noSupportedNetworks": "Ta aplikacja dApp nie jest kompatybilna z Bloom, ponieważ działa ona w innej sieci.",
                         "unsupportedMethods": "Ta aplikacja dApp nie jest w pełni kompatybilna z Bloom. Niektóre procesy lub akcje nie są obsługiwane.",
                         "supportedOnOtherProfile": "Ta aplikacja dApp działa w obsługiwanej sieci, ale nie jest dostępna przy użyciu tego profilu. Użyj profilu połączonego z wymaganą siecią.",
-                        "acceptInsecureConnection": "Rozumiem, że ta aplikacja dApp może być niebezpieczna i nadal chcę się z nią połączyć."
+                        "acceptInsecureConnection": "Rozumiem i chcę kontynuować",
+                        "supported": "Obsługiwane",
+                        "notSupported": "Nieobsługiwane",
+                        "onAnotherProfile": "W innym profilu",
+                        "scamHint": "Ta domena jest oznaczona jako niebezpieczna przez wielu dostawców zabezpieczeń. Opuść ją natychmiast, aby chronić swoje aktywa.",
+                        "invalidHint": "Ta strona jest domeną, która nie pasuje do nadawcy żądania. Potwierdzenie może prowadzić do utraty środków.",
+                        "unknownHint": "Ta aplikacja dApp nie została zweryfikowana i może zawierać zagrożenia bezpieczeństwa."
                     },
                     "editPermissions": {
                         "title": "Edytuj uprawnienia"
@@ -567,13 +599,12 @@
             },
             "toasts": {
                 "backup": {
-                    "header": "Wymagana kopa zapasowa",
-                    "body": "Nie utworzono jeszcze kopii zapasowej profilu! Zdecydowanie zalecamy utworzenie kopii zapasowej na wypadek utraty dostępu do tego urządzenia.",
+                    "header": "Wykonaj kopię zapasową",
+                    "body": "Przez dłuższy czas nie wykonałeś kopii zapasowej swojego profilu.",
                     "button": "Utwórz kopię"
                 },
                 "version": {
-                    "body": "Obecnie używasz wczesnej wersji portfela Bloom.",
-                    "button": "Dowiedz się więcej"
+                    "body": "Obecnie używasz wczesnej wersji portfela Bloom."
                 },
                 "update": {
                     "header": "Wymagana aktualizacja",
@@ -640,7 +671,7 @@
                 "votedProposals": "Suma propozycji, nad którymi głosowałeś"
             },
             "proposals": {
-                "title": "Governance Proposals",
+                "title": "Propozycje dotyczące zarządzania",
                 "voted": "Zagłosowano",
                 "successEdit": "Propozycja została pomyślnie edytowana",
                 "successAdd": "{numberOfProposals, select, one {Propozycja dodana} other {Propozycje dodane}} pomyślnie",
@@ -686,10 +717,15 @@
                     "eventId": "ID zdarzenia",
                     "nodeUrl": "URL serwera"
                 },
+                "quorum": {
+                    "title": "Postęp kworum",
+                    "tooltip": "Kworum na poziomie 5% jest wymagane dla propozycji Tangle Treasury"
+                },
                 "fetching": "Pobieranie danych propozycji",
                 "hintVote": "Nie możesz głosować nad propozycją, która dopiero została zapowiedziana. Głosowanie zostanie otwarte za {time}.",
                 "projection": {
-                    "label": "Przewidywane głosy",
+                    "title": "Pokaż przewidywane głosy",
+                    "description": "Jak głosowanie może zakończyć się przy obecnym udziale",
                     "tooltip": "Prognoza opiera się na aktualnej wadze głosów i pozostałych etapach (milestones)."
                 }
             }
@@ -721,6 +757,10 @@
                 "connected": "bezpieczne połączenie",
                 "redirected": "przekierowano, bądź ostrożny!",
                 "disconnected": "rozłączono, spróbuj odświeżyć"
+            },
+            "error": {
+                "title": "Transak nie mógł zostać załadowany",
+                "description": "Uruchom ponownie aplikację, jeśli problem będzie się powtarzał, poproś o wsparcie na naszym serwerze Discord"
             }
         }
     },
@@ -807,7 +847,7 @@
             "installedVersion": "Zainstalowana wersja",
             "newVersion": "Nowa wersja",
             "stage": "Kanał",
-            "prod": "Wczesny dostęp",
+            "prod": "Oficjalny",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Opublikowana",
@@ -817,7 +857,7 @@
         },
         "backupStronghold": {
             "title": "Kopia zapasowa pliku stronghold",
-            "body": "Ważne jest, aby regularnie wykonywać kopie zapasowe swojego portfela, aby upewnić się, że masz kopię swoich portfeli i historię transakcji. Jeśli stracisz kopię zapasową i wyrazy ratunkowe, stracisz dostęp do swoich środków."
+            "body": "Ważne jest regularne wykonywanie kopii zapasowej swojego portfela, aby być pewnym, że nasze portfele i historie transakcji są bezpieczne. Jeśli stracisz kopię zapasową i wyrazy ratunkowe, stracisz dostęp do swoich środków."
         },
         "deeplinkAccountSwitch": {
             "title": "Wybierz konto",
@@ -895,7 +935,7 @@
                     "minPowScore": "Min. wynik PoW"
                 },
                 "baseToken": {
-                    "tab": "Token podstawowy",
+                    "tab": "Token główny",
                     "token": "Token",
                     "tickerSymbol": "Symbol",
                     "unit": "Jednostka",
@@ -968,6 +1008,12 @@
             "title": "Zgłaszanie awarii",
             "body": "Pomóż programistom ulepszać Bloom, automatycznie wysyłając dane diagnostyczne, gdy wystąpi błąd lub awaria. W przypadku wybrania tej opcji, zacznie ona obowiązywać po ponownym uruchomieniu aplikacji Bloom.",
             "checkbox": "Wysyłaj raporty o awariach do Fundacji IOTA"
+        },
+        "exportActivities": {
+            "title": "Eksportuj aktywność",
+            "body": "Eksportuj swoją aktywność do pliku CSV.",
+            "chooseAccounts": "Wybierz konta",
+            "emptyAccounts": "Wybierz co najmniej jedno konto."
         },
         "signMessage": {
             "title": "Podpisz wiadomość",
@@ -1082,19 +1128,19 @@
                         "Conflicting": "Zmniejszenie siły głosu nie powiodło się"
                     },
                     "startVoting": {
-                        "Pending": "Voting on {proposalName}",
-                        "Confirmed": "Voted on {proposalName}",
-                        "Conflicting": "Failed to vote on"
+                        "Pending": "Głosowanie na {proposalName}",
+                        "Confirmed": "Zagłosowano na {proposalName}",
+                        "Conflicting": "Nie udało się zagłosować na"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting on {proposalName}",
-                        "Confirmed": "Stopped voting on {proposalName}",
-                        "Conflicting": "Failed to stop voting on"
+                        "Pending": "Zatrzymywanie głosowania na {proposalName}",
+                        "Confirmed": "Zatrzymano głosowanie na {proposalName}",
+                        "Conflicting": "Nie udało się zatrzymać głosowania na"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote on {proposalName}",
-                        "Confirmed": "Changed vote on {proposalName}",
-                        "Conflicting": "Failed to change vote on"
+                        "Pending": "Zmiana głosu na {proposalName}",
+                        "Confirmed": "Zmieniono głos na {proposalName}",
+                        "Conflicting": "Nie udało się zmienić głosu na"
                     },
                     "revote": {
                         "Pending": "Odnawianie głosów",
@@ -1216,7 +1262,7 @@
         "revote": {
             "title": "Odnów głosy na propozycje",
             "body": "Zmiana siły głosu tymczasowo wstrzymuje zliczanie wszystkich Twoich głosów. Po prostu kliknij \"Odnów głosy\", aby wznowić głosowanie.",
-            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
+            "hint": "Bloom pamięta wszystkie propozycje i opcje odpowiedzi, na które wcześniej głosowałeś."
         },
         "removeProposal": {
             "title": "Usuń propozycję",
@@ -1239,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Utwórz konto"
+        },
+        "profileDiagnostics": {
+            "title": "Profile diagnostics"
         }
     },
     "actions": {
@@ -1295,6 +1344,7 @@
         "enableDeveloperMode": "Włącz tryb deweloperski",
         "enableSystemNotifications": "Włącz powiadomienia systemowe",
         "exportTransactionHistory": "Eksportuj historię transakcji",
+        "exportActivities": "Eksportuj aktywność",
         "localProofOfWork": "Lokalny tryb proof of work",
         "unlock": "Odblokuj",
         "updateBloom": "Aktualizuj Bloom",
@@ -1379,7 +1429,9 @@
         "syncAccounts": "Synchronizuj konta",
         "importToken": "Importowanie tokena {type}",
         "syncTokens": "Wymuś synchronizację tokenów",
-        "mintNftCollection": "Mintuj kolekcję NFT"
+        "mintNftCollection": "Mintuj kolekcję NFT",
+        "readMore": "Czytaj więcej",
+        "importThirdPartyProfiles": "Importuj profile firm trzecich"
     },
     "general": {
         "recipient": "Odbiorca",
@@ -1395,14 +1447,14 @@
         "receiving": "Odbieranie",
         "newVotingPower": "Nowa siła głosu",
         "votingPower": "Siła głosu",
-        "increased": "Voting power increased",
-        "increasing": "Increasing voting power",
-        "decreased": "Voting power decreased",
-        "decreasing": "Decreasing voting power",
+        "increased": "Zwiększono siłę głosu",
+        "increasing": "Zwiększanie siły głosu",
+        "decreased": "Zmniejszono siłę głosu",
+        "decreasing": "Zmniejszanie siły głosu",
         "voted": "Zagłosowano",
         "voting": "Głosowanie",
-        "votingOn": "Voting on",
-        "votedOn": "Voted on",
+        "votingOn": "Głosowanie na",
+        "votedOn": "Zagłosowano na",
         "changedVote": "Zmieniono głos",
         "changingVote": "Zmiana głosu",
         "revoted": "Odnowiono głosy",
@@ -1537,6 +1589,7 @@
         "alias": "Alias",
         "foundry": "Produkcja",
         "token": "Token",
+        "unknownToken": "Nieznany token",
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Niezmienny wydawca",
@@ -1591,7 +1644,11 @@
         "no": "Nie",
         "tip": "Wskazówka",
         "verified": "Zweryfikowano",
+        "unverified": "Niezweryfikowany",
+        "methodId": "ID metody",
         "methodName": "Metoda",
+        "inputs": "Wejścia",
+        "parameters": "Parameters",
         "data": "Data",
         "success": "Sukces",
         "info": "Informacje",
@@ -1603,9 +1660,12 @@
         "raffle": "Loteria",
         "governance": "Zarządzanie",
         "baseCoin": "Token podstawowy",
-        "unverifiedContract": "Niezweryfikowany kontrakt",
         "startIndex": "Indeks startowy",
-        "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu"
+        "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu",
+        "appName": "Nazwa aplikacji",
+        "question": "Pytanie",
+        "id": "ID",
+        "location": "Location"
     },
     "filters": {
         "title": "Filtry",
@@ -1677,8 +1737,9 @@
         },
         "type": {
             "label": "Typ",
-            "basic": "Podstawowe",
+            "transfer": "Transfer",
             "nft": "NFT",
+            "smartContract": "Smart kontrakt",
             "alias": "Alias",
             "foundry": "Produkcja",
             "governance": "Zarządzanie",
@@ -1752,6 +1813,9 @@
         },
         "disconnectDapp": {
             "success": "Odłączono od aplikacji {dappName}"
+        },
+        "exportActivities": {
+            "success": "Aktywność wyeksportowana pomyślnie"
         },
         "clearExpiredDapps": {
             "success": "Wyczyszczono wygasłe dApps"
@@ -1922,6 +1986,7 @@
             "notReachable": "Nie można pobrać ID sieci dla tego serwera, nie można dodać serwera."
         },
         "global": {
+            "invalidUrl": "Nieprawidłowy URL",
             "generic": "Coś poszło nie tak."
         },
         "backup": {
@@ -2119,7 +2184,10 @@
         "buySell": "Kup IOTA",
         "developer": "Deweloper",
         "tokens": "Tokeny",
-        "settings": "Ustawienia"
+        "settings": "Ustawienia",
+        "tooltips": {
+            "buySell": "Kupno IOTA jest dostępne tylko w profilach IOTA."
+        }
     },
     "pills": {
         "asyncStatus": {

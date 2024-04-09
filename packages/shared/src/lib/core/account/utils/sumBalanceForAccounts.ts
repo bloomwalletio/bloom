@@ -1,8 +1,8 @@
 import { IAccountState } from '@core/account'
 
-export function sumBalanceForAccounts(accounts: IAccountState[]): number {
+export function sumBalanceForAccounts(accounts: IAccountState[]): bigint {
     return accounts.reduce(
-        (total: number, account: IAccountState) => (total += Number(account.balances.baseCoin.total)),
-        0
+        (total: bigint, account: IAccountState) => (total += account.balances.baseCoin.total),
+        BigInt(0)
     )
 }

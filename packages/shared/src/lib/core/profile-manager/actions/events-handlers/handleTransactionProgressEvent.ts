@@ -20,7 +20,7 @@ import {
 } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { MissingTransactionProgressEventPayloadError } from '../../errors'
 import { validateWalletApiEvent } from '../../utils'
-import { checkOrConnectLedgerAsync } from '@core/ledger/actions'
+import { checkOrConnectLedger } from '@core/ledger/actions'
 import { handleError } from '@core/error/handlers'
 import { sendOutput } from '@core/wallet/actions'
 import { SupportedNetworkId } from '@core/network/enums'
@@ -87,9 +87,10 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
                     appName,
                     onEnabled: async () => {
                         try {
-                            await checkOrConnectLedgerAsync()
-                            if (get(ledgerPreparedOutput)) {
-                                await sendOutput(get(ledgerPreparedOutput))
+                            await checkOrConnectLedger()
+                            const preparedOutput = get(ledgerPreparedOutput)
+                            if (preparedOutput) {
+                                await sendOutput(preparedOutput)
                                 resetLedgerPreparedOutput()
                             }
                         } catch (err) {

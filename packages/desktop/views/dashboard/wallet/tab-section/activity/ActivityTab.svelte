@@ -11,7 +11,9 @@
     } from '@core/activity'
     import { Text, Icon, IconName } from '@bloomwalletio/ui'
     import VirtualList from '@sveltejs/svelte-virtual-list'
-    import ActivityListRow from './components/ActivityListRow.svelte'
+    import EvmActivityListRow from './components/EvmActivityListRow.svelte'
+    import StardustActivityListRow from './components/StardustActivityListRow.svelte'
+    import { NetworkNamespace } from '@core/network'
 
     $: setAsyncStatusOfAccountActivities($time)
 
@@ -59,7 +61,11 @@
     {/if}
     {#if $queriedActivities.length > 0}
         <VirtualList items={$queriedActivities} let:item itemHeight={69}>
-            <ActivityListRow activity={item} />
+            {#if item.namespace === NetworkNamespace.Evm}
+                <EvmActivityListRow activity={item} />
+            {:else if item.namespace === NetworkNamespace.Stardust}
+                <StardustActivityListRow activity={item} />
+            {/if}
         </VirtualList>
     {:else}
         <div class="h-full flex flex-col items-center justify-center text-center">

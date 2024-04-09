@@ -5,7 +5,7 @@ import { dashboardRouter } from '@core/router/routers'
 import { get } from 'svelte/store'
 import { PopupId, closePopup, openPopup } from './auxiliary/popup'
 import { closeDrawer } from './auxiliary/drawer'
-import { openSettings } from '@contexts/settings/stores'
+import { closeSettings, openSettings } from '@contexts/settings/stores'
 import { appVersionDetails } from '@core/app/stores'
 
 /**
@@ -18,6 +18,7 @@ import { appVersionDetails } from '@core/app/stores'
 export const getLocalisedMenuItems = (): unknown => ({
     about: localize('views.settings.about.title'),
     checkForUpdates: localize('actions.checkForUpdates'),
+    importThirdPartyProfiles: localize('actions.importThirdPartyProfiles'),
     settings: localize('views.settings.settings'),
     security: localize('views.settings.security.title'),
     advanced: localize('views.settings.advanced.title'),
@@ -47,15 +48,15 @@ export const getLocalisedMenuItems = (): unknown => ({
 
 export function registerMenuButtons(): void {
     Platform.onEvent('menu-navigate-wallet', () => {
-        get(dashboardRouter).goTo(DashboardRoute.Wallet)
+        get(dashboardRouter)?.goTo(DashboardRoute.Wallet)
     })
     Platform.onEvent('menu-navigate-settings', () => {
         closePopup({ callOnCancel: true })
-        closeDrawer()
+        closeOverlays()
         openSettings()
     })
     Platform.onEvent('menu-check-for-update', () => {
-        closeDrawer()
+        closeOverlays()
         openPopup(
             {
                 id: PopupId.CheckForUpdates,
@@ -67,12 +68,22 @@ export function registerMenuButtons(): void {
             false
         )
     })
+    Platform.onEvent('import-third-party-profile', () => {
+        closeOverlays()
+        openPopup({ id: PopupId.ImportProfilesFromThirdParty }, false, false)
+    })
     Platform.onEvent('menu-error-log', () => {
-        closeDrawer()
-        openPopup({ id: PopupId.ErrorLog })
+        closeOverlays()
+        openPopup({ id: PopupId.ErrorLog }, false, false)
     })
     Platform.onEvent('menu-diagnostics', () => {
-        closeDrawer()
-        openPopup({ id: PopupId.Diagnostics })
+        closeOverlays()
+        openPopup({ id: PopupId.Diagnostics }, false, false)
     })
+}
+
+function closeOverlays(): void {
+    closeDrawer()
+    closePopup()
+    closeSettings()
 }

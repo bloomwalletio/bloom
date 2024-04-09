@@ -8,13 +8,14 @@ import { handleGenericError } from './handleGenericError'
 import { handleWalletRsError } from './walletRs'
 import { IError } from '../interfaces'
 
-export function handleError(err: IError, resetConfirmationPropsOnDenial = true): void {
+export function handleError(err: unknown, resetConfirmationPropsOnDenial = true): void {
+    const error = err as IError
     const _activeProfile = get(activeProfile)
-    if (Object.values(WalletRsError).includes(err?.type as WalletRsError)) {
-        handleWalletRsError(err, resetConfirmationPropsOnDenial)
+    if (Object.values(WalletRsError).includes(error?.type as WalletRsError)) {
+        handleWalletRsError(error, resetConfirmationPropsOnDenial)
     } else if (_activeProfile.type === ProfileType.Ledger) {
-        handleLedgerError(err, resetConfirmationPropsOnDenial)
+        handleLedgerError(error, resetConfirmationPropsOnDenial)
     } else {
-        handleGenericError(err)
+        handleGenericError(error)
     }
 }

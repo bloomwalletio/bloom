@@ -27,7 +27,7 @@
           ? 'warning'
           : ('brand' as TextColor)
 
-    function getAlertText(downloadMetadata: IDownloadMetadata): string {
+    function getAlertText(downloadMetadata: IDownloadMetadata | undefined): string | undefined {
         const { error, warning } = downloadMetadata ?? {}
         const errorOrWarning = error || warning
 
@@ -49,7 +49,7 @@
             nft,
             recipient: undefined,
         })
-        sendFlowRouter.set(new SendFlowRouter(undefined, SendFlowRoute.SelectRecipient))
+        sendFlowRouter.set(new SendFlowRouter(SendFlowRoute.SelectRecipient))
         openPopup({
             id: PopupId.SendFlow,
             overflow: true,

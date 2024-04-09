@@ -5,16 +5,20 @@
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
+    import { NetworkHealth, NetworkId, getChain, setSelectedChain } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
+    import { DashboardRoute, dashboardRouter } from '@core/router'
     import { IAccountTokensPerNetwork } from '@core/token'
     import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { NetworkAvatar, NetworkStatusIndicator, NftAvatar, TokenAvatar } from '@ui'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
+    import features from '@features/features'
+    import { handleError } from '@core/error/handlers'
+    import { IAccountState } from '@core/account'
 
     export let networkId: NetworkId
     export let name: string
@@ -59,30 +63,37 @@
         )
     }
 
-    function onGenerateAddressClick(): void {
-        const chain = $network.getChain(networkId)
+    function onNftGroupClick(): void {
+        $dashboardRouter?.reset()
+        $dashboardRouter?.goTo(DashboardRoute.Collectibles)
+    }
+
+    async function onGenerateAddressClick(): Promise<void> {
+        const chain = getChain(networkId)
         if (!chain) {
             return
         }
-        checkActiveProfileAuth(
-            async () => {
-                await generateAndStoreEvmAddressForAccounts(
-                    $activeProfile.type,
-                    chain.getConfiguration().coinType,
-                    $selectedAccount
-                )
-                pollL2BalanceForAccount($selectedAccount)
-                if ($activeProfile.type === ProfileType.Ledger) {
-                    setSelectedChain(chain)
-                    toggleDashboardDrawer({
-                        id: DashboardDrawerRoute.NetworkConfig,
-                        initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
-                    })
-                }
-            },
-            {},
-            LedgerAppName.Ethereum
-        )
+
+        try {
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
+        } catch (error) {
+            return
+        }
+
+        try {
+            const account = $selectedAccount as IAccountState
+            await generateAndStoreEvmAddressForAccounts($activeProfile.type, chain.coinType, account)
+            pollL2BalanceForAccount($activeProfile.id, account)
+            if ($activeProfile.type === ProfileType.Ledger) {
+                setSelectedChain(chain)
+                toggleDashboardDrawer({
+                    id: DashboardDrawerRoute.NetworkConfig,
+                    initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
+                })
+            }
+        } catch (error) {
+            handleError(error)
+        }
     }
 </script>
 
@@ -122,11 +133,16 @@
         </div>
         <div>
             {#if hasNfts}
-                <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
-                    {#each sortedNfts.slice(0, 4) as nft}
-                        <NftAvatar {nft} size="md" shape="square" />
-                    {/each}
-                </AvatarGroup>
+                <button
+                    on:click={() => onNftGroupClick()}
+                    disabled={!features?.collectibles?.enabled || !$activeProfile?.features?.collectibles}
+                >
+                    <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
+                        {#each sortedNfts.slice(0, 4) as nft}
+                            <NftAvatar {nft} size="md" shape="square" />
+                        {/each}
+                    </AvatarGroup>
+                </button>
             {/if}
         </div>
     </account-network-summary-assets>

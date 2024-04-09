@@ -2,25 +2,33 @@
     import { LogoName } from '@auxiliary/logo'
     import { IconButton, IconName } from '@bloomwalletio/ui'
     import { ProfileActionsMenu, SidebarTab } from '@components'
+    import { APP_STAGE, AppStage } from '@core/app'
     import { localize } from '@core/i18n'
+    import { StardustNetworkId } from '@core/network'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
-    import { DashboardRoute, collectiblesRouter, dashboardRouter, governanceRouter, settingsRouter } from '@core/router'
+    import {
+        DashboardRoute,
+        collectiblesRouter,
+        dashboardRoute,
+        dashboardRouter,
+        governanceRouter,
+        settingsRouter,
+    } from '@core/router'
+    import { isDashboardSideBarExpanded } from '@core/ui'
     import { IDashboardSidebarTab } from '@desktop/routers'
     import features from '@features/features'
     import { Logo } from '@ui'
+    import { campaignsRouter } from '../campaigns'
     import LedgerStatusTile from './LedgerStatusTile.svelte'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
-    import { AutoUpdateToast, BackupToast, VersionToast } from './toasts'
-    import { dashboardRoute } from '@core/router'
-    import { StardustNetworkId } from '@core/network'
-    import { isDashboardSideBarExpanded } from '@core/ui'
-    import { campaignsRouter } from '../campaigns'
+    import { BackupToast, VersionToast } from './toasts'
 
     let expanded = true
     function toggleExpand(): void {
         expanded = !expanded
     }
     $: $isDashboardSideBarExpanded = expanded
+    $: profileFeatures = $activeProfile?.features
 
     let sidebarTabs: IDashboardSidebarTab[]
     $: sidebarTabs = [
@@ -30,7 +38,7 @@
             route: DashboardRoute.Wallet,
             onClick: openWallet,
         },
-        ...(features?.collectibles?.enabled
+        ...(features?.collectibles?.enabled && profileFeatures?.collectibles
             ? [
                   {
                       icon: IconName.Image,
@@ -40,7 +48,7 @@
                   },
               ]
             : []),
-        ...(features?.governance?.enabled
+        ...(features?.governance?.enabled && profileFeatures?.governance
             ? [
                   {
                       icon: IconName.Bank,
@@ -51,6 +59,7 @@
               ]
             : []),
         ...(features?.campaigns?.enabled &&
+        profileFeatures?.campaigns &&
         ($activeProfile?.network?.id === StardustNetworkId.Shimmer ||
             $activeProfile?.network?.id === StardustNetworkId.Testnet)
             ? [
@@ -62,17 +71,22 @@
                   },
               ]
             : []),
-        ...(features?.buySell?.enabled && $activeProfile?.network?.id === StardustNetworkId.Iota
+        ...(features?.buySell?.enabled && profileFeatures?.buySell
             ? [
                   {
                       icon: IconName.ArrowDownUp,
                       label: localize('tabs.buySell'),
                       route: DashboardRoute.BuySell,
                       onClick: openBuySell,
+                      disabled: $activeProfile?.network?.id !== StardustNetworkId.Iota,
+                      tooltip:
+                          $activeProfile?.network?.id !== StardustNetworkId.Iota
+                              ? localize('tabs.tooltips.buySell')
+                              : '',
                   },
               ]
             : []),
-        ...(features?.developerTools?.enabled && $activeProfile?.isDeveloperProfile
+        ...(features?.developerTools?.enabled && profileFeatures?.developer
             ? [
                   {
                       icon: IconName.Developer,
@@ -140,19 +154,24 @@
         <dashboard-sidebar-tabs class="flex flex-col">
             {#each sidebarTabs as tab}
                 <div class="flex">
-                    <SidebarTab {tab} {expanded} selected={$dashboardRoute === tab.route} />
+                    <SidebarTab
+                        {tab}
+                        {expanded}
+                        selected={$dashboardRoute === tab.route}
+                        disabled={tab.disabled}
+                        tooltip={tab.tooltip}
+                    />
                 </div>
             {/each}
         </dashboard-sidebar-tabs>
 
         {#if expanded}
             <dashboard-sidebar-tiles class="w-full flex flex-col space-y-2">
-                {#if false}
-                    <!-- TODO: logic of when to display toast one at a time -->
-                    <AutoUpdateToast />
+                {#if APP_STAGE === AppStage.PROD}
                     <BackupToast />
+                {:else}
+                    <VersionToast />
                 {/if}
-                <VersionToast />
                 {#if $isSoftwareProfile}
                     <StrongholdStatusTile />
                 {:else}

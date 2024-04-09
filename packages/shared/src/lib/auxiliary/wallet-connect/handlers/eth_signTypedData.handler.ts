@@ -2,7 +2,7 @@ import { IChain } from '@core/network'
 import { IConnectedDapp } from '../interface'
 import { CallbackParameters } from '../types'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
-import { switchToRequiredAccount } from '../utils'
+import { getBloomError, switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Platform } from '@core/app/classes'
 import { SignTypedDataVersion } from '@metamask/eth-sig-util'
@@ -54,7 +54,7 @@ export async function handleEthSignTypedData(
             },
         })
     } catch (err) {
-        responseCallback({ error: getSdkError(err) })
+        responseCallback(getBloomError(err))
     }
 
     return

@@ -7,6 +7,7 @@ export interface IPlatformEventMap {
     'ethereum-app-settings': ILedgerEthereumAppSettings
     'evm-address': IEvmAddress
     'evm-signed-transaction': IEvmSignature
+    'import-third-party-profile': void
     'ledger-error': Error
     'lock-screen': void
     'log-error': void
@@ -20,8 +21,10 @@ export interface IPlatformEventMap {
     'nft-download-done': INFTDownloadState
     'nft-download-interrupted': INFTDownloadState
     'notification-activated': unknown
+    'reset-transak': void
     'signed-eip712': IEvmSignature
     'signed-message': IEvmSignature
+    'transak-loaded': void
     'transak-not-loaded': void
     'transak-url': string
     'version-complete': void

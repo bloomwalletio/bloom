@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { openUrlInBrowser } from '@core/app/utils'
     import { Avatar, IconName, Link, Text } from '@bloomwalletio/ui'
     import { CoreTypes } from '@walletconnect/types'
     import { localize } from '@core/i18n'
@@ -22,7 +21,7 @@
         </Text>
         <div class="flex flex-row items-center gap-1">
             <DappVerificationIcon {verifiedState} />
-            <Link text={metadata?.url} on:click={() => openUrlInBrowser(metadata.url)} />
+            <Link href={metadata.url} text={metadata?.url} />
         </div>
     </div>
     {#if verifiedState && verifiedState !== DappVerification.Valid}

@@ -12,29 +12,35 @@
     import features from '@features/features'
     import { login } from '@core/profile/actions'
     import { SupportedNetworkId } from '@core/network'
+    import { handleError } from '@core/error/handlers'
+    import { onMount } from 'svelte'
 
     const LOCALE_KEY = 'views.onboarding.completeOnboarding.finishOnboarding'
+
+    let isAppSetup = false
 
     $: appName =
         $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
 
-    function onContinueClick(): void {
-        if ($isOnboardingLedgerProfile) {
-            checkOrConnectLedger(_continue, false, appName)
-        } else {
-            void _continue()
+    async function onContinueClick(): Promise<void> {
+        try {
+            if ($isOnboardingLedgerProfile) {
+                await checkOrConnectLedger(appName)
+            }
+            await completeOnboardingProcess()
+            void login({ isFromOnboardingFlow: true })
+            $onboardingRouter.next()
+        } catch (err) {
+            handleError(err)
         }
     }
 
-    async function _continue(): Promise<void> {
-        await completeOnboardingProcess()
-        void login({ isFromOnboardingFlow: true })
-        $onboardingRouter.next()
-        return Promise.resolve()
-    }
+    onMount(() => {
+        isAppSetup = $profiles.length === 0
+    })
 </script>
 
-{#if $profiles.length === 0}
+{#if isAppSetup}
     <LoggedOutLayout hideLogo gradient="spread">
         <setup-complete>
             <SuccessSvg />

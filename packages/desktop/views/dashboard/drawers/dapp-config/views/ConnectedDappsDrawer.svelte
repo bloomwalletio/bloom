@@ -27,7 +27,7 @@
     let selectedIndex = 0
 
     $: connectedDappsForProfile = $connectedDapps.filter(
-        (dapp) => !!$persistedDappNamespaces[$activeProfileId]?.[dapp.metadata?.url]
+        (dapp) => !!$persistedDappNamespaces[$activeProfileId as string]?.[dapp.metadata?.url ?? '']
     )
     $: displayedDapps = connectedDappsForProfile.filter(
         (dapp) => (selectedIndex === 0 && !!dapp.session) || (selectedIndex === 1 && !dapp.session)

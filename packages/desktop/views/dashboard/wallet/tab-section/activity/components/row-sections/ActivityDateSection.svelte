@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { StardustActivity } from '@core/activity'
+    import { Activity } from '@core/activity'
     import { formatDate } from '@core/i18n'
     import { Text } from '@bloomwalletio/ui'
 
-    export let activity: StardustActivity
+    export let activity: Activity
 </script>
 
 <div class="text-start">

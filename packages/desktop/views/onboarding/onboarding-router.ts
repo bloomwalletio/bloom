@@ -8,6 +8,8 @@ import { CompleteOnboardingRouter, completeOnboardingRouter } from './views/comp
 import { CreateProfileRouter, createProfileRouter } from './views/create-profile'
 import { NetworkSetupRouter, networkSetupRouter } from './views/network-setup'
 import { RestoreProfileRouter, restoreProfileRouter } from './views/restore-profile'
+import { Platform } from '@core/app'
+import features from '@features/features'
 
 export const onboardingRoute = writable<OnboardingRoute>(undefined)
 export const onboardingRouter = writable<OnboardingRouter>(undefined)
@@ -18,30 +20,43 @@ export class OnboardingRouter extends Router<OnboardingRoute> {
         networkSetupRouter.set(new NetworkSetupRouter(this))
     }
 
-    next(): void {
-        let nextRoute: OnboardingRoute
-
+    async next(): Promise<void> {
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case OnboardingRoute.Welcome: {
-                nextRoute = OnboardingRoute.NetworkSetup
+                features.onboarding.importFromThirdParty.enabled
+                const thirdPartyApps = await Platform.getThirdPartyApps()
+                if (features.onboarding.importFromThirdParty.enabled && thirdPartyApps.length > 0) {
+                    this.setNext(OnboardingRoute.ImportThirdPartyProfiles)
+                } else {
+                    this.setNext(OnboardingRoute.NetworkSetup)
+                }
+                break
+            }
+            case OnboardingRoute.ImportThirdPartyProfiles: {
+                if (get(profiles).length > 0) {
+                    get(appRouter)?.next({ thirdPartyProfilesImported: true })
+                    return
+                } else {
+                    this.setNext(OnboardingRoute.NetworkSetup)
+                }
                 break
             }
             case OnboardingRoute.NetworkSetup: {
-                nextRoute = OnboardingRoute.ChooseOnboardingFlow
+                this.setNext(OnboardingRoute.ChooseOnboardingFlow)
                 break
             }
             case OnboardingRoute.ChooseOnboardingFlow: {
                 switch (get(onboardingProfile)?.onboardingType) {
                     case OnboardingType.Create: {
                         createProfileRouter.set(new CreateProfileRouter(get(onboardingRouter)))
-                        nextRoute = OnboardingRoute.CreateProfile
+                        this.setNext(OnboardingRoute.CreateProfile)
                         break
                     }
                     case OnboardingType.Restore:
                     case OnboardingType.Claim:
                         restoreProfileRouter.set(new RestoreProfileRouter(get(onboardingRouter)))
-                        nextRoute = OnboardingRoute.RestoreProfile
+                        this.setNext(OnboardingRoute.RestoreProfile)
                         break
                 }
                 break
@@ -49,23 +64,21 @@ export class OnboardingRouter extends Router<OnboardingRoute> {
             case OnboardingRoute.CreateProfile:
             case OnboardingRoute.RestoreProfile: {
                 completeOnboardingRouter.set(new CompleteOnboardingRouter(get(onboardingRouter)))
-                nextRoute = OnboardingRoute.CompleteOnboarding
+                this.setNext(OnboardingRoute.CompleteOnboarding)
                 break
             }
             case OnboardingRoute.CompleteOnboarding: {
-                get(appRouter).next()
+                get(appRouter)?.next()
                 return
             }
         }
-
-        this.setNext(nextRoute)
     }
 
     previous(): void {
         if (this.history.length > 0) {
             super.previous()
         } else {
-            get(appRouter).previous()
+            get(appRouter)?.previous()
         }
     }
 }

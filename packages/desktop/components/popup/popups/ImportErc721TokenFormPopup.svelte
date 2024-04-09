@@ -17,6 +17,7 @@
     import { activeAccounts } from '@core/profile/stores'
     import { getAddressFromAccountForNetwork } from '@core/account'
     import { TokenTrackingStatus } from '@core/token'
+    import { selectedAccount } from '@core/account/stores'
 
     let busy = false
 
@@ -36,7 +37,7 @@
         busy = true
         try {
             validateEthereumAddress(tokenAddress)
-            const persistedNft = await persistErc721Nft(tokenAddress, tokenId, networkId)
+            const persistedNft = await persistErc721Nft(tokenAddress, tokenId, networkId, $selectedAccount)
             if (!persistedNft) {
                 throw new Error(localize('popups.importToken.errors.alreadyAdded'))
             }

@@ -1,73 +1,97 @@
 <script lang="ts">
-    import { ITokenWithBalance } from '@core/token'
+    import { Avatar, IconName, Text } from '@bloomwalletio/ui'
+    import { selectedAccountIndex } from '@core/account/stores'
     import {
-        ExpiredActivityPill,
-        TimelockActivityPill,
-        NftAvatar,
-        TokenAvatar,
-        UnclaimedActivityPill,
-        GovernanceAvatar,
-    } from '@ui'
-    import {
+        Activity,
         StardustActivityType,
-        getActivityActionTextColor,
         getActivityActionPill,
+        getActivityActionTextColor,
         getActivityTileAction,
         getActivityTileAsset,
     } from '@core/activity'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { selectedAccountIndex } from '@core/account/stores'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
-    import { IconName, Avatar, Text } from '@bloomwalletio/ui'
-    import { darkMode } from '@core/app/stores'
+    import { darkMode, time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { StardustActivity } from '@core/activity'
-    import { time } from '@core/app/stores'
-    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { Nft } from '@core/nfts/interfaces'
+    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { ITokenWithBalance } from '@core/token'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import {
+        ExpiredActivityPill,
+        GovernanceAvatar,
+        NftAvatar,
+        TimelockActivityPill,
+        TokenAvatar,
+        UnclaimedActivityPill,
+    } from '@ui'
     import AssetPills from '../AssetPills.svelte'
+    import { NetworkNamespace } from '@core/network'
+    import { EvmActivityType } from '@core/activity/enums/evm'
+    import { NftStandard } from '@core/nfts'
 
-    export let activity: StardustActivity
+    export let activity: Activity
 
     let token: ITokenWithBalance | undefined
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
     let nft: Nft | undefined
-    $: $selectedAccountNfts,
-        (nft =
-            activity.type === StardustActivityType.Nft
-                ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
-                : undefined)
+    $: $selectedAccountNfts, (nft = getNftFromActivity())
+    $: showNft =
+        activity.type === StardustActivityType.Nft ||
+        ((activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) &&
+            (activity.tokenTransfer.standard === NftStandard.Erc721 ||
+                activity.tokenTransfer.standard === NftStandard.Irc27))
 
     $: color = getActivityActionTextColor(activity)
     $: pill = getActivityActionPill(activity, $time)
+
+    function getNftFromActivity(): Nft | undefined {
+        if (
+            activity.namespace === NetworkNamespace.Evm &&
+            (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange)
+        ) {
+            if (
+                activity.tokenTransfer.standard === NftStandard.Erc721 ||
+                activity.tokenTransfer.standard === NftStandard.Irc27
+            ) {
+                return getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.tokenTransfer.tokenId)
+            }
+        } else if (activity.namespace === NetworkNamespace.Stardust && activity.type === StardustActivityType.Nft) {
+            return getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+        }
+    }
 </script>
 
 <div class="flex flex-row gap-4 items-center overflow-hidden">
-    <div class="py-1">
-        {#if activity.type === StardustActivityType.Governance}
-            <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
-        {:else if token}
-            <TokenAvatar {token} hideNetworkBadge size="lg" />
-        {:else if activity.type === StardustActivityType.Nft}
-            <NftAvatar {nft} size="lg" shape="square" />
-        {:else if activity.type === StardustActivityType.SmartContract}
-            <Avatar
-                icon={IconName.FileCode}
-                size="lg"
-                textColor="primary"
-                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-            />
-        {:else if activity.type === StardustActivityType.Alias}
-            <Avatar
-                icon={IconName.Alias}
-                size="lg"
-                textColor="primary"
-                backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-            />
-        {/if}
-    </div>
+    {#if activity.type === StardustActivityType.Governance}
+        <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
+    {:else if token}
+        <TokenAvatar {token} hideNetworkBadge size="lg" />
+    {:else if showNft}
+        <NftAvatar {nft} size="lg" shape="square" />
+    {:else if activity.type === EvmActivityType.ContractCall}
+        <Avatar
+            icon={IconName.FileCode}
+            size="lg"
+            textColor="primary"
+            backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+        />
+    {:else if activity.type === StardustActivityType.Alias}
+        <Avatar
+            icon={IconName.Alias}
+            size="lg"
+            textColor="primary"
+            backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+        />
+    {:else}
+        <Avatar
+            icon={IconName.UnknownMediaType}
+            size="lg"
+            textColor="primary"
+            backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+        />
+    {/if}
     <div class="flex flex-col items-start justify-between overflow-hidden">
         <div class="w-full flex flex-row gap-1 overflow-hidden">
             <Text textColor={color} class="shrink-0">{localize(getActivityTileAction(activity))}</Text>

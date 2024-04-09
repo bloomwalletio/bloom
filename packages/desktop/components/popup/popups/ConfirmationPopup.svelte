@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert } from '@bloomwalletio/ui'
+    import { Alert, Text } from '@bloomwalletio/ui'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -9,6 +9,7 @@
     export let variant: 'primary' | 'success' | 'warning' | 'danger' | 'info' = 'primary'
     export let title: string
     export let description: string = ''
+    export let text: string = ''
     export let alert: { variant?: 'success' | 'warning' | 'danger' | 'info'; text: string } | undefined = undefined
     export let backText: string = localize('actions.cancel')
     export let confirmText: string = localize('actions.confirm')
@@ -66,5 +67,8 @@
 >
     {#if alert}
         <Alert {...alert} />
+    {/if}
+    {#if text}
+        <Text class="break-all">{text}</Text>
     {/if}
 </PopupTemplate>

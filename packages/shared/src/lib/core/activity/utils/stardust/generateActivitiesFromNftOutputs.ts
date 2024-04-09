@@ -12,7 +12,7 @@ export async function generateActivitiesFromNftOutputs(
     networkId: NetworkId
 ): Promise<StardustActivity[]> {
     const outputs = processedTransaction.outputs
-    const activities = []
+    const activities: StardustActivity[] = []
 
     const nftOutputs = outputs.filter((output) => output.output?.type === OutputType.Nft)
     for (const nftOutput of nftOutputs) {

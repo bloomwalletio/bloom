@@ -4,7 +4,7 @@
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
-    import { selectedAccount } from '@core/account/stores'
+    import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { ExplorerEndpoint, IChain, getDefaultExplorerUrl } from '@core/network'
     import { DappInfo, TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -14,7 +14,7 @@
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
         getHexEncodedTransaction,
-        getMethodNameForEvmTransaction,
+        getMethodForEvmTransaction,
     } from '@core/layer-2'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
@@ -27,11 +27,12 @@
     import { openUrlInBrowser } from '@core/app'
     import { StardustActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { LegacyTransaction } from '@ethereumjs/tx'
-    import { activeProfileId } from '@core/profile/stores'
+    import { getActiveProfileId } from '@core/profile/stores'
+    import { IAccountState } from '@core/account'
 
     export let preparedTransaction: EvmTransactionData
     export let chain: IChain
@@ -40,7 +41,6 @@
     export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
     export let callback: (params: CallbackParameters) => void
 
-    const { id } = chain.getConfiguration()
     $: localeKey =
         method === RpcMethod.EthSignTransaction
             ? 'signTransaction'
@@ -53,6 +53,7 @@
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false
     let methodName: string | undefined = undefined
+    let parameters: Record<string, string> | undefined = undefined
     let busy = false
 
     setTokenTransfer()
@@ -60,16 +61,18 @@
         const transferInfo = getTransferInfoFromTransactionData(preparedTransaction, chain)
         switch (transferInfo?.type) {
             case StardustActivityType.Basic: {
+                const transfer = {
+                    token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, chain.id),
+                    rawAmount: transferInfo.rawAmount,
+                } as TokenTransferData
+                if (!transfer.token) {
+                    return
+                }
+
                 if (transferInfo.tokenId === BASE_TOKEN_ID) {
-                    baseCoinTransfer = {
-                        token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, id),
-                        rawAmount: transferInfo.rawAmount,
-                    }
+                    baseCoinTransfer = transfer
                 } else {
-                    tokenTransfer = {
-                        token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, id),
-                        rawAmount: transferInfo.rawAmount,
-                    }
+                    tokenTransfer = transfer
                 }
                 break
             }
@@ -87,34 +90,37 @@
         }
     }
 
-    async function getSignedTransaction(): Promise<string> {
+    async function getSignedTransaction(account: IAccountState): Promise<string> {
         if (preparedTransaction?.v && preparedTransaction?.s && preparedTransaction?.r) {
             const transaction = LegacyTransaction.fromTxData(preparedTransaction)
             return getHexEncodedTransaction(transaction)
         } else {
-            return await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+            return await signEvmTransaction(preparedTransaction, chain, account)
         }
     }
 
     async function signOrSend(): Promise<void> {
-        const signedTransaction = await getSignedTransaction()
+        const profileId = getActiveProfileId()
+        const account = getSelectedAccount()
+        const signedTransaction = await getSignedTransaction(account)
         if (method === RpcMethod.EthSignTransaction) {
             callback({ result: signedTransaction })
             return
         }
+
         const transactionHash = await sendAndPersistTransactionFromEvm(
             preparedTransaction,
             signedTransaction,
             chain,
-            $selectedAccount,
-            $activeProfileId
+            profileId,
+            account
         )
         callback({ result: transactionHash })
     }
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch (error) {
             return
         }
@@ -142,9 +148,10 @@
     }
 
     $: void setMethodName(preparedTransaction)
-    async function setMethodName(preparedTransaction: EvmTransactionData): Promise<void> {
-        const result = await getMethodNameForEvmTransaction(preparedTransaction)
-        methodName = result?.startsWith('0x') ? undefined : result
+    function setMethodName(preparedTransaction: EvmTransactionData): void {
+        const [method, _parameters] = getMethodForEvmTransaction(String(preparedTransaction.data ?? '')) ?? []
+        methodName = method
+        parameters = _parameters
     }
 
     function getSuccessMessage(): string {
@@ -159,7 +166,7 @@
     }
 
     function onExplorerClick(contractAddress: string): void {
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(chain.id, ExplorerEndpoint.Address)
         const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${contractAddress}` })
         openUrlInBrowser(url?.href)
     }
@@ -210,6 +217,7 @@
                                 onClick: () => onExplorerClick(String(preparedTransaction.to)),
                             },
                             { key: localize('general.methodName'), value: methodName },
+                            { key: localize('general.parameters'), value: parameters },
                             { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                         ]}
                     />
@@ -219,7 +227,7 @@
             <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
         {/if}
         <EvmTransactionDetails
-            destinationNetworkId={id}
+            destinationNetworkId={chain.id}
             estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction)}
             maxGasFee={calculateMaxGasFeeFromTransactionData(preparedTransaction)}
         />

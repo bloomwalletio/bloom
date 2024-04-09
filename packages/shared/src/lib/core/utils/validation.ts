@@ -1,4 +1,4 @@
-import validUrl from 'valid-url'
+import { isHttpsUri, isUri, isWebUri } from 'valid-url'
 
 import { PIN_LENGTH } from './constants'
 
@@ -8,15 +8,15 @@ export function isValidPin(pin: string): boolean {
 }
 
 export function isValidUri(url: string): boolean {
-    return validUrl.isUri(url)
+    return !!isUri(url)
 }
 
 export function isValidUrl(url: string): boolean {
-    return validUrl.isWebUri(url)
+    return !!isWebUri(url)
 }
 
 export function isValidHttpsUrl(url: string): boolean {
-    return validUrl.isHttpsUri(url)
+    return !!isHttpsUri(url)
 }
 
 export function isValidJson(text: string): boolean {
@@ -37,7 +37,7 @@ export function containsControlCharacters(stringToTest: string): boolean {
  * @param name The name to validate
  * @returns
  */
-export function validateFilenameChars(name: string | undefined): string {
+export function validateFilenameChars(name: string | undefined): string | undefined {
     if (!name) {
         return 'emptyName'
     }

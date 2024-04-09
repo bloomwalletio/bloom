@@ -8,33 +8,17 @@ import NotificationManager from '../managers/notification.manager'
 import PincodeManager from '../managers/pincode.manager'
 import { bindMethodsAcrossContextBridge } from '../utils/context-bridge.utils'
 
-import type { IAppSettings, ITransakWindowData } from '@core/app/interfaces'
+import type { IAppSettings, IAppVersionDetails, IPlatform, ITransakWindowData } from '@core/app/interfaces'
 import type { IFeatureFlag } from '@lib/features/interfaces'
 import { AppTheme } from '@core/app/enums'
+import { KeyValue } from '@ui/types'
+import { ThirdPartyAppName } from '@auxiliary/third-party/enums/third-party-app-name.enum'
 
-let activeProfileId = null
 const eventListeners = {}
 
-export default {
+const electronApi: IPlatform = {
     updateAppSettings(settings: Partial<IAppSettings>): Promise<void> {
         return ipcRenderer.invoke('update-app-settings', settings)
-    },
-    getActiveProfile(): string {
-        return activeProfileId
-    },
-    updateActiveProfile(id: string): void {
-        activeProfileId = id
-    },
-    async renameProfileFolder(oldPath: fs.PathLike, newPath: fs.PathLike): Promise<unknown> {
-        return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
-            if ((oldPath as string).startsWith(userDataPath)) {
-                try {
-                    fs.renameSync(oldPath, newPath)
-                } catch (err) {
-                    console.error(err)
-                }
-            }
-        })
     },
     async removeProfileFolder(profilePath: fs.PathLike): Promise<void> {
         const userDataPath = await ipcRenderer.invoke('get-path', 'userData')
@@ -50,7 +34,7 @@ export default {
             }
         }
     },
-    async listProfileFolders(profileStoragePath: fs.PathLike): Promise<unknown> {
+    async listProfileFolders(profileStoragePath: fs.PathLike): Promise<string[]> {
         return ipcRenderer.invoke('get-path', 'userData').then((userDataPath) => {
             // Check that the profile path matches the user data path
             // so that we don't try and remove things outside our scope
@@ -59,19 +43,22 @@ export default {
                     // Get a list of all the profile folders in storage
                     return fs.readdirSync(profileStoragePath)
                 } catch (err) {
-                    if (err.code === 'ENOENT') {
+                    if ((err as { code: string }).code === 'ENOENT') {
                         // The __storage__ directory doesn't exist
                         return []
                     }
                     console.error(err)
                 }
             }
+            return []
         })
     },
+
     DeepLinkManager: bindMethodsAcrossContextBridge(DeepLinkManager, new DeepLinkManager()),
     NotificationManager: bindMethodsAcrossContextBridge(NotificationManager, new NotificationManager()),
     PincodeManager: bindMethodsAcrossContextBridge(PincodeManager, new PincodeManager()),
-    async getStrongholdBackupDestination(defaultPath: unknown): Promise<unknown> {
+
+    async getStrongholdBackupDestination(defaultPath: unknown): Promise<string | null> {
         return ipcRenderer
             .invoke('show-save-dialog', {
                 properties: ['createDirectory', 'showOverwriteConfirmation'],
@@ -86,10 +73,10 @@ export default {
                 return result.filePath
             })
     },
-    saveStrongholdBackup(): null {
-        return null
-    },
-    async exportTransactionHistory(defaultPath: unknown, contents: string | NodeJS.ArrayBufferView): Promise<unknown> {
+    async exportTransactionHistory(
+        defaultPath: unknown,
+        contents: string | NodeJS.ArrayBufferView
+    ): Promise<string | null> {
         return ipcRenderer
             .invoke('show-save-dialog', {
                 properties: ['createDirectory', 'showOverwriteConfirmation'],
@@ -110,74 +97,74 @@ export default {
                 })
             })
     },
-    getUserDataPath(): Promise<unknown> {
+    getUserDataPath(): Promise<string> {
         return ipcRenderer.invoke('get-path', 'userData')
     },
-    getDiagnostics(): Promise<unknown> {
+    getDiagnostics(): Promise<{ label: string; value: string }[]> {
         return ipcRenderer.invoke('diagnostics')
     },
-    getMachineId(): Promise<unknown> {
+    getMachineId(): Promise<string> {
         return ipcRenderer.invoke('get-machine-id')
     },
-    downloadAppUpdate(): Promise<unknown> {
+    downloadAppUpdate(): Promise<void> {
         return ipcRenderer.invoke('update-download')
     },
-    cancelAppUpdateDownload(): Promise<unknown> {
+    cancelAppUpdateDownload(): Promise<void> {
         return ipcRenderer.invoke('update-cancel')
     },
-    installAppUpdate(): Promise<unknown> {
+    installAppUpdate(): Promise<void> {
         return ipcRenderer.invoke('update-install')
     },
-    checkForAppUpdate(): Promise<unknown> {
+    checkForAppUpdate(): Promise<void> {
         return ipcRenderer.invoke('update-check')
     },
-    focusWindow(): Promise<unknown> {
+    focusWindow(): Promise<void> {
         return ipcRenderer.invoke('focus-window')
     },
-    getAppVersionDetails(): Promise<unknown> {
+    getAppVersionDetails(): Promise<IAppVersionDetails> {
         return ipcRenderer.invoke('get-version-details')
     },
-    updateMenu(attribute: string, value: unknown): Promise<unknown> {
+    updateMenu(attribute: string, value: unknown): Promise<void> | undefined {
         if (Object.keys(MENU_STATE).includes(attribute)) {
             return ipcRenderer.invoke('menu-update', {
                 [attribute]: value,
             })
         }
     },
-    popupMenu(): Promise<unknown> {
+    popupMenu(): Promise<void> {
         return ipcRenderer.invoke('menu-popup')
     },
-    minimize(): Promise<unknown> {
+    minimize(): Promise<void> {
         return ipcRenderer.invoke('minimize')
     },
-    maximize(): Promise<unknown> {
+    maximize(): Promise<void> {
         return ipcRenderer.invoke('maximize')
     },
-    isMaximized(): Promise<unknown> {
+    isMaximized(): Promise<boolean> {
         return ipcRenderer.invoke('isMaximized')
     },
-    close(): Promise<unknown> {
+    close(): Promise<void> {
         return ipcRenderer.invoke('close')
     },
-    downloadNft(url: unknown, destinationFilePath: unknown, nftId: unknown, accountIndex: unknown): Promise<unknown> {
-        return ipcRenderer.invoke('nft-download', url, destinationFilePath, nftId, accountIndex)
+    downloadNft(url: string, destinationFilePath: string, nftId: string): Promise<void> {
+        return ipcRenderer.invoke('nft-download', url, destinationFilePath, nftId)
     },
-    cancelNftDownload(nftId: unknown): Promise<unknown> {
+    cancelNftDownload(nftId: string): Promise<void> {
         return ipcRenderer.invoke('cancel-nft-download', nftId)
     },
-    checkIfFileExists(filePath: unknown): Promise<unknown> {
+    checkIfFileExists(filePath: string): Promise<boolean> {
         return ipcRenderer.invoke('check-if-file-exists', filePath)
     },
-    openUrl(url: unknown): Promise<unknown> {
+    openUrl(url: unknown): Promise<void> {
         return ipcRenderer.invoke('open-external-url', url)
     },
-    copyFile(sourceFilePath: unknown, destinationFilePath: unknown): Promise<unknown> {
+    copyFile(sourceFilePath: unknown, destinationFilePath: unknown): Promise<void> {
         return ipcRenderer.invoke('copy-file', sourceFilePath, destinationFilePath)
     },
-    deleteFile(filePath: unknown): Promise<unknown> {
+    deleteFile(filePath: unknown): Promise<void> {
         return ipcRenderer.invoke('delete-file', filePath)
     },
-    unhandledException(errorType: unknown, error: unknown): Promise<unknown> {
+    unhandledException(errorType: unknown, error: unknown): Promise<void> {
         return ipcRenderer.invoke('handle-error', errorType, error)
     },
     onEvent(event: string, callback: unknown): void {
@@ -197,7 +184,7 @@ export default {
         eventListeners[event] = []
         return ipcRenderer.removeAllListeners(event)
     },
-    async saveRecoveryKit(recoverKitData: WithImplicitCoercion<ArrayBuffer | SharedArrayBuffer>): Promise<unknown> {
+    async saveRecoveryKit(recoverKitData: WithImplicitCoercion<ArrayBuffer | SharedArrayBuffer>): Promise<void> {
         return ipcRenderer
             .invoke('show-save-dialog', {
                 properties: ['createDirectory', 'showOverwriteConfirmation'],
@@ -219,20 +206,42 @@ export default {
                 }
             })
     },
-    trackEvent(eventName: string, eventProperties?: unknown): Promise<unknown | undefined> {
+    async saveTextInFile(fileName: string, extension: string, content: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            void ipcRenderer
+                .invoke('show-save-dialog', {
+                    properties: ['createDirectory', 'showOverwriteConfirmation'],
+                    defaultPath: `${fileName}.${extension}`,
+                    filters: [
+                        { name: `${extension.toUpperCase()} documents`, extensions: [extension] },
+                        { name: 'All Files', extensions: ['*'] },
+                    ],
+                })
+                .then((result) => {
+                    if (result.canceled) {
+                        reject('Canceled by user')
+                        return
+                    }
+
+                    try {
+                        fs.writeFileSync(result.filePath, content)
+                        resolve()
+                    } catch (err) {
+                        reject(err)
+                    }
+                })
+                .catch((err) => reject(err))
+        })
+    },
+    trackEvent(eventName: string, eventProperties?: unknown): Promise<void> | undefined {
         if (features.analytics.enabled) {
             return ipcRenderer.invoke('track-event', eventName, eventProperties)
-        } else {
-            return undefined
         }
     },
     isFeatureFlagEnabled(keyPath: string): boolean {
         const feature = keyPath
             ?.split('.')
-            .reduce(
-                (prev: { [x: string]: unknown }, cur: string | number) => prev && prev[cur],
-                features
-            ) as IFeatureFlag
+            .reduce((prev, cur) => prev && prev[cur], features) as unknown as IFeatureFlag
         return feature?.enabled ?? false
     },
     getTheme(): Promise<AppTheme> {
@@ -265,4 +274,15 @@ export default {
     updateTransakBounds(rect: Electron.Rectangle): Promise<void> {
         return ipcRenderer.invoke('update-transak-bounds', rect)
     },
+    getThirdPartyApps(): Promise<ThirdPartyAppName[]> {
+        return ipcRenderer.invoke('get-third-party-apps')
+    },
+    async getThirdPartyData(appName: string): Promise<Record<number, KeyValue<string>> | undefined> {
+        return ipcRenderer.invoke('get-data-from-third-party-app', appName)
+    },
+    copyProfileDirectory(appName: string, profileId: string): Promise<void> {
+        return ipcRenderer.invoke('copy-third-party-profile', appName, profileId)
+    },
 }
+
+export default electronApi

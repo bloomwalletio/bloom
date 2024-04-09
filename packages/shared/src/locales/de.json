@@ -7,6 +7,33 @@
                 "legalAction": "Bestätige, dass Du gelesen hast und einverstanden bist",
                 "button": "Starte Setup"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Geldbörsen von Drittanbietern gefunden",
+                    "title": "Import aus Drittanbieteranwendungen",
+                    "onboardingDescription": "Wir haben festgestellt, dass du kompatible Wallets von Drittanbietern verwendest. Du kannst die Profile jetzt oder später importieren.",
+                    "description": "Wähle die Apps aus, von denen du Profile importieren möchten.",
+                    "empty": "Keine Apps gefunden",
+                    "import": "Importieren"
+                },
+                "importProfiles": {
+                    "title": "Drittanbieter-Profile importieren",
+                    "description": "Wähle das zu importierende Profil aus.",
+                    "empty": "Keine Profile gefunden",
+                    "tooltips": {
+                        "alreadyImported": "Bereits importiert",
+                        "needsDbMigration": "Benötigt Datenbankmigration",
+                        "failedProfileMigration": "Migration des Profils nicht möglich"
+                    },
+                    "errors": {
+                        "appIsOpen": "Die Drittanbieter-Wallet von der du importieren möchtest, ist geöffnet. Bitte schließen die Wallet und versuche es erneut.",
+                        "unknown": "Ein unbekannter Fehler ist bei der Importierung des Profils aufgetreten"
+                    },
+                    "notifications": {
+                        "success": "Profile erfolgreich importiert!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Wähle dein Netzwerk",
@@ -299,9 +326,9 @@
                 "title": "Ein Problem melden",
                 "description": "Melde einen Fehler an die Entwickler. Überprüfe zunächst, ob dieser nicht bereits gemeldet wurde"
             },
-            "developerToggle": {
-                "title": "Entwicklermodus",
-                "description": "Entwicklermodus einschalten, um mehr experimentelle Funktionen zu aktivieren"
+            "toggleFeatures": {
+                "title": "aktiviere / deaktiviere Funktion",
+                "description": "Schalte Funktionen ein oder aus um die Funktionalität an deine Bedürfnisse anzupassen."
             }
         },
         "login": {
@@ -501,12 +528,17 @@
                         "title": "Verbindungsanfrage",
                         "firstTimeHint": "Diese dApp möchte zum ersten Mal eine Verbindung herstellen. Verbinde deine Wallet nur mit vertrauenswürdigen Seiten.",
                         "reconnectHint": "Du hast dich bereits mit dieser dApp verbunden.",
-                        "insecure": "Die URL für diese dApp kann nicht verifiziert werden. Ihre Verbindung zu dieser Anwendung ist möglicherweise nicht sicher.",
                         "unsupportedNetworks": "Diese dApp ist nicht kompatibel mit Bloom, da sie auf einem nicht unterstützten Netzwerk läuft.",
                         "noSupportedNetworks": "Diese dApp ist nicht mit Bloom kompatibel, da sie auf einem anderen Netzwerk läuft.",
                         "unsupportedMethods": "Diese dApp ist nicht vollständig mit Bloom kompatibel. Einige Methoden oder Events werden nicht unterstützt.",
                         "supportedOnOtherProfile": "Diese dApp läuft in einem unterstützten Netzwerk, ist aber mit diesem Profil nicht zugänglich. Bitte verwenden Sie ein Profil, das mit dem benötigten Netzwerk verbunden ist.",
-                        "acceptInsecureConnection": "Ich verstehe, dass diese dApp möglicherweise unsicher ist und trotzdem eine Verbindung aufnehmen möchte."
+                        "acceptInsecureConnection": "Ich verstehe und möchte fortfahren",
+                        "supported": "Unterstützt",
+                        "notSupported": "Nicht unterstützt",
+                        "onAnotherProfile": "Auf anderem Profil",
+                        "scamHint": "Diese Domain wurde von mehreren Sicherheitsanbietern als unsicher markiert. Verlasse sie sofort, um deine Assets zu schützen.",
+                        "invalidHint": "Diese Website ist eine Domain, die nicht mit dem Absender der Anfrage übereinstimmt. Genehmigung kann zum Verlust des Guthabens führen.",
+                        "unknownHint": "Diese dApp wurde nicht verifiziert und es kann beim Verbinden zu Sicherheitsrisiken kommen."
                     },
                     "editPermissions": {
                         "title": "Berechtigungen bearbeiten"
@@ -568,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Backup erforderlich",
-                    "body": "Du hast dein Profil noch nicht gesichert! Wir empfehlen dringend, dies zu sichern, falls du den Zugriff auf dieses Gerät verlierst.",
+                    "body": "Du hast dein Profil schon lange nicht mehr gesichert.",
                     "button": "Backup erstellen"
                 },
                 "version": {
-                    "body": "Du verwendest derzeit eine veraltete Version von Bloom.",
-                    "button": "Weitere Informationen"
+                    "body": "Du verwendest derzeit eine Entwicklungsversion von Bloom."
                 },
                 "update": {
                     "header": "Update erforderlich",
@@ -640,7 +671,7 @@
                 "votedProposals": "Alle Abstimmungen, über die du abgestimmt hast"
             },
             "proposals": {
-                "title": "Governance Proposals",
+                "title": "Governance-Vorschläge",
                 "voted": "Abgestimmt",
                 "successEdit": "Vorschlag erfolgreich aktualisiert",
                 "successAdd": "{numberOfProposals, select, one {Vorschlag} other {Vorschläge}} erfolgreich hinzugefügt",
@@ -686,10 +717,15 @@
                     "eventId": "Event-ID",
                     "nodeUrl": "Node-URL"
                 },
+                "quorum": {
+                    "title": "Quorum Fortschritt",
+                    "tooltip": "Das Quorum von 5 % ist für Tangle Treasury Vorschläge festgelegt"
+                },
                 "fetching": "Abrufen der Abstimmungsdaten",
                 "hintVote": "Du kannst nicht über eine Abstimmung abstimmen, die sich noch in der Ankündigungsphase befindet. Die Abstimmung wird in {time} geöffnet.",
                 "projection": {
-                    "label": "Prognostizierte Stimmen",
+                    "title": "Prognostizierte Stimmen anzeigen",
+                    "description": "Wie die Abstimmung mit aktueller Beteiligung beendet werden könnte",
                     "tooltip": "Die Prognose basiert auf dem aktuellen Stimmgewicht und den verbleibenden Meilensteinen."
                 }
             }
@@ -721,6 +757,10 @@
                 "connected": "sicher verbunden",
                 "redirected": "umgeleitet, sei vorsichtig!",
                 "disconnected": "getrennt, bitte aktualisieren"
+            },
+            "error": {
+                "title": "Transak konnte nicht geladen werden",
+                "description": "Bitte starte die App neu, falls das Problem weiterhin besteht, frage bitte auf unserem Discord-Server um Unterstützung"
             }
         }
     },
@@ -807,13 +847,13 @@
             "installedVersion": "Installierte Version",
             "newVersion": "Neue Version",
             "stage": "Phase",
-            "prod": "Early Access",
+            "prod": "Produktion",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Veröffentlicht am",
             "updateAvailable": "Ein Update ist verfügbar",
             "updatesDisabled": "Es sind Updates verfügbar, aber In-App-Upgrade ist für Ihr Betriebssystem deaktiviert.",
-            "latestInstalled": "Du verwendest die neueste und sicherste Version von Bloom"
+            "latestInstalled": "Du verwendest die neueste und sicherste Version von Firefly"
         },
         "backupStronghold": {
             "title": "Stronghold-Backup erstellen",
@@ -969,6 +1009,12 @@
             "body": "Hilf den Entwicklern Bloom zu verbessern, indem Diagnosedaten automatisch gesendet werden, wenn ein Fehler oder ein Absturz auftritt. Nach Auswahl wird diese Option mit einem Neustart von Bloom wirksam.",
             "checkbox": "Fehler- und Absturzberichte an die IOTA Foundation senden"
         },
+        "exportActivities": {
+            "title": "Aktivitäten exportieren",
+            "body": "Exportiere deine Aktivitäten als CSV.",
+            "chooseAccounts": "Account wählen",
+            "emptyAccounts": "Wähle mindestens 1 Account."
+        },
         "signMessage": {
             "title": "Nachricht signieren",
             "hint": "Beim Signieren dieser Nachricht wird kein Guthaben an {dappName} gesendet.",
@@ -1082,19 +1128,19 @@
                         "Conflicting": "Fehler beim Verringern des Stimmrechts"
                     },
                     "startVoting": {
-                        "Pending": "Voting on {proposalName}",
-                        "Confirmed": "Voted on {proposalName}",
-                        "Conflicting": "Failed to vote on"
+                        "Pending": "Stimmen für {proposalName}",
+                        "Confirmed": "Stimmen für {proposalName}",
+                        "Conflicting": "Abstimmung fehlgeschlagen für"
                     },
                     "stopVoting": {
-                        "Pending": "Stopping voting on {proposalName}",
-                        "Confirmed": "Stopped voting on {proposalName}",
-                        "Conflicting": "Failed to stop voting on"
+                        "Pending": "Abstimmung für {proposalName} stoppen",
+                        "Confirmed": "Abstimmung für {proposalName} beendet",
+                        "Conflicting": "Fehler beim Beenden der Abstimmung für"
                     },
                     "changedVote": {
-                        "Pending": "Changing vote on {proposalName}",
-                        "Confirmed": "Changed vote on {proposalName}",
-                        "Conflicting": "Failed to change vote on"
+                        "Pending": "Ändern der Abstimmung für {proposalName}",
+                        "Confirmed": "Abstimmung für {proposalName} geändert",
+                        "Conflicting": "Fehler beim Ändern der Abstimmung für"
                     },
                     "revote": {
                         "Pending": "Erneut abstimmen",
@@ -1216,7 +1262,7 @@
         "revote": {
             "title": "Über Vorschläge erneut abstimmen",
             "body": "Wenn du deine Stimmrechte änderst, werden deine Stimmen für alle Abstimmungen vorübergehend nicht mehr gezählt. Klicke einfach auf \"Wieder abstimmen\", um die Abstimmung fortzusetzen.",
-            "hint": "Bloom remembers all the proposals and answer options you previously voted for."
+            "hint": "Bloom erinnert sich an alle Vorschläge und Antwort-Optionen, für die du zuvor gestimmt hast."
         },
         "removeProposal": {
             "title": "Vorschlag entfernen",
@@ -1239,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Konto erstellen"
+        },
+        "profileDiagnostics": {
+            "title": "Profile diagnostics"
         }
     },
     "actions": {
@@ -1295,6 +1344,7 @@
         "enableDeveloperMode": "Entwicklermodus aktivieren",
         "enableSystemNotifications": "Systembenachrichtigungen aktivieren",
         "exportTransactionHistory": "Transaktionsverlauf exportieren",
+        "exportActivities": "Aktivitäten exportieren",
         "localProofOfWork": "Lokaler Proof-of-Work",
         "unlock": "Entsperren",
         "updateBloom": "Aktualisiere Bloom",
@@ -1379,7 +1429,9 @@
         "syncAccounts": "Konten synchronisieren",
         "importToken": "{type} Token importiert",
         "syncTokens": "Token-Synchronisation erzwingen",
-        "mintNftCollection": "Minte NFT-Sammlung"
+        "mintNftCollection": "Minte NFT-Sammlung",
+        "readMore": "Weiterlesen",
+        "importThirdPartyProfiles": "Drittanbieter-Profile importieren"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1395,14 +1447,14 @@
         "receiving": "Empfange",
         "newVotingPower": "Neues Stimmrecht",
         "votingPower": "Stimmrecht",
-        "increased": "Voting power increased",
-        "increasing": "Increasing voting power",
-        "decreased": "Voting power decreased",
-        "decreasing": "Decreasing voting power",
+        "increased": "Stimmrecht erhöht",
+        "increasing": "Erhöhe Stimmrecht",
+        "decreased": "Stimmrecht verringert",
+        "decreasing": "Verringere Stimmrecht",
         "voted": "Abgestimmt",
         "voting": "Abstimmung",
-        "votingOn": "Voting on",
-        "votedOn": "Voted on",
+        "votingOn": "Abstimmen für",
+        "votedOn": "Abgestimmt für",
         "changedVote": "Stimme geändert",
         "changingVote": "Stimme ändern",
         "revoted": "Erneut abgestimmt",
@@ -1537,6 +1589,7 @@
         "alias": "Alias",
         "foundry": "Foundry-Fabrik",
         "token": "Token",
+        "unknownToken": "Unbekannter Token",
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Unveränderlicher Aussteller",
@@ -1591,7 +1644,11 @@
         "no": "Nein",
         "tip": "Tipp",
         "verified": "Verifiziert",
+        "unverified": "Unverifiziert",
+        "methodId": "Methoden-ID",
         "methodName": "Methodenname",
+        "inputs": "Inputs",
+        "parameters": "Parameters",
         "data": "Daten",
         "success": "Abgeschlossen",
         "info": "Info",
@@ -1603,9 +1660,12 @@
         "raffle": "Tombola",
         "governance": "Governance",
         "baseCoin": "Basis-Token",
-        "unverifiedContract": "Unverifizierter Vertrag",
         "startIndex": "Start-Index",
-        "mintNftCollectionDescription": "Minte Sammlungs-NFT im Alias-Output"
+        "mintNftCollectionDescription": "Minte Sammlungs-NFT im Alias-Output",
+        "appName": "App-Name",
+        "question": "Frage",
+        "id": "ID",
+        "location": "Location"
     },
     "filters": {
         "title": "Filter",
@@ -1677,8 +1737,9 @@
         },
         "type": {
             "label": "Typ",
-            "basic": "Einfach",
+            "transfer": "Transfer",
             "nft": "NFT",
+            "smartContract": "Smart Contract",
             "alias": "Alias",
             "foundry": "Foundry",
             "governance": "Governance",
@@ -1752,6 +1813,9 @@
         },
         "disconnectDapp": {
             "success": "Verbindung zu {dappName} getrennt"
+        },
+        "exportActivities": {
+            "success": "Aktivitäten erfolgreich exportiert"
         },
         "clearExpiredDapps": {
             "success": "Abgelaufene dApps gelöscht"
@@ -1922,6 +1986,7 @@
             "notReachable": "Die Netzwerk-ID für diesen Node konnte nicht abgerufen werden. Hinzufügen des Nodes nicht möglich."
         },
         "global": {
+            "invalidUrl": "Ungültige URL",
             "generic": "Ein Fehler ist aufgetreten."
         },
         "backup": {
@@ -2119,7 +2184,10 @@
         "buySell": "Kaufe IOTA",
         "developer": "Entwickler",
         "tokens": "Token",
-        "settings": "Einstellungen"
+        "settings": "Einstellungen",
+        "tooltips": {
+            "buySell": "Der Kauf von IOTA ist nur in IOTA-Profilen möglich."
+        }
     },
     "pills": {
         "asyncStatus": {

@@ -4,7 +4,7 @@
     import TitleBar from '@components/TitleBar.svelte'
     import { IS_WINDOWS, Platform, openUrlInBrowser } from '@core/app'
     import { registerAppEvents, getAndUpdateDarkMode } from '@core/app/actions'
-    import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails } from '@core/app/stores'
+    import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails, windowSize } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
     import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
@@ -52,6 +52,19 @@
             Platform.trackEvent('app-start')
         }
 
+        $windowSize = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+        }
+        window.addEventListener(
+            'resize',
+            () =>
+                ($windowSize = {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                })
+        )
+
         // Theme
         Platform.onEvent('native-theme-updated', getAndUpdateDarkMode)
         // Set dark mode initially in case the native theme is already in system
@@ -65,7 +78,7 @@
         setTimeout(() => {
             splash = false
             // check if deep link request was received while splash screen was active
-            Platform.DeepLinkManager.checkForDeepLinkRequest()
+            Platform.DeepLinkManager?.checkForDeepLinkRequest()
         }, 3000)
         initAppSettings.set($appSettings)
 
@@ -98,7 +111,7 @@
 
     onDestroy(() => {
         Platform.removeListenersForEvent('deep-link-request')
-        Platform.DeepLinkManager.clearDeepLinkRequest()
+        Platform.DeepLinkManager?.clearDeepLinkRequest()
     })
 </script>
 

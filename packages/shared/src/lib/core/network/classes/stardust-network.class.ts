@@ -43,7 +43,7 @@ export class StardustNetwork implements INetwork {
     }
 
     getChain(networkId: NetworkId): IChain | undefined {
-        return this._chains.find((chain) => chain?.getConfiguration().id === networkId)
+        return this._chains.find((chain) => chain?.id === networkId)
     }
 
     getChains(): IChain[] {
@@ -51,7 +51,7 @@ export class StardustNetwork implements INetwork {
     }
 
     getIscpChains(): IChain[] {
-        return this._chains.filter((chain) => chain.getConfiguration().type === ChainType.Iscp)
+        return this._chains.filter((chain) => chain.type === ChainType.Iscp)
     }
 
     addChain(chainConfiguration: ChainConfiguration): IChain {

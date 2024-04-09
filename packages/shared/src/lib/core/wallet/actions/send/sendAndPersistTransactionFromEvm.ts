@@ -1,26 +1,28 @@
 import { IAccountState } from '@core/account'
 import {
     ActivityDirection,
-    StardustActivity,
-    StardustActivityType,
+    EvmActivity,
     calculateAndAddPersistedNftBalanceChange,
     calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity'
 import { addAccountActivity } from '@core/activity/stores'
-import { generateActivityFromEvmTransaction } from '@core/activity/utils/evm'
-import { EvmTransactionData, isErcAsset } from '@core/layer-2'
+import { generateEvmActivityFromLocalEvmTransaction } from '@core/activity/utils/evm'
+import { EvmTransactionData } from '@core/layer-2'
 import { EvmNetworkId, IChain } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
 import { updateLayer2AccountBalanceForTokenOnChain } from '@core/layer-2/stores'
+import { EvmActivityType } from '@core/activity/enums/evm'
+import { NftStandard } from '@core/nfts'
+import { TokenStandard } from '@core/token/enums'
 
 export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
     signedTransaction: string,
     chain: IChain,
-    account: IAccountState,
-    profileId: string
+    profileId: string,
+    account: IAccountState
 ): Promise<string> {
     const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
     if (!transactionReceipt) {
@@ -44,45 +46,55 @@ async function persistEvmTransaction(
     chain: IChain,
     evmTransaction: LocalEvmTransaction
 ): Promise<void> {
-    const networkId = chain.getConfiguration().id as EvmNetworkId
+    const networkId = chain.id as EvmNetworkId
     addLocalTransactionToPersistedTransaction(profileId, account.index, networkId, [evmTransaction])
-
-    const activity = await generateActivityFromEvmTransaction(evmTransaction, chain, account)
+    const activity = await generateEvmActivityFromLocalEvmTransaction(evmTransaction, chain, account)
     if (!activity) {
         return
     }
 
     addAccountActivity(account.index, activity)
 
-    await createHiddenBalanceChange(account, activity)
+    createHiddenBalanceChange(profileId, account, activity)
 
     if (activity.recipient?.type === 'account') {
         const recipientAccount = activity.recipient.account
         addLocalTransactionToPersistedTransaction(profileId, recipientAccount.index, networkId, [evmTransaction])
-        const receiveActivity = await generateActivityFromEvmTransaction(evmTransaction, chain, recipientAccount)
+        const receiveActivity = await generateEvmActivityFromLocalEvmTransaction(
+            evmTransaction,
+            chain,
+            recipientAccount
+        )
         if (!receiveActivity) {
             return
         }
 
         addAccountActivity(recipientAccount.index, receiveActivity)
-        await createHiddenBalanceChange(recipientAccount, receiveActivity)
+        createHiddenBalanceChange(profileId, recipientAccount, receiveActivity)
     }
 }
 
 // Hidden balance changes mitigate duplicate activities for L2 transactions (balance changed & sent/receive activities).
-async function createHiddenBalanceChange(account: IAccountState, activity: StardustActivity): Promise<void> {
+function createHiddenBalanceChange(profileId: string, account: IAccountState, activity: EvmActivity): void {
     const received = activity.direction === ActivityDirection.Incoming
     const networkId = activity.sourceNetworkId
 
-    if (activity.type === StardustActivityType.Nft && !isErcAsset(activity.nftId)) {
+    if (activity.type === EvmActivityType.TokenTransfer && activity.tokenTransfer.standard === NftStandard.Irc27) {
         const owned = received ? true : false
-        calculateAndAddPersistedNftBalanceChange(account, networkId, activity.nftId, owned, true)
+        calculateAndAddPersistedNftBalanceChange(
+            profileId,
+            account,
+            networkId,
+            activity.tokenTransfer.tokenId,
+            owned,
+            true
+        )
     }
-    if (activity.tokenTransfer && !isErcAsset(activity.tokenTransfer.tokenId)) {
+    if (activity.type === EvmActivityType.TokenTransfer && activity.tokenTransfer.standard === TokenStandard.Irc30) {
         const tokenId = activity.tokenTransfer.tokenId
         const amount = received ? activity.tokenTransfer.rawAmount : BigInt(-1) * activity.tokenTransfer.rawAmount
 
         const newBalance = updateLayer2AccountBalanceForTokenOnChain(account.index, networkId, tokenId, amount)
-        await calculateAndAddPersistedTokenBalanceChange(account, networkId, tokenId, newBalance, true)
+        calculateAndAddPersistedTokenBalanceChange(profileId, account, networkId, tokenId, newBalance, true)
     }
 }

@@ -7,6 +7,33 @@
                 "legalAction": "Confirma que has leído y aceptas el",
                 "button": "Comienza la configuración"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Third-party wallets found",
+                    "title": "Import from third-party apps",
+                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
+                    "description": "Select the apps you want to import profiles from.",
+                    "empty": "No apps found",
+                    "import": "Import"
+                },
+                "importProfiles": {
+                    "title": "Import third-party profiles",
+                    "description": "Select the profiles you want to import.",
+                    "empty": "No profiles found",
+                    "tooltips": {
+                        "alreadyImported": "Already imported",
+                        "needsDbMigration": "Needs database migration",
+                        "failedProfileMigration": "Unable to migrate profile"
+                    },
+                    "errors": {
+                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
+                        "unknown": "An unknown error occurred while trying to import the profiles"
+                    },
+                    "notifications": {
+                        "success": "Profiles successfully imported!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Elige tu red",
@@ -299,9 +326,9 @@
                 "title": "Informar de un problema",
                 "description": "Reportar un error a los desarrolladores. Asegúrate de que todavía no ha sido reportado"
             },
-            "developerToggle": {
-                "title": "Modo desarrollador",
-                "description": "Habilita el modo de desarrollador para activar más características en estado experimental"
+            "toggleFeatures": {
+                "title": "Enable / Disable features",
+                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
             }
         },
         "login": {
@@ -501,12 +528,17 @@
                         "title": "Connection request",
                         "firstTimeHint": "This dApp wishes to connect for the first time. Connect to sites you trust.",
                         "reconnectHint": "You have previously connected with this dApp.",
-                        "insecure": "The URL for this dApp cannot be verified. Your connection to this application may not be secure.",
                         "unsupportedNetworks": "This dApp is not compatible with Bloom as it runs on an unsupported network.",
                         "noSupportedNetworks": "This dApp is not compatible with Bloom as it runs on different networks.",
                         "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
                         "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
-                        "acceptInsecureConnection": "I understand this dApp may be insecure and still want to connect."
+                        "acceptInsecureConnection": "I understand and wish to proceed",
+                        "supported": "Supported",
+                        "notSupported": "Not supported",
+                        "onAnotherProfile": "On another profile",
+                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
+                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
+                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
                     },
                     "editPermissions": {
                         "title": "Edit permissions"
@@ -568,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Backup Required",
-                    "body": "You have not backed up your profile yet! We highly recommend backing this up in case you lose access to this device.",
+                    "body": "You haven't backed up your profile in while.",
                     "button": "Backup now"
                 },
                 "version": {
-                    "body": "You are currently using an early version of Bloom.",
-                    "button": "Find out more"
+                    "body": "You are currently using a development version of Bloom."
                 },
                 "update": {
                     "header": "Update Required",
@@ -686,10 +717,15 @@
                     "eventId": "ID del evento",
                     "nodeUrl": "URL del nodo"
                 },
+                "quorum": {
+                    "title": "Quorum progress",
+                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                },
                 "fetching": "Obteniendo datos de la propuesta",
                 "hintVote": "No puede votar sobre una propuesta que está en la fase de anuncio, la votación se abrirá en {time}.",
                 "projection": {
-                    "label": "Projected votes",
+                    "title": "Show projected votes",
+                    "description": "How voting might finish with current participation",
                     "tooltip": "The projection is based on current voting weight and remaining milestones."
                 }
             }
@@ -721,6 +757,10 @@
                 "connected": "connected securely",
                 "redirected": "redirected, be careful!",
                 "disconnected": "disconnected, try refreshing"
+            },
+            "error": {
+                "title": "Transak could not be loaded",
+                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
             }
         }
     },
@@ -807,7 +847,7 @@
             "installedVersion": "Installed version",
             "newVersion": "New version",
             "stage": "Stage",
-            "prod": "Early Access",
+            "prod": "Production",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Released at",
@@ -968,6 +1008,12 @@
             "title": "Informes de fallos",
             "body": "Help the developers improve Bloom by automatically sending diagnostic data when an error or crash occurs. If selected, this will take effect after restarting Bloom.",
             "checkbox": "Enviar informe de fallos a la Fundación IOTA"
+        },
+        "exportActivities": {
+            "title": "Export activities",
+            "body": "Export your activities as a CSV.",
+            "chooseAccounts": "Choose accounts",
+            "emptyAccounts": "Choose at least 1 account."
         },
         "signMessage": {
             "title": "Sign message",
@@ -1239,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Create account"
+        },
+        "profileDiagnostics": {
+            "title": "Profile diagnostics"
         }
     },
     "actions": {
@@ -1295,6 +1344,7 @@
         "enableDeveloperMode": "Habilitar modo de desarrollador",
         "enableSystemNotifications": "Habilitar notificaciones del sistema",
         "exportTransactionHistory": "Exportar el historial de transacciones",
+        "exportActivities": "Export activities",
         "localProofOfWork": "Prueba de trabajo local",
         "unlock": "Desbloquear",
         "updateBloom": "Update Bloom",
@@ -1379,7 +1429,9 @@
         "syncAccounts": "Sync accounts",
         "importToken": "Import {type} token",
         "syncTokens": "Force sync tokens",
-        "mintNftCollection": "Mint NFT collection"
+        "mintNftCollection": "Mint NFT collection",
+        "readMore": "Read more",
+        "importThirdPartyProfiles": "Import third-party profiles"
     },
     "general": {
         "recipient": "Destinatario",
@@ -1537,6 +1589,7 @@
         "alias": "Alias",
         "foundry": "Fundición",
         "token": "Token",
+        "unknownToken": "Unknown Token",
         "nft": "NFT",
         "type": "Tipo",
         "immutableIssuer": "Emisor inmutable",
@@ -1591,7 +1644,11 @@
         "no": "No",
         "tip": "Tip",
         "verified": "Verified",
+        "unverified": "Unverified",
+        "methodId": "Method ID",
         "methodName": "Method name",
+        "inputs": "Inputs",
+        "parameters": "Parameters",
         "data": "Data",
         "success": "Success",
         "info": "Info",
@@ -1603,9 +1660,12 @@
         "raffle": "Raffle",
         "governance": "Governance",
         "baseCoin": "Base Coin",
-        "unverifiedContract": "Unverified Contract",
         "startIndex": "Start index",
-        "mintNftCollectionDescription": "Mint collection NFT in Alias Output"
+        "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
+        "appName": "App name",
+        "question": "Question",
+        "id": "ID",
+        "location": "Location"
     },
     "filters": {
         "title": "Filtros",
@@ -1677,8 +1737,9 @@
         },
         "type": {
             "label": "Type",
-            "basic": "Básico",
+            "transfer": "Transfer",
             "nft": "NFT",
+            "smartContract": "Smart Contract",
             "alias": "Alias",
             "foundry": "Fundición",
             "governance": "Gobernanza",
@@ -1752,6 +1813,9 @@
         },
         "disconnectDapp": {
             "success": "Disconnected from {dappName}"
+        },
+        "exportActivities": {
+            "success": "Activities exported successfully"
         },
         "clearExpiredDapps": {
             "success": "Expired dApps cleared"
@@ -1922,6 +1986,7 @@
             "notReachable": "El ID de red de este nodo no se pudo recuperar, no se puede agregar el nodo."
         },
         "global": {
+            "invalidUrl": "Invalid URL",
             "generic": "Algo salió mal."
         },
         "backup": {
@@ -2119,7 +2184,10 @@
         "buySell": "Buy IOTA",
         "developer": "Desarrollador",
         "tokens": "Tokens",
-        "settings": "Settings"
+        "settings": "Settings",
+        "tooltips": {
+            "buySell": "Buying IOTA is only available in IOTA profiles."
+        }
     },
     "pills": {
         "asyncStatus": {
