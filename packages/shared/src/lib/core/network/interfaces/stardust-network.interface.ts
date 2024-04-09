@@ -3,11 +3,10 @@ import { NetworkNamespace } from '../enums'
 import { ChainConfiguration, NetworkId } from '../types'
 import { IChain } from './chain.interface'
 import { INetworkStatus } from './network-status.interface'
-import { IProtocol } from './protocol.interface'
 
 export interface IStardustNetwork extends INetwork {
     namespace: NetworkNamespace.Stardust
-    protocol: IProtocol
+    bech32Hrp: string
 
     getStatus(): INetworkStatus
 
