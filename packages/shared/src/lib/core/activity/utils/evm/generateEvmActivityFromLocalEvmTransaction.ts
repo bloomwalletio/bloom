@@ -16,6 +16,7 @@ import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { LocalEvmTransaction } from '@core/transactions'
 import { Converter } from '@core/utils/convert'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
+import { SubjectType } from '@core/wallet'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -53,7 +54,12 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 parameters,
                 methodId: data.substring(0, 10),
                 rawData: data,
-                contractAddress: to?.toString().toLowerCase(),
+                contract: {
+                    type: SubjectType.SmartContract,
+                    address: to?.toString().toLowerCase(),
+                    name: '',
+                    verified: false,
+                },
             } as EvmContractCallActivity
         } else {
             const tokenTransfer =
@@ -72,7 +78,12 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             return {
                 ...baseActivity,
                 type: EvmActivityType.TokenTransfer,
-                contractAddress: to?.toString().toLowerCase(),
+                contract: {
+                    type: SubjectType.SmartContract,
+                    address: to?.toString().toLowerCase(),
+                    name: '',
+                    verified: false,
+                },
                 tokenTransfer,
             } as EvmTokenTransferActivity
         }
