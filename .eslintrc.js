@@ -98,9 +98,9 @@ const svelteRules = {
 }
 
 const svelteSettings = {
-    'svelte3/typescript': () => require('typescript'),
-    'svelte3/ignore-styles': () => true,
-    'svelte3/ignore-warnings': () => false,
+    'svelte/typescript': () => require('typescript'),
+    'svelte/ignore-styles': () => true,
+    'svelte/ignore-warnings': () => false,
 }
 
 module.exports = {
@@ -109,7 +109,7 @@ module.exports = {
         es6: true,
         node: true,
     },
-    extends: ['eslint:recommended'],
+    extends: ['eslint:recommended', 'plugin:svelte/recommended'],
     overrides: [
         {
             files: ['**/*.ts', '**/*.svelte'],
@@ -125,14 +125,17 @@ module.exports = {
                 project: './tsconfig.lint.json',
                 tsconfigRootDir: './',
             },
-            plugins: ['@typescript-eslint', 'svelte3'],
+            plugins: ['@typescript-eslint'],
             rules: linterRules,
             settings: svelteSettings,
         },
         {
             files: '**/*.svelte',
-            processor: 'svelte3/svelte3',
+            parser: 'svelte-eslint-parser',
             settings: svelteSettings,
+            parserOptions: {
+                parser: '@typescript-eslint/parser'
+            },
             rules: {
                 ...linterRules,
                 ...svelteRules,
