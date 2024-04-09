@@ -1,13 +1,12 @@
 <script lang="ts">
-    import { Icon as IconEnum } from '@auxiliary/icon'
     import { DrawerTemplate, NetworkCard } from '@components'
     import { localize } from '@core/i18n'
     import { IChain, clearSelectedChain, network, networkStatus, setSelectedChain } from '@core/network'
     import { Router } from '@core/router'
     import networkFeatures from '@features/network.features'
-    import { Icon } from '@ui'
     import { onMount } from 'svelte'
     import { NetworkConfigRoute, networkConfigRouter } from '../'
+    import { Button, IconName } from '@bloomwalletio/ui'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
@@ -54,15 +53,15 @@
                 {/each}
             {/key}
         </div>
-        {#if networkFeatures.config.addChain.enabled}
-            <button
-                type="button"
-                class="flex flex-row items-center justify-center w-full space-x-2 bg-transparent text-blue-500 px-8 py-3 text-15 rounded-lg"
-                on:click|stopPropagation={onAddChainClick}
-            >
-                <Icon icon={IconEnum.Plus} height={12} />
-                {localize('actions.addChain')}
-            </button>
-        {/if}
     </connected-chains-drawer>
+    <div slot="footer" class="flex justify-center">
+        {#if networkFeatures.config.addChain.enabled}
+            <Button
+                variant="text"
+                icon={IconName.Plus}
+                text={localize('actions.addChain')}
+                on:click={onAddChainClick}
+            />
+        {/if}
+    </div>
 </DrawerTemplate>

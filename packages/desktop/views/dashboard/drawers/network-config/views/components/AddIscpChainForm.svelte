@@ -14,8 +14,7 @@
     import { activeProfile } from '@core/profile/stores'
     import { getNetworkHrp } from '@core/profile/actions'
     import { isValidHexAddress, isValidHttpsUrl, validateBech32Address } from '@core/utils'
-    import { Button } from '@bloomwalletio/ui'
-    import { Input } from '@ui'
+    import { Button, TextInput } from '@bloomwalletio/ui'
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
@@ -105,29 +104,29 @@
 </script>
 
 <add-iscp-chain class="h-full flex flex-col justify-between">
-    <form id="add-chain-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
-        <Input bind:value={chain.name} placeholder={localize('general.name')} disabled={isBusy} error={nameError} />
-        <Input
+    <form id="add-chain-form" class="flex flex-col gap-4 px-6" on:submit|preventDefault={onSubmitClick}>
+        <TextInput bind:value={chain.name} label={localize('general.name')} disabled={isBusy} error={nameError} />
+        <TextInput
             bind:value={chain.id}
-            placeholder={localize(`${localeKey}.chainId`)}
+            label={localize(`${localeKey}.chainId`)}
             disabled={isBusy}
             error={chainIdError}
         />
-        <Input
+        <TextInput
             bind:value={chain.aliasAddress}
-            placeholder={localize(`${localeKey}.aliasAddress`)}
+            label={localize(`${localeKey}.aliasAddress`)}
             disabled={isBusy}
             error={aliasAddressError}
         />
-        <Input
+        <TextInput
             bind:value={chain.rpcEndpoint}
-            placeholder={localize(`${localeKey}.rpcEndpoint`)}
+            label={localize(`${localeKey}.rpcEndpoint`)}
             disabled={isBusy}
             error={rpcEndpointError}
         />
-        <Input
+        <TextInput
             bind:value={chain.explorerUrl}
-            placeholder={localize(`${localeKey}.explorerUrl`)}
+            label={localize(`${localeKey}.explorerUrl`)}
             disabled={isBusy}
             error={explorerUrlError}
         />
