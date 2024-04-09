@@ -10,10 +10,10 @@
             value: DownloadPermission.All,
             label: localize('views.settings.downloadNftPermissions.all'),
         },
-        {
-            value: DownloadPermission.AllExceptDenylist,
-            label: localize('views.settings.downloadNftPermissions.allExceptDenylist'),
-        },
+        // {
+        //     value: DownloadPermission.AllExceptDenylist,
+        //     label: localize('views.settings.downloadNftPermissions.allExceptDenylist'),
+        // },
         {
             value: DownloadPermission.AllowListOnly,
             label: localize('views.settings.downloadNftPermissions.allowListOnly'),
@@ -24,9 +24,9 @@
         },
     ]
 
-    let selected: IOption = options.find(
-        (option) => option.value === $activeProfile?.settings.nfts.downloadPermissions?.toString()
-    )
+    let selected: IOption =
+        options.find((option) => option.value === $activeProfile?.settings.nfts.downloadPermissions?.toString()) ||
+        options[0]
 
     $: onNftDownloadPermissionChange(selected)
     function onNftDownloadPermissionChange(option: IOption | undefined): void {
