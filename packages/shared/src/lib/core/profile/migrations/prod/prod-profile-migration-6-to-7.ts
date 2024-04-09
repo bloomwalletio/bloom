@@ -15,5 +15,8 @@ export function prodProfileMigration6To7(existingProfile: unknown): Promise<void
         maxMediaDownloadTimeInSeconds:
             profile.settings.maxMediaDownloadTimeInSeconds ?? DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
     }
+    delete profile.settings.maxMediaSizeInMegaBytes
+    delete profile.settings.maxMediaDownloadTimeInSeconds
+
     return Promise.resolve()
 }

@@ -15,5 +15,6 @@ export function alphaProfileMigration11To12(existingProfile: unknown): Promise<v
         maxMediaDownloadTimeInSeconds:
             profile.settings.maxMediaDownloadTimeInSeconds ?? DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
     }
+
     return Promise.resolve()
 }
