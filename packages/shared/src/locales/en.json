@@ -2085,6 +2085,10 @@
             "loadingError": {
                 "short": "Unable to load",
                 "long": "An error occurred while loading the NFT"
+            },
+            "downloadNotAllowed": {
+                "short": "Download not allowed",
+                "long": "Your current settings don't allow downloading the NFT"
             }
         },
         "governance": {
