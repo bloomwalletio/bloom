@@ -2,14 +2,11 @@ import { ILoginFeatures } from '@lib/features/interfaces'
 
 const loginFeatures: ILoginFeatures = {
     profileActions: {
-        enabled: false,
-        edit: {
-            enabled: false,
+        enabled: true,
+        diagnostics: {
+            enabled: true,
         },
-        remove: {
-            enabled: false,
-        },
-        viewInFiles: {
+        delete: {
             enabled: false,
         },
     },

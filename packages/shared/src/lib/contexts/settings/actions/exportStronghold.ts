@@ -1,7 +1,7 @@
 import { Platform } from '@core/app/classes'
 import { IError } from '@core/error/interfaces'
 import { backup } from '@core/profile-manager'
-import { updateActiveProfile } from '@core/profile/stores'
+import { getActiveProfile, updateActiveProfile } from '@core/profile/stores'
 import { getDefaultStrongholdName } from '@core/stronghold'
 
 export async function exportStronghold(
@@ -9,7 +9,8 @@ export async function exportStronghold(
     callback?: (cancelled: boolean, error?: string) => void
 ): Promise<void> {
     try {
-        const destination = await Platform.getStrongholdBackupDestination(getDefaultStrongholdName())
+        const activeProfile = getActiveProfile()
+        const destination = await Platform.getStrongholdBackupDestination(getDefaultStrongholdName(activeProfile?.name))
         if (destination) {
             await backup(destination, password)
             updateActiveProfile({ lastStrongholdBackupTime: new Date() })

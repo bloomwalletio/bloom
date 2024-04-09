@@ -5,18 +5,15 @@ import { activeProfile, isActiveLedgerProfile, isSoftwareProfile } from '@core/p
 import { checkOrUnlockStronghold } from '@core/stronghold/actions'
 import { get } from 'svelte/store'
 
-export function checkActiveProfileAuth(
-    callback: () => Promise<unknown> = async () => {},
-    reopenPopup?: { stronghold?: boolean; ledger?: boolean; props?: Record<string, unknown> },
+export async function checkActiveProfileAuth(
     ledgerAppName: LedgerAppName = get(activeProfile)?.network?.id === SupportedNetworkId.Iota
         ? LedgerAppName.Iota
-        : LedgerAppName.Shimmer,
-    onCancel: () => void = (): void => {}
-): Promise<unknown> {
+        : LedgerAppName.Shimmer
+): Promise<void> {
     if (get(isSoftwareProfile)) {
-        return checkOrUnlockStronghold(callback, reopenPopup?.stronghold, reopenPopup?.props, onCancel)
+        await checkOrUnlockStronghold()
     } else if (get(isActiveLedgerProfile)) {
-        return checkOrConnectLedger(callback, reopenPopup?.ledger, ledgerAppName, reopenPopup?.props, onCancel)
+        await checkOrConnectLedger(ledgerAppName)
     }
     return Promise.resolve()
 }

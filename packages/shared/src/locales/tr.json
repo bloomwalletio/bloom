@@ -7,6 +7,33 @@
                 "legalAction": "Okuduğunuzu ve kabul ettiğinizi onaylayın",
                 "button": "Kuruluma başla"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Üçüncü taraf cüzdanlar bulundu",
+                    "title": "Üçüncü taraf uygulamalardan içe aktarma",
+                    "onboardingDescription": "Uyumlu üçüncü taraf cüzdanları kullandığınızı tespit ettik. Profillerinizi şimdi içe aktarabilir veya bunu daha sonra yapabilirsiniz.",
+                    "description": "Profilleri içe aktarmak istediğiniz uygulamaları seçin.",
+                    "empty": "Uygulama bulunamadı",
+                    "import": "İçe aktar"
+                },
+                "importProfiles": {
+                    "title": "Üçüncü taraf profillerini içe aktar",
+                    "description": "İçe aktarmak istediğiniz profilleri seçin.",
+                    "empty": "Profil bulunamadı",
+                    "tooltips": {
+                        "alreadyImported": "Zaten içe aktarıldı",
+                        "needsDbMigration": "Veritabanı geçişi gerekiyor",
+                        "failedProfileMigration": "Profil taşınamıyor"
+                    },
+                    "errors": {
+                        "appIsOpen": "İçe aktarmaya çalıştığınız üçüncü taraf cüzdanı açık. Lütfen cüzdanı kapatın ve tekrar deneyin.",
+                        "unknown": "Profilleri içe aktarmaya çalışırken bilinmeyen bir hata oluştu"
+                    },
+                    "notifications": {
+                        "success": "Profiller başarıyla içe aktarıldı!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Ağınızı seçin",
@@ -299,9 +326,9 @@
                 "title": "Sorun rapor et",
                 "description": "Geliştiricilere bir hata bildirin. Daha önce rapor edilmediğinden emin olmak için kontrol edin"
             },
-            "developerToggle": {
-                "title": "Geliştirici Modu",
-                "description": "Deneysel durumda daha fazla özellik etkinleştirmek için geliştirici modunu açın"
+            "toggleFeatures": {
+                "title": "Özellikleri Etkinleştir / Devre Dışı Bırak",
+                "description": "Özellikleri açın veya kapatın, ihtiyaçlarınıza uygun belirli işlevleri etkinleştirerek veya devre dışı bırakarak deneyiminizi özelleştirin."
             }
         },
         "login": {
@@ -505,13 +532,13 @@
                         "noSupportedNetworks": "Bu dApp, farklı ağlarda çalıştığı için Bloom ile uyumlu değildir.",
                         "unsupportedMethods": "Bu dApp, Bloom ile tam uyumlu değil. Bazı yöntemler veya olaylar desteklenmiyor.",
                         "supportedOnOtherProfile": "Bu dApp, desteklenen bir ağda çalışır ancak bu profille erişilemez. Lütfen gerekli ağa bağlı bir profil kullanın.",
-                        "acceptInsecureConnection": "I understand and wish to proceed",
-                        "supported": "Supported",
-                        "notSupported": "Not supported",
-                        "onAnotherProfile": "On another profile",
-                        "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
-                        "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
-                        "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
+                        "acceptInsecureConnection": "Anlıyorum ve devam etmek istiyorum",
+                        "supported": "Desteklenen",
+                        "notSupported": "Desteklenmeyen",
+                        "onAnotherProfile": "Başka bir profilde",
+                        "scamHint": "Bu alan adı birden fazla güvenlik sağlayıcısı tarafından güvensiz olarak işaretlenmiştir. Varlıklarınızı korumak için hemen terk edin.",
+                        "invalidHint": "Bu web sitesi, talebi gönderenle eşleşmeyen bir alan adıdır. Onaylamak fon kaybına yol açabilir.",
+                        "unknownHint": "Bu uygulama doğrulanmamıştır ve bağlanarak güvenlik riskleri içerebilir."
                     },
                     "editPermissions": {
                         "title": "İzinleri düzenle"
@@ -573,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Yedekleme gerekli",
-                    "body": "Profilinizi henüz yedeklemediniz! Bu cihaza erişiminizi kaybetmeniz durumunda bunu yedeklemenizi şiddetle tavsiye ederiz.",
+                    "body": "Bir süredir profilinizi yedeklemediniz.",
                     "button": "Şimdi yedekle"
                 },
                 "version": {
-                    "body": "Şu anda Bloom'un erken bir sürümünü kullanıyorsunuz.",
-                    "button": "Daha fazlasını öğrenin"
+                    "body": "Şu anda Bloom'un erken bir sürümünü kullanıyorsunuz."
                 },
                 "update": {
                     "header": "Güncelleme Gerekli",
@@ -692,14 +718,14 @@
                     "nodeUrl": "Node URL'si"
                 },
                 "quorum": {
-                    "title": "Quorum progress",
-                    "tooltip": "The quorum of 5% is defined for Tangle Treasury proposals"
+                    "title": "Karar yeter sayısı ilerlemesi",
+                    "tooltip": "Tangle Hazine teklifleri için %5'lik karar yeter sayısı tanımlanmıştır"
                 },
                 "fetching": "Teklif verilerini alma",
                 "hintVote": "Duyuru aşamasında olan bir teklife oy veremezsiniz, oylama {zaman} içinde açılacaktır.",
                 "projection": {
-                    "title": "Show projected votes",
-                    "description": "How voting might finish with current participation",
+                    "title": "Öngörülen oyları göster",
+                    "description": "Mevcut katılımla oylama nasıl sonuçlanabilir",
                     "tooltip": "Tahmin, mevcut oy ağırlığına ve kalan kilometre taşlarına dayanmaktadır."
                 }
             }
@@ -733,8 +759,8 @@
                 "disconnected": "bağlantı kesildi, yenilemeyi deneyin"
             },
             "error": {
-                "title": "Transak could not be loaded",
-                "description": "Please restart the app, if the issue persists please ask for support in our Discord server"
+                "title": "Transak yüklenemedi",
+                "description": "Lütfen uygulamayı yeniden başlatın, sorun devam ederse Discord sunucumuzdan destek isteyin"
             }
         }
     },
@@ -821,7 +847,7 @@
             "installedVersion": "Yüklü versiyon",
             "newVersion": "Yeni versiyon",
             "stage": "Aşama",
-            "prod": "Erken erişim",
+            "prod": "Üretim",
             "alpha": "Alfa",
             "beta": "Beta",
             "releasedAt": "Yayınlanma",
@@ -982,6 +1008,12 @@
             "title": "açılır pencereler -> kilitlenme raporlama -> başlık",
             "body": "Bir hata veya çökme meydana geldiğinde tanısal verilerini otomatik olarak göndererek geliştiricilerin Bloom'u geliştirmesine yardımcı olun. Bu seçilirse, Bloom'un yeniden başlatılmasından sonra geçerli olacaktır.",
             "checkbox": "açılır pencereler -> kilitlenme Raporlama -> onay kutusu"
+        },
+        "exportActivities": {
+            "title": "Dışa Aktarma faaliyetleri",
+            "body": "Faaliyetlerinizi CSV olarak dışa aktarın.",
+            "chooseAccounts": "Hesapları seçin",
+            "emptyAccounts": "En az 1 hesap seçin."
         },
         "signMessage": {
             "title": "Mesajı imzala",
@@ -1253,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Hesap oluştur"
+        },
+        "profileDiagnostics": {
+            "title": "Profile diagnostics"
         }
     },
     "actions": {
@@ -1309,6 +1344,7 @@
         "enableDeveloperMode": "Geliştirici modunu etkinleştir",
         "enableSystemNotifications": "Bildirimleri etkinleştir",
         "exportTransactionHistory": "İşlem geçmişini dışa aktar",
+        "exportActivities": "Dışa Aktarma faaliyetleri",
         "localProofOfWork": "Lokal iş kanıtı",
         "unlock": "Kilidi Aç",
         "updateBloom": "Bloom'u Güncelle",
@@ -1394,7 +1430,8 @@
         "importToken": "{type} tokeni içe aktar",
         "syncTokens": "Tokenları zorla senkronizasyon yap",
         "mintNftCollection": "NFT koleksiyon basma",
-        "readMore": "Read more"
+        "readMore": "Daha fazla bilgi edinin",
+        "importThirdPartyProfiles": "Üçüncü taraf profillerini içe aktarma"
     },
     "general": {
         "recipient": "Alıcı",
@@ -1552,6 +1589,7 @@
         "alias": "Takma ad",
         "foundry": "Dökümhane",
         "token": "Token (Jeton)",
+        "unknownToken": "Bilinmeyen Token",
         "nft": "NFT (Nitelikli Fikri Tapu)",
         "type": "Tip",
         "immutableIssuer": "Değişmez İhraççı",
@@ -1606,7 +1644,11 @@
         "no": "Hayır",
         "tip": "Bahşiş",
         "verified": "Doğrulandı",
+        "unverified": "Doğrulanmamış",
+        "methodId": "Yöntem Kimliği",
         "methodName": "Yöntem Adı",
+        "inputs": "Girişler",
+        "parameters": "Parameters",
         "data": "Veri",
         "success": "Başarılı",
         "info": "Bilgi",
@@ -1618,10 +1660,12 @@
         "raffle": "Çekiliş",
         "governance": "Yönetim",
         "baseCoin": "Temel coin",
-        "unverifiedContract": "Doğrulanmamış Sözleşme",
         "startIndex": "Dizini başlat",
         "mintNftCollectionDescription": "Takma Ad Çıkışında NFT koleksiyonu basma",
-        "question": "Question"
+        "appName": "Uygulama Adı",
+        "question": "Soru",
+        "id": "ID",
+        "location": "Location"
     },
     "filters": {
         "title": "Filtreler",
@@ -1693,8 +1737,9 @@
         },
         "type": {
             "label": "Tip",
-            "basic": "Temel",
+            "transfer": "Transfer",
             "nft": "NFT (Nitelikli Fikri Tapu)",
+            "smartContract": "Akıllı Sözleşme",
             "alias": "Takma ad",
             "foundry": "Dökümhane",
             "governance": "Yönetim",
@@ -1768,6 +1813,9 @@
         },
         "disconnectDapp": {
             "success": "{dappName} ile bağlantı kesildi"
+        },
+        "exportActivities": {
+            "success": "Faaliyetler başarıyla dışa aktarıldı"
         },
         "clearExpiredDapps": {
             "success": "Süresi dolmuş dApp'ler temizlendi"
@@ -1938,7 +1986,7 @@
             "notReachable": "Bu düğümün ağ kimliği alınamadı, düğüm eklenemedi."
         },
         "global": {
-            "invalidUrl": "Invalid URL",
+            "invalidUrl": "Geçersiz URL",
             "generic": "Bir şeyler yanlış gitti."
         },
         "backup": {
@@ -2136,7 +2184,10 @@
         "buySell": "IOTA al",
         "developer": "Geliştirici",
         "tokens": "Tokenler",
-        "settings": "Ayarlar"
+        "settings": "Ayarlar",
+        "tooltips": {
+            "buySell": "IOTA satın almak yalnızca IOTA profillerinde mevcuttur."
+        }
     },
     "pills": {
         "asyncStatus": {

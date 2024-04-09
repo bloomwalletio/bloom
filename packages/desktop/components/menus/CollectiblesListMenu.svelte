@@ -14,15 +14,13 @@
     }
 </script>
 
-<collectibles-list-menu>
-    <Menu
-        bind:this={menu}
-        items={[
-            {
-                icon: IconName.Import,
-                title: localize('actions.importToken', { values: { type: 'ERC-721' } }),
-                onClick: onImportErc721TokenClick,
-            },
-        ]}
-    />
-</collectibles-list-menu>
+<Menu
+    bind:this={menu}
+    items={[
+        {
+            icon: IconName.Import,
+            title: localize('actions.importToken', { values: { type: 'ERC-721' } }),
+            onClick: onImportErc721TokenClick,
+        },
+    ]}
+/>

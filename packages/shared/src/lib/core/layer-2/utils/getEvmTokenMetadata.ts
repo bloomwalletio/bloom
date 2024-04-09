@@ -2,7 +2,7 @@ import { ContractType } from '../enums'
 import { IErc20Metadata } from '@core/token/interfaces'
 import { TokenStandard } from '@core/token/enums'
 import { NetworkId } from '@core/network/types'
-import { getNetwork } from '@core/network'
+import { getChain } from '@core/network'
 import { IErc721ContractMetadata, NftStandard } from '@core/nfts'
 
 export async function getEvmTokenMetadata(
@@ -10,8 +10,7 @@ export async function getEvmTokenMetadata(
     networkId: NetworkId,
     tokenType: ContractType = ContractType.Erc20
 ): Promise<IErc20Metadata | IErc721ContractMetadata | undefined> {
-    const network = getNetwork()
-    const chain = network?.getChain(networkId)
+    const chain = getChain(networkId)
     const contract = chain?.getContract(tokenType, tokenAddress)
     if (contract) {
         const isErc20 = tokenType === ContractType.Erc20

@@ -1,5 +1,5 @@
 import { EvmTransactionData, TransferredAsset } from '../types'
-import { IChain } from '@core/network'
+import { IChain, IscpChain } from '@core/network'
 import { localize } from '@core/i18n'
 import { buildEvmTransactionData } from './buildEvmTransactionData'
 import { Nft, NftStandard } from '@core/nfts'
@@ -32,7 +32,7 @@ function getNftDataForTransaction(
     const transferredAsset = { type: AssetType.Nft, nft } as TransferredAsset
     switch (nft.standard) {
         case NftStandard.Irc27:
-            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
+            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain as IscpChain)
         case NftStandard.Erc721: {
             return getErc721TransferSmartContractData(originAddress, recipientAddress, nft, chain)
         }
