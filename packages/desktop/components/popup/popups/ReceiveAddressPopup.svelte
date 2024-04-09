@@ -22,7 +22,7 @@
         const account = $selectedAccount as IAccountState
 
         if (selectedNetworkId && isStardustNetwork(selectedNetworkId)) {
-            networkName = $network?.getMetadata().name
+            networkName = $network?.name
             receiveAddress = account.depositAddress
         } else if (selectedNetworkId && isEvmChain(selectedNetworkId)) {
             const chain = getChain(selectedNetworkId)
