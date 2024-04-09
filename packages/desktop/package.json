@@ -1,7 +1,7 @@
 {
     "name": "desktop",
     "productName": "Bloom",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Simple and secure web3 wallet for the IOTA and Shimmer ecosystem",
     "main": "public/build/main.process.js",
     "repository": "git@github.com:bloomwalletio/bloom.git",
@@ -52,7 +52,7 @@
         "copy-webpack-plugin": "12.0.2",
         "cross-env": "7.0.3",
         "css-loader": "6.10.0",
-        "electron": "28.2.7",
+        "electron": "29.2.0",
         "electron-builder": "24.13.3",
         "@electron/notarize": "2.3.0",
         "esbuild": "0.19.5",
