@@ -4,6 +4,8 @@
     import { DownloadPermission } from '@core/nfts'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import SettingsSection from '../SettingsSection.svelte'
+    import { allAccountNfts } from '@core/nfts/stores'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
 
     const options: IOption[] = [
         {
@@ -28,17 +30,18 @@
         options.find((option) => option.value === $activeProfile?.settings.nfts.downloadPermissions?.toString()) ||
         options[0]
 
-    $: onNftDownloadPermissionChange(selected)
-    function onNftDownloadPermissionChange(option: IOption | undefined): void {
-        if (option) {
-            const nftDownloadPermissions = option.value
-            updateActiveProfileSettings({
-                nfts: {
-                    ...$activeProfile?.settings.nfts,
-                    downloadPermissions: nftDownloadPermissions as DownloadPermission,
-                },
-            })
-        }
+    $: selected && onNftDownloadPermissionChange(selected)
+    async function onNftDownloadPermissionChange(option: IOption): Promise<void> {
+        const nftDownloadPermissions = option.value
+        updateActiveProfileSettings({
+            nfts: {
+                ...$activeProfile?.settings.nfts,
+                downloadPermissions: nftDownloadPermissions as DownloadPermission,
+            },
+        })
+
+        const allNfts = $allAccountNfts.flatMap((nfts) => nfts)
+        await addNftsToDownloadQueue(allNfts)
     }
 </script>
 
