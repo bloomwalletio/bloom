@@ -4,7 +4,7 @@ import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { SubjectType } from '../enums'
 import { Subject } from '../types'
 import { getNetworkFromAddress } from '@core/layer-2/actions'
-import { ISC_MAGIC_CONTRACT_ADDRESS, ISC_MAGIC_CONTRACT_TOKEN_ADDRESS } from '@core/layer-2'
+import { ISC_MAGIC_CONTRACT_ADDRESS, ISC_BASE_COIN_ADDRESS } from '@core/layer-2'
 import { localize } from '@core/i18n'
 
 export function getSubjectFromAddress(address: string, networkId: NetworkId): Subject {
@@ -13,7 +13,7 @@ export function getSubjectFromAddress(address: string, networkId: NetworkId): Su
         return { type: SubjectType.Account, account, address }
     }
 
-    if (address === ISC_MAGIC_CONTRACT_ADDRESS || address === ISC_MAGIC_CONTRACT_TOKEN_ADDRESS) {
+    if (address === ISC_MAGIC_CONTRACT_ADDRESS || address === ISC_BASE_COIN_ADDRESS) {
         return { type: SubjectType.SmartContract, name: localize('general.magicContract'), address, verified: true }
     }
 
