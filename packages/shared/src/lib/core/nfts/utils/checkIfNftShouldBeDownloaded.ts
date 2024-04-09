@@ -2,11 +2,12 @@ import { Platform } from '@core/app/classes'
 import features from '@features/features'
 import { StatusCodes } from 'http-status-codes'
 import { get } from 'svelte/store'
-import { NFT_MEDIA_FILE_NAME } from '../constants'
-import { DownloadErrorType } from '../enums'
+import { IPFS_GATEWAY, NFT_MEDIA_FILE_NAME } from '../constants'
+import { DownloadErrorType, DownloadPermission, DownloadWarningType } from '../enums'
 import { IDownloadMetadata, Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 import { IError } from '@core/error/interfaces'
+import { getActiveProfile } from '@core/profile/stores'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: Nft
@@ -30,6 +31,22 @@ export async function checkIfNftShouldBeDownloaded(
         if (!nft.composedUrl) {
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        }
+
+        const nftSettings = getActiveProfile()?.settings?.nfts ?? {}
+        if (nftSettings.downloadPermissions === DownloadPermission.None) {
+            downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
+            return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        } else if (nftSettings.downloadPermissions === DownloadPermission.AllExceptDenylist) {
+            // TODO: Implement deny list
+            downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
+            return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        } else if (nftSettings.downloadPermissions === DownloadPermission.AllowListOnly) {
+            // TODO: Implement allow list
+            if (!nft.composedUrl.startsWith(IPFS_GATEWAY)) {
+                downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
+                return { shouldDownload: false, isLoaded: false, downloadMetadata }
+            }
         }
 
         const notRecoverableErrors: StatusCodes[] = [] // TODO: Define which errors we want to blacklist
