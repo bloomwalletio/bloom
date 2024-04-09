@@ -20,10 +20,7 @@
         }
     }
 
-    const layer1Metadata = $network?.getMetadata()
-    const layer1Network: IOption | undefined = layer1Metadata
-        ? { label: layer1Metadata.name, value: layer1Metadata.id }
-        : undefined
+    const layer1Network: IOption | undefined = $network ? { label: $network.name, value: $network.id } : undefined
     const networkOptions = getNetworkOptions(showLayer2)
 
     let selected = networkOptions[0]

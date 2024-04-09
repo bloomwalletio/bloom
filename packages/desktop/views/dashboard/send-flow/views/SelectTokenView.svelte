@@ -57,8 +57,7 @@
         const network = getNetwork()
         if (!network) return tabs
 
-        const networkMetadata = network.getMetadata()
-        tabs.push({ key: networkMetadata.id, value: networkMetadata.name })
+        tabs.push({ key: network.id, value: network.name })
 
         const chains = network.getChains()
         for (const chain of chains) {
