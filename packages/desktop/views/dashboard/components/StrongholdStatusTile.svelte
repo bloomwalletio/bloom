@@ -1,6 +1,7 @@
 <script lang="ts">
     import { IconName } from '@bloomwalletio/ui'
     import { StatusTile, type StatusTileProps } from '@components'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { lockStronghold } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
@@ -11,11 +12,15 @@
 
     $: statusTileProps = setStatusTileProps($isStrongholdLocked)
 
-    function onStrongholdToggleClick(): void {
-        if ($isStrongholdLocked) {
-            void checkOrUnlockStronghold()
-        } else {
-            lockStronghold()
+    async function onStrongholdToggleClick(): Promise<void> {
+        try {
+            if ($isStrongholdLocked) {
+                await checkOrUnlockStronghold()
+            } else {
+                lockStronghold()
+            }
+        } catch (err) {
+            handleError(err)
         }
     }
 
