@@ -1,4 +1,3 @@
-import { AppStage } from '@core/app/enums'
 import {
     DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
     DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
@@ -6,11 +5,10 @@ import {
 } from '@core/nfts'
 import { IPersistedProfile } from '@core/profile/interfaces'
 
-export function betaProfileMigration0To1(existingProfile: unknown): Promise<void> {
+export function alphaProfileMigration11To12(existingProfile: unknown): Promise<void> {
     const profile = existingProfile as IPersistedProfile & {
         settings: { maxMediaSizeInMegaBytes?: number; maxMediaDownloadTimeInSeconds?: number }
     }
-    profile.versionTrack = AppStage.BETA
     profile.settings.nfts = {
         downloadPermissions: DownloadPermission.AllowListOnly,
         maxMediaSizeInMegaBytes: profile.settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,

@@ -1,7 +1,11 @@
 import { IPersistedAccountData } from '@core/account'
 import { MarketCurrency } from '@core/market'
 import { DEFAULT_CHAIN_CONFIGURATIONS, IPersistedNetwork, NetworkNamespace } from '@core/network'
-import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts'
+import {
+    DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+    DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
+    DownloadPermission,
+} from '@core/nfts'
 import {
     DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
     IPersistedProfile,
@@ -88,9 +92,12 @@ function buildSettingsFromThirdPartyPersistedSettings(settings: IThirdPartyPersi
         lockScreenTimeoutInMinutes: settings.lockScreenTimeoutInMinutes ?? DEFAULT_LOCK_SCREEN_TIMEOUT_IN_MINUTES,
         strongholdPasswordTimeoutInMinutes:
             settings.strongholdPasswordTimeoutInMinutes ?? DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
-        maxMediaSizeInMegaBytes: settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
-        maxMediaDownloadTimeInSeconds:
-            settings.maxMediaDownloadTimeInSeconds ?? DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+        nfts: {
+            downloadPermissions: DownloadPermission.AllowListOnly,
+            maxMediaSizeInMegaBytes: settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
+            maxMediaDownloadTimeInSeconds:
+                settings.maxMediaDownloadTimeInSeconds ?? DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+        },
         hideNetworkStatistics: settings.hideNetworkStatistics,
     }
 }

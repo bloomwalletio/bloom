@@ -330,6 +330,15 @@
             "toggleFeatures": {
                 "title": "Enable / Disable features",
                 "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
+            },
+            "downloadNftPermissions": {
+                "title": "Nft download permissions",
+                "description": "Download permissions for the automatic downloading of NFT media",
+                "input": "Download permissions",
+                "all": "Download All",
+                "allExceptDenylist": "All Except Known Risks",
+                "allowListOnly": "Only Known Domains",
+                "none": "Do Not Download Any"
             }
         },
         "login": {

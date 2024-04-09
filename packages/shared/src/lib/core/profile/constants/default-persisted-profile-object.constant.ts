@@ -7,6 +7,7 @@ import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_ME
 import { PROFILE_VERSION } from './profile-version.constant'
 import { APP_STAGE } from '@core/app/constants'
 import { StrongholdVersion } from '@core/stronghold/enums'
+import { DownloadPermission } from '@core/nfts'
 
 export const DEFAULT_PERSISTED_PROFILE_OBJECT: Omit<IPersistedProfile, 'network'> = {
     id: '',
@@ -20,8 +21,11 @@ export const DEFAULT_PERSISTED_PROFILE_OBJECT: Omit<IPersistedProfile, 'network'
         marketCurrency: DEFAULT_MARKET_CURRENCY,
         lockScreenTimeoutInMinutes: DEFAULT_LOCK_SCREEN_TIMEOUT_IN_MINUTES,
         strongholdPasswordTimeoutInMinutes: DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
-        maxMediaSizeInMegaBytes: DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
-        maxMediaDownloadTimeInSeconds: DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+        nfts: {
+            downloadPermissions: DownloadPermission.AllowListOnly,
+            maxMediaSizeInMegaBytes: DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
+            maxMediaDownloadTimeInSeconds: DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+        },
         hideNetworkStatistics: true,
     },
     lastStrongholdBackupTime: undefined,
