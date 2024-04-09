@@ -15,8 +15,8 @@
         }
         // L1 network
         const layer1Network = {
-            label: $network.getMetadata().name,
-            value: $network.getMetadata().id,
+            label: $network.name,
+            value: $network.id,
         }
         // L2 chains, ISCP only for now
         const iscpChains = features?.network?.layer2?.enabled

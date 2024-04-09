@@ -1,19 +1,16 @@
 import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
-import { ChainMetadata, NetworkId, Web3Provider } from '../types'
+import { ChainMetadata, Web3Provider } from '../types'
 import { IBlock } from './block.interface'
 import { IChainStatus } from './chain-status.interface'
 import { ChainType, EvmChainId, NetworkNamespace } from '../enums'
-import { CoinType } from '@iota/sdk/out/types'
+import { INetwork } from './network.interface'
 
-export interface IChain {
-    id: NetworkId
+export interface IChain extends INetwork {
     namespace: NetworkNamespace.Evm
     chainId: EvmChainId
-    type: ChainType.Iscp
-    coinType: CoinType
-    name: string
+    type: ChainType
     explorerUrl: string | undefined
     rpcEndpoint: string
     apiEndpoint: string
