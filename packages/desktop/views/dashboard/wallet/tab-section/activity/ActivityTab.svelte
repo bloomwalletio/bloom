@@ -76,7 +76,7 @@
     {/if}
 </activity-tab>
 
-<style lang="scss">
+<style lang="postcss">
     $paneHeaderHeight: 68px;
 
     activity-tab {

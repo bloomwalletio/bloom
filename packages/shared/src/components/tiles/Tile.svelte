@@ -4,7 +4,8 @@
     export let classes = ''
 </script>
 
-<tile
+<button
+    type="button"
     class="
         flex p-4 rounded-10
         {fullWidth ? 'w-full' : ''}
@@ -17,4 +18,4 @@
     {...$$restProps}
 >
     <slot />
-</tile>
+</button>

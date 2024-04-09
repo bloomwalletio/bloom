@@ -77,7 +77,8 @@ const typescriptEslintRules = {
     '@typescript-eslint/no-unsafe-return': 'off', // OFF b/c used in Svelte components for UI logic
     '@typescript-eslint/no-unsafe-argument': 'off', // OFF b/c ESlint resolves types of the absolute imports as any
     '@typescript-eslint/unused-export-let': 'off', // OFF b/c used in Svelte components for UI logic
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
+
     '@typescript-eslint/no-var-requires': 'error',
     '@typescript-eslint/prefer-regexp-exec': 'error',
     '@typescript-eslint/restrict-plus-operands': 'off', // OFF b/c not entirely accurate despite proper typings

@@ -52,6 +52,8 @@
             out:fade={{ duration: DRAWER_ANIMATION_DURATION_MS }}
             on:click={onCloseClick}
             on:keydown={() => {}}
+            role="button"
+            tabindex="-1"
             class="fixed left-0 w-full z-0 bg-neutral-6/75"
             style:height="calc(100% - var(--windows-navbar-height, 0px))"
         />

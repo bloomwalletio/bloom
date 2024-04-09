@@ -10,7 +10,6 @@
     import SettingsSection from '../SettingsSection.svelte'
 
     let exportStrongholdChecked: boolean
-    let startOfPasswordChange: number
 
     let currentPassword = ''
     let currentPasswordError = ''
@@ -18,20 +17,16 @@
     let confirmedPassword = ''
     let busy = false
     let newPasswordError = ''
-    let changeMessageLocale = ''
 
     $: passwordStrength = zxcvbn(newPassword)
 
     async function changePassword(): Promise<void> {
         if (isPasswordValid()) {
             busy = true
-            changeMessageLocale = 'general.passwordUpdating'
-            startOfPasswordChange = Date.now()
 
             try {
                 await changePasswordAndUnlockStronghold(currentPassword, newPassword)
                 if (exportStrongholdChecked) {
-                    changeMessageLocale = 'general.exportingStronghold'
                     void exportStronghold(newPassword, cancelStrongholdExport)
                     return
                 }
@@ -39,20 +34,17 @@
             } catch (err) {
                 console.error(err)
                 currentPasswordError = 'error.password.incorrect'
-                hideBusy(currentPasswordError, 0)
             }
         }
     }
 
     function cancelStrongholdExport(cancelled: boolean, err: string): void {
         if (cancelled) {
-            hideBusy('', 0)
             return
         }
 
         if (err) {
             currentPasswordError = err
-            hideBusy('general.passwordFailed', 0)
             return
         }
 
@@ -91,7 +83,6 @@
         currentPasswordError = ''
         newPasswordError = ''
         busy = false
-        changeMessageLocale = ''
     }
 
     function resetPasswordsOnSuccess(): void {
@@ -99,24 +90,6 @@
         newPassword = ''
         confirmedPassword = ''
         exportStrongholdChecked = false
-        hideBusy('general.passwordSuccess', 2000)
-    }
-
-    function hideBusy(messageLocale: string, timeout: number): void {
-        const diff = Date.now() - startOfPasswordChange
-        if (diff < timeout) {
-            setTimeout(() => {
-                showPasswordMessage(messageLocale)
-            }, timeout - diff)
-        } else {
-            showPasswordMessage(messageLocale)
-        }
-    }
-
-    function showPasswordMessage(message: string): void {
-        busy = false
-        changeMessageLocale = message
-        setTimeout(() => (changeMessageLocale = ''), 2000)
     }
 </script>
 

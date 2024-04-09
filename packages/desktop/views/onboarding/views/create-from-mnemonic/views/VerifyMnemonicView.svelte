@@ -111,7 +111,7 @@
                     {/if}
                 </div>
                 <div class="grid grid-cols-4 gap-2">
-                    {#each wordChoices as word, i}
+                    {#each wordChoices as word}
                         {@const error = choiceError === word && chosenWord === word}
                         {@const selected = chosenWord === word}
                         <button type="button" on:click={() => onChoiceClick(word)} class:error class:selected>
