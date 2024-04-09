@@ -74,9 +74,9 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         : blockscoutTokenTransfer.from.is_contract
           ? {
                 type: SubjectType.SmartContract,
-                address: blockscoutTokenTransfer.to.hash.toLowerCase(),
-                name: blockscoutTokenTransfer.to.name ?? '',
-                verified: blockscoutTokenTransfer.to.is_verified,
+                address: blockscoutTokenTransfer.from.hash.toLowerCase(),
+                name: blockscoutTokenTransfer.from.name ?? '',
+                verified: blockscoutTokenTransfer.from.is_verified,
             }
           : undefined
 
