@@ -10,7 +10,6 @@ export enum PopupId {
     BurnNativeTokensConfirmation = 'burnNativeTokensConfirmation',
     CheckForUpdates = 'checkForUpdates',
     Confirmation = 'confirmation',
-    ConnectLedger = 'connectLedger',
     CreateAccount = 'createAccount',
     DeepLinkError = 'deepLinkError',
     DappAccountSwitcher = 'dappAccountSwitcher',
@@ -47,7 +46,6 @@ export enum PopupId {
     SyncAccounts = 'syncAccounts',
     TestDeepLinkForm = 'testDeepLinkForm',
     TokenInformation = 'tokenInformation',
-    UnlockStronghold = 'unlockStronghold',
     VoteForProposal = 'voteForProposal',
     VotingPowerToZero = 'votingPowerToZero',
 }

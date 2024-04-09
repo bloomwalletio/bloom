@@ -100,10 +100,9 @@
 
     async function onClaimRewardsClick(): Promise<void> {
         if ($isOnboardingLedgerProfile) {
-            void checkOrConnectLedger(() => ledgerRaceConditionProtectionWrapper(claimRewards))
-        } else {
-            await ledgerRaceConditionProtectionWrapper(claimRewards)
+            await checkOrConnectLedger()
         }
+        await ledgerRaceConditionProtectionWrapper(claimRewards)
     }
 
     async function setupShimmerClaiming(): Promise<void> {
