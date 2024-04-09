@@ -1,11 +1,8 @@
 import { IPersistedAccountData } from '@core/account'
 import { MarketCurrency } from '@core/market'
 import { DEFAULT_CHAIN_CONFIGURATIONS, IPersistedNetwork, NetworkNamespace } from '@core/network'
-import {
-    DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
-    DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
-    DownloadPermission,
-} from '@core/nfts'
+import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts/constants'
+import { DownloadPermission } from '@core/nfts/enums'
 import {
     DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
     IPersistedProfile,

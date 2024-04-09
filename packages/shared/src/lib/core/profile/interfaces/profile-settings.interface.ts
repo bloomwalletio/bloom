@@ -1,5 +1,5 @@
-import { MarketCurrency } from '@core/market'
-import { DownloadPermission } from '@core/nfts'
+import type { MarketCurrency } from '@core/market'
+import type { DownloadPermission } from '@core/nfts/enums'
 
 export interface IProfileSettings {
     marketCurrency: MarketCurrency
