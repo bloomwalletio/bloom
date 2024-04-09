@@ -19,12 +19,12 @@
     items={[
         {
             key: localize('general.contractAddress'),
-            value: activity.contractAddress || undefined,
-            onClick: () => onExplorerClick(activity.contractAddress ?? ''),
+            value: activity.contract?.address || undefined,
+            onClick: () => onExplorerClick(activity.contract?.address ?? ''),
         },
         {
             key: localize('general.verified'),
-            value: activity.verified ? localize('general.yes') : localize('general.no'),
+            value: activity.contract?.verified ? localize('general.yes') : localize('general.no'),
         },
         {
             key: localize('general.methodName'),

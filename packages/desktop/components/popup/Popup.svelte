@@ -26,7 +26,6 @@
     import BurnNativeTokensPopup from './popups/BurnNativeTokensPopup.svelte'
     import CheckForUpdatesPopup from './popups/CheckForUpdatesPopup.svelte'
     import ConfirmationPopup from './popups/ConfirmationPopup.svelte'
-    import ConnectLedgerPopup from './popups/ConnectLedgerPopup.svelte'
     import CreateAccountPopup from './popups/CreateAccountPopup.svelte'
     import CustomiseAccountPopup from './popups/CustomiseAccountPopup.svelte'
     import DappAccountSwitcherPopup from './popups/DappAccountSwitcherPopup.svelte'
@@ -63,7 +62,6 @@
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
     import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
-    import UnlockStrongholdPopup from './popups/UnlockStrongholdPopup.svelte'
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
     import { localize } from '@core/i18n'
@@ -108,7 +106,6 @@
         [PopupId.BurnNativeTokens]: BurnNativeTokensPopup,
         [PopupId.CheckForUpdates]: CheckForUpdatesPopup,
         [PopupId.Confirmation]: ConfirmationPopup,
-        [PopupId.ConnectLedger]: ConnectLedgerPopup,
         [PopupId.CreateAccount]: CreateAccountPopup,
         [PopupId.CustomiseAccount]: CustomiseAccountPopup,
         [PopupId.DappAccountSwitcher]: DappAccountSwitcherPopup,
@@ -145,7 +142,6 @@
         [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,
-        [PopupId.UnlockStronghold]: UnlockStrongholdPopup,
         [PopupId.VoteForProposal]: VoteForProposal,
         [PopupId.VotingPowerToZero]: VotingPowerToZeroPopup,
     }
