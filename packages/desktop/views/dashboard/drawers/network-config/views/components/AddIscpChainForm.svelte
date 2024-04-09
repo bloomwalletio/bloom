@@ -9,6 +9,7 @@
         NetworkId,
         EvmChainId,
         NetworkNamespace,
+        getNetwork,
     } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { getNetworkHrp } from '@core/profile/actions'
@@ -23,7 +24,8 @@
     let aliasAddressError = ''
     let rpcEndpointError = ''
     let explorerUrlError = ''
-    $: submitDisabled = !chain.name || !chain.aliasAddress || !chain.rpcEndpoint
+    const chainIdError = ''
+    $: submitDisabled = !chain.name || !chain.id || !chain.aliasAddress || !chain.rpcEndpoint
 
     const chain: IIscpChainConfiguration = {
         type: ChainType.Iscp,
@@ -93,16 +95,24 @@
     function onSubmitClick(): void {
         resetErrors()
         validate()
-        const hasError = !!nameError || !!aliasAddressError || !!rpcEndpointError || !!explorerUrlError
-        if (!hasError) {
-            // TODO: https://github.com/iotaledger/firefly/issues/6375
+        const hasError =
+            !!nameError || !!aliasAddressError || !!rpcEndpointError || !!chainIdError || !!explorerUrlError
+        if (hasError) {
+            return
         }
+        getNetwork()?.addChain(chain)
     }
 </script>
 
 <add-iscp-chain class="h-full flex flex-col justify-between">
     <form id="add-chain-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
         <Input bind:value={chain.name} placeholder={localize('general.name')} disabled={isBusy} error={nameError} />
+        <Input
+            bind:value={chain.id}
+            placeholder={localize(`${localeKey}.chainId`)}
+            disabled={isBusy}
+            error={chainIdError}
+        />
         <Input
             bind:value={chain.aliasAddress}
             placeholder={localize(`${localeKey}.aliasAddress`)}
@@ -117,7 +127,7 @@
         />
         <Input
             bind:value={chain.explorerUrl}
-            placeholder={localize(`${localeKey}.explorerEndpoint`)}
+            placeholder={localize(`${localeKey}.explorerUrl`)}
             disabled={isBusy}
             error={explorerUrlError}
         />
