@@ -1,8 +1,5 @@
-import {
-    DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
-    DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
-    DownloadPermission,
-} from '@core/nfts'
+import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts/constants'
+import { DownloadPermission } from '@core/nfts/enums'
 import { IPersistedProfile } from '@core/profile/interfaces'
 
 export function alphaProfileMigration11To12(existingProfile: unknown): Promise<void> {
