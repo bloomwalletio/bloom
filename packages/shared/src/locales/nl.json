@@ -1287,7 +1287,7 @@
             "title": "Account aanmaken"
         },
         "profileDiagnostics": {
-            "title": "Profile diagnostics"
+            "title": "Profiel diagnose"
         }
     },
     "actions": {
@@ -1665,7 +1665,7 @@
         "appName": "App naam",
         "question": "Vraag",
         "id": "ID",
-        "location": "Location"
+        "location": "Locatie"
     },
     "filters": {
         "title": "Filters",
