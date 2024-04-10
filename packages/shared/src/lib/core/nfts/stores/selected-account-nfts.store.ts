@@ -1,7 +1,5 @@
 import { derived, Readable, Writable, writable } from 'svelte/store'
-
 import { selectedAccount } from '@core/account/stores'
-
 import { IIrc27Nft, Nft } from '../interfaces'
 import { allAccountNfts } from './all-account-nfts.store'
 import { time } from '@core/app/stores/time.store'
@@ -33,13 +31,3 @@ export const ownedNfts: Readable<Nft[]> = derived([selectedAccountNfts, time], (
 )
 
 export const nftSearchTerm: Writable<string> = writable('')
-
-export const queriedNfts: Readable<Nft[]> = derived([ownedNfts, nftSearchTerm], ([$ownedNfts, $nftSearchTerm]) => {
-    let nftList = $ownedNfts
-
-    if ($nftSearchTerm) {
-        nftList = nftList.filter((nft) => nft.name.toLowerCase().includes($nftSearchTerm.toLowerCase()))
-    }
-
-    return nftList.sort((nft1, nft2) => (nft2.name.toLowerCase() < nft1.name.toLowerCase() ? 1 : -1))
-})
