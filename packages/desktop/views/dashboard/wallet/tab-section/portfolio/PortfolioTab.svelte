@@ -83,11 +83,10 @@
 </portfolio-tab>
 
 <style lang="postcss">
-    $paneHeaderHeight: 68px;
-
     portfolio-tab {
+        --pane-header-height: 68px;
         @apply flex flex-col flex-grow;
-        height: calc(100% - $paneHeaderHeight);
+        height: calc(100% - var(--pane-header-height));
 
         header-row {
             @apply w-full;
