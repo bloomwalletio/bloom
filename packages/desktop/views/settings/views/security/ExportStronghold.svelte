@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { ProfileAuthPopupId, openProfileAuthPopup } from '@desktop/auxiliary/popup'
     import { exportStronghold } from '@contexts/settings'
     import SettingsSection from '../SettingsSection.svelte'
 
@@ -29,8 +29,8 @@
         busy = false
         message = ''
 
-        openPopup({
-            id: PopupId.UnlockStronghold,
+        openProfileAuthPopup({
+            id: ProfileAuthPopupId.UnlockStronghold,
             props: {
                 onSuccess: (password: string) => {
                     busy = true

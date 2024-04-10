@@ -13,7 +13,7 @@ export async function generateActivitiesFromBalanceChanges(
 
     const chains = get(network)?.getChains() ?? []
     for (const chain of chains) {
-        const networkId = chain.getConfiguration().id
+        const networkId = chain.id
         const balanceChanges = getBalanceChanges(profileId, account.index, networkId)
 
         const tokenActivities = await generateActivitiesFromTokenBalanceChanges(

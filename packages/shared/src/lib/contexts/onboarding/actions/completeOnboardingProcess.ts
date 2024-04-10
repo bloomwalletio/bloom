@@ -31,8 +31,8 @@ export async function completeOnboardingProcess(): Promise<void> {
     const { type } = get(activeProfile)
 
     if (type === ProfileType.Software) {
-        const coinType = getNetwork()?.getChains()?.[0]?.getConfiguration()?.coinType
-        if (coinType) {
+        const coinType = getNetwork()?.getChains()?.[0]?.coinType
+        if (coinType !== undefined) {
             await generateAndStoreEvmAddressForAccounts(type, coinType, ...accounts)
         }
     }

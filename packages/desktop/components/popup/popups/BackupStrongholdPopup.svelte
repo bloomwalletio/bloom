@@ -2,7 +2,7 @@
     import { localize } from '@core/i18n'
     import { Logo } from '@ui'
     import { Text } from '@bloomwalletio/ui'
-    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { ProfileAuthPopupId, closePopup, openProfileAuthPopup } from '@desktop/auxiliary/popup'
     import { LogoName } from '@auxiliary/logo'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { exportStronghold } from '@contexts/settings/actions'
@@ -35,8 +35,8 @@
     function onExportClick(): void {
         busy = false
 
-        openPopup({
-            id: PopupId.UnlockStronghold,
+        openProfileAuthPopup({
+            id: ProfileAuthPopupId.UnlockStronghold,
             props: {
                 subtitle: localize('popups.password.backup'),
                 onSuccess: (password: string) => {

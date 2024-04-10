@@ -25,12 +25,13 @@ import { BASE_TOKEN_ID, TokenTrackingStatus } from '@core/token'
 import features from '@features/features'
 import { KeyValue } from '@ui/types'
 import { IError } from '@core/error'
+import { IscpChain } from '@core/network'
 
 export function fetchL2BalanceForAccount(profileId: string, account: IAccountState): void {
     const { evmAddresses, index } = account
     const chains = getNetwork()?.getChains() ?? []
     chains.forEach(async (chain) => {
-        const { coinType, id: networkId } = chain.getConfiguration()
+        const { coinType, id: networkId } = chain
         const evmAddress = evmAddresses?.[coinType]
         if (!evmAddress) {
             return
@@ -69,7 +70,7 @@ export function fetchL2BalanceForAccount(profileId: string, account: IAccountSta
 async function getL2NativeTokenBalancesForAddress(evmAddress: string, chain: IChain): Promise<ILayer2TokenBalance[]> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('balance')
-    const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
+    const agentID = evmAddressToAgentId(evmAddress, (chain as IscpChain).aliasAddress)
     const parameters = getAgentBalanceParameters(agentID)
     try {
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
@@ -90,7 +91,9 @@ async function getL2NativeTokenBalancesForAddress(evmAddress: string, chain: ICh
 }
 
 async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Promise<ILayer2TokenBalance[]> {
-    const networkId = chain.getConfiguration().id
+    const networkId = chain.id
+    const coinType = chain.coinType
+
     const trackedTokens = getActiveProfile()?.trackedTokens?.[networkId] ?? {}
     const erc20TokenBalances: ILayer2TokenBalance[] = []
     for (const [erc20Address, trackingStatus] of Object.entries(trackedTokens)) {
@@ -100,7 +103,6 @@ async function getErc20BalancesForAddress(evmAddress: string, chain: IChain): Pr
             }
 
             const contract = chain?.getContract(ContractType.Erc20, erc20Address)
-            const coinType = chain?.getConfiguration().coinType
             if (!contract || !coinType) {
                 continue
             }
@@ -122,7 +124,7 @@ async function fetchL2Irc27Nfts(
 ): Promise<void> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('accountNFTs')
-    const agentID = evmAddressToAgentId(evmAddress, chain.getConfiguration())
+    const agentID = evmAddressToAgentId(evmAddress, (chain as IscpChain).aliasAddress)
     const parameters = getAgentBalanceParameters(agentID)
     try {
         const contract = chain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
@@ -133,7 +135,7 @@ async function fetchL2Irc27Nfts(
         // the element with `key: "0x69"` just represents the length of the list, so it needs to be excluded
         const nftIds = nftResult.items.filter((item) => item.key !== '0x69').map((item) => item.value)
 
-        const networkId = chain.getConfiguration().id
+        const networkId = chain.id
         const nftsForChain = get(selectedAccountNfts).filter((nft) => nft.networkId === networkId && isIrc27Nft(nft))
 
         const newNftIds = nftIds.filter((nftId) => !nftsForChain.some((nft) => nft.id === nftId))

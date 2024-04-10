@@ -9,7 +9,6 @@
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
-    import { checkOrUnlockStronghold } from '@core/stronghold/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
@@ -20,9 +19,9 @@
         total: string
     }
 
-    const { network, type } = $onboardingProfile
+    const { network, type } = $onboardingProfile ?? {}
 
-    const DEFAULT_CONFIG = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type]
+    const DEFAULT_CONFIG = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type as ProfileType]
 
     let accountStartIndex = 0
     let accountGapLimit = DEFAULT_CONFIG.initialAccountRange
@@ -101,7 +100,7 @@
         try {
             error = ''
             isBusy = true
-            const _function = networkSearchMethod[network.id] ?? singleAddressSearch
+            const _function = networkSearchMethod[network?.id] ?? singleAddressSearch
             await ledgerRaceConditionProtectionWrapper(_function)
         } catch (err) {
             error = localize(err.error)
@@ -120,23 +119,11 @@
         const alias = account.getMetadata()?.alias
 
         const balance = await account.getBalance()
-        const baseToken = network.baseToken
+        const baseToken = network?.baseToken
         const baseCoinBalance = balance?.baseCoin?.total ?? BigInt(0)
         const total = formatTokenAmountBestMatch(baseCoinBalance, baseToken)
 
         return { alias, total }
-    }
-
-    function checkOnboardingProfileAuth(callback: () => Promise<unknown>): Promise<unknown> {
-        if (type === ProfileType.Software) {
-            return checkOrUnlockStronghold(callback)
-        } else {
-            return checkOrConnectLedger(
-                callback,
-                false,
-                network.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
-            )
-        }
     }
 
     function onContinueClick(): void {
@@ -144,7 +131,12 @@
     }
 
     async function onFindBalancesClick(): Promise<void> {
-        await checkOnboardingProfileAuth(async () => await findBalances())
+        if (type === ProfileType.Ledger) {
+            await checkOrConnectLedger(
+                network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+            )
+        }
+        await findBalances()
     }
 
     onMount(async () => {

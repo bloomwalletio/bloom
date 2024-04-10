@@ -52,18 +52,16 @@
     let selectedTab = tabs[0]
 
     function getTabs(): KeyValue<string>[] {
-        const tabs = [{ key: 'all', value: 'All' }]
+        const tabs = [{ key: 'all', value: localize('general.all') }]
 
         const network = getNetwork()
         if (!network) return tabs
 
-        const networkMetadata = network.getMetadata()
-        tabs.push({ key: networkMetadata.id, value: networkMetadata.name })
+        tabs.push({ key: network.id, value: network.name })
 
         const chains = network.getChains()
         for (const chain of chains) {
-            const chainMetadata = chain.getConfiguration()
-            tabs.push({ key: chainMetadata.id, value: chainMetadata.name })
+            tabs.push({ key: chain.id, value: chain.name })
         }
         return tabs
     }

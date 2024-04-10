@@ -22,16 +22,11 @@
     $: appName =
         $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
 
-    function onContinueClick(): void {
-        if ($isOnboardingLedgerProfile) {
-            checkOrConnectLedger(_continue, false, appName)
-        } else {
-            void _continue()
-        }
-    }
-
-    async function _continue(): Promise<void> {
+    async function onContinueClick(): Promise<void> {
         try {
+            if ($isOnboardingLedgerProfile) {
+                await checkOrConnectLedger(appName)
+            }
             await completeOnboardingProcess()
             void login({ isFromOnboardingFlow: true })
             $onboardingRouter.next()
