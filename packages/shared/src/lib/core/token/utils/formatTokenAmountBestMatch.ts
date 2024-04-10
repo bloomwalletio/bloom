@@ -12,7 +12,7 @@ type FormatOptions = Partial<{
 }>
 
 export function formatTokenAmountBestMatch(
-    amount: bigint,
+    amount: bigint | undefined,
     tokenMetadata?: TokenMetadata,
     options?: FormatOptions
 ): string {
