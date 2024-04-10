@@ -3,7 +3,7 @@ import { ContractType } from '../../layer-2/enums'
 import { NetworkId } from '@core/network/types'
 import { persistNftWithContractMetadata } from './persistNftWithContractMetadata'
 import { IErc721ContractMetadata, IPersistedErc721Nft } from '@core/nfts'
-import { getNetwork } from '@core/network'
+import { getChain } from '@core/network'
 import { localize } from '@core/i18n'
 import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 
@@ -13,8 +13,7 @@ export async function persistErc721Nft(
     networkId: NetworkId,
     expectedOwner?: IAccountState
 ): Promise<IPersistedErc721Nft | undefined> {
-    const network = getNetwork()
-    const chain = network?.getChain(networkId)
+    const chain = getChain(networkId)
     const contract = chain?.getContract(ContractType.Erc721, tokenAddress)
     if (!contract) {
         return

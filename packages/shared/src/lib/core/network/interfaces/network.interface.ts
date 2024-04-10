@@ -1,15 +1,9 @@
-import { ChainConfiguration, NetworkId, NetworkMetadata } from '../types'
-import { IChain } from './chain.interface'
-import { INetworkStatus } from './network-status.interface'
+import { NetworkNamespace } from '../enums'
+import { NetworkId } from '../types'
 
 export interface INetwork {
-    getMetadata(): NetworkMetadata
-    getStatus(): INetworkStatus
-
-    getChain(networkId: NetworkId): IChain | undefined
-    getChains(): IChain[]
-    getIscpChains(): IChain[]
-    addChain(chainConfiguration: ChainConfiguration): IChain
-    editChain(networkId: NetworkId, payload: Partial<ChainConfiguration>): Promise<void>
-    removeChain(networkId: NetworkId): void
+    id: NetworkId
+    namespace: NetworkNamespace
+    name: string
+    coinType: number
 }

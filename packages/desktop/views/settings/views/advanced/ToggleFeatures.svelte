@@ -5,7 +5,14 @@
     import { DashboardRoute } from '@core/router'
     import SettingsSection from '../SettingsSection.svelte'
 
-    const features = $activeProfile?.features
+    const features = $activeProfile?.features ?? {
+        [DashboardRoute.Wallet]: true,
+        [DashboardRoute.Collectibles]: true,
+        [DashboardRoute.Governance]: true,
+        [DashboardRoute.Campaigns]: true,
+        [DashboardRoute.BuySell]: true,
+        [DashboardRoute.Developer]: false,
+    }
 
     $: updateActiveProfile({ features })
 </script>

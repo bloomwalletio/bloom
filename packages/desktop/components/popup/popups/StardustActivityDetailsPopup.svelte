@@ -15,7 +15,7 @@
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
     import { buildUrl, setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
@@ -72,7 +72,7 @@
 
     async function onClaimClick(_activity: StardustActivity): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync()
+            await checkActiveProfileAuth()
         } catch {
             return
         }

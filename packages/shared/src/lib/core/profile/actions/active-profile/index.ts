@@ -1,5 +1,4 @@
 export * from './checkActiveProfileAuth'
-export * from './checkActiveProfileAuthAsync'
 export * from './checkAndRemoveProfilePicture'
 export * from './checkAndUpdateActiveProfileNetwork'
 export * from './getBaseToken'

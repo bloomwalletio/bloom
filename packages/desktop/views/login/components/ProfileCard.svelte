@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { TooltipIcon, IconName, Text } from '@bloomwalletio/ui'
-    import { IPersistedProfile, ProfileType } from '@core/profile'
-    import { ProfileAvatarWithBadge } from '@ui'
-    import features from '@features/features'
+    import { IconName, Text, TooltipIcon } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { IPersistedProfile, ProfileType } from '@core/profile'
+    import features from '@features/features'
+    import { ProfileAvatarWithBadge } from '@ui'
+    import ProfileCardActionsMenu from './ProfileCardActionsMenu.svelte'
 
     export let profile: IPersistedProfile
     export let disabled: boolean = false
@@ -29,16 +30,16 @@
     on:mouseenter={toggleIsHovering}
     on:mouseleave={toggleIsHovering}
 >
-    <profile-header>
+    {#if profile.type === ProfileType.Ledger}
         <badge-container>
-            {#if profile.type === ProfileType.Ledger}
-                <TooltipIcon icon={IconName.Hardware} size="sm" tooltip={localize('general.ledgerDevice')} />
-            {/if}
+            <TooltipIcon icon={IconName.Hardware} size="sm" tooltip={localize('general.ledgerDevice')} />
         </badge-container>
-        {#if features.login.profileActions.enabled}
-            <button type="button" class="menu"></button>
-        {/if}
-    </profile-header>
+    {/if}
+    {#if features.login.profileActions.enabled}
+        <menu-container>
+            <ProfileCardActionsMenu {profile} />
+        </menu-container>
+    {/if}
     <div class="relative">
         <ProfileAvatarWithBadge {profile} size="xxl" {updateRequired} />
     </div>
@@ -78,12 +79,13 @@
     }
 
     badge-container {
-        @apply absolute left-6 top-6;
+        @apply absolute left-4 top-2 py-2;
         @apply flex gap-2 text-gray-500 dark:text-gray-100;
     }
 
-    profile-header {
-        @apply absolute top-0 flex justify-between items-center w-full px-10 pt-5;
+    menu-container {
+        @apply absolute right-4 top-2;
+        @apply flex gap-2 text-gray-500 dark:text-gray-100;
     }
 
     button.menu {

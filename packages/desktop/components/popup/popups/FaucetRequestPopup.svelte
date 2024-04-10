@@ -6,14 +6,13 @@
     import { Error } from '@bloomwalletio/ui'
     import { handleError } from '@core/error/handlers/handleError'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { getBaseToken } from '@core/profile/actions'
 
     let isBusy = false
-    let error: string
-
-    $: networkData = $network.getMetadata()
+    let error: string | undefined
 
     async function onConfirmClick(): Promise<void> {
-        error = null
+        error = undefined
         try {
             isBusy = true
             await requestTokensFromFaucet()
@@ -34,7 +33,7 @@
 <PopupTemplate
     title={localize('popups.faucetRequest.title')}
     description={localize('popups.faucetRequest.body', {
-        values: { token: networkData.baseToken.name, network: networkData.networkName },
+        values: { token: getBaseToken().name, network: $network?.name },
     })}
     backButton={{
         text: localize('actions.cancel'),

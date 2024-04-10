@@ -27,7 +27,7 @@
     import { openUrlInBrowser } from '@core/app'
     import { StardustActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { LegacyTransaction } from '@ethereumjs/tx'
@@ -41,7 +41,6 @@
     export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
     export let callback: (params: CallbackParameters) => void
 
-    const { id } = chain.getConfiguration()
     $: localeKey =
         method === RpcMethod.EthSignTransaction
             ? 'signTransaction'
@@ -62,16 +61,18 @@
         const transferInfo = getTransferInfoFromTransactionData(preparedTransaction, chain)
         switch (transferInfo?.type) {
             case StardustActivityType.Basic: {
+                const transfer = {
+                    token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, chain.id),
+                    rawAmount: transferInfo.rawAmount,
+                } as TokenTransferData
+                if (!transfer.token) {
+                    return
+                }
+
                 if (transferInfo.tokenId === BASE_TOKEN_ID) {
-                    baseCoinTransfer = {
-                        token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, id),
-                        rawAmount: transferInfo.rawAmount,
-                    }
+                    baseCoinTransfer = transfer
                 } else {
-                    tokenTransfer = {
-                        token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, id),
-                        rawAmount: transferInfo.rawAmount,
-                    }
+                    tokenTransfer = transfer
                 }
                 break
             }
@@ -119,7 +120,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch (error) {
             return
         }
@@ -165,7 +166,7 @@
     }
 
     function onExplorerClick(contractAddress: string): void {
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(id, ExplorerEndpoint.Address)
+        const { baseUrl, endpoint } = getDefaultExplorerUrl(chain.id, ExplorerEndpoint.Address)
         const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${contractAddress}` })
         openUrlInBrowser(url?.href)
     }
@@ -226,7 +227,7 @@
             <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
         {/if}
         <EvmTransactionDetails
-            destinationNetworkId={id}
+            destinationNetworkId={chain.id}
             estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction)}
             maxGasFee={calculateMaxGasFeeFromTransactionData(preparedTransaction)}
         />

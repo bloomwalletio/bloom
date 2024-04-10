@@ -5,7 +5,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { PopupId, closePopup, openPopup, popupState } from '@desktop/auxiliary/popup'
@@ -44,7 +44,7 @@
             }
 
             try {
-                await checkActiveProfileAuthAsync()
+                await checkActiveProfileAuth()
             } catch {
                 return
             }

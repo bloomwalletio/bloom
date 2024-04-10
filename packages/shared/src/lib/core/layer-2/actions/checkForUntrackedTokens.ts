@@ -9,12 +9,11 @@ import { BlockscoutApi } from '@auxiliary/blockscout/api'
 export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUntracked?: boolean): void {
     const chains = getNetwork()?.getChains()
     chains?.forEach(async (chain) => {
-        const coinType = chain.getConfiguration().coinType
-        const evmAddress = account.evmAddresses[coinType]
+        const evmAddress = account.evmAddresses[chain.coinType]
         if (!evmAddress) {
             return
         }
-        const networkId = chain.getConfiguration().id
+        const networkId = chain.id
         const blockscoutApi = new BlockscoutApi(networkId)
 
         const tokens = await blockscoutApi.getAssetsForAddress(evmAddress)

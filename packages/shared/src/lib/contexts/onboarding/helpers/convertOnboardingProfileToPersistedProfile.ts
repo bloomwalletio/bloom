@@ -23,10 +23,6 @@ export function convertOnboardingProfileToPersistedProfile(
         ...(onboardingProfile?.accountPersistedData && {
             accountPersistedData: onboardingProfile.accountPersistedData,
         }),
-        ...(onboardingProfile?.isDeveloperProfile && {
-            isDeveloperProfile: onboardingProfile.isDeveloperProfile,
-            features: { ...DEFAULT_PERSISTED_PROFILE_OBJECT.features, developer: true },
-        }),
         ...(onboardingProfile?.hasVisitedDashboard && { hasVisitedDashboard: onboardingProfile.hasVisitedDashboard }),
         ...(onboardingProfile?.lastUsedAccountIndex && {
             lastUsedAccountIndex: onboardingProfile.lastUsedAccountIndex,
