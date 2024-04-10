@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { FontWeight, TextInput } from '@ui'
+    import { FontWeight, Input, TextType } from '@ui'
     import { getDecimalSeparator } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
 
@@ -12,6 +12,7 @@
     export let amount = ''
 
     $: amount, onAmountInputChange()
+    $: textProps = { type: TextType.p, fontSize, fontWeight, lineHeight: '140' }
 
     function onAmountInputChange(): void {
         const separator = getDecimalSeparator($activeProfile?.settings?.marketCurrency)
@@ -26,16 +27,16 @@
     }
 </script>
 
-<TextInput
+<Input
     bind:inputElement
     bind:value={amount}
     bind:hasFocus
     float={!isInteger}
     integer={isInteger}
-    {disabled}
     placeholder="0"
-    {fontSize}
+    type="text"
     alignment="right"
-    {fontWeight}
+    {textProps}
+    {disabled}
     {...$$restProps}
 />
