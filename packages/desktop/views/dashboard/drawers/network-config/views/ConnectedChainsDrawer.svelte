@@ -47,7 +47,7 @@
                 />
                 {#each $network?.getChains() ?? [] as chain}
                     <NetworkCard
-                        {chain}
+                        network={chain}
                         onCardClick={() => onL2NetworkCardClick(chain)}
                         onQrCodeIconClick={() => onQrCodeIconClick(chain)}
                     />

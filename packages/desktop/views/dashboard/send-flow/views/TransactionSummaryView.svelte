@@ -4,7 +4,7 @@
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { IChain, getNetwork, isEvmChain } from '@core/network'
+    import { IChain, getChain, isEvmChain } from '@core/network'
     import { truncateString } from '@core/utils'
     import { SendFlowParameters, SubjectType } from '@core/wallet'
     import {
@@ -23,7 +23,7 @@
     import { TransactionSummaryProps } from './types'
     import { setGasFee } from '@core/layer-2/actions'
     import { showNotification } from '@auxiliary/notification'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
     import { getActiveProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
 
@@ -57,7 +57,7 @@
 
             const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
             if (isEvmChain(networkId)) {
-                chain = getNetwork()?.getChain(networkId)
+                chain = getChain(networkId)
                 preparedTransaction = await createEvmTransactionFromSendFlowParameters(
                     sendFlowParameters,
                     chain,
@@ -96,7 +96,7 @@
         }
 
         try {
-            await checkActiveProfileAuthAsync(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
+            await checkActiveProfileAuth(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
         } catch (error) {
             return
         }

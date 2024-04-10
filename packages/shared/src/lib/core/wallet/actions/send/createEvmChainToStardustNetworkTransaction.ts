@@ -43,7 +43,7 @@ export async function createEvmChainToStardustNetworkTransaction(
             storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? BigInt(0)
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
             if (token?.standard === TokenStandard.BaseToken && amount) {
-                const availableBalance = getTokenBalance(token.id, chain.getConfiguration().id)?.available ?? BigInt(0)
+                const availableBalance = getTokenBalance(token.id, chain.id)?.available ?? BigInt(0)
                 maximumGasLimit = availableBalance - amount
             }
         } else {

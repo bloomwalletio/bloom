@@ -4,7 +4,7 @@ import { BaseEvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } fr
 import { IBlockscoutTransaction } from '@auxiliary/blockscout'
 import { ActivityAction, ActivityDirection, InclusionState } from '@core/activity/enums'
 import { getAddressFromAccountForNetwork } from '@core/account'
-import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
+import { ISmartContractSubject, SubjectType, getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { EvmActivityType } from '@core/activity/enums/evm'
 import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
@@ -27,7 +27,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
     chain: IChain,
     account: IAccountState
 ): Promise<EvmTokenTransferActivity | EvmCoinTransferActivity | undefined> {
-    const networkId = chain.getConfiguration().id
+    const networkId = chain.id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === blockscoutTokenTransfer.to.hash.toLowerCase()
             ? ActivityDirection.Incoming
@@ -64,6 +64,22 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         return
     }
 
+    const contract: ISmartContractSubject | undefined = blockscoutTokenTransfer.to.is_contract
+        ? {
+              type: SubjectType.SmartContract,
+              address: blockscoutTokenTransfer.to.hash.toLowerCase(),
+              name: blockscoutTokenTransfer.to.name ?? '',
+              verified: blockscoutTokenTransfer.to.is_verified,
+          }
+        : blockscoutTokenTransfer.from.is_contract
+          ? {
+                type: SubjectType.SmartContract,
+                address: blockscoutTokenTransfer.from.hash.toLowerCase(),
+                name: blockscoutTokenTransfer.from.name ?? '',
+                verified: blockscoutTokenTransfer.from.is_verified,
+            }
+          : undefined
+
     const baseActivity: BaseEvmActivity = {
         namespace: NetworkNamespace.Evm,
 
@@ -84,8 +100,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         subject,
         direction,
         isInternal,
-
-        contractAddress: blockscoutTokenTransfer.token.address.toLowerCase(),
+        contract,
         transactionFee,
     }
 
@@ -126,11 +141,10 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
             rawAmount,
         },
 
-        verified: blockscoutTransaction?.to.is_verified ?? false,
         methodId: blockscoutTransaction?.decoded_input?.method_id ?? blockscoutTransaction?.method,
         method,
         parameters,
         rawData: blockscoutTransaction?.raw_input ?? '',
-        contractAddress: blockscoutTransaction?.to?.hash.toLowerCase(),
+        contract,
     }
 }

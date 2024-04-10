@@ -6,7 +6,7 @@ import { openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popu
 
 export function switchToRequiredAccount(accountAddress: string, chain: IChain): Promise<IAccountState> {
     return new Promise((resolve, reject) => {
-        const account = findActiveAccountWithAddress(accountAddress, chain.getConfiguration().id)
+        const account = findActiveAccountWithAddress(accountAddress, chain.id)
         if (!account) {
             reject('UNSUPPORTED_ACCOUNTS')
             return

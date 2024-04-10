@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import { isEvmChain } from '@core/network'
     import { IIrc27Nft, Nft, isNftLocked } from '@core/nfts'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { burnNft } from '@core/wallet'
@@ -46,8 +46,8 @@
                 confirmText: localize('actions.burn'),
                 onConfirm: async () => {
                     try {
-                        await checkActiveProfileAuthAsync()
-                    } catch (error) {
+                        await checkActiveProfileAuth()
+                    } catch {
                         return
                     }
 

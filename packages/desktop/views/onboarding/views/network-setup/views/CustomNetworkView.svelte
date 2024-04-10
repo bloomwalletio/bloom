@@ -99,7 +99,6 @@
             bind:formError
             {requiresAuth}
             isBusy={busy}
-            isDeveloperProfile
             networkEditable
         />
     </div>

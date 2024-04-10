@@ -93,12 +93,3 @@
 {:else}
     <Alert variant="danger" text="No valid accounts" />
 {/if}
-
-<style lang="postcss">
-    selection-options {
-        @apply bg-surface-0 dark:bg-surface-0-dark;
-        @apply border border-solid border-stroke dark:border-stroke-dark;
-        @apply divide-y divide-solid divide-stroke dark:divide-stroke-dark;
-        @apply rounded-xl;
-    }
-</style>

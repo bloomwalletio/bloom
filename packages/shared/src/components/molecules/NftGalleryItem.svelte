@@ -40,7 +40,7 @@
     }
 </script>
 
-<button type="button" on:click={onNftClick} class="nft-gallery-item">
+<button type="button" on:click={onNftClick} class="nft-gallery-item w-full">
     <container>
         <div
             class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
