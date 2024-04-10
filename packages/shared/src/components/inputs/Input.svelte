@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount, createEventDispatcher, tick } from 'svelte'
+    import { onMount, tick } from 'svelte'
     import { InputContainer } from '@ui'
     import { Text, TEXT_ALIGNMENT_MAP } from '@bloomwalletio/ui'
     import { DECIMAL_SEPARATORS, formatNumber, getDecimalSeparator, parseCurrency } from '@core/i18n'
@@ -8,16 +8,13 @@
     export let value: string = ''
     export let classes: string = ''
     export let style: string = ''
-    export let label: string = ''
     export let placeholder: string = ''
     export let error: string = ''
     export let maxlength: number = 0
     export let float = false
     export let integer = false
     export let autofocus = false
-    export let disabled = false
     export let maxDecimals: number = 0
-    export let disableContextMenu = false
     export let capsLockWarning = false
     export let inputElement: HTMLInputElement | undefined = undefined
     export let clearBackground = false
@@ -39,7 +36,6 @@
         }
     }
 
-    const dispatch = createEventDispatcher()
     const decimalSeparator = getDecimalSeparator()
     const LINE_HEIGHT_MAP: Record<string, string> = {
         'text-64': 'leading-140',
@@ -121,12 +117,6 @@
         }
     }
 
-    function handleContextMenu(event: UIEvent): void {
-        if (disableContextMenu) {
-            event.preventDefault()
-        }
-    }
-
     onMount(async () => {
         if (autofocus) {
             await tick()
@@ -146,43 +136,31 @@
             {clearBorder}
             classes="relative"
         >
-            {#if label}
-                <floating-label {disabled} class:hasFocus class:floating-active={value && label}>
-                    {label}
-                </floating-label>
-            {/if}
-            <div class="flex flex-row w-full" class:floating-active={value && label}>
-                <Text class="flex w-full">
-                    <input
-                        type="text"
-                        {value}
-                        bind:this={inputElement}
-                        {maxlength}
-                        class="w-full
-                            bg-surface dark:bg-surface-dark
+            <Text class="flex w-full">
+                <input
+                    type="text"
+                    {value}
+                    bind:this={inputElement}
+                    {maxlength}
+                    class="w-full
+                            bg-surface dark:bg-surface-dark text-primary dark:text-primary-dark
                             {fontSize}
                             {LINE_HEIGHT_MAP[fontSize]}
                             {TEXT_ALIGNMENT_MAP['right']}
-                            {disabled
-                            ? 'text-secondary dark:text-secondary-dark'
-                            : 'text-primary dark:text-primary-dark'}"
-                        on:input={handleInput}
-                        on:keypress={onKeyPress}
-                        on:keydown={onKeyCaps}
-                        on:keyup={onKeyCaps}
-                        on:paste={onPaste}
-                        on:contextmenu={handleContextMenu}
-                        on:focus={() => (hasFocus = true)}
-                        on:blur={() => (hasFocus = false)}
-                        on:change={() => dispatch('change')}
-                        {disabled}
-                        {placeholder}
-                        {style}
-                        spellcheck={false}
-                        {...$$restProps}
-                    />
-                </Text>
-            </div>
+                        "
+                    on:input={handleInput}
+                    on:keypress={onKeyPress}
+                    on:keydown={onKeyCaps}
+                    on:keyup={onKeyCaps}
+                    on:paste={onPaste}
+                    on:focus={() => (hasFocus = true)}
+                    on:blur={() => (hasFocus = false)}
+                    {placeholder}
+                    {style}
+                    spellcheck={false}
+                    {...$$restProps}
+                />
+            </Text>
         </InputContainer>
     </div>
     {#if capsLockWarning && hasFocus && capsLockOn}
@@ -199,49 +177,6 @@
     input {
         &::placeholder {
             @apply text-gray-500;
-        }
-    }
-
-    .floating-active:not(floating-label) {
-        @apply pt-2;
-        @apply -mb-2;
-    }
-
-    floating-label {
-        transform: translateY(3px);
-        @apply block;
-        @apply text-gray-500;
-        @apply text-11;
-        @apply leading-120;
-        @apply overflow-hidden;
-        @apply opacity-0;
-        @apply pointer-events-none;
-        @apply absolute;
-        @apply left-4;
-        @apply select-none;
-        @apply whitespace-nowrap;
-        @apply w-auto;
-        @apply transition-none;
-        @apply text-left;
-        top: 8px;
-
-        &.hasFocus {
-            @apply text-blue-500;
-        }
-        &:not(:disabled) {
-            &.floating-active {
-                @apply transition-all;
-                @apply ease-out;
-                @apply opacity-100;
-                transform: none;
-            }
-        }
-
-        &:disabled {
-            &.floating-active {
-                @apply pointer-events-none;
-                @apply opacity-50;
-            }
         }
     }
 </style>
