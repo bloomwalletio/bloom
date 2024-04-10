@@ -14,17 +14,19 @@
     import { activeProfile } from '@core/profile/stores'
     import { getNetworkHrp } from '@core/profile/actions'
     import { isValidHexAddress, isValidHttpsUrl, validateBech32Address } from '@core/utils'
-    import { Button, TextInput } from '@bloomwalletio/ui'
+    import { TextInput } from '@bloomwalletio/ui'
+
+    export let disabled: boolean = false
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
-    const isBusy = false
     let nameError = ''
     let aliasAddressError = ''
     let rpcEndpointError = ''
     let explorerUrlError = ''
     const chainIdError = ''
-    $: submitDisabled = !chain.name || !chain.id || !chain.aliasAddress || !chain.rpcEndpoint
+
+    $: disabled = !chain.name || !chain.id || !chain.aliasAddress || !chain.rpcEndpoint
 
     const chain: IIscpChainConfiguration = {
         type: ChainType.Iscp,
@@ -35,6 +37,7 @@
         aliasAddress: '',
         rpcEndpoint: '',
         apiEndpoint: '',
+        explorerUrl: '',
         coinType: ETHEREUM_COIN_TYPE,
     }
 
@@ -91,7 +94,7 @@
         explorerUrlError = ''
     }
 
-    function onSubmitClick(): void {
+    export function onSubmitClick(): void {
         resetErrors()
         validate()
         const hasError =
@@ -105,38 +108,22 @@
 
 <add-iscp-chain class="h-full flex flex-col justify-between">
     <form id="add-chain-form" class="flex flex-col gap-4 px-6" on:submit|preventDefault={onSubmitClick}>
-        <TextInput bind:value={chain.name} label={localize('general.name')} disabled={isBusy} error={nameError} />
-        <TextInput
-            bind:value={chain.id}
-            label={localize(`${localeKey}.chainId`)}
-            disabled={isBusy}
-            error={chainIdError}
-        />
+        <TextInput bind:value={chain.name} label={localize('general.name')} error={nameError} />
+        <TextInput bind:value={chain.id} label={localize(`${localeKey}.chainId`)} error={chainIdError} />
         <TextInput
             bind:value={chain.aliasAddress}
             label={localize(`${localeKey}.aliasAddress`)}
-            disabled={isBusy}
             error={aliasAddressError}
         />
         <TextInput
             bind:value={chain.rpcEndpoint}
             label={localize(`${localeKey}.rpcEndpoint`)}
-            disabled={isBusy}
             error={rpcEndpointError}
         />
         <TextInput
             bind:value={chain.explorerUrl}
             label={localize(`${localeKey}.explorerUrl`)}
-            disabled={isBusy}
             error={explorerUrlError}
         />
     </form>
-    <Button
-        type="submit"
-        form="add-chain-form"
-        width="full"
-        disabled={submitDisabled || isBusy}
-        busy={isBusy}
-        text={localize('actions.addChain')}
-    />
 </add-iscp-chain>
