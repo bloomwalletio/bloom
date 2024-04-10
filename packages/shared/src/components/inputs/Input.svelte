@@ -1,34 +1,29 @@
 <script lang="ts">
     import { onMount, createEventDispatcher, tick } from 'svelte'
-    import { Text, InputContainer, TextPropTypes, TextType } from '@ui'
-    import { TextAlignment, TEXT_ALIGNMENT_MAP } from '@bloomwalletio/ui'
+    import { InputContainer } from '@ui'
+    import { Text, TEXT_ALIGNMENT_MAP } from '@bloomwalletio/ui'
     import { DECIMAL_SEPARATORS, formatNumber, getDecimalSeparator, parseCurrency } from '@core/i18n'
     import { localize } from '@core/i18n'
 
     export let value: string = ''
     export let classes: string = ''
-    export let containerClasses: string = ''
-    export let inputClasses: string = ''
     export let style: string = ''
     export let label: string = ''
     export let placeholder: string = ''
-    export let type = 'text'
     export let error: string = ''
-    export let maxlength: number = undefined
+    export let maxlength: number = 0
     export let float = false
     export let integer = false
     export let autofocus = false
-    export let submitHandler: () => void = undefined
     export let disabled = false
-    export let maxDecimals: number = undefined
+    export let maxDecimals: number = 0
     export let disableContextMenu = false
     export let capsLockWarning = false
-    export let inputElement: HTMLInputElement = undefined
+    export let inputElement: HTMLInputElement | undefined = undefined
     export let clearBackground = false
     export let clearPadding = false
     export let clearBorder = false
-    export let alignment: TextAlignment = 'left'
-    export let textProps: TextPropTypes = { type: TextType.p, fontSize: '11', lineHeight: '140' }
+    export let fontSize: 'text-32' | 'text-48' | 'text-64' = 'text-32'
     export let hasFocus = false
     export let validationFunction: ((arg: string) => void) | undefined = undefined
 
@@ -46,6 +41,11 @@
 
     const dispatch = createEventDispatcher()
     const decimalSeparator = getDecimalSeparator()
+    const LINE_HEIGHT_MAP: Record<string, string> = {
+        'text-64': 'leading-140',
+        'text-48': 'leading-160',
+        'text-32': 'leading-160',
+    }
 
     let capsLockOn = false
 
@@ -60,9 +60,6 @@
     function onKeyPress(event: KeyboardEvent): void {
         if (event.key !== 'Tab') {
             const isEnter = event.key === 'Enter'
-            if (isEnter && submitHandler) {
-                submitHandler()
-            }
             if ((float || integer) && !isEnter) {
                 // if the input is float, we accept one dot or comma depending on localization
                 if (float && event.key === decimalSeparator) {
@@ -133,7 +130,7 @@
     onMount(async () => {
         if (autofocus) {
             await tick()
-            inputElement.focus()
+            inputElement?.focus()
         }
     })
 </script>
@@ -147,7 +144,7 @@
             {clearBackground}
             {clearPadding}
             {clearBorder}
-            classes="relative {containerClasses}"
+            classes="relative"
         >
             {#if label}
                 <floating-label {disabled} class:hasFocus class:floating-active={value && label}>
@@ -155,19 +152,20 @@
                 </floating-label>
             {/if}
             <div class="flex flex-row w-full" class:floating-active={value && label}>
-                <slot name="left" />
-                <Text {...textProps} classes="flex w-full">
+                <Text class="flex w-full">
                     <input
-                        {type}
+                        type="text"
                         {value}
                         bind:this={inputElement}
                         {maxlength}
                         class="w-full
                             bg-surface dark:bg-surface-dark
-                            {TEXT_ALIGNMENT_MAP[alignment]}
+                            {fontSize}
+                            {LINE_HEIGHT_MAP[fontSize]}
+                            {TEXT_ALIGNMENT_MAP['right']}
                             {disabled
-                            ? 'text-gray-400 dark:text-gray-700'
-                            : 'text-gray-800 dark:text-white'} {inputClasses}"
+                            ? 'text-secondary dark:text-secondary-dark'
+                            : 'text-primary dark:text-primary-dark'}"
                         on:input={handleInput}
                         on:keypress={onKeyPress}
                         on:keydown={onKeyCaps}
@@ -184,7 +182,6 @@
                         {...$$restProps}
                     />
                 </Text>
-                <slot name="right" />
             </div>
         </InputContainer>
     </div>

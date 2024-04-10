@@ -107,11 +107,7 @@
             bind:hasFocus={isFocused}
             maxDecimals={allowedDecimals}
             isInteger={allowedDecimals === 0}
-            clearBackground
-            clearPadding
-            clearBorder
             {disabled}
-            fontSize="text-32"
         />
     </div>
 

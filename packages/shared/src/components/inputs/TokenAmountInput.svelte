@@ -108,9 +108,6 @@
                         maxlength={maxLength}
                         isInteger={allowedDecimals === 0}
                         {fontSize}
-                        clearBackground
-                        clearPadding
-                        clearBorder
                         autofocus
                     />
                 </amount-wrapper>
