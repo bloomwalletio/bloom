@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import { CURRENT_IRC27_VERSION, IIrc27Metadata } from '@core/nfts'
     import { getClient } from '@core/profile-manager'
-    import { checkActiveProfileAuthAsync, getBaseToken } from '@core/profile/actions'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountPrecise } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
@@ -72,7 +72,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync()
+            await checkActiveProfileAuth()
         } catch (err) {
             return
         }

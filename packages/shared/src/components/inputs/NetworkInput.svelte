@@ -20,10 +20,7 @@
         }
     }
 
-    const layer1Metadata = $network?.getMetadata()
-    const layer1Network: IOption | undefined = layer1Metadata
-        ? { label: layer1Metadata.name, value: layer1Metadata.id }
-        : undefined
+    const layer1Network: IOption | undefined = $network ? { label: $network.name, value: $network.id } : undefined
     const networkOptions = getNetworkOptions(showLayer2)
 
     let selected = networkOptions[0]
@@ -42,8 +39,7 @@
         if (showLayer2) {
             const layer2Networks: IOption[] =
                 $network?.getChains().map((chain) => {
-                    const chainConfig = chain.getConfiguration()
-                    return { label: chainConfig.name, value: chainConfig.id }
+                    return { label: chain.name, value: chain.id }
                 }) ?? []
             options.push(...layer2Networks)
         }

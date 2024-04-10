@@ -4,19 +4,29 @@ import { get } from 'svelte/store'
 
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 
-import { ChainType } from '../enums'
-import { IChain, IIscpChainConfiguration, INetwork, INetworkStatus } from '../interfaces'
+import { ChainType, NetworkNamespace } from '../enums'
+import { IChain, IIscpChainConfiguration, INetworkStatus, IStardustNetwork } from '../interfaces'
 import { networkStatus } from '../stores'
 import { ChainConfiguration, NetworkId, NetworkMetadata } from '../types'
 
 import { IscpChain } from './iscp-chain.class'
 
-export class StardustNetwork implements INetwork {
-    private readonly _metadata: NetworkMetadata
+export class StardustNetwork implements IStardustNetwork {
+    public readonly id: NetworkId
+    public readonly name: string
+    public readonly coinType: number
+    public readonly namespace: NetworkNamespace.Stardust
+    public readonly bech32Hrp: string
+
     private readonly _chains: IChain[]
 
     constructor(metadata: NetworkMetadata, chainConfigurations: ChainConfiguration[]) {
-        this._metadata = metadata
+        this.id = metadata.id
+        this.name = metadata.name
+        this.coinType = metadata.coinType
+        this.namespace = metadata.namespace
+        this.bech32Hrp = metadata.protocol.bech32Hrp
+
         this._chains = this.constructChains(chainConfigurations ?? [])
     }
 
@@ -34,16 +44,12 @@ export class StardustNetwork implements INetwork {
         return chains.filter((chain) => chain !== undefined) as IChain[]
     }
 
-    getMetadata(): NetworkMetadata {
-        return this._metadata
-    }
-
     getStatus(): INetworkStatus {
         return get(networkStatus)
     }
 
     getChain(networkId: NetworkId): IChain | undefined {
-        return this._chains.find((chain) => chain?.getConfiguration().id === networkId)
+        return this._chains.find((chain) => chain?.id === networkId)
     }
 
     getChains(): IChain[] {
@@ -51,7 +57,7 @@ export class StardustNetwork implements INetwork {
     }
 
     getIscpChains(): IChain[] {
-        return this._chains.filter((chain) => chain.getConfiguration().type === ChainType.Iscp)
+        return this._chains.filter((chain) => chain.type === ChainType.Iscp)
     }
 
     addChain(chainConfiguration: ChainConfiguration): IChain {

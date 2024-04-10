@@ -10,6 +10,7 @@ import { StrongholdVersion } from '@core/stronghold/enums'
 
 export const DEFAULT_PERSISTED_PROFILE_OBJECT: Omit<IPersistedProfile, 'network'> = {
     id: '',
+    versionTrack: APP_STAGE,
     version: PROFILE_VERSION[APP_STAGE],
     name: '',
     type: ProfileType.Software,
@@ -25,7 +26,6 @@ export const DEFAULT_PERSISTED_PROFILE_OBJECT: Omit<IPersistedProfile, 'network'
     },
     lastStrongholdBackupTime: undefined,
     accountPersistedData: {},
-    isDeveloperProfile: false,
     features: {
         wallet: true,
         collectibles: true,

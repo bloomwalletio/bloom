@@ -14,7 +14,7 @@
     let openFilterItemIndex = -1
 
     function setFilters(): void {
-        $filterStore = structuredClone(filter)
+        filterStore.set(structuredClone(filter))
         filterActive = false
     }
 

@@ -7,7 +7,6 @@
     import { SearchInput } from '@ui'
     import { ActivityTab } from './activity'
     import { PortfolioTab } from './portfolio'
-    import features from '@features/features'
     import { selectedWalletTabIndex } from '@contexts/wallet/stores'
 
     const TABS = [
@@ -29,9 +28,7 @@
             <ActivityListMenu />
         {:else if selectedTab.key === 'portfolio'}
             <SearchInput bind:value={$tokenSearchTerm} />
-            {#if features.wallet.portfolio.filter.enabled}
-                <Filter filterStore={tokenFilter} />
-            {/if}
+            <Filter filterStore={tokenFilter} />
             <TokenListMenu />
         {/if}
     </div>

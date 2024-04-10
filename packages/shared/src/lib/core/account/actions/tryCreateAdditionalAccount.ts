@@ -21,8 +21,8 @@ export async function tryCreateAdditionalAccount(alias: string, color: string): 
 
         const activeProfile = getActiveProfile()
         if (activeProfile.type === ProfileType.Software) {
-            const coinType = getNetwork()?.getChains()[0]?.getConfiguration()?.coinType
-            if (coinType) {
+            const coinType = getNetwork()?.getChains()[0]?.coinType
+            if (coinType !== undefined) {
                 void generateAndStoreEvmAddressForAccounts(activeProfile.type, coinType, account)
                 void pollL2BalanceForAccount(activeProfile.id, account)
             }
