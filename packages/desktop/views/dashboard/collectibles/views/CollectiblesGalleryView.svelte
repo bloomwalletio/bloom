@@ -6,6 +6,8 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
+    import { Filter } from '@components/filter'
+    import { nftFilter } from '@core/nfts/stores/nft-filter.store'
 
     function onReceiveClick(): void {
         openPopup({
@@ -25,6 +27,7 @@
         <div class="flex items-center gap-5 h-10 shrink-0">
             {#if $ownedNfts.length}
                 <SearchInput bind:value={$nftSearchTerm} />
+                <Filter filterStore={nftFilter} />
             {/if}
             {#if features.collectibles.erc721.enabled}
                 <CollectiblesListMenu />
