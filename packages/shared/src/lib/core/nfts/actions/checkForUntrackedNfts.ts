@@ -24,7 +24,7 @@ export async function checkForUntrackedNfts(account: IAccountState): Promise<voi
 
     for (const chain of chains) {
         const evmAddress = account.evmAddresses[chain.coinType]
-        if (!evmAddress) {
+        if (!evmAddress || !chain.explorerUrl) {
             return
         }
         const blockscoutApi = new BlockscoutApi(chain.id)
