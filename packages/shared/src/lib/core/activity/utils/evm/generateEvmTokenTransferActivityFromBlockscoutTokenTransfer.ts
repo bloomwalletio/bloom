@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account/interfaces'
 import { IEvmNetwork, NetworkNamespace } from '@core/network'
-import { BaseEvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } from '../../types'
-import { IBlockscoutTransaction } from '@auxiliary/blockscout'
+import { BaseEvmActivity, EvmCoinTransferActivity, EvmTokenCreationActivity, EvmTokenTransferActivity } from '../../types'
+import { BlockscoutTransactionType, IBlockscoutTransaction } from '@auxiliary/blockscout'
 import { ActivityAction, ActivityDirection, InclusionState } from '@core/activity/enums'
 import { getAddressFromAccountForNetwork } from '@core/account'
 import { ISmartContractSubject, SubjectType, getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
@@ -26,7 +26,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
     blockscoutTransaction: IBlockscoutTransaction | undefined,
     evmNetwork: IEvmNetwork,
     account: IAccountState
-): Promise<EvmTokenTransferActivity | EvmCoinTransferActivity | undefined> {
+): Promise<EvmTokenTransferActivity | EvmTokenCreationActivity | EvmCoinTransferActivity | undefined> {
     const networkId = evmNetwork.id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === blockscoutTokenTransfer.to.hash.toLowerCase()
@@ -131,9 +131,14 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         parameters = _parameters
     }
 
+    const type =
+        blockscoutTokenTransfer.type === BlockscoutTransactionType.TokenCreation
+            ? EvmActivityType.TokenCreation
+            : EvmActivityType.TokenTransfer
+
     return {
         ...baseActivity,
-        type: EvmActivityType.TokenTransfer,
+        type,
 
         tokenTransfer: {
             standard,
