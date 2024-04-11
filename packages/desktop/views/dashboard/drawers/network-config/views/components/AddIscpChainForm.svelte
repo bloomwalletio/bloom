@@ -58,7 +58,9 @@
         if (!isValidHexAddress(evmNetwork.aliasAddress) && !isValidBechAddress) {
             aliasAddressError = localize(`${localeKey}.errors.aliasAddressWrongFormat`)
         } else if (
-            chains.some((_chain) => _chain.type === EvmNetworkType.Iscp && _chain.aliasAddress === evmNetwork.aliasAddress)
+            chains.some(
+                (_chain) => _chain.type === EvmNetworkType.Iscp && _chain.aliasAddress === evmNetwork.aliasAddress
+            )
         ) {
             aliasAddressError = localize(`${localeKey}.errors.aliasAddressAlreadyInUse`)
         }
@@ -102,7 +104,12 @@
 
 <add-iscp-network class="h-full flex flex-col justify-between">
     <form id="add-network-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
-        <Input bind:value={evmNetwork.name} placeholder={localize('general.name')} disabled={isBusy} error={nameError} />
+        <Input
+            bind:value={evmNetwork.name}
+            placeholder={localize('general.name')}
+            disabled={isBusy}
+            error={nameError}
+        />
         <Input
             bind:value={evmNetwork.aliasAddress}
             placeholder={localize(`${localeKey}.aliasAddress`)}

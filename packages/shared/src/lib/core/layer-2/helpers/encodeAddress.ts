@@ -11,6 +11,9 @@ export function encodeAddress(address: string, evmNetwork: IEvmNetwork): Uint8Ar
     }
     const hexAddress = addressStream.finalHex()
 
-    const encodedAddress = evmAddressToAgentId(hexAddress, evmNetwork.type === EvmNetworkType.Iscp ? evmNetwork.aliasAddress : '')
+    const encodedAddress = evmAddressToAgentId(
+        hexAddress,
+        evmNetwork.type === EvmNetworkType.Iscp ? evmNetwork.aliasAddress : ''
+    )
     return encodedAddress
 }

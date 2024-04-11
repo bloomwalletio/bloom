@@ -14,7 +14,11 @@ export async function generateEvmActivitiesFromEvmChains(
         const persistedTransactions = getPersistedTransactionsForChain(profileId, account.index, evmNetwork)
         for (const persistedTransaction of persistedTransactions) {
             try {
-                const activity = await generateEvmActivityFromPersistedTransaction(persistedTransaction, evmNetwork, account)
+                const activity = await generateEvmActivityFromPersistedTransaction(
+                    persistedTransaction,
+                    evmNetwork,
+                    account
+                )
                 if (activity) {
                     activities.push(activity)
                 }

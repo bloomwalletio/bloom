@@ -19,8 +19,7 @@
 
     let isAppSetup = false
 
-    $: appName =
-        $onboardingProfile?.network?.id === StardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+    $: appName = $onboardingProfile?.network?.id === StardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
 
     async function onContinueClick(): Promise<void> {
         try {

@@ -9,10 +9,9 @@ export const StardustNetworkId: Record<string, NetworkId> = {
     Testnet: `${NetworkNamespace.Stardust}:${StardustNetworkName.Testnet}`,
 }
 
-export const EvmNetworkId: Record<string, NetworkId>  = {
+export const EvmNetworkId: Record<string, NetworkId> = {
     ShimmerEvm: `${NetworkNamespace.Evm}:${ChainId.ShimmerEvm}`,
     TestnetEvm: `${NetworkNamespace.Evm}:${ChainId.TestnetEvm}`,
 }
-
 
 export const SupportedNetworkId = { ...StardustNetworkId, ...EvmNetworkId }

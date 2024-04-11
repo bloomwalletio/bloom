@@ -1,5 +1,10 @@
 import { localize } from '@core/i18n'
-import { DEFAULT_EVM_NETWORK_CONFIGURATIONS, DEFAULT_COIN_TYPE, DEFAULT_NETWORK_METADATA, TEST_COIN_TYPE } from '../constants'
+import {
+    DEFAULT_EVM_NETWORK_CONFIGURATIONS,
+    DEFAULT_COIN_TYPE,
+    DEFAULT_NETWORK_METADATA,
+    TEST_COIN_TYPE,
+} from '../constants'
 import { TokenStandard } from '@core/token/enums'
 import { INodeInfoResponse, IPersistedNetwork } from '../interfaces'
 import { NetworkNamespace } from '../enums'

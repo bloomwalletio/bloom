@@ -33,7 +33,10 @@
         }
 
         if (showLayer2) {
-            const layer2Networks: IOption[] = getEvmNetworks().map((evmNetwork) => ({ label: evmNetwork.name, value: evmNetwork.id }))
+            const layer2Networks: IOption[] = getEvmNetworks().map((evmNetwork) => ({
+                label: evmNetwork.name,
+                value: evmNetwork.id,
+            }))
             options.push(...layer2Networks)
         }
         return options

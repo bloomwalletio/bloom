@@ -67,7 +67,10 @@ export function fetchL2BalanceForAccount(profileId: string, account: IAccountSta
     })
 }
 
-async function getL2NativeTokenBalancesForAddress(evmAddress: string, evmNetwork: IEvmNetwork): Promise<ILayer2TokenBalance[]> {
+async function getL2NativeTokenBalancesForAddress(
+    evmAddress: string,
+    evmNetwork: IEvmNetwork
+): Promise<ILayer2TokenBalance[]> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('balance')
     const agentID = evmAddressToAgentId(evmAddress, (evmNetwork as IscpChain).aliasAddress)
