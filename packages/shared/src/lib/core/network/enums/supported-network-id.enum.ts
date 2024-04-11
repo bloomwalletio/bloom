@@ -3,7 +3,7 @@ import { ChainId } from './chain-id.enum'
 import { NetworkNamespace } from './network-namespace.enum'
 import { StardustNetworkName } from './stardust-network-name.enum'
 
-export const StardustNetworkId: Record<string, NetworkId> = {
+export const SupportedStardustNetworkId: Record<string, NetworkId> = {
     Iota: `${NetworkNamespace.Stardust}:${StardustNetworkName.Iota}`,
     Shimmer: `${NetworkNamespace.Stardust}:${StardustNetworkName.Shimmer}`,
     Testnet: `${NetworkNamespace.Stardust}:${StardustNetworkName.Testnet}`,
@@ -14,4 +14,4 @@ export const EvmNetworkId: Record<string, NetworkId> = {
     TestnetEvm: `${NetworkNamespace.Evm}:${ChainId.TestnetEvm}`,
 }
 
-export const SupportedNetworkId = { ...StardustNetworkId, ...EvmNetworkId }
+export const SupportedNetworkId = { ...SupportedStardustNetworkId, ...EvmNetworkId }

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
-    import { StardustNetworkId, TokenSupply, getActiveNetworkId } from '@core/network'
+    import { SupportedStardustNetworkId, TokenSupply, getActiveNetworkId } from '@core/network'
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
@@ -20,11 +20,11 @@
 
         let tokenSupply: TokenSupply | '0'
         switch (getActiveNetworkId()) {
-            case StardustNetworkId.Iota:
+            case SupportedStardustNetworkId.Iota:
                 tokenSupply = TokenSupply.Iota
                 break
-            case StardustNetworkId.Shimmer:
-            case StardustNetworkId.Testnet:
+            case SupportedStardustNetworkId.Shimmer:
+            case SupportedStardustNetworkId.Testnet:
                 tokenSupply = TokenSupply.Shimmer
                 break
             default:
