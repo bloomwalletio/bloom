@@ -1,11 +1,9 @@
-import { get } from 'svelte/store'
-
 import { NetworkHealth } from '../enums'
 import { IChainStatus } from '../interfaces'
-import { chainStatuses, network } from '../stores'
+import { chainStatuses, getChains } from '../stores'
 
 export async function updateChainStatuses(): Promise<void> {
-    const chains = get(network)?.getChains() ?? []
+    const chains = getChains()
     /**
      * CAUTION: It may become problematic when a profile contains
      * many chains such that the poll interval is not long enough

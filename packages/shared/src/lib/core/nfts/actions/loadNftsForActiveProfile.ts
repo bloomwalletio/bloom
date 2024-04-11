@@ -3,7 +3,7 @@ import { IAccountState } from '@core/account/interfaces'
 import { StardustActivityType } from '@core/activity'
 import { getNftId } from '@core/activity/utils/outputs'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
-import { getActiveNetworkId, getNetwork } from '@core/network'
+import { getActiveNetworkId, getChains } from '@core/network'
 import { activeAccounts, getActiveProfileId } from '@core/profile/stores'
 import { getPersistedTransactionsForChain } from '@core/transactions/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
@@ -40,7 +40,7 @@ export async function loadNftsForAccount(profileId: string, account: IAccountSta
         }
     }
 
-    for (const chain of getNetwork()?.getChains() ?? []) {
+    for (const chain of getChains()) {
         // Wrapped L1 NFTs
         const transactionsOnChain = getPersistedTransactionsForChain(profileId, account.index, chain)
         const nftIdsOnChain: string[] = []

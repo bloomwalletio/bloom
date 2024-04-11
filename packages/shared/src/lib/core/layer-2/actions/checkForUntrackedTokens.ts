@@ -1,13 +1,13 @@
 import { IAccountState } from '@core/account/interfaces'
 import { EvmNetworkId } from '@core/network'
-import { getNetwork } from '@core/network/stores'
+import { getChains } from '@core/network/stores'
 import { TokenStandard, TokenTrackingStatus } from '@core/token'
 import { addNewTrackedTokenToActiveProfile, hasTokenBeenUntracked } from '@core/wallet/actions'
 import { BASE_TOKEN_CONTRACT_ADDRESS } from '../constants'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 
 export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUntracked?: boolean): void {
-    const chains = getNetwork()?.getChains()
+    const chains = getChains()
     chains?.forEach(async (chain) => {
         const evmAddress = account.evmAddresses[chain.coinType]
         if (!evmAddress) {

@@ -7,10 +7,10 @@
         IChain,
         NetworkId,
         getActiveNetworkId,
-        network,
         isEvmChain,
-        IStardustNetwork,
         getChain,
+        getIscpChains,
+        getL1Network,
     } from '@core/network'
     import { visibleActiveAccounts } from '@core/profile/stores'
     import {
@@ -108,16 +108,14 @@
         return [...new Map(recipients.map((recipient) => [recipient?.['contact']?.['id'], recipient])).values()]
     }
 
-    function getLayer1RecipientOption(
-        sourceNetwork: IStardustNetwork,
-        accountIndexToExclude?: number
-    ): INetworkRecipientSelectorOption {
+    function getLayer1RecipientOption(accountIndexToExclude?: number): INetworkRecipientSelectorOption {
+        const network = getL1Network()
         return {
-            networkId: sourceNetwork.id,
-            name: sourceNetwork.name,
+            networkId: network.id,
+            name: network.name,
             recipients: [
                 ...getLayer1AccountRecipients(accountIndexToExclude),
-                ...getContactRecipientsForNetwork(sourceNetwork.id),
+                ...getContactRecipientsForNetwork(network.id),
             ],
         }
     }
@@ -152,11 +150,11 @@
     }
 
     function getRecipientOptions(): INetworkRecipientSelectorOption[] {
-        if (!$network || !$sendFlowParameters) {
+        if (!$sendFlowParameters) {
             return []
         }
 
-        const layer1Network = getLayer1RecipientOption($network, $selectedAccountIndex)
+        const layer1Network = getLayer1RecipientOption($selectedAccountIndex)
         if (!features?.network?.layer2?.enabled) {
             return [layer1Network]
         }
@@ -175,12 +173,12 @@
                     // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,
-                        ...$network.getIscpChains().map((chain) => getRecipientOptionFromChain(chain)),
+                        ...getIscpChains().map((chain) => getRecipientOptionFromChain(chain)),
                     ]
                 } else if (sourceChain) {
                     // if we are on layer 2
                     networkRecipientOptions = [
-                        ...(features.wallet.assets.unwrapToken.enabled ? [getLayer1RecipientOption($network)] : []),
+                        ...(features.wallet.assets.unwrapToken.enabled ? [getLayer1RecipientOption()] : []),
                         getRecipientOptionFromChain(sourceChain, $selectedAccountIndex),
                     ]
                 }

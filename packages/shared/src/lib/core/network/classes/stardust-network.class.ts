@@ -18,46 +18,16 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly namespace: NetworkNamespace.Stardust
     public readonly bech32Hrp: string
 
-    private readonly _chains: IChain[]
-
-    constructor(metadata: NetworkMetadata, chainConfigurations: ChainConfiguration[]) {
+    constructor(metadata: NetworkMetadata) {
         this.id = metadata.id
         this.name = metadata.name
         this.coinType = metadata.coinType
         this.namespace = metadata.namespace
         this.bech32Hrp = metadata.protocol.bech32Hrp
-
-        this._chains = this.constructChains(chainConfigurations ?? [])
-    }
-
-    private constructChains(chainConfigurations: ChainConfiguration[]): IChain[] {
-        const chains = chainConfigurations.map((chainConfiguration) => {
-            switch (chainConfiguration.type) {
-                case ChainType.Iscp:
-                    return new IscpChain(chainConfiguration)
-                case ChainType.Evm:
-                    return undefined
-                default:
-                    return undefined
-            }
-        })
-        return chains.filter((chain) => chain !== undefined) as IChain[]
     }
 
     getStatus(): INetworkStatus {
         return get(networkStatus)
-    }
-
-    getChain(networkId: NetworkId): IChain | undefined {
-        return this._chains.find((chain) => chain?.id === networkId)
-    }
-
-    getChains(): IChain[] {
-        return this._chains
-    }
-
-    getIscpChains(): IChain[] {
-        return this._chains.filter((chain) => chain.type === ChainType.Iscp)
     }
 
     addChain(chainConfiguration: ChainConfiguration): IChain {

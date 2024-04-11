@@ -20,14 +20,12 @@
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { UiEventFunction, buildUrl, truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
     export let network: Network
-    export let onCardClick: UiEventFunction
-    export let onQrCodeIconClick: UiEventFunction
 
     let address: string | undefined
     let status: NetworkHealth
@@ -41,6 +39,24 @@
         }
         const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
         openUrlInBrowser(url?.href)
+    }
+
+    function onCardClick(): void {
+        if (network.namespace === NetworkNamespace.Stardust) {
+            $networkConfigRouter.goTo(NetworkConfigRoute.NetworkSettings)
+        } else {
+            setSelectedChain(network)
+            $networkConfigRouter.goTo(NetworkConfigRoute.ChainInformation)
+        }
+    }
+
+    function onQrCodeIconClick(): void {
+        if (network.namespace === NetworkNamespace.Stardust) {
+            $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
+        } else {
+            setSelectedChain(network)
+            $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
+        }
     }
 
     function setNetworkCardData(): void {

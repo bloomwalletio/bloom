@@ -1,7 +1,7 @@
 <script lang="ts">
     import { requestTokensFromFaucet } from '@contexts/developer'
     import { localize } from '@core/i18n'
-    import { network } from '@core/network'
+    import { getL1Network } from '@core/network'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Error } from '@bloomwalletio/ui'
     import { handleError } from '@core/error/handlers/handleError'
@@ -33,7 +33,7 @@
 <PopupTemplate
     title={localize('popups.faucetRequest.title')}
     description={localize('popups.faucetRequest.body', {
-        values: { token: getBaseToken().name, network: $network?.name },
+        values: { token: getBaseToken().name, network: getL1Network()?.name },
     })}
     backButton={{
         text: localize('actions.cancel'),

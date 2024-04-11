@@ -8,7 +8,7 @@ import {
     isBlockscoutTransactionPersisted,
 } from '../stores'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
-import { EvmNetworkId, IChain, getNetwork } from '@core/network'
+import { EvmNetworkId, IChain, getChains } from '@core/network'
 import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
 import { generateEvmActivityFromPersistedTransaction } from '@core/activity/utils'
 import { EvmActivity, addAccountActivities, allAccountActivities } from '@core/activity'
@@ -18,7 +18,7 @@ export async function fetchAndPersistTransactionsForAccounts(
     profileId: string,
     accounts: IAccountState[]
 ): Promise<void> {
-    const chains = getNetwork()?.getChains() ?? []
+    const chains = getChains()
     for (const chain of chains) {
         const networkId = chain.id as EvmNetworkId
         for (const account of accounts) {

@@ -1,7 +1,6 @@
 import { IAccountState } from '@core/account'
-import { network } from '@core/network'
+import { getChains } from '@core/network'
 import { getPersistedTransactionsForChain } from '@core/transactions/stores'
-import { get } from 'svelte/store'
 import { EvmActivity } from '../../types'
 import { generateEvmActivityFromPersistedTransaction } from './generateEvmActivityFromPersistedTransaction'
 
@@ -11,7 +10,7 @@ export async function generateEvmActivitiesFromEvmChains(
 ): Promise<EvmActivity[]> {
     const activities: EvmActivity[] = []
 
-    const chains = get(network)?.getChains() ?? []
+    const chains = getChains()
     for (const chain of chains) {
         const persistedTransactions = getPersistedTransactionsForChain(profileId, account.index, chain)
         for (const persistedTransaction of persistedTransactions) {

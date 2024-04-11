@@ -6,7 +6,7 @@ import {
 } from '@core/activity/actions'
 import { ContractType, ILayer2TokenBalance } from '@core/layer-2'
 import { IChain } from '@core/network/interfaces'
-import { getNetwork } from '@core/network/stores'
+import { getChains } from '@core/network/stores'
 import { getNftsFromNftIds, isIrc27Nft } from '@core/nfts/utils'
 import {
     addNftsToDownloadQueue,
@@ -29,7 +29,7 @@ import { IscpChain } from '@core/network'
 
 export function fetchL2BalanceForAccount(profileId: string, account: IAccountState): void {
     const { evmAddresses, index } = account
-    const chains = getNetwork()?.getChains() ?? []
+    const chains = getChains()
     chains.forEach(async (chain) => {
         const { coinType, id: networkId } = chain
         const evmAddress = evmAddresses?.[coinType]

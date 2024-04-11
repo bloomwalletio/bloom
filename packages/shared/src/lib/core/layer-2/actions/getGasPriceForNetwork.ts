@@ -1,4 +1,4 @@
-import { getChain } from '@core/network/actions'
+import { getChain } from '@core/network'
 import { NetworkId } from '@core/network/types'
 import { Converter } from '@core/utils'
 

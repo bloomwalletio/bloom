@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account/interfaces'
 import { ContractType } from '@core/layer-2/enums'
-import { getNetwork } from '@core/network/stores'
+import { getChains } from '@core/network/stores'
 import { IChain } from '@core/network/interfaces'
 import features from '@features/features'
 
@@ -20,8 +20,7 @@ export async function checkForUntrackedNfts(account: IAccountState): Promise<voi
         return
     }
 
-    const chains = getNetwork()?.getChains() ?? []
-
+    const chains = getChains()
     for (const chain of chains) {
         const evmAddress = account.evmAddresses[chain.coinType]
         if (!evmAddress) {

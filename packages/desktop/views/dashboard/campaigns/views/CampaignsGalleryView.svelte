@@ -9,7 +9,7 @@
     } from '@contexts/campaigns/stores/campaigns-per-chain.store'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getNetwork } from '@core/network'
+    import { getChains } from '@core/network'
     import { TideApi } from '@core/tide/apis'
     import features from '@features/features'
     import { SearchInput } from '@ui'
@@ -20,10 +20,7 @@
     const tideApi = new TideApi()
     let loading = false
 
-    const chainIds =
-        getNetwork()
-            ?.getChains()
-            .map((chain) => Number(chain.chainId)) ?? []
+    const chainIds = getChains().map((chain) => Number(chain.chainId))
     let campaigns: ICampaign[] = []
     $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
 

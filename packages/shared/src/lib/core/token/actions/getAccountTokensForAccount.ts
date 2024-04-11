@@ -3,7 +3,7 @@ import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices, MarketCurrency, MarketPrices } from '@core/market'
 import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
 import { calculateFiatValueFromTokenAmountAndMarketPrice } from '@core/market/utils'
-import { NetworkId, EvmNetworkId, getNetwork } from '@core/network'
+import { NetworkId, EvmNetworkId, getChains } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { get } from 'svelte/store'
 import { BASE_TOKEN_ID } from '../constants'
@@ -23,7 +23,7 @@ export function getAccountTokensForAccount(
         const networkId = getActiveNetworkId()
 
         accountAssets[networkId] = getAccountAssetForNetwork(account, marketCoinPrices, marketCurrency, networkId)
-        const chains = getNetwork()?.getChains() ?? []
+        const chains = getChains()
 
         for (const chain of chains) {
             const chainAssets = getAccountAssetForChain(account, marketCoinPrices, marketCurrency, chain.id)
