@@ -161,7 +161,7 @@
     </div>
 </DrawerTemplate>
 
-<style lang="scss">
+<style lang="postcss">
     hr {
         @apply border-stroke dark:border-stroke-dark;
     }

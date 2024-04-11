@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store'
 import { NetworkId } from '@core/network/types'
-import { isEvmChain } from '@core/network/utils'
+import { isEvmNetwork } from '@core/network/utils'
 import { EvmChainGasPrices } from '../types'
 
 export const evmChainGasPrices = writable<EvmChainGasPrices>({})
@@ -11,7 +11,7 @@ export function getEvmChainGasPrice(networkId: NetworkId): bigint | undefined {
 
 export function setEvmChainGasPrice(price: bigint, networkId: NetworkId): void {
     evmChainGasPrices.update((state) => {
-        if (typeof price === 'bigint' && isEvmChain(networkId)) {
+        if (typeof price === 'bigint' && isEvmNetwork(networkId)) {
             return {
                 ...state,
                 [networkId]: price,

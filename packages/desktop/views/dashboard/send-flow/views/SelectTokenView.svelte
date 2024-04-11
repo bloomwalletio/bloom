@@ -8,16 +8,16 @@
     import {
         canAccountMakeStardustTransaction,
         getActiveNetworkId,
-        getNetwork,
-        isEvmChain,
+        isEvmNetwork,
         isStardustNetwork,
+        networks,
     } from '@core/network'
     import { BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
     import { getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { KeyValue, SearchInput, TokenAmountTile } from '@ui'
+    import { SearchInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
 
     let searchValue: string = ''
@@ -34,7 +34,7 @@
     let tokenError: string = ''
     $: if (
         selectedToken &&
-        isEvmChain(selectedToken.networkId) &&
+        isEvmNetwork(selectedToken.networkId) &&
         !canAccountMakeEvmTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)
     ) {
         tokenError = localize('error.send.insufficientFundsTransaction')
@@ -48,23 +48,11 @@
         tokenError = ''
     }
 
-    const tabs = getTabs()
+    const tabs = [
+        { key: 'all', value: localize('general.all') },
+        ...($networks?.map((network) => ({ key: network.id, value: network.name })) ?? []),
+    ]
     let selectedTab = tabs[0]
-
-    function getTabs(): KeyValue<string>[] {
-        const tabs = [{ key: 'all', value: localize('general.all') }]
-
-        const network = getNetwork()
-        if (!network) return tabs
-
-        tabs.push({ key: network.id, value: network.name })
-
-        const chains = network.getChains()
-        for (const chain of chains) {
-            tabs.push({ key: chain.id, value: chain.name })
-        }
-        return tabs
-    }
 
     let tokenList: ITokenWithBalance[]
     function getSortedTokenForAllNetworks(): ITokenWithBalance[] {

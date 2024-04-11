@@ -1,4 +1,5 @@
 export * from './current-irc27-version.constant'
+export * from './default-nft-filter.constant'
 export * from './default-nft-name.constant'
 export * from './default-nft-token-id.constant'
 export * from './default-max-nft-downloading-time-in-seconds.constant'

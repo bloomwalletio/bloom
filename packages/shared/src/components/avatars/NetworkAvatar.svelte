@@ -9,7 +9,7 @@
     export let size: 'xxs' | 'xs' | 'sm' | 'base' | 'md' = 'base'
     export let shape: 'circle' | 'square' | 'squircle' = 'circle'
 
-    const AVATAR_BACKGROUND_COLOR: { [id in SupportedNetworkId]: string } = {
+    const AVATAR_BACKGROUND_COLOR: { [id in NetworkId]?: string } = {
         [SupportedNetworkId.Iota]: '#000000',
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
         [SupportedNetworkId.Testnet]: 'shimmer-background',
@@ -17,7 +17,7 @@
         [SupportedNetworkId.TestnetEvm]: 'text-secondary',
     }
 
-    const AVATAR_TEXT_COLOR: { [id in SupportedNetworkId]: string } = {
+    const AVATAR_TEXT_COLOR: { [id in NetworkId]?: string } = {
         [SupportedNetworkId.Iota]: '#FFFFFF',
         [SupportedNetworkId.Shimmer]: 'shimmer',
         [SupportedNetworkId.Testnet]: 'text-secondary',
@@ -27,11 +27,11 @@
 
     let anchor: HTMLElement
     $: isSupported = isSupportedNetworkId(networkId)
-    $: backgroundColor = isSupported ? AVATAR_BACKGROUND_COLOR[networkId as SupportedNetworkId] : 'neutral-4'
-    $: customTextColor = isSupported ? AVATAR_TEXT_COLOR[networkId as SupportedNetworkId] : undefined
-    $: icon = isSupported ? DEFAULT_NETWORK_ICON[networkId as SupportedNetworkId] : undefined
+    $: backgroundColor = isSupported ? AVATAR_BACKGROUND_COLOR[networkId] : 'neutral-4'
+    $: customTextColor = isSupported ? AVATAR_TEXT_COLOR[networkId] : undefined
+    $: icon = isSupported ? DEFAULT_NETWORK_ICON[networkId] : undefined
     $: networkName = networkName ? networkName : networkId ? getNameFromNetworkId(networkId) ?? networkId : networkId
-    $: magnify = Object.values(SupportedNetworkId).includes(networkId as SupportedNetworkId)
+    $: magnify = Object.values(SupportedNetworkId).includes(networkId)
 </script>
 
 <!-- TODO: Add initials for not supported network IDs -->

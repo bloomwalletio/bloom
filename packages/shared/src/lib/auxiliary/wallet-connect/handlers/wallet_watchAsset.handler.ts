@@ -1,5 +1,5 @@
 import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
-import { IChain, NetworkId } from '@core/network'
+import { IEvmNetwork, NetworkId } from '@core/network'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { getEvmTokenMetadata } from '@core/layer-2'
 import { getSdkError } from '@walletconnect/utils'
@@ -32,7 +32,7 @@ type WatchAssetParams =
 export function handleWatchAsset(
     params: WatchAssetParams,
     dapp: IConnectedDapp,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     responseCallback: (params: CallbackParameters) => void
 ): void {
     if (params.type !== TokenStandard.Erc20 && params.type !== NftStandard.Erc721) {
@@ -51,7 +51,7 @@ export function handleWatchAsset(
                 address: params.options.address,
             }),
             onConfirm: () => {
-                void trackAsset(params, chain.id)
+                void trackAsset(params, evmNetwork.id)
                 responseCallback({ result: null })
                 closePopup()
             },

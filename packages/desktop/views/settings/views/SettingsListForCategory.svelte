@@ -33,7 +33,7 @@
     {/each}
 </div>
 
-<style lang="scss">
+<style lang="postcss">
     section {
         @apply w-full sm:w-3/4 pb-6;
         @apply border-solid border-b border-stroke dark:border-stroke-dark;
