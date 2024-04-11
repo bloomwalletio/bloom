@@ -34,7 +34,7 @@
     <slot />
 </logged-out-layout>
 
-<style lang="scss">
+<style lang="postcss">
     logged-out-layout {
         max-height: calc(100vh - var(--macos-navbar-height, 0px));
     }

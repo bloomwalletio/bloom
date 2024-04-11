@@ -8,6 +8,7 @@ import { IToken, IPersistedToken } from '@core/token/interfaces'
 import { TokenStandard, VerifiedStatus } from '@core/token/enums'
 import { SendFlowType } from '../enums'
 import { SendFlowParameters } from '../types'
+import { writable } from 'svelte/store'
 
 const PERSISTED_ASSET_SHIMMER: IPersistedToken = {
     id: '1',
@@ -71,7 +72,13 @@ const baseTransaction: SendFlowParameters = {
     destinationNetworkId: SupportedNetworkId.Shimmer,
 }
 
+// TODO: refactor getOutputParameters to not rely on this store
+jest.mock('@core/profile/stores/active-profile-id.store', () => ({
+    activeProfileId: jest.fn(() => writable('')),
+}))
+
 jest.mock('@core/token/stores/persisted-tokens.store', () => ({
+    persistedTokens: jest.fn(() => writable([])),
     getPersistedToken: jest.fn(() => PERSISTED_ASSET_SHIMMER),
     getAssetById: jest.fn((id) => (id === PERSISTED_ASSET_SHIMMER.id ? PERSISTED_ASSET_SHIMMER : nativeTokenAsset)),
 }))
@@ -115,11 +122,6 @@ jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
 
 describe('File: getOutputParameters.ts', () => {
     let sendFlowParameters: SendFlowParameters
-
-    beforeAll(() => {
-        // TODO: refactor getOutputParameters to not rely on this store
-        activeProfileId.set('id')
-    })
 
     it('should return output parameters for base token with metadata and tag', () => {
         sendFlowParameters = {

@@ -84,7 +84,7 @@
 {#if show}
     <modal-content
         bind:this={modal}
-        in:fade={{ duration: 100 }}
+        in:fade|global={{ duration: 100 }}
         use:clickOutside
         on:clickOutside={onClickOutside}
         class="{size} {classes}"

@@ -79,7 +79,7 @@
     </ul>
 </Popover>
 
-<style lang="scss">
+<style lang="postcss">
     li {
         grid-template-columns: min-content 1fr;
 

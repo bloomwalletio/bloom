@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<style lang="scss">
+<style lang="postcss">
     empty-list-icon {
         @apply flex items-center justify-center text-center;
         @apply h-24 w-24 rounded-full shadow-elevation-4;
