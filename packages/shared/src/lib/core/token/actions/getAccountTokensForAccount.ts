@@ -3,7 +3,7 @@ import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices, MarketCurrency, MarketPrices } from '@core/market'
 import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
 import { calculateFiatValueFromTokenAmountAndMarketPrice } from '@core/market/utils'
-import { NetworkId, EvmNetworkId, getChains } from '@core/network'
+import { NetworkId, getEvmNetworks } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { get } from 'svelte/store'
 import { BASE_TOKEN_ID } from '../constants'
@@ -23,12 +23,12 @@ export function getAccountTokensForAccount(
         const networkId = getActiveNetworkId()
 
         accountAssets[networkId] = getAccountAssetForNetwork(account, marketCoinPrices, marketCurrency, networkId)
-        const chains = getChains()
+        const evmNetworkIds = getEvmNetworks()
 
-        for (const chain of chains) {
-            const chainAssets = getAccountAssetForChain(account, marketCoinPrices, marketCurrency, chain.id)
+        for (const evmNetwork of evmNetworkIds) {
+            const chainAssets = getAccountAssetForChain(account, marketCoinPrices, marketCurrency, evmNetwork.id)
             if (chainAssets) {
-                accountAssets[chain.id] = chainAssets
+                accountAssets[evmNetwork.id] = chainAssets
             }
         }
 
@@ -107,8 +107,8 @@ function getAccountAssetForChain(
     const tokens = Object.entries(balanceForNetworkId ?? {}) ?? []
 
     for (const [tokenId, balance] of tokens) {
-        if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS?.[networkId as EvmNetworkId]) {
-            // ignore erc20 interface of the base coin of the chain
+        if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS?.[networkId]) {
+            // ignore erc20 interface of the base coin of the evmNetwork
             continue
         } else if (tokenId === BASE_TOKEN_ID) {
             baseCoin = createTokenWithBalanceFromPersistedAsset(

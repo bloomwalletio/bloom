@@ -33,7 +33,7 @@
     }}
 >
     <content slot="content">
-        {#if $onboardingProfile?.network?.id === SupportedNetworkId.Iota}
+        {#if $onboardingProfile?.network?.id === StardustNetworkId.Iota}
             <icon-container class="bg-black">
                 <Icon name={IconName.Iota} size="lg" customColor="#ffffff" />
             </icon-container>

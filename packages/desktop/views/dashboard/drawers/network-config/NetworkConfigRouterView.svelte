@@ -4,13 +4,13 @@
     import { NetworkConfigRoute, networkConfigRoute, NetworkConfigRouter, networkConfigRouter } from '../'
     import {
         AddChainDrawer,
-        ChainDepositAddressDrawer,
-        ChainInformationDrawer,
+        NetworkDepositAddressDrawer,
+        NetworkInformationDrawer,
         ConfirmLedgerEvmAddressDrawer,
-        ConnectedChainsDrawer,
-        EditChainDrawer,
+        ConnectedNetworksDrawer,
+        EditNetworkDrawer,
         NetworkSettingsDrawer,
-        RemoveChainDrawer,
+        RemoveNetworkDrawer,
     } from './views'
     import { clearSelectedChain } from '@core/network'
     import features from '@features/features'
@@ -36,17 +36,17 @@
 </script>
 
 {#if $networkConfigRoute === NetworkConfigRoute.ConnectedChains}
-    <ConnectedChainsDrawer {drawerRouter} />
+    <ConnectedNetworksDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.ChainInformation}
-    <ChainInformationDrawer {drawerRouter} />
+    <NetworkInformationDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.NetworkSettings}
     <NetworkSettingsDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.EditChain}
-    <EditChainDrawer {drawerRouter} />
+    <EditNetworkDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.RemoveChain}
-    <RemoveChainDrawer {drawerRouter} />
+    <RemoveNetworkDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.ChainDepositAddress}
-    <ChainDepositAddressDrawer {drawerRouter} />
+    <NetworkDepositAddressDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.ConfirmLedgerEvmAddress}
     <ConfirmLedgerEvmAddressDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.AddChain}

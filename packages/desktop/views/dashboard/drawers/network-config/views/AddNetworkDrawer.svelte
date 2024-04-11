@@ -9,7 +9,5 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.addChain.title')} {drawerRouter}>
-    <add-chain-drawer>
-        <AddIscpChainForm />
-    </add-chain-drawer>
+    <AddIscpChainForm />
 </DrawerTemplate>

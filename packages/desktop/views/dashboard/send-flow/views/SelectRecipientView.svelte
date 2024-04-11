@@ -4,11 +4,11 @@
     import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
     import {
-        IChain,
+        IEvmNetwork,
         NetworkId,
         getActiveNetworkId,
-        isEvmChain,
-        getChain,
+        isEvmNetwork,
+        getEvmNetwork,
         getIscpChains,
         getL1Network,
     } from '@core/network'
@@ -45,7 +45,7 @@
     let hasNetworkRecipientError: boolean = false
     $: {
         const originNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
-        if (originNetworkId && isEvmChain(originNetworkId)) {
+        if (originNetworkId && isEvmNetwork(originNetworkId)) {
             hasNetworkRecipientError = !canAccountMakeEvmTransaction(
                 $selectedAccountIndex,
                 originNetworkId,
@@ -136,15 +136,15 @@
     }
 
     function getRecipientOptionFromChain(
-        chain: IChain,
+        evmNetwork: IEvmNetwork,
         accountIndexToExclude?: number
     ): INetworkRecipientSelectorOption {
         return {
-            networkId: chain.id,
-            name: chain.name,
+            networkId: evmNetwork.id,
+            name: evmNetwork.name,
             recipients: [
-                ...getLayer2AccountRecipients(chain.coinType, accountIndexToExclude),
-                ...getContactRecipientsForNetwork(chain.id),
+                ...getLayer2AccountRecipients(evmNetwork.coinType, accountIndexToExclude),
+                ...getContactRecipientsForNetwork(evmNetwork.id),
             ],
         }
     }
@@ -161,7 +161,7 @@
 
         const assetStandard = getTokenStandardFromSendFlowParameters($sendFlowParameters)
         const sourceNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
-        const sourceChain = sourceNetworkId ? getChain(sourceNetworkId) : undefined
+        const sourceChain = sourceNetworkId ? getEvmNetwork(sourceNetworkId) : undefined
 
         let networkRecipientOptions: INetworkRecipientSelectorOption[] = []
 
@@ -173,7 +173,7 @@
                     // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,
-                        ...getIscpChains().map((chain) => getRecipientOptionFromChain(chain)),
+                        ...getIscpChains().map((evmNetwork) => getRecipientOptionFromChain(evmNetwork)),
                     ]
                 } else if (sourceChain) {
                     // if we are on layer 2

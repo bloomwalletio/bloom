@@ -133,7 +133,7 @@
     async function onFindBalancesClick(): Promise<void> {
         if (type === ProfileType.Ledger) {
             await checkOrConnectLedger(
-                network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+                network?.id === StardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
             )
         }
         await findBalances()

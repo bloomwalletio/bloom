@@ -9,7 +9,7 @@
     } from '@contexts/campaigns/stores/campaigns-per-chain.store'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { getChains } from '@core/network'
+    import { getEvmNetworks } from '@core/network'
     import { TideApi } from '@core/tide/apis'
     import features from '@features/features'
     import { SearchInput } from '@ui'
@@ -20,7 +20,7 @@
     const tideApi = new TideApi()
     let loading = false
 
-    const chainIds = getChains().map((chain) => Number(chain.chainId))
+    const chainIds = getEvmNetworks().map((evmNetwork) => Number(evmNetwork.chainId))
     let campaigns: ICampaign[] = []
     $: $campaignsPerChain, (campaigns = getCampaignsForChains(chainIds))
 
@@ -80,7 +80,7 @@
                         startTime: campaign.startTime,
                         endTime: campaign.endTime,
                         url: campaign.url,
-                        chainId: campaign.chain,
+                        chainId: campaign.evmNetwork,
                         listingStatus: campaign.listingStatus,
                         ERC20Reward: campaign.ERC20Reward,
                     } as ICampaign

@@ -1,6 +1,6 @@
-import { IChain, IscpChain, getIscpChains } from '@core/network'
+import { IEvmNetwork, IscpChain, getIscpChains } from '@core/network'
 
-export function getNetworkFromAddress(networkAddress: string | undefined): IChain | undefined {
-    const chain = getIscpChains().find((chain) => (chain as IscpChain).aliasAddress === networkAddress)
-    return chain
+export function getNetworkFromAddress(networkAddress: string | undefined): IEvmNetwork | undefined {
+    const evmNetwork = getIscpChains().find((evmNetwork) => (evmNetwork as IscpChain).aliasAddress === networkAddress)
+    return evmNetwork
 }

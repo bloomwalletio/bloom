@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
-    import { IAccountState } from '@core/account'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { openUrlInBrowser } from '@core/app'
     import { handleError } from '@core/error/handlers'
@@ -63,11 +63,7 @@
         const account = $selectedAccount as IAccountState
 
         status = network.getStatus().health
-        if (network?.namespace === NetworkNamespace.Stardust) {
-            address = account.depositAddress
-        } else if (network?.namespace === NetworkNamespace.Evm) {
-            address = account.evmAddresses[network.coinType]
-        }
+        address = getAddressFromAccountForNetwork(account, network.id)
     }
 
     async function onGenerateAddressClick(): Promise<void> {

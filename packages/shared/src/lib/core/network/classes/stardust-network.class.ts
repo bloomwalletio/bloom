@@ -4,10 +4,10 @@ import { get } from 'svelte/store'
 
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 
-import { ChainType, NetworkNamespace } from '../enums'
-import { IChain, IIscpChainConfiguration, INetworkStatus, IStardustNetwork } from '../interfaces'
+import { EvmNetworkType, NetworkNamespace } from '../enums'
+import { IEvmNetwork, IIscpEvmNetworkConfiguration, INetworkStatus, IStardustNetwork } from '../interfaces'
 import { networkStatus } from '../stores'
-import { ChainConfiguration, NetworkId, NetworkMetadata } from '../types'
+import { EvmNetworkConfiguration, NetworkId, NetworkMetadata } from '../types'
 
 import { IscpChain } from './iscp-chain.class'
 
@@ -30,33 +30,33 @@ export class StardustNetwork implements IStardustNetwork {
         return get(networkStatus)
     }
 
-    addChain(chainConfiguration: ChainConfiguration): IChain {
+    addChain(chainConfiguration: EvmNetworkConfiguration): IEvmNetwork {
         if (this.isChainAlreadyAdded(chainConfiguration)) {
-            throw new Error('This chain has already been added.')
+            throw new Error('This evm network has already been added.')
         } else {
             const network = get(activeProfile)?.network
             network.chainConfigurations.push(chainConfiguration)
             /**
              * NOTE: Updating the active profile will cause the network store object to be
              * re-instantiated, which will also instantiate an object for the newly added
-             * chain.
+             * evmNetwork.
              */
             updateActiveProfile({ network })
 
-            return new IscpChain(<IIscpChainConfiguration>chainConfiguration)
+            return new IscpChain(<IIscpEvmNetworkConfiguration>chainConfiguration)
         }
     }
 
-    private isChainAlreadyAdded(chainConfiguration: ChainConfiguration): boolean {
+    private isChainAlreadyAdded(chainConfiguration: EvmNetworkConfiguration): boolean {
         const network = get(activeProfile)?.network
-        return network.chainConfigurations.some((chain) => {
-            const hasSameName = chain.name === chainConfiguration.name
-            const hasSameId = chain.id === chainConfiguration.id
+        return network.chainConfigurations.some((evmNetwork) => {
+            const hasSameName = evmNetwork.name === chainConfiguration.name
+            const hasSameId = evmNetwork.id === chainConfiguration.id
             return hasSameName || hasSameId
         })
     }
 
-    editChain(networkId: NetworkId, payload: Partial<ChainConfiguration>): Promise<void> {
+    editChain(networkId: NetworkId, payload: Partial<EvmNetworkConfiguration>): Promise<void> {
         return Promise.resolve()
     }
 

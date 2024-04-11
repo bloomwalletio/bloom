@@ -15,7 +15,7 @@ import { getActiveNetworkId } from '@core/network'
 export async function mintNativeToken(
     maximumSupply: bigint,
     circulatingSupply: bigint,
-    metadata: IIrc30Metadata
+    metadata: IIrc30Metadata,
 ): Promise<void> {
     try {
         const account = getSelectedAccount()

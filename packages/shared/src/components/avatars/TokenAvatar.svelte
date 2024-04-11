@@ -67,11 +67,11 @@
             colorsToExclude: ['gray'],
         })
     $: textColor = AVATAR_TEXT_COLOR[token.networkId]?.[token?.id]
-    $: icon = DEFAULT_TOKEN_ICON[token.networkId as SupportedNetworkId]?.[token?.id]
+    $: icon = DEFAULT_TOKEN_ICON[token.networkId]?.[token?.id]
     $: image = getImageUrlFromToken(token, IMAGE_SIZES[size])
     $: text = getTokenInitials(token)
     $: magnify =
-        token.id === BASE_TOKEN_ID && Object.values(SupportedNetworkId).includes(token.networkId as SupportedNetworkId)
+        token.id === BASE_TOKEN_ID && Object.values(SupportedNetworkId).includes(token.networkId)
 </script>
 
 <div class="avatar">

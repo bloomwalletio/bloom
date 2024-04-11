@@ -7,7 +7,7 @@ export function getNetworkIdFromOnboardingNetworkType(networkType: OnboardingNet
         return undefined
     }
 
-    const nameMap: { [key in OnboardingNetworkType]?: SupportedNetworkId } = {
+    const nameMap: { [key in OnboardingNetworkType]?: NetworkId } = {
         [OnboardingNetworkType.Iota]: SupportedNetworkId.Iota,
         [OnboardingNetworkType.Shimmer]: SupportedNetworkId.Shimmer,
         [OnboardingNetworkType.Testnet]: SupportedNetworkId.Testnet,

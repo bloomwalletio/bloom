@@ -3,9 +3,9 @@ import { Readable, derived, get } from 'svelte/store'
 import { activeProfile } from '@core/profile/stores'
 
 import { IscpChain, StardustNetwork } from '../classes'
-import { IChain, IStardustNetwork } from '../interfaces'
+import { IEvmNetwork, IStardustNetwork } from '../interfaces'
 import { Network, NetworkId } from '../types'
-import { ChainType, NetworkNamespace } from '../enums'
+import { EvmNetworkType, NetworkNamespace } from '../enums'
 
 export const networks: Readable<Network[] | undefined> = derived([activeProfile], ([$activeProfile]) => {
     if ($activeProfile && $activeProfile.network) {
@@ -13,15 +13,15 @@ export const networks: Readable<Network[] | undefined> = derived([activeProfile]
         const chains = $activeProfile.network.chainConfigurations
             .map((chainConfiguration) => {
                 switch (chainConfiguration.type) {
-                    case ChainType.Iscp:
+                    case EvmNetworkType.Iscp:
                         return new IscpChain(chainConfiguration)
-                    case ChainType.Evm:
+                    case EvmNetworkType.PureEvm:
                         return undefined
                     default:
                         return undefined
                 }
             })
-            .filter(Boolean) as IChain[]
+            .filter(Boolean) as IEvmNetwork[]
         return [stardustNetwork, ...chains]
     } else {
         return undefined
@@ -42,20 +42,20 @@ export function getL1Network(): IStardustNetwork {
     return l1Network
 }
 
-export function getChains(): IChain[] {
-    return (get(networks)?.filter((network) => network.namespace === NetworkNamespace.Evm) as IChain[]) ?? []
+export function getEvmNetworks(): IEvmNetwork[] {
+    return (get(networks)?.filter((network) => network.namespace === NetworkNamespace.Evm) as IEvmNetwork[]) ?? []
 }
 
-export function getChain(networkId: NetworkId): IChain | undefined {
+export function getEvmNetwork(networkId: NetworkId): IEvmNetwork | undefined {
     return get(networks)?.find(
         (network) => network.namespace === NetworkNamespace.Evm && network.id === networkId
-    ) as IChain
+    ) as IEvmNetwork
 }
 
 export function getIscpChains(): IscpChain[] {
     return (
         (get(networks)?.filter(
-            (network) => network.namespace === NetworkNamespace.Evm && network.type === ChainType.Iscp
+            (network) => network.namespace === NetworkNamespace.Evm && network.type === EvmNetworkType.Iscp
         ) as IscpChain[]) ?? []
     )
 }

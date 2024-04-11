@@ -8,7 +8,7 @@
     import {
         canAccountMakeStardustTransaction,
         getActiveNetworkId,
-        isEvmChain,
+        isEvmNetwork,
         isStardustNetwork,
         networks,
     } from '@core/network'
@@ -34,7 +34,7 @@
     let tokenError: string = ''
     $: if (
         selectedToken &&
-        isEvmChain(selectedToken.networkId) &&
+        isEvmNetwork(selectedToken.networkId) &&
         !canAccountMakeEvmTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)
     ) {
         tokenError = localize('error.send.insufficientFundsTransaction')

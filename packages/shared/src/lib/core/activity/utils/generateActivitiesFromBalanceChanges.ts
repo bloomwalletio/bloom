@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { INftBalanceChange, ITokenBalanceChange, EvmActivity } from '../types'
 import { getBalanceChanges } from '../stores'
-import { NetworkId, getChains } from '@core/network'
+import { NetworkId, getEvmNetworks } from '@core/network'
 import { generateEvmNftBalanceChangeActivity, generateEvmTokenBalanceChangeActivity } from './evm'
 
 export async function generateActivitiesFromBalanceChanges(
@@ -10,9 +10,8 @@ export async function generateActivitiesFromBalanceChanges(
 ): Promise<EvmActivity[]> {
     const activities: EvmActivity[] = []
 
-    const chains = getChains() ?? []
-    for (const chain of chains) {
-        const networkId = chain.id
+    for (const evmNetwork of getEvmNetworks()) {
+        const networkId = evmNetwork.id
         const balanceChanges = getBalanceChanges(profileId, account.index, networkId)
 
         const tokenActivities = await generateActivitiesFromTokenBalanceChanges(
