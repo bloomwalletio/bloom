@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import { EvmActivityType } from '@core/activity/enums/evm'
-import { NetworkId, NetworkNamespace, getEvmNetwork } from '@core/network'
+import { EvmNetworkId, NetworkNamespace, getEvmNetwork } from '@core/network'
 import { TokenStandard } from '@core/token'
 import { generateRandomId } from '@core/utils'
 import { Subject, SubjectType } from '@core/wallet'
@@ -22,7 +22,7 @@ export function generateEvmBalanceChangeActivity(
         direction: ActivityDirection
         time: Date
     },
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     account: IAccountState
 ): EvmBalanceChangeActivity {
     const coinType = getEvmNetwork(networkId)?.coinType

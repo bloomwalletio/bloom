@@ -1,6 +1,6 @@
 import { persistedBalanceChanges } from '@core/activity'
 import { isErcAsset } from '@core/layer-2'
-import { NetworkId } from '@core/network'
+import { EvmNetworkId } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 
 export function removeEvmBalanceChanges(profileId: string): void {
@@ -14,7 +14,7 @@ export function removeEvmBalanceChanges(profileId: string): void {
             const accountBalanceChanges = profileBalanceChanges[accountId]
 
             for (const networkId of Object.keys(accountBalanceChanges)) {
-                const networkBalanceChanges = accountBalanceChanges[networkId as NetworkId]
+                const networkBalanceChanges = accountBalanceChanges[networkId as EvmNetworkId]
                 if (!networkBalanceChanges) {
                     continue
                 }
@@ -33,7 +33,7 @@ export function removeEvmBalanceChanges(profileId: string): void {
                     }
                 }
 
-                accountBalanceChanges[networkId as NetworkId] = networkBalanceChanges
+                accountBalanceChanges[networkId as EvmNetworkId] = networkBalanceChanges
             }
             profileBalanceChanges[accountId] = accountBalanceChanges
         }

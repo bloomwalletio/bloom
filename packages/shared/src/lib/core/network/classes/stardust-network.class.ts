@@ -7,12 +7,12 @@ import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { EvmNetworkType, NetworkNamespace } from '../enums'
 import { IEvmNetwork, IIscpEvmNetworkConfiguration, INetworkStatus, IStardustNetwork } from '../interfaces'
 import { networkStatus } from '../stores'
-import { EvmNetworkConfiguration, NetworkId, NetworkMetadata } from '../types'
+import { EvmNetworkConfiguration, NetworkId, NetworkMetadata, StardustNetworkId } from '../types'
 
 import { IscpChain } from './iscp-chain.class'
 
 export class StardustNetwork implements IStardustNetwork {
-    public readonly id: NetworkId
+    public readonly id: StardustNetworkId
     public readonly name: string
     public readonly coinType: number
     public readonly namespace: NetworkNamespace.Stardust

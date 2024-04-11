@@ -1,16 +1,18 @@
 import { OnboardingNetworkType } from '@contexts/onboarding/enums/onboarding-network-type.enum'
-import { SupportedNetworkId } from '../enums'
-import { NetworkId } from '../types'
+import { SupportedStardustNetworkId } from '../enums'
+import { StardustNetworkId } from '../types'
 
-export function getNetworkIdFromOnboardingNetworkType(networkType: OnboardingNetworkType): NetworkId | undefined {
+export function getNetworkIdFromOnboardingNetworkType(
+    networkType: OnboardingNetworkType
+): StardustNetworkId | undefined {
     if (!networkType) {
         return undefined
     }
 
-    const nameMap: { [key in OnboardingNetworkType]?: NetworkId } = {
-        [OnboardingNetworkType.Iota]: SupportedNetworkId.Iota,
-        [OnboardingNetworkType.Shimmer]: SupportedNetworkId.Shimmer,
-        [OnboardingNetworkType.Testnet]: SupportedNetworkId.Testnet,
+    const nameMap: { [key in OnboardingNetworkType]?: StardustNetworkId } = {
+        [OnboardingNetworkType.Iota]: SupportedStardustNetworkId.Iota,
+        [OnboardingNetworkType.Shimmer]: SupportedStardustNetworkId.Shimmer,
+        [OnboardingNetworkType.Testnet]: SupportedStardustNetworkId.Testnet,
     }
 
     return nameMap[networkType]

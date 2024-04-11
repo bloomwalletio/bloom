@@ -6,7 +6,7 @@
         EvmNetworkType,
         IIscpEvmNetworkConfiguration,
         ETHEREUM_COIN_TYPE,
-        NetworkId,
+        EvmNetworkId,
         NetworkNamespace,
         ChainId,
     } from '@core/network'
@@ -27,7 +27,7 @@
 
     const evmNetwork: IIscpEvmNetworkConfiguration = {
         type: EvmNetworkType.Iscp,
-        id: '' as NetworkId,
+        id: '' as EvmNetworkId,
         namespace: NetworkNamespace.Evm,
         chainId: '' as ChainId,
         name: '',

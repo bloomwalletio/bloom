@@ -1,7 +1,7 @@
 import { StardustNetworkName, SupportedNetworkId, TokenSupply } from '@core/network/enums'
 import { IProtocol } from '../interfaces'
 import { DEFAULT_BECH32_HRP } from './default-bech32-hrp.constant'
-import { NetworkId } from '..'
+import { StardustNetworkId } from '..'
 
 const DEFAULT_IOTA_PROTOCOL: IProtocol = {
     version: 2,
@@ -45,7 +45,7 @@ const DEFAULT_TESTNET_PROTOCOL: IProtocol = {
     tokenSupply: TokenSupply.Testnet,
 }
 
-export const DEFAULT_PROTOCOL: Readonly<{ [id in NetworkId]?: IProtocol }> = {
+export const DEFAULT_PROTOCOL: Readonly<{ [id in StardustNetworkId]?: IProtocol }> = {
     [SupportedNetworkId.Iota]: DEFAULT_IOTA_PROTOCOL,
     [SupportedNetworkId.Shimmer]: DEFAULT_SHIMMER_PROTOCOL,
     [SupportedNetworkId.Testnet]: DEFAULT_TESTNET_PROTOCOL,

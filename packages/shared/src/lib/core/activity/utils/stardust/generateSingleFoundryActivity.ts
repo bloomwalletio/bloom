@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { convertHexAddressToBech32 } from '@core/wallet/utils'
 import {
@@ -18,7 +18,7 @@ import { SubjectType } from '@core/wallet/enums'
 
 export async function generateSingleFoundryActivity(
     account: IAccountState,
-    networkId: NetworkId,
+    networkId: StardustNetworkId,
     generationParameters: IActivityGenerationParameters
 ): Promise<StardustFoundryActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)

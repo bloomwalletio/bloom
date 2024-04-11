@@ -1,6 +1,11 @@
 import { IPersistedAccountData } from '@core/account'
 import { MarketCurrency } from '@core/market'
-import { DEFAULT_EVM_NETWORK_CONFIGURATIONS, IPersistedNetwork, NetworkNamespace } from '@core/network'
+import {
+    DEFAULT_EVM_NETWORK_CONFIGURATIONS,
+    IPersistedNetwork,
+    NetworkNamespace,
+    StardustNetworkId,
+} from '@core/network'
 import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts'
 import {
     DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
@@ -67,7 +72,7 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
 function buildPersistedNetworkFromThirdPartyPersistedNetwork(network: IThirdPartyPersistedNetwork): IPersistedNetwork {
     const networkId =
         NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP[network.protocol.networkName] ??
-        `${NetworkNamespace.Stardust}:${network.protocol.networkName}`
+        (`${NetworkNamespace.Stardust}:${network.protocol.networkName}` as StardustNetworkId)
     const defaultChainConfigurations = structuredClone(DEFAULT_EVM_NETWORK_CONFIGURATIONS?.[networkId])
 
     return {

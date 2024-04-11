@@ -10,14 +10,14 @@ import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enu
 import { IBlock, IEvmNetwork, IChainStatus, IIscpEvmNetworkConfiguration, IIscpEvmNetworkMetadata } from '../interfaces'
 import { chainStatuses } from '../stores'
 import { CoinType } from '@iota/sdk/out/types'
-import { ChainMetadata, NetworkId, Web3Provider } from '../types'
+import { ChainMetadata, EvmNetworkId, Web3Provider } from '../types'
 import { Converter } from '@core/utils'
 
 export class IscpChain implements IEvmNetwork {
     public readonly provider: Web3Provider
     private readonly _chainApi: string
 
-    public readonly id: NetworkId
+    public readonly id: EvmNetworkId
     public readonly namespace: NetworkNamespace.Evm
     public readonly chainId: ChainId
     public readonly type: EvmNetworkType.Iscp

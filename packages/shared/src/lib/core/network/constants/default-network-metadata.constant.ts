@@ -1,10 +1,10 @@
 import { DEFAULT_BASE_TOKEN, DEFAULT_COIN_TYPE, DEFAULT_PROTOCOL } from '../constants'
 import { NetworkNamespace, StardustNetworkName, SupportedNetworkId } from '../enums'
 import { IStardustNetworkMetadata } from '../interfaces'
-import { NetworkId, NetworkMetadata } from '../types'
+import { NetworkMetadata, StardustNetworkId } from '../types'
 
 // TODO: Should this be reverted back to a object with all metadata for any network (or evmNetwork?)
-export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in NetworkId]?: NetworkMetadata }> = {
+export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: NetworkMetadata }> = {
     [SupportedNetworkId.Iota]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Iota,
         name: 'IOTA',
