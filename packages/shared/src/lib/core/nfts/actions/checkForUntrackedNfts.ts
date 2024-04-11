@@ -20,8 +20,8 @@ export async function checkForUntrackedNfts(account: IAccountState): Promise<voi
         return
     }
 
-    const chains = getEvmNetworks()
-    for (const evmNetwork of chains) {
+    const evmNetworks = getEvmNetworks()
+    for (const evmNetwork of evmNetworks) {
         const evmAddress = account.evmAddresses[evmNetwork.coinType]
         if (!evmAddress) {
             return

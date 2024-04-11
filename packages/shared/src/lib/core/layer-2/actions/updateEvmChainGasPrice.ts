@@ -16,6 +16,6 @@ export async function updateEvmChainGasPrice(networkId: NetworkId): Promise<void
 }
 
 export async function updateEvmChainGasPrices(): Promise<void> {
-    const chainNetworkIds = getEvmNetworks().map((evmNetwork) => evmNetwork.id)
-    await Promise.all(chainNetworkIds.map((chainId) => updateEvmChainGasPrice(chainId)))
+    const networkIds = getEvmNetworks().map((evmNetwork) => evmNetwork.id)
+    await Promise.all(networkIds.map((networkId) => updateEvmChainGasPrice(networkId)))
 }

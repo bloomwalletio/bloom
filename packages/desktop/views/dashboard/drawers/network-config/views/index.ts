@@ -1,4 +1,4 @@
-export { default as AddChainDrawer } from './AddChainDrawer.svelte'
+export { default as AddNetworkDrawer } from './AddNetworkDrawer.svelte'
 export { default as NetworkDepositAddressDrawer } from './NetworkDepositAddressDrawer.svelte'
 export { default as NetworkInformationDrawer } from './NetworkInformationDrawer.svelte'
 export { default as ConfirmLedgerEvmAddressDrawer } from './ConfirmLedgerEvmAddressDrawer.svelte'

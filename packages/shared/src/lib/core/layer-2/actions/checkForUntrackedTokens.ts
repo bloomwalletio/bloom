@@ -6,8 +6,8 @@ import { BASE_TOKEN_CONTRACT_ADDRESS } from '../constants'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 
 export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUntracked?: boolean): void {
-    const chains = getEvmNetworks()
-    chains?.forEach(async (evmNetwork) => {
+    const evmNetworks = getEvmNetworks()
+    evmNetworks?.forEach(async (evmNetwork) => {
         const evmAddress = account.evmAddresses[evmNetwork.coinType]
         if (!evmAddress) {
             return

@@ -18,9 +18,9 @@ export async function fetchAndPersistTransactionsForAccounts(
     profileId: string,
     accounts: IAccountState[]
 ): Promise<void> {
-    const chains = getEvmNetworks()
-    for (const chain of chains) {
-        const networkId = chain.id
+    const networks = getEvmNetworks()
+    for (const network of networks) {
+        const networkId = network.id
         for (const account of accounts) {
             try {
                 const blockscoutTransactions = await fetchBlockscoutTransactionsForAccount(
@@ -52,7 +52,7 @@ export async function fetchAndPersistTransactionsForAccounts(
                 console.error(err)
             }
 
-            const activities = await generateActivityForMissingTransactions(profileId, account, chain)
+            const activities = await generateActivityForMissingTransactions(profileId, account, network)
             addAccountActivities(account.index, activities)
         }
     }

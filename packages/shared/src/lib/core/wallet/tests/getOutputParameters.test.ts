@@ -1,7 +1,6 @@
-import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
 import { SupportedNetworkId } from '@core/network/enums'
 import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
-import { DEFAULT_CHAIN_CONFIGURATIONS } from '@core/network/constants'
+import { DEFAULT_EVM_NETWORK_CONFIGURATIONS } from '@core/network/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
@@ -34,7 +33,7 @@ const nativeTokenAsset: IToken = {
     verification: { verified: true, status: VerifiedStatus.SelfVerified },
 }
 
-const destinationNetwork = DEFAULT_CHAIN_CONFIGURATIONS[SupportedNetworkId.Testnet]
+const destinationNetwork = DEFAULT_EVM_NETWORK_CONFIGURATIONS[SupportedNetworkId.Testnet]
 
 const nftId = '0xcd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1'
 const surplus = '50000'
@@ -94,7 +93,7 @@ jest.mock('@core/token/actions/getAccountTokensForAccount', () => ({
     }),
 }))
 
-jest.mock('../../network/actions/getEvmNetwork', () => ({
+jest.mock('../../network/stores/networks.store', () => ({
     getEvmNetwork: jest.fn((_) => destinationNetwork),
 }))
 
