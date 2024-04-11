@@ -127,8 +127,6 @@
                     needsChrysalisToStardustDbMigration={thirdPartyProfile?.needsChrysalisToStardustDbMigration}
                 />
             {/each}
-        {:else if $thirdPartyProfiles === undefined}
-            <Spinner />
         {:else}
             <Text align="center" type="body1" textColor="secondary">
                 {localize(`${LOCALE_NAMESPACE}.empty`)}

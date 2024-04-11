@@ -60,7 +60,7 @@
             {onMouseLeave}
         />
         {#if isTooltipVisible}
-            <tooltip-container transition:fade={{ duration: 100 }}>
+            <tooltip-container transition:fade|global={{ duration: 100 }}>
                 <InformationTooltip
                     anchor={buttonElement}
                     title={label}

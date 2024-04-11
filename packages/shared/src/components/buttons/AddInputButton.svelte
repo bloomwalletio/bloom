@@ -27,7 +27,7 @@
     </button>
 {/if}
 
-<style lang="scss">
+<style lang="postcss">
     .closable-button {
         @apply w-max py-1.5 px-3 rounded-md;
         @apply bg-surface-2 dark:bg-surface-2-dark hover:bg-surface-1 focus:bg-surface-1 dark:hover:bg-surface-1-dark dark:focus:bg-surface-1-dark;

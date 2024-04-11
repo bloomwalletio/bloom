@@ -4,6 +4,7 @@
 patches/
 
 # Desktop (packages/desktop)
+packages/desktop/electron-builder-config.js
 packages/desktop/out/
 packages/desktop/public/
 packages/desktop/electron/lib/keychain.js
