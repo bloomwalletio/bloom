@@ -56,6 +56,8 @@
 </script>
 
 <proposal-card
+    role="button"
+    tabindex="0"
     on:click={onProposalClick}
     on:keydown={(e) => e.key === 'Enter' && onProposalClick()}
     class="flex flex-col p-6 border border-solid border-gray-200 dark:border-stroke-dark rounded-xl cursor-pointer h-fit shadow-elevation-1 focus:shadow-inner

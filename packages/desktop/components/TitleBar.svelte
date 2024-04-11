@@ -1,31 +1,16 @@
 <script lang="ts">
-    import { Platform } from '@core/app'
     import { OS } from '@core/app/constants'
     import { activeProfile } from '@core/profile/stores'
     import { AppRoute, appRoute } from '@core/router'
-    import { onDestroy, onMount } from 'svelte'
+    import { onMount } from 'svelte'
     import { NavbarContainer, WindowsControlButtons, WindowsPopupMenu } from './'
 
     const { hasLoadedAccounts } = $activeProfile
 
-    let isMaximized = false
-
     $: isDashboardVisible = $appRoute === AppRoute.Dashboard && $hasLoadedAccounts
 
-    async function onResize(): Promise<void> {
-        isMaximized = await Platform.isMaximized()
-    }
-
-    onMount(async () => {
-        await onResize()
+    onMount(() => {
         document.body.classList.add(`platform-${OS}`)
-        /* eslint-disable @typescript-eslint/no-misused-promises */
-        window.addEventListener('resize', onResize)
-    })
-
-    onDestroy(() => {
-        /* eslint-disable @typescript-eslint/no-misused-promises */
-        window.removeEventListener('resize', onResize)
     })
 </script>
 

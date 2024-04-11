@@ -38,7 +38,7 @@
 >
     <gift-storage-deposit-modal
         class="flex flex-row justify-between items-center p-4 gap-4"
-        in:fade={{ duration: 100 }}
+        in:fade|global={{ duration: 100 }}
     >
         <div class="flex flex-col text-left">
             <Text>{localize('popups.giftedStorageDeposit.tooltipTitle')}</Text>

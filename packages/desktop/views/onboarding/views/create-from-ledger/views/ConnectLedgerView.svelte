@@ -92,7 +92,7 @@
     </div>
 </OnboardingLayout>
 
-<style lang="scss">
+<style lang="postcss">
     connect-card {
         @apply relative flex flex-col items-center;
         @apply w-36 h-[11.25rem] px-4 pb-4 pt-10 gap-4;

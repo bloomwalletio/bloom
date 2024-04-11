@@ -10,7 +10,7 @@
     </bg-gradient-container>
 </div>
 
-<style lang="scss">
+<style lang="postcss">
     div {
         @apply absolute inset-0 flex items-center justify-center;
         @apply pointer-events-none;

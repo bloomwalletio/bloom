@@ -13,7 +13,6 @@
     let elementX: number
     let currentThumb: HTMLElement | null
     let holding = false
-    let thumbHover = false
 
     // Mouse shield used onMouseDown to prevent any mouse events penetrating other elements,
     // ie. hover events on other elements while dragging. Especially for Safari
@@ -56,22 +55,8 @@
         if (event.type === 'mouseup') {
             if (document.body.contains(mouseEventShield)) document.body.removeChild(mouseEventShield)
             // Needed to check whether thumb and mouse overlap after shield removed
-            if (isMouseInElement(event as MouseEvent, thumb)) thumbHover = true
         }
         currentThumb = null
-    }
-
-    // Check if mouse event cords overlay with an element's area
-    function isMouseInElement(event: MouseEvent, element: HTMLElement): boolean {
-        const rect = element.getBoundingClientRect()
-        const { clientX: x, clientY: y } = event
-        if (x < rect.left || x >= rect.right) {
-            return false
-        }
-        if (y < rect.top || y >= rect.bottom) {
-            return false
-        }
-        return true
     }
 
     function calculateNewValue(clientX: number): void {
@@ -153,10 +138,9 @@
                 bind:this={thumb}
                 on:touchstart={onDragStart}
                 on:mousedown={onDragStart}
-                on:mouseover={() => (thumbHover = true)}
-                on:focus={() => (thumbHover = true)}
-                on:mouseout={() => (thumbHover = false)}
-                on:blur={() => (thumbHover = false)}
+                role="slider"
+                aria-valuenow={value}
+                tabindex="0"
             />
         </range-track>
     </range-wrapper>
