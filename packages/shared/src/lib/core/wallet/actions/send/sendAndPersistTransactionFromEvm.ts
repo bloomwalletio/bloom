@@ -8,7 +8,7 @@ import {
 import { addAccountActivity } from '@core/activity/stores'
 import { generateEvmActivityFromLocalEvmTransaction } from '@core/activity/utils/evm'
 import { EvmTransactionData } from '@core/layer-2'
-import { EvmNetworkId, IChain } from '@core/network'
+import { IEvmNetwork } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
@@ -20,11 +20,11 @@ import { TokenStandard } from '@core/token/enums'
 export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
     signedTransaction: string,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     profileId: string,
     account: IAccountState
 ): Promise<string> {
-    const transactionReceipt = await sendSignedEvmTransaction(chain, signedTransaction)
+    const transactionReceipt = await sendSignedEvmTransaction(evmNetwork, signedTransaction)
     if (!transactionReceipt) {
         throw Error('No transaction receipt!')
     }
@@ -36,19 +36,19 @@ export async function sendAndPersistTransactionFromEvm(
         ...transactionReceipt,
         timestamp: Date.now(),
     }
-    await persistEvmTransaction(profileId, account, chain, evmTransaction)
+    await persistEvmTransaction(profileId, account, evmNetwork, evmTransaction)
     return transactionReceipt.transactionHash
 }
 
 async function persistEvmTransaction(
     profileId: string,
     account: IAccountState,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     evmTransaction: LocalEvmTransaction
 ): Promise<void> {
-    const networkId = chain.id as EvmNetworkId
+    const networkId = evmNetwork.id
     addLocalTransactionToPersistedTransaction(profileId, account.index, networkId, [evmTransaction])
-    const activity = await generateEvmActivityFromLocalEvmTransaction(evmTransaction, chain, account)
+    const activity = await generateEvmActivityFromLocalEvmTransaction(evmTransaction, evmNetwork, account)
     if (!activity) {
         return
     }
@@ -62,7 +62,7 @@ async function persistEvmTransaction(
         addLocalTransactionToPersistedTransaction(profileId, recipientAccount.index, networkId, [evmTransaction])
         const receiveActivity = await generateEvmActivityFromLocalEvmTransaction(
             evmTransaction,
-            chain,
+            evmNetwork,
             recipientAccount
         )
         if (!receiveActivity) {

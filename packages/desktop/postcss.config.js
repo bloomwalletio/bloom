@@ -5,6 +5,7 @@ const mode = process.env.NODE_ENV || 'development'
 module.exports = {
     plugins: [
         require('tailwindcss')('./../shared/tailwind.config.js'),
+        require('tailwindcss/nesting'),
         require('postcss-url')({
             url:
                 mode === 'production'

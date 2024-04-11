@@ -80,7 +80,7 @@
     </container>
 </button>
 
-<style lang="scss">
+<style lang="postcss">
     .nft-gallery-item {
         container {
             @apply w-full overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark;

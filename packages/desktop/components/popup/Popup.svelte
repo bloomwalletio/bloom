@@ -206,7 +206,7 @@
 <svelte:window on:keydown={onKey} />
 
 <overlay
-    in:fade={{ duration: transition ? 100 : 0 }}
+    in:fade|global={{ duration: transition ? 100 : 0 }}
     class:overflow-hidden={overflow}
     class="flex items-center justify-center fixed {IS_WINDOWS
         ? 'top-7'

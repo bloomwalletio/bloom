@@ -6,14 +6,13 @@
     import { createFromLedgerRouter } from '..'
     import { CreateFromLedgerRoute } from '../create-from-ledger-route.enum'
     import { onboardingProfile } from '@contexts/onboarding'
-    import { SupportedNetworkId } from '@core/network'
+    import { StardustNetworkId } from '@core/network'
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked
-    $: appName =
-        $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+    $: appName = $onboardingProfile?.network?.id === StardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
     $: isCorrectAppOpen =
-        $onboardingProfile?.network?.id === SupportedNetworkId.Iota
+        $onboardingProfile?.network?.id === StardustNetworkId.Iota
             ? $ledgerConnectionState === LedgerConnectionState.IotaAppOpen
             : $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
 
@@ -92,7 +91,7 @@
     </div>
 </OnboardingLayout>
 
-<style lang="scss">
+<style lang="postcss">
     connect-card {
         @apply relative flex flex-col items-center;
         @apply w-36 h-[11.25rem] px-4 pb-4 pt-10 gap-4;

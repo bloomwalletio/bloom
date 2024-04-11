@@ -1,8 +1,8 @@
 import { IconName } from '@bloomwalletio/ui'
-import { SupportedNetworkId } from '@core/network'
+import { NetworkId, SupportedNetworkId } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 
-export const DEFAULT_TOKEN_ICON: { [networkId in SupportedNetworkId]?: { [tokenId: string]: IconName } } = {
+export const DEFAULT_TOKEN_ICON: { [networkId in NetworkId]?: { [tokenId: string]: IconName } } = {
     [SupportedNetworkId.Iota]: {
         [BASE_TOKEN_ID]: IconName.Iota,
     },

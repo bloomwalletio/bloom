@@ -1,8 +1,8 @@
 // @ts-nocheck - This file is not being type checked because the migrations and types are not defined in our code base
 
 import {
-    DEFAULT_CHAIN_CONFIGURATIONS,
-    IIscpChainMetadata,
+    DEFAULT_EVM_NETWORK_CONFIGURATIONS,
+    IIscpEvmNetworkMetadata,
     getDefaultPersistedNetwork,
     getNetworkIdFromOnboardingNetworkType,
 } from '@core/network'
@@ -240,9 +240,9 @@ export function fireflyStardustProfileMigrationToV13(existingProfile: unknown): 
 
         const newNetwork = oldNetwork as unknown as IThirdPartyPersistedNetwork
         const maybeDefaultChainConfig =
-            DEFAULT_CHAIN_CONFIGURATIONS[getNetworkIdFromOnboardingNetworkType(existingProfile.network.id)]
+            DEFAULT_EVM_NETWORK_CONFIGURATIONS[getNetworkIdFromOnboardingNetworkType(existingProfile.network.id)]
 
-        const defaultChainConfig: IIscpChainMetadata[] = maybeDefaultChainConfig ? [maybeDefaultChainConfig] : []
+        const defaultChainConfig: IIscpEvmNetworkMetadata[] = maybeDefaultChainConfig ? [maybeDefaultChainConfig] : []
 
         newNetwork.chains = defaultChainConfig
         existingProfile.network = newNetwork

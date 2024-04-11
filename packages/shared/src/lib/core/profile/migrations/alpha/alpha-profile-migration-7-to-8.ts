@@ -1,4 +1,4 @@
-import { EvmNetworkId, NetworkId } from '@core/network'
+import { NetworkId } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 
@@ -30,7 +30,7 @@ export function alphaProfileMigration7To8(existingProfile: unknown): Promise<voi
                 addLocalTransactionToPersistedTransaction(
                     profile.id,
                     parseInt(accountIndex),
-                    networkId as EvmNetworkId,
+                    networkId as NetworkId,
                     transactionsForNetwork
                 )
             }

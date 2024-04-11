@@ -1,7 +1,7 @@
 <script lang="ts">
     import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { NetworkId, network } from '@core/network'
+    import { NetworkId, getEvmNetworks, getL1Network } from '@core/network'
 
     export let networkId: NetworkId | undefined
     export let error: string | undefined
@@ -20,27 +20,23 @@
         }
     }
 
-    const layer1Network: IOption | undefined = $network ? { label: $network.name, value: $network.id } : undefined
     const networkOptions = getNetworkOptions(showLayer2)
 
     let selected = networkOptions[0]
     $: networkId = selected?.value as NetworkId
 
     function getNetworkOptions(showLayer2: boolean): IOption[] {
-        if (!layer1Network) {
-            return []
-        }
-
         const options: IOption[] = []
         if (showLayer1) {
-            options.push(layer1Network)
+            const l1Network = getL1Network()
+            options.push({ label: l1Network.name, value: l1Network.id })
         }
 
         if (showLayer2) {
-            const layer2Networks: IOption[] =
-                $network?.getChains().map((chain) => {
-                    return { label: chain.name, value: chain.id }
-                }) ?? []
+            const layer2Networks: IOption[] = getEvmNetworks().map((evmNetwork) => ({
+                label: evmNetwork.name,
+                value: evmNetwork.id,
+            }))
             options.push(...layer2Networks)
         }
         return options

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
-    import { IAccountState } from '@core/account'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { openUrlInBrowser } from '@core/app'
     import { handleError } from '@core/error/handlers'
@@ -20,14 +20,12 @@
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { UiEventFunction, buildUrl, truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
     export let network: Network
-    export let onCardClick: UiEventFunction
-    export let onQrCodeIconClick: UiEventFunction
 
     let address: string | undefined
     let status: NetworkHealth
@@ -43,15 +41,29 @@
         openUrlInBrowser(url?.href)
     }
 
+    function onCardClick(): void {
+        if (network.namespace === NetworkNamespace.Stardust) {
+            $networkConfigRouter.goTo(NetworkConfigRoute.NetworkSettings)
+        } else {
+            setSelectedChain(network)
+            $networkConfigRouter.goTo(NetworkConfigRoute.ChainInformation)
+        }
+    }
+
+    function onQrCodeIconClick(): void {
+        if (network.namespace === NetworkNamespace.Stardust) {
+            $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
+        } else {
+            setSelectedChain(network)
+            $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
+        }
+    }
+
     function setNetworkCardData(): void {
         const account = $selectedAccount as IAccountState
 
         status = network.getStatus().health
-        if (network?.namespace === NetworkNamespace.Stardust) {
-            address = account.depositAddress
-        } else if (network?.namespace === NetworkNamespace.Evm) {
-            address = account.evmAddresses[network.coinType]
-        }
+        address = getAddressFromAccountForNetwork(account, network.id)
     }
 
     async function onGenerateAddressClick(): Promise<void> {

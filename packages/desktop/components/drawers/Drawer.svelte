@@ -48,16 +48,18 @@
 {#if $drawerState}
     <drawer class="absolute top-0 left-0 w-full h-full z-20">
         <overlay
-            in:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
-            out:fade|local={{ duration: DRAWER_ANIMATION_DURATION_MS }}
+            in:fade={{ duration: DRAWER_ANIMATION_DURATION_MS }}
+            out:fade={{ duration: DRAWER_ANIMATION_DURATION_MS }}
             on:click={onCloseClick}
             on:keydown={() => {}}
+            role="button"
+            tabindex="-1"
             class="fixed left-0 w-full z-0 bg-neutral-6/75"
             style:height="calc(100% - var(--windows-navbar-height, 0px))"
         />
         <panel
-            in:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
-            out:fly|local={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
+            in:fly={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
+            out:fly={{ ...direction, duration: DRAWER_ANIMATION_DURATION_MS }}
             class="relative flex flex-col flex-auto overflow-hidden {position} {isVertical ? 'vertical' : 'horizontal'}"
             style:height="calc(100% - var(--windows-navbar-height, 0px))"
         >
@@ -73,7 +75,7 @@
     </drawer>
 {/if}
 
-<style lang="scss">
+<style lang="postcss">
     panel {
         @apply fixed;
         @apply bg-surface-1 dark:bg-surface-1-dark;

@@ -45,7 +45,7 @@
     <ActivityFeeSection {activity} />
 </button>
 
-<style lang="scss">
+<style lang="postcss">
     .activity-row {
         @apply w-full items-center justify-center;
         @apply px-5 py-3.5;

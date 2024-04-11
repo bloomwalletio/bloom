@@ -1,4 +1,4 @@
-import { EvmNetworkId, NetworkId } from '@core/network'
+import { NetworkId } from '@core/network'
 import { IPersistedProfile } from '@core/profile/interfaces'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
@@ -42,7 +42,7 @@ export function prodProfileMigration4To5(existingProfile: unknown): Promise<void
                 addLocalTransactionToPersistedTransaction(
                     profile.id,
                     parseInt(accountIndex),
-                    networkId as EvmNetworkId,
+                    networkId as NetworkId,
                     transactionsForNetwork
                 )
             }

@@ -115,7 +115,7 @@
                     }`
                 ),
                 disabled: node?.disabled,
-                onClick: onTogglePrimaryNodeClick,
+                onClick: () => void onTogglePrimaryNodeClick(),
             },
             {
                 icon: node.disabled ? IconName.PlayCircle : IconName.PauseCircle,
