@@ -61,9 +61,9 @@
 <Pane
     classes="
         w-full max-h-64 shrink-0 flex flex-row
-        bg-surface dark:bg-surface-dark 
-        border border-solid border-stroke dark:border-stroke-dark 
-        divide-x divide-solid divide-stroke dark:divide-stroke-dark 
+        bg-surface dark:bg-surface-dark
+        border border-solid border-stroke dark:border-stroke-dark
+        divide-x divide-solid divide-stroke dark:divide-stroke-dark
         shadow-lg
     "
 >

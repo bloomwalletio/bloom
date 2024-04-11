@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getDecimalSeparator, localize, parseCurrency } from '@core/i18n'
+    import { localize, parseCurrency } from '@core/i18n'
     import { ITokenWithBalance, convertToRawAmount, formatTokenAmountBestMatch } from '@core/token'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
     import { AmountInput, InputContainer, SliderInput, TokenLabel } from '@ui'
@@ -16,13 +16,11 @@
 
     let amountInputElement: HTMLInputElement
     let error: string
-    let inputLength = 0
-    let maxLength = 0
 
     $: isFocused && (error = '')
     $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token?.metadata)
     $: availableBalance = (token.balance.available ?? BigInt(0)) + votingPower
-    $: inputtedAmount, (error = ''), (inputLength = getInputLength()), (maxLength = getMaxAmountOfDigits())
+    $: inputtedAmount, (error = '')
     $: inputtedAmount = getTokenAmount(rawAmount)
     $: setRawAmountIfInputMismatch(inputtedAmount)
 
@@ -64,37 +62,6 @@
         if (error) {
             throw new Error(error)
         }
-    }
-
-    function getInputLength(): number {
-        const length = inputtedAmount?.length || 1
-        const isDecimal = inputtedAmount?.includes('.') || inputtedAmount?.includes(',')
-
-        return length - (isDecimal ? 0.5 : 0)
-    }
-
-    function getMaxAmountOfDigits(): number {
-        const metadata = token?.metadata
-        if (!metadata) {
-            return 32
-        }
-
-        const decimalSeparator = getDecimalSeparator()
-
-        const decimalPlacesAmount = inputtedAmount?.includes(decimalSeparator)
-            ? inputtedAmount.split(decimalSeparator)[1].length || 1
-            : 0
-        const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
-
-        const integerLengthOfBalance =
-            formatTokenAmountBestMatch(availableBalance, metadata).split(decimalSeparator)?.[0]?.length ?? 0
-
-        return (
-            allowedDecimalAmount +
-            integerLengthOfBalance +
-            (metadata.decimals ? 1 : 0) +
-            (inputtedAmount?.includes(decimalSeparator) ? 1 : 0)
-        )
     }
 </script>
 

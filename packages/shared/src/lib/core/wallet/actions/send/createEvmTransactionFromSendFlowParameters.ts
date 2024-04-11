@@ -1,27 +1,27 @@
 import { IAccountState } from '@core/account/interfaces'
 import { EvmTransactionData } from '@core/layer-2/types'
-import { IChain } from '@core/network/interfaces'
-import { isEvmChain, isStardustNetwork } from '@core/network/utils'
+import { IEvmNetwork } from '@core/network/interfaces'
+import { isEvmNetwork, isStardustNetwork } from '@core/network/utils'
 import { getNetworkIdFromSendFlowParameters } from '@core/wallet/utils'
 import { SendFlowParameters } from '../../types'
-import { createEvmChainToEvmChainTransaction } from './createEvmChainToEvmChainTransaction'
-import { createEvmChainToStardustNetworkTransaction } from './createEvmChainToStardustNetworkTransaction'
+import { createEvmToEvmTransaction } from './createEvmToEvmTransaction'
+import { createEvmToStardustTransaction } from './createEvmToStardustTransaction'
 
 export async function createEvmTransactionFromSendFlowParameters(
     sendFlowParameters: SendFlowParameters,
-    originChain: IChain,
+    originEvmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
     const originNetworkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
     const { destinationNetworkId } = sendFlowParameters
     if (originNetworkId && destinationNetworkId) {
-        // L2 -> L2 transfer (same chain)
-        if (isEvmChain(destinationNetworkId)) {
-            return await createEvmChainToEvmChainTransaction(sendFlowParameters, originChain, account)
+        // L2 -> L2 transfer (same evmNetwork)
+        if (isEvmNetwork(destinationNetworkId)) {
+            return await createEvmToEvmTransaction(sendFlowParameters, originEvmNetwork, account)
         }
         // L2 -> L1 transfer (unwrapping)
         else if (isStardustNetwork(destinationNetworkId)) {
-            return await createEvmChainToStardustNetworkTransaction(sendFlowParameters, originChain, account)
+            return await createEvmToStardustTransaction(sendFlowParameters, originEvmNetwork, account)
         }
     } else {
         throw new Error('Invalid destination network')

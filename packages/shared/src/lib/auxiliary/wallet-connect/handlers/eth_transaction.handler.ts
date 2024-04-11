@@ -1,5 +1,5 @@
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
-import { IChain } from '@core/network'
+import { IEvmNetwork } from '@core/network'
 import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { buildEvmTransactionData } from '@core/layer-2/utils'
@@ -12,7 +12,7 @@ import { DappVerification, RpcMethod } from '../enums'
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string },
     dapp: IConnectedDapp,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction,
     responseCallback: (params: CallbackParameters) => void,
     verifiedState: DappVerification
@@ -31,7 +31,7 @@ export async function handleEthTransaction(
     if (nonce === undefined || !gasPrice || !gasLimit) {
         try {
             const { nonce, gasPrice, gasLimit } = await buildEvmTransactionData(
-                chain,
+                evmNetwork,
                 from.toString(),
                 to?.toString(),
                 BigInt(value?.toString() ?? '0'),
@@ -49,11 +49,11 @@ export async function handleEthTransaction(
     Platform.focusWindow()
 
     try {
-        await switchToRequiredAccount(from, chain)
+        await switchToRequiredAccount(from, evmNetwork)
         openPopup({
             id: PopupId.EvmTransactionFromDapp,
             props: {
-                chain,
+                evmNetwork,
                 dapp,
                 preparedTransaction: evmTransactionData,
                 method,

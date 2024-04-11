@@ -1,12 +1,12 @@
 import { IAccountState } from '@core/account'
 import { getSelectedAccountIndex } from '@core/account/stores'
-import { IChain } from '@core/network'
+import { IEvmNetwork } from '@core/network'
 import { findActiveAccountWithAddress } from '@core/profile/actions'
 import { openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 
-export function switchToRequiredAccount(accountAddress: string, chain: IChain): Promise<IAccountState> {
+export function switchToRequiredAccount(accountAddress: string, evmNetwork: IEvmNetwork): Promise<IAccountState> {
     return new Promise((resolve, reject) => {
-        const account = findActiveAccountWithAddress(accountAddress, chain.id)
+        const account = findActiveAccountWithAddress(accountAddress, evmNetwork.id)
         if (!account) {
             reject('UNSUPPORTED_ACCOUNTS')
             return

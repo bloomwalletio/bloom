@@ -1,6 +1,7 @@
+import { NetworkId } from '..'
 import { ExplorerEndpoint, SupportedNetworkId } from '../enums'
 
-export const EXPLORER_ENDPOINTS: Readonly<{ [key in SupportedNetworkId]: { [key in ExplorerEndpoint]?: string } }> = {
+export const EXPLORER_ENDPOINTS: Readonly<{ [key in NetworkId]?: { [key in ExplorerEndpoint]?: string } }> = {
     [SupportedNetworkId.Iota]: {
         [ExplorerEndpoint.Transaction]: `mainnet/${ExplorerEndpoint.Transaction}`,
         [ExplorerEndpoint.Output]: `mainnet/${ExplorerEndpoint.Output}`,

@@ -105,6 +105,8 @@
         {#if !selectable}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <icon-container
+                role="button"
+                tabindex="-1"
                 bind:this={iconElement}
                 on:click|stopPropagation={() => {}}
                 class="pointer-events-auto cursor-default"

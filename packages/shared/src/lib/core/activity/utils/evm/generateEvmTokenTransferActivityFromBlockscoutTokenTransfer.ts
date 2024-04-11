@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account/interfaces'
-import { EvmNetworkId, IChain, NetworkNamespace } from '@core/network'
+import { IEvmNetwork, NetworkNamespace } from '@core/network'
 import { BaseEvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } from '../../types'
 import { IBlockscoutTransaction } from '@auxiliary/blockscout'
 import { ActivityAction, ActivityDirection, InclusionState } from '@core/activity/enums'
@@ -24,10 +24,10 @@ import { HEX_PREFIX } from '@core/utils'
 export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
     blockscoutTokenTransfer: BlockscoutTokenTransfer,
     blockscoutTransaction: IBlockscoutTransaction | undefined,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmTokenTransferActivity | EvmCoinTransferActivity | undefined> {
-    const networkId = chain.id
+    const networkId = evmNetwork.id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === blockscoutTokenTransfer.to.hash.toLowerCase()
             ? ActivityDirection.Incoming
@@ -104,7 +104,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         transactionFee,
     }
 
-    if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS[networkId as EvmNetworkId]) {
+    if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS[networkId]) {
         return {
             ...baseActivity,
             type: EvmActivityType.CoinTransfer,

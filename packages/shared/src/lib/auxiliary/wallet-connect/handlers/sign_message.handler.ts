@@ -1,7 +1,7 @@
 import { Converter } from '@iota/util.js'
 import { openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 import { IConnectedDapp } from '../interface'
-import { IChain } from '@core/network'
+import { IEvmNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
 import { getBloomError, switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
@@ -15,7 +15,7 @@ export async function handleSignMessage(
     params: unknown,
     dapp: IConnectedDapp,
     method: RpcMethod.PersonalSign | RpcMethod.EthSign,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     responseCallback: (params: CallbackParameters) => void,
     verifiedState: DappVerification
 ): Promise<void> {
@@ -37,7 +37,7 @@ export async function handleSignMessage(
     Platform.focusWindow()
 
     try {
-        const account = await switchToRequiredAccount(accountAddress, chain)
+        const account = await switchToRequiredAccount(accountAddress, evmNetwork)
 
         const siweObject = parseSiweMessage(message)
         if (siweObject) {
@@ -50,7 +50,7 @@ export async function handleSignMessage(
                         rawMessage: message,
                         dapp,
                         account,
-                        chain,
+                        evmNetwork,
                         verifiedState,
                         callback: responseCallback,
                         onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
@@ -70,7 +70,7 @@ export async function handleSignMessage(
                     message,
                     dapp,
                     account,
-                    chain,
+                    evmNetwork,
                     verifiedState,
                     callback: responseCallback,
                     onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),

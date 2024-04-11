@@ -9,21 +9,21 @@
     import { onDestroy } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
 
-    export let isEvmTransaction: boolean = undefined
-    export let useBlindSigning: boolean = undefined
+    export let isEvmTransaction: boolean = false
+    export let useBlindSigning: boolean = false
 
     // Regular transaction
-    export let toAddress: string = undefined
-    export let toAmount: string = undefined
-    export let chainId: string = undefined
-    export let maxGasFee: bigint = undefined
+    export let toAddress: string | undefined = undefined
+    export let toAmount: string | undefined = undefined
+    export let chainId: string | undefined = undefined
+    export let maxGasFee: bigint | undefined = undefined
 
     // Blindly signed transaction
-    export let hash: string = undefined
-    export let bipPath: string = undefined
+    export let hash: string | undefined = undefined
+    export let bipPath: string | undefined = undefined
 
     // EIP-192 RPC Methods
-    export let rawMessage: string = undefined
+    export let rawMessage: string | undefined = undefined
 
     $: showTable = (!!toAddress && toAmount !== undefined) || !!hash || !!rawMessage
 

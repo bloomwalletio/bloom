@@ -77,7 +77,8 @@ const typescriptEslintRules = {
     '@typescript-eslint/no-unsafe-return': 'off', // OFF b/c used in Svelte components for UI logic
     '@typescript-eslint/no-unsafe-argument': 'off', // OFF b/c ESlint resolves types of the absolute imports as any
     '@typescript-eslint/unused-export-let': 'off', // OFF b/c used in Svelte components for UI logic
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
+
     '@typescript-eslint/no-var-requires': 'error',
     '@typescript-eslint/prefer-regexp-exec': 'error',
     '@typescript-eslint/restrict-plus-operands': 'off', // OFF b/c not entirely accurate despite proper typings
@@ -98,9 +99,9 @@ const svelteRules = {
 }
 
 const svelteSettings = {
-    'svelte3/typescript': () => require('typescript'),
-    'svelte3/ignore-styles': () => true,
-    'svelte3/ignore-warnings': () => false,
+    'svelte/typescript': () => require('typescript'),
+    'svelte/ignore-styles': () => true,
+    'svelte/ignore-warnings': () => false,
 }
 
 module.exports = {
@@ -109,7 +110,7 @@ module.exports = {
         es6: true,
         node: true,
     },
-    extends: ['eslint:recommended'],
+    extends: ['eslint:recommended', 'plugin:svelte/recommended'],
     overrides: [
         {
             files: ['**/*.ts', '**/*.svelte'],
@@ -125,14 +126,17 @@ module.exports = {
                 project: './tsconfig.lint.json',
                 tsconfigRootDir: './',
             },
-            plugins: ['@typescript-eslint', 'svelte3'],
+            plugins: ['@typescript-eslint'],
             rules: linterRules,
             settings: svelteSettings,
         },
         {
             files: '**/*.svelte',
-            processor: 'svelte3/svelte3',
+            parser: 'svelte-eslint-parser',
             settings: svelteSettings,
+            parserOptions: {
+                parser: '@typescript-eslint/parser'
+            },
             rules: {
                 ...linterRules,
                 ...svelteRules,

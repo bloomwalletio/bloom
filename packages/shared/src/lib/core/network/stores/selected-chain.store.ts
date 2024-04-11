@@ -1,10 +1,10 @@
 import { Writable, writable } from 'svelte/store'
-import { IChain } from '../interfaces'
+import { IEvmNetwork } from '../interfaces'
 
-export const selectedChain: Writable<IChain | undefined> = writable(undefined)
+export const selectedChain: Writable<IEvmNetwork | undefined> = writable(undefined)
 
-export function setSelectedChain(chain: IChain): void {
-    selectedChain.set(chain)
+export function setSelectedChain(evmNetwork: IEvmNetwork): void {
+    selectedChain.set(evmNetwork)
 }
 
 export function clearSelectedChain(): void {

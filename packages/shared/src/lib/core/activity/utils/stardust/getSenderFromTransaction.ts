@@ -11,12 +11,12 @@ export function getSenderFromTransaction(
     networkId: NetworkId
 ): Subject | undefined {
     if (direction === ActivityDirection.Genesis) {
-        const networkMetadata = getNetwork()?.getMetadata()
-        if (networkMetadata) {
+        const network = getNetwork(networkId)
+        if (network) {
             return {
                 type: SubjectType.Network,
-                id: networkMetadata.id,
-                name: networkMetadata.name,
+                id: network.id,
+                name: network.name,
                 address: EMPTY_HEX_ID,
             }
         }
