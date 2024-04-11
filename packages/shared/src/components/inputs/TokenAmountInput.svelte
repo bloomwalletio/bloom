@@ -107,7 +107,7 @@
                         bind:amount={inputtedAmount}
                         maxDecimals={allowedDecimals}
                         maxlength={maxLength}
-                        isInteger={allowedDecimals === 0}
+                        integer={allowedDecimals === 0}
                         {fontSize}
                         autofocus
                     />

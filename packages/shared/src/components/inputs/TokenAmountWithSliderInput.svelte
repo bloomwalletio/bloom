@@ -73,7 +73,7 @@
             bind:amount={inputtedAmount}
             bind:hasFocus={isFocused}
             maxDecimals={allowedDecimals}
-            isInteger={allowedDecimals === 0}
+            integer={allowedDecimals === 0}
             {disabled}
         />
     </div>
