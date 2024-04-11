@@ -15,19 +15,19 @@
     export let options: IOption[]
     export let networkId: NetworkId
     export let disabled = false
-    export let isEvmChain = false
+    export let isEvmNetwork = false
 
     let value: any
     let error: string
     const selected: IOption = getSelectedRecipient(recipient)
 
-    $: isEvmChain, (error = '')
+    $: isEvmNetwork, (error = '')
     $: recipient = getSubjectFromAddress(value, networkId)
 
     export function validate(): void {
         try {
             if (recipient && recipient.address) {
-                if (isEvmChain) {
+                if (isEvmNetwork) {
                     validateEthereumAddress(recipient?.address)
                 } else {
                     validateBech32Address(getNetworkHrp(), recipient?.address)

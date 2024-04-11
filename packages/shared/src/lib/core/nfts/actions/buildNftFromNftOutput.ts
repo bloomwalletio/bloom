@@ -6,7 +6,7 @@ import { DEFAULT_NFT_NAME } from '../constants'
 import { IIrc27Nft } from '../interfaces'
 import { composeUrlFromNftUri, getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
 import { NetworkId } from '@core/network/types'
-import { isEvmChain } from '@core/network'
+import { isEvmNetwork } from '@core/network'
 import { MimeType, NftStandard } from '@core/nfts'
 import { persistedNftForActiveProfile } from '../stores'
 import { get } from 'svelte/store'
@@ -49,7 +49,7 @@ export function buildNftFromNftOutput(
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
         description: parsedMetadata?.description,
         issuer,
-        isSpendable: isEvmChain(networkId) ? true : isSpendable,
+        isSpendable: isEvmNetwork(networkId) ? true : isSpendable,
         timelockTime: timeLockTime ? Number(timeLockTime) : undefined,
         rawMetadata,
         metadata: parsedMetadata,

@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import { EvmActivityType } from '@core/activity/enums/evm'
-import { NetworkId, NetworkNamespace, getChain } from '@core/network'
+import { NetworkId, NetworkNamespace, getEvmNetwork } from '@core/network'
 import { TokenStandard } from '@core/token'
 import { generateRandomId } from '@core/utils'
 import { Subject, SubjectType } from '@core/wallet'
@@ -25,7 +25,7 @@ export function generateEvmBalanceChangeActivity(
     networkId: NetworkId,
     account: IAccountState
 ): EvmBalanceChangeActivity {
-    const coinType = getChain(networkId)?.coinType
+    const coinType = getEvmNetwork(networkId)?.coinType
     const evmAddress = coinType !== undefined ? account.evmAddresses[coinType] : undefined
     const accountSubject: Subject | undefined = evmAddress
         ? { type: SubjectType.Account, account, address: evmAddress }

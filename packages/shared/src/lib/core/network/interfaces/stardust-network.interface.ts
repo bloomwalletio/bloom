@@ -1,19 +1,16 @@
-import { INetwork } from './network.interface'
+import { IBaseNetwork } from './base-network.interface'
 import { NetworkNamespace } from '../enums'
-import { ChainConfiguration, NetworkId } from '../types'
-import { IChain } from './chain.interface'
+import { EvmNetworkConfiguration, NetworkId } from '../types'
+import { IEvmNetwork } from './evm-network.interface'
 import { INetworkStatus } from './network-status.interface'
 
-export interface IStardustNetwork extends INetwork {
+export interface IStardustNetwork extends IBaseNetwork {
     namespace: NetworkNamespace.Stardust
     bech32Hrp: string
 
     getStatus(): INetworkStatus
 
-    getChain(networkId: NetworkId): IChain | undefined
-    getChains(): IChain[]
-    getIscpChains(): IChain[]
-    addChain(chainConfiguration: ChainConfiguration): IChain
-    editChain(networkId: NetworkId, payload: Partial<ChainConfiguration>): Promise<void>
+    addChain(chainConfiguration: EvmNetworkConfiguration): IEvmNetwork
+    editChain(networkId: NetworkId, payload: Partial<EvmNetworkConfiguration>): Promise<void>
     removeChain(networkId: NetworkId): void
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
-    import { SupportedNetworkId, TokenSupply, getActiveNetworkId } from '@core/network'
+    import { StardustNetworkId, TokenSupply, getActiveNetworkId } from '@core/network'
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
@@ -9,7 +9,7 @@
     import { Text } from '@bloomwalletio/ui'
     import { activeProfile } from '@core/profile/stores'
     import TokenStandardPill from './TokenStandardPill.svelte'
-    import ChainTypePill from './ChainTypePill.svelte'
+    import NetworkTypePill from './NetworkTypePill.svelte'
 
     export let token: ITokenWithBalance
 
@@ -20,11 +20,11 @@
 
         let tokenSupply: TokenSupply | '0'
         switch (getActiveNetworkId()) {
-            case SupportedNetworkId.Iota:
+            case StardustNetworkId.Iota:
                 tokenSupply = TokenSupply.Iota
                 break
-            case SupportedNetworkId.Shimmer:
-            case SupportedNetworkId.Testnet:
+            case StardustNetworkId.Shimmer:
+            case StardustNetworkId.Testnet:
                 tokenSupply = TokenSupply.Shimmer
                 break
             default:
@@ -70,7 +70,7 @@
             </Text>
             <div class="flex gap-2">
                 <TokenStandardPill {token} />
-                <ChainTypePill {token} />
+                <NetworkTypePill {token} />
             </div>
         </div>
     </div>

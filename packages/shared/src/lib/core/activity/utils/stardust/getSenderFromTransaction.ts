@@ -11,7 +11,7 @@ export function getSenderFromTransaction(
     networkId: NetworkId
 ): Subject | undefined {
     if (direction === ActivityDirection.Genesis) {
-        const network = getNetwork()
+        const network = getNetwork(networkId)
         if (network) {
             return {
                 type: SubjectType.Network,

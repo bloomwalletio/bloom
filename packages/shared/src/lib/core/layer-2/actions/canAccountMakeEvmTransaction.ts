@@ -1,5 +1,5 @@
 import { NetworkId } from '@core/network/types'
-import { isEvmChain } from '@core/network/utils'
+import { isEvmNetwork } from '@core/network/utils'
 import { SendFlowType } from '@core/wallet/enums'
 
 import { getEvmChainGasPrice, getLayer2AccountBalanceForToken } from '../stores'
@@ -12,7 +12,7 @@ export function canAccountMakeEvmTransaction(
     networkId: NetworkId,
     sendFlowType: SendFlowType
 ): boolean | undefined {
-    if (!isEvmChain(networkId)) {
+    if (!isEvmNetwork(networkId)) {
         return undefined
     }
 

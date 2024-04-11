@@ -6,7 +6,7 @@ import { AssetType, ContractType, EvmErrorMessage } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
 import { buildAssetAllowance, buildEvmTransactionData } from '@core/layer-2/utils'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
-import { IChain } from '@core/network/interfaces'
+import { IEvmNetwork } from '@core/network/interfaces'
 
 import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
@@ -16,9 +16,9 @@ import { IIrc27Nft } from '@core/nfts'
 import { getTokenBalance } from '@core/token/actions'
 import { IError } from '@core/error'
 
-export async function createEvmChainToStardustNetworkTransaction(
+export async function createEvmToStardustTransaction(
     sendFlowParameters: SendFlowParameters,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
     try {
@@ -43,7 +43,7 @@ export async function createEvmChainToStardustNetworkTransaction(
             storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? BigInt(0)
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
             if (token?.standard === TokenStandard.BaseToken && amount) {
-                const availableBalance = getTokenBalance(token.id, chain.id)?.available ?? BigInt(0)
+                const availableBalance = getTokenBalance(token.id, evmNetwork.id)?.available ?? BigInt(0)
                 maximumGasLimit = availableBalance - amount
             }
         } else {
@@ -59,7 +59,7 @@ export async function createEvmChainToStardustNetworkTransaction(
         }
 
         const assetAllowance = buildAssetAllowance(transferredAsset, storageDepositRequired)
-        const contract = chain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
+        const contract = evmNetwork?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const data =
             (await contract?.methods
                 .send(targetAddress, assetAllowance, adjustMinimumStorageDeposit, sendMetadata, sendOptions)
@@ -67,7 +67,7 @@ export async function createEvmChainToStardustNetworkTransaction(
 
         const originAddress = account?.evmAddresses?.[ETHEREUM_COIN_TYPE] ?? ''
         const evmTransactionData = await buildEvmTransactionData(
-            chain,
+            evmNetwork,
             originAddress,
             ISC_MAGIC_CONTRACT_ADDRESS,
             BigInt(0),

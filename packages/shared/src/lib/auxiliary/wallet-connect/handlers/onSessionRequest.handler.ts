@@ -1,5 +1,5 @@
 import { handleError } from '@core/error/handlers'
-import { NetworkId, getChain } from '@core/network'
+import { NetworkId, getEvmNetwork } from '@core/network'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
@@ -53,8 +53,8 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         return
     }
 
-    const chain = getChain(chainId as NetworkId)
-    if (!chain) {
+    const evmNetwork = getEvmNetwork(chainId as NetworkId)
+    if (!evmNetwork) {
         returnResponse({ error: getSdkError('UNSUPPORTED_CHAINS') })
         return
     }
@@ -68,20 +68,20 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
                     ? getEvmTransactionFromHexString(request.params[0])
                     : request.params[0]
 
-            void handleEthTransaction(evmTransactionData, dapp, chain, method, returnResponse, verifiedState)
+            void handleEthTransaction(evmTransactionData, dapp, evmNetwork, method, returnResponse, verifiedState)
             break
         }
         case RpcMethod.EthSign:
         case RpcMethod.PersonalSign:
-            void handleSignMessage(request.params, dapp, method, chain, returnResponse, verifiedState)
+            void handleSignMessage(request.params, dapp, method, evmNetwork, returnResponse, verifiedState)
             break
         case RpcMethod.EthSignTypedData:
         case RpcMethod.EthSignTypedDataV3:
         case RpcMethod.EthSignTypedDataV4:
-            void handleEthSignTypedData(request.params, method, dapp, chain, returnResponse, verifiedState)
+            void handleEthSignTypedData(request.params, method, dapp, evmNetwork, returnResponse, verifiedState)
             break
         case RpcMethod.WalletWatchAsset:
-            void handleWatchAsset(request.params, dapp, chain, returnResponse)
+            void handleWatchAsset(request.params, dapp, evmNetwork, returnResponse)
             break
         default:
             returnResponse({ error: getSdkError('INVALID_METHOD') })
