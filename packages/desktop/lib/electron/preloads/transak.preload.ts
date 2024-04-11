@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 
 /* Transak adds the style attribute in <html> with the theme color when it loads */
-function observeStyleChanges(targetNode: Element): { disconnect: () => void } {
+function observeStyleChanges(targetNode: Element): void {
     const config = {
         attributes: true,
         attributeFilter: ['style'],
@@ -24,10 +24,6 @@ function observeStyleChanges(targetNode: Element): { disconnect: () => void } {
     const fallbackTimeout = setTimeout(() => {
         observer.disconnect()
     }, 5000)
-
-    return {
-        disconnect: () => observer.disconnect(),
-    }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
