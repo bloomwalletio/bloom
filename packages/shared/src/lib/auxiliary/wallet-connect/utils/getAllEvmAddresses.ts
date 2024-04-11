@@ -8,5 +8,5 @@ export function getAllEvmAddresses(chains: string[]): string[] {
         .map((account) => account.evmAddresses[ETHEREUM_COIN_TYPE])
         .filter((addr) => !!addr) as string[]
 
-    return chains.map((chain) => evmAddresses.map((addr) => `${chain}:${addr}`)).flat()
+    return chains.map((evmNetwork) => evmAddresses.map((addr) => `${evmNetwork}:${addr}`)).flat()
 }

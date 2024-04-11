@@ -3,7 +3,7 @@ import { formatDate } from '@core/i18n'
 import { HEX_PREFIX, HEXADECIMAL_REGEXP } from './constants'
 
 export function formatHexString(
-    hex: string,
+    hex: string | undefined,
     shouldBeUppercase: boolean = true,
     shouldIncludePrefix: boolean = true
 ): string {

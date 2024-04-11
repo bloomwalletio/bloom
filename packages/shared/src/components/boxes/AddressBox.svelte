@@ -41,7 +41,7 @@
     </address-container>
 </Copyable>
 
-<style lang="scss">
+<style lang="postcss">
     address-container {
         @apply border border-solid border-stroke dark:border-stroke-dark rounded-xl;
         @apply bg-surface dark:bg-surface-dark;

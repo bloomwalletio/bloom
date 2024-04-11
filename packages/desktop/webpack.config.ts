@@ -37,8 +37,10 @@ const fallback: { [index: string]: string | false | string[] } = {
     fs: false,
     crypto: false,
     // The Ethereum libraries require zlib and the buffer polyfill
-    zlib: false,
+    assert: false,
     buffer: require.resolve('buffer'),
+    stream: false,
+    zlib: false,
     // The Amplitude SDK requires http, https and url polyfills
     http: require.resolve('stream-http'),
     https: require.resolve('https-browserify'),
@@ -47,7 +49,7 @@ const fallback: { [index: string]: string | false | string[] } = {
 
 const resolve = {
     alias: {
-        svelte: path.dirname(require.resolve('svelte/package.json')),
+        svelte: path.resolve('../../node_modules', 'svelte/src/runtime'),
         '@auxiliary': path.resolve(__dirname, '../shared/src/lib/auxiliary'),
         '@contexts': path.resolve(__dirname, '../shared/src/lib/contexts'),
         '@components': path.resolve(__dirname, './components/'),
@@ -58,7 +60,7 @@ const resolve = {
         '@ui': path.resolve(__dirname, '../shared/src/components/'),
         '@views': path.resolve(__dirname, './views/'),
     },
-    conditionNames: ['svelte', 'module', 'import', 'require', 'node', 'default'],
+    conditionNames: ['svelte', 'module', 'import', 'require', 'node', 'default', 'browser'],
     extensions: ['.mjs', '.js', '.ts', '.svelte'],
     mainFields: ['svelte', 'browser', 'module', 'main'],
     fallback,

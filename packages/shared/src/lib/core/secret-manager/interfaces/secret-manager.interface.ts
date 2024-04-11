@@ -14,8 +14,8 @@ export interface ISecretManager {
     generateEvmAddresses(generateAddressesOptions: IGenerateAddressesOptions): Promise<string[]>
     storeMnemonic(mnemonic: string): Promise<void>
     signTransaction(preparedTransactionData: PreparedTransactionData): Promise<TransactionPayload>
-    signatureUnlock(transactionEssenceHash: string, chain: Bip44): Promise<Unlock>
-    signEd25519(message: string, chain: Bip44): Promise<Ed25519Signature>
-    signSecp256k1Ecdsa(message: string, chain: Bip44): Promise<Secp256k1EcdsaSignature>
+    signatureUnlock(transactionEssenceHash: string, evmNetwork: Bip44): Promise<Unlock>
+    signEd25519(message: string, evmNetwork: Bip44): Promise<Ed25519Signature>
+    signSecp256k1Ecdsa(message: string, evmNetwork: Bip44): Promise<Secp256k1EcdsaSignature>
     getLedgerNanoStatus(): Promise<LedgerNanoStatus>
 }

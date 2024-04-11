@@ -25,7 +25,7 @@ import {
     ILedgerEthereumAppSettings,
     isBlindSigningRequiredForEvmTransaction,
 } from '@core/ledger'
-import { EvmChainId } from '@core/network/enums'
+import { ChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
 import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
 
@@ -71,7 +71,7 @@ export class Ledger {
 
     static async signEvmTransaction(
         transactionData: TypedTxData,
-        chainId: EvmChainId,
+        chainId: ChainId,
         bip44: Bip44
     ): Promise<string | undefined> {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, chainId)

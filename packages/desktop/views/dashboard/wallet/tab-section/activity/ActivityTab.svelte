@@ -76,12 +76,11 @@
     {/if}
 </activity-tab>
 
-<style lang="scss">
-    $paneHeaderHeight: 68px;
-
+<style lang="postcss">
     activity-tab {
+        --pane-header-height: 68px;
         @apply flex flex-col flex-grow;
-        height: calc(100% - $paneHeaderHeight);
+        height: calc(100% - var(--pane-header-height));
 
         header-row {
             @apply w-full;

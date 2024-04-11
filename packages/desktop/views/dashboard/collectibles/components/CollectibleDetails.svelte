@@ -121,7 +121,7 @@
     </details-container>
 </collectibles-details-view>
 
-<style lang="scss">
+<style lang="postcss">
     collectibles-details-view {
         @apply divide-x divide-solid divide-stroke dark:divide-stroke-dark;
     }

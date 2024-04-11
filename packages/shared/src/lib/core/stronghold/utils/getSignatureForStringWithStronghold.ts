@@ -1,4 +1,4 @@
-import { EvmChainId } from '@core/network/enums'
+import { ChainId } from '@core/network'
 import { getActiveProfile } from '@core/profile/stores'
 import { ECDSASignature, fromRpcSig } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/sdk/out/types'
@@ -7,7 +7,7 @@ import { api } from '@core/profile-manager'
 export async function getSignatureForStringWithStronghold(
     text: string,
     bip44Path: Bip44,
-    chainId?: EvmChainId
+    chainId?: ChainId
 ): Promise<ECDSASignature> {
     const manager = await api.getSecretManager(getActiveProfile()?.id)
     const { signature } = await manager.signSecp256k1Ecdsa(text, bip44Path)

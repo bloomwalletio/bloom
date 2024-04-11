@@ -31,7 +31,7 @@
     {/if}
 </dapp-information>
 
-<style lang="scss">
+<style lang="postcss">
     dapp-information {
         @apply w-full p-6;
         @apply flex flex-row items-center justify-center gap-3;

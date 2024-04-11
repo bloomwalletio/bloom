@@ -6,7 +6,7 @@
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { findActiveAccountWithAddress } from '@core/profile/actions'
-    import { NetworkId, getChain } from '@core/network'
+    import { NetworkId, getEvmNetwork } from '@core/network'
     import { IAccountState } from '@core/account'
     import { ProposalTypes } from '@walletconnect/types'
     import { DappConfigRoute } from '../dapp-config-route.enum'
@@ -55,8 +55,8 @@
     function getNetworkPreferences(): string[] {
         return Object.values(persistedNamespaces).flatMap((namespace) => {
             return namespace.chains.map((chainId) => {
-                const chain = getChain(chainId as NetworkId)
-                return chain?.name ?? chainId
+                const evmNetwork = getEvmNetwork(chainId as NetworkId)
+                return evmNetwork?.name ?? chainId
             })
         })
     }

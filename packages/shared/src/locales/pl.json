@@ -1287,7 +1287,7 @@
             "title": "Utwórz konto"
         },
         "profileDiagnostics": {
-            "title": "Profile diagnostics"
+            "title": "Diagnostyka profilu"
         }
     },
     "actions": {
@@ -1500,7 +1500,7 @@
         "balance": "Saldo",
         "balanceWithValue": "Saldo: {balance}",
         "balanceWithNetwork": "Saldo {network}",
-        "all": "Wszystko",
+        "all": "Wszystkie",
         "incoming": "Odebrano",
         "outgoing": "Wysłano",
         "dev": "Deweloper",
@@ -1648,7 +1648,7 @@
         "methodId": "ID metody",
         "methodName": "Metoda",
         "inputs": "Wejścia",
-        "parameters": "Parameters",
+        "parameters": "Parametry",
         "data": "Data",
         "success": "Sukces",
         "info": "Informacje",
@@ -1665,7 +1665,7 @@
         "appName": "Nazwa aplikacji",
         "question": "Pytanie",
         "id": "ID",
-        "location": "Location"
+        "location": "Lokalizacja"
     },
     "filters": {
         "title": "Filtry",

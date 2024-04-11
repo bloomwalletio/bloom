@@ -28,7 +28,7 @@
 </script>
 
 {#if visible}
-    <overlay in:fade={{ duration: 100 }}>
+    <overlay in:fade|global={{ duration: 100 }}>
         <dialog-container class="popup">
             <PopupTemplate
                 {title}

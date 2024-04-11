@@ -1,6 +1,6 @@
 import { LegacyTransaction, TransactionFactory, TypedTxData } from '@ethereumjs/tx'
 import { getHexEncodedTransaction, prepareEvmTransaction } from '@core/layer-2/utils'
-import { EvmChainId, getEvmTransactionOptions } from '@core/network'
+import { ChainId, getEvmTransactionOptions } from '@core/network'
 import { removeLeadingZeros } from '@core/utils/array'
 import { ECDSASignature } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/sdk/out/types'
@@ -9,7 +9,7 @@ import { HEX_PREFIX } from '@core/utils'
 
 export async function signEvmTransactionWithStronghold(
     txData: TypedTxData,
-    chainId: EvmChainId,
+    chainId: ChainId,
     bip44Path: Bip44
 ): Promise<string> {
     const unsignedTransactionMessageHex = HEX_PREFIX + prepareEvmTransaction(txData, chainId)
@@ -23,7 +23,7 @@ export async function signEvmTransactionWithStronghold(
 function createSignedTransaction(
     transaction: LegacyTransaction,
     signature: ECDSASignature,
-    chainId: EvmChainId
+    chainId: ChainId
 ): LegacyTransaction {
     const rawTx = transaction.raw()
 
