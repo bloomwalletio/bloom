@@ -10,7 +10,6 @@ export type EvmTokenCreationActivity = BaseEvmActivity & {
         tokenId: string
         rawAmount: bigint
     }
-    verified: boolean
     rawData: string
 
     methodId?: string
