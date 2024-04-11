@@ -139,6 +139,10 @@
     class:disabled
     class:hasBorder={showBorderWhenClosed || dropdown}
     style={navWidth}
+    role="combobox"
+    tabindex="0"
+    aria-expanded={dropdown}
+    aria-controls="dropdown-menu"
 >
     <button
         type="button"
@@ -176,6 +180,7 @@
         class="absolute w-full overflow-hidden pointer-events-none opacity-0 z-10 text-left
         bg-white dark:bg-gray-800
             border border-solid border-blue-500 border-t-gray-500 dark:border-t-gray-700"
+        id="dropdown-menu"
     >
         <div class="flex flex-col items-center inner overflow-y-auto" bind:this={navContainer}>
             {#each items as item}

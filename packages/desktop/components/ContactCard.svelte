@@ -16,7 +16,7 @@
 </script>
 
 <!-- TODO: simplify use of tile and surfaces? and support hover events for group -->
-<div on:mouseenter={toggleShowBreadcrumb} on:mouseleave={toggleShowBreadcrumb}>
+<div on:mouseenter={toggleShowBreadcrumb} on:mouseleave={toggleShowBreadcrumb} role="button" tabindex="0">
     <Tile border {error} onClick={onCardClick}>
         <div class="flex w-full justify-between gap-2 items-center p-1">
             <ContactAvatar {contact} />

@@ -1287,7 +1287,7 @@
             "title": "Konto erstellen"
         },
         "profileDiagnostics": {
-            "title": "Profile diagnostics"
+            "title": "Profildiagnostik"
         }
     },
     "actions": {
@@ -1648,7 +1648,7 @@
         "methodId": "Methoden-ID",
         "methodName": "Methodenname",
         "inputs": "Inputs",
-        "parameters": "Parameters",
+        "parameters": "Parameter",
         "data": "Daten",
         "success": "Abgeschlossen",
         "info": "Info",
@@ -1665,7 +1665,7 @@
         "appName": "App-Name",
         "question": "Frage",
         "id": "ID",
-        "location": "Location"
+        "location": "Standort"
     },
     "filters": {
         "title": "Filter",

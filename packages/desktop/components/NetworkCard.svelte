@@ -9,10 +9,9 @@
     import { LedgerAppName } from '@core/ledger'
     import {
         ExplorerEndpoint,
-        IChain,
-        INetwork,
+        Network,
         NetworkHealth,
-        NetworkId,
+        NetworkNamespace,
         chainStatuses,
         getDefaultExplorerUrl,
         networkStatus,
@@ -26,18 +25,15 @@
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
-    export let network: INetwork | undefined = undefined
-    export let chain: IChain | undefined = undefined
+    export let network: Network
     export let onCardClick: UiEventFunction
     export let onQrCodeIconClick: UiEventFunction
 
-    let networkId: NetworkId | undefined
-    let name: string | undefined
     let address: string | undefined
     let status: NetworkHealth
+    const explorer = getDefaultExplorerUrl(network.id, ExplorerEndpoint.Address)
 
     $: $networkStatus, $chainStatuses, $selectedAccount, setNetworkCardData()
-    $: explorer = networkId ? getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address) : undefined
 
     function onExplorerClick(): void {
         if (!explorer || !address) {
@@ -49,21 +45,17 @@
 
     function setNetworkCardData(): void {
         const account = $selectedAccount as IAccountState
-        if (network) {
-            networkId = network.getMetadata().id
-            name = network.getMetadata().name
+
+        status = network.getStatus().health
+        if (network?.namespace === NetworkNamespace.Stardust) {
             address = account.depositAddress
-            status = $networkStatus.health
-        } else if (chain) {
-            networkId = chain.id
-            name = chain.name
-            address = account.evmAddresses[chain.coinType]
-            status = chain.getStatus().health
+        } else if (network?.namespace === NetworkNamespace.Evm) {
+            address = account.evmAddresses[network.coinType]
         }
     }
 
     async function onGenerateAddressClick(): Promise<void> {
-        if (!chain) {
+        if (!network || network.namespace !== NetworkNamespace.Evm) {
             return
         }
 
@@ -74,10 +66,10 @@
         }
 
         try {
-            setSelectedChain(chain)
+            setSelectedChain(network)
             await generateAndStoreEvmAddressForAccounts(
                 $activeProfile.type,
-                chain.coinType,
+                network.coinType,
                 $selectedAccount as IAccountState
             )
             pollL2BalanceForAccount($activeProfile.id, $selectedAccount as IAccountState)
@@ -98,10 +90,8 @@
     <div class="w-full flex flex-col justify-between gap-4 p-1">
         <network-header class="flex flex-row justify-between items-center gap-1">
             <div class="flex flex-row gap-2 items-center">
-                {#if networkId}
-                    <NetworkAvatar {networkId} />
-                {/if}
-                <Text type="body1" truncate>{name}</Text>
+                <NetworkAvatar networkId={network.id} />
+                <Text type="body1" truncate>{network.name}</Text>
             </div>
             {#key status}
                 <NetworkStatusPill {status} />

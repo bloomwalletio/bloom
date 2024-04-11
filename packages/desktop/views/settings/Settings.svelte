@@ -39,8 +39,8 @@
 <svelte:window on:keydown={onKey} />
 
 <overlay
-    in:fade={{ duration: 100 }}
-    out:fade={{ duration: 50 }}
+    in:fade|global={{ duration: 100 }}
+    out:fade|global={{ duration: 50 }}
     class="fixed h-screen w-screen flex flex-1 justify-center items-center bg-neutral-6/75 z-30"
 >
     <settings-popup class="relative" use:clickOutside on:clickOutside={onClickOutside}>
@@ -51,7 +51,7 @@
     </settings-popup>
 </overlay>
 
-<style lang="scss">
+<style lang="postcss">
     settings-popup {
         @apply bg-surface dark:bg-surface-dark;
         width: 1216px;

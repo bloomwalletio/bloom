@@ -11,7 +11,6 @@ import { Converter, HEX_PREFIX } from '@core/utils'
 import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
 import { SubjectType } from '@core/wallet'
 import { ActivityDirection } from '@core/activity/enums'
-import { localize } from '@core/i18n'
 import { WEI_PER_GLOW } from '@core/layer-2/constants'
 import { getMethodForEvmTransaction } from '@core/layer-2'
 import { addMethodToRegistry, getMethodFromRegistry } from '@core/layer-2/stores/method-registry.store'
@@ -137,16 +136,19 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
         baseActivity.recipient = {
             type: SubjectType.SmartContract,
             address: blockscoutTransaction.to.hash.toLowerCase(),
-            name: blockscoutTransaction.to.name ?? localize('general.smartContract'),
+            name: blockscoutTransaction.to.name ?? '',
+            verified: blockscoutTransaction.to.is_verified,
         }
-        baseActivity.contractAddress = blockscoutTransaction.to.hash.toLowerCase()
+        baseActivity.contract = structuredClone(baseActivity.recipient)
     }
     if (blockscoutTransaction.from.is_contract) {
         baseActivity.sender = {
             type: SubjectType.SmartContract,
             address: blockscoutTransaction.from.hash.toLowerCase(),
-            name: blockscoutTransaction.from.name ?? localize('general.smartContract'),
+            name: blockscoutTransaction.from.name ?? '',
+            verified: blockscoutTransaction.from.is_verified,
         }
+        baseActivity.contract = structuredClone(baseActivity.sender)
     }
     baseActivity.subject =
         baseActivity.direction === ActivityDirection.Outgoing ? baseActivity.recipient : baseActivity.sender

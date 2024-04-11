@@ -101,7 +101,7 @@
     </div>
 </button>
 
-<style lang="scss">
+<style lang="postcss">
     .token-row {
         @apply w-full;
         @apply px-5 py-3.5;

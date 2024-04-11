@@ -3,9 +3,9 @@ import { Readable, derived, get } from 'svelte/store'
 import { activeProfile } from '@core/profile/stores'
 
 import { StardustNetwork } from '../classes'
-import { INetwork } from '../interfaces'
+import { IStardustNetwork } from '../interfaces'
 
-export const network: Readable<INetwork | undefined> = derived([activeProfile], ([$activeProfile]) => {
+export const network: Readable<IStardustNetwork | undefined> = derived([activeProfile], ([$activeProfile]) => {
     if ($activeProfile && $activeProfile.network) {
         return new StardustNetwork($activeProfile.network, $activeProfile.network.chainConfigurations)
     } else {
@@ -13,6 +13,6 @@ export const network: Readable<INetwork | undefined> = derived([activeProfile], 
     }
 })
 
-export function getNetwork(): INetwork | undefined {
+export function getNetwork(): IStardustNetwork | undefined {
     return get(network)
 }
