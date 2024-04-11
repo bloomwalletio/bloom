@@ -5,7 +5,7 @@
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { localize } from '@core/i18n'
     import { LedgerAppName, checkOrConnectLedger, ledgerRaceConditionProtectionWrapper } from '@core/ledger'
-    import { StardustNetworkId, SupportedNetworkId } from '@core/network'
+    import { StardustNetworkId } from '@core/network'
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
@@ -133,7 +133,7 @@
     async function onFindBalancesClick(): Promise<void> {
         if (type === ProfileType.Ledger) {
             await checkOrConnectLedger(
-                network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+                network?.id === StardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
             )
         }
         await findBalances()

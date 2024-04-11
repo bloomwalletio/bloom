@@ -1043,7 +1043,7 @@
  delete mode 100644 packages/shared/lib/core/network/utils/getOfficialExplorerUrl.ts
  delete mode 100644 packages/shared/lib/core/network/utils/getOfficialNodes.ts
  delete mode 100644 packages/shared/lib/core/network/utils/index.ts
- delete mode 100644 packages/shared/lib/core/network/utils/isEvmChain.ts
+ delete mode 100644 packages/shared/lib/core/network/utils/isEvmNetwork.ts
  delete mode 100644 packages/shared/lib/core/network/utils/isOfficialNetwork.ts
  delete mode 100644 packages/shared/lib/core/nfts/actions/addNftsToDownloadQueue.ts
  delete mode 100644 packages/shared/lib/core/nfts/actions/addOrUpdateNftInAllAccountNfts.ts

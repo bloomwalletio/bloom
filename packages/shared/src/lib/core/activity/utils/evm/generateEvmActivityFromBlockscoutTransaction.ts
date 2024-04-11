@@ -1,6 +1,6 @@
 import { BlockscoutTransactionType, IBlockscoutTransaction } from '@auxiliary/blockscout'
 import { IAccountState } from '@core/account'
-import { IChain } from '@core/network'
+import { IEvmNetwork } from '@core/network'
 import { LocalEvmTransaction, buildPersistedEvmTransactionFromBlockscoutTransaction } from '@core/transactions'
 import { generateEvmActivityFromLocalEvmTransaction } from './generateEvmActivityFromLocalEvmTransaction'
 import { BaseEvmActivity, EvmActivity, EvmCoinTransferActivity } from '@core/activity/types'
@@ -18,14 +18,14 @@ import { addMethodToRegistry, getMethodFromRegistry } from '@core/layer-2/stores
 export async function generateEvmActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
     localTransaction: LocalEvmTransaction | undefined,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
     if (blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.CoinTransfer)) {
         return generateEvmCoinTransferActivityFromBlockscoutTransaction(
             blockscoutTransaction,
             localTransaction,
-            chain,
+            evmNetwork,
             account
         )
     } else if (blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.TokenTransfer)) {
@@ -36,25 +36,25 @@ export async function generateEvmActivityFromBlockscoutTransaction(
         return generateEvmContractCallActivityFromBlockscoutTransaction(
             blockscoutTransaction,
             localTransaction,
-            chain,
+            evmNetwork,
             account
         )
     } else {
         const localTransaction = buildPersistedEvmTransactionFromBlockscoutTransaction(blockscoutTransaction)
-        return generateEvmActivityFromLocalEvmTransaction(localTransaction, chain, account)
+        return generateEvmActivityFromLocalEvmTransaction(localTransaction, evmNetwork, account)
     }
 }
 
 async function generateEvmContractCallActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
     localTransaction: LocalEvmTransaction | undefined,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmContractCallActivity> {
     const baseActivity = await generateBaseEvmActivityFromBlockscoutTransaction(
         blockscoutTransaction,
         localTransaction,
-        chain,
+        evmNetwork,
         account
     )
 
@@ -91,13 +91,13 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
 async function generateEvmCoinTransferActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
     localTransaction: LocalEvmTransaction | undefined,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmCoinTransferActivity> {
     const baseActivity = await generateBaseEvmActivityFromBlockscoutTransaction(
         blockscoutTransaction,
         localTransaction,
-        chain,
+        evmNetwork,
         account
     )
 
@@ -114,7 +114,7 @@ async function generateEvmCoinTransferActivityFromBlockscoutTransaction(
 async function generateBaseEvmActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
     localTransaction: LocalEvmTransaction | undefined,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<BaseEvmActivity> {
     const baseActivity = await generateBaseEvmActivity(
@@ -128,7 +128,7 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
             timestamp: new Date(blockscoutTransaction.timestamp).getTime(),
             blockNumber: blockscoutTransaction.block,
         },
-        chain,
+        evmNetwork,
         account
     )
 
