@@ -25,7 +25,7 @@ import {
     ILedgerEthereumAppSettings,
     isBlindSigningRequiredForEvmTransaction,
 } from '@core/ledger'
-import { ChainId, EvmNetworkId } from '@core/network/enums'
+import { ChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
 import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
 

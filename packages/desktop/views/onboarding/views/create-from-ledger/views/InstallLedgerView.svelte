@@ -6,7 +6,6 @@
     import { onMount } from 'svelte'
     import { createFromLedgerRouter } from '../create-from-ledger-router'
     import { onboardingProfile } from '@contexts/onboarding'
-    import { SupportedNetworkId } from '@core/network'
 
     function onContinueClick(): void {
         $createFromLedgerRouter.next()
