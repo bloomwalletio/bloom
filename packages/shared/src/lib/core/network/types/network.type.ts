@@ -1,3 +1,3 @@
-import { IChain, IStardustNetwork } from '..'
+import { IEvmNetwork, IStardustNetwork } from '..'
 
-export type Network = IStardustNetwork | IChain
+export type Network = IStardustNetwork | IEvmNetwork

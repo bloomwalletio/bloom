@@ -4,14 +4,14 @@
     import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account/stores'
     import { setClipboard } from '@core/utils'
-    import { getActiveNetworkId, getChain, isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
+    import { getActiveNetworkId, getNetwork, NetworkId, NetworkNamespace } from '@core/network'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { activeProfile, activeProfileId } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { handleError } from '@core/error/handlers'
-    import { IAccountState } from '@core/account'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 
     let selectedNetworkId: NetworkId | undefined = getActiveNetworkId()
     $: selectedNetworkId, updateNetworkNameAndAddress()
@@ -19,25 +19,17 @@
     let networkName: string | undefined
     let receiveAddress: string | undefined
     function updateNetworkNameAndAddress(): void {
+        if (!selectedNetworkId) {
+            return
+        }
+
         const account = $selectedAccount as IAccountState
+        const network = getNetwork(selectedNetworkId)
 
-        if (selectedNetworkId && isStardustNetwork(selectedNetworkId)) {
-            networkName = $network?.name
-            receiveAddress = account.depositAddress
-        } else if (selectedNetworkId && isEvmChain(selectedNetworkId)) {
-            const chain = getChain(selectedNetworkId)
-            if (!chain) {
-                return
-            }
-
-            networkName = chain.name
-            receiveAddress = account.evmAddresses?.[chain.coinType]
-            if (!receiveAddress) {
-                generateAddress(account, chain.coinType)
-            }
-        } else {
-            networkName = undefined
-            receiveAddress = undefined
+        networkName = network?.name
+        receiveAddress = getAddressFromAccountForNetwork(account, selectedNetworkId)
+        if (!receiveAddress && network?.namespace === NetworkNamespace.Evm) {
+            generateAddress(account, network.coinType)
         }
     }
 

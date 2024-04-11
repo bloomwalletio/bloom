@@ -1,0 +1,1 @@
+export const MAX_NETWORK_NAME_LENGTH = 64

@@ -3,7 +3,7 @@
     import { IscpChain } from '@core/network'
     import { Table } from '@bloomwalletio/ui'
 
-    export let chain: IscpChain
+    export let evmNetwork: IscpChain
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 </script>
@@ -13,22 +13,22 @@
     items={[
         {
             key: localize(`${localeKey}.chainId`),
-            value: chain.chainId ?? undefined,
+            value: evmNetwork.chainId ?? undefined,
             copyable: true,
         },
         {
             key: localize(`${localeKey}.aliasAddress`),
-            value: chain.aliasAddress ?? undefined,
+            value: evmNetwork.aliasAddress ?? undefined,
             copyable: true,
         },
         {
             key: localize(`${localeKey}.rpcEndpoint`),
-            value: chain.rpcEndpoint ?? undefined,
+            value: evmNetwork.rpcEndpoint ?? undefined,
             copyable: true,
         },
         {
             key: localize(`${localeKey}.explorerUrl`),
-            value: chain.explorerUrl ?? undefined,
+            value: evmNetwork.explorerUrl ?? undefined,
             copyable: true,
         },
     ]}

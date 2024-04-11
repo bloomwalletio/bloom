@@ -7,7 +7,7 @@
     import { signMessage } from '@core/wallet/actions'
     import { Alert, Table, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { IChain } from '@core/network'
+    import { IEvmNetwork } from '@core/network'
     import { AccountLabel, DappInfo } from '@ui'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
@@ -16,7 +16,7 @@
 
     export let message: string
     export let account: IAccountState
-    export let chain: IChain
+    export let evmNetwork: IEvmNetwork
     export let dapp: IConnectedDapp
     export let verifiedState: DappVerification
     export let callback: (params: CallbackParameters) => void
@@ -32,7 +32,7 @@
 
         isBusy = true
         try {
-            const result = await signMessage(message, chain.coinType, account)
+            const result = await signMessage(message, evmNetwork.coinType, account)
             closePopup({ forceClose: true })
 
             callback({ result })

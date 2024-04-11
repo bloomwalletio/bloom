@@ -1,4 +1,4 @@
-import { IChain } from '@core/network'
+import { IEvmNetwork } from '@core/network'
 import { IConnectedDapp } from '../interface'
 import { CallbackParameters } from '../types'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
@@ -13,7 +13,7 @@ export async function handleEthSignTypedData(
     params: unknown,
     method: string,
     dapp: IConnectedDapp,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     responseCallback: (params: CallbackParameters) => void,
     verifiedState: DappVerification
 ): Promise<void> {
@@ -39,7 +39,7 @@ export async function handleEthSignTypedData(
     Platform.focusWindow()
 
     try {
-        const account = await switchToRequiredAccount(accountAddress, chain)
+        const account = await switchToRequiredAccount(accountAddress, evmNetwork)
         openPopup({
             id: PopupId.SignTypedData,
             props: {
@@ -47,7 +47,7 @@ export async function handleEthSignTypedData(
                 version,
                 dapp,
                 account,
-                chain,
+                evmNetwork,
                 verifiedState,
                 callback: responseCallback,
                 onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),

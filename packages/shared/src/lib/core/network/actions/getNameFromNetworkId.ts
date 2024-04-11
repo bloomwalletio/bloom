@@ -1,17 +1,12 @@
-import { getActiveNetworkId, getChain } from '.'
-import { DEFAULT_CHAIN_CONFIGURATIONS } from '../constants'
+import { DEFAULT_EVM_NETWORK_CONFIGURATIONS } from '../constants'
 import { getNetwork } from '../stores'
 import { NetworkId } from '../types'
 
 export function getNameFromNetworkId(networkId: NetworkId): string | undefined {
-    if (networkId === getActiveNetworkId()) {
-        return getNetwork()?.name
-    } else {
-        const networkName = getChain(networkId)?.name
-        if (networkName) {
-            return networkName
-        }
-
-        return Object.values(DEFAULT_CHAIN_CONFIGURATIONS).find((config) => config.id === networkId)?.name
+    const networkName = getNetwork(networkId)?.name
+    if (networkName) {
+        return networkName
     }
+
+    return Object.values(DEFAULT_EVM_NETWORK_CONFIGURATIONS).find((config) => config?.id === networkId)?.name
 }

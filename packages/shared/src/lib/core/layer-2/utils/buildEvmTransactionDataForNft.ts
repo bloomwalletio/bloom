@@ -1,5 +1,5 @@
 import { EvmTransactionData, TransferredAsset } from '../types'
-import { IChain, IscpChain } from '@core/network'
+import { IEvmNetwork, IscpChain } from '@core/network'
 import { localize } from '@core/i18n'
 import { buildEvmTransactionData } from './buildEvmTransactionData'
 import { Nft, NftStandard } from '@core/nfts'
@@ -9,22 +9,22 @@ import { getErc721TransferSmartContractData } from '.'
 import { AssetType } from '../enums'
 
 export async function buildEvmTransactionDataForNft(
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     originAddress: string,
     recipientAddress: string,
     nft: Nft
 ): Promise<EvmTransactionData> {
     const destinationAddress = getDestinationAddressForNft(nft)
-    const data = getNftDataForTransaction(chain, originAddress, recipientAddress, nft)
+    const data = getNftDataForTransaction(evmNetwork, originAddress, recipientAddress, nft)
 
     if (!data) {
         throw new Error(localize('error.web3.unableToFormSmartContractData'))
     }
-    return buildEvmTransactionData(chain, originAddress, destinationAddress, BigInt(0), data)
+    return buildEvmTransactionData(evmNetwork, originAddress, destinationAddress, BigInt(0), data)
 }
 
 function getNftDataForTransaction(
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     originAddress: string,
     recipientAddress: string,
     nft: Nft
@@ -32,9 +32,9 @@ function getNftDataForTransaction(
     const transferredAsset = { type: AssetType.Nft, nft } as TransferredAsset
     switch (nft.standard) {
         case NftStandard.Irc27:
-            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain as IscpChain)
+            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, evmNetwork as IscpChain)
         case NftStandard.Erc721: {
-            return getErc721TransferSmartContractData(originAddress, recipientAddress, nft, chain)
+            return getErc721TransferSmartContractData(originAddress, recipientAddress, nft, evmNetwork)
         }
         default:
             return undefined

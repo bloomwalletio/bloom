@@ -7,6 +7,6 @@
     export let drawerRouter: Router<NetworkConfigRoute>
 </script>
 
-<DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.editChain.title')} {drawerRouter}>
-    <edit-chain-drawer class="flex flex-col justify-between mb-6"> Edit chain </edit-chain-drawer>
+<DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.removeChain.title')} {drawerRouter}>
+    <remove-network-drawer class="flex flex-col justify-between mb-6 px-6"> Remove network </remove-network-drawer>
 </DrawerTemplate>
