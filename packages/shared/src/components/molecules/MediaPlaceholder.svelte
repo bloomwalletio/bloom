@@ -15,7 +15,7 @@
     </icon-container>
 </media-placeholder>
 
-<style lang="scss">
+<style lang="postcss">
     icon-container {
         @apply rounded-full;
         @apply bg-surface dark:bg-surface-dark;

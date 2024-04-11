@@ -15,7 +15,7 @@
     {/each}
 </tabs-container>
 
-<style lang="scss">
+<style lang="postcss">
     button {
         @apply w-full;
         @apply text-13;

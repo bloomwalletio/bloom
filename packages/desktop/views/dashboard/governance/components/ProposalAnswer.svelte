@@ -96,7 +96,7 @@
     </div>
 </button>
 
-<style lang="scss">
+<style lang="postcss">
     .proposal-answer {
         @apply rounded-lg border border-solid border-stroke dark:border-stroke-dark;
         @apply relative hidden items-center justify-between p-[0.5625rem] overflow-hidden;

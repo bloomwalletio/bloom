@@ -39,12 +39,12 @@
     }))
 </script>
 
-<balance-summary-section
+<button
+    type="button"
     class="flex flex-col space-y-2"
     class:expandable={hasChildren}
     class:expanded
     on:click={toggleExpandedView}
-    on:keydown={() => {}}
 >
     <div class="flex flex-row flex-grow justify-between space-x-2">
         <BalanceSummaryRow
@@ -60,10 +60,10 @@
     {#if expanded}
         <Table {items} />
     {/if}
-</balance-summary-section>
+</button>
 
-<style lang="scss">
-    balance-summary-section {
+<style lang="postcss">
+    button {
         @apply rounded-xl;
         @apply p-2 -m-2;
         width: 432x;

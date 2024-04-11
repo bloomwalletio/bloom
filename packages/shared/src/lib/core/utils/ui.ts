@@ -26,7 +26,7 @@ export function debounce<T extends UiEventFunction>(callback: T, wait = 500): Ui
  * source: https://svelte.dev/repl/0ace7a508bd843b798ae599940a91783?version=3.16.7
  * source: https://github.com/vnphanquang/svelte-put/tree/main/packages/actions/clickoutside
  */
-export const clickOutside: Action = function (node) {
+export const clickOutside: Action<HTMLElement> = function (node) {
     const onClick: (event: Event) => void = (event) => {
         if (node && !node.contains(event.target as Node) && !event.defaultPrevented) {
             node.dispatchEvent(new CustomEvent('clickOutside', { detail: event }))

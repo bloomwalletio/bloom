@@ -7,7 +7,7 @@
     <slot />
 </navbar>
 
-<style lang="scss">
+<style lang="postcss">
     navbar {
         @apply w-full flex-none z-10;
         @apply border-r border-b border-solid border-stroke dark:border-stroke-dark;

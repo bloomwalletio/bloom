@@ -40,15 +40,6 @@
         [AddressField.Network]: undefined,
     }
 
-    let addressError,
-        addressNameError,
-        networkSelectionError = ''
-    function resetErrors(): void {
-        addressError = ''
-        addressNameError = ''
-        networkSelectionError = ''
-    }
-
     function onSaveClick(): void {
         if (validate()) {
             ContactManager.addContactAddress($selectedContact?.id, selectedNetworkId, addressName, address)
