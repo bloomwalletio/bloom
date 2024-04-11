@@ -1,4 +1,4 @@
-import { INftFilter } from '../interfaces/nft-filter.interface'
+import { INftFilter } from '../interfaces'
 
 export const DEFAULT_NFT_FILTER: INftFilter = {
     network: {

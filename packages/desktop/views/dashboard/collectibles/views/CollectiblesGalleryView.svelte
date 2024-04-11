@@ -1,14 +1,14 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { nftSearchTerm, ownedNfts } from '@core/nfts/stores'
+    import { nftFilter, nftSearchTerm, ownedNfts } from '@core/nfts/stores'
     import { NftGallery, SearchInput } from '@ui'
     import { Button, IconName, Text, Pill } from '@bloomwalletio/ui'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
     import { Filter } from '@components/filter'
-    import { nftFilter } from '@core/nfts/stores/nft-filter.store'
-    import { Nft, isVisibleNft } from '@core/nfts'
+    import { Nft } from '@core/nfts/interfaces'
+    import { isVisibleNft } from '@core/nfts/utils'
 
     let queriedNfts: Nft[] = []
     $: $nftSearchTerm,
