@@ -119,40 +119,30 @@
 </script>
 
 <div class="w-full">
-    <div class="w-full relative">
-        <InputContainer
-            bind:inputElement
-            {error}
-            isFocused={hasFocus}
-            clearBackground
-            clearPadding
-            clearBorder
-            classes="relative"
-        >
-            <Text class="flex w-full">
-                <input
-                    type="text"
-                    value={amount}
-                    bind:this={inputElement}
-                    {maxlength}
-                    class="w-full
-                            bg-surface dark:bg-surface-dark text-primary dark:text-primary-dark
-                            {fontSize}
-                            {LINE_HEIGHT_MAP[fontSize]}
-                            {TEXT_ALIGNMENT_MAP['right']}
-                        "
-                    on:input={handleInput}
-                    on:keypress={onKeyPress}
-                    on:paste={onPaste}
-                    on:focus={() => (hasFocus = true)}
-                    on:blur={() => (hasFocus = false)}
-                    placeholder="0"
-                    spellcheck={false}
-                    {disabled}
-                />
-            </Text>
-        </InputContainer>
-    </div>
+    <InputContainer bind:inputElement {error} isFocused={hasFocus} classes="relative">
+        <Text class="flex w-full">
+            <input
+                type="text"
+                value={amount}
+                bind:this={inputElement}
+                {maxlength}
+                class="w-full
+                        bg-surface dark:bg-surface-dark text-primary dark:text-primary-dark
+                        {fontSize}
+                        {LINE_HEIGHT_MAP[fontSize]}
+                        {TEXT_ALIGNMENT_MAP['right']}
+                    "
+                on:input={handleInput}
+                on:keypress={onKeyPress}
+                on:paste={onPaste}
+                on:focus={() => (hasFocus = true)}
+                on:blur={() => (hasFocus = false)}
+                placeholder="0"
+                spellcheck={false}
+                {disabled}
+            />
+        </Text>
+    </InputContainer>
 </div>
 
 <style lang="postcss">

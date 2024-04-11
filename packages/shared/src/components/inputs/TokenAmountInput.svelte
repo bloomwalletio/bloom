@@ -98,7 +98,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="flex flex-col items-center w-full" on:click={() => amountInputElement?.focus()}>
-    <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
+    <InputContainer {error} classes="w-full flex flex-col items-center">
         <div class="flex flex-row items-end space-x-0.5">
             <div class="flex flex-row w-full items-center">
                 <amount-wrapper style:--max-width={maxWidth}>

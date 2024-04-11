@@ -65,7 +65,7 @@
     }
 </script>
 
-<InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} col {isFocused} {error}>
+<InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} {isFocused} {error} classes="flex-col">
     <div class="flex flex-row w-full items-center space-x-2 relative">
         <TokenLabel {token} />
         <AmountInput
