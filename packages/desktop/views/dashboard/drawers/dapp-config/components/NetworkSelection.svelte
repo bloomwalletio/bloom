@@ -11,7 +11,7 @@
     export let checkedNetworks: string[]
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
     export let optionalNamespaces: ProposalTypes.RequiredNamespaces
-    export let persistedNamespaces: SupportedNamespaces | undefined = undefined
+    export let persistedSupportedNamespaces: SupportedNamespaces | undefined = undefined
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.networks'
 
@@ -20,15 +20,15 @@
     function setNetworkSelections(): void {
         const networks: Record<string, SelectionOption<NetworkId>> = {}
         for (const namespace of Object.values(requiredNamespaces)) {
-            for (const chainId of namespace.chains) {
+            for (const chainId of namespace.chains ?? []) {
                 const chainName = getEvmNetwork(chainId as NetworkId)?.name ?? chainId
                 networks[chainId] = { label: chainName, value: chainId as NetworkId, checked: true, required: true }
             }
         }
         const supportedNetworks = getAllNetworkIds()
         for (const [namespaceId, namespace] of Object.entries(optionalNamespaces)) {
-            const persistedNamespace = persistedNamespaces?.[namespaceId]
-            for (const chainId of namespace.chains) {
+            const persistedNamespace = persistedSupportedNamespaces?.[namespaceId]
+            for (const chainId of namespace.chains ?? []) {
                 if (!networks[chainId] && supportedNetworks.includes(chainId)) {
                     const isChecked = persistedNamespace?.chains?.includes(chainId) ?? true
                     const chainName = getEvmNetwork(chainId as NetworkId)?.name ?? chainId
