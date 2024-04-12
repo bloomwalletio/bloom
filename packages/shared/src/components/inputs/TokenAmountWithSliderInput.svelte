@@ -2,10 +2,9 @@
     import { localize, parseCurrency } from '@core/i18n'
     import { ITokenWithBalance, convertToRawAmount, formatTokenAmountBestMatch } from '@core/token'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
-    import { AmountInput, InputContainer, SliderInput, TokenLabel } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
+    import { AmountInput, SliderInput, TokenLabel } from '@ui'
+    import { Error, Text } from '@bloomwalletio/ui'
 
-    export let inputElement: HTMLInputElement | undefined = undefined
     export let disabled = false
     export let isFocused = false
     export let votingPower: bigint = BigInt(0)
@@ -65,24 +64,42 @@
     }
 </script>
 
-<InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} {isFocused} {error} classes="flex-col">
-    <div class="flex flex-row w-full items-center space-x-2 relative">
-        <TokenLabel {token} />
-        <AmountInput
-            bind:inputElement={amountInputElement}
-            bind:amount={inputtedAmount}
-            bind:hasFocus={isFocused}
-            maxDecimals={allowedDecimals}
-            integer={allowedDecimals === 0}
-            {disabled}
-        />
-    </div>
-
-    <div class="flex flex-col mt-5">
-        <SliderInput bind:value={rawAmount} max={availableBalance} {disabled} />
-        <div class="flex flex-row justify-between">
-            <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata)}</Text>
-            <Text textColor="secondary" type="sm">{formatTokenAmountBestMatch(availableBalance, token?.metadata)}</Text>
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="w-full flex flex-col space-y-1">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div
+        on:click={() => {
+            amountInputElement && amountInputElement.focus()
+        }}
+        class="cursor-text w-full flex flex-col rounded-lg
+        {isFocused
+            ? 'border-brand'
+            : error
+              ? 'border-red-300 hover:border-red-500'
+              : 'border-stroke dark:border-stroke-dark'}"
+    >
+        <div class="flex flex-row w-full items-center space-x-2 relative">
+            <TokenLabel {token} />
+            <AmountInput
+                bind:inputElement={amountInputElement}
+                bind:amount={inputtedAmount}
+                bind:hasFocus={isFocused}
+                maxDecimals={allowedDecimals}
+                integer={allowedDecimals === 0}
+                {disabled}
+            />
+        </div>
+        <div class="flex flex-col mt-5">
+            <SliderInput bind:value={rawAmount} max={availableBalance} {disabled} />
+            <div class="flex flex-row justify-between">
+                <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata)}</Text>
+                <Text textColor="secondary" type="sm"
+                    >{formatTokenAmountBestMatch(availableBalance, token?.metadata)}</Text
+                >
+            </div>
         </div>
     </div>
-</InputContainer>
+    {#if error}
+        <Error {error} />
+    {/if}
+</div>

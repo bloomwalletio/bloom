@@ -10,7 +10,8 @@
         validateTokenAmount,
     } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
-    import { AmountInput, FontWeight, InputContainer, Text } from '@ui'
+    import { AmountInput } from '@ui'
+    import { Error, Text } from '@bloomwalletio/ui'
 
     export let token: ITokenWithBalance | undefined =
         $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
@@ -98,10 +99,13 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="flex flex-col items-center w-full" on:click={() => amountInputElement?.focus()}>
-    <InputContainer {error} classes="w-full flex flex-col items-center">
-        <div class="flex flex-row items-end space-x-0.5">
-            <div class="flex flex-row w-full items-center">
-                <amount-wrapper style:--max-width={maxWidth}>
+    <div class="w-full flex flex-col items-center space-y-1">
+        <div
+            class="cursor-text w-full flex rounded-lg items-center
+                {error ? 'border-red-300 hover:border-red-500' : 'border-stroke dark:border-stroke-dark'}"
+        >
+            <div class="flex flex-row items-end space-x-0.5">
+                <div class="flex w-full items-center" style:max-width={maxWidth}>
                     <AmountInput
                         bind:inputElement={amountInputElement}
                         bind:amount={inputtedAmount}
@@ -111,21 +115,17 @@
                         {fontSize}
                         autofocus
                     />
-                </amount-wrapper>
+                </div>
+                <Text class={inputLength < 14 ? 'py-4' : 'py-2'}>
+                    {unit}
+                </Text>
             </div>
-            <Text fontWeight={FontWeight.semibold} classes={inputLength < 14 ? 'py-4' : 'py-2'}>
-                {unit}
-            </Text>
         </div>
-    </InputContainer>
-    <Text fontWeight={FontWeight.semibold} color="text-gray-600" darkColor="dark:text-ray-600">
+        {#if error}
+            <Error {error} />
+        {/if}
+    </div>
+    <Text textColor="secondary">
         {formatCurrency(fiatAmount) || '--'}
     </Text>
 </div>
-
-<style lang="postcss">
-    amount-wrapper {
-        max-width: var(--max-width);
-        @apply flex;
-    }
-</style>

@@ -1,11 +1,9 @@
 <script lang="ts">
     import { onMount, tick } from 'svelte'
-    import { InputContainer } from '@ui'
-    import { Text, TEXT_ALIGNMENT_MAP } from '@bloomwalletio/ui'
+    import { TEXT_ALIGNMENT_MAP } from '@bloomwalletio/ui'
     import { DECIMAL_SEPARATORS, formatNumber, getDecimalSeparator, parseCurrency } from '@core/i18n'
 
     export let amount: string = ''
-    export let error: string = ''
     export let maxlength: number = 0
     export let maxDecimals: number = 0
     export let disabled = false
@@ -118,32 +116,26 @@
     })
 </script>
 
-<div class="w-full">
-    <InputContainer bind:inputElement {error} isFocused={hasFocus} classes="relative">
-        <Text class="flex w-full">
-            <input
-                type="text"
-                value={amount}
-                bind:this={inputElement}
-                {maxlength}
-                class="w-full
-                        bg-surface dark:bg-surface-dark text-primary dark:text-primary-dark
-                        {fontSize}
-                        {LINE_HEIGHT_MAP[fontSize]}
-                        {TEXT_ALIGNMENT_MAP['right']}
-                    "
-                on:input={handleInput}
-                on:keypress={onKeyPress}
-                on:paste={onPaste}
-                on:focus={() => (hasFocus = true)}
-                on:blur={() => (hasFocus = false)}
-                placeholder="0"
-                spellcheck={false}
-                {disabled}
-            />
-        </Text>
-    </InputContainer>
-</div>
+<input
+    type="text"
+    value={amount}
+    bind:this={inputElement}
+    {maxlength}
+    class="w-full block font-semibold
+            bg-surface dark:bg-surface-dark text-primary dark:text-primary-dark
+            {fontSize}
+            {LINE_HEIGHT_MAP[fontSize]}
+            {TEXT_ALIGNMENT_MAP['right']}
+        "
+    on:input={handleInput}
+    on:keypress={onKeyPress}
+    on:paste={onPaste}
+    on:focus={() => (hasFocus = true)}
+    on:blur={() => (hasFocus = false)}
+    placeholder="0"
+    spellcheck={false}
+    {disabled}
+/>
 
 <style lang="postcss">
     input {
