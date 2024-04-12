@@ -2,7 +2,7 @@ import { OutputType } from '@iota/sdk/out/types'
 import { IAccountState } from '@core/account'
 import { StardustActivity, IProcessedTransaction } from '../../types'
 import { isParticipationOutput } from '@contexts/governance/utils'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 import { ActivityAction, ActivityDirection, StardustActivityType } from '../../enums'
 import { generateActivitiesFromAliasOutputs } from './generateActivitiesFromAliasOutputs'
 import { generateActivitiesFromBasicOutputs } from './generateActivitiesFromBasicOutputs'
@@ -18,7 +18,7 @@ import { getActivityTypeFromOutput } from '../helper'
 export async function generateActivitiesFromStardustNetwork(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): Promise<StardustActivity[]> {
     if (processedTransaction.wrappedInputs?.length > 0) {
         return generateActivitiesFromProcessedTransactionsWithInputs(processedTransaction, account, networkId)
@@ -30,7 +30,7 @@ export async function generateActivitiesFromStardustNetwork(
 async function generateActivitiesFromProcessedTransactionsWithInputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): Promise<StardustActivity[]> {
     const { outputs, wrappedInputs } = processedTransaction
     const activities: StardustActivity[] = []
@@ -82,7 +82,7 @@ async function generateActivitiesFromProcessedTransactionsWithInputs(
 async function generateActivitiesFromProcessedTransactionsWithoutInputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): Promise<StardustActivity[]> {
     const nonRemainderOutputs = processedTransaction.outputs.filter((wrappedOutput) => !wrappedOutput.remainder)
     const activities = await Promise.all(

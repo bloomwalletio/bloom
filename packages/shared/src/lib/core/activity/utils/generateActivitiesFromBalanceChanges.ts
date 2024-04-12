@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { INftBalanceChange, ITokenBalanceChange, EvmActivity } from '../types'
 import { getBalanceChanges } from '../stores'
-import { NetworkId, getEvmNetworks } from '@core/network'
+import { EvmNetworkId, getEvmNetworks } from '@core/network'
 import { generateEvmNftBalanceChangeActivity, generateEvmTokenBalanceChangeActivity } from './evm'
 
 export async function generateActivitiesFromBalanceChanges(
@@ -29,7 +29,7 @@ export async function generateActivitiesFromBalanceChanges(
 
 export async function generateActivitiesFromTokenBalanceChanges(
     account: IAccountState,
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     tokenBalanceChanges: {
         [tokenId: string]: ITokenBalanceChange[]
     }
@@ -59,7 +59,7 @@ export async function generateActivitiesFromTokenBalanceChanges(
 
 export function generateActivitiesFromNftBalanceChanges(
     account: IAccountState,
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     nftBalanceChanges: {
         [nftId: string]: INftBalanceChange[]
     }

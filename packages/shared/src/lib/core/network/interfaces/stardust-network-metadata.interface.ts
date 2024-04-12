@@ -1,6 +1,6 @@
 import { IBaseToken } from '@core/token/interfaces'
 import { IProtocol } from './protocol.interface'
-import { NetworkId } from '../types'
+import { StardustNetworkId } from '../types'
 import { NetworkNamespace, StardustNetworkName } from '../enums'
 
 /**
@@ -9,7 +9,7 @@ import { NetworkNamespace, StardustNetworkName } from '../enums'
  * of a particular network.
  */
 export interface IStardustNetworkMetadata {
-    id: NetworkId
+    id: StardustNetworkId
     name: string
     namespace: NetworkNamespace.Stardust
     networkName: StardustNetworkName | string

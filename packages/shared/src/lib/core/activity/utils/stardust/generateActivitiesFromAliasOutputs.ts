@@ -4,12 +4,12 @@ import { EMPTY_HEX_ID } from '@core/wallet'
 import { StardustActivity, IProcessedTransaction } from '../../types'
 import { generateSingleAliasActivity } from './generateSingleAliasActivity'
 import { ActivityAction } from '../../enums'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 
 export async function generateActivitiesFromAliasOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): Promise<StardustActivity[]> {
     const outputs = processedTransaction.outputs
     const activities: StardustActivity[] = []

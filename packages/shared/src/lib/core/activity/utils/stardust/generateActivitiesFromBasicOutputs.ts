@@ -9,12 +9,12 @@ import { generateSingleConsolidationActivity } from './generateSingleConsolidati
 import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { getNonRemainderBasicOutputsFromTransaction } from './getNonRemainderBasicOutputsFromTransaction'
 import { getNftId } from '../outputs'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 
 export async function generateActivitiesFromBasicOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): Promise<StardustActivity[]> {
     const activities: StardustActivity[] = []
 

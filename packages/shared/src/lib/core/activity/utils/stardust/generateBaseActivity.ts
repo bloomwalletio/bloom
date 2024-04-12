@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { BaseStardustActivity, IActivityGenerationParameters } from '@core/activity/types'
 import { getNetworkFromAddress } from '@core/layer-2/actions'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { BasicOutput } from '@iota/sdk'
 import { activityOutputContainsValue } from '../..'
@@ -23,7 +23,7 @@ import { SubjectType } from '@core/wallet'
 
 export async function generateBaseActivity(
     account: IAccountState,
-    networkId: NetworkId,
+    networkId: StardustNetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): Promise<BaseStardustActivity> {
     // meta information

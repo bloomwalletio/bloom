@@ -1,13 +1,13 @@
-import { StardustNetworkId } from '../enums'
+import { SupportedStardustNetworkId } from '../constants'
 import { NetworkId } from '../types'
 
 export function getExplorerApiNetworkName(networkId: NetworkId): string {
     switch (networkId) {
-        case StardustNetworkId.Iota:
+        case SupportedStardustNetworkId.Iota:
             return 'mainnet'
-        case StardustNetworkId.Shimmer:
+        case SupportedStardustNetworkId.Shimmer:
             return 'shimmer'
-        case StardustNetworkId.Testnet:
+        case SupportedStardustNetworkId.Testnet:
             return 'testnet'
         default:
             return ''

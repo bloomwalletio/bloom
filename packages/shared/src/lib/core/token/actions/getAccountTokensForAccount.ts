@@ -3,7 +3,7 @@ import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices, MarketCurrency, MarketPrices } from '@core/market'
 import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
 import { calculateFiatValueFromTokenAmountAndMarketPrice } from '@core/market/utils'
-import { NetworkId, getEvmNetworks } from '@core/network'
+import { EvmNetworkId, NetworkId, StardustNetworkId, getEvmNetworks } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { get } from 'svelte/store'
 import { BASE_TOKEN_ID } from '../constants'
@@ -42,7 +42,7 @@ function getAccountAssetForNetwork(
     account: IAccountState,
     marketCoinPrices: MarketCoinPrices,
     marketCurrency: MarketCurrency,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): IAccountTokensPerNetwork {
     const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID)
     const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
@@ -90,7 +90,7 @@ function getAccountAssetForChain(
     account: IAccountState,
     marketCoinPrices: MarketCoinPrices,
     marketCurrency: MarketCurrency,
-    networkId: NetworkId
+    networkId: EvmNetworkId
 ): IAccountTokensPerNetwork | undefined {
     const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
     const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
