@@ -1,11 +1,11 @@
 import { derived, Readable } from 'svelte/store'
 import { coinGeckoTokensMetadata } from './coingecko-tokens-metadata.store'
-import { ChainId, EvmNetworkId, NetworkNamespace } from '@core/network'
+import { SupportedEvmNetworkId } from '@core/network/constants'
 
 export const shimmerEvmAddressToCoinGeckoIdMap: Readable<Record<string, string>> = derived(
     coinGeckoTokensMetadata,
     ($coinGeckoTokensMetadata) => {
-        const shimmerEvmNetworkId: EvmNetworkId = `${NetworkNamespace.Evm}:${ChainId.ShimmerEvm}`
+        const shimmerEvmNetworkId = SupportedEvmNetworkId.ShimmerEvm
         const shimmerEvmTokens = $coinGeckoTokensMetadata?.[shimmerEvmNetworkId] ?? {}
         const shimmerEvmTokensAddresses = Object.entries(shimmerEvmTokens ?? {}).reduce(
             (acc, [tokenAddress, token]) => {
