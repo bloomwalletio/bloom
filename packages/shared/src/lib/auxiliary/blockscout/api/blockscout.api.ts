@@ -3,7 +3,6 @@ import { TokenStandard } from '@core/token/enums'
 import { QueryParameters } from '@core/utils'
 import { BaseApi } from '@core/utils/api'
 import { DEFAULT_EXPLORER_URLS } from '@core/network/constants'
-import { SupportedNetworkId } from '@core/network/enums'
 import {
     IBlockscoutApi,
     IBlockscoutAsset,
@@ -12,7 +11,7 @@ import {
     IBlockscoutTokenInfoDto,
     IBlockscoutTransaction,
 } from '../interfaces'
-import { NetworkId } from '@core/network/types'
+import { EvmNetworkId } from '@core/network/types'
 import { BlockscoutTokenTransfer } from '../types'
 
 interface INextPageParams {
@@ -28,8 +27,8 @@ interface IPaginationResponse<T> {
 export type BlockscoutExitFunction<T> = (items: T[]) => boolean
 
 export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
-    constructor(networkId: NetworkId) {
-        const explorerBaseUrl = DEFAULT_EXPLORER_URLS[networkId as SupportedNetworkId]
+    constructor(networkId: EvmNetworkId) {
+        const explorerBaseUrl = DEFAULT_EXPLORER_URLS[networkId] ?? ''
         super(explorerBaseUrl, 'api/v2')
     }
 

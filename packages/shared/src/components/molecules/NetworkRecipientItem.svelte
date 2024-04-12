@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon, IOption, IconName, Text, Tile } from '@bloomwalletio/ui'
-    import { isEvmChain } from '@core/network'
+    import { isEvmNetwork } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
     import { NetworkAvatar, RecipientInput } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
@@ -87,7 +87,7 @@
                     disabled={!selected}
                     {options}
                     networkId={item.networkId}
-                    isEvmChain={isEvmChain(item.networkId)}
+                    isEvmNetwork={isEvmNetwork(item.networkId)}
                 />
             </network-recipient-item-address>
         {/if}

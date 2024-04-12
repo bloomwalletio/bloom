@@ -2,14 +2,16 @@
     import { AddressType } from '@iota/sdk/out/types'
     import { localize } from '@core/i18n'
     import {
-        MAX_CHAIN_NAME_LENGTH,
-        ChainType,
-        IIscpChainConfiguration,
+        MAX_NETWORK_NAME_LENGTH,
+        EvmNetworkType,
+        IIscpEvmNetworkConfiguration,
         ETHEREUM_COIN_TYPE,
-        NetworkId,
-        EvmChainId,
+        EvmNetworkId,
         NetworkNamespace,
         getNetwork,
+        ChainId,
+        getActiveNetworkId,
+        StardustNetwork,
     } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { getNetworkHrp } from '@core/profile/actions'
@@ -26,13 +28,13 @@
     let explorerUrlError = ''
     const chainIdError = ''
 
-    $: disabled = !chain.name || !chain.id || !chain.aliasAddress || !chain.rpcEndpoint
+    $: disabled = !evmNetwork.name || !evmNetwork.id || !evmNetwork.aliasAddress || !evmNetwork.rpcEndpoint
 
-    const chain: IIscpChainConfiguration = {
-        type: ChainType.Iscp,
-        id: '' as NetworkId,
+    const evmNetwork: IIscpEvmNetworkConfiguration = {
+        type: EvmNetworkType.Iscp,
+        id: '' as EvmNetworkId,
         namespace: NetworkNamespace.Evm,
-        chainId: '' as EvmChainId,
+        chainId: '' as ChainId,
         name: '',
         aliasAddress: '',
         rpcEndpoint: '',
@@ -42,9 +44,9 @@
     }
 
     function validateName(): void {
-        if (!chain.name) {
+        if (!evmNetwork.name) {
             nameError = localize(`${localeKey}.errors.cannotBeEmpty`)
-        } else if (chain.name.length > MAX_CHAIN_NAME_LENGTH) {
+        } else if (evmNetwork.name.length > MAX_NETWORK_NAME_LENGTH) {
             nameError = localize(`${localeKey}.errors.nameTooLong`)
         }
     }
@@ -53,29 +55,31 @@
         const chains = $activeProfile.network.chainConfigurations
         let isValidBechAddress = false
         try {
-            validateBech32Address(getNetworkHrp(), chain.aliasAddress, AddressType.Alias)
+            validateBech32Address(getNetworkHrp(), evmNetwork.aliasAddress, AddressType.Alias)
             isValidBechAddress = true
         } catch (error) {
             isValidBechAddress = false
         }
 
-        if (!isValidHexAddress(chain.aliasAddress) && !isValidBechAddress) {
+        if (!isValidHexAddress(evmNetwork.aliasAddress) && !isValidBechAddress) {
             aliasAddressError = localize(`${localeKey}.errors.aliasAddressWrongFormat`)
         } else if (
-            chains.some((_chain) => _chain.type === ChainType.Iscp && _chain.aliasAddress === chain.aliasAddress)
+            chains.some(
+                (_chain) => _chain.type === EvmNetworkType.Iscp && _chain.aliasAddress === evmNetwork.aliasAddress
+            )
         ) {
             aliasAddressError = localize(`${localeKey}.errors.aliasAddressAlreadyInUse`)
         }
     }
 
     function validateRpcEndpoint(): void {
-        if (!isValidHttpsUrl(chain.rpcEndpoint)) {
+        if (!isValidHttpsUrl(evmNetwork.rpcEndpoint)) {
             rpcEndpointError = localize(`${localeKey}.errors.invalidUrl`)
         }
     }
 
     function validateExplorerUrl(): void {
-        if (chain.explorerUrl && !isValidHttpsUrl(chain.explorerUrl)) {
+        if (evmNetwork.explorerUrl && !isValidHttpsUrl(evmNetwork.explorerUrl)) {
             explorerUrlError = localize(`${localeKey}.errors.invalidUrl`)
         }
     }
@@ -102,28 +106,30 @@
         if (hasError) {
             return
         }
-        getNetwork()?.addChain(chain)
+        // TODO: decouple addChain() function from StardustNetwork
+        const stardustNetwork = getNetwork(getActiveNetworkId()) as StardustNetwork
+        stardustNetwork?.addChain(evmNetwork)
     }
 </script>
 
-<add-iscp-chain class="h-full flex flex-col justify-between">
-    <form id="add-chain-form" class="flex flex-col gap-4 px-6" on:submit|preventDefault={onSubmitClick}>
-        <TextInput bind:value={chain.name} label={localize('general.name')} error={nameError} />
-        <TextInput bind:value={chain.id} label={localize(`${localeKey}.chainId`)} error={chainIdError} />
+<add-iscp-network class="h-full flex flex-col justify-between">
+    <form id="add-network-form" class="flex flex-col gap-4 px-6" on:submit|preventDefault={onSubmitClick}>
+        <TextInput bind:value={evmNetwork.name} label={localize('general.name')} error={nameError} />
+        <TextInput bind:value={evmNetwork.id} label={localize(`${localeKey}.chainId`)} error={chainIdError} />
         <TextInput
-            bind:value={chain.aliasAddress}
+            bind:value={evmNetwork.aliasAddress}
             label={localize(`${localeKey}.aliasAddress`)}
             error={aliasAddressError}
         />
         <TextInput
-            bind:value={chain.rpcEndpoint}
+            bind:value={evmNetwork.rpcEndpoint}
             label={localize(`${localeKey}.rpcEndpoint`)}
             error={rpcEndpointError}
         />
         <TextInput
-            bind:value={chain.explorerUrl}
+            bind:value={evmNetwork.explorerUrl}
             label={localize(`${localeKey}.explorerUrl`)}
             error={explorerUrlError}
         />
     </form>
-</add-iscp-chain>
+</add-iscp-network>

@@ -6,13 +6,13 @@ import { getSenderAddressFromInputs } from '../stardust/getSenderAddressFromInpu
 import { getSenderFromTransaction } from '../stardust/getSenderFromTransaction'
 import { ActivityDirection } from '@core/activity/enums'
 import { IProcessedTransaction, SenderInfo } from '@core/activity/types'
-import { NetworkId } from '@core/network'
+import { StardustNetworkId } from '@core/network'
 
 export function getSendingInformation(
     processedTransaction: IProcessedTransaction,
     output: Output,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): SenderInfo {
     const { direction, wrappedInputs } = processedTransaction
 

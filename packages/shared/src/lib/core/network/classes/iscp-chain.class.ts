@@ -6,21 +6,27 @@ import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
-import { ChainType, EvmChainId, NetworkHealth, NetworkNamespace } from '../enums'
-import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
-import { chainStatuses } from '../stores'
+import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enums'
+import {
+    IBlock,
+    IEvmNetwork,
+    IEvmNetworkStatus,
+    IIscpEvmNetworkConfiguration,
+    IIscpEvmNetworkMetadata,
+} from '../interfaces'
+import { evmNetworkStatuses } from '../stores'
 import { CoinType } from '@iota/sdk/out/types'
-import { ChainMetadata, NetworkId, Web3Provider } from '../types'
+import { ChainMetadata, EvmNetworkId, Web3Provider } from '../types'
 import { Converter } from '@core/utils'
 
-export class IscpChain implements IChain {
+export class IscpChain implements IEvmNetwork {
     public readonly provider: Web3Provider
     private readonly _chainApi: string
 
-    public readonly id: NetworkId
+    public readonly id: EvmNetworkId
     public readonly namespace: NetworkNamespace.Evm
-    public readonly chainId: EvmChainId
-    public readonly type: ChainType.Iscp
+    public readonly chainId: ChainId
+    public readonly type: EvmNetworkType.Iscp
     public readonly coinType: CoinType
     public readonly name: string
     public readonly explorerUrl: string | undefined
@@ -28,7 +34,7 @@ export class IscpChain implements IChain {
     public readonly apiEndpoint: string
     public readonly aliasAddress: string
 
-    private _metadata: IIscpChainMetadata | undefined
+    private _metadata: IIscpEvmNetworkMetadata | undefined
     constructor({
         id,
         namespace,
@@ -40,7 +46,7 @@ export class IscpChain implements IChain {
         rpcEndpoint,
         aliasAddress,
         apiEndpoint,
-    }: IIscpChainConfiguration) {
+    }: IIscpEvmNetworkConfiguration) {
         try {
             /**
              * NOTE: We can assume that the data inside this payload has already
@@ -76,8 +82,8 @@ export class IscpChain implements IChain {
         return `v1/chains/${aliasAddress}/evm`
     }
 
-    getStatus(): IChainStatus {
-        return get(chainStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
+    getStatus(): IEvmNetworkStatus {
+        return get(evmNetworkStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
     }
 
     getContract(type: ContractType, address: string): Contract {
@@ -92,7 +98,7 @@ export class IscpChain implements IChain {
         if (this._metadata) {
             return Promise.resolve(this._metadata)
         } else {
-            this._metadata = <IIscpChainMetadata>{} // await this.fetchChainMetadata()
+            this._metadata = <IIscpEvmNetworkMetadata>{} // await this.fetchChainMetadata()
             return Promise.resolve(this._metadata)
         }
     }
@@ -103,9 +109,9 @@ export class IscpChain implements IChain {
      * the EVM JSON-RPC endpoint rather than the underlying WASP
      * node URL). See here for more: https://github.com/iotaledger/wasp/issues/2385
      */
-    private async fetchChainMetadata(): Promise<IIscpChainMetadata> {
+    private async fetchChainMetadata(): Promise<IIscpEvmNetworkMetadata> {
         const response = await fetch(this._chainApi)
-        return (await response.json()) as IIscpChainMetadata
+        return (await response.json()) as IIscpEvmNetworkMetadata
     }
 
     async getLatestBlock(): Promise<IBlock> {

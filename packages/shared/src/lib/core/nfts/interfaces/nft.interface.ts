@@ -1,4 +1,4 @@
-import { NetworkId } from '@core/network/types'
+import { EvmNetworkId, NetworkId } from '@core/network/types'
 import { Address } from '@iota/sdk/out/types'
 import { MimeType, NftStandard } from '../enums'
 import { IDownloadMetadata, IErc721ContractMetadata, IErc721TokenMetadata, IIrc27Metadata } from '../interfaces'
@@ -19,6 +19,7 @@ export interface IIrc27Nft extends IBaseNft {
 export interface IErc721Nft extends IBaseNft {
     standard: NftStandard.Erc721
     uri: string
+    networkId: EvmNetworkId
     contractMetadata: IErc721ContractMetadata
     tokenId?: string
     metadata?: IErc721TokenMetadata

@@ -15,8 +15,9 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onDestroy } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { StardustNetworkId } from '@core/network/enums'
+    import { SupportedStardustNetworkId } from '@core/network/constants'
     import { ledgerRaceConditionProtectionWrapper } from '@core/ledger'
+    import { StardustNetworkId } from '@core/network/types'
 
     const { network, type } = $activeProfile
 
@@ -38,9 +39,9 @@
     $: totalBalance = sumBalanceForAccounts($visibleActiveAccounts)
 
     const networkSearchMethod: { [key in StardustNetworkId]?: () => Promise<void> } = {
-        [StardustNetworkId.Iota]: multiAddressSearch,
-        [StardustNetworkId.Shimmer]: singleAddressSearch,
-        [StardustNetworkId.Testnet]: singleAddressSearch,
+        [SupportedStardustNetworkId.Iota]: multiAddressSearch,
+        [SupportedStardustNetworkId.Shimmer]: singleAddressSearch,
+        [SupportedStardustNetworkId.Testnet]: singleAddressSearch,
     }
 
     async function singleAddressSearch(): Promise<void> {

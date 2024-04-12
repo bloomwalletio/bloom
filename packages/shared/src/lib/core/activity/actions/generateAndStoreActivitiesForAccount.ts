@@ -9,14 +9,14 @@ import { hideActivitiesForFoundries } from './hideActivitiesForFoundries'
 import { generateActivitiesFromProcessedTransactions } from '../utils/stardust/generateActivitiesFromProcessedTransactions'
 import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
 import { generateActivitiesFromBalanceChanges, generateEvmActivitiesFromEvmChains } from '../utils'
-import { NetworkId } from '@core/network'
+import { StardustNetworkId } from '@core/network'
 import { setOutgoingAsyncActivitiesToClaimed } from './setOutgoingAsyncActivitiesToClaimed'
 import { Activity } from '../types'
 
 export async function generateAndStoreActivitiesForAccount(
     profileId: string,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): Promise<void> {
     // Step 1: process account transactions and outputs into processed transactions
     const processedTransactions = [

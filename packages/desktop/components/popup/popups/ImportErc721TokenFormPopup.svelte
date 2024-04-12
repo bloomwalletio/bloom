@@ -2,7 +2,7 @@
     import { TextInput } from '@bloomwalletio/ui'
     import { NetworkInput } from '@ui'
     import { localize } from '@core/i18n'
-    import { NetworkId } from '@core/network'
+    import { EvmNetworkId } from '@core/network'
     import { validateEthereumAddress } from '@core/utils'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -21,7 +21,7 @@
 
     let busy = false
 
-    let networkId: NetworkId
+    let networkId: EvmNetworkId
 
     let tokenAddress: string
 

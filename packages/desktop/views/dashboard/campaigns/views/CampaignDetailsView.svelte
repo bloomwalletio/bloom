@@ -9,7 +9,7 @@
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
-    import { NetworkId, NetworkNamespace, getChain } from '@core/network'
+    import { EvmNetworkId, NetworkNamespace, getEvmNetwork } from '@core/network'
     import { buildNftFromPersistedErc721Nft } from '@core/nfts'
     import { addNftsToDownloadQueue, updateAllAccountNftsForAccount } from '@core/nfts/actions'
     import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
@@ -26,14 +26,14 @@
     let userAddress: string
     let numberOfTasks: number | undefined
 
-    $: chain = getChain(`${NetworkNamespace.Evm}:${$selectedCampaign.chainId}` as NetworkId)
+    $: evmNetwork = getEvmNetwork(`${NetworkNamespace.Evm}:${$selectedCampaign.chainId}` as EvmNetworkId)
     $: ({ board: leaderboard, userPosition } = $campaignLeaderboards[$selectedCampaign.projectId]?.[
         $selectedCampaign.id
     ] ?? { board: undefined, userPosition: undefined })
-    $: fetchAndPersistTideData($selectedAccount, chain?.id)
+    $: fetchAndPersistTideData($selectedAccount, evmNetwork?.id)
     $: userNft = $ownedNfts.find((nft) => nft.id?.startsWith($selectedCampaign.address.toLowerCase()))
 
-    function fetchAndPersistTideData(account: IAccountState, networkId: NetworkId): void {
+    function fetchAndPersistTideData(account: IAccountState, networkId: EvmNetworkId): void {
         if (networkId) {
             userAddress = getAddressFromAccountForNetwork(account, networkId)?.toLowerCase()
             void fetchAndPersistUserPosition(userAddress)
@@ -65,12 +65,17 @@
             accountAddress,
             $selectedCampaign.address
         )
-        if (!tokenId || !chain) {
+        if (!tokenId || !evmNetwork) {
             return
         }
 
         try {
-            const persistedNft = await persistErc721Nft($selectedCampaign.address, tokenId, chain.id, $selectedAccount)
+            const persistedNft = await persistErc721Nft(
+                $selectedCampaign.address,
+                tokenId,
+                evmNetwork.id,
+                $selectedAccount
+            )
             if (persistedNft) {
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
                 void addNftsToDownloadQueue([nft])
@@ -109,7 +114,7 @@
     function restartPolling(): void {
         clearInterval(pollInterval)
         pollInterval = setInterval(
-            () => void fetchAndPersistTideData($selectedAccount, chain?.id),
+            () => void fetchAndPersistTideData($selectedAccount, evmNetwork?.id),
             CAMPAIGN_POLL_INTERVAL
         )
     }
@@ -133,7 +138,7 @@
             <Leaderboard
                 leaderboardItems={leaderboard}
                 {userAddress}
-                networkId={chain?.id}
+                networkId={evmNetwork?.id}
                 loading={leaderboardLoading && (!leaderboard || leaderboard.length === 0)}
                 error={leaderboardError}
             />

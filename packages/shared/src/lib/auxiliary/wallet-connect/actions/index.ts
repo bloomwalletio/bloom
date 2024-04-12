@@ -1,6 +1,7 @@
 export * from './approveSession'
 export * from './buildSupportedNamespaceFromSelections'
 export * from './clearOldPairings'
+export * from './connectToDapp'
 export * from './disconnectDapp'
 export * from './initializeWalletConnect'
 export * from './pairWithNewDapp'

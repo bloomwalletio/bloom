@@ -6,7 +6,7 @@
     import { localize } from '@core/i18n'
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { findActiveAccountWithAddress } from '@core/profile/actions'
-    import { NetworkId, getChain } from '@core/network'
+    import { NetworkId, getEvmNetwork } from '@core/network'
     import { IAccountState } from '@core/account'
     import { ProposalTypes } from '@walletconnect/types'
     import { DappConfigRoute } from '../dapp-config-route.enum'
@@ -14,7 +14,7 @@
 
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces | undefined
     export let editable: boolean
-    export let persistedNamespaces: SupportedNamespaces
+    export let persistedSupportedNamespaces: SupportedNamespaces
     export let drawerRouter: Router<unknown>
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
@@ -27,7 +27,7 @@
 
     function getPermissionPreferences(): PermissionPreference[] {
         const namespaces = Object.values(requiredNamespaces ?? {})
-        const _persistedNamespaces = Object.values(persistedNamespaces)
+        const _persistedNamespaces = Object.values(persistedSupportedNamespaces)
 
         return Object.values(DappPermission)
             .map((permission) => {
@@ -53,16 +53,16 @@
     }
 
     function getNetworkPreferences(): string[] {
-        return Object.values(persistedNamespaces).flatMap((namespace) => {
+        return Object.values(persistedSupportedNamespaces).flatMap((namespace) => {
             return namespace.chains.map((chainId) => {
-                const chain = getChain(chainId as NetworkId)
-                return chain?.name ?? chainId
+                const evmNetwork = getEvmNetwork(chainId as NetworkId)
+                return evmNetwork?.name ?? chainId
             })
         })
     }
 
     function getAccountPreferences(): IAccountState[] {
-        const accounts = Object.values(persistedNamespaces)
+        const accounts = Object.values(persistedSupportedNamespaces)
             .flatMap((namespace) =>
                 namespace.accounts.map((accountWithNetworkId) => {
                     const [namespace, chainId, address] = accountWithNetworkId.split(':')

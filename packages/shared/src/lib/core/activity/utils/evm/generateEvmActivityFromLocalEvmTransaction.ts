@@ -10,7 +10,7 @@ import {
 import { WEI_PER_GLOW } from '@core/layer-2/constants'
 import { getMethodForEvmTransaction } from '@core/layer-2/utils'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
-import { IChain } from '@core/network'
+import { IEvmNetwork } from '@core/network'
 import { NftStandard } from '@core/nfts'
 import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { LocalEvmTransaction } from '@core/transactions'
@@ -20,11 +20,11 @@ import { SubjectType } from '@core/wallet'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
     if (transaction.data) {
-        const transferInfo = getTransferInfoFromTransactionData(transaction, chain)
+        const transferInfo = getTransferInfoFromTransactionData(transaction, evmNetwork)
         if (!transferInfo) {
             return
         }
@@ -41,7 +41,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 timestamp,
                 blockNumber,
             },
-            chain,
+            evmNetwork,
             account
         )
         if (transferInfo.type === StardustActivityType.SmartContract) {
@@ -101,7 +101,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 timestamp,
                 blockNumber,
             },
-            chain,
+            evmNetwork,
             account
         )
 

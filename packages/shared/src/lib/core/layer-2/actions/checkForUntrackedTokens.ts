@@ -1,19 +1,18 @@
 import { IAccountState } from '@core/account/interfaces'
-import { EvmNetworkId } from '@core/network'
-import { getNetwork } from '@core/network/stores'
+import { getEvmNetworks } from '@core/network/stores'
 import { TokenStandard, TokenTrackingStatus } from '@core/token'
 import { addNewTrackedTokenToActiveProfile, hasTokenBeenUntracked } from '@core/wallet/actions'
 import { BASE_TOKEN_CONTRACT_ADDRESS } from '../constants'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 
 export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUntracked?: boolean): void {
-    const chains = getNetwork()?.getChains()
-    chains?.forEach(async (chain) => {
-        const evmAddress = account.evmAddresses[chain.coinType]
-        if (!evmAddress || !chain.explorerUrl) {
+    const evmNetworks = getEvmNetworks()
+    evmNetworks?.forEach(async (evmNetwork) => {
+        const evmAddress = account.evmAddresses[evmNetwork.coinType]
+        if (!evmAddress || !evmNetwork.explorerUrl) {
             return
         }
-        const networkId = chain.id
+        const networkId = evmNetwork.id
         const blockscoutApi = new BlockscoutApi(networkId)
 
         const tokens = await blockscoutApi.getAssetsForAddress(evmAddress)
@@ -22,7 +21,7 @@ export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUnt
         )
         untrackedTokensToTrack.forEach(({ token }) => {
             const { address, type, name, symbol, decimals } = token
-            if (address !== BASE_TOKEN_CONTRACT_ADDRESS?.[networkId as EvmNetworkId]) {
+            if (address !== BASE_TOKEN_CONTRACT_ADDRESS?.[networkId]) {
                 addNewTrackedTokenToActiveProfile(
                     networkId,
                     address.toLowerCase(),

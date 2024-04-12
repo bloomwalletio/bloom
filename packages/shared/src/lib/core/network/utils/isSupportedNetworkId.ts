@@ -1,6 +1,6 @@
-import { SupportedNetworkId } from '../enums'
+import { SupportedNetworkId } from '../constants'
 import { NetworkId } from '../types'
 
 export function isSupportedNetworkId(networkId: NetworkId): boolean {
-    return Object.values(SupportedNetworkId).includes(networkId as SupportedNetworkId)
+    return Object.values(SupportedNetworkId).includes(networkId)
 }

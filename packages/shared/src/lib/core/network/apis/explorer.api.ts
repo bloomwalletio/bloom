@@ -1,9 +1,10 @@
 import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS } from '@core/utils'
 import {} from '../enums'
 import { DEFAULT_EXPLORER_API_BASE_URL } from '../constants/default-explorer-api-base-url.constant'
-import { StardustNetworkId, ExplorerApiEndpoint } from '../enums'
+import { ExplorerApiEndpoint } from '../enums'
 import { IExplorerApiNetworks } from '../interfaces'
 import { getExplorerApiNetworkName } from '../utils'
+import { NetworkId } from '../types'
 
 export class ExplorerApi {
     static async makeRequest<T>(endpoint: ExplorerApiEndpoint, queryParams?: string): Promise<T> {
@@ -20,7 +21,7 @@ export class ExplorerApi {
         }
     }
 
-    static async getCirculatingSupply(networkId: StardustNetworkId): Promise<number> {
+    static async getCirculatingSupply(networkId: NetworkId): Promise<number> {
         const networkName = getExplorerApiNetworkName(networkId)
         const networksInfo = await this.makeRequest<IExplorerApiNetworks>(ExplorerApiEndpoint.Networks, networkId)
         const networkInfo = networksInfo?.networks.find((network) => network.network === networkName)
