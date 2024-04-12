@@ -34,11 +34,6 @@
     }
 
     function onKeyPress(event: KeyboardEvent): void {
-        if (event.key === 'Tab') return
-
-        const isEnter = event.key === 'Enter'
-        if (integer && isEnter) return
-
         // if the input is float, we accept one dot or comma depending on localization
         if (!integer && event.key === decimalSeparator) {
             if (amount?.indexOf(decimalSeparator) >= 0) {
@@ -75,7 +70,7 @@
     }
 
     function onPaste(event: ClipboardEvent): void {
-        if (!event.clipboardData || !integer) return
+        if (!event.clipboardData) return
 
         const pasteVal = event.clipboardData.getData('text')
         // Discard scientific notation or negative
@@ -93,18 +88,16 @@
             return
         }
 
-        if (integer) {
-            // Discard anything with a decimal separator
-            if (DECIMAL_SEPARATORS.some((sep) => pasteVal?.indexOf(sep) >= 0)) {
-                event.preventDefault()
-                return
-            }
+        // Discard anything with a decimal separator
+        if (DECIMAL_SEPARATORS.some((sep) => pasteVal?.indexOf(sep) >= 0)) {
+            event.preventDefault()
+            return
+        }
 
-            const val = Number.parseInt(pasteVal, 10)
-            // Discard any number we can't parse as integers
-            if (Number.isNaN(val)) {
-                event.preventDefault()
-            }
+        const val = Number.parseInt(pasteVal, 10)
+        // Discard any number we can't parse as integers
+        if (Number.isNaN(val)) {
+            event.preventDefault()
         }
     }
 
