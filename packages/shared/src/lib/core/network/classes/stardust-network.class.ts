@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { get } from 'svelte/store'
-
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
-
-import { EvmNetworkType, NetworkNamespace } from '../enums'
+import { NetworkNamespace } from '../enums'
 import { IEvmNetwork, IIscpEvmNetworkConfiguration, INetworkStatus, IStardustNetwork } from '../interfaces'
 import { networkStatus } from '../stores'
 import { EvmNetworkConfiguration, NetworkId, NetworkMetadata, StardustNetworkId } from '../types'

@@ -9,7 +9,7 @@ import {
 import { stopPollingLedgerDeviceState } from '@core/ledger/actions'
 import { isPollingLedgerDeviceState } from '@core/ledger/stores'
 import { clearMarketPricesPoll } from '@core/market/actions'
-import { clearChainStatusesPoll, clearNetworkPoll } from '@core/network/actions'
+import { clearEvmNetworkStatusesPoll, clearNetworkPoll } from '@core/network/actions'
 import { stopDownloadingNftMediaFromQueue } from '@core/nfts/actions'
 import { lockStronghold, resetActiveProfile } from '@core/profile/actions'
 import { activeAccounts, activeProfile, isSoftwareProfile, isDestroyingManager } from '@core/profile/stores'
@@ -42,7 +42,7 @@ export function logout(clearActiveProfile = true, _lockStronghold = true): void 
 
     clearNetworkPoll()
     clearLayer2Balance()
-    clearChainStatusesPoll()
+    clearEvmNetworkStatusesPoll()
     clearMarketPricesPoll()
     clearAccountNfts()
     clearAccountActivities()

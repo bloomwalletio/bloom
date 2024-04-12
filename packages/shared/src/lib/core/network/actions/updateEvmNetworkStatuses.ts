@@ -1,8 +1,8 @@
 import { NetworkHealth } from '../enums'
-import { IChainStatus } from '../interfaces'
-import { chainStatuses, getEvmNetworks } from '../stores'
+import { IEvmNetworkStatus } from '../interfaces'
+import { evmNetworkStatuses, getEvmNetworks } from '../stores'
 
-export async function updateChainStatuses(): Promise<void> {
+export async function updateEvmNetworkStatuses(): Promise<void> {
     const networks = getEvmNetworks()
     /**
      * CAUTION: It may become problematic when a profile contains
@@ -11,7 +11,7 @@ export async function updateChainStatuses(): Promise<void> {
      */
     await Promise.all(
         networks.map(async (evmNetwork) => {
-            let networkStatus: IChainStatus
+            let networkStatus: IEvmNetworkStatus
             try {
                 await evmNetwork.getLatestBlock()
                 networkStatus = { health: NetworkHealth.Operational }
@@ -19,7 +19,10 @@ export async function updateChainStatuses(): Promise<void> {
                 networkStatus = { health: NetworkHealth.Disconnected }
             }
 
-            chainStatuses.update((_chainStatuses) => ({ ..._chainStatuses, [evmNetwork.id]: networkStatus }))
+            evmNetworkStatuses.update((_evmNetworkStatuses) => ({
+                ..._evmNetworkStatuses,
+                [evmNetwork.id]: networkStatus,
+            }))
         })
     )
 }

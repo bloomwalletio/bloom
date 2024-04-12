@@ -8,7 +8,7 @@ import {
 import { TokenStandard } from '@core/token/enums'
 import { INodeInfoResponse, IPersistedNetwork } from '../interfaces'
 import { NetworkNamespace } from '../enums'
-import { StardustNetworkId } from '..'
+import { StardustNetworkId } from '../types'
 
 export function buildPersistedNetworkFromNodeInfoResponse(
     nodeInfoResponse: INodeInfoResponse,

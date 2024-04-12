@@ -41,7 +41,7 @@
     } else if (
         selectedToken &&
         isStardustNetwork(selectedToken.networkId) &&
-        !canAccountMakeStardustTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)
+        !canAccountMakeStardustTransaction($selectedAccountIndex, $sendFlowParameters?.type)
     ) {
         tokenError = localize('error.send.insufficientFundsTransaction')
     } else {

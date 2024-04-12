@@ -5,7 +5,7 @@ import { ChainId, EvmNetworkId, NetworkNamespace } from '@core/network'
 export const shimmerEvmAddressToCoinGeckoIdMap: Readable<Record<string, string>> = derived(
     coinGeckoTokensMetadata,
     ($coinGeckoTokensMetadata) => {
-        const shimmerEvmNetworkId = `${NetworkNamespace.Evm}:${ChainId.ShimmerEvm}` as EvmNetworkId
+        const shimmerEvmNetworkId: EvmNetworkId = `${NetworkNamespace.Evm}:${ChainId.ShimmerEvm}`
         const shimmerEvmTokens = $coinGeckoTokensMetadata?.[shimmerEvmNetworkId] ?? {}
         const shimmerEvmTokensAddresses = Object.entries(shimmerEvmTokens ?? {}).reduce(
             (acc, [tokenAddress, token]) => {

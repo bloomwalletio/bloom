@@ -70,9 +70,9 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
 }
 
 function buildPersistedNetworkFromThirdPartyPersistedNetwork(network: IThirdPartyPersistedNetwork): IPersistedNetwork {
-    const networkId =
+    const networkId: StardustNetworkId =
         NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP[network.protocol.networkName] ??
-        (`${NetworkNamespace.Stardust}:${network.protocol.networkName}` as StardustNetworkId)
+        `${NetworkNamespace.Stardust}:${network.protocol.networkName}`
     const defaultChainConfigurations = structuredClone(DEFAULT_EVM_NETWORK_CONFIGURATIONS?.[networkId])
 
     return {

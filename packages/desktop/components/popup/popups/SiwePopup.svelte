@@ -39,7 +39,7 @@
 
     let selectedTab = TABS[0]
     let isBusy = false
-    const networkId = `eip155:${siweObject.chainId}` as EvmNetworkId
+    const networkId: EvmNetworkId = `eip155:${siweObject.chainId}`
 
     async function onConfirmClick(): Promise<void> {
         try {
