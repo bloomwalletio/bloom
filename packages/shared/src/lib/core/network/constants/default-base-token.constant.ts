@@ -1,7 +1,7 @@
-import { SupportedNetworkId } from '@core/network/constants'
 import { TokenStandard } from '@core/token/enums'
 import { IBaseToken } from '@core/token/interfaces'
 import { NetworkId } from '../types'
+import { SupportedNetworkId } from './supported-network-id.constant'
 
 const DEFAULT_IOTA_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,

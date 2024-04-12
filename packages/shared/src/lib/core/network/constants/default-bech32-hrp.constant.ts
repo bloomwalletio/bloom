@@ -1,5 +1,5 @@
-import { SupportedNetworkId } from '../constants'
 import { StardustNetworkId } from '../types'
+import { SupportedNetworkId } from './supported-network-id.constant'
 
 export const IOTA_BECH32_HRP = 'iota'
 export const SHIMMER_BECH32_HRP = 'smr'

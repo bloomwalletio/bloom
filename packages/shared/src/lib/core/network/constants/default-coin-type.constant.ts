@@ -1,5 +1,5 @@
-import { SupportedNetworkId } from '../constants'
 import { NetworkId } from '../types'
+import { SupportedNetworkId } from './supported-network-id.constant'
 
 export const IOTA_COIN_TYPE = 4218
 export const SHIMMER_COIN_TYPE = 4219
