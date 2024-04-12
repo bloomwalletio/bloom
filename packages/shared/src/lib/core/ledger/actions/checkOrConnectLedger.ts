@@ -2,7 +2,7 @@ import { openProfileAuthPopup, ProfileAuthPopupId } from '../../../../../../desk
 import { get } from 'svelte/store'
 import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '..'
 import { activeProfile } from '@core/profile/stores'
-import { SupportedNetworkId } from '@core/network/enums'
+import { SupportedNetworkId } from '@core/network/constants'
 
 export function checkOrConnectLedger(
     ledgerAppName: LedgerAppName = get(activeProfile)?.network?.id === SupportedNetworkId.Iota

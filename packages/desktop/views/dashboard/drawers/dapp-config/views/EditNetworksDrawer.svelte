@@ -11,10 +11,10 @@
     {drawerRouter}
     titleLocale="dapps.editNetworks"
     selections={{ chains: checkedNetworks }}
-    let:persistedNamespaces
+    let:persistedSupportedNamespaces
     let:requiredNamespaces
     let:optionalNamespaces
     disableContinue={checkedNetworks.length === 0}
 >
-    <NetworkSelection bind:checkedNetworks {requiredNamespaces} {optionalNamespaces} {persistedNamespaces} />
+    <NetworkSelection bind:checkedNetworks {requiredNamespaces} {optionalNamespaces} {persistedSupportedNamespaces} />
 </EditSelectionDrawer>

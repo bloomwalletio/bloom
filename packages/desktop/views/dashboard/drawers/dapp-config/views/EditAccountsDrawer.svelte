@@ -12,8 +12,8 @@
     {drawerRouter}
     titleLocale="dapps.editAccounts"
     selections={{ accounts: checkedAccounts }}
-    let:persistedNamespaces
+    let:persistedSupportedNamespaces
     disableContinue={checkedAccounts.length === 0}
 >
-    <AccountSelection bind:checkedAccounts {persistedNamespaces} />
+    <AccountSelection bind:checkedAccounts {persistedSupportedNamespaces} />
 </EditSelectionDrawer>

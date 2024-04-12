@@ -4,12 +4,12 @@ import { StardustActivity, IProcessedTransaction } from '../../types'
 import { OutputType, NftOutput } from '@iota/sdk/out/types'
 import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { ActivityAction } from '../../enums'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 
 export async function generateActivitiesFromNftOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): Promise<StardustActivity[]> {
     const outputs = processedTransaction.outputs
     const activities: StardustActivity[] = []

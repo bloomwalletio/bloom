@@ -11,7 +11,7 @@ import {
     IBlockscoutTokenInfoDto,
     IBlockscoutTransaction,
 } from '../interfaces'
-import { NetworkId } from '@core/network/types'
+import { EvmNetworkId } from '@core/network/types'
 import { BlockscoutTokenTransfer } from '../types'
 
 interface INextPageParams {
@@ -27,7 +27,7 @@ interface IPaginationResponse<T> {
 export type BlockscoutExitFunction<T> = (items: T[]) => boolean
 
 export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
-    constructor(networkId: NetworkId) {
+    constructor(networkId: EvmNetworkId) {
         const explorerBaseUrl = DEFAULT_EXPLORER_URLS[networkId] ?? ''
         super(explorerBaseUrl, 'api/v2')
     }

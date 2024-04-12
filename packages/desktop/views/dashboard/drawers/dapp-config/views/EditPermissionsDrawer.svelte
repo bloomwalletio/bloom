@@ -11,10 +11,10 @@
     {drawerRouter}
     titleLocale="dapps.editPermissions"
     selections={{ methods: checkedMethods }}
-    let:persistedNamespaces
+    let:persistedSupportedNamespaces
     let:requiredNamespaces
     let:optionalNamespaces
     disableContinue={checkedMethods.length === 0}
 >
-    <PermissionSelection bind:checkedMethods {requiredNamespaces} {optionalNamespaces} {persistedNamespaces} />
+    <PermissionSelection bind:checkedMethods {requiredNamespaces} {optionalNamespaces} {persistedSupportedNamespaces} />
 </EditSelectionDrawer>

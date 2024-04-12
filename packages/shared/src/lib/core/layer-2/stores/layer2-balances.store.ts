@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store'
-import { NetworkId } from '@core/network/types'
+import { EvmNetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { ILayer2ProfileBalances } from '../interfaces'
 import { Layer2AccountBalance } from '../types'
@@ -13,7 +13,7 @@ export function getLayer2AccountBalance(accountIndex: number): Layer2AccountBala
 
 export function getLayer2AccountBalanceForToken(
     accountIndex: number,
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     tokenId: string = BASE_TOKEN_ID
 ): bigint {
     const layer2TokenBalance = get(layer2Balances)?.[accountIndex]?.[networkId]?.[tokenId]
@@ -22,7 +22,7 @@ export function getLayer2AccountBalanceForToken(
 
 export function setLayer2AccountBalanceForChain(
     accountIndex: number,
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     chainBalance: { [tokenId: string]: bigint }
 ): void {
     layer2Balances.update((balance) => {
@@ -39,7 +39,7 @@ export function setLayer2AccountBalanceForChain(
 
 export function updateLayer2AccountBalanceForTokenOnChain(
     accountIndex: number,
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     tokenId: string,
     delta: bigint
 ): bigint {
