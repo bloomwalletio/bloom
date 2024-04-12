@@ -23,6 +23,7 @@ function observeStyleChanges(targetNode: Element): void {
 
     const fallbackTimeout = setTimeout(() => {
         observer.disconnect()
+        void ipcRenderer.invoke('transak-loaded')
     }, 5000)
 }
 
