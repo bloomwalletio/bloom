@@ -46,15 +46,16 @@
 </script>
 
 <VirtualList items={nftChunks} let:item itemHeight={rowDivHeight}>
-    <div bind:this={rowDivElement} class="flex gap-3 pb-3 2xl:gap-4 2xl:pb-4">
+    <div
+        bind:this={rowDivElement}
+        class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 2xl:gap-4 pb-3 2xl:pb-4"
+    >
         {#each item as nft}
-            <div class="flex-1">
-                {#if nft}
-                    <NftGalleryItem {nft} />
-                {:else}
-                    <div />
-                {/if}
-            </div>
+            {#if nft}
+                <NftGalleryItem {nft} />
+            {:else}
+                <div />
+            {/if}
         {/each}
     </div>
 </VirtualList>
