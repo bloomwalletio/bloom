@@ -108,7 +108,7 @@
                 <div class="flex w-full justify-center" style:max-width={maxWidth}>
                     <AmountInput
                         bind:inputElement={amountInputElement}
-                        bind:amount={inputtedAmount}
+                        bind:value={inputtedAmount}
                         maxDecimals={allowedDecimals}
                         maxlength={maxLength}
                         {fontSize}
