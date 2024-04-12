@@ -11,7 +11,7 @@
     } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { AmountInput } from '@ui'
-    import { Error, Text } from '@bloomwalletio/ui'
+    import { Error as ErrorComponent, Text } from '@bloomwalletio/ui'
 
     export let token: ITokenWithBalance | undefined =
         $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
@@ -23,10 +23,12 @@
             ? formatTokenAmountBestMatch(rawAmount, token.metadata, { withUnit: false, round: false })
             : undefined
 
-    let amountInputElement: HTMLInputElement | undefined
+    type InputFontSize = 'text-32' | 'text-48' | 'text-64'
+
+    let inputElement: HTMLInputElement | undefined
     let error: string | undefined
     let inputLength = 0
-    let fontSize: string
+    let fontSize: InputFontSize
     let maxLength = 0
 
     $: inputtedAmount,
@@ -73,7 +75,7 @@
         )
     }
 
-    function getFontSizeForInputLength(): string {
+    function getFontSizeForInputLength(): InputFontSize {
         if (inputLength < 10) {
             return 'text-64'
         } else if (inputLength < 14) {
@@ -96,35 +98,34 @@
     }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="flex flex-col items-center w-full" on:click={() => amountInputElement?.focus()}>
+<token-amount-input class="flex flex-col items-center w-full">
     <div class="w-full flex flex-col items-center space-y-1">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
-            class="cursor-text w-full flex rounded-lg justify-center
-                {error ? 'border-red-300 hover:border-red-500' : 'border-stroke dark:border-stroke-dark'}"
+            on:click={() => inputElement?.focus()}
+            class="flex flex-row justify-center items-end w-full
+                gap-0.5 cursor-text rounded-lg border border-solid
+                {error ? 'border-danger' : 'focus-within:border-brand border-stroke dark:border-stroke-dark'}"
         >
-            <div class="flex flex-row items-end space-x-0.5">
-                <div class="flex w-full justify-center" style:max-width={maxWidth}>
-                    <AmountInput
-                        bind:inputElement={amountInputElement}
-                        bind:value={inputtedAmount}
-                        maxDecimals={allowedDecimals}
-                        maxlength={maxLength}
-                        {fontSize}
-                        autofocus
-                    />
-                </div>
-                <Text class={inputLength < 14 ? 'py-4' : 'py-2'}>
-                    {unit}
-                </Text>
-            </div>
+            <AmountInput
+                bind:inputElement
+                bind:value={inputtedAmount}
+                maxDecimals={allowedDecimals}
+                maxlength={maxLength}
+                {fontSize}
+                {maxWidth}
+                autofocus
+            />
+            <Text class={inputLength < 14 ? 'py-4' : 'py-2'}>
+                {unit}
+            </Text>
         </div>
         {#if error}
-            <Error {error} />
+            <ErrorComponent {error} />
         {/if}
     </div>
     <Text textColor="secondary">
         {formatCurrency(fiatAmount) || '--'}
     </Text>
-</div>
+</token-amount-input>

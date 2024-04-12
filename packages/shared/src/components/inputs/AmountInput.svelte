@@ -6,6 +6,7 @@
     export let value: string = ''
     export let maxlength: number = 0
     export let maxDecimals: number = 0
+    export let maxWidth: string | undefined = undefined
     export let disabled = false
     export let autofocus = false
     export let inputElement: HTMLInputElement | undefined = undefined
@@ -22,6 +23,10 @@
     }
 
     function onKeyPress(event: KeyboardEvent): void {
+        if (event.key === 'Enter') {
+            return
+        }
+
         if (!isValidInput(event.key)) {
             event.preventDefault()
             return
@@ -120,6 +125,7 @@
     on:paste={onPaste}
     on:focus
     on:blur
+    style:max-width={maxWidth}
     {disabled}
     {maxlength}
     type="text"

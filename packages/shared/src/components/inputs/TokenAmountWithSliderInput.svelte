@@ -3,19 +3,18 @@
     import { ITokenWithBalance, convertToRawAmount, formatTokenAmountBestMatch } from '@core/token'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
     import { AmountInput, SliderInput, TokenLabel } from '@ui'
-    import { Error, Text } from '@bloomwalletio/ui'
+    import { Error as ErrorComponent, Text } from '@bloomwalletio/ui'
 
     export let disabled = false
     export let votingPower: bigint = BigInt(0)
     export let token: ITokenWithBalance
     export let rawAmount: bigint = BigInt(0)
-
     export let inputtedAmount: string | undefined = '0'
 
-    let amountInputElement: HTMLInputElement
+    let inputElement: HTMLInputElement
     let error: string
 
-    $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token?.metadata)
+    $: allowedDecimals = token?.metadata ? getMaxDecimalsFromTokenMetadata(token.metadata) : 0
     $: availableBalance = (token.balance.available ?? BigInt(0)) + votingPower
     $: inputtedAmount, (error = '')
     $: inputtedAmount = getTokenAmount(rawAmount)
@@ -30,7 +29,7 @@
     function setRawAmountIfInputMismatch(inputtedAmount: string | undefined): void {
         const formattedAmount = getTokenAmount(rawAmount)
         if (inputtedAmount && inputtedAmount !== formattedAmount) {
-            rawAmount = convertToRawAmount(inputtedAmount, token?.metadata) ?? BigInt(0)
+            rawAmount = token?.metadata ? convertToRawAmount(inputtedAmount, token?.metadata) ?? BigInt(0) : BigInt(0)
         }
     }
 
@@ -62,18 +61,14 @@
     }
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="w-full flex flex-col space-y-1">
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div
-        on:click={() => amountInputElement?.focus()}
-        class="cursor-text w-full flex flex-col rounded-lg focus-within:border-brand
-            {error ? 'border-danger' : 'border-stroke dark:border-stroke-dark'}"
-    >
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div on:click={() => inputElement?.focus()} class="cursor-text w-full flex flex-col rounded-lg">
         <div class="flex flex-row w-full items-center space-x-2 relative">
             <TokenLabel {token} />
             <AmountInput
-                bind:inputElement={amountInputElement}
+                bind:inputElement
                 bind:value={inputtedAmount}
                 maxDecimals={allowedDecimals}
                 {disabled}
@@ -91,6 +86,6 @@
         </div>
     </div>
     {#if error}
-        <Error {error} />
+        <ErrorComponent {error} />
     {/if}
 </div>
