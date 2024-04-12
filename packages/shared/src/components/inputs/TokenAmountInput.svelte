@@ -101,17 +101,16 @@
 <div class="flex flex-col items-center w-full" on:click={() => amountInputElement?.focus()}>
     <div class="w-full flex flex-col items-center space-y-1">
         <div
-            class="cursor-text w-full flex rounded-lg items-center
+            class="cursor-text w-full flex rounded-lg justify-center
                 {error ? 'border-red-300 hover:border-red-500' : 'border-stroke dark:border-stroke-dark'}"
         >
             <div class="flex flex-row items-end space-x-0.5">
-                <div class="flex w-full items-center" style:max-width={maxWidth}>
+                <div class="flex w-full justify-center" style:max-width={maxWidth}>
                     <AmountInput
                         bind:inputElement={amountInputElement}
                         bind:amount={inputtedAmount}
                         maxDecimals={allowedDecimals}
                         maxlength={maxLength}
-                        integer={allowedDecimals === 0}
                         {fontSize}
                         autofocus
                     />
