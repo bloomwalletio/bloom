@@ -1,5 +1,4 @@
 export * from './disconnectAllDapps'
-export * from './getAllEvmAddresses'
 export * from './getBloomError'
 export * from './getPermissionForMethod'
 export * from './rejectSession'

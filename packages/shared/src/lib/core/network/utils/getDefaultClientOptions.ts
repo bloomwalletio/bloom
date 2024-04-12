@@ -1,8 +1,8 @@
 import { IClientOptions } from '../interfaces'
-import { NetworkId } from '../types'
+import { StardustNetworkId } from '../types'
 import { getDefaultNodes } from './getDefaultNodes'
 
-export function getDefaultClientOptions(networkId: NetworkId): IClientOptions {
+export function getDefaultClientOptions(networkId: StardustNetworkId): IClientOptions {
     const nodes = getDefaultNodes(networkId)
     return { nodes }
 }

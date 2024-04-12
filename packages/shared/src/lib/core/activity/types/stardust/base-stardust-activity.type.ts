@@ -1,7 +1,7 @@
 import { StardustActivityAsyncStatus } from '../../enums'
 import { SmartContract } from '@core/layer-2'
 import { BaseActivity } from '../base-activity.type'
-import { NetworkNamespace } from '@core/network'
+import { NetworkNamespace, StardustNetworkId } from '@core/network'
 
 export type BaseStardustActivity = BaseActivity & {
     namespace: NetworkNamespace.Stardust
@@ -21,6 +21,7 @@ export type BaseStardustActivity = BaseActivity & {
         tokenId: string
     }
 
+    sourceNetworkId: StardustNetworkId
     // smart contract information
     // TODO: move to separate type
     smartContract?: SmartContract

@@ -7,7 +7,7 @@
     import { signMessage } from '@core/wallet/actions'
     import { Table, Tabs, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { IEvmNetwork, NetworkId, getNameFromNetworkId } from '@core/network'
+    import { IEvmNetwork, EvmNetworkId, getNameFromNetworkId } from '@core/network'
     import { AccountLabel, DappInfo, KeyValue, NetworkLabel } from '@ui'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
@@ -39,7 +39,7 @@
 
     let selectedTab = TABS[0]
     let isBusy = false
-    const networkId = `eip155:${siweObject.chainId}` as NetworkId
+    const networkId: EvmNetworkId = `eip155:${siweObject.chainId}`
 
     async function onConfirmClick(): Promise<void> {
         try {

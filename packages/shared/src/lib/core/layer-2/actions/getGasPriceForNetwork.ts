@@ -1,8 +1,8 @@
 import { getEvmNetwork } from '@core/network'
-import { NetworkId } from '@core/network/types'
+import { EvmNetworkId } from '@core/network/types'
 import { Converter } from '@core/utils'
 
-export async function getGasPriceForNetwork(networkId: NetworkId): Promise<string | undefined> {
+export async function getGasPriceForNetwork(networkId: EvmNetworkId): Promise<string | undefined> {
     const evmNetwork = getEvmNetwork(networkId)
     if (!evmNetwork) {
         return undefined

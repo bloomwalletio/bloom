@@ -3,12 +3,12 @@ import { IAccountState } from '@core/account'
 import { StardustActivity, IProcessedTransaction } from '../../types'
 import { generateSingleFoundryActivity } from './generateSingleFoundryActivity'
 import { ActivityAction } from '../../enums'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 
 export async function generateActivitiesFromFoundryOutputs(
     processedTransaction: IProcessedTransaction,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): Promise<StardustActivity[]> {
     const outputs = processedTransaction.outputs
     const activities: StardustActivity[] = []

@@ -1,13 +1,13 @@
 import { NETWORK_STATUSES_POLL_INTERVAL } from '../constants'
-import { updateChainStatuses } from './updateChainStatuses'
+import { updateEvmNetworkStatuses } from './updateEvmNetworkStatuses'
 
 let pollInterval: number
 
-export async function pollChainStatuses(): Promise<void> {
-    await updateChainStatuses()
-    pollInterval = window.setInterval(() => void updateChainStatuses(), NETWORK_STATUSES_POLL_INTERVAL)
+export async function pollEvmNetworkStatuses(): Promise<void> {
+    await updateEvmNetworkStatuses()
+    pollInterval = window.setInterval(() => void updateEvmNetworkStatuses(), NETWORK_STATUSES_POLL_INTERVAL)
 }
 
-export function clearChainStatusesPoll(): void {
+export function clearEvmNetworkStatusesPoll(): void {
     clearInterval(pollInterval)
 }

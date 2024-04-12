@@ -11,7 +11,7 @@
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
     import features from '@features/features'
     import { login } from '@core/profile/actions'
-    import { StardustNetworkId } from '@core/network'
+    import { SupportedStardustNetworkId } from '@core/network'
     import { handleError } from '@core/error/handlers'
     import { onMount } from 'svelte'
 
@@ -19,7 +19,8 @@
 
     let isAppSetup = false
 
-    $: appName = $onboardingProfile?.network?.id === StardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+    $: appName =
+        $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
 
     async function onContinueClick(): Promise<void> {
         try {

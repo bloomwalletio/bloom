@@ -1,5 +1,5 @@
 import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
-import { IEvmNetwork, NetworkId } from '@core/network'
+import { IEvmNetwork, EvmNetworkId } from '@core/network'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { getEvmTokenMetadata } from '@core/layer-2'
 import { getSdkError } from '@walletconnect/utils'
@@ -63,7 +63,7 @@ export function handleWatchAsset(
     })
 }
 
-async function trackAsset(params: WatchAssetParams, networkId: NetworkId): Promise<void> {
+async function trackAsset(params: WatchAssetParams, networkId: EvmNetworkId): Promise<void> {
     const { type, options } = params
     switch (type) {
         case TokenStandard.Erc20: {

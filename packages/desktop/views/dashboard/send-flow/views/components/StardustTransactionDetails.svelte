@@ -9,7 +9,7 @@
     import { DateTimePickerMenu } from '.'
     import StorageDepositButton from './StorageDepositButton.svelte'
 
-    export let destinationNetworkId: NetworkId = undefined
+    export let destinationNetworkId: NetworkId | undefined = undefined
     export let storageDeposit: bigint | undefined = undefined
     export let transactionFee: bigint | undefined = undefined
     export let giftStorageDeposit: boolean | undefined = undefined

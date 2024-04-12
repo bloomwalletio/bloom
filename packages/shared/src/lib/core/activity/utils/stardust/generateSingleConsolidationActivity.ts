@@ -3,12 +3,12 @@ import { IWrappedOutput } from '@core/wallet/interfaces'
 import { OutputType } from '@iota/sdk/out/types'
 import { StardustActivityType } from '../../enums'
 import { StardustConsolidationActivity, IActivityGenerationParameters } from '../../types'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 import { generateBaseActivity } from './generateBaseActivity'
 
 export async function generateSingleConsolidationActivity(
     account: IAccountState,
-    networkId: NetworkId,
+    networkId: StardustNetworkId,
     generationParameters: IActivityGenerationParameters
 ): Promise<StardustConsolidationActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)

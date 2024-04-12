@@ -1,4 +1,4 @@
-import { NetworkId } from '@core/network'
+import { EvmNetworkId } from '@core/network'
 import { ActivityDirection } from '../../enums'
 import { EvmBalanceChangeActivity, INftBalanceChange } from '../../types'
 import { IAccountState } from '@core/account'
@@ -6,7 +6,7 @@ import { generateEvmBalanceChangeActivity } from './generateEvmBalanceChangeActi
 import { NftStandard } from '@core/nfts'
 
 export function generateEvmNftBalanceChangeActivity(
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     nftId: string,
     balanceChange: INftBalanceChange,
     account: IAccountState
