@@ -1,5 +1,5 @@
-import { DEFAULT_BASE_TOKEN, DEFAULT_COIN_TYPE, DEFAULT_PROTOCOL } from '../constants'
-import { NetworkNamespace, StardustNetworkName, SupportedNetworkId } from '../enums'
+import { DEFAULT_BASE_TOKEN, DEFAULT_COIN_TYPE, DEFAULT_PROTOCOL, SupportedNetworkId } from '../constants'
+import { NetworkNamespace, StardustNetworkName } from '../enums'
 import { IStardustNetworkMetadata } from '../interfaces'
 import { NetworkMetadata, StardustNetworkId } from '../types'
 

@@ -1,7 +1,7 @@
 import { EvmNetworkId, StardustNetworkId } from '../types'
-import { ChainId } from './chain-id.enum'
-import { NetworkNamespace } from './network-namespace.enum'
-import { StardustNetworkName } from './stardust-network-name.enum'
+import { ChainId } from '../enums/chain-id.enum'
+import { NetworkNamespace } from '../enums/network-namespace.enum'
+import { StardustNetworkName } from '../enums/stardust-network-name.enum'
 
 export const SupportedStardustNetworkId: Record<string, StardustNetworkId> = {
     Iota: `${NetworkNamespace.Stardust}:${StardustNetworkName.Iota}`,

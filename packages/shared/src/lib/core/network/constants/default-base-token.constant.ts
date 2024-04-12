@@ -1,4 +1,4 @@
-import { SupportedNetworkId } from '@core/network/enums'
+import { SupportedNetworkId } from '@core/network/constants'
 import { TokenStandard } from '@core/token/enums'
 import { IBaseToken } from '@core/token/interfaces'
 import { NetworkId } from '../types'

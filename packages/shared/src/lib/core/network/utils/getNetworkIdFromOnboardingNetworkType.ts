@@ -1,5 +1,5 @@
 import { OnboardingNetworkType } from '@contexts/onboarding/enums/onboarding-network-type.enum'
-import { SupportedStardustNetworkId } from '../enums'
+import { SupportedStardustNetworkId } from '../constants'
 import { StardustNetworkId } from '../types'
 
 export function getNetworkIdFromOnboardingNetworkType(

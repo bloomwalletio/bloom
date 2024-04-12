@@ -15,7 +15,7 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onDestroy } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { SupportedStardustNetworkId } from '@core/network/enums'
+    import { SupportedStardustNetworkId } from '@core/network/constants'
     import { ledgerRaceConditionProtectionWrapper } from '@core/ledger'
     import { StardustNetworkId } from '@core/network/types'
 

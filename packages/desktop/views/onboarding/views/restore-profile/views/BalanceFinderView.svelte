@@ -5,7 +5,7 @@
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { localize } from '@core/i18n'
     import { LedgerAppName, checkOrConnectLedger, ledgerRaceConditionProtectionWrapper } from '@core/ledger'
-    import { SupportedStardustNetworkId } from '@core/network/enums'
+    import { SupportedStardustNetworkId } from '@core/network/constants'
     import { NetworkId } from '@core/network/types'
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'

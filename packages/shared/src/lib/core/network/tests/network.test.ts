@@ -1,5 +1,5 @@
 import { INode } from '@iota/sdk/out/types'
-import { SupportedNetworkId } from '../enums'
+import { SupportedNetworkId } from '../constants'
 import { NetworkId } from '../types'
 import { getDefaultNodes, isSupportedNetworkId } from '../utils'
 

@@ -1,4 +1,4 @@
-import { SupportedStardustNetworkId } from '../enums'
+import { SupportedStardustNetworkId } from '../constants'
 import { NetworkId } from '../types'
 
 export function getExplorerApiNetworkName(networkId: NetworkId): string {

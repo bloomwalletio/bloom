@@ -1,4 +1,4 @@
-import { SupportedNetworkId } from '../enums'
+import { SupportedNetworkId } from '../constants'
 import { StardustNetworkId } from '../types'
 
 export const IOTA_BECH32_HRP = 'iota'

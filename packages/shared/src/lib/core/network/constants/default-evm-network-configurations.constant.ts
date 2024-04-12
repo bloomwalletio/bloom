@@ -1,5 +1,5 @@
-import { DEFAULT_COIN_TYPE } from '../constants'
-import { EvmNetworkType, NetworkNamespace, SupportedNetworkId, ChainId } from '../enums'
+import { DEFAULT_COIN_TYPE, SupportedNetworkId } from '../constants'
+import { EvmNetworkType, NetworkNamespace, ChainId } from '../enums'
 import { IIscpEvmNetworkConfiguration } from '../interfaces'
 import { EvmNetworkConfiguration, StardustNetworkId } from '../types'
 

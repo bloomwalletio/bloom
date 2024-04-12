@@ -1,7 +1,8 @@
-import { StardustNetworkName, SupportedNetworkId, TokenSupply } from '@core/network/enums'
+import { StardustNetworkName, TokenSupply } from '../enums'
 import { IProtocol } from '../interfaces'
+import { StardustNetworkId } from '../types'
 import { DEFAULT_BECH32_HRP } from './default-bech32-hrp.constant'
-import { StardustNetworkId } from '..'
+import { SupportedNetworkId } from './supported-network-id.constant'
 
 const DEFAULT_IOTA_PROTOCOL: IProtocol = {
     version: 2,
