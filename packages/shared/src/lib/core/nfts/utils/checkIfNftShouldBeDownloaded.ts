@@ -34,16 +34,19 @@ export async function checkIfNftShouldBeDownloaded(
         }
 
         const nftSettings = getActiveProfile()?.settings?.nfts ?? {}
-        if (nftSettings.downloadPermissions === DownloadPermission.None) {
-            downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
-            return { shouldDownload: false, isLoaded: false, downloadMetadata }
-        } else if (nftSettings.downloadPermissions === DownloadPermission.AllExceptDenylist) {
-            // TODO: Implement deny list
+
+        // TODO: Implement deny list
+        if (
+            nftSettings.downloadPermissions === DownloadPermission.None ||
+            nftSettings.downloadPermissions === DownloadPermission.AllExceptDenylist
+        ) {
             downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         } else if (nftSettings.downloadPermissions === DownloadPermission.AllowListOnly) {
-            // TODO: Implement allow list
-            const startsWithAllowedGateways = IPFS_GATEWAYS.some((gateway) => nft.composedUrl?.startsWith(gateway))
+            // TODO: Implement allow list, currently only IPFS gateways are allowed
+            const allowList = IPFS_GATEWAYS
+
+            const startsWithAllowedGateways = allowList.some((gateway) => nft.composedUrl?.startsWith(gateway))
             if (!startsWithAllowedGateways) {
                 downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
                 return { shouldDownload: false, isLoaded: false, downloadMetadata }
