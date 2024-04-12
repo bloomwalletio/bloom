@@ -62,10 +62,12 @@
         optionalNamespaces: ProposalTypes.OptionalNamespaces,
         _persistedNamespaces?: IPersistedNamespaces
     ): boolean {
-        if (!_persistedNamespaces || !$sessionProposal) return true
+        if (!_persistedNamespaces || !$sessionProposal) {
+            return true
+        }
 
-        const didRequiredChange = deepEquals(_persistedNamespaces.required, requiredNamespaces)
-        const didOptionalChange = deepEquals(_persistedNamespaces.optional, optionalNamespaces)
+        const didRequiredChange = !deepEquals(_persistedNamespaces.required, requiredNamespaces)
+        const didOptionalChange = !deepEquals(_persistedNamespaces.optional, optionalNamespaces)
         return didRequiredChange || didOptionalChange
     }
 
@@ -87,7 +89,9 @@
     }
 
     async function onConfirmClick(): Promise<void> {
-        if (!$sessionProposal) return
+        if (!$sessionProposal) {
+            return
+        }
 
         try {
             loading = true
@@ -126,7 +130,7 @@
             <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
 
             <div class="px-6 flex-grow overflow-hidden">
-                {#if isPreferenceSelectionRequired && persistedNamespaces}
+                {#if persistedNamespaces && !isPreferenceSelectionRequired}
                     <div class="h-full overflow-scroll">
                         <ConnectionSummary
                             {requiredNamespaces}

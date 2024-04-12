@@ -3,17 +3,12 @@ import { Writable, get } from 'svelte/store'
 import { SupportedNamespaces } from '../types'
 import { getActiveProfile } from '@core/profile/stores'
 import { ProposalTypes } from '@walletconnect/types'
+import { IPersistedNamespaces } from '../interface'
 
 interface IPersistedNamespacesStore {
     [profileId: string]: {
         [dappOriginUrl: string]: IPersistedNamespaces
     }
-}
-
-export interface IPersistedNamespaces {
-    supported: SupportedNamespaces
-    required: ProposalTypes.RequiredNamespaces
-    optional: ProposalTypes.OptionalNamespaces
 }
 
 export const persistedDappNamespaces: Writable<IPersistedNamespacesStore> = persistent('persistedDappNamespaces', {})
