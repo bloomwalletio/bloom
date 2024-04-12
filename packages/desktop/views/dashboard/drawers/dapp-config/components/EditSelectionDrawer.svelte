@@ -5,14 +5,14 @@
     import { Router } from '@core/router'
     import {
         getPersistedDappNamespacesForDapp,
-        persistDappNamespacesForDapp,
+        updateSupportedDappNamespacesForDapp,
         selectedDapp,
         sessionProposal,
     } from '@auxiliary/wallet-connect/stores'
     import { onMount } from 'svelte'
     import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
     import { updateSession } from '@auxiliary/wallet-connect/utils'
-    import { ISelections } from '@auxiliary/wallet-connect/interface'
+    import { IDappMetadata, ISelections } from '@auxiliary/wallet-connect/interface'
     import { DappInfo } from '@ui'
 
     export let drawerRouter: Router<unknown>
@@ -20,19 +20,23 @@
     export let titleLocale: string
     export let disableContinue: boolean
 
-    $: dappMetadata = $selectedDapp?.metadata ?? $sessionProposal?.params.proposer.metadata
-    $: persistedNamespaces = dappMetadata ? getPersistedDappNamespacesForDapp(dappMetadata.url) : undefined
-    $: requiredNamespaces = $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces
-    $: optionalNamespaces = $selectedDapp?.session?.optionalNamespaces ?? $sessionProposal?.params.optionalNamespaces
+    $: dappMetadata = $selectedDapp?.metadata ?? ($sessionProposal?.params.proposer.metadata as IDappMetadata)
+    $: persistedSupportedNamespaces = dappMetadata
+        ? getPersistedDappNamespacesForDapp(dappMetadata.url)?.supported
+        : undefined
+    $: requiredNamespaces =
+        $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces ?? {}
+    $: optionalNamespaces =
+        $selectedDapp?.session?.optionalNamespaces ?? $sessionProposal?.params.optionalNamespaces ?? {}
 
     function onConfirmClick(): void {
         const updatedNamespace = buildSupportedNamespacesFromSelections(
             selections,
             requiredNamespaces,
             optionalNamespaces,
-            persistedNamespaces
+            persistedSupportedNamespaces
         )
-        persistDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
+        updateSupportedDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
         if ($selectedDapp?.session) {
             updateSession($selectedDapp.session.topic, updatedNamespace)
         }
@@ -56,7 +60,7 @@
 
         <div class="p-6 flex-grow overflow-hidden">
             <div class="h-full flex flex-col gap-8 overflow-scroll">
-                <slot {persistedNamespaces} {requiredNamespaces} {optionalNamespaces} />
+                <slot {persistedSupportedNamespaces} {requiredNamespaces} {optionalNamespaces} />
             </div>
         </div>
     </div>
