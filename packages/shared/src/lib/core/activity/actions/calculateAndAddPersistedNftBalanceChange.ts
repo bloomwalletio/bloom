@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { NetworkId } from '@core/network'
+import { EvmNetworkId } from '@core/network'
 import { addAccountActivity, addPersistedNftBalanceChange, getBalanceChanges } from '../stores'
 import { INftBalanceChange } from '../types'
 import { generateEvmNftBalanceChangeActivity } from '../utils'
@@ -7,7 +7,7 @@ import { generateEvmNftBalanceChangeActivity } from '../utils'
 export function calculateAndAddPersistedNftBalanceChange(
     profileId: string,
     account: IAccountState,
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     nftId: string,
     owned: boolean,
     hidden: boolean = false

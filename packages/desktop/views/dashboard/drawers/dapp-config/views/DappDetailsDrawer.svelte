@@ -8,13 +8,16 @@
     import { DappActionsMenu } from '@components/menus'
     import { ConnectionSummary } from '../components'
     import { DappInfo } from '@ui'
+    import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 
     export let drawerRouter: Router<unknown>
 
     const localeKey = 'views.dashboard.drawers.dapps.details'
-    const dapp = structuredClone($selectedDapp)
+    const dapp = structuredClone($selectedDapp) as IConnectedDapp
 
-    $: persistedNamespaces = dapp?.metadata ? getPersistedDappNamespacesForDapp(dapp?.metadata.url) : undefined
+    $: persistedSupportedNamespaces = dapp?.metadata
+        ? getPersistedDappNamespacesForDapp(dapp?.metadata.url)?.supported
+        : undefined
 
     onMount(() => {
         if (!$selectedDapp) {
@@ -29,21 +32,21 @@
         <DappActionsMenu {drawerRouter} {dapp} />
     </div>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
-        <DappInfo metadata={dapp?.metadata} />
+        <DappInfo metadata={dapp.metadata} />
 
         <div class="flex-grow overflow-hidden">
             <div class="h-full space-y-6 overflow-scroll px-6 pb-4">
-                {#if dapp?.metadata?.description}
+                {#if dapp.metadata?.description}
                     <Table
                         items={[{ key: localize('general.description'), value: dapp.metadata.description }]}
                         orientation="vertical"
                     />
                 {/if}
-                {#if persistedNamespaces}
+                {#if persistedSupportedNamespaces}
                     <ConnectionSummary
                         requiredNamespaces={dapp.session?.requiredNamespaces}
                         editable={!!dapp.session}
-                        {persistedNamespaces}
+                        {persistedSupportedNamespaces}
                         {drawerRouter}
                     />
                 {/if}

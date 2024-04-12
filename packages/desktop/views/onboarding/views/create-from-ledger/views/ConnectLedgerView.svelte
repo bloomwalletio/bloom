@@ -6,13 +6,14 @@
     import { createFromLedgerRouter } from '..'
     import { CreateFromLedgerRoute } from '../create-from-ledger-route.enum'
     import { onboardingProfile } from '@contexts/onboarding'
-    import { StardustNetworkId } from '@core/network'
+    import { SupportedStardustNetworkId } from '@core/network'
 
     $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked
-    $: appName = $onboardingProfile?.network?.id === StardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+    $: appName =
+        $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
     $: isCorrectAppOpen =
-        $onboardingProfile?.network?.id === StardustNetworkId.Iota
+        $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota
             ? $ledgerConnectionState === LedgerConnectionState.IotaAppOpen
             : $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
 

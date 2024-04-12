@@ -23,7 +23,7 @@ import { validateWalletApiEvent } from '../../utils'
 import { checkOrConnectLedger } from '@core/ledger/actions'
 import { handleError } from '@core/error/handlers'
 import { sendOutput } from '@core/wallet/actions'
-import { SupportedNetworkId } from '@core/network/enums'
+import { SupportedNetworkId } from '@core/network/constants'
 
 export function handleTransactionProgressEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<TransactionProgressWalletEvent>(

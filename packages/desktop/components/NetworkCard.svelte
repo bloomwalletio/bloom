@@ -12,7 +12,7 @@
         Network,
         NetworkHealth,
         NetworkNamespace,
-        chainStatuses,
+        evmNetworkStatuses,
         getDefaultExplorerUrl,
         networkStatus,
         setSelectedChain,
@@ -31,7 +31,7 @@
     let status: NetworkHealth
     const explorer = getDefaultExplorerUrl(network.id, ExplorerEndpoint.Address)
 
-    $: $networkStatus, $chainStatuses, $selectedAccount, setNetworkCardData()
+    $: $networkStatus, $evmNetworkStatuses, $selectedAccount, setNetworkCardData()
 
     function onExplorerClick(): void {
         if (!explorer || !address) {

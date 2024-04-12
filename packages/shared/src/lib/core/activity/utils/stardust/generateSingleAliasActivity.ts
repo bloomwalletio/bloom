@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 import { api } from '@core/profile-manager'
 import { getNetworkHrp } from '@core/profile/actions'
 import { BASE_TOKEN_ID } from '@core/token'
@@ -14,7 +14,7 @@ import { SubjectType } from '@core/wallet/enums'
 
 export async function generateSingleAliasActivity(
     account: IAccountState,
-    networkId: NetworkId,
+    networkId: StardustNetworkId,
     generationParameters: IActivityGenerationParameters
 ): Promise<StardustAliasActivity> {
     const baseActivity = await generateBaseActivity(account, networkId, generationParameters)
