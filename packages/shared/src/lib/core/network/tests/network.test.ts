@@ -1,6 +1,6 @@
 import { INode } from '@iota/sdk/out/types'
-import { SupportedNetworkId } from '../constants'
-import { NetworkId } from '../types'
+import { SupportedNetworkId, SupportedStardustNetworkId } from '../constants'
+import { NetworkId, StardustNetworkId } from '../types'
 import { getDefaultNodes, isSupportedNetworkId } from '../utils'
 
 describe('File: network.ts', () => {
@@ -15,29 +15,25 @@ describe('File: network.ts', () => {
         }
     }
 
-    function _buildNodes(networkId: NetworkId): INode[] | undefined {
+    function _buildNodes(networkId: StardustNetworkId): INode[] | undefined {
         const nodes = (EXPECTED_NODE_URLS?.[networkId] ?? []).map((url) => _buildNode(url))
         return nodes?.filter((node) => node !== undefined) as INode[]
     }
 
-    const EXPECTED_NODE_URLS: Readonly<{ [key in NetworkId]?: string[] }> = {
+    const EXPECTED_NODE_URLS: Readonly<{ [key in StardustNetworkId]?: string[] }> = {
         [SupportedNetworkId.Iota]: ['https://api.stardust-mainnet.iotaledger.net', 'https://iota-node.tanglebay.com'],
         [SupportedNetworkId.Shimmer]: ['https://api.shimmer.network', 'https://shimmer-node.tanglebay.com'],
         [SupportedNetworkId.Testnet]: ['https://api.testnet.shimmer.network'],
     }
 
-    function getExpectedNodes(networkId: NetworkId): INode[] | undefined {
-        return _buildNodes(networkId)
-    }
-
     describe('Function: getDefaultNodes', () => {
         it('should return the correct official nodes given a valid network type', () => {
-            Object.values(SupportedNetworkId).forEach((networkId) => {
+            Object.values(SupportedStardustNetworkId).forEach((networkId) => {
                 expect(getDefaultNodes(networkId)).toEqual(_buildNodes(networkId))
             })
         })
         it('should return no official nodes given an invalid network type', () => {
-            expect(getDefaultNodes('undefined' as NetworkId)).toEqual([])
+            expect(getDefaultNodes('undefined' as StardustNetworkId)).toEqual([])
         })
     })
 
