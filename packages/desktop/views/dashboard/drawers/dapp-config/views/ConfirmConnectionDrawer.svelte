@@ -5,11 +5,7 @@
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { connectToDapp } from '@auxiliary/wallet-connect/actions'
-    import {
-        IPersistedNamespaces,
-        getPersistedDappNamespacesForDapp,
-        sessionProposal,
-    } from '@auxiliary/wallet-connect/stores'
+    import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
@@ -20,6 +16,7 @@
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { deepEquals } from '@core/utils/object'
     import { ProposalTypes } from '@walletconnect/types'
+    import { IPersistedNamespaces } from '@auxiliary/wallet-connect/interface'
 
     export let drawerRouter: Router<unknown>
 
