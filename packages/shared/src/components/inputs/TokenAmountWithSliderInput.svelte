@@ -62,9 +62,7 @@
 </script>
 
 <div class="w-full flex flex-col space-y-1">
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div on:click={() => inputElement?.focus()} class="cursor-text w-full flex flex-col rounded-lg">
+    <div class="cursor-text w-full flex flex-col rounded-lg">
         <div class="flex flex-row w-full items-center space-x-2 relative">
             <TokenLabel {token} />
             <AmountInput
