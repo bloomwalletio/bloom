@@ -35,9 +35,8 @@ export async function checkIfNftShouldBeDownloaded(
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
 
-        const nftSettings = getActiveProfile()?.settings?.nfts ?? {}
-
         if (!forceDownload) {
+            const nftSettings = getActiveProfile()?.settings?.nfts ?? {}
             // TODO: Implement deny list
             switch (nftSettings.downloadPermissions) {
                 case DownloadPermission.None:

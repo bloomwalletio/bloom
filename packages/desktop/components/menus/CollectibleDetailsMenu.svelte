@@ -37,7 +37,7 @@
             isLoaded: false,
             downloadMetadata: { ...nft.downloadMetadata, warning: undefined },
         })
-        addNftsToDownloadQueue([nft], true)
+        addNftsToDownloadQueue([nft], true, true)
         menu?.close()
     }
 
@@ -93,7 +93,7 @@
             {
                 icon: IconName.Image,
                 title: localize('views.collectibles.details.menu.loadMedia'),
-                disabled: !nft.composedUrl || nft.isLoaded,
+                disabled: !composeUrlFromNftUri(nft.mediaUrl) || nft.isLoaded,
                 onClick: onDownloadClick,
             },
             {

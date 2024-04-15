@@ -4,7 +4,11 @@ import { Nft } from '../interfaces'
 import { addNftToDownloadQueue, nftDownloadQueue, updatePersistedNft } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
 
-export async function addNftsToDownloadQueue(nfts: Nft[], forceDownload: boolean = false): Promise<void> {
+export async function addNftsToDownloadQueue(
+    nfts: Nft[],
+    alwaysValidate: boolean = false,
+    forceDownload: boolean = false
+): Promise<void> {
     if (nfts.length === 0) {
         return
     }
@@ -17,13 +21,11 @@ export async function addNftsToDownloadQueue(nfts: Nft[], forceDownload: boolean
         }
 
         const shouldDownloadNft = !nft.isLoaded && !nft.downloadMetadata?.error && !nft.downloadMetadata?.warning
-        if (shouldDownloadNft || forceDownload) {
+        if (alwaysValidate || shouldDownloadNft) {
             const nftToAdd = await validateNft(nft, forceDownload)
             if (nftToAdd) {
                 nftsToAdd.push(nftToAdd)
             }
-        } else {
-            continue
         }
     }
 
