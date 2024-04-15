@@ -648,6 +648,7 @@
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
+                    "loadMedia": "Load media in wallet",
                     "unsetPfp": "Unset NFT profile pic",
                     "view": "View media in browser",
                     "burn": "Burn NFT"

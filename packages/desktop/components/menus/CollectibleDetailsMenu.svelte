@@ -31,6 +31,10 @@
         menu?.close()
     }
 
+    function onDownloadClick(): void {
+        menu?.close()
+    }
+
     function openBurnNft(): void {
         openPopup({
             id: PopupId.Confirmation,
@@ -79,6 +83,12 @@
                 title: localize('views.collectibles.details.menu.view'),
                 disabled: !composeUrlFromNftUri(nft.mediaUrl),
                 onClick: onOpenMediaClick,
+            },
+            {
+                icon: IconName.Image,
+                title: localize('views.collectibles.details.menu.loadMedia'),
+                disabled: !nft.composedUrl || nft.isLoaded,
+                onClick: onDownloadClick,
             },
             {
                 icon: IconName.Trash,
