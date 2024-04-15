@@ -1,8 +1,10 @@
 import { INITIAL_ACTIVE_PROFILE } from '@core/profile/constants/initial-active-profile.constant'
 import { getActiveProfile, updateActiveProfile } from '@core/profile/stores/active-profile.store'
 import { ContactManager } from '../contact-manager.class'
+import { writable } from 'svelte/store'
 
 jest.mock('../../../profile/stores/active-profile.store', () => ({
+    activeProfile: jest.fn(() => writable<any>(<any>INITIAL_ACTIVE_PROFILE)),
     getActiveProfile: jest.fn(() => INITIAL_ACTIVE_PROFILE),
     updateActiveProfile: jest.fn(() => {}),
 }))

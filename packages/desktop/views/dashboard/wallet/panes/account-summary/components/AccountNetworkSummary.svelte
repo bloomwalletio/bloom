@@ -1,29 +1,41 @@
 <script lang="ts">
     import { AvatarGroup, Copyable, Text } from '@bloomwalletio/ui'
     import { FormattedBalance } from '@components'
-    import { selectedAccount } from '@core/account/stores'
-    import { localize } from '@core/i18n'
+    import { formatCurrency, localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { NetworkHealth, NetworkId, network, setSelectedChain } from '@core/network'
+    import { Network, NetworkHealth, NetworkNamespace, setSelectedChain } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { IAccountTokensPerNetwork } from '@core/token'
+    import { DashboardRoute, dashboardRouter } from '@core/router'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { NetworkAvatar, NetworkStatusIndicator, NftAvatar, TokenAvatar } from '@ui'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
+    import features from '@features/features'
+    import { handleError } from '@core/error/handlers'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { selectedAccountTokens } from '@core/token/stores'
+    import { ownedNfts } from '@core/nfts/stores'
+    import { getFiatValueFromTokenAmount } from '@core/market/actions'
 
-    export let networkId: NetworkId
-    export let name: string
-    export let health: NetworkHealth
-    export let address: string
-    export let tokenBalance: string
-    export let fiatBalance: string
-    export let tokens: IAccountTokensPerNetwork
-    export let nfts: Nft[]
+    export let network: Network
+    export let account: IAccountState
+
+    $: tokens = $selectedAccountTokens?.[network.id]
+    $: health = network.getStatus().health ?? NetworkHealth.Disconnected
+    $: nfts = $ownedNfts.filter((nft) => nft.networkId === network.id)
+    $: tokenBalance = formatTokenAmountBestMatch(
+        tokens?.baseCoin?.balance.total ?? BigInt(0),
+        tokens?.baseCoin?.metadata
+    )
+    $: fiatBalance =
+        formatCurrency(getFiatValueFromTokenAmount(BigInt(tokens?.baseCoin?.balance.total ?? 0), tokens?.baseCoin)) ??
+        ''
+    $: address = getAddressFromAccountForNetwork(account, network.id)
 
     $: hasTokens = tokens?.nativeTokens?.length > 0
     $: hasNfts = nfts?.length > 0
@@ -59,38 +71,43 @@
         )
     }
 
-    function onGenerateAddressClick(): void {
-        const chain = $network.getChain(networkId)
-        if (!chain) {
+    function onNftGroupClick(): void {
+        $dashboardRouter?.reset()
+        $dashboardRouter?.goTo(DashboardRoute.Collectibles)
+    }
+
+    async function onGenerateAddressClick(): Promise<void> {
+        if (network.namespace !== NetworkNamespace.Evm) {
             return
         }
-        checkActiveProfileAuth(
-            async () => {
-                await generateAndStoreEvmAddressForAccounts(
-                    $activeProfile.type,
-                    chain.getConfiguration().coinType,
-                    $selectedAccount
-                )
-                pollL2BalanceForAccount($activeProfile.id, $selectedAccount)
-                if ($activeProfile.type === ProfileType.Ledger) {
-                    setSelectedChain(chain)
-                    toggleDashboardDrawer({
-                        id: DashboardDrawerRoute.NetworkConfig,
-                        initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
-                    })
-                }
-            },
-            {},
-            LedgerAppName.Ethereum
-        )
+
+        try {
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
+        } catch (error) {
+            return
+        }
+
+        try {
+            await generateAndStoreEvmAddressForAccounts($activeProfile.type, network.coinType, account)
+            pollL2BalanceForAccount($activeProfile.id, account)
+            if ($activeProfile.type === ProfileType.Ledger) {
+                setSelectedChain(network)
+                toggleDashboardDrawer({
+                    id: DashboardDrawerRoute.NetworkConfig,
+                    initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
+                })
+            }
+        } catch (error) {
+            handleError(error)
+        }
     }
 </script>
 
 <account-network-summary class="h-full w-full flex flex-col justify-between">
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
-            <NetworkAvatar {networkId} />
-            <Text type="body2" lineClamp={1} class="text-ellipse overflow-hidden">{name}</Text>
+            <NetworkAvatar networkId={network.id} />
+            <Text type="body2" lineClamp={1} class="text-ellipse overflow-hidden">{network.name}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
             {#if address}
@@ -122,11 +139,16 @@
         </div>
         <div>
             {#if hasNfts}
-                <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
-                    {#each sortedNfts.slice(0, 4) as nft}
-                        <NftAvatar {nft} size="md" shape="square" />
-                    {/each}
-                </AvatarGroup>
+                <button
+                    on:click={() => onNftGroupClick()}
+                    disabled={!features?.collectibles?.enabled || !$activeProfile?.features?.collectibles}
+                >
+                    <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
+                        {#each sortedNfts.slice(0, 4) as nft}
+                            <NftAvatar {nft} size="md" shape="square" />
+                        {/each}
+                    </AvatarGroup>
+                </button>
             {/if}
         </div>
     </account-network-summary-assets>

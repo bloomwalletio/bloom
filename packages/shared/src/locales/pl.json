@@ -9,28 +9,28 @@
             },
             "importThirdPartyProfiles": {
                 "selectApps": {
-                    "onboardingTitle": "Third-party wallets found",
-                    "title": "Import from third-party apps",
-                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
-                    "description": "Select the apps you want to import profiles from.",
-                    "empty": "No apps found",
-                    "import": "Import"
+                    "onboardingTitle": "Znaleziono portfele innych firm",
+                    "title": "Importuj z innych aplikacji",
+                    "onboardingDescription": "Wykryliśmy, że używasz kompatybilnych portfeli innych firm. Możesz zaimportować swoje profile teraz lub zrobić to później.",
+                    "description": "Wybierz aplikacje, z których chcesz importować profile.",
+                    "empty": "Nie znaleziono aplikacji",
+                    "import": "Importuj"
                 },
                 "importProfiles": {
-                    "title": "Import third-party profiles",
-                    "description": "Select the profiles you want to import.",
-                    "empty": "No profiles found",
+                    "title": "Importuj profile firm trzecich",
+                    "description": "Wybierz profile, które chcesz zaimportować.",
+                    "empty": "Nie znaleziono profili",
                     "tooltips": {
-                        "alreadyImported": "Already imported",
-                        "needsDbMigration": "Needs database migration",
-                        "failedProfileMigration": "Unable to migrate profile"
+                        "alreadyImported": "Już zaimportowano",
+                        "needsDbMigration": "Wymaga migracji bazy danych",
+                        "failedProfileMigration": "Nie można dokonać migracji profilu"
                     },
                     "errors": {
-                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
-                        "unknown": "An unknown error occurred while trying to import the profiles"
+                        "appIsOpen": "Portfel z którego próbujesz zaimportować jest uruchomiony. Zamknij portfel i spróbuj ponownie.",
+                        "unknown": "Wystąpił nieznany błąd podczas próby importowania profili"
                     },
                     "notifications": {
-                        "success": "Profiles successfully imported!"
+                        "success": "Profile pomyślnie zaimportowane!"
                     }
                 }
             },
@@ -327,8 +327,8 @@
                 "description": "Zgłoś błąd deweloperom. Upewnij się, że problem nie został już wcześniej zgłoszony"
             },
             "toggleFeatures": {
-                "title": "Enable / Disable features",
-                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
+                "title": "Włącz / Wyłącz funkcje",
+                "description": "Włącz lub wyłącz funkcje, aby dostosować wrażenia do swoich potrzeb."
             }
         },
         "login": {
@@ -599,12 +599,12 @@
             },
             "toasts": {
                 "backup": {
-                    "header": "Wymagana kopa zapasowa",
-                    "body": "You haven't backed up your profile in while.",
+                    "header": "Wykonaj kopię zapasową",
+                    "body": "Przez dłuższy czas nie wykonałeś kopii zapasowej swojego profilu.",
                     "button": "Utwórz kopię"
                 },
                 "version": {
-                    "body": "You are currently using a development version of Bloom."
+                    "body": "Obecnie używasz wczesnej wersji portfela Bloom."
                 },
                 "update": {
                     "header": "Wymagana aktualizacja",
@@ -847,7 +847,7 @@
             "installedVersion": "Zainstalowana wersja",
             "newVersion": "Nowa wersja",
             "stage": "Kanał",
-            "prod": "Production",
+            "prod": "Oficjalny",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Opublikowana",
@@ -857,7 +857,7 @@
         },
         "backupStronghold": {
             "title": "Kopia zapasowa pliku stronghold",
-            "body": "Ważne jest, aby regularnie wykonywać kopie zapasowe swojego portfela, aby upewnić się, że masz kopię swoich portfeli i historię transakcji. Jeśli stracisz kopię zapasową i wyrazy ratunkowe, stracisz dostęp do swoich środków."
+            "body": "Ważne jest regularne wykonywanie kopii zapasowej swojego portfela, aby być pewnym, że nasze portfele i historie transakcji są bezpieczne. Jeśli stracisz kopię zapasową i wyrazy ratunkowe, stracisz dostęp do swoich środków."
         },
         "deeplinkAccountSwitch": {
             "title": "Wybierz konto",
@@ -1012,8 +1012,8 @@
         "exportActivities": {
             "title": "Eksportuj aktywność",
             "body": "Eksportuj swoją aktywność do pliku CSV.",
-            "chooseAccounts": "Choose accounts",
-            "emptyAccounts": "Choose at least 1 account."
+            "chooseAccounts": "Wybierz konta",
+            "emptyAccounts": "Wybierz co najmniej jedno konto."
         },
         "signMessage": {
             "title": "Podpisz wiadomość",
@@ -1285,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Utwórz konto"
+        },
+        "profileDiagnostics": {
+            "title": "Diagnostyka profilu"
         }
     },
     "actions": {
@@ -1341,7 +1344,7 @@
         "enableDeveloperMode": "Włącz tryb deweloperski",
         "enableSystemNotifications": "Włącz powiadomienia systemowe",
         "exportTransactionHistory": "Eksportuj historię transakcji",
-        "exportActivities": "Export activities",
+        "exportActivities": "Eksportuj aktywność",
         "localProofOfWork": "Lokalny tryb proof of work",
         "unlock": "Odblokuj",
         "updateBloom": "Aktualizuj Bloom",
@@ -1428,7 +1431,7 @@
         "syncTokens": "Wymuś synchronizację tokenów",
         "mintNftCollection": "Mintuj kolekcję NFT",
         "readMore": "Czytaj więcej",
-        "importThirdPartyProfiles": "Import third-party profiles"
+        "importThirdPartyProfiles": "Importuj profile firm trzecich"
     },
     "general": {
         "recipient": "Odbiorca",
@@ -1497,7 +1500,7 @@
         "balance": "Saldo",
         "balanceWithValue": "Saldo: {balance}",
         "balanceWithNetwork": "Saldo {network}",
-        "all": "Wszystko",
+        "all": "Wszystkie",
         "incoming": "Odebrano",
         "outgoing": "Wysłano",
         "dev": "Deweloper",
@@ -1645,6 +1648,7 @@
         "methodId": "ID metody",
         "methodName": "Metoda",
         "inputs": "Wejścia",
+        "parameters": "Parametry",
         "data": "Data",
         "success": "Sukces",
         "info": "Informacje",
@@ -1658,8 +1662,10 @@
         "baseCoin": "Token podstawowy",
         "startIndex": "Indeks startowy",
         "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu",
-        "appName": "App name",
-        "question": "Pytanie"
+        "appName": "Nazwa aplikacji",
+        "question": "Pytanie",
+        "id": "ID",
+        "location": "Lokalizacja"
     },
     "filters": {
         "title": "Filtry",
@@ -1809,7 +1815,7 @@
             "success": "Odłączono od aplikacji {dappName}"
         },
         "exportActivities": {
-            "success": "Activities exported successfully"
+            "success": "Aktywność wyeksportowana pomyślnie"
         },
         "clearExpiredDapps": {
             "success": "Wyczyszczono wygasłe dApps"

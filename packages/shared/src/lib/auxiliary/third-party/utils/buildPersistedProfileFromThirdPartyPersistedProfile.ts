@@ -1,7 +1,18 @@
 import { IPersistedAccountData } from '@core/account'
+import { APP_STAGE } from '@core/app'
 import { MarketCurrency } from '@core/market'
-import { DEFAULT_CHAIN_CONFIGURATIONS, IPersistedNetwork, NetworkNamespace } from '@core/network'
-import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts'
+import {
+    DEFAULT_EVM_NETWORK_CONFIGURATIONS,
+    IPersistedNetwork,
+    NetworkNamespace,
+    StardustNetworkId,
+} from '@core/network'
+import {
+    DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+    DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
+    IPFS_GATEWAYS,
+} from '@core/nfts/constants'
+import { DownloadPermission } from '@core/nfts/enums'
 import {
     DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
     IPersistedProfile,
@@ -10,6 +21,7 @@ import {
 } from '@core/profile'
 import { DEFAULT_LOCK_SCREEN_TIMEOUT_IN_MINUTES } from '@core/profile/constants/default-lock-screen-timeout-in-minutes.constant'
 import { StrongholdVersion } from '@core/stronghold'
+import { NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP } from '../constants/network-name-to-stardust-network-id-map.constant'
 import { ThirdPartyAppName } from '../enums'
 import {
     IThirdPartyPersistedAccountData,
@@ -17,7 +29,6 @@ import {
     IThirdPartyPersistedProfile,
     IThirdPartyPersistedSettings,
 } from '../interfaces'
-import { NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP } from '../constants/network-name-to-stardust-network-id-map.constant'
 
 export function buildPersistedProfileFromThirdPartyPersistedProfile(
     thirdPartyProfile: IThirdPartyPersistedProfile,
@@ -29,6 +40,7 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
 
     const persistedProfile: IPersistedProfile = {
         id: thirdPartyProfile.id,
+        versionTrack: APP_STAGE,
         version: PROFILE_VERSION.prod,
         name: thirdPartyProfile.name,
         type: thirdPartyProfile.type,
@@ -40,7 +52,6 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
         ),
         contacts: {},
         networkContactAddresses: {},
-        isDeveloperProfile: thirdPartyProfile.isDeveloperProfile,
         features: {
             wallet: true,
             collectibles: true,
@@ -64,10 +75,10 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
 }
 
 function buildPersistedNetworkFromThirdPartyPersistedNetwork(network: IThirdPartyPersistedNetwork): IPersistedNetwork {
-    const networkId =
+    const networkId: StardustNetworkId =
         NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP[network.protocol.networkName] ??
         `${NetworkNamespace.Stardust}:${network.protocol.networkName}`
-    const defaultChainConfigurations = structuredClone(DEFAULT_CHAIN_CONFIGURATIONS?.[networkId])
+    const defaultChainConfigurations = structuredClone(DEFAULT_EVM_NETWORK_CONFIGURATIONS?.[networkId])
 
     return {
         id: networkId,
@@ -87,9 +98,13 @@ function buildSettingsFromThirdPartyPersistedSettings(settings: IThirdPartyPersi
         lockScreenTimeoutInMinutes: settings.lockScreenTimeoutInMinutes ?? DEFAULT_LOCK_SCREEN_TIMEOUT_IN_MINUTES,
         strongholdPasswordTimeoutInMinutes:
             settings.strongholdPasswordTimeoutInMinutes ?? DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
-        maxMediaSizeInMegaBytes: settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
-        maxMediaDownloadTimeInSeconds:
-            settings.maxMediaDownloadTimeInSeconds ?? DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+        nfts: {
+            ipfsGateway: IPFS_GATEWAYS[0],
+            downloadPermissions: DownloadPermission.AllowListOnly,
+            maxMediaSizeInMegaBytes: settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
+            maxMediaDownloadTimeInSeconds:
+                settings.maxMediaDownloadTimeInSeconds ?? DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+        },
         hideNetworkStatistics: settings.hideNetworkStatistics,
     }
 }

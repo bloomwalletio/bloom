@@ -8,8 +8,8 @@
     } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import {
-        NetworkId,
         NetworkNamespace,
+        StardustNetworkId,
         StardustNetworkName,
         getDefaultClientOptions,
         getDefaultPersistedNetwork,
@@ -39,7 +39,7 @@
     function onContinueClick(): void {
         if (selectedNetworkType !== OnboardingNetworkType.Custom) {
             const networkName = getNetworkNameFromOnboardingNetworkType(selectedNetworkType)
-            const networkId: NetworkId = `${NetworkNamespace.Stardust}:${networkName}`
+            const networkId: StardustNetworkId = `${NetworkNamespace.Stardust}:${networkName}`
             const network = getDefaultPersistedNetwork(networkId)
             const clientOptions = getDefaultClientOptions(networkId)
             updateOnboardingProfile({ network, clientOptions })

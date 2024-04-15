@@ -1,9 +1,9 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IIscpChainConfiguration } from '@core/network'
+    import { IscpChain } from '@core/network'
     import { Table } from '@bloomwalletio/ui'
 
-    export let chainConfiguration: IIscpChainConfiguration
+    export let evmNetwork: IscpChain
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 </script>
@@ -13,22 +13,22 @@
     items={[
         {
             key: localize(`${localeKey}.chainId`),
-            value: chainConfiguration.chainId ?? undefined,
+            value: evmNetwork.chainId ?? undefined,
             copyable: true,
         },
         {
             key: localize(`${localeKey}.aliasAddress`),
-            value: chainConfiguration.aliasAddress ?? undefined,
+            value: evmNetwork.aliasAddress ?? undefined,
             copyable: true,
         },
         {
             key: localize(`${localeKey}.rpcEndpoint`),
-            value: chainConfiguration.rpcEndpoint ?? undefined,
+            value: evmNetwork.rpcEndpoint ?? undefined,
             copyable: true,
         },
         {
             key: localize(`${localeKey}.explorerUrl`),
-            value: chainConfiguration.explorerUrl ?? undefined,
+            value: evmNetwork.explorerUrl ?? undefined,
             copyable: true,
         },
     ]}

@@ -1,19 +1,18 @@
 <script lang="ts">
     import { requestTokensFromFaucet } from '@contexts/developer'
     import { localize } from '@core/i18n'
-    import { network } from '@core/network'
+    import { getL1Network } from '@core/network'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Error } from '@bloomwalletio/ui'
     import { handleError } from '@core/error/handlers/handleError'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { getBaseToken } from '@core/profile/actions'
 
     let isBusy = false
-    let error: string
-
-    $: networkData = $network.getMetadata()
+    let error: string | undefined
 
     async function onConfirmClick(): Promise<void> {
-        error = null
+        error = undefined
         try {
             isBusy = true
             await requestTokensFromFaucet()
@@ -34,7 +33,7 @@
 <PopupTemplate
     title={localize('popups.faucetRequest.title')}
     description={localize('popups.faucetRequest.body', {
-        values: { token: networkData.baseToken.name, network: networkData.networkName },
+        values: { token: getBaseToken().name, network: getL1Network()?.name },
     })}
     backButton={{
         text: localize('actions.cancel'),

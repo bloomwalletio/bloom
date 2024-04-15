@@ -247,6 +247,11 @@
                 "title": "Stronghold timeout",
                 "description": "Length of time before your Stronghold password is required again"
             },
+            "ipfsGateways": {
+                "title": "IPFS gateways",
+                "description": "Select the IPFS gateway to use for media retrieval",
+                "input": "IPFS gateway"
+            },
             "maxMediaSize": {
                 "title": "Maximum media size",
                 "description": "NFT media with sizes greater than this limit will not be downloaded and a placeholder representing the media type will be displayed instead",
@@ -330,6 +335,15 @@
             "toggleFeatures": {
                 "title": "Enable / Disable features",
                 "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
+            },
+            "downloadNftPermissions": {
+                "title": "Nft download permissions",
+                "description": "Download permissions for the automatic downloading of NFT media",
+                "input": "Download permissions",
+                "all": "Download All",
+                "allExceptDenylist": "All Except Known Risks",
+                "allowListOnly": "Only Known Domains",
+                "none": "Do Not Download Any"
             }
         },
         "login": {
@@ -1287,6 +1301,9 @@
         },
         "createAccount": {
             "title": "Create account"
+        },
+        "profileDiagnostics": {
+            "title": "Profile diagnostics"
         }
     },
     "actions": {
@@ -1647,6 +1664,7 @@
         "methodId": "Method ID",
         "methodName": "Method name",
         "inputs": "Inputs",
+        "parameters": "Parameters",
         "data": "Data",
         "success": "Success",
         "info": "Info",
@@ -1661,7 +1679,9 @@
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collection NFT in Alias Output",
         "appName": "App name",
-        "question": "Question"
+        "question": "Question",
+        "id": "ID",
+        "location": "Location"
     },
     "filters":{
         "title": "Filters",
@@ -2070,6 +2090,10 @@
             "loadingError": {
                 "short": "Unable to load",
                 "long": "An error occurred while loading the NFT"
+            },
+            "downloadNotAllowed": {
+                "short": "Download blocked by settings",
+                "long": "Your current NFT download permissions do not allow downloading this NFT from its URL"
             }
         },
         "governance": {

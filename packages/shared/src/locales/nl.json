@@ -9,28 +9,28 @@
             },
             "importThirdPartyProfiles": {
                 "selectApps": {
-                    "onboardingTitle": "Third-party wallets found",
-                    "title": "Import from third-party apps",
-                    "onboardingDescription": "We have detected you are using compatible third-party wallets. You can import your profiles now or do this later.",
-                    "description": "Select the apps you want to import profiles from.",
-                    "empty": "No apps found",
-                    "import": "Import"
+                    "onboardingTitle": "Wallets van derden gevonden",
+                    "title": "Importeer van apps van derden",
+                    "onboardingDescription": "We hebben gedetecteerd dat je compatibele wallets van derden gebruikt. Je kunt nu je profielen importeren of dit later doen.",
+                    "description": "Selecteer de apps waarvan je profielen wilt importeren.",
+                    "empty": "Geen apps gevonden",
+                    "import": "Importeer"
                 },
                 "importProfiles": {
-                    "title": "Import third-party profiles",
-                    "description": "Select the profiles you want to import.",
-                    "empty": "No profiles found",
+                    "title": "Importeer profielen van derden",
+                    "description": "Selecteer de profielen die je wilt importeren.",
+                    "empty": "Geen profielen gevonden",
                     "tooltips": {
-                        "alreadyImported": "Already imported",
-                        "needsDbMigration": "Needs database migration",
-                        "failedProfileMigration": "Unable to migrate profile"
+                        "alreadyImported": "Reeds geïmporteerd",
+                        "needsDbMigration": "Databasemigratie nodig",
+                        "failedProfileMigration": "Kan profiel niet migreren"
                     },
                     "errors": {
-                        "appIsOpen": "The third-party wallet you are trying to import from is open. Please close the wallet and try again.",
-                        "unknown": "An unknown error occurred while trying to import the profiles"
+                        "appIsOpen": "De wallet van derden waarvan je probeert te importeren staat open. Sluit de wallet af en probeer het opnieuw.",
+                        "unknown": "Er is een onbekende fout opgetreden bij het importeren van de profielen"
                     },
                     "notifications": {
-                        "success": "Profiles successfully imported!"
+                        "success": "Profielen succesvol geïmporteerd!"
                     }
                 }
             },
@@ -327,8 +327,8 @@
                 "description": "Meld een probleem aan de ontwikkelaars. Controleer eerst of deze niet al eerder gemeld is"
             },
             "toggleFeatures": {
-                "title": "Enable / Disable features",
-                "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
+                "title": "Schakel functies in/uit",
+                "description": "Schakel functies aan of uit, pas jouw ervaring naar eigen voorkeur aan door specifieke functies in of uit te schakelen."
             }
         },
         "login": {
@@ -600,11 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Back-up vereist",
-                    "body": "You haven't backed up your profile in while.",
+                    "body": "Je hebt al een tijdje geen back-up van je profiel gemaakt.",
                     "button": "Maak een back-up"
                 },
                 "version": {
-                    "body": "You are currently using a development version of Bloom."
+                    "body": "Je gebruikt momenteel een ontwikkelingsversie van Bloom."
                 },
                 "update": {
                     "header": "Update vereist",
@@ -847,7 +847,7 @@
             "installedVersion": "Geïnstalleerde versie",
             "newVersion": "Nieuwe versie",
             "stage": "Stage",
-            "prod": "Production",
+            "prod": "Productie",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Uitgebracht op",
@@ -1012,8 +1012,8 @@
         "exportActivities": {
             "title": "Exporteer activiteiten",
             "body": "Exporteer je activiteiten als CSV.",
-            "chooseAccounts": "Choose accounts",
-            "emptyAccounts": "Choose at least 1 account."
+            "chooseAccounts": "Kies accounts",
+            "emptyAccounts": "Kies ten minste 1 account."
         },
         "signMessage": {
             "title": "Bericht ondertekenen",
@@ -1285,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Account aanmaken"
+        },
+        "profileDiagnostics": {
+            "title": "Profiel diagnose"
         }
     },
     "actions": {
@@ -1341,7 +1344,7 @@
         "enableDeveloperMode": "Ontwikkelaarsmodus inschakelen",
         "enableSystemNotifications": "Notificaties inschakelen",
         "exportTransactionHistory": "Transactiegeschiedenis exporteren",
-        "exportActivities": "Export activities",
+        "exportActivities": "Exporteer activiteiten",
         "localProofOfWork": "Lokaal bewijs van werk",
         "unlock": "Ontgrendel",
         "updateBloom": "Bloom bijwerken",
@@ -1428,7 +1431,7 @@
         "syncTokens": "Forceer synchronisatie tokens",
         "mintNftCollection": "Mint NFT collectie",
         "readMore": "Lees meer",
-        "importThirdPartyProfiles": "Import third-party profiles"
+        "importThirdPartyProfiles": "Importeer profielen van derden"
     },
     "general": {
         "recipient": "Ontvanger",
@@ -1645,6 +1648,7 @@
         "methodId": "Method ID",
         "methodName": "Methodenaam",
         "inputs": "Inputs",
+        "parameters": "Parameters",
         "data": "Gegevens",
         "success": "Succesvol",
         "info": "Info",
@@ -1658,8 +1662,10 @@
         "baseCoin": "Basis token",
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collectie NFT in Alias Output",
-        "appName": "App name",
-        "question": "Vraag"
+        "appName": "App naam",
+        "question": "Vraag",
+        "id": "ID",
+        "location": "Locatie"
     },
     "filters": {
         "title": "Filters",
@@ -1809,7 +1815,7 @@
             "success": "Verbinding verbroken met {dappName}"
         },
         "exportActivities": {
-            "success": "Activities exported successfully"
+            "success": "Activiteiten succesvol geëxporteerd"
         },
         "clearExpiredDapps": {
             "success": "Verlopen dApps gewist"

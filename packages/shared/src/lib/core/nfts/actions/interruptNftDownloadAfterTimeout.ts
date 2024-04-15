@@ -15,7 +15,7 @@ export async function interruptNftDownloadAfterTimeout(
         return
     }
 
-    const downloadTimeout = get(activeProfile).settings.maxMediaDownloadTimeInSeconds * MILLISECONDS_PER_SECOND
+    const downloadTimeout = get(activeProfile).settings.nfts.maxMediaDownloadTimeInSeconds * MILLISECONDS_PER_SECOND
     await sleep(downloadTimeout)
     const updatedDownloadingNft = get(downloadingNftId)
 

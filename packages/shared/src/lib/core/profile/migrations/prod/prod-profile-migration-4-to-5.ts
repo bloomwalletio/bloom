@@ -1,4 +1,4 @@
-import { EvmNetworkId, NetworkId } from '@core/network'
+import { NetworkId } from '@core/network'
 import { IPersistedProfile } from '@core/profile/interfaces'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
@@ -12,6 +12,7 @@ export function prodProfileMigration4To5(existingProfile: unknown): Promise<void
         campaigns: true,
         governance: true,
         buySell: true,
+        // @ts-expect-error isDeveloperProfile was removed in favor of the feature flag, but it exists on old profiles
         developer: profile.isDeveloperProfile,
         settings: true,
     }
@@ -41,7 +42,7 @@ export function prodProfileMigration4To5(existingProfile: unknown): Promise<void
                 addLocalTransactionToPersistedTransaction(
                     profile.id,
                     parseInt(accountIndex),
-                    networkId as EvmNetworkId,
+                    networkId as NetworkId,
                     transactionsForNetwork
                 )
             }

@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
 import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
-import { IChain, NetworkNamespace } from '@core/network'
+import { IEvmNetwork, NetworkNamespace } from '@core/network'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
@@ -19,10 +19,10 @@ export async function generateBaseEvmActivity(
         gasPrice?: BigIntLike
         timestamp?: number
     },
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<BaseEvmActivity> {
-    const networkId = chain.getConfiguration().id
+    const networkId = evmNetwork.id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === transaction.recipient
             ? ActivityDirection.Incoming
@@ -33,7 +33,7 @@ export async function generateBaseEvmActivity(
 
     const subject = direction === ActivityDirection.Outgoing ? recipient : sender
     const isInternal = isSubjectInternal(recipient)
-    const timestamp = transaction.timestamp ?? (await getTimeStamp(transaction.blockNumber, chain))
+    const timestamp = transaction.timestamp ?? (await getTimeStamp(transaction.blockNumber, evmNetwork))
 
     // For native token transfers on L2, gasUsed is 0. Therefor we fallback to the estimatedGas
     // https://discord.com/channels/397872799483428865/930642258427019354/1168854453005332490
@@ -66,8 +66,7 @@ export async function generateBaseEvmActivity(
     }
 }
 
-async function getTimeStamp(blockNumber: number, chain: IChain): Promise<number> {
-    const provider = chain.getProvider()
-    const { timestamp } = await provider.eth.getBlock(blockNumber)
+async function getTimeStamp(blockNumber: number, evmNetwork: IEvmNetwork): Promise<number> {
+    const { timestamp } = await evmNetwork.provider.eth.getBlock(blockNumber)
     return Number(timestamp) * MILLISECONDS_PER_SECOND
 }

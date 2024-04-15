@@ -6,7 +6,7 @@
     import { onMount } from 'svelte'
     import { createFromLedgerRouter } from '../create-from-ledger-router'
     import { onboardingProfile } from '@contexts/onboarding'
-    import { SupportedNetworkId } from '@core/network'
+    import { SupportedStardustNetworkId } from '@core/network/constants'
 
     function onContinueClick(): void {
         $createFromLedgerRouter.next()
@@ -33,7 +33,7 @@
     }}
 >
     <content slot="content">
-        {#if $onboardingProfile?.network?.id === SupportedNetworkId.Iota}
+        {#if $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota}
             <icon-container class="bg-black">
                 <Icon name={IconName.Iota} size="lg" customColor="#ffffff" />
             </icon-container>

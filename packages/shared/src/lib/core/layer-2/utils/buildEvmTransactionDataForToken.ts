@@ -1,6 +1,6 @@
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { EvmTransactionData, TransferredAsset } from '../types'
-import { IChain } from '@core/network'
+import { IEvmNetwork, IscpChain } from '@core/network'
 import { localize } from '@core/i18n'
 import { IToken, TokenStandard } from '@core/token'
 import { buildEvmTransactionData } from './buildEvmTransactionData'
@@ -9,7 +9,7 @@ import { getErc20TransferSmartContractData } from '.'
 import { AssetType } from '../enums'
 
 export async function buildEvmTransactionDataForToken(
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     originAddress: string,
     recipientAddress: string,
     amount: bigint,
@@ -19,7 +19,7 @@ export async function buildEvmTransactionDataForToken(
 
     let data: string | undefined
     if (token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20) {
-        data = getTokenDataForTransaction(chain, recipientAddress, token, amount)
+        data = getTokenDataForTransaction(evmNetwork, recipientAddress, token, amount)
 
         if (!data) {
             throw new Error(localize('error.web3.unableToFormSmartContractData'))
@@ -29,11 +29,11 @@ export async function buildEvmTransactionDataForToken(
         // as we do not want to send any base token
         amount = BigInt(0)
     }
-    return buildEvmTransactionData(chain, originAddress, destinationAddress, amount, data)
+    return buildEvmTransactionData(evmNetwork, originAddress, destinationAddress, amount, data)
 }
 
 function getTokenDataForTransaction(
-    chain: IChain,
+    evmNetwork: IEvmNetwork,
     recipientAddress: string,
     token: IToken,
     amount: bigint
@@ -43,10 +43,10 @@ function getTokenDataForTransaction(
             const isBaseCoin = token.standard === TokenStandard.BaseToken
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
             const transferredAsset = { type: assetType, token, amount } as TransferredAsset
-            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, chain)
+            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, evmNetwork as IscpChain)
         }
         case TokenStandard.Erc20:
-            return getErc20TransferSmartContractData(recipientAddress, token, amount, chain)
+            return getErc20TransferSmartContractData(recipientAddress, token, amount, evmNetwork)
         default:
             return undefined
     }

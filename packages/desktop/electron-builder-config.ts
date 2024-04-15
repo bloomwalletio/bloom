@@ -47,7 +47,7 @@ function getPlatform(): string {
             return 'linux'
     }
 }
-async function notarizeMacos(appBundleId, appName): Promise<void> {
+async function notarizeMacos(appName: string): Promise<void> {
     if (process.platform !== 'darwin' || process.env.MACOS_SKIP_NOTARIZATION === 'true') {
         return
     }
@@ -82,7 +82,7 @@ const prodConfig: Configuration = {
     afterSign: async () => {
         // eslint-disable-next-line no-useless-catch
         try {
-            await notarizeMacos(APP_ID, APP_NAME)
+            await notarizeMacos(APP_NAME)
         } catch (err) {
             // This catch is necessary or the promise rejection is swallowed
             throw err
@@ -159,7 +159,7 @@ const testConfig: Configuration = {
     },
 }
 
-const build = () => {
+const build = (): Configuration => {
     switch (STAGE) {
         case 'prod':
             return prodConfig

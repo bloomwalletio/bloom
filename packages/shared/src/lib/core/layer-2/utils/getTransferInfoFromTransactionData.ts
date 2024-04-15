@@ -1,5 +1,5 @@
 import { StardustActivityType } from '@core/activity'
-import { IChain } from '@core/network'
+import { IEvmNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { LocalEvmTransaction } from '@core/transactions'
 import { AbiDecoder, Converter, HEX_PREFIX } from '@core/utils'
@@ -26,18 +26,16 @@ type TransferInfo =
 
 export function getTransferInfoFromTransactionData(
     transaction: LocalEvmTransaction,
-    chain: IChain
+    evmNetwork: IEvmNetwork
 ): TransferInfo | undefined {
-    const networkId = chain.getConfiguration().id
-
     const recipientAddress = transaction?.to?.toString()?.toLowerCase()
     if (!recipientAddress) {
         return undefined
     }
 
     if (transaction.data) {
-        const isErc20 = isTrackedTokenAddress(networkId, recipientAddress)
-        const isErc721 = isTrackedNftAddress(networkId, recipientAddress)
+        const isErc20 = isTrackedTokenAddress(evmNetwork.id, recipientAddress)
+        const isErc721 = isTrackedNftAddress(evmNetwork.id, recipientAddress)
         const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
         const abi = isErc721 ? ERC721_ABI : isErc20 ? ERC20_ABI : isIscContract ? ISC_SANDBOX_ABI : undefined
@@ -46,7 +44,7 @@ export function getTransferInfoFromTransactionData(
             return { type: StardustActivityType.SmartContract, recipientAddress }
         }
 
-        const abiDecoder = new AbiDecoder(abi, chain.getProvider())
+        const abiDecoder = new AbiDecoder(abi, evmNetwork.provider)
         const decoded = abiDecoder.decodeData(transaction.data as string)
         switch (decoded?.name) {
             case 'call': {

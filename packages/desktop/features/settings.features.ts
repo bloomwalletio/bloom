@@ -52,7 +52,13 @@ const settingsFeatures: ISettingsFeatures = {
     },
     collectibles: {
         enabled: true,
+        downloadPermissions: {
+            enabled: true,
+        },
         maxMediaSize: {
+            enabled: true,
+        },
+        ipfsGateways: {
             enabled: true,
         },
         maxMediaDownloadTime: {

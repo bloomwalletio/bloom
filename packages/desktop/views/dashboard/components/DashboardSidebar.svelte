@@ -4,7 +4,7 @@
     import { ProfileActionsMenu, SidebarTab } from '@components'
     import { APP_STAGE, AppStage } from '@core/app'
     import { localize } from '@core/i18n'
-    import { StardustNetworkId } from '@core/network'
+    import { SupportedStardustNetworkId } from '@core/network'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
     import {
         DashboardRoute,
@@ -60,8 +60,8 @@
             : []),
         ...(features?.campaigns?.enabled &&
         profileFeatures?.campaigns &&
-        ($activeProfile?.network?.id === StardustNetworkId.Shimmer ||
-            $activeProfile?.network?.id === StardustNetworkId.Testnet)
+        ($activeProfile?.network?.id === SupportedStardustNetworkId.Shimmer ||
+            $activeProfile?.network?.id === SupportedStardustNetworkId.Testnet)
             ? [
                   {
                       icon: IconName.Trophy,
@@ -78,9 +78,9 @@
                       label: localize('tabs.buySell'),
                       route: DashboardRoute.BuySell,
                       onClick: openBuySell,
-                      disabled: $activeProfile?.network?.id !== StardustNetworkId.Iota,
+                      disabled: $activeProfile?.network?.id !== SupportedStardustNetworkId.Iota,
                       tooltip:
-                          $activeProfile?.network?.id !== StardustNetworkId.Iota
+                          $activeProfile?.network?.id !== SupportedStardustNetworkId.Iota
                               ? localize('tabs.tooltips.buySell')
                               : '',
                   },

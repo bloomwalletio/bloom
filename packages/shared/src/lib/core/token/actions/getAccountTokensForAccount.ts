@@ -3,7 +3,7 @@ import { getLayer2AccountBalance } from '@core/layer-2/stores'
 import { MarketCoinPrices, MarketCurrency, MarketPrices } from '@core/market'
 import { shimmerEvmAddressToCoinGeckoIdMap } from '@core/market/stores'
 import { calculateFiatValueFromTokenAmountAndMarketPrice } from '@core/market/utils'
-import { NetworkId, EvmNetworkId, getNetwork } from '@core/network'
+import { EvmNetworkId, NetworkId, StardustNetworkId, getEvmNetworks } from '@core/network'
 import { getActiveNetworkId } from '@core/network/actions/getActiveNetworkId'
 import { get } from 'svelte/store'
 import { BASE_TOKEN_ID } from '../constants'
@@ -23,13 +23,12 @@ export function getAccountTokensForAccount(
         const networkId = getActiveNetworkId()
 
         accountAssets[networkId] = getAccountAssetForNetwork(account, marketCoinPrices, marketCurrency, networkId)
-        const chains = getNetwork()?.getChains() ?? []
+        const evmNetworkIds = getEvmNetworks()
 
-        for (const chain of chains) {
-            const id = chain.getConfiguration().id
-            const chainAssets = getAccountAssetForChain(account, marketCoinPrices, marketCurrency, id)
+        for (const evmNetwork of evmNetworkIds) {
+            const chainAssets = getAccountAssetForChain(account, marketCoinPrices, marketCurrency, evmNetwork.id)
             if (chainAssets) {
-                accountAssets[id] = chainAssets
+                accountAssets[evmNetwork.id] = chainAssets
             }
         }
 
@@ -43,7 +42,7 @@ function getAccountAssetForNetwork(
     account: IAccountState,
     marketCoinPrices: MarketCoinPrices,
     marketCurrency: MarketCurrency,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): IAccountTokensPerNetwork {
     const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID)
     const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
@@ -91,7 +90,7 @@ function getAccountAssetForChain(
     account: IAccountState,
     marketCoinPrices: MarketCoinPrices,
     marketCurrency: MarketCurrency,
-    networkId: NetworkId
+    networkId: EvmNetworkId
 ): IAccountTokensPerNetwork | undefined {
     const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
     const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
@@ -108,8 +107,8 @@ function getAccountAssetForChain(
     const tokens = Object.entries(balanceForNetworkId ?? {}) ?? []
 
     for (const [tokenId, balance] of tokens) {
-        if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS?.[networkId as EvmNetworkId]) {
-            // ignore erc20 interface of the base coin of the chain
+        if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS?.[networkId]) {
+            // ignore erc20 interface of the base coin of the evmNetwork
             continue
         } else if (tokenId === BASE_TOKEN_ID) {
             baseCoin = createTokenWithBalanceFromPersistedAsset(

@@ -3,9 +3,9 @@
     import { openUrlInBrowser } from '@core/app'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { isEvmChain } from '@core/network'
-    import { IIrc27Nft, Nft, isNftLocked } from '@core/nfts'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { isEvmNetwork } from '@core/network'
+    import { IIrc27Nft, Nft, composeUrlFromNftUri, isNftLocked } from '@core/nfts'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { burnNft } from '@core/wallet'
@@ -15,7 +15,7 @@
     export let nft: Nft
 
     $: isLocked = isNftLocked(nft)
-    $: isBurnDisabled = isLocked || isEvmChain(nft.networkId)
+    $: isBurnDisabled = isLocked || isEvmNetwork(nft.networkId)
     $: isCurrentPfp = $activeProfile.pfp?.id === nft.id
 
     function onSetPfpClick(): void {
@@ -27,7 +27,7 @@
     }
 
     function onOpenMediaClick(): void {
-        openUrlInBrowser(nft?.composedUrl)
+        openUrlInBrowser(composeUrlFromNftUri(nft?.mediaUrl))
         menu?.close()
     }
 
@@ -46,8 +46,8 @@
                 confirmText: localize('actions.burn'),
                 onConfirm: async () => {
                     try {
-                        await checkActiveProfileAuthAsync()
-                    } catch (error) {
+                        await checkActiveProfileAuth()
+                    } catch {
                         return
                     }
 
@@ -77,7 +77,7 @@
             {
                 icon: IconName.LinkExternal,
                 title: localize('views.collectibles.details.menu.view'),
-                disabled: !nft.composedUrl,
+                disabled: !composeUrlFromNftUri(nft.mediaUrl),
                 onClick: onOpenMediaClick,
             },
             {

@@ -1,4 +1,4 @@
-import { NetworkId } from '@core/network'
+import { EvmNetworkId } from '@core/network'
 import { TokenStandard } from '@core/token'
 import { BigIntAbs, Converter } from '@core/utils'
 import { ActivityDirection } from '../../enums'
@@ -7,7 +7,7 @@ import { IAccountState } from '@core/account'
 import { generateEvmBalanceChangeActivity } from './generateEvmBalanceChangeActivity'
 
 export function generateEvmTokenBalanceChangeActivity(
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     tokenId: string,
     balanceChange: ITokenBalanceChange,
     account: IAccountState

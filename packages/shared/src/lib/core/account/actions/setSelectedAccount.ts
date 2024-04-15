@@ -1,5 +1,5 @@
 import { updateAccountForConnectedDapps } from '@auxiliary/wallet-connect/actions'
-import { pollL2BalanceForAccount } from '@core/layer-2/actions'
+import { pollL2BalanceForAccount } from '@core/layer-2/actions/pollL2BalanceForAccount'
 import { activeAccounts, getActiveProfileId, updateActiveProfile } from '@core/profile/stores'
 import { clearFilters } from '@core/utils'
 import { resetSendOptionIndex } from '@core/wallet/stores'

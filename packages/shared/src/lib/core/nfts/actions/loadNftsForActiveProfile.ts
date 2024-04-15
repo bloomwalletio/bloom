@@ -3,7 +3,7 @@ import { IAccountState } from '@core/account/interfaces'
 import { StardustActivityType } from '@core/activity'
 import { getNftId } from '@core/activity/utils/outputs'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
-import { getActiveNetworkId, getNetwork } from '@core/network'
+import { getActiveNetworkId, getEvmNetworks } from '@core/network'
 import { activeAccounts, getActiveProfileId } from '@core/profile/stores'
 import { getPersistedTransactionsForChain } from '@core/transactions/stores'
 import { IWrappedOutput } from '@core/wallet/interfaces'
@@ -40,15 +40,15 @@ export async function loadNftsForAccount(profileId: string, account: IAccountSta
         }
     }
 
-    for (const chain of getNetwork()?.getChains() ?? []) {
+    for (const evmNetwork of getEvmNetworks()) {
         // Wrapped L1 NFTs
-        const transactionsOnChain = getPersistedTransactionsForChain(profileId, account.index, chain)
+        const transactionsOnChain = getPersistedTransactionsForChain(profileId, account.index, evmNetwork)
         const nftIdsOnChain: string[] = []
         for (const transaction of transactionsOnChain) {
             if (!transaction.local) {
                 continue
             }
-            const transferInfo = getTransferInfoFromTransactionData(transaction.local, chain)
+            const transferInfo = getTransferInfoFromTransactionData(transaction.local, evmNetwork)
             if (transferInfo?.type !== StardustActivityType.Nft) {
                 continue
             }
@@ -66,7 +66,7 @@ export async function loadNftsForAccount(profileId: string, account: IAccountSta
         accountNfts.push(...nfts)
 
         // ERC721 NFTs
-        const evmAddress = getAddressFromAccountForNetwork(account, chain.getConfiguration().id)
+        const evmAddress = getAddressFromAccountForNetwork(account, evmNetwork.id)
         if (!evmAddress) {
             continue
         }

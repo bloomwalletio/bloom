@@ -33,7 +33,7 @@ interface ICampaignsResponse {
     endTime: string
     address: string
     url: string
-    chain: number
+    evmNetwork: number
     projectId: number
     projectLinks: string[]
     successMessage: string
@@ -94,7 +94,7 @@ export class TideApi extends BaseApi {
     }
 
     async getCampaignsForChain(chainId: number): Promise<IMultipleCampaignsResponse | undefined> {
-        const path = `${TideApiEndpoint.Campaign}/chain/${chainId}`
+        const path = `${TideApiEndpoint.Campaign}/evmNetwork/${chainId}`
         const response = await this.get<IMultipleCampaignsResponse>(path)
         return response
     }

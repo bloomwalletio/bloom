@@ -74,7 +74,7 @@
     </content-container>
 </LoggedOutLayout>
 
-<style lang="scss">
+<style lang="postcss">
     .header {
         height: 42px;
     }

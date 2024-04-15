@@ -1,6 +1,6 @@
 import { Erc721InterfaceId } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
-import { NetworkId } from '@core/network/types'
+import { EvmNetworkId } from '@core/network/types'
 
 import { MimeType, NftStandard } from '../enums'
 import { IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } from '../interfaces'
@@ -9,7 +9,7 @@ import { composeUrlFromNftUri } from '.'
 export async function buildPersistedErc721Nft(
     nftId: string,
     ownerAddress: string,
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     tokenId: string,
     contract: Contract,
     contractMetadata: IErc721ContractMetadata
@@ -51,7 +51,7 @@ export async function buildPersistedErc721Nft(
                 persistedNft.metadata = erc721Metadata
             }
 
-            persistedNft.composedUrl = composeUrlFromNftUri(metadata.image)
+            persistedNft.mediaUrl = metadata.image
         } catch (err) {
             throw new Error(`Unable to get metadata of token ${tokenId} from contract ${contractMetadata.address}`)
         }

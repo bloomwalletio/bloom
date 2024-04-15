@@ -1,19 +1,18 @@
 <script lang="ts">
     import { Button, Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
-    import { IAccountState } from '@core/account'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { openUrlInBrowser } from '@core/app'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import {
         ExplorerEndpoint,
-        IChain,
-        IIscpChainConfiguration,
-        INetwork,
+        Network,
         NetworkHealth,
-        NetworkId,
-        chainStatuses,
+        NetworkNamespace,
+        evmNetworkStatuses,
         getDefaultExplorerUrl,
         networkStatus,
         setSelectedChain,
@@ -21,63 +20,76 @@
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { UiEventFunction, buildUrl, truncateString } from '@core/utils'
+    import { buildUrl, truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
     import { onMount } from 'svelte'
 
-    export let network: INetwork = undefined
-    export let chain: IChain = undefined
-    export let onCardClick: UiEventFunction
-    export let onQrCodeIconClick: UiEventFunction
+    export let network: Network
 
-    let configuration: IIscpChainConfiguration = undefined
-    let networkId: NetworkId | undefined
-    let name = ''
-    let address = ''
+    let address: string | undefined
     let status: NetworkHealth
+    const explorer = getDefaultExplorerUrl(network.id, ExplorerEndpoint.Address)
 
-    $: $networkStatus, $chainStatuses, $selectedAccount, setNetworkCardData()
-    $: explorer = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
+    $: $networkStatus, $evmNetworkStatuses, $selectedAccount, setNetworkCardData()
 
-    function onExplorerClick(address: string): void {
+    function onExplorerClick(): void {
+        if (!explorer || !address) {
+            return
+        }
         const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
         openUrlInBrowser(url?.href)
     }
 
-    function setNetworkCardData(): void {
-        if (network) {
-            networkId = network.getMetadata().id
-            name = network.getMetadata().name
-            address = $selectedAccount.depositAddress
-            status = $networkStatus.health
-        } else if (chain) {
-            configuration = chain.getConfiguration() as IIscpChainConfiguration
-            networkId = configuration.id
-            name = configuration.name
-            address = $selectedAccount.evmAddresses[configuration.coinType]
-            status = chain.getStatus().health
+    function onCardClick(): void {
+        if (network.namespace === NetworkNamespace.Stardust) {
+            $networkConfigRouter.goTo(NetworkConfigRoute.NetworkSettings)
+        } else {
+            setSelectedChain(network)
+            $networkConfigRouter.goTo(NetworkConfigRoute.ChainInformation)
         }
     }
 
-    function onGenerateAddressClick(): void {
-        setSelectedChain(chain)
-        if (chain) {
-            checkActiveProfileAuth(
-                async () => {
-                    await generateAndStoreEvmAddressForAccounts(
-                        $activeProfile.type,
-                        configuration.coinType,
-                        $selectedAccount as IAccountState
-                    )
-                    pollL2BalanceForAccount($activeProfile.id, $selectedAccount as IAccountState)
-                    if ($activeProfile.type === ProfileType.Ledger) {
-                        $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
-                    }
-                },
-                {},
-                LedgerAppName.Ethereum
+    function onQrCodeIconClick(): void {
+        if (network.namespace === NetworkNamespace.Stardust) {
+            $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
+        } else {
+            setSelectedChain(network)
+            $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
+        }
+    }
+
+    function setNetworkCardData(): void {
+        const account = $selectedAccount as IAccountState
+
+        status = network.getStatus().health
+        address = getAddressFromAccountForNetwork(account, network.id)
+    }
+
+    async function onGenerateAddressClick(): Promise<void> {
+        if (!network || network.namespace !== NetworkNamespace.Evm) {
+            return
+        }
+
+        try {
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
+        } catch {
+            return
+        }
+
+        try {
+            setSelectedChain(network)
+            await generateAndStoreEvmAddressForAccounts(
+                $activeProfile.type,
+                network.coinType,
+                $selectedAccount as IAccountState
             )
+            pollL2BalanceForAccount($activeProfile.id, $selectedAccount as IAccountState)
+            if ($activeProfile.type === ProfileType.Ledger) {
+                $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
+            }
+        } catch (error) {
+            handleError(error)
         }
     }
 
@@ -90,10 +102,8 @@
     <div class="w-full flex flex-col justify-between gap-4 p-1">
         <network-header class="flex flex-row justify-between items-center gap-1">
             <div class="flex flex-row gap-2 items-center">
-                {#if networkId}
-                    <NetworkAvatar {networkId} />
-                {/if}
-                <Text type="body1" truncate>{name}</Text>
+                <NetworkAvatar networkId={network.id} />
+                <Text type="body1" truncate>{network.name}</Text>
             </div>
             {#key status}
                 <NetworkStatusPill {status} />
@@ -118,12 +128,12 @@
                 {/if}
             </div>
             <div class="flex flex-row space-x-1">
-                {#if explorer.baseUrl && address}
+                {#if explorer?.baseUrl && address}
                     <IconButton
                         size="sm"
                         icon={IconName.Globe}
                         tooltip={localize('general.viewOnExplorer')}
-                        on:click={() => onExplorerClick(address)}
+                        on:click={onExplorerClick}
                     />
                 {/if}
                 {#if address}

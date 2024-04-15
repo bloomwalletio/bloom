@@ -4,41 +4,48 @@
     import { localize } from '@core/i18n'
     import { selectedAccount } from '@core/account/stores'
     import { setClipboard } from '@core/utils'
-    import { isEvmChain, isStardustNetwork, network, NetworkId } from '@core/network'
+    import { getActiveNetworkId, getNetwork, NetworkId, NetworkNamespace } from '@core/network'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { activeProfile, activeProfileId } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { handleError } from '@core/error/handlers'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 
-    export let selectedNetworkId: NetworkId = $network.getMetadata().id
+    let selectedNetworkId: NetworkId | undefined = getActiveNetworkId()
     $: selectedNetworkId, updateNetworkNameAndAddress()
 
-    let networkName: string
-    let receiveAddress: string
+    let networkName: string | undefined
+    let receiveAddress: string | undefined
     function updateNetworkNameAndAddress(): void {
-        if (isStardustNetwork(selectedNetworkId)) {
-            networkName = $network.getMetadata().name
-            receiveAddress = $selectedAccount.depositAddress
-        } else if (isEvmChain(selectedNetworkId)) {
-            const { id, name, coinType } = $network.getChain(selectedNetworkId)?.getConfiguration() ?? {}
-            networkName = name
-            receiveAddress = $selectedAccount.evmAddresses?.[coinType]
-            if (!receiveAddress) {
-                void checkActiveProfileAuth(
-                    async () => {
-                        await generateAndStoreEvmAddressForAccounts($activeProfile.type, coinType, $selectedAccount)
-                        pollL2BalanceForAccount($activeProfileId as string, $selectedAccount)
-                        networkName = name
-                        receiveAddress = $selectedAccount.evmAddresses?.[coinType]
-                    },
-                    { ledger: true, stronghold: true, props: { selectedNetworkId: id } },
-                    LedgerAppName.Ethereum
-                )
-            }
-        } else {
-            networkName = undefined
-            receiveAddress = undefined
+        if (!selectedNetworkId) {
+            return
+        }
+
+        const account = $selectedAccount as IAccountState
+        const network = getNetwork(selectedNetworkId)
+
+        networkName = network?.name
+        receiveAddress = getAddressFromAccountForNetwork(account, selectedNetworkId)
+        if (!receiveAddress && network?.namespace === NetworkNamespace.Evm) {
+            generateAddress(account, network.coinType)
+        }
+    }
+
+    async function generateAddress(account: IAccountState, coinType: number): Promise<void> {
+        try {
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
+        } catch {
+            return
+        }
+
+        try {
+            await generateAndStoreEvmAddressForAccounts($activeProfile.type, coinType, account)
+            pollL2BalanceForAccount($activeProfileId as string, account)
+            updateNetworkNameAndAddress()
+        } catch (error) {
+            handleError(error)
         }
     }
 
@@ -52,7 +59,7 @@
     description={localize('popups.receiveAddress.body')}
     continueButton={{
         text: localize('actions.copyAddress'),
-        onClick: () => setClipboard(receiveAddress),
+        onClick: () => receiveAddress && setClipboard(receiveAddress),
         disabled: !receiveAddress,
     }}
 >

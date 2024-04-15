@@ -10,14 +10,14 @@
 
     const options: IOption[] = getMaxMediaSizeOptions()
     let selected: IOption = options.find(
-        (option) => option.value === $activeProfile?.settings.maxMediaSizeInMegaBytes?.toString()
+        (option) => option.value === $activeProfile?.settings.nfts.maxMediaSizeInMegaBytes?.toString()
     )
 
     $: onMaxMediaSizeChange(selected)
     function onMaxMediaSizeChange(option: IOption | undefined): void {
         if (option) {
             const maxMediaSizeInMegaBytes = parseInt(option.value)
-            updateActiveProfileSettings({ maxMediaSizeInMegaBytes })
+            updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, maxMediaSizeInMegaBytes } })
             const maxMediaSizeInBytes = maxMediaSizeInMegaBytes && maxMediaSizeInMegaBytes * 1024 * 1024
             deleteOrDownloadNfts(maxMediaSizeInBytes)
         }

@@ -26,7 +26,6 @@
     import BurnNativeTokensPopup from './popups/BurnNativeTokensPopup.svelte'
     import CheckForUpdatesPopup from './popups/CheckForUpdatesPopup.svelte'
     import ConfirmationPopup from './popups/ConfirmationPopup.svelte'
-    import ConnectLedgerPopup from './popups/ConnectLedgerPopup.svelte'
     import CreateAccountPopup from './popups/CreateAccountPopup.svelte'
     import CustomiseAccountPopup from './popups/CustomiseAccountPopup.svelte'
     import DappAccountSwitcherPopup from './popups/DappAccountSwitcherPopup.svelte'
@@ -50,6 +49,7 @@
     import MintNftFormPopup from './popups/MintNftFormPopup.svelte'
     import NodeAuthRequiredPopup from './popups/NodeAuthRequiredPopup.svelte'
     import NodeInfoPopup from './popups/NodeInfoPopup.svelte'
+    import ProfileDiagnosticsPopup from './popups/ProfileDiagnosticsPopup.svelte'
     import ReceiveAddressPopup from './popups/ReceiveAddressPopup.svelte'
     import RemoveProposalPopup from './popups/RemoveProposalPopup.svelte'
     import RevotePopup from './popups/RevotePopup.svelte'
@@ -62,7 +62,6 @@
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
     import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
-    import UnlockStrongholdPopup from './popups/UnlockStrongholdPopup.svelte'
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
     import { localize } from '@core/i18n'
@@ -107,7 +106,6 @@
         [PopupId.BurnNativeTokens]: BurnNativeTokensPopup,
         [PopupId.CheckForUpdates]: CheckForUpdatesPopup,
         [PopupId.Confirmation]: ConfirmationPopup,
-        [PopupId.ConnectLedger]: ConnectLedgerPopup,
         [PopupId.CreateAccount]: CreateAccountPopup,
         [PopupId.CustomiseAccount]: CustomiseAccountPopup,
         [PopupId.DappAccountSwitcher]: DappAccountSwitcherPopup,
@@ -131,6 +129,7 @@
         [PopupId.MintNftCollectionConfirmation]: MintNftCollectionConfirmationPopup,
         [PopupId.NodeAuthRequired]: NodeAuthRequiredPopup,
         [PopupId.NodeInfo]: NodeInfoPopup,
+        [PopupId.ProfileDiagnostics]: ProfileDiagnosticsPopup,
         [PopupId.ReceiveAddress]: ReceiveAddressPopup,
         [PopupId.RemoveProposal]: RemoveProposalPopup,
         [PopupId.Revote]: RevotePopup,
@@ -143,7 +142,6 @@
         [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,
-        [PopupId.UnlockStronghold]: UnlockStrongholdPopup,
         [PopupId.VoteForProposal]: VoteForProposal,
         [PopupId.VotingPowerToZero]: VotingPowerToZeroPopup,
     }
@@ -208,7 +206,7 @@
 <svelte:window on:keydown={onKey} />
 
 <overlay
-    in:fade={{ duration: transition ? 100 : 0 }}
+    in:fade|global={{ duration: transition ? 100 : 0 }}
     class:overflow-hidden={overflow}
     class="flex items-center justify-center fixed {IS_WINDOWS
         ? 'top-7'

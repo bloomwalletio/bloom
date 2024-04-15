@@ -46,12 +46,12 @@ function buildSupportedNamespace(
 
     let addresses: string[] = []
     if (selections.accounts) {
-        addresses = allowedChains.flatMap((chain) => {
+        addresses = allowedChains.flatMap((evmNetwork) => {
             return (
                 selections.accounts
-                    ?.map((account) => getAddressFromAccountForNetwork(account, chain as NetworkId))
+                    ?.map((account) => getAddressFromAccountForNetwork(account, evmNetwork as NetworkId))
                     .filter(Boolean)
-                    .map((address) => `${chain}:${address}`) ?? []
+                    .map((address) => `${evmNetwork}:${address}`) ?? []
             )
         })
     } else {

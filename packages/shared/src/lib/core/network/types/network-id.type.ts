@@ -1,5 +1,6 @@
-import { EvmChainId, NetworkNamespace, StardustNetworkName } from '../enums'
+import { ChainId, NetworkNamespace, StardustNetworkName } from '../enums'
 
-export type NetworkId =
-    | `${NetworkNamespace.Stardust}:${StardustNetworkName | string}`
-    | `${NetworkNamespace.Evm}:${EvmChainId}`
+export type StardustNetworkId = `${NetworkNamespace.Stardust}:${StardustNetworkName | string}`
+export type EvmNetworkId = `${NetworkNamespace.Evm}:${ChainId | string}`
+
+export type NetworkId = StardustNetworkId | EvmNetworkId

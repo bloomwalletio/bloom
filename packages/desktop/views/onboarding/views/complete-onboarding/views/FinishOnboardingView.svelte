@@ -11,7 +11,7 @@
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
     import features from '@features/features'
     import { login } from '@core/profile/actions'
-    import { SupportedNetworkId } from '@core/network'
+    import { SupportedStardustNetworkId } from '@core/network'
     import { handleError } from '@core/error/handlers'
     import { onMount } from 'svelte'
 
@@ -20,18 +20,13 @@
     let isAppSetup = false
 
     $: appName =
-        $onboardingProfile?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+        $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
 
-    function onContinueClick(): void {
-        if ($isOnboardingLedgerProfile) {
-            checkOrConnectLedger(_continue, false, appName)
-        } else {
-            void _continue()
-        }
-    }
-
-    async function _continue(): Promise<void> {
+    async function onContinueClick(): Promise<void> {
         try {
+            if ($isOnboardingLedgerProfile) {
+                await checkOrConnectLedger(appName)
+            }
             await completeOnboardingProcess()
             void login({ isFromOnboardingFlow: true })
             $onboardingRouter.next()
