@@ -7,7 +7,7 @@ export interface IBasePersistedNft {
     standard: NftStandard
     ownerAddress: string
     downloadMetadata?: IDownloadMetadata
-    composedUrl?: string
+    mediaUrl?: string
 }
 
 export interface IPersistedIrc27Nft extends IBasePersistedNft {

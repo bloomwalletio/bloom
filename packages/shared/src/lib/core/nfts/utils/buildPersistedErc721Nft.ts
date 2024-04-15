@@ -51,7 +51,7 @@ export async function buildPersistedErc721Nft(
                 persistedNft.metadata = erc721Metadata
             }
 
-            persistedNft.composedUrl = composeUrlFromNftUri(metadata.image)
+            persistedNft.mediaUrl = metadata.image
         } catch (err) {
             throw new Error(`Unable to get metadata of token ${tokenId} from contract ${contractMetadata.address}`)
         }

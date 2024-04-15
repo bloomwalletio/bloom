@@ -24,6 +24,7 @@ interface ISecuritySettingsFeatures extends IFeatureFlag {
 
 interface ICollectiblesSettingsFeatures extends IFeatureFlag {
     downloadPermissions: IFeatureFlag
+    ipfsGateways: IFeatureFlag
     maxMediaSize: IFeatureFlag
     maxMediaDownloadTime: IFeatureFlag
     refreshNftMedia: IFeatureFlag

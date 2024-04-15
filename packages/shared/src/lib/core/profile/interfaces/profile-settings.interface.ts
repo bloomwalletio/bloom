@@ -11,6 +11,5 @@ export interface IProfileSettings {
         maxMediaSizeInMegaBytes: number
         maxMediaDownloadTimeInSeconds: number
     }
-
     hideNetworkStatistics: boolean
 }

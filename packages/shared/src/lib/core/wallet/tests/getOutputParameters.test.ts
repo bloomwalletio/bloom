@@ -45,7 +45,7 @@ const testNft = {
     isSpendable: true,
     timelockTime: 1678867475,
     latestOutputId: 'testOutputId',
-    composedUrl: 'http://example.com',
+    mediaUrl: 'http://example.com',
     downloadUrl: 'http://example.com/download',
     storageDeposit: 100,
     filePath: 'path/to/file',
