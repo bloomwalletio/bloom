@@ -4,7 +4,7 @@ import { Nft } from '../interfaces'
 import { addNftToDownloadQueue, nftDownloadQueue, updatePersistedNft } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
 
-export async function addNftsToDownloadQueue(nfts: Nft[], forceDownload: boolean = true): Promise<void> {
+export async function addNftsToDownloadQueue(nfts: Nft[], forceDownload: boolean = false): Promise<void> {
     if (nfts.length === 0) {
         return
     }
@@ -16,14 +16,14 @@ export async function addNftsToDownloadQueue(nfts: Nft[], forceDownload: boolean
             continue
         }
 
-        const shouldNotDownloadNft = nft.isLoaded || !!nft.downloadMetadata?.error || !!nft.downloadMetadata?.warning
-        if (shouldNotDownloadNft && !forceDownload) {
-            continue
-        } else {
-            const nftToAdd = await validateNft(nft)
+        const shouldDownloadNft = !nft.isLoaded && !nft.downloadMetadata?.error && !nft.downloadMetadata?.warning
+        if (shouldDownloadNft || forceDownload) {
+            const nftToAdd = await validateNft(nft, forceDownload)
             if (nftToAdd) {
                 nftsToAdd.push(nftToAdd)
             }
+        } else {
+            continue
         }
     }
 
@@ -32,9 +32,9 @@ export async function addNftsToDownloadQueue(nfts: Nft[], forceDownload: boolean
     }
 }
 
-async function validateNft(nft: Nft): Promise<Nft | undefined> {
+async function validateNft(nft: Nft, forceDownload: boolean): Promise<Nft | undefined> {
     try {
-        const { shouldDownload, downloadMetadata, isLoaded } = await checkIfNftShouldBeDownloaded(nft)
+        const { shouldDownload, downloadMetadata, isLoaded } = await checkIfNftShouldBeDownloaded(nft, forceDownload)
         updatePersistedNft(nft.id, { downloadMetadata })
         updateNftInAllAccountNfts(nft.id, { downloadMetadata, isLoaded })
 
