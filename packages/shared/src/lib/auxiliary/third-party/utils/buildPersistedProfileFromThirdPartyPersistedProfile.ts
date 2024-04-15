@@ -1,6 +1,10 @@
 import { IPersistedAccountData } from '@core/account'
 import { MarketCurrency } from '@core/market'
-import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts/constants'
+import {
+    DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+    DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
+    IPFS_GATEWAYS,
+} from '@core/nfts/constants'
 import { DownloadPermission } from '@core/nfts/enums'
 import {
     DEFAULT_EVM_NETWORK_CONFIGURATIONS,
@@ -95,6 +99,7 @@ function buildSettingsFromThirdPartyPersistedSettings(settings: IThirdPartyPersi
         strongholdPasswordTimeoutInMinutes:
             settings.strongholdPasswordTimeoutInMinutes ?? DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
         nfts: {
+            ipfsGateway: IPFS_GATEWAYS[0],
             downloadPermissions: DownloadPermission.AllowListOnly,
             maxMediaSizeInMegaBytes: settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
             maxMediaDownloadTimeInSeconds:
