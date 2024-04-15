@@ -8,6 +8,7 @@ export interface IBasePersistedNft {
     ownerAddress: string
     downloadMetadata?: IDownloadMetadata
     mediaUrl?: string
+    isScam?: boolean
 }
 
 export interface IPersistedIrc27Nft extends IBasePersistedNft {
