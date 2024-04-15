@@ -4,7 +4,7 @@
     import { isNumber } from '@core/utils'
 
     export let value: string = ''
-    export let maxlength: number = 0
+    export let maxlength: number | undefined = undefined
     export let maxDecimals: number = 0
     export let maxWidth: string | undefined = undefined
     export let disabled = false
@@ -62,9 +62,11 @@
 
         const hasDecimalSeparator = value?.includes(decimalSeparator)
         const isDuplicateSeparator = hasDecimalSeparator && isDecimalSeparator
-        const numberOfDecimals = value.split(decimalSeparator)[1]?.length || 0
+        const numberOfDecimals = value.split(decimalSeparator)[1]?.length ?? 0
+        const isCursorAfterDecimalSeparator =
+            hasDecimalSeparator && (inputElement?.selectionStart ?? 0) > value.indexOf(decimalSeparator)
 
-        if (isDuplicateSeparator || numberOfDecimals >= maxDecimals) {
+        if (isDuplicateSeparator || (isCursorAfterDecimalSeparator && numberOfDecimals >= maxDecimals)) {
             return false
         }
 
