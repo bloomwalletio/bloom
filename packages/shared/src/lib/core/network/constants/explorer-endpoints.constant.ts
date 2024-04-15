@@ -22,6 +22,11 @@ export const EXPLORER_ENDPOINTS: Readonly<{ [key in SupportedNetworkId]: { [key 
         [ExplorerEndpoint.Foundry]: `testnet/${ExplorerEndpoint.Foundry}`,
         [ExplorerEndpoint.Address]: 'testnet/addr',
     },
+    [SupportedNetworkId.IotaEvm]: {
+        [ExplorerEndpoint.Transaction]: 'tx',
+        [ExplorerEndpoint.Token]: ExplorerEndpoint.Token,
+        [ExplorerEndpoint.Address]: ExplorerEndpoint.Address,
+    },
     [SupportedNetworkId.ShimmerEvm]: {
         [ExplorerEndpoint.Transaction]: 'tx',
         [ExplorerEndpoint.Token]: ExplorerEndpoint.Token,
