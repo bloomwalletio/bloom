@@ -2,11 +2,12 @@ import { Platform } from '@core/app/classes'
 import features from '@features/features'
 import { StatusCodes } from 'http-status-codes'
 import { get } from 'svelte/store'
-import { NFT_MEDIA_FILE_NAME } from '../constants'
-import { DownloadErrorType } from '../enums'
+import { IPFS_GATEWAYS, NFT_MEDIA_FILE_NAME } from '../constants'
+import { DownloadErrorType, DownloadPermission, DownloadWarningType } from '../enums'
 import { IDownloadMetadata, Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 import { IError } from '@core/error/interfaces'
+import { getActiveProfile } from '@core/profile/stores'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: Nft
@@ -30,6 +31,27 @@ export async function checkIfNftShouldBeDownloaded(
         if (!nft.composedUrl) {
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        }
+
+        const nftSettings = getActiveProfile()?.settings?.nfts ?? {}
+
+        // TODO: Implement deny list
+        switch (nftSettings.downloadPermissions) {
+            case DownloadPermission.None:
+                downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
+                return { shouldDownload: false, isLoaded: false, downloadMetadata }
+            case DownloadPermission.AllowListOnly: {
+                const allowList = IPFS_GATEWAYS
+                const startsWithAllowedGateways = allowList.some((gateway) => nft.composedUrl?.startsWith(gateway))
+                if (!startsWithAllowedGateways) {
+                    downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
+                    return { shouldDownload: false, isLoaded: false, downloadMetadata }
+                }
+                break
+            }
+            case DownloadPermission.AllExceptDenylist:
+            case DownloadPermission.All:
+                break
         }
 
         const notRecoverableErrors: StatusCodes[] = [] // TODO: Define which errors we want to blacklist

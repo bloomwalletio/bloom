@@ -139,7 +139,8 @@ async function headRequest(url: string): Promise<Response> {
 }
 
 function isFileTooLarge(contentLength: string): boolean {
-    const MAX_FILE_SIZE_IN_BYTES = (get(activeProfile)?.settings?.maxMediaSizeInMegaBytes ?? 0) * BYTES_PER_MEGABYTE
+    const MAX_FILE_SIZE_IN_BYTES =
+        (get(activeProfile)?.settings?.nfts.maxMediaSizeInMegaBytes ?? 0) * BYTES_PER_MEGABYTE
     return MAX_FILE_SIZE_IN_BYTES > 0 && Number(contentLength) > MAX_FILE_SIZE_IN_BYTES
 }
 
