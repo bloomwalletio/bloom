@@ -9,7 +9,7 @@ export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUnt
     const evmNetworks = getEvmNetworks()
     evmNetworks?.forEach(async (evmNetwork) => {
         const evmAddress = account.evmAddresses[evmNetwork.coinType]
-        if (!evmAddress) {
+        if (!evmAddress || !evmNetwork.explorerUrl) {
             return
         }
         const networkId = evmNetwork.id
