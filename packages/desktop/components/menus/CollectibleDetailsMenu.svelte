@@ -37,7 +37,7 @@
             isLoaded: false,
             downloadMetadata: { ...nft.downloadMetadata, warning: undefined },
         })
-        addNftsToDownloadQueue([nft], true, true)
+        addNftsToDownloadQueue([nft], true)
         menu?.close()
     }
 
