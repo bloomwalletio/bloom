@@ -1,40 +1,24 @@
 <script lang="ts">
     import { Button } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { ProfileAuthPopupId, openProfileAuthPopup } from '@desktop/auxiliary/popup'
     import { exportStronghold } from '@contexts/settings'
     import SettingsSection from '../SettingsSection.svelte'
 
     let busy = false
-    let message = ''
 
-    function handleExportStrongholdResponse(cancelled: boolean, error?: string | undefined): void {
-        setTimeout(
-            () => {
-                message = ''
-            },
-            cancelled ? 0 : 5000
-        )
+    function handleExportStrongholdResponse(): void {
         busy = false
-        if (!cancelled) {
-            if (error) {
-                message = localize('general.exportingStrongholdFailed')
-            } else {
-                message = localize('general.exportingStrongholdSuccess')
-            }
-        }
     }
 
     function onExportClick(): void {
         busy = false
-        message = ''
 
-        openPopup({
-            id: PopupId.UnlockStronghold,
+        openProfileAuthPopup({
+            id: ProfileAuthPopupId.UnlockStronghold,
             props: {
                 onSuccess: (password: string) => {
                     busy = true
-                    message = localize('general.exportingStronghold')
                     exportStronghold(password, handleExportStrongholdResponse)
                 },
                 returnPassword: true,

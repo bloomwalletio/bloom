@@ -34,7 +34,15 @@
     }
 </script>
 
-<dropzone on:drop={onDrop} on:dragenter={onEnter} on:dragleave={onLeave} on:dragover={onOver} class:dropping>
+<dropzone
+    on:drop={onDrop}
+    on:dragenter={onEnter}
+    on:dragleave={onLeave}
+    on:dragover={onOver}
+    class:dropping
+    role="button"
+    tabindex="0"
+>
     <input
         class="absolute opacity-0 w-full h-full"
         type="file"
@@ -52,7 +60,7 @@
     {/if}
 </dropzone>
 
-<style lang="scss">
+<style lang="postcss">
     dropzone {
         @apply relative flex flex-col items-center justify-center text-center;
         @apply gap-4 p-7 w-full transition-colors select-none min-h-[198px];

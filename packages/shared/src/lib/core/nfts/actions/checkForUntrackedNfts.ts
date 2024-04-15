@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account/interfaces'
 import { ContractType } from '@core/layer-2/enums'
-import { getNetwork } from '@core/network/stores'
-import { IChain } from '@core/network/interfaces'
+import { getEvmNetworks } from '@core/network/stores'
+import { IEvmNetwork } from '@core/network/interfaces'
 import features from '@features/features'
 
 import { NftStandard } from '../enums'
@@ -20,20 +20,17 @@ export async function checkForUntrackedNfts(account: IAccountState): Promise<voi
         return
     }
 
-    const chains = getNetwork()?.getChains() ?? []
-
-    for (const chain of chains) {
-        const coinType = chain.getConfiguration().coinType
-        const evmAddress = account.evmAddresses[coinType]
+    const evmNetworks = getEvmNetworks()
+    for (const evmNetwork of evmNetworks) {
+        const evmAddress = account.evmAddresses[evmNetwork.coinType]
         if (!evmAddress) {
             return
         }
-        const networkId = chain.getConfiguration().id
-        const blockscoutApi = new BlockscoutApi(networkId)
+        const blockscoutApi = new BlockscoutApi(evmNetwork.id)
 
         const explorerNfts = await blockscoutApi.getAssetsForAddress(evmAddress, NftStandard.Erc721)
         for (const explorerNft of explorerNfts) {
-            await persistNftsFromExplorerAsset(account, evmAddress, explorerNft, chain)
+            await persistNftsFromExplorerAsset(account, evmAddress, explorerNft, evmNetwork)
         }
     }
 }
@@ -42,13 +39,13 @@ async function persistNftsFromExplorerAsset(
     account: IAccountState,
     evmAddress: string,
     asset: IBlockscoutAsset,
-    chain: IChain
+    evmNetwork: IEvmNetwork
 ): Promise<void> {
     const { token, value } = asset
     const { address, name, symbol } = token
     try {
-        const contract = chain.getContract(ContractType.Erc721, address)
-        const networkId = chain.getConfiguration().id
+        const contract = evmNetwork.getContract(ContractType.Erc721, address)
+        const networkId = evmNetwork.id
 
         const nftPromises = Array.from({ length: Number(value) }).map(async (_, idx) => {
             try {

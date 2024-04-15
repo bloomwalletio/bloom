@@ -28,15 +28,8 @@ const walletFeatures: IWalletFeatures = {
         search: {
             enabled: true,
         },
-    },
-    portfolio: {
-        filter: {
-            enabled: false,
-        },
-    },
-    smartContracts: {
-        infuraRegistry: {
-            enabled: false,
+        exportCsv: {
+            enabled: true,
         },
     },
 }

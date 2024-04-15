@@ -4,7 +4,7 @@
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { IChain, getNetwork, isEvmChain } from '@core/network'
+    import { IEvmNetwork, getEvmNetwork, isEvmNetwork } from '@core/network'
     import { truncateString } from '@core/utils'
     import { SendFlowParameters, SubjectType } from '@core/wallet'
     import {
@@ -23,7 +23,7 @@
     import { TransactionSummaryProps } from './types'
     import { setGasFee } from '@core/layer-2/actions'
     import { showNotification } from '@auxiliary/notification'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
     import { getActiveProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
 
@@ -31,15 +31,15 @@
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
 
     $: void prepareTransactions($sendFlowParameters)
-    $: isSourceNetworkLayer2 = !!chain
-    $: isDestinationNetworkLayer2 = isEvmChain($sendFlowParameters?.destinationNetworkId)
+    $: isSourceNetworkLayer2 = !!evmNetwork
+    $: isDestinationNetworkLayer2 = isEvmNetwork($sendFlowParameters?.destinationNetworkId)
     $: isDisabled = isInvalid || !hasMounted || (!preparedTransaction && !preparedOutput)
 
     let hasMounted = false
     let isInvalid: boolean
     let busy = false
     let recipientAddress: string
-    let chain: IChain | undefined
+    let evmNetwork: IEvmNetwork | undefined
 
     async function prepareTransactions(sendFlowParameters: SendFlowParameters): Promise<void> {
         if (_onMount) {
@@ -56,11 +56,11 @@
                     : truncateString(recipient?.address, 6, 6)
 
             const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
-            if (isEvmChain(networkId)) {
-                chain = getNetwork()?.getChain(networkId)
+            if (isEvmNetwork(networkId)) {
+                evmNetwork = getEvmNetwork(networkId)
                 preparedTransaction = await createEvmTransactionFromSendFlowParameters(
                     sendFlowParameters,
-                    chain,
+                    evmNetwork,
                     $selectedAccount
                 )
             } else {
@@ -96,7 +96,7 @@
         }
 
         try {
-            await checkActiveProfileAuthAsync(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
+            await checkActiveProfileAuth(isSourceNetworkLayer2 ? LedgerAppName.Ethereum : undefined)
         } catch (error) {
             return
         }
@@ -105,14 +105,14 @@
             busy = true
             modifyPopupState({ preventClose: true })
             if (isSourceNetworkLayer2) {
-                const signedTransaction = await signEvmTransaction(preparedTransaction, chain, $selectedAccount)
+                const signedTransaction = await signEvmTransaction(preparedTransaction, evmNetwork, $selectedAccount)
                 const profileId = getActiveProfileId()
                 const account = getSelectedAccount()
 
                 await sendAndPersistTransactionFromEvm(
                     preparedTransaction,
                     signedTransaction,
-                    chain,
+                    evmNetwork,
                     profileId,
                     account
                 )

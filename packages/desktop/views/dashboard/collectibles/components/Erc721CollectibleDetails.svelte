@@ -3,7 +3,7 @@
     import { type IItem } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { IErc721Nft } from '@core/nfts'
-    import { ExplorerEndpoint, NetworkId, getDefaultExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint, EvmNetworkId, getDefaultExplorerUrl } from '@core/network'
     import CollectibleDetails from './CollectibleDetails.svelte'
     import { buildUrl } from '@core/utils'
 
@@ -13,7 +13,7 @@
     const address = contractMetadata.address
     const explorerEndpoint = getExplorerEndpoint(networkId)
 
-    function getExplorerEndpoint(networkId: NetworkId): string | undefined {
+    function getExplorerEndpoint(networkId: EvmNetworkId): string | undefined {
         const { baseUrl, endpoint } = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Token)
         const url = buildUrl({
             origin: baseUrl,

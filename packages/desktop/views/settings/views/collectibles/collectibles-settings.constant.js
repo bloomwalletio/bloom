@@ -1,7 +1,11 @@
 import { CollectiblesSettingsRoute } from '@core/router'
-import { MaxMediaDownloadTime, MaxMediaSize, RefreshNftMedia } from '.'
+import { DownloadNftPermissions, MaxMediaDownloadTime, MaxMediaSize, RefreshNftMedia } from '.'
 
 export const COLLECTIBLES_SETTINGS = [
+    {
+        component: DownloadNftPermissions,
+        childRoute: CollectiblesSettingsRoute.MaxMediaDownloadTime,
+    },
     {
         component: MaxMediaDownloadTime,
         childRoute: CollectiblesSettingsRoute.MaxMediaDownloadTime,

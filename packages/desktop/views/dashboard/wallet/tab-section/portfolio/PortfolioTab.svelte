@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { ITokenWithBalance } from '@core/token'
+    import { ITokenWithBalance, sortTokens } from '@core/token'
     import { isVisibleToken } from '@core/token/actions/isVisibleToken'
     import { selectedAccountTokens, tokenFilter, tokenSearchTerm } from '@core/token/stores'
     import VirtualList from '@sveltejs/svelte-virtual-list'
@@ -29,7 +29,7 @@
             }
             nativeTokens.push(...(networkTokens?.nativeTokens ?? []))
         }
-        return [...baseCoins, ...nativeTokens.sort((a, b) => a.metadata.name.localeCompare(b.metadata.name))]
+        return [...baseCoins, ...sortTokens(nativeTokens)]
     }
 
     function scrollToTop() {
@@ -82,12 +82,11 @@
     {/if}
 </portfolio-tab>
 
-<style lang="scss">
-    $paneHeaderHeight: 68px;
-
+<style lang="postcss">
     portfolio-tab {
+        --pane-header-height: 68px;
         @apply flex flex-col flex-grow;
-        height: calc(100% - $paneHeaderHeight);
+        height: calc(100% - var(--pane-header-height));
 
         header-row {
             @apply w-full;

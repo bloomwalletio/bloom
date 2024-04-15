@@ -2,7 +2,7 @@
     import { TextInput } from '@bloomwalletio/ui'
     import { NetworkInput } from '@ui'
     import { localize } from '@core/i18n'
-    import { NetworkId } from '@core/network'
+    import { EvmNetworkId } from '@core/network'
     import { validateEthereumAddress } from '@core/utils'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -17,10 +17,11 @@
     import { activeAccounts } from '@core/profile/stores'
     import { getAddressFromAccountForNetwork } from '@core/account'
     import { TokenTrackingStatus } from '@core/token'
+    import { selectedAccount } from '@core/account/stores'
 
     let busy = false
 
-    let networkId: NetworkId
+    let networkId: EvmNetworkId
 
     let tokenAddress: string
 
@@ -36,7 +37,7 @@
         busy = true
         try {
             validateEthereumAddress(tokenAddress)
-            const persistedNft = await persistErc721Nft(tokenAddress, tokenId, networkId)
+            const persistedNft = await persistErc721Nft(tokenAddress, tokenId, networkId, $selectedAccount)
             if (!persistedNft) {
                 throw new Error(localize('popups.importToken.errors.alreadyAdded'))
             }

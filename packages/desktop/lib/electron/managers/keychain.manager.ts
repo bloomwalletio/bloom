@@ -8,8 +8,8 @@ export default class KeychainManager {
         this.serviceName = app?.isPackaged ? app.getName() : 'Bloom — Dev'
     }
 
-    public get(key: string): Promise<string | null> {
-        return keytar.getPassword(this.serviceName, key)
+    public get(key: string, appName?: string): Promise<string | null> {
+        return keytar.getPassword(appName ?? this.serviceName, key)
     }
 
     public set(key: string, content: string): Promise<void> {

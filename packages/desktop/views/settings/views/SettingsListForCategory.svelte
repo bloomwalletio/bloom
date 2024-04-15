@@ -22,7 +22,7 @@
         ) ?? []
 </script>
 
-<div class="flex flex-col px-8 pb-8 space-y-5">
+<div class="flex flex-col px-8 space-y-5">
     <Text type="h6">
         {localize(`views.settings.${category}.title`)}
     </Text>
@@ -33,7 +33,7 @@
     {/each}
 </div>
 
-<style lang="scss">
+<style lang="postcss">
     section {
         @apply w-full sm:w-3/4 pb-6;
         @apply border-solid border-b border-stroke dark:border-stroke-dark;

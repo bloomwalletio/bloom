@@ -1,7 +1,7 @@
 import { NetworkNamespace } from '../enums'
-import { NetworkId } from '../types'
+import { NetworkId, StardustNetworkId } from '../types'
 import { getSplitNetworkId } from './getSplitNetworkId'
 
-export function isStardustNetwork(networkId: NetworkId): boolean {
+export function isStardustNetwork(networkId: NetworkId): networkId is StardustNetworkId {
     return getSplitNetworkId(networkId)?.namespace === NetworkNamespace.Stardust
 }

@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 
 /* Transak adds the style attribute in <html> with the theme color when it loads */
-function observeStyleChanges(targetNode: Element): { disconnect: () => void } {
+function observeStyleChanges(targetNode: Element): void {
     const config = {
         attributes: true,
         attributeFilter: ['style'],
@@ -10,6 +10,7 @@ function observeStyleChanges(targetNode: Element): { disconnect: () => void } {
     const callback = (mutationsList: MutationRecord[], observer: MutationObserver) => {
         for (const mutation of mutationsList) {
             if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                clearTimeout(fallbackTimeout)
                 void ipcRenderer.invoke('transak-loaded')
                 observer.disconnect()
                 break
@@ -20,9 +21,10 @@ function observeStyleChanges(targetNode: Element): { disconnect: () => void } {
     const observer = new MutationObserver(callback)
     observer.observe(targetNode, config)
 
-    return {
-        disconnect: () => observer.disconnect(),
-    }
+    const fallbackTimeout = setTimeout(() => {
+        observer.disconnect()
+        void ipcRenderer.invoke('transak-loaded')
+    }, 5000)
 }
 
 window.addEventListener('DOMContentLoaded', () => {

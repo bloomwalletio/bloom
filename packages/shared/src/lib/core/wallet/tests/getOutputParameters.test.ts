@@ -1,13 +1,12 @@
-import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
-import { SupportedNetworkId } from '@core/network/enums'
 import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
-import { DEFAULT_CHAIN_CONFIGURATIONS } from '@core/network/constants'
+import { DEFAULT_EVM_NETWORK_CONFIGURATIONS, SupportedNetworkId } from '@core/network/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
 import { TokenStandard, VerifiedStatus } from '@core/token/enums'
 import { SendFlowType } from '../enums'
 import { SendFlowParameters } from '../types'
+import { writable } from 'svelte/store'
 
 const PERSISTED_ASSET_SHIMMER: IPersistedToken = {
     id: '1',
@@ -33,7 +32,7 @@ const nativeTokenAsset: IToken = {
     verification: { verified: true, status: VerifiedStatus.SelfVerified },
 }
 
-const destinationNetwork = DEFAULT_CHAIN_CONFIGURATIONS[SupportedNetworkId.Testnet]
+const destinationNetwork = DEFAULT_EVM_NETWORK_CONFIGURATIONS[SupportedNetworkId.Testnet]
 
 const nftId = '0xcd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1'
 const surplus = '50000'
@@ -71,7 +70,13 @@ const baseTransaction: SendFlowParameters = {
     destinationNetworkId: SupportedNetworkId.Shimmer,
 }
 
+// TODO: refactor getOutputParameters to not rely on this store
+jest.mock('@core/profile/stores/active-profile-id.store', () => ({
+    activeProfileId: jest.fn(() => writable('')),
+}))
+
 jest.mock('@core/token/stores/persisted-tokens.store', () => ({
+    persistedTokens: jest.fn(() => writable([])),
     getPersistedToken: jest.fn(() => PERSISTED_ASSET_SHIMMER),
     getAssetById: jest.fn((id) => (id === PERSISTED_ASSET_SHIMMER.id ? PERSISTED_ASSET_SHIMMER : nativeTokenAsset)),
 }))
@@ -87,8 +92,8 @@ jest.mock('@core/token/actions/getAccountTokensForAccount', () => ({
     }),
 }))
 
-jest.mock('../../network/actions/getChainConfiguration', () => ({
-    getChainConfiguration: jest.fn((_) => destinationNetwork),
+jest.mock('../../network/stores/networks.store', () => ({
+    getEvmNetwork: jest.fn((_) => destinationNetwork),
 }))
 
 jest.mock('../../layer-2/actions/getGasPriceForNetwork', () => ({
@@ -115,11 +120,6 @@ jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
 
 describe('File: getOutputParameters.ts', () => {
     let sendFlowParameters: SendFlowParameters
-
-    beforeAll(() => {
-        // TODO: refactor getOutputParameters to not rely on this store
-        activeProfileId.set('id')
-    })
 
     it('should return output parameters for base token with metadata and tag', () => {
         sendFlowParameters = {

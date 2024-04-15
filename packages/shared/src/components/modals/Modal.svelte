@@ -84,7 +84,7 @@
 {#if show}
     <modal-content
         bind:this={modal}
-        in:fade={{ duration: 100 }}
+        in:fade|global={{ duration: 100 }}
         use:clickOutside
         on:clickOutside={onClickOutside}
         class="{size} {classes}"
@@ -101,8 +101,8 @@
 
 <style lang="postcss">
     modal-content {
-        @apply bg-white dark:bg-gray-900 shadow-elevation-4;
-        @apply rounded-xl border border-solid border-gray-200 dark:border-gray-700;
+        @apply bg-surface-0 dark:bg-surface-0-dark shadow-elevation-4;
+        @apply rounded-xl border border-solid border-stroke dark:border-stroke-dark;
         @apply overflow-y-scroll overflow-x-hidden z-10;
     }
 

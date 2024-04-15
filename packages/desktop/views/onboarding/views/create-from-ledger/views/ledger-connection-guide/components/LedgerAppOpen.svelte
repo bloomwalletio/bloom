@@ -5,12 +5,14 @@
     import { LedgerAppName } from '@core/ledger'
     import { get } from 'svelte/store'
     import { onboardingProfile } from '@contexts/onboarding'
-    import { SupportedNetworkId } from '@core/network'
+    import { SupportedStardustNetworkId } from '@core/network'
 
     const ledgerAppName: LedgerAppName =
-        get(onboardingProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+        get(onboardingProfile)?.network?.id === SupportedStardustNetworkId.Iota
+            ? LedgerAppName.Iota
+            : LedgerAppName.Shimmer
     const icon: IconName =
-        get(onboardingProfile)?.network?.id === SupportedNetworkId.Iota ? IconName.Iota : IconName.Shimmer
+        get(onboardingProfile)?.network?.id === SupportedStardustNetworkId.Iota ? IconName.Iota : IconName.Shimmer
 </script>
 
 <Text type="body2" textColor="secondary" align="center">

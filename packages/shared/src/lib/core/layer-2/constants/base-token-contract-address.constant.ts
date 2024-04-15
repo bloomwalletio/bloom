@@ -1,6 +1,7 @@
-import { EvmNetworkId } from '@core/network/enums'
+import { EvmNetworkId } from '@core/network'
+import { SupportedEvmNetworkId } from '@core/network/constants/supported-network-id.constant'
 
 export const BASE_TOKEN_CONTRACT_ADDRESS: Readonly<{ [id in EvmNetworkId]?: string }> = {
-    [EvmNetworkId.ShimmerEvm]: '0x1074010000000000000000000000000000000000',
-    [EvmNetworkId.TestnetEvm]: '0x1074010000000000000000000000000000000000',
+    [SupportedEvmNetworkId.ShimmerEvm]: '0x1074010000000000000000000000000000000000',
+    [SupportedEvmNetworkId.TestnetEvm]: '0x1074010000000000000000000000000000000000',
 }

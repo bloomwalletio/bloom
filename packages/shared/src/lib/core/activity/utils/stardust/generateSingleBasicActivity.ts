@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account'
 import { IActivityGenerationParameters } from '@core/activity/types'
-import { NetworkId } from '@core/network/types'
+import { StardustNetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { StardustActivityType } from '../../enums'
 import { StardustTransactionActivity } from '../../types'
@@ -9,7 +9,7 @@ import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 
 export async function generateSingleBasicActivity(
     account: IAccountState,
-    networkId: NetworkId,
+    networkId: StardustNetworkId,
     generationParameters: IActivityGenerationParameters,
     overrideTokenId?: string,
     overrideAmount?: bigint

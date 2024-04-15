@@ -3,6 +3,7 @@ export const MENU_STATE = {
     strings: {
         about: 'About Bloom',
         checkForUpdates: 'Check for Updates',
+        importThirdPartyProfiles: 'Import Third-Party Profiles',
         settings: 'Settings',
         security: 'Security',
         advanced: 'Advanced',

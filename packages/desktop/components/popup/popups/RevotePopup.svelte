@@ -3,7 +3,7 @@
     import { vote } from '@contexts/governance/actions'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { PopupTemplate } from '@components/popup'
 
@@ -12,7 +12,7 @@
 
     async function onSubmit(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync()
+            await checkActiveProfileAuth()
         } catch (error) {
             return
         }

@@ -10,7 +10,7 @@ import { IErc20Metadata, IIrc30Metadata, IPersistedToken } from '../interfaces'
 import { TokenVerification } from '../types'
 import { buildPersistedTokenFromMetadata } from '../utils'
 import { NetworkId } from '@core/network/types'
-import { isEvmChain, isStardustNetwork } from '@core/network'
+import { isEvmNetwork, isStardustNetwork } from '@core/network'
 import { selectedAccount } from '@core/account/stores'
 import { handleError } from '@core/error/handlers'
 import { isValidEthereumAddress } from '@core/utils/crypto/utils/isValidEthereumAddress'
@@ -20,7 +20,7 @@ export async function requestPersistedToken(
     networkId: NetworkId
 ): Promise<IPersistedToken | undefined> {
     let tokenMetadata: IIrc30Metadata | IErc20Metadata | undefined
-    if (networkId && isEvmChain(networkId)) {
+    if (networkId && isEvmNetwork(networkId)) {
         try {
             if (isValidEthereumAddress(tokenId)) {
                 tokenMetadata = (await getEvmTokenMetadata(tokenId, networkId)) as IErc20Metadata

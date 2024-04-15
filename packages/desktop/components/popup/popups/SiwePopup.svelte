@@ -7,9 +7,9 @@
     import { signMessage } from '@core/wallet/actions'
     import { Table, Tabs, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { IChain, NetworkId, getNameFromNetworkId } from '@core/network'
+    import { IEvmNetwork, EvmNetworkId, getNameFromNetworkId } from '@core/network'
     import { AccountLabel, DappInfo, KeyValue, NetworkLabel } from '@ui'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { ParsedMessage } from '@spruceid/siwe-parser'
@@ -19,7 +19,7 @@
     export let rawMessage: string
     export let siweObject: ParsedMessage
     export let account: IAccountState
-    export let chain: IChain
+    export let evmNetwork: IEvmNetwork
     export let dapp: IConnectedDapp
     export let verifiedState: DappVerification
     export let callback: (params: CallbackParameters) => void
@@ -39,19 +39,18 @@
 
     let selectedTab = TABS[0]
     let isBusy = false
-    const networkId = `eip155:${siweObject.chainId}` as NetworkId
+    const networkId: EvmNetworkId = `eip155:${siweObject.chainId}`
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch {
             return
         }
 
         isBusy = true
         try {
-            const { coinType } = chain.getConfiguration()
-            const result = await signMessage(rawMessage, coinType, account)
+            const result = await signMessage(rawMessage, evmNetwork.coinType, account)
             closePopup({ forceClose: true })
 
             callback({ result })

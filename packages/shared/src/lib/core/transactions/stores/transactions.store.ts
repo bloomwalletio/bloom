@@ -1,14 +1,15 @@
-import { IBlockscoutTokenTransfer, IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
-import { EvmNetworkId } from '@core/network'
-import { IChain } from '@core/network/interfaces'
+import { IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
+import { NetworkId } from '@core/network'
+import { IEvmNetwork } from '@core/network/interfaces'
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
 import { LocalEvmTransaction, PersistedTransaction } from '../types/'
+import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
 
 type PersistedTransactions = {
     [profileId: string]: {
         [accountId: string]: {
-            [networkId in EvmNetworkId]?: {
+            [networkId in NetworkId]?: {
                 [transactionHash: string]: PersistedTransaction
             }
         }
@@ -20,16 +21,16 @@ export const persistedTransactions = persistent<PersistedTransactions>('transact
 export function getPersistedTransactionsForChain(
     profileId: string,
     accountIndex: number,
-    chain: IChain
+    evmNetwork: IEvmNetwork
 ): PersistedTransaction[] {
-    const networkId = chain.getConfiguration().id as EvmNetworkId
+    const networkId = evmNetwork.id
     return Object.values(get(persistedTransactions)?.[profileId]?.[accountIndex]?.[networkId] ?? {}) ?? []
 }
 
 export function addLocalTransactionToPersistedTransaction(
     profileId: string,
     accountIndex: number,
-    networkId: EvmNetworkId,
+    networkId: NetworkId,
     newTransactions: LocalEvmTransaction[]
 ): void {
     persistedTransactions.update((state) => {
@@ -63,7 +64,7 @@ export function addLocalTransactionToPersistedTransaction(
 export function addBlockscoutTransactionToPersistedTransactions(
     profileId: string,
     accountIndex: number,
-    networkId: EvmNetworkId,
+    networkId: NetworkId,
     newTransactions: IBlockscoutTransaction[]
 ): void {
     persistedTransactions.update((state) => {
@@ -97,8 +98,8 @@ export function addBlockscoutTransactionToPersistedTransactions(
 export function addBlockscoutTokenTransferToPersistedTransactions(
     profileId: string,
     accountIndex: number,
-    networkId: EvmNetworkId,
-    newTokenTransfers: IBlockscoutTokenTransfer[]
+    networkId: NetworkId,
+    newTokenTransfers: BlockscoutTokenTransfer[]
 ): void {
     persistedTransactions.update((state) => {
         if (!state[profileId]) {
@@ -138,7 +139,7 @@ export function removePersistedTransactionsForProfile(profileId: string): void {
 export function isBlockscoutTransactionPersisted(
     profileId: string,
     accountIndex: number,
-    networkId: EvmNetworkId,
+    networkId: NetworkId,
     transactionHash: string
 ): boolean {
     return !!get(persistedTransactions)?.[profileId]?.[accountIndex]?.[networkId]?.[transactionHash]?.blockscout
@@ -147,7 +148,7 @@ export function isBlockscoutTransactionPersisted(
 export function isBlockscoutTokenTransferPersisted(
     profileId: string,
     accountIndex: number,
-    networkId: EvmNetworkId,
+    networkId: NetworkId,
     transactionHash: string
 ): boolean {
     return !!get(persistedTransactions)?.[profileId]?.[accountIndex]?.[networkId]?.[transactionHash]?.tokenTransfer

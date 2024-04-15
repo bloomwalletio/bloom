@@ -1,10 +1,16 @@
-import { MarketCurrency } from '@core/market'
+import type { MarketCurrency } from '@core/market'
+import type { DownloadPermission } from '@core/nfts/enums'
 
 export interface IProfileSettings {
     marketCurrency: MarketCurrency
     lockScreenTimeoutInMinutes: number
     strongholdPasswordTimeoutInMinutes: number
-    maxMediaSizeInMegaBytes: number
-    maxMediaDownloadTimeInSeconds: number
+    nfts: {
+        ipfsGateway: string
+        downloadPermissions: DownloadPermission
+        maxMediaSizeInMegaBytes: number
+        maxMediaDownloadTimeInSeconds: number
+    }
+
     hideNetworkStatistics: boolean
 }

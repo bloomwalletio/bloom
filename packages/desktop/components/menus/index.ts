@@ -1,4 +1,5 @@
 export { default as AccountActionsMenu } from './AccountActionsMenu.svelte'
+export { default as ActivityListMenu } from './ActivityListMenu.svelte'
 export { default as CollectibleDetailsMenu } from './CollectibleDetailsMenu.svelte'
 export { default as CollectiblesListMenu } from './CollectiblesListMenu.svelte'
 export { default as ContactActionsMenu } from './ContactActionsMenu.svelte'

@@ -6,29 +6,67 @@ import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
-import { NetworkHealth } from '../enums'
-import { IBlock, IChain, IChainStatus, IIscpChainConfiguration, IIscpChainMetadata } from '../interfaces'
-import { chainStatuses } from '../stores'
-import { ChainConfiguration, ChainMetadata, Web3Provider } from '../types'
+import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enums'
+import {
+    IBlock,
+    IEvmNetwork,
+    IEvmNetworkStatus,
+    IIscpEvmNetworkConfiguration,
+    IIscpEvmNetworkMetadata,
+} from '../interfaces'
+import { evmNetworkStatuses } from '../stores'
+import { CoinType } from '@iota/sdk/out/types'
+import { ChainMetadata, EvmNetworkId, Web3Provider } from '../types'
 import { Converter } from '@core/utils'
 
-export class IscpChain implements IChain {
-    private readonly _provider: Web3Provider
-    private readonly _configuration: IIscpChainConfiguration
+export class IscpChain implements IEvmNetwork {
+    public readonly provider: Web3Provider
     private readonly _chainApi: string
 
-    private _metadata: IIscpChainMetadata | undefined
-    constructor(payload: IIscpChainConfiguration) {
+    public readonly id: EvmNetworkId
+    public readonly namespace: NetworkNamespace.Evm
+    public readonly chainId: ChainId
+    public readonly type: EvmNetworkType.Iscp
+    public readonly coinType: CoinType
+    public readonly name: string
+    public readonly explorerUrl: string | undefined
+    public readonly rpcEndpoint: string
+    public readonly apiEndpoint: string
+    public readonly aliasAddress: string
+
+    private _metadata: IIscpEvmNetworkMetadata | undefined
+    constructor({
+        id,
+        namespace,
+        chainId,
+        type,
+        coinType,
+        name,
+        explorerUrl,
+        rpcEndpoint,
+        aliasAddress,
+        apiEndpoint,
+    }: IIscpEvmNetworkConfiguration) {
         try {
             /**
              * NOTE: We can assume that the data inside this payload has already
              * been validated.
              */
-            const { aliasAddress, rpcEndpoint, apiEndpoint } = payload
             const evmJsonRpcPath = this.buildEvmJsonRpcPath(aliasAddress)
 
-            this._provider = new Web3(`${rpcEndpoint}/${evmJsonRpcPath}`)
-            this._configuration = payload
+            this.provider = new Web3(`${rpcEndpoint}/${evmJsonRpcPath}`)
+
+            this.id = id
+            this.namespace = namespace
+            this.chainId = chainId
+            this.type = type
+            this.coinType = coinType
+            this.name = name
+            this.explorerUrl = explorerUrl
+            this.rpcEndpoint = rpcEndpoint
+            this.aliasAddress = aliasAddress
+            this.apiEndpoint = apiEndpoint
+
             this._chainApi = `${apiEndpoint}v1/chains/${aliasAddress}`
         } catch (err) {
             console.error(err)
@@ -44,12 +82,8 @@ export class IscpChain implements IChain {
         return `v1/chains/${aliasAddress}/evm`
     }
 
-    getConfiguration(): ChainConfiguration {
-        return this._configuration
-    }
-
-    getStatus(): IChainStatus {
-        return get(chainStatuses)?.[this._configuration?.id] ?? { health: NetworkHealth.Disconnected }
+    getStatus(): IEvmNetworkStatus {
+        return get(evmNetworkStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
     }
 
     getContract(type: ContractType, address: string): Contract {
@@ -57,20 +91,16 @@ export class IscpChain implements IChain {
         if (!abi) {
             throw new Error(`Unable to determine contract type "${type}"`)
         }
-        return new this._provider.eth.Contract(abi, address)
+        return new this.provider.eth.Contract(abi, address)
     }
 
     getMetadata(): Promise<ChainMetadata> {
         if (this._metadata) {
             return Promise.resolve(this._metadata)
         } else {
-            this._metadata = <IIscpChainMetadata>{} // await this.fetchChainMetadata()
+            this._metadata = <IIscpEvmNetworkMetadata>{} // await this.fetchChainMetadata()
             return Promise.resolve(this._metadata)
         }
-    }
-
-    getProvider(): Web3Provider {
-        return this._provider
     }
 
     /**
@@ -79,14 +109,14 @@ export class IscpChain implements IChain {
      * the EVM JSON-RPC endpoint rather than the underlying WASP
      * node URL). See here for more: https://github.com/iotaledger/wasp/issues/2385
      */
-    private async fetchChainMetadata(): Promise<IIscpChainMetadata> {
+    private async fetchChainMetadata(): Promise<IIscpEvmNetworkMetadata> {
         const response = await fetch(this._chainApi)
-        return (await response.json()) as IIscpChainMetadata
+        return (await response.json()) as IIscpEvmNetworkMetadata
     }
 
     async getLatestBlock(): Promise<IBlock> {
-        const number = await this._provider.eth.getBlockNumber()
-        return this._provider.eth.getBlock(number)
+        const number = await this.provider.eth.getBlockNumber()
+        return this.provider.eth.getBlock(number)
     }
 
     async getGasEstimate(hex: string): Promise<bigint> {

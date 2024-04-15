@@ -20,6 +20,7 @@
     on:mouseleave={() => showTooltip(false)}
     on:wheel={() => showTooltip(false)}
     class="block absolute -right-1 -bottom-1"
+    role="tooltip"
 >
     <Avatar icon={IconName.WarningCircle} {size} backgroundColor="yellow" customTextColor="white" />
 </stronghold-badge>

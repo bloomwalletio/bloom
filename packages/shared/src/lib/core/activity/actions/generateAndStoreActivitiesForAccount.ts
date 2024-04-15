@@ -8,14 +8,15 @@ import { linkTransactionsWithClaimingTransactions } from './linkTransactionsWith
 import { hideActivitiesForFoundries } from './hideActivitiesForFoundries'
 import { generateActivitiesFromProcessedTransactions } from '../utils/stardust/generateActivitiesFromProcessedTransactions'
 import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
-import { generateActivitiesFromBalanceChanges, generateActivitiesFromEvmChains } from '../utils'
-import { NetworkId } from '@core/network'
+import { generateActivitiesFromBalanceChanges, generateEvmActivitiesFromEvmChains } from '../utils'
+import { StardustNetworkId } from '@core/network'
 import { setOutgoingAsyncActivitiesToClaimed } from './setOutgoingAsyncActivitiesToClaimed'
+import { Activity } from '../types'
 
 export async function generateAndStoreActivitiesForAccount(
     profileId: string,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: StardustNetworkId
 ): Promise<void> {
     // Step 1: process account transactions and outputs into processed transactions
     const processedTransactions = [
@@ -31,15 +32,15 @@ export async function generateAndStoreActivitiesForAccount(
     )
 
     // Step 3: generate activities from processed transactions
-    const activities = await generateActivitiesFromProcessedTransactions(
+    const activities: Activity[] = await generateActivitiesFromProcessedTransactions(
         linkedProcessedTransactions,
         account,
         networkId
     )
-    const balanceChangeActivities = await generateActivitiesFromBalanceChanges(account)
+    const balanceChangeActivities = await generateActivitiesFromBalanceChanges(profileId, account)
     activities.push(...balanceChangeActivities)
 
-    const chainActivities = await generateActivitiesFromEvmChains(profileId, account)
+    const chainActivities = await generateEvmActivitiesFromEvmChains(profileId, account)
     activities.push(...chainActivities)
 
     // Step 4: set account activities with generated activities

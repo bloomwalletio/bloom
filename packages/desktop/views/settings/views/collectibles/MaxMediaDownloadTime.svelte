@@ -9,14 +9,14 @@
         label: assignMaxMediaDownloadTimeOptionLabel(amount),
     }))
     let selected: IOption = options.find(
-        (option) => option.value === $activeProfile?.settings.maxMediaDownloadTimeInSeconds?.toString()
+        (option) => option.value === $activeProfile?.settings.nfts.maxMediaDownloadTimeInSeconds?.toString()
     )
 
     $: onMaxMediaDownloadTimeChange(selected)
     function onMaxMediaDownloadTimeChange(option: IOption | undefined): void {
         if (option) {
             const maxMediaDownloadTimeInSeconds = parseInt(option.value)
-            updateActiveProfileSettings({ maxMediaDownloadTimeInSeconds })
+            updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, maxMediaDownloadTimeInSeconds } })
         }
     }
 

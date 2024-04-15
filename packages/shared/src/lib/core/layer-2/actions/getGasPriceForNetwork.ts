@@ -1,15 +1,13 @@
-import { NetworkId } from '@core/network/types'
-import { getNetwork } from '@core/network/stores'
+import { getEvmNetwork } from '@core/network'
+import { EvmNetworkId } from '@core/network/types'
 import { Converter } from '@core/utils'
 
-export async function getGasPriceForNetwork(networkId: NetworkId): Promise<string | undefined> {
-    const chain = getNetwork()?.getChain(networkId)
-
-    const provider = chain?.getProvider()
-    if (!provider) {
+export async function getGasPriceForNetwork(networkId: EvmNetworkId): Promise<string | undefined> {
+    const evmNetwork = getEvmNetwork(networkId)
+    if (!evmNetwork) {
         return undefined
     }
 
-    const gasPrice = await provider.eth.getGasPrice()
+    const gasPrice = await evmNetwork.provider.eth.getGasPrice()
     return Converter.decimalToHex(Number(gasPrice), true)
 }

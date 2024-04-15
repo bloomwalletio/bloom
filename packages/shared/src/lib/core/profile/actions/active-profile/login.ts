@@ -8,7 +8,7 @@ import { updateEvmChainGasPrices } from '@core/layer-2/actions'
 import { fetchL2BalanceForAllAccounts } from '@core/layer-2/utils'
 import { pollLedgerDeviceState } from '@core/ledger/actions'
 import { pollMarketPrices } from '@core/market/actions'
-import { pollChainStatuses, pollNetworkStatus } from '@core/network/actions'
+import { pollEvmNetworkStatuses, pollNetworkStatus } from '@core/network/actions'
 import { loadNftsForActiveProfile } from '@core/nfts/actions'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
 import {
@@ -71,7 +71,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         incrementLoginProgress()
         await checkAndUpdateActiveProfileNetwork()
         void pollNetworkStatus()
-        void pollChainStatuses()
+        void pollEvmNetworkStatuses()
 
         // Step 3: load accounts
         incrementLoginProgress()
@@ -86,7 +86,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         // Step 5: generate and store activities for all accounts
         incrementLoginProgress()
-        await generateAndStoreActivitiesForAllAccounts(_activeProfile.id)
+        void generateAndStoreActivitiesForAllAccounts(_activeProfile.id)
 
         if (type === ProfileType.Software) {
             // Step 6: set initial stronghold status
@@ -107,7 +107,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         incrementLoginProgress()
         subscribeToWalletApiEventsForActiveProfile()
         await startBackgroundSync({ syncIncomingTransactions: true })
-        fetchL2BalanceForAllAccounts()
+        fetchL2BalanceForAllAccounts(id)
         void fetchAndPersistTransactionsForAccounts(_activeProfile.id, get(activeAccounts))
 
         // Step 8: finish login

@@ -7,6 +7,33 @@
                 "legalAction": "Potwierdź, że przeczytałeś i akceptujesz:",
                 "button": "Zaczynamy"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Znaleziono portfele innych firm",
+                    "title": "Importuj z innych aplikacji",
+                    "onboardingDescription": "Wykryliśmy, że używasz kompatybilnych portfeli innych firm. Możesz zaimportować swoje profile teraz lub zrobić to później.",
+                    "description": "Wybierz aplikacje, z których chcesz importować profile.",
+                    "empty": "Nie znaleziono aplikacji",
+                    "import": "Importuj"
+                },
+                "importProfiles": {
+                    "title": "Importuj profile firm trzecich",
+                    "description": "Wybierz profile, które chcesz zaimportować.",
+                    "empty": "Nie znaleziono profili",
+                    "tooltips": {
+                        "alreadyImported": "Już zaimportowano",
+                        "needsDbMigration": "Wymaga migracji bazy danych",
+                        "failedProfileMigration": "Nie można dokonać migracji profilu"
+                    },
+                    "errors": {
+                        "appIsOpen": "Portfel z którego próbujesz zaimportować jest uruchomiony. Zamknij portfel i spróbuj ponownie.",
+                        "unknown": "Wystąpił nieznany błąd podczas próby importowania profili"
+                    },
+                    "notifications": {
+                        "success": "Profile pomyślnie zaimportowane!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Wybierz sieć",
@@ -299,9 +326,9 @@
                 "title": "Zgłoś problem",
                 "description": "Zgłoś błąd deweloperom. Upewnij się, że problem nie został już wcześniej zgłoszony"
             },
-            "developerToggle": {
-                "title": "Tryb deweloperski",
-                "description": "Włącz tryb deweloperski, aby aktywować więcej eksperymentalnych funkcji"
+            "toggleFeatures": {
+                "title": "Włącz / Wyłącz funkcje",
+                "description": "Włącz lub wyłącz funkcje, aby dostosować wrażenia do swoich potrzeb."
             }
         },
         "login": {
@@ -572,13 +599,12 @@
             },
             "toasts": {
                 "backup": {
-                    "header": "Wymagana kopa zapasowa",
-                    "body": "Nie utworzono jeszcze kopii zapasowej profilu! Zdecydowanie zalecamy utworzenie kopii zapasowej na wypadek utraty dostępu do tego urządzenia.",
+                    "header": "Wykonaj kopię zapasową",
+                    "body": "Przez dłuższy czas nie wykonałeś kopii zapasowej swojego profilu.",
                     "button": "Utwórz kopię"
                 },
                 "version": {
-                    "body": "Obecnie używasz wczesnej wersji portfela Bloom.",
-                    "button": "Dowiedz się więcej"
+                    "body": "Obecnie używasz wczesnej wersji portfela Bloom."
                 },
                 "update": {
                     "header": "Wymagana aktualizacja",
@@ -821,7 +847,7 @@
             "installedVersion": "Zainstalowana wersja",
             "newVersion": "Nowa wersja",
             "stage": "Kanał",
-            "prod": "Wczesny dostęp",
+            "prod": "Oficjalny",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Opublikowana",
@@ -831,7 +857,7 @@
         },
         "backupStronghold": {
             "title": "Kopia zapasowa pliku stronghold",
-            "body": "Ważne jest, aby regularnie wykonywać kopie zapasowe swojego portfela, aby upewnić się, że masz kopię swoich portfeli i historię transakcji. Jeśli stracisz kopię zapasową i wyrazy ratunkowe, stracisz dostęp do swoich środków."
+            "body": "Ważne jest regularne wykonywanie kopii zapasowej swojego portfela, aby być pewnym, że nasze portfele i historie transakcji są bezpieczne. Jeśli stracisz kopię zapasową i wyrazy ratunkowe, stracisz dostęp do swoich środków."
         },
         "deeplinkAccountSwitch": {
             "title": "Wybierz konto",
@@ -982,6 +1008,12 @@
             "title": "Zgłaszanie awarii",
             "body": "Pomóż programistom ulepszać Bloom, automatycznie wysyłając dane diagnostyczne, gdy wystąpi błąd lub awaria. W przypadku wybrania tej opcji, zacznie ona obowiązywać po ponownym uruchomieniu aplikacji Bloom.",
             "checkbox": "Wysyłaj raporty o awariach do Fundacji IOTA"
+        },
+        "exportActivities": {
+            "title": "Eksportuj aktywność",
+            "body": "Eksportuj swoją aktywność do pliku CSV.",
+            "chooseAccounts": "Wybierz konta",
+            "emptyAccounts": "Wybierz co najmniej jedno konto."
         },
         "signMessage": {
             "title": "Podpisz wiadomość",
@@ -1253,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Utwórz konto"
+        },
+        "profileDiagnostics": {
+            "title": "Diagnostyka profilu"
         }
     },
     "actions": {
@@ -1309,6 +1344,7 @@
         "enableDeveloperMode": "Włącz tryb deweloperski",
         "enableSystemNotifications": "Włącz powiadomienia systemowe",
         "exportTransactionHistory": "Eksportuj historię transakcji",
+        "exportActivities": "Eksportuj aktywność",
         "localProofOfWork": "Lokalny tryb proof of work",
         "unlock": "Odblokuj",
         "updateBloom": "Aktualizuj Bloom",
@@ -1394,7 +1430,8 @@
         "importToken": "Importowanie tokena {type}",
         "syncTokens": "Wymuś synchronizację tokenów",
         "mintNftCollection": "Mintuj kolekcję NFT",
-        "readMore": "Czytaj więcej"
+        "readMore": "Czytaj więcej",
+        "importThirdPartyProfiles": "Importuj profile firm trzecich"
     },
     "general": {
         "recipient": "Odbiorca",
@@ -1463,7 +1500,7 @@
         "balance": "Saldo",
         "balanceWithValue": "Saldo: {balance}",
         "balanceWithNetwork": "Saldo {network}",
-        "all": "Wszystko",
+        "all": "Wszystkie",
         "incoming": "Odebrano",
         "outgoing": "Wysłano",
         "dev": "Deweloper",
@@ -1552,6 +1589,7 @@
         "alias": "Alias",
         "foundry": "Produkcja",
         "token": "Token",
+        "unknownToken": "Nieznany token",
         "nft": "NFT",
         "type": "Typ",
         "immutableIssuer": "Niezmienny wydawca",
@@ -1606,7 +1644,11 @@
         "no": "Nie",
         "tip": "Wskazówka",
         "verified": "Zweryfikowano",
+        "unverified": "Niezweryfikowany",
+        "methodId": "ID metody",
         "methodName": "Metoda",
+        "inputs": "Wejścia",
+        "parameters": "Parametry",
         "data": "Data",
         "success": "Sukces",
         "info": "Informacje",
@@ -1618,10 +1660,12 @@
         "raffle": "Loteria",
         "governance": "Zarządzanie",
         "baseCoin": "Token podstawowy",
-        "unverifiedContract": "Niezweryfikowany kontrakt",
         "startIndex": "Indeks startowy",
         "mintNftCollectionDescription": "Mintuj kolekcję NFT w wyjściu aliasu",
-        "question": "Pytanie"
+        "appName": "Nazwa aplikacji",
+        "question": "Pytanie",
+        "id": "ID",
+        "location": "Lokalizacja"
     },
     "filters": {
         "title": "Filtry",
@@ -1693,8 +1737,9 @@
         },
         "type": {
             "label": "Typ",
-            "basic": "Podstawowe",
+            "transfer": "Transfer",
             "nft": "NFT",
+            "smartContract": "Smart kontrakt",
             "alias": "Alias",
             "foundry": "Produkcja",
             "governance": "Zarządzanie",
@@ -1768,6 +1813,9 @@
         },
         "disconnectDapp": {
             "success": "Odłączono od aplikacji {dappName}"
+        },
+        "exportActivities": {
+            "success": "Aktywność wyeksportowana pomyślnie"
         },
         "clearExpiredDapps": {
             "success": "Wyczyszczono wygasłe dApps"
@@ -2136,7 +2184,10 @@
         "buySell": "Kup IOTA",
         "developer": "Deweloper",
         "tokens": "Tokeny",
-        "settings": "Ustawienia"
+        "settings": "Ustawienia",
+        "tooltips": {
+            "buySell": "Kupno IOTA jest dostępne tylko w profilach IOTA."
+        }
     },
     "pills": {
         "asyncStatus": {

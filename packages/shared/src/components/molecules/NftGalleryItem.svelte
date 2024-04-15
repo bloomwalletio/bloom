@@ -40,7 +40,7 @@
     }
 </script>
 
-<button type="button" on:click={onNftClick} class="nft-gallery-item">
+<button type="button" on:click={onNftClick} class="nft-gallery-item w-full">
     <container>
         <div
             class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
@@ -80,7 +80,7 @@
     </container>
 </button>
 
-<style lang="scss">
+<style lang="postcss">
     .nft-gallery-item {
         container {
             @apply w-full overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark;

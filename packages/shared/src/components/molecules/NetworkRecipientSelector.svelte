@@ -17,7 +17,6 @@
     }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 {#if options?.length}
     <network-recipient-selector class="w-full flex flex-col space-y-4">
         {#each options as item, index}

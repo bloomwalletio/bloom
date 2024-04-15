@@ -1,6 +1,8 @@
-import { ExplorerEndpoint, SupportedNetworkId } from '../enums'
+import { ExplorerEndpoint } from '../enums'
+import { NetworkId } from '../types'
+import { SupportedNetworkId } from './supported-network-id.constant'
 
-export const EXPLORER_ENDPOINTS: Readonly<{ [key in SupportedNetworkId]: { [key in ExplorerEndpoint]?: string } }> = {
+export const EXPLORER_ENDPOINTS: Readonly<{ [key in NetworkId]?: { [key in ExplorerEndpoint]?: string } }> = {
     [SupportedNetworkId.Iota]: {
         [ExplorerEndpoint.Transaction]: `mainnet/${ExplorerEndpoint.Transaction}`,
         [ExplorerEndpoint.Output]: `mainnet/${ExplorerEndpoint.Output}`,

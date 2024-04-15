@@ -1,0 +1,11 @@
+import { EvmActivityType } from '@core/activity/enums/evm'
+import { BaseEvmActivity } from './base-evm-activity.type'
+
+export type EvmContractCallActivity = BaseEvmActivity & {
+    type: EvmActivityType.ContractCall
+    rawData: string
+
+    methodId?: string
+    method?: string
+    parameters?: Record<string, string>
+}

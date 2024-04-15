@@ -37,8 +37,10 @@ const fallback: { [index: string]: string | false | string[] } = {
     fs: false,
     crypto: false,
     // The Ethereum libraries require zlib and the buffer polyfill
-    zlib: false,
+    assert: false,
     buffer: require.resolve('buffer'),
+    stream: false,
+    zlib: false,
     // The Amplitude SDK requires http, https and url polyfills
     http: require.resolve('stream-http'),
     https: require.resolve('https-browserify'),
@@ -47,7 +49,7 @@ const fallback: { [index: string]: string | false | string[] } = {
 
 const resolve = {
     alias: {
-        svelte: path.dirname(require.resolve('svelte/package.json')),
+        svelte: path.resolve('../../node_modules', 'svelte/src/runtime'),
         '@auxiliary': path.resolve(__dirname, '../shared/src/lib/auxiliary'),
         '@contexts': path.resolve(__dirname, '../shared/src/lib/contexts'),
         '@components': path.resolve(__dirname, './components/'),
@@ -58,7 +60,7 @@ const resolve = {
         '@ui': path.resolve(__dirname, '../shared/src/components/'),
         '@views': path.resolve(__dirname, './views/'),
     },
-    conditionNames: ['svelte', 'module', 'import', 'require', 'node', 'default'],
+    conditionNames: ['svelte', 'module', 'import', 'require', 'node', 'default', 'browser'],
     extensions: ['.mjs', '.js', '.ts', '.svelte'],
     mainFields: ['svelte', 'browser', 'module', 'main'],
     fallback,
@@ -190,7 +192,6 @@ const rendererPlugins = [
         PRELOAD_SCRIPT: JSON.stringify(false),
         'process.env.APP_PROTOCOL': JSON.stringify(appProtocol),
         'process.env.WALLETCONNECT_PROJECT_ID': JSON.stringify(process.env.WALLETCONNECT_PROJECT_ID),
-        'process.env.INFURA_PROJECT_ID': JSON.stringify(process.env.INFURA_PROJECT_ID),
     }),
     // The ethereumjs libraries require the NormalModuleReplacementPlugin & the ProvidePlugin
     new NormalModuleReplacementPlugin(/node:/, (resource) => {
@@ -253,6 +254,7 @@ const webpackConfig: Configuration[] = [
         },
         externals: {
             '@ledgerhq/hw-transport-node-hid': 'commonjs @ledgerhq/hw-transport-node-hid',
+            'classic-level': 'commonjs2 classic-level',
         },
         resolve,
         output,

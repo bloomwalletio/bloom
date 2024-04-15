@@ -172,6 +172,9 @@ const onboardingFeatures: OnboardingFeatures = {
     shimmer: onboardingFeaturesForShimmer,
     testnet: onboardingFeaturesForTestnet,
     custom: onboardingFeaturesForCustom,
+    importFromThirdParty: {
+        enabled: true,
+    },
     strongholdVersionCheck: {
         enabled: true,
     },

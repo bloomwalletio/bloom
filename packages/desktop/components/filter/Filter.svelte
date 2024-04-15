@@ -14,7 +14,7 @@
     let openFilterItemIndex = -1
 
     function setFilters(): void {
-        $filterStore = structuredClone(filter)
+        filterStore.set(structuredClone(filter))
         filterActive = false
     }
 
@@ -69,7 +69,7 @@
     </FilterModal>
 </filter-container>
 
-<style lang="scss">
+<style lang="postcss">
     filter-badge {
         @apply absolute h-3 w-3 -ml-2 -mt-0.5 rounded-full;
         @apply inline-flex items-center justify-center;

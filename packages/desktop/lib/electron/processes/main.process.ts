@@ -34,6 +34,7 @@ import { shouldReportError } from '../utils/error.utils'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
+import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
 import { ITransakWindowData } from '@core/app/interfaces'
 import { IError } from '@core/error'
 
@@ -220,6 +221,7 @@ export function createMainWindow(): BrowserWindow {
     }
 
     new NftDownloadManager()
+    new ThirdPartyAppManager()
 
     /**
      * Right click context menu for inputs
@@ -424,12 +426,16 @@ ipcMain.handle('open-external-url', (_e, url) => {
 
 // Keychain
 const keychainManager = new KeychainManager()
-ipcMain.handle('keychain-get', (_e, key) => keychainManager.get(key))
+ipcMain.handle('keychain-get', (_e, key, appName) => keychainManager.get(key, appName))
 ipcMain.handle('keychain-set', (_e, key, content) => keychainManager.set(key, content))
 ipcMain.handle('keychain-remove', (_e, key) => keychainManager.remove(key))
 // Dialogs
 ipcMain.handle('show-open-dialog', (_e, options) => dialog.showOpenDialog(options))
-ipcMain.handle('show-save-dialog', (_e, options) => dialog.showSaveDialog(options))
+ipcMain.handle('show-save-dialog', (_e, options) => {
+    const filePath = path.resolve(app.getPath('documents'), options.defaultPath)
+
+    return dialog.showSaveDialog({ ...options, defaultPath: filePath })
+})
 
 // Miscellaneous
 ipcMain.handle('get-path', (_e, path) => {
@@ -569,7 +575,7 @@ export function openAboutWindow(): BrowserWindow {
          * NOTE: This only affects Windows.
          */
         titleBarOverlay: {
-            color: '#192742',
+            color: '#161926',
             symbolColor: '#ffffff',
         },
         show: true,

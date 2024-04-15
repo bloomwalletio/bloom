@@ -78,6 +78,8 @@
         {/if}
         {#if $$slots.default}
             <slot />
+        {:else if $$slots.content}
+            <slot name="content" />
         {/if}
         {#if backButton || continueButton}
             <popup-footer class="flex flex-row space-x-3">

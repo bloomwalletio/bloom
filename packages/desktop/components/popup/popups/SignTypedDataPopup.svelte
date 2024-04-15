@@ -5,9 +5,9 @@
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { Alert, JsonTree, Table, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { IChain } from '@core/network'
+    import { IEvmNetwork } from '@core/network'
     import { AccountLabel, DappInfo } from '@ui'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { SignTypedDataVersion } from '@metamask/eth-sig-util'
@@ -17,7 +17,7 @@
     export let data: string
     export let version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4
     export let account: IAccountState
-    export let chain: IChain
+    export let evmNetwork: IEvmNetwork
     export let dapp: IConnectedDapp
     export let verifiedState: DappVerification
     export let callback: (params: CallbackParameters) => void
@@ -26,7 +26,7 @@
 
     async function onConfirmClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync(LedgerAppName.Ethereum)
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch {
             return
         }
@@ -34,8 +34,7 @@
         isBusy = true
 
         try {
-            const { coinType } = chain.getConfiguration()
-            const result = await signEip712Message(data, version, coinType, account)
+            const result = await signEip712Message(data, version, evmNetwork.coinType, account)
             closePopup({ forceClose: true })
 
             callback({ result })

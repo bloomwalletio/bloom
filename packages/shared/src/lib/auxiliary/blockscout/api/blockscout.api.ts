@@ -3,15 +3,16 @@ import { TokenStandard } from '@core/token/enums'
 import { QueryParameters } from '@core/utils'
 import { BaseApi } from '@core/utils/api'
 import { DEFAULT_EXPLORER_URLS } from '@core/network/constants'
-import { SupportedNetworkId } from '@core/network/enums'
 import {
     IBlockscoutApi,
     IBlockscoutAsset,
+    IBlockscoutAssetDto,
     IBlockscoutTokenInfo,
-    IBlockscoutTokenTransfer,
+    IBlockscoutTokenInfoDto,
     IBlockscoutTransaction,
 } from '../interfaces'
-import { NetworkId } from '@core/network/types'
+import { EvmNetworkId } from '@core/network/types'
+import { BlockscoutTokenTransfer } from '../types'
 
 interface INextPageParams {
     block_number: number
@@ -26,8 +27,8 @@ interface IPaginationResponse<T> {
 export type BlockscoutExitFunction<T> = (items: T[]) => boolean
 
 export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
-    constructor(networkId: NetworkId) {
-        const explorerBaseUrl = DEFAULT_EXPLORER_URLS[networkId as SupportedNetworkId]
+    constructor(networkId: EvmNetworkId) {
+        const explorerBaseUrl = DEFAULT_EXPLORER_URLS[networkId] ?? ''
         super(explorerBaseUrl, 'api/v2')
     }
 
@@ -61,10 +62,12 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     }
 
     async getAssetMetadata(assetAddress: string): Promise<IBlockscoutTokenInfo | undefined> {
-        const response = await this.get<IBlockscoutTokenInfo>(`tokens/${assetAddress}`)
+        const response = await this.get<IBlockscoutTokenInfoDto>(`tokens/${assetAddress}`)
         if (response) {
-            response.type = response.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721
-            return response
+            return {
+                ...response,
+                type: response.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721,
+            }
         }
     }
 
@@ -74,12 +77,12 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     ): Promise<IBlockscoutAsset[]> {
         const tokenType = standard.replace('ERC', 'ERC-')
         const path = `addresses/${address}/tokens`
-        const items = await this.makePaginatedGetRequest<IBlockscoutAsset>(path, { type: tokenType })
+        const items = await this.makePaginatedGetRequest<IBlockscoutAssetDto>(path, { type: tokenType })
         return items.map((asset) => ({
             ...asset,
             token: {
                 ...asset.token,
-                type: asset.token.type.replace('-', ''),
+                type: asset.token.type.replace('-', '') as TokenStandard.Erc20 | NftStandard.Erc721,
             },
         }))
     }
@@ -102,10 +105,10 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
     async getTokenTransfersForAddress(
         address: string,
         standards?: ('ERC-20' | 'ERC-721')[],
-        exitFunction?: BlockscoutExitFunction<IBlockscoutTokenTransfer>
-    ): Promise<IBlockscoutTokenTransfer[]> {
+        exitFunction?: BlockscoutExitFunction<BlockscoutTokenTransfer>
+    ): Promise<BlockscoutTokenTransfer[]> {
         const path = `addresses/${address}/token-transfers`
-        const items = await this.makePaginatedGetRequest<IBlockscoutTokenTransfer>(
+        const items = await this.makePaginatedGetRequest<BlockscoutTokenTransfer>(
             path,
             standards && standards?.length > 0 ? { type: standards } : undefined,
             [],

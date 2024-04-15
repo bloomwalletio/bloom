@@ -1,13 +1,12 @@
 <script lang="ts">
     import { Tabs } from '@bloomwalletio/ui'
-    import { Filter, TokenListMenu } from '@components'
+    import { ActivityListMenu, Filter, TokenListMenu } from '@components'
     import { activityFilter, activitySearchTerm } from '@core/activity'
     import { localize } from '@core/i18n'
     import { tokenFilter, tokenSearchTerm } from '@core/token/stores'
     import { SearchInput } from '@ui'
     import { ActivityTab } from './activity'
     import { PortfolioTab } from './portfolio'
-    import features from '@features/features'
     import { selectedWalletTabIndex } from '@contexts/wallet/stores'
 
     const TABS = [
@@ -26,11 +25,10 @@
         {#if selectedTab.key === 'activity'}
             <SearchInput bind:value={$activitySearchTerm} />
             <Filter filterStore={activityFilter} />
+            <ActivityListMenu />
         {:else if selectedTab.key === 'portfolio'}
             <SearchInput bind:value={$tokenSearchTerm} />
-            {#if features.wallet.portfolio.filter.enabled}
-                <Filter filterStore={tokenFilter} />
-            {/if}
+            <Filter filterStore={tokenFilter} />
             <TokenListMenu />
         {/if}
     </div>

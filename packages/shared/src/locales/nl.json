@@ -7,6 +7,33 @@
                 "legalAction": "Ik bevestig dat ik het volgende heb gelezen en hiermee akkoord ga",
                 "button": "Setup starten"
             },
+            "importThirdPartyProfiles": {
+                "selectApps": {
+                    "onboardingTitle": "Wallets van derden gevonden",
+                    "title": "Importeer van apps van derden",
+                    "onboardingDescription": "We hebben gedetecteerd dat je compatibele wallets van derden gebruikt. Je kunt nu je profielen importeren of dit later doen.",
+                    "description": "Selecteer de apps waarvan je profielen wilt importeren.",
+                    "empty": "Geen apps gevonden",
+                    "import": "Importeer"
+                },
+                "importProfiles": {
+                    "title": "Importeer profielen van derden",
+                    "description": "Selecteer de profielen die je wilt importeren.",
+                    "empty": "Geen profielen gevonden",
+                    "tooltips": {
+                        "alreadyImported": "Reeds geïmporteerd",
+                        "needsDbMigration": "Databasemigratie nodig",
+                        "failedProfileMigration": "Kan profiel niet migreren"
+                    },
+                    "errors": {
+                        "appIsOpen": "De wallet van derden waarvan je probeert te importeren staat open. Sluit de wallet af en probeer het opnieuw.",
+                        "unknown": "Er is een onbekende fout opgetreden bij het importeren van de profielen"
+                    },
+                    "notifications": {
+                        "success": "Profielen succesvol geïmporteerd!"
+                    }
+                }
+            },
             "networkSetup": {
                 "chooseNetwork": {
                     "title": "Kies je netwerk",
@@ -299,9 +326,9 @@
                 "title": "Meld een probleem",
                 "description": "Meld een probleem aan de ontwikkelaars. Controleer eerst of deze niet al eerder gemeld is"
             },
-            "developerToggle": {
-                "title": "Ontwikkelaar Modus",
-                "description": "Schakel de ontwikkelaarsmodus in om meer functies die experimenteel zijn in te schakelen"
+            "toggleFeatures": {
+                "title": "Schakel functies in/uit",
+                "description": "Schakel functies aan of uit, pas jouw ervaring naar eigen voorkeur aan door specifieke functies in of uit te schakelen."
             }
         },
         "login": {
@@ -573,12 +600,11 @@
             "toasts": {
                 "backup": {
                     "header": "Back-up vereist",
-                    "body": "Je hebt nog geen back-up van je profiel gemaakt! We raden je sterk aan om je account te back-uppen in het geval je de toegang tot dit apparaat verliest.",
+                    "body": "Je hebt al een tijdje geen back-up van je profiel gemaakt.",
                     "button": "Maak een back-up"
                 },
                 "version": {
-                    "body": "Je gebruikt momenteel een \"early version\" van Bloom.",
-                    "button": "Meer informatie"
+                    "body": "Je gebruikt momenteel een ontwikkelingsversie van Bloom."
                 },
                 "update": {
                     "header": "Update vereist",
@@ -821,7 +847,7 @@
             "installedVersion": "Geïnstalleerde versie",
             "newVersion": "Nieuwe versie",
             "stage": "Stage",
-            "prod": "Early Access",
+            "prod": "Productie",
             "alpha": "Alpha",
             "beta": "Beta",
             "releasedAt": "Uitgebracht op",
@@ -982,6 +1008,12 @@
             "title": "Crashrapportage",
             "body": "Help de ontwikkelaars om Bloom te verbeteren door automatisch diagnostische gegevens te verzenden als er een fout of crash optreedt. Als dit is geselecteerd, zal dit van kracht worden na het herstarten van Bloom.",
             "checkbox": "Stuur crashrapporten naar de IOTA Foundation"
+        },
+        "exportActivities": {
+            "title": "Exporteer activiteiten",
+            "body": "Exporteer je activiteiten als CSV.",
+            "chooseAccounts": "Kies accounts",
+            "emptyAccounts": "Kies ten minste 1 account."
         },
         "signMessage": {
             "title": "Bericht ondertekenen",
@@ -1253,6 +1285,9 @@
         },
         "createAccount": {
             "title": "Account aanmaken"
+        },
+        "profileDiagnostics": {
+            "title": "Profiel diagnose"
         }
     },
     "actions": {
@@ -1309,6 +1344,7 @@
         "enableDeveloperMode": "Ontwikkelaarsmodus inschakelen",
         "enableSystemNotifications": "Notificaties inschakelen",
         "exportTransactionHistory": "Transactiegeschiedenis exporteren",
+        "exportActivities": "Exporteer activiteiten",
         "localProofOfWork": "Lokaal bewijs van werk",
         "unlock": "Ontgrendel",
         "updateBloom": "Bloom bijwerken",
@@ -1394,7 +1430,8 @@
         "importToken": "Importeer {type} token",
         "syncTokens": "Forceer synchronisatie tokens",
         "mintNftCollection": "Mint NFT collectie",
-        "readMore": "Lees meer"
+        "readMore": "Lees meer",
+        "importThirdPartyProfiles": "Importeer profielen van derden"
     },
     "general": {
         "recipient": "Ontvanger",
@@ -1552,6 +1589,7 @@
         "alias": "Alias",
         "foundry": "Foundry",
         "token": "Token",
+        "unknownToken": "Onbekende token",
         "nft": "NFT",
         "type": "Type",
         "immutableIssuer": "Onveranderlijke uitgever",
@@ -1606,7 +1644,11 @@
         "no": "Nee",
         "tip": "Tip",
         "verified": "Geverifiëerd",
+        "unverified": "Niet geverifieerd",
+        "methodId": "Method ID",
         "methodName": "Methodenaam",
+        "inputs": "Inputs",
+        "parameters": "Parameters",
         "data": "Gegevens",
         "success": "Succesvol",
         "info": "Info",
@@ -1618,10 +1660,12 @@
         "raffle": "Verloting",
         "governance": "Governance",
         "baseCoin": "Basis token",
-        "unverifiedContract": "Ongeverifieerd contract",
         "startIndex": "Start index",
         "mintNftCollectionDescription": "Mint collectie NFT in Alias Output",
-        "question": "Vraag"
+        "appName": "App naam",
+        "question": "Vraag",
+        "id": "ID",
+        "location": "Locatie"
     },
     "filters": {
         "title": "Filters",
@@ -1693,8 +1737,9 @@
         },
         "type": {
             "label": "Type",
-            "basic": "Basic",
+            "transfer": "Overdracht",
             "nft": "NFT",
+            "smartContract": "Smart Contract",
             "alias": "Alias",
             "foundry": "Foundry",
             "governance": "Governance",
@@ -1768,6 +1813,9 @@
         },
         "disconnectDapp": {
             "success": "Verbinding verbroken met {dappName}"
+        },
+        "exportActivities": {
+            "success": "Activiteiten succesvol geëxporteerd"
         },
         "clearExpiredDapps": {
             "success": "Verlopen dApps gewist"
@@ -2136,7 +2184,10 @@
         "buySell": "IOTA kopen",
         "developer": "Ontwikkelaar",
         "tokens": "Tokens",
-        "settings": "Instellingen"
+        "settings": "Instellingen",
+        "tooltips": {
+            "buySell": "IOTA kopen is alleen beschikbaar in IOTA profielen."
+        }
     },
     "pills": {
         "asyncStatus": {

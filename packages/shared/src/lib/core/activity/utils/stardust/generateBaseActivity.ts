@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account'
 import { BaseStardustActivity, IActivityGenerationParameters } from '@core/activity/types'
-import { getNetworkIdFromAddress } from '@core/layer-2/actions'
-import { NetworkId } from '@core/network/types'
+import { getNetworkFromAddress } from '@core/layer-2/actions'
+import { StardustNetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { BasicOutput } from '@iota/sdk'
 import { activityOutputContainsValue } from '../..'
@@ -15,7 +15,7 @@ import {
 } from '../helper'
 import { getNativeTokenFromOutput } from '../outputs'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { getActiveNetworkId, isStardustNetwork } from '@core/network'
+import { NetworkNamespace, getActiveNetworkId, isStardustNetwork } from '@core/network'
 import { parseLayer2Metadata } from '@core/layer-2/utils'
 import { getSubjectFromAddress } from '@core/wallet/utils'
 import { HEX_PREFIX } from '@core/utils'
@@ -23,7 +23,7 @@ import { SubjectType } from '@core/wallet'
 
 export async function generateBaseActivity(
     account: IAccountState,
-    networkId: NetworkId,
+    networkId: StardustNetworkId,
     { action, processedTransaction, wrappedOutput }: IActivityGenerationParameters
 ): Promise<BaseStardustActivity> {
     // meta information
@@ -53,7 +53,7 @@ export async function generateBaseActivity(
     // even if we unwrap a token the second transaction is sent from the stardust alias
     // controlling the sub chain to our stardust address
     const sourceNetworkId = getActiveNetworkId()
-    const destinationNetworkId = getNetworkIdFromAddress(recipient?.address) ?? sourceNetworkId
+    const destinationNetworkId = getNetworkFromAddress(recipient?.address)?.id ?? sourceNetworkId
     const direction = processedTransaction.direction
 
     // asset information
@@ -89,6 +89,8 @@ export async function generateBaseActivity(
     }
 
     return {
+        namespace: NetworkNamespace.Stardust,
+
         // meta information
         id: outputId || transactionId,
         action,

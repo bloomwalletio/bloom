@@ -1,21 +1,26 @@
-import { IBlockscoutTokenTransfer, IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
+import { IBlockscoutTransaction } from '@auxiliary/blockscout/interfaces'
 import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import {
     addBlockscoutTokenTransferToPersistedTransactions,
     addBlockscoutTransactionToPersistedTransactions,
+    getPersistedTransactionsForChain,
     isBlockscoutTokenTransferPersisted,
     isBlockscoutTransactionPersisted,
 } from '../stores'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
-import { EvmNetworkId, getNetwork } from '@core/network'
+import { EvmNetworkId, IEvmNetwork, getEvmNetworks } from '@core/network'
+import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
+import { generateEvmActivityFromPersistedTransaction } from '@core/activity/utils'
+import { EvmActivity, addAccountActivities, allAccountActivities } from '@core/activity'
+import { get } from 'svelte/store'
 
 export async function fetchAndPersistTransactionsForAccounts(
     profileId: string,
     accounts: IAccountState[]
 ): Promise<void> {
-    const chains = getNetwork()?.getChains() ?? []
-    for (const chain of chains) {
-        const networkId = chain.getConfiguration().id as EvmNetworkId
+    const networks = getEvmNetworks()
+    for (const network of networks) {
+        const networkId = network.id
         for (const account of accounts) {
             try {
                 const blockscoutTransactions = await fetchBlockscoutTransactionsForAccount(
@@ -46,8 +51,43 @@ export async function fetchAndPersistTransactionsForAccounts(
             } catch (err) {
                 console.error(err)
             }
+
+            const activities = await generateActivityForMissingTransactions(profileId, account, network)
+            addAccountActivities(account.index, activities)
         }
     }
+}
+
+async function generateActivityForMissingTransactions(
+    profileId: string,
+    account: IAccountState,
+    chain: IEvmNetwork
+): Promise<EvmActivity[]> {
+    const activities: EvmActivity[] = []
+    const persistedTransactions = getPersistedTransactionsForChain(profileId, account.index, chain)
+    const accountActivities = new Set(
+        get(allAccountActivities)[account.index]?.map((activity) => activity.transactionId) ?? []
+    )
+
+    const persistedTransactionsWithoutActivity = persistedTransactions.filter((persistedTransaction) => {
+        const transactionHash =
+            persistedTransaction.tokenTransfer?.tx_hash ??
+            persistedTransaction.blockscout?.hash ??
+            persistedTransaction.local?.transactionHash
+        return transactionHash && !accountActivities.has(transactionHash)
+    })
+
+    for (const persistedTransaction of persistedTransactionsWithoutActivity) {
+        try {
+            const activity = await generateEvmActivityFromPersistedTransaction(persistedTransaction, chain, account)
+            if (activity) {
+                activities.push(activity)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    return activities
 }
 
 function getTransactionsExitFunction(
@@ -77,7 +117,7 @@ async function fetchBlockscoutTransactionsForAccount(
 }
 
 function getTokenTransferExitFunction(
-    items: IBlockscoutTokenTransfer[],
+    items: BlockscoutTokenTransfer[],
     profileId: string,
     accountIndex: number,
     networkId: EvmNetworkId
@@ -90,7 +130,7 @@ async function fetchBlockscoutTokenTransfersForAccount(
     profileId: string,
     account: IAccountState,
     networkId: EvmNetworkId
-): Promise<IBlockscoutTokenTransfer[] | undefined> {
+): Promise<BlockscoutTokenTransfer[] | undefined> {
     const address = getAddressFromAccountForNetwork(account, networkId)
     if (!address) {
         return undefined
@@ -99,7 +139,7 @@ async function fetchBlockscoutTokenTransfersForAccount(
     const tokenTransfers = await blockscoutApi.getTokenTransfersForAddress(
         address,
         undefined,
-        (items: IBlockscoutTokenTransfer[]) => getTokenTransferExitFunction(items, profileId, account.index, networkId)
+        (items: BlockscoutTokenTransfer[]) => getTokenTransferExitFunction(items, profileId, account.index, networkId)
     )
     return tokenTransfers
 }

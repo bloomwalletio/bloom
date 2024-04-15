@@ -1,77 +1,77 @@
 <script lang="ts">
     import { Alert, Tabs } from '@bloomwalletio/ui'
     import { PopupTemplate } from '@components'
-    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { selectedAccountIndex } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
-    import { marketCoinPrices } from '@core/market/stores'
-    import { canAccountMakeStardustTransaction, getNetwork, isEvmChain, isStardustNetwork } from '@core/network'
-    import { activeProfile } from '@core/profile/stores'
-    import { AccountTokens, BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
-    import { getAccountTokensForAccount, getTokenBalance } from '@core/token/actions'
+    import {
+        canAccountMakeStardustTransaction,
+        getActiveNetworkId,
+        isEvmNetwork,
+        isStardustNetwork,
+        networks,
+    } from '@core/network'
+    import { BASE_TOKEN_ID, IToken, ITokenWithBalance, TokenStandard } from '@core/token'
+    import { getTokenBalance } from '@core/token/actions'
     import { selectedAccountTokens } from '@core/token/stores'
     import { SendFlowType, sendFlowParameters, setSendFlowParameters } from '@core/wallet'
     import { closePopup } from '@desktop/auxiliary/popup'
-    import { KeyValue, SearchInput, TokenAmountTile } from '@ui'
+    import { SearchInput, TokenAmountTile } from '@ui'
     import { sendFlowRouter } from '../send-flow.router'
 
     let searchValue: string = ''
 
-    let selectedToken: IToken =
+    let selectedToken: IToken | undefined =
         $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer && $sendFlowParameters.baseCoinTransfer?.token
             ? $sendFlowParameters.baseCoinTransfer.token
             : $sendFlowParameters?.type === SendFlowType.TokenTransfer && $sendFlowParameters.tokenTransfer?.token
               ? $sendFlowParameters.tokenTransfer.token
-              : $selectedAccountTokens?.[getNetwork().getMetadata().id].baseCoin
+              : $selectedAccountTokens?.[getActiveNetworkId()]?.baseCoin
 
-    let accountTokens: AccountTokens
-    $: accountTokens = $selectedAccount
-        ? getAccountTokensForAccount($selectedAccount, $marketCoinPrices, $activeProfile?.settings?.marketCurrency)
-        : {}
-    $: accountTokens, searchValue, selectedTab, setFilteredTokenList()
+    $: $selectedAccountTokens, searchValue, selectedTab, setFilteredTokenList()
 
     let tokenError: string = ''
     $: if (
-        isEvmChain(selectedToken?.networkId) &&
+        selectedToken &&
+        isEvmNetwork(selectedToken.networkId) &&
         !canAccountMakeEvmTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)
     ) {
         tokenError = localize('error.send.insufficientFundsTransaction')
     } else if (
-        isStardustNetwork(selectedToken?.networkId) &&
-        !canAccountMakeStardustTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)
+        selectedToken &&
+        isStardustNetwork(selectedToken.networkId) &&
+        !canAccountMakeStardustTransaction($selectedAccountIndex, $sendFlowParameters?.type)
     ) {
         tokenError = localize('error.send.insufficientFundsTransaction')
     } else {
         tokenError = ''
     }
 
-    const tabs = getTabs()
+    const tabs = [
+        { key: 'all', value: localize('general.all') },
+        ...($networks?.map((network) => ({ key: network.id, value: network.name })) ?? []),
+    ]
     let selectedTab = tabs[0]
-
-    function getTabs(): KeyValue<string>[] {
-        const tabs = [{ key: 'all', value: 'All' }]
-        const networkMetadata = getNetwork().getMetadata()
-        tabs.push({ key: networkMetadata.id, value: networkMetadata.name })
-        const chains = getNetwork().getChains()
-        for (const chain of chains) {
-            const chainMetadata = chain.getConfiguration()
-            tabs.push({ key: chainMetadata.id, value: chainMetadata.name })
-        }
-        return tabs
-    }
 
     let tokenList: ITokenWithBalance[]
     function getSortedTokenForAllNetworks(): ITokenWithBalance[] {
         const baseCoins: ITokenWithBalance[] = []
         const nativeTokens: ITokenWithBalance[] = []
-        for (const networkTokens of Object.values(accountTokens)) {
+        for (const networkTokens of Object.values($selectedAccountTokens)) {
             if (networkTokens?.baseCoin) {
                 baseCoins.push(networkTokens.baseCoin)
             }
             nativeTokens.push(...(networkTokens?.nativeTokens ?? []))
         }
-        return [...baseCoins, ...nativeTokens.sort((a, b) => a.metadata.name.localeCompare(b.metadata.name))]
+        return [
+            ...baseCoins,
+            ...nativeTokens.sort((a, b) => {
+                const nameA = a.metadata?.name.toLowerCase() ?? ''
+                const nameB = b.metadata?.name.toLowerCase() ?? ''
+                return nameA.localeCompare(nameB)
+            }),
+        ]
     }
 
     function setFilteredTokenList(): void {
@@ -87,15 +87,17 @@
         const _searchValue = searchValue.toLowerCase()
         const name = token?.metadata?.name
         const ticker =
-            token?.metadata?.standard === TokenStandard.BaseToken ? token?.metadata.unit : token?.metadata.symbol
+            token?.metadata?.standard === TokenStandard.BaseToken ? token?.metadata.unit : token?.metadata?.symbol
 
         const visibleNetwork = selectedTab.key === 'all' || selectedTab.key === token.networkId
 
         if (_searchValue) {
             return (
                 visibleNetwork &&
-                ((name && name.toLowerCase().includes(_searchValue)) ||
-                    (ticker && ticker.toLowerCase().includes(_searchValue)))
+                !!(
+                    (name && name.toLowerCase().includes(_searchValue)) ||
+                    (ticker && ticker.toLowerCase().includes(_searchValue))
+                )
             )
         } else {
             return visibleNetwork
@@ -137,7 +139,7 @@
         }
 
         const sendFlowType =
-            selectedToken.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+            selectedToken?.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
 
         // Set called because we need to update the type, and update function only updates the properties
         // if the type is the same

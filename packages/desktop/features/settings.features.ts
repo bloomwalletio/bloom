@@ -52,6 +52,9 @@ const settingsFeatures: ISettingsFeatures = {
     },
     collectibles: {
         enabled: true,
+        downloadPermissions: {
+            enabled: true,
+        },
         maxMediaSize: {
             enabled: true,
         },
@@ -82,7 +85,7 @@ const settingsFeatures: ISettingsFeatures = {
         hiddenAccounts: {
             enabled: true,
         },
-        developerToggle: {
+        toggleFeatures: {
             enabled: true,
         },
     },

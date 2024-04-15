@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { Filter } from '@core/utils/types'
 
-    export let modal: Modal = undefined
+    export let modal: Modal | undefined = undefined
     export let filter: Filter
     export let isChanged: boolean
     export let setFilters: () => void
@@ -16,12 +16,12 @@
             filter[key].value = undefined
         }
         setFilters()
-        modal.close()
+        modal?.close()
     }
 
     function onConfirmClick(): void {
         setFilters()
-        modal.toggle()
+        modal?.toggle()
     }
 </script>
 
@@ -34,7 +34,7 @@
 >
     <filter-modal>
         <filter-modal-header
-            class="flex flex-row items-center justify-between bg-gray-50 dark:bg-transparent px-4 py-2 rounded-t-xl"
+            class="flex flex-row items-center justify-between bg-surface-1 dark:bg-transparent px-4 py-2 rounded-t-xl"
         >
             <Button text={localize('actions.clear')} on:click={onClearClick} size="xs" variant="outlined" />
             <Text align="center">

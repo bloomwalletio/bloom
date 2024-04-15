@@ -2,7 +2,7 @@
     import { Alert, Table } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuthAsync } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { burnToken } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
@@ -22,7 +22,7 @@
 
     async function onBurnTokenClick(): Promise<void> {
         try {
-            await checkActiveProfileAuthAsync()
+            await checkActiveProfileAuth()
         } catch (err) {
             return
         }

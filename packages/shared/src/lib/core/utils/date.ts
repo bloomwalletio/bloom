@@ -1,6 +1,12 @@
 import { SECONDS_PER_MILESTONE } from '../network/constants'
 
-import { DAYS_PER_WEEK, MILLISECONDS_PER_DAY, MILLISECONDS_PER_SECOND, MONTHS_PER_YEAR } from './constants'
+import {
+    DAYS_PER_WEEK,
+    MILLISECONDS_PER_DAY,
+    MILLISECONDS_PER_SECOND,
+    MONTHS_PER_YEAR,
+    SECONDS_PER_MINUTE,
+} from './constants'
 import { PastTimeUnit } from './enums'
 import { IDateDifference } from './interfaces'
 
@@ -88,4 +94,12 @@ export function milestoneToDate(baseMilestone: number, milestone: number): Date 
     const firstMilestoneMillis = Date.now() - baseMilestone * millisecondsPerMilestone
     const milestoneMillis = firstMilestoneMillis + milestone * millisecondsPerMilestone
     return new Date(milestoneMillis)
+}
+
+export function getTimestampForFilenames(): string {
+    // Match https://github.com/iotaledger/wallet.rs/blob/ffbeaa3466b44f79dd5f87e14ed1bdc4846d9e85/src/account_manager.rs#L1428
+    // Trim milliseconds and replace colons with dashes
+    const timezoneOffset = new Date().getTimezoneOffset() * MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE // offset in milliseconds
+    const localIsoTime = new Date(Date.now() - timezoneOffset).toISOString()
+    return localIsoTime.slice(0, -5).replace(/:/g, '-')
 }
