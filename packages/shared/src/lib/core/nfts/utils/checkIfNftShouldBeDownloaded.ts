@@ -36,21 +36,22 @@ export async function checkIfNftShouldBeDownloaded(
         const nftSettings = getActiveProfile()?.settings?.nfts ?? {}
 
         // TODO: Implement deny list
-        if (
-            nftSettings.downloadPermissions === DownloadPermission.None ||
-            nftSettings.downloadPermissions === DownloadPermission.AllExceptDenylist
-        ) {
-            downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
-            return { shouldDownload: false, isLoaded: false, downloadMetadata }
-        } else if (nftSettings.downloadPermissions === DownloadPermission.AllowListOnly) {
-            // TODO: Implement allow list, currently only IPFS gateways are allowed
-            const allowList = IPFS_GATEWAYS
-
-            const startsWithAllowedGateways = allowList.some((gateway) => nft.composedUrl?.startsWith(gateway))
-            if (!startsWithAllowedGateways) {
+        switch (nftSettings.downloadPermissions) {
+            case DownloadPermission.None:
                 downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
                 return { shouldDownload: false, isLoaded: false, downloadMetadata }
+            case DownloadPermission.AllowListOnly: {
+                const allowList = IPFS_GATEWAYS
+                const startsWithAllowedGateways = allowList.some((gateway) => nft.composedUrl?.startsWith(gateway))
+                if (!startsWithAllowedGateways) {
+                    downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
+                    return { shouldDownload: false, isLoaded: false, downloadMetadata }
+                }
+                break
             }
+            case DownloadPermission.AllExceptDenylist:
+            case DownloadPermission.All:
+                break
         }
 
         const notRecoverableErrors: StatusCodes[] = [] // TODO: Define which errors we want to blacklist

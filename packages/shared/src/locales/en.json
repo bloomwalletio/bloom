@@ -2087,8 +2087,8 @@
                 "long": "An error occurred while loading the NFT"
             },
             "downloadNotAllowed": {
-                "short": "Download not allowed",
-                "long": "Your current settings don't allow downloading the NFT"
+                "short": "Download blocked by settings",
+                "long": "Your current NFT download permissions do not allow downloading this NFT from its URL"
             }
         },
         "governance": {
