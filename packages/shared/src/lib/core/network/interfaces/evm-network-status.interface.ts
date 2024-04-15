@@ -1,5 +1,5 @@
 import { NetworkHealth } from '../enums'
 
-export interface IChainStatus {
+export interface IEvmNetworkStatus {
     health: NetworkHealth
 }

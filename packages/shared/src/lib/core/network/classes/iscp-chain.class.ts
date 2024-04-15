@@ -7,17 +7,23 @@ import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
 import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enums'
-import { IBlock, IEvmNetwork, IChainStatus, IIscpEvmNetworkConfiguration, IIscpEvmNetworkMetadata } from '../interfaces'
-import { chainStatuses } from '../stores'
+import {
+    IBlock,
+    IEvmNetwork,
+    IEvmNetworkStatus,
+    IIscpEvmNetworkConfiguration,
+    IIscpEvmNetworkMetadata,
+} from '../interfaces'
+import { evmNetworkStatuses } from '../stores'
 import { CoinType } from '@iota/sdk/out/types'
-import { ChainMetadata, NetworkId, Web3Provider } from '../types'
+import { ChainMetadata, EvmNetworkId, Web3Provider } from '../types'
 import { Converter } from '@core/utils'
 
 export class IscpChain implements IEvmNetwork {
     public readonly provider: Web3Provider
     private readonly _chainApi: string
 
-    public readonly id: NetworkId
+    public readonly id: EvmNetworkId
     public readonly namespace: NetworkNamespace.Evm
     public readonly chainId: ChainId
     public readonly type: EvmNetworkType.Iscp
@@ -76,8 +82,8 @@ export class IscpChain implements IEvmNetwork {
         return `v1/chains/${aliasAddress}/evm`
     }
 
-    getStatus(): IChainStatus {
-        return get(chainStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
+    getStatus(): IEvmNetworkStatus {
+        return get(evmNetworkStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
     }
 
     getContract(type: ContractType, address: string): Contract {

@@ -5,7 +5,8 @@
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { localize } from '@core/i18n'
     import { LedgerAppName, checkOrConnectLedger, ledgerRaceConditionProtectionWrapper } from '@core/ledger'
-    import { StardustNetworkId } from '@core/network'
+    import { SupportedStardustNetworkId } from '@core/network/constants'
+    import { NetworkId } from '@core/network/types'
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
@@ -34,10 +35,10 @@
 
     let accountsBalances: IAccountBalance[] = []
 
-    const networkSearchMethod: { [key in StardustNetworkId]?: () => Promise<void> } = {
-        [StardustNetworkId.Iota]: multiAddressSearch,
-        [StardustNetworkId.Shimmer]: singleAddressSearch,
-        [StardustNetworkId.Testnet]: singleAddressSearch,
+    const networkSearchMethod: { [key in NetworkId]?: () => Promise<void> } = {
+        [SupportedStardustNetworkId.Iota]: multiAddressSearch,
+        [SupportedStardustNetworkId.Shimmer]: singleAddressSearch,
+        [SupportedStardustNetworkId.Testnet]: singleAddressSearch,
     }
 
     async function singleAddressSearch(): Promise<void> {
@@ -133,7 +134,7 @@
     async function onFindBalancesClick(): Promise<void> {
         if (type === ProfileType.Ledger) {
             await checkOrConnectLedger(
-                network?.id === StardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+                network?.id === SupportedStardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
             )
         }
         await findBalances()

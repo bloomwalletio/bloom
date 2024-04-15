@@ -1,7 +1,8 @@
-const IPFS_GATEWAY = 'ipfs.4everland.io'
+import { getActiveProfile } from '@core/profile/stores'
 
 export function rewriteIpfsUri(ipfsUri: string): string {
+    const ipfsGateway = getActiveProfile().settings.nfts.ipfsGateway
     const url = new URL(ipfsUri)
 
-    return 'https://' + IPFS_GATEWAY + '/ipfs/' + url.pathname.replace('//', '')
+    return ipfsGateway + url.pathname.replace('//', '')
 }

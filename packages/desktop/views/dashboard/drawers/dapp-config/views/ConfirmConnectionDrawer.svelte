@@ -4,16 +4,8 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import {
-        buildSupportedNamespacesFromSelections,
-        clearOldPairings,
-        approveSession,
-    } from '@auxiliary/wallet-connect/actions'
-    import {
-        getPersistedDappNamespacesForDapp,
-        persistDappNamespacesForDapp,
-        sessionProposal,
-    } from '@auxiliary/wallet-connect/stores'
+    import { connectToDapp } from '@auxiliary/wallet-connect/actions'
+    import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
@@ -22,6 +14,9 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { selectedAccount } from '@core/account/stores'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { deepEquals } from '@core/utils/object'
+    import { ProposalTypes } from '@walletconnect/types'
+    import { IPersistedNamespaces } from '@auxiliary/wallet-connect/interface'
 
     export let drawerRouter: Router<unknown>
 
@@ -42,14 +37,36 @@
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
-    $: dappUrl = $sessionProposal?.params?.proposer?.metadata?.url ?? undefined
-    $: persistedNamespaces = dappUrl ? getPersistedDappNamespacesForDapp(dappUrl) : undefined
+    $: persistedNamespaces = $sessionProposal
+        ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
+        : undefined
 
     $: isButtonDisabled =
         loading ||
         (!persistedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
         (currentStep === 1 && checkedNetworks.length === 0) ||
         (currentStep === 2 && checkedAccounts.length === 0)
+
+    $: isPreferenceSelectionRequired = $sessionProposal
+        ? preferenceSelectionRequired(
+              $sessionProposal.params.requiredNamespaces,
+              $sessionProposal.params.optionalNamespaces,
+              persistedNamespaces
+          )
+        : false
+    function preferenceSelectionRequired(
+        requiredNamespaces: ProposalTypes.RequiredNamespaces,
+        optionalNamespaces: ProposalTypes.OptionalNamespaces,
+        _persistedNamespaces?: IPersistedNamespaces
+    ): boolean {
+        if (!_persistedNamespaces || !$sessionProposal) {
+            return true
+        }
+
+        const didRequiredChange = !deepEquals(_persistedNamespaces.required, requiredNamespaces)
+        const didOptionalChange = !deepEquals(_persistedNamespaces.optional, optionalNamespaces)
+        return didRequiredChange || didOptionalChange
+    }
 
     function onBackClick(): void {
         if (currentStep === 0) {
@@ -69,23 +86,27 @@
     }
 
     async function onConfirmClick(): Promise<void> {
+        if (!$sessionProposal) {
+            return
+        }
+
         try {
             loading = true
+            const persistedSupportedNamespaces = getPersistedDappNamespacesForDapp(
+                $sessionProposal.params.proposer.metadata.url
+            )?.supported
 
-            const supportedNamespaces = buildSupportedNamespacesFromSelections(
-                {
-                    chains: persistedNamespaces ? undefined : checkedNetworks,
-                    methods: persistedNamespaces ? undefined : checkedMethods,
-                    accounts: persistedNamespaces ? undefined : checkedAccounts,
-                },
-                $sessionProposal.params.requiredNamespaces,
-                $sessionProposal.params.optionalNamespaces,
-                persistedNamespaces
+            const selections = {
+                chains: persistedSupportedNamespaces ? undefined : checkedNetworks,
+                methods: persistedSupportedNamespaces ? undefined : checkedMethods,
+                accounts: persistedSupportedNamespaces ? undefined : checkedAccounts,
+            }
+            await connectToDapp(
+                selections,
+                persistedSupportedNamespaces,
+                $sessionProposal,
+                $selectedAccount as IAccountState
             )
-
-            await clearOldPairings(dappUrl)
-            await approveSession($sessionProposal, supportedNamespaces, $selectedAccount)
-            persistDappNamespacesForDapp(dappUrl, supportedNamespaces)
             $sessionProposal = undefined
 
             drawerRouter.reset()
@@ -100,15 +121,18 @@
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
+            {@const requiredNamespaces = $sessionProposal.params.requiredNamespaces}
+            {@const optionalNamespaces = $sessionProposal.params.optionalNamespaces}
+
             <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
 
             <div class="px-6 flex-grow overflow-hidden">
-                {#if persistedNamespaces}
+                {#if persistedNamespaces && !isPreferenceSelectionRequired}
                     <div class="h-full overflow-scroll">
                         <ConnectionSummary
-                            requiredNamespaces={$sessionProposal.params.requiredNamespaces}
+                            {requiredNamespaces}
                             editable
-                            {persistedNamespaces}
+                            persistedSupportedNamespaces={persistedNamespaces.supported}
                             {drawerRouter}
                         />
                     </div>
@@ -128,19 +152,25 @@
                                 <div class="flex-grow {currentStep === 0 ? 'visible' : 'hidden'}">
                                     <PermissionSelection
                                         bind:checkedMethods
-                                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
+                                        {requiredNamespaces}
+                                        {optionalNamespaces}
+                                        persistedSupportedNamespaces={persistedNamespaces?.supported}
                                     />
                                 </div>
                                 <div class="flex-grow {currentStep === 1 ? 'visible' : 'hidden'}">
                                     <NetworkSelection
                                         bind:checkedNetworks
-                                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
+                                        {requiredNamespaces}
+                                        {optionalNamespaces}
+                                        persistedSupportedNamespaces={persistedNamespaces?.supported}
                                     />
                                 </div>
                                 <div class="flex-grow {currentStep === 2 ? 'visible' : 'hidden'}">
-                                    <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} />
+                                    <AccountSelection
+                                        bind:checkedAccounts
+                                        chainIds={checkedNetworks}
+                                        persistedSupportedNamespaces={persistedNamespaces?.supported}
+                                    />
                                 </div>
                             </div>
                         </div>

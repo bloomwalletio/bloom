@@ -8,7 +8,7 @@ import {
     isBlockscoutTransactionPersisted,
 } from '../stores'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
-import { IEvmNetwork, NetworkId, getEvmNetworks } from '@core/network'
+import { EvmNetworkId, IEvmNetwork, getEvmNetworks } from '@core/network'
 import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
 import { generateEvmActivityFromPersistedTransaction } from '@core/activity/utils'
 import { EvmActivity, addAccountActivities, allAccountActivities } from '@core/activity'
@@ -94,7 +94,7 @@ function getTransactionsExitFunction(
     items: IBlockscoutTransaction[],
     profileId: string,
     accountIndex: number,
-    networkId: NetworkId
+    networkId: EvmNetworkId
 ): boolean {
     const lastItem = items[items.length - 1]
     return lastItem ? isBlockscoutTransactionPersisted(profileId, accountIndex, networkId, lastItem.hash) : false
@@ -103,7 +103,7 @@ function getTransactionsExitFunction(
 async function fetchBlockscoutTransactionsForAccount(
     profileId: string,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: EvmNetworkId
 ): Promise<IBlockscoutTransaction[] | undefined> {
     const address = getAddressFromAccountForNetwork(account, networkId)
     if (!address) {
@@ -120,7 +120,7 @@ function getTokenTransferExitFunction(
     items: BlockscoutTokenTransfer[],
     profileId: string,
     accountIndex: number,
-    networkId: NetworkId
+    networkId: EvmNetworkId
 ): boolean {
     const lastItem = items[items.length - 1]
     return lastItem ? isBlockscoutTokenTransferPersisted(profileId, accountIndex, networkId, lastItem.tx_hash) : false
@@ -129,7 +129,7 @@ function getTokenTransferExitFunction(
 async function fetchBlockscoutTokenTransfersForAccount(
     profileId: string,
     account: IAccountState,
-    networkId: NetworkId
+    networkId: EvmNetworkId
 ): Promise<BlockscoutTokenTransfer[] | undefined> {
     const address = getAddressFromAccountForNetwork(account, networkId)
     if (!address) {

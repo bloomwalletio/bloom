@@ -1,6 +1,6 @@
 import { getEvmTokenMetadata } from '@core/layer-2/utils'
 import { ContractType } from '../../layer-2/enums'
-import { NetworkId } from '@core/network/types'
+import { EvmNetworkId } from '@core/network/types'
 import { persistNftWithContractMetadata } from './persistNftWithContractMetadata'
 import { IErc721ContractMetadata, IPersistedErc721Nft } from '@core/nfts'
 import { getEvmNetwork } from '@core/network'
@@ -10,7 +10,7 @@ import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 export async function persistErc721Nft(
     tokenAddress: string,
     tokenId: string,
-    networkId: NetworkId,
+    networkId: EvmNetworkId,
     expectedOwner?: IAccountState
 ): Promise<IPersistedErc721Nft | undefined> {
     const evmNetwork = getEvmNetwork(networkId)

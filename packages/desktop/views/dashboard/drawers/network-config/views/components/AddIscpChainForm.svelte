@@ -4,11 +4,11 @@
     import {
         MAX_NETWORK_NAME_LENGTH,
         EvmNetworkType,
-        IIscpChainConfiguration,
+        IIscpEvmNetworkConfiguration,
         ETHEREUM_COIN_TYPE,
-        NetworkId,
         EvmNetworkId,
         NetworkNamespace,
+        ChainId,
     } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { getNetworkHrp } from '@core/profile/actions'
@@ -25,11 +25,11 @@
     let explorerUrlError = ''
     $: submitDisabled = !evmNetwork.name || !evmNetwork.aliasAddress || !evmNetwork.rpcEndpoint
 
-    const evmNetwork: IIscpChainConfiguration = {
+    const evmNetwork: IIscpEvmNetworkConfiguration = {
         type: EvmNetworkType.Iscp,
-        id: '' as NetworkId,
+        id: '' as EvmNetworkId,
         namespace: NetworkNamespace.Evm,
-        chainId: '' as EvmNetworkId,
+        chainId: '' as ChainId,
         name: '',
         aliasAddress: '',
         rpcEndpoint: '',

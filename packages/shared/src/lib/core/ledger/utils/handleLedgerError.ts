@@ -18,7 +18,7 @@ import { deriveLedgerError } from '../helpers'
 import { checkOrConnectLedger, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger'
 import { sendOutput } from '@core/wallet'
 import { activeProfile } from '@core/profile/stores'
-import { SupportedNetworkId } from '@core/network/enums'
+import { SupportedNetworkId } from '@core/network/constants'
 
 export function handleLedgerError(err: unknown, resetConfirmationPropsOnDenial = true): void {
     const error = (err as IError)?.error ?? (err as string)

@@ -9,7 +9,7 @@
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
-    import { NetworkId, NetworkNamespace, getEvmNetwork } from '@core/network'
+    import { EvmNetworkId, NetworkNamespace, getEvmNetwork } from '@core/network'
     import { buildNftFromPersistedErc721Nft } from '@core/nfts'
     import { addNftsToDownloadQueue, updateAllAccountNftsForAccount } from '@core/nfts/actions'
     import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
@@ -26,14 +26,14 @@
     let userAddress: string
     let numberOfTasks: number | undefined
 
-    $: evmNetwork = getEvmNetwork(`${NetworkNamespace.Evm}:${$selectedCampaign.chainId}` as NetworkId)
+    $: evmNetwork = getEvmNetwork(`${NetworkNamespace.Evm}:${$selectedCampaign.chainId}` as EvmNetworkId)
     $: ({ board: leaderboard, userPosition } = $campaignLeaderboards[$selectedCampaign.projectId]?.[
         $selectedCampaign.id
     ] ?? { board: undefined, userPosition: undefined })
     $: fetchAndPersistTideData($selectedAccount, evmNetwork?.id)
     $: userNft = $ownedNfts.find((nft) => nft.id?.startsWith($selectedCampaign.address.toLowerCase()))
 
-    function fetchAndPersistTideData(account: IAccountState, networkId: NetworkId): void {
+    function fetchAndPersistTideData(account: IAccountState, networkId: EvmNetworkId): void {
         if (networkId) {
             userAddress = getAddressFromAccountForNetwork(account, networkId)?.toLowerCase()
             void fetchAndPersistUserPosition(userAddress)

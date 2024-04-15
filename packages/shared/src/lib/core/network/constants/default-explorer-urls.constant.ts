@@ -1,5 +1,5 @@
-import { NetworkId } from '..'
-import { SupportedNetworkId } from '../enums'
+import { NetworkId } from '../types'
+import { SupportedNetworkId } from './supported-network-id.constant'
 
 export const DEFAULT_EXPLORER_URLS: Readonly<{ [key in NetworkId]?: string }> = {
     [SupportedNetworkId.Iota]: 'https://explorer.iota.org',

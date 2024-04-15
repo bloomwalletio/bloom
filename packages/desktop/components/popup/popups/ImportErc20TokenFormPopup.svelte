@@ -3,7 +3,7 @@
     import { NetworkInput } from '@ui'
     import { localize } from '@core/i18n'
     import { getEvmTokenMetadata } from '@core/layer-2/utils'
-    import { NetworkId } from '@core/network'
+    import { EvmNetworkId } from '@core/network'
     import { validateEthereumAddress } from '@core/utils'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
@@ -13,7 +13,7 @@
 
     let busy = false
 
-    let networkId: NetworkId
+    let networkId: EvmNetworkId
 
     let tokenAddress: string
     let tokenAddressError = ''

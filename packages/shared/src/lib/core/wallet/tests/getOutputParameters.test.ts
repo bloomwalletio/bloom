@@ -1,6 +1,5 @@
-import { SupportedNetworkId } from '@core/network/enums'
 import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
-import { DEFAULT_EVM_NETWORK_CONFIGURATIONS } from '@core/network/constants'
+import { DEFAULT_EVM_NETWORK_CONFIGURATIONS, SupportedNetworkId } from '@core/network/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
@@ -46,7 +45,7 @@ const testNft = {
     isSpendable: true,
     timelockTime: 1678867475,
     latestOutputId: 'testOutputId',
-    composedUrl: 'http://example.com',
+    mediaUrl: 'http://example.com',
     downloadUrl: 'http://example.com/download',
     storageDeposit: 100,
     filePath: 'path/to/file',

@@ -1,5 +1,6 @@
 export * from './download-metadata.interface'
 export * from './erc721-contract-metadata.interface'
+export * from './nft-filter.interface'
 export * from './nft-metadata.interface'
 export * from './nft.interface'
 export * from './nft-attribute.interface'
