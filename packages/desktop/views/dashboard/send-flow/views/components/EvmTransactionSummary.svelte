@@ -1,9 +1,9 @@
 <script lang="ts">
     import {
         EvmTransactionData,
-        L2_TO_L1_STORAGE_DEPOSIT_BUFFER,
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
+        getL2ToL1StorageDepositBuffer,
     } from '@core/layer-2'
     import { Nft, isIrc27Nft } from '@core/nfts'
     import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
@@ -27,20 +27,20 @@
     }
 
     $: storageDeposit = getTransactionStorageDeposit(sendFlowParameters) ?? BigInt(0)
-    function getTransactionStorageDeposit(_sendFlowParameters: SendFlowParameters): bigint {
-        if (_sendFlowParameters.type === SendFlowType.TokenTransfer) {
-            if (_sendFlowParameters.destinationNetworkId !== _sendFlowParameters.tokenTransfer.token.networkId) {
-                return BigInt(L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0)
+    function getTransactionStorageDeposit(_sendFlowParameters: SendFlowParameters): bigint | undefined {
+        const { type, destinationNetworkId } = _sendFlowParameters
+        if (type === SendFlowType.TokenTransfer) {
+            if (destinationNetworkId && destinationNetworkId !== _sendFlowParameters?.tokenTransfer?.token.networkId) {
+                return getL2ToL1StorageDepositBuffer(SendFlowType.TokenUnwrap, destinationNetworkId)
             }
-        } else if (_sendFlowParameters.type === SendFlowType.NftTransfer) {
+        } else if (type === SendFlowType.NftTransfer) {
             if (
-                _sendFlowParameters.destinationNetworkId !== _sendFlowParameters.nft?.networkId &&
+                destinationNetworkId &&
+                destinationNetworkId !== _sendFlowParameters.nft?.networkId &&
                 isIrc27Nft(_sendFlowParameters.nft)
             ) {
-                return (
-                    (_sendFlowParameters.nft?.storageDeposit ?? BigInt(0)) +
-                    (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? BigInt(0))
-                )
+                const buffer = getL2ToL1StorageDepositBuffer(SendFlowType.NftUnwrap, destinationNetworkId)
+                return (_sendFlowParameters.nft?.storageDeposit ?? BigInt(0)) + buffer
             }
         }
     }
