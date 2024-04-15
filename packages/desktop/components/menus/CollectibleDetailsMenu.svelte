@@ -5,6 +5,7 @@
     import { localize } from '@core/i18n'
     import { isEvmNetwork } from '@core/network'
     import { IIrc27Nft, Nft, composeUrlFromNftUri, isNftLocked } from '@core/nfts'
+    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -32,6 +33,11 @@
     }
 
     function onDownloadClick(): void {
+        updateNftInAllAccountNfts(nft.id, {
+            isLoaded: false,
+            downloadMetadata: { ...nft.downloadMetadata, warning: undefined },
+        })
+        addNftsToDownloadQueue([nft], true)
         menu?.close()
     }
 
