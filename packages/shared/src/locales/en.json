@@ -650,6 +650,8 @@
                     "setPfp": "Set NFT profile pic",
                     "unsetPfp": "Unset NFT profile pic",
                     "view": "View media in browser",
+                    "hide": "Hide",
+                    "unhide": "Unhide",
                     "burn": "Burn NFT"
                 }
             }
