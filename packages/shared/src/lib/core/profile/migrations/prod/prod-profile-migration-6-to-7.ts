@@ -1,5 +1,11 @@
 import { persistedDappNamespaces } from '@auxiliary/wallet-connect/stores'
 import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
+import {
+    DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+    DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
+    IPFS_GATEWAYS,
+} from '@core/nfts/constants'
+import { DownloadPermission } from '@core/nfts/enums'
 import { IPersistedProfile } from '@core/profile/interfaces'
 import { ProposalTypes } from '@walletconnect/types'
 
@@ -16,7 +22,18 @@ type NewPersistedNamespaces = {
 }
 
 export function prodProfileMigration6To7(existingProfile: unknown): Promise<void> {
-    const profile = existingProfile as IPersistedProfile
+    const profile = existingProfile as IPersistedProfile & {
+        settings: { maxMediaSizeInMegaBytes?: number; maxMediaDownloadTimeInSeconds?: number }
+    }
+    profile.settings.nfts = {
+        ipfsGateway: IPFS_GATEWAYS[0],
+        downloadPermissions: DownloadPermission.AllowListOnly,
+        maxMediaSizeInMegaBytes: profile.settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
+        maxMediaDownloadTimeInSeconds:
+            profile.settings.maxMediaDownloadTimeInSeconds ?? DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+    }
+    delete profile.settings.maxMediaSizeInMegaBytes
+    delete profile.settings.maxMediaDownloadTimeInSeconds
 
     persistedDappNamespaces.update((state) => {
         const profileId = profile.id
