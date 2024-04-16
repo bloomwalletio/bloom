@@ -59,5 +59,6 @@ export function buildNftFromNftOutput(
         networkId,
         isLoaded: false,
         downloadMetadata: persistedNft?.downloadMetadata,
+        hidden: persistedNft?.hidden ?? false,
     }
 }

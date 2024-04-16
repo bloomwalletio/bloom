@@ -6,6 +6,7 @@ export interface IBasePersistedNft {
     id: string
     standard: NftStandard
     ownerAddress: string
+    hidden: boolean
     downloadMetadata?: IDownloadMetadata
     mediaUrl?: string
 }
