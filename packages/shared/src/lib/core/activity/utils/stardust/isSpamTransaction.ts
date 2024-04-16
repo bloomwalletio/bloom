@@ -1,7 +1,12 @@
 import { StardustActivityType } from '../../enums'
 import { BasicOutput } from '@iota/sdk/out/types'
 import { IWrappedOutput } from '../../../wallet/interfaces'
-import { getActivityTypeFromOutput, getAmountFromOutput, getStorageDepositFromOutput } from '../helper'
+import {
+    getActivityTypeFromOutput,
+    getAmountFromOutput,
+    getStorageDepositFromOutput,
+    getTimelockDateFromOutput,
+} from '../helper'
 import { getExpirationDateFromOutput, getNativeTokenFromOutput, isOutputAsync } from '../outputs'
 import { IProcessedTransaction } from '@core/activity/types'
 
@@ -40,5 +45,13 @@ async function onlyContainsStorageDeposit(output: BasicOutput): Promise<boolean>
 
 function hasInvalidExpirationDate(output: BasicOutput, transactionTime: Date): boolean {
     const expirationTime = getExpirationDateFromOutput(output)
-    return !!expirationTime && expirationTime.getTime() < transactionTime.getTime()
+    if (!expirationTime) {
+        return false
+    }
+
+    const timelockDateTime = getTimelockDateFromOutput(output)
+    if (timelockDateTime) {
+        return expirationTime.getTime() < timelockDateTime.getTime()
+    }
+    return expirationTime.getTime() < transactionTime.getTime()
 }
