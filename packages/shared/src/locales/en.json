@@ -2094,6 +2094,10 @@
             "downloadNotAllowed": {
                 "short": "Download blocked by settings",
                 "long": "Your current NFT download permissions do not allow downloading this NFT from its URL"
+            },
+            "scamNft": {
+                "short": "Scam NFT detected",
+                "long": "We have detected that this nft is a scam, please be cautious and do not interact with it."
             }
         },
         "governance": {

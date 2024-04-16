@@ -80,6 +80,9 @@
             <Text type="h4" truncate>{nft.name}</Text>
             <CollectibleDetailsMenu {nft} />
         </nft-title>
+        {#if nft.isScam}
+            <Alert variant="danger" text={localize('error.nft.scamNft.long')} />
+        {/if}
         {#if nft.description}
             <Text type="body1">{localize('general.description')}</Text>
             <nft-description>
