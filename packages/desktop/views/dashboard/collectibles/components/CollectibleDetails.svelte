@@ -13,6 +13,10 @@
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { downloadingNftId, updatePersistedNft } from '@core/nfts/stores'
     import { addNftsToDownloadQueue } from '@core/nfts/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { burnNft } from '@core/wallet'
+    import { CollectiblesRoute, collectiblesRouter } from '@core/router'
+    import { handleError } from '@core/error/handlers'
 
     export let nft: Nft
     export let details: IItem[] = []
@@ -72,6 +76,38 @@
                     updatePersistedNft(nft.id, { isScam: false })
                     addNftsToDownloadQueue([nft])
                     closePopup()
+                },
+            },
+        })
+    }
+
+    function onBurnClick(): void {
+        openPopup({
+            id: PopupId.Confirmation,
+            props: {
+                variant: 'danger',
+                title: localize('actions.confirmNftBurn.title', {
+                    values: {
+                        nftName: nft.name,
+                    },
+                }),
+                description: localize('actions.confirmNftBurn.description'),
+                alert: { variant: 'warning', text: localize('actions.confirmNftBurn.hint') },
+                confirmText: localize('actions.burn'),
+                onConfirm: async () => {
+                    try {
+                        await checkActiveProfileAuth()
+                    } catch {
+                        return
+                    }
+
+                    try {
+                        await burnNft(nft.id)
+                        $collectiblesRouter?.goTo(CollectiblesRoute.Gallery)
+                        closePopup()
+                    } catch (error) {
+                        handleError(error)
+                    }
                 },
             },
         })
@@ -149,7 +185,7 @@
                     text={nft.isScam ? localize('actions.burn') : localize('actions.send')}
                     icon={nft.isScam ? IconName.Trash : IconName.Send}
                     color={nft.isScam ? 'danger' : 'primary'}
-                    on:click={nft.isScam ? onSendClick : undefined}
+                    on:click={nft.isScam ? onBurnClick : onSendClick}
                     disabled={isSendButtonDisabled}
                     width="half"
                     reverse
