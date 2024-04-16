@@ -58,6 +58,9 @@ const settingsFeatures: ISettingsFeatures = {
         maxMediaSize: {
             enabled: true,
         },
+        ipfsGateways: {
+            enabled: true,
+        },
         maxMediaDownloadTime: {
             enabled: true,
         },

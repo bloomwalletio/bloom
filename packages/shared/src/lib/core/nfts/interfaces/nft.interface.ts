@@ -32,7 +32,7 @@ interface IBaseNft {
     name: string
     description?: string
     collectionName?: string
-    composedUrl?: string
+    mediaUrl?: string
     downloadMetadata?: IDownloadMetadata
     isLoaded: boolean
     isSpendable: boolean

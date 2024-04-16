@@ -8,6 +8,7 @@ import { IDownloadMetadata, Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 import { IError } from '@core/error/interfaces'
 import { getActiveProfile } from '@core/profile/stores'
+import { composeUrlFromNftUri } from './composeUrlFromNftUri'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: Nft
@@ -28,7 +29,7 @@ export async function checkIfNftShouldBeDownloaded(
             }
         }
 
-        if (!nft.composedUrl) {
+        if (!composeUrlFromNftUri(nft.mediaUrl)) {
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
@@ -42,7 +43,9 @@ export async function checkIfNftShouldBeDownloaded(
                 return { shouldDownload: false, isLoaded: false, downloadMetadata }
             case DownloadPermission.AllowListOnly: {
                 const allowList = IPFS_GATEWAYS
-                const startsWithAllowedGateways = allowList.some((gateway) => nft.composedUrl?.startsWith(gateway))
+                const startsWithAllowedGateways =
+                    nft.mediaUrl?.startsWith('ipfs://') ||
+                    allowList.some((gateway) => nft.mediaUrl?.startsWith(gateway))
                 if (!startsWithAllowedGateways) {
                     downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
                     return { shouldDownload: false, isLoaded: false, downloadMetadata }
@@ -84,7 +87,7 @@ export async function checkIfNftShouldBeDownloaded(
                 isLoaded: true,
                 downloadMetadata: {
                     ...downloadMetadata,
-                    downloadUrl: nft.composedUrl,
+                    downloadUrl: composeUrlFromNftUri(nft.mediaUrl),
                     error: undefined,
                     warning: undefined,
                 },

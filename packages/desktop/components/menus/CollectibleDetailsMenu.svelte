@@ -4,7 +4,7 @@
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { isEvmNetwork } from '@core/network'
-    import { IIrc27Nft, Nft, isNftLocked } from '@core/nfts'
+    import { IIrc27Nft, Nft, composeUrlFromNftUri, isNftLocked } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -27,7 +27,7 @@
     }
 
     function onOpenMediaClick(): void {
-        openUrlInBrowser(nft?.composedUrl)
+        openUrlInBrowser(composeUrlFromNftUri(nft?.mediaUrl))
         menu?.close()
     }
 
@@ -77,7 +77,7 @@
             {
                 icon: IconName.LinkExternal,
                 title: localize('views.collectibles.details.menu.view'),
-                disabled: !nft.composedUrl,
+                disabled: !composeUrlFromNftUri(nft.mediaUrl),
                 onClick: onOpenMediaClick,
             },
             {
