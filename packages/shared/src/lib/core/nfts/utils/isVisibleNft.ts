@@ -23,7 +23,10 @@ export function isVisibleNft(nft: Nft): boolean {
 }
 
 function isVisibleWithActiveHiddenFilter(nft: Nft, filter: INftFilter): boolean {
-    if ((!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) && nft.hidden) {
+    if (
+        (!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) &&
+        (nft.hidden || nft.isScam)
+    ) {
         return false
     }
     return true
