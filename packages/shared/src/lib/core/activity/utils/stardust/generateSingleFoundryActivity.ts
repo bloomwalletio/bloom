@@ -57,6 +57,5 @@ export async function generateSingleFoundryActivity(
         mintedTokens,
         meltedTokens,
         maximumSupply,
-        isSpam: false,
     }
 }

@@ -42,7 +42,6 @@ export async function generateSingleAliasActivity(
         aliasId,
         governorAddress,
         stateControllerAddress,
-        isSpam: false,
     }
 }
 
