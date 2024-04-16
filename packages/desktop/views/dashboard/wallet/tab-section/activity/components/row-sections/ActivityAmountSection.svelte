@@ -5,6 +5,7 @@
         StardustGovernanceAction,
         getFormattedAmountFromActivity,
         getFormattedVotingPowerFromGovernanceActivity,
+        isEvmTokenActivity,
     } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { formatCurrency, localize } from '@core/i18n'
@@ -46,10 +47,7 @@
                     _activity.direction,
                     _activity.action
                 )
-            } else if (
-                _activity.type === EvmActivityType.TokenTransfer ||
-                _activity.type === EvmActivityType.BalanceChange
-            ) {
+            } else if (isEvmTokenActivity(_activity)) {
                 if (
                     _activity.tokenTransfer?.standard === NftStandard.Erc721 ||
                     _activity.tokenTransfer?.standard === NftStandard.Irc27

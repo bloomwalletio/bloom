@@ -16,6 +16,7 @@ import { getPersistedToken } from '@core/token/stores'
 import { NetworkNamespace } from '@core/network'
 import { EvmActivityType } from '../enums/evm'
 import { NftStandard } from '@core/nfts'
+import { isEvmTokenActivity } from './isEvmTokenActivity'
 
 // Filters activities based on activity properties. If none of the conditionals are valid, then activity is shown.
 export function isVisibleActivity(activity: Activity): boolean {
@@ -98,10 +99,7 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
             }
         }
         if (activity.namespace === NetworkNamespace.Evm) {
-            const tokenId =
-                activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange
-                    ? activity.tokenTransfer?.tokenId
-                    : BASE_TOKEN_ID
+            const tokenId = isEvmTokenActivity(activity) ? activity.tokenTransfer?.tokenId : BASE_TOKEN_ID
             if (filter.token.selected && tokenId !== filter.token.selected) {
                 return false
             }
@@ -117,7 +115,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         let tokenId: string | undefined = undefined
 
         if (activity.namespace === NetworkNamespace.Evm) {
-            if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
+            if (isEvmTokenActivity(activity)) {
                 rawAmount = activity.tokenTransfer.rawAmount
                 tokenId = activity.tokenTransfer.tokenId
             } else if (activity.type === EvmActivityType.CoinTransfer) {
@@ -365,8 +363,7 @@ function isVisibleWithActiveTypeFilter(activity: Activity, filter: ActivityFilte
             switch (filter.type.selected) {
                 case ActivityTypeFilterOption.Transfer: {
                     const isTokentransfer =
-                        (activity.type === EvmActivityType.TokenTransfer ||
-                            activity.type === EvmActivityType.BalanceChange) &&
+                        isEvmTokenActivity(activity) &&
                         (activity.tokenTransfer.standard === TokenStandard.Erc20 ||
                             activity.tokenTransfer.standard === TokenStandard.Irc30)
                     if (activity.type !== EvmActivityType.CoinTransfer && !isTokentransfer) {
@@ -381,8 +378,7 @@ function isVisibleWithActiveTypeFilter(activity: Activity, filter: ActivityFilte
                     break
                 case ActivityTypeFilterOption.Nft: {
                     const isNftTransfer =
-                        (activity.type === EvmActivityType.TokenTransfer ||
-                            activity.type === EvmActivityType.BalanceChange) &&
+                        isEvmTokenActivity(activity) &&
                         (activity.tokenTransfer.standard === NftStandard.Erc721 ||
                             activity.tokenTransfer.standard === NftStandard.Irc27)
                     if (!isNftTransfer) {

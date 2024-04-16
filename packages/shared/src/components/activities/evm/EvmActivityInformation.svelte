@@ -21,6 +21,7 @@
                 tabs = getTabItems([PopupTab.Transaction])
                 break
             case EvmActivityType.TokenTransfer:
+            case EvmActivityType.TokenMinting:
             case EvmActivityType.BalanceChange:
                 if (
                     activity.tokenTransfer.standard === NftStandard.Erc721 ||
@@ -31,7 +32,7 @@
                 } else {
                     tabs = getTabItems([PopupTab.Transaction])
                 }
-                if (activity.type === EvmActivityType.TokenTransfer) {
+                if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.TokenMinting) {
                     tabs.push({ key: PopupTab.SmartContract, value: localize(`general.${PopupTab.SmartContract}`) })
                 }
                 break
