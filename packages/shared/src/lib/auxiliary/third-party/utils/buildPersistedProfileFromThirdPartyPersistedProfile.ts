@@ -1,8 +1,8 @@
 import { IPersistedAccountData } from '@core/account'
 import { MarketCurrency } from '@core/market'
 import {
-    DEFAULT_EVM_NETWORK_CONFIGURATIONS,
-    IPersistedNetwork,
+    DEFAULT_ISC_NETWORK_CONFIGURATIONS_PER_STARDUST_NETWORK,
+    IPersistedStardustNetwork,
     NetworkNamespace,
     StardustNetworkId,
 } from '@core/network'
@@ -69,11 +69,15 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
     return persistedProfile
 }
 
-function buildPersistedNetworkFromThirdPartyPersistedNetwork(network: IThirdPartyPersistedNetwork): IPersistedNetwork {
+function buildPersistedNetworkFromThirdPartyPersistedNetwork(
+    network: IThirdPartyPersistedNetwork
+): IPersistedStardustNetwork {
     const networkId: StardustNetworkId =
         NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP[network.protocol.networkName] ??
         `${NetworkNamespace.Stardust}:${network.protocol.networkName}`
-    const defaultChainConfigurations = structuredClone(DEFAULT_EVM_NETWORK_CONFIGURATIONS?.[networkId])
+    const defaultChainConfigurations = structuredClone(
+        DEFAULT_ISC_NETWORK_CONFIGURATIONS_PER_STARDUST_NETWORK?.[networkId]
+    )
 
     return {
         id: networkId,
@@ -83,7 +87,7 @@ function buildPersistedNetworkFromThirdPartyPersistedNetwork(network: IThirdPart
         coinType: network.coinType,
         protocol: network.protocol,
         baseToken: network.baseToken,
-        chainConfigurations: defaultChainConfigurations ? [defaultChainConfigurations] : [],
+        chainConfigurations: defaultChainConfigurations ? defaultChainConfigurations : [],
     }
 }
 

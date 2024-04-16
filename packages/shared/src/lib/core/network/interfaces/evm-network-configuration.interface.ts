@@ -14,7 +14,7 @@ export interface IPureEvmNetworkConfiguration extends IBaseEvmNetworkConfigurati
     ticker: string
 }
 
-interface IBaseEvmNetworkConfiguration {
+export interface IBaseEvmNetworkConfiguration {
     id: EvmNetworkId
     namespace: NetworkNamespace.Evm
     chainId: ChainId

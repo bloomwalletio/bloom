@@ -1,10 +1,15 @@
-import { DEFAULT_EVM_NETWORK_CONFIGURATIONS, DEFAULT_NETWORK_METADATA } from '../constants'
+import {
+    DEFAULT_ISC_NETWORK_CONFIGURATIONS_PER_STARDUST_NETWORK,
+    DEFAULT_STARDUST_NETWORK_METADATA,
+} from '../constants'
 import { StardustNetworkId } from '../types'
 import { IPersistedNetwork } from '../interfaces'
 
 export function getDefaultPersistedNetwork(networkId: StardustNetworkId): IPersistedNetwork {
-    const network = structuredClone(DEFAULT_NETWORK_METADATA?.[networkId])
-    const chainConfigurations = structuredClone(DEFAULT_EVM_NETWORK_CONFIGURATIONS?.[networkId] ?? [])
+    const network = structuredClone(DEFAULT_STARDUST_NETWORK_METADATA?.[networkId])
+    const chainConfigurations = structuredClone(
+        DEFAULT_ISC_NETWORK_CONFIGURATIONS_PER_STARDUST_NETWORK?.[networkId] ?? []
+    )
     if (network) {
         return {
             ...network,

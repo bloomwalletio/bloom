@@ -8,6 +8,7 @@ import { Contract } from '@core/layer-2/types'
 
 import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enums'
 import {
+    IBaseEvmNetworkConfiguration,
     IBlock,
     IEvmNetwork,
     IEvmNetworkStatus,
@@ -19,18 +20,64 @@ import { CoinType } from '@iota/sdk/out/types'
 import { ChainMetadata, EvmNetworkId, Web3Provider } from '../types'
 import { Converter } from '@core/utils'
 
-export class IscpChain implements IEvmNetwork {
+export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
-    private readonly _chainApi: string
-
     public readonly id: EvmNetworkId
     public readonly namespace: NetworkNamespace.Evm
     public readonly chainId: ChainId
-    public readonly type: EvmNetworkType.Iscp
+    public readonly type: EvmNetworkType
     public readonly coinType: CoinType
     public readonly name: string
     public readonly explorerUrl: string | undefined
     public readonly rpcEndpoint: string
+
+    constructor({
+        id,
+        namespace,
+        chainId,
+        type,
+        coinType,
+        name,
+        explorerUrl,
+        rpcEndpoint,
+    }: IBaseEvmNetworkConfiguration) {
+        try {
+            this.provider = new Web3(rpcEndpoint)
+            this.id = id
+            this.namespace = namespace
+            this.chainId = chainId
+            this.type = type
+            this.coinType = coinType
+            this.name = name
+            this.explorerUrl = explorerUrl
+            this.rpcEndpoint = rpcEndpoint
+        } catch (err) {
+            console.error(err)
+            throw new Error('Failed to construct EVM Chain!')
+        }
+    }
+
+    async getLatestBlock(): Promise<IBlock> {
+        const number = await this.provider.eth.getBlockNumber()
+        return this.provider.eth.getBlock(number)
+    }
+
+    getStatus(): IEvmNetworkStatus {
+        return get(evmNetworkStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
+    }
+
+    getContract(type: ContractType, address: string): Contract {
+        const abi = EVM_CONTRACT_ABIS[type]
+        if (!abi) {
+            throw new Error(`Unable to determine contract type "${type}"`)
+        }
+        return new this.provider.eth.Contract(abi, address)
+    }
+}
+
+export class IscpChain extends EvmNetwork {
+    private readonly _chainApi: string
+
     public readonly apiEndpoint: string
     public readonly aliasAddress: string
 
@@ -52,18 +99,22 @@ export class IscpChain implements IEvmNetwork {
              * NOTE: We can assume that the data inside this payload has already
              * been validated.
              */
-            const evmJsonRpcPath = this.buildEvmJsonRpcPath(aliasAddress)
+            /**
+             * NOTE2: This is according to the WASP node API specification,
+             * which can be found here: https://editor.swagger.io/?url=https://raw.githubusercontent.com/iotaledger/wasp/develop/clients/apiclient/api/openapi.yaml.
+             */
+            rpcEndpoint = `${rpcEndpoint}/v1/chains/${aliasAddress}/evm`
+            super({
+                id,
+                namespace,
+                chainId,
+                type,
+                coinType,
+                name,
+                explorerUrl,
+                rpcEndpoint,
+            })
 
-            this.provider = new Web3(`${rpcEndpoint}/${evmJsonRpcPath}`)
-
-            this.id = id
-            this.namespace = namespace
-            this.chainId = chainId
-            this.type = type
-            this.coinType = coinType
-            this.name = name
-            this.explorerUrl = explorerUrl
-            this.rpcEndpoint = rpcEndpoint
             this.aliasAddress = aliasAddress
             this.apiEndpoint = apiEndpoint
 
@@ -72,26 +123,6 @@ export class IscpChain implements IEvmNetwork {
             console.error(err)
             throw new Error('Failed to construct ISCP Chain!')
         }
-    }
-
-    private buildEvmJsonRpcPath(aliasAddress: string): string {
-        /**
-         * NOTE: This is according to the WASP node API specification,
-         * which can be found here: https://editor.swagger.io/?url=https://raw.githubusercontent.com/iotaledger/wasp/develop/clients/apiclient/api/openapi.yaml.
-         */
-        return `v1/chains/${aliasAddress}/evm`
-    }
-
-    getStatus(): IEvmNetworkStatus {
-        return get(evmNetworkStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
-    }
-
-    getContract(type: ContractType, address: string): Contract {
-        const abi = EVM_CONTRACT_ABIS[type]
-        if (!abi) {
-            throw new Error(`Unable to determine contract type "${type}"`)
-        }
-        return new this.provider.eth.Contract(abi, address)
     }
 
     getMetadata(): Promise<ChainMetadata> {
@@ -112,11 +143,6 @@ export class IscpChain implements IEvmNetwork {
     private async fetchChainMetadata(): Promise<IIscpEvmNetworkMetadata> {
         const response = await fetch(this._chainApi)
         return (await response.json()) as IIscpEvmNetworkMetadata
-    }
-
-    async getLatestBlock(): Promise<IBlock> {
-        const number = await this.provider.eth.getBlockNumber()
-        return this.provider.eth.getBlock(number)
     }
 
     async getGasEstimate(hex: string): Promise<bigint> {

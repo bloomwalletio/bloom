@@ -1,26 +1,27 @@
 import { localize } from '@core/i18n'
 import {
-    DEFAULT_EVM_NETWORK_CONFIGURATIONS,
+    DEFAULT_ISC_NETWORK_CONFIGURATIONS_PER_STARDUST_NETWORK,
     DEFAULT_COIN_TYPE,
-    DEFAULT_NETWORK_METADATA,
+    DEFAULT_STARDUST_NETWORK_METADATA,
     TEST_COIN_TYPE,
 } from '../constants'
 import { TokenStandard } from '@core/token/enums'
-import { INodeInfoResponse, IPersistedNetwork } from '../interfaces'
+import { INodeInfoResponse, IPersistedStardustNetwork } from '../interfaces'
 import { NetworkNamespace } from '../enums'
 import { StardustNetworkId } from '../types'
 
+// TODO: Rename to reflect return type
 export function buildPersistedNetworkFromNodeInfoResponse(
     nodeInfoResponse: INodeInfoResponse,
     coinType?: number
-): IPersistedNetwork {
+): IPersistedStardustNetwork {
     const networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
     const id: StardustNetworkId = `${NetworkNamespace.Stardust}:${networkName}`
     const namespace = NetworkNamespace.Stardust
-    const name = DEFAULT_NETWORK_METADATA[id]?.name ?? networkName ?? localize('general.unknown')
+    const name = DEFAULT_STARDUST_NETWORK_METADATA[id]?.name ?? networkName ?? localize('general.unknown')
     const _coinType = coinType ?? DEFAULT_COIN_TYPE[id] ?? TEST_COIN_TYPE
 
-    const chainConfigurations = DEFAULT_EVM_NETWORK_CONFIGURATIONS?.[id] ?? []
+    const chainConfigurations = DEFAULT_ISC_NETWORK_CONFIGURATIONS_PER_STARDUST_NETWORK?.[id] ?? []
     return {
         id,
         name,

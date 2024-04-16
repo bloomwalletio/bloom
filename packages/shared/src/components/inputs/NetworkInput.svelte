@@ -1,7 +1,7 @@
 <script lang="ts">
     import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { NetworkId, getEvmNetworks, getL1Network } from '@core/network'
+    import { NetworkId, getEvmNetworks, getStardustNetwork } from '@core/network'
 
     export let networkId: NetworkId | undefined
     export let error: string | undefined
@@ -28,7 +28,7 @@
     function getNetworkOptions(showLayer2: boolean): IOption[] {
         const options: IOption[] = []
         if (showLayer1) {
-            const l1Network = getL1Network()
+            const l1Network = getStardustNetwork()
             options.push({ label: l1Network.name, value: l1Network.id })
         }
 

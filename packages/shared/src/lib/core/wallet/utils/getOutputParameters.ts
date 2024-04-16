@@ -1,6 +1,6 @@
 import { OutputParams, Assets } from '@iota/sdk/out/types'
 import { getLayer2MetadataForTransfer } from '@core/layer-2/actions'
-import { EvmNetworkType, IEvmNetwork, getEvmNetwork, isEvmNetwork } from '@core/network'
+import { EvmNetworkType, IEvmNetwork, IIscpEvmNetwork, getEvmNetwork, isEvmNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token'
 import { Converter, convertDateToUnixTimestamp } from '@core/utils'
 import { SendFlowParameters, Subject } from '@core/wallet/types'
@@ -49,7 +49,7 @@ export function getOutputParameters(sendFlowParameters: SendFlowParameters, send
     }
 }
 
-function getDestinationAddress(recipient: Subject | undefined, evmNetwork: IEvmNetwork | undefined): string {
+function getDestinationAddress(recipient: Subject | undefined, evmNetwork: IIscpEvmNetwork | undefined): string {
     if (evmNetwork?.type === EvmNetworkType.Iscp) {
         return evmNetwork.aliasAddress
     }

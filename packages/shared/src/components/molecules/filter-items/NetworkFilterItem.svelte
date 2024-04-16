@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getIscpChains, getL1Network } from '@core/network'
+    import { getIscpChains, getStardustNetwork } from '@core/network'
     import { NetworkFilterUnit } from '@core/utils/interfaces/filter'
     import features from '@features/features'
     import { IOption, SelectInput } from '@bloomwalletio/ui'
@@ -10,7 +10,7 @@
     let selected: IOption | undefined = options.find((option) => option.value === filterUnit.selected) ?? options?.[0]
 
     function getOptions(): IOption[] {
-        const l1Network = getL1Network()
+        const l1Network = getStardustNetwork()
 
         const iscpChains = features?.network?.layer2?.enabled ? getIscpChains() : []
 

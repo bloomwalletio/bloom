@@ -1,5 +1,11 @@
-import { EvmNetworkConfiguration, NetworkMetadata } from '../types'
+import {
+    IIscpEvmNetworkConfiguration,
+    IPureEvmNetworkConfiguration,
+    IStardustNetworkMetadata,
+} from '@core/network/interfaces'
 
-export interface IPersistedNetwork extends NetworkMetadata {
-    chainConfigurations: EvmNetworkConfiguration[]
+export interface IPersistedStardustNetwork extends IStardustNetworkMetadata {
+    chainConfigurations: IIscpEvmNetworkConfiguration[]
 }
+
+export type IPersistedNetwork = IPersistedStardustNetwork | IPureEvmNetworkConfiguration

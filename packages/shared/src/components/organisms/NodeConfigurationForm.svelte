@@ -2,7 +2,7 @@
     import { OnboardingNetworkType } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
     import { INode } from '@iota/sdk/out/types'
-    import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
+    import { DEFAULT_STARDUST_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INodeInfoResponse } from '@core/network/interfaces'
     import { nodeInfo } from '@core/network/stores'
     import {
@@ -47,7 +47,7 @@
         })
 
     function getNetworkTypeOptions(): IOption[] {
-        const options = Object.values(DEFAULT_NETWORK_METADATA).map((network) => ({
+        const options = Object.values(DEFAULT_STARDUST_NETWORK_METADATA).map((network) => ({
             label: network?.name,
             value: getOnboardingNetworkTypeFromNetworkId(network?.id),
         }))
