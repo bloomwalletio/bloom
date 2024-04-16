@@ -37,4 +37,5 @@ interface IBaseNft {
     downloadMetadata?: IDownloadMetadata
     isLoaded: boolean
     isSpendable: boolean
+    isScam?: boolean
 }

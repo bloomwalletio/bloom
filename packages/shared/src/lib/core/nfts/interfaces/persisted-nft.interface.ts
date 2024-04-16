@@ -9,6 +9,7 @@ export interface IBasePersistedNft {
     hidden: boolean
     downloadMetadata?: IDownloadMetadata
     mediaUrl?: string
+    isScam?: boolean
 }
 
 export interface IPersistedIrc27Nft extends IBasePersistedNft {

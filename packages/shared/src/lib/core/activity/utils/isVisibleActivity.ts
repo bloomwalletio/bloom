@@ -1,4 +1,9 @@
+import { selectedAccountIndex } from '@core/account/stores'
+import { NetworkNamespace } from '@core/network'
+import { NftStandard } from '@core/nfts'
+import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
 import { BASE_TOKEN_ID, TokenStandard, convertToRawAmount } from '@core/token'
+import { getPersistedToken } from '@core/token/stores'
 import { dateIsAfterOtherDate, dateIsBeforeOtherDate, datesOnSameDay } from '@core/utils'
 import {
     BooleanFilterOption,
@@ -9,13 +14,10 @@ import {
     StatusFilterOption,
 } from '@core/utils/enums/filters'
 import { get } from 'svelte/store'
-import { StardustActivityAsyncStatus, StardustActivityType, InclusionState, ActivityTypeFilterOption } from '../enums'
+import { ActivityTypeFilterOption, InclusionState, StardustActivityAsyncStatus, StardustActivityType } from '../enums'
+import { EvmActivityType } from '../enums/evm'
 import { activityFilter } from '../stores'
 import { Activity, ActivityFilter } from '../types'
-import { getPersistedToken } from '@core/token/stores'
-import { NetworkNamespace } from '@core/network'
-import { EvmActivityType } from '../enums/evm'
-import { NftStandard } from '@core/nfts'
 
 // Filters activities based on activity properties. If none of the conditionals are valid, then activity is shown.
 export function isVisibleActivity(activity: Activity): boolean {
@@ -64,11 +66,20 @@ function isVisibleWithActiveHiddenFilter(activity: Activity, filter: ActivityFil
     return true
 }
 
+function doesActivityContainScamNft(activity: Activity): boolean {
+    if (activity.type === StardustActivityType.Nft) {
+        const nft = getNftByIdFromAllAccountNfts(get(selectedAccountIndex), activity.nftId)
+        return nft?.isScam ?? false
+    } else {
+        return false
+    }
+}
+
 function isVisibleWithActiveValuelessFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (
         (!filter.showSpam.active || filter.showSpam.selected === BooleanFilterOption.No) &&
         (!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) &&
-        activity.isSpam
+        (activity.isSpam || doesActivityContainScamNft(activity))
     ) {
         return false
     }
