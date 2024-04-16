@@ -62,5 +62,6 @@ export function buildNftFromNftOutput(
         isLoaded: false,
         downloadMetadata: persistedNft?.downloadMetadata,
         isScam,
+        hidden: persistedNft?.hidden ?? false,
     }
 }

@@ -10,14 +10,14 @@
     import { collectiblesRouter } from '@core/router'
     import { isIrc27Nft } from '@core/nfts'
 
-    const nft: Nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId)
-    const { standard } = nft
+    let nft: Nft | undefined
+    $: $allAccountNfts, (nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId))
 
     $: returnIfNftWasSent($allAccountNfts[$selectedAccountIndex], $time)
 
     function returnIfNftWasSent(ownedNfts: Nft[], currentTime: Date): void {
-        const ownedNft = ownedNfts.find((_nft) => _nft.id === nft.id)
-        const isLocked = isIrc27Nft(ownedNft) && ownedNft.timelockTime > currentTime.getTime()
+        const ownedNft = ownedNfts.find((_nft) => _nft.id === nft?.id)
+        const isLocked = ownedNft && isIrc27Nft(ownedNft) && ownedNft.timelockTime > currentTime.getTime()
         if (ownedNft?.isSpendable || isLocked) {
             // empty
         } else {
@@ -27,9 +27,9 @@
 </script>
 
 <Pane classes="h-full">
-    {#if standard === NftStandard.Irc27}
+    {#if nft?.standard === NftStandard.Irc27}
         <Irc27CollectibleDetails {nft} />
-    {:else if standard === NftStandard.Erc721}
+    {:else if nft?.standard === NftStandard.Erc721}
         <Erc721CollectibleDetails {nft} />
     {/if}
 </Pane>
