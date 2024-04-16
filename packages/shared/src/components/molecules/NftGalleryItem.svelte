@@ -27,7 +27,7 @@
         $collectiblesRouter.setBreadcrumb(nft?.name)
     }
 
-    function getAlertText(downloadMetadata: IDownloadMetadata): string {
+    function getAlertText(downloadMetadata: IDownloadMetadata | undefined): string {
         const { error, warning } = downloadMetadata ?? {}
         const errorOrWarning = error || warning
 
