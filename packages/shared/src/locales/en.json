@@ -1697,8 +1697,8 @@
             "yes": "Yes",
             "no": "No"
         },
-        "showValueless": {
-            "label": "Show valueless",
+        "showSpam": {
+            "label": "Show spam",
             "yes": "Yes",
             "no": "No"
         },
