@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Alert, Button, IconName, Table, Text, type IItem, type TextColor } from '@bloomwalletio/ui'
+    import { closePopup } from '@desktop/auxiliary/popup/actions'
+    import { Alert, Button, IconName, Table, Text, type IItem, type TextColor, Link } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { MediaPlaceholder, NftMedia } from '@ui'
     import { IDownloadMetadata, Nft, INftAttribute, NftStandard } from '@core/nfts'
@@ -10,7 +11,8 @@
     import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { downloadingNftId } from '@core/nfts/stores'
+    import { downloadingNftId, updatePersistedNft } from '@core/nfts/stores'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
 
     export let nft: Nft
     export let details: IItem[] = []
@@ -55,6 +57,25 @@
             overflow: true,
         })
     }
+
+    function onNotAScamClick(): void {
+        openPopup({
+            id: PopupId.Confirmation,
+            props: {
+                title: localize('popups.notAScam.title'),
+                description: localize('popups.notAScam.description'),
+                alert: { variant: 'warning', text: localize('error.nft.scamNft.long') },
+                confirmText: localize('actions.confirm'),
+                variant: 'danger',
+                onConfirm: () => {
+                    nft.isScam = false
+                    updatePersistedNft(nft.id, { isScam: false })
+                    addNftsToDownloadQueue([nft])
+                    closePopup()
+                },
+            },
+        })
+    }
 </script>
 
 <collectibles-details-view class="flex flex-row w-full h-full">
@@ -80,9 +101,6 @@
             <Text type="h4" truncate>{nft.name}</Text>
             <CollectibleDetailsMenu {nft} />
         </nft-title>
-        {#if nft.isScam}
-            <Alert variant="danger" text={localize('error.nft.scamNft.long')} />
-        {/if}
         {#if nft.description}
             <Text type="body1">{localize('general.description')}</Text>
             <nft-description>
@@ -104,24 +122,40 @@
                 </nft-attributes>
             {/if}
         </div>
-        <buttons-container class="flex w-full space-x-4 self-end mt-auto pt-4">
-            <Button
-                text={localize('general.viewOnExplorer')}
-                on:click={onExplorerClick}
-                disabled={!explorerEndpoint}
-                variant="outlined"
-                width="half"
-            />
-            <Button
-                text={nft.isScam ? localize('actions.burn') : localize('actions.send')}
-                icon={nft.isScam ? IconName.Trash : IconName.Send}
-                color={nft.isScam ? 'danger' : 'primary'}
-                on:click={nft.isScam ? onSendClick : undefined}
-                disabled={isSendButtonDisabled}
-                width="half"
-                reverse
-            />
-        </buttons-container>
+        <footer class="flex flex-col space-y-4 self-end items-end justify-end w-full">
+            {#if nft.isScam}
+                <Alert variant="danger">
+                    <div slot="text">
+                        <Text type="base" fontWeight="medium"
+                            >{localize('error.nft.scamNft.long')}
+                            <Link
+                                fontWeight="medium"
+                                on:click={onNotAScamClick}
+                                text={localize('popups.notAScam.title')}
+                            /></Text
+                        >
+                    </div>
+                </Alert>
+            {/if}
+            <buttons-container class="flex flex-row w-full space-x-4 mt-auto">
+                <Button
+                    text={localize('general.viewOnExplorer')}
+                    on:click={onExplorerClick}
+                    disabled={!explorerEndpoint}
+                    variant="outlined"
+                    width="half"
+                />
+                <Button
+                    text={nft.isScam ? localize('actions.burn') : localize('actions.send')}
+                    icon={nft.isScam ? IconName.Trash : IconName.Send}
+                    color={nft.isScam ? 'danger' : 'primary'}
+                    on:click={nft.isScam ? onSendClick : undefined}
+                    disabled={isSendButtonDisabled}
+                    width="half"
+                    reverse
+                />
+            </buttons-container>
+        </footer>
     </details-container>
 </collectibles-details-view>
 

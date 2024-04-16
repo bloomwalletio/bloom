@@ -1306,6 +1306,10 @@
         },
         "profileDiagnostics": {
             "title": "Profile diagnostics"
+        },
+        "notAScam": {
+            "title": "Not a scam?",
+            "description": "Are you sure you want to mark this NFT as not a scam?"
         }
     },
     "actions": {
@@ -2099,7 +2103,7 @@
             },
             "scamNft": {
                 "short": "Scam NFT detected",
-                "long": "We have detected that this nft is a scam, please be cautious and do not interact with it."
+                "long": "We have detected that this NFT is a scam, please be cautious and do not interact with it."
             }
         },
         "governance": {
