@@ -45,6 +45,11 @@
             truncate: { firstCharCount: 15, endCharCount: 15 },
         },
         {
+            key: localize('general.url'),
+            value: nft.mediaUrl || undefined,
+            copyable: true,
+        },
+        {
             key: localize('general.storageDeposit'),
             value: storageDeposit ? formatTokenAmountPrecise(storageDeposit, getBaseToken()) : undefined,
         },

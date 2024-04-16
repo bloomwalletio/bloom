@@ -44,6 +44,11 @@
             value: tokenId,
         },
         {
+            key: localize('general.url'),
+            value: nft.mediaUrl || undefined,
+            copyable: true,
+        },
+        {
             key: localize('general.standard'),
             value: standard,
         },
