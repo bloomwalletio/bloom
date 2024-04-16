@@ -113,9 +113,10 @@
                 width="half"
             />
             <Button
-                text={localize('actions.send')}
-                icon={IconName.Send}
-                on:click={onSendClick}
+                text={nft.isScam ? localize('actions.burn') : localize('actions.send')}
+                icon={nft.isScam ? IconName.Trash : IconName.Send}
+                color={nft.isScam ? 'danger' : 'primary'}
+                on:click={nft.isScam ? onSendClick : undefined}
                 disabled={isSendButtonDisabled}
                 width="half"
                 reverse
