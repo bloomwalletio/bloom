@@ -66,9 +66,9 @@ function isVisibleWithActiveHiddenFilter(activity: Activity, filter: ActivityFil
 
 function isVisibleWithActiveValuelessFilter(activity: Activity, filter: ActivityFilter): boolean {
     if (
-        (!filter.showValueless.active || filter.showValueless.selected === BooleanFilterOption.No) &&
+        (!filter.showSpam.active || filter.showSpam.selected === BooleanFilterOption.No) &&
         (!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) &&
-        !activity.containsValue
+        activity.isSpam
     ) {
         return false
     }
