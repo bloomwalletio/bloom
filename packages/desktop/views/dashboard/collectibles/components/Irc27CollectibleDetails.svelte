@@ -13,7 +13,7 @@
 
     export let nft: IIrc27Nft
 
-    const { id, issuer, nftAddress, metadata, storageDeposit } = nft ?? {}
+    const { id, issuer, nftAddress, metadata, storageDeposit, mediaUrl } = nft ?? {}
     const { standard, version, issuerName, collectionName } = nft?.metadata || {}
 
     const explorerEndpoint = getExplorerEndpoint()
@@ -46,7 +46,7 @@
         },
         {
             key: localize('general.url'),
-            value: nft.mediaUrl || undefined,
+            value: mediaUrl || undefined,
             copyable: true,
         },
         {
