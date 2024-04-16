@@ -5,7 +5,6 @@
     import { localize } from '@core/i18n'
     import { isEvmNetwork } from '@core/network'
     import { IIrc27Nft, Nft, composeUrlFromNftUri, isNftLocked } from '@core/nfts'
-    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -29,15 +28,6 @@
 
     function onOpenMediaClick(): void {
         openUrlInBrowser(composeUrlFromNftUri(nft?.mediaUrl))
-        menu?.close()
-    }
-
-    function onDownloadClick(): void {
-        updateNftInAllAccountNfts(nft.id, {
-            isLoaded: false,
-            downloadMetadata: { ...nft.downloadMetadata, warning: undefined },
-        })
-        addNftsToDownloadQueue([nft], true)
         menu?.close()
     }
 
@@ -89,12 +79,6 @@
                 title: localize('views.collectibles.details.menu.view'),
                 disabled: !composeUrlFromNftUri(nft.mediaUrl),
                 onClick: onOpenMediaClick,
-            },
-            {
-                icon: IconName.Image,
-                title: localize('views.collectibles.details.menu.loadMedia'),
-                disabled: !composeUrlFromNftUri(nft.mediaUrl) || nft.isLoaded,
-                onClick: onDownloadClick,
             },
             {
                 icon: IconName.Trash,

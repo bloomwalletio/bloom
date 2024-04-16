@@ -2,7 +2,14 @@
     import { Alert, Button, IconName, Table, Text, type IItem, type TextColor } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
     import { MediaPlaceholder, NftMedia } from '@ui'
-    import { IDownloadMetadata, Nft, INftAttribute, NftStandard } from '@core/nfts'
+    import {
+        IDownloadMetadata,
+        Nft,
+        INftAttribute,
+        NftStandard,
+        composeUrlFromNftUri,
+        DownloadWarningType,
+    } from '@core/nfts'
     import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app'
     import { getTimeDifference } from '@core/utils'
@@ -11,6 +18,7 @@
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
     import { downloadingNftId } from '@core/nfts/stores'
+    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
 
     export let nft: Nft
     export let details: IItem[] = []
@@ -43,6 +51,14 @@
         openUrlInBrowser(explorerEndpoint)
     }
 
+    function onDownloadClick(): void {
+        updateNftInAllAccountNfts(nft.id, {
+            isLoaded: false,
+            downloadMetadata: { ...nft.downloadMetadata, warning: undefined },
+        })
+        addNftsToDownloadQueue([nft], true)
+    }
+
     function onSendClick(): void {
         setSendFlowParameters({
             type: SendFlowType.NftTransfer,
@@ -71,7 +87,18 @@
         </NftMedia>
         {#if alertText}
             <error-container>
-                <Alert variant={nft.downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border />
+                {#if composeUrlFromNftUri(nft.mediaUrl) && (nft.downloadMetadata?.error || nft.downloadMetadata?.warning?.type === DownloadWarningType.DownloadNotAllowed)}
+                    <Alert variant={nft.downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border>
+                        <Button
+                            slot="body"
+                            variant="text"
+                            text={localize(`actions.${nft.downloadMetadata?.error ? 'retry' : 'loadAnyway'}`)}
+                            on:click={() => onDownloadClick()}
+                        />
+                    </Alert>
+                {:else}
+                    <Alert variant="warning" text={alertText} border />
+                {/if}
             </error-container>
         {/if}
     </media-container>
