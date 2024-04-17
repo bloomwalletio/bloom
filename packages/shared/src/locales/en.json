@@ -648,6 +648,7 @@
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
+                    "loadMedia": "Load media in wallet",
                     "unsetPfp": "Unset NFT profile pic",
                     "view": "View media in browser",
                     "hide": "Hide NFT",
@@ -1453,7 +1454,9 @@
         "syncTokens": "Force sync tokens",
         "mintNftCollection": "Mint NFT collection",
         "readMore": "Read more",
-        "importThirdPartyProfiles": "Import third-party profiles"
+        "importThirdPartyProfiles": "Import third-party profiles",
+        "retry": "Retry",
+        "loadAnyway": "Load anyway"
     },
     "general": {
         "recipient": "Recipient",
@@ -1641,6 +1644,7 @@
         "custom": "Custom",
         "evmAddress": "EVM address",
         "contractAddress": "Contract Address",
+        "contract": "Contract",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",

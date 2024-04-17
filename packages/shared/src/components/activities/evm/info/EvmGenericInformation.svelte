@@ -1,13 +1,13 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { EvmNetworkId } from '@core/network'
+    import { NetworkId } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { NetworkLabel } from '@ui'
 
     export let time: Date
-    export let destinationNetworkId: EvmNetworkId
+    export let destinationNetworkId: NetworkId
     export let maxGasFee: bigint | undefined = undefined
     export let transactionFee: bigint | undefined = undefined
 

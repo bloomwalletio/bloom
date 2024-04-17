@@ -4,6 +4,7 @@ import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 import { StardustActivityType } from '../enums'
 import { NetworkNamespace } from '@core/network'
 import { EvmActivityType } from '../enums/evm'
+import { isEvmTokenActivity } from './isEvmTokenActivity'
 
 export function getTokenFromActivity(activity: Activity): ITokenWithBalance | undefined {
     if (activity.namespace === NetworkNamespace.Stardust) {
@@ -23,7 +24,7 @@ export function getTokenFromActivity(activity: Activity): ITokenWithBalance | un
     } else if (activity.namespace === NetworkNamespace.Evm) {
         if (activity.type === EvmActivityType.CoinTransfer) {
             return getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, activity.sourceNetworkId)
-        } else if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
+        } else if (isEvmTokenActivity(activity)) {
             if (
                 activity.tokenTransfer.standard === TokenStandard.Erc20 ||
                 activity.tokenTransfer.standard === TokenStandard.Irc30

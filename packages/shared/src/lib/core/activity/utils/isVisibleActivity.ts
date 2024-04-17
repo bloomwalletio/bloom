@@ -18,6 +18,7 @@ import { ActivityTypeFilterOption, InclusionState, StardustActivityAsyncStatus, 
 import { EvmActivityType } from '../enums/evm'
 import { activityFilter } from '../stores'
 import { Activity, ActivityFilter } from '../types'
+import { isEvmTokenActivity } from './isEvmTokenActivity'
 
 // Filters activities based on activity properties. If none of the conditionals are valid, then activity is shown.
 export function isVisibleActivity(activity: Activity): boolean {
@@ -109,10 +110,7 @@ function isVisibleWithActiveTokenFilter(activity: Activity, filter: ActivityFilt
             }
         }
         if (activity.namespace === NetworkNamespace.Evm) {
-            const tokenId =
-                activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange
-                    ? activity.tokenTransfer?.tokenId
-                    : BASE_TOKEN_ID
+            const tokenId = isEvmTokenActivity(activity) ? activity.tokenTransfer?.tokenId : BASE_TOKEN_ID
             if (filter.token.selected && tokenId !== filter.token.selected) {
                 return false
             }
@@ -128,7 +126,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         let tokenId: string | undefined = undefined
 
         if (activity.namespace === NetworkNamespace.Evm) {
-            if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
+            if (isEvmTokenActivity(activity)) {
                 rawAmount = activity.tokenTransfer.rawAmount
                 tokenId = activity.tokenTransfer.tokenId
             } else if (activity.type === EvmActivityType.CoinTransfer) {
@@ -256,9 +254,9 @@ function isVisibleWithActiveDateFilter(activity: Activity, filter: ActivityFilte
             const isInRange =
                 dateIsAfterOtherDate(activity.time, startFilterDate) &&
                 dateIsBeforeOtherDate(activity.time, endFilterDate)
-            const isOnBoundries =
+            const isOnBoundaries =
                 datesOnSameDay(activity.time, startFilterDate) || datesOnSameDay(activity.time, endFilterDate)
-            if (!(isInRange || isOnBoundries)) {
+            if (!(isInRange || isOnBoundaries)) {
                 return false
             }
         }
@@ -280,9 +278,9 @@ function isVisibleWithActiveDateFilter(activity: Activity, filter: ActivityFilte
             const isInRange =
                 dateIsAfterOtherDate(activity.time, startFilterDate) &&
                 dateIsBeforeOtherDate(activity.time, endFilterDate)
-            const isOnBoundries =
+            const isOnBoundaries =
                 datesOnSameDay(activity.time, startFilterDate) || datesOnSameDay(activity.time, endFilterDate)
-            if (!(isInRange || isOnBoundries)) {
+            if (!(isInRange || isOnBoundaries)) {
                 return false
             }
         }
@@ -375,12 +373,11 @@ function isVisibleWithActiveTypeFilter(activity: Activity, filter: ActivityFilte
         } else if (activity.namespace === NetworkNamespace.Evm) {
             switch (filter.type.selected) {
                 case ActivityTypeFilterOption.Transfer: {
-                    const isTokentransfer =
-                        (activity.type === EvmActivityType.TokenTransfer ||
-                            activity.type === EvmActivityType.BalanceChange) &&
+                    const isTokenTransfer =
+                        isEvmTokenActivity(activity) &&
                         (activity.tokenTransfer.standard === TokenStandard.Erc20 ||
                             activity.tokenTransfer.standard === TokenStandard.Irc30)
-                    if (activity.type !== EvmActivityType.CoinTransfer && !isTokentransfer) {
+                    if (activity.type !== EvmActivityType.CoinTransfer && !isTokenTransfer) {
                         return false
                     }
                     break
@@ -392,8 +389,7 @@ function isVisibleWithActiveTypeFilter(activity: Activity, filter: ActivityFilte
                     break
                 case ActivityTypeFilterOption.Nft: {
                     const isNftTransfer =
-                        (activity.type === EvmActivityType.TokenTransfer ||
-                            activity.type === EvmActivityType.BalanceChange) &&
+                        isEvmTokenActivity(activity) &&
                         (activity.tokenTransfer.standard === NftStandard.Erc721 ||
                             activity.tokenTransfer.standard === NftStandard.Irc27)
                     if (!isNftTransfer) {
