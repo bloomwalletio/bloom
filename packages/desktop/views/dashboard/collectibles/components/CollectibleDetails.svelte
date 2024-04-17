@@ -1,30 +1,33 @@
 <script lang="ts">
-    import { closePopup } from '@desktop/auxiliary/popup/actions'
-    import { Alert, Button, IconName, Table, Text, type IItem, type TextColor, Link } from '@bloomwalletio/ui'
+    import { Alert, Button, IconName, Link, Table, Text, type IItem, type TextColor } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
-    import { MediaPlaceholder, NftMedia } from '@ui'
-    import { IDownloadMetadata, Nft, INftAttribute, NftStandard } from '@core/nfts'
-    import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app'
-    import { getTimeDifference } from '@core/utils'
     import { time } from '@core/app/stores'
-    import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
-    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { downloadingNftId, updatePersistedNft } from '@core/nfts/stores'
-    import { addNftsToDownloadQueue } from '@core/nfts/actions'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { burnNft } from '@core/wallet'
-    import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
+    import { INftAttribute, Nft, NftStandard } from '@core/nfts'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
+    import { downloadingNftId, updatePersistedNft } from '@core/nfts/stores'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { CollectiblesRoute, collectiblesRouter } from '@core/router'
+    import { getTimeDifference } from '@core/utils'
+    import { burnNft } from '@core/wallet'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { closePopup } from '@desktop/auxiliary/popup/actions'
+    import { MediaPlaceholder, NftMedia } from '@ui'
+    import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
+    import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
+    import NftMediaAlert from './NftMediaAlert.svelte'
 
     export let nft: Nft
     export let details: IItem[] = []
     export let attributes: INftAttribute[] = []
     export let explorerEndpoint: string | undefined
 
-    $: timeDiff = nft.standard === NftStandard.Irc27 ? getTimeDifference(new Date(nft.timelockTime), $time) : undefined
-    $: alertText = getAlertText(nft.downloadMetadata)
+    $: timeDiff =
+        nft.standard === NftStandard.Irc27 && nft.timelockTime
+            ? getTimeDifference(new Date(nft.timelockTime), $time)
+            : undefined
     $: isSendButtonDisabled = !!timeDiff
 
     $: placeHolderColor = nft.downloadMetadata?.error
@@ -32,18 +35,6 @@
         : nft.downloadMetadata?.warning
           ? 'warning'
           : ('brand' as TextColor)
-
-    function getAlertText(downloadMetadata: IDownloadMetadata | undefined): string | undefined {
-        const { error, warning } = downloadMetadata ?? {}
-        const errorOrWarning = error || warning
-
-        if (!errorOrWarning) {
-            return
-        }
-
-        const { type, message } = errorOrWarning
-        return type === 'generic' ? message : localize(`error.nft.${type}.long`)
-    }
 
     function onExplorerClick(): void {
         openUrlInBrowser(explorerEndpoint)
@@ -126,9 +117,13 @@
                 />
             </div>
         </NftMedia>
-        {#if alertText}
+        {#if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
             <error-container>
-                <Alert variant={nft.downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border />
+                <NftMediaAlert
+                    type={nft.downloadMetadata?.error?.type ?? nft.downloadMetadata?.warning?.type}
+                    message={nft.downloadMetadata?.error?.message ?? nft.downloadMetadata?.warning?.message}
+                    {nft}
+                />
             </error-container>
         {/if}
     </media-container>
