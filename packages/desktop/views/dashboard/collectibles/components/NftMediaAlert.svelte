@@ -1,6 +1,6 @@
 <script lang="ts">
     import { DownloadErrorType, DownloadWarningType, Nft, NftDownloadOptions } from '@core/nfts'
-    import { Alert, Text } from '@bloomwalletio/ui'
+    import { Alert, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
 
@@ -44,13 +44,14 @@
 {#if retryableErrors.some((_type) => _type === type)}
     <Alert {variant} text={alertText} border>
         <div slot="text">
-            <Text textColor="secondary"
-                >{alertText}
-                <button type="button" class="inline text-brand dark:text-brand-dark" on:click={onDownloadClick}>
-                    {localize(
+            <Text textColor="secondary">
+                {alertText}
+                <Link
+                    on:click={onDownloadClick}
+                    text={localize(
                         `actions.${type === DownloadWarningType.DownloadNotAllowed || type === DownloadWarningType.TooLargeFile ? 'loadAnyway' : 'retry'}`
                     )}
-                </button>
+                />
             </Text>
         </div>
     </Alert>
