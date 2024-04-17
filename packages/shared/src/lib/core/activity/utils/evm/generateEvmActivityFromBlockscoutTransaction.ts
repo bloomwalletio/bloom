@@ -28,7 +28,10 @@ export async function generateEvmActivityFromBlockscoutTransaction(
             evmNetwork,
             account
         )
-    } else if (blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.TokenTransfer)) {
+    } else if (
+        blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.TokenTransfer) ||
+        blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.TokenMinting)
+    ) {
         // if it is a blockscout transaction and a token transfer we have already generated this activity
         // there may be cases where thats not the case but we are unsure so we plan to add a fallback here at a lower priority
         return undefined

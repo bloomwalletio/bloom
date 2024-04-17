@@ -651,6 +651,8 @@
                     "loadMedia": "Load media in wallet",
                     "unsetPfp": "Unset NFT profile pic",
                     "view": "View media in browser",
+                    "hide": "Hide NFT",
+                    "unhide": "Unhide NFT",
                     "burn": "Burn NFT"
                 }
             }
@@ -1305,6 +1307,10 @@
         },
         "profileDiagnostics": {
             "title": "Profile diagnostics"
+        },
+        "notAScam": {
+            "title": "Not a scam?",
+            "description": "Are you sure you want to mark this NFT as not a scam?"
         }
     },
     "actions": {
@@ -1638,6 +1644,7 @@
         "custom": "Custom",
         "evmAddress": "EVM address",
         "contractAddress": "Contract Address",
+        "contract": "Contract",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",
@@ -1698,8 +1705,8 @@
             "yes": "Yes",
             "no": "No"
         },
-        "showValueless": {
-            "label": "Show valueless",
+        "showSpam": {
+            "label": "Show spam",
             "yes": "Yes",
             "no": "No"
         },
@@ -2097,6 +2104,10 @@
             "downloadNotAllowed": {
                 "short": "Download blocked by settings",
                 "long": "Your current NFT download permissions do not allow downloading this NFT from its URL"
+            },
+            "scamNft": {
+                "short": "Scam NFT detected",
+                "long": "We have detected that this NFT is a scam, please be cautious and do not interact with it."
             }
         },
         "governance": {

@@ -1,4 +1,4 @@
-import { BrowserWindow, app, shell, screen, nativeTheme, ipcMain } from 'electron'
+import { BrowserWindow, app, shell, screen, nativeTheme, ipcMain, systemPreferences } from 'electron'
 import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
@@ -144,10 +144,15 @@ export default class TransakManager implements ITransakManager {
         })
 
         windows.transak.webContents.addListener('did-navigate-in-page', (_, url) => {
-            const urlToBeMatched = TRANSAK_WIDGET_URL + '/googlepay'
-            if (url.startsWith(urlToBeMatched)) {
+            const googlePayUrl = TRANSAK_WIDGET_URL + '/googlepay'
+            if (url.startsWith(googlePayUrl)) {
                 windows.main?.webContents?.send?.('try-open-url-in-browser', url)
                 void windows.transak?.loadURL?.(initialUrl)
+            }
+
+            const kycUrl = TRANSAK_WIDGET_URL + '/user/kyc-forms/idProof'
+            if (process.platform === 'darwin' && url.startsWith(kycUrl)) {
+                void systemPreferences.askForMediaAccess('camera')
             }
         })
 

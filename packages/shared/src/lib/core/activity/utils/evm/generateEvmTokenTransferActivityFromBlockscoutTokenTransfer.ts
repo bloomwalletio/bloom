@@ -1,7 +1,12 @@
 import { IAccountState } from '@core/account/interfaces'
 import { IEvmNetwork, NetworkNamespace } from '@core/network'
-import { BaseEvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } from '../../types'
-import { IBlockscoutTransaction } from '@auxiliary/blockscout'
+import {
+    BaseEvmActivity,
+    EvmCoinTransferActivity,
+    EvmTokenMintingActivity,
+    EvmTokenTransferActivity,
+} from '../../types'
+import { BlockscoutTransactionType, IBlockscoutTransaction } from '@auxiliary/blockscout'
 import { ActivityAction, ActivityDirection, InclusionState } from '@core/activity/enums'
 import { getAddressFromAccountForNetwork } from '@core/account'
 import { ISmartContractSubject, SubjectType, getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
@@ -26,14 +31,24 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
     blockscoutTransaction: IBlockscoutTransaction | undefined,
     evmNetwork: IEvmNetwork,
     account: IAccountState
-): Promise<EvmTokenTransferActivity | EvmCoinTransferActivity | undefined> {
+): Promise<EvmTokenTransferActivity | EvmTokenMintingActivity | EvmCoinTransferActivity | undefined> {
+    const type =
+        blockscoutTokenTransfer.type === BlockscoutTransactionType.TokenMinting
+            ? EvmActivityType.TokenMinting
+            : EvmActivityType.TokenTransfer
+
     const networkId = evmNetwork.id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === blockscoutTokenTransfer.to.hash.toLowerCase()
             ? ActivityDirection.Incoming
             : ActivityDirection.Outgoing
 
-    const sender = getSubjectFromAddress(blockscoutTokenTransfer.from.hash.toLowerCase(), networkId)
+    const senderAddress =
+        type === EvmActivityType.TokenMinting
+            ? blockscoutTransaction?.to.hash ?? blockscoutTokenTransfer.from.hash
+            : blockscoutTokenTransfer.from.hash
+
+    const sender = getSubjectFromAddress(senderAddress.toLowerCase(), networkId)
     const recipient = getSubjectFromAddress(blockscoutTokenTransfer.to.hash.toLowerCase(), networkId)
 
     const subject = direction === ActivityDirection.Outgoing ? recipient : sender
@@ -71,12 +86,12 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
               name: blockscoutTokenTransfer.to.name ?? '',
               verified: blockscoutTokenTransfer.to.is_verified,
           }
-        : blockscoutTokenTransfer.from.is_contract
+        : blockscoutTransaction?.to
           ? {
                 type: SubjectType.SmartContract,
-                address: blockscoutTokenTransfer.from.hash.toLowerCase(),
-                name: blockscoutTokenTransfer.from.name ?? '',
-                verified: blockscoutTokenTransfer.from.is_verified,
+                address: blockscoutTransaction?.to.hash.toLowerCase(),
+                name: blockscoutTransaction?.to.name ?? undefined,
+                verified: blockscoutTransaction?.to.is_contract ? blockscoutTransaction?.to.is_verified : undefined,
             }
           : undefined
 
@@ -86,7 +101,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         // meta information
         id: blockscoutTokenTransfer.tx_hash.toLowerCase(),
         action: ActivityAction.Send,
-        containsValue: true, // TODO: check if why we do this
+        isSpam: false,
 
         transactionId: blockscoutTokenTransfer.tx_hash.toLowerCase(),
         time: new Date(blockscoutTokenTransfer.timestamp),
@@ -133,7 +148,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
 
     return {
         ...baseActivity,
-        type: EvmActivityType.TokenTransfer,
+        type,
 
         tokenTransfer: {
             standard,

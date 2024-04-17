@@ -12,6 +12,7 @@ import { getPersistedToken } from '@core/token/stores'
 import { NetworkNamespace } from '@core/network'
 import { EvmActivityType } from '../enums/evm'
 import { TokenStandard } from '@core/token/enums'
+import { isEvmTokenActivity } from '../utils/isEvmTokenActivity'
 
 export const selectedAccountActivities: Readable<Activity[]> = derived(
     [selectedAccount, allAccountActivities],
@@ -111,7 +112,7 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
                     false
                 )?.toLowerCase()
             )
-        } else if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
+        } else if (isEvmTokenActivity(activity)) {
             const { rawAmount, tokenId, standard } = activity.tokenTransfer
 
             fieldsToSearch.push(String(rawAmount))
@@ -144,7 +145,7 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
     } else if (activity.subject?.type === SubjectType.Contact) {
         fieldsToSearch.push(activity.subject.contact.name)
     } else if (activity.subject?.type === SubjectType.SmartContract) {
-        fieldsToSearch.push(activity.subject.name)
+        activity.subject.name && fieldsToSearch.push(activity.subject.name)
     } else if (activity.subject?.type === SubjectType.Network) {
         fieldsToSearch.push(activity.subject.name)
     }

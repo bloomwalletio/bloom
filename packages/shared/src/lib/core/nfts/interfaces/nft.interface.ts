@@ -30,10 +30,12 @@ interface IBaseNft {
     type: MimeType
     networkId: NetworkId
     name: string
+    hidden: boolean
     description?: string
     collectionName?: string
     mediaUrl?: string
     downloadMetadata?: IDownloadMetadata
     isLoaded: boolean
     isSpendable: boolean
+    isScam?: boolean
 }
