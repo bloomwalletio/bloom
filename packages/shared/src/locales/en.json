@@ -1641,6 +1641,7 @@
         "custom": "Custom",
         "evmAddress": "EVM address",
         "contractAddress": "Contract Address",
+        "contract": "Contract",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Connected",

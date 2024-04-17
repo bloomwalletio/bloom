@@ -65,6 +65,8 @@ export function getActivityTileAction(activity: Activity): string | undefined {
             } else {
                 return isConfirmed ? 'general.received' : 'general.receiving'
             }
+        } else if (activity.type === EvmActivityType.TokenMinting) {
+            return 'general.minted'
         } else if (activity.type === EvmActivityType.ContractCall) {
             return 'general.contractCall'
         } else {
