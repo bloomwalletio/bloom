@@ -59,7 +59,7 @@
         />
     {:else if selectedTab.key === PopupTab.NftMetadata && nft}
         <NftMetadataTable {nft} />
-    {:else if selectedTab.key === PopupTab.SmartContract && (activity.type === EvmActivityType.ContractCall || activity.type === EvmActivityType.TokenTransfer)}
+    {:else if selectedTab.key === PopupTab.SmartContract && (activity.type === EvmActivityType.ContractCall || activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.TokenMinting)}
         <EvmSmartContractInformation {activity} />
     {/if}
 </activity-details>

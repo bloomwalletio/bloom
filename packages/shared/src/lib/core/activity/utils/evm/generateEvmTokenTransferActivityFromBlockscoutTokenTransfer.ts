@@ -32,13 +32,23 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
     evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmTokenTransferActivity | EvmTokenMintingActivity | EvmCoinTransferActivity | undefined> {
+    const type =
+        blockscoutTokenTransfer.type === BlockscoutTransactionType.TokenMinting
+            ? EvmActivityType.TokenMinting
+            : EvmActivityType.TokenTransfer
+
     const networkId = evmNetwork.id
     const direction =
         getAddressFromAccountForNetwork(account, networkId) === blockscoutTokenTransfer.to.hash.toLowerCase()
             ? ActivityDirection.Incoming
             : ActivityDirection.Outgoing
 
-    const sender = getSubjectFromAddress(blockscoutTokenTransfer.from.hash.toLowerCase(), networkId)
+    const senderAddress =
+        type === EvmActivityType.TokenMinting
+            ? blockscoutTransaction?.to.hash ?? blockscoutTokenTransfer.from.hash
+            : blockscoutTokenTransfer.from.hash
+
+    const sender = getSubjectFromAddress(senderAddress.toLowerCase(), networkId)
     const recipient = getSubjectFromAddress(blockscoutTokenTransfer.to.hash.toLowerCase(), networkId)
 
     const subject = direction === ActivityDirection.Outgoing ? recipient : sender
@@ -76,12 +86,12 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
               name: blockscoutTokenTransfer.to.name ?? '',
               verified: blockscoutTokenTransfer.to.is_verified,
           }
-        : blockscoutTokenTransfer.from.is_contract
+        : blockscoutTransaction?.to
           ? {
                 type: SubjectType.SmartContract,
-                address: blockscoutTokenTransfer.from.hash.toLowerCase(),
-                name: blockscoutTokenTransfer.from.name ?? '',
-                verified: blockscoutTokenTransfer.from.is_verified,
+                address: blockscoutTransaction?.to.hash.toLowerCase(),
+                name: blockscoutTransaction?.to.name ?? undefined,
+                verified: blockscoutTransaction?.to.is_contract ? blockscoutTransaction?.to.is_verified : undefined,
             }
           : undefined
 
@@ -135,11 +145,6 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         const [, _parameters] = getMethodForEvmTransaction(blockscoutTransaction.raw_input) ?? []
         parameters = _parameters
     }
-
-    const type =
-        blockscoutTokenTransfer.type === BlockscoutTransactionType.TokenMinting
-            ? EvmActivityType.TokenMinting
-            : EvmActivityType.TokenTransfer
 
     return {
         ...baseActivity,
