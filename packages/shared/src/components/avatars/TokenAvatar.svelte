@@ -23,6 +23,9 @@
         [SupportedNetworkId.Testnet]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
+        [SupportedNetworkId.IotaEvm]: {
+            [BASE_TOKEN_ID]: '#000000',
+        },
         [SupportedNetworkId.ShimmerEvm]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
