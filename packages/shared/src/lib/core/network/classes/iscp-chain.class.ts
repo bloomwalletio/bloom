@@ -94,11 +94,11 @@ export class IscpChain implements IEvmNetwork {
         return new this.provider.eth.Contract(abi, address)
     }
 
-    getMetadata(): Promise<ChainMetadata> {
+    async getMetadata(): Promise<ChainMetadata> {
         if (this._metadata) {
             return Promise.resolve(this._metadata)
         } else {
-            this._metadata = <IIscpEvmNetworkMetadata>{} // await this.fetchChainMetadata()
+            this._metadata = await this.fetchChainMetadata()
             return Promise.resolve(this._metadata)
         }
     }
@@ -119,7 +119,9 @@ export class IscpChain implements IEvmNetwork {
         return this.provider.eth.getBlock(number)
     }
 
-    async getGasEstimate(hex: string): Promise<bigint> {
+    async getGasFeeEstimate(hex: string): Promise<bigint> {
+        // TODO move into constructor once derived store is removed and handle errors appropriately.
+        await this.getMetadata()
         const URL = `${this._chainApi}/estimategas-onledger`
         const body = JSON.stringify({ outputBytes: hex })
 
@@ -136,12 +138,15 @@ export class IscpChain implements IEvmNetwork {
         const data = await response.json()
 
         if (response.status === 200) {
-            const gasEstimate = Converter.bigIntLikeToBigInt(data.gasFeeCharged)
-            if (gasEstimate === BigInt(0)) {
-                throw new Error(`Gas fee has an invalid value: ${gasEstimate}!`)
+            // More information can be found here: https://wiki.iota.org/isc/reference/core-contracts/governance/#ratio32
+            const gasPerToken = this._metadata?.gasFeePolicy.gasPerToken ?? {}
+            const subunitPerGas = (gasPerToken['a'] ?? 1) / (gasPerToken['b'] ?? 1)
+            const gasFeeEstimate = Converter.bigIntLikeToBigInt(data.gasFeeCharged * subunitPerGas)
+            if (gasFeeEstimate === BigInt(0)) {
+                throw new Error(`Gas fee has an invalid value: ${gasFeeEstimate}!`)
             }
 
-            return gasEstimate
+            return gasFeeEstimate
         } else {
             throw new Error(data)
         }

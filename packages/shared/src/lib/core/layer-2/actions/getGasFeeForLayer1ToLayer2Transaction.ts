@@ -19,15 +19,15 @@ export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: 
     }
 
     try {
-        const gasEstimate = await getGasEstimateForIscpCall(destinationNetworkId, sendFlowParameters)
-        return gasEstimate
+        const gasFeeEstimate = await getGasFeeEstimateForIscpCall(destinationNetworkId, sendFlowParameters)
+        return gasFeeEstimate
     } catch (err) {
         console.error(err)
         return BigInt(FALLBACK_ESTIMATED_GAS[sendFlowParameters.type])
     }
 }
 
-async function getGasEstimateForIscpCall(
+async function getGasFeeEstimateForIscpCall(
     networkId: NetworkId,
     sendFlowParameters: SendFlowParameters
 ): Promise<bigint> {
@@ -38,7 +38,7 @@ async function getGasEstimateForIscpCall(
     const account = getSelectedAccount()
     const tempOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, account)
     const outputBytes = await outputHexBytes(tempOutput)
-    return evmNetwork.getGasEstimate(outputBytes)
+    return evmNetwork.getGasFeeEstimate(outputBytes)
 }
 
 function getTransferredAsset(sendFlowParameters: SendFlowParameters): TransferredAsset | undefined {
