@@ -1,6 +1,6 @@
 <script lang="ts">
     import { DownloadErrorType, DownloadWarningType, Nft, NftDownloadOptions } from '@core/nfts'
-    import { Alert, Button, Text } from '@bloomwalletio/ui'
+    import { Alert, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
 
@@ -8,7 +8,16 @@
     export let message: string | undefined
     export let nft: Nft
 
+    $: variant = Object.values(DownloadErrorType).some((_type) => _type === type) ? 'danger' : 'warning'
     $: alertText = type === 'generic' ? message : localize(`error.nft.${type}.long`)
+
+    const retryableErrors = [
+        DownloadErrorType.NotReachable,
+        DownloadErrorType.Generic,
+        DownloadWarningType.DownloadTooLong,
+        DownloadWarningType.DownloadNotAllowed,
+        type === DownloadWarningType.TooLargeFile,
+    ]
 
     function onDownloadClick(): void {
         let options: Partial<NftDownloadOptions> = {}
@@ -32,20 +41,19 @@
     }
 </script>
 
-{#if type === DownloadWarningType.DownloadNotAllowed || type === DownloadWarningType.TooLargeFile}
-    <Alert variant="warning" text={alertText} border>
+{#if retryableErrors.some((_type) => _type === type)}
+    <Alert {variant} text={alertText} border>
         <div slot="text">
-            <Text textColor="secondary">{alertText}</Text>
-            <Button variant="text" text={localize('actions.loadAnyway')} on:click={onDownloadClick} />
-        </div>
-    </Alert>
-{:else if type === DownloadErrorType.NotReachable || type === DownloadErrorType.Generic}
-    <Alert variant="danger" text={alertText} border>
-        <div slot="text">
-            <Text textColor="secondary">{alertText}</Text>
-            <Button variant="text" text={localize('actions.retry')} on:click={onDownloadClick} />
+            <Text textColor="secondary"
+                >{alertText}
+                <button type="button" class="inline text-brand dark:text-brand-dark" on:click={onDownloadClick}>
+                    {localize(
+                        `actions.${type === DownloadWarningType.DownloadNotAllowed || type === DownloadWarningType.TooLargeFile ? 'loadAnyway' : 'retry'}`
+                    )}
+                </button>
+            </Text>
         </div>
     </Alert>
 {:else}
-    <Alert variant="warning" text={alertText} border />
+    <Alert {variant} text={alertText} border />
 {/if}
