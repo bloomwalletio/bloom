@@ -1,11 +1,11 @@
 import { get, writable } from 'svelte/store'
 import { Nft } from '../interfaces'
 import { downloadingNftId } from './downloading-nft.store'
-import { NftDownloadQueueOptions } from '../types'
+import { NftDownloadOptions } from '../types'
 
-export const nftDownloadQueue = writable<{ nft: Nft; options: NftDownloadQueueOptions }[]>([])
+export const nftDownloadQueue = writable<{ nft: Nft; options: NftDownloadOptions }[]>([])
 
-export function addNftToDownloadQueue(nft: Nft, options: NftDownloadQueueOptions): void {
+export function addNftToDownloadQueue(nft: Nft, options: NftDownloadOptions): void {
     const isNftInDownloadQueue = get(nftDownloadQueue).some((nftInQueue) => nftInQueue.nft.id === nft.id)
     if (isNftInDownloadQueue) {
         return

@@ -3,14 +3,14 @@ import { updateNftInAllAccountNfts } from '.'
 import { Nft } from '../interfaces'
 import { addNftToDownloadQueue, nftDownloadQueue, updatePersistedNft } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
-import { NftDownloadQueueOptions } from '../types'
+import { NftDownloadOptions } from '../types'
 
-export async function addNftsToDownloadQueue(nfts: Nft[], options?: Partial<NftDownloadQueueOptions>): Promise<void> {
+export async function addNftsToDownloadQueue(nfts: Nft[], options?: Partial<NftDownloadOptions>): Promise<void> {
     if (nfts.length === 0) {
         return
     }
 
-    const fullOptions: NftDownloadQueueOptions = { skipDownloadSettingsCheck: false, skipSizeCheck: false, ...options }
+    const fullOptions: NftDownloadOptions = { skipDownloadSettingsCheck: false, skipSizeCheck: false, ...options }
     const nftsToAdd: Nft[] = []
     for (const nft of nfts) {
         const isNftInDownloadQueue = get(nftDownloadQueue).some((queueItem) => queueItem.nft.id === nft.id)

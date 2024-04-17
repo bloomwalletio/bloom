@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { DownloadErrorType, DownloadWarningType, Nft, NftDownloadQueueOptions } from '@core/nfts'
+    import { DownloadErrorType, DownloadWarningType, Nft, NftDownloadOptions } from '@core/nfts'
     import { Alert, Button, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
@@ -11,7 +11,7 @@
     $: alertText = type === 'generic' ? message : localize(`error.nft.${type}.long`)
 
     function onDownloadClick(): void {
-        let options: Partial<NftDownloadQueueOptions> = {}
+        let options: Partial<NftDownloadOptions> = {}
 
         switch (type) {
             case DownloadWarningType.DownloadNotAllowed:

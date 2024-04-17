@@ -1,4 +1,4 @@
-export type NftDownloadQueueOptions = {
+export type NftDownloadOptions = {
     skipDownloadSettingsCheck: boolean
     skipSizeCheck: boolean
 }
