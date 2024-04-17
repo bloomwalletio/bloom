@@ -2,10 +2,15 @@ import { get } from 'svelte/store'
 import { Nft } from '../interfaces'
 import { nftFilter, nftSearchTerm } from '../stores'
 import { INftFilter } from '../interfaces/nft-filter.interface'
+import { BooleanFilterOption } from '@core/utils/enums/filters'
 
 export function isVisibleNft(nft: Nft): boolean {
     const filter = get(nftFilter)
     const searchTerm = get(nftSearchTerm)
+
+    if (!isVisibleWithActiveHiddenFilter(nft, filter)) {
+        return false
+    }
 
     if (!isVisibleWithNetworkFilter(nft, filter)) {
         return false
@@ -14,6 +19,16 @@ export function isVisibleNft(nft: Nft): boolean {
         return false
     }
 
+    return true
+}
+
+function isVisibleWithActiveHiddenFilter(nft: Nft, filter: INftFilter): boolean {
+    if (
+        (!filter.showHidden.active || filter.showHidden.selected === BooleanFilterOption.No) &&
+        (nft.hidden || nft.isScam)
+    ) {
+        return false
+    }
     return true
 }
 

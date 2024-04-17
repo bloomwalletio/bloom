@@ -101,7 +101,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         // meta information
         id: blockscoutTokenTransfer.tx_hash.toLowerCase(),
         action: ActivityAction.Send,
-        containsValue: true, // TODO: check if why we do this
+        isSpam: false,
 
         transactionId: blockscoutTokenTransfer.tx_hash.toLowerCase(),
         time: new Date(blockscoutTokenTransfer.timestamp),

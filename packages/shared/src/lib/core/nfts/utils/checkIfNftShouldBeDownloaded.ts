@@ -29,6 +29,11 @@ export async function checkIfNftShouldBeDownloaded(
             }
         }
 
+        if (nft.isScam) {
+            downloadMetadata.warning = { type: DownloadWarningType.ScamNft }
+            return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        }
+
         if (!composeUrlFromNftUri(nft.mediaUrl)) {
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
