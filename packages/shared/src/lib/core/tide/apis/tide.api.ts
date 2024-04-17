@@ -94,7 +94,7 @@ export class TideApi extends BaseApi {
     }
 
     async getCampaignsForChain(chainId: number): Promise<IMultipleCampaignsResponse | undefined> {
-        const path = `${TideApiEndpoint.Campaign}/evmNetwork/${chainId}`
+        const path = `${TideApiEndpoint.Campaign}/chain/${chainId}`
         const response = await this.get<IMultipleCampaignsResponse>(path)
         return response
     }
