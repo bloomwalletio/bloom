@@ -16,7 +16,7 @@
         DownloadErrorType.Generic,
         DownloadWarningType.DownloadTooLong,
         DownloadWarningType.DownloadNotAllowed,
-        type === DownloadWarningType.TooLargeFile,
+        DownloadWarningType.TooLargeFile,
     ]
 
     function onDownloadClick(): void {
