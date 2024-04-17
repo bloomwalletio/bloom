@@ -5,15 +5,8 @@
     import { time } from '@core/app/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import {
-        DownloadWarningType,
-        IDownloadMetadata,
-        INftAttribute,
-        Nft,
-        NftStandard,
-        composeUrlFromNftUri,
-    } from '@core/nfts'
-    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
+    import { INftAttribute, Nft, NftStandard } from '@core/nfts'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
     import { downloadingNftId, updatePersistedNft } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -24,14 +17,17 @@
     import { MediaPlaceholder, NftMedia } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
+    import NftMediaAlert from './NftMediaAlert.svelte'
 
     export let nft: Nft
     export let details: IItem[] = []
     export let attributes: INftAttribute[] = []
     export let explorerEndpoint: string | undefined
 
-    $: timeDiff = nft.standard === NftStandard.Irc27 ? getTimeDifference(new Date(nft.timelockTime), $time) : undefined
-    $: alertText = getAlertText(nft.downloadMetadata)
+    $: timeDiff =
+        nft.standard === NftStandard.Irc27 && nft.timelockTime
+            ? getTimeDifference(new Date(nft.timelockTime), $time)
+            : undefined
     $: isSendButtonDisabled = !!timeDiff
 
     $: placeHolderColor = nft.downloadMetadata?.error
@@ -40,28 +36,8 @@
           ? 'warning'
           : ('brand' as TextColor)
 
-    function getAlertText(downloadMetadata: IDownloadMetadata | undefined): string | undefined {
-        const { error, warning } = downloadMetadata ?? {}
-        const errorOrWarning = error || warning
-
-        if (!errorOrWarning) {
-            return
-        }
-
-        const { type, message } = errorOrWarning
-        return type === 'generic' ? message : localize(`error.nft.${type}.long`)
-    }
-
     function onExplorerClick(): void {
         openUrlInBrowser(explorerEndpoint)
-    }
-
-    function onDownloadClick(): void {
-        updateNftInAllAccountNfts(nft.id, {
-            isLoaded: false,
-            downloadMetadata: { ...nft.downloadMetadata, warning: undefined },
-        })
-        addNftsToDownloadQueue([nft], true)
     }
 
     function onSendClick(): void {
@@ -141,22 +117,13 @@
                 />
             </div>
         </NftMedia>
-        {#if alertText}
+        {#if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
             <error-container>
-                {#if composeUrlFromNftUri(nft.mediaUrl) && (nft.downloadMetadata?.error || nft.downloadMetadata?.warning?.type === DownloadWarningType.DownloadNotAllowed)}
-                    <Alert variant={nft.downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border>
-                        <div slot="text">
-                            <Text textColor="secondary">{alertText}</Text>
-                            <Button
-                                variant="text"
-                                text={localize(`actions.${nft.downloadMetadata?.error ? 'retry' : 'loadAnyway'}`)}
-                                on:click={() => onDownloadClick()}
-                            />
-                        </div>
-                    </Alert>
-                {:else}
-                    <Alert variant="warning" text={alertText} border />
-                {/if}
+                <NftMediaAlert
+                    type={nft.downloadMetadata?.error?.type ?? nft.downloadMetadata?.warning?.type}
+                    message={nft.downloadMetadata?.error?.message ?? nft.downloadMetadata?.warning?.message}
+                    {nft}
+                />
             </error-container>
         {/if}
     </media-container>

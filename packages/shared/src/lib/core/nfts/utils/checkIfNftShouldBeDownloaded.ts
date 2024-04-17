@@ -12,7 +12,7 @@ import { composeUrlFromNftUri } from './composeUrlFromNftUri'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: Nft,
-    forceDownload: boolean = false
+    skipDownloadSettingsCheck: boolean = false
 ): Promise<{ shouldDownload: boolean; downloadMetadata: IDownloadMetadata; isLoaded: boolean }> {
     let downloadMetadata: IDownloadMetadata = nft.downloadMetadata ?? {}
 
@@ -40,7 +40,7 @@ export async function checkIfNftShouldBeDownloaded(
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
 
-        if (!forceDownload) {
+        if (!skipDownloadSettingsCheck) {
             const nftSettings = getActiveProfile()?.settings?.nfts ?? {}
             // TODO: Implement deny list
             switch (nftSettings.downloadPermissions) {
