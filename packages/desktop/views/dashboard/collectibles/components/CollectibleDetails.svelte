@@ -89,12 +89,14 @@
             <error-container>
                 {#if composeUrlFromNftUri(nft.mediaUrl) && (nft.downloadMetadata?.error || nft.downloadMetadata?.warning?.type === DownloadWarningType.DownloadNotAllowed)}
                     <Alert variant={nft.downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border>
-                        <Button
-                            slot="body"
-                            variant="text"
-                            text={localize(`actions.${nft.downloadMetadata?.error ? 'retry' : 'loadAnyway'}`)}
-                            on:click={() => onDownloadClick()}
-                        />
+                        <div slot="text">
+                            <Text textColor="secondary">{alertText}</Text>
+                            <Button
+                                variant="text"
+                                text={localize(`actions.${nft.downloadMetadata?.error ? 'retry' : 'loadAnyway'}`)}
+                                on:click={() => onDownloadClick()}
+                            />
+                        </div>
                     </Alert>
                 {:else}
                     <Alert variant="warning" text={alertText} border />
