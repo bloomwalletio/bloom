@@ -250,7 +250,12 @@
             "ipfsGateways": {
                 "title": "IPFS gateways",
                 "description": "Select the IPFS gateway to use for media retrieval",
-                "input": "IPFS gateway"
+                "input": "IPFS gateway",
+                "setAsPrimary": "Set as primary",
+                "removeConfirmation": {
+                    "title": "Remove IPFS gateway",
+                    "description": "Are you sure you want to remove this IPFS gateway?"
+                }
             },
             "maxMediaSize": {
                 "title": "Maximum media size",
