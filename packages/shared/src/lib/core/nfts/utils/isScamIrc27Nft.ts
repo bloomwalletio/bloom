@@ -1,10 +1,12 @@
 import { IIrc27Metadata } from '../interfaces'
+import { nftBlocklist } from '@core/utils/stores/nft-blocklist.store'
+import { get } from 'svelte/store'
 
 export function isScamIrc27Nft(metadata: IIrc27Metadata): boolean {
-    const SCAM_URLS = ['iotalottery.com', 'iota-lottery.com', 'lottery-iota.com', 'fly-fire.com']
-    const SCAM_PHRASES = ['lottery', 'lotto', 'raffle', 'giveaway', 'scam', 'won']
+    const { urls, keywords } = get(nftBlocklist)
+
     if (
-        SCAM_URLS.some(
+        urls.some(
             (url) =>
                 metadata?.uri?.toLocaleLowerCase()?.includes(url) ||
                 metadata?.name?.toLocaleLowerCase()?.includes(url) ||
@@ -15,7 +17,7 @@ export function isScamIrc27Nft(metadata: IIrc27Metadata): boolean {
     ) {
         return true
     } else if (
-        SCAM_PHRASES.some(
+        keywords.some(
             (phrase) =>
                 metadata?.name?.toLocaleLowerCase()?.includes(phrase) ||
                 metadata?.issuerName?.toLocaleLowerCase()?.includes(phrase) ||

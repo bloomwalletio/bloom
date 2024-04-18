@@ -59,6 +59,10 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
             const displayedSubject = getNameFromSubject(activity.subject, true)
 
             return localize(key, { subject: displayedSubject })
+        } else if (activity.type === EvmActivityType.TokenMinting) {
+            const displayedSubject = getNameFromSubject(activity.subject, true)
+
+            return localize(`${localizationPrefix}.mint.${activity.inclusionState}`, { subject: displayedSubject })
         } else if (activity.type === EvmActivityType.ContractCall) {
             const displayedSubject = getNameFromSubject(activity.subject, true)
 

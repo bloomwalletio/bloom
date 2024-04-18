@@ -246,6 +246,11 @@
                 "title": "Tempo limite do Stronghold",
                 "description": "Tempo antes de sua senha do Stronghold ser solicitada novamente"
             },
+            "ipfsGateways": {
+                "title": "IPFS gateways",
+                "description": "Select the IPFS gateway to use for media retrieval",
+                "input": "IPFS gateway"
+            },
             "maxMediaSize": {
                 "title": "Tamanho máximo de mídia",
                 "description": "Mídias NFT com tamanhos maiores que este limite não serão baixadas e um espaço reservado que representa o tipo de mídia será exibido em vez disso",
@@ -329,6 +334,15 @@
             "toggleFeatures": {
                 "title": "Enable / Disable features",
                 "description": "Toggle features on or off, customize your experience by enabling or disabling specific functionalities to suit your needs."
+            },
+            "downloadNftPermissions": {
+                "title": "Nft download permissions",
+                "description": "Download permissions for the automatic downloading of NFT media",
+                "input": "Download permissions",
+                "all": "Download All",
+                "allExceptDenylist": "All Except Known Risks",
+                "allowListOnly": "Only Known Domains",
+                "none": "Do Not Download Any"
             }
         },
         "login": {
@@ -632,8 +646,11 @@
                 "menu": {
                     "download": "Download",
                     "setPfp": "Set NFT profile pic",
+                    "loadMedia": "Load media in wallet",
                     "unsetPfp": "Unset NFT profile pic",
                     "view": "View media in browser",
+                    "hide": "Hide NFT",
+                    "unhide": "Unhide NFT",
                     "burn": "Burn NFT"
                 }
             }
@@ -1288,6 +1305,10 @@
         },
         "profileDiagnostics": {
             "title": "Profile diagnostics"
+        },
+        "notAScam": {
+            "title": "Not a scam?",
+            "description": "Are you sure you want to mark this NFT as not a scam?"
         }
     },
     "actions": {
@@ -1431,7 +1452,9 @@
         "syncTokens": "Forçar sincronização de tokens",
         "mintNftCollection": "Mint NFT collection",
         "readMore": "Read more",
-        "importThirdPartyProfiles": "Import third-party profiles"
+        "importThirdPartyProfiles": "Import third-party profiles",
+        "retry": "Retry",
+        "loadAnyway": "Load anyway"
     },
     "general": {
         "recipient": "Recipient",
@@ -1619,6 +1642,7 @@
         "custom": "Personalizado",
         "evmAddress": "Endereço EVM",
         "contractAddress": "Contract Address",
+        "contract": "Contract",
         "optionalField": "{field} (optional)",
         "gifted": "Gifted",
         "connected": "Conectado",
@@ -1679,10 +1703,10 @@
             "yes": "Sim",
             "no": "Não"
         },
-        "showValueless": {
-            "label": "Show valueless",
-            "yes": "Sim",
-            "no": "Não"
+        "showSpam": {
+            "label": "Show spam",
+            "yes": "Yes",
+            "no": "No"
         },
         "ascDesc": {
             "Asc": "Crescente",
@@ -2074,6 +2098,14 @@
             "loadingError": {
                 "short": "Não foi possível carregar",
                 "long": "Ocorreu um erro ao carregar o NFT"
+            },
+            "downloadNotAllowed": {
+                "short": "Download blocked by settings",
+                "long": "Your current NFT download permissions do not allow downloading this NFT from its URL"
+            },
+            "scamNft": {
+                "short": "Scam NFT detected",
+                "long": "We have detected that this NFT is a scam, please be cautious and do not interact with it."
             }
         },
         "governance": {

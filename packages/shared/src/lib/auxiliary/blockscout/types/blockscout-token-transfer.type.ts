@@ -10,7 +10,7 @@ type BlockscoutTokenTransferBase = {
     timestamp: string
     to: IBlockscoutAddressParam
     tx_hash: string
-    type: BlockscoutTransactionType.TokenTransfer
+    type: BlockscoutTransactionType.TokenTransfer | BlockscoutTransactionType.TokenMinting
 }
 
 export type BlockscoutErc20Transfer = BlockscoutTokenTransferBase & {
