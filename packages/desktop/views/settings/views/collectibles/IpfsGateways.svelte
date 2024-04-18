@@ -5,16 +5,20 @@
     import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { IpfsGatewayMenu } from './components'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { isValidUrl } from '@core/utils'
+    import { isValidUrl, stripTrailingSlash } from '@core/utils'
 
     function addIpfsGateway(url: string): void {
+        const nftSettings = $activeProfile?.settings.nfts
         const ipfsGateways =
-            $activeProfile?.settings.nfts.ipfsGateways?.map((ipfsGateway) => ({
+            nftSettings.ipfsGateways?.map((ipfsGateway) => ({
                 ...ipfsGateway,
-                isPrimary: false,
+                isPrimary: ipfsGateway.url === url,
             })) ?? []
 
-        ipfsGateways.push({ url, isPrimary: true })
+        if (!nftSettings.ipfsGateways?.some((ipfsGateway) => ipfsGateway.url === url)) {
+            ipfsGateways.push({ url, isPrimary: true })
+        }
+
         updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateways } })
     }
 
@@ -35,7 +39,7 @@
                     validate: validateIpfsGateway,
                 },
                 onConfirm: (inputText: string) => {
-                    addIpfsGateway(inputText)
+                    addIpfsGateway(stripTrailingSlash(inputText))
                     closePopup()
                 },
             },
