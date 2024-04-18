@@ -1,13 +1,35 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { activeProfile } from '@core/profile/stores'
+    import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import SettingsSection from '../SettingsSection.svelte'
     import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { IpfsGatewayMenu } from './components'
+    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
-    // function onIpfsGatewayChange(option: IOption): void {
-    //     updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateway: option.value } })
-    // }
+    function addIpfsGateway(url: string): void {
+        const ipfsGateways =
+            $activeProfile?.settings.nfts.ipfsGateways?.map((ipfsGateway) => ({
+                ...ipfsGateway,
+                isPrimary: false,
+            })) ?? []
+
+        ipfsGateways.push({ url, isPrimary: true })
+        updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateways } })
+    }
+
+    function onIpfsGatewayAdd(): void {
+        openPopup({
+            id: PopupId.Input,
+            props: {
+                title: localize('views.settings.ipfsGateways.addGateway.title'),
+                input: { placeholder: localize('views.settings.ipfsGateways.addGateway.placeholder'), startValue: '' },
+                onConfirm: (inputText: string) => {
+                    addIpfsGateway(inputText)
+                    closePopup()
+                },
+            },
+        })
+    }
 </script>
 
 <SettingsSection
@@ -34,7 +56,7 @@
                 </div>
             {/each}
         </ipfs-gateways-table>
-        <Button variant="text" icon={IconName.Plus} text="Add IPFS gateway" on:click={() => {}} />
+        <Button variant="text" icon={IconName.Plus} text="Add IPFS gateway" on:click={() => onIpfsGatewayAdd()} />
     </div>
 </SettingsSection>
 

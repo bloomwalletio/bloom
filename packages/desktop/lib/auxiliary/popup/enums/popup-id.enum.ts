@@ -21,6 +21,7 @@ export enum PopupId {
     ImportErc20Token = 'importErc20Token',
     ImportErc721Token = 'importErc721Token',
     ImportProfilesFromThirdParty = 'importProfilesFromThirdParty',
+    Input = 'input',
     LegalUpdate = 'legalUpdate',
     CustomiseAccount = 'manageAccount',
     ManageVotingPower = 'manageVotingPower',
