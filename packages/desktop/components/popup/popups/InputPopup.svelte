@@ -4,10 +4,16 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
 
+    type InputProp = {
+        placeholder: string
+        startValue: string
+        validate: (text: string) => void
+    }
+
     export let variant: 'primary' | 'success' | 'warning' | 'danger' | 'info' = 'primary'
     export let title: string
     export let description: string = ''
-    export let input: { placeholder: string; startValue: string } = { placeholder: '', startValue: '' }
+    export let input: InputProp = { placeholder: '', startValue: '', validate: () => {} }
     export let backText: string = localize('actions.cancel')
     export let confirmText: string = localize('actions.confirm')
     export let onConfirm: (inputText: string) => Promise<void>
@@ -15,12 +21,19 @@
 
     let isBusy = false
     let inputText = input.startValue
+    let errorText = ''
 
     async function onConfirmClick(): Promise<void> {
         isBusy = true
         try {
             if (onConfirm) {
-                await onConfirm(inputText)
+                errorText = ''
+                try {
+                    input.validate(inputText)
+                    await onConfirm(inputText)
+                } catch (error) {
+                    errorText = error as string
+                }
             } else {
                 closePopup()
             }
@@ -52,5 +65,5 @@
         onClick: onConfirmClick,
     }}
 >
-    <TextInput bind:value={inputText} label={input.placeholder} />
+    <TextInput bind:value={inputText} label={input.placeholder} error={errorText} />
 </PopupTemplate>

@@ -5,6 +5,7 @@
     import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { IpfsGatewayMenu } from './components'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { isValidUrl } from '@core/utils'
 
     function addIpfsGateway(url: string): void {
         const ipfsGateways =
@@ -17,12 +18,22 @@
         updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateways } })
     }
 
+    function validateIpfsGateway(url: string): void {
+        if (!url || !isValidUrl(url)) {
+            throw localize('error.global.invalidUrl')
+        }
+    }
+
     function onIpfsGatewayAdd(): void {
         openPopup({
             id: PopupId.Input,
             props: {
                 title: localize('views.settings.ipfsGateways.addGateway.title'),
-                input: { placeholder: localize('views.settings.ipfsGateways.addGateway.placeholder'), startValue: '' },
+                input: {
+                    placeholder: localize('views.settings.ipfsGateways.addGateway.placeholder'),
+                    startValue: '',
+                    validate: validateIpfsGateway,
+                },
                 onConfirm: (inputText: string) => {
                     addIpfsGateway(inputText)
                     closePopup()
