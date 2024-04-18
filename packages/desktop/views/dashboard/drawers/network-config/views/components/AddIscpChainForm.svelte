@@ -4,7 +4,7 @@
     import {
         MAX_NETWORK_NAME_LENGTH,
         EvmNetworkType,
-        IIscpEvmNetworkConfiguration,
+        IIscNetworkConfiguration,
         ETHEREUM_COIN_TYPE,
         EvmNetworkId,
         NetworkNamespace,
@@ -25,7 +25,7 @@
     let explorerUrlError = ''
     $: submitDisabled = !evmNetwork.name || !evmNetwork.aliasAddress || !evmNetwork.rpcEndpoint
 
-    const evmNetwork: IIscpEvmNetworkConfiguration = {
+    const evmNetwork: IIscNetworkConfiguration = {
         type: EvmNetworkType.Iscp,
         id: '' as EvmNetworkId,
         namespace: NetworkNamespace.Evm,

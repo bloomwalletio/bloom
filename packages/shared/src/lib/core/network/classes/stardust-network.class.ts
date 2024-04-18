@@ -3,32 +3,48 @@
 import { get } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { NetworkNamespace } from '../enums'
-import { IEvmNetwork, IIscpEvmNetworkConfiguration, INetworkStatus, IStardustNetwork } from '../interfaces'
+import {
+    IEvmNetwork,
+    IIscNetworkConfiguration,
+    INetworkStatus,
+    IProtocol,
+    IStardustNetwork,
+    IStardustNetworkMetadata,
+} from '../interfaces'
 import { networkStatus } from '../stores'
-import { EvmNetworkConfiguration, NetworkId, NetworkMetadata, StardustNetworkId } from '../types'
+import { NetworkId, StardustNetworkId } from '../types'
 
 import { IscpChain } from './iscp-chain.class'
+import { IBaseToken } from '@core/token'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
     public readonly name: string
+    public readonly networkName: string
     public readonly coinType: number
     public readonly namespace: NetworkNamespace.Stardust
     public readonly bech32Hrp: string
+    public readonly protocol: IProtocol
+    public readonly baseToken: IBaseToken
+    public readonly chainConfigurations: IIscNetworkConfiguration[]
 
-    constructor(metadata: NetworkMetadata) {
-        this.id = metadata.id
-        this.name = metadata.name
-        this.coinType = metadata.coinType
-        this.namespace = metadata.namespace
-        this.bech32Hrp = metadata.protocol.bech32Hrp
+    constructor(persistedNetwork: IStardustNetworkMetadata) {
+        this.id = persistedNetwork.id
+        this.name = persistedNetwork.name
+        this.coinType = persistedNetwork.coinType
+        this.namespace = persistedNetwork.namespace
+        this.bech32Hrp = persistedNetwork.protocol.bech32Hrp
+        this.networkName = persistedNetwork.protocol.networkName
+        this.protocol = persistedNetwork.protocol
+        this.baseToken = persistedNetwork.baseToken
+        this.chainConfigurations = persistedNetwork.chainConfigurations
     }
 
     getStatus(): INetworkStatus {
         return get(networkStatus)
     }
 
-    addChain(chainConfiguration: EvmNetworkConfiguration): IEvmNetwork {
+    addChain(chainConfiguration: IIscNetworkConfiguration): IEvmNetwork {
         if (this.isChainAlreadyAdded(chainConfiguration)) {
             throw new Error('This evm network has already been added.')
         } else {
@@ -41,20 +57,20 @@ export class StardustNetwork implements IStardustNetwork {
              */
             updateActiveProfile({ network })
 
-            return new IscpChain(<IIscpEvmNetworkConfiguration>chainConfiguration)
+            this.chainConfigurations.push(chainConfiguration)
+            return new IscpChain(chainConfiguration)
         }
     }
 
-    private isChainAlreadyAdded(chainConfiguration: EvmNetworkConfiguration): boolean {
-        const network = get(activeProfile)?.network
-        return network.chainConfigurations.some((evmNetwork) => {
+    private isChainAlreadyAdded(chainConfiguration: IIscNetworkConfiguration): boolean {
+        return this.chainConfigurations.some((evmNetwork) => {
             const hasSameName = evmNetwork.name === chainConfiguration.name
             const hasSameId = evmNetwork.id === chainConfiguration.id
             return hasSameName || hasSameId
         })
     }
 
-    editChain(networkId: NetworkId, payload: Partial<EvmNetworkConfiguration>): Promise<void> {
+    editChain(networkId: NetworkId, payload: Partial<IIscNetworkConfiguration>): Promise<void> {
         return Promise.resolve()
     }
 

@@ -12,14 +12,7 @@ export const networks: Readable<Network[] | undefined> = derived([activeProfile]
         const stardustNetwork = new StardustNetwork($activeProfile.network)
         const chains = $activeProfile.network.chainConfigurations
             .map((chainConfiguration) => {
-                switch (chainConfiguration.type) {
-                    case EvmNetworkType.Iscp:
-                        return new IscpChain(chainConfiguration)
-                    case EvmNetworkType.PureEvm:
-                        return undefined
-                    default:
-                        return undefined
-                }
+                return new IscpChain(chainConfiguration)
             })
             .filter(Boolean) as IEvmNetwork[]
         return [stardustNetwork, ...chains]
