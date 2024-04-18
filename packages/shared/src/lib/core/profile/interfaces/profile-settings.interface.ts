@@ -6,7 +6,7 @@ export interface IProfileSettings {
     lockScreenTimeoutInMinutes: number
     strongholdPasswordTimeoutInMinutes: number
     nfts: {
-        ipfsGateway: string
+        ipfsGateways: { url: string; isPrimary?: boolean }[]
         downloadPermissions: DownloadPermission
         maxMediaSizeInMegaBytes: number
         maxMediaDownloadTimeInSeconds: number

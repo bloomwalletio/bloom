@@ -1,31 +1,48 @@
 <script lang="ts">
-    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
+    import { activeProfile } from '@core/profile/stores'
     import SettingsSection from '../SettingsSection.svelte'
-    import { IPFS_GATEWAYS } from '@core/nfts'
+    import { Pill, Text } from '@bloomwalletio/ui'
+    import { IpfsGatewayMenu } from './components'
 
-    const options: IOption[] = IPFS_GATEWAYS.map((gateway) => ({ value: gateway, label: gateway }))
-    let selected: IOption =
-        options.find((option) => option.value === $activeProfile?.settings.nfts.ipfsGateway?.toString()) ?? options[0]
-
-    $: selected && onIpfsGatewayChange(selected)
-    function onIpfsGatewayChange(option: IOption): void {
-        updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateway: option.value } })
-    }
+    // function onIpfsGatewayChange(option: IOption): void {
+    //     updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateway: option.value } })
+    // }
 </script>
 
 <SettingsSection
     title={localize('views.settings.ipfsGateways.title')}
     description={localize('views.settings.ipfsGateways.description')}
 >
-    <div class="w-1/2">
-        <SelectInput
-            label={localize('views.settings.ipfsGateways.input')}
-            bind:selected
-            value={selected.value}
-            {options}
-            hideValue
-        />
-    </div>
+    <ipfs-gateways-table class="max-h-80 flex flex-col overflow-auto">
+        {#each $activeProfile?.settings.nfts.ipfsGateways ?? [] as ipfsGateway}
+            <div class="flex flex-row items-center justify-between">
+                <div class="flex flex-row w-full items-center space-x-4 overflow-hidden">
+                    <Text truncate>
+                        {ipfsGateway.url}
+                    </Text>
+                    {#if ipfsGateway.isPrimary}
+                        <Pill color="info">
+                            {localize('general.primary').toLowerCase()}
+                        </Pill>
+                    {/if}
+                </div>
+                <IpfsGatewayMenu {...ipfsGateway} />
+            </div>
+        {/each}
+    </ipfs-gateways-table>
 </SettingsSection>
+
+<style lang="postcss">
+    ipfs-gateways-table {
+        @apply border border-solid border-stroke dark:border-stroke-dark;
+        @apply rounded-xl;
+        @apply p-2;
+    }
+
+    button {
+        @apply hover:bg-surface-2 dark:hover:bg-surface-2-dark;
+        @apply rounded-lg;
+        @apply p-2;
+    }
+</style>
