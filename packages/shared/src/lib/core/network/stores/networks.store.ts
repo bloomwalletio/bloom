@@ -11,7 +11,7 @@ export const networks: Writable<Network[]> = writable([])
 
 export function initializeNetworks(): void {
     const profile = get(activeProfile)
-    if (profile && profile.network) {
+    if (profile?.network) {
         const stardustNetwork = new StardustNetwork(profile.network)
         const chains = profile.network.chainConfigurations
             .map((chainConfiguration) => {
