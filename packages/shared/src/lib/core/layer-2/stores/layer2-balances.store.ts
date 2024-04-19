@@ -4,6 +4,7 @@ import { BASE_TOKEN_ID } from '@core/token/constants'
 import { ILayer2ProfileBalances } from '../interfaces'
 import { Layer2AccountBalance } from '../types'
 import { logAndNotifyError } from '@core/error/actions'
+import { ITokenBalance } from '@core/token/interfaces'
 
 export const layer2Balances = writable<ILayer2ProfileBalances | undefined>(undefined)
 
@@ -23,7 +24,7 @@ export function getLayer2AccountBalanceForToken(
 export function setLayer2AccountBalanceForChain(
     accountIndex: number,
     networkId: EvmNetworkId,
-    chainBalance: { [tokenId: string]: bigint }
+    chainBalance: ITokenBalance
 ): void {
     layer2Balances.update((balance) => {
         if (!balance) {
