@@ -3,7 +3,7 @@
 import {
     DEFAULT_EVM_NETWORK_CONFIGURATIONS,
     IIscpEvmNetworkMetadata,
-    getDefaultPersistedNetwork,
+    getDefaultStardustNetwork,
     getNetworkIdFromOnboardingNetworkType,
 } from '@core/network'
 import { INode } from '@iota/sdk'
@@ -152,7 +152,7 @@ export function fireflyStardustProfileMigrationToV11(existingProfile: unknown): 
             onboardingNetworkType === OnboardingNetworkType.Shimmer ||
             onboardingNetworkType === OnboardingNetworkType.Testnet
         ) {
-            network = getDefaultPersistedNetwork(
+            network = getDefaultStardustNetwork(
                 getNetworkIdFromOnboardingNetworkType(onboardingNetworkType)
             ) as IThirdPartyPersistedNetwork
         } else {

@@ -3,8 +3,8 @@ import { Writable, writable, get } from 'svelte/store'
 import { activeProfile } from '@core/profile/stores'
 
 import { IscpChain, StardustNetwork } from '../classes'
-import { IEvmNetwork, IIscpEvmNetworkConfiguration, IStardustNetwork } from '../interfaces'
-import { EvmNetworkConfiguration, Network, NetworkId } from '../types'
+import { IEvmNetwork, IIscNetworkConfiguration, IStardustNetwork } from '../interfaces'
+import { Network, NetworkId } from '../types'
 import { EvmNetworkType, NetworkNamespace } from '../enums'
 
 export const networks: Writable<Network[]> = writable([])
@@ -15,26 +15,21 @@ export function initializeNetworks(): void {
         const stardustNetwork = new StardustNetwork(profile.network)
         const chains = profile.network.chainConfigurations
             .map((chainConfiguration) => {
-                switch (chainConfiguration.type) {
-                    case EvmNetworkType.Iscp:
-                        return new IscpChain(chainConfiguration)
-                    default:
-                        return undefined
-                }
+                return new IscpChain(chainConfiguration)
             })
             .filter(Boolean) as IEvmNetwork[]
         networks.set([stardustNetwork, ...chains])
     }
 }
 
-export function addNetwork(chainConfiguration: EvmNetworkConfiguration): void {
+export function addNetwork(chainConfiguration: IIscNetworkConfiguration): void {
     const network = getNetwork(chainConfiguration.id)
     if (network) {
         return
     }
 
     networks.update((networks) => {
-        networks.push(new IscpChain(chainConfiguration as IIscpEvmNetworkConfiguration))
+        networks.push(new IscpChain(chainConfiguration))
         return networks
     })
 }
