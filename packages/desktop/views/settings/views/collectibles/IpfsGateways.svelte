@@ -5,11 +5,13 @@
     import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { IpfsGatewayMenu } from './components'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { isValidUrl, stripTrailingSlash } from '@core/utils'
     import { addNftsToDownloadQueue } from '@core/nfts/actions'
     import { selectedAccountNfts } from '@core/nfts/stores'
+    import { isValidUrl } from '@core/utils'
+    import { IPFS_HEALTH_CHECKER_PATH } from '@core/profile/constants'
 
-    function addIpfsGateway(url: string): void {
+    function addIpfsGateway(inputtedUrl: string): void {
+        const url = new URL(inputtedUrl).origin
         const nftSettings = $activeProfile?.settings.nfts
         const ipfsGateways =
             nftSettings.ipfsGateways?.map((ipfsGateway) => ({
@@ -25,9 +27,20 @@
         void addNftsToDownloadQueue($selectedAccountNfts)
     }
 
-    function validateIpfsGateway(url: string): void {
+    async function validateIpfsGateway(url: string): Promise<void> {
         if (!url || !isValidUrl(url)) {
-            throw localize('error.global.invalidUrl')
+            return Promise.reject(localize('error.global.invalidUrl'))
+        }
+
+        const _url = new URL(url)
+        if (_url.pathname !== '/') {
+            return Promise.reject(localize('views.settings.ipfsGateways.addGateway.error.cannotContainPathname'))
+        }
+
+        const ipfsHealthCheckUrl = new URL(IPFS_HEALTH_CHECKER_PATH, url)
+        const response = await fetch(ipfsHealthCheckUrl, { method: 'HEAD' })
+        if (!response.ok) {
+            return Promise.reject(localize('views.settings.ipfsGateways.addGateway.error.invalidGateway'))
         }
     }
 
@@ -42,7 +55,7 @@
                     validate: validateIpfsGateway,
                 },
                 onConfirm: (inputText: string) => {
-                    addIpfsGateway(stripTrailingSlash(inputText))
+                    addIpfsGateway(inputText)
                     closePopup()
                 },
             },

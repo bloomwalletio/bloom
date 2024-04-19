@@ -253,7 +253,11 @@
                 "setAsPrimary": "Set as primary",
                 "addGateway": {
                     "title": "Add new IPFS gateway",
-                    "placeholder": "IPFS gateway"
+                    "placeholder": "IPFS gateway",
+                    "error": {
+                        "cannotContainPathname": "Gateway cannot contain a pathname",
+                        "invalidGateway": "Invalid IPFS gateway"
+                    }
                 },
                 "removeConfirmation": {
                     "title": "Remove IPFS gateway",
