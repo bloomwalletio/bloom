@@ -4,8 +4,7 @@ import { get } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { NetworkNamespace } from '../enums'
 import {
-    IEvmNetwork,
-    IIscNetworkConfiguration,
+    IIscChainConfiguration,
     INetworkStatus,
     IProtocol,
     IStardustNetwork,
@@ -14,7 +13,6 @@ import {
 import { addNetwork, networkStatus } from '../stores'
 import { NetworkId, StardustNetworkId } from '../types'
 
-import { IscpChain } from './iscp-chain.class'
 import { IBaseToken } from '@core/token'
 
 export class StardustNetwork implements IStardustNetwork {
@@ -26,7 +24,7 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly bech32Hrp: string
     public readonly protocol: IProtocol
     public readonly baseToken: IBaseToken
-    public readonly chainConfigurations: IIscNetworkConfiguration[]
+    public readonly chainConfigurations: IIscChainConfiguration[]
 
     constructor(persistedNetwork: IStardustNetworkMetadata) {
         this.id = persistedNetwork.id
@@ -44,7 +42,7 @@ export class StardustNetwork implements IStardustNetwork {
         return get(networkStatus)
     }
 
-    addChain(chainConfiguration: IIscNetworkConfiguration): void {
+    addChain(chainConfiguration: IIscChainConfiguration): void {
         if (this.isChainAlreadyAdded(chainConfiguration)) {
             throw new Error('This evm network has already been added.')
         } else {
@@ -57,7 +55,7 @@ export class StardustNetwork implements IStardustNetwork {
         }
     }
 
-    private isChainAlreadyAdded(chainConfiguration: IIscNetworkConfiguration): boolean {
+    private isChainAlreadyAdded(chainConfiguration: IIscChainConfiguration): boolean {
         return this.chainConfigurations.some((evmNetwork) => {
             const hasSameName = evmNetwork.name === chainConfiguration.name
             const hasSameId = evmNetwork.id === chainConfiguration.id
@@ -65,7 +63,7 @@ export class StardustNetwork implements IStardustNetwork {
         })
     }
 
-    editChain(networkId: NetworkId, payload: Partial<IIscNetworkConfiguration>): Promise<void> {
+    editChain(networkId: NetworkId, payload: Partial<IIscChainConfiguration>): Promise<void> {
         return Promise.resolve()
     }
 

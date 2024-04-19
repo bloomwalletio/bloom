@@ -4,7 +4,7 @@ import { localize } from '@core/i18n'
 import { buildEvmTransactionData } from './buildEvmTransactionData'
 import { Nft, NftStandard } from '@core/nfts'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import { getIscpTransferSmartContractData } from '../actions/getIscpTransferSmartContractData'
+import { getIscTransferSmartContractData } from '../actions/getIscTransferSmartContractData'
 import { getErc721TransferSmartContractData } from '.'
 import { AssetType } from '../enums'
 
@@ -32,7 +32,7 @@ function getNftDataForTransaction(
     const transferredAsset = { type: AssetType.Nft, nft } as TransferredAsset
     switch (nft.standard) {
         case NftStandard.Irc27:
-            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, evmNetwork as IscChain)
+            return getIscTransferSmartContractData(recipientAddress, transferredAsset, evmNetwork as IscChain)
         case NftStandard.Erc721: {
             return getErc721TransferSmartContractData(originAddress, recipientAddress, nft, evmNetwork)
         }

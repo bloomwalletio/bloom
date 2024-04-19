@@ -4,7 +4,7 @@
     import {
         MAX_NETWORK_NAME_LENGTH,
         EvmNetworkType,
-        IIscNetworkConfiguration,
+        IIscChainConfiguration,
         ETHEREUM_COIN_TYPE,
         EvmNetworkId,
         NetworkNamespace,
@@ -25,7 +25,7 @@
     let explorerUrlError = ''
     $: submitDisabled = !iscNetwork.name || !iscNetwork.aliasAddress || !iscNetwork.rpcEndpoint
 
-    const iscNetwork: IIscNetworkConfiguration = {
+    const iscNetwork: IIscChainConfiguration = {
         type: EvmNetworkType.Isc,
         id: '' as EvmNetworkId,
         namespace: NetworkNamespace.Evm,
@@ -98,7 +98,7 @@
     }
 </script>
 
-<add-iscp-network class="h-full flex flex-col justify-between">
+<add-isc-network class="h-full flex flex-col justify-between">
     <form id="add-network-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
         <Input
             bind:value={iscNetwork.name}
@@ -133,4 +133,4 @@
         busy={isBusy}
         text={localize('actions.addChain')}
     />
-</add-iscp-network>
+</add-isc-network>

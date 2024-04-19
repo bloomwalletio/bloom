@@ -9,7 +9,7 @@
         getActiveNetworkId,
         isEvmNetwork,
         getEvmNetwork,
-        getIscpChains,
+        getiscChains,
         getL1Network,
     } from '@core/network'
     import { visibleActiveAccounts } from '@core/profile/stores'
@@ -173,7 +173,7 @@
                     // if we are on layer 1
                     networkRecipientOptions = [
                         layer1Network,
-                        ...getIscpChains().map((evmNetwork) => getRecipientOptionFromChain(evmNetwork)),
+                        ...getiscChains().map((evmNetwork) => getRecipientOptionFromChain(evmNetwork)),
                     ]
                 } else if (sourceChain) {
                     // if we are on layer 2

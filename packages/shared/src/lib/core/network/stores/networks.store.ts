@@ -3,7 +3,7 @@ import { Writable, writable, get } from 'svelte/store'
 import { activeProfile } from '@core/profile/stores'
 
 import { IscChain, StardustNetwork } from '../classes'
-import { IEvmNetwork, IIscNetworkConfiguration, IStardustNetwork } from '../interfaces'
+import { IEvmNetwork, IIscChainConfiguration, IStardustNetwork } from '../interfaces'
 import { Network, NetworkId } from '../types'
 import { EvmNetworkType, NetworkNamespace } from '../enums'
 
@@ -22,7 +22,7 @@ export function initializeNetworks(): void {
     }
 }
 
-export function addNetwork(chainConfiguration: IIscNetworkConfiguration): void {
+export function addNetwork(chainConfiguration: IIscChainConfiguration): void {
     const network = getNetwork(chainConfiguration.id)
     if (network) {
         return
@@ -66,7 +66,7 @@ export function getIscChains(): IscChain[] {
     )
 }
 
-export function getIscChain(networkId: NetworkId): IIscChain | undefined {
+export function getIscChain(networkId: NetworkId): IscChain | undefined {
     const iscChains = getIscChains()
     return iscChains.find(({ id }) => id === networkId)
 }

@@ -7,7 +7,7 @@ import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
 import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enums'
-import { IBlock, IEvmNetworkStatus, IIscNetworkConfiguration, IIscChainMetadata, IIscChain } from '../interfaces'
+import { IBlock, IEvmNetworkStatus, IIscChainConfiguration, IIscChainMetadata, IIscChain } from '../interfaces'
 import { evmNetworkStatuses } from '../stores'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
@@ -40,7 +40,7 @@ export class IscChain implements IIscChain {
         rpcEndpoint,
         aliasAddress,
         apiEndpoint,
-    }: IIscNetworkConfiguration) {
+    }: IIscChainConfiguration) {
         try {
             /**
              * NOTE: We can assume that the data inside this payload has already
@@ -64,7 +64,7 @@ export class IscChain implements IIscChain {
             this._chainApi = `${apiEndpoint}v1/chains/${aliasAddress}`
         } catch (err) {
             console.error(err)
-            throw new Error('Failed to construct ISCP Chain!')
+            throw new Error('Failed to construct isc Chain!')
         }
     }
 

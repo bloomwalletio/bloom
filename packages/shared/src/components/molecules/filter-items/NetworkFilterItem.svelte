@@ -12,9 +12,9 @@
     function getOptions(): IOption[] {
         const l1Network = getL1Network()
 
-        const iscpChains = features?.network?.layer2?.enabled ? getIscChains() : []
+        const iscChains = features?.network?.layer2?.enabled ? getIscChains() : []
 
-        return [l1Network, ...iscpChains].map((network) => ({
+        return [l1Network, ...iscChains].map((network) => ({
             label: network.name,
             value: network.id,
         }))
