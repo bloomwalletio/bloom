@@ -1,6 +1,8 @@
 <script lang="ts">
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
+    import { selectedAccountNfts } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
@@ -15,6 +17,7 @@
             isPrimary: gateway.url === url,
         }))
         updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateways } })
+        void addNftsToDownloadQueue($selectedAccountNfts)
         menu?.close()
     }
 

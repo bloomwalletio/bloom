@@ -6,6 +6,8 @@
     import { IpfsGatewayMenu } from './components'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { isValidUrl, stripTrailingSlash } from '@core/utils'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
+    import { selectedAccountNfts } from '@core/nfts/stores'
 
     function addIpfsGateway(url: string): void {
         const nftSettings = $activeProfile?.settings.nfts
@@ -20,6 +22,7 @@
         }
 
         updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateways } })
+        void addNftsToDownloadQueue($selectedAccountNfts)
     }
 
     function validateIpfsGateway(url: string): void {
