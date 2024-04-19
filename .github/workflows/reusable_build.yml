@@ -35,7 +35,7 @@ jobs:
             - name: Setup NodeJS
               uses: actions/setup-node@v1
               with:
-                  node-version: 20.x
+                  node-version: 20.10.0
 
             # Used to read the `binding.gyp` file from `@iota/sdk`
             - name: Set up Python 3.10
