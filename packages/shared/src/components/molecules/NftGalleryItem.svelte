@@ -1,12 +1,12 @@
 <script lang="typescript">
-    import { IconName, Pill, Text, Tooltip, TooltipIcon, type TextColor } from '@bloomwalletio/ui'
+    import { Icon, IconName, Pill, Text, Tooltip, type TextColor } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { IDownloadMetadata, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
     import { downloadingNftId, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
-    import { MediaPlaceholder, NftMedia } from '@ui'
+    import { MediaPlaceholder, NetworkAvatar, NftMedia } from '@ui'
 
     export let nft: Nft
 
@@ -65,18 +65,35 @@
             </error-container>
             <Tooltip {anchor} placement="bottom" event="hover" text={getAlertText(nft.downloadMetadata)} />
         </div>
-        <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
-            <Text type="body2" truncate>{nft.name}</Text>
-            {#if isLocked && isIrc27Nft(nft)}
-                <TooltipIcon
-                    icon={IconName.Locked}
-                    tooltip={localize('views.collectibles.gallery.timelocked', {
-                        timeDiff: getTimeDifference(new Date(nft.timelockTime ?? 0), $time),
-                    })}
-                    placement="top"
-                />
-            {/if}
-        </nft-name>
+        <div class="flex flex-col gap-2 p-3">
+            <nft-name class="w-full flex flex-row items-center justify-between gap-2">
+                <Text type="body2" truncate>{nft.name}</Text>
+            </nft-name>
+            <nft-pills class="flex flex-row items-center gap-2">
+                <NetworkAvatar networkId={nft.networkId} size="sm" showTooltip />
+                <Pill color="neutral" compact>{nft.standard}</Pill>
+                {#if isIrc27Nft(nft)}
+                    {#if nft.expirationTime}
+                        {@const expirationTimeDiffText = getTimeDifference(new Date(nft.expirationTime), $time)}
+                        <Pill color="warning" compact>
+                            <div class="flex flex-row items-center gap-1">
+                                <Icon name={IconName.Hourglass} size="xxs" customColor="warning" />
+                                <div>{expirationTimeDiffText}</div>
+                            </div>
+                        </Pill>
+                    {/if}
+                    {#if isLocked}
+                        {@const timeLockDiff = getTimeDifference(new Date(nft.timelockTime ?? 0), $time)}
+                        <Pill color="neutral" compact>
+                            <div class="flex flex-row items-center gap-1">
+                                <Icon name={IconName.Locked} size="xxs" textColor="secondary" />
+                                <div>{timeLockDiff}</div>
+                            </div>
+                        </Pill>
+                    {/if}
+                {/if}
+            </nft-pills>
+        </div>
     </container>
 </button>
 

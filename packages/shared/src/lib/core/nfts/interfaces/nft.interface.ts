@@ -12,6 +12,7 @@ export interface IIrc27Nft extends IBaseNft {
     metadata?: IIrc27Metadata
     issuer?: Address
     timelockTime?: number
+    expirationTime?: number
     latestOutputId: string
     storageDeposit: bigint
 }

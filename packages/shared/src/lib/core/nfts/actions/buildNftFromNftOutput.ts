@@ -10,6 +10,7 @@ import { DEFAULT_NFT_NAME } from '../constants'
 import { IIrc27Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 import { getSpendableStatusFromUnspentNftOutput, isScamIrc27Nft, parseNftMetadata } from '../utils'
+import { getExpirationDateFromOutput } from '@core/activity'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
@@ -42,6 +43,7 @@ export function buildNftFromNftOutput(
     const persistedNft = get(persistedNftForActiveProfile)?.[id]
 
     const isScam = persistedNft?.isScam ?? (parsedMetadata ? isScamIrc27Nft(parsedMetadata) : false)
+    const expirationTime = getExpirationDateFromOutput(nftOutput)?.getTime()
 
     return {
         standard: NftStandard.Irc27,
@@ -53,6 +55,7 @@ export function buildNftFromNftOutput(
         issuer,
         isSpendable: isEvmNetwork(networkId) ? true : isSpendable,
         timelockTime: timeLockTime ? Number(timeLockTime) : undefined,
+        expirationTime,
         rawMetadata,
         metadata: parsedMetadata,
         latestOutputId: wrappedOutput.outputId,
