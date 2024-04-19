@@ -3,11 +3,9 @@
 import { get } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { NetworkNamespace } from '../enums'
-import { IEvmNetwork, IIscpEvmNetworkConfiguration, INetworkStatus, IStardustNetwork } from '../interfaces'
-import { networkStatus } from '../stores'
+import { INetworkStatus, IStardustNetwork } from '../interfaces'
+import { addNetwork, networkStatus } from '../stores'
 import { EvmNetworkConfiguration, NetworkId, NetworkMetadata, StardustNetworkId } from '../types'
-
-import { IscpChain } from './iscp-chain.class'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -28,20 +26,14 @@ export class StardustNetwork implements IStardustNetwork {
         return get(networkStatus)
     }
 
-    addChain(chainConfiguration: EvmNetworkConfiguration): IEvmNetwork {
+    addChain(chainConfiguration: EvmNetworkConfiguration): void {
         if (this.isChainAlreadyAdded(chainConfiguration)) {
             throw new Error('This evm network has already been added.')
         } else {
             const network = get(activeProfile)?.network
             network.chainConfigurations.push(chainConfiguration)
-            /**
-             * NOTE: Updating the active profile will cause the network store object to be
-             * re-instantiated, which will also instantiate an object for the newly added
-             * evmNetwork.
-             */
             updateActiveProfile({ network })
-
-            return new IscpChain(<IIscpEvmNetworkConfiguration>chainConfiguration)
+            addNetwork(chainConfiguration)
         }
     }
 

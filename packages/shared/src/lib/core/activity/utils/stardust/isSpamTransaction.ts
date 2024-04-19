@@ -18,7 +18,7 @@ export async function isSpamTransaction(
     if (type === StardustActivityType.Basic || type === StardustActivityType.Nft) {
         const output = wrappedOutput.output as BasicOutput
 
-        const onlyContainsStorageDepositResult = await onlyContainsStorageDeposit(output)
+        const onlyContainsStorageDepositResult = await onlyContainsStorageDeposit(output, type)
         if (onlyContainsStorageDepositResult) {
             return true
         }
@@ -34,7 +34,11 @@ export async function isSpamTransaction(
     }
 }
 
-async function onlyContainsStorageDeposit(output: BasicOutput): Promise<boolean> {
+async function onlyContainsStorageDeposit(output: BasicOutput, type: StardustActivityType): Promise<boolean> {
+    if (type === StardustActivityType.Nft) {
+        return false
+    }
+
     const isAsync = isOutputAsync(output)
     const nativeToken = await getNativeTokenFromOutput(output)
 

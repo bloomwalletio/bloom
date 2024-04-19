@@ -24,7 +24,7 @@ export function buildNftFromNftOutput(
 
     if (calculateStatus) {
         const status = getSpendableStatusFromUnspentNftOutput(accountAddress, nftOutput)
-        isSpendable = status.isSpendable
+        isSpendable = wrappedOutput.isSpent ? false : status.isSpendable
         timeLockTime = status.timeLockTime
     }
 
