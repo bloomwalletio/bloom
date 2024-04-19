@@ -4,5 +4,5 @@ export function rewriteIpfsUri(ipfsUri: string): string {
     const ipfsGateway = getActiveProfile().settings.nfts.ipfsGateways?.filter((gateway) => gateway.isPrimary)[0]?.url
     const url = new URL(ipfsUri)
 
-    return ipfsGateway + '/ipfs/' + url.pathname.replace('//', '')
+    return new URL('/ipfs/' + url.pathname.replace('//', ''), ipfsGateway).href
 }
