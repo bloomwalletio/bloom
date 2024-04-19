@@ -3,8 +3,8 @@ import {
     DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
     DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
     DownloadPermission,
-    IPFS_GATEWAYS,
 } from '@core/nfts'
+import { DEFAULT_IPFS_GATEWAYS } from '@core/profile/constants'
 import { IPersistedProfile } from '@core/profile/interfaces'
 
 export function betaProfileMigration0To1(existingProfile: unknown): Promise<void> {
@@ -13,7 +13,7 @@ export function betaProfileMigration0To1(existingProfile: unknown): Promise<void
     }
     profile.versionTrack = AppStage.BETA
     profile.settings.nfts = {
-        ipfsGateway: IPFS_GATEWAYS[0],
+        ipfsGateways: DEFAULT_IPFS_GATEWAYS,
         downloadPermissions: DownloadPermission.AllowListOnly,
         maxMediaSizeInMegaBytes: profile.settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
         maxMediaDownloadTimeInSeconds:

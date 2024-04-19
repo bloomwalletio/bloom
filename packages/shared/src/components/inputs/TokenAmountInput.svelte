@@ -105,8 +105,7 @@
         <div
             on:click={() => inputElement?.focus()}
             class="flex flex-row justify-center items-end w-full
-                gap-0.5 cursor-text rounded-lg border border-solid
-                {error ? 'border-danger' : 'focus-within:border-brand border-stroke dark:border-stroke-dark'}"
+                gap-0.5 cursor-text rounded-lg"
         >
             <AmountInput
                 bind:inputElement
