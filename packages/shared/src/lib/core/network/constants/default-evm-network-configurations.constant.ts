@@ -1,12 +1,10 @@
 import { EvmNetworkType, NetworkNamespace, ChainId } from '../enums'
-import { IIscpEvmNetworkConfiguration } from '../interfaces'
+import { IIscNetworkConfiguration } from '../interfaces'
 import { StardustNetworkId } from '../types'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
 import { SupportedNetworkId } from './supported-network-id.constant'
 
-export const DEFAULT_EVM_NETWORK_CONFIGURATIONS: Readonly<{
-    [id in StardustNetworkId]?: IIscpEvmNetworkConfiguration
-}> = {
+export const DEFAULT_EVM_NETWORK_CONFIGURATIONS: Readonly<{ [id in StardustNetworkId]?: IIscNetworkConfiguration }> = {
     [SupportedNetworkId.Shimmer]: {
         id: SupportedNetworkId.ShimmerEvm,
         type: EvmNetworkType.Isc,
@@ -18,7 +16,7 @@ export const DEFAULT_EVM_NETWORK_CONFIGURATIONS: Readonly<{
         rpcEndpoint: 'https://json-rpc.evm.shimmer.network/',
         apiEndpoint: 'https://api.evm.shimmer.network/',
         explorerUrl: 'https://explorer.evm.shimmer.network/',
-    } as IIscpEvmNetworkConfiguration,
+    } as IIscNetworkConfiguration,
     [SupportedNetworkId.Testnet]: {
         id: SupportedNetworkId.TestnetEvm,
         type: EvmNetworkType.Isc,
@@ -30,5 +28,5 @@ export const DEFAULT_EVM_NETWORK_CONFIGURATIONS: Readonly<{
         rpcEndpoint: 'https://json-rpc.evm.testnet.shimmer.network/',
         apiEndpoint: 'https://api.evm.testnet.shimmer.network/',
         explorerUrl: 'https://explorer.evm.testnet.shimmer.network/',
-    } as IIscpEvmNetworkConfiguration,
+    } as IIscNetworkConfiguration,
 }

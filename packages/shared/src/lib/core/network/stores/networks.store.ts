@@ -3,8 +3,8 @@ import { Writable, writable, get } from 'svelte/store'
 import { activeProfile } from '@core/profile/stores'
 
 import { IscChain, StardustNetwork } from '../classes'
-import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
-import { EvmNetworkConfiguration, Network, NetworkId } from '../types'
+import { IEvmNetwork, IIscNetworkConfiguration, IStardustNetwork } from '../interfaces'
+import { Network, NetworkId } from '../types'
 import { EvmNetworkType, NetworkNamespace } from '../enums'
 
 export const networks: Writable<Network[]> = writable([])
@@ -22,7 +22,7 @@ export function initializeNetworks(): void {
     }
 }
 
-export function addNetwork(chainConfiguration: EvmNetworkConfiguration): void {
+export function addNetwork(chainConfiguration: IIscNetworkConfiguration): void {
     const network = getNetwork(chainConfiguration.id)
     if (network) {
         return
