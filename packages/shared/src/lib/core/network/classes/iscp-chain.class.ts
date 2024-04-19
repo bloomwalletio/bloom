@@ -11,7 +11,7 @@ import {
     IBlock,
     IEvmNetwork,
     IEvmNetworkStatus,
-    IIscpEvmNetworkConfiguration,
+    IIscNetworkConfiguration,
     IIscpEvmNetworkMetadata,
 } from '../interfaces'
 import { evmNetworkStatuses } from '../stores'
@@ -46,7 +46,7 @@ export class IscpChain implements IEvmNetwork {
         rpcEndpoint,
         aliasAddress,
         apiEndpoint,
-    }: IIscpEvmNetworkConfiguration) {
+    }: IIscNetworkConfiguration) {
         try {
             /**
              * NOTE: We can assume that the data inside this payload has already

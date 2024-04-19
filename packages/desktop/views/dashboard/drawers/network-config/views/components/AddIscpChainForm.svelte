@@ -4,7 +4,7 @@
     import {
         MAX_NETWORK_NAME_LENGTH,
         EvmNetworkType,
-        IIscpEvmNetworkConfiguration,
+        IIscNetworkConfiguration,
         ETHEREUM_COIN_TYPE,
         EvmNetworkId,
         NetworkNamespace,
@@ -23,9 +23,9 @@
     let aliasAddressError = ''
     let rpcEndpointError = ''
     let explorerUrlError = ''
-    $: submitDisabled = !evmNetwork.name || !evmNetwork.aliasAddress || !evmNetwork.rpcEndpoint
+    $: submitDisabled = !iscNetwork.name || !iscNetwork.aliasAddress || !iscNetwork.rpcEndpoint
 
-    const evmNetwork: IIscpEvmNetworkConfiguration = {
+    const iscNetwork: IIscNetworkConfiguration = {
         type: EvmNetworkType.Iscp,
         id: '' as EvmNetworkId,
         namespace: NetworkNamespace.Evm,
@@ -38,9 +38,9 @@
     }
 
     function validateName(): void {
-        if (!evmNetwork.name) {
+        if (!iscNetwork.name) {
             nameError = localize(`${localeKey}.errors.cannotBeEmpty`)
-        } else if (evmNetwork.name.length > MAX_NETWORK_NAME_LENGTH) {
+        } else if (iscNetwork.name.length > MAX_NETWORK_NAME_LENGTH) {
             nameError = localize(`${localeKey}.errors.nameTooLong`)
         }
     }
@@ -49,31 +49,27 @@
         const chains = $activeProfile.network.chainConfigurations
         let isValidBechAddress = false
         try {
-            validateBech32Address(getNetworkHrp(), evmNetwork.aliasAddress, AddressType.Alias)
+            validateBech32Address(getNetworkHrp(), iscNetwork.aliasAddress, AddressType.Alias)
             isValidBechAddress = true
         } catch (error) {
             isValidBechAddress = false
         }
 
-        if (!isValidHexAddress(evmNetwork.aliasAddress) && !isValidBechAddress) {
+        if (!isValidHexAddress(iscNetwork.aliasAddress) && !isValidBechAddress) {
             aliasAddressError = localize(`${localeKey}.errors.aliasAddressWrongFormat`)
-        } else if (
-            chains.some(
-                (_chain) => _chain.type === EvmNetworkType.Iscp && _chain.aliasAddress === evmNetwork.aliasAddress
-            )
-        ) {
+        } else if (chains.some(({ aliasAddress }) => aliasAddress === iscNetwork.aliasAddress)) {
             aliasAddressError = localize(`${localeKey}.errors.aliasAddressAlreadyInUse`)
         }
     }
 
     function validateRpcEndpoint(): void {
-        if (!isValidHttpsUrl(evmNetwork.rpcEndpoint)) {
+        if (!isValidHttpsUrl(iscNetwork.rpcEndpoint)) {
             rpcEndpointError = localize(`${localeKey}.errors.invalidUrl`)
         }
     }
 
     function validateExplorerUrl(): void {
-        if (evmNetwork.explorerUrl && !isValidHttpsUrl(evmNetwork.explorerUrl)) {
+        if (iscNetwork.explorerUrl && !isValidHttpsUrl(iscNetwork.explorerUrl)) {
             explorerUrlError = localize(`${localeKey}.errors.invalidUrl`)
         }
     }
@@ -105,25 +101,25 @@
 <add-iscp-network class="h-full flex flex-col justify-between">
     <form id="add-network-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
         <Input
-            bind:value={evmNetwork.name}
+            bind:value={iscNetwork.name}
             placeholder={localize('general.name')}
             disabled={isBusy}
             error={nameError}
         />
         <Input
-            bind:value={evmNetwork.aliasAddress}
+            bind:value={iscNetwork.aliasAddress}
             placeholder={localize(`${localeKey}.aliasAddress`)}
             disabled={isBusy}
             error={aliasAddressError}
         />
         <Input
-            bind:value={evmNetwork.rpcEndpoint}
+            bind:value={iscNetwork.rpcEndpoint}
             placeholder={localize(`${localeKey}.rpcEndpoint`)}
             disabled={isBusy}
             error={rpcEndpointError}
         />
         <Input
-            bind:value={evmNetwork.explorerUrl}
+            bind:value={iscNetwork.explorerUrl}
             placeholder={localize(`${localeKey}.explorerEndpoint`)}
             disabled={isBusy}
             error={explorerUrlError}
