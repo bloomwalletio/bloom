@@ -32,15 +32,14 @@
             return Promise.reject(localize('error.global.invalidUrl'))
         }
 
-        const _url = new URL(url)
-        if (_url.pathname !== '/') {
-            return Promise.reject(localize('views.settings.ipfsGateways.addGateway.error.cannotContainPathname'))
-        }
-
-        const ipfsHealthCheckUrl = new URL(IPFS_HEALTH_CHECKER_PATH, url)
-        const response = await fetch(ipfsHealthCheckUrl, { method: 'HEAD' })
-        if (!response.ok) {
-            return Promise.reject(localize('views.settings.ipfsGateways.addGateway.error.invalidGateway'))
+        try {
+            const ipfsHealthCheckUrl = new URL(IPFS_HEALTH_CHECKER_PATH, url)
+            const response = await fetch(ipfsHealthCheckUrl, { method: 'HEAD' })
+            if (!response.ok) {
+                return Promise.reject(localize('views.settings.ipfsGateways.addGateway.error.invalidGateway'))
+            }
+        } catch (error) {
+            return Promise.reject(localize('error.global.invalidUrl'))
         }
     }
 
