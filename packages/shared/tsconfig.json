@@ -13,7 +13,7 @@
         "./src/lib/core/network/utils/checkNodeUrlValidity.ts",
         "./src/lib/core/network/utils/doesNodeHavePlugin.ts",
         "./src/lib/core/network/utils/getDefaultClientOptions.ts",
-        "./src/lib/core/network/utils/getDefaultPersistedNetwork.ts",
+        "./src/lib/core/network/utils/getDefaultStardustNetwork.ts",
         "./src/lib/core/network/utils/getNetworkIdFromNetworkName.ts",
         "./src/lib/core/network/utils/getDefaultExplorerUrl.ts",
         "./src/lib/core/network/utils/getDefaultNodes.ts",

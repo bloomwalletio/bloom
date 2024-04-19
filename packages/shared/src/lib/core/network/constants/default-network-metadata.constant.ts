@@ -1,4 +1,4 @@
-import { NetworkNamespace, StardustNetworkName } from '../enums'
+import { NetworkNamespace } from '../enums'
 import { IStardustNetworkMetadata } from '../interfaces'
 import { NetworkMetadata, StardustNetworkId } from '../types'
 import { DEFAULT_BASE_TOKEN } from './default-base-token.constant'
@@ -11,7 +11,6 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: N
     [SupportedNetworkId.Iota]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Iota,
         name: 'IOTA',
-        networkName: StardustNetworkName.Iota,
         namespace: NetworkNamespace.Stardust,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Iota],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.Iota],
@@ -20,7 +19,6 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: N
     [SupportedNetworkId.Shimmer]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Shimmer,
         name: 'Shimmer',
-        networkName: StardustNetworkName.Shimmer,
         namespace: NetworkNamespace.Stardust,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Shimmer],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.Shimmer],
@@ -29,7 +27,6 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: N
     [SupportedNetworkId.Testnet]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Testnet,
         name: 'Testnet',
-        networkName: StardustNetworkName.Testnet,
         namespace: NetworkNamespace.Stardust,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Testnet],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.Testnet],
