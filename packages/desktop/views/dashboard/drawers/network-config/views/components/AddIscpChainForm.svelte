@@ -26,7 +26,7 @@
     $: submitDisabled = !evmNetwork.name || !evmNetwork.aliasAddress || !evmNetwork.rpcEndpoint
 
     const evmNetwork: IIscpEvmNetworkConfiguration = {
-        type: EvmNetworkType.Iscp,
+        type: EvmNetworkType.Isc,
         id: '' as EvmNetworkId,
         namespace: NetworkNamespace.Evm,
         chainId: '' as ChainId,
@@ -59,7 +59,7 @@
             aliasAddressError = localize(`${localeKey}.errors.aliasAddressWrongFormat`)
         } else if (
             chains.some(
-                (_chain) => _chain.type === EvmNetworkType.Iscp && _chain.aliasAddress === evmNetwork.aliasAddress
+                (_chain) => _chain.type === EvmNetworkType.Isc && _chain.aliasAddress === evmNetwork.aliasAddress
             )
         ) {
             aliasAddressError = localize(`${localeKey}.errors.aliasAddressAlreadyInUse`)

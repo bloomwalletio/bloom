@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getIscpChains, getL1Network } from '@core/network'
+    import { getIscChains, getL1Network } from '@core/network'
     import { NetworkFilterUnit } from '@core/utils/interfaces/filter'
     import features from '@features/features'
     import { IOption, SelectInput } from '@bloomwalletio/ui'
@@ -12,7 +12,7 @@
     function getOptions(): IOption[] {
         const l1Network = getL1Network()
 
-        const iscpChains = features?.network?.layer2?.enabled ? getIscpChains() : []
+        const iscpChains = features?.network?.layer2?.enabled ? getIscChains() : []
 
         return [l1Network, ...iscpChains].map((network) => ({
             label: network.name,

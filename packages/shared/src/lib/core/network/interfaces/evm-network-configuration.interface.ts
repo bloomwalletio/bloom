@@ -3,7 +3,7 @@ import { EvmNetworkType, NetworkNamespace, ChainId } from '../enums'
 import { EvmNetworkId } from '../types'
 
 export interface IIscpEvmNetworkConfiguration extends IBaseEvmNetworkConfiguration {
-    type: EvmNetworkType.Iscp
+    type: EvmNetworkType.Isc
     aliasAddress: string
     apiEndpoint: string
 }

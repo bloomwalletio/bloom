@@ -1,4 +1,4 @@
-import { IscpChain } from '@core/network'
+import { IscChain } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
 import { ContractType } from '@core/layer-2/enums'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
@@ -10,7 +10,7 @@ import { buildAssetAllowance } from '../utils'
 export function getIscpTransferSmartContractData(
     recipientAddress: string,
     transferredAsset: TransferredAsset,
-    evmNetwork: IscpChain
+    evmNetwork: IscChain
 ): string {
     try {
         const coinType = evmNetwork.coinType

@@ -2,7 +2,7 @@
 
 import {
     DEFAULT_EVM_NETWORK_CONFIGURATIONS,
-    IIscpEvmNetworkMetadata,
+    IIscChainMetadata,
     getDefaultPersistedNetwork,
     getNetworkIdFromOnboardingNetworkType,
 } from '@core/network'
@@ -242,7 +242,7 @@ export function fireflyStardustProfileMigrationToV13(existingProfile: unknown): 
         const maybeDefaultChainConfig =
             DEFAULT_EVM_NETWORK_CONFIGURATIONS[getNetworkIdFromOnboardingNetworkType(existingProfile.network.id)]
 
-        const defaultChainConfig: IIscpEvmNetworkMetadata[] = maybeDefaultChainConfig ? [maybeDefaultChainConfig] : []
+        const defaultChainConfig: IIscChainMetadata[] = maybeDefaultChainConfig ? [maybeDefaultChainConfig] : []
 
         newNetwork.chains = defaultChainConfig
         existingProfile.network = newNetwork

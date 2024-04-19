@@ -7,26 +7,20 @@ import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
 import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enums'
-import {
-    IBlock,
-    IEvmNetwork,
-    IEvmNetworkStatus,
-    IIscpEvmNetworkConfiguration,
-    IIscpEvmNetworkMetadata,
-} from '../interfaces'
+import { IBlock, IEvmNetworkStatus, IIscpEvmNetworkConfiguration, IIscChainMetadata, IIscChain } from '../interfaces'
 import { evmNetworkStatuses } from '../stores'
 import { CoinType } from '@iota/sdk/out/types'
-import { ChainMetadata, EvmNetworkId, Web3Provider } from '../types'
+import { EvmNetworkId, Web3Provider } from '../types'
 import { Converter } from '@core/utils'
 
-export class IscpChain implements IEvmNetwork {
+export class IscChain implements IIscChain {
     public readonly provider: Web3Provider
     private readonly _chainApi: string
 
     public readonly id: EvmNetworkId
     public readonly namespace: NetworkNamespace.Evm
     public readonly chainId: ChainId
-    public readonly type: EvmNetworkType.Iscp
+    public readonly type: EvmNetworkType.Isc
     public readonly coinType: CoinType
     public readonly name: string
     public readonly explorerUrl: string | undefined
@@ -34,7 +28,7 @@ export class IscpChain implements IEvmNetwork {
     public readonly apiEndpoint: string
     public readonly aliasAddress: string
 
-    private _metadata: IIscpEvmNetworkMetadata | undefined
+    private _metadata: IIscChainMetadata | undefined
     constructor({
         id,
         namespace,
@@ -94,11 +88,11 @@ export class IscpChain implements IEvmNetwork {
         return new this.provider.eth.Contract(abi, address)
     }
 
-    getMetadata(): Promise<ChainMetadata> {
+    getMetadata(): Promise<IIscChainMetadata> {
         if (this._metadata) {
             return Promise.resolve(this._metadata)
         } else {
-            this._metadata = <IIscpEvmNetworkMetadata>{} // await this.fetchChainMetadata()
+            this._metadata = <IIscChainMetadata>{} // await this.fetchChainMetadata()
             return Promise.resolve(this._metadata)
         }
     }
@@ -109,9 +103,9 @@ export class IscpChain implements IEvmNetwork {
      * the EVM JSON-RPC endpoint rather than the underlying WASP
      * node URL). See here for more: https://github.com/iotaledger/wasp/issues/2385
      */
-    private async fetchChainMetadata(): Promise<IIscpEvmNetworkMetadata> {
+    private async fetchChainMetadata(): Promise<IIscChainMetadata> {
         const response = await fetch(this._chainApi)
-        return (await response.json()) as IIscpEvmNetworkMetadata
+        return (await response.json()) as IIscChainMetadata
     }
 
     async getLatestBlock(): Promise<IBlock> {

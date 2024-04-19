@@ -1,9 +1,9 @@
 import { WriteStream } from '@iota/util.js'
 import { Converter } from '@core/utils'
-import { EvmNetworkType, IEvmNetwork } from '@core/network'
+import { IIscChain } from '@core/network'
 import { evmAddressToAgentId } from './evmAddressToAgentId'
 
-export function encodeAddress(address: string, evmNetwork: IEvmNetwork): Uint8Array {
+export function encodeAddress(address: string, iscChain: IIscChain): Uint8Array {
     const addressStream = new WriteStream()
     const addressBytes = Converter.hexToBytes(address)
     for (const byte of addressBytes) {
@@ -11,9 +11,6 @@ export function encodeAddress(address: string, evmNetwork: IEvmNetwork): Uint8Ar
     }
     const hexAddress = addressStream.finalHex()
 
-    const encodedAddress = evmAddressToAgentId(
-        hexAddress,
-        evmNetwork.type === EvmNetworkType.Iscp ? evmNetwork.aliasAddress : ''
-    )
+    const encodedAddress = evmAddressToAgentId(hexAddress, iscChain.aliasAddress)
     return encodedAddress
 }

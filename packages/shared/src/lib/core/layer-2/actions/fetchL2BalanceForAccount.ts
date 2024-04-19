@@ -25,7 +25,7 @@ import { BASE_TOKEN_ID, TokenTrackingStatus } from '@core/token'
 import features from '@features/features'
 import { KeyValue } from '@ui/types'
 import { IError } from '@core/error'
-import { IscpChain } from '@core/network'
+import { IscChain } from '@core/network'
 
 export function fetchL2BalanceForAccount(profileId: string, account: IAccountState): void {
     const { evmAddresses, index } = account
@@ -69,14 +69,14 @@ export function fetchL2BalanceForAccount(profileId: string, account: IAccountSta
 
 async function getL2NativeTokenBalancesForAddress(
     evmAddress: string,
-    evmNetwork: IEvmNetwork
+    iscChain: IEvmNetwork
 ): Promise<ILayer2TokenBalance[]> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('balance')
-    const agentID = evmAddressToAgentId(evmAddress, (evmNetwork as IscpChain).aliasAddress)
+    const agentID = evmAddressToAgentId(evmAddress, (iscChain as IscChain).aliasAddress)
     const parameters = getAgentBalanceParameters(agentID)
     try {
-        const contract = evmNetwork.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
+        const contract = iscChain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const nativeTokenResult = (await contract.methods
             .callView(accountsCoreContract, getBalanceFunc, parameters)
             .call()) as { items: KeyValue<string>[] }
@@ -127,7 +127,7 @@ async function fetchL2Irc27Nfts(
 ): Promise<void> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('accountNFTs')
-    const agentID = evmAddressToAgentId(evmAddress, (evmNetwork as IscpChain).aliasAddress)
+    const agentID = evmAddressToAgentId(evmAddress, (evmNetwork as IscChain).aliasAddress)
     const parameters = getAgentBalanceParameters(agentID)
     try {
         const contract = evmNetwork.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)

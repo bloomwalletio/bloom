@@ -1,6 +1,6 @@
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { EvmTransactionData, TransferredAsset } from '../types'
-import { IEvmNetwork, IscpChain } from '@core/network'
+import { IEvmNetwork, IscChain } from '@core/network'
 import { localize } from '@core/i18n'
 import { IToken, TokenStandard } from '@core/token'
 import { buildEvmTransactionData } from './buildEvmTransactionData'
@@ -43,7 +43,7 @@ function getTokenDataForTransaction(
             const isBaseCoin = token.standard === TokenStandard.BaseToken
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
             const transferredAsset = { type: assetType, token, amount } as TransferredAsset
-            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, evmNetwork as IscpChain)
+            return getIscpTransferSmartContractData(recipientAddress, transferredAsset, evmNetwork as IscChain)
         }
         case TokenStandard.Erc20:
             return getErc20TransferSmartContractData(recipientAddress, token, amount, evmNetwork)
