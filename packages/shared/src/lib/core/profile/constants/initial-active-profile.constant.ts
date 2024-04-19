@@ -6,6 +6,7 @@ export const INITIAL_ACTIVE_PROFILE: Partial<IProfile> = {
     isStrongholdLocked: writable<boolean>(true),
     loggedIn: writable<boolean>(false),
     lastActiveAt: writable<Date>(new Date()),
+    evmNetworks: [],
     contacts: {},
     networkContactAddresses: {},
     internalTransfersInProgress: writable<{

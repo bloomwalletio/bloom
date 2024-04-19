@@ -1,5 +1,5 @@
 import { IPersistedAccountData } from '@core/account/interfaces'
-import { IClientOptions, IStardustNetworkMetadata } from '@core/network/interfaces'
+import { IClientOptions, IEvmNetwork, IStardustNetworkMetadata } from '@core/network/interfaces'
 import { Nft } from '@core/nfts/interfaces'
 import { StrongholdVersion } from '@core/stronghold/enums'
 import { ProfileType } from '../enums'
@@ -16,6 +16,7 @@ export interface IPersistedProfile {
     name: string
     type: ProfileType
     network: IStardustNetworkMetadata
+    evmNetworks: IEvmNetwork[]
     lastStrongholdBackupTime?: Date
     settings: IProfileSettings
     accountPersistedData: {
