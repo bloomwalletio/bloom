@@ -2,7 +2,7 @@ import { Platform } from '@core/app/classes'
 import features from '@features/features'
 import { StatusCodes } from 'http-status-codes'
 import { get } from 'svelte/store'
-import { IPFS_GATEWAYS, NFT_MEDIA_FILE_NAME } from '../constants'
+import { NFT_MEDIA_FILE_NAME } from '../constants'
 import { DownloadErrorType, DownloadPermission, DownloadWarningType } from '../enums'
 import { IDownloadMetadata, Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
@@ -48,7 +48,7 @@ export async function checkIfNftShouldBeDownloaded(
                     downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
                     return { shouldDownload: false, isLoaded: false, downloadMetadata }
                 case DownloadPermission.AllowListOnly: {
-                    const allowList = IPFS_GATEWAYS
+                    const allowList = nftSettings.ipfsGateways.map((gateway) => gateway.url)
                     const startsWithAllowedGateways =
                         nft.mediaUrl?.startsWith('ipfs://') ||
                         allowList.some((gateway) => nft.mediaUrl?.startsWith(gateway))
