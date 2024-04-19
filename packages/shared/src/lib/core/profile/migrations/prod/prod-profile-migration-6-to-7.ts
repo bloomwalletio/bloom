@@ -1,11 +1,8 @@
 import { persistedDappNamespaces } from '@auxiliary/wallet-connect/stores'
 import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
-import {
-    DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
-    DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
-    IPFS_GATEWAYS,
-} from '@core/nfts/constants'
+import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts/constants'
 import { DownloadPermission } from '@core/nfts/enums'
+import { DEFAULT_IPFS_GATEWAYS } from '@core/profile/constants'
 import { IPersistedProfile } from '@core/profile/interfaces'
 import { ProposalTypes } from '@walletconnect/types'
 
@@ -26,7 +23,7 @@ export function prodProfileMigration6To7(existingProfile: unknown): Promise<void
         settings: { maxMediaSizeInMegaBytes?: number; maxMediaDownloadTimeInSeconds?: number }
     }
     profile.settings.nfts = {
-        ipfsGateway: IPFS_GATEWAYS[0],
+        ipfsGateways: DEFAULT_IPFS_GATEWAYS,
         downloadPermissions: DownloadPermission.AllowListOnly,
         maxMediaSizeInMegaBytes: profile.settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
         maxMediaDownloadTimeInSeconds:

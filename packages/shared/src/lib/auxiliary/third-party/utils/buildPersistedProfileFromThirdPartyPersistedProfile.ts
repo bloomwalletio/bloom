@@ -7,13 +7,10 @@ import {
     NetworkNamespace,
     StardustNetworkId,
 } from '@core/network'
-import {
-    DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
-    DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
-    IPFS_GATEWAYS,
-} from '@core/nfts/constants'
+import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts/constants'
 import { DownloadPermission } from '@core/nfts/enums'
 import {
+    DEFAULT_IPFS_GATEWAYS,
     DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
     IPersistedProfile,
     IProfileSettings,
@@ -100,7 +97,7 @@ function buildSettingsFromThirdPartyPersistedSettings(settings: IThirdPartyPersi
         strongholdPasswordTimeoutInMinutes:
             settings.strongholdPasswordTimeoutInMinutes ?? DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
         nfts: {
-            ipfsGateway: IPFS_GATEWAYS[0],
+            ipfsGateways: DEFAULT_IPFS_GATEWAYS,
             downloadPermissions: DownloadPermission.AllowListOnly,
             maxMediaSizeInMegaBytes: settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
             maxMediaDownloadTimeInSeconds:
