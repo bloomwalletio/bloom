@@ -1,4 +1,4 @@
 export enum EvmNetworkType {
-    Isc = 'isc',
+    Isc = 'iscp',
     PureEvm = 'evm',
 }
