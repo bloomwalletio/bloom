@@ -8,33 +8,69 @@
     import { INftAttribute, Nft, NftStandard } from '@core/nfts'
     import { addNftsToDownloadQueue } from '@core/nfts/actions'
     import { downloadingNftId, updatePersistedNft } from '@core/nfts/stores'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
-    import { burnNft } from '@core/wallet'
+    import { burnNft, claimActivity } from '@core/wallet'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { closePopup } from '@desktop/auxiliary/popup/actions'
     import { MediaPlaceholder, NftMedia } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
     import NftMediaAlert from './NftMediaAlert.svelte'
+    import { StardustNftActivity, getClaimableActivities, selectedAccountActivities } from '@core/activity'
+    import { selectedAccount } from '@core/account/stores'
 
     export let nft: Nft
     export let details: IItem[] = []
     export let attributes: INftAttribute[] = []
     export let explorerEndpoint: string | undefined
 
+    interface IContinueButtonProps {
+        text: string
+        icon?: IconName
+        onClick: () => void
+    }
+
+    $: continueButtonProps = setContinueButtonProps(nft)
+
+    const nftActivity = getNftActivity()
+    $: activity =
+        nftActivity &&
+        ($selectedAccountActivities.find((_activity) => _activity.id === nftActivity?.id) as StardustNftActivity)
+
     $: timeDiff =
         nft.standard === NftStandard.Irc27 && nft.timelockTime
             ? getTimeDifference(new Date(nft.timelockTime), $time)
             : undefined
-    $: isSendButtonDisabled = !!timeDiff
+
+    $: isContinueButtonDisabled = !!timeDiff || Boolean(activity?.asyncData?.isClaiming)
 
     $: placeHolderColor = nft.downloadMetadata?.error
         ? 'danger'
         : nft.downloadMetadata?.warning
           ? 'warning'
           : ('brand' as TextColor)
+
+    function setContinueButtonProps(nft: Nft): IContinueButtonProps {
+        if (nft.isScam) {
+            return {
+                text: localize('actions.burn'),
+                icon: IconName.Trash,
+                onClick: onBurnClick,
+            }
+        } else if (nft.standard === NftStandard.Irc27 && nft.expirationTime) {
+            return {
+                text: localize('actions.claim'),
+                onClick: onClaimClick,
+            }
+        } else {
+            return {
+                text: localize('actions.send'),
+                icon: IconName.Send,
+                onClick: onSendClick,
+            }
+        }
+    }
 
     function onExplorerClick(): void {
         openUrlInBrowser(explorerEndpoint)
@@ -51,6 +87,21 @@
             id: PopupId.SendFlow,
             overflow: true,
         })
+    }
+
+    function getNftActivity(): StardustNftActivity | undefined {
+        const claimableActivites = getClaimableActivities()
+        return claimableActivites.find(
+            (activity) => (activity as StardustNftActivity).nftId === nft.id
+        ) as StardustNftActivity
+    }
+
+    function onClaimClick(): void {
+        const nftActivity = getNftActivity()
+        if (!nftActivity) {
+            return
+        }
+        void claimActivity(nftActivity, $selectedAccount)
     }
 
     function onNotAScamClick(): void {
@@ -86,12 +137,6 @@
                 alert: { variant: 'warning', text: localize('actions.confirmNftBurn.hint') },
                 confirmText: localize('actions.burn'),
                 onConfirm: async () => {
-                    try {
-                        await checkActiveProfileAuth()
-                    } catch {
-                        return
-                    }
-
                     try {
                         await burnNft(nft.id)
                         $collectiblesRouter?.goTo(CollectiblesRoute.Gallery)
@@ -130,7 +175,7 @@
     <details-container class="flex flex-col px-6 py-8 space-y-3 w-full h-full max-w-sm">
         <nft-title class="flex justify-between items-center gap-4">
             <Text type="h4" truncate>{nft.name}</Text>
-            <CollectibleDetailsMenu {nft} />
+            <CollectibleDetailsMenu {nft} burnNft={onBurnClick} />
         </nft-title>
         {#if nft.description}
             <Text type="body1">{localize('general.description')}</Text>
@@ -177,11 +222,11 @@
                     width="half"
                 />
                 <Button
-                    text={nft.isScam ? localize('actions.burn') : localize('actions.send')}
-                    icon={nft.isScam ? IconName.Trash : IconName.Send}
+                    text={continueButtonProps.text}
+                    icon={continueButtonProps.icon}
                     color={nft.isScam ? 'danger' : 'primary'}
-                    on:click={nft.isScam ? onBurnClick : onSendClick}
-                    disabled={isSendButtonDisabled}
+                    on:click={continueButtonProps.onClick}
+                    disabled={isContinueButtonDisabled}
                     width="half"
                     reverse
                 />
