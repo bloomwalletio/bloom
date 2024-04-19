@@ -1,3 +1,3 @@
-export { default as AccountLabel } from './AccountLabel'
-export { default as NetworkLabel } from './NetworkLabel'
-export { default as TokenLabel } from './TokenLabel'
+export { default as AccountLabel } from './AccountLabel.svelte'
+export { default as NetworkLabel } from './NetworkLabel.svelte'
+export { default as TokenLabel } from './TokenLabel.svelte'
