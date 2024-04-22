@@ -8,28 +8,24 @@ export function getFetchableNftUrls(uri: string | undefined): string[] {
 
     try {
         const url = new URL(uri)
-        const urls: string[] = []
 
         switch (url.protocol) {
             case 'http:':
-                urls.push(uri.replace('http:', 'https:'))
-                break
+                return [cleanUrl(uri.replace('http:', 'https:'))]
             case 'https:':
-                urls.push(uri)
-                break
+                return [cleanUrl(uri)]
             case 'ipfs:': {
                 const ipfsGateways = getSortedIpfsGateways()
+                const urls: string[] = []
                 for (const gateway of ipfsGateways) {
                     const _url = new URL('/ipfs/' + url.pathname.replace('//', ''), gateway.url)
                     urls.push(_url.href)
                 }
-                break
+                return urls.map((url) => cleanUrl(url))
             }
             default:
                 return []
         }
-
-        return urls.map((url) => cleanUrl(url))
     } catch {
         return []
     }
