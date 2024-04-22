@@ -12,7 +12,7 @@
     {@const chainType = getEvmNetwork(token.networkId)?.type}
     <network-type-pill bind:this={anchor} class="h-fit">
         <Pill color="cyan" compact>
-            {chainType === EvmNetworkType.PureEvm ? 'EVM' : chainType === EvmNetworkType.Iscp ? 'ISC' : undefined}
+            {chainType === EvmNetworkType.PureEvm ? 'EVM' : chainType === EvmNetworkType.Isc ? 'ISC' : undefined}
         </Pill>
     </network-type-pill>
     <Tooltip
@@ -21,7 +21,7 @@
         event="hover"
         text={chainType === EvmNetworkType.PureEvm
             ? 'Ethereum'
-            : chainType === EvmNetworkType.Iscp
+            : chainType === EvmNetworkType.Isc
               ? 'IOTA Smart Contracts'
               : undefined}
     />

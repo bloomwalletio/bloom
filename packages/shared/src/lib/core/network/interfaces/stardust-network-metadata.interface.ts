@@ -2,7 +2,7 @@ import { IBaseToken } from '@core/token/interfaces'
 import { IProtocol } from './protocol.interface'
 import { StardustNetworkId } from '../types'
 import { NetworkNamespace } from '../enums'
-import { IBaseNetwork, IIscNetworkConfiguration } from '../interfaces'
+import { IBaseNetwork, IIscChainConfiguration } from '../interfaces'
 
 /**
  * Holds relevant data
@@ -14,5 +14,5 @@ export interface IStardustNetworkMetadata extends IBaseNetwork {
     namespace: NetworkNamespace.Stardust
     protocol: IProtocol
     baseToken: IBaseToken
-    chainConfigurations: IIscNetworkConfiguration[]
+    chainConfigurations: IIscChainConfiguration[]
 }

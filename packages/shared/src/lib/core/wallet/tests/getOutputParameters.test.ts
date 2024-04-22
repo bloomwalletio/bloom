@@ -93,7 +93,7 @@ jest.mock('@core/token/actions/getAccountTokensForAccount', () => ({
 }))
 
 jest.mock('../../network/stores/networks.store', () => ({
-    getEvmNetwork: jest.fn((_) => destinationNetwork),
+    getIscChain: jest.fn((_) => destinationNetwork),
 }))
 
 jest.mock('../../layer-2/actions/getGasPriceForNetwork', () => ({

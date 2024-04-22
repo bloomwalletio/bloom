@@ -1,8 +1,8 @@
 import { NetworkId } from '@core/network'
-import { ITokenBalance } from '..'
+import { IExtendedTokenBalance } from '..'
 import { getTokenFromSelectedAccountTokens } from '../stores'
 
-export function getTokenBalance(tokenId: string, networkId: NetworkId): ITokenBalance | undefined {
+export function getTokenBalance(tokenId: string, networkId: NetworkId): IExtendedTokenBalance | undefined {
     const token = getTokenFromSelectedAccountTokens(tokenId, networkId)
     return token?.balance
 }

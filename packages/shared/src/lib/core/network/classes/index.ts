@@ -1,2 +1,2 @@
-export * from './iscp-chain.class'
+export * from './isc-chain.class'
 export * from './stardust-network.class'
