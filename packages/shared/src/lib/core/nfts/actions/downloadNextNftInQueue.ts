@@ -27,15 +27,18 @@ export async function downloadNextNftInQueue(): Promise<void> {
 
     try {
         let downloadMetadata: IDownloadMetadata | undefined
-        const potentialDownloadUrls = getSanitizedNftUrls(nft.mediaUrl)
-        for (const mediaUrl of potentialDownloadUrls) {
+        const downloadUrls = getSanitizedNftUrls(nft.mediaUrl)
+        for (const downloadUrl of downloadUrls) {
             downloadMetadata = await checkHeadRequestForNftUrl(
                 nft,
-                mediaUrl,
+                downloadUrl,
                 nft.downloadMetadata ?? {},
                 isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse',
                 options.skipSizeCheck
             )
+            if (downloadMetadata.error?.type !== DownloadErrorType.NotReachable) {
+                break
+            }
         }
 
         if (!downloadMetadata) {
