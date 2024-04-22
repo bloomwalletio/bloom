@@ -23,6 +23,6 @@
             ? 'Ethereum'
             : chainType === EvmNetworkType.Isc
               ? 'IOTA Smart Contracts'
-              : undefined}
+              : 'Undefined Network'}
     />
 {/if}
