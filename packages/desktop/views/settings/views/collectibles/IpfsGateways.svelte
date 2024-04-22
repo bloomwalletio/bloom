@@ -40,7 +40,7 @@
                 return Promise.reject(localize('views.settings.ipfsGateways.addGateway.error.invalidGateway'))
             }
         } catch (error) {
-            return Promise.reject(localize('error.global.invalidUrl'))
+            return Promise.reject(localize('views.settings.ipfsGateways.addGateway.error.notReachable'))
         }
     }
 

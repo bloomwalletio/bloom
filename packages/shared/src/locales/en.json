@@ -255,7 +255,7 @@
                     "title": "Add new IPFS gateway",
                     "placeholder": "IPFS gateway",
                     "error": {
-                        "cannotContainPathname": "Gateway cannot contain a pathname",
+                        "notReachable": "Gateway isn't reachable",
                         "invalidGateway": "Invalid IPFS gateway"
                     }
                 },
