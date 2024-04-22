@@ -3,7 +3,7 @@ import { IPureEvmNetworkConfiguration } from '../interfaces'
 import { EvmNetworkId } from '../types'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
 import { SupportedNetworkId } from './supported-network-id.constant'
-import { DEFAULT_EXPLORER_URLS } from '@core/network/constants/default-explorer-urls.constant'
+import { DEFAULT_EXPLORER_URLS } from './default-explorer-urls.constant'
 
 export const DEFAULT_L1_EVM_NETWORK_CONFIGURATION: Readonly<{
     [key in EvmNetworkId]: IPureEvmNetworkConfiguration

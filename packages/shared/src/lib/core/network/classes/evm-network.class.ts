@@ -1,5 +1,5 @@
-import { BaseEvmNetwork } from '@core/network/classes/base-evm-network.class'
-import { IPureEvmNetworkConfiguration } from '@core/network/interfaces'
+import { IPureEvmNetworkConfiguration } from '../interfaces'
+import { BaseEvmNetwork } from './base-evm-network.class'
 
 export class EvmNetwork extends BaseEvmNetwork {
     public readonly symbol: string

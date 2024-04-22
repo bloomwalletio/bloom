@@ -4,7 +4,7 @@ import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile/constants'
 import { IOnboardingProfile } from '../interfaces'
 import { DEFAULT_L1_EVM_NETWORK_CONFIGURATION, SupportedNetworkId } from '@core/network/constants'
 import features from '@features/features'
-import { IPureEvmNetworkConfiguration, IStardustNetwork } from '@core/network'
+import { IPureEvmNetworkConfiguration, IStardustNetwork } from '@core/network/interfaces'
 
 export function convertOnboardingProfileToPersistedProfile(
     onboardingProfile?: Partial<IOnboardingProfile>

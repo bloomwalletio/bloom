@@ -4,7 +4,7 @@ import { NetworkHealth } from '../enums'
 import { IBlock, IEvmNetworkStatus, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 import { evmNetworkStatuses } from '../stores'
 import { Converter } from '@core/utils'
-import { BaseEvmNetwork } from '@core/network/classes/base-evm-network.class'
+import { BaseEvmNetwork } from './base-evm-network.class'
 
 export class IscChain extends BaseEvmNetwork {
     private readonly _chainApi: string
