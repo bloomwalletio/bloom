@@ -251,6 +251,7 @@
                 "title": "IPFS gateways",
                 "description": "Select the IPFS gateway to use for media retrieval",
                 "setAsPrimary": "Set as primary",
+                "unsetPrimary": "Unset primary",
                 "addGateway": {
                     "title": "Add new IPFS gateway",
                     "placeholder": "IPFS gateway",
