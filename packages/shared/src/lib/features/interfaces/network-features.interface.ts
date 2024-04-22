@@ -5,4 +5,5 @@ export interface INetworkFeatures extends IFeatureFlag {
     config: IFeatureFlag & {
         addChain: IFeatureFlag
     }
+    evmNetworks: IFeatureFlag
 }
