@@ -1,7 +1,7 @@
 <script lang="ts">
     import { BaseError } from '@core/error/classes'
     import { localize } from '@core/i18n'
-    import { NftStandard, composeUrlFromNftUri } from '@core/nfts'
+    import { NftStandard, getPrimaryNftUrl } from '@core/nfts'
     import { MimeType } from '@core/nfts/enums'
     import { fetchWithTimeout } from '@core/nfts/utils/fetchWithTimeout'
     import { HttpHeader } from '@core/utils'
@@ -82,7 +82,7 @@
             uriError = localize('popups.mintNftForm.errors.invalidURI')
         } else {
             try {
-                const response = await fetchWithTimeout(composeUrlFromNftUri(uri), 1, { method: 'HEAD' })
+                const response = await fetchWithTimeout(getPrimaryNftUrl(uri), 1, { method: 'HEAD' })
                 if (response.status === 200 || response.status === 304) {
                     type = response.headers.get(HttpHeader.ContentType)
                 } else {

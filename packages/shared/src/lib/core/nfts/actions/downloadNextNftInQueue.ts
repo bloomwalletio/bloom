@@ -1,7 +1,7 @@
 import { Platform } from '@core/app/classes'
 import { get } from 'svelte/store'
 import { downloadingNftId, nftDownloadQueue, removeNftFromDownloadQueue, updatePersistedNft } from '../stores'
-import { buildFilePath, composeUrlFromNftUri, fetchWithTimeout, isIrc27Nft } from '../utils'
+import { buildFilePath, fetchWithTimeout, getSanitizedNftUrls, isIrc27Nft } from '../utils'
 import { activeProfile } from '@core/profile/stores'
 import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
 import { IDownloadMetadata, Nft } from '../interfaces'
@@ -26,18 +26,21 @@ export async function downloadNextNftInQueue(): Promise<void> {
     downloadingNftId.set(nft.id)
 
     try {
-        const composedUrl = composeUrlFromNftUri(nft.mediaUrl ?? '')
-        if (!composedUrl) {
-            throw new Error('Unable to compose NFT URI!')
+        let downloadMetadata: IDownloadMetadata | undefined
+        const potentialDownloadUrls = getSanitizedNftUrls(nft.mediaUrl)
+        for (const mediaUrl of potentialDownloadUrls) {
+            downloadMetadata = await checkHeadRequestForNftUrl(
+                nft,
+                mediaUrl,
+                nft.downloadMetadata ?? {},
+                isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse',
+                options.skipSizeCheck
+            )
         }
 
-        const downloadMetadata = await checkHeadRequestForNftUrl(
-            nft,
-            composedUrl,
-            nft.downloadMetadata ?? {},
-            isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse',
-            options.skipSizeCheck
-        )
+        if (!downloadMetadata) {
+            throw new Error('Invalid download metadata')
+        }
         updatePersistedNft(nft.id, { downloadMetadata })
         updateNftInAllAccountNfts(nft.id, { downloadMetadata })
 

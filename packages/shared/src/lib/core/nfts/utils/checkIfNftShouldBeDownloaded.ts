@@ -8,7 +8,8 @@ import { IDownloadMetadata, Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 import { IError } from '@core/error/interfaces'
 import { getActiveProfile } from '@core/profile/stores'
-import { composeUrlFromNftUri } from './composeUrlFromNftUri'
+import { isValidNftUri } from './isValidNftUri'
+import { getPrimaryNftUrl } from './getPrimaryNftUrl'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: Nft,
@@ -35,7 +36,7 @@ export async function checkIfNftShouldBeDownloaded(
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
 
-        if (!composeUrlFromNftUri(nft.mediaUrl)) {
+        if (!isValidNftUri(nft.mediaUrl)) {
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
@@ -94,7 +95,7 @@ export async function checkIfNftShouldBeDownloaded(
                 isLoaded: true,
                 downloadMetadata: {
                     ...downloadMetadata,
-                    downloadUrl: composeUrlFromNftUri(nft.mediaUrl),
+                    downloadUrl: getPrimaryNftUrl(nft.mediaUrl),
                     error: undefined,
                     warning: undefined,
                 },
