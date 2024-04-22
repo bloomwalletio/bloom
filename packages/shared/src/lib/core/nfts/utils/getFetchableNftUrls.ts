@@ -1,7 +1,7 @@
 import { cleanUrl, shuffleArray } from '@core/utils'
 import { getActiveProfile } from '@core/profile/stores'
 
-export function getSanitizedNftUrls(uri: string | undefined): string[] {
+export function getFetchableNftUrls(uri: string | undefined): string[] {
     if (!uri) {
         return []
     }

@@ -1,7 +1,7 @@
 import { Platform } from '@core/app/classes'
 import { get } from 'svelte/store'
 import { downloadingNftId, nftDownloadQueue, removeNftFromDownloadQueue, updatePersistedNft } from '../stores'
-import { buildFilePath, fetchWithTimeout, getSanitizedNftUrls, isIrc27Nft } from '../utils'
+import { buildFilePath, fetchWithTimeout, getFetchableNftUrls, isIrc27Nft } from '../utils'
 import { activeProfile } from '@core/profile/stores'
 import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
 import { IDownloadMetadata, Nft } from '../interfaces'
@@ -27,7 +27,7 @@ export async function downloadNextNftInQueue(): Promise<void> {
 
     try {
         let downloadMetadata: IDownloadMetadata | undefined
-        const downloadUrls = getSanitizedNftUrls(nft.mediaUrl)
+        const downloadUrls = getFetchableNftUrls(nft.mediaUrl)
         for (const downloadUrl of downloadUrls) {
             downloadMetadata = await checkHeadRequestForNftUrl(
                 nft,
