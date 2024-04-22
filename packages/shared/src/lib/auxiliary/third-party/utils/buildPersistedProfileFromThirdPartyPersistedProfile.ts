@@ -2,7 +2,7 @@ import { IPersistedAccountData } from '@core/account'
 import { APP_STAGE } from '@core/app'
 import { MarketCurrency } from '@core/market'
 import {
-    DEFAULT_EVM_NETWORK_CONFIGURATIONS,
+    DEFAULT_ISC_CHAINS_CONFIGURATIONS,
     IStardustNetworkMetadata,
     NetworkNamespace,
     StardustNetworkId,
@@ -77,7 +77,7 @@ function buildStardustNetworkFromThirdPartyPersistedNetwork(
     const networkId: StardustNetworkId =
         NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP[network.protocol.networkName] ??
         `${NetworkNamespace.Stardust}:${network.protocol.networkName}`
-    const defaultChainConfigurations = structuredClone(DEFAULT_EVM_NETWORK_CONFIGURATIONS?.[networkId])
+    const defaultChainConfigurations = structuredClone(DEFAULT_ISC_CHAINS_CONFIGURATIONS?.[networkId])
 
     return {
         id: networkId,

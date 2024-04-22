@@ -4,7 +4,7 @@ import { StardustNetworkId } from '../types'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
 import { SupportedNetworkId } from './supported-network-id.constant'
 
-export const DEFAULT_EVM_NETWORK_CONFIGURATIONS: Readonly<{ [id in StardustNetworkId]?: IIscChainConfiguration }> = {
+export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetworkId]?: IIscChainConfiguration }> = {
     [SupportedNetworkId.Shimmer]: {
         id: SupportedNetworkId.ShimmerEvm,
         type: EvmNetworkType.Isc,
