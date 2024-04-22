@@ -11,7 +11,7 @@
     import { IPFS_HEALTH_CHECKER_PATH } from '@core/profile/constants'
 
     function addIpfsGateway(inputtedUrl: string): void {
-        const url = new URL(inputtedUrl).origin
+        const url = new URL(getOriginFromInputtedUrl(inputtedUrl)).origin
         const nftSettings = $activeProfile?.settings.nfts
         const ipfsGateways =
             nftSettings.ipfsGateways?.map((ipfsGateway) => ({
@@ -27,7 +27,8 @@
         void addNftsToDownloadQueue($selectedAccountNfts)
     }
 
-    async function validateIpfsGateway(url: string): Promise<void> {
+    async function validateIpfsGateway(_url: string): Promise<void> {
+        const url = getOriginFromInputtedUrl(_url)
         if (!url || !isValidUrl(url)) {
             return Promise.reject(localize('error.global.invalidUrl'))
         }
@@ -41,6 +42,12 @@
         } catch (error) {
             return Promise.reject(localize('error.global.invalidUrl'))
         }
+    }
+
+    function getOriginFromInputtedUrl(inputtedUrl: string): string {
+        return inputtedUrl.startsWith('http://') || inputtedUrl.startsWith('https://')
+            ? inputtedUrl.trim()
+            : `https://${inputtedUrl.trim()}`
     }
 
     function onIpfsGatewayAdd(): void {
