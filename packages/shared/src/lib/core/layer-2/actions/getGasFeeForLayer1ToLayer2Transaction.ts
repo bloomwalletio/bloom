@@ -1,4 +1,4 @@
-import { NetworkId, getEvmNetwork, isStardustNetwork } from '@core/network'
+import { NetworkId, getIscChain, isStardustNetwork } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
 import { SendFlowParameters, SendFlowType, createStardustOutputFromSendFlowParameters } from '@core/wallet'
 import { FALLBACK_ESTIMATED_GAS } from '../constants'
@@ -19,7 +19,7 @@ export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: 
     }
 
     try {
-        const gasEstimate = await getGasEstimateForIscpCall(destinationNetworkId, sendFlowParameters)
+        const gasEstimate = await getGasEstimateForIscCall(destinationNetworkId, sendFlowParameters)
         return gasEstimate
     } catch (err) {
         console.error(err)
@@ -27,18 +27,15 @@ export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: 
     }
 }
 
-async function getGasEstimateForIscpCall(
-    networkId: NetworkId,
-    sendFlowParameters: SendFlowParameters
-): Promise<bigint> {
-    const evmNetwork = getEvmNetwork(networkId)
-    if (!evmNetwork) {
+async function getGasEstimateForIscCall(networkId: NetworkId, sendFlowParameters: SendFlowParameters): Promise<bigint> {
+    const iscChain = getIscChain(networkId)
+    if (!iscChain) {
         return Promise.reject('Invalid network')
     }
     const account = getSelectedAccount()
     const tempOutput = await createStardustOutputFromSendFlowParameters(sendFlowParameters, account)
     const outputBytes = await outputHexBytes(tempOutput)
-    return evmNetwork.getGasEstimate(outputBytes)
+    return iscChain.getGasEstimate(outputBytes)
 }
 
 function getTransferredAsset(sendFlowParameters: SendFlowParameters): TransferredAsset | undefined {

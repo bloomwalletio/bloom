@@ -1,9 +1,9 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IscpChain } from '@core/network'
+    import { IscChain } from '@core/network'
     import { Table } from '@bloomwalletio/ui'
 
-    export let evmNetwork: IscpChain
+    export let evmNetwork: IscChain
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 </script>
