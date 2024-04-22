@@ -6,7 +6,7 @@ import { activeProfile } from '@core/profile/stores'
 import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
 import { IDownloadMetadata, Nft } from '../interfaces'
 import { StatusCodes, getReasonPhrase } from 'http-status-codes'
-import { DownloadErrorType, DownloadWarningType, NftStandard, ParentMimeType } from '../enums'
+import { DownloadErrorType, DownloadWarningType, NftStandard } from '../enums'
 import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 10
@@ -111,14 +111,7 @@ async function setReturnForOkResponse(
 
         return {
             ...downloadMetadata,
-            error: { type: DownloadErrorType.NotMatchingFileTypes },
-        }
-    }
-
-    if (!isMediaSupported(downloadMetadata.contentType ?? '')) {
-        return {
-            ...downloadMetadata,
-            warning: { type: DownloadWarningType.UnsupportedMediaType },
+            error: { type: DownloadErrorType.UnsupportedMediaType },
         }
     }
 
@@ -179,10 +172,4 @@ function isExpectedContentType(nft: Nft, downloadMetadata: IDownloadMetadata): b
     }
 
     return nft.metadata?.type ? downloadMetadata.contentType === String(nft.metadata.type) : false
-}
-
-function isMediaSupported(contentType: string): boolean {
-    const supportedTypes = [ParentMimeType.Image, ParentMimeType.Video]
-    const mediaType = contentType.split('/', 1)[0]
-    return supportedTypes.some((supportedType) => String(supportedType) === mediaType)
 }
