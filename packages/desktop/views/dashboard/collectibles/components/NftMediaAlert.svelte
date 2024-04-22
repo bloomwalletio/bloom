@@ -1,15 +1,18 @@
 <script lang="ts">
-    import { DownloadErrorType, DownloadWarningType, Nft, NftDownloadOptions } from '@core/nfts'
+    import { DownloadErrorType, DownloadWarningType, IDownloadMetadata, Nft, NftDownloadOptions } from '@core/nfts'
     import { Alert, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
+    import { getFormattedFileSize } from '@core/utils'
 
     export let type: DownloadErrorType | DownloadWarningType | undefined
     export let message: string | undefined
+    export let downloadMetadata: IDownloadMetadata
     export let nft: Nft
 
+    let alertText = ''
+    $: type, message, (alertText = getAlertText())
     $: variant = Object.values(DownloadErrorType).some((_type) => _type === type) ? 'danger' : 'warning'
-    $: alertText = type === 'generic' ? message : localize(`error.nft.${type}.long`)
 
     const retryableErrors = [
         DownloadErrorType.NotReachable,
@@ -19,6 +22,21 @@
         DownloadWarningType.TooLargeFile,
     ]
 
+    function getAlertText(): string {
+        switch (type) {
+            case DownloadErrorType.Generic:
+                return message ?? ''
+            case DownloadErrorType.NotReachable:
+                return downloadMetadata.responseCode + ' ' + message
+            case DownloadWarningType.TooLargeFile:
+                return (
+                    localize(`error.nft.${type}.long`) +
+                    ` - ${getFormattedFileSize(Number(downloadMetadata.contentLength ?? 0))}`
+                )
+            default:
+                return localize(`error.nft.${type}.long`)
+        }
+    }
     function onDownloadClick(): void {
         let options: Partial<NftDownloadOptions> = {}
 

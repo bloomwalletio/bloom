@@ -2,7 +2,7 @@
     import { IconName, Pill, Text, Tooltip, TooltipIcon, type TextColor } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { localize } from '@core/i18n'
-    import { IDownloadMetadata, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
+    import { DownloadErrorType, IDownloadMetadata, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
     import { downloadingNftId, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { getTimeDifference } from '@core/utils'
@@ -23,20 +23,23 @@
 
     function onNftClick(): void {
         $selectedNftId = nft.id
-        $collectiblesRouter.goTo(CollectiblesRoute.Details)
-        $collectiblesRouter.setBreadcrumb(nft?.name)
+        $collectiblesRouter?.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter?.setBreadcrumb(nft?.name)
     }
 
     function getAlertText(downloadMetadata: IDownloadMetadata | undefined): string {
-        const { error, warning } = downloadMetadata ?? {}
-        const errorOrWarning = error || warning
+        if (downloadMetadata?.error?.type === DownloadErrorType.Generic) {
+            return downloadMetadata?.error.message ?? ''
+        }
+        if (downloadMetadata?.error?.type === DownloadErrorType.NotReachable) {
+            return downloadMetadata.responseCode + ' ' + downloadMetadata.error.message
+        }
 
+        const errorOrWarning = downloadMetadata?.error || downloadMetadata?.warning
         if (!errorOrWarning) {
             return ''
         }
-
-        const { type, message } = errorOrWarning
-        return type === 'generic' ? message ?? '' : localize(`error.nft.${type}.short`)
+        return localize(`error.nft.${errorOrWarning.type}.short`)
     }
 </script>
 
