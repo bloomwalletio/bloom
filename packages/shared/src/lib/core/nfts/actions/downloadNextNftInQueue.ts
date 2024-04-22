@@ -62,19 +62,19 @@ export async function downloadNextNftInQueue(): Promise<void> {
 
 async function checkHeadRequestForNftUrl(
     nft: Nft,
-    mediaUrl: string,
+    downloadUrl: string,
     downloadMetadata: IDownloadMetadata,
     shouldCheckSoonaverseFallback: boolean,
     skipSizeCheck: boolean
 ): Promise<IDownloadMetadata> {
     try {
-        const response = await headRequest(mediaUrl)
+        const response = await headRequest(downloadUrl)
         const updatedDownloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
 
         if (updatedDownloadMetadata.responseCode === StatusCodes.OK) {
             return setReturnForOkResponse(
                 nft,
-                mediaUrl,
+                downloadUrl,
                 updatedDownloadMetadata,
                 shouldCheckSoonaverseFallback,
                 skipSizeCheck
@@ -95,15 +95,15 @@ async function checkHeadRequestForNftUrl(
 
 async function setReturnForOkResponse(
     nft: Nft,
-    mediaUrl: string,
+    downloadUrl: string,
     downloadMetadata: IDownloadMetadata,
     shouldCheckSoonaverseFallback: boolean,
     skipSizeCheck: boolean
 ): Promise<IDownloadMetadata> {
     if (!isExpectedContentType(nft, downloadMetadata)) {
         if (shouldCheckSoonaverseFallback) {
-            mediaUrl = mediaUrl + '/' + encodeURIComponent(nft?.name)
-            return checkHeadRequestForNftUrl(nft, mediaUrl, downloadMetadata, false, skipSizeCheck)
+            downloadUrl = downloadUrl + '/' + encodeURIComponent(nft?.name)
+            return checkHeadRequestForNftUrl(nft, downloadUrl, downloadMetadata, false, skipSizeCheck)
         }
 
         return {
@@ -128,7 +128,7 @@ async function setReturnForOkResponse(
 
     return {
         ...downloadMetadata,
-        downloadUrl: mediaUrl,
+        downloadUrl,
         filePath: buildFilePath(nft),
         error: undefined,
         warning: undefined,
