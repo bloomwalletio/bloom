@@ -19,4 +19,8 @@ export const SupportedIscNetworkId: Record<string, EvmNetworkId> = {
     TestnetEvm: `${NetworkNamespace.Evm}:${ChainId.TestnetEvm}`,
 }
 
-export const SupportedNetworkId = { ...SupportedStardustNetworkId, ...SupportedIscNetworkId }
+export const SupportedNetworkId = {
+    ...SupportedStardustNetworkId,
+    ...SupportedIscNetworkId,
+    ...SupportedL1EvmNetworkId,
+}
