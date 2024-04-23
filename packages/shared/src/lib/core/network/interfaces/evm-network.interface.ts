@@ -13,7 +13,8 @@ export interface IIscChain extends IEvmNetwork {
     aliasAddress: string
 
     getGasFeeEstimate(hex: string): Promise<bigint>
-    getMetadata(): Promise<IIscChainMetadata | undefined>
+    getMetadata(): IIscChainMetadata | undefined
+    setMetadata(): Promise<void>
 }
 
 export interface IEvmNetwork extends IBaseNetwork {

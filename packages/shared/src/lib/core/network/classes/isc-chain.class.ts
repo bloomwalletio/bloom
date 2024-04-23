@@ -11,7 +11,6 @@ import { IBlock, IEvmNetworkStatus, IIscChainConfiguration, IIscChainMetadata, I
 import { evmNetworkStatuses } from '../stores'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
-import { Converter } from '@core/utils'
 
 export class IscChain implements IIscChain {
     public readonly provider: Web3Provider
@@ -63,7 +62,7 @@ export class IscChain implements IIscChain {
 
             this._chainApi = `${apiEndpoint}v1/chains/${aliasAddress}`
 
-            void this.getMetadata()
+            void this.setMetadata()
         } catch (err) {
             console.error(err)
             throw new Error('Failed to construct isc Chain!')
@@ -90,17 +89,16 @@ export class IscChain implements IIscChain {
         return new this.provider.eth.Contract(abi, address)
     }
 
-    async getMetadata(): Promise<IIscChainMetadata | undefined> {
+    async setMetadata(): Promise<void> {
         try {
-            if (this._metadata) {
-                return Promise.resolve(this._metadata)
-            } else {
-                this._metadata = await this.fetchChainMetadata()
-                return Promise.resolve(this._metadata)
-            }
+            this._metadata = await this.fetchChainMetadata()
         } catch (err) {
             console.error(err)
         }
+    }
+
+    getMetadata(): IIscChainMetadata | undefined {
+        return this._metadata
     }
 
     /**
@@ -119,9 +117,9 @@ export class IscChain implements IIscChain {
         return this.provider.eth.getBlock(number)
     }
 
-    async getGasFeeEstimate(hex: string): Promise<bigint> {
+    async getGasFeeEstimate(outputBytes: string): Promise<bigint> {
         const URL = `${this._chainApi}/estimategas-onledger`
-        const body = JSON.stringify({ outputBytes: hex })
+        const body = JSON.stringify({ outputBytes })
 
         const requestInit: RequestInit = {
             method: 'POST',
@@ -136,15 +134,12 @@ export class IscChain implements IIscChain {
         const data = await response.json()
 
         if (response.status === 200) {
-            // More information can be found here: https://wiki.iota.org/isc/reference/core-contracts/governance/#ratio32
-            const gasPerToken = this._metadata?.gasFeePolicy.gasPerToken ?? {}
-            const subunitPerGas = (gasPerToken['a'] ?? 1) / (gasPerToken['b'] ?? 1)
-            const gasFeeEstimate = Converter.bigIntLikeToBigInt(data.gasFeeCharged * subunitPerGas)
-            if (gasFeeEstimate === BigInt(0)) {
-                throw new Error(`Gas fee has an invalid value: ${gasFeeEstimate}!`)
+            const gasFee = BigInt(data.gasFeeCharged)
+            if (gasFee === BigInt(0)) {
+                throw new Error(`Gas fee has an invalid value: ${gasFee}!`)
             }
 
-            return gasFeeEstimate
+            return gasFee
         } else {
             throw new Error(data)
         }
