@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { clearSelectedChain, networks, networkStatus } from '@core/network'
     import { Router } from '@core/router'
-    import networkFeatures from '@features/network.features'
+    import features from '@features/features'
     import { Icon } from '@ui'
     import { onMount } from 'svelte'
     import { NetworkConfigRoute, networkConfigRouter } from '../'
@@ -29,7 +29,7 @@
                 {/each}
             {/key}
         </div>
-        {#if networkFeatures.config.addChain.enabled}
+        {#if features.network.config.addChain.enabled}
             <button
                 type="button"
                 class="flex flex-row items-center justify-center w-full space-x-2 bg-transparent text-blue-500 px-8 py-3 text-15 rounded-lg"

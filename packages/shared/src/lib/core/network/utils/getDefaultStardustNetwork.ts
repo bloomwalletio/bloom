@@ -1,10 +1,10 @@
-import { DEFAULT_EVM_NETWORK_CONFIGURATIONS, DEFAULT_NETWORK_METADATA } from '../constants'
+import { DEFAULT_ISC_CHAINS_CONFIGURATIONS, DEFAULT_NETWORK_METADATA } from '../constants'
 import { StardustNetworkId } from '../types'
 import { IStardustNetworkMetadata } from '../interfaces'
 
 export function getDefaultStardustNetwork(networkId: StardustNetworkId): IStardustNetworkMetadata {
     const network = structuredClone(DEFAULT_NETWORK_METADATA?.[networkId])
-    const configuration = structuredClone(DEFAULT_EVM_NETWORK_CONFIGURATIONS?.[networkId])
+    const configuration = structuredClone(DEFAULT_ISC_CHAINS_CONFIGURATIONS?.[networkId])
     const chainConfigurations = configuration ? [configuration] : []
     if (network) {
         return {
