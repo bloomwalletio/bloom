@@ -20,7 +20,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const method = request.method as RpcMethod
 
     const dapp = getConnectedDappByOrigin(verifyContext.verified.origin)
-    const verifiedState: DappVerification = verifyContext.verified.isScam
+    const verifiedState = verifyContext.verified.isScam
         ? DappVerification.Scam
         : (verifyContext.verified.validation as DappVerification)
     updateVerificationStateForDapp(verifyContext.verified.origin, verifiedState)
