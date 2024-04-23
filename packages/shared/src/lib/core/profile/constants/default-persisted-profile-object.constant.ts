@@ -10,7 +10,7 @@ import { StrongholdVersion } from '@core/stronghold/enums'
 import { DownloadPermission } from '@core/nfts/enums'
 import { DEFAULT_IPFS_GATEWAYS } from './default-ipfs-gateways.constant'
 
-export const DEFAULT_PERSISTED_PROFILE_OBJECT: Omit<IPersistedProfile, 'network'> = {
+export const DEFAULT_PERSISTED_PROFILE_OBJECT: Omit<IPersistedProfile, 'network' | 'evmNetworks'> = {
     id: '',
     versionTrack: APP_STAGE,
     version: PROFILE_VERSION[APP_STAGE],

@@ -1,6 +1,6 @@
 import { localize } from '@core/i18n'
 import {
-    DEFAULT_EVM_NETWORK_CONFIGURATIONS,
+    DEFAULT_ISC_CHAINS_CONFIGURATIONS,
     DEFAULT_COIN_TYPE,
     DEFAULT_NETWORK_METADATA,
     TEST_COIN_TYPE,
@@ -20,7 +20,7 @@ export function buildPersistedNetworkFromNodeInfoResponse(
     const name = DEFAULT_NETWORK_METADATA[id]?.name ?? networkName ?? localize('general.unknown')
     const _coinType = coinType ?? DEFAULT_COIN_TYPE[id] ?? TEST_COIN_TYPE
 
-    const configuration = DEFAULT_EVM_NETWORK_CONFIGURATIONS?.[id]
+    const configuration = DEFAULT_ISC_CHAINS_CONFIGURATIONS?.[id]
     const chainConfigurations = configuration ? [configuration] : []
     return {
         id,

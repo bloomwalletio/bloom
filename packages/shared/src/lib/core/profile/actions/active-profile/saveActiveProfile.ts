@@ -12,6 +12,7 @@ export function saveActiveProfile(): void {
             name: _activeProfile.name,
             type: _activeProfile.type,
             network: _activeProfile.network,
+            evmNetworks: _activeProfile.evmNetworks,
             contacts: _activeProfile.contacts,
             networkContactAddresses: _activeProfile.networkContactAddresses,
             lastStrongholdBackupTime: _activeProfile.lastStrongholdBackupTime,
