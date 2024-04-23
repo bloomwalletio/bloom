@@ -2088,7 +2088,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Loading blocked",
-                "long": "NFT file type does not match the expected media type"
+                "long": "NFT file type does not match the expected media type - Expected: {expected}, Actual: {actual}"
             },
             "notReachable": {
                 "short": "Not reachable",

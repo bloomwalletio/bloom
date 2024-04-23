@@ -28,6 +28,11 @@
                 return message ?? ''
             case DownloadErrorType.NotReachable:
                 return downloadMetadata.responseCode + ' ' + message
+            case DownloadErrorType.NotMatchingFileTypes:
+                return localize('error.nft.notMatchingFileTypes.long', {
+                    expected: downloadMetadata.contentType,
+                    actual: nft.metadata?.type,
+                })
             case DownloadWarningType.TooLargeFile:
                 return (
                     localize(`error.nft.${type}.long`) +

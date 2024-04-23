@@ -111,7 +111,7 @@ async function setReturnForOkResponse(
 
         return {
             ...downloadMetadata,
-            error: { type: DownloadErrorType.UnsupportedMediaType },
+            error: { type: DownloadErrorType.NotMatchingFileTypes },
         }
     }
 
