@@ -1,7 +1,6 @@
 import { IAccountState } from '@core/account'
 import { createNewAccount } from '@core/account/actions'
 import { generateAndStoreEvmAddressForAccounts } from '@core/layer-2/actions'
-import { getEvmNetworks } from '@core/network'
 import { ProfileType } from '@core/profile'
 import { loadAccounts } from '@core/profile/actions'
 import { activeProfile } from '@core/profile/stores'
@@ -31,8 +30,15 @@ export async function completeOnboardingProcess(): Promise<void> {
     const { type } = get(activeProfile)
 
     if (type === ProfileType.Software) {
-        const coinType = getEvmNetworks()?.[0]?.coinType
-        if (coinType !== undefined) {
+        const { network, evmNetworks } = get(activeProfile)
+        const coinTypes = new Set(
+            [
+                ...network.chainConfigurations.map((chain) => chain.coinType),
+                ...(evmNetworks ?? []).map((evmNetwork) => evmNetwork.coinType),
+            ].filter((cointype) => cointype !== undefined)
+        )
+
+        for (const coinType of coinTypes) {
             await generateAndStoreEvmAddressForAccounts(type, coinType, ...accounts)
         }
     }
