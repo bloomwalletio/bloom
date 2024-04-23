@@ -5,14 +5,12 @@
     import { networks } from '@core/network'
 
     export let account: IAccountState
-
-    $: accountNetworks = $networks ?? []
 </script>
 
 <Pane
     classes="
-        w-full flex shrink-0 grid {accountNetworks.length > 0
-        ? accountNetworks.length > 1
+        w-full flex shrink-0 grid {$networks.length > 0
+        ? $networks.length > 1
             ? 'grid-cols-4'
             : 'grid-cols-3'
         : 'grid-cols-2'}
@@ -23,7 +21,7 @@
     "
 >
     <AccountSummary />
-    {#each accountNetworks as network}
+    {#each $networks as network}
         <AccountNetworkSummary {account} {network} />
     {/each}
 </Pane>

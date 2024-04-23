@@ -25,8 +25,7 @@ export function initializeNetworks(): void {
 
     if (features.network.evmNetworks.enabled) {
         profile.evmNetworks?.forEach((evmNetwork) => {
-            const newNetwork = new EvmNetwork(evmNetwork)
-            _networks.push(newNetwork)
+            _networks.push(new EvmNetwork(evmNetwork))
         })
     }
 

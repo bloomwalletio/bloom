@@ -2,6 +2,7 @@
     import { EvmNetworkType, getActiveNetworkId, getEvmNetwork } from '@core/network'
     import { ITokenWithBalance } from '@core/token'
     import { Pill, Tooltip } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
 
     export let token: ITokenWithBalance
 
@@ -23,6 +24,6 @@
             ? 'Ethereum'
             : chainType === EvmNetworkType.Isc
               ? 'IOTA Smart Contracts'
-              : 'Undefined Network'}
+              : localize('views.dashboard.network.undefined')}
     />
 {/if}
