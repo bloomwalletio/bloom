@@ -106,7 +106,7 @@
     }
 
     async function validate(): Promise<boolean> {
-        if (name.length === 0) {
+        if (!name || name.length === 0) {
             nameError = localize('popups.mintNftForm.errors.emptyName')
         }
 
@@ -119,18 +119,21 @@
             }
         }
 
-        const dummyUri = uri.replace('{id}', '1')
-        if (uri.length === 0 || !isValidUri(dummyUri)) {
+        const dummyUri = uri?.replace('{id}', '1')
+        if (!uri || uri.length === 0 || !dummyUri || !isValidUri(dummyUri)) {
             uriError = localize('popups.mintNftForm.errors.invalidURI')
         } else {
             try {
-                const response = await fetchWithTimeout(getPrimaryNftUrl(dummyUri), 1, {
-                    method: 'HEAD',
-                })
-                if (response.status === 200 || response.status === 304) {
-                    type = response.headers.get(HttpHeader.ContentType) as MimeType
+                const downloadUrl = getPrimaryNftUrl(dummyUri)
+                if (downloadUrl) {
+                    const response = await fetchWithTimeout(downloadUrl, 1, { method: 'HEAD' })
+                    if (response.status === 200 || response.status === 304) {
+                        type = response.headers.get(HttpHeader.ContentType) as MimeType
+                    } else {
+                        uriError = localize('popups.mintNftForm.errors.notReachable')
+                    }
                 } else {
-                    uriError = localize('popups.mintNftForm.errors.notReachable')
+                    uriError = localize('popups.mintNftForm.errors.invalidURI')
                 }
             } catch (err) {
                 uriError = localize('popups.mintNftForm.errors.notReachable')

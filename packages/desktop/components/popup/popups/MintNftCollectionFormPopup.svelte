@@ -65,7 +65,7 @@
     }
 
     async function validate(): Promise<boolean> {
-        if (name.length === 0) {
+        if (!name || name.length === 0) {
             nameError = localize('popups.mintNftForm.errors.emptyName')
         }
 
@@ -78,15 +78,20 @@
             }
         }
 
-        if (uri.length === 0 || !isValidUri(uri)) {
+        if (!uri || uri.length === 0 || !isValidUri(uri)) {
             uriError = localize('popups.mintNftForm.errors.invalidURI')
         } else {
             try {
-                const response = await fetchWithTimeout(getPrimaryNftUrl(uri), 1, { method: 'HEAD' })
-                if (response.status === 200 || response.status === 304) {
-                    type = response.headers.get(HttpHeader.ContentType)
+                const downloadUrl = getPrimaryNftUrl(uri)
+                if (downloadUrl) {
+                    const response = await fetchWithTimeout(downloadUrl, 1, { method: 'HEAD' })
+                    if (response.status === 200 || response.status === 304) {
+                        type = response.headers.get(HttpHeader.ContentType) as MimeType
+                    } else {
+                        uriError = localize('popups.mintNftForm.errors.notReachable')
+                    }
                 } else {
-                    uriError = localize('popups.mintNftForm.errors.notReachable')
+                    uriError = localize('popups.mintNftForm.errors.invalidURI')
                 }
             } catch (err) {
                 uriError = localize('popups.mintNftForm.errors.notReachable')
