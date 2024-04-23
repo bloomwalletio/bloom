@@ -7,5 +7,5 @@ interface IPersistedNamespacesStore {
         [dappOriginUrl: string]: IPersistedNamespaces
     }
 }
-
+// Keeping this store for for backwards compatibility for 1.0.1
 export const persistedDappNamespaces: Writable<IPersistedNamespacesStore> = persistent('persistedDappNamespaces', {})
