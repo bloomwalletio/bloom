@@ -43,7 +43,9 @@
             ? getTimeDifference(new Date(nft.timelockTime), $time)
             : undefined
 
-    $: isContinueButtonDisabled = !!timeDiff || Boolean(activity?.asyncData?.isClaiming)
+    $: isClaiming =
+        nft.standard === NftStandard.Irc27 && Boolean(activity?.asyncData?.isClaiming) && Boolean(nft.expirationTime)
+    $: isContinueButtonDisabled = !!timeDiff || isClaiming
 
     $: placeHolderColor = nft.downloadMetadata?.error
         ? 'danger'
@@ -227,6 +229,8 @@
                     color={nft.isScam ? 'danger' : 'primary'}
                     on:click={continueButtonProps.onClick}
                     disabled={isContinueButtonDisabled}
+                    busy={isClaiming}
+                    busyText={localize('actions.claiming')}
                     width="half"
                     reverse
                 />
