@@ -15,8 +15,9 @@
         const ipfsGateways = $activeProfile?.settings.nfts.ipfsGateways.map((gateway) => {
             if (gateway.url === url) {
                 return { ...gateway, isPrimary: !gateway.isPrimary }
+            } else {
+                return { ...gateway, isPrimary: false }
             }
-            return gateway
         })
         updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateways } })
         void addNftsToDownloadQueue($selectedAccountNfts)

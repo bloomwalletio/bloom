@@ -13,14 +13,10 @@
     function addIpfsGateway(inputtedUrl: string): void {
         const url = new URL(getOriginFromInputtedUrl(inputtedUrl)).origin
         const nftSettings = $activeProfile?.settings.nfts
-        const ipfsGateways =
-            nftSettings.ipfsGateways?.map((ipfsGateway) => ({
-                ...ipfsGateway,
-                isPrimary: ipfsGateway.url === url,
-            })) ?? []
 
-        if (!nftSettings.ipfsGateways?.some((ipfsGateway) => ipfsGateway.url === url)) {
-            ipfsGateways.push({ url, isPrimary: true })
+        const ipfsGateways = nftSettings.ipfsGateways ?? []
+        if (!ipfsGateways.some((ipfsGateway) => ipfsGateway.url === url)) {
+            ipfsGateways.push({ url, isPrimary: false })
         }
 
         updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateways } })
