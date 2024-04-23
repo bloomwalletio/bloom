@@ -1,7 +1,7 @@
 import { Platform } from '@core/app/classes'
 import { get } from 'svelte/store'
 import { downloadingNftId, nftDownloadQueue, removeNftFromDownloadQueue, updatePersistedNft } from '../stores'
-import { buildFilePath, composeUrlFromNftUri, fetchWithTimeout, isIrc27Nft } from '../utils'
+import { buildFilePath, fetchWithTimeout, getFetchableNftUrls, isIrc27Nft } from '../utils'
 import { activeProfile } from '@core/profile/stores'
 import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
 import { IDownloadMetadata, Nft } from '../interfaces'
@@ -26,18 +26,24 @@ export async function downloadNextNftInQueue(): Promise<void> {
     downloadingNftId.set(nft.id)
 
     try {
-        const composedUrl = composeUrlFromNftUri(nft.mediaUrl ?? '')
-        if (!composedUrl) {
-            throw new Error('Unable to compose NFT URI!')
+        let downloadMetadata: IDownloadMetadata | undefined
+        const downloadUrls = getFetchableNftUrls(nft.mediaUrl)
+        for (const downloadUrl of downloadUrls) {
+            downloadMetadata = await checkHeadRequestForNftUrl(
+                nft,
+                downloadUrl,
+                nft.downloadMetadata ?? {},
+                isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse',
+                options.skipSizeCheck
+            )
+            if (downloadMetadata.error?.type !== DownloadErrorType.NotReachable) {
+                break
+            }
         }
 
-        const downloadMetadata = await checkHeadRequestForNftUrl(
-            nft,
-            composedUrl,
-            nft.downloadMetadata ?? {},
-            isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse',
-            options.skipSizeCheck
-        )
+        if (!downloadMetadata) {
+            throw new Error('Invalid download metadata')
+        }
         updatePersistedNft(nft.id, { downloadMetadata })
         updateNftInAllAccountNfts(nft.id, { downloadMetadata })
 
@@ -59,19 +65,19 @@ export async function downloadNextNftInQueue(): Promise<void> {
 
 async function checkHeadRequestForNftUrl(
     nft: Nft,
-    mediaUrl: string,
+    downloadUrl: string,
     downloadMetadata: IDownloadMetadata,
     shouldCheckSoonaverseFallback: boolean,
     skipSizeCheck: boolean
 ): Promise<IDownloadMetadata> {
     try {
-        const response = await headRequest(mediaUrl)
+        const response = await headRequest(downloadUrl)
         const updatedDownloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
 
         if (updatedDownloadMetadata.responseCode === StatusCodes.OK) {
             return setReturnForOkResponse(
                 nft,
-                mediaUrl,
+                downloadUrl,
                 updatedDownloadMetadata,
                 shouldCheckSoonaverseFallback,
                 skipSizeCheck
@@ -92,15 +98,15 @@ async function checkHeadRequestForNftUrl(
 
 async function setReturnForOkResponse(
     nft: Nft,
-    mediaUrl: string,
+    downloadUrl: string,
     downloadMetadata: IDownloadMetadata,
     shouldCheckSoonaverseFallback: boolean,
     skipSizeCheck: boolean
 ): Promise<IDownloadMetadata> {
     if (!isExpectedContentType(nft, downloadMetadata)) {
         if (shouldCheckSoonaverseFallback) {
-            mediaUrl = mediaUrl + '/' + encodeURIComponent(nft?.name)
-            return checkHeadRequestForNftUrl(nft, mediaUrl, downloadMetadata, false, skipSizeCheck)
+            downloadUrl = downloadUrl + '/' + encodeURIComponent(nft?.name)
+            return checkHeadRequestForNftUrl(nft, downloadUrl, downloadMetadata, false, skipSizeCheck)
         }
 
         return {
@@ -125,7 +131,7 @@ async function setReturnForOkResponse(
 
     return {
         ...downloadMetadata,
-        downloadUrl: mediaUrl,
+        downloadUrl,
         filePath: buildFilePath(nft),
         error: undefined,
         warning: undefined,

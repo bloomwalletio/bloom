@@ -12,10 +12,12 @@
     let menu: Menu | undefined = undefined
 
     function onTogglePrimaryClick(): void {
-        const ipfsGateways = $activeProfile?.settings.nfts.ipfsGateways.map((gateway) => ({
-            ...gateway,
-            isPrimary: gateway.url === url,
-        }))
+        const ipfsGateways = $activeProfile?.settings.nfts.ipfsGateways.map((gateway) => {
+            if (gateway.url === url) {
+                return { ...gateway, isPrimary: !gateway.isPrimary }
+            }
+            return gateway
+        })
         updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, ipfsGateways } })
         void addNftsToDownloadQueue($selectedAccountNfts)
         menu?.close()
@@ -47,9 +49,8 @@
         bind:this={menu}
         items={[
             {
-                icon: isPrimary && url ? IconName.BookmarkX : IconName.BookmarkCheck,
-                title: localize('views.settings.ipfsGateways.setAsPrimary'),
-                disabled: isPrimary,
+                icon: isPrimary ? IconName.BookmarkX : IconName.BookmarkCheck,
+                title: localize(`views.settings.ipfsGateways.${!isPrimary ? 'setAsPrimary' : 'unsetPrimary'}`),
                 onClick: onTogglePrimaryClick,
             },
             {
