@@ -122,6 +122,7 @@
                 <NftMediaAlert
                     type={nft.downloadMetadata?.error?.type ?? nft.downloadMetadata?.warning?.type}
                     message={nft.downloadMetadata?.error?.message ?? nft.downloadMetadata?.warning?.message}
+                    downloadMetadata={nft.downloadMetadata}
                     {nft}
                 />
             </error-container>

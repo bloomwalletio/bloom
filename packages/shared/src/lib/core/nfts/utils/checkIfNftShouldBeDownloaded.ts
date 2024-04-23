@@ -3,7 +3,7 @@ import features from '@features/features'
 import { StatusCodes } from 'http-status-codes'
 import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
-import { DownloadErrorType, DownloadPermission, DownloadWarningType } from '../enums'
+import { DownloadErrorType, DownloadPermission, DownloadWarningType, ParentMimeType } from '../enums'
 import { IDownloadMetadata, Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 import { IError } from '@core/error/interfaces'
@@ -33,6 +33,11 @@ export async function checkIfNftShouldBeDownloaded(
 
         if (nft.isScam) {
             downloadMetadata.warning = { type: DownloadWarningType.ScamNft }
+            return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        }
+
+        if (!isMediaSupported(nft.metadata?.type || '')) {
+            downloadMetadata.error = { type: DownloadErrorType.UnsupportedMediaType }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
 
@@ -112,4 +117,10 @@ export async function checkIfNftShouldBeDownloaded(
 
         return { shouldDownload: false, isLoaded: false, downloadMetadata }
     }
+}
+
+function isMediaSupported(contentType: string): boolean {
+    const supportedTypes = [ParentMimeType.Image, ParentMimeType.Video]
+    const mediaType = contentType.split('/', 1)[0]
+    return supportedTypes.some((supportedType) => String(supportedType) === mediaType)
 }
