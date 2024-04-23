@@ -49,7 +49,9 @@ export async function checkIfNftShouldBeDownloaded(
                     downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
                     return { shouldDownload: false, isLoaded: false, downloadMetadata }
                 case DownloadPermission.AllowListOnly: {
-                    const allowList = nftSettings.ipfsGateways.map((gateway) => gateway.url)
+                    const knownGateways = nftSettings.ipfsGateways.map((gateway) => gateway.url)
+                    // TODO: move this to external allow list that we bull in at the same time as the deny list
+                    const allowList = ['https://tideprotocol.infura-ipfs.io', ...knownGateways]
                     const startsWithAllowedGateways =
                         nft.mediaUrl?.startsWith('ipfs://') ||
                         allowList.some((gateway) => nft.mediaUrl?.startsWith(gateway))
