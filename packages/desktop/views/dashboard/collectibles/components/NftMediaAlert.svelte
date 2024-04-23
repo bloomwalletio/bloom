@@ -25,8 +25,6 @@
     function getAlertText(): string {
         switch (type) {
             case DownloadErrorType.Generic:
-                return message ?? ''
-            case DownloadErrorType.NotReachable:
                 return downloadMetadata.responseCode + ' ' + message
             case DownloadErrorType.NotMatchingFileTypes:
                 return localize('error.nft.notMatchingFileTypes.long', {

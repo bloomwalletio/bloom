@@ -29,9 +29,6 @@
 
     function getAlertText(downloadMetadata: IDownloadMetadata | undefined): string {
         if (downloadMetadata?.error?.type === DownloadErrorType.Generic) {
-            return downloadMetadata?.error.message ?? ''
-        }
-        if (downloadMetadata?.error?.type === DownloadErrorType.NotReachable) {
             return downloadMetadata.responseCode + ' ' + downloadMetadata.error.message
         }
 
