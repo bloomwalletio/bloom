@@ -17,7 +17,12 @@
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
     import NftMediaAlert from './NftMediaAlert.svelte'
-    import { StardustNftActivity, getClaimableActivities, selectedAccountActivities } from '@core/activity'
+    import {
+        StardustActivityAsyncStatus,
+        StardustNftActivity,
+        getClaimableActivities,
+        selectedAccountActivities,
+    } from '@core/activity'
     import { selectedAccount } from '@core/account/stores'
 
     export let nft: Nft
@@ -60,7 +65,10 @@
                 icon: IconName.Trash,
                 onClick: onBurnClick,
             }
-        } else if (nft.standard === NftStandard.Irc27 && nft.expirationTime) {
+        } else if (
+            nft.standard === NftStandard.Irc27 &&
+            (nft.expirationTime || activity?.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed)
+        ) {
             return {
                 text: localize('actions.claim'),
                 onClick: onClaimClick,

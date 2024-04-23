@@ -92,7 +92,7 @@
         <div class="flex gap-2">
             <AssetPillsForActivity {activity} />
             {#if pill}
-                <AsyncStatusPill {...pill} direction={activity.direction} />
+                <AsyncStatusPill {...pill} />
             {/if}
         </div>
     </div>

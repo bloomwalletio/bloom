@@ -114,7 +114,6 @@
                     ? {
                           component: UnclaimedPill,
                           props: {
-                              direction: activity.direction,
                               timeDiff: activity.asyncData?.expirationDate
                                   ? getTimeDifference(activity.asyncData?.expirationDate, $time)
                                   : undefined,

@@ -9,11 +9,11 @@
 </script>
 
 {#if isIrc27Nft(nft)}
-    {#if nft.timelockTime}
+    {#if nft.timelockTime && isNftLocked(nft)}
         {@const timeLockDiff = getTimeDifference(new Date(nft.timelockTime ?? 0), $time)}
         <TimelockPill timeDiff={timeLockDiff} />
     {/if}
-    {#if nft.expirationTime && isNftLocked(nft)}
+    {#if nft.expirationTime}
         {@const expirationTimeDiff = getTimeDifference(new Date(nft.expirationTime), $time)}
         <UnclaimedPill timeDiff={expirationTimeDiff} />
     {/if}
