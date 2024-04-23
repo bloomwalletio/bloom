@@ -62,6 +62,8 @@ export class IscChain implements IIscChain {
             this.apiEndpoint = apiEndpoint
 
             this._chainApi = `${apiEndpoint}v1/chains/${aliasAddress}`
+
+            void this.getMetadata()
         } catch (err) {
             console.error(err)
             throw new Error('Failed to construct isc Chain!')
@@ -88,12 +90,16 @@ export class IscChain implements IIscChain {
         return new this.provider.eth.Contract(abi, address)
     }
 
-    async getMetadata(): Promise<IIscChainMetadata> {
-        if (this._metadata) {
-            return Promise.resolve(this._metadata)
-        } else {
-            this._metadata = await this.fetchChainMetadata()
-            return Promise.resolve(this._metadata)
+    async getMetadata(): Promise<IIscChainMetadata | undefined> {
+        try {
+            if (this._metadata) {
+                return Promise.resolve(this._metadata)
+            } else {
+                this._metadata = await this.fetchChainMetadata()
+                return Promise.resolve(this._metadata)
+            }
+        } catch (err) {
+            console.error(err)
         }
     }
 
@@ -114,8 +120,6 @@ export class IscChain implements IIscChain {
     }
 
     async getGasFeeEstimate(hex: string): Promise<bigint> {
-        // TODO move into constructor once derived store is removed and handle errors appropriately.
-        await this.getMetadata()
         const URL = `${this._chainApi}/estimategas-onledger`
         const body = JSON.stringify({ outputBytes: hex })
 

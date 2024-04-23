@@ -44,6 +44,9 @@
         [SupportedNetworkId.Testnet]: {
             [BASE_TOKEN_ID]: 'shimmer-background',
         },
+        [SupportedNetworkId.IotaEvm]: {
+            [BASE_TOKEN_ID]: '#FFFFFF',
+        },
         [SupportedNetworkId.ShimmerEvm]: {
             [BASE_TOKEN_ID]: 'shimmer-background',
         },
