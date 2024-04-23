@@ -10,26 +10,20 @@
         getActivityTileAsset,
         isEvmTokenActivity,
     } from '@core/activity'
+    import { EvmActivityType } from '@core/activity/enums/evm'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { darkMode, time } from '@core/app/stores'
     import { localize } from '@core/i18n'
+    import { NetworkNamespace } from '@core/network'
+    import { NftStandard } from '@core/nfts'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { Nft } from '@core/nfts/interfaces'
     import { selectedAccountNfts } from '@core/nfts/stores'
     import { ITokenWithBalance } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
-    import {
-        ExpiredActivityPill,
-        GovernanceAvatar,
-        NftAvatar,
-        TimelockActivityPill,
-        TokenAvatar,
-        UnclaimedActivityPill,
-    } from '@ui'
-    import AssetPills from '../AssetPills.svelte'
-    import { NetworkNamespace } from '@core/network'
-    import { EvmActivityType } from '@core/activity/enums/evm'
-    import { NftStandard } from '@core/nfts'
+    import { GovernanceAvatar, NftAvatar, TokenAvatar } from '@ui'
+    import AsyncStatusPill from '@ui/pills/AsyncStatusPill.svelte'
+    import AssetPillsForActivity from '../AssetPillsForActivity.svelte'
 
     export let activity: Activity
 
@@ -96,15 +90,9 @@
             <Text truncate>{getActivityTileAsset(activity, $selectedAccountIndex)}</Text>
         </div>
         <div class="flex gap-2">
-            <AssetPills {activity} />
+            <AssetPillsForActivity {activity} />
             {#if pill}
-                {#if pill.type === 'unclaimed'}
-                    <UnclaimedActivityPill timeDiff={pill.timeDiff} direction={activity.direction} />
-                {:else if pill.type === 'expired'}
-                    <ExpiredActivityPill />
-                {:else if pill.type === 'timelock'}
-                    <TimelockActivityPill timeDiff={pill.timeDiff} />
-                {/if}
+                <AsyncStatusPill {...pill} direction={activity.direction} />
             {/if}
         </div>
     </div>

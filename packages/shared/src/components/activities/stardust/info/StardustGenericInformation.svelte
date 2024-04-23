@@ -9,7 +9,7 @@
     import { formatTokenAmountBestMatch } from '@core/token'
     import { buildUrl } from '@core/utils'
     import { getTimeDifference } from '@core/utils/time'
-    import { NetworkLabel, ExpiredActivityPill, TimelockActivityPill, UnclaimedActivityPill } from '@ui'
+    import { NetworkLabel, ExpiredPill, TimelockPill, UnclaimedPill } from '@ui'
 
     export let activity: StardustActivity
 
@@ -81,7 +81,7 @@
                 activity.asyncData?.timelockDate &&
                 activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Timelocked
                     ? {
-                          component: TimelockActivityPill,
+                          component: TimelockPill,
                           props: {
                               direction: activity.direction,
                               timeDiff: activity.asyncData?.timelockDate
@@ -97,7 +97,7 @@
             slot:
                 activity.asyncData?.asyncStatus === StardustActivityAsyncStatus.Expired
                     ? {
-                          component: ExpiredActivityPill,
+                          component: ExpiredPill,
                           props: {
                               direction: activity.direction,
                           },
@@ -112,7 +112,7 @@
                 activity.asyncData?.asyncStatus !== StardustActivityAsyncStatus.Claimed &&
                 activity.asyncData?.expirationDate
                     ? {
-                          component: UnclaimedActivityPill,
+                          component: UnclaimedPill,
                           props: {
                               direction: activity.direction,
                               timeDiff: activity.asyncData?.expirationDate

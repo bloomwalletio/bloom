@@ -1,16 +1,15 @@
 <script lang="ts">
-    import { EvmNetworkType, getActiveNetworkId, getEvmNetwork } from '@core/network'
-    import { ITokenWithBalance } from '@core/token'
+    import { EvmNetworkType, NetworkId, getActiveNetworkId, getEvmNetwork } from '@core/network'
     import { Pill, Tooltip } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
-    export let token: ITokenWithBalance
+    export let networkId: NetworkId
 
     let anchor: HTMLDivElement
 </script>
 
-{#if token.networkId !== getActiveNetworkId()}
-    {@const chainType = getEvmNetwork(token.networkId)?.type}
+{#if networkId !== getActiveNetworkId()}
+    {@const chainType = getEvmNetwork(networkId)?.type}
     <network-type-pill bind:this={anchor} class="h-fit">
         <Pill color="cyan" compact>
             {chainType === EvmNetworkType.PureEvm ? 'EVM' : chainType === EvmNetworkType.Isc ? 'ISC' : undefined}

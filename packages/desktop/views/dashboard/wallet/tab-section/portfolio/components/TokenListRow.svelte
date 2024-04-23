@@ -5,11 +5,10 @@
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { TokenAvatar, NetworkAvatar } from '@ui'
+    import { TokenAvatar, NetworkAvatar, NetworkTypePill } from '@ui'
     import { Text } from '@bloomwalletio/ui'
     import { activeProfile } from '@core/profile/stores'
     import TokenStandardPill from './TokenStandardPill.svelte'
-    import NetworkTypePill from './NetworkTypePill.svelte'
 
     export let token: ITokenWithBalance
 
@@ -70,7 +69,7 @@
             </Text>
             <div class="flex gap-2">
                 <TokenStandardPill {token} />
-                <NetworkTypePill {token} />
+                <NetworkTypePill networkId={token.networkId} />
             </div>
         </div>
     </div>
