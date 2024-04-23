@@ -10,7 +10,7 @@ import { DEFAULT_NFT_NAME } from '../constants'
 import { IIrc27Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 import { getSpendableStatusFromUnspentNftOutput, isScamIrc27Nft, parseNftMetadata } from '../utils'
-import { getExpirationDateFromOutput } from '@core/activity'
+import { getExpirationDateFromOutput } from '@core/activity/utils/outputs'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
