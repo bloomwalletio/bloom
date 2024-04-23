@@ -28,6 +28,9 @@
     import { _ } from '@core/i18n'
     import { getAndUpdateShimmerEvmTokensMetadata } from '@core/market/actions'
     import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
+    import { NFT_BLOCKLIST_JSON_URL } from '@core/utils/constants/nft-blocklist-json-url.constant'
+    import { nftBlocklist } from '@core/utils/stores/nft-blocklist.store'
+    import nftBlockListJson from '@core/utils/json/nft-blocklist.json'
 
     $: $activeProfile, saveActiveProfile()
 
@@ -107,6 +110,14 @@
         registerMenuButtons()
         void initializeWalletConnect()
         await getAndUpdateShimmerEvmTokensMetadata()
+
+        try {
+            const response = await fetch(NFT_BLOCKLIST_JSON_URL)
+            const blocklist = await response.json()
+            nftBlocklist.set(blocklist)
+        } catch (error) {
+            nftBlocklist.set(nftBlockListJson)
+        }
     })
 
     onDestroy(() => {

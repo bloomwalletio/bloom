@@ -93,10 +93,10 @@ export const DEFAULT_ACTIVITY_FILTER: ActivityFilter = {
         selected: BooleanFilterOption.Yes,
         choices: [BooleanFilterOption.Yes, BooleanFilterOption.No],
     },
-    showValueless: {
+    showSpam: {
         active: false,
         type: 'selection',
-        localeKey: 'filters.showValueless',
+        localeKey: 'filters.showSpam',
         selected: BooleanFilterOption.Yes,
         choices: [BooleanFilterOption.Yes, BooleanFilterOption.No],
     },

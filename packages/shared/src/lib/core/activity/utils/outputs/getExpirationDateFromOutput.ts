@@ -8,10 +8,8 @@ export function getExpirationDateFromOutput(output: Output): Date | undefined {
 }
 
 export function getExpirationUnixTimeFromOutput(output: Output): number | undefined {
-    for (const unlockCondition of output.unlockConditions) {
-        if (unlockCondition?.type === UnlockConditionType.Expiration) {
-            const { unixTime } = unlockCondition as ExpirationUnlockCondition
-            return unixTime * MILLISECONDS_PER_SECOND
-        }
-    }
+    const expirationTime = output.unlockConditions.find(
+        (unlockCondition) => unlockCondition?.type === UnlockConditionType.Expiration
+    ) as ExpirationUnlockCondition
+    return expirationTime ? expirationTime.unixTime * MILLISECONDS_PER_SECOND : undefined
 }

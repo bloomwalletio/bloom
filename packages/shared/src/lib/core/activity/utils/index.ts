@@ -6,6 +6,7 @@ export * from './getActivityActionPill'
 export * from './getActivityTileAction'
 export * from './getActivityTileAsset'
 export * from './getTransactionAssets'
+export * from './isEvmTokenActivity'
 export * from './isVisibleActivity'
 
 export * from './evm'

@@ -4,6 +4,7 @@ import {
     EvmActivity,
     EvmBalanceChangeActivity,
     EvmCoinTransferActivity,
+    EvmTokenMintingActivity,
     EvmTokenTransferActivity,
     StardustActivity,
     StardustNftActivity,
@@ -24,6 +25,7 @@ import {
 } from '@core/token'
 import { NftStandard } from '@core/nfts'
 import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+import { isEvmTokenActivity } from './isEvmTokenActivity'
 
 const CSV_KEYS = [
     'associatedAccount',
@@ -191,7 +193,7 @@ function getRowForStardustActivity(
 
 function getRowForEvmActivity(
     account: IAccountState,
-    activity: EvmCoinTransferActivity | EvmTokenTransferActivity | EvmBalanceChangeActivity
+    activity: EvmCoinTransferActivity | EvmTokenTransferActivity | EvmTokenMintingActivity | EvmBalanceChangeActivity
 ): ActivityCsvRow {
     let assetId: string | undefined
     let assetType: string | undefined
@@ -214,7 +216,7 @@ function getRowForEvmActivity(
         assetStandard = baseCoinMetadata?.standard
         assetName = baseCoinMetadata?.name
         assetTicker = baseCoinMetadata?.tickerSymbol
-    } else if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
+    } else if (isEvmTokenActivity(activity)) {
         const { standard, tokenId, rawAmount } = activity.tokenTransfer
         if (standard === TokenStandard.Erc20 || standard === TokenStandard.Irc30) {
             const metadata = getPersistedToken(tokenId)?.metadata as IErc20Metadata | IIrc30Metadata
@@ -290,10 +292,11 @@ function shouldStardustActivityBeInCsv(
 
 function shouldEvmActivityBeInCsv(
     activity: EvmActivity
-): activity is EvmCoinTransferActivity | EvmTokenTransferActivity | EvmBalanceChangeActivity {
+): activity is EvmCoinTransferActivity | EvmTokenTransferActivity | EvmTokenMintingActivity | EvmBalanceChangeActivity {
     return (
         activity.type === EvmActivityType.CoinTransfer ||
         activity.type === EvmActivityType.TokenTransfer ||
+        activity.type === EvmActivityType.TokenMinting ||
         activity.type === EvmActivityType.BalanceChange
     )
 }

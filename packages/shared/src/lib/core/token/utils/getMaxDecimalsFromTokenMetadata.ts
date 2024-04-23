@@ -8,6 +8,8 @@ export function getMaxDecimalsFromTokenMetadata(metadata: TokenMetadata, selecte
             maxDecimals = Math.min(metadata?.decimals, 18)
         } else if (selectedUnit === metadata?.subunit) {
             maxDecimals = 0
+        } else {
+            maxDecimals = Math.min(metadata?.decimals, 18)
         }
     } else {
         maxDecimals = Math.min(metadata?.decimals, 18)

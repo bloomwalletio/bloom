@@ -134,6 +134,9 @@ const prodConfig: Configuration = {
         gatekeeperAssess: false,
         notarize: false, // Disable notarize in electron builder as we use @electron/notarize instead
         asarUnpack: ['**/*.node'],
+        extendInfo: {
+            NSCameraUsageDescription: 'Bloom requires access to your camera for Transak KYC verification',
+        },
     },
     publish: {
         provider: 'github',

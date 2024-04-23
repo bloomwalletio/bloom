@@ -8,6 +8,7 @@
         getActivityActionTextColor,
         getActivityTileAction,
         getActivityTileAsset,
+        isEvmTokenActivity,
     } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { darkMode, time } from '@core/app/stores'
@@ -39,7 +40,7 @@
     $: $selectedAccountNfts, (nft = getNftFromActivity())
     $: showNft =
         activity.type === StardustActivityType.Nft ||
-        ((activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) &&
+        (isEvmTokenActivity(activity) &&
             (activity.tokenTransfer.standard === NftStandard.Erc721 ||
                 activity.tokenTransfer.standard === NftStandard.Irc27))
 
@@ -47,10 +48,7 @@
     $: pill = getActivityActionPill(activity, $time)
 
     function getNftFromActivity(): Nft | undefined {
-        if (
-            activity.namespace === NetworkNamespace.Evm &&
-            (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange)
-        ) {
+        if (activity.namespace === NetworkNamespace.Evm && isEvmTokenActivity(activity)) {
             if (
                 activity.tokenTransfer.standard === NftStandard.Erc721 ||
                 activity.tokenTransfer.standard === NftStandard.Irc27

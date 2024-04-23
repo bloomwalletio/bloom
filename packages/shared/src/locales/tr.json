@@ -246,6 +246,11 @@
                 "title": "Stronghold zaman aşımı",
                 "description": "\"Stronghold şifrenizin tekrar gerekli olduğu süre uzunluğu\""
             },
+            "ipfsGateways": {
+                "title": "IPFS gateways",
+                "description": "Select the IPFS gateway to use for media retrieval",
+                "input": "IPFS gateway"
+            },
             "maxMediaSize": {
                 "title": "Maksimum medya boyutu",
                 "description": "Bu sınırdan daha büyük boyutlara sahip NFT medyası indirilmeyecek ve bunun yerine medya türünü temsil eden bir yer tutucu görüntülenecektir",
@@ -329,6 +334,15 @@
             "toggleFeatures": {
                 "title": "Özellikleri Etkinleştir / Devre Dışı Bırak",
                 "description": "Özellikleri açın veya kapatın, ihtiyaçlarınıza uygun belirli işlevleri etkinleştirerek veya devre dışı bırakarak deneyiminizi özelleştirin."
+            },
+            "downloadNftPermissions": {
+                "title": "Nft download permissions",
+                "description": "Download permissions for the automatic downloading of NFT media",
+                "input": "Download permissions",
+                "all": "Download All",
+                "allExceptDenylist": "All Except Known Risks",
+                "allowListOnly": "Only Known Domains",
+                "none": "Do Not Download Any"
             }
         },
         "login": {
@@ -632,8 +646,11 @@
                 "menu": {
                     "download": "İndir",
                     "setPfp": "{timeDiff} için kilitlendi",
+                    "loadMedia": "Load media in wallet",
                     "unsetPfp": "{timeDiff} için kilitlendi",
                     "view": "{timeDiff} için kilitlendi",
+                    "hide": "Hide NFT",
+                    "unhide": "Unhide NFT",
                     "burn": "{timeDiff} için kilitlendi"
                 }
             }
@@ -1288,6 +1305,10 @@
         },
         "profileDiagnostics": {
             "title": "Profile diagnostics"
+        },
+        "notAScam": {
+            "title": "Not a scam?",
+            "description": "Are you sure you want to mark this NFT as not a scam?"
         }
     },
     "actions": {
@@ -1431,7 +1452,9 @@
         "syncTokens": "Tokenları zorla senkronizasyon yap",
         "mintNftCollection": "NFT koleksiyon basma",
         "readMore": "Daha fazla bilgi edinin",
-        "importThirdPartyProfiles": "Üçüncü taraf profillerini içe aktarma"
+        "importThirdPartyProfiles": "Üçüncü taraf profillerini içe aktarma",
+        "retry": "Retry",
+        "loadAnyway": "Load anyway"
     },
     "general": {
         "recipient": "Alıcı",
@@ -1619,6 +1642,7 @@
         "custom": "Standart",
         "evmAddress": "EVM Adresi",
         "contractAddress": "Kontrat (Sözleşme) Adresi",
+        "contract": "Contract",
         "optionalField": "{field} (isteğe bağlı)",
         "gifted": "Hediye başarıyla verildi",
         "connected": "Bağlı",
@@ -1679,10 +1703,10 @@
             "yes": "Evet",
             "no": "Hayır"
         },
-        "showValueless": {
-            "label": "Değersiz olanı göster",
-            "yes": "Evet",
-            "no": "Hayır"
+        "showSpam": {
+            "label": "Show spam",
+            "yes": "Yes",
+            "no": "No"
         },
         "ascDesc": {
             "Asc": "Artan",
@@ -2074,6 +2098,14 @@
             "loadingError": {
                 "short": "Yüklenemiyor",
                 "long": "NFT yüklenirken bir hata oluştu"
+            },
+            "downloadNotAllowed": {
+                "short": "Download blocked by settings",
+                "long": "Your current NFT download permissions do not allow downloading this NFT from its URL"
+            },
+            "scamNft": {
+                "short": "Scam NFT detected",
+                "long": "We have detected that this NFT is a scam, please be cautious and do not interact with it."
             }
         },
         "governance": {

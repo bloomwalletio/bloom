@@ -1,15 +1,15 @@
-import { Address, AddressType, NftOutput } from '@iota/sdk/out/types'
 import { getIssuerFromNftOutput, getMetadataFromNftOutput, getNftId } from '@core/activity/utils/outputs'
+import { isEvmNetwork } from '@core/network'
+import { NetworkId } from '@core/network/types'
+import { MimeType, NftStandard } from '@core/nfts'
 import { IWrappedOutput } from '@core/wallet/interfaces'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils'
+import { Address, AddressType, NftOutput } from '@iota/sdk/out/types'
+import { get } from 'svelte/store'
 import { DEFAULT_NFT_NAME } from '../constants'
 import { IIrc27Nft } from '../interfaces'
-import { getSpendableStatusFromUnspentNftOutput, parseNftMetadata } from '../utils'
-import { NetworkId } from '@core/network/types'
-import { isEvmNetwork } from '@core/network'
-import { MimeType, NftStandard } from '@core/nfts'
 import { persistedNftForActiveProfile } from '../stores'
-import { get } from 'svelte/store'
+import { getSpendableStatusFromUnspentNftOutput, isScamIrc27Nft, parseNftMetadata } from '../utils'
 
 export function buildNftFromNftOutput(
     wrappedOutput: IWrappedOutput,
@@ -24,7 +24,7 @@ export function buildNftFromNftOutput(
 
     if (calculateStatus) {
         const status = getSpendableStatusFromUnspentNftOutput(accountAddress, nftOutput)
-        isSpendable = status.isSpendable
+        isSpendable = wrappedOutput.isSpent ? false : status.isSpendable
         timeLockTime = status.timeLockTime
     }
 
@@ -40,6 +40,8 @@ export function buildNftFromNftOutput(
     const storageDeposit = BigInt(nftOutput.amount)
 
     const persistedNft = get(persistedNftForActiveProfile)?.[id]
+
+    const isScam = persistedNft?.isScam ?? (parsedMetadata ? isScamIrc27Nft(parsedMetadata) : false)
 
     return {
         standard: NftStandard.Irc27,
@@ -59,5 +61,7 @@ export function buildNftFromNftOutput(
         networkId,
         isLoaded: false,
         downloadMetadata: persistedNft?.downloadMetadata,
+        isScam,
+        hidden: persistedNft?.hidden ?? false,
     }
 }

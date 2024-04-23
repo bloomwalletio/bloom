@@ -5,6 +5,8 @@
     import { localize } from '@core/i18n'
     import { isEvmNetwork } from '@core/network'
     import { IIrc27Nft, Nft, composeUrlFromNftUri, isNftLocked } from '@core/nfts'
+    import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+    import { updatePersistedNft } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
@@ -31,6 +33,12 @@
         menu?.close()
     }
 
+    function onHideClick(): void {
+        updatePersistedNft(nft.id, { hidden: !nft.hidden })
+        updateNftInAllAccountNfts(nft.id, { hidden: !nft.hidden })
+        menu?.close()
+    }
+
     function openBurnNft(): void {
         openPopup({
             id: PopupId.Confirmation,
@@ -53,7 +61,7 @@
 
                     try {
                         await burnNft(nft.id)
-                        $collectiblesRouter.goTo(CollectiblesRoute.Gallery)
+                        $collectiblesRouter?.goTo(CollectiblesRoute.Gallery)
                         closePopup()
                     } catch (error) {
                         handleError(error)
@@ -79,6 +87,11 @@
                 title: localize('views.collectibles.details.menu.view'),
                 disabled: !composeUrlFromNftUri(nft.mediaUrl),
                 onClick: onOpenMediaClick,
+            },
+            {
+                icon: nft.hidden ? IconName.Eye : IconName.EyeOff,
+                title: localize(`views.collectibles.details.menu.${nft.hidden ? 'unhide' : 'hide'}`),
+                onClick: onHideClick,
             },
             {
                 icon: IconName.Trash,

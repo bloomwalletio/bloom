@@ -4,7 +4,6 @@ import { getNetworkFromAddress } from '@core/layer-2/actions'
 import { StardustNetworkId } from '@core/network/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { BasicOutput } from '@iota/sdk'
-import { activityOutputContainsValue } from '../..'
 import {
     getAmountFromOutput,
     getAsyncDataFromOutput,
@@ -20,6 +19,7 @@ import { parseLayer2Metadata } from '@core/layer-2/utils'
 import { getSubjectFromAddress } from '@core/wallet/utils'
 import { HEX_PREFIX } from '@core/utils'
 import { SubjectType } from '@core/wallet'
+import { isSpamTransaction } from './isSpamTransaction'
 
 export async function generateBaseActivity(
     account: IAccountState,
@@ -29,7 +29,7 @@ export async function generateBaseActivity(
     // meta information
     const isHidden = false
     const isTokenHidden = false
-    const containsValue = await activityOutputContainsValue(wrappedOutput)
+    const isSpam = await isSpamTransaction(wrappedOutput, processedTransaction)
 
     // transaction information
     const output = wrappedOutput.output as BasicOutput
@@ -96,7 +96,7 @@ export async function generateBaseActivity(
         action,
         isHidden,
         isTokenHidden,
-        containsValue,
+        isSpam,
 
         // transaction information
         outputId,

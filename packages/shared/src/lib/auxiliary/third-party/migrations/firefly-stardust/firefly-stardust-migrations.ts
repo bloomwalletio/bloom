@@ -2,8 +2,8 @@
 
 import {
     DEFAULT_EVM_NETWORK_CONFIGURATIONS,
-    IIscpEvmNetworkMetadata,
-    getDefaultPersistedNetwork,
+    IIscChainMetadata,
+    getDefaultStardustNetwork,
     getNetworkIdFromOnboardingNetworkType,
 } from '@core/network'
 import { INode } from '@iota/sdk'
@@ -152,7 +152,7 @@ export function fireflyStardustProfileMigrationToV11(existingProfile: unknown): 
             onboardingNetworkType === OnboardingNetworkType.Shimmer ||
             onboardingNetworkType === OnboardingNetworkType.Testnet
         ) {
-            network = getDefaultPersistedNetwork(
+            network = getDefaultStardustNetwork(
                 getNetworkIdFromOnboardingNetworkType(onboardingNetworkType)
             ) as IThirdPartyPersistedNetwork
         } else {
@@ -242,7 +242,7 @@ export function fireflyStardustProfileMigrationToV13(existingProfile: unknown): 
         const maybeDefaultChainConfig =
             DEFAULT_EVM_NETWORK_CONFIGURATIONS[getNetworkIdFromOnboardingNetworkType(existingProfile.network.id)]
 
-        const defaultChainConfig: IIscpEvmNetworkMetadata[] = maybeDefaultChainConfig ? [maybeDefaultChainConfig] : []
+        const defaultChainConfig: IIscChainMetadata[] = maybeDefaultChainConfig ? [maybeDefaultChainConfig] : []
 
         newNetwork.chains = defaultChainConfig
         existingProfile.network = newNetwork

@@ -2,23 +2,19 @@
     import { localize, parseCurrency } from '@core/i18n'
     import { ITokenWithBalance, convertToRawAmount, formatTokenAmountBestMatch } from '@core/token'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
-    import { AmountInput, InputContainer, SliderInput, TokenLabel } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
+    import { AmountInput, SliderInput, TokenLabel } from '@ui'
+    import { Error as ErrorComponent, Text } from '@bloomwalletio/ui'
 
-    export let inputElement: HTMLInputElement | undefined = undefined
     export let disabled = false
-    export let isFocused = false
     export let votingPower: bigint = BigInt(0)
     export let token: ITokenWithBalance
     export let rawAmount: bigint = BigInt(0)
-
     export let inputtedAmount: string | undefined = '0'
 
-    let amountInputElement: HTMLInputElement
+    let inputElement: HTMLInputElement
     let error: string
 
-    $: isFocused && (error = '')
-    $: allowedDecimals = getMaxDecimalsFromTokenMetadata(token?.metadata)
+    $: allowedDecimals = token?.metadata ? getMaxDecimalsFromTokenMetadata(token.metadata) : 0
     $: availableBalance = (token.balance.available ?? BigInt(0)) + votingPower
     $: inputtedAmount, (error = '')
     $: inputtedAmount = getTokenAmount(rawAmount)
@@ -33,7 +29,7 @@
     function setRawAmountIfInputMismatch(inputtedAmount: string | undefined): void {
         const formattedAmount = getTokenAmount(rawAmount)
         if (inputtedAmount && inputtedAmount !== formattedAmount) {
-            rawAmount = convertToRawAmount(inputtedAmount, token?.metadata) ?? BigInt(0)
+            rawAmount = token?.metadata ? convertToRawAmount(inputtedAmount, token?.metadata) ?? BigInt(0) : BigInt(0)
         }
     }
 
@@ -65,28 +61,29 @@
     }
 </script>
 
-<InputContainer bind:this={inputElement} bind:inputElement={amountInputElement} col {isFocused} {error}>
-    <div class="flex flex-row w-full items-center space-x-2 relative">
-        <TokenLabel {token} />
-        <AmountInput
-            bind:inputElement={amountInputElement}
-            bind:amount={inputtedAmount}
-            bind:hasFocus={isFocused}
-            maxDecimals={allowedDecimals}
-            isInteger={allowedDecimals === 0}
-            clearBackground
-            clearPadding
-            clearBorder
-            {disabled}
-            fontSize="text-32"
-        />
-    </div>
-
-    <div class="flex flex-col mt-5">
-        <SliderInput bind:value={rawAmount} max={availableBalance} {disabled} />
-        <div class="flex flex-row justify-between">
-            <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata)}</Text>
-            <Text textColor="secondary" type="sm">{formatTokenAmountBestMatch(availableBalance, token?.metadata)}</Text>
+<div class="w-full flex flex-col space-y-1">
+    <div class="cursor-text w-full flex flex-col rounded-lg">
+        <div class="flex flex-row w-full items-center space-x-2 relative">
+            <TokenLabel {token} />
+            <AmountInput
+                bind:inputElement
+                bind:value={inputtedAmount}
+                maxDecimals={allowedDecimals}
+                {disabled}
+                on:focus={() => (error = '')}
+            />
+        </div>
+        <div class="flex flex-col mt-5">
+            <SliderInput bind:value={rawAmount} max={availableBalance} {disabled} />
+            <div class="flex flex-row justify-between">
+                <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata)}</Text>
+                <Text textColor="secondary" type="sm">
+                    {formatTokenAmountBestMatch(availableBalance, token?.metadata)}
+                </Text>
+            </div>
         </div>
     </div>
-</InputContainer>
+    {#if error}
+        <ErrorComponent {error} />
+    {/if}
+</div>

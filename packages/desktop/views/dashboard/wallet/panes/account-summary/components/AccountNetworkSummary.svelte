@@ -27,7 +27,7 @@
 
     $: tokens = $selectedAccountTokens?.[network.id]
     $: health = network.getStatus().health ?? NetworkHealth.Disconnected
-    $: nfts = $ownedNfts.filter((nft) => nft.networkId === network.id)
+    $: nfts = $ownedNfts.filter((nft) => nft.networkId === network.id && !(nft.hidden || nft.isScam))
     $: tokenBalance = formatTokenAmountBestMatch(
         tokens?.baseCoin?.balance.total ?? BigInt(0),
         tokens?.baseCoin?.metadata

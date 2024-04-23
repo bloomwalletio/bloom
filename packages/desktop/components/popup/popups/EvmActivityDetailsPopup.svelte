@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Link } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
-    import { EvmActivity, getActivityDetailsTitle } from '@core/activity'
+    import { EvmActivity, getActivityDetailsTitle, isEvmTokenActivity } from '@core/activity'
     import { EvmActivityType } from '@core/activity/enums/evm'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
@@ -40,7 +40,7 @@
 
     $: nft = getNft(activity)
     function getNft(_activity: EvmActivity): Nft | undefined {
-        if (_activity.type === EvmActivityType.TokenTransfer || _activity.type === EvmActivityType.BalanceChange) {
+        if (isEvmTokenActivity(_activity)) {
             if (
                 _activity.tokenTransfer.standard === NftStandard.Erc721 ||
                 _activity.tokenTransfer.standard === NftStandard.Irc27
@@ -51,12 +51,14 @@
     }
 
     $: transactionAssets = getTransactionAssets(activity)
-    function getTransactionAssets(_activity: EvmActivity): {
-        nft?: Nft
-        tokenTransfer?: TokenTransferData
-        baseCoinTransfer?: TokenTransferData
-    } {
-        if (_activity.type === EvmActivityType.TokenTransfer || _activity.type === EvmActivityType.BalanceChange) {
+    function getTransactionAssets(_activity: EvmActivity):
+        | {
+              nft?: Nft
+              tokenTransfer?: TokenTransferData
+              baseCoinTransfer?: TokenTransferData
+          }
+        | undefined {
+        if (isEvmTokenActivity(_activity)) {
             const { tokenId, rawAmount, standard } = _activity.tokenTransfer
             if (standard === NftStandard.Erc721 || standard === NftStandard.Irc27) {
                 return {
@@ -86,10 +88,10 @@
     async function onNftClick(): Promise<void> {
         closePopup()
         $selectedNftId = nft?.id
-        $dashboardRouter.goTo(DashboardRoute.Collectibles)
+        $dashboardRouter?.goTo(DashboardRoute.Collectibles)
         await tick()
-        $collectiblesRouter.goTo(CollectiblesRoute.Details)
-        $collectiblesRouter.setBreadcrumb(nft?.name)
+        $collectiblesRouter?.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter?.setBreadcrumb(nft?.name)
     }
 </script>
 
@@ -105,7 +107,7 @@
             {:else if activity.transactionId}
                 <Link
                     text={truncateString(activity.transactionId, 12, 12)}
-                    on:click={() => setClipboard(activity.transactionId)}
+                    on:click={() => setClipboard(activity.transactionId ?? '')}
                 />
             {/if}
         </div>

@@ -47,7 +47,7 @@ export function generateEvmBalanceChangeActivity(
         // meta information
         id: generateRandomId(),
         action: ActivityAction.Send,
-        containsValue: true, // TODO: check if why we do this
+        isSpam: false,
 
         // transaction information
         time,

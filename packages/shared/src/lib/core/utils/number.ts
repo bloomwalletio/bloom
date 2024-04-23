@@ -19,6 +19,10 @@ export function tryNumberOrZero(numberCandidate: unknown): number {
     return Number.isNaN(numberCandidateCasted) ? 0 : numberCandidateCasted
 }
 
+export function isNumber(str: string): boolean {
+    return str.trim() !== '' && !isNaN(+str) && isFinite(+str)
+}
+
 export function isNumberLetterOrPunctuation(key: string): boolean {
     if (typeof key !== 'string' || key.length !== 1) {
         return false

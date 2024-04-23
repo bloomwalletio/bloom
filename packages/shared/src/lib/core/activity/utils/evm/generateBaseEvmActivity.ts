@@ -46,7 +46,7 @@ export async function generateBaseEvmActivity(
         // meta information
         id: transaction.transactionHash,
         action: ActivityAction.Send,
-        containsValue: true, // TODO: check if why we do this
+        isSpam: false,
 
         // transaction information
         transactionId: transaction.transactionHash,

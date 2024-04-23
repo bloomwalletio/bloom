@@ -1,12 +1,12 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { EvmContractCallActivity, EvmTokenTransferActivity } from '@core/activity'
+    import { EvmContractCallActivity, EvmTokenMintingActivity, EvmTokenTransferActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
     import { buildUrl } from '@core/utils'
 
-    export let activity: EvmContractCallActivity | EvmTokenTransferActivity
+    export let activity: EvmContractCallActivity | EvmTokenTransferActivity | EvmTokenMintingActivity
 
     $: explorer = getDefaultExplorerUrl(activity.destinationNetworkId, ExplorerEndpoint.Address)
     function onExplorerClick(address: string): void {
@@ -18,13 +18,20 @@
 <Table
     items={[
         {
-            key: localize('general.contractAddress'),
-            value: activity.contract?.address || undefined,
-            onClick: () => onExplorerClick(activity.contract?.address ?? ''),
+            key: localize('general.contract'),
+            value: activity.contract?.address || localize('general.unknown'),
+            onClick: activity.contract?.address ? () => onExplorerClick(activity.contract?.address ?? '') : undefined,
         },
         {
             key: localize('general.verified'),
-            value: activity.contract?.verified ? localize('general.yes') : localize('general.no'),
+            value:
+                activity.contract?.verified !== undefined
+                    ? activity.contract.verified
+                        ? localize('general.yes')
+                        : localize('general.no')
+                    : activity.contract?.address
+                      ? localize('general.unknown')
+                      : undefined,
         },
         {
             key: localize('general.methodName'),
@@ -40,7 +47,7 @@
         },
         {
             key: localize('general.data'),
-            value: activity.rawData,
+            value: activity.rawData || undefined,
             copyable: true,
         },
     ]}

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { Pill } from '@bloomwalletio/ui'
-    import { Activity, StardustActivityType } from '@core/activity'
+    import { Activity, StardustActivityType, isEvmTokenActivity } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { BASE_TOKEN_ID } from '@core/token'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
@@ -50,10 +50,7 @@
             if (activity.type === EvmActivityType.CoinTransfer) {
                 typePill = 'baseCoin'
                 standardPill = ''
-            } else if (
-                activity.type === EvmActivityType.TokenTransfer ||
-                activity.type === EvmActivityType.BalanceChange
-            ) {
+            } else if (isEvmTokenActivity(activity)) {
                 const standard = activity.tokenTransfer.standard
                 standardPill = standard
                 typePill = standard === NftStandard.Erc721 || standard === NftStandard.Irc27 ? 'nft' : 'token'

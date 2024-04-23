@@ -8,7 +8,7 @@ export type BaseActivity = {
     action: ActivityAction
     isHidden?: boolean
     isTokenHidden?: boolean // is this needed?
-    containsValue?: boolean // is this needed?
+    isSpam?: boolean
 
     // transaction information
     transactionId?: string

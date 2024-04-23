@@ -1,4 +1,4 @@
-export * from './activityOutputContainsValue'
+export * from './isSpamTransaction'
 export * from './generateActivitiesFromStardustNetwork'
 export * from './generateActivitiesFromAliasOutputs'
 export * from './generateActivitiesFromBasicOutputs'

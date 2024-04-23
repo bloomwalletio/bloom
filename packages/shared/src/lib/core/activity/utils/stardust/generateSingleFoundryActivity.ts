@@ -57,6 +57,5 @@ export async function generateSingleFoundryActivity(
         mintedTokens,
         meltedTokens,
         maximumSupply,
-        containsValue: true, // TODO: check if why we do this
     }
 }

@@ -1,24 +1,33 @@
 <script lang="ts">
-    import { Alert, Button, IconName, Table, Text, type IItem, type TextColor } from '@bloomwalletio/ui'
+    import { Alert, Button, IconName, Link, Table, Text, type IItem, type TextColor } from '@bloomwalletio/ui'
     import { CollectibleDetailsMenu } from '@components'
-    import { MediaPlaceholder, NftMedia } from '@ui'
-    import { IDownloadMetadata, Nft, INftAttribute, NftStandard } from '@core/nfts'
-    import { localize } from '@core/i18n'
     import { openUrlInBrowser } from '@core/app'
-    import { getTimeDifference } from '@core/utils'
     import { time } from '@core/app/stores'
-    import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
+    import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
+    import { INftAttribute, Nft, NftStandard } from '@core/nfts'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
+    import { downloadingNftId, updatePersistedNft } from '@core/nfts/stores'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { CollectiblesRoute, collectiblesRouter } from '@core/router'
+    import { getTimeDifference } from '@core/utils'
+    import { burnNft } from '@core/wallet'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { closePopup } from '@desktop/auxiliary/popup/actions'
+    import { MediaPlaceholder, NftMedia } from '@ui'
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
-    import { openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { downloadingNftId } from '@core/nfts/stores'
+    import { SendFlowType, setSendFlowParameters } from 'shared/src/lib/core/wallet'
+    import NftMediaAlert from './NftMediaAlert.svelte'
 
     export let nft: Nft
     export let details: IItem[] = []
     export let attributes: INftAttribute[] = []
     export let explorerEndpoint: string | undefined
 
-    $: timeDiff = nft.standard === NftStandard.Irc27 ? getTimeDifference(new Date(nft.timelockTime), $time) : undefined
-    $: alertText = getAlertText(nft.downloadMetadata)
+    $: timeDiff =
+        nft.standard === NftStandard.Irc27 && nft.timelockTime
+            ? getTimeDifference(new Date(nft.timelockTime), $time)
+            : undefined
     $: isSendButtonDisabled = !!timeDiff
 
     $: placeHolderColor = nft.downloadMetadata?.error
@@ -26,18 +35,6 @@
         : nft.downloadMetadata?.warning
           ? 'warning'
           : ('brand' as TextColor)
-
-    function getAlertText(downloadMetadata: IDownloadMetadata | undefined): string | undefined {
-        const { error, warning } = downloadMetadata ?? {}
-        const errorOrWarning = error || warning
-
-        if (!errorOrWarning) {
-            return
-        }
-
-        const { type, message } = errorOrWarning
-        return type === 'generic' ? message : localize(`error.nft.${type}.long`)
-    }
 
     function onExplorerClick(): void {
         openUrlInBrowser(explorerEndpoint)
@@ -55,6 +52,57 @@
             overflow: true,
         })
     }
+
+    function onNotAScamClick(): void {
+        openPopup({
+            id: PopupId.Confirmation,
+            props: {
+                title: localize('popups.notAScam.title'),
+                description: localize('popups.notAScam.description'),
+                alert: { variant: 'warning', text: localize('error.nft.scamNft.long') },
+                confirmText: localize('actions.confirm'),
+                variant: 'danger',
+                onConfirm: () => {
+                    nft.isScam = false
+                    updatePersistedNft(nft.id, { isScam: false })
+                    addNftsToDownloadQueue([nft])
+                    closePopup()
+                },
+            },
+        })
+    }
+
+    function onBurnClick(): void {
+        openPopup({
+            id: PopupId.Confirmation,
+            props: {
+                variant: 'danger',
+                title: localize('actions.confirmNftBurn.title', {
+                    values: {
+                        nftName: nft.name,
+                    },
+                }),
+                description: localize('actions.confirmNftBurn.description'),
+                alert: { variant: 'warning', text: localize('actions.confirmNftBurn.hint') },
+                confirmText: localize('actions.burn'),
+                onConfirm: async () => {
+                    try {
+                        await checkActiveProfileAuth()
+                    } catch {
+                        return
+                    }
+
+                    try {
+                        await burnNft(nft.id)
+                        $collectiblesRouter?.goTo(CollectiblesRoute.Gallery)
+                        closePopup()
+                    } catch (error) {
+                        handleError(error)
+                    }
+                },
+            },
+        })
+    }
 </script>
 
 <collectibles-details-view class="flex flex-row w-full h-full">
@@ -69,9 +117,13 @@
                 />
             </div>
         </NftMedia>
-        {#if alertText}
+        {#if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
             <error-container>
-                <Alert variant={nft.downloadMetadata?.error ? 'danger' : 'warning'} text={alertText} border />
+                <NftMediaAlert
+                    type={nft.downloadMetadata?.error?.type ?? nft.downloadMetadata?.warning?.type}
+                    message={nft.downloadMetadata?.error?.message ?? nft.downloadMetadata?.warning?.message}
+                    {nft}
+                />
             </error-container>
         {/if}
     </media-container>
@@ -101,23 +153,40 @@
                 </nft-attributes>
             {/if}
         </div>
-        <buttons-container class="flex w-full space-x-4 self-end mt-auto pt-4">
-            <Button
-                text={localize('general.viewOnExplorer')}
-                on:click={onExplorerClick}
-                disabled={!explorerEndpoint}
-                variant="outlined"
-                width="half"
-            />
-            <Button
-                text={localize('actions.send')}
-                icon={IconName.Send}
-                on:click={onSendClick}
-                disabled={isSendButtonDisabled}
-                width="half"
-                reverse
-            />
-        </buttons-container>
+        <footer class="flex flex-col space-y-4 self-end items-end justify-end w-full">
+            {#if nft.isScam}
+                <Alert variant="danger">
+                    <div slot="text">
+                        <Text type="base" fontWeight="medium"
+                            >{localize('error.nft.scamNft.long')}
+                            <Link
+                                fontWeight="medium"
+                                on:click={onNotAScamClick}
+                                text={localize('popups.notAScam.title')}
+                            /></Text
+                        >
+                    </div>
+                </Alert>
+            {/if}
+            <buttons-container class="flex flex-row w-full space-x-4 mt-auto">
+                <Button
+                    text={localize('general.viewOnExplorer')}
+                    on:click={onExplorerClick}
+                    disabled={!explorerEndpoint}
+                    variant="outlined"
+                    width="half"
+                />
+                <Button
+                    text={nft.isScam ? localize('actions.burn') : localize('actions.send')}
+                    icon={nft.isScam ? IconName.Trash : IconName.Send}
+                    color={nft.isScam ? 'danger' : 'primary'}
+                    on:click={nft.isScam ? onBurnClick : onSendClick}
+                    disabled={isSendButtonDisabled}
+                    width="half"
+                    reverse
+                />
+            </buttons-container>
+        </footer>
     </details-container>
 </collectibles-details-view>
 

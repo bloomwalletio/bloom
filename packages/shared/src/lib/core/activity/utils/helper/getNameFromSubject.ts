@@ -16,7 +16,7 @@ export function getNameFromSubject(
     } else if (subject?.type === SubjectType.Contact) {
         name = subject.contact?.name
     } else if (subject?.type === SubjectType.SmartContract) {
-        name = subject.name
+        name = subject.name ?? subject.address
     } else if (subject?.type === SubjectType.Network) {
         name = subject.name
     } else if (subject?.type === SubjectType.Address) {

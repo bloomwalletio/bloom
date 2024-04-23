@@ -58,6 +58,8 @@ export function getActivityActionTextColor(activity: Activity): TextColor {
             } else {
                 return 'info'
             }
+        } else if (EvmActivityType.TokenMinting) {
+            return 'success'
         } else if (type === EvmActivityType.ContractCall) {
             return 'primary'
         } else {

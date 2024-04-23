@@ -4,4 +4,5 @@ export enum DownloadWarningType {
     DownloadNotAllowed = 'downloadNotAllowed',
     UnsupportedMediaType = 'unsupportedMediaType',
     Generic = 'generic',
+    ScamNft = 'scamNft',
 }

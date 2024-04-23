@@ -9,7 +9,7 @@
 
     export let nft: IErc721Nft
 
-    const { standard, networkId, contractMetadata, tokenId, metadata } = nft
+    const { standard, networkId, contractMetadata, tokenId, metadata, mediaUrl } = nft
     const address = contractMetadata.address
     const explorerEndpoint = getExplorerEndpoint(networkId)
 
@@ -42,6 +42,11 @@
         {
             key: localize('general.tokenId'),
             value: tokenId,
+        },
+        {
+            key: localize('general.url'),
+            value: mediaUrl || undefined,
+            copyable: true,
         },
         {
             key: localize('general.standard'),

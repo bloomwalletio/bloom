@@ -10,7 +10,8 @@
         validateTokenAmount,
     } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
-    import { AmountInput, FontWeight, InputContainer, Text } from '@ui'
+    import { AmountInput } from '@ui'
+    import { Error as ErrorComponent, Text } from '@bloomwalletio/ui'
 
     export let token: ITokenWithBalance | undefined =
         $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
@@ -22,10 +23,12 @@
             ? formatTokenAmountBestMatch(rawAmount, token.metadata, { withUnit: false, round: false })
             : undefined
 
-    let amountInputElement: HTMLInputElement | undefined
+    type InputFontSize = 'text-32' | 'text-48' | 'text-64'
+
+    let inputElement: HTMLInputElement | undefined
     let error: string | undefined
     let inputLength = 0
-    let fontSize: string
+    let fontSize: InputFontSize
     let maxLength = 0
 
     $: inputtedAmount,
@@ -72,7 +75,7 @@
         )
     }
 
-    function getFontSizeForInputLength(): string {
+    function getFontSizeForInputLength(): InputFontSize {
         if (inputLength < 10) {
             return 'text-64'
         } else if (inputLength < 14) {
@@ -95,40 +98,33 @@
     }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="flex flex-col items-center w-full" on:click={() => amountInputElement?.focus()}>
-    <InputContainer {error} clearBackground clearPadding clearBorder classes="w-full flex flex-col items-center">
-        <div class="flex flex-row items-end space-x-0.5">
-            <div class="flex flex-row w-full items-center">
-                <amount-wrapper style:--max-width={maxWidth}>
-                    <AmountInput
-                        bind:inputElement={amountInputElement}
-                        bind:amount={inputtedAmount}
-                        maxDecimals={allowedDecimals}
-                        maxlength={maxLength}
-                        isInteger={allowedDecimals === 0}
-                        {fontSize}
-                        clearBackground
-                        clearPadding
-                        clearBorder
-                        autofocus
-                    />
-                </amount-wrapper>
-            </div>
-            <Text fontWeight={FontWeight.semibold} classes={inputLength < 14 ? 'py-4' : 'py-2'}>
+<token-amount-input class="flex flex-col items-center w-full">
+    <div class="w-full flex flex-col items-center space-y-1">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+            on:click={() => inputElement?.focus()}
+            class="flex flex-row justify-center items-end w-full
+                gap-0.5 cursor-text rounded-lg"
+        >
+            <AmountInput
+                bind:inputElement
+                bind:value={inputtedAmount}
+                maxDecimals={allowedDecimals}
+                maxlength={maxLength}
+                {fontSize}
+                {maxWidth}
+                autofocus
+            />
+            <Text class={inputLength < 14 ? 'py-4' : 'py-2'}>
                 {unit}
             </Text>
         </div>
-    </InputContainer>
-    <Text fontWeight={FontWeight.semibold} color="text-gray-600" darkColor="dark:text-ray-600">
+        {#if error}
+            <ErrorComponent {error} />
+        {/if}
+    </div>
+    <Text textColor="secondary">
         {formatCurrency(fiatAmount) || '--'}
     </Text>
-</div>
-
-<style lang="postcss">
-    amount-wrapper {
-        max-width: var(--max-width);
-        @apply flex;
-    }
-</style>
+</token-amount-input>

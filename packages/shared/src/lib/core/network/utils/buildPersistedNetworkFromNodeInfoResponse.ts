@@ -6,14 +6,14 @@ import {
     TEST_COIN_TYPE,
 } from '../constants'
 import { TokenStandard } from '@core/token/enums'
-import { INodeInfoResponse, IPersistedNetwork } from '../interfaces'
+import { INodeInfoResponse, IStardustNetworkMetadata } from '../interfaces'
 import { NetworkNamespace } from '../enums'
 import { StardustNetworkId } from '../types'
 
 export function buildPersistedNetworkFromNodeInfoResponse(
     nodeInfoResponse: INodeInfoResponse,
     coinType?: number
-): IPersistedNetwork {
+): IStardustNetworkMetadata {
     const networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
     const id: StardustNetworkId = `${NetworkNamespace.Stardust}:${networkName}`
     const namespace = NetworkNamespace.Stardust
@@ -26,7 +26,6 @@ export function buildPersistedNetworkFromNodeInfoResponse(
         id,
         name,
         namespace,
-        networkName,
         coinType: _coinType,
         protocol: nodeInfoResponse?.nodeInfo?.protocol,
         baseToken: { standard: TokenStandard.BaseToken, ...nodeInfoResponse?.nodeInfo?.baseToken },

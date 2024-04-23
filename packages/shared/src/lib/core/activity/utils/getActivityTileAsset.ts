@@ -10,6 +10,7 @@ import { NftStandard } from '@core/nfts'
 import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { localize } from '@core/i18n'
+import { isEvmTokenActivity } from './isEvmTokenActivity'
 
 export function getActivityTileAsset(activity: Activity, accountIndex: number): string {
     if (activity.namespace === NetworkNamespace.Stardust) {
@@ -48,7 +49,7 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
         if (activity.type === EvmActivityType.CoinTransfer) {
             const token = getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, activity.sourceNetworkId)
             return token?.metadata?.name ? token.metadata.name : token?.id ?? ''
-        } else if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.BalanceChange) {
+        } else if (isEvmTokenActivity(activity)) {
             if (
                 activity.tokenTransfer.standard === NftStandard.Erc721 ||
                 activity.tokenTransfer.standard === NftStandard.Irc27

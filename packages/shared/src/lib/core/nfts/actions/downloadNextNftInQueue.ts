@@ -21,22 +21,25 @@ export async function downloadNextNftInQueue(): Promise<void> {
     if (get(downloadingNftId)) {
         return
     }
-    downloadingNftId.set(nextNftToDownload.id)
+
+    const { nft, options } = nextNftToDownload
+    downloadingNftId.set(nft.id)
 
     try {
-        const composedUrl = composeUrlFromNftUri(nextNftToDownload.mediaUrl ?? '')
+        const composedUrl = composeUrlFromNftUri(nft.mediaUrl ?? '')
         if (!composedUrl) {
             throw new Error('Unable to compose NFT URI!')
         }
 
         const downloadMetadata = await checkHeadRequestForNftUrl(
-            nextNftToDownload,
+            nft,
             composedUrl,
-            nextNftToDownload.downloadMetadata ?? {},
-            isIrc27Nft(nextNftToDownload) && nextNftToDownload.metadata?.issuerName === 'Soonaverse'
+            nft.downloadMetadata ?? {},
+            isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse',
+            options.skipSizeCheck
         )
-        updatePersistedNft(nextNftToDownload.id, { downloadMetadata })
-        updateNftInAllAccountNfts(nextNftToDownload.id, { downloadMetadata })
+        updatePersistedNft(nft.id, { downloadMetadata })
+        updateNftInAllAccountNfts(nft.id, { downloadMetadata })
 
         if (
             !downloadMetadata?.downloadUrl ||
@@ -47,9 +50,9 @@ export async function downloadNextNftInQueue(): Promise<void> {
             throw new Error('Invalid download metadata')
         }
 
-        await Platform.downloadNft(downloadMetadata.downloadUrl, downloadMetadata.filePath, nextNftToDownload.id)
+        await Platform.downloadNft(downloadMetadata.downloadUrl, downloadMetadata.filePath, nft.id)
     } catch (err) {
-        removeNftFromDownloadQueue(nextNftToDownload.id)
+        removeNftFromDownloadQueue(nft.id)
         downloadingNftId.set(undefined)
     }
 }
@@ -58,14 +61,21 @@ async function checkHeadRequestForNftUrl(
     nft: Nft,
     mediaUrl: string,
     downloadMetadata: IDownloadMetadata,
-    shouldCheckSoonaverseFallback: boolean
+    shouldCheckSoonaverseFallback: boolean,
+    skipSizeCheck: boolean
 ): Promise<IDownloadMetadata> {
     try {
         const response = await headRequest(mediaUrl)
         const updatedDownloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
 
         if (updatedDownloadMetadata.responseCode === StatusCodes.OK) {
-            return setReturnForOkResponse(nft, mediaUrl, updatedDownloadMetadata, shouldCheckSoonaverseFallback)
+            return setReturnForOkResponse(
+                nft,
+                mediaUrl,
+                updatedDownloadMetadata,
+                shouldCheckSoonaverseFallback,
+                skipSizeCheck
+            )
         } else {
             return updatedDownloadMetadata
         }
@@ -84,12 +94,13 @@ async function setReturnForOkResponse(
     nft: Nft,
     mediaUrl: string,
     downloadMetadata: IDownloadMetadata,
-    shouldCheckSoonaverseFallback: boolean
+    shouldCheckSoonaverseFallback: boolean,
+    skipSizeCheck: boolean
 ): Promise<IDownloadMetadata> {
     if (!isExpectedContentType(nft, downloadMetadata)) {
         if (shouldCheckSoonaverseFallback) {
             mediaUrl = mediaUrl + '/' + encodeURIComponent(nft?.name)
-            return checkHeadRequestForNftUrl(nft, mediaUrl, downloadMetadata, false)
+            return checkHeadRequestForNftUrl(nft, mediaUrl, downloadMetadata, false, skipSizeCheck)
         }
 
         return {
@@ -105,7 +116,7 @@ async function setReturnForOkResponse(
         }
     }
 
-    if (isFileTooLarge(downloadMetadata.contentLength ?? '')) {
+    if (!skipSizeCheck && isFileTooLarge(downloadMetadata.contentLength ?? '')) {
         return {
             ...downloadMetadata,
             warning: { type: DownloadWarningType.TooLargeFile },

@@ -3,17 +3,14 @@ import { APP_STAGE } from '@core/app'
 import { MarketCurrency } from '@core/market'
 import {
     DEFAULT_EVM_NETWORK_CONFIGURATIONS,
-    IPersistedNetwork,
+    IStardustNetworkMetadata,
     NetworkNamespace,
     StardustNetworkId,
 } from '@core/network'
-import {
-    DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
-    DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
-    IPFS_GATEWAYS,
-} from '@core/nfts/constants'
+import { DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS, DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES } from '@core/nfts/constants'
 import { DownloadPermission } from '@core/nfts/enums'
 import {
+    DEFAULT_IPFS_GATEWAYS,
     DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
     IPersistedProfile,
     IProfileSettings,
@@ -44,7 +41,7 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
         version: PROFILE_VERSION.prod,
         name: thirdPartyProfile.name,
         type: thirdPartyProfile.type,
-        network: buildPersistedNetworkFromThirdPartyPersistedNetwork(thirdPartyProfile.network),
+        network: buildStardustNetworkFromThirdPartyPersistedNetwork(thirdPartyProfile.network),
         lastStrongholdBackupTime: thirdPartyProfile.lastStrongholdBackupTime ?? new Date(),
         settings: buildSettingsFromThirdPartyPersistedSettings(thirdPartyProfile.settings),
         accountPersistedData: buildPersistedAccountDataFromThirdPartyPersistedAccountData(
@@ -74,7 +71,9 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
     return persistedProfile
 }
 
-function buildPersistedNetworkFromThirdPartyPersistedNetwork(network: IThirdPartyPersistedNetwork): IPersistedNetwork {
+function buildStardustNetworkFromThirdPartyPersistedNetwork(
+    network: IThirdPartyPersistedNetwork
+): IStardustNetworkMetadata {
     const networkId: StardustNetworkId =
         NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP[network.protocol.networkName] ??
         `${NetworkNamespace.Stardust}:${network.protocol.networkName}`
@@ -84,7 +83,6 @@ function buildPersistedNetworkFromThirdPartyPersistedNetwork(network: IThirdPart
         id: networkId,
         name: network.name,
         namespace: NetworkNamespace.Stardust,
-        networkName: network.protocol.networkName,
         coinType: network.coinType,
         protocol: network.protocol,
         baseToken: network.baseToken,
@@ -99,7 +97,7 @@ function buildSettingsFromThirdPartyPersistedSettings(settings: IThirdPartyPersi
         strongholdPasswordTimeoutInMinutes:
             settings.strongholdPasswordTimeoutInMinutes ?? DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
         nfts: {
-            ipfsGateway: IPFS_GATEWAYS[0],
+            ipfsGateways: DEFAULT_IPFS_GATEWAYS,
             downloadPermissions: DownloadPermission.AllowListOnly,
             maxMediaSizeInMegaBytes: settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
             maxMediaDownloadTimeInSeconds:
