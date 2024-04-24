@@ -34,10 +34,18 @@
         Network = 'network',
     }
 
-    const validationErrors: { [key in AddressField]: string | undefined } = {
+    let validationErrors: { [key in AddressField]: string | undefined } = {
         [AddressField.Address]: undefined,
         [AddressField.Name]: undefined,
         [AddressField.Network]: undefined,
+    }
+
+    function resetErrors(): void {
+        validationErrors = {
+            [AddressField.Address]: undefined,
+            [AddressField.Name]: undefined,
+            [AddressField.Network]: undefined,
+        }
     }
 
     function onSaveClick(): void {
