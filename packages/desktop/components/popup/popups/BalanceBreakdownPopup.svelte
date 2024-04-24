@@ -45,17 +45,17 @@
             unclaimed: BigInt(0),
             storageDepositReturn: BigInt(0),
             timelock: BigInt(0),
-            governance: $selectedAccount?.votingPower,
+            governance: $selectedAccount?.votingPower ?? BigInt(0),
         }
 
-        let unavailableTotalAmount = $selectedAccount?.votingPower
+        let unavailableTotalAmount = $selectedAccount?.votingPower ?? BigInt(0)
         for (const [outputId, unlocked] of Object.entries(accountBalance?.potentiallyLockedOutputs ?? {})) {
             if (unlocked) {
                 continue
             }
 
-            const output = (await $selectedAccount.getOutput(outputId)).output
-            if (output.type === OutputType.Treasury) {
+            const output = (await $selectedAccount?.getOutput(outputId))?.output
+            if (output?.type === OutputType.Treasury) {
                 continue
             }
 
@@ -65,7 +65,7 @@
             const commonOutput = output as CommonOutput
             if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Expiration)) {
                 type = UnavailableAmountType.Unclaimed
-                amount = BigInt(output.amount)
+                amount = BigInt(output?.amount ?? 0)
             } else if (
                 containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.StorageDepositReturn)
             ) {
@@ -73,7 +73,9 @@
                 amount = getStorageDepositFromOutput(commonOutput)
             } else if (containsUnlockCondition(commonOutput.unlockConditions, UnlockConditionType.Timelock)) {
                 type = UnavailableAmountType.Timelock
-                amount = BigInt(output.amount)
+                amount = BigInt(output?.amount ?? 0)
+            } else {
+                continue
             }
 
             subBreakdown[type] += amount
@@ -86,7 +88,7 @@
     function getStorageDepositBreakdown(): BalanceBreakdown {
         const storageDeposits = accountBalance?.requiredStorageDeposit
         const totalStorageDeposit = storageDeposits
-            ? Object.values(accountBalance.requiredStorageDeposit).reduce(
+            ? Object.values(storageDeposits).reduce(
                   (total: bigint, value: string): bigint => total + BigInt(value ?? 0),
                   BigInt(0)
               )
@@ -129,10 +131,10 @@
 
     let currentExpandedSection: string
     const expanded: { [key: string]: boolean } = {}
-    function expandOne(breakdownKey) {
+    function expandOne(breakdownKey: string): void {
         if (currentExpandedSection === breakdownKey) {
             expanded[currentExpandedSection] = false
-            currentExpandedSection = undefined
+            currentExpandedSection = ''
         } else {
             expanded[currentExpandedSection] = false
             expanded[breakdownKey] = true
