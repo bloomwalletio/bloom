@@ -14,7 +14,7 @@ export async function addNftsToDownloadQueue(nfts: Nft[], options?: Partial<NftD
     const nftsToAdd: Nft[] = []
     for (const nft of nfts) {
         const isNftInDownloadQueue = get(nftDownloadQueue).some((queueItem) => queueItem.nft.id === nft.id)
-        if (isNftInDownloadQueue) {
+        if (isNftInDownloadQueue || nft.isLoaded) {
             continue
         }
 

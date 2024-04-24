@@ -10,6 +10,7 @@ import { IError } from '@core/error/interfaces'
 import { getActiveProfile } from '@core/profile/stores'
 import { isValidNftUri } from './isValidNftUri'
 import { getPrimaryNftUrl } from './getPrimaryNftUrl'
+import { appParameters } from '@core/app/stores'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: Nft,
@@ -41,7 +42,7 @@ export async function checkIfNftShouldBeDownloaded(
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
 
-        if (!isValidNftUri(nft.mediaUrl)) {
+        if (!nft.mediaUrl || !isValidNftUri(nft.mediaUrl)) {
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
@@ -55,11 +56,16 @@ export async function checkIfNftShouldBeDownloaded(
                     return { shouldDownload: false, isLoaded: false, downloadMetadata }
                 case DownloadPermission.AllowListOnly: {
                     const knownGateways = nftSettings.ipfsGateways.map((gateway) => gateway.url)
-                    // TODO: move this to external allow list that we bull in at the same time as the deny list
-                    const allowList = ['https://tideprotocol.infura-ipfs.io', ...knownGateways]
+                    const remoteAllowlist = get(appParameters).allowlists.urls
+                    const allowlist = [...remoteAllowlist, ...knownGateways]
+                    const mediaUrl = new URL(nft.mediaUrl)
                     const startsWithAllowedGateways =
-                        nft.mediaUrl?.startsWith('ipfs://') ||
-                        allowList.some((gateway) => nft.mediaUrl?.startsWith(gateway))
+                        mediaUrl.protocol === 'ipfs:' ||
+                        (mediaUrl.protocol === 'https:' &&
+                            allowlist.some((allowedUrl) => {
+                                const url = new URL(allowedUrl)
+                                return mediaUrl.origin === url.origin
+                            }))
                     if (!startsWithAllowedGateways) {
                         downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
                         return { shouldDownload: false, isLoaded: false, downloadMetadata }

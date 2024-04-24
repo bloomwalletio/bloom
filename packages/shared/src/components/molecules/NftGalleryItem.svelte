@@ -57,13 +57,20 @@
                 />
             </NftMedia>
             <error-container bind:this={anchor}>
-                {#if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
+                {#if nft.isScam}
+                    <Pill color="warning">{localize('general.warning')}</Pill>
+                {:else if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
                     <Pill color={nft.downloadMetadata?.error ? 'danger' : 'warning'}>
                         {localize('general.' + (nft.downloadMetadata?.error ? 'error' : 'warning'))}
                     </Pill>
                 {/if}
             </error-container>
-            <Tooltip {anchor} placement="bottom" event="hover" text={getAlertText(nft.downloadMetadata)} />
+            <Tooltip
+                {anchor}
+                placement="bottom"
+                event="hover"
+                text={nft.isScam ? localize('error.nft.scamNft.short') : getAlertText(nft.downloadMetadata)}
+            />
         </div>
         <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
             <Text type="body2" truncate>{nft.name}</Text>
