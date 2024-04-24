@@ -41,7 +41,7 @@ export const queriedActivities: Readable<Activity[]> = derived(
                 }
 
                 const tokenId = _activity.tokenTransfer?.tokenId ?? _activity.baseTokenTransfer.tokenId
-                const token = containsAssets ? getPersistedToken(tokenId) : undefined
+                const token = containsAssets ? getPersistedToken(_activity.sourceNetworkId, tokenId) : undefined
                 const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
                 return !_activity.isHidden && hasValidAsset
             } else if (_activity.namespace === NetworkNamespace.Evm) {

@@ -3,32 +3,34 @@ import { IPersistedToken } from '@core/token/interfaces'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { addPersistedToken } from '@core/token/stores'
 import { get } from 'svelte/store'
-import { StardustActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
 import { NetworkId } from '@core/network/types'
+import { getTokenIdFromActivity } from '../utils'
 
 export async function loadAssetsForAllActivities(account: IAccountState): Promise<void> {
     const accountActivities = get(allAccountActivities)[account.index]
 
-    const persistedTokens: { [networkId: NetworkId]: IPersistedToken[] } = {}
+    const tokens: { [networkId: NetworkId]: IPersistedToken[] } = {}
     for (const activity of accountActivities) {
         try {
-            if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
-                const tokenId = activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer?.tokenId
-                const token = await getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId, false)
-                if (token) {
-                    if (!persistedTokens[activity.sourceNetworkId]) {
-                        persistedTokens[activity.sourceNetworkId] = []
-                    }
-                    persistedTokens[activity.sourceNetworkId].push(token)
+            const tokenId = getTokenIdFromActivity(activity)
+            if (!tokenId) {
+                continue
+            }
+
+            const token = await getOrRequestTokenFromPersistedTokens(tokenId, activity.sourceNetworkId, false)
+            if (token) {
+                if (!tokens[activity.sourceNetworkId]) {
+                    tokens[activity.sourceNetworkId] = []
                 }
+                tokens[activity.sourceNetworkId].push(token)
             }
         } catch (err) {
             console.error(err)
         }
     }
 
-    for (const networkId of Object.keys(persistedTokens)) {
-        addPersistedToken(networkId as NetworkId, ...persistedTokens[networkId])
+    for (const networkId of Object.keys(tokens)) {
+        addPersistedToken(networkId as NetworkId, ...tokens[networkId])
     }
 }
