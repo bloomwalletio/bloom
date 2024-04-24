@@ -1,58 +1,53 @@
-import { activeProfileId } from '@core/profile/stores/active-profile-id.store'
-import { activeProfile } from '@core/profile/stores/active-profile.store'
+import { getActiveProfileId } from '@core/profile/stores/active-profile-id.store'
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
 import { IPersistedToken, IPersistedTokens } from '../interfaces'
+import { NetworkId } from '@core/network/types'
 
 export const persistedTokens = persistent<IPersistedTokens>('persistedTokens', {})
 
-export function getPersistedToken(tokenId: string): IPersistedToken {
-    return get(persistedTokens)?.[get(activeProfile)?.id]?.[tokenId]
+export function getPersistedToken(networkId: NetworkId, tokenId: string): IPersistedToken {
+    const profileId = getActiveProfileId()
+    return get(persistedTokens)?.[profileId]?.[networkId]?.[tokenId]
 }
 
-export function addPersistedToken(...newPersistedTokens: IPersistedToken[]): void {
+export function addPersistedToken(networkId: NetworkId, ...newPersistedTokens: IPersistedToken[]): void {
+    const profileId = getActiveProfileId()
     persistedTokens.update((state) => {
-        if (!state[get(activeProfile).id]) {
-            state[get(activeProfile).id] = {}
+        if (!state[profileId]) {
+            state[profileId] = {}
+        }
+        if (!state[profileId][networkId]) {
+            state[profileId][networkId] = {}
         }
         for (const token of newPersistedTokens) {
-            state[get(activeProfile).id][token.id] = token
+            state[profileId][networkId][token.id] = token
         }
         return state
     })
 }
 
 export function clearPersistedTokensForActiveProfile(): void {
+    const profileId = getActiveProfileId()
     persistedTokens.update((state) => {
-        state[get(activeProfile).id] = {}
+        state[profileId] = {}
         return state
     })
 }
 
-export function updatePersistedToken(partialPersistedToken: Partial<IPersistedToken>): void {
+export function updatePersistedToken(networkId: NetworkId, partialPersistedToken: Partial<IPersistedToken>): void {
+    const profileId = getActiveProfileId()
     const tokenId = partialPersistedToken?.id
-    if (tokenId) {
-        persistedTokens.update((state) => {
-            state[get(activeProfile).id][tokenId] = {
-                ...state[get(activeProfile).id][tokenId],
-                ...partialPersistedToken,
-            }
+    persistedTokens.update((state) => {
+        if (!tokenId || state[profileId]?.[networkId]?.[tokenId] === undefined) {
             return state
-        })
-    }
-}
-
-export function removePersistedToken(tokenId: string): void {
-    const profileId = get(activeProfileId)
-    if (!profileId) {
-        return
-    }
-    persistedTokens.update((_persistedTokens) => {
-        if (_persistedTokens?.[profileId]?.[tokenId]) {
-            delete _persistedTokens[profileId][tokenId]
         }
-        return _persistedTokens
+        state[profileId][networkId][tokenId] = {
+            ...state[profileId][tokenId],
+            ...partialPersistedToken,
+        }
+        return state
     })
 }
 
@@ -63,18 +58,18 @@ export function removePersistedTokensForProfile(profileId: string): void {
     })
 }
 
-export function verifyToken(tokenId: string, status: VerifiedStatus): void {
-    updatePersistedToken({ id: tokenId, verification: { verified: true, status } })
+export function verifyToken(networkId: NetworkId, tokenId: string, status: VerifiedStatus): void {
+    updatePersistedToken(networkId, { id: tokenId, verification: { verified: true, status } })
 }
 
-export function unverifyToken(tokenId: string, status: NotVerifiedStatus): void {
-    updatePersistedToken({ id: tokenId, verification: { verified: false, status } })
+export function unverifyToken(networkId: NetworkId, tokenId: string, status: NotVerifiedStatus): void {
+    updatePersistedToken(networkId, { id: tokenId, verification: { verified: false, status } })
 }
 
-export function hideToken(tokenId: string): void {
-    updatePersistedToken({ id: tokenId, hidden: true })
+export function hideToken(networkId: NetworkId, tokenId: string): void {
+    updatePersistedToken(networkId, { id: tokenId, hidden: true })
 }
 
-export function unhideToken(tokenId: string): void {
-    updatePersistedToken({ id: tokenId, hidden: false })
+export function unhideToken(networkId: NetworkId, tokenId: string): void {
+    updatePersistedToken(networkId, { id: tokenId, hidden: false })
 }

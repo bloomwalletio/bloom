@@ -8,13 +8,13 @@ export async function getOrRequestTokenFromPersistedTokens(
     networkId: NetworkId,
     persistTokenIfNotPresent = true
 ): Promise<IPersistedToken | undefined> {
-    const persistedAsset = getPersistedToken(tokenId)
+    const persistedAsset = getPersistedToken(networkId, tokenId)
     if (persistedAsset) {
         return Promise.resolve(persistedAsset)
     } else {
         const tokenToPersist = await requestPersistedToken(tokenId, networkId)
         if (tokenToPersist && persistTokenIfNotPresent) {
-            addPersistedToken(tokenToPersist)
+            addPersistedToken(networkId, tokenToPersist)
         }
         return tokenToPersist
     }
