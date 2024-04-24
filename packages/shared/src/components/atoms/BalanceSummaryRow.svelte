@@ -10,7 +10,7 @@
     export let expanded: boolean = false
 </script>
 
-<div class="flex flex-row justify-between flex-grow">
+<div class="flex flex-row justify-between flex-grow space-x-2">
     <div class={'flex flex-col space-y-0.5'}>
         <div class="flex flex-row gap-1 items-center">
             <Text fontWeight={bold ? 'bold' : 'semibold'}>{title}</Text>
