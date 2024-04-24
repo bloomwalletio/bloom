@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { isValidNftUri, Nft, NFT_MEDIA_FILE_NAME } from '@core/nfts'
+    import { Nft, NFT_MEDIA_FILE_NAME } from '@core/nfts'
     import { DEV_STORAGE_DIRECTORY } from '@core/profile/constants'
     import { getStorageDirectoryOfProfiles } from '@core/profile/utils'
     import features from '@features/features'
@@ -40,7 +40,7 @@
     })
 </script>
 
-{#if hasMounted && nft && isValidNftUri(nft.mediaUrl) && nft.metadata && source && (!useCaching || nft.isLoaded)}
+{#if hasMounted && nft && nft.metadata && source && (!useCaching || nft.isLoaded)}
     <MediaDisplay
         src={source}
         expectedType={nft.metadata.type}
