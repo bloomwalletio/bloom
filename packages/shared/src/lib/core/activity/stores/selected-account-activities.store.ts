@@ -73,6 +73,7 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
     if (activity.transactionId) {
         fieldsToSearch.push(activity.transactionId)
     }
+    const { sourceNetworkId, direction, action } = activity
 
     if (activity.namespace === NetworkNamespace.Stardust) {
         if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
@@ -84,7 +85,7 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
             fieldsToSearch.push(tokenId)
             fieldsToSearch.push(String(rawAmount))
 
-            const tokenName = getPersistedToken(tokenId)?.metadata?.name
+            const tokenName = getPersistedToken(activity.sourceNetworkId, tokenId)?.metadata?.name
             if (tokenName) {
                 fieldsToSearch.push(tokenName)
             }
@@ -93,8 +94,9 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
                 getFormattedAmountFromActivity(
                     rawAmount,
                     tokenId,
-                    activity.direction,
-                    activity.action,
+                    sourceNetworkId,
+                    direction,
+                    action,
                     false
                 )?.toLowerCase()
             )
@@ -107,8 +109,9 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
                 getFormattedAmountFromActivity(
                     activity.baseTokenTransfer.rawAmount,
                     activity.baseTokenTransfer.tokenId,
-                    activity.direction,
-                    activity.action,
+                    sourceNetworkId,
+                    direction,
+                    action,
                     false
                 )?.toLowerCase()
             )
@@ -119,7 +122,7 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
             fieldsToSearch.push(tokenId)
 
             if (standard === TokenStandard.Erc20 || standard === TokenStandard.Irc30) {
-                const tokenName = getPersistedToken(tokenId)?.metadata?.name
+                const tokenName = getPersistedToken(sourceNetworkId, tokenId)?.metadata?.name
                 if (tokenName) {
                     fieldsToSearch.push(tokenName)
                 }
@@ -128,8 +131,9 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
                     getFormattedAmountFromActivity(
                         rawAmount,
                         tokenId,
-                        activity.direction,
-                        activity.action,
+                        sourceNetworkId,
+                        direction,
+                        action,
                         false
                     )?.toLowerCase()
                 )

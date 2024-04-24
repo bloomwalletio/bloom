@@ -10,7 +10,10 @@
 
     let metadata: IIrc30Metadata | undefined
     $: metadata = <IIrc30Metadata>(
-        getPersistedToken(activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId)?.metadata
+        getPersistedToken(
+            activity.sourceNetworkId,
+            activity.tokenTransfer?.tokenId ?? activity.baseTokenTransfer.tokenId
+        )?.metadata
     )
 </script>
 

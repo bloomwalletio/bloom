@@ -101,7 +101,7 @@ export function getTokenFromSelectedAccountTokens(
         if (token) {
             return token
         } else {
-            const persistedToken = getPersistedToken(tokenId)
+            const persistedToken = getPersistedToken(networkId, tokenId)
             return persistedToken
                 ? {
                       ...persistedToken,
