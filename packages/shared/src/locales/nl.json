@@ -248,8 +248,16 @@
             },
             "ipfsGateways": {
                 "title": "IPFS gateways",
-                "description": "Select the IPFS gateway to use for media retrieval",
-                "input": "IPFS gateway"
+                "description": "Selecteer de IPFS gateway om te gebruiken voor het ophalen van media",
+                "setAsPrimary": "Instellen als primair",
+                "addGateway": {
+                    "title": "Nieuwe IPFS gateway toevoegen",
+                    "placeholder": "IPFS gateway"
+                },
+                "removeConfirmation": {
+                    "title": "Verwijder IPFS gateway",
+                    "description": "Weet je zeker dat je deze IPFS gateway wilt verwijderen?"
+                }
             },
             "maxMediaSize": {
                 "title": "Maximale mediagrootte",
@@ -336,13 +344,13 @@
                 "description": "Schakel functies aan of uit, pas jouw ervaring naar eigen voorkeur aan door specifieke functies in of uit te schakelen."
             },
             "downloadNftPermissions": {
-                "title": "Nft download permissions",
-                "description": "Download permissions for the automatic downloading of NFT media",
-                "input": "Download permissions",
-                "all": "Download All",
-                "allExceptDenylist": "All Except Known Risks",
-                "allowListOnly": "Only Known Domains",
-                "none": "Do Not Download Any"
+                "title": "Nft download permissies",
+                "description": "Download toestemmingen voor het automatisch downloaden van NFT media",
+                "input": "Download toestemmingen",
+                "all": "Download Alles",
+                "allExceptDenylist": "Alle behalve bekende risico's",
+                "allowListOnly": "Alleen bekende domeinen",
+                "none": "Download geen van alle"
             }
         },
         "login": {
@@ -375,7 +383,8 @@
                 "degraded": "Netwerk gedegradeerd",
                 "down": "Netwerk Inactief",
                 "disconnected": "Verbinding verbroken met knooppunt",
-                "status": "Status"
+                "status": "Status",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portefeuille",
@@ -646,11 +655,11 @@
                 "menu": {
                     "download": "Download",
                     "setPfp": "Stel NFT-profiel plaatje in",
-                    "loadMedia": "Load media in wallet",
+                    "loadMedia": "Media in wallet laden",
                     "unsetPfp": "Verwijder NFT profiel plaatje",
                     "view": "Bekijk media in browser",
-                    "hide": "Hide NFT",
-                    "unhide": "Unhide NFT",
+                    "hide": "NFT verbergen",
+                    "unhide": "NFT zichtbaar maken",
                     "burn": "Burn NFT"
                 }
             }
@@ -1307,8 +1316,8 @@
             "title": "Profiel diagnose"
         },
         "notAScam": {
-            "title": "Not a scam?",
-            "description": "Are you sure you want to mark this NFT as not a scam?"
+            "title": "Geen oplichting?",
+            "description": "Weet je zeker dat je deze NFT als geen oplichting wilt markeren?"
         }
     },
     "actions": {
@@ -1453,8 +1462,8 @@
         "mintNftCollection": "Mint NFT collectie",
         "readMore": "Lees meer",
         "importThirdPartyProfiles": "Importeer profielen van derden",
-        "retry": "Retry",
-        "loadAnyway": "Load anyway"
+        "retry": "Probeer opnieuw",
+        "loadAnyway": "Toch laden"
     },
     "general": {
         "recipient": "Ontvanger",
@@ -1704,9 +1713,9 @@
             "no": "Nee"
         },
         "showSpam": {
-            "label": "Show spam",
-            "yes": "Yes",
-            "no": "No"
+            "label": "Spam tonen",
+            "yes": "Ja",
+            "no": "Nee"
         },
         "ascDesc": {
             "Asc": "Oplopend",
@@ -2100,12 +2109,12 @@
                 "long": "Er is een fout opgetreden tijdens het laden van het NFT"
             },
             "downloadNotAllowed": {
-                "short": "Download blocked by settings",
-                "long": "Your current NFT download permissions do not allow downloading this NFT from its URL"
+                "short": "Download niet mogelijk wegens instellingen",
+                "long": "Je huidige NFT downloadrechten staan het downloaden van deze NFT niet toe vanaf zijn URL"
             },
             "scamNft": {
-                "short": "Scam NFT detected",
-                "long": "We have detected that this NFT is a scam, please be cautious and do not interact with it."
+                "short": "Scam NFT gedetecteerd",
+                "long": "We hebben gedetecteerd dat deze NFT een scam is, wees voorzichtig en voer er geen interacties mee uit."
             }
         },
         "governance": {
