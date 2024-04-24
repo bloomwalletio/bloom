@@ -39,24 +39,16 @@
     }))
 </script>
 
-<button
-    type="button"
-    class="flex flex-col space-y-2"
-    class:expandable={hasChildren}
-    class:expanded
-    on:click={toggleExpandedView}
->
-    <div class="flex flex-row flex-grow justify-between space-x-2">
-        <BalanceSummaryRow
-            title={titleKey ? localize(`popups.balanceBreakdown.${titleKey}.title`) : ''}
-            subtitle={subtitleKey ? localize(`popups.balanceBreakdown.${subtitleKey}.subtitle`) : ''}
-            amount={getAmount(amount)}
-            convertedAmount={getCurrencyAmount(amount)}
-            expandable={hasChildren}
-            {expanded}
-            {bold}
-        />
-    </div>
+<button type="button" class="space-y-2" class:expandable={hasChildren} class:expanded on:click={toggleExpandedView}>
+    <BalanceSummaryRow
+        title={titleKey ? localize(`popups.balanceBreakdown.${titleKey}.title`) : ''}
+        subtitle={subtitleKey ? localize(`popups.balanceBreakdown.${subtitleKey}.subtitle`) : ''}
+        amount={getAmount(amount)}
+        convertedAmount={getCurrencyAmount(amount)}
+        expandable={hasChildren}
+        {expanded}
+        {bold}
+    />
     {#if expanded}
         <Table {items} />
     {/if}
@@ -66,6 +58,7 @@
     button {
         @apply rounded-xl;
         @apply p-2 -m-2;
+        @apply cursor-default;
         width: 432x;
     }
     .expandable {
