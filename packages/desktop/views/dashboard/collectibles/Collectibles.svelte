@@ -3,7 +3,7 @@
     import features from '@features/features'
     import { selectedAccountIndex } from '@core/account/stores'
     import { collectiblesRoute, CollectiblesRoute, collectiblesRouter } from '@core/router'
-    import { CollectiblesDetailsView, CollectiblesGalleryView } from './views'
+    import { CollectiblesDetailsView, CollectiblesGalleryView, CollectionsGalleryView } from './views'
 
     $: $selectedAccountIndex !== undefined && $collectiblesRouter.reset()
 
@@ -18,5 +18,10 @@
     {/if}
     {#if $collectiblesRoute === CollectiblesRoute.Details}
         <CollectiblesDetailsView />
+    {/if}
+    {#if features.collectibles.collections.enabled}
+        {#if $collectiblesRoute === CollectiblesRoute.CollectionsGallery}
+            <CollectionsGalleryView />
+        {/if}
     {/if}
 </div>
