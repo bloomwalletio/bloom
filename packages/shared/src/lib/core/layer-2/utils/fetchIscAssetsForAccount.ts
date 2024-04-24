@@ -53,6 +53,7 @@ async function getL2NativeTokenBalancesForAddress(evmAddress: string, iscChain: 
         nativeTokenResult.items?.forEach((item) => (nativeTokens[item.key] = Converter.bigIntLikeToBigInt(item.value)))
         return nativeTokens
     } catch (e) {
+        console.error(e)
         return {}
     }
 }
