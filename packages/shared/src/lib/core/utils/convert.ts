@@ -276,6 +276,7 @@ export class Converter {
         if (ArrayBuffer.isView(number)) {
             return bytesToBigInt(number)
         } else {
+            number = number === '0x' ? '0x0' : number
             return BigInt(String(number ?? '0'))
         }
     }
