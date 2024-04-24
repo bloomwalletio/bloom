@@ -1,12 +1,12 @@
 import { EvmNetworkType, NetworkNamespace, ChainId } from '../enums'
 import { IIscChainConfiguration } from '../interfaces'
-import { EvmNetworkId, StardustNetworkId } from '../types'
+import { StardustNetworkId } from '../types'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
-import { SupportedNetworkId } from './supported-network-id.constant'
+import { SupportedIscNetworkId, SupportedNetworkId, SupportedStardustNetworkId } from './supported-network-id.constant'
 
 export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetworkId]?: IIscChainConfiguration }> = {
-    [SupportedNetworkId.Shimmer as StardustNetworkId]: {
-        id: SupportedNetworkId.ShimmerEvm as EvmNetworkId,
+    [SupportedStardustNetworkId.Shimmer]: {
+        id: SupportedIscNetworkId.ShimmerEvm,
         type: EvmNetworkType.Isc,
         name: 'Shimmer EVM',
         chainId: ChainId.ShimmerEvm,
@@ -17,8 +17,8 @@ export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetwor
         apiEndpoint: 'https://api.evm.shimmer.network/',
         explorerUrl: 'https://explorer.evm.shimmer.network/',
     },
-    [SupportedNetworkId.Testnet as StardustNetworkId]: {
-        id: SupportedNetworkId.TestnetEvm as EvmNetworkId,
+    [SupportedStardustNetworkId.Testnet]: {
+        id: SupportedIscNetworkId.TestnetEvm,
         type: EvmNetworkType.Isc,
         name: 'Testnet EVM',
         chainId: ChainId.TestnetEvm,
