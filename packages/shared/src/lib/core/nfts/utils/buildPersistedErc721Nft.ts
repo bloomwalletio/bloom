@@ -4,7 +4,7 @@ import { EvmNetworkId } from '@core/network/types'
 
 import { MimeType, NftStandard } from '../enums'
 import { IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } from '../interfaces'
-import { composeUrlFromNftUri } from '.'
+import { getPrimaryNftUrl } from './getPrimaryNftUrl'
 
 export async function buildPersistedErc721Nft(
     nftId: string,
@@ -30,7 +30,7 @@ export async function buildPersistedErc721Nft(
     if (hasTokenMetadata) {
         try {
             const tokenUri = await contract.methods.tokenURI(tokenId).call()
-            const composedTokenUri = composeUrlFromNftUri(tokenUri)
+            const composedTokenUri = getPrimaryNftUrl(tokenUri)
             if (!composedTokenUri) {
                 throw new Error('Unable to create composed NFT URI!')
             }

@@ -252,7 +252,11 @@
                 "setAsPrimary": "Instellen als primair",
                 "addGateway": {
                     "title": "Nieuwe IPFS gateway toevoegen",
-                    "placeholder": "IPFS gateway"
+                    "placeholder": "IPFS gateway",
+                    "error": {
+                        "notReachable": "Gateway isn't reachable",
+                        "invalidGateway": "Invalid IPFS gateway"
+                    }
                 },
                 "removeConfirmation": {
                     "title": "Verwijder IPFS gateway",

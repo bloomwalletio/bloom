@@ -1,5 +1,6 @@
 export * from './managers'
 
+export * from './app-parameters.interface'
 export * from './app-settings.interface'
 export * from './app-update-download-progress.interface'
 export * from './app-update-state.interface'

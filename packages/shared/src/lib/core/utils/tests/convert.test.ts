@@ -2,6 +2,7 @@ import {
     convertDateToUnixTimestamp,
     convertUInt16NumberToLittleEndianHex,
     convertUnixTimestampToDate,
+    Converter,
 } from '../convert'
 
 describe('File: convert.ts', () => {
@@ -51,6 +52,16 @@ describe('File: convert.ts', () => {
             expect(convertUInt16NumberToLittleEndianHex(1023, false)).toEqual('FF03')
             expect(convertUInt16NumberToLittleEndianHex(32767, false)).toEqual('FF7F')
             expect(convertUInt16NumberToLittleEndianHex(-32768, false)).toEqual('0080')
+        })
+    })
+
+    describe('Function: bigIntLikeToBigInt', () => {
+        it('should handle valid inputs', () => {
+            expect(Converter.bigIntLikeToBigInt('0x')).toEqual(BigInt(0))
+            expect(Converter.bigIntLikeToBigInt('0')).toEqual(BigInt(0))
+            expect(Converter.bigIntLikeToBigInt(100)).toEqual(BigInt(100))
+            expect(Converter.bigIntLikeToBigInt('123330')).toEqual(BigInt(123330))
+            expect(Converter.bigIntLikeToBigInt(undefined)).toEqual(BigInt(0))
         })
     })
 })

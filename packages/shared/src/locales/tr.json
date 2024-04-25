@@ -252,7 +252,11 @@
                 "setAsPrimary": "Birincil olarak ayarla",
                 "addGateway": {
                     "title": "Yeni IPFS ağ geçidi ekle",
-                    "placeholder": "IPFS ağ geçidi"
+                    "placeholder": "IPFS ağ geçidi",
+                    "error": {
+                        "notReachable": "Gateway isn't reachable",
+                        "invalidGateway": "Invalid IPFS gateway"
+                    }
                 },
                 "removeConfirmation": {
                     "title": "IPFS ağ geçidini kaldır",

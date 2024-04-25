@@ -53,7 +53,7 @@
         <SelectInput
             label={localize('views.settings.downloadNftPermissions.input')}
             bind:selected
-            value={selected.value}
+            value={selected?.value}
             {options}
             hideValue
         />

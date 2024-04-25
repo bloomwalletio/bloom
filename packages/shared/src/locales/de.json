@@ -252,7 +252,11 @@
                 "setAsPrimary": "Als primär festlegen",
                 "addGateway": {
                     "title": "Neues IPFS-Gateway hinzufügen",
-                    "placeholder": "IPFS-Gateway"
+                    "placeholder": "IPFS-Gateway",
+                    "error": {
+                        "notReachable": "Gateway isn't reachable",
+                        "invalidGateway": "Invalid IPFS gateway"
+                    }
                 },
                 "removeConfirmation": {
                     "title": "IPFS-Gateway entfernen",
