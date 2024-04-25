@@ -2,12 +2,12 @@ import { get } from 'svelte/store'
 import { CoinGeckoApi } from '../apis'
 import { coinGeckoTokensMetadata } from '../stores'
 import { CoinGeckoNetworkId } from '../enums'
-import { SupportedEvmNetworkId } from '@core/network'
+import { SupportedIscNetworkId } from '@core/network/constants'
 
 export async function getAndUpdateShimmerEvmTokensMetadata(): Promise<void> {
     try {
         const coinGeckoShimmerEvmTokens = await CoinGeckoApi.getFilteredCoinsList(CoinGeckoNetworkId.ShimmerEVM)
-        const networkId = SupportedEvmNetworkId.ShimmerEvm
+        const networkId = SupportedIscNetworkId.ShimmerEvm
         const tokenMetadataPromises = coinGeckoShimmerEvmTokens.map(async (token) => {
             const tokenAddress = token.platforms[CoinGeckoNetworkId.ShimmerEVM]
             if (get(coinGeckoTokensMetadata)?.[networkId]?.[tokenAddress]) {

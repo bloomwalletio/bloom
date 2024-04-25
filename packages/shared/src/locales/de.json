@@ -249,18 +249,18 @@
             "ipfsGateways": {
                 "title": "IPFS-Gateways",
                 "description": "IPFS-Gateway für Medien-Abruf auswählen",
-                "setAsPrimary": "Set as primary",
+                "setAsPrimary": "Als primär festlegen",
                 "addGateway": {
-                    "title": "Add new IPFS gateway",
-                    "placeholder": "IPFS gateway",
+                    "title": "Neues IPFS-Gateway hinzufügen",
+                    "placeholder": "IPFS-Gateway",
                     "error": {
                         "notReachable": "Gateway isn't reachable",
                         "invalidGateway": "Invalid IPFS gateway"
                     }
                 },
                 "removeConfirmation": {
-                    "title": "Remove IPFS gateway",
-                    "description": "Are you sure you want to remove this IPFS gateway?"
+                    "title": "IPFS-Gateway entfernen",
+                    "description": "Bist du dir sicher, dass du dieses IPFS-Gatewax entfernen möchtest?"
                 }
             },
             "maxMediaSize": {
@@ -387,7 +387,8 @@
                 "degraded": "Netzwerk beeinträchtigt",
                 "down": "Netzwerk ausgefallen",
                 "disconnected": "Verbindung zur Node unterbrochen",
-                "status": "Status"
+                "status": "Status",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portfolio",

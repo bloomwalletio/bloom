@@ -15,7 +15,6 @@
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { ownedNfts, selectedNftId } from '@core/nfts/stores'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
     import { buildUrl, setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
@@ -23,7 +22,6 @@
     import { StardustActivityInformation, TransactionAssetSection } from '@ui'
     import { tick } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { handleError } from '@core/error/handlers'
 
     export let activity: StardustActivity
 
@@ -64,24 +62,10 @@
     async function onNftClick(): Promise<void> {
         closePopup()
         $selectedNftId = nft?.id
-        $dashboardRouter.goTo(DashboardRoute.Collectibles)
+        $dashboardRouter?.goTo(DashboardRoute.Collectibles)
         await tick()
-        $collectiblesRouter.goTo(CollectiblesRoute.Details)
-        $collectiblesRouter.setBreadcrumb(nft?.name)
-    }
-
-    async function onClaimClick(_activity: StardustActivity): Promise<void> {
-        try {
-            await checkActiveProfileAuth()
-        } catch {
-            return
-        }
-
-        try {
-            await claimActivity(_activity, $selectedAccount)
-        } catch (error) {
-            handleError(error)
-        }
+        $collectiblesRouter?.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter?.setBreadcrumb(nft?.name)
     }
 
     function onRejectClick(): void {
@@ -117,7 +101,7 @@
 
     $: continueButton = {
         text: localize('actions.claim'),
-        onClick: () => onClaimClick(activity),
+        onClick: () => claimActivity(activity, $selectedAccount),
     }
 </script>
 
@@ -138,7 +122,7 @@
             {:else if activity.transactionId}
                 <Link
                     text={truncateString(activity.transactionId, 12, 12)}
-                    on:click={() => setClipboard(activity.transactionId)}
+                    on:click={() => setClipboard(activity.transactionId ?? '')}
                 />
             {/if}
         </div>

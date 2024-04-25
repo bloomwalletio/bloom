@@ -389,7 +389,8 @@
                 "degraded": "Network degraded",
                 "down": "Network down",
                 "disconnected": "Disconnected from node",
-                "status": "Status"
+                "status": "Status",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portfolio",

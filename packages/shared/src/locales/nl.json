@@ -249,9 +249,9 @@
             "ipfsGateways": {
                 "title": "IPFS gateways",
                 "description": "Selecteer de IPFS gateway om te gebruiken voor het ophalen van media",
-                "setAsPrimary": "Set as primary",
+                "setAsPrimary": "Instellen als primair",
                 "addGateway": {
-                    "title": "Add new IPFS gateway",
+                    "title": "Nieuwe IPFS gateway toevoegen",
                     "placeholder": "IPFS gateway",
                     "error": {
                         "notReachable": "Gateway isn't reachable",
@@ -259,8 +259,8 @@
                     }
                 },
                 "removeConfirmation": {
-                    "title": "Remove IPFS gateway",
-                    "description": "Are you sure you want to remove this IPFS gateway?"
+                    "title": "Verwijder IPFS gateway",
+                    "description": "Weet je zeker dat je deze IPFS gateway wilt verwijderen?"
                 }
             },
             "maxMediaSize": {
@@ -387,7 +387,8 @@
                 "degraded": "Netwerk gedegradeerd",
                 "down": "Netwerk Inactief",
                 "disconnected": "Verbinding verbroken met knooppunt",
-                "status": "Status"
+                "status": "Status",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portefeuille",

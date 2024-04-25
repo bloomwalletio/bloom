@@ -1,9 +1,10 @@
 import { Writable, writable, get } from 'svelte/store'
 
 import { activeProfile } from '@core/profile/stores'
+import features from '@features/features'
 
-import { IscpChain, StardustNetwork } from '../classes'
-import { IEvmNetwork, IIscNetworkConfiguration, IStardustNetwork } from '../interfaces'
+import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
+import { IEvmNetwork, IIscChainConfiguration, IStardustNetwork } from '../interfaces'
 import { Network, NetworkId } from '../types'
 import { EvmNetworkType, NetworkNamespace } from '../enums'
 
@@ -11,25 +12,34 @@ export const networks: Writable<Network[]> = writable([])
 
 export function initializeNetworks(): void {
     const profile = get(activeProfile)
+    let _networks: Network[] = []
     if (profile?.network) {
         const stardustNetwork = new StardustNetwork(profile.network)
         const chains = profile.network.chainConfigurations
             .map((chainConfiguration) => {
-                return new IscpChain(chainConfiguration)
+                return new IscChain(chainConfiguration)
             })
             .filter(Boolean) as IEvmNetwork[]
-        networks.set([stardustNetwork, ...chains])
+        _networks = [stardustNetwork, ...chains]
     }
+
+    if (features.network.evmNetworks.enabled) {
+        profile.evmNetworks?.forEach((evmNetwork) => {
+            _networks.push(new EvmNetwork(evmNetwork))
+        })
+    }
+
+    networks.set(_networks)
 }
 
-export function addNetwork(chainConfiguration: IIscNetworkConfiguration): void {
+export function addNetwork(chainConfiguration: IIscChainConfiguration): void {
     const network = getNetwork(chainConfiguration.id)
     if (network) {
         return
     }
 
     networks.update((networks) => {
-        networks.push(new IscpChain(chainConfiguration))
+        networks.push(new IscChain(chainConfiguration))
         return networks
     })
 }
@@ -58,10 +68,15 @@ export function getEvmNetwork(networkId: NetworkId): IEvmNetwork | undefined {
     ) as IEvmNetwork
 }
 
-export function getIscpChains(): IscpChain[] {
+export function getIscChains(): IscChain[] {
     return (
         (get(networks)?.filter(
-            (network) => network.namespace === NetworkNamespace.Evm && network.type === EvmNetworkType.Iscp
-        ) as IscpChain[]) ?? []
+            (network) => network.namespace === NetworkNamespace.Evm && network.type === EvmNetworkType.Isc
+        ) as IscChain[]) ?? []
     )
+}
+
+export function getIscChain(networkId: NetworkId): IscChain | undefined {
+    const iscChains = getIscChains()
+    return iscChains.find(({ id }) => id === networkId)
 }

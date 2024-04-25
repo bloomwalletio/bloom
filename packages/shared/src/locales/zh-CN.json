@@ -387,7 +387,8 @@
                 "degraded": "网络已降级",
                 "down": "网络中断",
                 "disconnected": "从节点断开连接",
-                "status": "状态"
+                "status": "状态",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portfolio",

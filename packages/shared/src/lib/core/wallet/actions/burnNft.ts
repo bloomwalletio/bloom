@@ -5,9 +5,12 @@ import { handleError } from '@core/error/handlers'
 import { localize } from '@core/i18n'
 import { getActiveNetworkId } from '@core/network'
 import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
+import { checkActiveProfileAuth } from '@core/profile/actions'
 import { sendPreparedTransaction } from '@core/wallet/utils'
 
 export async function burnNft(nftId: string): Promise<void> {
+    await checkActiveProfileAuth()
+
     try {
         const account = getSelectedAccount()
         const networkId = getActiveNetworkId()

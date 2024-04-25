@@ -249,18 +249,18 @@
             "ipfsGateways": {
                 "title": "IPFS ağ geçitleri",
                 "description": "Medya alımı için kullanılacak IPFS ağ geçidini seçin",
-                "setAsPrimary": "Set as primary",
+                "setAsPrimary": "Birincil olarak ayarla",
                 "addGateway": {
-                    "title": "Add new IPFS gateway",
-                    "placeholder": "IPFS gateway",
+                    "title": "Yeni IPFS ağ geçidi ekle",
+                    "placeholder": "IPFS ağ geçidi",
                     "error": {
                         "notReachable": "Gateway isn't reachable",
                         "invalidGateway": "Invalid IPFS gateway"
                     }
                 },
                 "removeConfirmation": {
-                    "title": "Remove IPFS gateway",
-                    "description": "Are you sure you want to remove this IPFS gateway?"
+                    "title": "IPFS ağ geçidini kaldır",
+                    "description": "Bu IPFS ağ geçidini kaldırmak istediğinizden emin misiniz?"
                 }
             },
             "maxMediaSize": {
@@ -387,7 +387,8 @@
                 "degraded": "Ağ bozuk",
                 "down": "Ağ düşük",
                 "disconnected": "Düğüm bağlantısı kesildi",
-                "status": "Durum"
+                "status": "Durum",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portföy",

@@ -387,7 +387,8 @@
                 "degraded": "Réseau dégradé",
                 "down": "Réseau Hors Service",
                 "disconnected": "Déconnecté du nœud",
-                "status": "Statut"
+                "status": "Statut",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portfolio",

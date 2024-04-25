@@ -387,7 +387,8 @@
                 "degraded": "Red degradada",
                 "down": "Red caída",
                 "disconnected": "Desconectado del nodo",
-                "status": "Estado"
+                "status": "Estado",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portfolio",

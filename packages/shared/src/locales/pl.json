@@ -387,7 +387,8 @@
                 "degraded": "Pogorszenie stanu sieci",
                 "down": "Sieć nie działa",
                 "disconnected": "Rozłączono z serwerem",
-                "status": "Status"
+                "status": "Status",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portfolio",
