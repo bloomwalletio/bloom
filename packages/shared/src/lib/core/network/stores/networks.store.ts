@@ -5,7 +5,7 @@ import features from '@features/features'
 
 import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
 import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
-import { Network, NetworkId } from '../types'
+import { EvmNetworkId, Network, NetworkId } from '../types'
 import { EvmNetworkType, NetworkNamespace } from '../enums'
 
 export const networks: Writable<Network[]> = writable([])
@@ -27,7 +27,11 @@ export function initializeNetworks(): void {
     networks.set(_networks)
 }
 
-export function addNetwork(chain: IIscChain): void {
+export function getNetwork(networkId: NetworkId): Network | undefined {
+    return get(networks)?.find((network) => network.id === networkId)
+}
+
+export function addChain(chain: IIscChain): void {
     const network = getNetwork(chain.id)
     if (network) {
         return
@@ -39,8 +43,10 @@ export function addNetwork(chain: IIscChain): void {
     })
 }
 
-export function getNetwork(networkId: NetworkId): Network | undefined {
-    return get(networks)?.find((network) => network.id === networkId)
+export function removeChain(chainId: EvmNetworkId): void {
+    networks.update((networks) => {
+        return networks.filter(({ id }) => id !== chainId)
+    })
 }
 
 export function getL1Network(): IStardustNetwork {

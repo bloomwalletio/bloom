@@ -10,8 +10,8 @@ import {
     IStardustNetworkMetadata,
 } from '../interfaces'
 import { IscChain } from '../classes'
-import { addNetwork, networkStatus } from '../stores'
-import { NetworkId, StardustNetworkId } from '../types'
+import { addChain, networkStatus, removeChain } from '../stores'
+import { EvmNetworkId, StardustNetworkId } from '../types'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -22,7 +22,7 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly bech32Hrp: string
     public readonly protocol: IProtocol
     public readonly baseToken: IBaseToken
-    public readonly iscChains: IscChain[]
+    public iscChains: IscChain[]
 
     constructor(persistedNetwork: IStardustNetworkMetadata) {
         this.id = persistedNetwork.id
@@ -55,7 +55,7 @@ export class StardustNetwork implements IStardustNetwork {
 
             const iscChain = new IscChain(chainConfiguration)
             this.iscChains.push(iscChain)
-            addNetwork(iscChain)
+            addChain(iscChain)
         }
     }
 
@@ -67,11 +67,13 @@ export class StardustNetwork implements IStardustNetwork {
         })
     }
 
-    removeChain(networkId: NetworkId): void {
+    removeChain(networkId: EvmNetworkId): void {
         const network = get(activeProfile).network
         const newChains = network.chainConfigurations.filter(
             (chainConfiguration) => chainConfiguration.id !== networkId
         )
+        this.iscChains = this.iscChains.filter((chain) => chain.id === networkId)
+        removeChain(networkId)
         updateActiveProfile({ network: { ...network, chainConfigurations: newChains } })
     }
 }
