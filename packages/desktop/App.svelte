@@ -3,7 +3,11 @@
     import { Popup, ProfileAuthPopup } from '@components/popup'
     import TitleBar from '@components/TitleBar.svelte'
     import { IS_WINDOWS, Platform, openUrlInBrowser } from '@core/app'
-    import { registerAppEvents, getAndUpdateDarkMode } from '@core/app/actions'
+    import {
+        registerAppEvents,
+        getAndUpdateDarkMode,
+        updateAppParametersWithRemoteConfiguration,
+    } from '@core/app/actions'
     import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails, windowSize } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
     import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
@@ -28,9 +32,6 @@
     import { _ } from '@core/i18n'
     import { getAndUpdateShimmerEvmTokensMetadata } from '@core/market/actions'
     import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
-    import { NFT_BLOCKLIST_JSON_URL } from '@core/utils/constants/nft-blocklist-json-url.constant'
-    import { nftBlocklist } from '@core/utils/stores/nft-blocklist.store'
-    import nftBlockListJson from '@core/utils/json/nft-blocklist.json'
 
     $: $activeProfile, saveActiveProfile()
 
@@ -73,6 +74,7 @@
         // Set dark mode initially in case the native theme is already in system
         await getAndUpdateDarkMode()
 
+        await updateAppParametersWithRemoteConfiguration()
         await checkAndMigrateProfiles()
         await cleanupEmptyProfiles()
         Platform.onEvent('deep-link-request', handleDeepLink)
@@ -110,14 +112,6 @@
         registerMenuButtons()
         void initializeWalletConnect()
         await getAndUpdateShimmerEvmTokensMetadata()
-
-        try {
-            const response = await fetch(NFT_BLOCKLIST_JSON_URL)
-            const blocklist = await response.json()
-            nftBlocklist.set(blocklist)
-        } catch (error) {
-            nftBlocklist.set(nftBlockListJson)
-        }
     })
 
     onDestroy(() => {

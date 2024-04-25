@@ -251,9 +251,14 @@
                 "title": "IPFS gateways",
                 "description": "Select the IPFS gateway to use for media retrieval",
                 "setAsPrimary": "Set as primary",
+                "unsetPrimary": "Unset primary",
                 "addGateway": {
                     "title": "Add new IPFS gateway",
-                    "placeholder": "IPFS gateway"
+                    "placeholder": "IPFS gateway",
+                    "error": {
+                        "notReachable": "Gateway isn't reachable",
+                        "invalidGateway": "Invalid IPFS gateway"
+                    }
                 },
                 "removeConfirmation": {
                     "title": "Remove IPFS gateway",
@@ -2090,7 +2095,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Loading blocked",
-                "long": "NFT file type does not match the expected media type"
+                "long": "NFT file type does not match the expected media type - Expected: {expected}, Actual: {actual}"
             },
             "notReachable": {
                 "short": "Not reachable",

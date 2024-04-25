@@ -12,9 +12,16 @@ import { get } from 'svelte/store'
 import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 import { SendFlowType } from '../enums'
 import { BaseSendFlowParameters } from '../types'
+import { checkActiveProfileAuth } from '@core/profile/actions'
 
-export async function claimActivity(activity: StardustActivity, account: IAccountState): Promise<void> {
-    if (!activity.outputId) {
+export async function claimActivity(activity: StardustActivity, account: IAccountState | undefined): Promise<void> {
+    if (!activity.outputId || !account) {
+        return
+    }
+
+    try {
+        await checkActiveProfileAuth()
+    } catch {
         return
     }
 

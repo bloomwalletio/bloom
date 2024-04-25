@@ -1,19 +1,17 @@
 <script lang="typescript">
-    import { IconName, Pill, Text, Tooltip, TooltipIcon, type TextColor } from '@bloomwalletio/ui'
-    import { time } from '@core/app/stores'
+    import { Pill, Text, Tooltip, type TextColor } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { IDownloadMetadata, Nft, isIrc27Nft, isNftLocked } from '@core/nfts'
+    import { DownloadErrorType, IDownloadMetadata, Nft } from '@core/nfts'
     import { downloadingNftId, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
-    import { getTimeDifference } from '@core/utils'
-    import { MediaPlaceholder, NftMedia } from '@ui'
+    import { MediaPlaceholder, NetworkAvatar, NftMedia } from '@ui'
+    import AssetPillsForNft from '@ui/nfts/AssetPillsForNft.svelte'
+    import AsyncPillsForNft from '@ui/nfts/AsyncPillsForNft.svelte'
 
     export let nft: Nft
 
     let nftWrapperClientWidth: number
     let anchor: HTMLElement
-
-    $: isLocked = isNftLocked(nft)
 
     $: placeHolderColor = nft.downloadMetadata?.error
         ? 'danger'
@@ -23,20 +21,20 @@
 
     function onNftClick(): void {
         $selectedNftId = nft.id
-        $collectiblesRouter.goTo(CollectiblesRoute.Details)
-        $collectiblesRouter.setBreadcrumb(nft?.name)
+        $collectiblesRouter?.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter?.setBreadcrumb(nft?.name)
     }
 
     function getAlertText(downloadMetadata: IDownloadMetadata | undefined): string {
-        const { error, warning } = downloadMetadata ?? {}
-        const errorOrWarning = error || warning
+        if (downloadMetadata?.error?.type === DownloadErrorType.Generic) {
+            return downloadMetadata.responseCode + ' ' + downloadMetadata.error.message
+        }
 
+        const errorOrWarning = downloadMetadata?.error || downloadMetadata?.warning
         if (!errorOrWarning) {
             return ''
         }
-
-        const { type, message } = errorOrWarning
-        return type === 'generic' ? message ?? '' : localize(`error.nft.${type}.short`)
+        return localize(`error.nft.${errorOrWarning.type}.short`)
     }
 </script>
 
@@ -57,26 +55,31 @@
                 />
             </NftMedia>
             <error-container bind:this={anchor}>
-                {#if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
+                {#if nft.isScam}
+                    <Pill color="warning">{localize('general.warning')}</Pill>
+                {:else if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
                     <Pill color={nft.downloadMetadata?.error ? 'danger' : 'warning'}>
                         {localize('general.' + (nft.downloadMetadata?.error ? 'error' : 'warning'))}
                     </Pill>
                 {/if}
             </error-container>
-            <Tooltip {anchor} placement="bottom" event="hover" text={getAlertText(nft.downloadMetadata)} />
+            <Tooltip
+                {anchor}
+                placement="bottom"
+                event="hover"
+                text={nft.isScam ? localize('error.nft.scamNft.short') : getAlertText(nft.downloadMetadata)}
+            />
         </div>
-        <nft-name class="w-full flex flex-row items-center justify-between p-3 gap-2">
-            <Text type="body2" truncate>{nft.name}</Text>
-            {#if isLocked && isIrc27Nft(nft)}
-                <TooltipIcon
-                    icon={IconName.Locked}
-                    tooltip={localize('views.collectibles.gallery.timelocked', {
-                        timeDiff: getTimeDifference(new Date(nft.timelockTime ?? 0), $time),
-                    })}
-                    placement="top"
-                />
-            {/if}
-        </nft-name>
+        <div class="flex flex-col gap-2 p-3">
+            <nft-name class="w-full flex flex-row items-center justify-between gap-2">
+                <Text type="body2" truncate>{nft.name}</Text>
+            </nft-name>
+            <nft-pills class="flex flex-row items-center gap-2">
+                <NetworkAvatar networkId={nft.networkId} size="sm" showTooltip />
+                <AssetPillsForNft {nft} />
+                <AsyncPillsForNft {nft} />
+            </nft-pills>
+        </div>
     </container>
 </button>
 

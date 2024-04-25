@@ -247,9 +247,21 @@
                 "description": "\"Stronghold şifrenizin tekrar gerekli olduğu süre uzunluğu\""
             },
             "ipfsGateways": {
-                "title": "IPFS gateways",
-                "description": "Select the IPFS gateway to use for media retrieval",
-                "input": "IPFS gateway"
+                "title": "IPFS ağ geçitleri",
+                "description": "Medya alımı için kullanılacak IPFS ağ geçidini seçin",
+                "setAsPrimary": "Birincil olarak ayarla",
+                "addGateway": {
+                    "title": "Yeni IPFS ağ geçidi ekle",
+                    "placeholder": "IPFS ağ geçidi",
+                    "error": {
+                        "notReachable": "Gateway isn't reachable",
+                        "invalidGateway": "Invalid IPFS gateway"
+                    }
+                },
+                "removeConfirmation": {
+                    "title": "IPFS ağ geçidini kaldır",
+                    "description": "Bu IPFS ağ geçidini kaldırmak istediğinizden emin misiniz?"
+                }
             },
             "maxMediaSize": {
                 "title": "Maksimum medya boyutu",
@@ -336,13 +348,13 @@
                 "description": "Özellikleri açın veya kapatın, ihtiyaçlarınıza uygun belirli işlevleri etkinleştirerek veya devre dışı bırakarak deneyiminizi özelleştirin."
             },
             "downloadNftPermissions": {
-                "title": "Nft download permissions",
-                "description": "Download permissions for the automatic downloading of NFT media",
-                "input": "Download permissions",
-                "all": "Download All",
-                "allExceptDenylist": "All Except Known Risks",
-                "allowListOnly": "Only Known Domains",
-                "none": "Do Not Download Any"
+                "title": "Nft indirme izinleri",
+                "description": "NFT medyasının otomatik olarak indirilmesi için indirme izinleri",
+                "input": "İndirme izinleri",
+                "all": "Hepsini indir",
+                "allExceptDenylist": "Bilinen Riskler Hariç Tümü",
+                "allowListOnly": "Yalnızca Bilinen Alan Adları",
+                "none": "Hiçbirini İndirmeyin"
             }
         },
         "login": {
@@ -375,7 +387,8 @@
                 "degraded": "Ağ bozuk",
                 "down": "Ağ düşük",
                 "disconnected": "Düğüm bağlantısı kesildi",
-                "status": "Durum"
+                "status": "Durum",
+                "undefined": "Undefined Network"
             },
             "portfolio": {
                 "tab": "Portföy",
@@ -646,11 +659,11 @@
                 "menu": {
                     "download": "İndir",
                     "setPfp": "{timeDiff} için kilitlendi",
-                    "loadMedia": "Load media in wallet",
+                    "loadMedia": "Medyayı cüzdana yükle",
                     "unsetPfp": "{timeDiff} için kilitlendi",
                     "view": "{timeDiff} için kilitlendi",
-                    "hide": "Hide NFT",
-                    "unhide": "Unhide NFT",
+                    "hide": "NFT'yi gizle",
+                    "unhide": "NFT'yi göster",
                     "burn": "{timeDiff} için kilitlendi"
                 }
             }
@@ -1304,11 +1317,11 @@
             "title": "Hesap oluştur"
         },
         "profileDiagnostics": {
-            "title": "Profile diagnostics"
+            "title": "Profil teşhisi"
         },
         "notAScam": {
-            "title": "Not a scam?",
-            "description": "Are you sure you want to mark this NFT as not a scam?"
+            "title": "Bir dolandırıcılık değil mi?",
+            "description": "Bu NFT'yi dolandırıcılık değil olarak işaretlemek istediğinizden emin misiniz?"
         }
     },
     "actions": {
@@ -1453,8 +1466,8 @@
         "mintNftCollection": "NFT koleksiyon basma",
         "readMore": "Daha fazla bilgi edinin",
         "importThirdPartyProfiles": "Üçüncü taraf profillerini içe aktarma",
-        "retry": "Retry",
-        "loadAnyway": "Load anyway"
+        "retry": "Yeniden Dene",
+        "loadAnyway": "Yine de yükle"
     },
     "general": {
         "recipient": "Alıcı",
@@ -1642,7 +1655,7 @@
         "custom": "Standart",
         "evmAddress": "EVM Adresi",
         "contractAddress": "Kontrat (Sözleşme) Adresi",
-        "contract": "Contract",
+        "contract": "Sözleşme",
         "optionalField": "{field} (isteğe bağlı)",
         "gifted": "Hediye başarıyla verildi",
         "connected": "Bağlı",
@@ -1672,7 +1685,7 @@
         "methodId": "Yöntem Kimliği",
         "methodName": "Yöntem Adı",
         "inputs": "Girişler",
-        "parameters": "Parameters",
+        "parameters": "Parametreler",
         "data": "Veri",
         "success": "Başarılı",
         "info": "Bilgi",
@@ -1688,8 +1701,8 @@
         "mintNftCollectionDescription": "Takma Ad Çıkışında NFT koleksiyonu basma",
         "appName": "Uygulama Adı",
         "question": "Soru",
-        "id": "ID",
-        "location": "Location"
+        "id": "Kimlik",
+        "location": "Konum"
     },
     "filters": {
         "title": "Filtreler",
@@ -1704,9 +1717,9 @@
             "no": "Hayır"
         },
         "showSpam": {
-            "label": "Show spam",
-            "yes": "Yes",
-            "no": "No"
+            "label": "Spamı göster",
+            "yes": "Evet",
+            "no": "Hayır"
         },
         "ascDesc": {
             "Asc": "Artan",
@@ -2100,12 +2113,12 @@
                 "long": "NFT yüklenirken bir hata oluştu"
             },
             "downloadNotAllowed": {
-                "short": "Download blocked by settings",
-                "long": "Your current NFT download permissions do not allow downloading this NFT from its URL"
+                "short": "İndirme ayarlar tarafından engellendi",
+                "long": "Mevcut NFT indirme izinleri, bu NFT'nin URL'sinden indirilmesine izin vermiyor"
             },
             "scamNft": {
-                "short": "Scam NFT detected",
-                "long": "We have detected that this NFT is a scam, please be cautious and do not interact with it."
+                "short": "Dolandırıcılık NFT'si tespit edildi",
+                "long": "Bu NFT'nin bir dolandırıcılık olduğunu tespit ettik, lütfen dikkatli olun ve onunla etkileşime geçmeyin."
             }
         },
         "governance": {
