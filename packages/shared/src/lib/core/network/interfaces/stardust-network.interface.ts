@@ -2,11 +2,13 @@ import { NetworkNamespace } from '../enums'
 import { NetworkId } from '../types'
 import { INetworkStatus } from './network-status.interface'
 import { IIscChainConfiguration } from './evm-network-configuration.interface'
-import { IStardustNetworkMetadata } from '@core/network'
+import { IscChain, IStardustNetworkMetadata } from '@core/network'
 
-export interface IStardustNetwork extends IStardustNetworkMetadata {
+export interface IStardustNetwork extends Omit<IStardustNetworkMetadata, 'chainConfigurations'> {
     namespace: NetworkNamespace.Stardust
     bech32Hrp: string
+
+    iscChains: IscChain[]
 
     getStatus(): INetworkStatus
 
