@@ -49,7 +49,6 @@ export async function checkIfNftShouldBeDownloaded(
 
         if (!skipDownloadSettingsCheck) {
             const nftSettings = getActiveProfile()?.settings?.nfts ?? {}
-            // TODO: Implement deny list
             switch (nftSettings.downloadPermissions) {
                 case DownloadPermission.None:
                     downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
@@ -59,20 +58,31 @@ export async function checkIfNftShouldBeDownloaded(
                     const remoteAllowlist = get(appParameters).allowlists.urls
                     const allowlist = [...remoteAllowlist, ...knownGateways]
                     const mediaUrl = new URL(nft.mediaUrl)
-                    const startsWithAllowedGateways =
+                    const startsWithAllowedGateway =
                         mediaUrl.protocol === 'ipfs:' ||
                         (mediaUrl.protocol === 'https:' &&
                             allowlist.some((allowedUrl) => {
                                 const url = new URL(allowedUrl)
                                 return mediaUrl.origin === url.origin
                             }))
-                    if (!startsWithAllowedGateways) {
+                    if (!startsWithAllowedGateway) {
                         downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
                         return { shouldDownload: false, isLoaded: false, downloadMetadata }
                     }
                     break
                 }
-                case DownloadPermission.AllExceptDenylist:
+                case DownloadPermission.AllExceptDenylist: {
+                    const denylist = get(appParameters).denylists.urls
+                    const mediaUrl = new URL(nft.mediaUrl)
+                    const startsWithDeniedGateway = denylist.some((blockedUrl) => {
+                        return mediaUrl.origin.includes(blockedUrl)
+                    })
+                    if (startsWithDeniedGateway) {
+                        downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
+                        return { shouldDownload: false, isLoaded: false, downloadMetadata }
+                    }
+                    break
+                }
                 case DownloadPermission.All:
                     break
             }
