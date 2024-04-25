@@ -8,8 +8,6 @@
     import { SearchInput } from '@ui'
     import { writable } from 'svelte/store'
     import { CollectiblesTabs } from '../components'
-    import { onMount } from 'svelte'
-    import { collectiblesRouter } from '@core/router'
 
     function onReceiveClick(): void {
         openPopup({
@@ -24,16 +22,12 @@
     const ownedCollections = collections
     let queriedCollections: typeof collections = []
     $: collectionSearchTerm,
-        collectionFilter,
+        $collectionFilter,
         (queriedCollections = ownedCollections
             .filter((collection) => collection)
             .sort((collection1, collection2) =>
                 collection1.name.toLowerCase().localeCompare(collection2.name.toLowerCase())
             ))
-
-    onMount(() => {
-        $collectiblesRouter?.setBreadcrumb(localize('views.collectibles.collectionsGallery.title'))
-    })
 </script>
 
 <collections-gallery-view class="flex flex-col w-full h-full gap-4">

@@ -1,22 +1,13 @@
 <script lang="ts">
     import { Tabs } from '@bloomwalletio/ui'
-    import { CollectiblesRoute, collectiblesRoute, collectiblesRouter } from '@core/router'
-    import { KeyValue } from '@ui'
+    import { COLLECTIBLES_TABS } from '@core/nfts'
+    import { selectedCollectiblesTab } from '@core/nfts/stores'
 
-    const tabs: KeyValue<string>[] = [
-        { key: 'collectibles', value: 'Collectibles' },
-        { key: 'collections', value: 'Collections' },
-    ]
-
-    const selectedIndex = $collectiblesRoute === CollectiblesRoute.Gallery ? 0 : 1
-
-    let selectedTab = tabs[selectedIndex]
-
-    $: selectedTab.key === tabs[0].key
-        ? $collectiblesRouter?.goTo(CollectiblesRoute.Gallery)
-        : $collectiblesRouter?.goTo(CollectiblesRoute.CollectionsGallery)
+    const selectedIndex = COLLECTIBLES_TABS.findIndex((tab) => tab.key === $selectedCollectiblesTab?.key)
 </script>
 
-<div class="w-64">
-    <Tabs {selectedIndex} bind:selectedTab {tabs} />
-</div>
+{#if COLLECTIBLES_TABS.length > 1}
+    <div class="w-64">
+        <Tabs {selectedIndex} bind:selectedTab={$selectedCollectiblesTab} tabs={COLLECTIBLES_TABS} />
+    </div>
+{/if}

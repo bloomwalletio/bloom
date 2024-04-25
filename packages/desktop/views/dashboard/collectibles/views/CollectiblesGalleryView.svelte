@@ -33,9 +33,7 @@
                 <Text textColor="secondary">{String(queriedNfts.length ?? '')}</Text>
             </Pill>
         </div>
-        {#if features.collectibles.collections.enabled}
-            <CollectiblesTabs />
-        {/if}
+        <CollectiblesTabs />
         <div class="flex justify-end items-center gap-5 h-10 shrink-0 flex-1">
             {#if $ownedNfts.length}
                 <SearchInput bind:value={$nftSearchTerm} />
