@@ -13,6 +13,5 @@ export interface IStardustNetwork extends Omit<IStardustNetworkMetadata, 'chainC
     getStatus(): INetworkStatus
 
     addChain(chainConfiguration: IIscChainConfiguration): void
-    editChain(networkId: NetworkId, payload: Partial<IIscChainConfiguration>): Promise<void>
     removeChain(networkId: NetworkId): void
 }

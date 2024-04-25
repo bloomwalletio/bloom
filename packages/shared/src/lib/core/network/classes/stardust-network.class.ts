@@ -1,21 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { get } from 'svelte/store'
+import { IBaseToken } from '@core/token/interfaces'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { NetworkNamespace } from '../enums'
 import {
-    IEvmNetwork,
     IIscChainConfiguration,
     INetworkStatus,
     IProtocol,
     IStardustNetwork,
     IStardustNetworkMetadata,
 } from '../interfaces'
+import { IscChain } from '../classes'
 import { addNetwork, networkStatus } from '../stores'
 import { NetworkId, StardustNetworkId } from '../types'
-
-import { IBaseToken } from '@core/token'
-import { IscChain } from '@core/network/classes/isc-chain.class'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -69,10 +65,6 @@ export class StardustNetwork implements IStardustNetwork {
             const hasSameId = id === chainConfiguration.id
             return hasSameName || hasSameId
         })
-    }
-
-    editChain(networkId: NetworkId, payload: Partial<IIscChainConfiguration>): Promise<void> {
-        return Promise.resolve()
     }
 
     removeChain(networkId: NetworkId): void {
