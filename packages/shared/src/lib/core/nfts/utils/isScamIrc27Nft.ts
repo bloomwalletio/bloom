@@ -1,9 +1,9 @@
+import { appParameters } from '@core/app/stores'
 import { IIrc27Metadata } from '../interfaces'
-import { nftBlocklist } from '@core/utils/stores/nft-blocklist.store'
 import { get } from 'svelte/store'
 
 export function isScamIrc27Nft(metadata: IIrc27Metadata): boolean {
-    const { urls, keywords } = get(nftBlocklist)
+    const { urls, keywords } = get(appParameters).denylists
 
     if (
         urls.some(

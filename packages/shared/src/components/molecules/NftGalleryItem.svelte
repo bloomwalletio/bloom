@@ -1,7 +1,7 @@
 <script lang="typescript">
     import { Pill, Text, Tooltip, type TextColor } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { IDownloadMetadata, Nft } from '@core/nfts'
+    import { DownloadErrorType, IDownloadMetadata, Nft } from '@core/nfts'
     import { downloadingNftId, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { MediaPlaceholder, NetworkAvatar, NftMedia } from '@ui'
@@ -21,20 +21,20 @@
 
     function onNftClick(): void {
         $selectedNftId = nft.id
-        $collectiblesRouter.goTo(CollectiblesRoute.Details)
-        $collectiblesRouter.setBreadcrumb(nft?.name)
+        $collectiblesRouter?.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter?.setBreadcrumb(nft?.name)
     }
 
     function getAlertText(downloadMetadata: IDownloadMetadata | undefined): string {
-        const { error, warning } = downloadMetadata ?? {}
-        const errorOrWarning = error || warning
+        if (downloadMetadata?.error?.type === DownloadErrorType.Generic) {
+            return downloadMetadata.responseCode + ' ' + downloadMetadata.error.message
+        }
 
+        const errorOrWarning = downloadMetadata?.error || downloadMetadata?.warning
         if (!errorOrWarning) {
             return ''
         }
-
-        const { type, message } = errorOrWarning
-        return type === 'generic' ? message ?? '' : localize(`error.nft.${type}.short`)
+        return localize(`error.nft.${errorOrWarning.type}.short`)
     }
 </script>
 
@@ -55,13 +55,20 @@
                 />
             </NftMedia>
             <error-container bind:this={anchor}>
-                {#if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
+                {#if nft.isScam}
+                    <Pill color="warning">{localize('general.warning')}</Pill>
+                {:else if nft.downloadMetadata?.error || nft.downloadMetadata?.warning}
                     <Pill color={nft.downloadMetadata?.error ? 'danger' : 'warning'}>
                         {localize('general.' + (nft.downloadMetadata?.error ? 'error' : 'warning'))}
                     </Pill>
                 {/if}
             </error-container>
-            <Tooltip {anchor} placement="bottom" event="hover" text={getAlertText(nft.downloadMetadata)} />
+            <Tooltip
+                {anchor}
+                placement="bottom"
+                event="hover"
+                text={nft.isScam ? localize('error.nft.scamNft.short') : getAlertText(nft.downloadMetadata)}
+            />
         </div>
         <div class="flex flex-col gap-2 p-3">
             <nft-name class="w-full flex flex-row items-center justify-between gap-2">

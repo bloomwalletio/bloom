@@ -48,8 +48,12 @@
                 nftsToDownload.push(nft)
             }
 
-            const nftSizeInBytes = Number($persistedNftForActiveProfile?.[nftId]?.downloadMetadata.contentLength)
+            const contentLength = $persistedNftForActiveProfile?.[nftId]?.downloadMetadata?.contentLength
+            if (contentLength === undefined) {
+                return
+            }
 
+            const nftSizeInBytes = Number(contentLength)
             if (nftSizeInBytes > maxMediaSizeInBytes) {
                 nftsToDelete.push(nft)
             } else if (nftSizeInBytes <= maxMediaSizeInBytes) {
@@ -60,7 +64,11 @@
         await addNftsToDownloadQueue(nftsToDownload)
         await Promise.all(
             nftsToDelete.map(async (nft) => {
-                await Platform.deleteFile(nft.downloadMetadata?.filePath)
+                if (!nft.downloadMetadata?.filePath) {
+                    return
+                }
+
+                await Platform.deleteFile(nft.downloadMetadata.filePath)
                 updateNftInAllAccountNfts(nft.id, {
                     isLoaded: false,
                     downloadMetadata: {
