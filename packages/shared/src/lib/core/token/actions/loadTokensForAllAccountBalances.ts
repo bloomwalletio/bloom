@@ -79,7 +79,6 @@ async function loadTokensForEvmNetwork(
         ? getPersistedVerificationStatesForNetwork(network.id)
         : {}
 
-    // TODO: Create a constant for each network class
     const baseCoin: IPersistedToken = {
         id: BASE_TOKEN_ID,
         standard: TokenStandard.BaseToken,

@@ -34,7 +34,7 @@
 <PopupTemplate
     title={localize('popups.faucetRequest.title')}
     description={localize('popups.faucetRequest.body', {
-        values: { token: network.baseToken.name, network: network?.name },
+        values: { token: network.baseToken.name, network: network.name },
     })}
     backButton={{
         text: localize('actions.cancel'),
