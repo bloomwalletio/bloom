@@ -10,6 +10,7 @@ import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enu
 import { IBlock, IEvmNetwork, IBaseEvmNetworkConfiguration } from '../interfaces'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
+import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 
 export class BaseEvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -60,10 +61,10 @@ export class BaseEvmNetwork implements IEvmNetwork {
             this.health.set(
                 get(this.health) === NetworkHealth.Operational ? NetworkHealth.Degraded : NetworkHealth.Operational
             )
-            // getAndUpdateNodeInfo().then(
-            //     (nodeResponse) => (this.health.set(getNetworkStatusFromNodeInfo(nodeResponse?.nodeInfo).health))
-            // )
-        }, 1000)
+            this.getLatestBlock()
+                .then(() => this.health.set(NetworkHealth.Operational))
+                .catch(() => this.health.set(NetworkHealth.Disconnected))
+        }, NETWORK_STATUS_POLL_INTERVAL)
     }
 
     destroy(): void {

@@ -1,4 +1,4 @@
-import { get, writable, Writable } from 'svelte/store'
+import { get, writable } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { NetworkHealth, NetworkNamespace } from '../enums'
 import { IIscChainConfiguration, IProtocol, IStardustNetwork, IStardustNetworkMetadata } from '../interfaces'
@@ -6,6 +6,9 @@ import { addNetwork } from '../stores'
 import { NetworkId, StardustNetworkId } from '../types'
 
 import { IBaseToken } from '@core/token'
+import { getAndUpdateNodeInfo } from '@core/network/actions'
+import { getNetworkStatusFromNodeInfo } from '@core/network/helpers'
+import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -18,7 +21,8 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly baseToken: IBaseToken
     public readonly chainConfigurations: IIscChainConfiguration[]
 
-    public health: Writable<NetworkHealth>
+    public health = writable(NetworkHealth.Operational)
+    public currentMilestone = writable(-1)
 
     private statusPoll: number | undefined
 
@@ -32,20 +36,17 @@ export class StardustNetwork implements IStardustNetwork {
         this.protocol = persistedNetwork.protocol
         this.baseToken = persistedNetwork.baseToken
         this.chainConfigurations = persistedNetwork.chainConfigurations
-        this.health = writable(NetworkHealth.Operational)
-
         void this.startStatusPoll()
     }
 
     startStatusPoll(): void {
         this.statusPoll = window.setInterval(() => {
-            this.health.set(
-                get(this.health) === NetworkHealth.Operational ? NetworkHealth.Degraded : NetworkHealth.Operational
-            )
-            // getAndUpdateNodeInfo().then(
-            //     (nodeResponse) => (this.health.set(getNetworkStatusFromNodeInfo(nodeResponse?.nodeInfo).health))
-            // )
-        }, 1000)
+            getAndUpdateNodeInfo().then((nodeResponse) => {
+                const { health, currentMilestone } = getNetworkStatusFromNodeInfo(nodeResponse?.nodeInfo)
+                this.currentMilestone.set(currentMilestone)
+                this.health.set(health)
+            })
+        }, NETWORK_STATUS_POLL_INTERVAL)
     }
 
     destroy(): void {
