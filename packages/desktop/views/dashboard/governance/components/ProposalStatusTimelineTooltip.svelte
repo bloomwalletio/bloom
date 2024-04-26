@@ -3,13 +3,15 @@
     import { Text, Popover } from '@bloomwalletio/ui'
 
     import { formatDate, localize } from '@core/i18n'
-    import { networkStatus } from '@core/network'
     import { DATE_FORMAT, milestoneToDate } from '@core/utils'
+    import { getL1Network } from '@core/network/stores'
 
     export let milestones: Record<EventStatus, number>
     export let status: EventStatus
     export let anchor: HTMLElement
     export let placement: 'top' | 'bottom' | 'left' | 'right' = 'right'
+
+    const currentMilestone = getL1Network().currentMilestone
 
     let eventProgress: number
     switch (status) {
@@ -69,7 +71,7 @@
                     {localize(`views.governance.statusTimeline.${EventStatus[status]}.${getLocaleTenseKey(index)}`)}
                 </Text>
                 <Text textColor="current" fontWeight="medium">
-                    {formatDate(milestoneToDate($networkStatus.currentMilestone, milestones[EventStatus[status]]), {
+                    {formatDate(milestoneToDate($currentMilestone, milestones[EventStatus[status]]), {
                         ...DATE_FORMAT,
                         timeZoneName: undefined,
                     })}

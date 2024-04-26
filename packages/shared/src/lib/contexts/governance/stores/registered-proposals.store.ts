@@ -1,33 +1,21 @@
 import { selectedAccountIndex } from '@core/account/stores'
-import { networkStatus } from '@core/network/stores/network-status.store'
 import { derived, Readable, writable } from 'svelte/store'
-import { IProposal, IProposalMetadata, IRegisteredProposals } from '../interfaces'
-import { getProposalStatusForMilestone } from '../utils'
+import { IProposal, IRegisteredProposals } from '../interfaces'
 
 export const registeredProposals = writable<{ [accountId: number]: IRegisteredProposals }>({})
 
-export const registeredProposalsForSelectedAccount: Readable<{ [proposalId: string]: IProposal }> = derived(
-    [selectedAccountIndex, registeredProposals, networkStatus],
-    ([$selectedAccountIndex, $registeredProposals, $networkStatus]) => {
-        if ($networkStatus && $selectedAccountIndex >= 0) {
-            const proposalsForSelectedAccount = $registeredProposals[$selectedAccountIndex] ?? {}
-            const proposals: { [proposalId: string]: IProposal } = {}
-            for (const key of Object.keys(proposalsForSelectedAccount)) {
-                const status = getProposalStatusForMilestone(
-                    $networkStatus.currentMilestone,
-                    proposalsForSelectedAccount[key]?.milestones
-                )
-                proposals[key] = { ...proposalsForSelectedAccount[key], status }
-            }
-
-            return proposals
+export const registeredProposalsForSelectedAccount: Readable<IRegisteredProposals> = derived(
+    [selectedAccountIndex, registeredProposals],
+    ([$selectedAccountIndex, $registeredProposals]) => {
+        if ($selectedAccountIndex >= 0) {
+            return $registeredProposals[$selectedAccountIndex] ?? {}
         } else {
             return {}
         }
     }
 )
 
-export function addOrUpdateProposalToRegisteredProposals(proposal: IProposalMetadata, accountId: number): void {
+export function addOrUpdateProposalToRegisteredProposals(proposal: IProposal, accountId: number): void {
     registeredProposals.update((proposals) => {
         if (!proposals[accountId]) {
             proposals[accountId] = {}

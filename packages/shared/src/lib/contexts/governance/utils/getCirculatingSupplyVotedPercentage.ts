@@ -3,11 +3,11 @@ import { activeProfile } from '@core/profile/stores'
 import { calculatePercentageOfBigInt } from '@core/utils/number'
 import { EventStatus, ParticipationEventStatus } from '@iota/sdk/out/types'
 import { get } from 'svelte/store'
-import { IProposal } from '../interfaces'
+import { IProposalWithStatus } from '../interfaces'
 
 export function getCirculatingSupplyVotedPercentage(
     participationEventStatus: ParticipationEventStatus,
-    proposal: IProposal,
+    proposal: IProposalWithStatus,
     currentMilestone: number,
     profile: IProfile = get(activeProfile)
 ): { actualPercentage: number; projectedPercentage: number } {

@@ -2,9 +2,9 @@
     import { EventStatus } from '@iota/sdk/out/types'
     import { COLOR_PALETTE, Icon, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { IProposal } from '@contexts/governance/interfaces'
+    import { IProposalWithStatus } from '@contexts/governance/interfaces'
 
-    export let proposal: IProposal
+    export let proposal: IProposalWithStatus
 
     $: status = proposal?.status
     $: error = proposal?.error
