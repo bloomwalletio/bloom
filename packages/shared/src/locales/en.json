@@ -669,6 +669,12 @@
                     "unhide": "Unhide NFT",
                     "burn": "Burn NFT"
                 }
+            },
+            "collectionsGallery": {
+                "title": "Collections",
+                "emptyTitle": "No collections found",
+                "noResults": "No results found",
+                "emptyDescription": "Deposit or receive your first collectible!"
             }
         },
         "campaigns": {
