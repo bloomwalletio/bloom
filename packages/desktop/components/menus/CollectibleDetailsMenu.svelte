@@ -3,7 +3,7 @@
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import { isEvmNetwork } from '@core/network'
-    import { IIrc27Nft, Nft, composeUrlFromNftUri, isNftLocked } from '@core/nfts'
+    import { IIrc27Nft, Nft, getPrimaryNftUrl, isNftLocked, isValidNftUri } from '@core/nfts'
     import { updateNftInAllAccountNfts } from '@core/nfts/actions'
     import { updatePersistedNft } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
@@ -25,7 +25,7 @@
     }
 
     function onOpenMediaClick(): void {
-        openUrlInBrowser(composeUrlFromNftUri(nft?.mediaUrl))
+        openUrlInBrowser(getPrimaryNftUrl(nft?.mediaUrl))
         menu?.close()
     }
 
@@ -53,7 +53,7 @@
             {
                 icon: IconName.LinkExternal,
                 title: localize('views.collectibles.details.menu.view'),
-                disabled: !composeUrlFromNftUri(nft.mediaUrl),
+                disabled: !isValidNftUri(nft.mediaUrl),
                 onClick: onOpenMediaClick,
             },
             {

@@ -96,4 +96,4 @@
     }
 </script>
 
-<CollectibleDetails {nft} {details} attributes={nft.metadata.attributes} {explorerEndpoint} />
+<CollectibleDetails {nft} {details} attributes={nft.metadata?.attributes} {explorerEndpoint} />
