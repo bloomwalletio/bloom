@@ -4,23 +4,18 @@ import { activeProfile } from '@core/profile/stores'
 import features from '@features/features'
 
 import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
-import { IEvmNetwork, IIscChainConfiguration, IStardustNetwork } from '../interfaces'
-import { Network, NetworkId } from '../types'
+import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
+import { EvmNetworkId, Network, NetworkId } from '../types'
 import { EvmNetworkType, NetworkNamespace } from '../enums'
 
 export const networks: Writable<Network[]> = writable([])
 
 export function initializeNetworks(): void {
     const profile = get(activeProfile)
-    let _networks: Network[] = []
+    const _networks: Network[] = []
     if (profile?.network) {
         const stardustNetwork = new StardustNetwork(profile.network)
-        const chains = profile.network.chainConfigurations
-            .map((chainConfiguration) => {
-                return new IscChain(chainConfiguration)
-            })
-            .filter(Boolean) as IEvmNetwork[]
-        _networks = [stardustNetwork, ...chains]
+        _networks.push(stardustNetwork, ...stardustNetwork.iscChains)
     }
 
     if (features.network.evmNetworks.enabled) {
@@ -39,20 +34,26 @@ export function destroyNetworks(): void {
     networks.set([])
 }
 
-export function addNetwork(chainConfiguration: IIscChainConfiguration): void {
-    const network = getNetwork(chainConfiguration.id)
+export function getNetwork(networkId: NetworkId): Network | undefined {
+    return get(networks)?.find((network) => network.id === networkId)
+}
+
+export function addChain(chain: IIscChain): void {
+    const network = getNetwork(chain.id)
     if (network) {
         return
     }
 
     networks.update((networks) => {
-        networks.push(new IscChain(chainConfiguration))
+        networks.push(chain)
         return networks
     })
 }
 
-export function getNetwork(networkId: NetworkId): Network | undefined {
-    return get(networks)?.find((network) => network.id === networkId)
+export function removeChain(chainId: EvmNetworkId): void {
+    networks.update((networks) => {
+        return networks.filter(({ id }) => id !== chainId)
+    })
 }
 
 export function getL1Network(): IStardustNetwork {
