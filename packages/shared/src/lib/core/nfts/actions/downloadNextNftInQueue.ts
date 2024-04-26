@@ -1,12 +1,12 @@
 import { Platform } from '@core/app/classes'
 import { get } from 'svelte/store'
 import { downloadingNftId, nftDownloadQueue, removeNftFromDownloadQueue, updatePersistedNft } from '../stores'
-import { buildFilePath, composeUrlFromNftUri, fetchWithTimeout, isIrc27Nft } from '../utils'
+import { buildFilePath, fetchWithTimeout, getFetchableNftUrls, isIrc27Nft } from '../utils'
 import { activeProfile } from '@core/profile/stores'
 import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
 import { IDownloadMetadata, Nft } from '../interfaces'
 import { StatusCodes, getReasonPhrase } from 'http-status-codes'
-import { DownloadErrorType, DownloadWarningType, NftStandard, ParentMimeType } from '../enums'
+import { DownloadErrorType, DownloadWarningType, NftStandard } from '../enums'
 import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 10
@@ -26,18 +26,24 @@ export async function downloadNextNftInQueue(): Promise<void> {
     downloadingNftId.set(nft.id)
 
     try {
-        const composedUrl = composeUrlFromNftUri(nft.mediaUrl ?? '')
-        if (!composedUrl) {
-            throw new Error('Unable to compose NFT URI!')
+        let downloadMetadata: IDownloadMetadata | undefined
+        const downloadUrls = getFetchableNftUrls(nft.mediaUrl)
+        for (const downloadUrl of downloadUrls) {
+            downloadMetadata = await checkHeadRequestForNftUrl(
+                nft,
+                downloadUrl,
+                nft.downloadMetadata ?? {},
+                isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse',
+                options.skipSizeCheck
+            )
+            if (downloadMetadata.error?.type !== DownloadErrorType.NotReachable) {
+                break
+            }
         }
 
-        const downloadMetadata = await checkHeadRequestForNftUrl(
-            nft,
-            composedUrl,
-            nft.downloadMetadata ?? {},
-            isIrc27Nft(nft) && nft.metadata?.issuerName === 'Soonaverse',
-            options.skipSizeCheck
-        )
+        if (!downloadMetadata) {
+            throw new Error('Invalid download metadata')
+        }
         updatePersistedNft(nft.id, { downloadMetadata })
         updateNftInAllAccountNfts(nft.id, { downloadMetadata })
 
@@ -59,19 +65,19 @@ export async function downloadNextNftInQueue(): Promise<void> {
 
 async function checkHeadRequestForNftUrl(
     nft: Nft,
-    mediaUrl: string,
+    downloadUrl: string,
     downloadMetadata: IDownloadMetadata,
     shouldCheckSoonaverseFallback: boolean,
     skipSizeCheck: boolean
 ): Promise<IDownloadMetadata> {
     try {
-        const response = await headRequest(mediaUrl)
+        const response = await headRequest(downloadUrl)
         const updatedDownloadMetadata = { ...downloadMetadata, ...buildDownloadDataFromResponse(response) }
 
         if (updatedDownloadMetadata.responseCode === StatusCodes.OK) {
             return setReturnForOkResponse(
                 nft,
-                mediaUrl,
+                downloadUrl,
                 updatedDownloadMetadata,
                 shouldCheckSoonaverseFallback,
                 skipSizeCheck
@@ -92,27 +98,20 @@ async function checkHeadRequestForNftUrl(
 
 async function setReturnForOkResponse(
     nft: Nft,
-    mediaUrl: string,
+    downloadUrl: string,
     downloadMetadata: IDownloadMetadata,
     shouldCheckSoonaverseFallback: boolean,
     skipSizeCheck: boolean
 ): Promise<IDownloadMetadata> {
     if (!isExpectedContentType(nft, downloadMetadata)) {
         if (shouldCheckSoonaverseFallback) {
-            mediaUrl = mediaUrl + '/' + encodeURIComponent(nft?.name)
-            return checkHeadRequestForNftUrl(nft, mediaUrl, downloadMetadata, false, skipSizeCheck)
+            downloadUrl = downloadUrl + '/' + encodeURIComponent(nft?.name)
+            return checkHeadRequestForNftUrl(nft, downloadUrl, downloadMetadata, false, skipSizeCheck)
         }
 
         return {
             ...downloadMetadata,
             error: { type: DownloadErrorType.NotMatchingFileTypes },
-        }
-    }
-
-    if (!isMediaSupported(downloadMetadata.contentType ?? '')) {
-        return {
-            ...downloadMetadata,
-            warning: { type: DownloadWarningType.UnsupportedMediaType },
         }
     }
 
@@ -125,7 +124,7 @@ async function setReturnForOkResponse(
 
     return {
         ...downloadMetadata,
-        downloadUrl: mediaUrl,
+        downloadUrl,
         filePath: buildFilePath(nft),
         error: undefined,
         warning: undefined,
@@ -173,10 +172,4 @@ function isExpectedContentType(nft: Nft, downloadMetadata: IDownloadMetadata): b
     }
 
     return nft.metadata?.type ? downloadMetadata.contentType === String(nft.metadata.type) : false
-}
-
-function isMediaSupported(contentType: string): boolean {
-    const supportedTypes = [ParentMimeType.Image, ParentMimeType.Video]
-    const mediaType = contentType.split('/', 1)[0]
-    return supportedTypes.some((supportedType) => String(supportedType) === mediaType)
 }

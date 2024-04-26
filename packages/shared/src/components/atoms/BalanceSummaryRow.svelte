@@ -10,24 +10,21 @@
     export let expanded: boolean = false
 </script>
 
-<div class="flex flex-row justify-between flex-grow">
-    <div class={'flex flex-col space-y-0.5'}>
+<div class="flex flex-col justify-between flex-grow space-y-0.5">
+    <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-1 items-center">
             <Text fontWeight={bold ? 'bold' : 'semibold'}>{title}</Text>
             {#if expandable}
                 <Icon name={expanded ? IconName.ChevronUp : IconName.ChevronDown} size="xs" />
             {/if}
         </div>
-
-        {#if subtitle}
-            <Text textColor="secondary">
-                {subtitle}
-            </Text>
-        {/if}
+        <Text align="right" fontWeight={bold ? 'bold' : 'semibold'}>{amount}</Text>
     </div>
-    <div class="flex flex-col items-end space-y-0.5 text-right">
-        <Text fontWeight={bold ? 'bold' : 'semibold'}>{amount}</Text>
-        <Text textColor="secondary">
+    <div class="flex flex-row justify-between">
+        <Text align="left" textColor="secondary">
+            {subtitle}
+        </Text>
+        <Text align="right" textColor="secondary">
             {convertedAmount}
         </Text>
     </div>

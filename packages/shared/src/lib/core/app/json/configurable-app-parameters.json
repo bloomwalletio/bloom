@@ -1,0 +1,9 @@
+{
+    "denylists": {
+        "keywords": ["lottery", "lotto", "raffle", "giveaway", "scam", "won"],
+        "urls": ["iotalottery.com", "iota-lottery.com", "lottery-iota.com", "fly-fire.com"]
+    },
+    "allowlists": {
+        "urls": ["https://tideprotocol.infura-ipfs.io"]
+    }
+}

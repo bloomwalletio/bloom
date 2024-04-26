@@ -1,18 +1,20 @@
-import { DappVerification } from '@auxiliary/wallet-connect/enums'
-import { persistDapp, persistedDappNamespaces } from '@auxiliary/wallet-connect/stores'
+import { NftStandard } from '@core/nfts'
+import { persistedNfts } from '@core/nfts/stores'
 import { IPersistedProfile } from '@core/profile/interfaces'
-import { get } from 'svelte/store'
 
 export function prodProfileMigration7To8(existingProfile: unknown): Promise<void> {
     const profile = existingProfile as IPersistedProfile
 
-    const namespaces = get(persistedDappNamespaces)[profile.id] ?? {}
-    for (const dappUrl of Object.keys(namespaces)) {
-        persistDapp(dappUrl, DappVerification.Unknown, namespaces[dappUrl])
-    }
-
-    persistedDappNamespaces.update((state) => {
-        delete state[profile.id]
+    persistedNfts.update((state) => {
+        const profilePersistedNfts = state[profile.id] ?? {}
+        for (const nftId of Object.keys(profilePersistedNfts)) {
+            const nft = profilePersistedNfts[nftId]
+            if (nft.standard === NftStandard.Erc721) {
+                nft.mediaUrl = nft?.metadata?.image
+                profilePersistedNfts[nftId] = nft
+            }
+        }
+        state[profile.id] = profilePersistedNfts
         return state
     })
 
