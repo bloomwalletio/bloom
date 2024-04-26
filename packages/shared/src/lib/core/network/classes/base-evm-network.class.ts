@@ -11,6 +11,7 @@ import { IBlock, IEvmNetworkStatus, IEvmNetwork, IBaseEvmNetworkConfiguration } 
 import { evmNetworkStatuses } from '../stores'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
+import { IBaseToken } from '@core/token'
 
 export class BaseEvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -21,6 +22,7 @@ export class BaseEvmNetwork implements IEvmNetwork {
     public readonly type: EvmNetworkType
     public readonly coinType: CoinType
     public readonly name: string
+    public readonly baseToken: IBaseToken
     public readonly explorerUrl: string | undefined
     public readonly rpcEndpoint: string
 
@@ -30,6 +32,7 @@ export class BaseEvmNetwork implements IEvmNetwork {
         chainId,
         type,
         coinType,
+        baseToken,
         name,
         explorerUrl,
         rpcEndpoint,
@@ -42,6 +45,7 @@ export class BaseEvmNetwork implements IEvmNetwork {
             this.chainId = chainId
             this.type = type
             this.coinType = coinType
+            this.baseToken = baseToken
             this.name = name
             this.explorerUrl = explorerUrl
             this.rpcEndpoint = rpcEndpoint

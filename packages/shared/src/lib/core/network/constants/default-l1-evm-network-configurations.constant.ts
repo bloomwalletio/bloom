@@ -4,6 +4,7 @@ import { EvmNetworkId } from '../types'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
 import { SupportedL1EvmNetworkId, SupportedNetworkId } from './supported-network-id.constant'
 import { DEFAULT_EXPLORER_URLS } from './default-explorer-urls.constant'
+import { DEFAULT_BASE_TOKEN } from './default-base-token.constant'
 
 export const DEFAULT_L1_EVM_NETWORK_CONFIGURATION: Readonly<{
     [key in EvmNetworkId]: IPureEvmNetworkConfiguration
@@ -11,8 +12,7 @@ export const DEFAULT_L1_EVM_NETWORK_CONFIGURATION: Readonly<{
     [SupportedL1EvmNetworkId.Ethereum]: {
         type: EvmNetworkType.PureEvm,
         name: 'Ethereum',
-        symbol: 'ETH',
-        ticker: 'ETH',
+        baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Ethereum],
         id: SupportedL1EvmNetworkId.Ethereum,
         chainId: ChainId.Ethereum,
         namespace: NetworkNamespace.Evm,
@@ -23,8 +23,7 @@ export const DEFAULT_L1_EVM_NETWORK_CONFIGURATION: Readonly<{
     [SupportedL1EvmNetworkId.Sepolia]: {
         type: EvmNetworkType.PureEvm,
         name: 'Sepolia Testnet',
-        symbol: 'ETH',
-        ticker: 'ETH',
+        baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Sepolia],
         id: SupportedL1EvmNetworkId.Sepolia,
         chainId: ChainId.Sepolia,
         namespace: NetworkNamespace.Evm,

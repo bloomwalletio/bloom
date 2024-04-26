@@ -1,5 +1,4 @@
-import { EvmNetworkId, NetworkId, getActiveNetworkId, getEvmNetworks } from '@core/network'
-import { getBaseToken } from '@core/profile/actions'
+import { IEvmNetwork, IStardustNetwork, NetworkId, getEvmNetworks, getL1Network } from '@core/network'
 import { activeAccounts, activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { getOrRequestTokenFromPersistedTokens } from '.'
@@ -21,11 +20,12 @@ export async function loadTokensForAllAccountBalances(
     clearPersistedAssets && clearPersistedTokensForActiveProfile()
 
     const tokens: { [networkId: NetworkId]: IPersistedToken[] } = {}
-    const stardustTokens = await loadTokensForStardustNetwork(keepVerificationStatus)
-    tokens[getActiveNetworkId()] = stardustTokens
+    const l1StardustNetwork = getL1Network()
+    const stardustTokens = await loadTokensForStardustNetwork(l1StardustNetwork, keepVerificationStatus)
+    tokens[l1StardustNetwork.id] = stardustTokens
 
     for (const network of getEvmNetworks()) {
-        const evmTokens = await loadTokensForEvmNetwork(network.id as EvmNetworkId, keepVerificationStatus)
+        const evmTokens = await loadTokensForEvmNetwork(network, keepVerificationStatus)
         tokens[network.id] = evmTokens
     }
 
@@ -34,16 +34,18 @@ export async function loadTokensForAllAccountBalances(
     }
 }
 
-async function loadTokensForStardustNetwork(keepVerificationStatus: boolean): Promise<IPersistedToken[]> {
-    const networkId = getActiveNetworkId()
+async function loadTokensForStardustNetwork(
+    network: IStardustNetwork,
+    keepVerificationStatus: boolean
+): Promise<IPersistedToken[]> {
     const storedVerificationStates: { [tokenId: string]: TokenVerification } = keepVerificationStatus
-        ? getPersistedVerificationStatesForNetwork(networkId)
+        ? getPersistedVerificationStatesForNetwork(network.id)
         : {}
 
     const baseCoin: IPersistedToken = {
         id: BASE_TOKEN_ID,
         standard: TokenStandard.BaseToken,
-        metadata: getBaseToken(),
+        metadata: network.baseToken,
         hidden: false,
         verification: { verified: true, status: VerifiedStatus.Official },
     }
@@ -54,7 +56,7 @@ async function loadTokensForStardustNetwork(keepVerificationStatus: boolean): Pr
         const tokenBalances = account?.balances?.nativeTokens ?? []
         for (const tokenBalance of tokenBalances) {
             try {
-                const token = await getOrRequestTokenFromPersistedTokens(tokenBalance.tokenId, networkId, false)
+                const token = await getOrRequestTokenFromPersistedTokens(tokenBalance.tokenId, network.id, false)
                 if (token) {
                     tokens.push({
                         ...token,
@@ -70,18 +72,18 @@ async function loadTokensForStardustNetwork(keepVerificationStatus: boolean): Pr
 }
 
 async function loadTokensForEvmNetwork(
-    networkId: EvmNetworkId,
+    network: IEvmNetwork,
     keepVerificationStatus: boolean
 ): Promise<IPersistedToken[]> {
     const storedVerificationStates: { [tokenId: string]: TokenVerification } = keepVerificationStatus
-        ? getPersistedVerificationStatesForNetwork(networkId)
+        ? getPersistedVerificationStatesForNetwork(network.id)
         : {}
 
     // TODO: Create a constant for each network class
     const baseCoin: IPersistedToken = {
         id: BASE_TOKEN_ID,
         standard: TokenStandard.BaseToken,
-        metadata: getBaseToken(),
+        metadata: network.baseToken,
         hidden: false,
         verification: { verified: true, status: VerifiedStatus.Official },
     }
@@ -89,10 +91,10 @@ async function loadTokensForEvmNetwork(
     const tokens: IPersistedToken[] = []
     const accounts = get(activeAccounts)
     for (const account of accounts) {
-        const tokenBalances = getLayer2AccountBalance(account.index)?.[networkId] ?? {}
+        const tokenBalances = getLayer2AccountBalance(account.index)?.[network.id] ?? {}
         for (const tokenId of Object.keys(tokenBalances)) {
             try {
-                const token = await getOrRequestTokenFromPersistedTokens(tokenId, networkId, false)
+                const token = await getOrRequestTokenFromPersistedTokens(tokenId, network.id, false)
                 if (token) {
                     tokens.push({
                         ...token,

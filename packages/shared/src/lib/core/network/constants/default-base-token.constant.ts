@@ -3,7 +3,7 @@ import { IBaseToken } from '@core/token/interfaces'
 import { NetworkId } from '../types'
 import { SupportedNetworkId } from './supported-network-id.constant'
 
-const DEFAULT_IOTA_BASE_TOKEN: IBaseToken = {
+const IOTA_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,
     name: 'IOTA',
     tickerSymbol: 'IOTA',
@@ -13,7 +13,7 @@ const DEFAULT_IOTA_BASE_TOKEN: IBaseToken = {
     useMetricPrefix: false,
 }
 
-const DEFAULT_SHIMMER_BASE_TOKEN: IBaseToken = {
+const SHIMMER_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,
     name: 'Shimmer',
     tickerSymbol: 'SMR',
@@ -23,20 +23,20 @@ const DEFAULT_SHIMMER_BASE_TOKEN: IBaseToken = {
     useMetricPrefix: false,
 }
 
-const DEFAULT_TESTNET_BASE_TOKEN: IBaseToken = {
+const EVM_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,
-    name: 'Shimmer',
-    tickerSymbol: 'SMR',
-    unit: 'SMR',
-    decimals: 6,
-    subunit: 'glow',
-    useMetricPrefix: false,
+    name: 'Ether',
+    tickerSymbol: 'ETH',
+    unit: 'ETH',
+    decimals: 18,
 }
 
 export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]?: IBaseToken }> = {
-    [SupportedNetworkId.Iota]: DEFAULT_IOTA_BASE_TOKEN,
-    [SupportedNetworkId.Shimmer]: DEFAULT_SHIMMER_BASE_TOKEN,
-    [SupportedNetworkId.Testnet]: DEFAULT_TESTNET_BASE_TOKEN,
-    [SupportedNetworkId.ShimmerEvm]: DEFAULT_SHIMMER_BASE_TOKEN,
-    [SupportedNetworkId.TestnetEvm]: DEFAULT_TESTNET_BASE_TOKEN,
+    [SupportedNetworkId.Iota]: IOTA_BASE_TOKEN,
+    [SupportedNetworkId.Shimmer]: SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.Testnet]: SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.ShimmerEvm]: SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.TestnetEvm]: SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.Ethereum]: EVM_BASE_TOKEN,
+    [SupportedNetworkId.Sepolia]: EVM_BASE_TOKEN,
 }
