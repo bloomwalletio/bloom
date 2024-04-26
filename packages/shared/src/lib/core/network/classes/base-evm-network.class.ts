@@ -1,4 +1,4 @@
-import { get, writable, Writable } from 'svelte/store'
+import { writable, Writable } from 'svelte/store'
 
 import Web3 from 'web3'
 
@@ -58,9 +58,6 @@ export class BaseEvmNetwork implements IEvmNetwork {
 
     startStatusPoll(): void {
         this.statusPoll = window.setInterval(() => {
-            this.health.set(
-                get(this.health) === NetworkHealth.Operational ? NetworkHealth.Degraded : NetworkHealth.Operational
-            )
             this.getLatestBlock()
                 .then(() => this.health.set(NetworkHealth.Operational))
                 .catch(() => this.health.set(NetworkHealth.Disconnected))
