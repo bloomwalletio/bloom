@@ -32,6 +32,13 @@ export function initializeNetworks(): void {
     networks.set(_networks)
 }
 
+export function destroyNetworks(): void {
+    get(networks).forEach((network) => {
+        network.destroy()
+    })
+    networks.set([])
+}
+
 export function addNetwork(chainConfiguration: IIscChainConfiguration): void {
     const network = getNetwork(chainConfiguration.id)
     if (network) {

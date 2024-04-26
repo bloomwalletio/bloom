@@ -1,16 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { get } from 'svelte/store'
+import { get, writable, Writable } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
-import { NetworkNamespace } from '../enums'
-import {
-    IIscChainConfiguration,
-    INetworkStatus,
-    IProtocol,
-    IStardustNetwork,
-    IStardustNetworkMetadata,
-} from '../interfaces'
-import { addNetwork, networkStatus } from '../stores'
+import { NetworkHealth, NetworkNamespace } from '../enums'
+import { IIscChainConfiguration, IProtocol, IStardustNetwork, IStardustNetworkMetadata } from '../interfaces'
+import { addNetwork } from '../stores'
 import { NetworkId, StardustNetworkId } from '../types'
 
 import { IBaseToken } from '@core/token'
@@ -26,6 +18,10 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly baseToken: IBaseToken
     public readonly chainConfigurations: IIscChainConfiguration[]
 
+    public health: Writable<NetworkHealth>
+
+    private statusPoll: number | undefined
+
     constructor(persistedNetwork: IStardustNetworkMetadata) {
         this.id = persistedNetwork.id
         this.name = persistedNetwork.name
@@ -36,10 +32,24 @@ export class StardustNetwork implements IStardustNetwork {
         this.protocol = persistedNetwork.protocol
         this.baseToken = persistedNetwork.baseToken
         this.chainConfigurations = persistedNetwork.chainConfigurations
+        this.health = writable(NetworkHealth.Operational)
+
+        void this.startStatusPoll()
     }
 
-    getStatus(): INetworkStatus {
-        return get(networkStatus)
+    startStatusPoll(): void {
+        this.statusPoll = window.setInterval(() => {
+            this.health.set(
+                get(this.health) === NetworkHealth.Operational ? NetworkHealth.Degraded : NetworkHealth.Operational
+            )
+            // getAndUpdateNodeInfo().then(
+            //     (nodeResponse) => (this.health.set(getNetworkStatusFromNodeInfo(nodeResponse?.nodeInfo).health))
+            // )
+        }, 1000)
+    }
+
+    destroy(): void {
+        clearInterval(this.statusPoll)
     }
 
     addChain(chainConfiguration: IIscChainConfiguration): void {
@@ -63,6 +73,7 @@ export class StardustNetwork implements IStardustNetwork {
         })
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     editChain(networkId: NetworkId, payload: Partial<IIscChainConfiguration>): Promise<void> {
         return Promise.resolve()
     }

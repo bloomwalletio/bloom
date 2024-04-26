@@ -1,4 +1,4 @@
-import { get } from 'svelte/store'
+import { get, writable, Writable } from 'svelte/store'
 
 import Web3 from 'web3'
 
@@ -7,8 +7,7 @@ import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
 import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enums'
-import { IBlock, IEvmNetworkStatus, IEvmNetwork, IBaseEvmNetworkConfiguration } from '../interfaces'
-import { evmNetworkStatuses } from '../stores'
+import { IBlock, IEvmNetwork, IBaseEvmNetworkConfiguration } from '../interfaces'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
 
@@ -23,6 +22,9 @@ export class BaseEvmNetwork implements IEvmNetwork {
     public readonly name: string
     public readonly explorerUrl: string | undefined
     public readonly rpcEndpoint: string
+
+    public health: Writable<NetworkHealth> = writable(NetworkHealth.Operational)
+    public statusPoll: number | undefined
 
     constructor({
         id,
@@ -45,14 +47,27 @@ export class BaseEvmNetwork implements IEvmNetwork {
             this.name = name
             this.explorerUrl = explorerUrl
             this.rpcEndpoint = rpcEndpoint
+
+            void this.startStatusPoll()
         } catch (err) {
             console.error(err)
             throw new Error('Failed to construct EVM Network!')
         }
     }
 
-    getStatus(): IEvmNetworkStatus {
-        return get(evmNetworkStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
+    startStatusPoll(): void {
+        this.statusPoll = window.setInterval(() => {
+            this.health.set(
+                get(this.health) === NetworkHealth.Operational ? NetworkHealth.Degraded : NetworkHealth.Operational
+            )
+            // getAndUpdateNodeInfo().then(
+            //     (nodeResponse) => (this.health.set(getNetworkStatusFromNodeInfo(nodeResponse?.nodeInfo).health))
+            // )
+        }, 1000)
+    }
+
+    destroy(): void {
+        clearInterval(this.statusPoll)
     }
 
     getContract(type: ContractType, address: string): Contract {
