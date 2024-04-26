@@ -13,7 +13,7 @@ const IOTA_BASE_TOKEN: IBaseToken = {
     useMetricPrefix: false,
 }
 
-const SHIMMER_BASE_TOKEN: IBaseToken = {
+export const SHIMMER_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,
     name: 'Shimmer',
     tickerSymbol: 'SMR',
@@ -23,7 +23,7 @@ const SHIMMER_BASE_TOKEN: IBaseToken = {
     useMetricPrefix: false,
 }
 
-const EVM_BASE_TOKEN: IBaseToken = {
+export const EVM_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,
     name: 'Ether',
     tickerSymbol: 'ETH',

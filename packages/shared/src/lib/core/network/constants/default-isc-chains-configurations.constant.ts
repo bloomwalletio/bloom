@@ -1,7 +1,7 @@
 import { EvmNetworkType, NetworkNamespace, ChainId } from '../enums'
 import { IIscChainConfiguration } from '../interfaces'
 import { StardustNetworkId } from '../types'
-import { DEFAULT_BASE_TOKEN } from './default-base-token.constant'
+import { SHIMMER_BASE_TOKEN } from './default-base-token.constant'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
 import { SupportedIscNetworkId, SupportedNetworkId, SupportedStardustNetworkId } from './supported-network-id.constant'
 
@@ -12,7 +12,7 @@ export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetwor
         name: 'Shimmer EVM',
         chainId: ChainId.ShimmerEvm,
         namespace: NetworkNamespace.Evm,
-        baseToken: DEFAULT_BASE_TOKEN[SupportedStardustNetworkId.Shimmer],
+        baseToken: SHIMMER_BASE_TOKEN,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.ShimmerEvm] ?? 0,
         aliasAddress: 'smr1prxvwqvwf7nru5q5xvh5thwg54zsm2y4wfnk6yk56hj3exxkg92mx20wl3s',
         rpcEndpoint: 'https://json-rpc.evm.shimmer.network/',
@@ -25,7 +25,7 @@ export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetwor
         name: 'Testnet EVM',
         chainId: ChainId.TestnetEvm,
         namespace: NetworkNamespace.Evm,
-        baseToken: DEFAULT_BASE_TOKEN[SupportedStardustNetworkId.Testnet],
+        baseToken: SHIMMER_BASE_TOKEN,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.TestnetEvm] ?? 0,
         aliasAddress: 'rms1ppp00k5mmd2m8my8ukkp58nd3rskw6rx8l09aj35984k74uuc5u2cywn3ex',
         rpcEndpoint: 'https://json-rpc.evm.testnet.shimmer.network/',
