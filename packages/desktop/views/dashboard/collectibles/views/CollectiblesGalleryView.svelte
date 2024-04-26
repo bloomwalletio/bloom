@@ -1,14 +1,15 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { nftFilter, nftSearchTerm, ownedNfts } from '@core/nfts/stores'
-    import { NftGallery, SearchInput } from '@ui'
-    import { Button, IconName, Text, Pill } from '@bloomwalletio/ui'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import features from '@features/features'
+    import { Button, IconName, Pill, Text } from '@bloomwalletio/ui'
     import { CollectiblesListMenu, EmptyListPlaceholder } from '@components'
     import { Filter } from '@components/filter'
+    import { localize } from '@core/i18n'
     import { Nft } from '@core/nfts/interfaces'
+    import { nftFilter, nftSearchTerm, ownedNfts } from '@core/nfts/stores'
     import { isVisibleNft } from '@core/nfts/utils'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import features from '@features/features'
+    import { NftGallery, SearchInput } from '@ui'
+    import { CollectiblesTabs } from '../components'
 
     let queriedNfts: Nft[] = []
     $: $nftSearchTerm,
@@ -24,15 +25,16 @@
     }
 </script>
 
-<collectibles-gallery-view>
-    <div class="flex flex-row justify-between">
-        <div class="flex flex-row text-left gap-2 items-center">
+<collectibles-gallery-view class="flex flex-col w-full h-full gap-4">
+    <header class="flex flex-row items-center justify-between">
+        <div class="flex flex-row text-left gap-2 items-center flex-1">
             <Text type="h6">{localize('views.collectibles.gallery.title')}</Text>
             <Pill color="neutral">
                 <Text textColor="secondary">{String(queriedNfts.length ?? '')}</Text>
             </Pill>
         </div>
-        <div class="flex items-center gap-5 h-10 shrink-0">
+        <CollectiblesTabs />
+        <div class="flex justify-end items-center gap-5 h-10 shrink-0 flex-1">
             {#if $ownedNfts.length}
                 <SearchInput bind:value={$nftSearchTerm} />
                 <Filter filterStore={nftFilter} />
@@ -41,7 +43,7 @@
                 <CollectiblesListMenu />
             {/if}
         </div>
-    </div>
+    </header>
     {#if $ownedNfts.length}
         {#if queriedNfts.length}
             <NftGallery nfts={queriedNfts} />
@@ -61,9 +63,3 @@
         </div>
     {/if}
 </collectibles-gallery-view>
-
-<style lang="postcss">
-    collectibles-gallery-view {
-        @apply flex flex-col w-full h-full gap-4;
-    }
-</style>
