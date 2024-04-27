@@ -42,17 +42,22 @@
     $: selectedNetworkId = selectorOptions[selectedIndex]?.networkId
     $: selectedRecipient = selectorOptions[selectedIndex]?.selectedRecipient
 
-    let hasNetworkRecipientError: boolean = false
-    $: {
+    let hasInsufficientFunds: boolean = false
+    $: $sendFlowParameters, void checkFundsForGas()
+    async function checkFundsForGas(): Promise<void> {
+        if (!$sendFlowParameters) {
+            return
+        }
+
         const originNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
         if (originNetworkId && isEvmNetwork(originNetworkId)) {
-            hasNetworkRecipientError = !canAccountMakeEvmTransaction(
+            hasInsufficientFunds = !(await canAccountMakeEvmTransaction(
                 $selectedAccountIndex,
                 originNetworkId,
-                $sendFlowParameters?.type
-            )
+                $sendFlowParameters.type
+            ))
         } else {
-            hasNetworkRecipientError = false
+            hasInsufficientFunds = false
         }
     }
 
@@ -247,13 +252,13 @@
 >
     <form on:submit|preventDefault={onContinueClick} id="select-recipient-form">
         <NetworkRecipientSelector
-            hasError={hasNetworkRecipientError}
+            hasError={hasInsufficientFunds}
             bind:this={selector}
             bind:options={selectorOptions}
             bind:selectedIndex
         />
     </form>
-    {#if hasNetworkRecipientError}
+    {#if hasInsufficientFunds}
         <Alert variant="danger" text={localize('error.send.insufficientFundsGasFee')} />
     {/if}
 </PopupTemplate>

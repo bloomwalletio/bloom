@@ -4,7 +4,7 @@ import { SendFlowType } from '@core/wallet/enums'
 
 export function canAccountMakeStardustTransaction(
     accountIndex: number,
-    sendFlowType: SendFlowType
+    sendFlowType: SendFlowType | undefined
 ): boolean | undefined {
     switch (sendFlowType) {
         case SendFlowType.BaseCoinTransfer:
