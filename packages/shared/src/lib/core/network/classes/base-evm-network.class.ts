@@ -11,7 +11,6 @@ import { IBlock, IEvmNetworkStatus, IEvmNetwork, IBaseEvmNetworkConfiguration } 
 import { evmNetworkStatuses } from '../stores'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
-import { Converter } from '@core/utils'
 
 export class BaseEvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -66,7 +65,7 @@ export class BaseEvmNetwork implements IEvmNetwork {
 
     async getGasPrice(): Promise<bigint> {
         const gasPrice = await this.provider.eth.getGasPrice()
-        return Converter.decimalToHex(Number(gasPrice), true) // TODO Fix type
+        return BigInt(gasPrice)
     }
 
     async getLatestBlock(): Promise<IBlock> {
