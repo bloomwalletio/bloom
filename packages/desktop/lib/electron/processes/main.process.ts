@@ -36,7 +36,7 @@ import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
 import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
 import { ITransakWindowData } from '@core/app/interfaces'
-import { IError } from '@core/error'
+import { JsonFileManager } from '../managers/json-file.manager'
 
 export let appIsReady = false
 
@@ -652,7 +652,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
     }
 
     function setBounds(): void {
-        const settings = <ISettings>loadJsonConfig(settingsFilename)
+        const settings = <ISettings>JsonFileManager.loadJsonFromFile(settingsFilename)
 
         if (settings && settings.windowState && settings.windowState[windowName]) {
             windowState = settings.windowState[windowName]
@@ -666,13 +666,13 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
             windowState = window.getBounds() as IAppState
         }
 
-        let settings = loadJsonConfig(settingsFilename) as ISettings
+        let settings = JsonFileManager.loadJsonFromFile(settingsFilename) as ISettings
 
         settings = settings || <ISettings>{}
         settings.windowState = settings.windowState || <IAppState>{}
         settings.windowState[windowName] = windowState
 
-        saveJsonConfig(settingsFilename, settings)
+        JsonFileManager.saveJsonToFile(settingsFilename, settings)
     }
 
     function track(win: BrowserWindow): void {
@@ -712,37 +712,14 @@ interface IAppState {
 
 function updateSettings(data: object): void {
     const filename = 'settings.json'
-    const config = loadJsonConfig(filename)
+    const config = JsonFileManager.loadJsonFromFile(filename)
 
     /**
      * CAUTION: We must be careful saving properties to this file, as
      * once we decide to save it there then it will be there forever
      * even if the name changes later.
      */
-    saveJsonConfig(filename, { ...config, ...data })
-}
-
-function saveJsonConfig(filename: string, data: object): void {
-    try {
-        fs.writeFileSync(getJsonConfig(filename), JSON.stringify(data))
-    } catch (err) {
-        console.error(err)
-    }
-}
-
-function loadJsonConfig(filename: string): object | undefined {
-    try {
-        return JSON.parse(fs.readFileSync(getJsonConfig(filename)).toString())
-    } catch (err) {
-        if (!(err as IError).message?.includes('ENOENT')) {
-            console.error(err)
-        }
-    }
-}
-
-function getJsonConfig(filename: string): string {
-    const userDataPath = app.getPath('userData')
-    return path.join(userDataPath, filename)
+    JsonFileManager.saveJsonToFile(filename, { ...config, ...data })
 }
 
 export function updateAppVersionDetails(details: object): void {

@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { get } from 'svelte/store'
+import { IBaseToken } from '@core/token/interfaces'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { NetworkNamespace } from '../enums'
 import {
@@ -10,10 +9,9 @@ import {
     IStardustNetwork,
     IStardustNetworkMetadata,
 } from '../interfaces'
-import { addNetwork, networkStatus } from '../stores'
-import { NetworkId, StardustNetworkId } from '../types'
-
-import { IBaseToken } from '@core/token'
+import { IscChain } from '../classes'
+import { addChain, networkStatus, removeChain } from '../stores'
+import { EvmNetworkId, StardustNetworkId } from '../types'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -24,7 +22,7 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly bech32Hrp: string
     public readonly protocol: IProtocol
     public readonly baseToken: IBaseToken
-    public readonly chainConfigurations: IIscChainConfiguration[]
+    public iscChains: IscChain[]
 
     constructor(persistedNetwork: IStardustNetworkMetadata) {
         this.id = persistedNetwork.id
@@ -35,7 +33,12 @@ export class StardustNetwork implements IStardustNetwork {
         this.networkName = persistedNetwork.protocol.networkName
         this.protocol = persistedNetwork.protocol
         this.baseToken = persistedNetwork.baseToken
-        this.chainConfigurations = persistedNetwork.chainConfigurations
+
+        this.iscChains = persistedNetwork.chainConfigurations
+            .map((chainConfiguration) => {
+                return new IscChain(chainConfiguration)
+            })
+            .filter(Boolean)
     }
 
     getStatus(): INetworkStatus {
@@ -50,28 +53,27 @@ export class StardustNetwork implements IStardustNetwork {
             network.chainConfigurations.push(chainConfiguration)
             updateActiveProfile({ network })
 
-            this.chainConfigurations.push(chainConfiguration)
-            addNetwork(chainConfiguration)
+            const iscChain = new IscChain(chainConfiguration)
+            this.iscChains.push(iscChain)
+            addChain(iscChain)
         }
     }
 
     private isChainAlreadyAdded(chainConfiguration: IIscChainConfiguration): boolean {
-        return this.chainConfigurations.some((evmNetwork) => {
-            const hasSameName = evmNetwork.name === chainConfiguration.name
-            const hasSameId = evmNetwork.id === chainConfiguration.id
+        return this.iscChains.some(({ name, id }) => {
+            const hasSameName = name === chainConfiguration.name
+            const hasSameId = id === chainConfiguration.id
             return hasSameName || hasSameId
         })
     }
 
-    editChain(networkId: NetworkId, payload: Partial<IIscChainConfiguration>): Promise<void> {
-        return Promise.resolve()
-    }
-
-    removeChain(networkId: NetworkId): void {
+    removeChain(networkId: EvmNetworkId): void {
         const network = get(activeProfile).network
         const newChains = network.chainConfigurations.filter(
             (chainConfiguration) => chainConfiguration.id !== networkId
         )
+        this.iscChains = this.iscChains.filter((chain) => chain.id === networkId)
+        removeChain(networkId)
         updateActiveProfile({ network: { ...network, chainConfigurations: newChains } })
     }
 }
