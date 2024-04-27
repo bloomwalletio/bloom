@@ -1,11 +1,12 @@
 import { IAccountState } from '@core/account'
-import { persistDappNamespacesForDapp } from '../stores'
+import { persistDapp } from '../stores'
 import { approveSession } from './approveSession'
 import { buildSupportedNamespacesFromSelections } from './buildSupportedNamespaceFromSelections'
 import { clearOldPairings } from './clearOldPairings'
 import { ISelections } from '../interface'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { SupportedNamespaces } from '../types'
+import { DappVerification } from '../enums'
 
 export async function connectToDapp(
     selections: ISelections,
@@ -25,5 +26,11 @@ export async function connectToDapp(
 
     await clearOldPairings(dappUrl)
     await approveSession(sessionProposal, supportedNamespaces, account)
-    persistDappNamespacesForDapp(dappUrl, supportedNamespaces, requiredNamespaces, optionalNamespaces)
+
+    const verificationState = sessionProposal.verifyContext.verified
+    persistDapp(
+        dappUrl,
+        verificationState.isScam ? DappVerification.Scam : (verificationState.validation as DappVerification),
+        { supported: supportedNamespaces, required: requiredNamespaces, optional: optionalNamespaces }
+    )
 }

@@ -1,9 +1,4 @@
-import {
-    connectedDapps,
-    getPersistedDappNamespacesForDapp,
-    getWalletClient,
-    removeDappNamespacesForDapp,
-} from '../stores'
+import { connectedDapps, getWalletClient, getPersistedDapp, removePersistedDapp } from '../stores'
 import { get } from 'svelte/store'
 
 export function removeAllDisconnectedDapps(): void {
@@ -13,12 +8,12 @@ export function removeAllDisconnectedDapps(): void {
     }
 
     const connectedDappsForProfile = get(connectedDapps).filter(
-        (dapp) => dapp.metadata?.url && !!getPersistedDappNamespacesForDapp(dapp.metadata.url) && !dapp.session
+        (dapp) => !!getPersistedDapp(dapp.metadata?.url ?? '') && !dapp.session
     )
 
     for (const dapp of connectedDappsForProfile) {
         if (dapp.metadata) {
-            removeDappNamespacesForDapp(dapp.metadata.url)
+            removePersistedDapp(dapp.metadata.url)
         }
     }
 }

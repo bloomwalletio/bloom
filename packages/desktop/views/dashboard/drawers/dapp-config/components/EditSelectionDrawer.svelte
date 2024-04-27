@@ -4,10 +4,10 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import {
-        getPersistedDappNamespacesForDapp,
         updateSupportedDappNamespacesForDapp,
         selectedDapp,
         sessionProposal,
+        getPersistedDapp,
     } from '@auxiliary/wallet-connect/stores'
     import { onMount } from 'svelte'
     import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
@@ -21,9 +21,7 @@
     export let disableContinue: boolean
 
     $: dappMetadata = $selectedDapp?.metadata ?? ($sessionProposal?.params.proposer.metadata as IDappMetadata)
-    $: persistedSupportedNamespaces = dappMetadata
-        ? getPersistedDappNamespacesForDapp(dappMetadata.url)?.supported
-        : undefined
+    $: persistedDapp = dappMetadata ? getPersistedDapp(dappMetadata.url) : undefined
     $: requiredNamespaces =
         $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces ?? {}
     $: optionalNamespaces =
@@ -34,7 +32,7 @@
             selections,
             requiredNamespaces,
             optionalNamespaces,
-            persistedSupportedNamespaces
+            persistedDapp?.namespaces.supported
         )
         updateSupportedDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
         if ($selectedDapp?.session) {
@@ -56,11 +54,15 @@
 
 <DrawerTemplate title={localize(`views.dashboard.drawers.${titleLocale}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col">
-        <DappInfo metadata={dappMetadata} />
+        <DappInfo metadata={dappMetadata} verifiedState={persistedDapp?.verificationState} />
 
         <div class="p-6 flex-grow overflow-hidden">
             <div class="h-full flex flex-col gap-8 overflow-scroll">
-                <slot {persistedSupportedNamespaces} {requiredNamespaces} {optionalNamespaces} />
+                <slot
+                    persistedSupportedNamespaces={persistedDapp?.namespaces.supported}
+                    {requiredNamespaces}
+                    {optionalNamespaces}
+                />
             </div>
         </div>
     </div>
