@@ -36,7 +36,8 @@ import { getMachineId } from '../utils/os.utils'
 import { registerPowerMonitorListeners } from '../listeners'
 import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
 import { ITransakWindowData } from '@core/app/interfaces'
-import { JsonFileManager } from '../managers/json-file.manager'
+import { ElectronSettingsManager } from '../managers/electron-settings.manager'
+import { IElectronSettings, IWindowState } from '../interfaces'
 
 export let appIsReady = false
 
@@ -179,7 +180,7 @@ function tryOpenExternalUrl(e: Event, url: string): void {
 }
 
 export function createMainWindow(): BrowserWindow {
-    const mainWindowState = windowStateKeeper('main', 'settings.json')
+    const mainWindowState = windowStateKeeper('main')
 
     // Create the browser window
     windows.main = new BrowserWindow({
@@ -206,7 +207,7 @@ export function createMainWindow(): BrowserWindow {
         windows.main.maximize()
     }
 
-    mainWindowState.track(windows.main)
+    mainWindowState.track?.(windows.main)
 
     if (!app.isPackaged) {
         // Enable dev tools only in developer mode
@@ -490,7 +491,7 @@ ipcMain.handle('handle-error', (_e, errorType, error) => {
 ipcMain.handle('get-machine-id', () => getMachineId())
 
 // Settings
-ipcMain.handle('update-app-settings', (_e, settings) => updateSettings(settings))
+ipcMain.handle('update-app-settings', (_e, settings) => ElectronSettingsManager.updateSettings(settings))
 
 // Theme
 nativeTheme.on('updated', () => {
@@ -642,9 +643,9 @@ export function closeErrorWindow(): void {
     }
 }
 
-function windowStateKeeper(windowName: string, settingsFilename: string): IAppState {
+function windowStateKeeper(windowName: string): IWindowState {
     let window: BrowserWindow
-    let windowState = <IAppState>{
+    let windowState = <IWindowState>{
         x: 0,
         y: 0,
         width: 1280,
@@ -652,7 +653,7 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
     }
 
     function setBounds(): void {
-        const settings = <ISettings>JsonFileManager.loadJsonFromFile(settingsFilename)
+        const settings = ElectronSettingsManager.loadSettings()
 
         if (settings && settings.windowState && settings.windowState[windowName]) {
             windowState = settings.windowState[windowName]
@@ -663,16 +664,16 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
     function saveState(): void {
         windowState.isMaximized = window.isMaximized()
         if (!windowState.isMaximized) {
-            windowState = window.getBounds() as IAppState
+            windowState = window.getBounds() as IWindowState
         }
 
-        let settings = JsonFileManager.loadJsonFromFile(settingsFilename) as ISettings
+        let settings = ElectronSettingsManager.loadSettings()
 
-        settings = settings || <ISettings>{}
-        settings.windowState = settings.windowState || <IAppState>{}
+        settings = settings || <IElectronSettings>{}
+        settings.windowState = settings.windowState || <IWindowState>{}
         settings.windowState[windowName] = windowState
 
-        JsonFileManager.saveJsonToFile(settingsFilename, settings)
+        ElectronSettingsManager.saveSettings(settings)
     }
 
     function track(win: BrowserWindow): void {
@@ -694,32 +695,6 @@ function windowStateKeeper(windowName: string, settingsFilename: string): IAppSt
         isMaximized: windowState.isMaximized,
         track,
     }
-}
-
-interface ISettings {
-    windowState: IAppState
-}
-
-interface IAppState {
-    x: number
-    y: number
-    width: number
-    height: number
-    isMaximized: boolean
-
-    track(window: BrowserWindow): void
-}
-
-function updateSettings(data: object): void {
-    const filename = 'settings.json'
-    const config = JsonFileManager.loadJsonFromFile(filename)
-
-    /**
-     * CAUTION: We must be careful saving properties to this file, as
-     * once we decide to save it there then it will be there forever
-     * even if the name changes later.
-     */
-    JsonFileManager.saveJsonToFile(filename, { ...config, ...data })
 }
 
 export function updateAppVersionDetails(details: object): void {

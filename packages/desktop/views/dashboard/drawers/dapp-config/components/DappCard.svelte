@@ -1,18 +1,23 @@
 <script lang="ts">
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-    import { ClickableTile, NetworkAvatar } from '@ui'
+    import { ClickableTile, DappVerificationIcon, NetworkAvatar } from '@ui'
     import { Avatar, AvatarGroup, IconName, Text } from '@bloomwalletio/ui'
     import { NetworkId } from '@core/network'
-    import { getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
+    import { getPersistedDappNamespacesForDapp, persistedDapps } from '@auxiliary/wallet-connect/stores'
     import { localize } from '@core/i18n'
+    import { activeProfileId } from '@core/profile/stores'
 
     export let dapp: IConnectedDapp
     export let disabled: boolean = false
     export let onClick: (() => unknown) | undefined = undefined
 
     $: networkIds = Object.values(
-        dapp.session?.namespaces ?? getPersistedDappNamespacesForDapp(dapp.metadata?.url)?.supported ?? {}
+        dapp.session?.namespaces ?? getPersistedDappNamespacesForDapp(dapp.metadata?.url ?? '')?.supported ?? {}
     ).flatMap((namespace) => namespace.chains as NetworkId[])
+
+    $: verifiedState = $activeProfileId
+        ? $persistedDapps[$activeProfileId]?.[dapp.metadata?.url ?? '']?.verificationState
+        : undefined
 </script>
 
 <ClickableTile
@@ -28,14 +33,19 @@
                 <Avatar icon={IconName.Link} size="lg" surface={0} />
             {/if}
             <div class="flex flex-col overflow-hidden">
-                <Text type="body2" truncate>
+                <Text type="body2" truncate align="left">
                     {dapp.metadata?.name ?? localize('general.unknown')}
                 </Text>
-                {#if dapp.metadata?.url}
-                    <Text type="sm" textColor="secondary" truncate>
-                        {dapp.metadata?.url}
-                    </Text>
-                {/if}
+                <div class="flex flex-row items-center gap-1">
+                    {#if verifiedState}
+                        <DappVerificationIcon {verifiedState} />
+                    {/if}
+                    {#if dapp.metadata?.url}
+                        <Text type="sm" textColor="secondary" truncate>
+                            {dapp.metadata?.url}
+                        </Text>
+                    {/if}
+                </div>
             </div>
         </div>
         <div>
