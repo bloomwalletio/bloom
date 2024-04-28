@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Button, Table, TableRow, Text } from '@bloomwalletio/ui'
-    import { DappInfo, Spinner } from '@ui'
+    import { Button, Spinner, Table, TableRow, Text } from '@bloomwalletio/ui'
+    import { DappInfo } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
@@ -109,7 +109,7 @@
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={rejectSession}>
     <div class="w-full h-full flex flex-col justify-between">
-        {#if $sessionProposal}
+        {#if false}
             {@const metadata = $sessionProposal.params.proposer.metadata}
             <DappInfo {metadata} {verifiedState} />
 
@@ -150,7 +150,7 @@
             {/if}
         {:else}
             <div class="w-full h-full flex items-center justify-center">
-                <Spinner busy size={50} />
+                <Spinner size={'lg'} />
             </div>
         {/if}
     </div>
