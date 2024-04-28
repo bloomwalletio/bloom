@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { connectedDapps, persistedDappNamespaces, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
+    import { connectedDapps, persistedDapps, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
     import { Button, IconName, Tabs, Text } from '@bloomwalletio/ui'
     import { DappListActionsMenu, DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { localize } from '@core/i18n'
@@ -27,7 +27,7 @@
     let selectedIndex = 0
 
     $: connectedDappsForProfile = $connectedDapps.filter(
-        (dapp) => !!$persistedDappNamespaces[$activeProfileId as string]?.[dapp.metadata?.url ?? '']
+        (dapp) => !!$persistedDapps[$activeProfileId as string]?.[dapp.metadata?.url ?? '']
     )
     $: displayedDapps = connectedDappsForProfile.filter(
         (dapp) => (selectedIndex === 0 && !!dapp.session) || (selectedIndex === 1 && !dapp.session)
