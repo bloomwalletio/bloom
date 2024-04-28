@@ -6,9 +6,9 @@ import { getL1Network } from '@core/network'
 
 export function getNumberOfActiveProposals(): number {
     const proposals = get(registeredProposalsForSelectedAccount)
-    const { currentMilestone } = getL1Network()
+    const currentMilestone = get(getL1Network().currentMilestone)
     const activeProposals = Object.values(proposals ?? {}).filter((proposal) => {
-        const { status } = getProposalWithStatus(proposal, get(currentMilestone))
+        const { status } = getProposalWithStatus(proposal,currentMilestone)
         return isProposalActive(status)
     })
     return activeProposals.length
