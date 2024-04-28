@@ -20,7 +20,7 @@ export interface IPlatform {
     listProfileFolders(profileStoragePath: string): Promise<string[]>
     updateMenu(attribute: string, value: unknown): Promise<void> | undefined
     popupMenu(): Promise<void>
-    maximize(): Promise<void>
+    maximize(): Promise<boolean>
     minimize(): Promise<void>
     close(): Promise<void>
     isMaximized(): Promise<boolean>
