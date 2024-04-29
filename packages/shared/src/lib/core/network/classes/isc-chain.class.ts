@@ -17,14 +17,15 @@ export class IscChain extends BaseEvmNetwork {
     constructor(chainConfiguration: IIscChainConfiguration) {
         try {
             const { rpcEndpoint, aliasAddress, apiEndpoint } = chainConfiguration
-            const _rpcEndpoint = `${rpcEndpoint}/v1/chains/${aliasAddress}/evm`
+            const _rpcEndpoint = new URL(`v1/chains/${aliasAddress}/evm`, rpcEndpoint).href
+
             chainConfiguration.rpcEndpoint = _rpcEndpoint
             super(chainConfiguration)
 
             this.aliasAddress = aliasAddress
             this.apiEndpoint = apiEndpoint
 
-            this._chainApi = `${apiEndpoint}v1/chains/${aliasAddress}`
+            this._chainApi = new URL(`v1/chains/${aliasAddress}`, apiEndpoint).href
         } catch (err) {
             console.error(err)
             throw new Error('Failed to construct isc Chain!')

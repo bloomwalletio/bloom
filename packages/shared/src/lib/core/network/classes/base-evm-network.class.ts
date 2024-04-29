@@ -38,7 +38,8 @@ export class BaseEvmNetwork implements IEvmNetwork {
         rpcEndpoint,
     }: IBaseEvmNetworkConfiguration) {
         try {
-            this.provider = new Web3(`${rpcEndpoint}`)
+            const _rpcEndpoint = new URL(rpcEndpoint).href
+            this.provider = new Web3(`${_rpcEndpoint}`)
 
             this.id = id
             this.namespace = namespace
@@ -48,7 +49,7 @@ export class BaseEvmNetwork implements IEvmNetwork {
             this.baseToken = baseToken
             this.name = name
             this.explorerUrl = explorerUrl
-            this.rpcEndpoint = rpcEndpoint
+            this.rpcEndpoint = _rpcEndpoint
         } catch (err) {
             console.error(err)
             throw new Error('Failed to construct EVM Network!')
