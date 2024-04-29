@@ -1,6 +1,8 @@
 import { DappVerification } from '@auxiliary/wallet-connect/enums'
 import { persistDapp, persistedDappNamespaces } from '@auxiliary/wallet-connect/stores'
+import { DEFAULT_BASE_TOKEN } from '@core/network/constants'
 import { IPersistedProfile } from '@core/profile/interfaces'
+import { IBaseToken } from '@core/token/interfaces'
 import { persistedTokens } from '@core/token/stores'
 import { get } from 'svelte/store'
 
@@ -16,6 +18,11 @@ export function prodProfileMigration8To9(existingProfile: unknown): Promise<void
         delete state[profile.id]
         return state
     })
+
+    profile.evmNetworks = (profile.evmNetworks ?? []).map((evmNetwork) => ({
+        ...evmNetwork,
+        baseToken: DEFAULT_BASE_TOKEN[evmNetwork.id] as IBaseToken,
+    }))
 
     persistedTokens.update((state) => {
         delete state[profile.id]
