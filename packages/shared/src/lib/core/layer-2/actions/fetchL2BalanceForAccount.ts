@@ -26,16 +26,20 @@ export function fetchL2BalanceForAccount(profileId: string, account: IAccountSta
             void updateErc721NftsOwnership(account)
         }
 
-        const l2TokenBalance = isIscChain(evmNetwork)
-            ? await fetchIscAssetsForAccount(profileId, evmAddress, evmNetwork, account)
-            : {}
+        try {
+            const l2TokenBalance = isIscChain(evmNetwork)
+                ? await fetchIscAssetsForAccount(profileId, evmAddress, evmNetwork, account)
+                : {}
 
-        const erc20Balances = await getErc20BalancesForAddress(evmAddress, evmNetwork)
-        for (const [tokenId, balance] of Object.entries(erc20Balances)) {
-            await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
-            l2TokenBalance[tokenId] = Number.isNaN(Number(balance)) ? BigInt(0) : balance
+            const erc20Balances = await getErc20BalancesForAddress(evmAddress, evmNetwork)
+            for (const [tokenId, balance] of Object.entries(erc20Balances)) {
+                await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
+                l2TokenBalance[tokenId] = Number.isNaN(Number(balance)) ? BigInt(0) : balance
+            }
+            setLayer2AccountBalanceForChain(index, networkId, l2TokenBalance)
+        } catch (error) {
+            console.error(error)
         }
-        setLayer2AccountBalanceForChain(index, networkId, l2TokenBalance)
     })
 }
 
