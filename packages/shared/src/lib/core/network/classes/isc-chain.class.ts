@@ -1,8 +1,4 @@
-import { get } from 'svelte/store'
-
-import { NetworkHealth } from '../enums'
-import { IBlock, IEvmNetworkStatus, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
-import { evmNetworkStatuses } from '../stores'
+import { IBlock, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 import { Converter } from '@core/utils'
 import { BaseEvmNetwork } from './base-evm-network.class'
 
@@ -29,10 +25,6 @@ export class IscChain extends BaseEvmNetwork {
             console.error(err)
             throw new Error('Failed to construct isc Chain!')
         }
-    }
-
-    getStatus(): IEvmNetworkStatus {
-        return get(evmNetworkStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
     }
 
     getMetadata(): Promise<IIscChainMetadata> {

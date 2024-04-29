@@ -4,7 +4,6 @@ import { selectedAccountIndex } from '@core/account/stores'
 import { getAccountsParticipationEventStatusForEvent } from '../actions'
 import { createProposalFromError } from '../utils'
 import { addOrUpdateProposalToRegisteredProposals, registeredProposals } from './registered-proposals.store'
-import { IProposalMetadata } from '@contexts/governance/interfaces'
 
 export const selectedParticipationEventStatus = writable<ParticipationEventStatus | undefined>(undefined)
 
@@ -14,7 +13,7 @@ export async function getAndSetSelectedParticipationEventStatus(eventId: string)
         eventStatus = await getAccountsParticipationEventStatusForEvent(eventId)
     } catch (err) {
         const accountIndex = get(selectedAccountIndex)
-        const proposal: IProposalMetadata | undefined = get(registeredProposals)?.[accountIndex]?.[eventId]
+        const proposal = get(registeredProposals)?.[accountIndex]?.[eventId]
         if (!proposal) {
             return
         }

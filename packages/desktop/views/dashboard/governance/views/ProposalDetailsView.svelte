@@ -16,6 +16,8 @@
         ProposalQuestionListPane,
         QuorumProgress,
     } from '../components/proposal-details'
+    import { getL1Network } from '@core/network'
+    import { getProposalWithStatus } from '@contexts/governance/utils'
 
     let statusLoaded: boolean = false
     let overviewLoaded: boolean = false
@@ -35,14 +37,17 @@
         clearParticipationEventStatusPoll()
         clearSelectedParticipationEventStatus()
     })
+
+    const { currentMilestone } = getL1Network()
+    $: proposal = getProposalWithStatus($selectedProposal, $currentMilestone)
 </script>
 
 <Pane
     classes="w-full h-full flex flex-nowrap relative flex-1 divide-x divide-solid divide-stroke dark:divide-stroke-dark"
 >
     <div class="w-2/5 flex flex-col p-6 space-y-6 relative overflow-y-scroll">
-        <ProposalDetailsPane proposal={$selectedProposal} />
-        <QuorumProgress proposal={$selectedProposal} {projected} />
+        <ProposalDetailsPane {proposal} />
+        <QuorumProgress {proposal} {projected} />
         <ProposalInformationPane />
     </div>
     <ProposalQuestionListPane bind:projected {statusLoaded} {overviewLoaded} />

@@ -11,7 +11,6 @@
         "./src/lib/core/network/utils/buildPersistedNetworkFromNodeInfoResponse.ts",
         "./src/lib/core/network/utils/checkIfOnSameNetwork.ts",
         "./src/lib/core/network/utils/checkNodeUrlValidity.ts",
-        "./src/lib/core/network/utils/doesNodeHavePlugin.ts",
         "./src/lib/core/network/utils/getDefaultClientOptions.ts",
         "./src/lib/core/network/utils/getDefaultStardustNetwork.ts",
         "./src/lib/core/network/utils/getNetworkIdFromNetworkName.ts",

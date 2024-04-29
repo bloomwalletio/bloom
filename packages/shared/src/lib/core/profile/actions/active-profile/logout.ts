@@ -9,7 +9,6 @@ import {
 import { stopPollingLedgerDeviceState } from '@core/ledger/actions'
 import { isPollingLedgerDeviceState } from '@core/ledger/stores'
 import { clearMarketPricesPoll } from '@core/market/actions'
-import { clearEvmNetworkStatusesPoll, clearNetworkPoll } from '@core/network/actions'
 import { stopDownloadingNftMediaFromQueue } from '@core/nfts/actions'
 import { lockStronghold, resetActiveProfile } from '@core/profile/actions'
 import { activeAccounts, activeProfile, isSoftwareProfile, isDestroyingManager } from '@core/profile/stores'
@@ -25,6 +24,7 @@ import { closeSettings } from '@contexts/settings/stores'
 import { clearLayer2Balance } from '@core/layer-2/stores'
 import { clearAccountNfts } from '@core/nfts/stores'
 import { clearAccountActivities } from '@core/activity/stores'
+import { destroyNetworks } from '@core/network/stores'
 
 /**
  * Logout from active profile
@@ -40,12 +40,12 @@ export function logout(clearActiveProfile = true, _lockStronghold = true): void 
     closeDrawer()
     closeSettings()
 
-    clearNetworkPoll()
     clearLayer2Balance()
-    clearEvmNetworkStatusesPoll()
     clearMarketPricesPoll()
     clearAccountNfts()
     clearAccountActivities()
+
+    destroyNetworks()
 
     const _activeProfile = get(activeProfile)
     if (_activeProfile) {

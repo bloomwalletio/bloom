@@ -1,13 +1,12 @@
 <script lang="ts">
     import { Pane } from '@ui'
-    import { Avatar, IconName, Pill, Text } from '@bloomwalletio/ui'
+    import { Avatar, IconName, Pill, Spinner, Text } from '@bloomwalletio/ui'
     import { truncateString } from '@core/utils'
     import { darkMode } from '@core/app/stores'
     import { ITideLeaderboardItem } from '@core/tide/interfaces'
     import { getSubjectFromAddress } from '@core/wallet'
     import { NetworkId } from '@core/network'
     import { EmptyListPlaceholder } from '@components'
-    import { Spinner } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
     export let leaderboardItems: ITideLeaderboardItem[]

@@ -1,17 +1,16 @@
-import { get } from 'svelte/store'
-import { IBaseToken } from '@core/token/interfaces'
+import { get, writable } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
-import { NetworkNamespace } from '../enums'
-import {
-    IIscChainConfiguration,
-    INetworkStatus,
-    IProtocol,
-    IStardustNetwork,
-    IStardustNetworkMetadata,
-} from '../interfaces'
-import { IscChain } from '../classes'
-import { addChain, networkStatus, removeChain } from '../stores'
+import { NetworkHealth, NetworkNamespace } from '../enums'
+import { IIscChainConfiguration, IProtocol, IStardustNetwork, IStardustNetworkMetadata } from '../interfaces'
 import { EvmNetworkId, StardustNetworkId } from '../types'
+
+import { getAndUpdateNodeInfo } from '@core/network/actions'
+import { getNetworkStatusFromNodeInfo } from '@core/network/helpers'
+import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
+import { IBaseToken } from '@core/token/interfaces'
+
+import { IscChain } from '../classes'
+import { addChain, removeChain } from '../stores'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -23,6 +22,11 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly protocol: IProtocol
     public readonly baseToken: IBaseToken
     public iscChains: IscChain[]
+
+    public health = writable(NetworkHealth.Operational)
+    public currentMilestone = writable(-1)
+
+    private statusPoll: number | undefined
 
     constructor(persistedNetwork: IStardustNetworkMetadata) {
         this.id = persistedNetwork.id
@@ -39,10 +43,22 @@ export class StardustNetwork implements IStardustNetwork {
                 return new IscChain(chainConfiguration)
             })
             .filter(Boolean)
+
+        void this.startStatusPoll()
     }
 
-    getStatus(): INetworkStatus {
-        return get(networkStatus)
+    startStatusPoll(): void {
+        this.statusPoll = window.setInterval(() => {
+            getAndUpdateNodeInfo().then((nodeResponse) => {
+                const { health, currentMilestone } = getNetworkStatusFromNodeInfo(nodeResponse?.nodeInfo)
+                this.currentMilestone.set(currentMilestone)
+                this.health.set(health)
+            })
+        }, NETWORK_STATUS_POLL_INTERVAL)
+    }
+
+    destroy(): void {
+        clearInterval(this.statusPoll)
     }
 
     addChain(chainConfiguration: IIscChainConfiguration): void {

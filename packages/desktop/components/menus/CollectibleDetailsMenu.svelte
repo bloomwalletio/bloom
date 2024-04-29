@@ -4,9 +4,10 @@
     import { localize } from '@core/i18n'
     import { isEvmNetwork } from '@core/network'
     import { IIrc27Nft, Nft, getPrimaryNftUrl, isNftLocked, isValidNftUri } from '@core/nfts'
-    import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
     import { updatePersistedNft } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
+    import { Platform } from '@core/app'
 
     export let menu: Menu | undefined = undefined
     export let nft: Nft
@@ -26,6 +27,17 @@
 
     function onOpenMediaClick(): void {
         openUrlInBrowser(getPrimaryNftUrl(nft?.mediaUrl))
+        menu?.close()
+    }
+
+    async function onRefreshClick(): Promise<void> {
+        if (nft.downloadMetadata?.filePath) {
+            await Platform.deleteFile(nft.downloadMetadata?.filePath)
+        }
+
+        updatePersistedNft(nft.id, { downloadMetadata: {} })
+        updateNftInAllAccountNfts(nft.id, { downloadMetadata: {}, isLoaded: false })
+        addNftsToDownloadQueue([nft])
         menu?.close()
     }
 
@@ -55,6 +67,11 @@
                 title: localize('views.collectibles.details.menu.view'),
                 disabled: !isValidNftUri(nft.mediaUrl),
                 onClick: onOpenMediaClick,
+            },
+            {
+                icon: IconName.Refresh,
+                title: localize('views.collectibles.details.menu.refresh'),
+                onClick: () => void onRefreshClick(),
             },
             {
                 icon: nft.hidden ? IconName.Eye : IconName.EyeOff,

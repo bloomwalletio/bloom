@@ -5,10 +5,13 @@
         selectedParticipationEventStatus,
         selectedProposal,
     } from '@contexts/governance/stores'
-    import { calculateTotalVotesForTrackedParticipations } from '@contexts/governance/utils'
+    import {
+        calculateTotalVotesForTrackedParticipations,
+        getProposalStatusForMilestone,
+    } from '@contexts/governance/utils'
     import { selectedAccount } from '@core/account/stores'
     import { formatDate, localize } from '@core/i18n'
-    import { networkStatus } from '@core/network/stores'
+    import { getL1Network } from '@core/network/stores'
     import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
@@ -20,9 +23,11 @@
         milestone: number
     }
 
-    $: proposalDateData = getNextProposalDateData($selectedProposal?.status)
+    const currentMilestone = getL1Network().currentMilestone
 
-    function getNextProposalDateData(status: EventStatus): IProposalDateData {
+    $: proposalDateData = getNextProposalDateData($currentMilestone)
+    function getNextProposalDateData(_currentMilestone: number): IProposalDateData | undefined {
+        const status = getProposalStatusForMilestone(_currentMilestone, $selectedProposal?.milestones)
         switch (status) {
             case EventStatus.Upcoming:
                 return {
@@ -50,15 +55,13 @@
     }
 
     const { metadata } = $visibleSelectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin ?? {}
-
     let totalVotes = BigInt(0)
 
     $: selectedProposalOverview = $participationOverviewForSelectedAccount?.participations?.[$selectedProposal?.id]
     $: trackedParticipations = Object.values(selectedProposalOverview ?? {})
-    $: currentMilestone = $networkStatus.currentMilestone
 
     // Reactively start updating votes once component has mounted and participation overview is available.
-    $: $selectedParticipationEventStatus && trackedParticipations && currentMilestone && setTotalVotes()
+    $: $selectedParticipationEventStatus && trackedParticipations && $currentMilestone && setTotalVotes()
 
     function setTotalVotes(): void {
         switch ($selectedParticipationEventStatus?.status) {
@@ -85,10 +88,7 @@
             {
                 key: localize(`views.governance.details.proposalInformation.${proposalDateData?.propertyKey}`),
                 value: proposalDateData?.propertyKey
-                    ? formatDate(
-                          milestoneToDate($networkStatus.currentMilestone, proposalDateData.milestone),
-                          DATE_FORMAT
-                      )
+                    ? formatDate(milestoneToDate($currentMilestone, proposalDateData.milestone), DATE_FORMAT)
                     : undefined,
             },
             {

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon, IconName, Pill, Text, TooltipIcon } from '@bloomwalletio/ui'
-    import { IProposal } from '@contexts/governance/interfaces'
+    import { IProposalWithStatus } from '@contexts/governance/interfaces'
     import { participationOverviewForSelectedAccount, selectedProposalId } from '@contexts/governance/stores'
     import { isVotingForProposal } from '@contexts/governance/utils'
     import { localize } from '@core/i18n'
@@ -9,12 +9,13 @@
     import { onMount } from 'svelte'
     import { ProposalStatusInfo } from './'
     import { getTimeDifference, milestoneToDate } from '@core/utils'
-    import { networkStatus } from '@core/network/stores'
+    import { getL1Network } from '@core/network/stores'
     import { time } from '@core/app/stores'
 
-    export let proposal: IProposal
+    export let proposal: IProposalWithStatus
 
     let hasVoted = false
+    const currentMilestone = getL1Network().currentMilestone
 
     $: $participationOverviewForSelectedAccount, proposal, setHasVoted()
 
@@ -32,21 +33,15 @@
     $: switch (proposal?.status) {
         case EventStatus.Upcoming:
             remainingTime = getTimeDifference(
-                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.commencing),
+                milestoneToDate($currentMilestone, proposal?.milestones?.commencing),
                 $time
             )
             break
         case EventStatus.Commencing:
-            remainingTime = getTimeDifference(
-                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.holding),
-                $time
-            )
+            remainingTime = getTimeDifference(milestoneToDate($currentMilestone, proposal?.milestones?.holding), $time)
             break
         case EventStatus.Holding:
-            remainingTime = getTimeDifference(
-                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.ended),
-                $time
-            )
+            remainingTime = getTimeDifference(milestoneToDate($currentMilestone, proposal?.milestones?.ended), $time)
             break
         default:
             break

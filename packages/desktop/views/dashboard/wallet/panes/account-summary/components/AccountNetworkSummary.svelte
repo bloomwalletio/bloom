@@ -4,7 +4,7 @@
     import { formatCurrency, localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { Network, NetworkHealth, NetworkNamespace, setSelectedChain } from '@core/network'
+    import { Network, NetworkNamespace, setSelectedChain } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
@@ -25,8 +25,8 @@
     export let network: Network
     export let account: IAccountState
 
+    $: health = network.health
     $: tokens = $selectedAccountTokens?.[network.id]
-    $: health = network.getStatus().health ?? NetworkHealth.Disconnected
     $: nfts = $ownedNfts.filter((nft) => nft.networkId === network.id && !(nft.hidden || nft.isScam))
     $: tokenBalance = formatTokenAmountBestMatch(
         tokens?.baseCoin?.balance.total ?? BigInt(0),
@@ -111,7 +111,7 @@
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
             {#if address}
-                <NetworkStatusIndicator status={health} />
+                <NetworkStatusIndicator status={$health} />
                 <Copyable value={address}>
                     <Text type="pre-md" textColor="secondary" truncate>{truncateString(address)}</Text>
                 </Copyable>

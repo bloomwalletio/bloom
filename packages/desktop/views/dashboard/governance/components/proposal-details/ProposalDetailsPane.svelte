@@ -2,32 +2,28 @@
     import { Icon, IconName, MarkdownBlock, Pill, Text } from '@bloomwalletio/ui'
     import { IProposal } from '@contexts/governance'
     import { time } from '@core/app/stores'
-    import { networkStatus } from '@core/network/stores'
     import { getTimeDifference, milestoneToDate } from '@core/utils'
     import { EventStatus } from '@iota/sdk/out/types'
     import { ProposalDetailsMenu, ProposalStatusPill } from '../'
+    import { getL1Network } from '@core/network/stores'
 
     export let proposal: IProposal
+
+    const currentMilestone = getL1Network().currentMilestone
 
     let remainingTime: string = ''
     $: switch (proposal?.status) {
         case EventStatus.Upcoming:
             remainingTime = getTimeDifference(
-                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.commencing),
+                milestoneToDate($currentMilestone, proposal?.milestones?.commencing),
                 $time
             )
             break
         case EventStatus.Commencing:
-            remainingTime = getTimeDifference(
-                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.holding),
-                $time
-            )
+            remainingTime = getTimeDifference(milestoneToDate($currentMilestone, proposal?.milestones?.holding), $time)
             break
         case EventStatus.Holding:
-            remainingTime = getTimeDifference(
-                milestoneToDate($networkStatus.currentMilestone, proposal?.milestones?.ended),
-                $time
-            )
+            remainingTime = getTimeDifference(milestoneToDate($currentMilestone, proposal?.milestones?.ended), $time)
             break
         default:
             remainingTime = ''

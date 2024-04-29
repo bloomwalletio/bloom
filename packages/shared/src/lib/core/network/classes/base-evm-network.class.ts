@@ -1,4 +1,4 @@
-import { get } from 'svelte/store'
+import { writable, Writable } from 'svelte/store'
 
 import Web3 from 'web3'
 
@@ -7,11 +7,11 @@ import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
 import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enums'
-import { IBlock, IEvmNetworkStatus, IEvmNetwork, IBaseEvmNetworkConfiguration } from '../interfaces'
-import { evmNetworkStatuses } from '../stores'
+import { IBlock, IEvmNetwork, IBaseEvmNetworkConfiguration } from '../interfaces'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
 import { IBaseToken } from '@core/token'
+import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 
 export class BaseEvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -25,6 +25,9 @@ export class BaseEvmNetwork implements IEvmNetwork {
     public readonly baseToken: IBaseToken
     public readonly explorerUrl: string | undefined
     public readonly rpcEndpoint: string
+
+    public health: Writable<NetworkHealth> = writable(NetworkHealth.Operational)
+    public statusPoll: number | undefined
 
     constructor({
         id,
@@ -50,14 +53,24 @@ export class BaseEvmNetwork implements IEvmNetwork {
             this.name = name
             this.explorerUrl = explorerUrl
             this.rpcEndpoint = _rpcEndpoint
+
+            void this.startStatusPoll()
         } catch (err) {
             console.error(err)
             throw new Error('Failed to construct EVM Network!')
         }
     }
 
-    getStatus(): IEvmNetworkStatus {
-        return get(evmNetworkStatuses)?.[this.id] ?? { health: NetworkHealth.Disconnected }
+    startStatusPoll(): void {
+        this.statusPoll = window.setInterval(() => {
+            this.getLatestBlock()
+                .then(() => this.health.set(NetworkHealth.Operational))
+                .catch(() => this.health.set(NetworkHealth.Disconnected))
+        }, NETWORK_STATUS_POLL_INTERVAL)
+    }
+
+    destroy(): void {
+        clearInterval(this.statusPoll)
     }
 
     getContract(type: ContractType, address: string): Contract {
