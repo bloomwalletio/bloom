@@ -665,10 +665,17 @@
                     "loadMedia": "Load media in wallet",
                     "unsetPfp": "Unset NFT profile pic",
                     "view": "View media in browser",
+                    "refresh": "Refresh NFT",
                     "hide": "Hide NFT",
                     "unhide": "Unhide NFT",
                     "burn": "Burn NFT"
                 }
+            },
+            "collectionsGallery": {
+                "title": "Collections",
+                "emptyTitle": "No collections found",
+                "noResults": "No results found",
+                "emptyDescription": "Deposit or receive your first collectible!"
             }
         },
         "campaigns": {

@@ -137,7 +137,7 @@ const electronApi: IPlatform = {
     minimize(): Promise<void> {
         return ipcRenderer.invoke('minimize')
     },
-    maximize(): Promise<void> {
+    maximize(): Promise<boolean> {
         return ipcRenderer.invoke('maximize')
     },
     isMaximized(): Promise<boolean> {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getPersistedDappNamespacesForDapp, selectedDapp } from '@auxiliary/wallet-connect/stores'
+    import { getPersistedDapp, selectedDapp } from '@auxiliary/wallet-connect/stores'
     import { DrawerTemplate } from '@components/drawers'
     import { Router } from '@core/router'
     import { onMount } from 'svelte'
@@ -15,9 +15,7 @@
     const localeKey = 'views.dashboard.drawers.dapps.details'
     const dapp = structuredClone($selectedDapp) as IConnectedDapp
 
-    $: persistedSupportedNamespaces = dapp?.metadata
-        ? getPersistedDappNamespacesForDapp(dapp?.metadata.url)?.supported
-        : undefined
+    $: persistedDapp = dapp?.metadata ? getPersistedDapp(dapp?.metadata.url) : undefined
 
     onMount(() => {
         if (!$selectedDapp) {
@@ -32,7 +30,7 @@
         <DappActionsMenu {drawerRouter} {dapp} />
     </div>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
-        <DappInfo metadata={dapp.metadata} />
+        <DappInfo metadata={dapp.metadata} verifiedState={persistedDapp?.verificationState} />
 
         <div class="flex-grow overflow-hidden">
             <div class="h-full space-y-6 overflow-scroll px-6 pb-4">
@@ -42,11 +40,11 @@
                         orientation="vertical"
                     />
                 {/if}
-                {#if persistedSupportedNamespaces}
+                {#if persistedDapp?.namespaces.supported}
                     <ConnectionSummary
                         requiredNamespaces={dapp.session?.requiredNamespaces}
                         editable={!!dapp.session}
-                        {persistedSupportedNamespaces}
+                        persistedSupportedNamespaces={persistedDapp?.namespaces.supported}
                         {drawerRouter}
                     />
                 {/if}

@@ -16,7 +16,6 @@
 
     export let drawerRouter: Router<unknown>
 
-    let addressInput, addressNameInput: TextInput
     let networkSelectionInput: NetworkInput
     let address: string = ''
     let addressName: string = ''
@@ -34,10 +33,18 @@
         Network = 'network',
     }
 
-    const validationErrors: { [key in AddressField]: string | undefined } = {
+    let validationErrors: { [key in AddressField]: string | undefined } = {
         [AddressField.Address]: undefined,
         [AddressField.Name]: undefined,
         [AddressField.Network]: undefined,
+    }
+
+    function resetErrors(): void {
+        validationErrors = {
+            [AddressField.Address]: undefined,
+            [AddressField.Name]: undefined,
+            [AddressField.Network]: undefined,
+        }
     }
 
     function onSaveClick(): void {
@@ -90,13 +97,11 @@
             bind:error={validationErrors[AddressField.Network]}
         />
         <TextInput
-            bind:this={addressInput}
             bind:value={address}
             bind:error={validationErrors[AddressField.Address]}
             label={localize('general.address')}
         />
         <TextInput
-            bind:this={addressNameInput}
             bind:value={addressName}
             bind:error={validationErrors[AddressField.Name]}
             label={localize('general.addressName')}

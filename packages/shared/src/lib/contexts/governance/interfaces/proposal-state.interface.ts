@@ -2,7 +2,7 @@ import { EventStatus, ParticipationEventStatus, Question } from '@iota/sdk/out/t
 import { IOrganization, ProposalError } from '..'
 import { ProposalType } from '../enums'
 
-export interface IProposal extends IProposalMetadata {
+export interface IProposalWithStatus extends IProposal {
     status: EventStatus
 }
 
@@ -13,10 +13,10 @@ export interface IProposalState {
 }
 
 export interface IRegisteredProposals {
-    [proposalId: string]: IProposalMetadata
+    [proposalId: string]: IProposal
 }
 
-export interface IProposalMetadata {
+export interface IProposal {
     id: string
     milestones: Record<EventStatus, number>
     organization?: IOrganization

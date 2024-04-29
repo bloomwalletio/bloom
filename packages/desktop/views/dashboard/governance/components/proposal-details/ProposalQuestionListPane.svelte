@@ -13,11 +13,16 @@
         selectedParticipationEventStatus,
         selectedProposal,
     } from '@contexts/governance/stores'
-    import { getActiveParticipation, isProposalVotable, isVotingForSelectedProposal } from '@contexts/governance/utils'
+    import {
+        getActiveParticipation,
+        getProposalStatusForMilestone,
+        isProposalVotable,
+        isVotingForSelectedProposal,
+    } from '@contexts/governance/utils'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { networkStatus } from '@core/network/stores'
+    import { getL1Network } from '@core/network/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ProposalQuestion } from '../../components'
@@ -38,16 +43,16 @@
     let openedQuestionIndex: number = -1
     let isUpdatingVotedAnswerValues: boolean = false
     let lastAction: 'vote' | 'stopVote'
+    const currentMilestone = getL1Network().currentMilestone
 
     $: selectedProposalOverview = $participationOverviewForSelectedAccount?.participations?.[$selectedProposal?.id]
     $: trackedParticipations = Object.values(selectedProposalOverview ?? {})
-    $: currentMilestone = $networkStatus.currentMilestone
 
     // Reactively start updating votes once component has mounted and participation overview is available.
     $: hasMounted &&
         $selectedParticipationEventStatus &&
         trackedParticipations &&
-        currentMilestone &&
+        $currentMilestone &&
         setVotedAnswerValues()
     $: hasMounted && selectedProposalOverview && updateIsVoting()
 
@@ -78,7 +83,8 @@
         }
     }
 
-    $: isVotable = [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)
+    $: status = getProposalStatusForMilestone($currentMilestone, $selectedProposal?.milestones)
+    $: isVotable = [EventStatus.Commencing, EventStatus.Holding].includes(status)
 
     function hasSelectedNoAnswers(_selectedAnswerValues: number[]): boolean {
         return (
@@ -167,10 +173,8 @@
         }
 
         const millis =
-            milestoneToDate(
-                $networkStatus.currentMilestone,
-                $selectedProposal.milestones[EventStatus.Commencing]
-            ).getTime() - new Date().getTime()
+            milestoneToDate($currentMilestone, $selectedProposal.milestones[EventStatus.Commencing]).getTime() -
+            new Date().getTime()
         const timeString = getBestTimeDuration(millis, 'second')
         return localize('views.governance.details.hintVote', { values: { time: timeString } })
     }
@@ -183,7 +187,7 @@
 </script>
 
 <div class="w-3/5 h-full p-6 pr-3 flex flex-col justify-between gap-4">
-    {#if [EventStatus.Commencing, EventStatus.Holding].includes($selectedProposal?.status)}
+    {#if [EventStatus.Commencing, EventStatus.Holding].includes(status)}
         <div class="pr-5">
             <ProjectionTogglePane bind:checked={projected} />
         </div>
@@ -209,7 +213,7 @@
             {/each}
         {/if}
     </proposal-questions>
-    {#if $selectedProposal?.status === EventStatus.Upcoming}
+    {#if status === EventStatus.Upcoming}
         <Alert variant="info" text={alertText} />
     {:else if isVotable}
         {@const isLoaded = questions && overviewLoaded && statusLoaded}
@@ -218,7 +222,7 @@
         {@const isVoting = lastAction === 'vote' && hasGovernanceTransactionInProgress}
         {@const isVotingDisabled =
             !isLoaded ||
-            !isProposalVotable($selectedProposal?.status) ||
+            !isProposalVotable(status) ||
             hasSelectedNoAnswers(selectedAnswerValues) ||
             isUpdatingVotedAnswerValues ||
             areSelectedAndVotedAnswersEqual}

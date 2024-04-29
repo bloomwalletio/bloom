@@ -2,6 +2,7 @@ import { INodeInfo } from '@iota/sdk/out/types'
 import { MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE } from '@core/utils'
 import { NetworkHealth } from '../enums'
 import { INetworkStatus } from '../interfaces'
+import { MILESTONE_NOT_FOUND } from '@core/network/constants'
 
 /**
  * Update the network status store from the NodeInfo.
@@ -10,7 +11,16 @@ import { INetworkStatus } from '../interfaces'
  * @param {IStardustNodeInfo} nodeInfo
  * @returns {INetworkStatus}
  */
-export function getNetworkStatusFromNodeInfo(nodeInfo: INodeInfo): INetworkStatus {
+export function getNetworkStatusFromNodeInfo(nodeInfo: INodeInfo | undefined): INetworkStatus {
+    if (!nodeInfo) {
+        return {
+            messagesPerSecond: 0,
+            referencedRate: 0,
+            health: NetworkHealth.Disconnected,
+            currentMilestone: MILESTONE_NOT_FOUND,
+        }
+    }
+
     let health = NetworkHealth.Operational
     const timestamp = nodeInfo.status.latestMilestone.timestamp
     if (timestamp) {
