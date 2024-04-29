@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Button, SidebarToast, Steps } from '@bloomwalletio/ui'
-    import { DappInfo, Spinner } from '@ui'
+    import { Button, SidebarToast, Spinner, Steps } from '@bloomwalletio/ui'
+    import { DappInfo } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
@@ -179,7 +179,7 @@
             </div>
         {:else}
             <div class="w-full h-full flex items-center justify-center">
-                <Spinner busy size={50} />
+                <Spinner size="lg" />
             </div>
         {/if}
     </div>

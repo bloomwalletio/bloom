@@ -1,6 +1,5 @@
 export { default as BalanceSummaryRow } from './BalanceSummaryRow.svelte'
 export { default as BalanceSummarySection } from './BalanceSummarySection.svelte'
-export { default as Icon } from './Icon.svelte'
 export { default as LedgerIllustration } from './LedgerIllustration.svelte'
 export { default as MediaDisplay } from './MediaDisplay.svelte'
 export { default as Pane } from './Pane.svelte'
