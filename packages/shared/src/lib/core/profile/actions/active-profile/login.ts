@@ -7,7 +7,6 @@ import { handleError } from '@core/error/handlers'
 import { fetchL2BalanceForAllAccounts } from '@core/layer-2/utils'
 import { pollLedgerDeviceState } from '@core/ledger/actions'
 import { pollMarketPrices } from '@core/market/actions'
-import { pollEvmNetworkStatuses, pollNetworkStatus } from '@core/network/actions'
 import { loadNftsForActiveProfile } from '@core/nfts/actions'
 import { initialiseProfileManager } from '@core/profile-manager/actions'
 import {
@@ -69,8 +68,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         // Step 2: get node info to check we have a synced node
         incrementLoginProgress()
         await checkAndUpdateActiveProfileNetwork()
-        void pollNetworkStatus()
-        void pollEvmNetworkStatuses()
 
         // Step 3: load accounts
         incrementLoginProgress()

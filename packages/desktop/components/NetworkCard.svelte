@@ -7,31 +7,21 @@
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
-    import {
-        ExplorerEndpoint,
-        Network,
-        NetworkHealth,
-        NetworkNamespace,
-        evmNetworkStatuses,
-        getDefaultExplorerUrl,
-        networkStatus,
-        setSelectedChain,
-    } from '@core/network'
+    import { ExplorerEndpoint, Network, NetworkNamespace, getDefaultExplorerUrl, setSelectedChain } from '@core/network'
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { buildUrl, truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
-    import { onMount } from 'svelte'
 
     export let network: Network
 
     let address: string | undefined
-    let status: NetworkHealth
     const explorer = getDefaultExplorerUrl(network.id, ExplorerEndpoint.Address)
 
-    $: $networkStatus, $evmNetworkStatuses, $selectedAccount, setNetworkCardData()
+    $: health = network.health
+    $: address = getAddressFromAccountForNetwork($selectedAccount as IAccountState, network.id)
 
     function onExplorerClick(): void {
         if (!explorer || !address) {
@@ -57,13 +47,6 @@
             setSelectedChain(network)
             $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
         }
-    }
-
-    function setNetworkCardData(): void {
-        const account = $selectedAccount as IAccountState
-
-        status = network.getStatus().health
-        address = getAddressFromAccountForNetwork(account, network.id)
     }
 
     async function onGenerateAddressClick(): Promise<void> {
@@ -92,10 +75,6 @@
             handleError(error)
         }
     }
-
-    onMount(() => {
-        setNetworkCardData()
-    })
 </script>
 
 <Tile border onClick={onCardClick}>
@@ -105,9 +84,7 @@
                 <NetworkAvatar networkId={network.id} />
                 <Text type="body1" truncate>{network.name}</Text>
             </div>
-            {#key status}
-                <NetworkStatusPill {status} />
-            {/key}
+            <NetworkStatusPill status={$health} />
         </network-header>
         <network-address class="flex flex-row justify-between items-end gap-4">
             <div class="flex flex-col">

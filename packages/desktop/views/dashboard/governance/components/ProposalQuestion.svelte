@@ -5,11 +5,16 @@
     import { Icon, IconName, Text, IconButton } from '@bloomwalletio/ui'
 
     import { ABSTAIN_VOTE_VALUE } from '@contexts/governance/constants'
-    import { getPercentagesFromAnswerStatuses, IProposalAnswerPercentages } from '@contexts/governance'
+    import {
+        getPercentagesFromAnswerStatuses,
+        getProposalStatusForMilestone,
+        IProposalAnswerPercentages,
+    } from '@contexts/governance'
     import { selectedProposal } from '@contexts/governance/stores'
     import { openPopup } from '@desktop/auxiliary/popup/actions'
     import { PopupId } from '@desktop/auxiliary/popup'
     import { localize } from '@core/i18n'
+    import { getL1Network } from '@core/network/stores'
 
     export let onQuestionClick: (questionIndex: number) => void
     export let onAnswerClick: (answerValue: number, questionIndex: number) => void
@@ -26,13 +31,13 @@
     let percentages: IProposalAnswerPercentages = {}
     let winnerAnswerIndex: number
 
+    const { currentMilestone } = getL1Network()
+    $: status = getProposalStatusForMilestone($currentMilestone, $selectedProposal?.milestones)
+
     $: answers = [...(question?.answers ?? []), { value: 0, text: 'Abstain', additionalInfo: '' }]
 
     $: percentages = getPercentagesFromAnswerStatuses(answerStatuses)
-    $: disabled =
-        $selectedProposal?.status === EventStatus.Upcoming ||
-        $selectedProposal?.status === EventStatus.Ended ||
-        !!$selectedProposal?.error
+    $: disabled = status === EventStatus.Upcoming || status === EventStatus.Ended || !!$selectedProposal?.error
     $: answerStatuses, setWinnerAnswerIndex()
     $: showMargin =
         isOpened ||
@@ -41,7 +46,7 @@
         winnerAnswerIndex !== undefined
 
     function setWinnerAnswerIndex(): void {
-        if ($selectedProposal?.status === EventStatus.Ended && answerStatuses?.length > 0) {
+        if (status === EventStatus.Ended && answerStatuses?.length > 0) {
             const answersAccumulated = answerStatuses?.map((answer) => answer.accumulated)
             const maxAccumulated = Math.max(...answersAccumulated)
             winnerAnswerIndex = answersAccumulated?.indexOf(maxAccumulated)

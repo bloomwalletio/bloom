@@ -2,13 +2,15 @@
     import { EmptyListPlaceholder, Filter } from '@components'
     import { IconName } from '@bloomwalletio/ui'
     import { proposalFilter, registeredProposalsForSelectedAccount } from '@contexts/governance/stores'
-    import { isVisibleProposal, sortProposals } from '@contexts/governance/utils'
+    import { getProposalsWithStatus, isVisibleProposal, sortProposals } from '@contexts/governance/utils'
     import { SearchInput } from '@ui'
     import { ProposalCard } from './'
     import ProposalListMenu from './ProposalListMenu.svelte'
     import { localize } from '@core/i18n'
+    import { getL1Network } from '@core/network'
 
-    $: proposals = Object.values($registeredProposalsForSelectedAccount)
+    const { currentMilestone } = getL1Network()
+    $: proposals = getProposalsWithStatus($registeredProposalsForSelectedAccount, $currentMilestone)
 
     let searchTerm = ''
 

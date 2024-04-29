@@ -1,10 +1,10 @@
 import { EventStatus, ParticipationEventWithNodes, VotingEventPayload } from '@iota/sdk/out/types'
-import { IProposalMetadata } from '../interfaces'
+import { IProposal } from '../interfaces'
 import { ProposalType } from '../enums'
 import { DEFAULT_NODE_URLS } from '@core/network/constants'
 import { getActiveNetworkId } from '@core/network/actions'
 
-export function createProposalFromEvent(event: ParticipationEventWithNodes): IProposalMetadata {
+export function createProposalFromEvent(event: ParticipationEventWithNodes): IProposal {
     const { data, id } = event
 
     const networkId = getActiveNetworkId()
@@ -19,7 +19,7 @@ export function createProposalFromEvent(event: ParticipationEventWithNodes): IPr
         [EventStatus.Ended]: data.milestoneIndexEnd,
     }
 
-    const proposal: IProposalMetadata = {
+    const proposal: IProposal = {
         id,
         title: event.data.name,
         nodeUrl,
