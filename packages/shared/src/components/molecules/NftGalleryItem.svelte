@@ -2,7 +2,7 @@
     import { Pill, Text, Tooltip, type TextColor } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { DownloadErrorType, IDownloadMetadata, Nft } from '@core/nfts'
-    import { downloadingNftId, selectedNftId } from '@core/nfts/stores'
+    import { downloadingNftId, selectedNftId, selectedCollectionId } from '@core/nfts/stores'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
     import { MediaPlaceholder, NetworkAvatar, NftMedia } from '@ui'
     import AssetPillsForNft from '@ui/nfts/AssetPillsForNft.svelte'
@@ -19,6 +19,7 @@
           : ('brand' as TextColor)
 
     function onNftClick(): void {
+        $selectedCollectionId = undefined
         $selectedNftId = nft.id
         $collectiblesRouter?.goTo(CollectiblesRoute.Details)
         $collectiblesRouter?.setBreadcrumb(nft?.name)
