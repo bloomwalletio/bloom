@@ -5,7 +5,7 @@ import { SendFlowType } from '@core/wallet/enums'
 export function canAccountMakeStardustTransaction(
     accountIndex: number,
     sendFlowType: SendFlowType | undefined
-): boolean | undefined {
+): boolean {
     switch (sendFlowType) {
         case SendFlowType.BaseCoinTransfer:
         default: {
@@ -14,7 +14,7 @@ export function canAccountMakeStardustTransaction(
                 const baseTokenBalance = account?.balances.baseCoin
                 return BigInt(baseTokenBalance?.available ?? 0) > BigInt(0)
             } else {
-                return undefined
+                return false
             }
         }
     }

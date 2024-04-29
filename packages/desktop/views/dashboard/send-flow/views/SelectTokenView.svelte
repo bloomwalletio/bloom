@@ -31,22 +31,21 @@
 
     $: $selectedAccountTokens, searchValue, selectedTab, setFilteredTokenList()
 
-    let tokenError: string = ''
+    let tokenError = ''
     $: selectedToken, $sendFlowParameters, void setTokenError()
     async function setTokenError(): Promise<void> {
+        let hasEnoughFunds = false
         if (selectedToken && isEvmNetwork(selectedToken.networkId)) {
-            const hasEnoughFunds = await canAccountMakeEvmTransaction(
+            hasEnoughFunds = await canAccountMakeEvmTransaction(
                 $selectedAccountIndex,
                 selectedToken.networkId,
                 $sendFlowParameters?.type
             )
-            tokenError = hasEnoughFunds ? '' : localize('error.send.insufficientFundsTransaction')
         } else if (selectedToken && isStardustNetwork(selectedToken.networkId)) {
-            const hasEnoughFunds = canAccountMakeStardustTransaction($selectedAccountIndex, $sendFlowParameters?.type)
-            tokenError = hasEnoughFunds ? '' : localize('error.send.insufficientFundsTransaction')
-        } else {
-            tokenError = ''
+            hasEnoughFunds = canAccountMakeStardustTransaction($selectedAccountIndex, $sendFlowParameters?.type)
         }
+
+        tokenError = hasEnoughFunds ? '' : localize('error.send.insufficientFundsTransaction')
     }
 
     const tabs = [
