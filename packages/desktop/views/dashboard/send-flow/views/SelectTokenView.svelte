@@ -40,13 +40,10 @@
                 selectedToken.networkId,
                 $sendFlowParameters?.type
             )
-            tokenError = !hasEnoughFunds ? localize('error.send.insufficientFundsTransaction') : ''
-        } else if (
-            selectedToken &&
-            isStardustNetwork(selectedToken.networkId) &&
-            !canAccountMakeStardustTransaction($selectedAccountIndex, $sendFlowParameters?.type)
-        ) {
-            tokenError = localize('error.send.insufficientFundsTransaction')
+            tokenError = hasEnoughFunds ? '' : localize('error.send.insufficientFundsTransaction')
+        } else if (selectedToken && isStardustNetwork(selectedToken.networkId)) {
+            const hasEnoughFunds = canAccountMakeStardustTransaction($selectedAccountIndex, $sendFlowParameters?.type)
+            tokenError = hasEnoughFunds ? '' : localize('error.send.insufficientFundsTransaction')
         } else {
             tokenError = ''
         }

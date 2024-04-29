@@ -42,7 +42,7 @@
     $: selectedNetworkId = selectorOptions[selectedIndex]?.networkId
     $: selectedRecipient = selectorOptions[selectedIndex]?.selectedRecipient
 
-    let hasInsufficientFunds: boolean = false
+    let hasInsufficientFunds = false
     $: $sendFlowParameters, void checkFundsForGas()
     async function checkFundsForGas(): Promise<void> {
         if (!$sendFlowParameters) {

@@ -63,9 +63,13 @@ export class BaseEvmNetwork implements IEvmNetwork {
         return new this.provider.eth.Contract(abi, address)
     }
 
-    async getGasPrice(): Promise<bigint> {
-        const gasPrice = await this.provider.eth.getGasPrice()
-        return BigInt(gasPrice)
+    async getGasPrice(): Promise<bigint | undefined> {
+        try {
+            const gasPrice = await this.provider.eth.getGasPrice()
+            return BigInt(gasPrice)
+        } catch {
+            return undefined
+        }
     }
 
     async getLatestBlock(): Promise<IBlock> {
