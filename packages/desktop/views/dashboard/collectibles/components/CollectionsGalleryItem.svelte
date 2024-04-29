@@ -53,19 +53,19 @@
             @apply bg-surface dark:bg-surface-dark;
         }
 
-        &::after {
+        &::after,
+        &::before {
             @apply content-[''] absolute block h-1.5 -top-2 left-0 right-0;
-            @apply rounded-t-2xl mx-2;
-            @apply border-t-2 border-x-2 border-solid border-stroke dark:border-stroke-dark;
+            @apply rounded-t-2xl border-t-2 border-x-2 border-solid border-stroke dark:border-stroke-dark;
             @apply bg-surface-1 dark:bg-surface-1-dark;
         }
 
+        &::after {
+            @apply -top-2 mx-2;
+        }
+
         &::before {
-            @apply content-[''] absolute block h-1.5 -top-3.5 left-0 right-0;
-            @apply rounded-t-2xl mx-4;
-            @apply border-t-2 border-x-2 border-solid border-stroke dark:border-stroke-dark;
-            @apply bg-surface-1 dark:bg-surface-1-dark;
-            @apply blur-[1px];
+            @apply -top-3.5 mx-4 blur-[1px];
         }
     }
 </style>
