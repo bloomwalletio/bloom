@@ -10,6 +10,14 @@ export function alphaProfileMigration16To17(existingProfile: unknown): Promise<v
         ...evmNetwork,
         baseToken: DEFAULT_BASE_TOKEN[evmNetwork.id] as IBaseToken,
     }))
+
+    const updatedChainConfiguration = (profile.network.chainConfigurations ?? []).map((chain) => ({
+        ...chain,
+        baseToken: DEFAULT_BASE_TOKEN[chain.id] as IBaseToken,
+    }))
+
+    profile.network = { ...profile.network, chainConfigurations: updatedChainConfiguration }
+
     persistedTokens.update((state) => {
         delete state[profile.id]
         return state
