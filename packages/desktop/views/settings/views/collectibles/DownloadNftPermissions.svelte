@@ -12,10 +12,10 @@
             value: DownloadPermission.All,
             label: localize('views.settings.downloadNftPermissions.all'),
         },
-        // {
-        //     value: DownloadPermission.AllExceptDenylist,
-        //     label: localize('views.settings.downloadNftPermissions.allExceptDenylist'),
-        // },
+        {
+            value: DownloadPermission.AllExceptDenylist,
+            label: localize('views.settings.downloadNftPermissions.allExceptDenylist'),
+        },
         {
             value: DownloadPermission.AllowListOnly,
             label: localize('views.settings.downloadNftPermissions.allowListOnly'),
