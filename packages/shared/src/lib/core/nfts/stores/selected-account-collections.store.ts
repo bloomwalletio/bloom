@@ -21,26 +21,28 @@ async function updateCollections(nfts: Nft[]): Promise<void> {
 
     await Promise.all(
         nfts.map(async (nft) => {
-            if (nft.standard !== NftStandard.Irc27 || !nft.issuer?.aliasId) {
+            if (nft.standard !== NftStandard.Irc27 || !nft.issuer) {
                 return
             }
 
-            const issuerAliasId = nft.issuer.aliasId
+            const issuerId = nft.issuer.aliasId ?? nft.issuer.nftId
+            if (!issuerId) {
+                return
+            }
 
-            if (!collectionsUpdate[issuerAliasId]) {
+            if (!collectionsUpdate[issuerId]) {
                 const collection = await getCollectionFromNft(nft)
                 if (collection) {
-                    collectionsUpdate[issuerAliasId] = { ...collection, nfts: [nft] }
+                    collectionsUpdate[issuerId] = { ...collection, nfts: [nft] }
                 }
             } else {
-                const existingNfts = collectionsUpdate[issuerAliasId].nfts
+                const existingNfts = collectionsUpdate[issuerId].nfts
                 if (!existingNfts.find((existingNft) => existingNft.id === nft.id)) {
-                    collectionsUpdate[issuerAliasId].nfts.push(nft)
+                    collectionsUpdate[issuerId].nfts.push(nft)
                 }
             }
         })
     )
-
     collectionsStore.set(collectionsUpdate)
 }
 
