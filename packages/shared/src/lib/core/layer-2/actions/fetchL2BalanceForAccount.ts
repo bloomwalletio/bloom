@@ -23,7 +23,7 @@ export function fetchL2BalanceForAccount(profileId: string, account: IAccountSta
         }
 
         if (features.collectibles.erc721.enabled) {
-            void updateErc721NftsOwnership(account)
+            void updateErc721NftsOwnership(account, evmNetwork.id)
         }
 
         try {
