@@ -12,7 +12,7 @@ const networkFeatures: INetworkFeatures = {
         },
     },
     evmNetworks: {
-        enabled: true,
+        enabled: false,
     },
 }
 

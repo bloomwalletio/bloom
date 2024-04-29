@@ -14,8 +14,7 @@ export class IscChain extends BaseEvmNetwork {
         try {
             const { rpcEndpoint, aliasAddress, apiEndpoint } = chainConfiguration
             const _rpcEndpoint = `${rpcEndpoint}/v1/chains/${aliasAddress}/evm`
-            chainConfiguration.rpcEndpoint = _rpcEndpoint
-            super(chainConfiguration)
+            super({ ...chainConfiguration, rpcEndpoint: _rpcEndpoint })
 
             this.aliasAddress = aliasAddress
             this.apiEndpoint = apiEndpoint

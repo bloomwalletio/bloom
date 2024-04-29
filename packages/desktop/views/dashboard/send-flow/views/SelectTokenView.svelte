@@ -34,7 +34,7 @@
     let tokenError = ''
     $: selectedToken, $sendFlowParameters, void setTokenError()
     async function setTokenError(): Promise<void> {
-        let hasEnoughFunds = false
+        let hasEnoughFunds = true
         if (selectedToken && isEvmNetwork(selectedToken.networkId)) {
             hasEnoughFunds = await canAccountMakeEvmTransaction(
                 $selectedAccountIndex,
