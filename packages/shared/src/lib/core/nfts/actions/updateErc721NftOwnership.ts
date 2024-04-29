@@ -11,7 +11,7 @@ export async function updateErc721NftsOwnership(account: IAccountState, networkI
     try {
         const trackedErc721Nfts =
             (getAllAccountNfts()[account.index]?.filter((nft) => {
-                return nft.standard === NftStandard.Erc721 || nft.networkId === networkId
+                return nft.standard === NftStandard.Erc721 && nft.networkId === networkId
             }) as IErc721Nft[]) ?? []
         const promises = trackedErc721Nfts.map(async (nft) => {
             const updatedOwner = await getOwnerOfErc721Nft(nft)
