@@ -1,19 +1,19 @@
 import { formatTokenAmountBestMatch } from '@core/token'
 import { ActivityAction, ActivityDirection } from '../../enums'
 import { getPersistedToken } from '@core/token/stores'
-import { NetworkId } from '@core/network'
+import { Activity } from '@core/activity/types'
 
 export function getFormattedAmountFromActivity(
     rawAmount: bigint,
     tokenId: string,
-    networkId: NetworkId,
-    direction: ActivityDirection,
-    action: ActivityAction,
+    activity: Activity,
     signed: boolean = true
 ): string {
-    const metadata = getPersistedToken(networkId, tokenId)?.metadata
+    const metadata = getPersistedToken(activity.sourceNetworkId, tokenId)?.metadata
     const amount = metadata ? formatTokenAmountBestMatch(rawAmount, metadata) : ''
     return `${
-        (direction === ActivityDirection.Outgoing || action === ActivityAction.Burn) && signed ? '- ' : ''
+        (activity.direction === ActivityDirection.Outgoing || activity.action === ActivityAction.Burn) && signed
+            ? '- '
+            : ''
     }${amount}`
 }

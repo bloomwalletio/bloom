@@ -2,7 +2,7 @@ import { getActiveProfileId } from '@core/profile/stores/active-profile-id.store
 import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
 import { NotVerifiedStatus, VerifiedStatus } from '../enums'
-import { IPersistedToken, IPersistedTokens } from '../interfaces'
+import { IPersistedToken, IPersistedTokens, IToken } from '../interfaces'
 import { NetworkId } from '@core/network/types'
 
 export const persistedTokens = persistent<IPersistedTokens>('persistedTokens', {})
@@ -58,18 +58,18 @@ export function removePersistedTokensForProfile(profileId: string): void {
     })
 }
 
-export function verifyToken(networkId: NetworkId, tokenId: string, status: VerifiedStatus): void {
-    updatePersistedToken(networkId, { id: tokenId, verification: { verified: true, status } })
+export function verifyToken(token: IToken, status: VerifiedStatus): void {
+    updatePersistedToken(token.networkId, { id: token.id, verification: { verified: true, status } })
 }
 
-export function unverifyToken(networkId: NetworkId, tokenId: string, status: NotVerifiedStatus): void {
-    updatePersistedToken(networkId, { id: tokenId, verification: { verified: false, status } })
+export function unverifyToken(token: IToken, status: NotVerifiedStatus): void {
+    updatePersistedToken(token.networkId, { id: token.id, verification: { verified: false, status } })
 }
 
-export function hideToken(networkId: NetworkId, tokenId: string): void {
-    updatePersistedToken(networkId, { id: tokenId, hidden: true })
+export function hideToken(token: IToken): void {
+    updatePersistedToken(token.networkId, { id: token.id, hidden: true })
 }
 
-export function unhideToken(networkId: NetworkId, tokenId: string): void {
-    updatePersistedToken(networkId, { id: tokenId, hidden: false })
+export function unhideToken(token: IToken): void {
+    updatePersistedToken(token.networkId, { id: token.id, hidden: false })
 }

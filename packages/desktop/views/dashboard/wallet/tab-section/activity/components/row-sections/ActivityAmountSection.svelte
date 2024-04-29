@@ -23,13 +23,13 @@
     $: $selectedAccountTokens, (token = getTokenFromActivity(activity))
 
     function getAmount(_activity: Activity): string {
-        const { type, namespace, sourceNetworkId, direction, action } = _activity
+        const { type, namespace } = _activity
 
         if (namespace === NetworkNamespace.Stardust) {
             if (type === StardustActivityType.Basic || type === StardustActivityType.Foundry) {
                 const { rawAmount, tokenId } = _activity.tokenTransfer ?? _activity.baseTokenTransfer ?? {}
 
-                return getFormattedAmountFromActivity(rawAmount, tokenId, sourceNetworkId, direction, action)
+                return getFormattedAmountFromActivity(rawAmount, tokenId, _activity)
             } else if (type === StardustActivityType.Governance) {
                 const isVotingPowerActivity =
                     _activity.governanceAction === StardustGovernanceAction.DecreaseVotingPower ||
@@ -43,13 +43,7 @@
             }
         } else if (namespace === NetworkNamespace.Evm) {
             if (type === EvmActivityType.CoinTransfer) {
-                return getFormattedAmountFromActivity(
-                    _activity.baseTokenTransfer.rawAmount,
-                    BASE_TOKEN_ID,
-                    sourceNetworkId,
-                    direction,
-                    action
-                )
+                return getFormattedAmountFromActivity(_activity.baseTokenTransfer.rawAmount, BASE_TOKEN_ID, _activity)
             } else if (isEvmTokenActivity(_activity)) {
                 if (
                     _activity.tokenTransfer?.standard === NftStandard.Erc721 ||
@@ -60,9 +54,7 @@
                     return getFormattedAmountFromActivity(
                         _activity.tokenTransfer.rawAmount,
                         _activity.tokenTransfer.tokenId,
-                        sourceNetworkId,
-                        direction,
-                        action
+                        _activity
                     )
                 }
             } else {

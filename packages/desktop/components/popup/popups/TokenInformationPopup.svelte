@@ -17,7 +17,7 @@
     $: isNewToken = token.verification?.status === NotVerifiedStatus.New
 
     function onSkipClick(): void {
-        unverifyToken(token.networkId, token.id, NotVerifiedStatus.Skipped)
+        unverifyToken(token, NotVerifiedStatus.Skipped)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
@@ -31,7 +31,7 @@
     }
 
     function onVerifyClick(): void {
-        verifyToken(token.networkId, token.id, VerifiedStatus.SelfVerified)
+        verifyToken(token, VerifiedStatus.SelfVerified)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
