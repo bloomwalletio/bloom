@@ -120,7 +120,7 @@
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
-        {#if false}
+        {#if $sessionProposal}
             {@const requiredNamespaces = $sessionProposal.params.requiredNamespaces}
             {@const optionalNamespaces = $sessionProposal.params.optionalNamespaces}
 
@@ -179,7 +179,7 @@
             </div>
         {:else}
             <div class="w-full h-full flex items-center justify-center">
-                <Spinner size={'lg'} />
+                <Spinner size="lg" />
             </div>
         {/if}
     </div>

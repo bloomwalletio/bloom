@@ -109,7 +109,7 @@
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={rejectSession}>
     <div class="w-full h-full flex flex-col justify-between">
-        {#if false}
+        {#if $sessionProposal}
             {@const metadata = $sessionProposal.params.proposer.metadata}
             <DappInfo {metadata} {verifiedState} />
 
@@ -150,7 +150,7 @@
             {/if}
         {:else}
             <div class="w-full h-full flex items-center justify-center">
-                <Spinner size={'lg'} />
+                <Spinner size="lg" />
             </div>
         {/if}
     </div>
