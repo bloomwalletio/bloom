@@ -7,13 +7,11 @@ import { FeatureType } from '@iota/sdk/out/types'
 
 export async function getCollectionFromNft(nft: Nft): Promise<Collection | undefined> {
     if (nft.standard !== NftStandard.Irc27) {
-        console.error('Unsupported NFT standard:', nft.standard)
         return
     }
 
     const { aliasId = '', nftId = '' } = nft.issuer ?? {}
     if (!aliasId && !nftId) {
-        console.error('Missing NFT identifiers.')
         return
     }
 
@@ -21,7 +19,6 @@ export async function getCollectionFromNft(nft: Nft): Promise<Collection | undef
         const client = await getClient()
         const outputId = aliasId ? await client.aliasOutputId(aliasId) : await client.nftOutputId(nftId)
         if (!outputId) {
-            console.error('Failed to obtain output ID for:', aliasId, nftId)
             return
         }
 
@@ -33,7 +30,6 @@ export async function getCollectionFromNft(nft: Nft): Promise<Collection | undef
         ) as MetadataFeature
 
         if (!metadataFeature?.data) {
-            console.error('No metadata found in output.')
             return
         }
 
