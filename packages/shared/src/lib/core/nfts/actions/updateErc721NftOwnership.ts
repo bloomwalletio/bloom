@@ -5,12 +5,13 @@ import { IErc721Nft } from '../interfaces'
 import { getAllAccountNfts, persistedNftForActiveProfile, updatePersistedNft } from '../stores'
 import { getOwnerOfErc721Nft } from '../utils'
 import { get } from 'svelte/store'
+import { NetworkId } from '@core/network'
 
-export async function updateErc721NftsOwnership(account: IAccountState): Promise<void> {
+export async function updateErc721NftsOwnership(account: IAccountState, networkId: NetworkId): Promise<void> {
     try {
         const trackedErc721Nfts =
             (getAllAccountNfts()[account.index]?.filter((nft) => {
-                return nft.standard === NftStandard.Erc721
+                return nft.standard === NftStandard.Erc721 && nft.networkId === networkId
             }) as IErc721Nft[]) ?? []
         const promises = trackedErc721Nfts.map(async (nft) => {
             const updatedOwner = await getOwnerOfErc721Nft(nft)
