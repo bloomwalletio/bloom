@@ -8,6 +8,9 @@ const collectiblesFeatures: ICollectiblesFeatures = {
     erc721: {
         enabled: true,
     },
+    collections: {
+        enabled: false,
+    },
 }
 
 export default collectiblesFeatures

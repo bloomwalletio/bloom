@@ -12,7 +12,7 @@
         StardustNetworkId,
         StardustNetworkName,
         getDefaultClientOptions,
-        getDefaultPersistedNetwork,
+        getDefaultStardustNetwork,
     } from '@core/network'
     import { profiles } from '@core/profile/stores'
     import features from '@features/features'
@@ -21,11 +21,11 @@
     import { ButtonTile } from '../../../../components'
     import { networkSetupRouter } from '../network-setup-router'
 
-    let selectedNetworkType: OnboardingNetworkType = features.onboarding.iota.enabled
+    let selectedNetworkType: OnboardingNetworkType = features.onboarding.iota?.enabled
         ? OnboardingNetworkType.Iota
-        : features.onboarding.shimmer.enabled
+        : features.onboarding.shimmer?.enabled
           ? OnboardingNetworkType.Shimmer
-          : features.onboarding.testnet.enabled
+          : features.onboarding.testnet?.enabled
             ? OnboardingNetworkType.Testnet
             : OnboardingNetworkType.Custom
     function onNetworkClick(networkType: OnboardingNetworkType): void {
@@ -40,7 +40,7 @@
         if (selectedNetworkType !== OnboardingNetworkType.Custom) {
             const networkName = getNetworkNameFromOnboardingNetworkType(selectedNetworkType)
             const networkId: StardustNetworkId = `${NetworkNamespace.Stardust}:${networkName}`
-            const network = getDefaultPersistedNetwork(networkId)
+            const network = getDefaultStardustNetwork(networkId)
             const clientOptions = getDefaultClientOptions(networkId)
             updateOnboardingProfile({ network, clientOptions })
         }

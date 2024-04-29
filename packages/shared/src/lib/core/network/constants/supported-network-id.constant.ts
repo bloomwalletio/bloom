@@ -9,10 +9,19 @@ export const SupportedStardustNetworkId: Record<string, StardustNetworkId> = {
     Testnet: `${NetworkNamespace.Stardust}:${StardustNetworkName.Testnet}`,
 }
 
-export const SupportedEvmNetworkId: Record<string, EvmNetworkId> = {
+export const SupportedL1EvmNetworkId: Record<string, EvmNetworkId> = {
+    Ethereum: `${NetworkNamespace.Evm}:${ChainId.Ethereum}`,
+    Sepolia: `${NetworkNamespace.Evm}:${ChainId.Sepolia}`,
+}
+
+export const SupportedIscNetworkId: Record<string, EvmNetworkId> = {
     IotaEvm: `${NetworkNamespace.Evm}:${ChainId.IotaEvm}`,
     ShimmerEvm: `${NetworkNamespace.Evm}:${ChainId.ShimmerEvm}`,
     TestnetEvm: `${NetworkNamespace.Evm}:${ChainId.TestnetEvm}`,
 }
 
-export const SupportedNetworkId = { ...SupportedStardustNetworkId, ...SupportedEvmNetworkId }
+export const SupportedNetworkId = {
+    ...SupportedStardustNetworkId,
+    ...SupportedIscNetworkId,
+    ...SupportedL1EvmNetworkId,
+}

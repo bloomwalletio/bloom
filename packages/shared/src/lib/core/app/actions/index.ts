@@ -1,5 +1,6 @@
 export * from './cancelAppUpdateDownload'
 export * from './downloadAppUpdate'
+export * from './updateAppParametersWithRemoteConfiguration'
 export * from './registerAppEvents'
 export * from './registerAppUpdateEvents'
 export * from './registerNftDownloadEvents'

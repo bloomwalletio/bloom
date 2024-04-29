@@ -1,4 +1,4 @@
-import { getWalletClient, removeDappNamespacesForDapp, setConnectedDapps } from '../stores'
+import { getWalletClient, removePersistedDapp, setConnectedDapps } from '../stores'
 import { getSdkError } from '@walletconnect/utils'
 import { IConnectedDapp } from '../interface'
 import { handleError } from '@core/error/handlers'
@@ -20,7 +20,7 @@ export async function removeDapp(dapp: IConnectedDapp): Promise<void> {
         handleError(err)
     } finally {
         if (dapp.metadata) {
-            removeDappNamespacesForDapp(dapp.metadata.url)
+            removePersistedDapp(dapp.metadata.url)
         }
         setConnectedDapps()
     }

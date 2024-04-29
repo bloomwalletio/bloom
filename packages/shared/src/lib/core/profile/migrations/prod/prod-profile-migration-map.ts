@@ -7,6 +7,8 @@ import { prodProfileMigration3To4 } from './prod-profile-migration-3-to-4'
 import { prodProfileMigration4To5 } from './prod-profile-migration-4-to-5'
 import { prodProfileMigration5To6 } from './prod-profile-migration-5-to-6'
 import { prodProfileMigration6To7 } from './prod-profile-migration-6-to-7'
+import { prodProfileMigration7To8 } from './prod-profile-migration-7-to-8'
+import { prodProfileMigration8To9 } from './prod-profile-migration-8-to-9'
 
 export const PROD_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     0: prodProfileMigration0To1,
@@ -16,4 +18,6 @@ export const PROD_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     4: prodProfileMigration4To5,
     5: prodProfileMigration5To6,
     6: prodProfileMigration6To7,
+    7: prodProfileMigration7To8,
+    8: prodProfileMigration8To9,
 }

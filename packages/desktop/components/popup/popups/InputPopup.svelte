@@ -7,13 +7,13 @@
     type InputProp = {
         placeholder: string
         startValue: string
-        validate: (text: string) => void
+        validate: (text: string) => Promise<void>
     }
 
     export let variant: 'primary' | 'success' | 'warning' | 'danger' | 'info' = 'primary'
     export let title: string
     export let description: string = ''
-    export let input: InputProp = { placeholder: '', startValue: '', validate: () => {} }
+    export let input: InputProp = { placeholder: '', startValue: '', validate: async () => {} }
     export let backText: string = localize('actions.cancel')
     export let confirmText: string = localize('actions.confirm')
     export let onConfirm: (inputText: string) => Promise<void>
@@ -29,7 +29,7 @@
             if (onConfirm) {
                 errorText = ''
                 try {
-                    input.validate(inputText)
+                    await input.validate(inputText)
                     await onConfirm(inputText)
                 } catch (error) {
                     errorText = error as string

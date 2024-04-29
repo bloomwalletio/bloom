@@ -2,18 +2,34 @@ import { IPersistedProfile } from '@core/profile/interfaces'
 import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile/constants'
 
 import { IOnboardingProfile } from '../interfaces'
+import { DEFAULT_L1_EVM_NETWORK_CONFIGURATION, SupportedNetworkId } from '@core/network/constants'
+import features from '@features/features'
+import { IPureEvmNetworkConfiguration } from '@core/network/interfaces'
 
 export function convertOnboardingProfileToPersistedProfile(
     onboardingProfile?: Partial<IOnboardingProfile>
 ): IPersistedProfile {
-    if (!onboardingProfile?.network) {
+    const { network } = onboardingProfile ?? {}
+    if (!network) {
         throw new Error('Network is undefined!')
     }
+
+    let evmNetworks: IPureEvmNetworkConfiguration[] | undefined
+    if (features.network.evmNetworks.enabled) {
+        const addMainnetEthereum = [SupportedNetworkId.Shimmer, SupportedNetworkId.Iota].includes(network.id)
+        evmNetworks = [
+            DEFAULT_L1_EVM_NETWORK_CONFIGURATION[
+                addMainnetEthereum ? SupportedNetworkId.Ethereum : SupportedNetworkId.Sepolia
+            ],
+        ]
+    }
+
     return {
         ...structuredClone(DEFAULT_PERSISTED_PROFILE_OBJECT),
-        ...(onboardingProfile?.id && { id: onboardingProfile.id }),
+        ...{ network },
+        ...(evmNetworks && { evmNetworks }),
         ...(onboardingProfile?.name && { name: onboardingProfile.name }),
-        ...(onboardingProfile?.network && { network: onboardingProfile.network }),
+        ...(onboardingProfile?.id && { id: onboardingProfile.id }),
         ...(onboardingProfile?.type && { type: onboardingProfile.type }),
         ...(onboardingProfile?.lastStrongholdBackupTime && {
             lastStrongholdBackupTime: onboardingProfile.lastStrongholdBackupTime,

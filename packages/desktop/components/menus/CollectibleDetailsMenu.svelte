@@ -1,20 +1,17 @@
 <script lang="ts">
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app'
-    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { isEvmNetwork } from '@core/network'
-    import { IIrc27Nft, Nft, composeUrlFromNftUri, isNftLocked } from '@core/nfts'
-    import { updateNftInAllAccountNfts } from '@core/nfts/actions'
+    import { IIrc27Nft, Nft, getPrimaryNftUrl, isNftLocked, isValidNftUri } from '@core/nfts'
+    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
     import { updatePersistedNft } from '@core/nfts/stores'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
-    import { CollectiblesRoute, collectiblesRouter } from '@core/router'
-    import { burnNft } from '@core/wallet'
-    import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { Platform } from '@core/app'
 
-    export let menu: Menu = undefined
+    export let menu: Menu | undefined = undefined
     export let nft: Nft
+    export let burnNft: () => void
 
     $: isLocked = isNftLocked(nft)
     $: isBurnDisabled = isLocked || isEvmNetwork(nft.networkId)
@@ -29,7 +26,18 @@
     }
 
     function onOpenMediaClick(): void {
-        openUrlInBrowser(composeUrlFromNftUri(nft?.mediaUrl))
+        openUrlInBrowser(getPrimaryNftUrl(nft?.mediaUrl))
+        menu?.close()
+    }
+
+    async function onRefreshClick(): Promise<void> {
+        if (nft.downloadMetadata?.filePath) {
+            await Platform.deleteFile(nft.downloadMetadata?.filePath)
+        }
+
+        updatePersistedNft(nft.id, { downloadMetadata: {} })
+        updateNftInAllAccountNfts(nft.id, { downloadMetadata: {}, isLoaded: false })
+        addNftsToDownloadQueue([nft])
         menu?.close()
     }
 
@@ -39,36 +47,8 @@
         menu?.close()
     }
 
-    function openBurnNft(): void {
-        openPopup({
-            id: PopupId.Confirmation,
-            props: {
-                variant: 'danger',
-                title: localize('actions.confirmNftBurn.title', {
-                    values: {
-                        nftName: nft.name,
-                    },
-                }),
-                description: localize('actions.confirmNftBurn.description'),
-                alert: { variant: 'warning', text: localize('actions.confirmNftBurn.hint') },
-                confirmText: localize('actions.burn'),
-                onConfirm: async () => {
-                    try {
-                        await checkActiveProfileAuth()
-                    } catch {
-                        return
-                    }
-
-                    try {
-                        await burnNft(nft.id)
-                        $collectiblesRouter?.goTo(CollectiblesRoute.Gallery)
-                        closePopup()
-                    } catch (error) {
-                        handleError(error)
-                    }
-                },
-            },
-        })
+    function onBurnNft(): void {
+        burnNft()
         menu?.close()
     }
 </script>
@@ -85,8 +65,13 @@
             {
                 icon: IconName.LinkExternal,
                 title: localize('views.collectibles.details.menu.view'),
-                disabled: !composeUrlFromNftUri(nft.mediaUrl),
+                disabled: !isValidNftUri(nft.mediaUrl),
                 onClick: onOpenMediaClick,
+            },
+            {
+                icon: IconName.Refresh,
+                title: localize('views.collectibles.details.menu.refresh'),
+                onClick: () => void onRefreshClick(),
             },
             {
                 icon: nft.hidden ? IconName.Eye : IconName.EyeOff,
@@ -98,7 +83,7 @@
                 title: localize('views.collectibles.details.menu.burn'),
                 variant: 'danger',
                 disabled: isBurnDisabled,
-                onClick: openBurnNft,
+                onClick: onBurnNft,
             },
         ]}
     />

@@ -2,11 +2,11 @@
     import { ProposalStatusPill, ProposalStatusTimelineTooltip } from './'
     import { InformationTooltip } from '@ui'
 
-    import { IProposal } from '@contexts/governance/interfaces'
+    import { IProposalWithStatus } from '@contexts/governance/interfaces'
     import { localize } from '@core/i18n'
     import { ProposalError } from '@lib/contexts/governance'
 
-    export let proposal: IProposal
+    export let proposal: IProposalWithStatus
     export let placement: 'top' | 'bottom' | 'left' | 'right' = 'right'
 
     let anchor: HTMLElement
@@ -24,7 +24,7 @@
         showTooltip(false)
     }
 
-    function getProposalErrorText(proposal: IProposal): { title: string; body: string } {
+    function getProposalErrorText(proposal: IProposalWithStatus): { title: string; body: string } {
         let title: string = ''
         let body: string = ''
 

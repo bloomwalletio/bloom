@@ -3,12 +3,14 @@ import features from '@features/features'
 import { StatusCodes } from 'http-status-codes'
 import { get } from 'svelte/store'
 import { NFT_MEDIA_FILE_NAME } from '../constants'
-import { DownloadErrorType, DownloadPermission, DownloadWarningType } from '../enums'
+import { DownloadErrorType, DownloadPermission, DownloadWarningType, ParentMimeType } from '../enums'
 import { IDownloadMetadata, Nft } from '../interfaces'
 import { persistedNftForActiveProfile } from '../stores'
 import { IError } from '@core/error/interfaces'
 import { getActiveProfile } from '@core/profile/stores'
-import { composeUrlFromNftUri } from './composeUrlFromNftUri'
+import { isValidNftUri } from './isValidNftUri'
+import { getPrimaryNftUrl } from './getPrimaryNftUrl'
+import { appParameters } from '@core/app/stores'
 
 export async function checkIfNftShouldBeDownloaded(
     nft: Nft,
@@ -35,30 +37,52 @@ export async function checkIfNftShouldBeDownloaded(
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
 
-        if (!composeUrlFromNftUri(nft.mediaUrl)) {
+        if (!isMediaSupported(nft.metadata?.type || '')) {
+            downloadMetadata.error = { type: DownloadErrorType.UnsupportedMediaType }
+            return { shouldDownload: false, isLoaded: false, downloadMetadata }
+        }
+
+        if (!nft.mediaUrl || !isValidNftUri(nft.mediaUrl)) {
             downloadMetadata.error = { type: DownloadErrorType.UnsupportedUrl }
             return { shouldDownload: false, isLoaded: false, downloadMetadata }
         }
 
         if (!skipDownloadSettingsCheck) {
             const nftSettings = getActiveProfile()?.settings?.nfts ?? {}
-            // TODO: Implement deny list
             switch (nftSettings.downloadPermissions) {
                 case DownloadPermission.None:
                     downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
                     return { shouldDownload: false, isLoaded: false, downloadMetadata }
                 case DownloadPermission.AllowListOnly: {
-                    const allowList = nftSettings.ipfsGateways.map((gateway) => gateway.url)
-                    const startsWithAllowedGateways =
-                        nft.mediaUrl?.startsWith('ipfs://') ||
-                        allowList.some((gateway) => nft.mediaUrl?.startsWith(gateway))
-                    if (!startsWithAllowedGateways) {
+                    const knownGateways = nftSettings.ipfsGateways.map((gateway) => gateway.url)
+                    const remoteAllowlist = get(appParameters).allowlists.urls
+                    const allowlist = [...remoteAllowlist, ...knownGateways]
+                    const mediaUrl = new URL(nft.mediaUrl)
+                    const startsWithAllowedGateway =
+                        mediaUrl.protocol === 'ipfs:' ||
+                        (mediaUrl.protocol === 'https:' &&
+                            allowlist.some((allowedUrl) => {
+                                const url = new URL(allowedUrl)
+                                return mediaUrl.origin === url.origin
+                            }))
+                    if (!startsWithAllowedGateway) {
                         downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
                         return { shouldDownload: false, isLoaded: false, downloadMetadata }
                     }
                     break
                 }
-                case DownloadPermission.AllExceptDenylist:
+                case DownloadPermission.AllExceptDenylist: {
+                    const denylist = get(appParameters).denylists.urls
+                    const mediaUrl = new URL(nft.mediaUrl)
+                    const startsWithDeniedGateway = denylist.some((blockedUrl) => {
+                        return mediaUrl.origin.includes(blockedUrl)
+                    })
+                    if (startsWithDeniedGateway) {
+                        downloadMetadata.warning = { type: DownloadWarningType.DownloadNotAllowed }
+                        return { shouldDownload: false, isLoaded: false, downloadMetadata }
+                    }
+                    break
+                }
                 case DownloadPermission.All:
                     break
             }
@@ -94,7 +118,7 @@ export async function checkIfNftShouldBeDownloaded(
                 isLoaded: true,
                 downloadMetadata: {
                     ...downloadMetadata,
-                    downloadUrl: composeUrlFromNftUri(nft.mediaUrl),
+                    downloadUrl: getPrimaryNftUrl(nft.mediaUrl),
                     error: undefined,
                     warning: undefined,
                 },
@@ -109,4 +133,10 @@ export async function checkIfNftShouldBeDownloaded(
 
         return { shouldDownload: false, isLoaded: false, downloadMetadata }
     }
+}
+
+function isMediaSupported(contentType: string): boolean {
+    const supportedTypes = [ParentMimeType.Image, ParentMimeType.Video]
+    const mediaType = contentType.split('/', 1)[0]
+    return supportedTypes.some((supportedType) => String(supportedType) === mediaType)
 }

@@ -1,12 +1,12 @@
 import { get } from 'svelte/store'
 import { TrackedParticipationOverview } from '@iota/sdk/out/types'
-import { networkStatus } from '@core/network/stores'
+import { getL1Network } from '@core/network/stores'
 import { MILESTONE_NOT_FOUND } from '@core/network/constants'
 
 export function calculateTotalVotesForTrackedParticipations(
     trackedParticipations: TrackedParticipationOverview[]
 ): bigint {
-    const { currentMilestone } = get(networkStatus)
+    const currentMilestone = get(getL1Network().currentMilestone)
     if (currentMilestone === MILESTONE_NOT_FOUND) {
         return BigInt(0)
     } else {

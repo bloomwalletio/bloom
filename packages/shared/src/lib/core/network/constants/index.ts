@@ -4,9 +4,9 @@
  */
 export * from './default-coin-type.constant'
 export * from './default-bech32-hrp.constant'
-export * from './network-statuses-poll-interval.constant'
 export * from './default-base-token.constant'
-export * from './default-evm-network-configurations.constant'
+export * from './default-isc-chains-configurations.constant'
+export * from './default-l1-evm-network-configurations.constant'
 export * from './default-explorer-urls.constant'
 export * from './default-protocol.constant'
 export * from './default-network-metadata.constant'

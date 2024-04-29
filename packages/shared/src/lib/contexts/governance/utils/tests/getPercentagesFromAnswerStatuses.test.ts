@@ -2,6 +2,13 @@ import '@mocks/i18n.mock'
 import type { AnswerStatus } from '@iota/sdk/out/types'
 import { getPercentagesFromAnswerStatuses } from '../getPercentagesFromAnswerStatuses'
 import type { IProposal } from '../../interfaces'
+import { writable } from 'svelte/store'
+
+jest.mock('../../../../core/network/stores/networks.store.ts', () => ({
+    getL1Network: jest.fn(() => {
+        return { currentMilestone: writable(-1) }
+    }),
+}))
 
 describe('File: getPercentagesFromAnswerStatuses.ts', () => {
     describe('Function: getPercentagesFromAnswerStatuses', () => {

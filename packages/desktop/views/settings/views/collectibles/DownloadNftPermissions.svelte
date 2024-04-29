@@ -12,10 +12,10 @@
             value: DownloadPermission.All,
             label: localize('views.settings.downloadNftPermissions.all'),
         },
-        // {
-        //     value: DownloadPermission.AllExceptDenylist,
-        //     label: localize('views.settings.downloadNftPermissions.allExceptDenylist'),
-        // },
+        {
+            value: DownloadPermission.AllExceptDenylist,
+            label: localize('views.settings.downloadNftPermissions.allExceptDenylist'),
+        },
         {
             value: DownloadPermission.AllowListOnly,
             label: localize('views.settings.downloadNftPermissions.allowListOnly'),
@@ -53,7 +53,7 @@
         <SelectInput
             label={localize('views.settings.downloadNftPermissions.input')}
             bind:selected
-            value={selected.value}
+            value={selected?.value}
             {options}
             hideValue
         />

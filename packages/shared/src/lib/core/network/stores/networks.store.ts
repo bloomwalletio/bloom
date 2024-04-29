@@ -1,41 +1,59 @@
 import { Writable, writable, get } from 'svelte/store'
 
 import { activeProfile } from '@core/profile/stores'
+import features from '@features/features'
 
-import { IscChain, StardustNetwork } from '../classes'
-import { IEvmNetwork, IIscChainConfiguration, IStardustNetwork } from '../interfaces'
-import { Network, NetworkId } from '../types'
+import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
+import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
+import { EvmNetworkId, Network, NetworkId } from '../types'
 import { EvmNetworkType, NetworkNamespace } from '../enums'
 
 export const networks: Writable<Network[]> = writable([])
 
 export function initializeNetworks(): void {
     const profile = get(activeProfile)
+    const _networks: Network[] = []
     if (profile?.network) {
         const stardustNetwork = new StardustNetwork(profile.network)
-        const chains = profile.network.chainConfigurations
-            .map((chainConfiguration) => {
-                return new IscChain(chainConfiguration)
-            })
-            .filter(Boolean) as IEvmNetwork[]
-        networks.set([stardustNetwork, ...chains])
+        _networks.push(stardustNetwork, ...stardustNetwork.iscChains)
     }
+
+    if (features.network.evmNetworks.enabled) {
+        profile.evmNetworks?.forEach((evmNetwork) => {
+            _networks.push(new EvmNetwork(evmNetwork))
+        })
+    }
+
+    networks.set(_networks)
 }
 
-export function addNetwork(chainConfiguration: IIscChainConfiguration): void {
-    const network = getNetwork(chainConfiguration.id)
+export function destroyNetworks(): void {
+    get(networks).forEach((network) => {
+        network.destroy()
+    })
+    networks.set([])
+}
+
+export function getNetwork(networkId: NetworkId): Network | undefined {
+    return get(networks)?.find((network) => network.id === networkId)
+}
+
+export function addChain(chain: IIscChain): void {
+    const network = getNetwork(chain.id)
     if (network) {
         return
     }
 
     networks.update((networks) => {
-        networks.push(new IscChain(chainConfiguration))
+        networks.push(chain)
         return networks
     })
 }
 
-export function getNetwork(networkId: NetworkId): Network | undefined {
-    return get(networks)?.find((network) => network.id === networkId)
+export function removeChain(chainId: EvmNetworkId): void {
+    networks.update((networks) => {
+        return networks.filter(({ id }) => id !== chainId)
+    })
 }
 
 export function getL1Network(): IStardustNetwork {
