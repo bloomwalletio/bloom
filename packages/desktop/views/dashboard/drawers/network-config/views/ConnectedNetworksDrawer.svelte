@@ -1,7 +1,7 @@
 <script lang="ts">
     import { DrawerTemplate, NetworkCard } from '@components'
     import { localize } from '@core/i18n'
-    import { clearSelectedChain, networks, networkStatus } from '@core/network'
+    import { clearSelectedChain, networks } from '@core/network'
     import { Router } from '@core/router'
     import features from '@features/features'
     import { Button, IconName } from '@bloomwalletio/ui'
@@ -22,11 +22,9 @@
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.connectedChains.title')} {drawerRouter}>
     <connected-chains-drawer class="h-full flex flex-col justify-between px-6">
         <div class="flex flex-col gap-4">
-            {#key $networkStatus}
-                {#each $networks as network}
-                    <NetworkCard {network} />
-                {/each}
-            {/key}
+            {#each $networks as network}
+                <NetworkCard {network} />
+            {/each}
         </div>
     </connected-chains-drawer>
     <div slot="footer" class="flex justify-center">

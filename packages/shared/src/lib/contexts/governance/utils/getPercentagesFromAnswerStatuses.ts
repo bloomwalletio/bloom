@@ -1,8 +1,8 @@
 import { get } from 'svelte/store'
 import { IProposal, IProposalAnswerPercentages, selectedProposal } from '..'
 import { AnswerStatus } from '@iota/sdk'
-import { networkStatus } from '@core/network/stores/network-status.store'
 import { round } from '@core/utils/number'
+import { getL1Network } from '@core/network/stores'
 
 export function getPercentagesFromAnswerStatuses(
     answerStatuses: AnswerStatus[],
@@ -44,7 +44,7 @@ export function getPercentagesFromAnswerStatuses(
 function getProjectedVotesFromAnswerStatus(answerStatus: AnswerStatus, proposal: IProposal): number {
     const { accumulated, current } = answerStatus
     const endingMilestone = proposal.milestones?.ended ?? 0
-    const currentMilestone = get(networkStatus)?.currentMilestone ?? 0
+    const currentMilestone = get(getL1Network().currentMilestone)
 
     return Math.max(accumulated, accumulated + current * (endingMilestone - currentMilestone))
 }
