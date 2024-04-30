@@ -24,7 +24,7 @@ export async function tryCreateAdditionalAccount(alias: string, color: string): 
             const coinType = getEvmNetworks()[0]?.coinType
             if (coinType !== undefined) {
                 void generateAndStoreEvmAddressForAccounts(activeProfile.type, coinType, account)
-                void pollEvmBalancesForAccount(account)
+                void pollEvmBalancesForAccount(activeProfile.id, account)
             }
         }
 
