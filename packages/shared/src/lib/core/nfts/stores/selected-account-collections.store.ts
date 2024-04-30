@@ -3,7 +3,7 @@ import { NftStandard } from '../enums'
 import { Nft } from '../interfaces'
 import { Collections } from '../types'
 import { getCollectionFromNft } from '../utils'
-import { selectedAccountNfts } from './selected-account-nfts.store'
+import { ownedNfts, selectedAccountNfts } from './selected-account-nfts.store'
 
 export const collectionsStore: Writable<Collections> = writable({})
 
@@ -50,12 +50,27 @@ async function updateCollections(nfts: Nft[]): Promise<void> {
 }
 
 selectedAccountNfts.subscribe((nfts) => {
-    void updateCollections(nfts)
+    void updateCollections(nfts.filter((nft) => nft.isSpendable))
 })
 
 export const selectedAccountCollections: Readable<Collections> = derived(
-    collectionsStore,
-    ($collectionsStore) => $collectionsStore
+    [collectionsStore, ownedNfts],
+    ([$collectionsStore, $ownedNfts]) => {
+        const accountCollections: Collections = {}
+        for (const collectionId in $collectionsStore) {
+            const collection = $collectionsStore[collectionId]
+            const nftsForAccount = collection.nfts.filter((nft) =>
+                $ownedNfts.some((ownedNft) => ownedNft.id === nft.id)
+            )
+            if (nftsForAccount.length > 0) {
+                // @ts-expect-error - ignore type error because we are filtering the existing nfts for the account
+                accountCollections[collectionId] = { ...collection, nfts: nftsForAccount }
+            } else {
+                delete accountCollections[collectionId]
+            }
+        }
+        return accountCollections
+    }
 )
 
 export const collectionsSearchTerm: Writable<string> = writable('')
