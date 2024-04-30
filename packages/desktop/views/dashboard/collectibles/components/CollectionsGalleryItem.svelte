@@ -32,7 +32,7 @@
             <nft-pills class="flex flex-row items-center gap-2">
                 <NetworkAvatar networkId={collection.nfts[0].networkId} size="sm" showTooltip />
                 <AssetPillsForNft nft={collection.nfts[0]} />
-                <Pill compact color="primary">{localize('general.nfts', { count: collection.nfts.length })}</Pill>
+                <Pill compact color="brand">{localize('general.nfts', { count: collection.nfts.length })}</Pill>
             </nft-pills>
         </div>
     </div>
