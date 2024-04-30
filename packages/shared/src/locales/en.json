@@ -1637,6 +1637,7 @@
         "token": "Token",
         "unknownToken": "Unknown Token",
         "nft": "NFT",
+        "nfts": "{count, plural, one {# NFT} other {# NFTs}}",
         "type": "Type",
         "immutableIssuer": "Immutable Issuer",
         "magicContract": "Magic Contract",

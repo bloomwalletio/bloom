@@ -6,6 +6,7 @@
         CollectiblesRoute,
         DashboardRoute,
         GovernanceRoute,
+        collectiblesBreadcrumb,
         collectiblesRoute,
         collectiblesRouter,
         dashboardRoute,
@@ -80,7 +81,7 @@
         />
         {#if $dashboardRoute === DashboardRoute.Collectibles && $collectiblesRoute !== CollectiblesRoute.Gallery}
             <Icon name={IconName.ChevronRight} size="sm" />
-            <Breadcrumb text={$collectiblesRouter.getBreadcrumb() ?? $collectiblesRoute} disabled />
+            <Breadcrumb text={$collectiblesBreadcrumb ?? $collectiblesRoute} disabled />
         {/if}
         {#if $dashboardRoute === DashboardRoute.Governance && $governanceRoute !== GovernanceRoute.Proposals}
             <Icon name={IconName.ChevronRight} size="sm" />

@@ -9,8 +9,8 @@ import { getNetworkStatusFromNodeInfo } from '@core/network/helpers'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 import { IBaseToken } from '@core/token/interfaces'
 
-import { IscChain } from '../classes'
 import { addChain, removeChain } from '../stores'
+import { IscChain } from './isc-chain.class'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
