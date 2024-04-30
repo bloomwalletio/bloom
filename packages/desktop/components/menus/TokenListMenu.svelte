@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { activeProfileId } from '@core/profile/stores'
     import { showNotification } from '@auxiliary/notification'
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
@@ -9,7 +10,7 @@
     let menu: Menu | undefined = undefined
 
     function onSyncTokensClick(): void {
-        fetchEvmBalancesForAllAccounts(true)
+        fetchEvmBalancesForAllAccounts($activeProfileId as string, true)
         showNotification({
             variant: 'success',
             text: localize('notifications.syncTokens.success'),
