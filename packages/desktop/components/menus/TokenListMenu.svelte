@@ -1,16 +1,15 @@
 <script lang="ts">
-    import { activeProfileId } from '@core/profile/stores'
     import { showNotification } from '@auxiliary/notification'
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { loadTokensForAllAccountBalances } from '@core/token/actions'
     import { PopupId, closePopup, openPopup } from '../../lib/auxiliary/popup'
-    import { fetchL2BalanceForAllAccounts } from '@core/layer-2'
+    import { fetchEvmBalancesForAllAccounts } from '@core/layer-2'
 
     let menu: Menu | undefined = undefined
 
     function onSyncTokensClick(): void {
-        fetchL2BalanceForAllAccounts($activeProfileId as string, true)
+        fetchEvmBalancesForAllAccounts(true)
         showNotification({
             variant: 'success',
             text: localize('notifications.syncTokens.success'),
