@@ -163,7 +163,6 @@
                     ($sendFlowParameters?.type === SendFlowType.NftTransfer &&
                         $sendFlowParameters?.nft?.standard === NftStandard.Irc27)
                 return [
-                    // Completion of the parent pr will solve this type issue
                     getRecipientOptionForEvmNetwork(sourceNetwork, $selectedAccountIndex),
                     ...(features.wallet.assets.unwrapToken.enabled && canUnwrap ? [getLayer1RecipientOption()] : []),
                 ]
@@ -172,7 +171,6 @@
                 const l2Chains = features?.network?.layer2?.enabled ? getIscChains() : []
                 return [
                     getLayer1RecipientOption($selectedAccountIndex),
-                    // Completion of the parent pr will solve this type issue
                     ...l2Chains.map((iscChain) => getRecipientOptionForEvmNetwork(iscChain)),
                 ]
             }
