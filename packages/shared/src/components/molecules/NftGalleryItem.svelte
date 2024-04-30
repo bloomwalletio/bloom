@@ -38,7 +38,7 @@
 </script>
 
 <button type="button" on:click={onNftClick}>
-    <div class="flex-1 flex relative bg-surface-2 dark:bg-surface-2-dark">
+    <div class="flex-1 w-full flex relative bg-surface-2 dark:bg-surface-2-dark">
         <NftMedia {nft} classes="min-w-full min-h-full object-cover" loop muted>
             <MediaPlaceholder
                 type={nft?.type}
