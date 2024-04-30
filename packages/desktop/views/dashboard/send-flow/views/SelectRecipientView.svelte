@@ -9,8 +9,6 @@
         IEvmNetwork,
         NetworkId,
         NetworkType,
-        getActiveNetworkId,
-        getEvmNetwork,
         getIscChains,
         getL1Network,
         getNetwork,
@@ -20,7 +18,6 @@
     import { visibleActiveAccounts } from '@core/profile/stores'
     import { TokenStandard } from '@core/token'
     import { SendFlowType, Subject, SubjectType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
-    import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
@@ -160,56 +157,32 @@
 
         switch (sourceNetwork.type) {
             case NetworkType.Evm: {
-                const networkRecipientOptions: INetworkRecipientSelectorOption[] = [
-                    getRecipientOptionForEvmNetwork(sourceNetwork, $selectedAccountIndex),
-                ]
-                return networkRecipientOptions
+                return [getRecipientOptionForEvmNetwork(sourceNetwork, $selectedAccountIndex)]
             }
-            case NetworkType.Isc:
-                break
-            case NetworkType.Stardust:
-                break
+            case NetworkType.Isc: {
+                const canUnwrap =
+                    $sendFlowParameters?.type === SendFlowType.BaseCoinTransfer ||
+                    ($sendFlowParameters?.type === SendFlowType.TokenTransfer &&
+                        $sendFlowParameters?.tokenTransfer?.token?.standard === TokenStandard.Irc30) ||
+                    ($sendFlowParameters?.type === SendFlowType.NftTransfer &&
+                        $sendFlowParameters?.nft?.standard === NftStandard.Irc27)
+                return [
+                    // Completion of the parent pr will solve this type issue
+                    getRecipientOptionForEvmNetwork(sourceNetwork, $selectedAccountIndex),
+                    ...(features.wallet.assets.unwrapToken.enabled && canUnwrap ? [getLayer1RecipientOption()] : []),
+                ]
+            }
+            case NetworkType.Stardust: {
+                const l2Chains = features?.network?.layer2?.enabled ? getIscChains() : []
+                return [
+                    getLayer1RecipientOption($selectedAccountIndex),
+                    // Completion of the parent pr will solve this type issue
+                    ...l2Chains.map((iscChain) => getRecipientOptionForEvmNetwork(iscChain)),
+                ]
+            }
             default:
                 return []
         }
-
-        const layer1Network = getLayer1RecipientOption($selectedAccountIndex)
-        if (!features?.network?.layer2?.enabled) {
-            return [layer1Network]
-        }
-
-        const assetStandard = getTokenStandardFromSendFlowParameters($sendFlowParameters)
-        const sourceChain = sourceNetworkId ? getEvmNetwork(sourceNetworkId) : undefined
-
-        let networkRecipientOptions: INetworkRecipientSelectorOption[] = []
-
-        switch (assetStandard) {
-            case NftStandard.Irc27:
-            case TokenStandard.Irc30:
-            case TokenStandard.BaseToken:
-                if (sourceNetworkId === getActiveNetworkId()) {
-                    // if we are on layer 1
-                    networkRecipientOptions = [
-                        layer1Network,
-                        ...getIscChains().map((iscChain) => getRecipientOptionForEvmNetwork(iscChain)),
-                    ]
-                } else if (sourceChain) {
-                    // if we are on layer 2
-                    networkRecipientOptions = [
-                        ...(features.wallet.assets.unwrapToken.enabled ? [getLayer1RecipientOption()] : []),
-                        getRecipientOptionForEvmNetwork(sourceChain, $selectedAccountIndex),
-                    ]
-                }
-                break
-            case TokenStandard.Erc20:
-            case NftStandard.Erc721:
-                if (sourceChain) {
-                    networkRecipientOptions = [getRecipientOptionForEvmNetwork(sourceChain, $selectedAccountIndex)]
-                }
-                break
-        }
-
-        return networkRecipientOptions
     }
 
     function onContinueClick(): void {
