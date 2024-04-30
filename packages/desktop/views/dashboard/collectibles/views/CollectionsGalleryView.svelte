@@ -5,7 +5,7 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { SearchInput } from '@ui'
-    import { CollectiblesTabs } from '../components'
+    import { CollectiblesTabs, CollectionsGallery } from '../components'
     import { collectionsSearchTerm, selectedAccountCollections } from '@core/nfts/stores'
     import { Collections, isVisibleCollection } from '@core/nfts'
 
@@ -48,10 +48,7 @@
     </header>
     {#if hasCollections}
         {#if Object.keys(queriedCollections).length > 0}
-            <!-- <CollectionsGallery collections={queriedCollections} /> -->
-            {#each Object.keys(queriedCollections) as collection}
-                <Text>{queriedCollections[collection].name}</Text>
-            {/each}
+            <CollectionsGallery collections={queriedCollections} />
         {:else}
             <div class="w-full h-full flex flex-col items-center justify-center">
                 <EmptyListPlaceholder
