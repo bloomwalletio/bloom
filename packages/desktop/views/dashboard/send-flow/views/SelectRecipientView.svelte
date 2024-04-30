@@ -41,26 +41,28 @@
             return
         }
 
-        if ($sendFlowParameters.sourceNetworkId && isEvmNetwork($sendFlowParameters.sourceNetworkId)) {
-            hasInsufficientFunds = !(await canAccountMakeEvmTransaction(
-                $selectedAccountIndex,
-                $sendFlowParameters.sourceNetworkId,
-                $sendFlowParameters.type
-            ))
+        const { sourceNetworkId, type } = $sendFlowParameters
+        if (sourceNetworkId && isEvmNetwork(sourceNetworkId)) {
+            hasInsufficientFunds = !(await canAccountMakeEvmTransaction($selectedAccountIndex, sourceNetworkId, type))
         } else {
             hasInsufficientFunds = false
         }
     }
 
     function getAssetName(): string | undefined {
-        if ($sendFlowParameters?.type === SendFlowType.BaseCoinTransfer) {
-            return $sendFlowParameters.baseCoinTransfer?.token?.metadata?.name
-        } else if ($sendFlowParameters?.type === SendFlowType.TokenTransfer) {
-            return $sendFlowParameters.tokenTransfer?.token?.metadata?.name
-        } else if ($sendFlowParameters?.type === SendFlowType.NftTransfer) {
-            return $sendFlowParameters.nft?.name
-        } else {
-            return ''
+        switch ($sendFlowParameters?.type) {
+            case SendFlowType.BaseCoinTransfer: {
+                return $sendFlowParameters.baseCoinTransfer?.token?.metadata?.name
+            }
+            case SendFlowType.TokenTransfer: {
+                return $sendFlowParameters.tokenTransfer?.token?.metadata?.name
+            }
+            case SendFlowType.NftTransfer: {
+                return $sendFlowParameters.nft?.name
+            }
+            default: {
+                return ''
+            }
         }
     }
 

@@ -9,7 +9,7 @@ const collectiblesFeatures: ICollectiblesFeatures = {
         enabled: true,
     },
     collections: {
-        enabled: true,
+        enabled: false,
     },
 }
 
