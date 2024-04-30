@@ -67,7 +67,7 @@
                 network.coinType,
                 $selectedAccount as IAccountState
             )
-            pollEvmBalancesForAccount($selectedAccount as IAccountState)
+            pollEvmBalancesForAccount($activeProfile.id, $selectedAccount as IAccountState)
             if ($activeProfile.type === ProfileType.Ledger) {
                 $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
             }

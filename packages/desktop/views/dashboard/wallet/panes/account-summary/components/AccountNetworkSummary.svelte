@@ -89,7 +89,7 @@
 
         try {
             await generateAndStoreEvmAddressForAccounts($activeProfile.type, network.coinType, account)
-            pollEvmBalancesForAccount(account)
+            pollEvmBalancesForAccount($activeProfile.id, account)
             if ($activeProfile.type === ProfileType.Ledger) {
                 setSelectedChain(network)
                 toggleDashboardDrawer({

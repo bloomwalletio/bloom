@@ -42,7 +42,7 @@
 
         try {
             await generateAndStoreEvmAddressForAccounts($activeProfile.type, coinType, account)
-            pollEvmBalancesForAccount(account)
+            pollEvmBalancesForAccount($activeProfile.id, account)
             updateNetworkNameAndAddress()
         } catch (error) {
             handleError(error)
