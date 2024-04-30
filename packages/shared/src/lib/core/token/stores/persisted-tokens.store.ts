@@ -44,7 +44,7 @@ export function updatePersistedToken(networkId: NetworkId, partialPersistedToken
             return state
         }
         state[profileId][networkId][tokenId] = {
-            ...state[profileId][tokenId],
+            ...state[profileId][networkId][tokenId],
             ...partialPersistedToken,
         }
         return state
