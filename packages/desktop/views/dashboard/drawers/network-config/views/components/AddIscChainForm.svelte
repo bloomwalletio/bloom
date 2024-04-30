@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import {
         MAX_NETWORK_NAME_LENGTH,
-        EvmNetworkType,
+        NetworkType,
         IIscChainConfiguration,
         ETHEREUM_COIN_TYPE,
         EvmNetworkId,
@@ -26,7 +26,7 @@
     $: submitDisabled = !iscNetwork.name || !iscNetwork.aliasAddress || !iscNetwork.rpcEndpoint
 
     const iscNetwork: IIscChainConfiguration = {
-        type: EvmNetworkType.Isc,
+        type: NetworkType.Isc,
         id: '' as EvmNetworkId,
         namespace: NetworkNamespace.Evm,
         chainId: '' as ChainId,

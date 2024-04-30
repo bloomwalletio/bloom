@@ -32,7 +32,11 @@ function getNftDataForTransaction(
     const transferredAsset = { type: AssetType.Nft, nft } as TransferredAsset
     switch (nft.standard) {
         case NftStandard.Irc27:
-            return getIscTransferSmartContractData(recipientAddress, transferredAsset, evmNetwork as IscChain)
+            return getIscTransferSmartContractData(
+                recipientAddress,
+                transferredAsset,
+                evmNetwork as unknown as IscChain
+            )
         case NftStandard.Erc721: {
             return getErc721TransferSmartContractData(originAddress, recipientAddress, nft, evmNetwork)
         }

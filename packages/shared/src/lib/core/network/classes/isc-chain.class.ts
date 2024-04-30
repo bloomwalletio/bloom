@@ -1,31 +1,29 @@
-import { IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
-import { BaseEvmNetwork } from './base-evm-network.class'
+import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
+import { IAccountState } from '@core/account/interfaces'
+import { ITokenBalance } from '@core/token/interfaces'
+import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
+import { getActiveProfileId } from '@core/profile/stores'
+import { NetworkType } from '@core/network/enums'
+import { EvmNetwork } from './evm-network.class'
 
-export class IscChain extends BaseEvmNetwork {
+export class IscChain extends EvmNetwork implements IIscChain {
     private readonly _chainApi: string
     private _metadata: IIscChainMetadata | undefined
 
     public readonly explorerUrl: string | undefined
     public readonly apiEndpoint: string
     public readonly aliasAddress: string
+    public readonly type = NetworkType.Isc
 
     constructor(chainConfiguration: IIscChainConfiguration) {
-        try {
-            const { rpcEndpoint, aliasAddress, apiEndpoint } = chainConfiguration
-            const _rpcEndpoint = `${rpcEndpoint}/v1/chains/${aliasAddress}/evm`
-            chainConfiguration.rpcEndpoint = _rpcEndpoint
-            super(chainConfiguration)
+        const { rpcEndpoint, aliasAddress, apiEndpoint } = chainConfiguration
+        const _rpcEndpoint = new URL(`v1/chains/${aliasAddress}/evm`, rpcEndpoint).href
 
-            this.aliasAddress = aliasAddress
-            this.apiEndpoint = apiEndpoint
+        super({ ...chainConfiguration, rpcEndpoint: _rpcEndpoint })
 
-            this._chainApi = `${apiEndpoint}v1/chains/${aliasAddress}`
-
-            void this.setMetadata()
-        } catch (err) {
-            console.error(err)
-            throw new Error('Failed to construct isc Chain!')
-        }
+        this.aliasAddress = aliasAddress
+        this.apiEndpoint = apiEndpoint
+        this._chainApi = new URL(`v1/chains/${aliasAddress}`, apiEndpoint).href
     }
 
     async setMetadata(): Promise<void> {
@@ -49,6 +47,18 @@ export class IscChain extends BaseEvmNetwork {
     private async fetchChainMetadata(): Promise<IIscChainMetadata> {
         const response = await fetch(this._chainApi)
         return (await response.json()) as IIscChainMetadata
+    }
+
+    async getBalance(account: IAccountState): Promise<ITokenBalance | undefined> {
+        const evmAddress = account.evmAddresses?.[this.coinType]
+        if (!evmAddress) {
+            return undefined
+        }
+
+        const tokenBalance = (await super.getBalance(account)) ?? {}
+        const iscBalance = (await fetchIscAssetsForAccount(getActiveProfileId(), evmAddress, this, account)) ?? {}
+
+        return { ...tokenBalance, ...iscBalance }
     }
 
     async getGasFeeEstimate(outputBytes: string): Promise<bigint> {

@@ -23,7 +23,7 @@
     }
 
     function onUnverifyClick(): void {
-        unverifyToken(token.id, NotVerifiedStatus.Skipped)
+        unverifyToken(token, NotVerifiedStatus.Skipped)
         updatePopupProps({
             token: { ...token, verification: { verified: false, status: NotVerifiedStatus.Skipped } },
         })
@@ -31,7 +31,7 @@
     }
 
     function onVerifyClick(): void {
-        verifyToken(token.id, VerifiedStatus.SelfVerified)
+        verifyToken(token, VerifiedStatus.SelfVerified)
         updatePopupProps({
             token: { ...token, verification: { verified: true, status: VerifiedStatus.SelfVerified } },
         })
@@ -39,7 +39,7 @@
     }
 
     function onUnhideClick(): void {
-        unhideToken(token.id)
+        unhideToken(token)
         hideActivitiesForHiddenTokens()
         updatePopupProps({
             token: { ...token, hidden: false },
@@ -48,7 +48,7 @@
     }
 
     function onHideClick(): void {
-        hideToken(token.id)
+        hideToken(token)
         hideActivitiesForHiddenTokens()
         updatePopupProps({
             token: { ...token, hidden: true },

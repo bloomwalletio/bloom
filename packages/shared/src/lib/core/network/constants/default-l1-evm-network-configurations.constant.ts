@@ -1,18 +1,18 @@
-import { ChainId, EvmNetworkType, NetworkNamespace } from '../enums'
+import { ChainId, NetworkType, NetworkNamespace } from '../enums'
 import { IPureEvmNetworkConfiguration } from '../interfaces'
 import { EvmNetworkId } from '../types'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
 import { SupportedL1EvmNetworkId, SupportedNetworkId } from './supported-network-id.constant'
 import { DEFAULT_EXPLORER_URLS } from './default-explorer-urls.constant'
+import { EVM_BASE_TOKEN } from './default-base-token.constant'
 
 export const DEFAULT_L1_EVM_NETWORK_CONFIGURATION: Readonly<{
     [key in EvmNetworkId]: IPureEvmNetworkConfiguration
 }> = {
     [SupportedL1EvmNetworkId.Ethereum]: {
-        type: EvmNetworkType.PureEvm,
+        type: NetworkType.Evm,
         name: 'Ethereum',
-        symbol: 'ETH',
-        ticker: 'ETH',
+        baseToken: EVM_BASE_TOKEN,
         id: SupportedL1EvmNetworkId.Ethereum,
         chainId: ChainId.Ethereum,
         namespace: NetworkNamespace.Evm,
@@ -21,10 +21,9 @@ export const DEFAULT_L1_EVM_NETWORK_CONFIGURATION: Readonly<{
         rpcEndpoint: 'https://ethereum-rpc.publicnode.com',
     },
     [SupportedL1EvmNetworkId.Sepolia]: {
-        type: EvmNetworkType.PureEvm,
+        type: NetworkType.Evm,
         name: 'Sepolia Testnet',
-        symbol: 'ETH',
-        ticker: 'ETH',
+        baseToken: EVM_BASE_TOKEN,
         id: SupportedL1EvmNetworkId.Sepolia,
         chainId: ChainId.Sepolia,
         namespace: NetworkNamespace.Evm,

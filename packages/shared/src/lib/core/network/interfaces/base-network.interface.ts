@@ -1,8 +1,10 @@
+import { IBaseToken } from '@core/token'
 import { Writable } from 'svelte/store'
-import { NetworkHealth, NetworkNamespace } from '../enums'
+import { NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { NetworkId } from '../types'
 
 export interface IBaseNetwork {
+    type: NetworkType
     health: Writable<NetworkHealth>
 
     startStatusPoll(): void
@@ -13,5 +15,6 @@ export interface IBaseNetworkMetadata {
     id: NetworkId
     namespace: NetworkNamespace
     name: string
+    baseToken: IBaseToken
     coinType: number
 }

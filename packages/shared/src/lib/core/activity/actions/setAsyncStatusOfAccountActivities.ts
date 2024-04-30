@@ -1,6 +1,6 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
 import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
-import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
+import { loadTokensForAllAccountBalances } from '@core/token/actions'
 import { StardustActivityAsyncStatus, ActivityDirection, StardustActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
 import { getAsyncStatus } from '../utils/helper'
@@ -55,6 +55,6 @@ export function setAsyncStatusOfAccountActivities(time: Date): void {
         syncBalance(accountIndex)
     }
     if (balancesToUpdate.length) {
-        void refreshAccountTokensForActiveProfile()
+        void loadTokensForAllAccountBalances()
     }
 }

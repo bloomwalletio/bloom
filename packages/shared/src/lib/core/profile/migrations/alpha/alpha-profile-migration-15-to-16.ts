@@ -15,6 +15,5 @@ export function alphaProfileMigration15To16(existingProfile: unknown): Promise<v
         delete state[profile.id]
         return state
     })
-
     return Promise.resolve()
 }

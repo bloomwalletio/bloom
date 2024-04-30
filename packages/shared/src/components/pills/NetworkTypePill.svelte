@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { EvmNetworkType, NetworkId, getActiveNetworkId, getEvmNetwork } from '@core/network'
+    import { NetworkType, NetworkId, getActiveNetworkId, getEvmNetwork } from '@core/network'
     import { Pill, Tooltip } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
@@ -12,16 +12,16 @@
     {@const chainType = getEvmNetwork(networkId)?.type}
     <network-type-pill bind:this={anchor} class="h-fit">
         <Pill color="cyan" compact>
-            {chainType === EvmNetworkType.PureEvm ? 'EVM' : chainType === EvmNetworkType.Isc ? 'ISC' : undefined}
+            {chainType === NetworkType.Evm ? 'EVM' : chainType === NetworkType.Isc ? 'ISC' : undefined}
         </Pill>
     </network-type-pill>
     <Tooltip
         {anchor}
         placement="top"
         event="hover"
-        text={chainType === EvmNetworkType.PureEvm
+        text={chainType === NetworkType.Evm
             ? 'Ethereum'
-            : chainType === EvmNetworkType.Isc
+            : chainType === NetworkType.Isc
               ? 'IOTA Smart Contracts'
               : localize('views.dashboard.network.undefined')}
     />

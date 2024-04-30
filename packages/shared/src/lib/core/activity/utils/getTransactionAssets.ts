@@ -17,7 +17,10 @@ export function getTransactionAssets(
           baseCoinTransfer?: TokenTransferData
       }
     | undefined {
-    const baseCoin = { ...getPersistedToken(BASE_TOKEN_ID), networkId: activity.sourceNetworkId }
+    const baseCoin = {
+        ...getPersistedToken(activity.sourceNetworkId, BASE_TOKEN_ID),
+        networkId: activity.sourceNetworkId,
+    }
 
     if (!baseCoin) {
         return undefined
@@ -39,7 +42,10 @@ export function getTransactionAssets(
         }
     } else if (activity.type === StardustActivityType.Basic || activity.type === StardustActivityType.Foundry) {
         const token: IToken | undefined = activity.tokenTransfer?.tokenId
-            ? { ...getPersistedToken(activity.tokenTransfer.tokenId), networkId: activity.sourceNetworkId }
+            ? {
+                  ...getPersistedToken(activity.sourceNetworkId, activity.tokenTransfer.tokenId),
+                  networkId: activity.sourceNetworkId,
+              }
             : undefined
         const tokenAmount = activity.tokenTransfer?.rawAmount
 

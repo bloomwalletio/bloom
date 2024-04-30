@@ -5,8 +5,8 @@
     import { selectedAccount } from '@core/account/stores'
     import { setClipboard } from '@core/utils'
     import { getActiveNetworkId, getNetwork, NetworkId, NetworkNamespace } from '@core/network'
-    import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
-    import { activeProfile, activeProfileId } from '@core/profile/stores'
+    import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
+    import { activeProfile } from '@core/profile/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -42,7 +42,7 @@
 
         try {
             await generateAndStoreEvmAddressForAccounts($activeProfile.type, coinType, account)
-            pollL2BalanceForAccount($activeProfileId as string, account)
+            pollEvmBalancesForAccount($activeProfile.id, account)
             updateNetworkNameAndAddress()
         } catch (error) {
             handleError(error)

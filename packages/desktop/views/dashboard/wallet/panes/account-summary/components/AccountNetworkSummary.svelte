@@ -2,7 +2,7 @@
     import { AvatarGroup, Copyable, Text } from '@bloomwalletio/ui'
     import { FormattedBalance } from '@components'
     import { formatCurrency, localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { Network, NetworkNamespace, setSelectedChain } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
@@ -32,9 +32,9 @@
         tokens?.baseCoin?.balance.total ?? BigInt(0),
         tokens?.baseCoin?.metadata
     )
-    $: fiatBalance =
-        formatCurrency(getFiatValueFromTokenAmount(BigInt(tokens?.baseCoin?.balance.total ?? 0), tokens?.baseCoin)) ??
-        ''
+    $: fiatBalance = tokens
+        ? formatCurrency(getFiatValueFromTokenAmount(BigInt(tokens?.baseCoin?.balance.total ?? 0), tokens.baseCoin))
+        : ''
     $: address = getAddressFromAccountForNetwork(account, network.id)
 
     $: hasTokens = tokens?.nativeTokens?.length > 0
@@ -89,7 +89,7 @@
 
         try {
             await generateAndStoreEvmAddressForAccounts($activeProfile.type, network.coinType, account)
-            pollL2BalanceForAccount($activeProfile.id, account)
+            pollEvmBalancesForAccount($activeProfile.id, account)
             if ($activeProfile.type === ProfileType.Ledger) {
                 setSelectedChain(network)
                 toggleDashboardDrawer({

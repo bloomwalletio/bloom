@@ -1,5 +1,5 @@
 import { updateAccountForConnectedDapps } from '@auxiliary/wallet-connect/actions'
-import { pollL2BalanceForAccount } from '@core/layer-2/actions/pollL2BalanceForAccount'
+import { pollEvmBalancesForAccount } from '@core/layer-2/actions/pollEvmBalancesForAccount'
 import { activeAccounts, getActiveProfileId, updateActiveProfile } from '@core/profile/stores'
 import { clearFilters } from '@core/utils'
 import { resetSendOptionIndex } from '@core/wallet/stores'
@@ -14,7 +14,7 @@ export function setSelectedAccount(index: number): void {
         updateAccountForConnectedDapps(account)
         updateActiveProfile({ lastUsedAccountIndex: index })
         clearFilters()
-        pollL2BalanceForAccount(activeProfileId, account)
+        pollEvmBalancesForAccount(activeProfileId, account)
         resetSendOptionIndex()
     } else {
         throw new Error(`Account with ID ${index} cannot be found!`)

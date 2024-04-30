@@ -41,7 +41,7 @@ export const queriedActivities: Readable<Activity[]> = derived(
                 }
 
                 const tokenId = _activity.tokenTransfer?.tokenId ?? _activity.baseTokenTransfer.tokenId
-                const token = containsAssets ? getPersistedToken(tokenId) : undefined
+                const token = containsAssets ? getPersistedToken(_activity.sourceNetworkId, tokenId) : undefined
                 const hasValidAsset = token?.metadata && isValidIrc30Token(token.metadata)
                 return !_activity.isHidden && hasValidAsset
             } else if (_activity.namespace === NetworkNamespace.Evm) {
@@ -84,20 +84,12 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
             fieldsToSearch.push(tokenId)
             fieldsToSearch.push(String(rawAmount))
 
-            const tokenName = getPersistedToken(tokenId)?.metadata?.name
+            const tokenName = getPersistedToken(activity.sourceNetworkId, tokenId)?.metadata?.name
             if (tokenName) {
                 fieldsToSearch.push(tokenName)
             }
 
-            fieldsToSearch.push(
-                getFormattedAmountFromActivity(
-                    rawAmount,
-                    tokenId,
-                    activity.direction,
-                    activity.action,
-                    false
-                )?.toLowerCase()
-            )
+            fieldsToSearch.push(getFormattedAmountFromActivity(rawAmount, tokenId, activity, false)?.toLowerCase())
         }
     } else if (activity.namespace === NetworkNamespace.Evm) {
         if (activity.type === EvmActivityType.CoinTransfer) {
@@ -107,8 +99,7 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
                 getFormattedAmountFromActivity(
                     activity.baseTokenTransfer.rawAmount,
                     activity.baseTokenTransfer.tokenId,
-                    activity.direction,
-                    activity.action,
+                    activity,
                     false
                 )?.toLowerCase()
             )
@@ -119,20 +110,12 @@ function getFieldsToSearchFromActivity(activity: Activity): string[] {
             fieldsToSearch.push(tokenId)
 
             if (standard === TokenStandard.Erc20 || standard === TokenStandard.Irc30) {
-                const tokenName = getPersistedToken(tokenId)?.metadata?.name
+                const tokenName = getPersistedToken(activity.sourceNetworkId, tokenId)?.metadata?.name
                 if (tokenName) {
                     fieldsToSearch.push(tokenName)
                 }
 
-                fieldsToSearch.push(
-                    getFormattedAmountFromActivity(
-                        rawAmount,
-                        tokenId,
-                        activity.direction,
-                        activity.action,
-                        false
-                    )?.toLowerCase()
-                )
+                fieldsToSearch.push(getFormattedAmountFromActivity(rawAmount, tokenId, activity, false)?.toLowerCase())
             }
         }
     }

@@ -22,7 +22,7 @@ export function addNewTrackedTokenToActiveProfile(
         trackedTokens[tokenAddress] = tokenTrackingStatus
         profile.trackedTokens = { ...trackedTokensOnProfile, [networkId]: trackedTokens }
 
-        updatePersistedToken(buildPersistedTokenFromMetadata(tokenAddress, tokenMetadata))
+        updatePersistedToken(networkId, buildPersistedTokenFromMetadata(tokenAddress, tokenMetadata))
         updateActiveProfile(profile)
     }
 }

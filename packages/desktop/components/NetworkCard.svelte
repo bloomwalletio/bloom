@@ -5,7 +5,7 @@
     import { openUrlInBrowser } from '@core/app'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
+    import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { ExplorerEndpoint, Network, NetworkNamespace, getDefaultExplorerUrl, setSelectedChain } from '@core/network'
     import { ProfileType } from '@core/profile'
@@ -67,7 +67,7 @@
                 network.coinType,
                 $selectedAccount as IAccountState
             )
-            pollL2BalanceForAccount($activeProfile.id, $selectedAccount as IAccountState)
+            pollEvmBalancesForAccount($activeProfile.id, $selectedAccount as IAccountState)
             if ($activeProfile.type === ProfileType.Ledger) {
                 $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
             }

@@ -43,7 +43,11 @@ function getTokenDataForTransaction(
             const isBaseCoin = token.standard === TokenStandard.BaseToken
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
             const transferredAsset = { type: assetType, token, amount } as TransferredAsset
-            return getIscTransferSmartContractData(recipientAddress, transferredAsset, evmNetwork as IscChain)
+            return getIscTransferSmartContractData(
+                recipientAddress,
+                transferredAsset,
+                evmNetwork as unknown as IscChain
+            )
         }
         case TokenStandard.Erc20:
             return getErc20TransferSmartContractData(recipientAddress, token, amount, evmNetwork)

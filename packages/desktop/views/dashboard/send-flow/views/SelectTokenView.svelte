@@ -31,21 +31,21 @@
 
     $: $selectedAccountTokens, searchValue, selectedTab, setFilteredTokenList()
 
-    let tokenError: string = ''
-    $: if (
-        selectedToken &&
-        isEvmNetwork(selectedToken.networkId) &&
-        !canAccountMakeEvmTransaction($selectedAccountIndex, selectedToken.networkId, $sendFlowParameters?.type)
-    ) {
-        tokenError = localize('error.send.insufficientFundsTransaction')
-    } else if (
-        selectedToken &&
-        isStardustNetwork(selectedToken.networkId) &&
-        !canAccountMakeStardustTransaction($selectedAccountIndex, $sendFlowParameters?.type)
-    ) {
-        tokenError = localize('error.send.insufficientFundsTransaction')
-    } else {
-        tokenError = ''
+    let tokenError = ''
+    $: selectedToken, $sendFlowParameters, void setTokenError()
+    async function setTokenError(): Promise<void> {
+        let hasEnoughFunds = true
+        if (selectedToken && isEvmNetwork(selectedToken.networkId)) {
+            hasEnoughFunds = await canAccountMakeEvmTransaction(
+                $selectedAccountIndex,
+                selectedToken.networkId,
+                $sendFlowParameters?.type
+            )
+        } else if (selectedToken && isStardustNetwork(selectedToken.networkId)) {
+            hasEnoughFunds = canAccountMakeStardustTransaction($selectedAccountIndex, $sendFlowParameters?.type)
+        }
+
+        tokenError = hasEnoughFunds ? '' : localize('error.send.insufficientFundsTransaction')
     }
 
     const tabs = [
@@ -149,6 +149,7 @@
             [sendFlowType]: {
                 token: selectedToken,
             },
+            sourceNetworkId: selectedToken?.networkId,
         })
 
         $sendFlowRouter.next()

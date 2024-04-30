@@ -52,7 +52,7 @@
             case StardustActivityType.Foundry:
                 tabs = getTabItems([PopupTab.Transaction, PopupTab.Foundry, PopupTab.Token])
                 token = activity.tokenTransfer
-                    ? getPersistedToken(activity.tokenTransfer?.tokenId)?.metadata
+                    ? getPersistedToken(activity.sourceNetworkId, activity.tokenTransfer?.tokenId)?.metadata
                     : undefined
                 break
             case StardustActivityType.Consolidation:

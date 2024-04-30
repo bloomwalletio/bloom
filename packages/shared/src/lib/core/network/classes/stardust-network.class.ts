@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
-import { NetworkHealth, NetworkNamespace } from '../enums'
+import { NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { IIscChainConfiguration, IProtocol, IStardustNetwork, IStardustNetworkMetadata } from '../interfaces'
 import { EvmNetworkId, StardustNetworkId } from '../types'
 
@@ -9,8 +9,8 @@ import { getNetworkStatusFromNodeInfo } from '@core/network/helpers'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 import { IBaseToken } from '@core/token/interfaces'
 
-import { IscChain } from '../classes'
 import { addChain, removeChain } from '../stores'
+import { IscChain } from './isc-chain.class'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -21,8 +21,9 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly bech32Hrp: string
     public readonly protocol: IProtocol
     public readonly baseToken: IBaseToken
-    public iscChains: IscChain[]
+    public readonly type = NetworkType.Stardust
 
+    public iscChains: IscChain[]
     public health = writable(NetworkHealth.Operational)
     public currentMilestone = writable(-1)
 

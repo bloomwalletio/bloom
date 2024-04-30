@@ -4,8 +4,7 @@ import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions
 import { Platform } from '@core/app/classes'
 import { AppContext } from '@core/app/enums'
 import { handleError } from '@core/error/handlers'
-import { updateEvmChainGasPrices } from '@core/layer-2/actions'
-import { fetchL2BalanceForAllAccounts } from '@core/layer-2/utils'
+import { fetchEvmBalancesForAllAccounts } from '@core/layer-2/utils'
 import { pollLedgerDeviceState } from '@core/ledger/actions'
 import { pollMarketPrices } from '@core/market/actions'
 import { loadNftsForActiveProfile } from '@core/nfts/actions'
@@ -18,7 +17,7 @@ import {
 import { profileManager } from '@core/profile-manager/stores'
 import { buildProfileManagerOptionsFromProfileData } from '@core/profile-manager/utils'
 import { routerManager } from '@core/router/stores'
-import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
+import { loadTokensForAllAccountBalances } from '@core/token/actions'
 import { SECONDS_PER_MINUTE } from '@core/utils'
 import { get } from 'svelte/store'
 import { ProfileType } from '../../enums'
@@ -76,7 +75,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         // Step 4: load assets
         incrementLoginProgress()
-        await refreshAccountTokensForActiveProfile(_activeProfile.forceAssetRefresh, _activeProfile.forceAssetRefresh)
+        await loadTokensForAllAccountBalances(_activeProfile.forceAssetRefresh, _activeProfile.forceAssetRefresh)
         updateActiveProfile({ forceAssetRefresh: false })
         await loadNftsForActiveProfile()
         // checkAndRemoveProfilePicture()
@@ -104,7 +103,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         incrementLoginProgress()
         subscribeToWalletApiEventsForActiveProfile()
         await startBackgroundSync({ syncIncomingTransactions: true })
-        fetchL2BalanceForAllAccounts(id)
+        fetchEvmBalancesForAllAccounts(_activeProfile.id)
         void fetchAndPersistTransactionsForAccounts(_activeProfile.id, get(activeAccounts))
 
         // Step 8: finish login
@@ -126,7 +125,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             resetLoginProgress()
         }, 500)
 
-        void updateEvmChainGasPrices()
         void pollMarketPrices()
         void updateCirculatingSupplyForActiveProfile()
         if (Platform.isFeatureFlagEnabled('governance')) {
