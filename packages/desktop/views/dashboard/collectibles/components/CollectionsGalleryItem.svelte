@@ -2,13 +2,16 @@
     import { Collection } from '@core/nfts'
     import { AssetPillsForNft, MediaPlaceholder, NetworkAvatar, NftMedia } from '@ui'
     import { Pill, Text } from '@bloomwalletio/ui'
-    import { downloadingNftId } from '@core/nfts/stores'
+    import { downloadingNftId, selectedCollectionId } from '@core/nfts/stores'
     import { localize } from '@core/i18n'
+    import { CollectiblesRoute, collectiblesRouter } from '@core/router'
 
     export let collection: Collection
 
     function onCollectionClick(): void {
-        return
+        $selectedCollectionId = collection.id
+        $collectiblesRouter?.goTo(CollectiblesRoute.Details)
+        $collectiblesRouter?.setBreadcrumb(collection.name)
     }
 </script>
 

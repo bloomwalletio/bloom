@@ -6,7 +6,9 @@
 
     export let collections: Collections
 
-    $: collectionsArray = Object.values(collections)
+    $: collectionsArray = Object.entries(collections).map(([id, collection]) => {
+        return { id, ...collection }
+    })
 
     const COLLECTIONS_PER_CHUNK_FOR_SCREEN_SIZE = {
         sm: 2,
