@@ -160,9 +160,6 @@
         }
 
         const layer1Network = getLayer1RecipientOption($selectedAccountIndex)
-        if (!features?.network?.layer2?.enabled) {
-            return [layer1Network]
-        }
 
         const assetStandard = getTokenStandardFromSendFlowParameters($sendFlowParameters)
         const sourceNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
