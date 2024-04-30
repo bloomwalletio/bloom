@@ -1,6 +1,10 @@
-import { IBlock, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
+import { IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 import { Converter } from '@core/utils'
 import { BaseEvmNetwork } from './base-evm-network.class'
+import { IAccountState } from '@core/account/interfaces'
+import { ITokenBalance } from '@core/token/interfaces'
+import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
+import { getActiveProfileId } from '@core/profile/stores'
 
 export class IscChain extends BaseEvmNetwork {
     private readonly _chainApi: string
@@ -47,9 +51,16 @@ export class IscChain extends BaseEvmNetwork {
         return (await response.json()) as IIscChainMetadata
     }
 
-    async getLatestBlock(): Promise<IBlock> {
-        const number = await this.provider.eth.getBlockNumber()
-        return this.provider.eth.getBlock(number)
+    async getBalance(account: IAccountState): Promise<ITokenBalance | undefined> {
+        const evmAddress = account.evmAddresses?.[this.coinType]
+        if (!evmAddress) {
+            return undefined
+        }
+
+        const tokenBalance = (await super.getBalance(account)) ?? {}
+        const iscBalance = (await fetchIscAssetsForAccount(getActiveProfileId(), evmAddress, this, account)) ?? {}
+
+        return { ...tokenBalance, ...iscBalance }
     }
 
     async getGasEstimate(hex: string): Promise<bigint> {

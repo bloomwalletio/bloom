@@ -6,6 +6,8 @@ import { EvmNetworkId, Web3Provider } from '../types'
 import { IBlock } from './block.interface'
 import { IBaseNetwork, IBaseNetworkMetadata } from './base-network.interface'
 import { IIscChainMetadata } from './isc-chain-metadata.interface'
+import { ITokenBalance } from '@core/token/interfaces'
+import { IAccountState } from '@core/account/interfaces'
 
 export interface IIscChain extends IEvmNetwork {
     apiEndpoint: string
@@ -26,6 +28,7 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
     provider: Web3Provider
 
     getGasPrice(): Promise<bigint | undefined>
+    getBalance(account: IAccountState): Promise<ITokenBalance | undefined>
 
     getContract(type: ContractType, address: string): Contract
     getLatestBlock(): Promise<IBlock>

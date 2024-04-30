@@ -10,8 +10,15 @@ import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enu
 import { IBlock, IEvmNetwork, IBaseEvmNetworkConfiguration } from '../interfaces'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
-import { IBaseToken } from '@core/token'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
+import { BASE_TOKEN_ID, IBaseToken, ITokenBalance, TokenTrackingStatus } from '@core/token'
+import features from '@features/features'
+import { updateErc721NftsOwnership } from '@core/nfts/actions'
+import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
+import { IAccountState } from '@core/account'
+import { Converter } from '@core/utils'
+import { getActiveProfile } from '@core/profile/stores'
+import { IError } from '@core/error/interfaces'
 
 export class BaseEvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -93,5 +100,50 @@ export class BaseEvmNetwork implements IEvmNetwork {
     async getLatestBlock(): Promise<IBlock> {
         const number = await this.provider.eth.getBlockNumber()
         return this.provider.eth.getBlock(number)
+    }
+
+    async getBalance(account: IAccountState): Promise<ITokenBalance | undefined> {
+        const evmAddress = account.evmAddresses?.[this.coinType]
+        if (!evmAddress) {
+            return
+        }
+
+        if (features.collectibles.erc721.enabled) {
+            void updateErc721NftsOwnership(account, this.id)
+        }
+
+        const rawBalance = await this.provider.eth.getBalance(evmAddress)
+        const tokenBalance = { [BASE_TOKEN_ID]: Converter.bigIntLikeToBigInt(rawBalance) }
+
+        const erc20Balances = await this.getErc20BalancesForAddress(evmAddress)
+        for (const [tokenId, balance] of Object.entries(erc20Balances)) {
+            await getOrRequestTokenFromPersistedTokens(tokenId, this.id)
+            tokenBalance[tokenId] = Number.isNaN(Number(balance)) ? BigInt(0) : balance
+        }
+
+        return tokenBalance
+    }
+
+    async getErc20BalancesForAddress(evmAddress: string): Promise<ITokenBalance> {
+        const trackedTokens = getActiveProfile()?.trackedTokens?.[this.id] ?? {}
+        const erc20TokenBalances: ITokenBalance = {}
+        for (const [erc20Address, trackingStatus] of Object.entries(trackedTokens)) {
+            try {
+                if (trackingStatus === TokenTrackingStatus.Untracked) {
+                    continue
+                }
+
+                const contract = this.getContract(ContractType.Erc20, erc20Address)
+                if (!contract || !this.coinType) {
+                    continue
+                }
+                const rawBalance = await contract.methods.balanceOf(evmAddress).call()
+                erc20TokenBalances[erc20Address] = Converter.bigIntLikeToBigInt(rawBalance)
+            } catch (err) {
+                const error = (err as IError)?.message ?? err
+                console.error(error)
+            }
+        }
+        return erc20TokenBalances
     }
 }
