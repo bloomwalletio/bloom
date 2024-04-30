@@ -1,15 +1,15 @@
+import { IAccountState } from '@core/account/interfaces'
 import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
-
-import { EvmNetworkType, ChainId, NetworkNamespace } from '../enums'
-import { EvmNetworkId, Web3Provider } from '../types'
-import { IBlock } from './block.interface'
-import { IBaseNetwork, IBaseNetworkMetadata } from './base-network.interface'
-import { IIscChainMetadata } from './isc-chain-metadata.interface'
 import { ITokenBalance } from '@core/token/interfaces'
-import { IAccountState } from '@core/account/interfaces'
+import { ChainId, NetworkNamespace, NetworkType } from '../enums'
+import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
+import { IBaseNetwork, IBaseNetworkMetadata } from './base-network.interface'
+import { IBlock } from './block.interface'
+import { IIscChainMetadata } from './isc-chain-metadata.interface'
 
 export interface IIscChain extends IEvmNetwork {
+    type: NetworkType.Isc
     apiEndpoint: string
     aliasAddress: string
 
@@ -18,10 +18,10 @@ export interface IIscChain extends IEvmNetwork {
 }
 
 export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
+    type: EvmNetworkType
     id: EvmNetworkId
     namespace: NetworkNamespace.Evm
     chainId: ChainId
-    type: EvmNetworkType
     explorerUrl: string | undefined
     rpcEndpoint: string
 

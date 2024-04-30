@@ -1,3 +1,3 @@
-import { IEvmNetwork, IStardustNetwork } from '..'
+import { IEvmNetwork, IIscChain, IStardustNetwork } from '..'
 
-export type Network = IStardustNetwork | IEvmNetwork
+export type Network = IStardustNetwork | IEvmNetwork | IIscChain

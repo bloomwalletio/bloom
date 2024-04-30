@@ -1,16 +1,16 @@
 import { CoinType } from '@iota/sdk/out/types'
-import { EvmNetworkType, NetworkNamespace, ChainId } from '../enums'
+import { NetworkType, NetworkNamespace, ChainId } from '../enums'
 import { EvmNetworkId } from '../types'
 import { IBaseToken } from '@core/token/interfaces'
 
 export interface IIscChainConfiguration extends IBaseEvmNetworkConfiguration {
-    type: EvmNetworkType.Isc
+    type: NetworkType.Isc
     aliasAddress: string
     apiEndpoint: string
 }
 
 export interface IPureEvmNetworkConfiguration extends IBaseEvmNetworkConfiguration {
-    type: EvmNetworkType.PureEvm
+    type: NetworkType.Evm
 }
 
 export interface IBaseEvmNetworkConfiguration {
@@ -18,7 +18,7 @@ export interface IBaseEvmNetworkConfiguration {
     namespace: NetworkNamespace.Evm
     chainId: ChainId
     baseToken: IBaseToken
-    type: EvmNetworkType
+    type: NetworkType
     coinType: CoinType
     name: string
     explorerUrl?: string

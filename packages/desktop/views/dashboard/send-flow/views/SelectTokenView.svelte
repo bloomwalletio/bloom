@@ -149,6 +149,7 @@
             [sendFlowType]: {
                 token: selectedToken,
             },
+            sourceNetworkId: selectedToken?.networkId,
         })
 
         $sendFlowRouter.next()
