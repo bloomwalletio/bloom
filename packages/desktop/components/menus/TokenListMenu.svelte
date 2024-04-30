@@ -3,7 +3,7 @@
     import { showNotification } from '@auxiliary/notification'
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
+    import { loadTokensForAllAccountBalances } from '@core/token/actions'
     import { PopupId, closePopup, openPopup } from '../../lib/auxiliary/popup'
     import { fetchL2BalanceForAllAccounts } from '@core/layer-2'
 
@@ -27,7 +27,7 @@
     }
 
     function refreshTokenMetadata(): void {
-        refreshAccountTokensForActiveProfile(true)
+        loadTokensForAllAccountBalances(true)
         showNotification({
             variant: 'success',
             text: localize('notifications.refreshTokenMetadata.success'),

@@ -6,6 +6,6 @@ export type AccountTokens = {
 }
 
 export interface IAccountTokensPerNetwork {
-    baseCoin: ITokenWithBalance | undefined
+    baseCoin: ITokenWithBalance
     nativeTokens: ITokenWithBalance[]
 }

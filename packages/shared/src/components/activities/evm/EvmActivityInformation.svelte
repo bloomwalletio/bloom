@@ -53,6 +53,7 @@
     {#if selectedTab.key === PopupTab.Transaction}
         <EvmGenericInformation
             time={activity.time}
+            sourceNetworkId={activity.sourceNetworkId}
             destinationNetworkId={activity.destinationNetworkId}
             maxGasFee={activity.maxGasFee}
             transactionFee={activity.transactionFee}

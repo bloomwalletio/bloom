@@ -37,7 +37,7 @@ export async function mintNativeToken(
             verified: true,
             status: VerifiedStatus.SelfVerified,
         })
-        addPersistedToken(persistedAsset)
+        addPersistedToken(networkId, persistedAsset)
 
         await processAndAddToActivities(transaction, account, networkId)
 

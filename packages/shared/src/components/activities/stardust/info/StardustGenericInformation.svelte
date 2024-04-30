@@ -4,8 +4,7 @@
     import { openUrlInBrowser } from '@core/app'
     import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
-    import { getBaseToken } from '@core/profile/actions'
+    import { ExplorerEndpoint, getDefaultExplorerUrl, getNetwork } from '@core/network'
     import { formatTokenAmountBestMatch } from '@core/token'
     import { buildUrl } from '@core/utils'
     import { getTimeDifference } from '@core/utils/time'
@@ -32,7 +31,7 @@
     }
 
     function formatAmount(amount: bigint | undefined): string | undefined {
-        return amount ? formatTokenAmountBestMatch(amount, getBaseToken()) : undefined
+        return amount ? formatTokenAmountBestMatch(amount, getNetwork(activity.sourceNetworkId)?.baseToken) : undefined
     }
 </script>
 

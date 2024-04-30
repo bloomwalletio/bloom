@@ -44,7 +44,7 @@ function getAccountAssetForNetwork(
     marketCurrency: MarketCurrency,
     networkId: StardustNetworkId
 ): IAccountTokensPerNetwork {
-    const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID)
+    const persistedBaseCoin = getPersistedToken(networkId, BASE_TOKEN_ID)
     const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
     const baseCoinMarketPrice = String(baseCoinMarketPrices?.[marketCurrency])
     const baseCoinTotal = account?.balances?.baseCoin?.total
@@ -67,7 +67,7 @@ function getAccountAssetForNetwork(
     const nativeTokens: ITokenWithBalance[] = []
     const tokens = account?.balances?.nativeTokens ?? []
     for (const token of tokens) {
-        const persistedAsset = getPersistedToken(token.tokenId)
+        const persistedAsset = getPersistedToken(networkId, token.tokenId)
         if (persistedAsset && persistedAsset?.metadata && isValidIrc30Token(persistedAsset.metadata)) {
             nativeTokens.push({
                 ...persistedAsset,
@@ -92,7 +92,7 @@ function getAccountAssetForChain(
     marketCurrency: MarketCurrency,
     networkId: EvmNetworkId
 ): IAccountTokensPerNetwork | undefined {
-    const persistedBaseCoin = getPersistedToken(BASE_TOKEN_ID) // we use the L1 coin type for now because we assume that the basecoin for L2 is SMR
+    const persistedBaseCoin = getPersistedToken(networkId, BASE_TOKEN_ID)
     const baseCoinMarketPrices = marketCoinPrices?.[persistedBaseCoin.metadata?.name?.toLowerCase() ?? '']
     let baseCoin = createTokenWithBalanceFromPersistedAsset(
         persistedBaseCoin,
@@ -119,7 +119,7 @@ function getAccountAssetForChain(
                 networkId
             )
         } else {
-            const persistedAsset = getPersistedToken(tokenId)
+            const persistedAsset = getPersistedToken(networkId, tokenId)
             if (persistedAsset && persistedAsset?.metadata && isValidToken(persistedAsset.metadata)) {
                 const assetMarketPrices = marketCoinPrices?.[get(shimmerEvmAddressToCoinGeckoIdMap)?.[tokenId]]
                 const nativeToken = createTokenWithBalanceFromPersistedAsset(
