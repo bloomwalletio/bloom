@@ -1,13 +1,13 @@
 import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 import { Converter } from '@core/utils'
-import { BaseEvmNetwork } from './base-evm-network.class'
+import { EvmNetwork } from './evm-network.class'
 import { IAccountState } from '@core/account/interfaces'
 import { ITokenBalance } from '@core/token/interfaces'
 import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
 import { getActiveProfileId } from '@core/profile/stores'
 import { NetworkType } from '@core/network/enums'
 
-export class IscChain extends BaseEvmNetwork implements IIscChain {
+export class IscChain extends EvmNetwork implements IIscChain {
     private readonly _chainApi: string
     private _metadata: IIscChainMetadata | undefined
 

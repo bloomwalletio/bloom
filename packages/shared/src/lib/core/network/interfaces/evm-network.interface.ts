@@ -3,12 +3,12 @@ import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 import { ITokenBalance } from '@core/token/interfaces'
 import { ChainId, NetworkNamespace, NetworkType } from '../enums'
-import { EvmNetworkId, Web3Provider } from '../types'
+import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { IBaseNetwork, IBaseNetworkMetadata } from './base-network.interface'
 import { IBlock } from './block.interface'
 import { IIscChainMetadata } from './isc-chain-metadata.interface'
 
-export interface IIscChain extends Omit<IEvmNetwork, 'type'> {
+export interface IIscChain extends IEvmNetwork {
     type: NetworkType.Isc
     apiEndpoint: string
     aliasAddress: string
@@ -17,8 +17,8 @@ export interface IIscChain extends Omit<IEvmNetwork, 'type'> {
     getMetadata(): Promise<IIscChainMetadata>
 }
 
-export interface IEvmNetwork extends Omit<IBaseNetwork, 'type'>, IBaseNetworkMetadata {
-    type: NetworkType.Evm
+export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
+    type: EvmNetworkType
     id: EvmNetworkId
     namespace: NetworkNamespace.Evm
     chainId: ChainId
