@@ -151,11 +151,7 @@
 
         const sourceNetwork = getNetwork(sourceNetworkId)
 
-        if (!sourceNetwork) {
-            return []
-        }
-
-        switch (sourceNetwork.type) {
+        switch (sourceNetwork?.type) {
             case NetworkType.Evm: {
                 return [getRecipientOptionForEvmNetwork(sourceNetwork, $selectedAccountIndex)]
             }
