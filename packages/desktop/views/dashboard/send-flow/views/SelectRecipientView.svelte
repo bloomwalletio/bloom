@@ -1,38 +1,31 @@
 <script lang="ts">
     import { Alert } from '@bloomwalletio/ui'
+    import { PopupTemplate } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { ContactManager } from '@core/contact/classes'
     import { localize } from '@core/i18n'
+    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
     import {
         IEvmNetwork,
         NetworkId,
+        NetworkType,
         getActiveNetworkId,
-        isEvmNetwork,
         getEvmNetwork,
         getIscChains,
         getL1Network,
         getNetwork,
-        NetworkType,
+        isEvmNetwork,
     } from '@core/network'
+    import { NftStandard } from '@core/nfts'
     import { visibleActiveAccounts } from '@core/profile/stores'
-    import {
-        SendFlowType,
-        sendFlowParameters,
-        updateSendFlowParameters,
-        SubjectType,
-        Subject,
-        getNetworkIdFromSendFlowParameters,
-    } from '@core/wallet'
+    import { TokenStandard } from '@core/token'
+    import { SendFlowType, Subject, SubjectType, sendFlowParameters, updateSendFlowParameters } from '@core/wallet'
+    import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
     import { closePopup } from '@desktop/auxiliary/popup'
     import features from '@features/features'
     import { INetworkRecipientSelectorOption, NetworkRecipientSelector } from '@ui'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
-    import { PopupTemplate } from '@components'
-    import { getTokenStandardFromSendFlowParameters } from '@core/wallet/utils'
-    import { TokenStandard } from '@core/token'
-    import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
-    import { NftStandard } from '@core/nfts'
 
     let selector: NetworkRecipientSelector
     let selectorOptions: INetworkRecipientSelectorOption[] = []
@@ -51,11 +44,10 @@
             return
         }
 
-        const originNetworkId = getNetworkIdFromSendFlowParameters($sendFlowParameters)
-        if (originNetworkId && isEvmNetwork(originNetworkId)) {
+        if ($sendFlowParameters.sourceNetworkId && isEvmNetwork($sendFlowParameters.sourceNetworkId)) {
             hasInsufficientFunds = !(await canAccountMakeEvmTransaction(
                 $selectedAccountIndex,
-                originNetworkId,
+                $sendFlowParameters.sourceNetworkId,
                 $sendFlowParameters.type
             ))
         } else {
@@ -83,9 +75,7 @@
     function setInitialNetworkAndRecipient(): void {
         selectedIndex = $sendFlowParameters?.destinationNetworkId
             ? selectorOptions.findIndex((option) => option.networkId === $sendFlowParameters?.destinationNetworkId)
-            : selectorOptions.findIndex(
-                  (option) => option.networkId === getNetworkIdFromSendFlowParameters($sendFlowParameters)
-              ) ?? 0
+            : selectorOptions.findIndex((option) => option.networkId === $sendFlowParameters?.sourceNetworkId) ?? 0
 
         selectorOptions[selectedIndex] = {
             ...selectorOptions[selectedIndex],
