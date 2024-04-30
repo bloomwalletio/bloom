@@ -25,6 +25,8 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
 
     provider: Web3Provider
 
+    getGasPrice(): Promise<bigint | undefined>
+
     getContract(type: ContractType, address: string): Contract
     getLatestBlock(): Promise<IBlock>
 }
