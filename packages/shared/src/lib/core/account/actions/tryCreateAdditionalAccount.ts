@@ -6,7 +6,7 @@ import { createNewAccount } from './createNewAccount'
 import { setSelectedAccount } from './setSelectedAccount'
 import { getActiveProfile } from '@core/profile/stores'
 import { ProfileType } from '@core/profile'
-import { generateAndStoreEvmAddressForAccounts, pollL2BalanceForAccount } from '@core/layer-2/actions'
+import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
 import { getEvmNetworks } from '@core/network/stores'
 import { IError } from '@core/error/interfaces'
 
@@ -24,7 +24,7 @@ export async function tryCreateAdditionalAccount(alias: string, color: string): 
             const coinType = getEvmNetworks()[0]?.coinType
             if (coinType !== undefined) {
                 void generateAndStoreEvmAddressForAccounts(activeProfile.type, coinType, account)
-                void pollL2BalanceForAccount(activeProfile.id, account)
+                void pollEvmBalancesForAccount(activeProfile.id, account)
             }
         }
 
