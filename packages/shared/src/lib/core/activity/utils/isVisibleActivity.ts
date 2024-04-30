@@ -144,7 +144,7 @@ function isVisibleWithActiveAmountFilter(activity: Activity, filter: ActivityFil
         } else {
             return true
         }
-        const token = getPersistedToken(tokenId)
+        const token = getPersistedToken(activity.sourceNetworkId, tokenId)
 
         if (!token || !token.metadata) {
             return false

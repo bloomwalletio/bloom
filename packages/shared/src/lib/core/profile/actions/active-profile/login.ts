@@ -17,7 +17,7 @@ import {
 import { profileManager } from '@core/profile-manager/stores'
 import { buildProfileManagerOptionsFromProfileData } from '@core/profile-manager/utils'
 import { routerManager } from '@core/router/stores'
-import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
+import { loadTokensForAllAccountBalances } from '@core/token/actions'
 import { SECONDS_PER_MINUTE } from '@core/utils'
 import { get } from 'svelte/store'
 import { ProfileType } from '../../enums'
@@ -75,7 +75,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         // Step 4: load assets
         incrementLoginProgress()
-        await refreshAccountTokensForActiveProfile(_activeProfile.forceAssetRefresh, _activeProfile.forceAssetRefresh)
+        await loadTokensForAllAccountBalances(_activeProfile.forceAssetRefresh, _activeProfile.forceAssetRefresh)
         updateActiveProfile({ forceAssetRefresh: false })
         await loadNftsForActiveProfile()
         // checkAndRemoveProfilePicture()

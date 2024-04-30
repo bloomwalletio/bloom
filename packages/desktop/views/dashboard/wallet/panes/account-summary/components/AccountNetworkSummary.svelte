@@ -32,9 +32,9 @@
         tokens?.baseCoin?.balance.total ?? BigInt(0),
         tokens?.baseCoin?.metadata
     )
-    $: fiatBalance =
-        formatCurrency(getFiatValueFromTokenAmount(BigInt(tokens?.baseCoin?.balance.total ?? 0), tokens?.baseCoin)) ??
-        ''
+    $: fiatBalance = tokens
+        ? formatCurrency(getFiatValueFromTokenAmount(BigInt(tokens?.baseCoin?.balance.total ?? 0), tokens.baseCoin))
+        : ''
     $: address = getAddressFromAccountForNetwork(account, network.id)
 
     $: hasTokens = tokens?.nativeTokens?.length > 0

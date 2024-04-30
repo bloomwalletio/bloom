@@ -98,11 +98,13 @@ function getRowForStardustActivity(
     let assetTicker: string | undefined
     let amount: string | undefined
 
-    const baseCoinMetadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
+    const baseCoinMetadata = getPersistedToken(activity.sourceNetworkId, BASE_TOKEN_ID)?.metadata as IBaseToken
     if (activity.type === StardustActivityType.Basic) {
         if (activity.tokenTransfer) {
             const tokenId = activity.tokenTransfer.tokenId
-            const metadata = getPersistedToken(tokenId)?.metadata as IErc20Metadata | IIrc30Metadata
+            const metadata = getPersistedToken(activity.sourceNetworkId, tokenId)?.metadata as
+                | IErc20Metadata
+                | IIrc30Metadata
             amount = metadata
                 ? formatTokenAmountBestMatch(activity.tokenTransfer.rawAmount, metadata, {
                       round: false,
@@ -201,7 +203,7 @@ function getRowForEvmActivity(
     let assetName: string | undefined
     let assetTicker: string | undefined
     let amount: string | undefined
-    const baseCoinMetadata = getPersistedToken(BASE_TOKEN_ID)?.metadata as IBaseToken
+    const baseCoinMetadata = getPersistedToken(activity.sourceNetworkId, BASE_TOKEN_ID)?.metadata as IBaseToken
 
     if (activity.type === EvmActivityType.CoinTransfer) {
         amount = baseCoinMetadata
@@ -219,7 +221,9 @@ function getRowForEvmActivity(
     } else if (isEvmTokenActivity(activity)) {
         const { standard, tokenId, rawAmount } = activity.tokenTransfer
         if (standard === TokenStandard.Erc20 || standard === TokenStandard.Irc30) {
-            const metadata = getPersistedToken(tokenId)?.metadata as IErc20Metadata | IIrc30Metadata
+            const metadata = getPersistedToken(activity.sourceNetworkId, tokenId)?.metadata as
+                | IErc20Metadata
+                | IIrc30Metadata
             amount = metadata ? formatTokenAmountBestMatch(rawAmount, metadata, { round: false, withUnit: false }) : ''
 
             assetId = tokenId
