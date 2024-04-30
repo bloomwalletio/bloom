@@ -6,7 +6,7 @@ import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
 
-import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enums'
+import { NetworkHealth, NetworkNamespace, ChainId } from '../enums'
 import { IBlock, IEvmNetwork, IBaseEvmNetworkConfiguration } from '../interfaces'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
@@ -20,13 +20,12 @@ import { Converter } from '@core/utils'
 import { getActiveProfile } from '@core/profile/stores'
 import { IError } from '@core/error/interfaces'
 
-export class BaseEvmNetwork implements IEvmNetwork {
+export class BaseEvmNetwork implements Omit<IEvmNetwork, 'type'> {
     public readonly provider: Web3Provider
 
     public readonly id: EvmNetworkId
     public readonly namespace: NetworkNamespace.Evm
     public readonly chainId: ChainId
-    public readonly type: EvmNetworkType
     public readonly coinType: CoinType
     public readonly name: string
     public readonly baseToken: IBaseToken
@@ -40,7 +39,6 @@ export class BaseEvmNetwork implements IEvmNetwork {
         id,
         namespace,
         chainId,
-        type,
         coinType,
         baseToken,
         name,
@@ -54,7 +52,6 @@ export class BaseEvmNetwork implements IEvmNetwork {
             this.id = id
             this.namespace = namespace
             this.chainId = chainId
-            this.type = type
             this.coinType = coinType
             this.baseToken = baseToken
             this.name = name

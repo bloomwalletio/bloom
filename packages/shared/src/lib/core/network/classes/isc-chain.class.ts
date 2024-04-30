@@ -1,34 +1,30 @@
-import { IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
+import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 import { Converter } from '@core/utils'
 import { BaseEvmNetwork } from './base-evm-network.class'
 import { IAccountState } from '@core/account/interfaces'
 import { ITokenBalance } from '@core/token/interfaces'
 import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
 import { getActiveProfileId } from '@core/profile/stores'
+import { NetworkType } from '@core/network/enums'
 
-export class IscChain extends BaseEvmNetwork {
+export class IscChain extends BaseEvmNetwork implements IIscChain {
     private readonly _chainApi: string
     private _metadata: IIscChainMetadata | undefined
 
     public readonly explorerUrl: string | undefined
     public readonly apiEndpoint: string
     public readonly aliasAddress: string
+    public readonly type = NetworkType.Isc
 
     constructor(chainConfiguration: IIscChainConfiguration) {
-        try {
-            const { rpcEndpoint, aliasAddress, apiEndpoint } = chainConfiguration
-            const _rpcEndpoint = new URL(`v1/chains/${aliasAddress}/evm`, rpcEndpoint).href
+        const { rpcEndpoint, aliasAddress, apiEndpoint } = chainConfiguration
+        const _rpcEndpoint = new URL(`v1/chains/${aliasAddress}/evm`, rpcEndpoint).href
 
-            super({ ...chainConfiguration, rpcEndpoint: _rpcEndpoint })
+        super({ ...chainConfiguration, rpcEndpoint: _rpcEndpoint })
 
-            this.aliasAddress = aliasAddress
-            this.apiEndpoint = apiEndpoint
-
-            this._chainApi = new URL(`v1/chains/${aliasAddress}`, apiEndpoint).href
-        } catch (err) {
-            console.error(err)
-            throw new Error('Failed to construct isc Chain!')
-        }
+        this.aliasAddress = aliasAddress
+        this.apiEndpoint = apiEndpoint
+        this._chainApi = new URL(`v1/chains/${aliasAddress}`, apiEndpoint).href
     }
 
     getMetadata(): Promise<IIscChainMetadata> {

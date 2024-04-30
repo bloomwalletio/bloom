@@ -1,10 +1,13 @@
 import { Writable } from 'svelte/store'
-import { NetworkNamespace } from '../enums'
+import { NetworkNamespace, NetworkType } from '../enums'
 import { NetworkId } from '../types'
 import { IIscChainConfiguration } from './evm-network-configuration.interface'
 import { IBaseNetwork, IscChain, IStardustNetworkMetadata } from '@core/network'
 
-export interface IStardustNetwork extends IBaseNetwork, Omit<IStardustNetworkMetadata, 'chainConfigurations'> {
+export interface IStardustNetwork
+    extends Omit<IBaseNetwork, 'type'>,
+        Omit<IStardustNetworkMetadata, 'chainConfigurations'> {
+    type: NetworkType.Stardust
     namespace: NetworkNamespace.Stardust
     bech32Hrp: string
 

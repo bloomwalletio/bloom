@@ -6,7 +6,7 @@ import features from '@features/features'
 import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
 import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
 import { EvmNetworkId, Network, NetworkId } from '../types'
-import { EvmNetworkType, NetworkNamespace } from '../enums'
+import { NetworkType, NetworkNamespace } from '../enums'
 
 export const networks: Writable<Network[]> = writable([])
 
@@ -79,7 +79,7 @@ export function getEvmNetwork(networkId: NetworkId): IEvmNetwork | undefined {
 export function getIscChains(): IscChain[] {
     return (
         (get(networks)?.filter(
-            (network) => network.namespace === NetworkNamespace.Evm && network.type === EvmNetworkType.Isc
+            (network) => network.namespace === NetworkNamespace.Evm && network.type === NetworkType.Isc
         ) as IscChain[]) ?? []
     )
 }

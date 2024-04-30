@@ -1,6 +1,6 @@
 <script lang="ts">
     import { DrawerTemplate } from '@components'
-    import { EvmNetworkType, IscChain, selectedChain } from '@core/network'
+    import { NetworkType, IscChain, selectedChain } from '@core/network'
     import { Router } from '@core/router'
     import { NetworkConfigRoute } from '../'
     import { EvmChainInformation, IscChainInformation } from './components'
@@ -12,9 +12,9 @@
 
 <DrawerTemplate title={evmNetwork?.name} {drawerRouter}>
     <div class="w-full h-full px-6">
-        {#if evmNetwork?.type === EvmNetworkType.Isc}
+        {#if evmNetwork?.type === NetworkType.Isc}
             <IscChainInformation {evmNetwork} />
-        {:else if evmNetwork?.type === EvmNetworkType.PureEvm}
+        {:else if evmNetwork?.type === NetworkType.Evm}
             <EvmChainInformation />
         {/if}
     </div>

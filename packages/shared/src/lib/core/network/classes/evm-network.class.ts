@@ -1,13 +1,11 @@
-import { IPureEvmNetworkConfiguration } from '../interfaces'
+import { NetworkType } from '../enums'
+import { IEvmNetwork, IPureEvmNetworkConfiguration } from '../interfaces'
 import { BaseEvmNetwork } from './base-evm-network.class'
 
-export class EvmNetwork extends BaseEvmNetwork {
+export class EvmNetwork extends BaseEvmNetwork implements IEvmNetwork {
+    public readonly type = NetworkType.Evm
+
     constructor(chainConfiguration: IPureEvmNetworkConfiguration) {
-        try {
-            super(chainConfiguration)
-        } catch (err) {
-            console.error(err)
-            throw new Error('Failed to construct isc Chain!')
-        }
+        super(chainConfiguration)
     }
 }

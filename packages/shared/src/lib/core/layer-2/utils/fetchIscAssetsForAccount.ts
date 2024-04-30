@@ -3,7 +3,7 @@ import { calculateAndAddPersistedTokenBalanceChange, calculateAndAddPersistedNft
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
 import { getSmartContractHexName, evmAddressToAgentId, getAgentBalanceParameters } from '@core/layer-2/helpers'
-import { IEvmNetwork, IscChain } from '@core/network'
+import { IscChain } from '@core/network'
 import { isIrc27Nft, getNftsFromNftIds } from '@core/nfts'
 import {
     updateAllAccountNftsForAccount,
@@ -38,10 +38,10 @@ export async function fetchIscAssetsForAccount(
     return l2Balance
 }
 
-async function getL2NativeTokenBalancesForAddress(evmAddress: string, iscChain: IEvmNetwork): Promise<ITokenBalance> {
+async function getL2NativeTokenBalancesForAddress(evmAddress: string, iscChain: IscChain): Promise<ITokenBalance> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('balance')
-    const agentID = evmAddressToAgentId(evmAddress, (iscChain as IscChain).aliasAddress)
+    const agentID = evmAddressToAgentId(evmAddress, iscChain.aliasAddress)
     const parameters = getAgentBalanceParameters(agentID)
     try {
         const contract = iscChain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
@@ -60,12 +60,12 @@ async function getL2NativeTokenBalancesForAddress(evmAddress: string, iscChain: 
 async function fetchL2Irc27Nfts(
     profileId: string,
     evmAddress: string,
-    iscChain: IEvmNetwork,
+    iscChain: IscChain,
     account: IAccountState
 ): Promise<void> {
     const accountsCoreContract = getSmartContractHexName('accounts')
     const getBalanceFunc = getSmartContractHexName('accountNFTs')
-    const agentID = evmAddressToAgentId(evmAddress, (iscChain as IscChain).aliasAddress)
+    const agentID = evmAddressToAgentId(evmAddress, iscChain.aliasAddress)
     const parameters = getAgentBalanceParameters(agentID)
     try {
         const contract = iscChain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
