@@ -10,6 +10,7 @@ import { EvmNetworkType, NetworkHealth, NetworkNamespace, ChainId } from '../enu
 import { IBlock, IEvmNetwork, IBaseEvmNetworkConfiguration } from '../interfaces'
 import { CoinType } from '@iota/sdk/out/types'
 import { EvmNetworkId, Web3Provider } from '../types'
+import { IBaseToken } from '@core/token'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 
 export class BaseEvmNetwork implements IEvmNetwork {
@@ -21,6 +22,7 @@ export class BaseEvmNetwork implements IEvmNetwork {
     public readonly type: EvmNetworkType
     public readonly coinType: CoinType
     public readonly name: string
+    public readonly baseToken: IBaseToken
     public readonly explorerUrl: string | undefined
     public readonly rpcEndpoint: string
 
@@ -33,21 +35,24 @@ export class BaseEvmNetwork implements IEvmNetwork {
         chainId,
         type,
         coinType,
+        baseToken,
         name,
         explorerUrl,
         rpcEndpoint,
     }: IBaseEvmNetworkConfiguration) {
         try {
-            this.provider = new Web3(`${rpcEndpoint}`)
+            const _rpcEndpoint = new URL(rpcEndpoint).href
+            this.provider = new Web3(`${_rpcEndpoint}`)
 
             this.id = id
             this.namespace = namespace
             this.chainId = chainId
             this.type = type
             this.coinType = coinType
+            this.baseToken = baseToken
             this.name = name
             this.explorerUrl = explorerUrl
-            this.rpcEndpoint = rpcEndpoint
+            this.rpcEndpoint = _rpcEndpoint
 
             void this.startStatusPoll()
         } catch (err) {
@@ -74,6 +79,15 @@ export class BaseEvmNetwork implements IEvmNetwork {
             throw new Error(`Unable to determine contract type "${type}"`)
         }
         return new this.provider.eth.Contract(abi, address)
+    }
+
+    async getGasPrice(): Promise<bigint | undefined> {
+        try {
+            const gasPrice = await this.provider.eth.getGasPrice()
+            return BigInt(gasPrice)
+        } catch {
+            return undefined
+        }
     }
 
     async getLatestBlock(): Promise<IBlock> {

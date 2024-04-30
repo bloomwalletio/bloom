@@ -78,11 +78,14 @@ export const visibleSelectedAccountTokens: Readable<AccountTokens> = derived(
         const visibleTokens: AccountTokens = {}
         for (const _networkId of Object.keys($selectedAccountTokens)) {
             const networkId = _networkId as NetworkId
-            const visible: IAccountTokensPerNetwork = {
-                baseCoin: $selectedAccountTokens[networkId]?.baseCoin,
-                nativeTokens: $selectedAccountTokens[networkId]?.nativeTokens.filter((asset) => !asset.hidden) ?? [],
+            const tokens = $selectedAccountTokens[networkId]
+            if (tokens) {
+                const visible: IAccountTokensPerNetwork = {
+                    baseCoin: tokens.baseCoin,
+                    nativeTokens: tokens.nativeTokens.filter((asset) => !asset.hidden) ?? [],
+                }
+                visibleTokens[networkId] = visible
             }
-            visibleTokens[networkId] = visible
         }
         return visibleTokens
     }
@@ -101,7 +104,7 @@ export function getTokenFromSelectedAccountTokens(
         if (token) {
             return token
         } else {
-            const persistedToken = getPersistedToken(tokenId)
+            const persistedToken = getPersistedToken(networkId, tokenId)
             return persistedToken
                 ? {
                       ...persistedToken,

@@ -1,3 +1,4 @@
+import { IBaseToken } from '@core/token'
 import { Writable } from 'svelte/store'
 import { NetworkHealth, NetworkNamespace } from '../enums'
 import { NetworkId } from '../types'
@@ -13,5 +14,6 @@ export interface IBaseNetworkMetadata {
     id: NetworkId
     namespace: NetworkNamespace
     name: string
+    baseToken: IBaseToken
     coinType: number
 }

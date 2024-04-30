@@ -11,13 +11,13 @@
     import { SendFlowRoute, SendFlowRouter, sendFlowRouter } from '@views/dashboard/send-flow'
     import PopupTemplate from '../PopupTemplate.svelte'
 
-    export let token: ITokenWithBalance | undefined
+    export let token: ITokenWithBalance
     export let activityId: string | undefined = undefined
 
-    $: isNewToken = token?.verification?.status === NotVerifiedStatus.New
+    $: isNewToken = token.verification?.status === NotVerifiedStatus.New
 
     function onSkipClick(): void {
-        unverifyToken(token?.id, NotVerifiedStatus.Skipped)
+        unverifyToken(token, NotVerifiedStatus.Skipped)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
@@ -31,7 +31,7 @@
     }
 
     function onVerifyClick(): void {
-        verifyToken(token?.id, VerifiedStatus.SelfVerified)
+        verifyToken(token, VerifiedStatus.SelfVerified)
         if (activityId) {
             openPopup({
                 id: PopupId.ActivityDetails,
@@ -45,7 +45,7 @@
     }
 
     function onSendClick(): void {
-        const sendFlowType = token?.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
+        const sendFlowType = token.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
         setSendFlowParameters({
             type: sendFlowType,
             [sendFlowType]: {
@@ -62,7 +62,7 @@
 </script>
 
 <PopupTemplate
-    title={token?.metadata?.name}
+    title={token.metadata?.name}
     backButton={isNewToken
         ? {
               text: localize('actions.skip'),
@@ -75,7 +75,7 @@
     }}
 >
     <div slot="menu">
-        {#if token?.standard === TokenStandard.Irc30 || token?.standard === TokenStandard.Erc20}
+        {#if token.standard === TokenStandard.Irc30 || token.standard === TokenStandard.Erc20}
             <TokenActionsMenu {token} />
         {/if}
     </div>

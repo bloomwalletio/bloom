@@ -11,7 +11,7 @@
     import { checkActiveProfileAuth, getBaseToken, loadAccounts } from '@core/profile/actions'
     import { activeAccounts, activeProfile, getActiveProfileId, visibleActiveAccounts } from '@core/profile/stores'
     import { formatTokenAmountBestMatch } from '@core/token'
-    import { refreshAccountTokensForActiveProfile } from '@core/token/actions'
+    import { loadTokensForAllAccountBalances } from '@core/token/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onDestroy } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -134,7 +134,7 @@
     onDestroy(async () => {
         if (hasUsedWalletFinder) {
             const profileId = getActiveProfileId()
-            await refreshAccountTokensForActiveProfile()
+            await loadTokensForAllAccountBalances()
             await generateAndStoreActivitiesForAllAccounts(profileId)
             loadNftsForActiveProfile()
         }

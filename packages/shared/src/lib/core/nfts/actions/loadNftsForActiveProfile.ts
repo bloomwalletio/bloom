@@ -13,7 +13,7 @@ import { Nft } from '../interfaces'
 import { buildNftFromPersistedErc721Nft, getNftsFromNftIds } from '../utils'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { buildNftFromNftOutput } from './buildNftFromNftOutput'
-import { getPersistedErc721Nfts } from './getPersistedErc721Nfts'
+import { getPersistedErc721NftsForNetwork } from './getPersistedErc721NftsForNetwork'
 import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
@@ -70,7 +70,7 @@ export async function loadNftsForAccount(profileId: string, account: IAccountSta
         if (!evmAddress) {
             continue
         }
-        const erc721Nfts = getPersistedErc721Nfts()
+        const erc721Nfts = getPersistedErc721NftsForNetwork(evmNetwork.id)
         const convertedNfts: Nft[] = erc721Nfts.map((persistedErc721Nft) =>
             buildNftFromPersistedErc721Nft(persistedErc721Nft, evmAddress)
         )
