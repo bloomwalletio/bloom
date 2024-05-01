@@ -170,10 +170,9 @@
                 ]
             }
             case NetworkType.Stardust: {
-                const l2Chains = features?.network?.layer2?.enabled ? getIscChains() : []
                 return [
                     getLayer1RecipientOption($selectedAccountIndex),
-                    ...l2Chains.map((iscChain) => getRecipientOptionForEvmNetwork(iscChain)),
+                    ...getIscChains().map((iscChain) => getRecipientOptionForEvmNetwork(iscChain)),
                 ]
             }
             default:
