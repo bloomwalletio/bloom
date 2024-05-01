@@ -1,9 +1,9 @@
 import { derived, get, Readable, Writable, writable } from 'svelte/store'
-import { selectedAccountNfts } from './selected-account-nfts.store'
 import { NftStandard } from '../enums'
 import { Nft } from '../interfaces'
-import { getCollectionFromNft } from '../utils'
 import { Collections } from '../types'
+import { getCollectionFromNft } from '../utils'
+import { selectedAccountNfts } from './selected-account-nfts.store'
 
 export const collectionsStore: Writable<Collections> = writable({})
 
@@ -21,24 +21,27 @@ async function updateCollections(nfts: Nft[]): Promise<void> {
 
     await Promise.all(
         nfts.map(async (nft) => {
-            if (nft.standard !== NftStandard.Irc27 || !nft.issuer) {
+            const collectionId =
+                nft.standard === NftStandard.Irc27
+                    ? nft.issuer?.aliasId ?? nft.issuer?.nftId
+                    : nft.contractMetadata.address
+            if (!collectionId) {
                 return
             }
 
-            const issuerId = nft.issuer.aliasId ?? nft.issuer.nftId
-            if (!issuerId) {
-                return
-            }
-
-            if (!collectionsUpdate[issuerId]) {
-                const collection = await getCollectionFromNft(nft)
-                if (collection) {
-                    collectionsUpdate[issuerId] = { ...collection, nfts: [nft] }
+            if (collectionsUpdate[collectionId]) {
+                const existingCollection = collectionsUpdate[collectionId]
+                if (!existingCollection.nfts.find((existingNft) => existingNft.id === nft.id)) {
+                    if (existingCollection.standard === nft.standard) {
+                        // @ts-expect-error - ignore type error because we are checking the standard of nft and collection match
+                        existingCollection.nfts.push(nft)
+                    }
                 }
             } else {
-                const existingNfts = collectionsUpdate[issuerId].nfts
-                if (!existingNfts.find((existingNft) => existingNft.id === nft.id)) {
-                    collectionsUpdate[issuerId].nfts.push(nft)
+                const collection = await getCollectionFromNft(nft)
+                if (collection) {
+                    // @ts-expect-error - ignore type error because the collection was generated from the nft
+                    collectionsUpdate[collectionId] = { ...collection, nfts: [nft] }
                 }
             }
         })

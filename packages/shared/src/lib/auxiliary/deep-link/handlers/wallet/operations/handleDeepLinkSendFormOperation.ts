@@ -81,6 +81,7 @@ function parseSendFormOperation(searchParams: URLSearchParams): SendFlowParamete
         type,
         ...(baseCoinTransfer && { baseCoinTransfer }),
         ...(tokenTransfer && { tokenTransfer }),
+        sourceNetworkId: networkId,
         ...(address && { recipient }),
         ...(metadata && { metadata }),
         ...(tag && { tag }),
