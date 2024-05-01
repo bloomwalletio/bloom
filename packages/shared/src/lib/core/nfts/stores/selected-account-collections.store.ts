@@ -1,9 +1,9 @@
 import { derived, get, Readable, Writable, writable } from 'svelte/store'
-import { selectedAccountNfts } from './selected-account-nfts.store'
 import { NftStandard } from '../enums'
 import { Nft } from '../interfaces'
-import { getCollectionFromNft } from '../utils'
 import { Collections } from '../types'
+import { getCollectionFromNft } from '../utils'
+import { selectedAccountNfts } from './selected-account-nfts.store'
 
 export const collectionsStore: Writable<Collections> = writable({})
 
@@ -30,13 +30,17 @@ async function updateCollections(nfts: Nft[]): Promise<void> {
             }
 
             if (collectionsUpdate[collectionId]) {
-                const existingNfts = collectionsUpdate[collectionId].nfts
-                if (!existingNfts.find((existingNft) => existingNft.id === nft.id)) {
-                    collectionsUpdate[collectionId].nfts.push(nft)
+                const existingCollection = collectionsUpdate[collectionId]
+                if (!existingCollection.nfts.find((existingNft) => existingNft.id === nft.id)) {
+                    if (existingCollection.standard === nft.standard) {
+                        // @ts-expect-error - ignore type error because we are checking the standard of nft and collection match
+                        existingCollection.nfts.push(nft)
+                    }
                 }
             } else {
                 const collection = await getCollectionFromNft(nft)
                 if (collection) {
+                    // @ts-expect-error - ignore type error because the collection was generated from the nft
                     collectionsUpdate[collectionId] = { ...collection, nfts: [nft] }
                 }
             }
