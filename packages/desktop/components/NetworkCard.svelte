@@ -32,12 +32,8 @@
     }
 
     function onCardClick(): void {
-        if (network.namespace === NetworkNamespace.Stardust) {
-            $networkConfigRouter.goTo(NetworkConfigRoute.NetworkSettings)
-        } else {
-            setSelectedChain(network)
-            $networkConfigRouter.goTo(NetworkConfigRoute.ChainInformation)
-        }
+        setSelectedChain(network)
+        $networkConfigRouter.goTo(NetworkConfigRoute.ChainInformation)
     }
 
     function onQrCodeIconClick(): void {
