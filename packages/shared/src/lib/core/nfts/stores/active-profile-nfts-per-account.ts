@@ -4,12 +4,8 @@ import { Nft } from '../interfaces'
 
 export const activeProfileNftsPerAccount = writable<{ [accountIndex: number]: Nft[] }>({})
 
-export function clearAccountNfts(): void {
+export function clearActiveProfileNftsPerAccount(): void {
     activeProfileNftsPerAccount.set({})
-}
-
-export function getAllAccountNfts(): { [accountIndex: number]: Nft[] } {
-    return get(activeProfileNftsPerAccount)
 }
 
 export function getAllNftsForActiveProfile(): Nft[] {
@@ -70,7 +66,7 @@ export function updateNftForAccount(accountIndex: number, partialNft: Partial<Nf
 }
 
 export function updateNftForAllAccounts(partialNft: Partial<Nft> & { id: string }): void {
-    for (const accountIndex of Object.keys(getAllAccountNfts()) as unknown as number[]) {
+    for (const accountIndex of Object.keys(get(activeProfileNftsPerAccount)) as unknown as number[]) {
         updateNftForAccount(accountIndex, partialNft)
     }
 }
