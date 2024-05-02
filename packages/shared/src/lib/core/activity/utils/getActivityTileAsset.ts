@@ -1,6 +1,6 @@
 import { StardustActivityType, StardustGovernanceAction } from '../enums'
 import { Activity } from '../types'
-import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+import { getNftByIdForAccount } from '@core/nfts/stores'
 import { getTokenFromActivity } from './getTokenFromActivity'
 import { get } from 'svelte/store'
 import { registeredProposalsForSelectedAccount } from '@contexts/governance'
@@ -22,7 +22,7 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
 
             return token.metadata?.name ? token.metadata.name : token.id
         } else if (activity.type === StardustActivityType.Nft) {
-            const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
+            const nft = getNftByIdForAccount(accountIndex, activity.nftId)
             return nft?.name ? nft.name : 'NFT'
         } else if (activity.type === StardustActivityType.Alias) {
             return 'Alias ' + activity.aliasId
@@ -54,7 +54,7 @@ export function getActivityTileAsset(activity: Activity, accountIndex: number): 
                 activity.tokenTransfer.standard === NftStandard.Erc721 ||
                 activity.tokenTransfer.standard === NftStandard.Irc27
             ) {
-                const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.tokenTransfer.tokenId)
+                const nft = getNftByIdForAccount(accountIndex, activity.tokenTransfer.tokenId)
                 return nft?.name ? nft.name : localize('general.nft')
             } else {
                 const token = getTokenFromSelectedAccountTokens(
