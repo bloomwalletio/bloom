@@ -7,7 +7,13 @@
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { ExplorerEndpoint, Network, NetworkNamespace, getDefaultExplorerUrl, setSelectedChain } from '@core/network'
+    import {
+        ExplorerEndpoint,
+        Network,
+        NetworkNamespace,
+        getDefaultExplorerUrl,
+        setSelectedNetworkForNetworkDrawer,
+    } from '@core/network'
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
@@ -32,7 +38,7 @@
     }
 
     function onCardClick(): void {
-        setSelectedChain(network)
+        setSelectedNetworkForNetworkDrawer(network)
         $networkConfigRouter.goTo(NetworkConfigRoute.ChainInformation)
     }
 
@@ -40,7 +46,7 @@
         if (network.namespace === NetworkNamespace.Stardust) {
             $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
         } else {
-            setSelectedChain(network)
+            setSelectedNetworkForNetworkDrawer(network)
             $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
         }
     }
@@ -57,7 +63,7 @@
         }
 
         try {
-            setSelectedChain(network)
+            setSelectedNetworkForNetworkDrawer(network)
             await generateAndStoreEvmAddressForAccounts(
                 $activeProfile.type,
                 network.coinType,

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { selectedChain, NetworkNamespace } from '@core/network'
+    import { selectedNetworkForNetworkDrawer, NetworkNamespace } from '@core/network'
     import { Router } from '@core/router'
     import { NetworkConfigRoute } from '../'
     import { EvmChainInformationDrawer, StardustInformationDrawer } from './components'
@@ -7,8 +7,8 @@
     export let drawerRouter: Router<NetworkConfigRoute>
 </script>
 
-{#if $selectedChain && $selectedChain.namespace === NetworkNamespace.Evm}
-    <EvmChainInformationDrawer network={$selectedChain} {drawerRouter} />
-{:else if $selectedChain && $selectedChain.namespace === NetworkNamespace.Stardust}
-    <StardustInformationDrawer network={$selectedChain} {drawerRouter} />
+{#if $selectedNetworkForNetworkDrawer && $selectedNetworkForNetworkDrawer.namespace === NetworkNamespace.Evm}
+    <EvmChainInformationDrawer network={$selectedNetworkForNetworkDrawer} {drawerRouter} />
+{:else if $selectedNetworkForNetworkDrawer && $selectedNetworkForNetworkDrawer.namespace === NetworkNamespace.Stardust}
+    <StardustInformationDrawer network={$selectedNetworkForNetworkDrawer} {drawerRouter} />
 {/if}
