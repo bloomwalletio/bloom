@@ -1,5 +1,5 @@
 import { Nft } from '@core/nfts'
-import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+import { getNftByIdForAccount } from '@core/nfts/stores'
 import { TokenTransferData } from '@core/wallet/types'
 import { ActivityAction, StardustActivityType, StardustGovernanceAction } from '../enums'
 import { StardustActivity } from '../types'
@@ -35,7 +35,7 @@ export function getTransactionAssets(
               }
 
     if (activity.type === StardustActivityType.Nft) {
-        const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId)
+        const nft = getNftByIdForAccount(accountIndex, activity.nftId)
         return {
             nft,
             baseCoinTransfer,

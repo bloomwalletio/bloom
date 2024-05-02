@@ -4,7 +4,7 @@
     import { formatCurrency, localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { Network, NetworkNamespace, setSelectedChain } from '@core/network'
+    import { Network, NetworkNamespace, setSelectedNetworkForNetworkDrawer } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
@@ -91,7 +91,7 @@
             await generateAndStoreEvmAddressForAccounts($activeProfile.type, network.coinType, account)
             pollEvmBalancesForAccount($activeProfile.id, account)
             if ($activeProfile.type === ProfileType.Ledger) {
-                setSelectedChain(network)
+                setSelectedNetworkForNetworkDrawer(network)
                 toggleDashboardDrawer({
                     id: DashboardDrawerRoute.NetworkConfig,
                     initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,
