@@ -2,8 +2,8 @@
     import { Tabs } from '@bloomwalletio/ui'
     import { selectedAccountIndex } from '@core/account/stores'
     import { StardustActivity, StardustActivityType } from '@core/activity'
-    import { Nft } from '@core/nfts'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { Nft } from '@core/nfts/interfaces'
+    import { getNftByIdForAccount } from '@core/nfts/stores'
     import { TokenMetadata } from '@core/token'
     import { getPersistedToken } from '@core/token/stores'
     import { KeyValue, NftMetadataTable, PopupTab, TokenMetadataTable, getTabItems } from '@ui'
@@ -24,7 +24,7 @@
     $: {
         const storedNft =
             activity.type === StardustActivityType.Nft
-                ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+                ? getNftByIdForAccount($selectedAccountIndex, activity.nftId)
                 : undefined
         hasMetadata = !!storedNft?.metadata
     }
@@ -47,7 +47,7 @@
                     ...(hasMetadata ? [PopupTab.NftMetadata] : []),
                     ...(activity.smartContract ? [PopupTab.SmartContract] : []),
                 ])
-                nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+                nft = getNftByIdForAccount($selectedAccountIndex, activity.nftId)
                 break
             case StardustActivityType.Foundry:
                 tabs = getTabItems([PopupTab.Transaction, PopupTab.Foundry, PopupTab.Token])

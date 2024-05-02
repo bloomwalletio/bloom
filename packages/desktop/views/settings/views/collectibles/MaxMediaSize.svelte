@@ -3,8 +3,8 @@
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { DownloadWarningType, Nft } from '@core/nfts'
-    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
-    import { persistedNftForActiveProfile, selectedAccountNfts } from '@core/nfts/stores'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
+    import { persistedNftForActiveProfile, selectedAccountNfts, updateNftForAllAccounts } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import SettingsSection from '../SettingsSection.svelte'
 
@@ -69,7 +69,8 @@
                 }
 
                 await Platform.deleteFile(nft.downloadMetadata.filePath)
-                updateNftInAllAccountNfts(nft.id, {
+                updateNftForAllAccounts({
+                    id: nft.id,
                     isLoaded: false,
                     downloadMetadata: {
                         ...nft.downloadMetadata,
