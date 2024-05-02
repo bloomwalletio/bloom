@@ -1,8 +1,8 @@
-import { allAccountNfts } from '../stores'
+import { activeProfileNftsPerAccount } from '../stores'
 import { Nft } from '../interfaces'
 
 export function updateAllAccountNftsForAccount(accountIndex: number, ...newNfts: Nft[]): void {
-    allAccountNfts.update((state) => {
+    activeProfileNftsPerAccount.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
         }

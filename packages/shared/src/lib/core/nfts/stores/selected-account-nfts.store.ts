@@ -1,12 +1,12 @@
 import { derived, Readable, Writable, writable } from 'svelte/store'
 import { selectedAccount } from '@core/account/stores'
 import { IIrc27Nft, Nft } from '../interfaces'
-import { allAccountNfts } from './all-account-nfts.store'
+import { activeProfileNftsPerAccount } from './active-profile-nfts-per-account'
 import { time } from '@core/app/stores/time.store'
 import { NftStandard } from '@core/nfts'
 
 export const selectedAccountNfts: Readable<Nft[]> = derived(
-    [selectedAccount, allAccountNfts],
+    [selectedAccount, activeProfileNftsPerAccount],
     ([$selectedAccount, $allAccountNfts]) => {
         if ($selectedAccount) {
             return $allAccountNfts[$selectedAccount.index] ?? []

@@ -1,8 +1,8 @@
-import { allAccountNfts } from '../stores'
+import { activeProfileNftsPerAccount } from '../stores'
 import { isIrc27Nft } from '@core/nfts'
 
 export function setNftInAllAccountNftsToUnspendable(accountIndex: number, ...unspendableNftIds: string[]): void {
-    allAccountNfts.update((state) => {
+    activeProfileNftsPerAccount.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
         }
