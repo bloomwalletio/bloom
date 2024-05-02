@@ -1,6 +1,7 @@
 import { get, writable } from 'svelte/store'
 
 import { Nft } from '../interfaces'
+import { PartialWithId } from '@core/utils'
 
 export const activeProfileNftsPerAccount = writable<{ [accountIndex: number]: Nft[] }>({})
 
@@ -45,7 +46,7 @@ export function addOrUpdateNftForAccount(accountIndex: number, nft: Nft): void {
     addOrUpdateNftsForAccount(accountIndex, [nft])
 }
 
-export function updateNftsForAccount(accountIndex: number, partialNfts: (Partial<Nft> & { id: string })[]): void {
+export function updateNftsForAccount(accountIndex: number, partialNfts: PartialWithId<Nft>[]): void {
     activeProfileNftsPerAccount.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
@@ -61,11 +62,11 @@ export function updateNftsForAccount(accountIndex: number, partialNfts: (Partial
     })
 }
 
-export function updateNftForAccount(accountIndex: number, partialNft: Partial<Nft> & { id: string }): void {
+export function updateNftForAccount(accountIndex: number, partialNft: PartialWithId<Nft>): void {
     updateNftsForAccount(accountIndex, [partialNft])
 }
 
-export function updateNftForAllAccounts(partialNft: Partial<Nft> & { id: string }): void {
+export function updateNftForAllAccounts(partialNft: PartialWithId<Nft>): void {
     for (const accountIndex of Object.keys(get(activeProfileNftsPerAccount)) as unknown as number[]) {
         updateNftForAccount(accountIndex, partialNft)
     }

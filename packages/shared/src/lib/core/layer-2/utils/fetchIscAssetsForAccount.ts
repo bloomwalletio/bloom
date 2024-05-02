@@ -9,7 +9,7 @@ import { addNftsToDownloadQueue } from '@core/nfts/actions'
 import { addOrUpdateNftsForAccount, selectedAccountNfts, updateNftsForAccount } from '@core/nfts/stores'
 import { BASE_TOKEN_ID, ITokenBalance } from '@core/token'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { Converter } from '@core/utils'
+import { Converter, PartialWithId } from '@core/utils'
 import { KeyValue } from '@ui'
 import { get } from 'svelte/store'
 
@@ -82,7 +82,7 @@ async function fetchL2Irc27Nfts(
 
         const unspendableNfts = nftsForChain
             .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))
-            .map((nft) => ({ id: nft.id, isSpendable: false }) as Partial<Nft> & { id: string })
+            .map((nft) => ({ id: nft.id, isSpendable: false }) as PartialWithId<Nft>)
 
         updateNftsForAccount(account.index, unspendableNfts)
         void addNftsToDownloadQueue(nfts)
