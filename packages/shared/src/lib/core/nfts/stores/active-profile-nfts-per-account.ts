@@ -34,9 +34,9 @@ export function addOrUpdateNftsForAccount(accountIndex: number, nfts: Nft[]): vo
         }
 
         for (const nft of nfts) {
-            const _nft = state[accountIndex].find((_nft) => _nft.id === nft.id)
-            if (_nft) {
-                Object.assign(_nft, nft)
+            const existingNft = state[accountIndex].find((_nft) => _nft.id === nft.id)
+            if (existingNft) {
+                Object.assign(existingNft, nft)
             } else {
                 state[accountIndex].push(nft)
             }
@@ -49,28 +49,34 @@ export function addOrUpdateNftForAccount(accountIndex: number, nft: Nft): void {
     addOrUpdateNftsForAccount(accountIndex, [nft])
 }
 
-export function updateNftsForAccount(accountIndex: number, nfts: (Partial<Nft> & { id: string })[]): void {
+export function updateNftsForAccount(accountIndex: number, partialNfts: (Partial<Nft> & { id: string })[]): void {
     activeProfileNftsPerAccount.update((state) => {
         if (!state[accountIndex]) {
             state[accountIndex] = []
         }
 
-        for (const nft of nfts) {
-            const _nft = state[accountIndex].find((_nft) => _nft.id === nft.id)
-            if (_nft) {
-                Object.assign(_nft, nft)
+        for (const partialNft of partialNfts) {
+            const existingNft = state[accountIndex].find((nft) => nft.id === partialNft.id)
+            if (existingNft) {
+                Object.assign(existingNft, partialNft)
             }
         }
         return state
     })
 }
 
-export function updateNftForAccount(accountIndex: number, nft: Partial<Nft> & { id: string }): void {
-    updateNftsForAccount(accountIndex, [nft])
+export function updateNftForAccount(accountIndex: number, partialNft: Partial<Nft> & { id: string }): void {
+    updateNftsForAccount(accountIndex, [partialNft])
+}
+
+export function updateNftForAllAccounts(partialNft: Partial<Nft> & { id: string }): void {
+    for (const accountIndex of Object.keys(getAllAccountNfts()) as unknown as number[]) {
+        updateNftForAccount(accountIndex, partialNft)
+    }
 }
 
 export function getNftByIdForAccount(accountIndex: number | undefined, nftId: string): Nft | undefined {
     return accountIndex
-        ? getNftsForAccount(accountIndex)?.find((_nft) => _nft.id?.toLowerCase() === nftId?.toLowerCase())
+        ? getNftsForAccount(accountIndex)?.find((nft) => nft.id?.toLowerCase() === nftId?.toLowerCase())
         : undefined
 }

@@ -6,8 +6,7 @@ import {
 } from '@core/activity/stores/all-account-activities.store'
 import { NetworkNamespace } from '@core/network'
 import { IIrc27Nft } from '@core/nfts'
-import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
-import { getNftByIdForAccount } from '@core/nfts/stores'
+import { getNftByIdForAccount, updateNftForAccount } from '@core/nfts/stores'
 import { activeAccounts } from '@core/profile/stores'
 import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 import { get } from 'svelte/store'
@@ -49,7 +48,7 @@ export async function handleSpentOutputEventInternal(
                 previousOutput &&
                 output.metadata.milestoneTimestampBooked > previousOutput.metadata.milestoneTimestampBooked
             ) {
-                updateNftInAllAccountNftsForAccount(accountIndex, activity.nftId, { isSpendable: false })
+                updateNftForAccount(accountIndex, { id: activity.nftId, isSpendable: false })
             }
         } else {
             throw new Error(`Unable to find latest output ID for NFT ${nft.id}`)

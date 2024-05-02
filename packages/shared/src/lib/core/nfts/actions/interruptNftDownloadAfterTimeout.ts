@@ -2,8 +2,7 @@ import { Platform } from '@core/app/classes'
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { get } from 'svelte/store'
 import { DownloadWarningType } from '../enums'
-import { downloadingNftId, getNftByIdForAccount, removeNftFromDownloadQueue } from '../stores'
-import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
+import { downloadingNftId, getNftByIdForAccount, removeNftFromDownloadQueue, updateNftForAllAccounts } from '../stores'
 import { activeProfile } from '@core/profile/stores'
 
 export async function interruptNftDownloadAfterTimeout(
@@ -23,7 +22,8 @@ export async function interruptNftDownloadAfterTimeout(
         await Platform.cancelNftDownload(downloadingNftIdToInterrupt)
         const nft = getNftByIdForAccount(accountIndex, downloadingNftIdToInterrupt)
         if (nft) {
-            updateNftInAllAccountNfts(downloadingNftIdToInterrupt, {
+            updateNftForAllAccounts({
+                id: downloadingNftIdToInterrupt,
                 isLoaded: false,
                 downloadMetadata: {
                     ...nft.downloadMetadata,
