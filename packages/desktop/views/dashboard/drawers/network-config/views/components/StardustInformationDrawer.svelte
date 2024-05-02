@@ -3,12 +3,14 @@
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
-    import { activeProfile } from '@core/profile/stores'
-    import { NetworkConfigRoute } from '..'
-    import { ConfigureNodeList, LocalProofOfWork } from '../components'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import ConfigureNodeList from './ConfigureNodeList.svelte'
+    import LocalProofOfWork from './LocalProofOfWork.svelte'
+    import { IStardustNetwork } from '@core/network'
+    import { NetworkConfigRoute } from '../../network-config-route.enum'
 
     export let drawerRouter: Router<NetworkConfigRoute>
+    export let network: IStardustNetwork
 
     let nodesContainer: HTMLElement
 
@@ -31,7 +33,7 @@
     }
 </script>
 
-<DrawerTemplate title={$activeProfile.network.name} {drawerRouter}>
+<DrawerTemplate title={network.name} {drawerRouter}>
     <div class="flex flex-col w-full space-y-4 px-6">
         <ConfigureNodeList bind:nodesContainer />
         <LocalProofOfWork />

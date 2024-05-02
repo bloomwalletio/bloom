@@ -9,7 +9,6 @@
         ConfirmLedgerEvmAddressDrawer,
         ConnectedNetworksDrawer,
         EditNetworkDrawer,
-        NetworkSettingsDrawer,
         RemoveNetworkDrawer,
     } from './views'
     import { clearSelectedChain } from '@core/network'
@@ -39,8 +38,6 @@
     <ConnectedNetworksDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.ChainInformation}
     <NetworkInformationDrawer {drawerRouter} />
-{:else if $networkConfigRoute === NetworkConfigRoute.NetworkSettings}
-    <NetworkSettingsDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.EditChain}
     <EditNetworkDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.RemoveChain}
