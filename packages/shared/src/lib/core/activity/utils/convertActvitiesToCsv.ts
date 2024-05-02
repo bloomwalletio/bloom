@@ -23,8 +23,8 @@ import {
     TokenStandard,
     formatTokenAmountBestMatch,
 } from '@core/token'
-import { NftStandard } from '@core/nfts'
-import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+import { NftStandard } from '@core/nfts/enums'
+import { getNftByIdForAccount } from '@core/nfts/stores'
 import { isEvmTokenActivity } from './isEvmTokenActivity'
 
 const CSV_KEYS = [
@@ -132,7 +132,7 @@ function getRowForStardustActivity(
             assetTicker = baseCoinMetadata?.tickerSymbol
         }
     } else if (activity.type === StardustActivityType.Nft) {
-        const nft = getNftByIdFromAllAccountNfts(account.index, activity.nftId)
+        const nft = getNftByIdForAccount(account.index, activity.nftId)
 
         assetId = activity.nftId
         assetType = 'NFT'
@@ -232,7 +232,7 @@ function getRowForEvmActivity(
             assetName = metadata?.name
             assetTicker = metadata?.symbol
         } else if (standard === NftStandard.Erc721 || standard === NftStandard.Irc27) {
-            const nft = getNftByIdFromAllAccountNfts(account.index, tokenId)
+            const nft = getNftByIdForAccount(account.index, tokenId)
 
             assetId = tokenId
             assetType = 'NFT'

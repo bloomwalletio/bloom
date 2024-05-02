@@ -6,15 +6,15 @@
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network/enums'
     import { getDefaultExplorerUrl } from '@core/network/utils'
-    import { NftStandard } from '@core/nfts'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { NftStandard } from '@core/nfts/enums'
+    import { getNftByIdForAccount } from '@core/nfts/stores'
     import { buildUrl } from '@core/utils'
     import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
     import { type Address, AddressType } from '@iota/sdk/out/types'
 
     export let activity: StardustNftActivity
 
-    $: nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity?.nftId)
+    $: nft = getNftByIdForAccount($selectedAccountIndex, activity?.nftId)
     $: issuer = nft?.standard === NftStandard.Irc27 ? nft?.issuer : undefined
 
     function onNftIdClick(nftId: string) {
