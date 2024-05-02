@@ -2,8 +2,9 @@
     import { DownloadErrorType, DownloadWarningType, IDownloadMetadata, Nft, NftDownloadOptions } from '@core/nfts'
     import { Alert, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
     import { getFormattedFileSize } from '@core/utils'
+    import { updateNftForAllAccounts } from '@core/nfts/stores'
 
     export let type: DownloadErrorType | DownloadWarningType | undefined
     export let message: string | undefined
@@ -54,7 +55,8 @@
                 break
         }
 
-        updateNftInAllAccountNfts(nft.id, {
+        updateNftForAllAccounts({
+            id: nft.id,
             isLoaded: false,
             downloadMetadata: { ...nft.downloadMetadata, warning: undefined, error: undefined },
         })

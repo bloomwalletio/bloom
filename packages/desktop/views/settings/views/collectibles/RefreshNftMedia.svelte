@@ -2,12 +2,8 @@
     import { Button } from '@bloomwalletio/ui'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import {
-        addNftsToDownloadQueue,
-        stopDownloadingNftMediaFromQueue,
-        updateNftInAllAccountNfts,
-    } from '@core/nfts/actions'
-    import { selectedAccountNfts } from '@core/nfts/stores'
+    import { addNftsToDownloadQueue, stopDownloadingNftMediaFromQueue } from '@core/nfts/actions'
+    import { selectedAccountNfts, updateNftForAllAccounts } from '@core/nfts/stores'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import SettingsSection from '../SettingsSection.svelte'
 
@@ -34,7 +30,7 @@
             await Promise.all(
                 $selectedAccountNfts.map(async (nft) => {
                     await Platform.deleteFile(nft.downloadMetadata?.filePath)
-                    updateNftInAllAccountNfts(nft.id, { isLoaded: false })
+                    updateNftForAllAccounts({ id: nft.id, isLoaded: false })
                 })
             )
             void addNftsToDownloadQueue($selectedAccountNfts)

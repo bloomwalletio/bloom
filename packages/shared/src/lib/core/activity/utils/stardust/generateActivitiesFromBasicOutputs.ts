@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { updateAllAccountNftsForAccount, buildNftFromNftOutput } from '@core/nfts/actions'
+import { buildNftFromNftOutput } from '@core/nfts/actions'
 import { IWrappedOutput } from '@core/wallet'
 import { NftOutput, OutputType } from '@iota/sdk/out/types'
 import { ActivityAction, ActivityDirection } from '../../enums'
@@ -10,6 +10,7 @@ import { generateSingleNftActivity } from './generateSingleNftActivity'
 import { getNonRemainderBasicOutputsFromTransaction } from './getNonRemainderBasicOutputsFromTransaction'
 import { getNftId } from '../outputs'
 import { StardustNetworkId } from '@core/network/types'
+import { addOrUpdateNftForAccount } from '@core/nfts/stores'
 
 export async function generateActivitiesFromBasicOutputs(
     processedTransaction: IProcessedTransaction,
@@ -56,7 +57,7 @@ export async function generateActivitiesFromBasicOutputs(
                     getNftId(nftInput.nftId, wrappedInput.outputId)
                 )
                 const nft = buildNftFromNftOutput(wrappedInput, networkId, account.depositAddress, false)
-                updateAllAccountNftsForAccount(account.index, nft)
+                addOrUpdateNftForAccount(account.index, nft)
 
                 burnedNftInputs.splice(burnedNftInputIndex, 1)
             } else if (isSelfTransaction && burnedNativeToken) {
