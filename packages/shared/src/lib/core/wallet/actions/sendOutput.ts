@@ -1,6 +1,6 @@
 import { NftOutput, OutputType } from '@iota/sdk/out/types'
 import { getSelectedAccount, updateSelectedAccount } from '@core/account/stores'
-import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
+import { updateNftForAccount } from '@core/nfts/stores'
 
 import { processAndAddToActivities } from '@core/activity/actions'
 import { getTransactionOptions } from '../utils'
@@ -17,7 +17,7 @@ export async function sendOutput(output: Output): Promise<void> {
         // Reset transaction details state, since the transaction has been sent
         if (output.type === OutputType.Nft) {
             const nftId = (output as NftOutput).nftId
-            updateNftInAllAccountNftsForAccount(account.index, nftId, { isSpendable: false })
+            updateNftForAccount(account.index, { id: nftId, isSpendable: false })
         }
 
         await processAndAddToActivities(transaction, account, networkId)

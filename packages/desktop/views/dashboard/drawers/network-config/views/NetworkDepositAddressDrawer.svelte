@@ -2,27 +2,23 @@
     import { DrawerTemplate } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { selectedChain } from '@core/network'
+    import { NetworkId, selectedNetworkForNetworkDrawer } from '@core/network'
     import { Router } from '@core/router'
     import { AddressBox } from '@ui'
     import { NetworkConfigRoute } from '../'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
-    let depositAddress = ''
-    $: {
-        if ($selectedChain) {
-            const coinType = $selectedChain.coinType
-            depositAddress = $selectedAccount.evmAddresses[coinType]
-        } else {
-            depositAddress = $selectedAccount.depositAddress
-        }
-    }
+    $: depositAddress = getAddressFromAccountForNetwork(
+        $selectedAccount as IAccountState,
+        $selectedNetworkForNetworkDrawer?.id as NetworkId
+    )
 </script>
 
 <DrawerTemplate
     title={localize(
-        `views.dashboard.drawers.networkConfig.chainDepositAddress.${$selectedChain ? 'title' : 'networkTitle'}`
+        `views.dashboard.drawers.networkConfig.chainDepositAddress.${$selectedNetworkForNetworkDrawer ? 'title' : 'networkTitle'}`
     )}
     {drawerRouter}
 >
