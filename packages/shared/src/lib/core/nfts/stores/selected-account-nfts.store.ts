@@ -8,7 +8,7 @@ import { NftStandard } from '@core/nfts'
 export const selectedAccountNfts: Readable<Nft[]> = derived(
     [selectedAccountIndex, activeProfileNftsPerAccount],
     ([$selectedAccountIndex, $nftsPerAccount]) => {
-        if ($selectedAccountIndex) {
+        if ($selectedAccountIndex !== undefined) {
             return $nftsPerAccount[$selectedAccountIndex] ?? []
         } else {
             return []
