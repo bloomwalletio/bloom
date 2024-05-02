@@ -12,6 +12,10 @@ export function getAllAccountNfts(): { [accountIndex: number]: Nft[] } {
     return get(activeProfileNftsPerAccount)
 }
 
+export function getAllNftsForActiveProfile(): Nft[] {
+    return Object.values(get(activeProfileNftsPerAccount)).flat()
+}
+
 export function getNftsForAccount(accountIndex: number): Nft[] {
     return get(activeProfileNftsPerAccount)[accountIndex] ?? []
 }
@@ -28,4 +32,10 @@ export function updateNftsForAccount(accountIndex: number, nfts: Nft[]): void {
         state[accountIndex] = [...state[accountIndex], ...nfts]
         return state
     })
+}
+
+export function getNftByIdForAccount(accountIndex: number | undefined, nftId: string): Nft | undefined {
+    return accountIndex
+        ? getNftsForAccount(accountIndex)?.find((_nft) => _nft.id?.toLowerCase() === nftId?.toLowerCase())
+        : undefined
 }

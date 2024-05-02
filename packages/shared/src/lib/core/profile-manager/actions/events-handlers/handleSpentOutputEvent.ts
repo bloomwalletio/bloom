@@ -4,13 +4,14 @@ import {
     allAccountActivities,
     updateAsyncDataByTransactionId,
 } from '@core/activity/stores/all-account-activities.store'
-import { getNftByIdFromAllAccountNfts, updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
+import { NetworkNamespace } from '@core/network'
+import { IIrc27Nft } from '@core/nfts'
+import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
+import { getNftByIdForAccount } from '@core/nfts/stores'
 import { activeAccounts } from '@core/profile/stores'
+import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
-import { Event, SpentOutputWalletEvent, WalletEventType } from '@iota/sdk/out/types'
-import { IIrc27Nft } from '@core/nfts'
-import { NetworkNamespace } from '@core/network'
 
 export async function handleSpentOutputEvent(error: Error, event: Event): Promise<void> {
     const walletEvent = validateWalletApiEvent<SpentOutputWalletEvent>(error, event, WalletEventType.SpentOutput)
@@ -40,7 +41,7 @@ export async function handleSpentOutputEventInternal(
     }
 
     if (activity.type === StardustActivityType.Nft) {
-        const nft = getNftByIdFromAllAccountNfts(accountIndex, activity.nftId) as IIrc27Nft
+        const nft = getNftByIdForAccount(accountIndex, activity.nftId) as IIrc27Nft
         const previousOutputId = nft?.latestOutputId
         if (previousOutputId) {
             const previousOutput = await account?.getOutput(previousOutputId)
