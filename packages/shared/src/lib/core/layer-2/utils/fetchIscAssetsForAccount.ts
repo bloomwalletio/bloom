@@ -5,8 +5,8 @@ import { ContractType } from '@core/layer-2/enums'
 import { getSmartContractHexName, evmAddressToAgentId, getAgentBalanceParameters } from '@core/layer-2/helpers'
 import { IscChain } from '@core/network'
 import { isIrc27Nft, getNftsFromNftIds, Nft } from '@core/nfts'
-import { updateAllAccountNftsForAccount, addNftsToDownloadQueue } from '@core/nfts/actions'
-import { selectedAccountNfts, updateNftsForAccount } from '@core/nfts/stores'
+import { addNftsToDownloadQueue } from '@core/nfts/actions'
+import { addOrUpdateNftsForAccount, selectedAccountNfts, updateNftsForAccount } from '@core/nfts/stores'
 import { BASE_TOKEN_ID, ITokenBalance } from '@core/token'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { Converter } from '@core/utils'
@@ -78,7 +78,7 @@ async function fetchL2Irc27Nfts(
         const newNftIds = nftIds.filter((nftId) => !nftsForChain.some((nft) => nft.id === nftId))
 
         const nfts = await getNftsFromNftIds(newNftIds, networkId)
-        updateAllAccountNftsForAccount(account.index, ...nfts)
+        addOrUpdateNftsForAccount(account.index, nfts)
 
         const unspendableNfts = nftsForChain
             .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))

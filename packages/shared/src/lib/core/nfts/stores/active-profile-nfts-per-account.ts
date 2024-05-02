@@ -27,8 +27,34 @@ export function setNftsForAccount(accountIndex: number, nfts: Nft[]): void {
     })
 }
 
+export function addOrUpdateNftsForAccount(accountIndex: number, nfts: Nft[]): void {
+    activeProfileNftsPerAccount.update((state) => {
+        if (!state[accountIndex]) {
+            state[accountIndex] = []
+        }
+
+        for (const nft of nfts) {
+            const _nft = state[accountIndex].find((_nft) => _nft.id === nft.id)
+            if (_nft) {
+                Object.assign(_nft, nft)
+            } else {
+                state[accountIndex].push(nft)
+            }
+        }
+        return state
+    })
+}
+
+export function addOrUpdateNftForAccount(accountIndex: number, nft: Nft): void {
+    addOrUpdateNftsForAccount(accountIndex, [nft])
+}
+
 export function updateNftsForAccount(accountIndex: number, nfts: (Partial<Nft> & { id: string })[]): void {
     activeProfileNftsPerAccount.update((state) => {
+        if (!state[accountIndex]) {
+            state[accountIndex] = []
+        }
+
         for (const nft of nfts) {
             const _nft = state[accountIndex].find((_nft) => _nft.id === nft.id)
             if (_nft) {
