@@ -2,7 +2,7 @@ import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { NftStandard } from '../enums'
 import { IErc721Nft } from '../interfaces'
-import { getAllAccountNfts, persistedNftForActiveProfile, updatePersistedNft } from '../stores'
+import { getNftsForAccount, persistedNftForActiveProfile, updatePersistedNft } from '../stores'
 import { getOwnerOfErc721Nft } from '../utils'
 import { get } from 'svelte/store'
 import { NetworkId } from '@core/network'
@@ -10,7 +10,7 @@ import { NetworkId } from '@core/network'
 export async function updateErc721NftsOwnership(account: IAccountState, networkId: NetworkId): Promise<void> {
     try {
         const trackedErc721Nfts =
-            (getAllAccountNfts()[account.index]?.filter((nft) => {
+            (getNftsForAccount(account.index)?.filter((nft) => {
                 return nft.standard === NftStandard.Erc721 && nft.networkId === networkId
             }) as IErc721Nft[]) ?? []
         const promises = trackedErc721Nfts.map(async (nft) => {

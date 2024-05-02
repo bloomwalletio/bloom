@@ -3,7 +3,7 @@ import { NftStandard } from '../enums'
 import { activeProfileNftsPerAccount } from '../stores'
 
 export function isNftOwnedByAnyAccount(nftId: string): boolean {
-    for (const accountNfts of get(activeProfileNftsPerAccount) ?? []) {
+    for (const accountNfts of Object.values(get(activeProfileNftsPerAccount))) {
         const nft = accountNfts.find((nft) => nft.id === nftId)
         switch (nft?.standard) {
             case NftStandard.Erc721:
