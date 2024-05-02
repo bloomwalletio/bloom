@@ -1,4 +1,4 @@
-export * from './active-profile-nfts-per-account'
+export * from './active-profile-nfts-per-account.store'
 export * from './downloading-nft.store'
 export * from './nft-download-queue.store'
 export * from './nft-filter.store'

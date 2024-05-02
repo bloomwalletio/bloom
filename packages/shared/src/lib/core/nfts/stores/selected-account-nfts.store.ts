@@ -1,7 +1,7 @@
 import { derived, Readable, Writable, writable } from 'svelte/store'
 import { selectedAccountIndex } from '@core/account/stores'
 import { IIrc27Nft, Nft } from '../interfaces'
-import { activeProfileNftsPerAccount } from './active-profile-nfts-per-account'
+import { activeProfileNftsPerAccount } from './active-profile-nfts-per-account.store'
 import { time } from '@core/app/stores/time.store'
 import { NftStandard } from '@core/nfts'
 
