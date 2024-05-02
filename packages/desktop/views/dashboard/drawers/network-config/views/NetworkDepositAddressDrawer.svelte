@@ -2,7 +2,7 @@
     import { DrawerTemplate } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { NetworkId, selectedNetwork } from '@core/network'
+    import { NetworkId, selectedNetworkForNetworkDrawer } from '@core/network'
     import { Router } from '@core/router'
     import { AddressBox } from '@ui'
     import { NetworkConfigRoute } from '../'
@@ -12,13 +12,13 @@
 
     $: depositAddress = getAddressFromAccountForNetwork(
         $selectedAccount as IAccountState,
-        $selectedNetwork?.id as NetworkId
+        $selectedNetworkForNetworkDrawer?.id as NetworkId
     )
 </script>
 
 <DrawerTemplate
     title={localize(
-        `views.dashboard.drawers.networkConfig.chainDepositAddress.${$selectedNetwork ? 'title' : 'networkTitle'}`
+        `views.dashboard.drawers.networkConfig.chainDepositAddress.${$selectedNetworkForNetworkDrawer ? 'title' : 'networkTitle'}`
     )}
     {drawerRouter}
 >

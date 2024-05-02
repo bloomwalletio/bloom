@@ -11,7 +11,7 @@
         EditNetworkDrawer,
         RemoveNetworkDrawer,
     } from './views'
-    import { clearSelectedNetwork } from '@core/network'
+    import { clearSelectedNetworkForNetworkDrawer } from '@core/network'
     import features from '@features/features'
     import { Platform } from '@core/app'
 
@@ -30,7 +30,7 @@
 
     onDestroy(() => {
         $networkConfigRouter = null
-        clearSelectedNetwork()
+        clearSelectedNetworkForNetworkDrawer()
     })
 </script>
 

@@ -12,7 +12,7 @@
         Network,
         NetworkNamespace,
         getDefaultExplorerUrl,
-        setSelectedNetwork,
+        setSelectedNetworkForNetworkDrawer,
     } from '@core/network'
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
@@ -38,7 +38,7 @@
     }
 
     function onCardClick(): void {
-        setSelectedNetwork(network)
+        setSelectedNetworkForNetworkDrawer(network)
         $networkConfigRouter.goTo(NetworkConfigRoute.ChainInformation)
     }
 
@@ -46,7 +46,7 @@
         if (network.namespace === NetworkNamespace.Stardust) {
             $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
         } else {
-            setSelectedNetwork(network)
+            setSelectedNetworkForNetworkDrawer(network)
             $networkConfigRouter.goTo(NetworkConfigRoute.ChainDepositAddress)
         }
     }
@@ -63,7 +63,7 @@
         }
 
         try {
-            setSelectedNetwork(network)
+            setSelectedNetworkForNetworkDrawer(network)
             await generateAndStoreEvmAddressForAccounts(
                 $activeProfile.type,
                 network.coinType,
