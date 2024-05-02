@@ -27,11 +27,20 @@ export function setNftsForAccount(accountIndex: number, nfts: Nft[]): void {
     })
 }
 
-export function updateNftsForAccount(accountIndex: number, nfts: Nft[]): void {
+export function updateNftsForAccount(accountIndex: number, nfts: (Partial<Nft> & { id: string })[]): void {
     activeProfileNftsPerAccount.update((state) => {
-        state[accountIndex] = [...state[accountIndex], ...nfts]
+        for (const nft of nfts) {
+            const _nft = state[accountIndex].find((_nft) => _nft.id === nft.id)
+            if (_nft) {
+                Object.assign(_nft, nft)
+            }
+        }
         return state
     })
+}
+
+export function updateNftForAccount(accountIndex: number, nft: Partial<Nft> & { id: string }): void {
+    updateNftsForAccount(accountIndex, [nft])
 }
 
 export function getNftByIdForAccount(accountIndex: number | undefined, nftId: string): Nft | undefined {

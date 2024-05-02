@@ -4,13 +4,9 @@ import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
 import { getSmartContractHexName, evmAddressToAgentId, getAgentBalanceParameters } from '@core/layer-2/helpers'
 import { IscChain } from '@core/network'
-import { isIrc27Nft, getNftsFromNftIds } from '@core/nfts'
-import {
-    updateAllAccountNftsForAccount,
-    setNftInAllAccountNftsToUnspendable,
-    addNftsToDownloadQueue,
-} from '@core/nfts/actions'
-import { selectedAccountNfts } from '@core/nfts/stores'
+import { isIrc27Nft, getNftsFromNftIds, Nft } from '@core/nfts'
+import { updateAllAccountNftsForAccount, addNftsToDownloadQueue } from '@core/nfts/actions'
+import { selectedAccountNfts, updateNftsForAccount } from '@core/nfts/stores'
 import { BASE_TOKEN_ID, ITokenBalance } from '@core/token'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { Converter } from '@core/utils'
@@ -84,17 +80,18 @@ async function fetchL2Irc27Nfts(
         const nfts = await getNftsFromNftIds(newNftIds, networkId)
         updateAllAccountNftsForAccount(account.index, ...nfts)
 
-        const unspendableNftIds: string[] = nftsForChain
+        const unspendableNfts = nftsForChain
             .filter((nft) => !nftIds.some((nftId) => nft.id === nftId))
-            .map((nft) => nft.id)
-        setNftInAllAccountNftsToUnspendable(account.index, ...unspendableNftIds)
+            .map((nft) => ({ id: nft.id, isSpendable: false }) as Partial<Nft> & { id: string })
+
+        updateNftsForAccount(account.index, unspendableNfts)
         void addNftsToDownloadQueue(nfts)
 
         for (const nft of nfts) {
             calculateAndAddPersistedNftBalanceChange(profileId, account, networkId, nft.id, true)
         }
-        for (const nftId of unspendableNftIds) {
-            calculateAndAddPersistedNftBalanceChange(profileId, account, networkId, nftId, false)
+        for (const nft of unspendableNfts) {
+            calculateAndAddPersistedNftBalanceChange(profileId, account, networkId, nft.id, false)
         }
     } catch (err) {
         console.error(err)
