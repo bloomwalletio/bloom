@@ -1,7 +1,7 @@
 <script lang="ts">
     import { DrawerTemplate, NetworkCard } from '@components'
     import { localize } from '@core/i18n'
-    import { clearSelectedChain, networks } from '@core/network'
+    import { clearSelectedNetwork, networks } from '@core/network'
     import { Router } from '@core/router'
     import features from '@features/features'
     import { Button, IconName } from '@bloomwalletio/ui'
@@ -15,7 +15,7 @@
     }
 
     onMount(() => {
-        clearSelectedChain()
+        clearSelectedNetwork()
     })
 </script>
 
