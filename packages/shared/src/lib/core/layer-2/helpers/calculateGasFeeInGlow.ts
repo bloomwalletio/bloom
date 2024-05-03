@@ -1,6 +1,6 @@
 import { BigIntLike } from '@ethereumjs/util'
 import { Converter } from '@core/utils'
-import { getEvmTransactionValueFromAmount } from './getEvmTransactionValueFromAmount'
+import { getAmountForEvmTransaction } from './getEvmAmount'
 import { NetworkType } from '@core/network'
 
 export function calculateGasFeeInGlow(
@@ -10,7 +10,7 @@ export function calculateGasFeeInGlow(
 ): bigint {
     if (gasAmount && gasPriceInWei) {
         const totalPriceInWei = Converter.bigIntLikeToBigInt(gasAmount) * Converter.bigIntLikeToBigInt(gasPriceInWei)
-        const totalPriceInGlow = getEvmTransactionValueFromAmount(totalPriceInWei, networkType)
+        const totalPriceInGlow = getAmountForEvmTransaction(totalPriceInWei, networkType)
         return totalPriceInGlow
     } else {
         return BigInt(0)

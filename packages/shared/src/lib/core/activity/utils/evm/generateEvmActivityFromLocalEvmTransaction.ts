@@ -16,7 +16,7 @@ import { LocalEvmTransaction } from '@core/transactions'
 import { Converter } from '@core/utils/convert'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { SubjectType } from '@core/wallet'
-import { getEvmTransactionValueFromAmount } from '@core/layer-2/helpers'
+import { getAmountForEvmTransaction } from '@core/layer-2/helpers'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -110,10 +110,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             type: EvmActivityType.CoinTransfer,
             baseTokenTransfer: {
                 tokenId: BASE_TOKEN_ID,
-                rawAmount: getEvmTransactionValueFromAmount(
-                    Converter.bigIntLikeToBigInt(transaction.value),
-                    evmNetwork.type
-                ),
+                rawAmount: getAmountForEvmTransaction(Converter.bigIntLikeToBigInt(transaction.value), evmNetwork.type),
             },
         } as EvmCoinTransferActivity
     }

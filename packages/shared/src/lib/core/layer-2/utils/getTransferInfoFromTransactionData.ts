@@ -12,7 +12,7 @@ import {
     IscCallMethodInputs,
     IscSendMethodInputs,
 } from '../interfaces'
-import { getEvmTransactionValueFromAmount } from '../helpers'
+import { getAmountForEvmTransaction } from '../helpers'
 
 type TransferInfo =
     | {
@@ -130,10 +130,7 @@ export function getTransferInfoFromTransactionData(
         return {
             type: StardustActivityType.Basic,
             tokenId: BASE_TOKEN_ID,
-            rawAmount: getEvmTransactionValueFromAmount(
-                Converter.bigIntLikeToBigInt(transaction.value),
-                evmNetwork.type
-            ),
+            rawAmount: getAmountForEvmTransaction(Converter.bigIntLikeToBigInt(transaction.value), evmNetwork.type),
             recipientAddress,
         }
     }
