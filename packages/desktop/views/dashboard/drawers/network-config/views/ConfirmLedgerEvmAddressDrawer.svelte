@@ -3,13 +3,13 @@
     import { DrawerTemplate } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
-    import { getEvmNetworks, selectedChain } from '@core/network/stores'
+    import { getEvmNetworks, selectedNetworkForNetworkDrawer } from '@core/network/stores'
     import { Router } from '@core/router'
     import { NetworkConfigRoute, networkConfigRouter } from '../'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
-    $: evmNetwork = $selectedChain ?? getEvmNetworks()[0]
+    $: evmNetwork = $selectedNetworkForNetworkDrawer ?? getEvmNetworks()[0]
     $: address = evmNetwork ? $selectedAccount?.evmAddresses?.[evmNetwork.coinType] : undefined
 
     function onContinueClick(): void {

@@ -24,7 +24,7 @@
         "qrious": "4.0.2",
         "sanitize-html": "2.12.1",
         "sha3": "2.1.4",
-        "svelte": "4.2.12",
+        "svelte": "4.2.15",
         "svelte-i18n": "4.0.0",
         "web3": "1.10.4",
         "zxcvbn": "4.4.2"

@@ -250,6 +250,7 @@
                 "title": "IPFS gateways",
                 "description": "Selecteer de IPFS gateway om te gebruiken voor het ophalen van media",
                 "setAsPrimary": "Instellen als primair",
+                "unsetPrimary": "Unset primary",
                 "addGateway": {
                     "title": "Nieuwe IPFS gateway toevoegen",
                     "placeholder": "IPFS gateway",
@@ -388,7 +389,7 @@
                 "down": "Netwerk Inactief",
                 "disconnected": "Verbinding verbroken met knooppunt",
                 "status": "Status",
-                "undefined": "Undefined Network"
+                "undefined": "Ongedefinieerd netwerk"
             },
             "portfolio": {
                 "tab": "Portefeuille",
@@ -662,10 +663,17 @@
                     "loadMedia": "Media in wallet laden",
                     "unsetPfp": "Verwijder NFT profiel plaatje",
                     "view": "Bekijk media in browser",
+                    "refresh": "Refresh NFT",
                     "hide": "NFT verbergen",
                     "unhide": "NFT zichtbaar maken",
                     "burn": "Burn NFT"
                 }
+            },
+            "collectionsGallery": {
+                "title": "Collections",
+                "emptyTitle": "No collections found",
+                "noResults": "No results found",
+                "emptyDescription": "Deposit or receive your first collectible!"
             }
         },
         "campaigns": {
@@ -1627,6 +1635,7 @@
         "token": "Token",
         "unknownToken": "Onbekende token",
         "nft": "NFT",
+        "nfts": "{count, plural, one {# NFT} other {# NFTs}}",
         "type": "Type",
         "immutableIssuer": "Onveranderlijke uitgever",
         "magicContract": "Magisch Contract",
@@ -2086,7 +2095,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Laden geblokkeerd",
-                "long": "NFT bestandstype komt niet overeen met het verwachte mediatype"
+                "long": "NFT file type does not match the expected media type - Expected: {expected}, Actual: {actual}"
             },
             "notReachable": {
                 "short": "Niet bereikbaar",

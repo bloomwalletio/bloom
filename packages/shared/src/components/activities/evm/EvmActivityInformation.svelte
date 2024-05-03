@@ -4,7 +4,7 @@
     import { EvmActivity } from '@core/activity'
     import { EvmActivityType } from '@core/activity/enums/evm'
     import { Nft, NftStandard } from '@core/nfts'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { getNftByIdForAccount } from '@core/nfts/stores'
     import { KeyValue, NftMetadataTable, PopupTab, getTabItems } from '@ui'
     import { EvmGenericInformation, EvmSmartContractInformation } from './info'
     import { localize } from '@core/i18n'
@@ -27,7 +27,7 @@
                     activity.tokenTransfer.standard === NftStandard.Erc721 ||
                     activity.tokenTransfer.standard === NftStandard.Irc27
                 ) {
-                    nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.tokenTransfer.tokenId)
+                    nft = getNftByIdForAccount($selectedAccountIndex, activity.tokenTransfer.tokenId)
                     tabs = getTabItems([PopupTab.Transaction, PopupTab.NftMetadata])
                 } else {
                     tabs = getTabItems([PopupTab.Transaction])
