@@ -1,0 +1,21 @@
+name: Build Test
+
+on:
+  pull_request:
+    types: [ready_for_review]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  trigger-build:
+    name: Build (Trigger) - ${{ inputs.os }}
+    uses: ./.github/workflows/reusable_build.yml
+    if: github.actor == 'dependabot[bot]'
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2022, macos-11]
+      fail-fast: true
+    with:
+      os: ${{ matrix.os }}
+      stage: prod
+    secrets: inherit
