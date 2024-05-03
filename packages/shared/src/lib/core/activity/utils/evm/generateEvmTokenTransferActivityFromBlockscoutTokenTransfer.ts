@@ -55,7 +55,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
     const isInternal = isSubjectInternal(recipient)
 
     const transactionFee = blockscoutTransaction
-        ? calculateGasFeeInGlow(blockscoutTransaction.gas_used ?? 0, blockscoutTransaction.gas_price)
+        ? calculateGasFeeInGlow(blockscoutTransaction.gas_used ?? 0, blockscoutTransaction.gas_price, evmNetwork.type)
         : undefined
 
     let tokenId: string | undefined

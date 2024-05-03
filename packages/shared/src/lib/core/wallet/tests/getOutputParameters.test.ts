@@ -104,10 +104,6 @@ jest.mock('../../layer-2/constants/gas-limit-multiplier.constant', () => ({
     GAS_LIMIT_MULTIPLIER: 1.1,
 }))
 
-jest.mock('../../layer-2/constants/wei.constants', () => ({
-    WEI_PER_GLOW: BigInt(1_000_000_000_000),
-}))
-
 jest.mock('../../network/actions/getActiveNetworkId.ts', () => ({
     getActiveNetworkId: jest.fn(() => {
         return SupportedNetworkId.Shimmer

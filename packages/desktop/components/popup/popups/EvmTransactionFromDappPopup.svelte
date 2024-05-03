@@ -228,8 +228,8 @@
         {/if}
         <EvmTransactionDetails
             destinationNetworkId={evmNetwork.id}
-            estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction)}
-            maxGasFee={calculateMaxGasFeeFromTransactionData(preparedTransaction)}
+            estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction, evmNetwork.type)}
+            maxGasFee={calculateMaxGasFeeFromTransactionData(preparedTransaction, evmNetwork.type)}
         />
     </div>
 </PopupTemplate>

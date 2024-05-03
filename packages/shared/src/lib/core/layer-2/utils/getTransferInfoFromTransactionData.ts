@@ -5,13 +5,14 @@ import { LocalEvmTransaction } from '@core/transactions'
 import { AbiDecoder, Converter, HEX_PREFIX } from '@core/utils'
 import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
 import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
-import { ISC_MAGIC_CONTRACT_ADDRESS, WEI_PER_GLOW } from '../constants'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import {
     Erc20TransferMethodInputs,
     Erc721SafeTransferMethodInputs,
     IscCallMethodInputs,
     IscSendMethodInputs,
 } from '../interfaces'
+import { getEvmTransactionValueFromAmount } from '../helpers'
 
 type TransferInfo =
     | {
@@ -129,7 +130,10 @@ export function getTransferInfoFromTransactionData(
         return {
             type: StardustActivityType.Basic,
             tokenId: BASE_TOKEN_ID,
-            rawAmount: Converter.bigIntLikeToBigInt(transaction.value) / WEI_PER_GLOW,
+            rawAmount: getEvmTransactionValueFromAmount(
+                Converter.bigIntLikeToBigInt(transaction.value),
+                evmNetwork.type
+            ),
             recipientAddress,
         }
     }

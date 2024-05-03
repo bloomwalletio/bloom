@@ -1,6 +1,7 @@
-import { HEX_PREFIX } from '@core/utils'
-import { WEI_PER_GLOW } from '../constants'
+import { NetworkType } from '@core/network/enums'
 
-export function getEvmTransactionValueFromAmount(amount: bigint): string {
-    return HEX_PREFIX + (amount * WEI_PER_GLOW).toString(16)
+const WEI_PER_GLOW = BigInt(1_000_000_000_000)
+
+export function getEvmTransactionValueFromAmount(amount: bigint, networkType: NetworkType): bigint {
+    return networkType === NetworkType.Isc ? amount * WEI_PER_GLOW : amount
 }

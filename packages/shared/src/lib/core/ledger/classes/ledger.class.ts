@@ -3,11 +3,7 @@ import { Platform } from '@core/app/classes'
 import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'
 import { IEvmAddress, IEvmSignature } from '@core/layer-2/interfaces'
-import {
-    calculateMaxGasFeeFromTransactionData,
-    getAmountFromEvmTransactionValue,
-    prepareEvmTransaction,
-} from '@core/layer-2/utils'
+import { calculateMaxGasFeeFromTransactionData, prepareEvmTransaction } from '@core/layer-2/utils'
 import { Converter, MILLISECONDS_PER_SECOND } from '@core/utils'
 import { TypedTxData } from '@ethereumjs/tx'
 import type { Bip44 } from '@iota/sdk/out/types'
@@ -25,9 +21,10 @@ import {
     ILedgerEthereumAppSettings,
     isBlindSigningRequiredForEvmTransaction,
 } from '@core/ledger'
-import { ChainId } from '@core/network/enums'
 import { toRpcSig } from '@ethereumjs/util'
 import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
+import { getEvmTransactionValueFromAmount } from '@core/layer-2/helpers'
+import { IEvmNetwork } from '@core/network'
 
 declare global {
     interface Window {
@@ -71,12 +68,12 @@ export class Ledger {
 
     static async signEvmTransaction(
         transactionData: TypedTxData,
-        chainId: ChainId,
+        network: IEvmNetwork,
         bip44: Bip44
     ): Promise<string | undefined> {
-        const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, chainId)
+        const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, network.chainId)
         const bip32Path = buildBip32PathFromBip44(bip44)
-        const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData)
+        const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData, network.type)
 
         const mustEnableBlindSigning =
             isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
@@ -84,15 +81,20 @@ export class Ledger {
             await this.userEnablesBlindSigning()
         }
 
+        const rawAmount = getEvmTransactionValueFromAmount(
+            Converter.bigIntLikeToBigInt(transactionData.value ?? 0),
+            network.type
+        ).toString(10)
+
         openProfileAuthPopup({
             id: ProfileAuthPopupId.VerifyLedgerTransaction,
             hideClose: true,
             preventClose: true,
             props: {
                 isEvmTransaction: true,
-                toAmount: getAmountFromEvmTransactionValue(transactionData.value?.toString() ?? '0'),
+                toAmount: parseInt(rawAmount) / 1_000_000,
                 toAddress: transactionData.to,
-                chainId,
+                chainId: network.chainId,
                 maxGasFee,
             },
         })
@@ -109,7 +111,7 @@ export class Ledger {
         if (transactionSignature) {
             const { r, v, s } = transactionSignature
             if (r && v && s) {
-                return prepareEvmTransaction(transactionData, chainId, { r, v, s })
+                return prepareEvmTransaction(transactionData, network.chainId, { r, v, s })
             } else {
                 throw new Error(localize('error.ledger.rejected'))
             }
