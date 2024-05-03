@@ -1,7 +1,7 @@
 import { selectedAccountIndex } from '@core/account/stores'
 import { NetworkNamespace } from '@core/network'
 import { NftStandard } from '@core/nfts'
-import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+import { getNftByIdForAccount } from '@core/nfts/stores'
 import { BASE_TOKEN_ID, TokenStandard, convertToRawAmount } from '@core/token'
 import { getPersistedToken } from '@core/token/stores'
 import { dateIsAfterOtherDate, dateIsBeforeOtherDate, datesOnSameDay } from '@core/utils'
@@ -69,7 +69,7 @@ function isVisibleWithActiveHiddenFilter(activity: Activity, filter: ActivityFil
 
 function doesActivityContainScamNft(activity: Activity): boolean {
     if (activity.type === StardustActivityType.Nft) {
-        const nft = getNftByIdFromAllAccountNfts(get(selectedAccountIndex), activity.nftId)
+        const nft = getNftByIdForAccount(get(selectedAccountIndex), activity.nftId)
         return nft?.isScam ?? false
     } else {
         return false

@@ -9,10 +9,9 @@
         ConfirmLedgerEvmAddressDrawer,
         ConnectedNetworksDrawer,
         EditNetworkDrawer,
-        NetworkSettingsDrawer,
         RemoveNetworkDrawer,
     } from './views'
-    import { clearSelectedChain } from '@core/network'
+    import { clearSelectedNetworkForNetworkDrawer } from '@core/network'
     import features from '@features/features'
     import { Platform } from '@core/app'
 
@@ -31,7 +30,7 @@
 
     onDestroy(() => {
         $networkConfigRouter = null
-        clearSelectedChain()
+        clearSelectedNetworkForNetworkDrawer()
     })
 </script>
 
@@ -39,8 +38,6 @@
     <ConnectedNetworksDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.ChainInformation}
     <NetworkInformationDrawer {drawerRouter} />
-{:else if $networkConfigRoute === NetworkConfigRoute.NetworkSettings}
-    <NetworkSettingsDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.EditChain}
     <EditNetworkDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.RemoveChain}

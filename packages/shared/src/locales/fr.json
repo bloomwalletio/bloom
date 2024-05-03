@@ -250,6 +250,7 @@
                 "title": "IPFS gateways",
                 "description": "Select the IPFS gateway to use for media retrieval",
                 "setAsPrimary": "Set as primary",
+                "unsetPrimary": "Unset primary",
                 "addGateway": {
                     "title": "Add new IPFS gateway",
                     "placeholder": "IPFS gateway",
@@ -662,10 +663,17 @@
                     "loadMedia": "Load media in wallet",
                     "unsetPfp": "Retirer la photo de profil NFT",
                     "view": "View media in browser",
+                    "refresh": "Refresh NFT",
                     "hide": "Hide NFT",
                     "unhide": "Unhide NFT",
                     "burn": "Burn NFT"
                 }
+            },
+            "collectionsGallery": {
+                "title": "Collections",
+                "emptyTitle": "No collections found",
+                "noResults": "No results found",
+                "emptyDescription": "Deposit or receive your first collectible!"
             }
         },
         "campaigns": {
@@ -1627,6 +1635,7 @@
         "token": "Token",
         "unknownToken": "Unknown Token",
         "nft": "NFT",
+        "nfts": "{count, plural, one {# NFT} other {# NFTs}}",
         "type": "Type",
         "immutableIssuer": "Immutable Issuer",
         "magicContract": "Magic Contract",
@@ -2086,7 +2095,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Loading blocked",
-                "long": "NFT file type does not match the expected media type"
+                "long": "NFT file type does not match the expected media type - Expected: {expected}, Actual: {actual}"
             },
             "notReachable": {
                 "short": "Non joignable",
