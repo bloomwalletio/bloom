@@ -18,7 +18,7 @@
         "@sveltejs/svelte-virtual-list": "3.0.1",
         "@walletconnect/jsonrpc-types": "1.0.3",
         "@walletconnect/types": "2.11.3",
-        "@walletconnect/web3wallet": "1.9.5",
+        "@walletconnect/web3wallet": "1.11.2",
         "http-status-codes": "2.3.0",
         "lottie-web": "5.12.2",
         "qrious": "4.0.2",
