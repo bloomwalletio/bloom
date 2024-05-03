@@ -5,11 +5,11 @@ import { NetworkType } from '@core/network'
 export function calculateMaxGasFeeFromTransactionData(
     transactionData: EvmTransactionData,
     networkType: NetworkType
-): bigint | undefined {
+): bigint {
     const { gasLimit, gasPrice } = transactionData
     if (gasLimit && gasPrice) {
         return calculateGasFeeInGlow(gasLimit, gasPrice, networkType)
     } else {
-        return undefined
+        return BigInt(0)
     }
 }

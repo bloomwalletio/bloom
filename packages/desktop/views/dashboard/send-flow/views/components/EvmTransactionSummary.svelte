@@ -9,9 +9,11 @@
     import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
+    import { IEvmNetwork } from '@core/network'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
+    export let network: IEvmNetwork
 
     $: transactionAsset = getTransactionAsset(sendFlowParameters)
     function getTransactionAsset(_sendFlowParameters: SendFlowParameters): {
@@ -27,14 +29,15 @@
     }
 
     $: storageDeposit = getTransactionStorageDeposit(sendFlowParameters) ?? BigInt(0)
-    function getTransactionStorageDeposit(_sendFlowParameters: SendFlowParameters): bigint {
+    function getTransactionStorageDeposit(_sendFlowParameters: SendFlowParameters): bigint | undefined {
         if (_sendFlowParameters.type === SendFlowType.TokenTransfer) {
-            if (_sendFlowParameters.destinationNetworkId !== _sendFlowParameters.tokenTransfer.token.networkId) {
+            if (_sendFlowParameters.destinationNetworkId !== _sendFlowParameters.tokenTransfer?.token.networkId) {
                 return BigInt(L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? 0)
             }
         } else if (_sendFlowParameters.type === SendFlowType.NftTransfer) {
             if (
                 _sendFlowParameters.destinationNetworkId !== _sendFlowParameters.nft?.networkId &&
+                _sendFlowParameters.nft &&
                 isIrc27Nft(_sendFlowParameters.nft)
             ) {
                 return (
@@ -51,7 +54,7 @@
 
     <EvmTransactionDetails
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
-        estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction) + storageDeposit}
-        maxGasFee={calculateMaxGasFeeFromTransactionData(transaction) + storageDeposit}
+        estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction, network.type) + storageDeposit}
+        maxGasFee={calculateMaxGasFeeFromTransactionData(transaction, network.type) + storageDeposit}
     />
 </div>
