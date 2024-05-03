@@ -26,7 +26,7 @@
         if (!nft) return
 
         const ownedNft = ownedNfts.find((_nft) => _nft.id === nft?.id)
-        const isLocked = ownedNft && isIrc27Nft(ownedNft) && ownedNft.timelockTime > currentTime.getTime()
+        const isLocked = ownedNft && isIrc27Nft(ownedNft) && (ownedNft.timelockTime ?? 0) > currentTime.getTime()
         if (ownedNft?.isSpendable || isLocked) {
             // empty
         } else {
