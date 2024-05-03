@@ -72,8 +72,8 @@ export function updateNftForAllAccounts(partialNft: PartialWithId<Nft>): void {
     }
 }
 
-export function getNftByIdForAccount(accountIndex: number | undefined, nftId: string): Nft | undefined {
-    if (typeof accountIndex === 'number' && accountIndex >= 0) {
+export function getNftByIdForAccount(accountIndex: number | undefined, nftId: string | undefined): Nft | undefined {
+    if (nftId && typeof accountIndex === 'number' && accountIndex >= 0) {
         const nft = getNftsForAccount(accountIndex)?.find((nft) => nft.id?.toLowerCase() === nftId?.toLowerCase())
         return nft
     }

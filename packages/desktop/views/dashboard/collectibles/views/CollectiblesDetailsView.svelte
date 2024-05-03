@@ -17,7 +17,7 @@
 
     let nft: Nft | undefined
     let collection: Collection | undefined
-    $: $activeProfileNftsPerAccount, (nft = getNftByIdForAccount($selectedAccountIndex, $selectedNftId ?? ''))
+    $: $activeProfileNftsPerAccount, (nft = getNftByIdForAccount($selectedAccountIndex, $selectedNftId))
     $: collection = $selectedCollectionId ? $selectedAccountCollections[$selectedCollectionId] : undefined
 
     $: returnIfNftWasSent($activeProfileNftsPerAccount[$selectedAccountIndex], $time)
