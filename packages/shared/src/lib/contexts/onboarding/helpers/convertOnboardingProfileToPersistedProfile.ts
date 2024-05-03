@@ -15,7 +15,7 @@ export function convertOnboardingProfileToPersistedProfile(
     }
 
     let evmNetworks: IPureEvmNetworkConfiguration[] | undefined
-    if (features.network.evmNetworks.enabled) {
+    if (features.onboarding.addEvmNetworks.enabled) {
         const addMainnetEthereum = [SupportedNetworkId.Shimmer, SupportedNetworkId.Iota].includes(network.id)
         evmNetworks = [
             DEFAULT_L1_EVM_NETWORK_CONFIGURATION[

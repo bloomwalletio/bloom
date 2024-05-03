@@ -1,8 +1,5 @@
 import { Writable, writable, get } from 'svelte/store'
-
 import { activeProfile } from '@core/profile/stores'
-import features from '@features/features'
-
 import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
 import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
 import { EvmNetworkId, Network, NetworkId } from '../types'
@@ -18,11 +15,9 @@ export function initializeNetworks(): void {
         _networks.push(stardustNetwork, ...stardustNetwork.iscChains)
     }
 
-    if (features.network.evmNetworks.enabled) {
-        profile.evmNetworks?.forEach((evmNetwork) => {
-            _networks.push(new EvmNetwork(evmNetwork))
-        })
-    }
+    profile.evmNetworks?.forEach((evmNetwork) => {
+        _networks.push(new EvmNetwork(evmNetwork))
+    })
 
     networks.set(_networks)
 }
