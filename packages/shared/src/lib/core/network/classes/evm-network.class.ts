@@ -1,15 +1,12 @@
 import { writable, Writable } from 'svelte/store'
-
 import Web3 from 'web3'
-
 import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
-
-import { IAccountState } from '@core/account'
+import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import { IError } from '@core/error/interfaces'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
-import { updateErc721NftsOwnership } from '@core/nfts/actions'
+import { getPersistedErc721NftsForNetwork, updateErc721NftsOwnership } from '@core/nfts/actions'
 import { getActiveProfile } from '@core/profile/stores'
 import { BASE_TOKEN_ID, IBaseToken, ITokenBalance, TokenTrackingStatus } from '@core/token'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
@@ -19,6 +16,8 @@ import { CoinType } from '@iota/sdk/out/types'
 import { ChainId, NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
+import { buildNftFromPersistedErc721Nft } from '@core/nfts/utils'
+import { Nft } from '@core/nfts/interfaces'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -64,6 +63,20 @@ export class EvmNetwork implements IEvmNetwork {
             console.error(err)
             throw new Error('Failed to construct EVM Network!')
         }
+    }
+
+    async loadNfts(account: IAccountState): Promise<Nft[]> {
+        // ERC721 NFTs
+        const evmAddress = getAddressFromAccountForNetwork(account, this.id)
+        if (!evmAddress) {
+            return []
+        }
+        const erc721Nfts = getPersistedErc721NftsForNetwork(this.id)
+        const nfts = erc721Nfts
+            .filter((nft) => nft.networkId === this.id)
+            .map((persistedErc721Nft) => buildNftFromPersistedErc721Nft(persistedErc721Nft, evmAddress))
+
+        return Promise.resolve(nfts)
     }
 
     startStatusPoll(): void {
