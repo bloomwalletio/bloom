@@ -7,17 +7,13 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
-    import {
-        addNftsToDownloadQueue,
-        addNewTrackedNftToActiveProfile,
-        persistErc721Nft,
-        updateAllAccountNftsForAccount,
-    } from '@core/nfts/actions'
+    import { addNftsToDownloadQueue, addNewTrackedNftToActiveProfile, persistErc721Nft } from '@core/nfts/actions'
     import { buildNftFromPersistedErc721Nft } from '@core/nfts/utils'
     import { activeAccounts } from '@core/profile/stores'
     import { getAddressFromAccountForNetwork } from '@core/account'
     import { TokenTrackingStatus } from '@core/token'
     import { selectedAccount } from '@core/account/stores'
+    import { addOrUpdateNftForAccount } from '@core/nfts/stores'
 
     let busy = false
 
@@ -46,7 +42,7 @@
             for (const account of $activeAccounts) {
                 const l2Address = getAddressFromAccountForNetwork(account, networkId)
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, l2Address)
-                updateAllAccountNftsForAccount(account.index, nft)
+                addOrUpdateNftForAccount(account.index, nft)
                 void addNftsToDownloadQueue([nft])
             }
 
