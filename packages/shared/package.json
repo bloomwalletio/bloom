@@ -24,7 +24,7 @@
         "qrious": "4.0.2",
         "sanitize-html": "2.12.1",
         "sha3": "2.1.4",
-        "svelte": "4.2.12",
+        "svelte": "4.2.15",
         "svelte-i18n": "4.0.0",
         "web3": "1.10.4",
         "zxcvbn": "4.4.2"
@@ -35,7 +35,7 @@
         "test": "jest"
     },
     "devDependencies": {
-        "@swc/core": "1.4.11",
+        "@swc/core": "1.4.17",
         "@swc/jest": "0.2.36",
         "@types/jest": "29.5.12",
         "@types/sanitize-html": "2.9.5",
@@ -43,7 +43,7 @@
         "jest": "29.7.0",
         "jest-environment-jsdom": "29.6.2",
         "lokijs": "1.5.12",
-        "postcss": "8.4.35",
+        "postcss": "8.4.38",
         "postcss-cli": "11.0.0",
         "sass": "1.72.0",
         "svelte-loader": "3.2.0",

@@ -4,7 +4,7 @@
     import { DownloadPermission } from '@core/nfts'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import SettingsSection from '../SettingsSection.svelte'
-    import { allAccountNfts } from '@core/nfts/stores'
+    import { getAllNftsForActiveProfile } from '@core/nfts/stores'
     import { addNftsToDownloadQueue } from '@core/nfts/actions'
 
     const options: IOption[] = [
@@ -40,7 +40,7 @@
             },
         })
 
-        const allNfts = $allAccountNfts.flatMap((nfts) => nfts)
+        const allNfts = getAllNftsForActiveProfile()
         await addNftsToDownloadQueue(allNfts)
     }
 </script>

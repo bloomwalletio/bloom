@@ -1,9 +1,14 @@
 <script lang="ts">
     import { Pane } from '@ui'
     import { Collection, Nft } from '@core/nfts/interfaces'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { NftStandard } from '@core/nfts/enums'
-    import { allAccountNfts, selectedAccountCollections, selectedCollectionId, selectedNftId } from '@core/nfts/stores'
+    import {
+        activeProfileNftsPerAccount,
+        getNftByIdForAccount,
+        selectedAccountCollections,
+        selectedCollectionId,
+        selectedNftId,
+    } from '@core/nfts/stores'
     import { selectedAccountIndex } from '@core/account/stores'
     import { CollectionDetails, Erc721CollectibleDetails, Irc27CollectibleDetails } from '../components'
     import { time } from '@core/app/stores'
@@ -12,10 +17,10 @@
 
     let nft: Nft | undefined
     let collection: Collection | undefined
-    $: $allAccountNfts, (nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId))
+    $: $activeProfileNftsPerAccount, (nft = getNftByIdForAccount($selectedAccountIndex, $selectedNftId))
     $: collection = $selectedCollectionId ? $selectedAccountCollections[$selectedCollectionId] : undefined
 
-    $: returnIfNftWasSent($allAccountNfts[$selectedAccountIndex], $time)
+    $: returnIfNftWasSent($activeProfileNftsPerAccount[$selectedAccountIndex], $time)
 
     function returnIfNftWasSent(ownedNfts: Nft[], currentTime: Date): void {
         if (!nft) return

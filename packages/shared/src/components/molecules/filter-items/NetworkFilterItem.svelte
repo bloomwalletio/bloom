@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { getIscChains, getL1Network } from '@core/network'
+    import { networks } from '@core/network'
     import { NetworkFilterUnit } from '@core/utils/interfaces/filter'
-    import features from '@features/features'
     import { IOption, SelectInput } from '@bloomwalletio/ui'
 
     export let filterUnit: NetworkFilterUnit
@@ -10,11 +9,7 @@
     let selected: IOption | undefined = options.find((option) => option.value === filterUnit.selected) ?? options?.[0]
 
     function getOptions(): IOption[] {
-        const l1Network = getL1Network()
-
-        const iscChains = features?.network?.layer2?.enabled ? getIscChains() : []
-
-        return [l1Network, ...iscChains].map((network) => ({
+        return $networks.map((network) => ({
             label: network.name,
             value: network.id,
         }))
