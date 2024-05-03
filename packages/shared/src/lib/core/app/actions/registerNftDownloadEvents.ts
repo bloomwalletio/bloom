@@ -1,5 +1,4 @@
-import { updateNftInAllAccountNfts } from '@core/nfts/actions'
-import { downloadingNftId, removeNftFromDownloadQueue } from '@core/nfts/stores'
+import { downloadingNftId, removeNftFromDownloadQueue, updateNftForAllAccounts } from '@core/nfts/stores'
 import { Platform } from '../classes'
 
 /**
@@ -7,7 +6,7 @@ import { Platform } from '../classes'
  */
 export function registerNftDownloadEvents(): void {
     Platform.onEvent('nft-download-done', ({ nftId }) => {
-        updateNftInAllAccountNfts(nftId, { isLoaded: true })
+        updateNftForAllAccounts({ id: nftId, isLoaded: true })
         removeNftFromDownloadQueue(nftId)
         downloadingNftId.set(undefined)
     })

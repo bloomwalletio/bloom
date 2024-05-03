@@ -89,6 +89,7 @@
     function onSendClick(): void {
         setSendFlowParameters({
             type: SendFlowType.NftTransfer,
+            sourceNetworkId: nft.networkId,
             nft,
             recipient: undefined,
         })

@@ -1,7 +1,6 @@
 import { get } from 'svelte/store'
-import { updateNftInAllAccountNfts } from '.'
 import { Nft } from '../interfaces'
-import { addNftToDownloadQueue, nftDownloadQueue, updatePersistedNft } from '../stores'
+import { addNftToDownloadQueue, nftDownloadQueue, updateNftForAllAccounts, updatePersistedNft } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
 import { NftDownloadOptions } from '../types'
 
@@ -36,7 +35,7 @@ async function validateNft(nft: Nft, skipDownloadSettingsCheck: boolean): Promis
             skipDownloadSettingsCheck
         )
         updatePersistedNft(nft.id, { downloadMetadata })
-        updateNftInAllAccountNfts(nft.id, { downloadMetadata, isLoaded })
+        updateNftForAllAccounts({ id: nft.id, downloadMetadata, isLoaded })
 
         if (shouldDownload) {
             return nft
