@@ -9,8 +9,8 @@ on:
 jobs:
   trigger-build:
     name: Build (Trigger) - ${{ inputs.os }}
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
     uses: ./.github/workflows/reusable_build.yml
-    if: github.actor == 'dependabot[bot]'
     strategy:
       matrix:
         os: [ubuntu-20.04, windows-2022, macos-11]
