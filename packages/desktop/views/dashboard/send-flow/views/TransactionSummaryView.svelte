@@ -1,10 +1,15 @@
 <script lang="ts">
+    import { showNotification } from '@auxiliary/notification'
     import { Spinner } from '@bloomwalletio/ui'
     import { PopupTemplate } from '@components'
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { IEvmNetwork, getEvmNetwork, isEvmNetwork } from '@core/network'
+    import { setGasFee } from '@core/layer-2/actions'
+    import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
+    import { IEvmNetwork, getNetwork, isEvmNetwork } from '@core/network'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { getActiveProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
     import { truncateString } from '@core/utils'
     import { SendFlowParameters, SubjectType } from '@core/wallet'
     import {
@@ -15,17 +20,12 @@
         signEvmTransaction,
     } from '@core/wallet/actions'
     import { sendFlowParameters } from '@core/wallet/stores'
-    import { getNetworkIdFromSendFlowParameters, validateSendConfirmation } from '@core/wallet/utils'
+    import { validateSendConfirmation } from '@core/wallet/utils'
     import { closePopup, modifyPopupState } from '@desktop/auxiliary/popup'
     import { onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import { EvmTransactionSummary, StardustToEvmTransactionSummary, StardustTransactionSummary } from './components'
     import { TransactionSummaryProps } from './types'
-    import { setGasFee } from '@core/layer-2/actions'
-    import { showNotification } from '@auxiliary/notification'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { LedgerAppName, ledgerPreparedOutput } from '@core/ledger'
-    import { getActiveProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
 
     export let transactionSummaryProps: TransactionSummaryProps
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
@@ -55,9 +55,9 @@
                     ? recipient.account.name
                     : truncateString(recipient?.address, 6, 6)
 
-            const networkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
-            if (isEvmNetwork(networkId)) {
-                evmNetwork = getEvmNetwork(networkId)
+            const { sourceNetworkId } = sendFlowParameters
+            if (sourceNetworkId && isEvmNetwork(sourceNetworkId)) {
+                evmNetwork = getNetwork(sourceNetworkId) as IEvmNetwork
                 preparedTransaction = await createEvmTransactionFromSendFlowParameters(
                     sendFlowParameters,
                     evmNetwork,
