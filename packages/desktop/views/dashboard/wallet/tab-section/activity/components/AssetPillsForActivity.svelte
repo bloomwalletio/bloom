@@ -4,11 +4,11 @@
     import { Activity, StardustActivityType, isEvmTokenActivity } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { BASE_TOKEN_ID } from '@core/token'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { getNftByIdForAccount } from '@core/nfts/stores'
     import { selectedAccountIndex } from '@core/account/stores'
     import { NetworkNamespace } from '@core/network/enums'
     import { EvmActivityType } from '@core/activity/enums/evm'
-    import { NftStandard } from '@core/nfts'
+    import { NftStandard } from '@core/nfts/enums'
     import { convertCamelCaseToPhrase } from '@core/utils/string'
 
     export let activity: Activity
@@ -29,7 +29,7 @@
                     standardPill = ''
                 }
             } else if (activity.type === StardustActivityType.Nft) {
-                const nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+                const nft = getNftByIdForAccount($selectedAccountIndex, activity.nftId)
                 standardPill = nft?.standard ?? ''
                 typePill = 'nft'
             } else if (activity.type === StardustActivityType.Alias) {

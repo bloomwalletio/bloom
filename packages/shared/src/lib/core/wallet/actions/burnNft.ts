@@ -4,7 +4,7 @@ import { processAndAddToActivities } from '@core/activity/actions'
 import { handleError } from '@core/error/handlers'
 import { localize } from '@core/i18n'
 import { getActiveNetworkId } from '@core/network'
-import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
+import { updateNftForAccount } from '@core/nfts/stores'
 import { checkActiveProfileAuth } from '@core/profile/actions'
 import { sendPreparedTransaction } from '@core/wallet/utils'
 
@@ -23,7 +23,7 @@ export async function burnNft(nftId: string): Promise<void> {
         await processAndAddToActivities(burnNftTransaction, account, networkId)
 
         // Update NFT
-        updateNftInAllAccountNftsForAccount(account.index, nftId, { isSpendable: false })
+        updateNftForAccount(account.index, { id: nftId, isSpendable: false })
 
         showNotification({
             variant: 'success',

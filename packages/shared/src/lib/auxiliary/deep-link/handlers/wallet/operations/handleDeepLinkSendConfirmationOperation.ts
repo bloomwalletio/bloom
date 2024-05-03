@@ -121,6 +121,7 @@ function parseSendTransactionOperation(searchParams: URLSearchParams): SendFlowP
         destinationNetworkId: networkId,
         ...(baseCoinTransfer && { baseCoinTransfer }),
         ...(tokenTransfer && { tokenTransfer }),
+        sourceNetworkId: networkId,
         ...(address && { recipient: { type: SubjectType.Address, address } }),
         ...(metadata && { metadata }),
         ...(tag && { tag }),

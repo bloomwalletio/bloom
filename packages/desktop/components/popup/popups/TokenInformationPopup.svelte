@@ -48,6 +48,7 @@
         const sendFlowType = token.id === BASE_TOKEN_ID ? SendFlowType.BaseCoinTransfer : SendFlowType.TokenTransfer
         setSendFlowParameters({
             type: sendFlowType,
+            sourceNetworkId: token.networkId,
             [sendFlowType]: {
                 token,
             },
