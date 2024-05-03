@@ -62,6 +62,7 @@
  delete mode 100644 packages/desktop/components/ProposalCard.svelte
  delete mode 100644 packages/desktop/components/ProposalStatusInfo.svelte
  delete mode 100644 packages/desktop/components/ProposalStatusTimelineTooltip.svelte
+ delete mode 100644 packages/desktop/components/Proposals.svelte
  delete mode 100644 packages/desktop/components/ProposalsDetails.svelte
  delete mode 100644 packages/desktop/components/Scroller.svelte
  delete mode 100644 packages/desktop/components/SendButton.svelte
@@ -170,7 +171,7 @@
  delete mode 100644 packages/desktop/lib/auxiliary/popup/helpers/index.ts
  rename packages/desktop/lib/{electron.ts => electron/index.ts} (54%)
  rename packages/desktop/{electron/lib/menuState.js => lib/electron/menus/menu-state.constant.ts} (86%)
- rename packages/desktop/{electron/main.js => lib/electron/processes/main.process.ts} (54%)
+ rename packages/desktop/{electron/main.js => lib/electron/processes/main.process.ts} (52%)
  rename packages/desktop/{electron/lib/analytics.js => lib/electron/utils/analytics.utils.ts} (82%)
  rename packages/desktop/{electron/lib/errorHandling.js => lib/electron/utils/error.utils.ts} (69%)
  delete mode 100644 packages/desktop/lib/routers/actions/openSettings.ts
@@ -186,7 +187,7 @@
  delete mode 100644 packages/desktop/views/dashboard/Sidebar.svelte
  delete mode 100644 packages/desktop/views/dashboard/TopNavigation.svelte
  rename packages/desktop/views/dashboard/collectibles/{index.js => index.ts} (100%)
- rename packages/desktop/views/dashboard/collectibles/views/{index.js => index.ts} (100%)
+ rename packages/desktop/views/dashboard/collectibles/views/{index.js => index.ts} (67%)
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/CreateAliasButton.svelte (74%)
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/FaucetRequestButton.svelte (69%)
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/MintNativeTokenButton.svelte (76%)
@@ -194,11 +195,9 @@
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/TestDeepLinkButton.svelte (72%)
  rename packages/desktop/{components/buttons/popup-buttons/index.js => views/dashboard/developer/components/index.ts} (68%)
  rename packages/desktop/views/dashboard/developer/{index.js => index.ts} (100%)
- rename packages/desktop/views/dashboard/{settings/views/network/index.js => drawers/network-config/components/index.ts} (54%)
  rename packages/desktop/{lib/routers/enums => views/dashboard/drawers/network-config}/network-config-route.enum.ts (86%)
  rename packages/desktop/{components/menu-buttons/ProposalDetailsButton.svelte => views/dashboard/governance/components/ProposalDetailsMenu.svelte} (55%)
- rename packages/desktop/{components/Proposals.svelte => views/dashboard/governance/components/ProposalList.svelte} (52%)
- rename packages/desktop/{ => views/dashboard/governance}/components/ProposalQuestion.svelte (64%)
+ rename packages/desktop/{ => views/dashboard/governance}/components/ProposalQuestion.svelte (59%)
  rename packages/desktop/views/dashboard/{index.js => index.ts} (77%)
  rename packages/desktop/views/dashboard/send-flow/{index.js => index.ts} (100%)
  delete mode 100644 packages/desktop/views/dashboard/send-flow/views/SendFlowTemplate.svelte
@@ -231,6 +230,7 @@
  delete mode 100644 packages/desktop/views/dashboard/settings/views/network/ConfigureNodeList.svelte
  delete mode 100644 packages/desktop/views/dashboard/settings/views/network/LocalProofOfWork.svelte
  delete mode 100644 packages/desktop/views/dashboard/settings/views/network/NetworkInformation.svelte
+ delete mode 100644 packages/desktop/views/dashboard/settings/views/network/index.js
  delete mode 100644 packages/desktop/views/dashboard/settings/views/network/network-settings.constant.js
  delete mode 100644 packages/desktop/views/dashboard/settings/views/profile/ChangeProfileName.svelte
  delete mode 100644 packages/desktop/views/dashboard/settings/views/profile/Currency.svelte
@@ -541,6 +541,7 @@
  delete mode 100644 packages/mobile/lib/routers/enums/wallet/send-route.enum.ts
  delete mode 100644 packages/mobile/lib/routers/helpers/getAppRouteForContext.ts
  delete mode 100644 packages/mobile/lib/routers/helpers/index.ts
+ delete mode 100644 packages/mobile/lib/routers/index.ts
  delete mode 100644 packages/mobile/lib/routers/interfaces/index.ts
  delete mode 100644 packages/mobile/lib/routers/interfaces/network-information-settings-router-event.interface.ts
  delete mode 100644 packages/mobile/lib/routers/interfaces/settings-router-event.interface.ts
@@ -713,6 +714,7 @@
  delete mode 100644 packages/shared/components/atoms/BalanceSummaryRow.svelte
  delete mode 100644 packages/shared/components/atoms/BalanceSummarySection.svelte
  delete mode 100644 packages/shared/components/atoms/ColoredCircle.svelte
+ delete mode 100644 packages/shared/components/atoms/Icon.svelte
  delete mode 100644 packages/shared/components/atoms/LedgerAnimation.svelte
  delete mode 100644 packages/shared/components/atoms/MediaDisplay.svelte
  delete mode 100644 packages/shared/components/atoms/MenuItem.svelte
@@ -774,6 +776,7 @@
  delete mode 100644 packages/shared/components/enums/button-variant.enum.ts
  delete mode 100644 packages/shared/components/enums/font-weight.enum.ts
  delete mode 100644 packages/shared/components/enums/tab.enum.ts
+ delete mode 100644 packages/shared/components/index.js
  delete mode 100644 packages/shared/components/inputs/AccountInput.svelte
  delete mode 100644 packages/shared/components/inputs/AmountInput.svelte
  delete mode 100644 packages/shared/components/inputs/AssetAmountInput.svelte
@@ -794,6 +797,7 @@
  delete mode 100644 packages/shared/components/inputs/NumberInput.svelte
  delete mode 100644 packages/shared/components/inputs/PasswordInput.svelte
  delete mode 100644 packages/shared/components/inputs/PinInput.svelte
+ delete mode 100644 packages/shared/components/inputs/Radio.svelte
  delete mode 100644 packages/shared/components/inputs/RecipientInput.svelte
  delete mode 100644 packages/shared/components/inputs/SearchInput.svelte
  delete mode 100644 packages/shared/components/inputs/TextInput.svelte
@@ -862,9 +866,148 @@
  delete mode 100644 packages/shared/lib/auxiliary/deep-link/handlers/wallet/operations/handleDeepLinkSendConfirmationOperation.ts
  delete mode 100644 packages/shared/lib/auxiliary/deep-link/handlers/wallet/operations/handleDeepLinkSendFormOperation.ts
  delete mode 100644 packages/shared/lib/auxiliary/deep-link/utils/getRawAmountFromSearchParam.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/constants/icon-svg.ts
  delete mode 100644 packages/shared/lib/auxiliary/icon/constants/index.ts
  delete mode 100644 packages/shared/lib/auxiliary/icon/constants/network-icon-svg.ts
  delete mode 100644 packages/shared/lib/auxiliary/icon/constants/settings-icon-svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/enums/icon.enum.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/enums/index.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/interfaces/index.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/interfaces/svg-circle.interface.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/interfaces/svg-path.interface.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/interfaces/svg.interface.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/activity.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/alias.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/arrow-left.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/arrow-right.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/assembly.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/backspace.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/bell.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/biometric.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/calendar.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/checkbox-round.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/checkbox-unchecked-round.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/checkbox-unchecked.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/checkbox.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/checkmark-filled.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/checkmark.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/chevron-down.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/chevron-left.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/chevron-right.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/chevron-up.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/chip.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/close-thin.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/close.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-application-large.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-application-small.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-audio-large.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-audio-small.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-font-large.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-font-small.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-image-large.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-image-small.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-model-large.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-model-small.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-text-large.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-text-small.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-unknown-large.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-unknown-small.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-video-large.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles-video-small.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/collectibles.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/copy.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/currency.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/customize.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/delete.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/dev.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/discord.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/doc.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/double-chevron-right.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/edit.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/error-filled.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/exclamation-filled.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/exclamation.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/expiration-time.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/export.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/file.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/filter.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/firefly.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/governance.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/hamburger.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/help.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/hide.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/history.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/index.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/info-filled.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/info.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/iota.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/language.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/ledger-app-legacy.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/ledger-app.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/ledger.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/link.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/lock.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/lock2.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/lock3.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/logout.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/maximize.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/minimize.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/minus.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/network.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/node.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/not-verified.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/parchment.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/picture.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/play.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/plus.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/profile.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/qr.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/radio-unchecked.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/radio.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/receive.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/refresh.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/reset.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/restore-size.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/search.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/security.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/seed.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/send.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/settings.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/shield.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/shimmer-evm.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/shimmer.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/small-chevron-down.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/small-chevron-left.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/small-chevron-right.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/small-chevron-up.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/speech.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/staking.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/status-error.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/status-success.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/success-check.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/sync.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/theme-dark.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/theme-light.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/theme.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/timelock.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/timer.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/tokens.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/tools.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/transfer.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/trophy.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/unlock.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/verification-status-new.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/verification-status-official.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/verification-status-self.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/verified.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/view.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/voted.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/voting.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/wallet.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/warning-filled.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/warning.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/wifi.svg.ts
+ delete mode 100644 packages/shared/lib/auxiliary/icon/svgs/work.svg.ts
  delete mode 100644 packages/shared/lib/auxiliary/notification/actions/index.ts
  delete mode 100644 packages/shared/lib/auxiliary/notification/actions/showAppNotification.ts
  delete mode 100644 packages/shared/lib/auxiliary/notification/actions/showNotification.ts
@@ -890,7 +1033,9 @@
  delete mode 100644 packages/shared/lib/contexts/governance/enums/proposal-status.enum.ts
  delete mode 100644 packages/shared/lib/contexts/governance/interfaces/organization.interface.ts
  delete mode 100644 packages/shared/lib/contexts/governance/interfaces/proposal-answer-percentages.interface.ts
+ delete mode 100644 packages/shared/lib/contexts/governance/stores/registered-proposals.store.ts
  delete mode 100644 packages/shared/lib/contexts/governance/types/phase-ordering.type.ts
+ delete mode 100644 packages/shared/lib/contexts/governance/utils/createProposalFromEvent.ts
  delete mode 100644 packages/shared/lib/contexts/governance/utils/getNextProposalPhase.ts
  delete mode 100644 packages/shared/lib/contexts/governance/utils/getPercentagesFromAnswerStatuses.ts
  delete mode 100644 packages/shared/lib/contexts/governance/utils/getProposalStatusForMilestone.ts
@@ -968,10 +1113,8 @@
  delete mode 100644 packages/shared/lib/core/layer-2/interfaces/layer2-asset-allowance.interface.ts
  delete mode 100644 packages/shared/lib/core/layer-2/interfaces/layer2-parameters.interface.ts
  delete mode 100644 packages/shared/lib/core/layer-2/interfaces/layer2-profile-balance.interface.ts
- delete mode 100644 packages/shared/lib/core/layer-2/stores/index.ts
  delete mode 100644 packages/shared/lib/core/layer-2/stores/layer2-balances.store.ts
  delete mode 100644 packages/shared/lib/core/layer-2/types/evm-transaction-data.type.ts
- delete mode 100644 packages/shared/lib/core/layer-2/types/index.ts
  delete mode 100644 packages/shared/lib/core/layer-2/types/layer2-metadata.interface.ts
  delete mode 100644 packages/shared/lib/core/layer-2/utils/addGasBudget.ts
  delete mode 100644 packages/shared/lib/core/layer-2/utils/getAbiForContractType.ts
@@ -1014,18 +1157,21 @@
  delete mode 100644 packages/shared/lib/core/market/actions/index.ts
  delete mode 100644 packages/shared/lib/core/market/constants/market-api-base-url.constant.ts
  delete mode 100644 packages/shared/lib/core/market/enums/index.ts
+ delete mode 100644 packages/shared/lib/core/market/index.ts
  delete mode 100644 packages/shared/lib/core/market/stores/index.ts
  delete mode 100644 packages/shared/lib/core/market/utils/getMarketAmountFromAssetValue.ts
  delete mode 100644 packages/shared/lib/core/market/utils/getMarketPriceForAsset.ts
  delete mode 100644 packages/shared/lib/core/market/utils/index.ts
  delete mode 100644 packages/shared/lib/core/network/actions/addOfficialNodesToClientOptions.ts
  delete mode 100644 packages/shared/lib/core/network/actions/chain-polling.ts
+ delete mode 100644 packages/shared/lib/core/network/actions/network-polling.ts
  delete mode 100644 packages/shared/lib/core/network/actions/showNetworkIssueNotification.ts
  delete mode 100644 packages/shared/lib/core/network/actions/toggleDisabledNodeInClientOptions.ts
  delete mode 100644 packages/shared/lib/core/network/actions/updateChainStatuses.ts
  delete mode 100644 packages/shared/lib/core/network/classes/index.ts
  delete mode 100644 packages/shared/lib/core/network/classes/iscp-chain.class.ts
  delete mode 100644 packages/shared/lib/core/network/classes/stardust-network.class.ts
+ delete mode 100644 packages/shared/lib/core/network/constants/chain-statuses-poll-interval.constant.ts
  delete mode 100644 packages/shared/lib/core/network/constants/coin-type.constant.ts
  delete mode 100644 packages/shared/lib/core/network/constants/default-base-token.constant.ts
  delete mode 100644 packages/shared/lib/core/network/constants/default-chain-configurations.constant.ts
@@ -1055,6 +1201,8 @@
  delete mode 100644 packages/shared/lib/core/network/interfaces/stardust-network-metadata.interface.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/tracked-tokens.interface.ts
  delete mode 100644 packages/shared/lib/core/network/stores/chain-statuses.store.ts
+ delete mode 100644 packages/shared/lib/core/network/stores/index.ts
+ delete mode 100644 packages/shared/lib/core/network/stores/network-status.store.ts
  delete mode 100644 packages/shared/lib/core/network/stores/network.store.ts
  delete mode 100644 packages/shared/lib/core/network/stores/selected-chain.store.ts
  delete mode 100644 packages/shared/lib/core/network/tests/network.test.ts
@@ -1064,6 +1212,7 @@
  delete mode 100644 packages/shared/lib/core/network/utils/buildChainFromNetwork.ts
  delete mode 100644 packages/shared/lib/core/network/utils/buildPersistedNetworkFromNodeInfoResponse.ts
  delete mode 100644 packages/shared/lib/core/network/utils/checkNetworkId.ts
+ delete mode 100644 packages/shared/lib/core/network/utils/doesNodeHavePlugin.ts
  delete mode 100644 packages/shared/lib/core/network/utils/getDefaultClientOptions.ts
  delete mode 100644 packages/shared/lib/core/network/utils/getNetworkId.ts
  delete mode 100644 packages/shared/lib/core/network/utils/getNetworkIdFromNetworkName.ts
@@ -1077,9 +1226,11 @@
  delete mode 100644 packages/shared/lib/core/nfts/actions/addNftsToDownloadQueue.ts
  delete mode 100644 packages/shared/lib/core/nfts/actions/addOrUpdateNftInAllAccountNfts.ts
  delete mode 100644 packages/shared/lib/core/nfts/actions/downloadNextNftInQueue.ts
+ delete mode 100644 packages/shared/lib/core/nfts/actions/getNftByIdFromAllAccountNfts.ts
  delete mode 100644 packages/shared/lib/core/nfts/actions/index.ts
  delete mode 100644 packages/shared/lib/core/nfts/actions/interruptNftDownloadAfterTimeout.ts
  delete mode 100644 packages/shared/lib/core/nfts/actions/loadNftsForActiveProfile.ts
+ delete mode 100644 packages/shared/lib/core/nfts/actions/setAccountNftsInAllAccountNfts.ts
  delete mode 100644 packages/shared/lib/core/nfts/actions/stopDownloadingNftMediaFromQueue.ts
  delete mode 100644 packages/shared/lib/core/nfts/actions/updateNftInAllAccountNfts.ts
  delete mode 100644 packages/shared/lib/core/nfts/enums/supported-mime-type.enum.ts
@@ -1091,6 +1242,7 @@
  delete mode 100644 packages/shared/lib/core/nfts/interfaces/persisted-nft-store.interface.ts
  delete mode 100644 packages/shared/lib/core/nfts/stores/all-account-nfts.store.ts
  delete mode 100644 packages/shared/lib/core/nfts/stores/downloading-nft.store.ts
+ delete mode 100644 packages/shared/lib/core/nfts/stores/index.ts
  delete mode 100644 packages/shared/lib/core/nfts/stores/nft-download-queue.store.ts
  delete mode 100644 packages/shared/lib/core/nfts/stores/persisted-nft-data.store.ts
  delete mode 100644 packages/shared/lib/core/nfts/stores/selected-account-nfts.store.ts
@@ -1104,6 +1256,7 @@
  delete mode 100644 packages/shared/lib/core/nfts/utils/fetchWithTimeout.ts
  delete mode 100644 packages/shared/lib/core/nfts/utils/getSpendableStatusFromUnspentNftOutput.ts
  delete mode 100644 packages/shared/lib/core/nfts/utils/index.ts
+ delete mode 100644 packages/shared/lib/core/nfts/utils/isNftOwnedByAnyAccount.ts
  delete mode 100644 packages/shared/lib/core/nfts/utils/rewriteIpfsUri.ts
  delete mode 100644 packages/shared/lib/core/profile-manager/actions/events-handlers/handleNewOutputEvent.ts
  delete mode 100644 packages/shared/lib/core/profile-manager/actions/events-handlers/handleSpentOutputEvent.ts
@@ -1186,7 +1339,6 @@
  delete mode 100644 packages/shared/lib/core/wallet/actions/activities/hideActivitiesForHiddenAssets.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/activities/index.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/activities/loadAssetsForAllAccounts.ts
- delete mode 100644 packages/shared/lib/core/wallet/actions/activities/setAsyncStatusOfAccountActivities.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/activities/updateClaimingTransactionInclusion.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/burnAsset.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/burnNft.ts
@@ -1198,6 +1350,7 @@
  delete mode 100644 packages/shared/lib/core/wallet/actions/index.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/mintNativeToken.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/mintNft.ts
+ delete mode 100644 packages/shared/lib/core/wallet/actions/refreshAccountAssetsForActiveProfile.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/requestPersistedAsset.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/sendOutput.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/setOutgoingAsyncActivitiesToClaimed.ts
@@ -1327,7 +1480,6 @@
  rename packages/shared/{ => src}/components/Text.svelte (81%)
  rename packages/shared/{ => src}/components/Tooltip.svelte (91%)
  rename packages/shared/{ => src}/components/Transition.svelte (51%)
- rename packages/shared/{ => src}/components/atoms/Icon.svelte (90%)
  rename packages/shared/{components/atoms => src/components}/buttons/ReceiveButton.svelte (78%)
  rename packages/shared/{ => src}/components/enums/index.ts (50%)
  rename packages/shared/{ => src}/components/enums/nft-media-size.enum.ts (100%)
@@ -1335,12 +1487,10 @@
  rename packages/shared/{ => src}/components/enums/text-type.enum.ts (100%)
  rename packages/shared/{components/atoms => src/components}/iconButtons/MeatballMenuButton.svelte (100%)
  rename packages/shared/{components/atoms/iconButtons/index.js => src/components/iconButtons/index.ts} (100%)
- rename packages/shared/{components/index.js => src/components/index.ts} (50%)
  rename packages/shared/{ => src}/components/inputs/AliasInput.svelte (51%)
  rename packages/shared/{components/inputs/Dropdown2.svelte => src/components/inputs/Dropdown.svelte} (94%)
  rename packages/shared/{ => src}/components/inputs/NodeInput.svelte (79%)
  rename packages/shared/{ => src}/components/inputs/OptionalInput.svelte (52%)
- rename packages/shared/{ => src}/components/inputs/Radio.svelte (94%)
  rename packages/shared/{ => src}/components/inputs/SliderInput.svelte (56%)
  rename packages/shared/{ => src}/components/interfaces/index.ts (63%)
  rename packages/shared/{ => src}/components/interfaces/network-recipient-selector-option.interface.ts (51%)
@@ -1384,146 +1534,6 @@
  rename packages/shared/{ => src}/lib/auxiliary/deep-link/types/index.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/deep-link/types/wallet-context.type.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/deep-link/utils/index.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/constants/icon-svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/enums/icon.enum.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/enums/index.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/index.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/interfaces/index.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/interfaces/svg-circle.interface.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/interfaces/svg-path.interface.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/interfaces/svg.interface.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/activity.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/alias.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/arrow-left.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/arrow-right.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/assembly.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/backspace.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/bell.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/biometric.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/calendar.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/checkbox-round.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/checkbox-unchecked-round.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/checkbox-unchecked.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/checkbox.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/checkmark-filled.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/checkmark.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/chevron-down.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/chevron-left.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/chevron-right.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/chevron-up.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/chip.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/close-thin.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/close.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-application-large.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-application-small.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-audio-large.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-audio-small.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-font-large.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-font-small.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-image-large.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-image-small.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-model-large.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-model-small.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-text-large.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-text-small.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-unknown-large.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-unknown-small.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-video-large.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles-video-small.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/collectibles.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/copy.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/currency.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/customize.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/delete.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/dev.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/discord.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/doc.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/double-chevron-right.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/edit.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/error-filled.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/exclamation-filled.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/exclamation.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/expiration-time.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/export.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/file.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/filter.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/firefly.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/governance.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/hamburger.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/help.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/hide.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/history.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/index.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/info-filled.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/info.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/iota.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/language.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/ledger-app-legacy.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/ledger-app.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/ledger.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/link.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/lock.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/lock2.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/lock3.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/logout.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/maximize.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/minimize.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/minus.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/network.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/node.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/not-verified.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/parchment.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/picture.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/play.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/plus.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/profile.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/qr.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/radio-unchecked.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/radio.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/receive.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/refresh.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/reset.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/restore-size.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/search.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/security.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/seed.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/send.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/settings.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/shield.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/shimmer-evm.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/shimmer.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/small-chevron-down.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/small-chevron-left.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/small-chevron-right.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/small-chevron-up.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/speech.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/staking.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/status-error.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/status-success.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/success-check.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/sync.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/theme-dark.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/theme-light.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/theme.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/timelock.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/timer.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/tokens.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/tools.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/transfer.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/trophy.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/unlock.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/verification-status-new.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/verification-status-official.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/verification-status-self.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/verified.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/view.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/voted.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/voting.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/wallet.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/warning-filled.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/warning.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/wifi.svg.ts (100%)
- rename packages/shared/{ => src}/lib/auxiliary/icon/svgs/work.svg.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/index.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/interfaces/index.ts (51%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/interfaces/notification-action.interface.ts (53%)
@@ -1561,33 +1571,31 @@
  rename packages/shared/{ => src}/lib/contexts/governance/interfaces/index.ts (63%)
  rename packages/shared/{ => src}/lib/contexts/governance/interfaces/proposal-filter.interface.ts (100%)
  rename packages/shared/{lib/contexts/governance/interfaces/proposals-details.interface.ts => src/lib/contexts/governance/interfaces/proposal-list-details.interface.ts} (73%)
- rename packages/shared/{ => src}/lib/contexts/governance/interfaces/proposal-state.interface.ts (73%)
+ rename packages/shared/{ => src}/lib/contexts/governance/interfaces/proposal-state.interface.ts (54%)
  rename packages/shared/{ => src}/lib/contexts/governance/stores/index.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/stores/participation-overviews.store.ts (94%)
  rename packages/shared/{ => src}/lib/contexts/governance/stores/proposal-filter.store.ts (100%)
- rename packages/shared/{ => src}/lib/contexts/governance/stores/registered-proposals.store.ts (93%)
- rename packages/shared/{ => src}/lib/contexts/governance/stores/selected-participation-event-status.store.ts (59%)
+ rename packages/shared/{ => src}/lib/contexts/governance/stores/selected-participation-event-status.store.ts (64%)
  rename packages/shared/{ => src}/lib/contexts/governance/stores/selected-proposal.store.ts (57%)
  rename packages/shared/{ => src}/lib/contexts/governance/types/index.ts (100%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/calculateTotalVotesForTrackedParticipations.ts (74%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/createProposalFromError.ts (79%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/createProposalFromEvent.ts (53%)
+ rename packages/shared/{ => src}/lib/contexts/governance/utils/calculateTotalVotesForTrackedParticipations.ts (65%)
+ rename packages/shared/{ => src}/lib/contexts/governance/utils/createProposalFromError.ts (52%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getActiveParticipation.ts (82%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfActiveProposals.ts (100%)
+ rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfActiveProposals.ts (54%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfTotalProposals.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfVotedProposals.ts (92%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfVotingProposals.ts (94%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getParticipationsForProposal.ts (84%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/index.ts (94%)
+ rename packages/shared/{ => src}/lib/contexts/governance/utils/index.ts (90%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/isAccountVoting.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/isProposalAlreadyAddedForSelectedAccount.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/isValidProposalId.ts (100%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/isVisibleProposal.ts (100%)
+ rename packages/shared/{ => src}/lib/contexts/governance/utils/isVisibleProposal.ts (73%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/isVotingForProposal.ts (56%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/isVotingForSelectedProposal.ts (100%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/sortProposals.ts (100%)
+ rename packages/shared/{ => src}/lib/contexts/governance/utils/sortProposals.ts (73%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/actions/backupInitialStronghold.ts (56%)
- rename packages/shared/{ => src}/lib/contexts/onboarding/actions/claimShimmerRewards.ts (69%)
+ rename packages/shared/{ => src}/lib/contexts/onboarding/actions/claimShimmerRewards.ts (68%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/actions/cleanupOnboarding.ts (93%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/actions/cleanupOnboardingProfileManager.ts (76%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/actions/clearStrongholdPasswordForOnboarding.ts (84%)
@@ -1629,7 +1637,7 @@
  rename packages/shared/{ => src}/lib/contexts/onboarding/errors/unable-to-copy-stronghold-backup-file.error.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/errors/unable-to-restore-backup-for-profile-manager.error.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/buildInitialOnboardingProfile.ts (67%)
- rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/convertOnboardingProfileToPersistedProfile.ts (53%)
+ rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/convertOnboardingProfileToPersistedProfile.ts (55%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/copyStrongholdFileToProfileDirectory.ts (92%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/deriveShimmerClaimingAccountState.ts (92%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/getSortedRenamedBoundAccounts.ts (92%)
@@ -1704,6 +1712,7 @@
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/linkTransactionsWithClaimingTransactions.ts (88%)
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/preprocessOutputsForAccount.ts (68%)
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/preprocessTransactionsForAccount.ts (80%)
+ rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/setAsyncStatusOfAccountActivities.ts (50%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/constants/default-activity-filter.constant.ts (79%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/enums/activity-direction.enum.ts (83%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/enums/activity-status.enum.ts (100%)
@@ -1733,7 +1742,7 @@
  rename packages/shared/{ => src}/lib/core/app/actions/index.ts (66%)
  rename packages/shared/{ => src}/lib/core/app/actions/registerAppEvents.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/actions/registerAppUpdateEvents.ts (51%)
- rename packages/shared/{ => src}/lib/core/app/actions/registerNftDownloadEvents.ts (59%)
+ rename packages/shared/{ => src}/lib/core/app/actions/registerNftDownloadEvents.ts (68%)
  rename packages/shared/{ => src}/lib/core/app/classes/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/constants/default-app-settings.constant.ts (62%)
  rename packages/shared/{ => src}/lib/core/app/constants/external-allowed-links.constant.ts (51%)
@@ -1745,7 +1754,6 @@
  rename packages/shared/{ => src}/lib/core/app/enums/app-theme.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/enums/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/enums/platform-option.enum.ts (69%)
- rename packages/{mobile/lib/routers => shared/src/lib/core/app}/index.ts (58%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/app-settings.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/app-update-download-progress.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/app-version-details.interface.ts (100%)
@@ -1755,7 +1763,7 @@
  rename packages/shared/{ => src}/lib/core/app/interfaces/managers/notification-manager.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/managers/pincode-manager.interface.ts (58%)
  rename packages/shared/{ => src}/lib/core/app/interfaces/nft-download-state.interface.ts (74%)
- rename packages/shared/{ => src}/lib/core/app/interfaces/platform.interface.ts (61%)
+ rename packages/shared/{ => src}/lib/core/app/interfaces/platform.interface.ts (62%)
  rename packages/shared/{ => src}/lib/core/app/stores/app-settings.store.ts (55%)
  rename packages/shared/{ => src}/lib/core/app/stores/app-version-details.store.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/stores/index.ts (51%)
@@ -1769,7 +1777,7 @@
  rename packages/shared/{ => src}/lib/core/app/utils/needsToAcceptLatestTermsOfService.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/utils/openUrlInBrowser.ts (59%)
  rename specs/images/.gitkeep => packages/shared/src/lib/core/contact/helpers/index.ts (100%)
- rename packages/shared/{lib/core/app => src/lib/core/contact}/index.ts (72%)
+ rename packages/shared/{lib/core/ledger => src/lib/core/contact}/index.ts (72%)
  rename packages/shared/{ => src}/lib/core/error/actions/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/error/actions/logAndNotifyError.ts (70%)
  rename packages/shared/{ => src}/lib/core/error/classes/base-error.class.ts (77%)
@@ -1853,10 +1861,12 @@
  rename packages/shared/{lib/core/layer-2/interfaces/layer2-smart-contract-call-data.interface.ts => src/lib/core/layer-2/interfaces/layer-2-smart-contract-call-data.interface.ts} (62%)
  rename packages/shared/{lib/core/layer-2/interfaces/layer2-transfer-allowance-metadata.interface.ts => src/lib/core/layer-2/interfaces/layer-2-transfer-allowance-metadata.interface.ts} (51%)
  rename packages/shared/{lib/core/token/types/native-token-amount.type.ts => src/lib/core/layer-2/interfaces/native-token-amount.interface.ts} (73%)
+ rename packages/shared/{ => src}/lib/core/layer-2/stores/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/tests/parseLayer2MetadataForTransfer.test.ts (63%)
  rename packages/shared/{ => src}/lib/core/layer-2/types/abi.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/types/contract.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/types/evm-transaction-options.type.ts (100%)
+ rename packages/shared/{ => src}/lib/core/layer-2/types/index.ts (54%)
  rename packages/shared/{ => src}/lib/core/layer-2/utils/parseLayer2Metadata.ts (56%)
  rename packages/shared/{ => src}/lib/core/ledger/classes/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/ledger/constants/ledger-error-locales.constant.ts (100%)
@@ -1865,7 +1875,7 @@
  rename packages/shared/{ => src}/lib/core/ledger/enums/ledger-error.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/ledger/helpers/deriveLedgerError.ts (71%)
  rename packages/shared/{ => src}/lib/core/ledger/helpers/index.ts (57%)
- rename packages/shared/{ => src}/lib/core/ledger/index.ts (88%)
+ rename packages/shared/{lib/core/app => src/lib/core/ledger}/index.ts (88%)
  rename packages/shared/{lib/core/ledger/interfaces/ledger-nano-status-polling-configuration.interface.ts => src/lib/core/ledger/interfaces/ledger-device-state-polling-configuration.interface.ts} (74%)
  rename packages/shared/{ => src}/lib/core/ledger/stores/index.ts (59%)
  rename packages/shared/{ => src}/lib/core/ledger/stores/ledger-nano-status.store.ts (55%)
@@ -1883,7 +1893,7 @@
  rename packages/shared/{ => src}/lib/core/market/constants/market-simple-price-endpoint.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/enums/market-coin-id.enum.ts (73%)
  rename packages/shared/{ => src}/lib/core/market/enums/market-currency.enum.ts (94%)
- rename packages/shared/{ => src}/lib/core/market/index.ts (72%)
+ rename packages/shared/{lib/auxiliary/icon => src/lib/core/market}/index.ts (77%)
  rename packages/shared/{ => src}/lib/core/market/interfaces/simple-prices-query-parameters.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/stores/market-coin-prices.store.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/types/index.ts (100%)
@@ -1892,8 +1902,7 @@
  rename packages/shared/{ => src}/lib/core/network/actions/addNodeToClientOptions.ts (76%)
  rename packages/shared/{ => src}/lib/core/network/actions/editNodeInClientOptions.ts (82%)
  rename packages/shared/{ => src}/lib/core/network/actions/getAndUpdateNodeInfo.ts (85%)
- rename packages/shared/{ => src}/lib/core/network/actions/index.ts (72%)
- rename packages/shared/{ => src}/lib/core/network/actions/network-polling.ts (100%)
+ rename packages/shared/{ => src}/lib/core/network/actions/index.ts (63%)
  rename packages/shared/{ => src}/lib/core/network/actions/removeNodeFromClientOptions.ts (63%)
  rename packages/shared/{ => src}/lib/core/network/actions/toggleLocalPowInClientOptions.ts (84%)
  rename packages/shared/{ => src}/lib/core/network/actions/togglePrimaryNodeInClientOptions.ts (63%)
@@ -1901,11 +1910,10 @@
  rename packages/shared/{ => src}/lib/core/network/constants/empty-node.constant.ts (54%)
  rename packages/shared/{ => src}/lib/core/network/constants/milestone-not-found.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/constants/network-status-poll-interval.constant.ts (100%)
- rename packages/shared/{lib/core/network/constants/chain-statuses-poll-interval.constant.ts => src/lib/core/network/constants/network-statuses-poll-interval.constant.ts} (59%)
  rename packages/shared/{ => src}/lib/core/network/constants/seconds-per-milestone.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/enums/network-health.enum.ts (86%)
  rename packages/shared/{ => src}/lib/core/network/enums/token-supply.enum.ts (75%)
- rename packages/shared/{ => src}/lib/core/network/helpers/getNetworkStatusFromNodeInfo.ts (85%)
+ rename packages/shared/{ => src}/lib/core/network/helpers/getNetworkStatusFromNodeInfo.ts (69%)
  rename packages/shared/{ => src}/lib/core/network/helpers/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/block.interface.ts (100%)
@@ -1917,22 +1925,17 @@
  rename packages/shared/{lib/core/network/interfaces/chain-metadata.interface.ts => src/lib/core/network/interfaces/isc-chain-metadata.interface.ts} (76%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/node-info-response.interface.ts (62%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/protocol.interface.ts (62%)
- rename packages/shared/{ => src}/lib/core/network/stores/index.ts (58%)
- rename packages/shared/{ => src}/lib/core/network/stores/network-status.store.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/stores/node-info.store.ts (83%)
  rename packages/shared/{ => src}/lib/core/network/types/network-metadata.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/types/web3-provider.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/utils/checkNodeUrlValidity.ts (95%)
- rename packages/shared/{ => src}/lib/core/network/utils/doesNodeHavePlugin.ts (100%)
  rename packages/shared/{lib/core/network/utils/getDefaultPersistedNetwork.ts => src/lib/core/network/utils/getDefaultStardustNetwork.ts} (50%)
  rename packages/shared/{ => src}/lib/core/network/utils/getEvmTransactionOptions.ts (88%)
- rename packages/shared/{ => src}/lib/core/nfts/actions/getNftByIdFromAllAccountNfts.ts (61%)
- rename packages/shared/{ => src}/lib/core/nfts/actions/setAccountNftsInAllAccountNfts.ts (75%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/current-irc27-version.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/default-max-nft-downloading-time-in-seconds.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/default-max-nft-size-in-megabytes.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/default-nft-name.constant.ts (100%)
- rename packages/shared/{ => src}/lib/core/nfts/constants/index.ts (77%)
+ rename packages/shared/{ => src}/lib/core/nfts/constants/index.ts (69%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/nft-id-byte-length.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/nft-media-file-name.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/enums/download-error-type.enum.ts (78%)
@@ -1943,9 +1946,7 @@
  rename packages/shared/{lib/core/nfts/interfaces/irc27-attribute.interface.ts => src/lib/core/nfts/interfaces/nft-attribute.interface.ts} (59%)
  rename packages/shared/{ => src}/lib/core/nfts/interfaces/soonaverse-attribute.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/interfaces/soonaverse-attributes.interface.ts (100%)
- rename packages/shared/{ => src}/lib/core/nfts/stores/index.ts (73%)
  rename packages/shared/{ => src}/lib/core/nfts/tests/buildNftFromNftOutput.test.ts (55%)
- rename packages/shared/{ => src}/lib/core/nfts/utils/isNftOwnedByAnyAccount.ts (57%)
  rename packages/shared/{ => src}/lib/core/nfts/utils/parseNftMetadata.ts (91%)
  rename packages/shared/{ => src}/lib/core/profile-manager/actions/changePasswordAndUnlockStronghold.ts (96%)
  rename packages/shared/{ => src}/lib/core/profile-manager/actions/deleteAccount.ts (93%)
@@ -2102,7 +2103,6 @@
  rename packages/shared/{ => src}/lib/core/stronghold/enums/stronghold-version.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/stronghold/index.ts (100%)
  rename packages/{mobile/lib/contexts/dashboard => shared/src/lib/core/tide}/index.ts (67%)
- rename packages/shared/{lib/core/wallet/actions/refreshAccountAssetsForActiveProfile.ts => src/lib/core/token/actions/refreshAccountTokensForActiveProfile.ts} (54%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/constants/animated-token-ids.constant.ts (100%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/constants/default-asset-filter.constant.ts (90%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/constants/max-asset-displayed-initials.constant.ts (100%)
@@ -2196,7 +2196,7 @@
  rename packages/shared/{ => src}/lib/core/utils/types/currencies.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/types/duration.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/types/exchange-rates.type.ts (100%)
- rename packages/shared/{ => src}/lib/core/utils/types/index.ts (77%)
+ rename packages/shared/{ => src}/lib/core/utils/types/index.ts (68%)
  rename packages/shared/{ => src}/lib/core/utils/types/ui-event-function.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/types/values-of.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/ui.ts (70%)
@@ -2221,19 +2221,19 @@
  rename packages/shared/{ => src}/lib/core/wallet/stores/mint-nft-details.store.ts (100%)
  rename packages/shared/{ => src}/lib/core/wallet/stores/mint-token-details.store.ts (100%)
  rename packages/shared/{ => src}/lib/core/wallet/stores/selected-send-option.store.ts (100%)
- rename packages/shared/{ => src}/lib/core/wallet/tests/getOutputParameters.test.ts (51%)
+ rename packages/shared/{ => src}/lib/core/wallet/tests/getOutputParameters.test.ts (52%)
  rename packages/shared/{ => src}/lib/core/wallet/utils/getIrc30MetadataFromFoundryOutput.ts (66%)
  rename packages/shared/{ => src}/lib/core/wallet/utils/isSubjectInternal.ts (56%)
  rename packages/shared/{ => src}/lib/core/wallet/utils/parseGovernanceMetadata.ts (90%)
  rename packages/shared/{ => src}/lib/core/wallet/utils/validateIrc30Metadata.ts (93%)
  rename packages/shared/{ => src}/lib/features/features.ts (100%)
- rename packages/shared/{ => src}/lib/features/interfaces/collectibles-features.interface.ts (85%)
+ rename packages/shared/{ => src}/lib/features/interfaces/collectibles-features.interface.ts (73%)
  rename packages/shared/{ => src}/lib/features/interfaces/developer-features.interface.ts (88%)
  rename packages/shared/{ => src}/lib/features/interfaces/feature-flag.interface.ts (100%)
  rename packages/shared/{ => src}/lib/features/interfaces/features.interface.ts (56%)
  rename packages/shared/{ => src}/lib/features/interfaces/governance-features.interface.ts (100%)
  rename packages/shared/{ => src}/lib/features/interfaces/index.ts (64%)
- rename packages/shared/{ => src}/lib/features/interfaces/network-features.interface.ts (87%)
+ rename packages/shared/{ => src}/lib/features/interfaces/network-features.interface.ts (85%)
  rename packages/shared/{ => src}/lib/features/interfaces/onboarding-features-for-network.interface.ts (84%)
  rename packages/shared/{ => src}/lib/features/interfaces/settings-features.interface.ts (88%)
  rename packages/shared/{ => src}/lib/features/interfaces/wallet-features.interface.ts (78%)
