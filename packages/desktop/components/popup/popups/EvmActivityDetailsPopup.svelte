@@ -8,9 +8,8 @@
     import { ExplorerEndpoint } from '@core/network'
     import { getDefaultExplorerUrl } from '@core/network/utils'
     import { NftStandard } from '@core/nfts'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { Nft } from '@core/nfts/interfaces'
-    import { ownedNfts, selectedNftId } from '@core/nfts/stores'
+    import { ownedNfts, selectedNftId, getNftByIdForAccount } from '@core/nfts/stores'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { buildUrl, setClipboard, truncateString } from '@core/utils'
@@ -45,7 +44,7 @@
                 _activity.tokenTransfer.standard === NftStandard.Erc721 ||
                 _activity.tokenTransfer.standard === NftStandard.Irc27
             ) {
-                return getNftByIdFromAllAccountNfts($selectedAccountIndex, _activity.tokenTransfer.tokenId) as Nft
+                return getNftByIdForAccount($selectedAccountIndex, _activity.tokenTransfer.tokenId)
             }
         }
     }
@@ -62,7 +61,7 @@
             const { tokenId, rawAmount, standard } = _activity.tokenTransfer
             if (standard === NftStandard.Erc721 || standard === NftStandard.Irc27) {
                 return {
-                    nft: getNftByIdFromAllAccountNfts($selectedAccountIndex, _activity.tokenTransfer.tokenId) as Nft,
+                    nft: getNftByIdForAccount($selectedAccountIndex, _activity.tokenTransfer.tokenId) as Nft,
                 }
             } else {
                 const token = getTokenFromSelectedAccountTokens(tokenId, _activity.sourceNetworkId)

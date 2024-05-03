@@ -3,12 +3,7 @@ import { handleError } from '@core/error/handlers'
 import { getGasFeeForLayer1ToLayer2Transaction } from '@core/layer-2/actions'
 import { calculateMaxGasFeeFromTransactionData } from '@core/layer-2/utils'
 import { getEvmNetwork, isEvmNetwork } from '@core/network'
-import {
-    SendFlowParameters,
-    getNetworkIdFromSendFlowParameters,
-    createEvmTransactionFromSendFlowParameters,
-    updateSendFlowParameters,
-} from '@core/wallet'
+import { SendFlowParameters, createEvmTransactionFromSendFlowParameters, updateSendFlowParameters } from '@core/wallet'
 
 export async function setGasFee(sendFlowParams: SendFlowParameters, account: IAccountState): Promise<void> {
     try {
@@ -16,14 +11,13 @@ export async function setGasFee(sendFlowParams: SendFlowParameters, account: IAc
             return
         }
 
-        const sourceNetworkId = getNetworkIdFromSendFlowParameters(sendFlowParams)
-        if (!sourceNetworkId || !sendFlowParams.destinationNetworkId) {
+        if (!sendFlowParams.sourceNetworkId || !sendFlowParams.destinationNetworkId) {
             throw new Error('Networks are not set in send flow parameters!')
         }
 
         let gasFee: bigint | undefined
-        if (isEvmNetwork(sourceNetworkId)) {
-            const evmNetwork = getEvmNetwork(sourceNetworkId)
+        if (isEvmNetwork(sendFlowParams.sourceNetworkId)) {
+            const evmNetwork = getEvmNetwork(sendFlowParams.sourceNetworkId)
             if (!evmNetwork) {
                 throw new Error('Chain is undefined!')
             }

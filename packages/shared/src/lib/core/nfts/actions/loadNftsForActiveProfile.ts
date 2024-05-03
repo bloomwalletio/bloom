@@ -14,7 +14,7 @@ import { buildNftFromPersistedErc721Nft, getNftsFromNftIds } from '../utils'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { getPersistedErc721NftsForNetwork } from './getPersistedErc721NftsForNetwork'
-import { setAccountNftsInAllAccountNfts } from './setAccountNftsInAllAccountNfts'
+import { setNftsForAccount } from '../stores'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
     let nftsToDownload: Nft[] = []
@@ -93,7 +93,7 @@ export async function loadNftsForAccount(profileId: string, account: IAccountSta
             }
         }
     }
-    setAccountNftsInAllAccountNfts(account.index, accountNfts)
+    setNftsForAccount(account.index, accountNfts)
 
     return accountNfts
 }

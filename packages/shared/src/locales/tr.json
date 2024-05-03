@@ -250,6 +250,7 @@
                 "title": "IPFS ağ geçitleri",
                 "description": "Medya alımı için kullanılacak IPFS ağ geçidini seçin",
                 "setAsPrimary": "Birincil olarak ayarla",
+                "unsetPrimary": "Unset primary",
                 "addGateway": {
                     "title": "Yeni IPFS ağ geçidi ekle",
                     "placeholder": "IPFS ağ geçidi",
@@ -388,7 +389,7 @@
                 "down": "Ağ düşük",
                 "disconnected": "Düğüm bağlantısı kesildi",
                 "status": "Durum",
-                "undefined": "Undefined Network"
+                "undefined": "Tanımsız Ağ"
             },
             "portfolio": {
                 "tab": "Portföy",
@@ -662,10 +663,17 @@
                     "loadMedia": "Medyayı cüzdana yükle",
                     "unsetPfp": "{timeDiff} için kilitlendi",
                     "view": "{timeDiff} için kilitlendi",
+                    "refresh": "Refresh NFT",
                     "hide": "NFT'yi gizle",
                     "unhide": "NFT'yi göster",
                     "burn": "{timeDiff} için kilitlendi"
                 }
+            },
+            "collectionsGallery": {
+                "title": "Collections",
+                "emptyTitle": "No collections found",
+                "noResults": "No results found",
+                "emptyDescription": "Deposit or receive your first collectible!"
             }
         },
         "campaigns": {
@@ -1627,6 +1635,7 @@
         "token": "Token (Jeton)",
         "unknownToken": "Bilinmeyen Token",
         "nft": "NFT (Nitelikli Fikri Tapu)",
+        "nfts": "{count, plural, one {# NFT} other {# NFTs}}",
         "type": "Tip",
         "immutableIssuer": "Değişmez İhraççı",
         "magicContract": "Sihirli Sözleşme",
@@ -2086,7 +2095,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Yükleme engellendi",
-                "long": "NFT dosya türü beklenen ortam türüyle eşleşmiyor"
+                "long": "NFT file type does not match the expected media type - Expected: {expected}, Actual: {actual}"
             },
             "notReachable": {
                 "short": "Ulaşılamıyor",
