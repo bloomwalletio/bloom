@@ -23,7 +23,7 @@ import {
 } from '@core/ledger'
 import { toRpcSig } from '@ethereumjs/util'
 import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
-import { getAmountForEvmTransaction } from '@core/layer-2/helpers'
+import { getAmountFromEvmTransaction } from '@core/layer-2/helpers'
 import { IEvmNetwork } from '@core/network'
 
 declare global {
@@ -81,10 +81,7 @@ export class Ledger {
             await this.userEnablesBlindSigning()
         }
 
-        const rawAmount = getAmountForEvmTransaction(
-            Converter.bigIntLikeToBigInt(transactionData.value ?? 0),
-            network.type
-        ).toString(10)
+        const rawAmount = getAmountFromEvmTransaction(transactionData.value ?? 0, network.type).toString(10)
 
         openProfileAuthPopup({
             id: ProfileAuthPopupId.VerifyLedgerTransaction,

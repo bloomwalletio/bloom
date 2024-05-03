@@ -1,7 +1,7 @@
 import { SendFlowType } from '@core/wallet/enums'
 import { getLayer2AccountBalanceForToken } from '../stores'
 import { FALLBACK_ESTIMATED_GAS, GAS_LIMIT_MULTIPLIER } from '../constants'
-import { calculateGasFeeInGlow } from '../helpers'
+import { calculateGasFee } from '../helpers'
 import { IEvmNetwork } from '@core/network'
 
 export async function canAccountMakeEvmTransaction(
@@ -18,6 +18,6 @@ export async function canAccountMakeEvmTransaction(
         return false
     }
 
-    const minimumGasFee = calculateGasFeeInGlow(gasLimit, gasPrice, network.type)
+    const minimumGasFee = calculateGasFee(gasLimit, gasPrice, network.type)
     return baseTokenAccountBalance > minimumGasFee
 }

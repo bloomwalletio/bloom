@@ -1,4 +1,4 @@
-export * from './calculateGasFeeInGlow'
+export * from './calculateGasFee'
 export * from './encodeAddress'
 export * from './encodeAssetAllowance'
 export * from './encodeSmartContractParameters'

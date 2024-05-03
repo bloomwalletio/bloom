@@ -7,13 +7,13 @@ import { BaseEvmActivity, EvmActivity, EvmCoinTransferActivity } from '@core/act
 import { BASE_TOKEN_ID } from '@core/token'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { EvmActivityType } from '@core/activity/enums/evm'
-import { Converter, HEX_PREFIX } from '@core/utils'
+import { HEX_PREFIX } from '@core/utils'
 import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
 import { SubjectType } from '@core/wallet'
 import { ActivityDirection } from '@core/activity/enums'
 import { getMethodForEvmTransaction } from '@core/layer-2'
 import { addMethodToRegistry, getMethodFromRegistry } from '@core/layer-2/stores/method-registry.store'
-import { getAmountForEvmTransaction } from '@core/layer-2/helpers'
+import { getAmountFromEvmTransaction } from '@core/layer-2/helpers'
 
 export async function generateEvmActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
@@ -109,10 +109,7 @@ async function generateEvmCoinTransferActivityFromBlockscoutTransaction(
         type: EvmActivityType.CoinTransfer,
         baseTokenTransfer: {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: getAmountForEvmTransaction(
-                Converter.bigIntLikeToBigInt(blockscoutTransaction.value),
-                evmNetwork.type
-            ),
+            rawAmount: getAmountFromEvmTransaction(blockscoutTransaction.value, evmNetwork.type),
         },
     } as EvmCoinTransferActivity
 }
