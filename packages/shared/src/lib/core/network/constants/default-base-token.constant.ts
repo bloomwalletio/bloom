@@ -35,6 +35,7 @@ export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]?: IBaseToken }> = 
     [SupportedNetworkId.Iota]: IOTA_BASE_TOKEN,
     [SupportedNetworkId.Shimmer]: SHIMMER_BASE_TOKEN,
     [SupportedNetworkId.Testnet]: SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.IotaEvm]: IOTA_BASE_TOKEN,
     [SupportedNetworkId.ShimmerEvm]: SHIMMER_BASE_TOKEN,
     [SupportedNetworkId.TestnetEvm]: SHIMMER_BASE_TOKEN,
     [SupportedNetworkId.Ethereum]: EVM_BASE_TOKEN,
