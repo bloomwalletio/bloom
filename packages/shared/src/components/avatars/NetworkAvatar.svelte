@@ -22,7 +22,7 @@
         [SupportedNetworkId.Iota]: '#FFFFFF',
         [SupportedNetworkId.Shimmer]: 'shimmer',
         [SupportedNetworkId.Testnet]: 'text-secondary',
-        [SupportedNetworkId.IotaEvm]: '#000000',
+        [SupportedNetworkId.IotaEvm]: '#FFFFFF',
         [SupportedNetworkId.ShimmerEvm]: 'text-invert',
         [SupportedNetworkId.TestnetEvm]: 'shimmer-background',
     }
