@@ -8,7 +8,7 @@ import { SupportedIscNetworkId, SupportedNetworkId, SupportedStardustNetworkId }
 export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetworkId]?: IIscChainConfiguration }> = {
     [SupportedStardustNetworkId.Iota]: {
         id: SupportedIscNetworkId.IotaEvm,
-        type: EvmNetworkType.Isc,
+        type: NetworkType.Isc,
         name: 'IOTA EVM',
         chainId: ChainId.IotaEvm,
         namespace: NetworkNamespace.Evm,
