@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 import { Nft } from '../interfaces'
-import { addNftToDownloadQueue, nftDownloadQueue, updateNftForAllAccounts, updatePersistedNft } from '../stores'
+import { nftDownloadQueue, updateNftsForAllAccounts, updatePersistedNfts } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
 import { NftDownloadOptions } from '../types'
 
@@ -10,37 +10,32 @@ export async function addNftsToDownloadQueue(nfts: Nft[], options?: Partial<NftD
     }
 
     const fullOptions: NftDownloadOptions = { skipDownloadSettingsCheck: false, skipSizeCheck: false, ...options }
-    const nftsToAdd: Nft[] = []
+    const nftsToAdd: { nft: Nft; shouldDownload: boolean }[] = []
     for (const nft of nfts) {
         const isNftInDownloadQueue = get(nftDownloadQueue).some((queueItem) => queueItem.nft.id === nft.id)
         if (isNftInDownloadQueue || nft.isLoaded) {
             continue
         }
 
-        const nftToAdd = await validateNft(nft, fullOptions.skipDownloadSettingsCheck)
-        if (nftToAdd) {
-            nftsToAdd.push(nftToAdd)
-        }
-    }
-
-    for (const nft of nftsToAdd) {
-        addNftToDownloadQueue(nft, fullOptions)
-    }
-}
-
-async function validateNft(nft: Nft, skipDownloadSettingsCheck: boolean): Promise<Nft | undefined> {
-    try {
         const { shouldDownload, downloadMetadata, isLoaded } = await checkIfNftShouldBeDownloaded(
             nft,
-            skipDownloadSettingsCheck
+            fullOptions.skipDownloadSettingsCheck
         )
-        updatePersistedNft(nft.id, { downloadMetadata })
-        updateNftForAllAccounts({ id: nft.id, downloadMetadata, isLoaded })
 
-        if (shouldDownload) {
-            return nft
-        }
-    } catch (error) {
-        console.error(error)
+        nftsToAdd.push({ nft: { ...nft, downloadMetadata, isLoaded }, shouldDownload })
     }
+
+    updatePersistedNfts(nftsToAdd.map(({ nft }) => ({ id: nft.id, downloadMetadata: nft.downloadMetadata })))
+    updateNftsForAllAccounts(
+        nftsToAdd.map(({ nft }) => ({ id: nft.id, downloadMetadata: nft.downloadMetadata, isLoaded: nft.isLoaded }))
+    )
+
+    nftDownloadQueue.update((state) => {
+        for (const nft of nftsToAdd) {
+            if (!nft.shouldDownload) {
+                state.push({ nft: nft.nft, options: fullOptions })
+            }
+        }
+        return state
+    })
 }
