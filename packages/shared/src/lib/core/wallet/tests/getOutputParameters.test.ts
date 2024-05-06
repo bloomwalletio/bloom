@@ -1,5 +1,6 @@
 import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
 import { TESTNET_EVM_CHAIN_CONFIGURATION, SupportedNetworkId } from '@core/network/constants'
+import { IscChain } from '@core/network/classes'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
@@ -32,19 +33,7 @@ const nativeTokenAsset: IToken = {
     verification: { verified: true, status: VerifiedStatus.SelfVerified },
 }
 
-const destinationNetwork = {
-    ...TESTNET_EVM_CHAIN_CONFIGURATION,
-    getMetadata() {
-        return {
-            gasFeePolicy: {
-                gasPerToken: {
-                    a: 1,
-                    b: 1,
-                },
-            },
-        }
-    },
-}
+const destinationNetwork = new IscChain(TESTNET_EVM_CHAIN_CONFIGURATION)
 
 const nftId = '0xcd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1'
 const surplus = '50000'
