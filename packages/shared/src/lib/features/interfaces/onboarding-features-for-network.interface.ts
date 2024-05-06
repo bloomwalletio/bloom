@@ -17,4 +17,5 @@ export interface IOnboardingFeaturesForNetwork extends IFeatureFlag {
         strongholdBackup: IFeatureFlag
         ledgerBackup: IFeatureFlag
     }
+    defaultIscChains: IFeatureFlag
 }

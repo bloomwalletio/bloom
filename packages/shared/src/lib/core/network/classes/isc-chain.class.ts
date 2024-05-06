@@ -2,7 +2,6 @@ import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
 import { NetworkType } from '@core/network/enums'
 import { getActiveProfileId } from '@core/profile/stores'
 import { ITokenBalance } from '@core/token/interfaces'
-import { Converter } from '@core/utils'
 import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 import { EvmNetwork } from './evm-network.class'
 import { IAccountState } from '@core/account/interfaces'
@@ -32,12 +31,15 @@ export class IscChain extends EvmNetwork implements IIscChain {
         this._chainApi = new URL(`v1/chains/${aliasAddress}`, apiEndpoint).href
     }
 
-    getMetadata(): Promise<IIscChainMetadata> {
-        if (this._metadata) {
-            return Promise.resolve(this._metadata)
-        } else {
-            this._metadata = <IIscChainMetadata>{} // await this.fetchChainMetadata()
-            return Promise.resolve(this._metadata)
+    getMetadata(): IIscChainMetadata | undefined {
+        return this._metadata
+    }
+
+    async setMetadata(): Promise<void> {
+        try {
+            this._metadata = await this.fetchChainMetadata()
+        } catch (err) {
+            console.error(err)
         }
     }
 
@@ -87,9 +89,9 @@ export class IscChain extends EvmNetwork implements IIscChain {
         return { ...tokenBalance, ...iscBalance }
     }
 
-    async getGasEstimate(hex: string): Promise<bigint> {
+    async getGasFeeEstimate(outputBytes: string): Promise<bigint> {
         const URL = `${this._chainApi}/estimategas-onledger`
-        const body = JSON.stringify({ outputBytes: hex })
+        const body = JSON.stringify({ outputBytes })
 
         const requestInit: RequestInit = {
             method: 'POST',
@@ -104,12 +106,12 @@ export class IscChain extends EvmNetwork implements IIscChain {
         const data = await response.json()
 
         if (response.status === 200) {
-            const gasEstimate = Converter.bigIntLikeToBigInt(data.gasFeeCharged)
-            if (gasEstimate === BigInt(0)) {
-                throw new Error(`Gas fee has an invalid value: ${gasEstimate}!`)
+            const gasFee = BigInt(data.gasFeeCharged)
+            if (gasFee === BigInt(0)) {
+                throw new Error(`Gas fee has an invalid value: ${gasFee}!`)
             }
 
-            return gasEstimate
+            return gasFee
         } else {
             throw new Error(data)
         }
