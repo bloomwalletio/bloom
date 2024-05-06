@@ -5,15 +5,17 @@
     import { localize } from '@core/i18n'
     import { CURRENT_IRC27_VERSION, IIrc27Metadata } from '@core/nfts'
     import { getClient } from '@core/profile-manager'
-    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountPrecise } from '@core/token'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { formatTokenAmount } from '@core/token'
     import { buildNftOutputBuilderParams, mintNftCollection, mintNftCollectionDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { MediaIcon, PopupTab, getTabItems } from '@ui'
     import { onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { getL1Network } from '@core/network'
 
     const TABS = getTabItems([PopupTab.Transaction, PopupTab.Nft, PopupTab.NftMetadata])
+    const network = getL1Network()
 
     let selectedTab = TABS[0]
 
@@ -103,7 +105,7 @@
                         items={[
                             {
                                 key: localize('general.storageDeposit'),
-                                value: formatTokenAmountPrecise(storageDeposit, getBaseToken()),
+                                value: formatTokenAmount(BigInt(storageDeposit), network.baseToken),
                             },
                             {
                                 key: localize('general.immutableIssuer'),

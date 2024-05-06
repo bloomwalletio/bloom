@@ -4,12 +4,15 @@
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { getBaseToken, checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
     import { mintNativeToken, mintTokenDetails, buildFoundryOutputBuilderParams, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { IIrc30Metadata, TokenStandard, formatTokenAmountPrecise } from '@core/token'
+    import { IIrc30Metadata, TokenStandard, formatTokenAmount } from '@core/token'
     import { getClient } from '@core/profile-manager'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { getL1Network } from '@core/network'
+
+    const network = getL1Network()
 
     let storageDeposit = '0'
 
@@ -28,7 +31,7 @@
             )
             const client = await getClient()
             const preparedOutput = await client.buildFoundryOutput(foundryOutputParams)
-            storageDeposit = formatTokenAmountPrecise(Number(preparedOutput.amount) ?? 0, getBaseToken())
+            storageDeposit = formatTokenAmount(BigInt(preparedOutput.amount ?? 0), network.baseToken)
         }
     }
 

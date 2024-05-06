@@ -3,7 +3,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { ITokenWithBalance, formatTokenAmount } from '@core/token'
     import { burnToken } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -11,7 +11,7 @@
     export let token: ITokenWithBalance
     export let rawAmount: bigint
 
-    $: formattedAmount = formatTokenAmountBestMatch(rawAmount, token?.metadata)
+    $: formattedAmount = formatTokenAmount(rawAmount, token?.metadata)
 
     function onBackClick(): void {
         openPopup({
