@@ -1,14 +1,13 @@
 import { IAccountState } from '@core/account/interfaces'
 import { ContractType } from '@core/layer-2/enums'
 import { Contract } from '@core/layer-2/types'
+import { Nft } from '@core/nfts/interfaces'
 import { ITokenBalance } from '@core/token/interfaces'
 import { ChainId, NetworkNamespace, NetworkType } from '../enums'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { IBaseNetwork, IBaseNetworkMetadata } from './base-network.interface'
 import { IBlock } from './block.interface'
 import { IIscChainMetadata } from './isc-chain-metadata.interface'
-import { Nft } from '@core/nfts/interfaces'
-import { IAccountState } from '@core/account/interfaces'
 
 export interface IIscChain extends IEvmNetwork {
     type: NetworkType.Isc
