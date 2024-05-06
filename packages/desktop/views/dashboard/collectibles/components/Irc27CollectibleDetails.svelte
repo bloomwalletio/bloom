@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint, getDefaultExplorerUrl, getL1Network } from '@core/network'
     import { IIrc27Nft } from '@core/nfts'
-    import { formatTokenAmount } from '@core/token'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
     import { AddressType } from '@iota/sdk/out/types'
     import { NetworkLabel } from '@ui'
@@ -52,7 +52,7 @@
         },
         {
             key: localize('general.storageDeposit'),
-            value: storageDeposit ? formatTokenAmount(storageDeposit, l1Network.baseToken) : undefined,
+            value: storageDeposit ? formatTokenAmountBestMatch(storageDeposit, l1Network.baseToken) : undefined,
         },
         {
             key: localize('general.standard'),

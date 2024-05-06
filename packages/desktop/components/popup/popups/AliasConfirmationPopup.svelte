@@ -14,7 +14,7 @@
     } from '@iota/sdk/out/types'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { api, getClient } from '@core/profile-manager'
-    import { formatTokenAmount } from '@core/token'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { getL1Network } from '@core/network'
     import PopupTemplate from '../PopupTemplate.svelte'
 
@@ -39,7 +39,7 @@
         try {
             const client = await getClient()
             const resp = await client.buildAliasOutput(params)
-            storageDeposit = formatTokenAmount(BigInt(resp.amount), network.baseToken)
+            storageDeposit = formatTokenAmountBestMatch(BigInt(resp.amount), network.baseToken)
         } catch (err) {
             handleError(err)
         }

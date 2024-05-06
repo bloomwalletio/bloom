@@ -7,7 +7,7 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { mintNativeToken, mintTokenDetails, buildFoundryOutputBuilderParams, IMintTokenDetails } from '@core/wallet'
     import { closePopup, openPopup, PopupId } from '@desktop/auxiliary/popup'
-    import { IIrc30Metadata, TokenStandard, formatTokenAmount } from '@core/token'
+    import { IIrc30Metadata, TokenStandard, formatTokenAmountBestMatch } from '@core/token'
     import { getClient } from '@core/profile-manager'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { getL1Network } from '@core/network'
@@ -31,7 +31,7 @@
             )
             const client = await getClient()
             const preparedOutput = await client.buildFoundryOutput(foundryOutputParams)
-            storageDeposit = formatTokenAmount(BigInt(preparedOutput.amount ?? 0), network.baseToken)
+            storageDeposit = formatTokenAmountBestMatch(BigInt(preparedOutput.amount ?? 0), network.baseToken)
         }
     }
 

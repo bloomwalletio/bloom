@@ -6,13 +6,13 @@
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmount } from '@core/token'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     export let selectedAnswerValues: number[]
 
-    $: formattedVotingPower = formatTokenAmount($selectedAccount?.votingPower, getBaseToken())
+    $: formattedVotingPower = formatTokenAmountBestMatch($selectedAccount?.votingPower, getBaseToken())
     $: hasVotingPower = $selectedAccount?.votingPower > 0
 
     $: hasGovernanceTransactionInProgress =

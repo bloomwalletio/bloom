@@ -11,7 +11,7 @@ type FormatOptions = Partial<{
     decimals: number
 }>
 
-export function formatTokenAmount(
+export function formatTokenAmountBestMatch(
     amount: bigint | undefined,
     tokenMetadata?: TokenMetadata,
     options?: FormatOptions

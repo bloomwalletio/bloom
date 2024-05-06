@@ -6,7 +6,7 @@
     import { CURRENT_IRC27_VERSION, IIrc27Metadata } from '@core/nfts'
     import { getClient } from '@core/profile-manager'
     import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { formatTokenAmount } from '@core/token'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { MediaIcon, PopupTab, getTabItems } from '@ui'
@@ -127,19 +127,24 @@
                             },
                             {
                                 key: localize('general.storageDepositPerNft'),
-                                value: quantity > 1 ? formatTokenAmount(storageDeposit, network.baseToken) : undefined,
+                                value:
+                                    quantity > 1
+                                        ? formatTokenAmountBestMatch(storageDeposit, network.baseToken)
+                                        : undefined,
                             },
                             {
                                 key: localize('general.totalStorageDeposit'),
                                 value:
                                     quantity > 1
-                                        ? formatTokenAmount(totalStorageDeposit, network.baseToken)
+                                        ? formatTokenAmountBestMatch(totalStorageDeposit, network.baseToken)
                                         : undefined,
                             },
                             {
                                 key: localize('general.storageDeposit'),
                                 value:
-                                    quantity === 1 ? formatTokenAmount(storageDeposit, network.baseToken) : undefined,
+                                    quantity === 1
+                                        ? formatTokenAmountBestMatch(storageDeposit, network.baseToken)
+                                        : undefined,
                             },
                             {
                                 key: localize('general.immutableIssuer'),
