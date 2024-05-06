@@ -18,11 +18,17 @@ import features from '@features/features'
 
 import { LedgerApiMethod } from '@core/ledger/enums'
 
+import { ITransakWindowData } from '@core/app/interfaces'
+import { DEFAULT_WEB_PREFERENCES } from '../constants/default-web-preferences.constant'
 import { windows } from '../constants/windows.constant'
+import { IElectronSettings, IWindowState } from '../interfaces'
 import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
+import { registerPowerMonitorListeners } from '../listeners'
 import AutoUpdateManager from '../managers/auto-update.manager'
+import { ElectronSettingsManager } from '../managers/electron-settings.manager'
 import KeychainManager from '../managers/keychain.manager'
 import NftDownloadManager from '../managers/nft-download.manager'
+import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
 import TransakManager from '../managers/transak.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
@@ -32,12 +38,6 @@ import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
-import { registerPowerMonitorListeners } from '../listeners'
-import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
-import { ITransakWindowData } from '@core/app/interfaces'
-import { ElectronSettingsManager } from '../managers/electron-settings.manager'
-import { IElectronSettings, IWindowState } from '../interfaces'
-import { DEFAULT_WEB_PREFERENCES } from '../constants/default-web-preferences.constant'
 import { AboutWindow } from '../windows/about.window'
 
 export let appIsReady = false
@@ -118,14 +118,6 @@ const paths = {
     ledger: '',
 }
 
-let versionDetails = {
-    upToDate: true,
-    currentVersion: app.getVersion(),
-    newVersion: '',
-    newVersionReleaseDate: new Date(),
-    changelog: '',
-}
-
 if (app.isPackaged) {
     paths.html = path.join(app.getAppPath(), '/public/index.html')
     paths.preload = path.join(app.getAppPath(), '/public/build/preload.js')
@@ -162,6 +154,7 @@ function tryOpenExternalUrl(e: Event, url: string): void {
     }
 }
 
+let autoUpdateManager: AutoUpdateManager
 export function createMainWindow(): BrowserWindow {
     const mainWindowState = windowStateKeeper('main')
 
@@ -198,7 +191,7 @@ export function createMainWindow(): BrowserWindow {
 
         void windows.main.loadURL('http://localhost:8080')
     } else {
-        new AutoUpdateManager()
+        autoUpdateManager = new AutoUpdateManager()
 
         // load the index.html of the app.
         void windows.main.loadFile(paths.html)
@@ -239,7 +232,7 @@ export function createMainWindow(): BrowserWindow {
     })
 
     windows.main.webContents.on('did-finish-load', () => {
-        windows.main?.webContents?.send?.('version-details', versionDetails)
+        windows.main?.webContents?.send?.('version-details', autoUpdateManager.getVersionDetails())
     })
 
     /**
@@ -427,7 +420,6 @@ ipcMain.handle('get-path', (_e, path) => {
     }
     return app.getPath(path)
 })
-ipcMain.handle('get-version-details', () => versionDetails)
 ipcMain.handle('focus-window', () => {
     if (windows.main) {
         if (windows.main.isMinimized()) {
@@ -626,10 +618,4 @@ function windowStateKeeper(windowName: string): IWindowState {
         isMaximized: windowState.isMaximized,
         track,
     }
-}
-
-export function updateAppVersionDetails(details: object): void {
-    versionDetails = Object.assign({}, versionDetails, details)
-
-    getOrInitWindow('main').webContents.send('version-details', versionDetails)
 }
