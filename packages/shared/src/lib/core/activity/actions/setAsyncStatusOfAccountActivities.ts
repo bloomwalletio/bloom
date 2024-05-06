@@ -1,11 +1,11 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
-import { updateNftInAllAccountNftsForAccount } from '@core/nfts/actions'
 import { loadTokensForAllAccountBalances } from '@core/token/actions'
 import { StardustActivityAsyncStatus, ActivityDirection, StardustActivityType } from '../enums'
 import { allAccountActivities } from '../stores'
 import { getAsyncStatus } from '../utils/helper'
 import { NetworkNamespace } from '@core/network'
 import { StardustActivity } from '../types'
+import { updateNftForAccount } from '@core/nfts/stores'
 
 export function setAsyncStatusOfAccountActivities(time: Date): void {
     const balancesToUpdate: number[] = []
@@ -44,7 +44,7 @@ export function setAsyncStatusOfAccountActivities(time: Date): void {
                         activity.asyncData.asyncStatus === StardustActivityAsyncStatus.Expired &&
                         activity.direction === ActivityDirection.Outgoing
                     ) {
-                        updateNftInAllAccountNftsForAccount(accountIndex, activity.nftId, { isSpendable: true })
+                        updateNftForAccount(accountIndex, { id: activity.nftId, isSpendable: true })
                     }
                 }
             }

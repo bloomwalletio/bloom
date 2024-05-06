@@ -8,11 +8,12 @@ import { addAccountActivities, allAccountActivities } from '@core/activity/store
 import { generateActivitiesFromStardustNetwork } from '@core/activity/utils'
 import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { getActiveNetworkId } from '@core/network'
-import { addNftsToDownloadQueue, updateAllAccountNftsForAccount, buildNftFromNftOutput } from '@core/nfts/actions'
+import { addNftsToDownloadQueue, buildNftFromNftOutput } from '@core/nfts/actions'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { get } from 'svelte/store'
 import { validateWalletApiEvent } from '../../utils'
+import { addOrUpdateNftForAccount } from '@core/nfts/stores'
 
 export function handleNewOutputEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<NewOutputWalletEvent>(error, event, WalletEventType.NewOutput)
@@ -57,7 +58,7 @@ export async function handleNewOutputEventInternal(
 
     if (isNftOutput) {
         const nft = buildNftFromNftOutput(output as IWrappedOutput, networkId, account.depositAddress)
-        updateAllAccountNftsForAccount(account.index, nft)
+        addOrUpdateNftForAccount(account.index, nft)
         void addNftsToDownloadQueue([nft])
 
         checkAndRemoveProfilePicture()
