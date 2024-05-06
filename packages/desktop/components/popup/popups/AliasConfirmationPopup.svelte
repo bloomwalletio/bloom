@@ -4,7 +4,7 @@
     import { processAndAddToActivities } from '@core/activity/actions'
     import { handleError } from '@core/error/handlers/handleError'
     import { localize } from '@core/i18n'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
     import { EMPTY_HEX_ID, sendPreparedTransaction } from '@core/wallet'
     import {
         AliasOutputBuilderParams,
@@ -15,12 +15,11 @@
     import { closePopup } from '@desktop/auxiliary/popup'
     import { api, getClient } from '@core/profile-manager'
     import { formatTokenAmountBestMatch } from '@core/token'
-    import { getL1Network } from '@core/network'
+    import { getActiveNetworkId } from '@core/network'
     import PopupTemplate from '../PopupTemplate.svelte'
 
     let storageDeposit: string = '0'
 
-    const network = getL1Network()
     const address = new Ed25519Address(api.bech32ToHex($selectedAccount.depositAddress))
 
     const aliasOutputParams: AliasOutputBuilderParams = {
@@ -39,7 +38,7 @@
         try {
             const client = await getClient()
             const resp = await client.buildAliasOutput(params)
-            storageDeposit = formatTokenAmountBestMatch(BigInt(resp.amount), network.baseToken)
+            storageDeposit = formatTokenAmountBestMatch(BigInt(resp.amount), getBaseToken())
         } catch (err) {
             handleError(err)
         }
@@ -53,10 +52,12 @@
         }
 
         try {
+            const networkId = getActiveNetworkId()
+
             updateSelectedAccount({ isTransferring: true })
             const preparedTransaction = await $selectedAccount.prepareCreateAliasOutput()
             const transaction = await sendPreparedTransaction(preparedTransaction)
-            await processAndAddToActivities(transaction, $selectedAccount, network.id)
+            await processAndAddToActivities(transaction, $selectedAccount, networkId)
             closePopup()
         } catch (err) {
             handleError(err)
