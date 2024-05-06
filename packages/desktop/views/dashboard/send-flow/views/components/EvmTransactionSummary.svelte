@@ -10,6 +10,7 @@
     import { TransactionAssetSection } from '@ui'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
     import { handleError } from '@core/error/handlers'
+    import { StardustNetworkId } from '@core/network'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
@@ -36,7 +37,10 @@
                     destinationNetworkId &&
                     destinationNetworkId !== _sendFlowParameters?.tokenTransfer?.token.networkId
                 ) {
-                    return getL2ToL1StorageDepositBuffer(SendFlowType.TokenUnwrap, destinationNetworkId)
+                    return getL2ToL1StorageDepositBuffer(
+                        SendFlowType.TokenUnwrap,
+                        destinationNetworkId as StardustNetworkId
+                    )
                 }
             } else if (type === SendFlowType.NftTransfer) {
                 if (
@@ -44,7 +48,10 @@
                     destinationNetworkId !== _sendFlowParameters.nft?.networkId &&
                     isIrc27Nft(_sendFlowParameters.nft)
                 ) {
-                    const buffer = getL2ToL1StorageDepositBuffer(SendFlowType.NftUnwrap, destinationNetworkId)
+                    const buffer = getL2ToL1StorageDepositBuffer(
+                        SendFlowType.NftUnwrap,
+                        destinationNetworkId as StardustNetworkId
+                    )
                     return (_sendFlowParameters.nft?.storageDeposit ?? BigInt(0)) + buffer
                 }
             }

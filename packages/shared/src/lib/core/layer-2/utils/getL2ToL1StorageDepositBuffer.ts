@@ -1,8 +1,6 @@
-import { nodeInfo } from '@core/network'
+import { StardustNetworkId, getStardustNetwork } from '@core/network'
 import { DEFAULT_PROTOCOL } from '@core/network/constants'
-import { NetworkId } from '@core/network/types'
 import { SendFlowType } from '@core/wallet/enums'
-import { get } from 'svelte/store'
 
 const L2_TO_L1_STORAGE_DEPOSIT_BUFFER_BYTES: { [key in UnwrapSendFlow]: bigint } = {
     [SendFlowType.TokenUnwrap]: BigInt(565),
@@ -11,13 +9,18 @@ const L2_TO_L1_STORAGE_DEPOSIT_BUFFER_BYTES: { [key in UnwrapSendFlow]: bigint }
 
 type UnwrapSendFlow = SendFlowType.TokenUnwrap | SendFlowType.NftUnwrap
 
-export function getL2ToL1StorageDepositBuffer(type: UnwrapSendFlow, network: NetworkId): bigint {
-    const actualVByteCost = get(nodeInfo)?.protocol.rentStructure.vByteCost
-    let expectedVByteCost = DEFAULT_PROTOCOL[network]?.rentStructure.vByteCost
+export function getL2ToL1StorageDepositBuffer(type: UnwrapSendFlow, networkId: StardustNetworkId): bigint {
+    const network = getStardustNetwork(networkId)
+    if (!network) {
+        return BigInt(0)
+    }
+
+    const actualVByteCost = network.protocol.rentStructure.vByteCost
+    let expectedVByteCost = DEFAULT_PROTOCOL[networkId]?.rentStructure.vByteCost
 
     // TODO: Validate byte cost returned by node
     if (!expectedVByteCost && !actualVByteCost) {
-        throw new Error(`Virtual byte cost for ${network} is undefined!`)
+        throw new Error(`Virtual byte cost for ${networkId} is undefined!`)
         // } else if (!actualVByteCost) {
         //     throw new Error('Node does not return virtual byte cost')
     } else if (!expectedVByteCost) {

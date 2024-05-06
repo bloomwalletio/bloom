@@ -15,6 +15,7 @@ import { TokenStandard } from '@core/token/enums'
 import { IIrc27Nft } from '@core/nfts'
 import { getTokenBalance } from '@core/token/actions'
 import { IError } from '@core/error'
+import { StardustNetworkId } from '@core/network'
 
 export async function createEvmToStardustTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -38,7 +39,10 @@ export async function createEvmToStardustTransaction(
             const { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
             const isBaseCoin = token?.standard === TokenStandard.BaseToken
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
-            storageDepositRequired = getL2ToL1StorageDepositBuffer(SendFlowType.TokenUnwrap, destinationNetworkId)
+            storageDepositRequired = getL2ToL1StorageDepositBuffer(
+                SendFlowType.TokenUnwrap,
+                destinationNetworkId as StardustNetworkId
+            )
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
             if (token?.standard === TokenStandard.BaseToken && amount) {
                 const availableBalance = getTokenBalance(token.id, evmNetwork.id)?.available ?? BigInt(0)
@@ -48,7 +52,7 @@ export async function createEvmToStardustTransaction(
             const nft = sendFlowParameters.nft as IIrc27Nft
             storageDepositRequired =
                 (nft?.storageDeposit ?? BigInt(0)) +
-                getL2ToL1StorageDepositBuffer(SendFlowType.NftUnwrap, destinationNetworkId)
+                getL2ToL1StorageDepositBuffer(SendFlowType.NftUnwrap, destinationNetworkId as StardustNetworkId)
             transferredAsset = nft ? { type: AssetType.Nft, nft } : undefined
         }
 
