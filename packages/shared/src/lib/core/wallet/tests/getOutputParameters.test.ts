@@ -1,5 +1,5 @@
 import { FALLBACK_ESTIMATED_GAS } from '@core/layer-2/constants'
-import { DEFAULT_ISC_CHAINS_CONFIGURATIONS, SupportedNetworkId } from '@core/network/constants'
+import { TESTNET_EVM_CHAIN_CONFIGURATION, SupportedNetworkId } from '@core/network/constants'
 import { getOutputParameters } from '../utils'
 import { ReturnStrategy, SubjectType } from '../enums'
 import { IToken, IPersistedToken } from '@core/token/interfaces'
@@ -32,7 +32,19 @@ const nativeTokenAsset: IToken = {
     verification: { verified: true, status: VerifiedStatus.SelfVerified },
 }
 
-const destinationNetwork = DEFAULT_ISC_CHAINS_CONFIGURATIONS[SupportedNetworkId.Testnet]
+const destinationNetwork = {
+    ...TESTNET_EVM_CHAIN_CONFIGURATION,
+    getMetadata() {
+        return {
+            gasFeePolicy: {
+                gasPerToken: {
+                    a: 1,
+                    b: 1,
+                },
+            },
+        }
+    },
+}
 
 const nftId = '0xcd9430ff870a22f81f92428e5c06975fa3ec1a993331aa3db9fb2298e931ade1'
 const surplus = '50000'
@@ -227,7 +239,7 @@ describe('File: getOutputParameters.ts', () => {
             ...baseTransaction,
             expirationDate,
             destinationNetworkId: destinationNetwork.id,
-            gasFee,
+            gasFee: BigInt(gasFee),
         }
         const output = getOutputParameters(sendFlowParameters, senderAddress)
         const expectedOutput = {
@@ -259,7 +271,7 @@ describe('File: getOutputParameters.ts', () => {
                 rawAmount: BigInt(amount),
             },
             destinationNetworkId: destinationNetwork.id,
-            gasFee,
+            gasFee: BigInt(gasFee),
         }
         const output = getOutputParameters(sendFlowParameters, senderAddress)
 
@@ -291,7 +303,7 @@ describe('File: getOutputParameters.ts', () => {
             recipient: baseTransaction.recipient,
             nft: testNft,
             destinationNetworkId: destinationNetwork.id,
-            gasFee,
+            gasFee: BigInt(gasFee),
         }
         const output = getOutputParameters(sendFlowParameters, senderAddress)
 
