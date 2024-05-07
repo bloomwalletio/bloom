@@ -1,6 +1,5 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
-import { calculateGasFee } from '@core/layer-2/helpers'
 import { IEvmNetwork, NetworkNamespace } from '@core/network'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
@@ -39,7 +38,7 @@ export async function generateBaseEvmActivity(
     // https://discord.com/channels/397872799483428865/930642258427019354/1168854453005332490
     const gasUsed = transaction.gasUsed || transaction.estimatedGas
     const transactionFee = transaction.gasPrice
-        ? calculateGasFee(gasUsed ?? 0, transaction.gasPrice, evmNetwork.type)
+        ? evmNetwork.calculateGasFee(gasUsed ?? 0, transaction.gasPrice)
         : undefined
 
     return {

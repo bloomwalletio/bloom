@@ -1,14 +1,13 @@
+import { IEvmNetwork } from '@core/network'
 import { EvmTransactionData } from '../types'
-import { calculateGasFee } from '../helpers'
-import { NetworkType } from '@core/network'
 
 export function calculateMaxGasFeeFromTransactionData(
     transactionData: EvmTransactionData,
-    networkType: NetworkType
+    network: IEvmNetwork
 ): bigint {
     const { gasLimit, gasPrice } = transactionData
     if (gasLimit && gasPrice) {
-        return calculateGasFee(gasLimit, gasPrice, networkType)
+        return network.calculateGasFee(gasLimit, gasPrice)
     } else {
         return BigInt(0)
     }

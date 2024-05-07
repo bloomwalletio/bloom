@@ -4,9 +4,17 @@ import { IPlatformEventMap } from '@core/app/interfaces'
 import { localize } from '@core/i18n'
 import { IEvmAddress, IEvmSignature } from '@core/layer-2/interfaces'
 import { calculateMaxGasFeeFromTransactionData, prepareEvmTransaction } from '@core/layer-2/utils'
+import {
+    ILedgerApiRequestOptions,
+    ILedgerEthereumAppSettings,
+    isBlindSigningRequiredForEvmTransaction,
+} from '@core/ledger'
+import { IEvmNetwork } from '@core/network'
 import { Converter, MILLISECONDS_PER_SECOND } from '@core/utils'
 import { TypedTxData } from '@ethereumjs/tx'
+import { toRpcSig } from '@ethereumjs/util'
 import type { Bip44 } from '@iota/sdk/out/types'
+import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
 import {
     ProfileAuthPopupId,
     closeProfileAuthPopup,
@@ -16,15 +24,6 @@ import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
-import {
-    ILedgerApiRequestOptions,
-    ILedgerEthereumAppSettings,
-    isBlindSigningRequiredForEvmTransaction,
-} from '@core/ledger'
-import { toRpcSig } from '@ethereumjs/util'
-import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
-import { getAmountFromEvmTransaction } from '@core/layer-2/helpers'
-import { IEvmNetwork } from '@core/network'
 
 declare global {
     interface Window {
@@ -73,7 +72,7 @@ export class Ledger {
     ): Promise<string | undefined> {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, network.chainId)
         const bip32Path = buildBip32PathFromBip44(bip44)
-        const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData, network.type)
+        const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData, network)
 
         const mustEnableBlindSigning =
             isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
@@ -81,7 +80,7 @@ export class Ledger {
             await this.userEnablesBlindSigning()
         }
 
-        const rawAmount = getAmountFromEvmTransaction(transactionData.value ?? 0, network.type).toString(10)
+        const rawAmount = network.normaliseAmount(transactionData.value ?? 0).toString(10)
 
         openProfileAuthPopup({
             id: ProfileAuthPopupId.VerifyLedgerTransaction,

@@ -68,7 +68,7 @@
 
     <EvmTransactionDetails
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
-        estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction, network.type) + storageDeposit}
-        maxGasFee={calculateMaxGasFeeFromTransactionData(transaction, network.type) + storageDeposit}
+        estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction, network) + storageDeposit}
+        maxGasFee={calculateMaxGasFeeFromTransactionData(transaction, network) + storageDeposit}
     />
 </div>

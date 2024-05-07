@@ -1,8 +1,7 @@
+import { IEvmNetwork } from '@core/network'
 import { Converter, HEX_PREFIX } from '@core/utils'
-import { getAmountForEvmTransaction } from '../helpers'
 import { GAS_LIMIT_MULTIPLIER } from '../constants'
 import { EvmTransactionData } from '../types'
-import { IEvmNetwork } from '@core/network'
 
 export async function buildEvmTransactionData(
     evmNetwork: IEvmNetwork,
@@ -28,6 +27,6 @@ export async function buildEvmTransactionData(
     // Ether has 18 decimal places and the library expects a value in wei
     // Shimmer has 6 decimal places, so the difference is 12
     // We add 12 additional zeros to convert the glow to wei
-    const value = HEX_PREFIX + getAmountForEvmTransaction(amount, evmNetwork.type).toString(16)
+    const value = HEX_PREFIX + evmNetwork.denormaliseAmount(amount).toString(16)
     return { nonce, gasPrice: hexGasPrice, estimatedGas, gasLimit, to, value, data }
 }

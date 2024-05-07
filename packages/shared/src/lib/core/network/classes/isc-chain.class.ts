@@ -10,10 +10,13 @@ import { getPersistedTransactionsForChain } from '@core/transactions/stores'
 import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { StardustActivityType } from '@core/activity'
 import { getNftsFromNftIds } from '@core/nfts/utils'
+import { Converter } from '@core/utils'
+import { BigIntLike } from '@ethereumjs/util'
 
 export class IscChain extends EvmNetwork implements IIscChain {
     private readonly _chainApi: string
     private _metadata: IIscChainMetadata | undefined
+    private WEI_PER_GLOW = BigInt(1_000_000_000_000)
 
     public readonly explorerUrl: string | undefined
     public readonly apiEndpoint: string
@@ -115,5 +118,22 @@ export class IscChain extends EvmNetwork implements IIscChain {
         } else {
             throw new Error(data)
         }
+    }
+
+    calculateGasFee(gasAmount: BigIntLike, gasPriceInWei: BigIntLike | undefined): bigint {
+        if (gasAmount && gasPriceInWei) {
+            const normalisedGasAmount = this.normaliseEvmAmount(gasAmount)
+            return super.calculateGasFee(normalisedGasAmount, gasPriceInWei)
+        } else {
+            return BigInt(0)
+        }
+    }
+
+    denormaliseEvmAmount(amount: BigIntLike): bigint {
+        return Converter.bigIntLikeToBigInt(amount) * this.WEI_PER_GLOW
+    }
+
+    normaliseEvmAmount(amount: BigIntLike): bigint {
+        return Converter.bigIntLikeToBigInt(amount) / this.WEI_PER_GLOW
     }
 }

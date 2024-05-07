@@ -13,9 +13,8 @@ import { IEvmNetwork } from '@core/network'
 import { NftStandard } from '@core/nfts'
 import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { LocalEvmTransaction } from '@core/transactions'
-import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { SubjectType } from '@core/wallet'
-import { getAmountFromEvmTransaction } from '@core/layer-2/helpers'
+import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -109,7 +108,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
             type: EvmActivityType.CoinTransfer,
             baseTokenTransfer: {
                 tokenId: BASE_TOKEN_ID,
-                rawAmount: getAmountFromEvmTransaction(transaction.value ?? 0, evmNetwork.type),
+                rawAmount: evmNetwork.normaliseAmount(transaction.value ?? 0),
             },
         } as EvmCoinTransferActivity
     }

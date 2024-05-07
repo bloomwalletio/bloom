@@ -13,7 +13,6 @@ import { SubjectType } from '@core/wallet'
 import { ActivityDirection } from '@core/activity/enums'
 import { getMethodForEvmTransaction } from '@core/layer-2'
 import { addMethodToRegistry, getMethodFromRegistry } from '@core/layer-2/stores/method-registry.store'
-import { getAmountFromEvmTransaction } from '@core/layer-2/helpers'
 
 export async function generateEvmActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
@@ -109,7 +108,7 @@ async function generateEvmCoinTransferActivityFromBlockscoutTransaction(
         type: EvmActivityType.CoinTransfer,
         baseTokenTransfer: {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: getAmountFromEvmTransaction(blockscoutTransaction.value, evmNetwork.type),
+            rawAmount: evmNetwork.normaliseAmount(blockscoutTransaction.value),
         },
     } as EvmCoinTransferActivity
 }

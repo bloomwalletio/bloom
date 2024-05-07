@@ -1,14 +1,13 @@
 import { EvmTransactionData } from '../types'
-import { calculateGasFee } from '../helpers'
-import { NetworkType } from '@core/network'
+import { IEvmNetwork } from '@core/network'
 
 export function calculateEstimatedGasFeeFromTransactionData(
     transactionData: EvmTransactionData,
-    networkType: NetworkType
+    network: IEvmNetwork
 ): bigint {
     const { estimatedGas, gasPrice } = transactionData
     if (estimatedGas && gasPrice) {
-        return calculateGasFee(estimatedGas, gasPrice, networkType)
+        return network.calculateGasFee(estimatedGas, gasPrice)
     } else {
         return BigInt(0)
     }

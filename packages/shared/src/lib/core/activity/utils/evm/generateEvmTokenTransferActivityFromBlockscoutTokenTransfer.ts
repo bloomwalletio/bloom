@@ -13,7 +13,6 @@ import { ISmartContractSubject, SubjectType, getSubjectFromAddress, isSubjectInt
 import { EvmActivityType } from '@core/activity/enums/evm'
 import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
-import { calculateGasFee } from '@core/layer-2/helpers'
 import {
     BlockscoutTokenTransfer,
     isBlockscoutErc20Transfer,
@@ -55,7 +54,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
     const isInternal = isSubjectInternal(recipient)
 
     const transactionFee = blockscoutTransaction
-        ? calculateGasFee(blockscoutTransaction.gas_used ?? 0, blockscoutTransaction.gas_price, evmNetwork.type)
+        ? evmNetwork.calculateGasFee(blockscoutTransaction.gas_used ?? 0, blockscoutTransaction.gas_price)
         : undefined
 
     let tokenId: string | undefined
