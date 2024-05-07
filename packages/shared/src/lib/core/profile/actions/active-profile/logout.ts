@@ -77,12 +77,12 @@ function cleanupProfileState(clearActiveProfile: boolean): void {
         resetActiveProfile()
     }
     clearFilters()
-    resetClient()
     get(routerManager)?.resetRouters()
 }
 
 async function destroyWalletRsObjects(manager?: IProfileManager): Promise<void> {
     isDestroyingManager.set(true)
+    await resetClient()
     await manager?.stopBackgroundSync()
     await unsubscribeFromWalletApiEvents()
     await destroyProfileManager()

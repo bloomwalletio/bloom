@@ -3,7 +3,7 @@ import { api } from './api'
 import { get } from 'svelte/store'
 import { profileManager } from '../stores'
 
-let client
+let client: Client | undefined
 
 export async function getClient(): Promise<Client> {
     if (!client) {
@@ -16,6 +16,9 @@ export async function getClient(): Promise<Client> {
     return client
 }
 
-export function resetClient(): void {
+export async function resetClient(): Promise<void> {
+    if (client) {
+        await client.destroy()
+    }
     client = undefined
 }
