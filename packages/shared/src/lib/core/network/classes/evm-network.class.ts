@@ -160,11 +160,7 @@ export class EvmNetwork implements IEvmNetwork {
     }
 
     calculateGasFee(gasAmount: BigIntLike, gasPriceInWei: BigIntLike | undefined): bigint {
-        if (gasAmount && gasPriceInWei) {
-            return Converter.bigIntLikeToBigInt(gasAmount) * Converter.bigIntLikeToBigInt(gasPriceInWei)
-        } else {
-            return BigInt(0)
-        }
+        return Converter.bigIntLikeToBigInt(gasAmount ?? 0) * Converter.bigIntLikeToBigInt(gasPriceInWei ?? 0)
     }
 
     denormaliseAmount(amount: BigIntLike): bigint {

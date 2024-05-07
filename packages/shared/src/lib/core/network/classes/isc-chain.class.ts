@@ -121,12 +121,8 @@ export class IscChain extends EvmNetwork implements IIscChain {
     }
 
     calculateGasFee(gasAmount: BigIntLike, gasPriceInWei: BigIntLike | undefined): bigint {
-        if (gasAmount && gasPriceInWei) {
-            const normalisedGasAmount = this.normaliseEvmAmount(gasAmount)
-            return super.calculateGasFee(normalisedGasAmount, gasPriceInWei)
-        } else {
-            return BigInt(0)
-        }
+        const normalisedGasAmount = this.normaliseEvmAmount(gasAmount ?? 0)
+        return super.calculateGasFee(normalisedGasAmount, gasPriceInWei)
     }
 
     denormaliseEvmAmount(amount: BigIntLike): bigint {
