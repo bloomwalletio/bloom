@@ -1398,7 +1398,7 @@
  delete mode 100644 packages/shared/lib/core/wallet/utils/convertBech32ToHexAddress.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/convertHexAddressToBech32.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/convertToRawAmount.ts
- delete mode 100644 packages/shared/lib/core/wallet/utils/formatTokenAmount.ts
+ delete mode 100644 packages/shared/lib/core/wallet/utils/formatTokenAmountBestMatch.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/formatTokenAmountDefault.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/generateActivity/generateActivities.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/generateActivity/generateActivitiesFromAliasOutputs.ts
