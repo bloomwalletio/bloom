@@ -1,7 +1,6 @@
 import { app, ipcMain } from 'electron'
-import { autoUpdater, CancellationToken, UpdateInfo, ProgressInfo } from 'electron-updater'
 import * as electronLog from 'electron-log'
-import { getOrInitWindow } from '../processes/main.process'
+import { CancellationToken, ProgressInfo, UpdateInfo, autoUpdater } from 'electron-updater'
 
 interface IVersionDetails {
     upToDate: boolean
@@ -12,14 +11,16 @@ interface IVersionDetails {
 }
 
 export default class AutoUpdateManager implements IVersionDetails {
+    private window: Electron.BrowserWindow
     private downloadCancellation?: CancellationToken
-    private upToDate: boolean = true
-    private currentVersion: string
-    private newVersion?: string
-    private newVersionReleaseDate?: Date
-    private changelog: string = ''
+    public upToDate: boolean = true
+    public currentVersion: string
+    public newVersion?: string
+    public newVersionReleaseDate?: Date
+    public changelog: string = ''
 
-    constructor() {
+    constructor(window: Electron.BrowserWindow) {
+        this.window = window
         this.currentVersion = app.getVersion()
         this.init()
     }
@@ -63,7 +64,7 @@ export default class AutoUpdateManager implements IVersionDetails {
         this.newVersionReleaseDate = versionDetails.newVersionReleaseDate ?? this.newVersionReleaseDate
         this.changelog = versionDetails.changelog ?? this.changelog
 
-        getOrInitWindow('main').webContents.send('version-details', this.getVersionDetails())
+        this.window?.webContents.send('version-details', this.getVersionDetails())
     }
 
     private handleUpdateAvailable(info: UpdateInfo): void {
@@ -82,16 +83,16 @@ export default class AutoUpdateManager implements IVersionDetails {
     }
 
     private handleDownloadProgress(progressObj: ProgressInfo): void {
-        getOrInitWindow('main').webContents.send('version-progress', progressObj)
+        this.window?.webContents.send('version-progress', progressObj)
     }
 
     private handleUpdateDownloaded(info: UpdateInfo): void {
-        getOrInitWindow('main').webContents.send('version-complete', info)
+        this.window?.webContents.send('version-complete', info)
     }
 
     private handleError(err: Error): void {
         this.downloadCancellation = undefined
-        getOrInitWindow('main').webContents.send('version-error', err)
+        this.window?.webContents.send('version-error', err)
     }
 
     private updateDownload(): void {

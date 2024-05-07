@@ -191,7 +191,7 @@ export function createMainWindow(): BrowserWindow {
 
         void windows.main.loadURL('http://localhost:8080')
     } else {
-        autoUpdateManager = new AutoUpdateManager()
+        autoUpdateManager = new AutoUpdateManager(windows.main)
 
         // load the index.html of the app.
         void windows.main.loadFile(paths.html)
