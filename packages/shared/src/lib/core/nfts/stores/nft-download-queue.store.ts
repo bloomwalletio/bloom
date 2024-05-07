@@ -5,17 +5,6 @@ import { NftDownloadOptions } from '../types'
 
 export const nftDownloadQueue = writable<{ nft: Nft; options: NftDownloadOptions }[]>([])
 
-export function addNftToDownloadQueue(nft: Nft, options: NftDownloadOptions): void {
-    const isNftInDownloadQueue = get(nftDownloadQueue).some((nftInQueue) => nftInQueue.nft.id === nft.id)
-    if (isNftInDownloadQueue) {
-        return
-    }
-
-    nftDownloadQueue.update((state) => {
-        return [...state, { nft, options }]
-    })
-}
-
 export function removeNftFromDownloadQueue(nftId: string): void {
     const isNftInDownloadQueue = get(nftDownloadQueue).some((nftInQueue) => nftInQueue.nft.id === nftId)
     if (!isNftInDownloadQueue) {
