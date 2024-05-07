@@ -9,7 +9,6 @@ const WEB3_TOKEN_METADATA: TokenMetadata = {
     unit: 'RAWR',
     decimals: 60,
     subunit: 'MEOW',
-    useMetricPrefix: false,
     standard: TokenStandard.BaseToken,
 }
 
@@ -32,27 +31,25 @@ describe('File: convertToRawAmount.ts', () => {
     })
 
     describe('given the tokenMetadata standard is BaseToken', () => {
-        describe("given useMetricPrefix is false (currently Shimmer's case)", () => {
-            const networkId = SupportedNetworkId.Shimmer
-            it("should return amount * decimal property if selectedUnit is unit and baseToken's decimal is less than MAX_SUPPORTED_DECIMALS", () => {
-                let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'SMR')?.toString() ?? '0'
-                expect(value).toStrictEqual('1000000')
-            })
-            it("should return XXX if selectedUnit is unit and baseToken's decimals property is greater than MAX_SUPPORTED_DECIMALS", () => {
-                let value = convertToRawAmount('1', WEB3_TOKEN_METADATA, 'RAWR')?.toString() ?? '0'
-                expect(value).toStrictEqual('1000000000000000000000000000000000000000000000000000000000000')
-            })
-            it('should return same amount if selectedUnit is subunit', () => {
-                let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'glow')?.toString() ?? '0'
-                expect(value).toStrictEqual('1')
-            })
-            it('should return base tokens unit if no unit is provided', () => {
-                let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId])?.toString() ?? '0'
-                expect(value).toStrictEqual('1000000')
-            })
-            it('should return undefined if provided unit does not match the tokenMetadata unit or subunit', () => {
-                expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'test')).toStrictEqual(undefined)
-            })
+        const networkId = SupportedNetworkId.Shimmer
+        it("should return amount * decimal property if selectedUnit is unit and baseToken's decimal is less than MAX_SUPPORTED_DECIMALS", () => {
+            let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'SMR')?.toString() ?? '0'
+            expect(value).toStrictEqual('1000000')
+        })
+        it("should return XXX if selectedUnit is unit and baseToken's decimals property is greater than MAX_SUPPORTED_DECIMALS", () => {
+            let value = convertToRawAmount('1', WEB3_TOKEN_METADATA, 'RAWR')?.toString() ?? '0'
+            expect(value).toStrictEqual('1000000000000000000000000000000000000000000000000000000000000')
+        })
+        it('should return same amount if selectedUnit is subunit', () => {
+            let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'glow')?.toString() ?? '0'
+            expect(value).toStrictEqual('1')
+        })
+        it('should return base tokens unit if no unit is provided', () => {
+            let value = convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId])?.toString() ?? '0'
+            expect(value).toStrictEqual('1000000')
+        })
+        it('should return undefined if provided unit does not match the tokenMetadata unit or subunit', () => {
+            expect(convertToRawAmount('1', DEFAULT_BASE_TOKEN[networkId], 'test')).toStrictEqual(undefined)
         })
     })
     describe('given the tokenMetadata standard is Irc30', () => {

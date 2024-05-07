@@ -41,6 +41,9 @@ const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
             enabled: false,
         },
     },
+    defaultIscChains: {
+        enabled: false,
+    },
 }
 
 const onboardingFeaturesForShimmer: IOnboardingFeaturesForNetwork = {
@@ -81,6 +84,9 @@ const onboardingFeaturesForShimmer: IOnboardingFeaturesForNetwork = {
         ledgerBackup: {
             enabled: true,
         },
+    },
+    defaultIscChains: {
+        enabled: true,
     },
 }
 
@@ -123,6 +129,9 @@ const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
             enabled: true,
         },
     },
+    defaultIscChains: {
+        enabled: true,
+    },
 }
 
 const onboardingFeaturesForCustom: IOnboardingFeaturesForNetwork = {
@@ -163,6 +172,9 @@ const onboardingFeaturesForCustom: IOnboardingFeaturesForNetwork = {
         ledgerBackup: {
             enabled: true,
         },
+    },
+    defaultIscChains: {
+        enabled: false,
     },
 }
 

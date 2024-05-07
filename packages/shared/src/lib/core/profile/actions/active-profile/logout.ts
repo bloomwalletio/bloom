@@ -25,6 +25,7 @@ import { clearLayer2Balance } from '@core/layer-2/stores'
 import { clearActiveProfileNftsPerAccount } from '@core/nfts/stores'
 import { clearAccountActivities } from '@core/activity/stores'
 import { destroyNetworks } from '@core/network/stores'
+import { resetClient } from '@core/profile-manager/api'
 
 /**
  * Logout from active profile
@@ -81,6 +82,7 @@ function cleanupProfileState(clearActiveProfile: boolean): void {
 
 async function destroyWalletRsObjects(manager?: IProfileManager): Promise<void> {
     isDestroyingManager.set(true)
+    await resetClient()
     await manager?.stopBackgroundSync()
     await unsubscribeFromWalletApiEvents()
     await destroyProfileManager()
