@@ -13,8 +13,7 @@
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network'
     import { getDefaultExplorerUrl } from '@core/network/utils'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
-    import { ownedNfts, selectedNftId } from '@core/nfts/stores'
+    import { getNftByIdForAccount, ownedNfts, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
     import { buildUrl, setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
@@ -34,7 +33,7 @@
     $: transactionAssets = getTransactionAssets(activity, $selectedAccountIndex)
     $: nft =
         activity.type === StardustActivityType.Nft
-            ? getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+            ? getNftByIdForAccount($selectedAccountIndex, activity.nftId)
             : undefined
     $: nftIsOwned = nft ? $ownedNfts.some((_nft) => _nft.id === nft?.id) : false
 

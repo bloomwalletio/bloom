@@ -11,9 +11,9 @@
     import { handleError } from '@core/error/handlers'
     import { EvmNetworkId, NetworkNamespace, getEvmNetwork } from '@core/network'
     import { buildNftFromPersistedErc721Nft } from '@core/nfts'
-    import { addNftsToDownloadQueue, updateAllAccountNftsForAccount } from '@core/nfts/actions'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
     import { persistErc721Nft } from '@core/nfts/actions/persistErc721Nft'
-    import { ownedNfts } from '@core/nfts/stores'
+    import { addOrUpdateNftForAccount, ownedNfts } from '@core/nfts/stores'
     import { TideApi } from '@core/tide/apis'
     import { onDestroy, onMount } from 'svelte'
     import Leaderboard from '../components/Leaderboard.svelte'
@@ -79,7 +79,7 @@
             if (persistedNft) {
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
                 void addNftsToDownloadQueue([nft])
-                updateAllAccountNftsForAccount(index, nft)
+                addOrUpdateNftForAccount(index, nft)
             }
         } catch (_) {
             // Switching account too swiftly results in an error from persistErc721Nft.
