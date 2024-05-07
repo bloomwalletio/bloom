@@ -67,8 +67,12 @@ export function updateNftForAccount(accountIndex: number, partialNft: PartialWit
 }
 
 export function updateNftForAllAccounts(partialNft: PartialWithId<Nft>): void {
+    updateNftsForAllAccounts([partialNft])
+}
+
+export function updateNftsForAllAccounts(partialNfts: PartialWithId<Nft>[]): void {
     for (const accountIndex of Object.keys(get(activeProfileNftsPerAccount)) as unknown as number[]) {
-        updateNftForAccount(accountIndex, partialNft)
+        updateNftsForAccount(accountIndex, partialNfts)
     }
 }
 
