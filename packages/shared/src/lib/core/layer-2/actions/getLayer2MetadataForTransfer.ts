@@ -16,15 +16,22 @@ export function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParamet
     const address = sendFlowParameters.recipient?.address ?? ''
     const encodedAddress = encodeAddress(address.toLowerCase(), iscChain)
 
-    const estimatedGas = sendFlowParameters.gasFee ?? BigInt(0)
-    const gasLimit = Math.floor(Number(estimatedGas) * GAS_LIMIT_MULTIPLIER)
+    const gasFee = sendFlowParameters.gasFee ?? BigInt(0)
+    const gasPerToken = iscChain.getMetadata()?.gasFeePolicy.gasPerToken
+    let gasLimit: number
+    if (gasPerToken) {
+        // More information can be found here: https://wiki.iota.org/isc/reference/core-contracts/governance/#ratio32
+        gasLimit = (Number(gasFee) * gasPerToken['a']) / gasPerToken['b']
+    } else {
+        gasLimit = Number(gasFee) * GAS_LIMIT_MULTIPLIER
+    }
 
     metadataStream.writeUInt8('senderContract', EXTERNALLY_OWNED_ACCOUNT)
 
     metadataStream.writeUInt32('targetContract', ACCOUNTS_CONTRACT)
     metadataStream.writeUInt32('contractFunction', TRANSFER_ALLOWANCE)
     // Gas budget is the ISC equivalent of gas limit in ethereum and what we use throughout the code
-    metadataStream.writeUInt64SpecialEncoding('gasLimit', BigInt(gasLimit))
+    metadataStream.writeUInt64SpecialEncoding('gasLimit', BigInt(Math.floor(gasLimit)))
 
     const smartContractParameters = Object.entries({ a: encodedAddress })
     const parameters = encodeSmartContractParameters(smartContractParameters)
