@@ -27,25 +27,29 @@ export default class AutoUpdateManager implements IVersionDetails {
 
     private init(): void {
         this.removeHandlers()
-        ipcMain.handle('update-download', this.updateDownload.bind(this))
-        ipcMain.handle('update-cancel', this.updateCancel.bind(this))
-        ipcMain.handle('update-install', this.updateInstall.bind(this))
-        ipcMain.handle('update-check', this.updateCheck.bind(this))
+
         ipcMain.handle('get-version-details', this.getVersionDetails.bind(this))
 
-        autoUpdater.logger = electronLog
-        /* eslint-disable @typescript-eslint/ban-ts-comment */
-        // @ts-expect-error
-        autoUpdater.logger.transports.file.level = 'info'
-        autoUpdater.autoDownload = false
+        if (app.isPackaged) {
+            ipcMain.handle('update-download', this.updateDownload.bind(this))
+            ipcMain.handle('update-cancel', this.updateCancel.bind(this))
+            ipcMain.handle('update-install', this.updateInstall.bind(this))
+            ipcMain.handle('update-check', this.updateCheck.bind(this))
 
-        autoUpdater.removeAllListeners()
-        autoUpdater.on('update-available', this.handleUpdateAvailable.bind(this))
-        autoUpdater.on('download-progress', this.handleDownloadProgress.bind(this))
-        autoUpdater.on('update-downloaded', this.handleUpdateDownloaded.bind(this))
-        autoUpdater.on('error', this.handleError.bind(this))
+            autoUpdater.logger = electronLog
+            /* eslint-disable @typescript-eslint/ban-ts-comment */
+            // @ts-expect-error
+            autoUpdater.logger.transports.file.level = 'info'
+            autoUpdater.autoDownload = false
 
-        void this.updateCheck()
+            autoUpdater.removeAllListeners()
+            autoUpdater.on('update-available', this.handleUpdateAvailable.bind(this))
+            autoUpdater.on('download-progress', this.handleDownloadProgress.bind(this))
+            autoUpdater.on('update-downloaded', this.handleUpdateDownloaded.bind(this))
+            autoUpdater.on('error', this.handleError.bind(this))
+
+            void this.updateCheck()
+        }
     }
 
     public getVersionDetails(): IVersionDetails {

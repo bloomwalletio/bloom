@@ -191,12 +191,11 @@ export function createMainWindow(): BrowserWindow {
 
         void windows.main.loadURL('http://localhost:8080')
     } else {
-        autoUpdateManager = new AutoUpdateManager(windows.main)
-
         // load the index.html of the app.
         void windows.main.loadFile(paths.html)
     }
 
+    autoUpdateManager = new AutoUpdateManager(windows.main)
     new NftDownloadManager()
     new ThirdPartyAppManager()
 
