@@ -4,8 +4,8 @@
     import { localize } from '@core/i18n'
     import { isEvmNetwork } from '@core/network'
     import { IIrc27Nft, Nft, getPrimaryNftUrl, isNftLocked, isValidNftUri } from '@core/nfts'
-    import { addNftsToDownloadQueue, updateNftInAllAccountNfts } from '@core/nfts/actions'
-    import { updatePersistedNft } from '@core/nfts/stores'
+    import { addNftsToDownloadQueue } from '@core/nfts/actions'
+    import { updateNftForAllAccounts, updatePersistedNft } from '@core/nfts/stores'
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { Platform } from '@core/app'
 
@@ -36,14 +36,14 @@
         }
 
         updatePersistedNft(nft.id, { downloadMetadata: {} })
-        updateNftInAllAccountNfts(nft.id, { downloadMetadata: {}, isLoaded: false })
+        updateNftForAllAccounts({ id: nft.id, downloadMetadata: {}, isLoaded: false })
         addNftsToDownloadQueue([nft])
         menu?.close()
     }
 
     function onHideClick(): void {
         updatePersistedNft(nft.id, { hidden: !nft.hidden })
-        updateNftInAllAccountNfts(nft.id, { hidden: !nft.hidden })
+        updateNftForAllAccounts({ id: nft.id, hidden: !nft.hidden })
         menu?.close()
     }
 

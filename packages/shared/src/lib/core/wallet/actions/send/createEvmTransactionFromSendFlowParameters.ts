@@ -2,7 +2,6 @@ import { IAccountState } from '@core/account/interfaces'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { IEvmNetwork } from '@core/network/interfaces'
 import { isEvmNetwork, isStardustNetwork } from '@core/network/utils'
-import { getNetworkIdFromSendFlowParameters } from '@core/wallet/utils'
 import { SendFlowParameters } from '../../types'
 import { createEvmToEvmTransaction } from './createEvmToEvmTransaction'
 import { createEvmToStardustTransaction } from './createEvmToStardustTransaction'
@@ -12,9 +11,8 @@ export async function createEvmTransactionFromSendFlowParameters(
     originEvmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
-    const originNetworkId = getNetworkIdFromSendFlowParameters(sendFlowParameters)
-    const { destinationNetworkId } = sendFlowParameters
-    if (originNetworkId && destinationNetworkId) {
+    const { destinationNetworkId, sourceNetworkId } = sendFlowParameters
+    if (sourceNetworkId && destinationNetworkId) {
         // L2 -> L2 transfer (same evmNetwork)
         if (isEvmNetwork(destinationNetworkId)) {
             return await createEvmToEvmTransaction(sendFlowParameters, originEvmNetwork, account)

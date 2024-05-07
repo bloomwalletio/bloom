@@ -11,7 +11,6 @@ import {
     utilityProcess,
     UtilityProcess,
 } from 'electron'
-import { WebPreferences } from 'electron/main'
 import fs from 'fs'
 import path from 'path'
 
@@ -38,6 +37,8 @@ import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
 import { ITransakWindowData } from '@core/app/interfaces'
 import { ElectronSettingsManager } from '../managers/electron-settings.manager'
 import { IElectronSettings, IWindowState } from '../interfaces'
+import { DEFAULT_WEB_PREFERENCES } from '../constants/default-web-preferences.constant'
+import { AboutWindow } from '../windows/about.window'
 
 export let appIsReady = false
 
@@ -111,10 +112,8 @@ process.on('unhandledRejection', (error) => {
 
 const paths = {
     html: '',
-    aboutHtml: '',
     errorHtml: '',
     preload: '',
-    aboutPreload: '',
     errorPreload: '',
     ledger: '',
 }
@@ -127,23 +126,9 @@ let versionDetails = {
     changelog: '',
 }
 
-/**
- * Default web preferences (see https://www.electronjs.org/docs/tutorial/security)
- */
-const DEFAULT_WEB_PREFERENCES: WebPreferences = {
-    nodeIntegration: false,
-    contextIsolation: true,
-    disableBlinkFeatures: 'Auxclick',
-    webviewTag: false,
-    enableWebSQL: false,
-    devTools: !app.isPackaged || features?.electron?.developerTools?.enabled,
-}
-
 if (app.isPackaged) {
     paths.html = path.join(app.getAppPath(), '/public/index.html')
     paths.preload = path.join(app.getAppPath(), '/public/build/preload.js')
-    paths.aboutHtml = path.join(app.getAppPath(), '/public/about.html')
-    paths.aboutPreload = path.join(app.getAppPath(), '/public/build/about.preload.js')
     paths.errorHtml = path.join(app.getAppPath(), '/public/error.html')
     paths.errorPreload = path.join(app.getAppPath(), '/public/build/error.preload.js')
     paths.ledger = path.join(app.getAppPath(), '/public/build/ledger.process.js')
@@ -151,8 +136,6 @@ if (app.isPackaged) {
     // __dirname is desktop/public/build
     paths.html = path.join(__dirname, '../index.html')
     paths.preload = path.join(__dirname, 'preload.js')
-    paths.aboutHtml = path.join(__dirname, '../about.html')
-    paths.aboutPreload = path.join(__dirname, 'about.preload.js')
     paths.errorHtml = path.join(__dirname, '../error.html')
     paths.errorPreload = path.join(__dirname, 'error.preload.js')
     paths.ledger = path.join(__dirname, 'ledger.process.js')
@@ -245,7 +228,7 @@ export function createMainWindow(): BrowserWindow {
     })
 
     windows.main.on('close', () => {
-        closeAboutWindow()
+        AboutWindow.close()
         closeErrorWindow()
         transakManager?.closeWindow()
     })
@@ -374,8 +357,6 @@ export function getOrInitWindow(windowName: string, ...args: unknown[]): Browser
         switch (windowName) {
             case 'main':
                 return createMainWindow()
-            case 'about':
-                return openAboutWindow()
             case 'error':
                 return openErrorWindow()
             case 'transak': {
@@ -556,56 +537,6 @@ ipcMain.handle('show-transak', () => {
 ipcMain.handle('update-transak-bounds', (event, rect) => {
     transakManager?.updateTransakBounds(rect)
 })
-
-/**
- * Create about window
- * @returns {BrowserWindow} About window
- */
-export function openAboutWindow(): BrowserWindow {
-    if (windows.about !== null) {
-        windows.about.focus()
-        return windows.about
-    }
-
-    windows.about = new BrowserWindow({
-        width: 380,
-        height: 230,
-        useContentSize: true,
-        titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
-        /**
-         * NOTE: This only affects Windows.
-         */
-        titleBarOverlay: {
-            color: '#161926',
-            symbolColor: '#ffffff',
-        },
-        show: true,
-        fullscreenable: false,
-        resizable: false,
-        minimizable: false,
-        webPreferences: {
-            ...DEFAULT_WEB_PREFERENCES,
-            preload: paths.aboutPreload,
-        },
-    })
-
-    windows.about.once('closed', () => {
-        windows.about = null
-    })
-
-    void windows.about.loadFile(paths.aboutHtml)
-
-    windows.about.setMenu(null)
-
-    return windows.about
-}
-
-export function closeAboutWindow(): void {
-    if (windows.about) {
-        windows.about.close()
-        windows.about = null
-    }
-}
 
 export function openErrorWindow(): BrowserWindow {
     if (windows.error !== null) {

@@ -22,9 +22,10 @@ import { closePopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { closeDrawer } from '../../../../../../../desktop/lib/auxiliary/drawer'
 import { closeSettings } from '@contexts/settings/stores'
 import { clearLayer2Balance } from '@core/layer-2/stores'
-import { clearAccountNfts } from '@core/nfts/stores'
+import { clearActiveProfileNftsPerAccount } from '@core/nfts/stores'
 import { clearAccountActivities } from '@core/activity/stores'
 import { destroyNetworks } from '@core/network/stores'
+import { resetClient } from '@core/profile-manager/api'
 
 /**
  * Logout from active profile
@@ -42,7 +43,7 @@ export function logout(clearActiveProfile = true, _lockStronghold = true): void 
 
     clearLayer2Balance()
     clearMarketPricesPoll()
-    clearAccountNfts()
+    clearActiveProfileNftsPerAccount()
     clearAccountActivities()
 
     destroyNetworks()
@@ -81,6 +82,7 @@ function cleanupProfileState(clearActiveProfile: boolean): void {
 
 async function destroyWalletRsObjects(manager?: IProfileManager): Promise<void> {
     isDestroyingManager.set(true)
+    await resetClient()
     await manager?.stopBackgroundSync()
     await unsubscribeFromWalletApiEvents()
     await destroyProfileManager()

@@ -14,7 +14,6 @@
 
     $: featured = featuredCampaigns.some((featuredId) => featuredId === campaign.id)
 
-    let campaignWrapperClientWidth: number
     let imageLoadError = false
 
     function onCampaignClick(): void {
@@ -25,60 +24,51 @@
 </script>
 
 <button type="button" on:click={onCampaignClick} class="campaign-gallery-item">
-    <container>
-        <div
-            class="w-full flex relative bg-surface-2 dark:bg-surface-2-dark"
-            bind:clientWidth={campaignWrapperClientWidth}
-            style="height: {(campaignWrapperClientWidth * 9) / 16}px; "
-        >
-            {#if featured}
-                <div class="absolute top-0 flex w-full p-4">
-                    <FeaturedPill />
-                </div>
-            {/if}
-            {#if campaign.imageUrl && !imageLoadError}
-                <img
-                    src={campaign.imageUrl}
-                    alt={campaign?.title}
-                    class="h-full object-cover"
-                    on:error={() => (imageLoadError = true)}
-                />
-            {:else}
-                <div class="min-w-full h-full object-cover">
-                    <MediaPlaceholder size="md" />
-                </div>
-            {/if}
-        </div>
-        <div class="w-full flex flex-col items-start p-3 gap-2">
-            <Text type="body2" truncate>{campaign.title}</Text>
-            <div class="flex flex-row gap-2">
-                <CampaignStatusPill {campaign} />
-                <CampaignTimestampPill {campaign} />
-                <CampaignParticipantsPill {campaign} />
-                <CampaignRewardsPill {campaign} />
+    <div class="w-full h-0 flex flex-1 relative bg-surface-2 dark:bg-surface-2-dark rounded-t-[0.9rem]">
+        {#if featured}
+            <div class="absolute top-0 flex w-full p-4">
+                <FeaturedPill />
             </div>
+        {/if}
+        {#if campaign.imageUrl && !imageLoadError}
+            <img
+                src={campaign.imageUrl}
+                alt={campaign?.title}
+                class="w-full h-full object-cover rounded-t-[0.9rem]"
+                on:error={() => (imageLoadError = true)}
+            />
+        {:else}
+            <div class="min-w-full h-full object-cover">
+                <MediaPlaceholder size="md" />
+            </div>
+        {/if}
+    </div>
+    <div class="w-full flex flex-col items-start p-3 gap-2 overflow-hidden">
+        <Text type="body2" truncate>{campaign.title}</Text>
+        <div class="flex flex-row gap-2">
+            <CampaignStatusPill {campaign} />
+            <CampaignTimestampPill {campaign} />
+            <CampaignParticipantsPill {campaign} />
+            <CampaignRewardsPill {campaign} />
         </div>
-    </container>
+    </div>
 </button>
 
 <style lang="postcss">
     .campaign-gallery-item {
-        container {
-            @apply w-full overflow-hidden flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark;
-            @apply border border-solid border-stroke dark:border-stroke-dark;
-            @apply bg-surface-1 dark:bg-surface-1-dark;
-            @apply rounded-2xl;
-            @apply duration-300;
-            transition-property: background-color, border-color, box-shadow;
-        }
+        @apply h-full w-full flex flex-col;
+        @apply divide-y divide-solid divide-stroke dark:divide-stroke-dark;
+        @apply rounded-2xl border-2 border-solid border-stroke dark:border-stroke-dark;
+        @apply bg-surface-1 dark:bg-surface-1-dark;
+        @apply duration-300;
+        transition-property: background-color, border-color, box-shadow;
+        aspect-ratio: 4 / 3;
 
         &:hover,
         &:focus {
-            container {
-                @apply shadow-lg dark:shadow-violet-900/25;
-                @apply border-2 border-brand-500;
-                @apply bg-surface dark:bg-surface-dark;
-            }
+            @apply shadow-lg dark:shadow-violet-900/25;
+            @apply border-primary;
+            @apply bg-surface dark:bg-surface-dark;
         }
     }
 </style>

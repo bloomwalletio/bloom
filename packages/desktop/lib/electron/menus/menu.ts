@@ -1,10 +1,11 @@
 import { app, ipcMain, Menu } from 'electron'
 import features from '@features/features'
-import { closeAboutWindow, getOrInitWindow, openAboutWindow } from '../processes/main.process'
+import { getOrInitWindow } from '../processes/main.process'
 import { MENU_STATE } from './menu-state.constant'
 import { editMenu } from './edit.menu'
 import { helpMenu } from './help.menu'
 import { walletMenu } from './wallet.menu'
+import { AboutWindow } from '../windows/about.window'
 
 interface MenuState {
     strings: {
@@ -20,8 +21,6 @@ function createMenu(): Electron.Menu {
     const template = buildTemplate()
     const applicationMenu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(applicationMenu)
-
-    closeAboutWindow()
 
     return applicationMenu
 }
@@ -125,7 +124,7 @@ function getFirstSubmenuItems(): Electron.MenuItemConstructorOptions[] {
     let menuItems: Electron.MenuItemConstructorOptions[] = [
         {
             label: `${state.strings.about} ${app.name}`,
-            click: openAboutWindow,
+            click: AboutWindow.open,
             enabled: state.enabled,
         },
         commandMenuItem(
