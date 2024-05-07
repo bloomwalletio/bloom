@@ -2,9 +2,7 @@ import { IPersistedProfile } from '@core/profile/interfaces'
 import { DEFAULT_PERSISTED_PROFILE_OBJECT } from '@core/profile/constants'
 
 import { IOnboardingProfile } from '../interfaces'
-import { DEFAULT_L1_EVM_NETWORK_CONFIGURATION, SupportedNetworkId } from '@core/network/constants'
-import features from '@features/features'
-import { IPureEvmNetworkConfiguration } from '@core/network/interfaces'
+import { DEFAULT_EVM_NETWORK_CONFIGURATIONS_FOR_STARDUST_NETWORK } from '@core/network/constants'
 
 export function convertOnboardingProfileToPersistedProfile(
     onboardingProfile?: Partial<IOnboardingProfile>
@@ -14,15 +12,7 @@ export function convertOnboardingProfileToPersistedProfile(
         throw new Error('Network is undefined!')
     }
 
-    let evmNetworks: IPureEvmNetworkConfiguration[] | undefined
-    if (features.onboarding.addEvmNetworks.enabled) {
-        const addMainnetEthereum = [SupportedNetworkId.Shimmer, SupportedNetworkId.Iota].includes(network.id)
-        evmNetworks = [
-            DEFAULT_L1_EVM_NETWORK_CONFIGURATION[
-                addMainnetEthereum ? SupportedNetworkId.Ethereum : SupportedNetworkId.Sepolia
-            ],
-        ]
-    }
+    const evmNetworks = DEFAULT_EVM_NETWORK_CONFIGURATIONS_FOR_STARDUST_NETWORK[network.id] ?? []
 
     return {
         ...structuredClone(DEFAULT_PERSISTED_PROFILE_OBJECT),
