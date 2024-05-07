@@ -1,4 +1,4 @@
-import { Writable, writable } from 'svelte/store'
+import { Writable, get, writable } from 'svelte/store'
 import { persistedCollections } from '.'
 import { Collections } from '../types'
 import { Nft } from '../interfaces'
@@ -13,9 +13,12 @@ export const activeProfileCollectionsPerAccount: Writable<{
 export function addNftsToCollection(accountIndex: number, nfts: Nft[]): void {
     if (!nfts.length) return
 
+    const $persistedCollections = get(persistedCollections)
     activeProfileCollectionsPerAccount.update((state) => {
         for (const nft of nfts) {
-            if (!nft.collectionId || !persistedCollections[nft.collectionId]) continue
+            if (!nft.collectionId || !$persistedCollections[nft.collectionId]) {
+                continue
+            }
 
             if (!state[accountIndex]) {
                 state[accountIndex] = {}
@@ -23,7 +26,7 @@ export function addNftsToCollection(accountIndex: number, nfts: Nft[]): void {
 
             let collection = state[accountIndex][nft.collectionId]
             if (!collection) {
-                collection = { ...persistedCollections[nft.collectionId], nfts: [] }
+                collection = { ...$persistedCollections[nft.collectionId], nfts: [] }
             }
 
             if (collection.standard === NftStandard.Irc27 && nft.standard === NftStandard.Irc27) {

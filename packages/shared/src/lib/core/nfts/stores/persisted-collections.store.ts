@@ -8,7 +8,7 @@ export function addCollectionsToPersistedCollections(collections: Collection[]):
     persistedCollections.update((state) => {
         for (const collection of collections) {
             if (state[collection.id]) {
-                return state
+                continue
             }
 
             state[collection.id] = collection

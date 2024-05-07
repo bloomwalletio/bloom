@@ -18,15 +18,19 @@
 
     let queriedCollections: Collections = {}
     $: $collectionsSearchTerm,
-        (queriedCollections = Object.fromEntries(
-            Object.entries($activeProfileCollectionsPerAccount[$selectedAccountIndex])
-                .filter(([, collection]) => isVisibleCollection(collection))
-                .sort(([, collection1], [, collection2]) =>
-                    collection1?.name.toLowerCase().localeCompare(collection2?.name.toLowerCase())
-                )
-        ))
+        (queriedCollections = $activeProfileCollectionsPerAccount[$selectedAccountIndex]
+            ? Object.fromEntries(
+                  Object.entries($activeProfileCollectionsPerAccount[$selectedAccountIndex])
+                      .filter(([, collection]) => isVisibleCollection(collection))
+                      .sort(([, collection1], [, collection2]) =>
+                          collection1?.name.toLowerCase().localeCompare(collection2?.name.toLowerCase())
+                      )
+              )
+            : {})
 
-    $: selectedAccountCollectionsLength = Object.keys($activeProfileCollectionsPerAccount[$selectedAccountIndex]).length
+    $: selectedAccountCollectionsLength = $activeProfileCollectionsPerAccount[$selectedAccountIndex]
+        ? Object.keys($activeProfileCollectionsPerAccount[$selectedAccountIndex]).length
+        : 0
     $: hasCollections = selectedAccountCollectionsLength > 0
 </script>
 
