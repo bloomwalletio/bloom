@@ -42,12 +42,12 @@ async function getCollectionForIrc27Nft(nft: IIrc27Nft): Promise<IIrc27Collectio
             return
         }
 
-        return { id: aliasId ?? nftId, ...parsedMetadata, nfts: [] }
+        return { id: aliasId ?? nftId, ...parsedMetadata }
     } catch (error) {
         console.error('Error retrieving collection from NFT:', error)
     }
 }
 
 function getCollectionForErc721Nft(nft: IErc721Nft): IErc721Collection | undefined {
-    return { id: nft.contractMetadata.address, ...nft.contractMetadata, nfts: [] }
+    return { id: nft.contractMetadata.address, ...nft.contractMetadata }
 }

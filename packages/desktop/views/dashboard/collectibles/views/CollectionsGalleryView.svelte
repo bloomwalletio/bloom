@@ -6,8 +6,9 @@
     import features from '@features/features'
     import { SearchInput } from '@ui'
     import { CollectiblesTabs, CollectionsGallery } from '../components'
-    import { collectionsSearchTerm, selectedAccountCollections } from '@core/nfts/stores'
+    import { activeProfileCollectionsPerAccount, collectionsSearchTerm } from '@core/nfts/stores'
     import { Collections, isVisibleCollection } from '@core/nfts'
+    import { selectedAccountIndex } from '@core/account/stores'
 
     function onReceiveClick(): void {
         openPopup({
@@ -18,14 +19,15 @@
     let queriedCollections: Collections = {}
     $: $collectionsSearchTerm,
         (queriedCollections = Object.fromEntries(
-            Object.entries($selectedAccountCollections)
+            Object.entries($activeProfileCollectionsPerAccount[$selectedAccountIndex])
                 .filter(([, collection]) => isVisibleCollection(collection))
                 .sort(([, collection1], [, collection2]) =>
                     collection1?.name.toLowerCase().localeCompare(collection2?.name.toLowerCase())
                 )
         ))
 
-    $: hasCollections = Object.keys($selectedAccountCollections).length > 0
+    $: selectedAccountCollectionsLength = Object.keys($activeProfileCollectionsPerAccount[$selectedAccountIndex]).length
+    $: hasCollections = selectedAccountCollectionsLength > 0
 </script>
 
 <collections-gallery-view class="flex flex-col w-full h-full gap-4">
@@ -33,7 +35,7 @@
         <div class="flex flex-row text-left gap-2 items-center flex-1">
             <Text type="h6">{localize('views.collectibles.collectionsGallery.title')}</Text>
             <Pill color="neutral">
-                <Text textColor="secondary">{String(Object.keys($selectedAccountCollections).length ?? '')}</Text>
+                <Text textColor="secondary">{String(selectedAccountCollectionsLength ?? '')}</Text>
             </Pill>
         </div>
         <CollectiblesTabs />
