@@ -34,7 +34,7 @@ export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]>
     }
 
     for (const evmNetwork of getEvmNetworks()) {
-        const nfts = await evmNetwork.loadNfts(account)
+        const nfts = await evmNetwork.getNftsForAccount(account)
 
         for (const nft of nfts) {
             const alreadyAdded = accountNfts.some((_nft) => _nft.id === nft.id)

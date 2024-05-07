@@ -43,9 +43,9 @@ export class IscChain extends EvmNetwork implements IIscChain {
         }
     }
 
-    async loadNfts(account: IAccountState): Promise<Nft[]> {
+    async getNftsForAccount(account: IAccountState): Promise<Nft[]> {
         // ERC721 NFTs
-        const erc721Nfts = await super.loadNfts(account)
+        const erc721Nfts = await super.getNftsForAccount(account)
 
         // Wrapped L1 IRC NFTs
         const transactionsOnChain = getPersistedTransactionsForChain(getActiveProfileId(), account.index, this)

@@ -31,7 +31,7 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
 
     getGasPrice(): Promise<bigint | undefined>
     getBalance(account: IAccountState): Promise<ITokenBalance | undefined>
-    loadNfts(account: IAccountState): Promise<Nft[]>
+    getNftsForAccount(account: IAccountState): Promise<Nft[]>
 
     getContract(type: ContractType, address: string): Contract
     getLatestBlock(): Promise<IBlock>
