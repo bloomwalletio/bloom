@@ -43,18 +43,7 @@ export function updatePersistedNfts(nftsToUpdate: PartialWithId<PersistedNft>[])
 }
 
 export function updatePersistedNft(nftId: string, payload: Partial<PersistedNft>): void {
-    const profileId = getActiveProfileId()
-    persistedNfts.update((state) => {
-        if (!state[profileId]) {
-            state[profileId] = {}
-        }
-        const nftState = state[profileId][nftId]
-        state[profileId][nftId] = {
-            ...nftState,
-            ...payload,
-        } as PersistedNft
-        return state
-    })
+    updatePersistedNfts([{ id: nftId, ...payload }])
 }
 
 export function removePersistedNftsForProfile(profileId: string): void {
