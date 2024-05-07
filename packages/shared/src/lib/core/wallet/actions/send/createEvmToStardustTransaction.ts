@@ -1,10 +1,10 @@
 import { IAccountState } from '@core/account/interfaces'
 import { localize } from '@core/i18n'
 import { buildUnwrapAssetParameters } from '@core/layer-2/actions'
-import { ISC_MAGIC_CONTRACT_ADDRESS, L2_TO_L1_STORAGE_DEPOSIT_BUFFER } from '@core/layer-2/constants'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { AssetType, ContractType, EvmErrorMessage } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
-import { buildAssetAllowance, buildEvmTransactionData } from '@core/layer-2/utils'
+import { buildAssetAllowance, buildEvmTransactionData, getL2ToL1StorageDepositBuffer } from '@core/layer-2/utils'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
 import { IEvmNetwork } from '@core/network/interfaces'
 
@@ -15,6 +15,7 @@ import { TokenStandard } from '@core/token/enums'
 import { IIrc27Nft } from '@core/nfts'
 import { getTokenBalance } from '@core/token/actions'
 import { IError } from '@core/error'
+import { StardustNetworkId } from '@core/network'
 
 export async function createEvmToStardustTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -30,17 +31,18 @@ export async function createEvmToStardustTransaction(
 
         const { targetAddress, adjustMinimumStorageDeposit, sendMetadata, sendOptions } =
             buildUnwrapAssetParameters(recipientAddress)
-
         let transferredAsset: TransferredAsset | undefined
         let storageDepositRequired = BigInt(0)
-        if (
-            sendFlowParameters.type === SendFlowType.TokenTransfer ||
-            sendFlowParameters.type === SendFlowType.BaseCoinTransfer
-        ) {
+
+        const { type, destinationNetworkId } = sendFlowParameters
+        if (type === SendFlowType.TokenTransfer || type === SendFlowType.BaseCoinTransfer) {
             const { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
             const isBaseCoin = token?.standard === TokenStandard.BaseToken
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
-            storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? BigInt(0)
+            storageDepositRequired = getL2ToL1StorageDepositBuffer(
+                SendFlowType.TokenUnwrap,
+                destinationNetworkId as StardustNetworkId
+            )
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
             if (token?.standard === TokenStandard.BaseToken && amount) {
                 const availableBalance = getTokenBalance(token.id, evmNetwork.id)?.available ?? BigInt(0)
@@ -50,7 +52,7 @@ export async function createEvmToStardustTransaction(
             const nft = sendFlowParameters.nft as IIrc27Nft
             storageDepositRequired =
                 (nft?.storageDeposit ?? BigInt(0)) +
-                (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? BigInt(0))
+                getL2ToL1StorageDepositBuffer(SendFlowType.NftUnwrap, destinationNetworkId as StardustNetworkId)
             transferredAsset = nft ? { type: AssetType.Nft, nft } : undefined
         }
 

@@ -67,13 +67,18 @@ export function updateNftForAccount(accountIndex: number, partialNft: PartialWit
 }
 
 export function updateNftForAllAccounts(partialNft: PartialWithId<Nft>): void {
+    updateNftsForAllAccounts([partialNft])
+}
+
+export function updateNftsForAllAccounts(partialNfts: PartialWithId<Nft>[]): void {
     for (const accountIndex of Object.keys(get(activeProfileNftsPerAccount)) as unknown as number[]) {
-        updateNftForAccount(accountIndex, partialNft)
+        updateNftsForAccount(accountIndex, partialNfts)
     }
 }
 
-export function getNftByIdForAccount(accountIndex: number | undefined, nftId: string): Nft | undefined {
-    return accountIndex
-        ? getNftsForAccount(accountIndex)?.find((nft) => nft.id?.toLowerCase() === nftId?.toLowerCase())
-        : undefined
+export function getNftByIdForAccount(accountIndex: number | undefined, nftId: string | undefined): Nft | undefined {
+    if (nftId && typeof accountIndex === 'number' && accountIndex >= 0) {
+        const nft = getNftsForAccount(accountIndex)?.find((nft) => nft.id?.toLowerCase() === nftId?.toLowerCase())
+        return nft
+    }
 }

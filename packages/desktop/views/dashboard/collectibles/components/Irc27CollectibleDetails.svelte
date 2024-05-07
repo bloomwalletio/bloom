@@ -4,7 +4,7 @@
     import { ExplorerEndpoint, getActiveNetworkId, getDefaultExplorerUrl } from '@core/network'
     import { IIrc27Nft } from '@core/nfts'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountPrecise } from '@core/token'
+    import { formatTokenAmountBestMatch } from '@core/token'
     import { getBech32AddressFromAddressTypes, getHexAddressFromAddressTypes } from '@core/wallet'
     import { AddressType } from '@iota/sdk/out/types'
     import { NetworkLabel } from '@ui'
@@ -51,7 +51,7 @@
         },
         {
             key: localize('general.storageDeposit'),
-            value: storageDeposit ? formatTokenAmountPrecise(storageDeposit, getBaseToken()) : undefined,
+            value: storageDeposit ? formatTokenAmountBestMatch(storageDeposit, getBaseToken()) : undefined,
         },
         {
             key: localize('general.standard'),
