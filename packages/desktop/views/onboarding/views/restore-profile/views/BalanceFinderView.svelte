@@ -10,7 +10,7 @@
     import { ProfileType } from '@core/profile'
     import { RecoverAccountsPayload, createAccount, recoverAccounts } from '@core/profile-manager'
     import { DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION } from '@core/profile/constants'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { OnboardingLayout } from '@views/components'
     import { onDestroy, onMount } from 'svelte'
     import { restoreProfileRouter } from '../restore-profile-router'
@@ -122,7 +122,7 @@
         const balance = await account.getBalance()
         const baseToken = network?.baseToken
         const baseCoinBalance = balance?.baseCoin?.total ?? BigInt(0)
-        const total = formatTokenAmountBestMatch(baseCoinBalance, baseToken)
+        const total = formatTokenAmount(baseCoinBalance, baseToken)
 
         return { alias, total }
     }

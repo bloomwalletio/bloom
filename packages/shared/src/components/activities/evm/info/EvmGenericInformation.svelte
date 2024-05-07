@@ -2,7 +2,7 @@
     import { Table } from '@bloomwalletio/ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { NetworkId, getNetwork } from '@core/network'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { NetworkLabel } from '@ui'
 
     export let time: Date
@@ -17,7 +17,7 @@
     $: formattedTransactionFee = formatAmount(transactionFee)
 
     function formatAmount(amount: bigint | undefined): string | undefined {
-        return amount ? formatTokenAmountBestMatch(amount, getNetwork(sourceNetworkId)?.baseToken) : undefined
+        return amount ? formatTokenAmount(amount, getNetwork(sourceNetworkId)?.baseToken) : undefined
     }
 </script>
 

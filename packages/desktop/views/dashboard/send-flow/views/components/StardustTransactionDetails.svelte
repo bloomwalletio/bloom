@@ -2,7 +2,7 @@
     import { Table, TableRow } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { TimePeriod } from '@core/utils'
     import { NetworkLabel } from '@ui'
     import { NetworkId } from '@core/network'
@@ -35,7 +35,7 @@
         },
         {
             key: localize('general.transactionFee'),
-            value: transactionFee ? formatTokenAmountBestMatch(transactionFee, getBaseToken()) : undefined,
+            value: transactionFee ? formatTokenAmount(transactionFee, getBaseToken()) : undefined,
             tooltip: localize(localeKey + 'transactionFee'),
         },
     ]

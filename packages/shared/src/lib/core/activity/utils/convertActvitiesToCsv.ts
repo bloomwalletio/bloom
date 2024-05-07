@@ -21,7 +21,7 @@ import {
     IErc20Metadata,
     IIrc30Metadata,
     TokenStandard,
-    formatTokenAmountBestMatch,
+    formatTokenAmount,
 } from '@core/token'
 import { NftStandard } from '@core/nfts/enums'
 import { getNftByIdForAccount } from '@core/nfts/stores'
@@ -106,7 +106,7 @@ function getRowForStardustActivity(
                 | IErc20Metadata
                 | IIrc30Metadata
             amount = metadata
-                ? formatTokenAmountBestMatch(activity.tokenTransfer.rawAmount, metadata, {
+                ? formatTokenAmount(activity.tokenTransfer.rawAmount, metadata, {
                       round: false,
                       withUnit: false,
                   })
@@ -119,7 +119,7 @@ function getRowForStardustActivity(
             assetTicker = metadata?.symbol
         } else {
             amount = baseCoinMetadata
-                ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, baseCoinMetadata, {
+                ? formatTokenAmount(activity.baseTokenTransfer.rawAmount, baseCoinMetadata, {
                       round: false,
                       withUnit: false,
                   })
@@ -145,13 +145,13 @@ function getRowForStardustActivity(
     const transactionType = assetId === BASE_TOKEN_ID ? EvmActivityType.CoinTransfer : EvmActivityType.TokenTransfer
 
     const storageDepositInSMR = activity.storageDeposit
-        ? formatTokenAmountBestMatch(activity.storageDeposit, baseCoinMetadata, {
+        ? formatTokenAmount(activity.storageDeposit, baseCoinMetadata, {
               round: false,
               withUnit: false,
           })
         : undefined
     const feeInSMR = activity.transactionFee
-        ? formatTokenAmountBestMatch(activity.transactionFee, baseCoinMetadata, {
+        ? formatTokenAmount(activity.transactionFee, baseCoinMetadata, {
               round: false,
               withUnit: false,
           })
@@ -207,7 +207,7 @@ function getRowForEvmActivity(
 
     if (activity.type === EvmActivityType.CoinTransfer) {
         amount = baseCoinMetadata
-            ? formatTokenAmountBestMatch(activity.baseTokenTransfer.rawAmount, baseCoinMetadata, {
+            ? formatTokenAmount(activity.baseTokenTransfer.rawAmount, baseCoinMetadata, {
                   round: false,
                   withUnit: false,
               })
@@ -224,7 +224,7 @@ function getRowForEvmActivity(
             const metadata = getPersistedToken(activity.sourceNetworkId, tokenId)?.metadata as
                 | IErc20Metadata
                 | IIrc30Metadata
-            amount = metadata ? formatTokenAmountBestMatch(rawAmount, metadata, { round: false, withUnit: false }) : ''
+            amount = metadata ? formatTokenAmount(rawAmount, metadata, { round: false, withUnit: false }) : ''
 
             assetId = tokenId
             assetType = 'TOKEN'
@@ -244,7 +244,7 @@ function getRowForEvmActivity(
     }
 
     const feeInSMR = activity.transactionFee
-        ? formatTokenAmountBestMatch(activity.transactionFee, baseCoinMetadata, {
+        ? formatTokenAmount(activity.transactionFee, baseCoinMetadata, {
               round: false,
               withUnit: false,
           })

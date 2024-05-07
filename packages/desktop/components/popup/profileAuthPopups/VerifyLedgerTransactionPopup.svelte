@@ -4,7 +4,7 @@
     import { resetShowInternalVerificationPopup, showInternalVerificationPopup } from '@core/ledger'
     import { getBaseToken } from '@core/profile/actions'
     import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
-    import { formatTokenAmountBestMatch } from '@core/token/utils'
+    import { formatTokenAmount } from '@core/token/utils'
     import { formatHexString } from '@core/utils'
     import { onDestroy } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -80,7 +80,7 @@
                             key: localize('general.maxFees'),
                             value:
                                 !useBlindSigning && isEvmTransaction
-                                    ? formatTokenAmountBestMatch(maxGasFee, getBaseToken())
+                                    ? formatTokenAmount(maxGasFee, getBaseToken())
                                     : undefined,
                         },
                         {

@@ -2,7 +2,7 @@
     import { localize } from '@core/i18n'
     import { NetworkId } from '@core/network'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { NetworkLabel } from '@ui'
     import { Table } from '@bloomwalletio/ui'
 
@@ -24,11 +24,11 @@
         },
         {
             key: localize('general.estimatedFee'),
-            value: estimatedGasFee ? formatTokenAmountBestMatch(estimatedGasFee, getBaseToken()) : undefined,
+            value: estimatedGasFee ? formatTokenAmount(estimatedGasFee, getBaseToken()) : undefined,
         },
         {
             key: localize('general.maxFees'),
-            value: maxGasFee ? formatTokenAmountBestMatch(maxGasFee, getBaseToken()) : undefined,
+            value: maxGasFee ? formatTokenAmount(maxGasFee, getBaseToken()) : undefined,
         },
     ]}
 />

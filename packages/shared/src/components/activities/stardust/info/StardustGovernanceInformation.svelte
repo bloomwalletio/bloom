@@ -2,7 +2,7 @@
     import { Table } from '@bloomwalletio/ui'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { StardustGovernanceAction, StardustGovernanceActivity } from '@core/activity'
 
     export let activity: StardustGovernanceActivity
@@ -23,7 +23,7 @@
             key: isNewVotingPower ? localize('general.newVotingPower') : localize('general.votingPower'),
             value:
                 activity?.votingPower !== undefined
-                    ? formatTokenAmountBestMatch(activity?.votingPower, getBaseToken())
+                    ? formatTokenAmount(activity?.votingPower, getBaseToken())
                     : undefined,
         },
     ]}

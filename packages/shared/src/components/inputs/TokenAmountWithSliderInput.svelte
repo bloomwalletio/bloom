@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize, parseCurrency } from '@core/i18n'
-    import { ITokenWithBalance, convertToRawAmount, formatTokenAmountBestMatch } from '@core/token'
+    import { ITokenWithBalance, convertToRawAmount, formatTokenAmount } from '@core/token'
     import { getMaxDecimalsFromTokenMetadata } from '@core/token/utils'
     import { AmountInput, SliderInput, TokenLabel } from '@ui'
     import { Error as ErrorComponent, Text } from '@bloomwalletio/ui'
@@ -22,7 +22,7 @@
 
     function getTokenAmount(rawAmount: bigint): string | undefined {
         return token?.metadata
-            ? formatTokenAmountBestMatch(rawAmount, token?.metadata, { withUnit: false, round: false })
+            ? formatTokenAmount(rawAmount, token?.metadata, { withUnit: false, round: false })
             : undefined
     }
 
@@ -76,9 +76,9 @@
         <div class="flex flex-col mt-5">
             <SliderInput bind:value={rawAmount} max={availableBalance} {disabled} />
             <div class="flex flex-row justify-between">
-                <Text textColor="secondary">{formatTokenAmountBestMatch(BigInt(0), token?.metadata)}</Text>
+                <Text textColor="secondary">{formatTokenAmount(BigInt(0), token?.metadata)}</Text>
                 <Text textColor="secondary" type="sm">
-                    {formatTokenAmountBestMatch(availableBalance, token?.metadata)}
+                    {formatTokenAmount(availableBalance, token?.metadata)}
                 </Text>
             </div>
         </div>

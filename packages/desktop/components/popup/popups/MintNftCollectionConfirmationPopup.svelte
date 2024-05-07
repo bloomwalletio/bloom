@@ -6,7 +6,7 @@
     import { CURRENT_IRC27_VERSION, IIrc27Metadata } from '@core/nfts'
     import { getClient } from '@core/profile-manager'
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { buildNftOutputBuilderParams, mintNftCollection, mintNftCollectionDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { MediaIcon, PopupTab, getTabItems } from '@ui'
@@ -103,7 +103,7 @@
                         items={[
                             {
                                 key: localize('general.storageDeposit'),
-                                value: formatTokenAmountBestMatch(BigInt(storageDeposit), getBaseToken()),
+                                value: formatTokenAmount(BigInt(storageDeposit), getBaseToken()),
                             },
                             {
                                 key: localize('general.immutableIssuer'),
