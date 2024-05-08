@@ -21,14 +21,19 @@ export async function buildPersistedCollectionFromNft(nft: Nft): Promise<Persist
 }
 
 async function buildPersistedCollectionForIrc27Nft(nft: IIrc27Nft): Promise<IPersistedIrc27Collection | undefined> {
-    const { aliasId = '', nftId = '' } = nft.issuer ?? {}
-    if (!aliasId && !nftId) {
-        return
+    if (!nft.collectionId) {
+        return undefined
     }
+
+    const { aliasId, nftId } = nft.issuer ?? {}
 
     try {
         const client = await getClient()
-        const outputId = aliasId ? await client.aliasOutputId(aliasId) : await client.nftOutputId(nftId)
+        const outputId = aliasId
+            ? await client.aliasOutputId(aliasId)
+            : nftId
+              ? await client.nftOutputId(nftId)
+              : undefined
         if (!outputId) {
             return
         }
@@ -49,7 +54,7 @@ async function buildPersistedCollectionForIrc27Nft(nft: IIrc27Nft): Promise<IPer
             return
         }
 
-        return { id: aliasId ?? nftId, ...parsedMetadata }
+        return { id: nft.collectionId, ...parsedMetadata }
     } catch (error) {
         console.error('Error retrieving collection from NFT:', error)
     }
