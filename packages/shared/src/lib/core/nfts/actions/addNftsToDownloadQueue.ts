@@ -45,13 +45,13 @@ async function validateNftAndCheckIfShouldBeDownloaded(
 }
 
 function addNftsToDownloadQueueIfShouldBeDownloaded(
-    nftsToAdd: { nft: Nft; shouldDownload: boolean }[],
+    items: { nft: Nft; shouldDownload: boolean }[],
     options: NftDownloadOptions
 ): void {
     nftDownloadQueue.update((state) => {
-        for (const nft of nftsToAdd) {
-            if (!nft.shouldDownload) {
-                state.push({ nft: nft.nft, options })
+        for (const item of items) {
+            if (item.shouldDownload) {
+                state.push({ nft: item.nft, options })
             }
         }
         return state
