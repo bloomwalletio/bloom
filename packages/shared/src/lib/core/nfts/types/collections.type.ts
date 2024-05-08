@@ -1,3 +1,3 @@
 import { Collection } from '../interfaces'
 
-export type Collections = { [key: string]: Collection }
+export type Collections = { [collectionId: string]: Collection }

@@ -2,26 +2,38 @@ import { getClient } from '@core/profile-manager'
 import type { AliasOutput, MetadataFeature, NftOutput } from '@iota/sdk'
 import { FeatureType } from '@iota/sdk/out/types'
 import { NftStandard } from '../enums'
-import { Collection, IErc721Collection, IErc721Nft, IIrc27Collection, IIrc27Nft, Nft } from '../interfaces'
+import {
+    IErc721Nft,
+    IIrc27Nft,
+    IPersistedErc721Collection,
+    IPersistedIrc27Collection,
+    Nft,
+    PersistedCollection,
+} from '../interfaces'
 import { parseNftMetadata } from './parseNftMetadata'
 
-export async function getCollectionFromNft(nft: Nft): Promise<Collection | undefined> {
+export async function buildPersistedCollectionFromNft(nft: Nft): Promise<PersistedCollection | undefined> {
     if (nft.standard === NftStandard.Irc27) {
-        return getCollectionForIrc27Nft(nft)
+        return buildPersistedCollectionForIrc27Nft(nft)
     } else if (nft.standard === NftStandard.Erc721) {
-        return getCollectionForErc721Nft(nft)
+        return buildPersistedCollectionForErc721Nft(nft)
     }
 }
 
-async function getCollectionForIrc27Nft(nft: IIrc27Nft): Promise<IIrc27Collection | undefined> {
-    const { aliasId = '', nftId = '' } = nft.issuer ?? {}
-    if (!aliasId && !nftId) {
-        return
+async function buildPersistedCollectionForIrc27Nft(nft: IIrc27Nft): Promise<IPersistedIrc27Collection | undefined> {
+    if (!nft.collectionId) {
+        return undefined
     }
+
+    const { aliasId, nftId } = nft.issuer ?? {}
 
     try {
         const client = await getClient()
-        const outputId = aliasId ? await client.aliasOutputId(aliasId) : await client.nftOutputId(nftId)
+        const outputId = aliasId
+            ? await client.aliasOutputId(aliasId)
+            : nftId
+              ? await client.nftOutputId(nftId)
+              : undefined
         if (!outputId) {
             return
         }
@@ -42,12 +54,12 @@ async function getCollectionForIrc27Nft(nft: IIrc27Nft): Promise<IIrc27Collectio
             return
         }
 
-        return { id: aliasId ?? nftId, ...parsedMetadata, nfts: [] }
+        return { id: nft.collectionId, ...parsedMetadata }
     } catch (error) {
         console.error('Error retrieving collection from NFT:', error)
     }
 }
 
-function getCollectionForErc721Nft(nft: IErc721Nft): IErc721Collection | undefined {
-    return { id: nft.contractMetadata.address, ...nft.contractMetadata, nfts: [] }
+function buildPersistedCollectionForErc721Nft(nft: IErc721Nft): IPersistedErc721Collection | undefined {
+    return { id: nft.contractMetadata.address, ...nft.contractMetadata }
 }
