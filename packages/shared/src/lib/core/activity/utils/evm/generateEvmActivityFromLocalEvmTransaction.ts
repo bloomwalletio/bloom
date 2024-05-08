@@ -23,7 +23,10 @@ export async function generateEvmActivityFromLocalEvmTransaction(
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
     if (transaction.data) {
-        const transferInfo = getTransferInfoFromTransactionData(transaction, evmNetwork)
+        const transferInfo = getTransferInfoFromTransactionData(
+            { to: transaction.to?.toString(), data: transaction.data, value: transaction.value },
+            evmNetwork
+        )
         if (!transferInfo) {
             return
         }

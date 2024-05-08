@@ -58,7 +58,14 @@
 
     setTokenTransfer()
     function setTokenTransfer(): void {
-        const transferInfo = getTransferInfoFromTransactionData(preparedTransaction, evmNetwork)
+        const transferInfo = getTransferInfoFromTransactionData(
+            {
+                to: preparedTransaction.to?.toString(),
+                data: preparedTransaction.data,
+                value: preparedTransaction.value,
+            },
+            evmNetwork
+        )
         switch (transferInfo?.type) {
             case StardustActivityType.Basic: {
                 const transfer = {
