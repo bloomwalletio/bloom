@@ -1,8 +1,8 @@
 import { persistent } from '@core/utils/store'
 import { Collection } from '../interfaces'
-import { Collections } from '../types'
+import { PersistedCollections } from '../types'
 
-export const persistedCollections = persistent<Collections>('persistedCollections', {})
+export const persistedCollections = persistent<PersistedCollections>('persistedCollections', {})
 
 export function addCollectionsToPersistedCollections(collections: Collection[]): void {
     persistedCollections.update((state) => {

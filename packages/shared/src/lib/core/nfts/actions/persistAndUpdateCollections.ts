@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 import { addCollectionsToPersistedCollections, addNftsToCollection, persistedCollections } from '../stores'
 import { Nft } from '../interfaces'
-import { getCollectionFromNft } from '../utils'
+import { buildPersistedCollectionFromNft } from '../utils'
 import { Collections } from '../types'
 
 export async function persistAndUpdateCollections(accountIndex: number, nfts: Nft[]): Promise<void> {
@@ -13,9 +13,9 @@ export async function persistAndUpdateCollections(accountIndex: number, nfts: Nf
             continue
         }
         if (!_persistedCollections[nft.collectionId] && !collections[nft.collectionId]) {
-            const collection = await getCollectionFromNft(nft)
+            const collection = await buildPersistedCollectionFromNft(nft)
             if (collection) {
-                collections[nft.collectionId] = collection
+                collections[nft.collectionId] = { ...collection, nfts: [] }
             }
         }
     }
