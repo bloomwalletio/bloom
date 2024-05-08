@@ -7,7 +7,7 @@ import { BaseEvmActivity, EvmActivity, EvmCoinTransferActivity } from '@core/act
 import { BASE_TOKEN_ID } from '@core/token'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { EvmActivityType } from '@core/activity/enums/evm'
-import { HEX_PREFIX } from '@core/utils'
+import { Converter, HEX_PREFIX } from '@core/utils'
 import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
 import { SubjectType } from '@core/wallet'
 import { ActivityDirection } from '@core/activity/enums'
@@ -108,7 +108,7 @@ async function generateEvmCoinTransferActivityFromBlockscoutTransaction(
         type: EvmActivityType.CoinTransfer,
         baseTokenTransfer: {
             tokenId: BASE_TOKEN_ID,
-            rawAmount: evmNetwork.normaliseAmount(blockscoutTransaction.value),
+            rawAmount: Converter.bigIntLikeToBigInt(blockscoutTransaction.value),
         },
     } as EvmCoinTransferActivity
 }

@@ -18,6 +18,9 @@ export interface IIscChain extends IEvmNetwork {
     getGasFeeEstimate(hex: string): Promise<bigint>
     getMetadata(): IIscChainMetadata | undefined
     setMetadata(): Promise<void>
+
+    normaliseAmount(amount: BigIntLike): bigint
+    denormaliseAmount(amount: BigIntLike): bigint
 }
 
 export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
@@ -36,9 +39,6 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
 
     getContract(type: ContractType, address: string): Contract
     getLatestBlock(): Promise<IBlock>
-
-    normaliseAmount(amount: BigIntLike): bigint
-    denormaliseAmount(amount: BigIntLike): bigint
 
     calculateGasFee(gasUsed: BigIntLike, gasPrice: BigIntLike | undefined): bigint
 }

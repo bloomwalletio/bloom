@@ -67,6 +67,7 @@
     <TransactionAssetSection baseCoinTransfer={sendFlowParameters.baseCoinTransfer} {...transactionAsset} />
 
     <EvmTransactionDetails
+        sourceNetwork={network}
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
         estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction, network) + storageDeposit}
         maxGasFee={calculateMaxGasFeeFromTransactionData(transaction, network) + storageDeposit}

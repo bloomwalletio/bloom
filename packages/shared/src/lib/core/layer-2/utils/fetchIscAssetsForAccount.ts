@@ -47,6 +47,8 @@ async function getL2NativeTokenBalancesForAddress(evmAddress: string, iscChain: 
 
         const nativeTokens = {}
         nativeTokenResult.items?.forEach((item) => (nativeTokens[item.key] = Converter.bigIntLikeToBigInt(item.value)))
+        // Make sure that we remove the base token here as we get it from the evm provider in the correct format
+        delete nativeTokens[BASE_TOKEN_ID]
         return nativeTokens
     } catch (e) {
         console.error(e)

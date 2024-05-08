@@ -24,6 +24,7 @@ import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
+import { formatTokenAmountBestMatch } from '@core/token/utils'
 
 declare global {
     interface Window {
@@ -80,15 +81,16 @@ export class Ledger {
             await this.userEnablesBlindSigning()
         }
 
-        const rawAmount = network.normaliseAmount(transactionData.value ?? 0).toString(10)
-
         openProfileAuthPopup({
             id: ProfileAuthPopupId.VerifyLedgerTransaction,
             hideClose: true,
             preventClose: true,
             props: {
                 isEvmTransaction: true,
-                toAmount: parseInt(rawAmount) / 1_000_000,
+                toAmount: formatTokenAmountBestMatch(
+                    Converter.bigIntLikeToBigInt(transactionData.value ?? 0),
+                    network.baseToken
+                ),
                 toAddress: transactionData.to,
                 chainId: network.chainId,
                 maxGasFee,
