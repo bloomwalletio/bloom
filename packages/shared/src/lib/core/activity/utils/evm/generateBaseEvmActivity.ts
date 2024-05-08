@@ -1,7 +1,6 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
-import { calculateGasFeeInGlow } from '@core/layer-2/helpers'
-import { IEvmNetwork, NetworkNamespace } from '@core/network'
+import { IEvmNetwork, NetworkNamespace, calculateGasFee } from '@core/network'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
@@ -38,7 +37,7 @@ export async function generateBaseEvmActivity(
     // For native token transfers on L2, gasUsed is 0. Therefor we fallback to the estimatedGas
     // https://discord.com/channels/397872799483428865/930642258427019354/1168854453005332490
     const gasUsed = transaction.gasUsed || transaction.estimatedGas
-    const transactionFee = transaction.gasPrice ? calculateGasFeeInGlow(gasUsed ?? 0, transaction.gasPrice) : undefined
+    const transactionFee = transaction.gasPrice ? calculateGasFee(gasUsed, transaction.gasPrice) : undefined
 
     return {
         namespace: NetworkNamespace.Evm,

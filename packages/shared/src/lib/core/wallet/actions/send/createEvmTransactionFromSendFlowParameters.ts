@@ -1,7 +1,7 @@
 import { IAccountState } from '@core/account/interfaces'
 import { EvmTransactionData } from '@core/layer-2/types'
 import { IEvmNetwork } from '@core/network/interfaces'
-import { isEvmNetwork, isStardustNetwork } from '@core/network/utils'
+import { isEvmNetwork, isIscNetwork, isStardustNetwork } from '@core/network/utils'
 import { SendFlowParameters } from '../../types'
 import { createEvmToEvmTransaction } from './createEvmToEvmTransaction'
 import { createEvmToStardustTransaction } from './createEvmToStardustTransaction'
@@ -18,7 +18,7 @@ export async function createEvmTransactionFromSendFlowParameters(
             return await createEvmToEvmTransaction(sendFlowParameters, originEvmNetwork, account)
         }
         // L2 -> L1 transfer (unwrapping)
-        else if (isStardustNetwork(destinationNetworkId)) {
+        else if (isStardustNetwork(destinationNetworkId) && isIscNetwork(originEvmNetwork)) {
             return await createEvmToStardustTransaction(sendFlowParameters, originEvmNetwork, account)
         }
     } else {

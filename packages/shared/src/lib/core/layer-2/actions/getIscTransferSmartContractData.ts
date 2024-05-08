@@ -24,7 +24,7 @@ export function getIscTransferSmartContractData(
 
         const agentId = evmAddressToAgentId(recipientAddress, iscChain.aliasAddress)
         const parameters = getAgentBalanceParameters(agentId)
-        const allowance = buildAssetAllowance(transferredAsset)
+        const allowance = buildAssetAllowance(iscChain, transferredAsset)
 
         const contract = iscChain.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const method = contract.methods.call(accountsCoreContract, transferAllowanceTo, parameters, allowance)

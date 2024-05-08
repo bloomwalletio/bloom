@@ -29,7 +29,7 @@ export async function signEvmTransaction(
         bip44Path.account = index
         delete transactionCopy?.estimatedGas
 
-        signature = (await Ledger.signEvmTransaction(transactionCopy, evmNetwork.chainId, bip44Path)) as string
+        signature = (await Ledger.signEvmTransaction(transactionCopy, evmNetwork, bip44Path)) as string
     }
 
     if (!signature) {
