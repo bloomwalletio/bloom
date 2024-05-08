@@ -24,7 +24,7 @@ export async function setGasFee(sendFlowParams: SendFlowParameters, account: IAc
 
             try {
                 const txData = await createEvmTransactionFromSendFlowParameters(sendFlowParams, evmNetwork, account)
-                gasFee = txData ? calculateMaxGasFeeFromTransactionData(txData, evmNetwork) : undefined
+                gasFee = txData ? calculateMaxGasFeeFromTransactionData(txData) : undefined
             } catch (error) {
                 console.error(error)
             }

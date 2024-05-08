@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { IEvmNetwork, IIscChain, NetworkType } from '@core/network'
+    import { IEvmNetwork, isIscNetwork } from '@core/network'
     import { Table } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components/drawers'
     import { NetworkConfigRoute } from '../../network-config-route.enum'
@@ -10,10 +10,6 @@
     export let network: IEvmNetwork
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
-
-    function isIscChain(network: IEvmNetwork): network is IIscChain {
-        return network.type === NetworkType.Isc
-    }
 </script>
 
 <DrawerTemplate title={network.name} {drawerRouter}>
@@ -36,7 +32,7 @@
                     value: network.explorerUrl ?? undefined,
                     copyable: true,
                 },
-                ...(isIscChain(network)
+                ...(isIscNetwork(network)
                     ? [
                           {
                               key: localize(`${localeKey}.aliasAddress`),

@@ -73,7 +73,7 @@ export class Ledger {
     ): Promise<string | undefined> {
         const unsignedTransactionMessageHex = prepareEvmTransaction(transactionData, network.chainId)
         const bip32Path = buildBip32PathFromBip44(bip44)
-        const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData, network)
+        const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData)
 
         const mustEnableBlindSigning =
             isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
