@@ -27,6 +27,7 @@ export interface IErc721Nft extends IBaseNft {
 
 interface IBaseNft {
     id: string
+    collectionId?: string
     type: MimeType
     networkId: NetworkId
     name: string

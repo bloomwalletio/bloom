@@ -173,9 +173,13 @@
     }}
     {busy}
 >
-    {#if isSourceNetworkLayer2 && preparedTransaction}
-        <EvmTransactionSummary transaction={preparedTransaction} sendFlowParameters={$sendFlowParameters} />
-    {:else if !isSourceNetworkLayer2 && preparedOutput}
+    {#if isSourceNetworkLayer2 && preparedTransaction && $sendFlowParameters && evmNetwork}
+        <EvmTransactionSummary
+            transaction={preparedTransaction}
+            sendFlowParameters={$sendFlowParameters}
+            network={evmNetwork}
+        />
+    {:else if !isSourceNetworkLayer2 && preparedOutput && $sendFlowParameters}
         {#if isDestinationNetworkLayer2}
             <StardustToEvmTransactionSummary output={preparedOutput} sendFlowParameters={$sendFlowParameters} />
         {:else}

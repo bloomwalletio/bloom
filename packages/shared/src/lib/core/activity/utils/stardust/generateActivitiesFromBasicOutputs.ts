@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { buildNftFromNftOutput } from '@core/nfts/actions'
+import { buildNftFromNftOutput, persistAndUpdateCollections } from '@core/nfts/actions'
 import { IWrappedOutput } from '@core/wallet'
 import { NftOutput, OutputType } from '@iota/sdk/out/types'
 import { ActivityAction, ActivityDirection } from '../../enums'
@@ -58,6 +58,7 @@ export async function generateActivitiesFromBasicOutputs(
                 )
                 const nft = buildNftFromNftOutput(wrappedInput, networkId, account.depositAddress, false)
                 addOrUpdateNftForAccount(account.index, nft)
+                await persistAndUpdateCollections(account.index, [nft])
 
                 burnedNftInputs.splice(burnedNftInputIndex, 1)
             } else if (isSelfTransaction && burnedNativeToken) {

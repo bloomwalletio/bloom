@@ -1,19 +1,24 @@
+// Potential circular import so importing this first
+import { EvmNetwork } from './evm-network.class'
+
+import { IAccountState } from '@core/account/interfaces'
+import { StardustActivityType } from '@core/activity/enums'
 import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
+import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
 import { NetworkType } from '@core/network/enums'
+import { Nft } from '@core/nfts/interfaces'
+import { getNftsFromNftIds } from '@core/nfts/utils'
 import { getActiveProfileId } from '@core/profile/stores'
 import { ITokenBalance } from '@core/token/interfaces'
-import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
-import { EvmNetwork } from './evm-network.class'
-import { IAccountState } from '@core/account/interfaces'
-import { Nft } from '@core/nfts/interfaces'
 import { getPersistedTransactionsForChain } from '@core/transactions/stores'
-import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
-import { StardustActivityType } from '@core/activity'
-import { getNftsFromNftIds } from '@core/nfts/utils'
+import { Converter } from '@core/utils'
+import { BigIntLike } from '@ethereumjs/util'
+import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 
 export class IscChain extends EvmNetwork implements IIscChain {
     private readonly _chainApi: string
     private _metadata: IIscChainMetadata | undefined
+    private WEI_PER_GLOW = BigInt(1_000_000_000_000)
 
     public readonly explorerUrl: string | undefined
     public readonly apiEndpoint: string
@@ -83,10 +88,10 @@ export class IscChain extends EvmNetwork implements IIscChain {
             return undefined
         }
 
-        const tokenBalance = (await super.getBalance(account)) ?? {}
-        const iscBalance = (await fetchIscAssetsForAccount(getActiveProfileId(), evmAddress, this, account)) ?? {}
+        const evmTokenBalances = (await super.getBalance(account)) ?? {}
+        const iscTokenBalances = (await fetchIscAssetsForAccount(getActiveProfileId(), evmAddress, this, account)) ?? {}
 
-        return { ...tokenBalance, ...iscBalance }
+        return { ...evmTokenBalances, ...iscTokenBalances }
     }
 
     async getGasFeeEstimate(outputBytes: string): Promise<bigint> {
@@ -115,5 +120,13 @@ export class IscChain extends EvmNetwork implements IIscChain {
         } else {
             throw new Error(data)
         }
+    }
+
+    denormaliseAmount(amount: BigIntLike): bigint {
+        return Converter.bigIntLikeToBigInt(amount) * this.WEI_PER_GLOW
+    }
+
+    normaliseAmount(amount: BigIntLike): bigint {
+        return Converter.bigIntLikeToBigInt(amount) / this.WEI_PER_GLOW
     }
 }

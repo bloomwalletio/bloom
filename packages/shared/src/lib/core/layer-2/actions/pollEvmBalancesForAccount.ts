@@ -9,11 +9,11 @@ let pollInterval: number
 export function pollEvmBalancesForAccount(profileId: string, account: IAccountState): void {
     try {
         clearL2TokensPoll()
-        checkForUntrackedTokens(account)
+        void checkForUntrackedTokens(account)
         void checkForUntrackedNfts(account)
-        fetchEvmBalancesForAccount(profileId, account)
+        void fetchEvmBalancesForAccount(profileId, account)
         pollInterval = window.setInterval(() => {
-            fetchEvmBalancesForAccount(profileId, account)
+            void fetchEvmBalancesForAccount(profileId, account)
         }, LAYER2_TOKENS_POLL_INTERVAL)
     } catch (err) {
         handleError(err)

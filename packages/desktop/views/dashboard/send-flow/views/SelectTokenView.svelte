@@ -6,8 +6,10 @@
     import { localize } from '@core/i18n'
     import { canAccountMakeEvmTransaction } from '@core/layer-2/actions'
     import {
+        IEvmNetwork,
         canAccountMakeStardustTransaction,
         getActiveNetworkId,
+        getEvmNetwork,
         isEvmNetwork,
         isStardustNetwork,
         networks,
@@ -36,9 +38,10 @@
     async function setTokenError(): Promise<void> {
         let hasEnoughFunds = true
         if (selectedToken && isEvmNetwork(selectedToken.networkId)) {
+            const network = getEvmNetwork(selectedToken.networkId) as IEvmNetwork
             hasEnoughFunds = await canAccountMakeEvmTransaction(
                 $selectedAccountIndex,
-                selectedToken.networkId,
+                network,
                 $sendFlowParameters?.type
             )
         } else if (selectedToken && isStardustNetwork(selectedToken.networkId)) {
