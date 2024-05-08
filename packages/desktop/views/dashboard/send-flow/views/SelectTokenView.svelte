@@ -166,10 +166,10 @@
     }}
 >
     <div class="space-y-4">
-        <SearchInput bind:value={searchValue} />
         {#if $networks.length > 1}
             <SelectInput bind:selected={selectedOption} {options} />
         {/if}
+        <SearchInput bind:value={searchValue} />
         <div class="-mr-3">
             <token-list class="w-full flex flex-col">
                 {#each tokenList as token}
