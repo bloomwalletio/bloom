@@ -227,6 +227,7 @@
             <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
         {/if}
         <EvmTransactionDetails
+            sourceNetwork={evmNetwork}
             destinationNetworkId={evmNetwork.id}
             estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction)}
             maxGasFee={calculateMaxGasFeeFromTransactionData(preparedTransaction)}

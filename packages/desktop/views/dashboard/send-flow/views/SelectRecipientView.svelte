@@ -9,6 +9,7 @@
         IEvmNetwork,
         NetworkId,
         NetworkType,
+        getEvmNetwork,
         getIscChains,
         getL1Network,
         getNetwork,
@@ -43,7 +44,8 @@
 
         const { sourceNetworkId, type } = $sendFlowParameters
         if (sourceNetworkId && isEvmNetwork(sourceNetworkId)) {
-            hasInsufficientFunds = !(await canAccountMakeEvmTransaction($selectedAccountIndex, sourceNetworkId, type))
+            const network = getEvmNetwork(sourceNetworkId) as IEvmNetwork
+            hasInsufficientFunds = !(await canAccountMakeEvmTransaction($selectedAccountIndex, network, type))
         } else {
             hasInsufficientFunds = false
         }
