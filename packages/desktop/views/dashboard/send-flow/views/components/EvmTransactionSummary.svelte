@@ -9,11 +9,13 @@
     import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
+    import { IEvmNetwork } from '@core/network'
     import { handleError } from '@core/error/handlers'
     import { StardustNetworkId } from '@core/network'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
+    export let network: IEvmNetwork
 
     $: transactionAsset = getTransactionAsset(sendFlowParameters)
     function getTransactionAsset(_sendFlowParameters: SendFlowParameters): {
@@ -65,6 +67,7 @@
     <TransactionAssetSection baseCoinTransfer={sendFlowParameters.baseCoinTransfer} {...transactionAsset} />
 
     <EvmTransactionDetails
+        sourceNetwork={network}
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
         estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction) + storageDeposit}
         maxGasFee={calculateMaxGasFeeFromTransactionData(transaction) + storageDeposit}

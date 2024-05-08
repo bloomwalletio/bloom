@@ -14,6 +14,7 @@
     import { TokenTrackingStatus } from '@core/token'
     import { selectedAccount } from '@core/account/stores'
     import { addOrUpdateNftForAccount } from '@core/nfts/stores'
+    import { persistAndUpdateCollections } from '@core/nfts/actions'
 
     let busy = false
 
@@ -43,6 +44,7 @@
                 const l2Address = getAddressFromAccountForNetwork(account, networkId)
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, l2Address)
                 addOrUpdateNftForAccount(account.index, nft)
+                await persistAndUpdateCollections(account.index, [nft])
                 void addNftsToDownloadQueue([nft])
             }
 

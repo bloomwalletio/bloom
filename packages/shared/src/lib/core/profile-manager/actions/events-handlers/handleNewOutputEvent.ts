@@ -8,7 +8,7 @@ import { addAccountActivities, allAccountActivities } from '@core/activity/store
 import { generateActivitiesFromStardustNetwork } from '@core/activity/utils'
 import { preprocessGroupedOutputs } from '@core/activity/utils/outputs'
 import { getActiveNetworkId } from '@core/network'
-import { addNftsToDownloadQueue, buildNftFromNftOutput } from '@core/nfts/actions'
+import { addNftsToDownloadQueue, buildNftFromNftOutput, persistAndUpdateCollections } from '@core/nfts/actions'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { getBech32AddressFromAddressTypes } from '@core/wallet/utils/getBech32AddressFromAddressTypes'
 import { get } from 'svelte/store'
@@ -59,6 +59,7 @@ export async function handleNewOutputEventInternal(
     if (isNftOutput) {
         const nft = buildNftFromNftOutput(output as IWrappedOutput, networkId, account.depositAddress)
         addOrUpdateNftForAccount(account.index, nft)
+        await persistAndUpdateCollections(account.index, [nft])
         void addNftsToDownloadQueue([nft])
 
         checkAndRemoveProfilePicture()

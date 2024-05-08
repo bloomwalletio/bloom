@@ -3,9 +3,9 @@
     import { Collection, Nft } from '@core/nfts/interfaces'
     import { NftStandard } from '@core/nfts/enums'
     import {
+        activeProfileCollectionsPerAccount,
         activeProfileNftsPerAccount,
         getNftByIdForAccount,
-        selectedAccountCollections,
         selectedCollectionId,
         selectedNftId,
     } from '@core/nfts/stores'
@@ -18,7 +18,9 @@
     let nft: Nft | undefined
     let collection: Collection | undefined
     $: $activeProfileNftsPerAccount, (nft = getNftByIdForAccount($selectedAccountIndex, $selectedNftId))
-    $: collection = $selectedCollectionId ? $selectedAccountCollections[$selectedCollectionId] : undefined
+    $: collection = $selectedCollectionId
+        ? $activeProfileCollectionsPerAccount[$selectedAccountIndex][$selectedCollectionId]
+        : undefined
 
     $: returnIfNftWasSent($activeProfileNftsPerAccount[$selectedAccountIndex], $time)
 

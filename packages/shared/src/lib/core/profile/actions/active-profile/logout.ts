@@ -22,7 +22,7 @@ import { closePopup } from '../../../../../../../desktop/lib/auxiliary/popup'
 import { closeDrawer } from '../../../../../../../desktop/lib/auxiliary/drawer'
 import { closeSettings } from '@contexts/settings/stores'
 import { clearLayer2Balance } from '@core/layer-2/stores'
-import { clearActiveProfileNftsPerAccount } from '@core/nfts/stores'
+import { clearActiveProfileCollectionsPerAccount, clearActiveProfileNftsPerAccount } from '@core/nfts/stores'
 import { clearAccountActivities } from '@core/activity/stores'
 import { destroyNetworks } from '@core/network/stores'
 import { resetClient } from '@core/profile-manager/api'
@@ -44,6 +44,7 @@ export function logout(clearActiveProfile = true, _lockStronghold = true): void 
     clearLayer2Balance()
     clearMarketPricesPoll()
     clearActiveProfileNftsPerAccount()
+    clearActiveProfileCollectionsPerAccount()
     clearAccountActivities()
 
     destroyNetworks()

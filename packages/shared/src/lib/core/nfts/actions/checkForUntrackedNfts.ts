@@ -14,6 +14,7 @@ import { TokenTrackingStatus } from '@core/token'
 import { IBlockscoutAsset } from '@auxiliary/blockscout/interfaces'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 import { addOrUpdateNftForAccount } from '../stores'
+import { persistAndUpdateCollections } from './persistAndUpdateCollections'
 
 export async function checkForUntrackedNfts(account: IAccountState): Promise<void> {
     if (!features?.collectibles?.erc721?.enabled) {
@@ -70,6 +71,7 @@ async function persistNftsFromExplorerAsset(
 
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, evmAddress)
                 addOrUpdateNftForAccount(account.index, nft)
+                await persistAndUpdateCollections(account.index, [nft])
                 return nft
             } catch (err) {
                 // If we don't have the tokenId we cannot persist the NFT. ERC-721 contracts should implement

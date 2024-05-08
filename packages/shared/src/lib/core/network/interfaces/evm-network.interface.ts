@@ -8,6 +8,7 @@ import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { IBaseNetwork, IBaseNetworkMetadata } from './base-network.interface'
 import { IBlock } from './block.interface'
 import { IIscChainMetadata } from './isc-chain-metadata.interface'
+import { BigIntLike } from '@ethereumjs/util'
 
 export interface IIscChain extends IEvmNetwork {
     type: NetworkType.Isc
@@ -17,6 +18,9 @@ export interface IIscChain extends IEvmNetwork {
     getGasFeeEstimate(hex: string): Promise<bigint>
     getMetadata(): IIscChainMetadata | undefined
     setMetadata(): Promise<void>
+
+    normaliseAmount(amount: BigIntLike): bigint
+    denormaliseAmount(amount: BigIntLike): bigint
 }
 
 export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
