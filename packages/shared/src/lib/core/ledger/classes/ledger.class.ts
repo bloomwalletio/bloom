@@ -24,7 +24,6 @@ import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
-import { formatTokenAmountBestMatch } from '@core/token/utils'
 
 declare global {
     interface Window {
@@ -87,12 +86,9 @@ export class Ledger {
             preventClose: true,
             props: {
                 isEvmTransaction: true,
-                toAmount: formatTokenAmountBestMatch(
-                    Converter.bigIntLikeToBigInt(transactionData.value ?? 0),
-                    network.baseToken
-                ),
+                toAmount: Converter.bigIntLikeToBigInt(transactionData.value ?? 0),
                 toAddress: transactionData.to,
-                chainId: network.chainId,
+                network,
                 maxGasFee,
             },
         })
