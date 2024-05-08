@@ -5,11 +5,13 @@ import {
     addOrUpdateNftForAccount,
     getNftsForAccount,
     persistedNftForActiveProfile,
+    removeNftFromCollections,
     updatePersistedNft,
 } from '../stores'
 import { getOwnerOfErc721Nft } from '../utils'
 import { get } from 'svelte/store'
 import { NetworkId } from '@core/network'
+import { persistAndUpdateCollections } from './persistAndUpdateCollections'
 
 export async function updateErc721NftsOwnership(account: IAccountState, networkId: NetworkId): Promise<void> {
     try {
@@ -30,6 +32,11 @@ export async function updateErc721NftsOwnership(account: IAccountState, networkI
             const l2Address = getAddressFromAccountForNetwork(account, nft.networkId)
             const isSpendable = updatedOwner === l2Address?.toLowerCase()
             addOrUpdateNftForAccount(account.index, { ...nft, isSpendable })
+            if (isSpendable) {
+                await persistAndUpdateCollections(account.index, [nft])
+            } else {
+                removeNftFromCollections(account.index, nft.id)
+            }
         })
         await Promise.allSettled(promises)
     } catch (error) {

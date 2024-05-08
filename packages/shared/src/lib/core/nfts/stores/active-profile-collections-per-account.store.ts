@@ -45,6 +45,20 @@ export function addNftsToCollection(accountIndex: number, nfts: Nft[]): void {
     })
 }
 
+export function removeNftFromCollections(accountIndex: number, nftId: string): void {
+    activeProfileCollectionsPerAccount.update((state) => {
+        for (const collectionId in state[accountIndex]) {
+            const collection = state[accountIndex][collectionId]
+            const nftIndex = collection.nfts.findIndex((nft) => nft.id === nftId)
+            if (nftIndex !== -1) {
+                collection.nfts.splice(nftIndex, 1)
+            }
+        }
+
+        return state
+    })
+}
+
 export function clearActiveProfileCollectionsPerAccount(): void {
     activeProfileCollectionsPerAccount.set({})
 }
