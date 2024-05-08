@@ -978,8 +978,7 @@
                     "tickerSymbol": "缩写符号",
                     "unit": "单位",
                     "subunit": "子单位",
-                    "decimals": "小数位数",
-                    "useMetricPrefix": "使用指标前缀"
+                    "decimals": "小数位数"
                 }
             },
             "jwt": "JSON web token",
