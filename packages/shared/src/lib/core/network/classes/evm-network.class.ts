@@ -119,6 +119,7 @@ export class EvmNetwork implements IEvmNetwork {
             return
         }
 
+        // TODO: Should this be in the get balance method?
         if (features.collectibles.erc721.enabled) {
             void updateErc721NftsOwnership(account, this.id)
         }
