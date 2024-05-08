@@ -30,7 +30,7 @@ const SHIMMER_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     name: 'Shimmer EVM',
     chainId: ChainId.ShimmerEvm,
     namespace: NetworkNamespace.Evm,
-    baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.ShimmerEVM],
+    baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.ShimmerEvm],
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.ShimmerEvm] ?? 0,
     aliasAddress: 'smr1prxvwqvwf7nru5q5xvh5thwg54zsm2y4wfnk6yk56hj3exxkg92mx20wl3s',
     rpcEndpoint: 'https://json-rpc.evm.shimmer.network/',
