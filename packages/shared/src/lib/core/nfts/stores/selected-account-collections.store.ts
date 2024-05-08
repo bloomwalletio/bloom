@@ -4,6 +4,7 @@ import { Nft } from '../interfaces'
 import { Collections } from '../types'
 import { getCollectionFromNft } from '../utils'
 import { ownedNfts, selectedAccountNfts } from './selected-account-nfts.store'
+import { isFeatureEnabled } from '@lib/features/utils'
 
 export const collectionsStore: Writable<Collections> = writable({})
 
@@ -50,7 +51,9 @@ async function updateCollections(nfts: Nft[]): Promise<void> {
 }
 
 selectedAccountNfts.subscribe((nfts) => {
-    void updateCollections(nfts.filter((nft) => nft.isSpendable))
+    if (isFeatureEnabled('collectibles.collections')) {
+        void updateCollections(nfts.filter((nft) => nft.isSpendable))
+    }
 })
 
 export const selectedAccountCollections: Readable<Collections> = derived(

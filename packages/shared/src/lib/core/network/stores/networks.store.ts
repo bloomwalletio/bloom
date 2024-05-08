@@ -1,11 +1,8 @@
 import { Writable, writable, get } from 'svelte/store'
-
 import { activeProfile } from '@core/profile/stores'
-import features from '@features/features'
-
 import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
 import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
-import { EvmNetworkId, Network, NetworkId } from '../types'
+import { EvmNetworkId, Network, NetworkId, StardustNetworkId } from '../types'
 import { NetworkType, NetworkNamespace } from '../enums'
 
 export const networks: Writable<Network[]> = writable([])
@@ -18,11 +15,9 @@ export function initializeNetworks(): void {
         _networks.push(stardustNetwork, ...stardustNetwork.iscChains)
     }
 
-    if (features.network.evmNetworks.enabled) {
-        profile.evmNetworks?.forEach((evmNetwork) => {
-            _networks.push(new EvmNetwork(evmNetwork))
-        })
-    }
+    profile.evmNetworks?.forEach((evmNetwork) => {
+        _networks.push(new EvmNetwork(evmNetwork))
+    })
 
     networks.set(_networks)
 }
@@ -64,6 +59,12 @@ export function getL1Network(): IStardustNetwork {
         throw new Error('Network is undefined!')
     }
     return l1Network
+}
+
+export function getStardustNetwork(networkId: StardustNetworkId): IStardustNetwork | undefined {
+    return get(networks)?.find(
+        (network) => network.namespace === NetworkNamespace.Stardust && network.id === networkId
+    ) as IStardustNetwork
 }
 
 export function getEvmNetworks(): IEvmNetwork[] {
