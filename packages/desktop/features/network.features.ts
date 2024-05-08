@@ -8,9 +8,6 @@ const networkFeatures: INetworkFeatures = {
             enabled: false,
         },
     },
-    evmNetworks: {
-        enabled: false,
-    },
 }
 
 export default networkFeatures

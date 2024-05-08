@@ -44,6 +44,9 @@ const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
     defaultIscChains: {
         enabled: false,
     },
+    defaultEvmChains: {
+        enabled: false,
+    },
 }
 
 const onboardingFeaturesForShimmer: IOnboardingFeaturesForNetwork = {
@@ -87,6 +90,9 @@ const onboardingFeaturesForShimmer: IOnboardingFeaturesForNetwork = {
     },
     defaultIscChains: {
         enabled: true,
+    },
+    defaultEvmChains: {
+        enabled: false,
     },
 }
 
@@ -132,6 +138,9 @@ const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
     defaultIscChains: {
         enabled: true,
     },
+    defaultEvmChains: {
+        enabled: true,
+    },
 }
 
 const onboardingFeaturesForCustom: IOnboardingFeaturesForNetwork = {
@@ -174,6 +183,9 @@ const onboardingFeaturesForCustom: IOnboardingFeaturesForNetwork = {
         },
     },
     defaultIscChains: {
+        enabled: false,
+    },
+    defaultEvmChains: {
         enabled: false,
     },
 }

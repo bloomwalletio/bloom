@@ -5,9 +5,9 @@ import { setLayer2AccountBalanceForChain } from '@core/layer-2/stores'
 import { activeProfileId } from '@core/profile/stores'
 import { get } from 'svelte/store'
 
-export function fetchEvmBalancesForAccount(profileId: string, account: IAccountState): void {
+export async function fetchEvmBalancesForAccount(profileId: string, account: IAccountState): Promise<void> {
     const evmNetworks = getEvmNetworks()
-    evmNetworks.forEach(async (evmNetwork) => {
+    for (const evmNetwork of evmNetworks) {
         try {
             const tokenBalance: ITokenBalance = (await evmNetwork.getBalance(account)) ?? {}
 
@@ -17,5 +17,5 @@ export function fetchEvmBalancesForAccount(profileId: string, account: IAccountS
         } catch (error) {
             console.error(error)
         }
-    })
+    }
 }
