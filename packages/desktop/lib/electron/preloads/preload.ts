@@ -104,7 +104,7 @@ function deleteOldLogs(path: string, currentVersion: string): void {
 
         const isOlderThan30Days =
             new Date().getTime() - new Date(stat.mtime).getTime() > DAYS_TO_KEEP_LOGS * DAY_IN_MILLISECONDS
-        const version = file.match(/wallet-v([\w.]+)-d([\w.]+).log/)?.[1]
+        const version = file.match(/wallet-v([\w.]+)-d([\w.-]+).log/)?.[1]
 
         const isDifferentVersion = version !== currentVersion
         if (isDifferentVersion || isOlderThan30Days) {
