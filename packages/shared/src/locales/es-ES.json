@@ -978,8 +978,7 @@
                     "tickerSymbol": "Ticker",
                     "unit": "Unidad",
                     "subunit": "Sub-unidad",
-                    "decimals": "Decimales",
-                    "useMetricPrefix": "Usar prefijo métrico"
+                    "decimals": "Decimales"
                 }
             },
             "jwt": "JSON web token",

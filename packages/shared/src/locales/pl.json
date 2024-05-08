@@ -250,13 +250,13 @@
                 "title": "Bramki IPFS",
                 "description": "Wybierz bramkę IPFS do pobrania multimediów",
                 "setAsPrimary": "Ustaw jako główny",
-                "unsetPrimary": "Unset primary",
+                "unsetPrimary": "Usuń główne ustawienie",
                 "addGateway": {
                     "title": "Dodaj nową bramkę IPFS",
                     "placeholder": "Bramka IPFS",
                     "error": {
-                        "notReachable": "Gateway isn't reachable",
-                        "invalidGateway": "Invalid IPFS gateway"
+                        "notReachable": "Bramka jest niedostępna",
+                        "invalidGateway": "Nieprawidłowa bramka IPFS"
                     }
                 },
                 "removeConfirmation": {
@@ -663,17 +663,17 @@
                     "loadMedia": "Wczytaj media w portfelu",
                     "unsetPfp": "Usuń NFT z obrazka profilowego",
                     "view": "Zobacz w przeglądarce",
-                    "refresh": "Refresh NFT",
+                    "refresh": "Odśwież NFT",
                     "hide": "Ukryj NFT",
                     "unhide": "Przywróć NFT",
                     "burn": "Spal NFT"
                 }
             },
             "collectionsGallery": {
-                "title": "Collections",
-                "emptyTitle": "No collections found",
-                "noResults": "No results found",
-                "emptyDescription": "Deposit or receive your first collectible!"
+                "title": "Kolekcje",
+                "emptyTitle": "Nie znaleziono kolekcji",
+                "noResults": "Brak wyników",
+                "emptyDescription": "Prześlij lub odbierz swoją pierwszą kolekcję już teraz!"
             }
         },
         "campaigns": {
@@ -978,8 +978,7 @@
                     "tickerSymbol": "Symbol",
                     "unit": "Jednostka",
                     "subunit": "Podjednostka",
-                    "decimals": "Miejsca po przecinku",
-                    "useMetricPrefix": "Użyj prefiksu metrycznego"
+                    "decimals": "Miejsca po przecinku"
                 }
             },
             "jwt": "JSON web token",
@@ -1635,7 +1634,7 @@
         "token": "Token",
         "unknownToken": "Nieznany token",
         "nft": "NFT",
-        "nfts": "{count, plural, one {# NFT} other {# NFTs}}",
+        "nfts": "{count, plural, one {# NFT} few {# NFT} many {# NFT} other {# NFT}}",
         "type": "Typ",
         "immutableIssuer": "Niezmienny wydawca",
         "magicContract": "Magiczny kontrakt",
@@ -2095,7 +2094,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Ładowanie zablokowane",
-                "long": "NFT file type does not match the expected media type - Expected: {expected}, Actual: {actual}"
+                "long": "Typ pliku NFT nie pasuje do oczekiwanego typu mediów - Oczekiwano: {expected}, Wykryto: {actual}"
             },
             "notReachable": {
                 "short": "Nieosiągalny",

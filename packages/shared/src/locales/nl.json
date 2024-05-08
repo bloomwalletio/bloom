@@ -250,13 +250,13 @@
                 "title": "IPFS gateways",
                 "description": "Selecteer de IPFS gateway om te gebruiken voor het ophalen van media",
                 "setAsPrimary": "Instellen als primair",
-                "unsetPrimary": "Unset primary",
+                "unsetPrimary": "Uitschakelen primaire",
                 "addGateway": {
                     "title": "Nieuwe IPFS gateway toevoegen",
                     "placeholder": "IPFS gateway",
                     "error": {
-                        "notReachable": "Gateway isn't reachable",
-                        "invalidGateway": "Invalid IPFS gateway"
+                        "notReachable": "Gateway is niet bereikbaar",
+                        "invalidGateway": "Incorrecte IPFS gateway"
                     }
                 },
                 "removeConfirmation": {
@@ -663,17 +663,17 @@
                     "loadMedia": "Media in wallet laden",
                     "unsetPfp": "Verwijder NFT profiel plaatje",
                     "view": "Bekijk media in browser",
-                    "refresh": "Refresh NFT",
+                    "refresh": "NFT verversen",
                     "hide": "NFT verbergen",
                     "unhide": "NFT zichtbaar maken",
                     "burn": "Burn NFT"
                 }
             },
             "collectionsGallery": {
-                "title": "Collections",
-                "emptyTitle": "No collections found",
-                "noResults": "No results found",
-                "emptyDescription": "Deposit or receive your first collectible!"
+                "title": "Collecties",
+                "emptyTitle": "Geen collecties gevonden",
+                "noResults": "Geen resultaten gevonden",
+                "emptyDescription": "Stort of ontvang je eerste verzameling!"
             }
         },
         "campaigns": {
@@ -978,8 +978,7 @@
                     "tickerSymbol": "Ticker",
                     "unit": "Eenheid",
                     "subunit": "Sub-eenheid",
-                    "decimals": "Decimalen",
-                    "useMetricPrefix": "Metrische voorvoegsel gebruiken"
+                    "decimals": "Decimalen"
                 }
             },
             "jwt": "JSON webtoken",
@@ -2095,7 +2094,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Laden geblokkeerd",
-                "long": "NFT file type does not match the expected media type - Expected: {expected}, Actual: {actual}"
+                "long": "NFT bestandstype komt niet overeen met het verwachte mediatype - Verwacht: {expected}, Momenteel: {actual}"
             },
             "notReachable": {
                 "short": "Niet bereikbaar",
