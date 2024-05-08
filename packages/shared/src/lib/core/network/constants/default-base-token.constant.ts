@@ -10,7 +10,6 @@ const IOTA_BASE_TOKEN: IBaseToken = {
     unit: 'IOTA',
     decimals: 6,
     subunit: 'micro',
-    useMetricPrefix: false,
 }
 
 export const SHIMMER_BASE_TOKEN: IBaseToken = {
@@ -20,7 +19,6 @@ export const SHIMMER_BASE_TOKEN: IBaseToken = {
     unit: 'SMR',
     decimals: 6,
     subunit: 'glow',
-    useMetricPrefix: false,
 }
 
 export const EVM_BASE_TOKEN: IBaseToken = {
