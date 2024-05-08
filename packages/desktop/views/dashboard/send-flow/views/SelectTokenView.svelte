@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert, Tabs } from '@bloomwalletio/ui'
+    import { Alert, SelectInput } from '@bloomwalletio/ui'
     import { PopupTemplate } from '@components'
     import { selectedAccountIndex } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
@@ -31,7 +31,7 @@
               ? $sendFlowParameters.tokenTransfer.token
               : $selectedAccountTokens?.[getActiveNetworkId()]?.baseCoin
 
-    $: $selectedAccountTokens, searchValue, selectedTab, setFilteredTokenList()
+    $: $selectedAccountTokens, searchValue, selectedOption, setFilteredTokenList()
 
     let tokenError = ''
     $: selectedToken, $sendFlowParameters, void setTokenError()
@@ -51,11 +51,11 @@
         tokenError = hasEnoughFunds ? '' : localize('error.send.insufficientFundsTransaction')
     }
 
-    const tabs = [
-        { key: 'all', value: localize('general.all') },
+    const options = [
+        { key: 'all', value: localize('popups.transaction.allNetworks') },
         ...($networks?.map((network) => ({ key: network.id, value: network.name })) ?? []),
     ]
-    let selectedTab = tabs[0]
+    let selectedOption = options[0]
 
     let tokenList: ITokenWithBalance[]
     function getSortedTokenForAllNetworks(): ITokenWithBalance[] {
@@ -92,7 +92,7 @@
         const ticker =
             token?.metadata?.standard === TokenStandard.BaseToken ? token?.metadata.unit : token?.metadata?.symbol
 
-        const visibleNetwork = selectedTab.key === 'all' || selectedTab.key === token.networkId
+        const visibleNetwork = selectedOption.key === 'all' || selectedOption.key === token.networkId
 
         if (_searchValue) {
             return (
@@ -169,10 +169,10 @@
     }}
 >
     <div class="space-y-4">
-        <SearchInput bind:value={searchValue} />
-        {#if tabs.length > 2}
-            <Tabs bind:selectedTab {tabs} />
+        {#if $networks.length > 1}
+            <SelectInput bind:selected={selectedOption} {options} />
         {/if}
+        <SearchInput bind:value={searchValue} />
         <div class="-mr-3">
             <token-list class="w-full flex flex-col">
                 {#each tokenList as token}
