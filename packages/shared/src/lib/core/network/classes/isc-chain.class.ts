@@ -12,6 +12,7 @@ import { StardustActivityType } from '@core/activity'
 import { getNftsFromNftIds } from '@core/nfts/utils'
 import { Converter } from '@core/utils'
 import { BigIntLike } from '@ethereumjs/util'
+import { BASE_TOKEN_ID } from '@core/token'
 
 export class IscChain extends EvmNetwork implements IIscChain {
     private readonly _chainApi: string
@@ -87,6 +88,7 @@ export class IscChain extends EvmNetwork implements IIscChain {
         }
 
         const tokenBalance = (await super.getBalance(account)) ?? {}
+        tokenBalance[BASE_TOKEN_ID] = this.normaliseAmount(tokenBalance[BASE_TOKEN_ID])
         const iscBalance = (await fetchIscAssetsForAccount(getActiveProfileId(), evmAddress, this, account)) ?? {}
 
         return { ...tokenBalance, ...iscBalance }
@@ -121,15 +123,15 @@ export class IscChain extends EvmNetwork implements IIscChain {
     }
 
     calculateGasFee(gasAmount: BigIntLike, gasPriceInWei: BigIntLike | undefined): bigint {
-        const normalisedGasAmount = this.normaliseEvmAmount(gasAmount ?? 0)
+        const normalisedGasAmount = this.normaliseAmount(gasAmount ?? 0)
         return super.calculateGasFee(normalisedGasAmount, gasPriceInWei)
     }
 
-    denormaliseEvmAmount(amount: BigIntLike): bigint {
+    denormaliseAmount(amount: BigIntLike): bigint {
         return Converter.bigIntLikeToBigInt(amount) * this.WEI_PER_GLOW
     }
 
-    normaliseEvmAmount(amount: BigIntLike): bigint {
+    normaliseAmount(amount: BigIntLike): bigint {
         return Converter.bigIntLikeToBigInt(amount) / this.WEI_PER_GLOW
     }
 }

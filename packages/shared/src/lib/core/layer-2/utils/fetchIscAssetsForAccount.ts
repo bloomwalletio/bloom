@@ -28,8 +28,8 @@ export async function fetchIscAssetsForAccount(
         if (tokenId !== BASE_TOKEN_ID) {
             await getOrRequestTokenFromPersistedTokens(tokenId, networkId)
             calculateAndAddPersistedTokenBalanceChange(profileId, account, networkId, tokenId, adjustedBalance)
+            l2Balance[tokenId] = adjustedBalance
         }
-        l2Balance[tokenId] = adjustedBalance
     }
     return l2Balance
 }
