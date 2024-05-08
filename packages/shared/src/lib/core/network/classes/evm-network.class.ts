@@ -18,7 +18,6 @@ import Web3 from 'web3'
 import { ChainId, NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
-import { BigIntLike } from '@ethereumjs/util'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -158,9 +157,5 @@ export class EvmNetwork implements IEvmNetwork {
             }
         }
         return erc20TokenBalances
-    }
-
-    calculateGasFee(gasAmount: BigIntLike, gasPriceInWei: BigIntLike | undefined): bigint {
-        return Converter.bigIntLikeToBigInt(gasAmount ?? 0) * Converter.bigIntLikeToBigInt(gasPriceInWei ?? 0)
     }
 }

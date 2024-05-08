@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account/interfaces'
-import { IEvmNetwork, NetworkNamespace } from '@core/network'
+import { IEvmNetwork, NetworkNamespace, calculateGasFee } from '@core/network'
 import {
     BaseEvmActivity,
     EvmCoinTransferActivity,
@@ -54,7 +54,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
     const isInternal = isSubjectInternal(recipient)
 
     const transactionFee = blockscoutTransaction
-        ? evmNetwork.calculateGasFee(blockscoutTransaction.gas_used ?? 0, blockscoutTransaction.gas_price)
+        ? calculateGasFee(blockscoutTransaction.gas_used, blockscoutTransaction.gas_price)
         : undefined
 
     let tokenId: string | undefined

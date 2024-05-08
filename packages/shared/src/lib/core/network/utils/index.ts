@@ -1,4 +1,5 @@
 export * from './buildPersistedNetworkFromNodeInfoResponse'
+export * from './calculateGasFee'
 export * from './canAccountMakeStardustTransaction'
 export * from './checkIfOnSameNetwork'
 export * from './checkNodeUrlValidity'

@@ -39,6 +39,4 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
 
     getContract(type: ContractType, address: string): Contract
     getLatestBlock(): Promise<IBlock>
-
-    calculateGasFee(gasUsed: BigIntLike, gasPrice: BigIntLike | undefined): bigint
 }
