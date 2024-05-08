@@ -29,7 +29,7 @@ export function addNftsToCollection(accountIndex: number, nfts: Nft[]): void {
                 collection = { ...$persistedCollections[nft.collectionId], nfts: [] }
             }
 
-            if (collection.nfts.some((_nft) => _nft.id === nft.id)) {
+            if (collection.nfts.some((_nft) => _nft.id === nft.id) || !nft.isSpendable) {
                 continue
             }
 

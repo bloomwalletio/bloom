@@ -80,7 +80,7 @@
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, accountAddress)
                 void addNftsToDownloadQueue([nft])
                 addOrUpdateNftForAccount(index, nft)
-                await persistAndUpdateCollections($selectedAccount?.index as number, [nft])
+                await persistAndUpdateCollections(index, [nft])
             }
         } catch (_) {
             // Switching account too swiftly results in an error from persistErc721Nft.
