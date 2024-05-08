@@ -85,6 +85,7 @@ async function claimShimmerRewardsForShimmerClaimingAccount(
             },
             rawAmount: BigInt(rawAmount),
         },
+        sourceNetworkId: SupportedNetworkId.Shimmer,
         destinationNetworkId: SupportedNetworkId.Shimmer,
     }
     setSendFlowParameters(sendFlowParameters)

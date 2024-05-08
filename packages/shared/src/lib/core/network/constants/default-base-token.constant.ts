@@ -10,7 +10,11 @@ const IOTA_BASE_TOKEN: IBaseToken = {
     unit: 'IOTA',
     decimals: 6,
     subunit: 'micro',
-    useMetricPrefix: false,
+}
+
+const IOTA_EVM_BASE_TOKEN: IBaseToken = {
+    ...IOTA_BASE_TOKEN,
+    decimals: 18,
 }
 
 export const SHIMMER_BASE_TOKEN: IBaseToken = {
@@ -20,7 +24,11 @@ export const SHIMMER_BASE_TOKEN: IBaseToken = {
     unit: 'SMR',
     decimals: 6,
     subunit: 'glow',
-    useMetricPrefix: false,
+}
+
+export const SHIMMER_EVM_BASE_TOKEN: IBaseToken = {
+    ...SHIMMER_BASE_TOKEN,
+    decimals: 18,
 }
 
 export const EVM_BASE_TOKEN: IBaseToken = {
@@ -31,12 +39,13 @@ export const EVM_BASE_TOKEN: IBaseToken = {
     decimals: 18,
 }
 
-export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]?: IBaseToken }> = {
+export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]: IBaseToken }> = {
     [SupportedNetworkId.Iota]: IOTA_BASE_TOKEN,
     [SupportedNetworkId.Shimmer]: SHIMMER_BASE_TOKEN,
     [SupportedNetworkId.Testnet]: SHIMMER_BASE_TOKEN,
-    [SupportedNetworkId.ShimmerEvm]: SHIMMER_BASE_TOKEN,
-    [SupportedNetworkId.TestnetEvm]: SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.IotaEvm]: IOTA_EVM_BASE_TOKEN,
+    [SupportedNetworkId.ShimmerEvm]: SHIMMER_EVM_BASE_TOKEN,
+    [SupportedNetworkId.TestnetEvm]: SHIMMER_EVM_BASE_TOKEN,
     [SupportedNetworkId.Ethereum]: EVM_BASE_TOKEN,
     [SupportedNetworkId.Sepolia]: EVM_BASE_TOKEN,
 }
