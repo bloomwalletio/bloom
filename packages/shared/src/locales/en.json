@@ -1010,6 +1010,7 @@
         },
         "transaction": {
             "selectToken": "Select a token",
+            "allNetworks": "All networks",
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",
