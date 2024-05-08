@@ -141,6 +141,7 @@
                         overflow={$popupState.overflow}
                         relative={$popupState.relative}
                         preventClose={$popupState.preventClose}
+                        autofocusContent={$popupState.autofocusContent}
                         confirmClickOutside={$popupState.confirmClickOutside}
                     />
                 {/if}
