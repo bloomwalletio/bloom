@@ -29,6 +29,10 @@ export function addNftsToCollection(accountIndex: number, nfts: Nft[]): void {
                 collection = { ...$persistedCollections[nft.collectionId], nfts: [] }
             }
 
+            if (collection.nfts.some((_nft) => _nft.id === nft.id)) {
+                continue
+            }
+
             if (collection.standard === NftStandard.Irc27 && nft.standard === NftStandard.Irc27) {
                 collection.nfts?.push(nft)
             } else if (collection.standard === NftStandard.Erc721 && nft.standard === NftStandard.Erc721) {
@@ -39,4 +43,8 @@ export function addNftsToCollection(accountIndex: number, nfts: Nft[]): void {
 
         return state
     })
+}
+
+export function clearActiveProfileCollectionsPerAccount(): void {
+    activeProfileCollectionsPerAccount.set({})
 }
