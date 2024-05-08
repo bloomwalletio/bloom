@@ -5,7 +5,7 @@
     import {
         ITokenWithBalance,
         convertToRawAmount,
-        formatTokenAmountBestMatch,
+        formatTokenAmount,
         getMaxDecimalsFromTokenMetadata,
         validateTokenAmount,
     } from '@core/token'
@@ -20,7 +20,7 @@
     export let availableBalance: bigint
     export let inputtedAmount: string | undefined =
         rawAmount && token?.metadata
-            ? formatTokenAmountBestMatch(rawAmount, token.metadata, { withUnit: false, round: false })
+            ? formatTokenAmount(rawAmount, token.metadata, { withUnit: false, round: false })
             : undefined
 
     type InputFontSize = 'text-32' | 'text-48' | 'text-64'
@@ -63,7 +63,7 @@
         const allowedDecimalAmount = Math.min(decimalPlacesAmount, metadata.decimals)
 
         const integerLengthOfBalance =
-            formatTokenAmountBestMatch(availableBalance, metadata, { withUnit: false, round: false }).split(
+            formatTokenAmount(availableBalance, metadata, { withUnit: false, round: false }).split(
                 decimalSeparator
             )?.[0]?.length ?? 0
 
