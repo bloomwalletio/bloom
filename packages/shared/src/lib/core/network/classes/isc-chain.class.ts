@@ -1,8 +1,6 @@
 // Potential circular import so importing this first
 import { EvmNetwork } from './evm-network.class'
-
 import { IAccountState } from '@core/account/interfaces'
-import { StardustActivityType } from '@core/activity/enums'
 import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
 import { parseSmartContractDataFromTransactionData } from '@core/layer-2/utils/parseSmartContractDataFromTransactionData'
 import { NetworkType } from '@core/network/enums'
@@ -14,6 +12,7 @@ import { getPersistedTransactionsForChain } from '@core/transactions/stores'
 import { Converter } from '@core/utils'
 import { BigIntLike } from '@ethereumjs/util'
 import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
+import { ParsedSmartContractType } from '@core/layer-2'
 
 export class IscChain extends EvmNetwork implements IIscChain {
     private readonly _chainApi: string
@@ -56,15 +55,18 @@ export class IscChain extends EvmNetwork implements IIscChain {
         const transactionsOnChain = getPersistedTransactionsForChain(getActiveProfileId(), account.index, this)
         const nftIdsOnChain: string[] = []
         for (const transaction of transactionsOnChain) {
-            if (!transaction.local) {
+            if (!transaction.local || !transaction.local.data) {
                 continue
             }
-            const transferInfo = parseSmartContractDataFromTransactionData(transaction.local, this)
-            if (transferInfo?.type !== StardustActivityType.Nft || transferInfo.nftId.includes(':')) {
+            const parsedData = parseSmartContractDataFromTransactionData(
+                { to: transaction.local.to, data: transaction.local.data, value: transaction.local.value },
+                this
+            )
+            if (parsedData?.type !== ParsedSmartContractType.NftTransfer || parsedData.nftId.includes(':')) {
                 continue
             }
 
-            nftIdsOnChain.push(transferInfo.nftId)
+            nftIdsOnChain.push(parsedData.nftId)
         }
         const ircNfts = await getNftsFromNftIds(nftIdsOnChain, this.id)
 

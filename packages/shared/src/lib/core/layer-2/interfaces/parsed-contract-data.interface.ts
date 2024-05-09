@@ -1,24 +1,24 @@
 import { ParsedSmartContractType } from '../enums'
 
-export interface IParsedCoinTransfer {
+export interface IParsedCoinTransfer extends Omit<IParsedSmartContractData, 'type'> {
     type: ParsedSmartContractType.CoinTransfer
     rawAmount: bigint
     recipientAddress: string
 }
 
-export interface IParsedTokenTransfer extends IParsedSmartContractData {
+export interface IParsedTokenTransfer extends Omit<IParsedSmartContractData, 'type'> {
     type: ParsedSmartContractType.TokenTransfer
     tokenId: string
     rawAmount: bigint
 }
 
-export interface IParsedNftTransfer extends IParsedSmartContractData {
+export interface IParsedNftTransfer extends Omit<IParsedSmartContractData, 'type'> {
     type: ParsedSmartContractType.NftTransfer
     nftId: string
 }
 
 export interface IParsedSmartContractData {
-    type: ParsedSmartContractType
+    type: ParsedSmartContractType.SmartContract
     rawMethod: string
     parsedMethod?: IParsedMethod
     additionalBaseTokenAmount?: bigint

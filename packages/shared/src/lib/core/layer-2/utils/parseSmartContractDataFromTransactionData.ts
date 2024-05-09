@@ -1,6 +1,6 @@
 import { IEvmNetwork, isIscNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token/constants'
-import { AbiDecoder, Converter, HEX_PREFIX } from '@core/utils'
+import { AbiDecoder, HEX_PREFIX } from '@core/utils'
 import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
 import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
@@ -17,7 +17,7 @@ import { ParsedSmartContractData } from '../types/parsed-smart-contract-data.typ
 import { ParsedSmartContractType } from '../enums'
 
 export function parseSmartContractDataFromTransactionData(
-    transaction: { to?: string; data?: BytesLike; value?: BigIntLike },
+    transaction: { to?: string; data: BytesLike; value?: BigIntLike },
     evmNetwork: IEvmNetwork
 ): ParsedSmartContractData | undefined {
     const recipientAddress = transaction?.to?.toLowerCase()
@@ -25,29 +25,21 @@ export function parseSmartContractDataFromTransactionData(
         return undefined
     }
 
-    if (transaction.data) {
-        const rawData = transaction.data as string
-        const isErc20 = isTrackedTokenAddress(evmNetwork.id, recipientAddress)
-        const isErc721 = isTrackedNftAddress(evmNetwork.id, recipientAddress)
-        const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
+    const rawData = transaction.data as string
+    const isErc20 = isTrackedTokenAddress(evmNetwork.id, recipientAddress)
+    const isErc721 = isTrackedNftAddress(evmNetwork.id, recipientAddress)
+    const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
-        let parsedData
-        if (isErc20) {
-            parsedData = parseSmartContractDataWithErc20Abi(evmNetwork, rawData, recipientAddress)
-        } else if (isErc721) {
-            parsedData = parseSmartContractDataWithErc721Abi(evmNetwork, rawData, recipientAddress)
-        } else if (isIscContract) {
-            parsedData = parseSmartContractDataWithIscMagicAbi(evmNetwork, rawData, recipientAddress)
-        }
-
-        return parsedData ?? parseSmartContractDataWithMethodRegistry(rawData, recipientAddress)
-    } else {
-        return {
-            type: ParsedSmartContractType.CoinTransfer,
-            rawAmount: Converter.bigIntLikeToBigInt(transaction.value ?? 0),
-            recipientAddress,
-        }
+    let parsedData
+    if (isErc20) {
+        parsedData = parseSmartContractDataWithErc20Abi(evmNetwork, rawData, recipientAddress)
+    } else if (isErc721) {
+        parsedData = parseSmartContractDataWithErc721Abi(evmNetwork, rawData, recipientAddress)
+    } else if (isIscContract) {
+        parsedData = parseSmartContractDataWithIscMagicAbi(evmNetwork, rawData, recipientAddress)
     }
+
+    return parsedData ?? parseSmartContractDataWithMethodRegistry(rawData, recipientAddress)
 }
 
 function parseSmartContractDataWithIscMagicAbi(
