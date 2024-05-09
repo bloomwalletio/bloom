@@ -4,7 +4,7 @@ import { EvmNetwork } from './evm-network.class'
 import { IAccountState } from '@core/account/interfaces'
 import { StardustActivityType } from '@core/activity/enums'
 import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
-import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
+import { parseSmartContractDataFromTransactionData } from '@core/layer-2/utils/parseSmartContractDataFromTransactionData'
 import { NetworkType } from '@core/network/enums'
 import { Nft } from '@core/nfts/interfaces'
 import { getNftsFromNftIds } from '@core/nfts/utils'
@@ -59,7 +59,7 @@ export class IscChain extends EvmNetwork implements IIscChain {
             if (!transaction.local) {
                 continue
             }
-            const transferInfo = getTransferInfoFromTransactionData(transaction.local, this)
+            const transferInfo = parseSmartContractDataFromTransactionData(transaction.local, this)
             if (transferInfo?.type !== StardustActivityType.Nft || transferInfo.nftId.includes(':')) {
                 continue
             }

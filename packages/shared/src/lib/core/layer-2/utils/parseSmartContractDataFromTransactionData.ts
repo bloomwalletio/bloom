@@ -24,7 +24,7 @@ type TransferInfo =
     | { type: StardustActivityType.Nft; nftId: string; additionalBaseTokenAmount?: bigint; recipientAddress: string }
     | { type: StardustActivityType.SmartContract; recipientAddress: string }
 
-export function getTransferInfoFromTransactionData(
+export function parseSmartContractDataFromTransactionData(
     transaction: { to?: string; data?: BytesLike; value?: BigIntLike },
     evmNetwork: IEvmNetwork
 ): TransferInfo | undefined {
@@ -39,11 +39,11 @@ export function getTransferInfoFromTransactionData(
         const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
         if (isErc20) {
-            return getTransferInfoFromEvmTransactionDataWithErc20Abi(evmNetwork, transaction.data, recipientAddress)
+            return parseSmartContractDataWithErc20Abi(evmNetwork, transaction.data, recipientAddress)
         } else if (isErc721) {
-            return getTransferInfoFromEvmTransactionDataWithErc721Abi(evmNetwork, transaction.data, recipientAddress)
+            return parseSmartContractDataWithErc721Abi(evmNetwork, transaction.data, recipientAddress)
         } else if (isIscContract) {
-            return getTransferInfoFromEvmTransactionDataWithIscMagicAbi(evmNetwork, transaction.data, recipientAddress)
+            return parseSmartContractDataWithIscMagicAbi(evmNetwork, transaction.data, recipientAddress)
         } else {
             return undefined
         }
@@ -57,7 +57,7 @@ export function getTransferInfoFromTransactionData(
     }
 }
 
-function getTransferInfoFromEvmTransactionDataWithIscMagicAbi(
+function parseSmartContractDataWithIscMagicAbi(
     network: IEvmNetwork,
     data: BytesLike,
     recipientAddress: string
@@ -143,7 +143,7 @@ function getTransferInfoFromEvmTransactionDataWithIscMagicAbi(
     }
 }
 
-function getTransferInfoFromEvmTransactionDataWithErc20Abi(
+function parseSmartContractDataWithErc20Abi(
     network: IEvmNetwork,
     data: BytesLike,
     recipientAddress: string
@@ -177,7 +177,7 @@ function getTransferInfoFromEvmTransactionDataWithErc20Abi(
     }
 }
 
-function getTransferInfoFromEvmTransactionDataWithErc721Abi(
+function parseSmartContractDataWithErc721Abi(
     network: IEvmNetwork,
     data: BytesLike,
     recipientAddress: string

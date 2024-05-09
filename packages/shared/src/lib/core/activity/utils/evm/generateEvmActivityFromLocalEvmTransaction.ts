@@ -8,7 +8,7 @@ import {
     EvmTokenTransferActivity,
 } from '@core/activity/types'
 import { getMethodForEvmTransaction } from '@core/layer-2/utils'
-import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
+import { parseSmartContractDataFromTransactionData } from '@core/layer-2/utils/parseSmartContractDataFromTransactionData'
 import { IEvmNetwork } from '@core/network'
 import { NftStandard } from '@core/nfts'
 import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
@@ -23,7 +23,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
     if (transaction.data) {
-        const transferInfo = getTransferInfoFromTransactionData(
+        const transferInfo = parseSmartContractDataFromTransactionData(
             { to: transaction.to?.toString(), data: transaction.data, value: transaction.value },
             evmNetwork
         )
