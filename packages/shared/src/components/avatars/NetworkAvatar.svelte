@@ -1,7 +1,6 @@
 <script lang="ts">
     import { DEFAULT_NETWORK_ICON } from '@auxiliary/icon'
     import { Avatar, IconName, Tooltip } from '@bloomwalletio/ui'
-    import { darkMode } from '@core/app/stores'
     import { NetworkId, SupportedNetworkId, getNameFromNetworkId } from '@core/network'
 
     export let networkId: NetworkId
@@ -9,8 +8,6 @@
     export let showTooltip: boolean = false
     export let size: 'xxs' | 'xs' | 'sm' | 'base' | 'md' = 'base'
     export let shape: 'circle' | 'square' | 'squircle' = 'circle'
-
-    $: darkMode
 
     const AVATAR_BACKGROUND_COLOR: { [id in NetworkId]?: string } = {
         [SupportedNetworkId.Iota]: 'iota-background',
