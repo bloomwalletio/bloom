@@ -10,6 +10,7 @@ import {
     IscCallMethodInputs,
     IscSendMethodInputs,
     IParsedMethod,
+    IParsedInput,
 } from '../interfaces'
 import { BigIntLike, BytesLike } from '@ethereumjs/util'
 import { lookupMethodSignature } from './lookupMethodSignature'
@@ -249,19 +250,17 @@ function parseSmartContractDataWithMethodRegistry(
         const name = matches[1]
         const parametersArr = matches[2] ?? ''
 
-        const parameters: Record<string, string> = parametersArr.split(',').reduce(
-            (acc, type, index) => {
-                acc[`param${index}`] = type
-                return acc
-            },
-            {} as Record<string, string>
-        )
+        const inputs: IParsedInput[] = parametersArr.split(',').map((type, index) => ({
+            name: `param${index + 1}`,
+            type,
+            value: undefined,
+        }))
 
         return {
             type: ParsedSmartContractType.SmartContract,
             recipientAddress,
             rawMethod: fourBytePrefix,
-            parsedMethod: { name, inputs: parameters },
+            parsedMethod: { name, inputs },
         }
     } catch (error) {
         return undefined
