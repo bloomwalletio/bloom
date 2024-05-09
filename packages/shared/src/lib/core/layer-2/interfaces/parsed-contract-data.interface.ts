@@ -3,7 +3,6 @@ import { ParsedSmartContractType } from '../enums'
 export interface IParsedCoinTransfer extends Omit<IParsedSmartContractData, 'type'> {
     type: ParsedSmartContractType.CoinTransfer
     rawAmount: bigint
-    recipientAddress: string
 }
 
 export interface IParsedTokenTransfer extends Omit<IParsedSmartContractData, 'type'> {

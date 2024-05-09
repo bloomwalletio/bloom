@@ -11,20 +11,19 @@
     import { EvmTransactionData } from '@core/layer-2/types'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import {
+        ParsedSmartContractType,
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
         getHexEncodedTransaction,
-        getMethodForEvmTransaction,
+        parseSmartContractDataFromTransactionData,
     } from '@core/layer-2'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
-    import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
     import { TokenTransferData } from '@core/wallet'
     import { Nft } from '@core/nfts'
     import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
-    import { buildUrl, truncateString } from '@core/utils'
+    import { Converter, buildUrl, truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
-    import { StardustActivityType } from '@core/activity'
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
@@ -56,38 +55,58 @@
     let parameters: Record<string, string> | undefined = undefined
     let busy = false
 
-    setTokenTransfer()
-    function setTokenTransfer(): void {
-        const transferInfo = getTransferInfoFromTransactionData(
+    setTransactionInformation()
+    function setTransactionInformation(): void {
+        if (!preparedTransaction.data) {
+            baseCoinTransfer = {
+                token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
+                rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
+            } as TokenTransferData
+            return
+        }
+
+        const parsedData = parseSmartContractDataFromTransactionData(
             {
                 to: preparedTransaction.to?.toString(),
-                data: preparedTransaction.data,
+                data: String(preparedTransaction.data),
                 value: preparedTransaction.value,
             },
             evmNetwork
         )
-        switch (transferInfo?.type) {
-            case StardustActivityType.Basic: {
+
+        methodName = parsedData?.parsedMethod?.name
+        parameters = parsedData?.parsedMethod?.inputs
+
+        switch (parsedData?.type) {
+            case ParsedSmartContractType.CoinTransfer: {
                 const transfer = {
-                    token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, evmNetwork.id),
-                    rawAmount: transferInfo.rawAmount,
+                    token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
+                    rawAmount: parsedData.rawAmount,
                 } as TokenTransferData
                 if (!transfer.token) {
                     return
                 }
 
-                if (transferInfo.tokenId === BASE_TOKEN_ID) {
-                    baseCoinTransfer = transfer
-                } else {
-                    tokenTransfer = transfer
+                baseCoinTransfer = transfer
+                break
+            }
+            case ParsedSmartContractType.TokenTransfer: {
+                const transfer = {
+                    token: getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id),
+                    rawAmount: parsedData.rawAmount,
+                } as TokenTransferData
+                if (!transfer.token) {
+                    return
                 }
+
+                tokenTransfer = transfer
                 break
             }
-            case StardustActivityType.Nft: {
-                nft = getNftByIdForAccount($selectedAccount.index, transferInfo.nftId)
+            case ParsedSmartContractType.NftTransfer: {
+                nft = getNftByIdForAccount($selectedAccount?.index as number, parsedData.nftId)
                 break
             }
-            case StardustActivityType.SmartContract: {
+            case ParsedSmartContractType.SmartContract: {
                 isSmartContractCall = true
                 break
             }
@@ -152,13 +171,6 @@
             modifyPopupState({ preventClose: false }, true)
             handleError(err)
         }
-    }
-
-    $: void setMethodName(preparedTransaction)
-    function setMethodName(preparedTransaction: EvmTransactionData): void {
-        const [method, _parameters] = getMethodForEvmTransaction(String(preparedTransaction.data ?? '')) ?? []
-        methodName = method
-        parameters = _parameters
     }
 
     function getSuccessMessage(): string {
