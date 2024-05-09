@@ -11,7 +11,7 @@ import { Converter, HEX_PREFIX } from '@core/utils'
 import { EvmContractCallActivity } from '@core/activity/types/evm/evm-contract-call-activity.type'
 import { SubjectType } from '@core/wallet'
 import { ActivityDirection } from '@core/activity/enums'
-import { getMethodForEvmTransaction } from '@core/layer-2'
+import { parseSmartContractDataFromTransactionData } from '@core/layer-2'
 import { addMethodToRegistry, getMethodFromRegistry } from '@core/layer-2/stores/method-registry.store'
 
 export async function generateEvmActivityFromBlockscoutTransaction(
@@ -72,10 +72,17 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
             const fourBytePrefix = HEX_PREFIX + method_id
             addMethodToRegistry(fourBytePrefix, method_call)
         }
-    } else {
-        const [_method, _parameters] = getMethodForEvmTransaction(blockscoutTransaction.raw_input) ?? []
-        method = _method
-        parameters = _parameters
+    } else if (blockscoutTransaction?.raw_input) {
+        const parsedData = parseSmartContractDataFromTransactionData(
+            {
+                to: blockscoutTransaction.to.hash.toLowerCase(),
+                data: blockscoutTransaction.raw_input,
+                value: blockscoutTransaction.value,
+            },
+            evmNetwork
+        )
+        method = parsedData?.parsedMethod?.name
+        parameters = parsedData?.parsedMethod?.inputs
     }
 
     return {
@@ -84,7 +91,7 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
         verified: blockscoutTransaction.to.is_verified,
         methodId: blockscoutTransaction.decoded_input?.method_id ?? blockscoutTransaction.method, // `method` is the methodId if the inputs cannot be decoded
         method,
-        parameters: parameters,
+        parameters,
         rawData: blockscoutTransaction.raw_input,
         contractAddress: blockscoutTransaction.to?.hash.toLowerCase(),
     } as EvmContractCallActivity
