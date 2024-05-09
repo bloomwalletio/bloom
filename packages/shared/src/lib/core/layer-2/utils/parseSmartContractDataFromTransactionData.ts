@@ -12,22 +12,56 @@ import {
     IscSendMethodInputs,
 } from '../interfaces'
 import { BigIntLike, BytesLike } from '@ethereumjs/util'
+import { lookupMethodSignature } from './lookupMethodSignature'
 
-type TransferInfo =
-    | {
-          type: StardustActivityType.Basic
-          tokenId: string
-          rawAmount: bigint
-          additionalBaseTokenAmount?: bigint
-          recipientAddress: string
-      }
-    | { type: StardustActivityType.Nft; nftId: string; additionalBaseTokenAmount?: bigint; recipientAddress: string }
-    | { type: StardustActivityType.SmartContract; recipientAddress: string }
+type ParsedSmartContractData = IParsedCoinTransfer | IParsedTokenTransfer | IParsedNftTransfer | IParsedSmartContractData
+
+enum ParsedSmartContractType {
+    CoinTransfer,
+    TokenTransfer,
+    NftTransfer,
+    SmartContract
+}
+
+interface IParsedCoinTransfer  {
+    type: ParsedSmartContractType.CoinTransfer
+    rawAmount: bigint
+    recipientAddress: string
+}
+
+interface IParsedTokenTransfer extends IParsedSmartContractData {
+    type: ParsedSmartContractType.TokenTransfer
+    tokenId: string
+    rawAmount: bigint
+}
+
+interface IParsedNftTransfer extends IParsedSmartContractData {
+    type: ParsedSmartContractType.NftTransfer
+    nftId: string
+}
+
+interface IParsedSmartContractData {
+    type: ParsedSmartContractType
+    rawMethod: string
+    parsedMethod?: IParsedMethod,
+    recipientAddress: string
+}
+
+interface IParsedMethod {
+    name: string
+    inputs: IParsedInput[]
+}
+
+interface IParsedInput {
+    name: string,
+    type: string,
+    value: unknown,
+}
 
 export function parseSmartContractDataFromTransactionData(
     transaction: { to?: string; data?: BytesLike; value?: BigIntLike },
     evmNetwork: IEvmNetwork
-): TransferInfo | undefined {
+): ParsedSmartContractData | undefined {
     const recipientAddress = transaction?.to?.toLowerCase()
     if (!recipientAddress) {
         return undefined
@@ -38,19 +72,19 @@ export function parseSmartContractDataFromTransactionData(
         const isErc721 = isTrackedNftAddress(evmNetwork.id, recipientAddress)
         const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
+        let parsedData
         if (isErc20) {
-            return parseSmartContractDataWithErc20Abi(evmNetwork, transaction.data, recipientAddress)
+            parsedData = parseSmartContractDataWithErc20Abi(evmNetwork, transaction.data, recipientAddress)
         } else if (isErc721) {
-            return parseSmartContractDataWithErc721Abi(evmNetwork, transaction.data, recipientAddress)
+            parsedData = parseSmartContractDataWithErc721Abi(evmNetwork, transaction.data, recipientAddress)
         } else if (isIscContract) {
-            return parseSmartContractDataWithIscMagicAbi(evmNetwork, transaction.data, recipientAddress)
-        } else {
-            return undefined
+            parsedData = parseSmartContractDataWithIscMagicAbi(evmNetwork, transaction.data, recipientAddress)
         }
+
+        return parsedData ?? parseSmartContractDataWithMethodRegistry(transaction.data as string, recipientAddress)
     } else {
         return {
-            type: StardustActivityType.Basic,
-            tokenId: BASE_TOKEN_ID,
+            type: ParsedSmartContractType.CoinTransfer,
             rawAmount: Converter.bigIntLikeToBigInt(transaction.value ?? 0),
             recipientAddress,
         }
@@ -61,7 +95,7 @@ function parseSmartContractDataWithIscMagicAbi(
     network: IEvmNetwork,
     data: BytesLike,
     recipientAddress: string
-): TransferInfo | undefined {
+): ParsedSmartContractData | undefined {
     const iscMagicDecoder = new AbiDecoder(ISC_SANDBOX_ABI, network.provider)
     const decodedData = iscMagicDecoder.decodeData(data as string) // TODO: Type this return
 
@@ -72,7 +106,7 @@ function parseSmartContractDataWithIscMagicAbi(
     switch (decodedData.name) {
         case 'call': {
             if (!isIscNetwork(network)) {
-                return { type: StardustActivityType.SmartContract, recipientAddress }
+                return undefined
             }
 
             const inputs = decodedData.inputs as IscCallMethodInputs
@@ -86,24 +120,24 @@ function parseSmartContractDataWithIscMagicAbi(
                         ? network.denormaliseAmount(nativeToken.amount)
                         : BigInt(nativeToken.amount)
                 return {
-                    type: StardustActivityType.Basic,
+                    type: ParsedSmartContractType.TokenTransfer,
                     tokenId: nativeToken.ID.data,
                     rawAmount,
                     recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                 }
             } else if (nftId) {
                 return {
-                    type: StardustActivityType.Nft,
+                    type: ParsedSmartContractType.NftTransfer,
                     nftId,
                     recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                 }
             } else {
-                return { type: StardustActivityType.SmartContract, recipientAddress }
+                return { type: ParsedSmartContractType.SmartContract, recipientAddress }
             }
         }
         case 'send': {
             if (!isIscNetwork(network)) {
-                return { type: StardustActivityType.SmartContract, recipientAddress }
+                return undefined
             }
 
             const inputs = decodedData.inputs as IscSendMethodInputs
@@ -113,7 +147,7 @@ function parseSmartContractDataWithIscMagicAbi(
 
             if (nativeToken) {
                 return {
-                    type: StardustActivityType.Basic,
+                    type: ParsedSmartContractType.TokenTransfer,
                     tokenId: nativeToken.ID.data,
                     rawAmount: BigInt(nativeToken.amount),
                     additionalBaseTokenAmount: baseTokenAmount,
@@ -122,24 +156,24 @@ function parseSmartContractDataWithIscMagicAbi(
             }
             if (nftId) {
                 return {
-                    type: StardustActivityType.Nft,
+                    type: ParsedSmartContractType.NftTransfer,
                     nftId,
                     additionalBaseTokenAmount: baseTokenAmount,
                     recipientAddress, // for now, set it to the magic contract address
                 }
             } else if (baseTokenAmount) {
                 return {
-                    type: StardustActivityType.Basic,
+                    type: ParsedSmartContractType.TokenTransfer,
                     tokenId: BASE_TOKEN_ID,
                     rawAmount: network.denormaliseAmount(baseTokenAmount),
                     recipientAddress, // for now, set it to the magic contract address
                 }
             }
 
-            return { type: StardustActivityType.SmartContract, recipientAddress }
+            return { type: ParsedSmartContractType.SmartContract, recipientAddress }
         }
         default:
-            return { type: StardustActivityType.SmartContract, recipientAddress }
+            return { type: ParsedSmartContractType.SmartContract, recipientAddress }
     }
 }
 
@@ -147,7 +181,7 @@ function parseSmartContractDataWithErc20Abi(
     network: IEvmNetwork,
     data: BytesLike,
     recipientAddress: string
-): TransferInfo | undefined {
+): ParsedSmartContractData | undefined {
     const erc20Decoder = new AbiDecoder(ERC20_ABI, network.provider)
     const decodedData = erc20Decoder.decodeData(data as string) // TODO: Type this return
 
@@ -181,7 +215,7 @@ function parseSmartContractDataWithErc721Abi(
     network: IEvmNetwork,
     data: BytesLike,
     recipientAddress: string
-): TransferInfo | undefined {
+): ParsedSmartContractData | undefined {
     const erc721Decoder = new AbiDecoder(ERC721_ABI, network.provider)
     const decodedData = erc721Decoder.decodeData(data as string) // TODO: Type this return
 
@@ -200,13 +234,50 @@ function parseSmartContractDataWithErc721Abi(
                 recipientAddress: inputs.to,
             }
         }
+
+        transferFrom(to:string, amount:bigint)
+
         // TODO: support more ERC721 methods
         default: {
             // TODO we know the method name and the parameters so we can add that here
             return {
                 type: StardustActivityType.SmartContract,
                 recipientAddress,
+                method: {
+                    name: decodedData.name,
+                    inputs: decodedData.inputs
+                }
             }
         }
+    }
+}
+
+function parseSmartContractDataWithMethodRegistry(rawData: string, recipientAddress: string):  ParsedSmartContractData | undefined {
+    const fourBytePrefix = rawData.substring(0, 10)
+    try {
+        const result = lookupMethodSignature(fourBytePrefix)
+        if (!result) {
+            throw Error('Method could not be found!')
+        }
+
+        const matches = /(\w+)\((.*)\)$/.exec(result)
+        if (!matches) {
+            throw Error('Method signature could not be parsed!')
+        }
+
+        const name = matches[1]
+        const parametersArr = matches[2] ?? ''
+
+        const parameters: Record<string, string> = parametersArr.split(',').reduce(
+            (acc, type, index) => {
+                acc[`param${index}`] = type
+                return acc
+            },
+            {} as Record<string, string>
+        )
+
+        return { type: StardustActivityType.SmartContract, recipientAddress, method: {name, inputs: parameters} }
+    } catch (error) {
+        return undefined
     }
 }
