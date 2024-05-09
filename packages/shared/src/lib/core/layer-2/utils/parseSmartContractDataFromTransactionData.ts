@@ -1,4 +1,3 @@
-import { StardustActivityType } from '@core/activity'
 import { IEvmNetwork, isIscNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { AbiDecoder, Converter, HEX_PREFIX } from '@core/utils'
@@ -10,53 +9,12 @@ import {
     Erc721SafeTransferMethodInputs,
     IscCallMethodInputs,
     IscSendMethodInputs,
+    IParsedMethod,
 } from '../interfaces'
 import { BigIntLike, BytesLike } from '@ethereumjs/util'
 import { lookupMethodSignature } from './lookupMethodSignature'
-
-type ParsedSmartContractData = IParsedCoinTransfer | IParsedTokenTransfer | IParsedNftTransfer | IParsedSmartContractData
-
-enum ParsedSmartContractType {
-    CoinTransfer,
-    TokenTransfer,
-    NftTransfer,
-    SmartContract
-}
-
-interface IParsedCoinTransfer  {
-    type: ParsedSmartContractType.CoinTransfer
-    rawAmount: bigint
-    recipientAddress: string
-}
-
-interface IParsedTokenTransfer extends IParsedSmartContractData {
-    type: ParsedSmartContractType.TokenTransfer
-    tokenId: string
-    rawAmount: bigint
-}
-
-interface IParsedNftTransfer extends IParsedSmartContractData {
-    type: ParsedSmartContractType.NftTransfer
-    nftId: string
-}
-
-interface IParsedSmartContractData {
-    type: ParsedSmartContractType
-    rawMethod: string
-    parsedMethod?: IParsedMethod,
-    recipientAddress: string
-}
-
-interface IParsedMethod {
-    name: string
-    inputs: IParsedInput[]
-}
-
-interface IParsedInput {
-    name: string,
-    type: string,
-    value: unknown,
-}
+import { ParsedSmartContractData } from '../types/parsed-smart-contract-data.type'
+import { ParsedSmartContractType } from '../enums'
 
 export function parseSmartContractDataFromTransactionData(
     transaction: { to?: string; data?: BytesLike; value?: BigIntLike },
@@ -68,20 +26,21 @@ export function parseSmartContractDataFromTransactionData(
     }
 
     if (transaction.data) {
+        const rawData = transaction.data as string
         const isErc20 = isTrackedTokenAddress(evmNetwork.id, recipientAddress)
         const isErc721 = isTrackedNftAddress(evmNetwork.id, recipientAddress)
         const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
         let parsedData
         if (isErc20) {
-            parsedData = parseSmartContractDataWithErc20Abi(evmNetwork, transaction.data, recipientAddress)
+            parsedData = parseSmartContractDataWithErc20Abi(evmNetwork, rawData, recipientAddress)
         } else if (isErc721) {
-            parsedData = parseSmartContractDataWithErc721Abi(evmNetwork, transaction.data, recipientAddress)
+            parsedData = parseSmartContractDataWithErc721Abi(evmNetwork, rawData, recipientAddress)
         } else if (isIscContract) {
-            parsedData = parseSmartContractDataWithIscMagicAbi(evmNetwork, transaction.data, recipientAddress)
+            parsedData = parseSmartContractDataWithIscMagicAbi(evmNetwork, rawData, recipientAddress)
         }
 
-        return parsedData ?? parseSmartContractDataWithMethodRegistry(transaction.data as string, recipientAddress)
+        return parsedData ?? parseSmartContractDataWithMethodRegistry(rawData, recipientAddress)
     } else {
         return {
             type: ParsedSmartContractType.CoinTransfer,
@@ -93,14 +52,20 @@ export function parseSmartContractDataFromTransactionData(
 
 function parseSmartContractDataWithIscMagicAbi(
     network: IEvmNetwork,
-    data: BytesLike,
+    data: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
     const iscMagicDecoder = new AbiDecoder(ISC_SANDBOX_ABI, network.provider)
-    const decodedData = iscMagicDecoder.decodeData(data as string) // TODO: Type this return
+    const decodedData = iscMagicDecoder.decodeData(data) // TODO: Type this return
 
     if (!decodedData) {
         return undefined
+    }
+
+    const rawMethod = data.substring(0, 10)
+    const parsedMethod: IParsedMethod = {
+        name: decodedData.name,
+        inputs: Object.values(decodedData.inputs),
     }
 
     switch (decodedData.name) {
@@ -109,7 +74,7 @@ function parseSmartContractDataWithIscMagicAbi(
                 return undefined
             }
 
-            const inputs = decodedData.inputs as IscCallMethodInputs
+            const inputs = decodedData.inputs as unknown as IscCallMethodInputs
             const nativeToken = inputs?.allowance?.nativeTokens?.[0]
             const nftId = inputs?.allowance?.nfts?.[0]
             const agentId = inputs?.params.items?.find((item) => item.key === '0x61')?.value
@@ -123,16 +88,20 @@ function parseSmartContractDataWithIscMagicAbi(
                     type: ParsedSmartContractType.TokenTransfer,
                     tokenId: nativeToken.ID.data,
                     rawAmount,
+                    parsedMethod,
+                    rawMethod,
                     recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                 }
             } else if (nftId) {
                 return {
                     type: ParsedSmartContractType.NftTransfer,
                     nftId,
+                    parsedMethod,
+                    rawMethod,
                     recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                 }
             } else {
-                return { type: ParsedSmartContractType.SmartContract, recipientAddress }
+                return { type: ParsedSmartContractType.SmartContract, recipientAddress, rawMethod, parsedMethod }
             }
         }
         case 'send': {
@@ -140,7 +109,7 @@ function parseSmartContractDataWithIscMagicAbi(
                 return undefined
             }
 
-            const inputs = decodedData.inputs as IscSendMethodInputs
+            const inputs = decodedData.inputs as unknown as IscSendMethodInputs
             const nativeToken = inputs?.assets?.nativeTokens?.[0]
             const nftId = inputs?.assets?.nfts?.[0]
             const baseTokenAmount = BigInt(inputs.assets.baseTokens)
@@ -150,6 +119,8 @@ function parseSmartContractDataWithIscMagicAbi(
                     type: ParsedSmartContractType.TokenTransfer,
                     tokenId: nativeToken.ID.data,
                     rawAmount: BigInt(nativeToken.amount),
+                    rawMethod,
+                    parsedMethod,
                     additionalBaseTokenAmount: baseTokenAmount,
                     recipientAddress, // for now, set it to the magic contract address
                 }
@@ -158,6 +129,8 @@ function parseSmartContractDataWithIscMagicAbi(
                 return {
                     type: ParsedSmartContractType.NftTransfer,
                     nftId,
+                    rawMethod,
+                    parsedMethod,
                     additionalBaseTokenAmount: baseTokenAmount,
                     recipientAddress, // for now, set it to the magic contract address
                 }
@@ -166,45 +139,56 @@ function parseSmartContractDataWithIscMagicAbi(
                     type: ParsedSmartContractType.TokenTransfer,
                     tokenId: BASE_TOKEN_ID,
                     rawAmount: network.denormaliseAmount(baseTokenAmount),
+                    rawMethod,
+                    parsedMethod,
                     recipientAddress, // for now, set it to the magic contract address
                 }
             }
 
-            return { type: ParsedSmartContractType.SmartContract, recipientAddress }
+            return { type: ParsedSmartContractType.SmartContract, recipientAddress, rawMethod, parsedMethod }
         }
         default:
-            return { type: ParsedSmartContractType.SmartContract, recipientAddress }
+            return { type: ParsedSmartContractType.SmartContract, recipientAddress, rawMethod, parsedMethod }
     }
 }
 
 function parseSmartContractDataWithErc20Abi(
     network: IEvmNetwork,
-    data: BytesLike,
+    data: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
     const erc20Decoder = new AbiDecoder(ERC20_ABI, network.provider)
-    const decodedData = erc20Decoder.decodeData(data as string) // TODO: Type this return
+    const decodedData = erc20Decoder.decodeData(data) // TODO: Type this return
 
     if (!decodedData) {
         return undefined
     }
 
+    const rawMethod = data.substring(0, 10)
+    const parsedMethod: IParsedMethod = {
+        name: decodedData.name,
+        inputs: Object.values(decodedData.inputs),
+    }
+
     switch (decodedData.name) {
         case 'transfer': {
-            const inputs = decodedData.inputs as Erc20TransferMethodInputs
+            const inputs = decodedData.inputs as unknown as Erc20TransferMethodInputs
 
             return {
-                type: StardustActivityType.Basic,
+                type: ParsedSmartContractType.TokenTransfer,
                 tokenId: recipientAddress,
                 rawAmount: BigInt(inputs._value),
+                rawMethod,
+                parsedMethod,
                 recipientAddress: inputs._to,
             }
         }
         // TODO: Support more ERC20 methods
         default: {
-            // TODO we know the method name and the parameters so we can add that here
             return {
-                type: StardustActivityType.SmartContract,
+                type: ParsedSmartContractType.SmartContract,
+                rawMethod,
+                parsedMethod,
                 recipientAddress,
             }
         }
@@ -213,46 +197,51 @@ function parseSmartContractDataWithErc20Abi(
 
 function parseSmartContractDataWithErc721Abi(
     network: IEvmNetwork,
-    data: BytesLike,
+    data: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
     const erc721Decoder = new AbiDecoder(ERC721_ABI, network.provider)
-    const decodedData = erc721Decoder.decodeData(data as string) // TODO: Type this return
+    const decodedData = erc721Decoder.decodeData(data) // TODO: Type this return
 
     if (!decodedData) {
         return undefined
     }
 
+    const rawMethod = data.substring(0, 10)
+    const parsedMethod: IParsedMethod = {
+        name: decodedData.name,
+        inputs: Object.values(decodedData.inputs),
+    }
+
     switch (decodedData.name) {
         case 'safeTransferFrom': {
             // Enum?
-            const inputs = decodedData.inputs as Erc721SafeTransferMethodInputs
+            const inputs = decodedData.inputs as unknown as Erc721SafeTransferMethodInputs
 
             return {
-                type: StardustActivityType.Nft,
+                type: ParsedSmartContractType.NftTransfer,
                 nftId: `${recipientAddress}:${inputs.tokenId}`,
+                rawMethod,
+                parsedMethod,
                 recipientAddress: inputs.to,
             }
         }
-
-        transferFrom(to:string, amount:bigint)
-
         // TODO: support more ERC721 methods
         default: {
-            // TODO we know the method name and the parameters so we can add that here
             return {
-                type: StardustActivityType.SmartContract,
+                type: ParsedSmartContractType.SmartContract,
                 recipientAddress,
-                method: {
-                    name: decodedData.name,
-                    inputs: decodedData.inputs
-                }
+                rawMethod,
+                parsedMethod,
             }
         }
     }
 }
 
-function parseSmartContractDataWithMethodRegistry(rawData: string, recipientAddress: string):  ParsedSmartContractData | undefined {
+function parseSmartContractDataWithMethodRegistry(
+    rawData: string,
+    recipientAddress: string
+): ParsedSmartContractData | undefined {
     const fourBytePrefix = rawData.substring(0, 10)
     try {
         const result = lookupMethodSignature(fourBytePrefix)
@@ -276,7 +265,12 @@ function parseSmartContractDataWithMethodRegistry(rawData: string, recipientAddr
             {} as Record<string, string>
         )
 
-        return { type: StardustActivityType.SmartContract, recipientAddress, method: {name, inputs: parameters} }
+        return {
+            type: ParsedSmartContractType.SmartContract,
+            recipientAddress,
+            rawMethod: fourBytePrefix,
+            parsedMethod: { name, inputs: parameters },
+        }
     } catch (error) {
         return undefined
     }
