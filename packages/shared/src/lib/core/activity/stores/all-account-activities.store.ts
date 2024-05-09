@@ -2,7 +2,7 @@ import { get, writable } from 'svelte/store'
 import { AsyncData, BaseStardustActivity, Activity } from '../types'
 import { NetworkNamespace } from '@core/network'
 
-export const allAccountActivities = writable<Activity[][]>([])
+export const allAccountActivities = writable<{ [accountIndex: number]: Activity[] }>({})
 
 export function addEmptyAccountActivities(accountIndex: number): void {
     setAccountActivities(accountIndex, [])
@@ -98,5 +98,5 @@ export function updateAsyncDataByTransactionId(
 }
 
 export function clearAccountActivities(): void {
-    allAccountActivities.set([])
+    allAccountActivities.set({})
 }
