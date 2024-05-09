@@ -17,6 +17,13 @@ export const EXPLORER_ENDPOINTS: Readonly<{ [key in NetworkId]?: { [key in Explo
         [ExplorerEndpoint.Foundry]: `shimmer/${ExplorerEndpoint.Foundry}`,
         [ExplorerEndpoint.Address]: 'shimmer/addr',
     },
+    [SupportedNetworkId.IotaTestnet]: {
+        [ExplorerEndpoint.Transaction]: `testnet/${ExplorerEndpoint.Transaction}`,
+        [ExplorerEndpoint.Output]: `testnet/${ExplorerEndpoint.Output}`,
+        [ExplorerEndpoint.Nft]: `testnet/${ExplorerEndpoint.Nft}`,
+        [ExplorerEndpoint.Foundry]: `testnet/${ExplorerEndpoint.Foundry}`,
+        [ExplorerEndpoint.Address]: 'testnet/addr',
+    },
     [SupportedNetworkId.Testnet]: {
         [ExplorerEndpoint.Transaction]: `testnet/${ExplorerEndpoint.Transaction}`,
         [ExplorerEndpoint.Output]: `testnet/${ExplorerEndpoint.Output}`,
@@ -30,6 +37,11 @@ export const EXPLORER_ENDPOINTS: Readonly<{ [key in NetworkId]?: { [key in Explo
         [ExplorerEndpoint.Address]: ExplorerEndpoint.Address,
     },
     [SupportedNetworkId.ShimmerEvm]: {
+        [ExplorerEndpoint.Transaction]: 'tx',
+        [ExplorerEndpoint.Token]: ExplorerEndpoint.Token,
+        [ExplorerEndpoint.Address]: ExplorerEndpoint.Address,
+    },
+    [SupportedNetworkId.IotaTestnetEvm]: {
         [ExplorerEndpoint.Transaction]: 'tx',
         [ExplorerEndpoint.Token]: ExplorerEndpoint.Token,
         [ExplorerEndpoint.Address]: ExplorerEndpoint.Address,

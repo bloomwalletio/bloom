@@ -72,7 +72,7 @@
         const errorUrlValidity = checkNodeUrlValidity(
             currentClientOptions?.nodes,
             node.url,
-            $activeProfile.features.developer
+            $activeProfile?.features?.developer ?? false
         )
         if (errorUrlValidity) {
             formError = localize(errorUrlValidity) ?? ''

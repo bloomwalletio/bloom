@@ -20,6 +20,9 @@
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
+        [SupportedNetworkId.IotaTestnet]: {
+            [BASE_TOKEN_ID]: '#000000',
+        },
         [SupportedNetworkId.Testnet]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
@@ -40,6 +43,9 @@
         },
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer-background',
+        },
+        [SupportedNetworkId.IotaTestnet]: {
+            [BASE_TOKEN_ID]: '#FFFFFF',
         },
         [SupportedNetworkId.Testnet]: {
             [BASE_TOKEN_ID]: 'shimmer-background',

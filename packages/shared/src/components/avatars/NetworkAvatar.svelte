@@ -13,6 +13,7 @@
         [SupportedNetworkId.Iota]: '#000000',
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
         [SupportedNetworkId.Testnet]: 'shimmer-background',
+        [SupportedNetworkId.IotaTestnet]: '#000000',
         [SupportedNetworkId.IotaEvm]: '#0A0FB0',
         [SupportedNetworkId.ShimmerEvm]: 'shimmer-background',
         [SupportedNetworkId.TestnetEvm]: 'text-secondary',
@@ -21,6 +22,7 @@
     const AVATAR_TEXT_COLOR: { [id in NetworkId]?: string } = {
         [SupportedNetworkId.Iota]: '#FFFFFF',
         [SupportedNetworkId.Shimmer]: 'shimmer',
+        [SupportedNetworkId.IotaTestnet]: '#FFFFFF',
         [SupportedNetworkId.Testnet]: 'text-secondary',
         [SupportedNetworkId.IotaEvm]: '#FFFFFF',
         [SupportedNetworkId.ShimmerEvm]: 'text-invert',
