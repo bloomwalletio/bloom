@@ -33,6 +33,9 @@
 
     $: explorerUrl = getExplorerUrl(activity)
     function getExplorerUrl(_activity: EvmActivity): string | undefined {
+        if (_activity.type === EvmActivityType.BalanceChange) {
+            return
+        }
         const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
         return buildUrl({ origin: baseUrl, pathname: `${endpoint}/${_activity?.transactionId}` })?.href
     }
