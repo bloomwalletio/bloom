@@ -2,6 +2,7 @@ import { get, writable } from 'svelte/store'
 
 import { Nft } from '../interfaces'
 import { PartialWithId } from '@core/utils'
+import { addPersistedCollection } from '../actions'
 
 export const activeProfileNftsPerAccount = writable<{ [accountIndex: number]: Nft[] }>({})
 
@@ -36,6 +37,7 @@ export function addOrUpdateNftsForAccount(accountIndex: number, nfts: Nft[]): vo
                 Object.assign(existingNft, nft)
             } else {
                 state[accountIndex].push(nft)
+                void addPersistedCollection(nft)
             }
         }
         return state

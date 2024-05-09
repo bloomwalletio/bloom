@@ -1,14 +1,9 @@
 <script lang="ts">
     import CollectionsGalleryItem from './CollectionsGalleryItem.svelte'
-    import { Collection, Collections } from '@core/nfts'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import { breakpoint } from '@core/app/stores'
 
-    export let collections: Collections
-
-    $: collectionsArray = Object.entries(collections).map(([id, collection]) => {
-        return { id, ...collection }
-    })
+    export let collectionsIds: string[]
 
     const COLLECTIONS_PER_CHUNK_FOR_SCREEN_SIZE = {
         sm: 2,
@@ -37,13 +32,13 @@
         return clientHeight
     }
 
-    let collectionChunks: (Collection | undefined)[][] = []
+    let collectionChunks: (string | undefined)[][] = []
     $: collectionChunks = Array.from(
-        { length: Math.ceil(collectionsArray.length / COLLECTIONS_PER_CHUNK_FOR_SCREEN_SIZE[$breakpoint]) },
+        { length: Math.ceil(collectionsIds.length / COLLECTIONS_PER_CHUNK_FOR_SCREEN_SIZE[$breakpoint]) },
         (_, i) => {
             return Array.from(
                 { length: COLLECTIONS_PER_CHUNK_FOR_SCREEN_SIZE[$breakpoint] },
-                (_, j) => collectionsArray[i * COLLECTIONS_PER_CHUNK_FOR_SCREEN_SIZE[$breakpoint] + j]
+                (_, j) => collectionsIds[i * COLLECTIONS_PER_CHUNK_FOR_SCREEN_SIZE[$breakpoint] + j]
             )
         }
     )
@@ -54,9 +49,9 @@
         bind:this={rowDivElement}
         class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 2xl:gap-4 pb-3 2xl:pb-4"
     >
-        {#each item as collection}
-            {#if collection}
-                <CollectionsGalleryItem {collection} />
+        {#each item as collectionId}
+            {#if collectionId}
+                <CollectionsGalleryItem {collectionId} />
             {:else}
                 <div />
             {/if}
