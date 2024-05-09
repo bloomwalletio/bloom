@@ -1,6 +1,7 @@
 <script lang="ts">
     import { DEFAULT_NETWORK_ICON } from '@auxiliary/icon'
     import { Avatar, IconName, Tooltip } from '@bloomwalletio/ui'
+    import { darkMode } from '@core/app/stores'
     import { NetworkId, SupportedNetworkId, getNameFromNetworkId } from '@core/network'
 
     export let networkId: NetworkId
@@ -9,22 +10,24 @@
     export let size: 'xxs' | 'xs' | 'sm' | 'base' | 'md' = 'base'
     export let shape: 'circle' | 'square' | 'squircle' = 'circle'
 
+    $: darkMode
+
     const AVATAR_BACKGROUND_COLOR: { [id in NetworkId]?: string } = {
-        [SupportedNetworkId.Iota]: '#000000',
+        [SupportedNetworkId.Iota]: 'iota-background',
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
         [SupportedNetworkId.Testnet]: 'shimmer-background',
-        [SupportedNetworkId.IotaEvm]: '#0A0FB0',
-        [SupportedNetworkId.ShimmerEvm]: 'shimmer-background',
-        [SupportedNetworkId.TestnetEvm]: 'text-secondary',
+        [SupportedNetworkId.IotaEvm]: 'iota-evm-background',
+        [SupportedNetworkId.ShimmerEvm]: 'shimmer-evm-background',
+        [SupportedNetworkId.TestnetEvm]: 'shimmer-evm-background',
     }
 
     const AVATAR_TEXT_COLOR: { [id in NetworkId]?: string } = {
-        [SupportedNetworkId.Iota]: '#FFFFFF',
+        [SupportedNetworkId.Iota]: 'iota',
         [SupportedNetworkId.Shimmer]: 'shimmer',
-        [SupportedNetworkId.Testnet]: 'text-secondary',
-        [SupportedNetworkId.IotaEvm]: '#FFFFFF',
-        [SupportedNetworkId.ShimmerEvm]: 'text-invert',
-        [SupportedNetworkId.TestnetEvm]: 'shimmer-background',
+        [SupportedNetworkId.Testnet]: 'shimmer',
+        [SupportedNetworkId.IotaEvm]: 'iota-evm',
+        [SupportedNetworkId.ShimmerEvm]: 'shimmer-evm',
+        [SupportedNetworkId.TestnetEvm]: 'shimmer-evm',
     }
 
     let anchor: HTMLElement
