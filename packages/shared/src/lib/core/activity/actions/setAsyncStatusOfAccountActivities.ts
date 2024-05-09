@@ -1,7 +1,7 @@
 import { syncBalance } from '@core/account/actions/syncBalance'
 import { loadTokensForAllAccountBalances } from '@core/token/actions'
 import { StardustActivityAsyncStatus, ActivityDirection, StardustActivityType } from '../enums'
-import { allAccountActivities } from '../stores'
+import { allAccountActivities, updateAccountActivitiesInAllAccountActivities } from '../stores'
 import { getAsyncStatus } from '../utils/helper'
 import { NetworkNamespace } from '@core/network'
 import { Activity, StardustActivity } from '../types'
@@ -9,9 +9,8 @@ import { updateNftForAccount } from '@core/nfts/stores'
 import { get } from 'svelte/store'
 
 export function setAsyncStatusOfAccountActivities(time: Date): void {
-    let needsUpdate = false
     const updatedAccountActivities: { [accountIndex: number]: Activity[] } = {}
-    const balancesToUpdate: Set<number> = new Set()
+    const accountsToUpdate: Set<number> = new Set()
 
     for (const _accountIndex of Object.keys(get(allAccountActivities))) {
         const accountIndex = parseInt(_accountIndex)
@@ -41,12 +40,11 @@ export function setAsyncStatusOfAccountActivities(time: Date): void {
                 time.getTime()
             )
             if (oldAsyncStatus !== null && oldAsyncStatus !== activity.asyncData.asyncStatus) {
-                needsUpdate = true
                 if (!updatedAccountActivities[accountIndex]) {
                     updatedAccountActivities[accountIndex] = []
                 }
                 updatedAccountActivities[accountIndex].push(activity)
-                balancesToUpdate.add(accountIndex)
+                accountsToUpdate.add(accountIndex)
 
                 if (
                     activity.type === StardustActivityType.Nft &&
@@ -59,23 +57,15 @@ export function setAsyncStatusOfAccountActivities(time: Date): void {
         }
     }
 
-    if (needsUpdate) {
-        allAccountActivities.update((state) => {
-            for (const _accountIndex of Object.keys(updatedAccountActivities)) {
-                const accountIndex = parseInt(_accountIndex)
-                for (const activity of updatedAccountActivities[accountIndex]) {
-                    const index = state[accountIndex].findIndex((_activity) => _activity.id === activity.id)
-                    state[accountIndex][index] = activity
-                }
-            }
-            return state
-        })
+    if (Object.keys(updatedAccountActivities).length > 0) {
+        updateAccountActivitiesInAllAccountActivities(updatedAccountActivities)
     }
 
-    for (const accountIndex of balancesToUpdate) {
+    for (const accountIndex of accountsToUpdate) {
         syncBalance(accountIndex)
     }
-    if (balancesToUpdate.size) {
+
+    if (accountsToUpdate.size > 0) {
         void loadTokensForAllAccountBalances()
     }
 }

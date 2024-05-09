@@ -100,3 +100,18 @@ export function updateAsyncDataByTransactionId(
 export function clearAccountActivities(): void {
     allAccountActivities.set({})
 }
+
+export function updateAccountActivitiesInAllAccountActivities(accountActivitiesToUpdate: {
+    [accountIndex: number]: Activity[]
+}): void {
+    allAccountActivities.update((state) => {
+        for (const _accountIndex of Object.keys(accountActivitiesToUpdate)) {
+            const accountIndex = parseInt(_accountIndex)
+            for (const activity of accountActivitiesToUpdate[accountIndex]) {
+                const index = state[accountIndex].findIndex((_activity) => _activity.id === activity.id)
+                state[accountIndex][index] = activity
+            }
+        }
+        return state
+    })
+}
