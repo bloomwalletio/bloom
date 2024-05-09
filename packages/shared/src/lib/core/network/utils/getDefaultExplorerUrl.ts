@@ -1,4 +1,4 @@
-import { DEFAULT_EXPLORER_URLS, EXPLORER_ENDPOINTS } from '../constants'
+import { DEFAULT_EXPLORER_URLS, getExplorerEndpoint } from '../constants'
 import { ExplorerEndpoint } from '../enums'
 import { NetworkId } from '../types'
 
@@ -10,7 +10,7 @@ export function getDefaultExplorerUrl(
     endpoint: string
 } {
     const baseUrl = DEFAULT_EXPLORER_URLS?.[networkId] ?? ''
-    const endpoint = EXPLORER_ENDPOINTS?.[networkId]?.[requestedEndpoint] ?? ''
+    const endpoint = getExplorerEndpoint(networkId, requestedEndpoint) ?? ''
 
     return {
         baseUrl,
