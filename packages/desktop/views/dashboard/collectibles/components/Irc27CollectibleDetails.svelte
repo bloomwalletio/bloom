@@ -9,14 +9,14 @@
     import { AddressType } from '@iota/sdk/out/types'
     import { NetworkLabel } from '@ui'
     import CollectibleDetails from './CollectibleDetails.svelte'
-    import { buildUrl } from '@core/utils/url'
 
     export let nft: IIrc27Nft
 
     const { id, issuer, nftAddress, metadata, storageDeposit, mediaUrl } = nft ?? {}
     const { standard, version, issuerName, collectionName } = nft?.metadata || {}
 
-    const explorerUrl = buildExplorerUrl()
+    // We don't use `nft.networkId` on this one, as for IRC27 nfts we still want the L1 explorer
+    const explorerUrl = getExplorerUrl(getActiveNetworkId(), ExplorerEndpoint.Nft, id)
 
     const issuerAddress = getBech32AddressFromAddressTypes(issuer)
     const collectionId = getHexAddressFromAddressTypes(issuer)
@@ -83,17 +83,6 @@
             copyable: true,
         },
     ]
-
-    function buildExplorerUrl(): string | undefined {
-        // We don't use `nft.networkId` on this one, as for IRC27 nfts we still want the L1 explorer
-        const { baseUrl, endpoint } = getExplorerUrl(getActiveNetworkId(), ExplorerEndpoint.Nft)
-        const url = buildUrl({
-            origin: baseUrl,
-            pathname: `${endpoint}/${id}`,
-        })
-
-        return url?.href
-    }
 </script>
 
 <CollectibleDetails {nft} {details} attributes={nft.metadata?.attributes} explorerEndpoint={explorerUrl} />

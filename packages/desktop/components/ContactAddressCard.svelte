@@ -3,9 +3,9 @@
     import { IContact, IContactAddress, IContactAddressMap, setSelectedContactNetworkAddress } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { ExplorerEndpoint, getExplorerUrl, getNameFromNetworkId, NetworkId } from '@core/network'
+    import { ExplorerEndpoint, getExplorerUrl, getNameFromNetworkId, getNetwork, NetworkId } from '@core/network'
     import { Router } from '@core/router'
-    import { buildUrl, truncateString } from '@core/utils'
+    import { truncateString } from '@core/utils'
     import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { openPopup, PopupId } from '@desktop/auxiliary/popup'
@@ -21,11 +21,11 @@
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
 
-    const explorer = getExplorerUrl(networkId, ExplorerEndpoint.Address)
+    const hasExplorer = !!getNetwork(networkId)?.explorerUrl
 
     function onExplorerClick(address: string): void {
-        const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
-        openUrlInBrowser(url?.href)
+        const url = getExplorerUrl(networkId, ExplorerEndpoint.Address, address)
+        openUrlInBrowser(url)
     }
 
     function onQrCodeClick(contactAddress: IContactAddress): void {
@@ -72,7 +72,7 @@
                     </Copyable>
                 </div>
                 <div class="flex flex-row space-x-1">
-                    {#if explorer.baseUrl}
+                    {#if hasExplorer}
                         <IconButton
                             size="sm"
                             icon={IconName.Globe}

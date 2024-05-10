@@ -12,7 +12,7 @@
     import { ownedNfts, selectedNftId, getNftByIdForAccount } from '@core/nfts/stores'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
-    import { buildUrl, setClipboard, truncateString } from '@core/utils'
+    import { setClipboard, truncateString } from '@core/utils'
     import { TokenTransferData } from '@core/wallet/types'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { EvmActivityInformation, TransactionAssetSection } from '@ui'
@@ -36,8 +36,7 @@
         if (_activity.type === EvmActivityType.BalanceChange) {
             return
         }
-        const { baseUrl, endpoint } = getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
-        return buildUrl({ origin: baseUrl, pathname: `${endpoint}/${_activity?.transactionId}` })?.href
+        return getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction, _activity?.transactionId)
     }
 
     $: nft = getNft(activity)

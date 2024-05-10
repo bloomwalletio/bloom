@@ -5,7 +5,6 @@
     import { IErc721Nft } from '@core/nfts'
     import { ExplorerEndpoint, EvmNetworkId, getExplorerUrl } from '@core/network'
     import CollectibleDetails from './CollectibleDetails.svelte'
-    import { buildUrl } from '@core/utils'
 
     export let nft: IErc721Nft
 
@@ -14,12 +13,11 @@
     const explorerUrl = buildExplorerUrl(networkId)
 
     function buildExplorerUrl(networkId: EvmNetworkId): string | undefined {
-        const { baseUrl, endpoint } = getExplorerUrl(networkId, ExplorerEndpoint.Token)
-        const url = buildUrl({
-            origin: baseUrl,
-            pathname: tokenId ? `${endpoint}/${address}/instance/${tokenId}` : address,
-        })
-        return url?.href
+        if (tokenId) {
+            return getExplorerUrl(networkId, ExplorerEndpoint.Token, `${address}/instance/${tokenId}`)
+        } else {
+            return getExplorerUrl(networkId, ExplorerEndpoint.Address, address)
+        }
     }
 
     let details: IItem[] = []
