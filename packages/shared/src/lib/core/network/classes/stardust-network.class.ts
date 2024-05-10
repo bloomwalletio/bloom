@@ -21,6 +21,7 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly bech32Hrp: string
     public readonly protocol: IProtocol
     public readonly baseToken: IBaseToken
+    public readonly explorerUrl: string | undefined
     public readonly type = NetworkType.Stardust
 
     public iscChains: IscChain[]
@@ -38,6 +39,7 @@ export class StardustNetwork implements IStardustNetwork {
         this.networkName = persistedNetwork.protocol.networkName
         this.protocol = persistedNetwork.protocol
         this.baseToken = persistedNetwork.baseToken
+        this.explorerUrl = persistedNetwork.explorerUrl
 
         this.iscChains = persistedNetwork.chainConfigurations
             .map((chainConfiguration) => {
