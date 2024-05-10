@@ -8,5 +8,6 @@ export const DEFAULT_NETWORK_ICON: { [id in NetworkId]?: IconName } = {
     [SupportedNetworkId.Testnet]: IconName.Shimmer,
     [SupportedNetworkId.IotaEvm]: IconName.Iota,
     [SupportedNetworkId.ShimmerEvm]: IconName.Shimmer,
+    [SupportedNetworkId.IotaTestnetEvm]: IconName.Iota,
     [SupportedNetworkId.TestnetEvm]: IconName.Shimmer,
 }

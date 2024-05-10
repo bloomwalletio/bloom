@@ -170,7 +170,7 @@ const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
         },
     },
     claimRewards: {
-        enabled: false,
+        enabled: true,
         hidden: false,
         recoveryPhrase: {
             enabled: false,

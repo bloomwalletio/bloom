@@ -21,6 +21,9 @@ export const DEFAULT_TOKEN_ICON: { [networkId in NetworkId]?: { [tokenId: string
     [SupportedNetworkId.ShimmerEvm]: {
         [BASE_TOKEN_ID]: IconName.Shimmer,
     },
+    [SupportedNetworkId.IotaTestnetEvm]: {
+        [BASE_TOKEN_ID]: IconName.Iota,
+    },
     [SupportedNetworkId.TestnetEvm]: {
         [BASE_TOKEN_ID]: IconName.Shimmer,
     },

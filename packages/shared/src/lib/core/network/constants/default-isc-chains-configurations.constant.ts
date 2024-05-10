@@ -39,23 +39,7 @@ const SHIMMER_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     explorerUrl: 'https://explorer.evm.shimmer.network/',
 }
 
-// exported as used in tests
-export const IOTA_TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
-    id: SupportedIscNetworkId.IotaTestnetEvm,
-    type: NetworkType.Isc,
-    name: 'Testnet EVM',
-    chainId: ChainId.TestnetEvm,
-    namespace: NetworkNamespace.Evm,
-    baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.TestnetEvm],
-    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.TestnetEvm] ?? 0,
-    aliasAddress: 'rms1ppp00k5mmd2m8my8ukkp58nd3rskw6rx8l09aj35984k74uuc5u2cywn3ex',
-    rpcEndpoint: 'https://json-rpc.evm.testnet.shimmer.network/',
-    apiEndpoint: 'https://api.evm.testnet.shimmer.network/',
-    explorerUrl: 'https://explorer.evm.testnet.shimmer.network/',
-}
-
-// exported as used in tests
-export const TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
+const IOTA_TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     id: SupportedIscNetworkId.IotaTestnetEvm,
     type: NetworkType.Isc,
     name: 'IOTA Testnet EVM',
@@ -69,6 +53,21 @@ export const TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.IotaTestnetEvm],
 }
 
+// exported as used in tests
+export const TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
+    id: SupportedIscNetworkId.IotaTestnetEvm,
+    type: NetworkType.Isc,
+    name: 'Shimmer Testnet EVM',
+    chainId: ChainId.TestnetEvm,
+    namespace: NetworkNamespace.Evm,
+    baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.TestnetEvm],
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.TestnetEvm] ?? 0,
+    aliasAddress: 'rms1ppp00k5mmd2m8my8ukkp58nd3rskw6rx8l09aj35984k74uuc5u2cywn3ex',
+    rpcEndpoint: 'https://json-rpc.evm.testnet.shimmer.network/',
+    apiEndpoint: 'https://api.evm.testnet.shimmer.network/',
+    explorerUrl: 'https://explorer.evm.testnet.shimmer.network/',
+}
+
 export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetworkId]?: IIscChainConfiguration }> = {
     ...(isFeatureEnabled('onboarding.iota.defaultIscChains') && {
         [SupportedStardustNetworkId.Iota]: IOTA_EVM_CHAIN_CONFIGURATION,
@@ -76,10 +75,10 @@ export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetwor
     ...(isFeatureEnabled('onboarding.shimmer.defaultIscChains') && {
         [SupportedStardustNetworkId.Shimmer]: SHIMMER_EVM_CHAIN_CONFIGURATION,
     }),
+    ...(isFeatureEnabled('onboarding.iotaTestnet.defaultIscChains') && {
+        [SupportedStardustNetworkId.IotaTestnet]: IOTA_TESTNET_EVM_CHAIN_CONFIGURATION,
+    }),
     ...(isFeatureEnabled('onboarding.testnet.defaultIscChains') && {
         [SupportedStardustNetworkId.Testnet]: TESTNET_EVM_CHAIN_CONFIGURATION,
-    }),
-    ...(isFeatureEnabled('onboarding.iotaTestnet.defaultIscChains') && {
-        [SupportedStardustNetworkId.Testnet]: IOTA_TESTNET_EVM_CHAIN_CONFIGURATION,
     }),
 }
