@@ -162,6 +162,7 @@
  delete mode 100644 packages/desktop/electron/lib/nftDownloadHandlers.js
  delete mode 100644 packages/desktop/electron/lib/notificationManager.js
  delete mode 100644 packages/desktop/electron/lib/pincodeManager.js
+ delete mode 100644 packages/desktop/electron/main.js
  delete mode 100644 packages/desktop/electron/preload.js
  rename packages/desktop/{index.js => index.ts} (74%)
  delete mode 100644 packages/desktop/lib/auxiliary/drawer/constants/default-drawer-state.constant.ts
@@ -171,7 +172,6 @@
  delete mode 100644 packages/desktop/lib/auxiliary/popup/helpers/index.ts
  rename packages/desktop/lib/{electron.ts => electron/index.ts} (54%)
  rename packages/desktop/{electron/lib/menuState.js => lib/electron/menus/menu-state.constant.ts} (86%)
- rename packages/desktop/{electron/main.js => lib/electron/processes/main.process.ts} (52%)
  rename packages/desktop/{electron/lib/analytics.js => lib/electron/utils/analytics.utils.ts} (82%)
  rename packages/desktop/{electron/lib/errorHandling.js => lib/electron/utils/error.utils.ts} (69%)
  delete mode 100644 packages/desktop/lib/routers/actions/openSettings.ts
@@ -1339,6 +1339,7 @@
  delete mode 100644 packages/shared/lib/core/wallet/actions/activities/hideActivitiesForHiddenAssets.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/activities/index.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/activities/loadAssetsForAllAccounts.ts
+ delete mode 100644 packages/shared/lib/core/wallet/actions/activities/setAsyncStatusOfAccountActivities.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/activities/updateClaimingTransactionInclusion.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/burnAsset.ts
  delete mode 100644 packages/shared/lib/core/wallet/actions/burnNft.ts
@@ -1400,6 +1401,7 @@
  delete mode 100644 packages/shared/lib/core/wallet/utils/convertToRawAmount.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/formatTokenAmountBestMatch.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/formatTokenAmountDefault.ts
+ delete mode 100644 packages/shared/lib/core/wallet/utils/formatTokenAmountPrecise.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/generateActivity/generateActivities.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/generateActivity/generateActivitiesFromAliasOutputs.ts
  delete mode 100644 packages/shared/lib/core/wallet/utils/generateActivity/generateActivitiesFromBasicOutputs.ts
@@ -1614,7 +1616,7 @@
  rename packages/shared/{ => src}/lib/contexts/onboarding/actions/restoreBackupFromStrongholdFile.ts (61%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/actions/setProfileRecoveryTypeFromFilename.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/actions/subscribeToWalletApiEventsForShimmerClaiming.ts (57%)
- rename packages/shared/{ => src}/lib/contexts/onboarding/actions/syncShimmerClaimingAccount.ts (83%)
+ rename packages/shared/{ => src}/lib/contexts/onboarding/actions/syncShimmerClaimingAccount.ts (77%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/actions/verifyAndStoreMnemonic.ts (65%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/constants/default-stronghold-password.constant.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/constants/index.ts (100%)
@@ -1637,7 +1639,7 @@
  rename packages/shared/{ => src}/lib/contexts/onboarding/errors/unable-to-copy-stronghold-backup-file.error.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/errors/unable-to-restore-backup-for-profile-manager.error.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/buildInitialOnboardingProfile.ts (67%)
- rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/convertOnboardingProfileToPersistedProfile.ts (55%)
+ rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/convertOnboardingProfileToPersistedProfile.ts (66%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/copyStrongholdFileToProfileDirectory.ts (92%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/deriveShimmerClaimingAccountState.ts (92%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/helpers/getSortedRenamedBoundAccounts.ts (92%)
@@ -1704,7 +1706,7 @@
  rename packages/shared/{ => src}/lib/core/account/stores/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/account/stores/selected-account.store.ts (75%)
  rename packages/shared/{ => src}/lib/core/account/tests/deconstructBip32Path.test.ts (100%)
- rename packages/shared/{ => src}/lib/core/account/utils/deconstructBip32Path.ts (100%)
+ rename packages/shared/{ => src}/lib/core/account/utils/deconstructBip32Path.ts (85%)
  rename packages/shared/{ => src}/lib/core/account/utils/getBoundAccount.ts (72%)
  rename packages/shared/{ => src}/lib/core/account/utils/getIconColorFromString.ts (73%)
  rename packages/shared/{ => src}/lib/core/account/utils/index.ts (76%)
@@ -1712,7 +1714,6 @@
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/linkTransactionsWithClaimingTransactions.ts (88%)
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/preprocessOutputsForAccount.ts (68%)
  rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/preprocessTransactionsForAccount.ts (80%)
- rename packages/shared/{lib/core/wallet/actions/activities => src/lib/core/activity/actions}/setAsyncStatusOfAccountActivities.ts (50%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/constants/default-activity-filter.constant.ts (79%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/enums/activity-direction.enum.ts (83%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/enums/activity-status.enum.ts (100%)
@@ -1722,7 +1723,7 @@
  rename packages/shared/{lib/core/wallet/enums/alias-subtype.enum.ts => src/lib/core/activity/enums/stardust/stardust-alias-action.enum.ts} (58%)
  rename packages/shared/{lib/core/wallet/enums/governance-action.enum.ts => src/lib/core/activity/enums/stardust/stardust-governance-action.enum.ts} (84%)
  rename packages/shared/{lib/core/nfts => src/lib/core/activity}/index.ts (83%)
- rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/all-account-activities.store.ts (75%)
+ rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/all-account-activities.store.ts (61%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/claimed-activities.store.ts (61%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/hidden-activities.store.ts (53%)
  rename packages/shared/{lib/core/wallet/interfaces => src/lib/core/activity/types}/activity-filter.interface.ts (83%)
@@ -1840,7 +1841,7 @@
  rename packages/shared/{ => src}/lib/core/layer-2/constants/erc20-tokens-poll-interval.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/externally-owned-account-type-id.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/externally-owned-account.constant.ts (100%)
- rename packages/shared/{ => src}/lib/core/layer-2/constants/index.ts (59%)
+ rename packages/shared/{ => src}/lib/core/layer-2/constants/index.ts (66%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/isc-magic-contract-address.constant.ts (51%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/layer2-tokens-poll-interval.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/target-contracts.constant.ts (100%)
@@ -2009,7 +2010,7 @@
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/loadAccounts.ts (68%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/loadPersistedProfileIntoActiveProfile.ts (74%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/lockStronghold.ts (88%)
- rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/logout.ts (69%)
+ rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/logout.ts (66%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/migrateStrongholdFromActiveProfile.ts (100%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/reflectLockedStronghold.ts (92%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/resetActiveProfile.ts (59%)
@@ -2111,7 +2112,7 @@
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/enums/not-verified-status.enum.ts (100%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/enums/token-standard.enum.ts (82%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/enums/verified-status.enum.ts (100%)
- rename packages/shared/{lib/core/wallet => src/lib/core/token}/interfaces/base-token.interface.ts (100%)
+ rename packages/shared/{lib/core/wallet => src/lib/core/token}/interfaces/base-token.interface.ts (88%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/interfaces/erc20-metadata.interface.ts (71%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/interfaces/irc30-metadata.interface.ts (80%)
  rename packages/shared/{lib/core/wallet/interfaces/persisted-asset.interface.ts => src/lib/core/token/interfaces/persisted-token.interface.ts} (56%)
@@ -2119,7 +2120,6 @@
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/types/token-metadata.type.ts (100%)
  rename packages/shared/{lib/core/wallet/types/asset-verification.type.ts => src/lib/core/token/types/token-verification.type.ts} (83%)
  rename packages/shared/{lib/core/wallet/helpers/buildPersistedAssetFromMetadata.ts => src/lib/core/token/utils/buildPersistedTokenFromMetadata.ts} (79%)
- rename packages/shared/{lib/core/wallet => src/lib/core/token}/utils/formatTokenAmountPrecise.ts (84%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/utils/getUnitFromTokenMetadata.ts (78%)
  rename packages/shared/{ => src}/lib/core/token/utils/isValidErc20Token.ts (81%)
  rename packages/shared/{ => src}/lib/core/token/utils/isValidIrc30Token.ts (80%)
@@ -2233,8 +2233,8 @@
  rename packages/shared/{ => src}/lib/features/interfaces/features.interface.ts (56%)
  rename packages/shared/{ => src}/lib/features/interfaces/governance-features.interface.ts (100%)
  rename packages/shared/{ => src}/lib/features/interfaces/index.ts (64%)
- rename packages/shared/{ => src}/lib/features/interfaces/network-features.interface.ts (85%)
- rename packages/shared/{ => src}/lib/features/interfaces/onboarding-features-for-network.interface.ts (84%)
+ rename packages/shared/{ => src}/lib/features/interfaces/network-features.interface.ts (87%)
+ rename packages/shared/{ => src}/lib/features/interfaces/onboarding-features-for-network.interface.ts (75%)
  rename packages/shared/{ => src}/lib/features/interfaces/settings-features.interface.ts (88%)
  rename packages/shared/{ => src}/lib/features/interfaces/wallet-features.interface.ts (78%)
  rename packages/shared/{ => src}/lib/features/types/index.ts (100%)
@@ -2282,7 +2282,7 @@
  rename packages/shared/{lib/tests/__mocks__ => test/mocks}/i18n.mock.ts (76%)
  rename packages/shared/{lib/tests/__mocks__ => test/mocks}/match-media.mock.ts (100%)
  rename packages/shared/{lib/tests/__mocks__ => test/mocks}/platform.mock.ts (79%)
- rename packages/shared/{lib/tests/__mocks__ => test/mocks}/profile-manager.mock.ts (88%)
+ rename packages/shared/{lib/tests/__mocks__ => test/mocks}/profile-manager.mock.ts (87%)
  rename patches/{electron-updater+5.3.0.patch => electron-updater+6.1.8.patch} (69%)
  delete mode 100644 patches/node-hid+2.1.2.patch
  delete mode 100644 patches/usb+1.9.2.patch
