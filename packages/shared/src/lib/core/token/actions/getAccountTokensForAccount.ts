@@ -108,7 +108,7 @@ function getAccountAssetForChain(
 
     for (const [tokenId, balance] of tokens) {
         if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS?.[networkId]) {
-            // ignore erc20 interface of the baSse coin of the evmNetwork
+            // ignore erc20 interface of the base coin of the evmNetwork
             continue
         } else if (tokenId === BASE_TOKEN_ID) {
             baseCoin = createTokenWithBalanceFromPersistedAsset(
