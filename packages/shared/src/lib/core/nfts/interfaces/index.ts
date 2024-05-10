@@ -1,4 +1,3 @@
-export * from './collection.interface'
 export * from './download-metadata.interface'
 export * from './erc721-contract-metadata.interface'
 export * from './nft-filter.interface'

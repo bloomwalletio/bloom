@@ -22,7 +22,7 @@
     let source: string | undefined = undefined
     function setSource(): void {
         if (features?.collectibles?.useCaching?.enabled && useCaching) {
-            source = nft.downloadMetadata?.filePath
+            source = nft?.downloadMetadata?.filePath
                 ? `${basePath}/${nft.downloadMetadata?.filePath}/${NFT_MEDIA_FILE_NAME}`
                 : undefined
         } else {
