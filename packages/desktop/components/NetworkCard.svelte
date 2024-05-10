@@ -11,7 +11,7 @@
         ExplorerEndpoint,
         Network,
         NetworkNamespace,
-        getDefaultExplorerUrl,
+        getExplorerUrl,
         setSelectedNetworkForNetworkDrawer,
     } from '@core/network'
     import { ProfileType } from '@core/profile'
@@ -24,7 +24,7 @@
     export let network: Network
 
     let address: string | undefined
-    const explorer = getDefaultExplorerUrl(network.id, ExplorerEndpoint.Address)
+    const explorer = getExplorerUrl(network.id, ExplorerEndpoint.Address)
 
     $: health = network.health
     $: address = getAddressFromAccountForNetwork($selectedAccount as IAccountState, network.id)

@@ -6,7 +6,7 @@
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network'
-    import { getDefaultExplorerUrl } from '@core/network/utils'
+    import { getExplorerUrl } from '@core/network/utils'
     import { NftStandard } from '@core/nfts'
     import { Nft } from '@core/nfts/interfaces'
     import { ownedNfts, selectedNftId, getNftByIdForAccount } from '@core/nfts/stores'
@@ -31,12 +31,12 @@
         }
     }
 
-    $: explorerUrl = getExplorerUrl(activity)
-    function getExplorerUrl(_activity: EvmActivity): string | undefined {
+    $: explorerUrl = buildExplorerUrl(activity)
+    function buildExplorerUrl(_activity: EvmActivity): string | undefined {
         if (_activity.type === EvmActivityType.BalanceChange) {
             return
         }
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
+        const { baseUrl, endpoint } = getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
         return buildUrl({ origin: baseUrl, pathname: `${endpoint}/${_activity?.transactionId}` })?.href
     }
 

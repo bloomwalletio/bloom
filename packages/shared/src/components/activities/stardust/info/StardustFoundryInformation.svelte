@@ -4,19 +4,19 @@
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network/enums'
-    import { getDefaultExplorerUrl } from '@core/network/utils'
+    import { getExplorerUrl } from '@core/network/utils'
     import { buildUrl } from '@core/utils'
 
     export let activity: StardustFoundryActivity
 
     function onAliasClick(aliasAddress: string) {
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
+        const { baseUrl, endpoint } = getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
         const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${aliasAddress}` })
         openUrlInBrowser(url?.href)
     }
 
     function onTokenClick(tokenId: string) {
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Foundry)
+        const { baseUrl, endpoint } = getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Foundry)
         const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${tokenId}` })
         openUrlInBrowser(url?.href)
     }

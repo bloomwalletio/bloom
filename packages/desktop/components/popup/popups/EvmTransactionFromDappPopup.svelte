@@ -5,7 +5,7 @@
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
-    import { ExplorerEndpoint, IEvmNetwork, getDefaultExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint, IEvmNetwork, getExplorerUrl } from '@core/network'
     import { DappInfo, TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { EvmTransactionData } from '@core/layer-2/types'
@@ -166,7 +166,7 @@
     }
 
     function onExplorerClick(contractAddress: string): void {
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(evmNetwork.id, ExplorerEndpoint.Address)
+        const { baseUrl, endpoint } = getExplorerUrl(evmNetwork.id, ExplorerEndpoint.Address)
         const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${contractAddress}` })
         openUrlInBrowser(url?.href)
     }

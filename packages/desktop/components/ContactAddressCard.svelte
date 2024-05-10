@@ -3,7 +3,7 @@
     import { IContact, IContactAddress, IContactAddressMap, setSelectedContactNetworkAddress } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { ExplorerEndpoint, getDefaultExplorerUrl, getNameFromNetworkId, NetworkId } from '@core/network'
+    import { ExplorerEndpoint, getExplorerUrl, getNameFromNetworkId, NetworkId } from '@core/network'
     import { Router } from '@core/router'
     import { buildUrl, truncateString } from '@core/utils'
     import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
@@ -21,7 +21,7 @@
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
 
-    const explorer = getDefaultExplorerUrl(networkId, ExplorerEndpoint.Address)
+    const explorer = getExplorerUrl(networkId, ExplorerEndpoint.Address)
 
     function onExplorerClick(address: string): void {
         const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })

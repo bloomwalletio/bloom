@@ -4,7 +4,7 @@
     import { openUrlInBrowser } from '@core/app'
     import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { ExplorerEndpoint, getDefaultExplorerUrl, getNetwork } from '@core/network'
+    import { ExplorerEndpoint, getExplorerUrl, getNetwork } from '@core/network'
     import { formatTokenAmount } from '@core/token'
     import { buildUrl } from '@core/utils'
     import { getTimeDifference } from '@core/utils/time'
@@ -21,7 +21,7 @@
     $: formattedMaxGasFee = formatAmount(BigInt(gasLimit ?? 0))
     $: formattedTransactionFee = formatAmount(activity.transactionFee ?? BigInt(0))
 
-    $: explorer = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction) ?? ''
+    $: explorer = getExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction) ?? ''
     function onTransactionIdClick(): void {
         const url = buildUrl({
             origin: explorer.baseUrl,

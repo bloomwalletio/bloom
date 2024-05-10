@@ -5,7 +5,7 @@
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network/enums'
-    import { getDefaultExplorerUrl } from '@core/network/utils'
+    import { getExplorerUrl } from '@core/network/utils'
     import { NftStandard } from '@core/nfts/enums'
     import { getNftByIdForAccount } from '@core/nfts/stores'
     import { buildUrl } from '@core/utils'
@@ -18,13 +18,13 @@
     $: issuer = nft?.standard === NftStandard.Irc27 ? nft?.issuer : undefined
 
     function onNftIdClick(nftId: string) {
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Nft)
+        const { baseUrl, endpoint } = getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Nft)
         const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${nftId}` })
         openUrlInBrowser(url?.href)
     }
 
     function onIssuerClick(issuer: Address) {
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
+        const { baseUrl, endpoint } = getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Address)
         const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${getBech32AddressFromAddressTypes(issuer)}` })
         openUrlInBrowser(url?.href)
     }
