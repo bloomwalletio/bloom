@@ -12,23 +12,23 @@
     const AVATAR_BACKGROUND_COLOR: { [id in NetworkId]?: string } = {
         [SupportedNetworkId.Iota]: 'iota-background',
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
-        [SupportedNetworkId.Testnet]: 'shimmer-background',
-        [SupportedNetworkId.IotaTestnet]: 'iota-background',
+        [SupportedNetworkId.Testnet]: 'text-secondary',
+        [SupportedNetworkId.IotaTestnet]: 'text-secondary',
         [SupportedNetworkId.IotaEvm]: 'iota-evm-background',
         [SupportedNetworkId.ShimmerEvm]: 'shimmer-evm-background',
-        [SupportedNetworkId.IotaTestnetEvm]: 'iota-evm-background',
-        [SupportedNetworkId.TestnetEvm]: 'shimmer-evm-background',
+        [SupportedNetworkId.IotaTestnetEvm]: 'iota-evm-background/90',
+        [SupportedNetworkId.TestnetEvm]: 'shimmer-evm-background/90',
     }
 
     const AVATAR_TEXT_COLOR: { [id in NetworkId]?: string } = {
         [SupportedNetworkId.Iota]: 'iota',
         [SupportedNetworkId.Shimmer]: 'shimmer',
-        [SupportedNetworkId.IotaTestnet]: 'text-secondary',
-        [SupportedNetworkId.Testnet]: 'text-secondary',
+        [SupportedNetworkId.IotaTestnet]: '#FFFFFF',
+        [SupportedNetworkId.Testnet]: '#FFFFFF',
         [SupportedNetworkId.IotaEvm]: 'iota-evm',
         [SupportedNetworkId.ShimmerEvm]: 'shimmer-evm',
-        [SupportedNetworkId.IotaTestnetEvm]: 'iota-evm',
-        [SupportedNetworkId.TestnetEvm]: 'shimmer-evm',
+        [SupportedNetworkId.IotaTestnetEvm]: '#FFFFFF',
+        [SupportedNetworkId.TestnetEvm]: '#FFFFFF',
     }
 
     let anchor: HTMLElement
