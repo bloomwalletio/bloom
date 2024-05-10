@@ -55,7 +55,7 @@ const IOTA_TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
 
 // exported as used in tests
 export const TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
-    id: SupportedIscNetworkId.IotaTestnetEvm,
+    id: SupportedIscNetworkId.TestnetEvm,
     type: NetworkType.Isc,
     name: 'Shimmer Testnet EVM',
     chainId: ChainId.TestnetEvm,
