@@ -1,8 +1,8 @@
 import { get } from 'svelte/store'
 import { collectionsSearchTerm } from '../stores'
-import { Collection } from '../interfaces'
+import { PersistedCollection } from '../interfaces'
 
-export function isVisibleCollection(collection: Collection): boolean {
+export function isVisibleCollection(collection: PersistedCollection): boolean {
     const searchTerm = get(collectionsSearchTerm)
 
     if (!isVisibleWithSearchTerm(collection, searchTerm)) {
@@ -12,7 +12,7 @@ export function isVisibleCollection(collection: Collection): boolean {
     return true
 }
 
-function isVisibleWithSearchTerm(collection: Collection, searchTerm: string): boolean {
+function isVisibleWithSearchTerm(collection: PersistedCollection, searchTerm: string): boolean {
     if (searchTerm) {
         return collection.name.toLowerCase().includes(searchTerm.toLowerCase())
     }
