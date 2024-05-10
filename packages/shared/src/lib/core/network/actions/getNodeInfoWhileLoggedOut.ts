@@ -18,16 +18,29 @@ export async function getNodeInfoWhileLoggedOut(url: string, auth: IAuth): Promi
             { stronghold: { snapshotPath: `${storagePath}/wallet.stronghold` } }
         )
         nodeInfoResponse = await api.getNodeInfo(manager?.id, url, auth)
+
+        await cleanupTemporaryProfile(manager, storagePath)
+
+        if (!nodeInfoResponse) {
+            return Promise.reject(new Error('error.node.invalidNode'))
+        }
+
         return nodeInfoResponse
     } catch (error) {
+        await cleanupTemporaryProfile(manager, storagePath)
         return Promise.reject(error)
-    } finally {
-        if (manager) {
-            api.deleteWallet(manager?.id)
-            await manager.destroy()
-        }
-        if (storagePath) {
-            await Platform.removeProfileFolder(storagePath)
-        }
+    }
+}
+
+async function cleanupTemporaryProfile(
+    manager: IProfileManager | undefined,
+    storagePath: string | undefined
+): Promise<void> {
+    if (manager) {
+        api.deleteWallet(manager?.id)
+        await manager.destroy()
+    }
+    if (storagePath) {
+        await Platform.removeProfileFolder(storagePath)
     }
 }

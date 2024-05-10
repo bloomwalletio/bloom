@@ -61,6 +61,8 @@
                 formError = localize('error.node.unabledToConnect')
             } else if (err?.message === 'error.node.differentNetwork') {
                 formError = localize('error.node.differentNetwork')
+            } else if (err?.message === 'error.node.invalidNode') {
+                formError = localize('error.node.invalidNode')
             } else if (err?.type !== 'validationError') {
                 showNotification({
                     variant: 'error',

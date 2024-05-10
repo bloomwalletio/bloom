@@ -2026,6 +2026,7 @@
             "timeNotSynced": "Device time is incorrect, unable to sync node.",
             "unabledToConnect": "Unable to connect to the node",
             "differentNetwork": "The node is located on a different network",
+            "invalidNode": "The URL is not a valid node",
             "duplicateNodes": "Unable to add duplicate node",
             "noCoinType": "No coin type specified"
         },
