@@ -26,7 +26,7 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: N
     },
     [SupportedNetworkId.IotaTestnet]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.IotaTestnet,
-        name: 'Testnet',
+        name: 'IOTA Testnet',
         namespace: NetworkNamespace.Stardust,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.IotaTestnet],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.IotaTestnet],
@@ -34,7 +34,7 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: N
     },
     [SupportedNetworkId.Testnet]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Testnet,
-        name: 'Testnet',
+        name: 'Shimmer Testnet',
         namespace: NetworkNamespace.Stardust,
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Testnet],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.Testnet],
