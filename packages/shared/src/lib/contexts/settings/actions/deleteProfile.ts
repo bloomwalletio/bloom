@@ -4,7 +4,6 @@ import { logout, removeAllProfileData } from '@core/profile/actions'
 import { profiles } from '@core/profile/stores'
 import { routerManager } from '@core/router/stores'
 import { get } from 'svelte/store'
-import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
 
 /**
  * It removes the active profile from the app's list of profiles, removes the profile's directory from
@@ -31,7 +30,6 @@ export async function deleteProfile(profileId: string): Promise<void> {
          */
         await removeProfileFolder(profileId)
 
-        closePopup()
         /**
          * NOTE: If there are no more profiles, then the user should be
          * routed to the welcome screen.
