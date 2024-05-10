@@ -1,5 +1,5 @@
 import { buildUrl } from '@core/utils/url'
-import { getExplorerEndpoint } from '../constants'
+import { getExplorerEndpoint } from '../utils'
 import { ExplorerEndpoint } from '../enums'
 import { getNetwork } from '../stores'
 import { NetworkId } from '../types'
