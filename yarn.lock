@@ -343,10 +343,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.20.20":
-  version "0.20.20"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.20.20/f4ba590700ba79731875944c94cb73e20083e361#f4ba590700ba79731875944c94cb73e20083e361"
-  integrity sha512-Ki8Mw3sD1ZHXTg4EObv58nxxQmUdUlwCBES6wdPre5oEreL5Hmj6H15KAaS+kiWh8VL2ERjDlkgGJxo5G9pXCQ==
+"@bloomwalletio/ui@0.20.21":
+  version "0.20.21"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.20.21/ddbf6507eaeffd2d44b8c2564686c0d3d69715a9#ddbf6507eaeffd2d44b8c2564686c0d3d69715a9"
+  integrity sha512-XZLAZ5a7UN8g91OPC/VP2lz8+nDl6UvtBkjWPyryDLw8oaaEi0anWrMecKsULc9SLPblMbKOMRj2FfjCkiEdJA==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
@@ -12203,15 +12203,6 @@ wildcard@^2.0.0:
   integrity sha512-CC1bOL87PIWSBhDcTrdeLo6eGT7mCFtrg0uIJtqJUFyK+eJnzl8A1niH56uu7KMa5XFrtiV+AQuHO3n7DsHnLQ==
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
