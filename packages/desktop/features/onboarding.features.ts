@@ -96,7 +96,7 @@ const onboardingFeaturesForShimmer: IOnboardingFeaturesForNetwork = {
     },
 }
 
-const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
+const onboardingFeaturesForIotaTestnet: IOnboardingFeaturesForNetwork = {
     enabled: true,
     newProfile: {
         enabled: true,
@@ -124,7 +124,7 @@ const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
     },
     claimRewards: {
         enabled: true,
-        hidden: false,
+        hidden: true,
         recoveryPhrase: {
             enabled: true,
         },
@@ -133,6 +133,53 @@ const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
         },
         ledgerBackup: {
             enabled: true,
+        },
+    },
+    defaultIscChains: {
+        enabled: true,
+    },
+    defaultEvmChains: {
+        enabled: true,
+    },
+}
+
+const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
+    enabled: true,
+    newProfile: {
+        enabled: true,
+        softwareProfile: {
+            enabled: true,
+            skipVerification: {
+                enabled: false,
+            },
+        },
+        ledgerProfile: {
+            enabled: true,
+        },
+    },
+    restoreProfile: {
+        enabled: true,
+        recoveryPhrase: {
+            enabled: true,
+        },
+        strongholdBackup: {
+            enabled: true,
+        },
+        ledgerBackup: {
+            enabled: true,
+        },
+    },
+    claimRewards: {
+        enabled: false,
+        hidden: false,
+        recoveryPhrase: {
+            enabled: false,
+        },
+        strongholdBackup: {
+            enabled: false,
+        },
+        ledgerBackup: {
+            enabled: false,
         },
     },
     defaultIscChains: {
@@ -183,7 +230,7 @@ const onboardingFeaturesForCustom: IOnboardingFeaturesForNetwork = {
         },
     },
     defaultIscChains: {
-        enabled: false,
+        enabled: true,
     },
     defaultEvmChains: {
         enabled: false,
@@ -194,6 +241,7 @@ const onboardingFeatures: OnboardingFeatures = {
     enabled: true,
     iota: onboardingFeaturesForIota,
     shimmer: onboardingFeaturesForShimmer,
+    iotaTestnet: onboardingFeaturesForIotaTestnet,
     testnet: onboardingFeaturesForTestnet,
     custom: onboardingFeaturesForCustom,
     importFromThirdParty: {
