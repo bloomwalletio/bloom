@@ -80,6 +80,10 @@
         if (options.checkNodeInfo) {
             try {
                 nodeInfoResponse = await getNodeInfo(node.url)
+                if (!nodeInfoResponse?.nodeInfo) {
+                    formError = localize('error.node.invalidNode')
+                    return Promise.reject({ type: 'validationError', error: formError })
+                }
             } catch (err) {
                 formError = localize('error.node.unabledToConnect')
                 return Promise.reject({ type: 'validationError', error: formError })
