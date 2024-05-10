@@ -1,9 +1,8 @@
 <script lang="ts">
     import { Pane } from '@ui'
-    import { Collection, Nft } from '@core/nfts/interfaces'
+    import { Nft } from '@core/nfts/interfaces'
     import { NftStandard } from '@core/nfts/enums'
     import {
-        activeProfileCollectionsPerAccount,
         activeProfileNftsPerAccount,
         getNftByIdForAccount,
         selectedCollectionId,
@@ -16,12 +15,7 @@
     import { isIrc27Nft } from '@core/nfts'
 
     let nft: Nft | undefined
-    let collection: Collection | undefined
     $: $activeProfileNftsPerAccount, (nft = getNftByIdForAccount($selectedAccountIndex, $selectedNftId))
-    $: collection = $selectedCollectionId
-        ? $activeProfileCollectionsPerAccount[$selectedAccountIndex][$selectedCollectionId]
-        : undefined
-
     $: returnIfNftWasSent($activeProfileNftsPerAccount[$selectedAccountIndex], $time)
 
     function returnIfNftWasSent(ownedNfts: Nft[], currentTime: Date): void {
@@ -31,14 +25,14 @@
         const isLocked = ownedNft && isIrc27Nft(ownedNft) && (ownedNft.timelockTime ?? 0) > currentTime.getTime()
         if (ownedNft?.isSpendable || isLocked) {
             // empty
-        } else {
-            $collectiblesRouter.previous()
+        } else if (!$selectedCollectionId) {
+            $collectiblesRouter?.previous()
         }
     }
 </script>
 
-{#if collection}
-    <CollectionDetails {collection} />
+{#if $selectedCollectionId}
+    <CollectionDetails collectionId={$selectedCollectionId} />
 {:else}
     <Pane classes="h-full">
         {#if nft?.standard === NftStandard.Irc27}

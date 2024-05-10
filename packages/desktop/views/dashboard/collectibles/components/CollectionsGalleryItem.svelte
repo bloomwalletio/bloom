@@ -1,45 +1,49 @@
 <script lang="ts">
-    import { Collection } from '@core/nfts'
     import { AssetPillsForNft, MediaPlaceholder, NetworkAvatar, NftMedia } from '@ui'
     import { Pill, Text } from '@bloomwalletio/ui'
-    import { downloadingNftId, selectedCollectionId } from '@core/nfts/stores'
+    import { downloadingNftId, ownedNfts, persistedCollections, selectedCollectionId } from '@core/nfts/stores'
     import { localize } from '@core/i18n'
     import { CollectiblesRoute, collectiblesRouter } from '@core/router'
 
-    export let collection: Collection
+    export let collectionId: string
 
     function onCollectionClick(): void {
         $selectedCollectionId = collection.id
         $collectiblesRouter?.goTo(CollectiblesRoute.Details)
         $collectiblesRouter?.setBreadcrumb(collection.name)
     }
+
+    $: collection = $persistedCollections[collectionId]
+    $: nfts = $ownedNfts.filter((nft) => nft.collectionId === collectionId)
 </script>
 
-<button type="button" on:click={onCollectionClick}>
-    <div class="container">
-        <div class="flex-1 flex relative bg-surface-2 dark:bg-surface-2-dark rounded-t-[0.9rem] overflow-hidden">
-            <!-- TODO: change media to collection URI instead of first NFT URI -->
-            <NftMedia nft={collection.nfts[0]} classes="min-w-full min-h-full object-cover" loop muted>
-                <MediaPlaceholder
-                    type={collection.nfts[0]?.type}
-                    downloading={$downloadingNftId === collection.nfts[0]?.id}
-                    size="md"
-                    slot="placeholder"
-                />
-            </NftMedia>
+{#if collection && nfts.length > 0}
+    <button type="button" on:click={onCollectionClick}>
+        <div class="container">
+            <div class="flex-1 flex relative bg-surface-2 dark:bg-surface-2-dark rounded-t-[0.9rem] overflow-hidden">
+                <!-- TODO: change media to collection URI instead of first NFT URI -->
+                <NftMedia nft={nfts[0]} classes="min-w-full min-h-full object-cover" loop muted>
+                    <MediaPlaceholder
+                        type={nfts[0]?.type}
+                        downloading={$downloadingNftId === nfts[0]?.id}
+                        size="md"
+                        slot="placeholder"
+                    />
+                </NftMedia>
+            </div>
+            <div class="w-full flex flex-col gap-2 p-3">
+                <nft-name class="w-full flex flex-row items-center gap-2 overflow-hidden">
+                    <Text type="body2" truncate>{collection.name}</Text>
+                </nft-name>
+                <nft-pills class="flex flex-row items-center gap-2">
+                    <NetworkAvatar networkId={nfts[0]?.networkId} size="sm" showTooltip />
+                    <AssetPillsForNft nft={nfts[0]} />
+                    <Pill compact color="brand">{localize('general.nfts', { count: nfts.length })}</Pill>
+                </nft-pills>
+            </div>
         </div>
-        <div class="w-full flex flex-col gap-2 p-3">
-            <nft-name class="w-full flex flex-row items-center gap-2 overflow-hidden">
-                <Text type="body2" truncate>{collection.name}</Text>
-            </nft-name>
-            <nft-pills class="flex flex-row items-center gap-2">
-                <NetworkAvatar networkId={collection.nfts[0]?.networkId} size="sm" showTooltip />
-                <AssetPillsForNft nft={collection.nfts[0]} />
-                <Pill compact color="brand">{localize('general.nfts', { count: collection.nfts.length })}</Pill>
-            </nft-pills>
-        </div>
-    </div>
-</button>
+    </button>
+{/if}
 
 <style lang="postcss">
     .container {

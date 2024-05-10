@@ -1,10 +1,10 @@
 import { persistent } from '@core/utils/store'
-import { Collection } from '../interfaces'
+import { PersistedCollection } from '../interfaces'
 import { PersistedCollections } from '../types'
 
 export const persistedCollections = persistent<PersistedCollections>('persistedCollections', {})
 
-export function addCollectionsToPersistedCollections(collections: Collection[]): void {
+export function addCollectionsToPersistedCollections(collections: PersistedCollection[]): void {
     persistedCollections.update((state) => {
         for (const collection of collections) {
             if (state[collection.id]) {
@@ -15,8 +15,4 @@ export function addCollectionsToPersistedCollections(collections: Collection[]):
         }
         return state
     })
-}
-
-export function addCollectionToPersistedCollections(collection: Collection): void {
-    addCollectionsToPersistedCollections([collection])
 }
