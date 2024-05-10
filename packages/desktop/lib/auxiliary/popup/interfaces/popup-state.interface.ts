@@ -10,5 +10,6 @@ export interface IPopupState {
     props?: PopupProps
     overflow?: boolean
     relative?: boolean
+    autofocusContent?: boolean
     confirmClickOutside?: boolean
 }

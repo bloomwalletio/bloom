@@ -2,7 +2,7 @@
     import { Activity } from '@core/activity'
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
-    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { ITokenWithBalance, formatTokenAmount } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
     import { selectedAccountTokens } from '@core/token/stores'
 
@@ -12,7 +12,7 @@
 
     function getFormattedFee(_activity: Activity, baseCoin: ITokenWithBalance | undefined): string {
         if (_activity.transactionFee && baseCoin) {
-            const amount = formatTokenAmountBestMatch(_activity.transactionFee, baseCoin.metadata, { decimals: 3 })
+            const amount = formatTokenAmount(_activity.transactionFee, baseCoin.metadata, { decimals: 3 })
             return '- ' + amount
         } else {
             return '-'

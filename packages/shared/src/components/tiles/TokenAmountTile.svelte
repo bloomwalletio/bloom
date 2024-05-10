@@ -1,7 +1,7 @@
 <script lang="ts">
     import { formatCurrency } from '@core/i18n/utils'
     import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
-    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { ITokenWithBalance, formatTokenAmount } from '@core/token'
     import { truncateString } from '@core/utils'
     import { Tile, Text } from '@bloomwalletio/ui'
     import { TokenAvatar } from '@ui'
@@ -31,7 +31,7 @@
                         </Text>
                     {/if}
                     <Text align="right">
-                        {token.metadata ? formatTokenAmountBestMatch(amount, token.metadata, { round: false }) : '-'}
+                        {token.metadata ? formatTokenAmount(amount, token.metadata, { round: false }) : '-'}
                     </Text>
                 </div>
                 <div class="flex flex-row w-full {hideTokenInfo ? 'justify-end' : 'justify-between'}">

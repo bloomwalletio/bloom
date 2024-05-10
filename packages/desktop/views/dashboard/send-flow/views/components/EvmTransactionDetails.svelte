@@ -2,7 +2,7 @@
     import { Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { IEvmNetwork, NetworkId } from '@core/network'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { NetworkLabel } from '@ui'
 
     export let sourceNetwork: IEvmNetwork
@@ -24,11 +24,11 @@
         },
         {
             key: localize('general.estimatedFee'),
-            value: estimatedGasFee ? formatTokenAmountBestMatch(estimatedGasFee, sourceNetwork.baseToken) : undefined,
+            value: estimatedGasFee ? formatTokenAmount(estimatedGasFee, sourceNetwork.baseToken) : undefined,
         },
         {
             key: localize('general.maxFees'),
-            value: maxGasFee ? formatTokenAmountBestMatch(maxGasFee, sourceNetwork.baseToken) : undefined,
+            value: maxGasFee ? formatTokenAmount(maxGasFee, sourceNetwork.baseToken) : undefined,
         },
     ]}
 />

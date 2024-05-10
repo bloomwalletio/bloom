@@ -1,6 +1,6 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
-    import { ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { ITokenWithBalance, formatTokenAmount } from '@core/token'
     import { truncateString } from '@core/utils'
     import { Tile, Text } from '@bloomwalletio/ui'
     import { TokenAvatar } from '@ui'
@@ -24,7 +24,7 @@
                     </Text>
                     <div class="flex flex-row justify-between items-center text-left">
                         <Text textColor="secondary" fontWeight="medium">
-                            {formatTokenAmountBestMatch(availableBalance, token.metadata, { round: false })}
+                            {formatTokenAmount(availableBalance, token.metadata, { round: false })}
                         </Text>
                     </div>
                 </div>

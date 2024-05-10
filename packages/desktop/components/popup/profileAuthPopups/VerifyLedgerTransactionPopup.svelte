@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { resetShowInternalVerificationPopup, showInternalVerificationPopup } from '@core/ledger'
     import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
-    import { formatTokenAmountBestMatch } from '@core/token/utils'
+    import { formatTokenAmount } from '@core/token/utils'
     import { formatHexString } from '@core/utils'
     import { onDestroy } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -66,7 +66,7 @@
                             key: localize('general.amount'),
                             value:
                                 !useBlindSigning && isEvmTransaction
-                                    ? formatTokenAmountBestMatch(toAmount, network?.baseToken)
+                                    ? formatTokenAmount(toAmount, network?.baseToken)
                                     : undefined,
                         },
                         {
@@ -83,7 +83,7 @@
                             key: localize('general.maxFees'),
                             value:
                                 !useBlindSigning && isEvmTransaction
-                                    ? formatTokenAmountBestMatch(maxGasFee, network?.baseToken)
+                                    ? formatTokenAmount(maxGasFee, network?.baseToken)
                                     : undefined,
                         },
                         {
@@ -95,7 +95,7 @@
                             key: localize('general.amount'),
                             value:
                                 !useBlindSigning && !isEvmTransaction
-                                    ? formatTokenAmountBestMatch(toAmount, network?.baseToken)
+                                    ? formatTokenAmount(toAmount, network?.baseToken)
                                     : undefined,
                         },
                         {
