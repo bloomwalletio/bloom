@@ -8,7 +8,7 @@ import { generateSingleNftActivity } from '@core/activity/utils/stardust/generat
 import { preprocessTransaction } from '@core/activity/utils/outputs'
 import { localize } from '@core/i18n'
 import { IIrc27Metadata, Nft } from '@core/nfts'
-import { buildNftFromNftOutput, persistAndUpdateCollections } from '@core/nfts/actions'
+import { buildNftFromNftOutput } from '@core/nfts/actions'
 import { Converter } from '@core/utils'
 import { MintNftParams, OutputType } from '@iota/sdk/out/types'
 import { getTransactionOptions } from '../utils'
@@ -77,7 +77,6 @@ export async function mintNft(
             }
         }
         addOrUpdateNftsForAccount(account.index, generatedNfts)
-        await persistAndUpdateCollections(account.index, generatedNfts)
     } catch (err) {
         return Promise.reject(err)
     } finally {
