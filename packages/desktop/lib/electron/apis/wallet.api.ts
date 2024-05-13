@@ -27,16 +27,21 @@ const sdkUtilsMethods = bindSdkUtilsMethods()
 
 export default {
     ...sdkUtilsMethods,
-    async getNodeInfo(managerId: number, url: string, auth: IAuth): Promise<INodeInfoResponse> {
-        const manager = profileManagers[managerId]
-        const client = await manager.getClient()
+    async getNodeInfo(managerId: number, url: string, auth: IAuth): Promise<INodeInfoResponse | undefined> {
+        try {
+            const manager = profileManagers[managerId]
+            const client = await manager.getClient()
 
-        const nodeUrl = url ?? (await client.getNode()).url
-        const nodeInfo = await client.getNodeInfo(nodeUrl, auth)
+            const nodeUrl = url ?? (await client.getNode()).url
+            const nodeInfo = await client.getNodeInfo(nodeUrl, auth)
 
-        return {
-            url: nodeUrl,
-            nodeInfo,
+            return {
+                url: nodeUrl,
+                nodeInfo,
+            }
+        } catch (err) {
+            console.error(err)
+            return undefined
         }
     },
     createWallet(id: string, options: WalletOptions): Wallet {

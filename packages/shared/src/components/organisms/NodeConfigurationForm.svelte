@@ -69,11 +69,7 @@
             return Promise.reject({ type: 'validationError', error: formError })
         }
 
-        const errorUrlValidity = checkNodeUrlValidity(
-            currentClientOptions?.nodes,
-            node.url,
-            $activeProfile.features.developer
-        )
+        const errorUrlValidity = checkNodeUrlValidity(currentClientOptions?.nodes, node.url, false)
         if (errorUrlValidity) {
             formError = localize(errorUrlValidity) ?? ''
             return Promise.reject({ type: 'validationError', error: formError })
@@ -84,6 +80,10 @@
         if (options.checkNodeInfo) {
             try {
                 nodeInfoResponse = await getNodeInfo(node.url)
+                if (!nodeInfoResponse?.nodeInfo) {
+                    formError = localize('error.node.invalidNode')
+                    return Promise.reject({ type: 'validationError', error: formError })
+                }
             } catch (err) {
                 formError = localize('error.node.unabledToConnect')
                 return Promise.reject({ type: 'validationError', error: formError })

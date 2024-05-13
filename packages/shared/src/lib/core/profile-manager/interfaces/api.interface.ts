@@ -27,7 +27,7 @@ export interface IApi {
     getAccount(profileManagerId: string, index: number): Promise<IAccount>
     getAccounts(profileManagerId: string): Promise<IAccount[]>
     getClient(profileManagerId: string): Promise<Client>
-    getNodeInfo(profileManagerId: string, url?: string, auth?: IAuth): Promise<INodeInfoResponse>
+    getNodeInfo(profileManagerId: string, url?: string, auth?: IAuth): Promise<INodeInfoResponse | undefined>
     getSecretManager(profileManagerId: string): Promise<ISecretManager>
     recoverAccounts(profileManagerId: string, payload: RecoverAccountsPayload): Promise<IAccount[]>
     migrateStrongholdSnapshotV2ToV3(
