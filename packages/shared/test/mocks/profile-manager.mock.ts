@@ -79,7 +79,7 @@ export class ProfileManagerMock implements IProfileManager {
         throw new Error('Method not implemented.')
     }
 
-    getNodeInfo(url: string, auth?: IAuth): Promise<INodeInfoResponse> {
+    getNodeInfo(url: string, auth?: IAuth): Promise<INodeInfoResponse | undefined> {
         return Promise.resolve({
             nodeInfo: {
                 name: 'HORNET',
