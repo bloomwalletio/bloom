@@ -43,7 +43,7 @@
         },
         {
             key: localize('general.inputs'),
-            value: activity.parameters,
+            value: activity.inputs,
         },
         {
             key: localize('general.data'),

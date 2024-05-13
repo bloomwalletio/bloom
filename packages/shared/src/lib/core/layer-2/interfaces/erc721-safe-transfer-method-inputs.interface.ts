@@ -1,6 +1,22 @@
 export interface Erc721SafeTransferMethodInputs {
-    from: string
-    to: string
-    tokenId: string
-    data?: string
+    from: {
+        name: string
+        type: string
+        value: string
+    }
+    to: {
+        name: string
+        type: string
+        value: string
+    }
+    tokenId: {
+        name: string
+        type: string
+        value: string
+    }
+    data?: {
+        name: string
+        type: string
+        value: string
+    }
 }

@@ -21,9 +21,7 @@ import {
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { isNftPersisted, persistErc721Nft } from '@core/nfts/actions'
 import { BASE_TOKEN_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { parseSmartContractDataFromTransactionData } from '@core/layer-2/utils'
-import { addMethodToRegistry, getMethodFromRegistry } from '@core/layer-2/stores/method-registry.store'
-import { HEX_PREFIX } from '@core/utils'
+import { getSmartContractDataFromBlockscoutTransaction } from './getSmartContractDataFromBlockscoutTransaction'
 
 export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
     blockscoutTokenTransfer: BlockscoutTokenTransfer,
@@ -130,28 +128,9 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         }
     }
 
-    let method: string = blockscoutTokenTransfer.method
-    let parameters: Record<string, string> | undefined
-    if (blockscoutTransaction?.decoded_input) {
-        const { method_id, method_call, parameters: _parameters } = blockscoutTransaction.decoded_input
-        parameters = _parameters
-
-        if (!getMethodFromRegistry(HEX_PREFIX + method_id)) {
-            const fourBytePrefix = HEX_PREFIX + method_id
-            addMethodToRegistry(fourBytePrefix, method_call)
-        }
-    } else if (blockscoutTransaction?.raw_input) {
-        const parsedData = parseSmartContractDataFromTransactionData(
-            {
-                to: blockscoutTransaction.to.hash.toLowerCase(),
-                data: blockscoutTransaction.raw_input,
-                value: blockscoutTransaction.value,
-            },
-            evmNetwork
-        )
-        method = parsedData?.parsedMethod?.name ?? method
-        parameters = parsedData?.parsedMethod?.inputs
-    }
+    const { method, inputs } = blockscoutTransaction
+        ? getSmartContractDataFromBlockscoutTransaction(blockscoutTransaction, evmNetwork)
+        : { method: undefined, inputs: undefined }
 
     return {
         ...baseActivity,
@@ -165,7 +144,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
 
         methodId: blockscoutTransaction?.decoded_input?.method_id ?? blockscoutTransaction?.method,
         method,
-        parameters,
+        inputs,
         rawData: blockscoutTransaction?.raw_input ?? '',
         contract,
     }

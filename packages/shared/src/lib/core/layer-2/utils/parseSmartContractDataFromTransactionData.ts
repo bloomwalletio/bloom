@@ -68,9 +68,9 @@ function parseSmartContractDataWithIscMagicAbi(
             }
 
             const inputs = decodedData.inputs as unknown as IscCallMethodInputs
-            const nativeToken = inputs?.allowance?.nativeTokens?.[0]
-            const nftId = inputs?.allowance?.nfts?.[0]
-            const agentId = inputs?.params.items?.find((item) => item.key === '0x61')?.value
+            const nativeToken = inputs?.allowance?.value?.nativeTokens?.[0]
+            const nftId = inputs?.allowance?.value?.nfts?.[0]
+            const agentId = inputs?.params?.value.items?.find((item) => item.key === '0x61')?.value
 
             if (nativeToken) {
                 const rawAmount =
@@ -103,9 +103,11 @@ function parseSmartContractDataWithIscMagicAbi(
             }
 
             const inputs = decodedData.inputs as unknown as IscSendMethodInputs
-            const nativeToken = inputs?.assets?.nativeTokens?.[0]
-            const nftId = inputs?.assets?.nfts?.[0]
-            const baseTokenAmount = BigInt(inputs.assets.baseTokens)
+            const assets = inputs.assets?.value
+
+            const nativeToken = assets?.nativeTokens?.[0]
+            const nftId = assets?.nfts?.[0]
+            const baseTokenAmount = BigInt(assets?.baseTokens ?? 0)
 
             if (nativeToken) {
                 return {
@@ -170,10 +172,10 @@ function parseSmartContractDataWithErc20Abi(
             return {
                 type: ParsedSmartContractType.TokenTransfer,
                 tokenId: recipientAddress,
-                rawAmount: BigInt(inputs._value),
+                rawAmount: BigInt(inputs._value.value),
                 rawMethod,
                 parsedMethod,
-                recipientAddress: inputs._to,
+                recipientAddress: inputs._to.value,
             }
         }
         // TODO: Support more ERC20 methods
@@ -213,10 +215,10 @@ function parseSmartContractDataWithErc721Abi(
 
             return {
                 type: ParsedSmartContractType.NftTransfer,
-                nftId: `${recipientAddress}:${inputs.tokenId}`,
+                nftId: `${recipientAddress}:${inputs.tokenId.value}`,
                 rawMethod,
                 parsedMethod,
-                recipientAddress: inputs.to,
+                recipientAddress: inputs.to.value,
             }
         }
         // TODO: support more ERC721 methods
