@@ -76,7 +76,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
     baseActivity = {
         ...baseActivity,
         method: parsedData.parsedMethod?.name,
-        parameters: parsedData.parsedMethod?.inputs,
+        inputs: parsedData.parsedMethod?.inputs,
         methodId: parsedData.rawMethod,
         rawData: String(transaction.data ?? ''),
         contract: {
