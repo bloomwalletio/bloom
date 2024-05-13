@@ -1,6 +1,6 @@
 export * from './checkActiveProfileAuth'
 export * from './checkAndRemoveProfilePicture'
-export * from './checkAndUpdateActiveProfileNetwork'
+export * from './checkAndInitializeActiveProfileNetwork'
 export * from './getBaseToken'
 export * from './getNetworkHrp'
 export * from './loadAccounts'

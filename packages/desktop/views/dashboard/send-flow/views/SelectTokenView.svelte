@@ -168,13 +168,15 @@
         disabled: !selectedToken || tokenError,
     }}
 >
-    <div class="space-y-4">
-        {#if $networks.length > 1}
-            <SelectInput bind:selected={selectedOption} {options} />
-        {/if}
-        <SearchInput bind:value={searchValue} />
-        <div class="-mr-3">
-            <token-list class="w-full flex flex-col">
+    <div class="flex-1 h-0 flex flex-col gap-4">
+        <div class="flex-none flex flex-col gap-4">
+            {#if $networks.length > 1}
+                <SelectInput bind:selected={selectedOption} {options} />
+            {/if}
+            <SearchInput bind:value={searchValue} />
+        </div>
+        <div class="-mr-3 overflow-y-scroll">
+            <token-list class="flex flex-col p-0.5 pr-1.5 gap-2">
                 {#each tokenList as token}
                     {@const selected = selectedToken?.id === token.id && selectedToken?.networkId === token?.networkId}
                     {@const error = selected ? Boolean(tokenError) : false}
@@ -189,16 +191,9 @@
             </token-list>
         </div>
         {#if tokenError}
-            <Alert variant="danger" text={tokenError} />
+            <div class="flex-none">
+                <Alert variant="danger" text={tokenError} />
+            </div>
         {/if}
     </div>
 </PopupTemplate>
-
-<style lang="postcss">
-    token-list {
-        max-height: 400px;
-        overflow-y: scroll;
-        @apply p-0.5 pr-1.5;
-        @apply gap-2;
-    }
-</style>
