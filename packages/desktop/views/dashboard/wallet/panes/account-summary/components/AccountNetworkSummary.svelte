@@ -9,7 +9,7 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, dashboardRouter } from '@core/router'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { NetworkAvatar, NetworkStatusIndicator, NftAvatar, TokenAvatar } from '@ui'
@@ -28,10 +28,7 @@
     $: health = network.health
     $: tokens = $selectedAccountTokens?.[network.id]
     $: nfts = $ownedNfts.filter((nft) => nft.networkId === network.id && !(nft.hidden || nft.isScam))
-    $: tokenBalance = formatTokenAmountBestMatch(
-        tokens?.baseCoin?.balance.total ?? BigInt(0),
-        tokens?.baseCoin?.metadata
-    )
+    $: tokenBalance = formatTokenAmount(tokens?.baseCoin?.balance.total ?? BigInt(0), tokens?.baseCoin?.metadata)
     $: fiatBalance = tokens
         ? formatCurrency(getFiatValueFromTokenAmount(BigInt(tokens?.baseCoin?.balance.total ?? 0), tokens.baseCoin))
         : ''

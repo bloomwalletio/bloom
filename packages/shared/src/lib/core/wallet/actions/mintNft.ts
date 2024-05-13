@@ -7,14 +7,14 @@ import { StardustNftActivity } from '@core/activity/types'
 import { generateSingleNftActivity } from '@core/activity/utils/stardust/generateSingleNftActivity'
 import { preprocessTransaction } from '@core/activity/utils/outputs'
 import { localize } from '@core/i18n'
-import { IIrc27Metadata } from '@core/nfts'
+import { IIrc27Metadata, Nft } from '@core/nfts'
 import { buildNftFromNftOutput } from '@core/nfts/actions'
 import { Converter } from '@core/utils'
 import { MintNftParams, OutputType } from '@iota/sdk/out/types'
 import { getTransactionOptions } from '../utils'
 import { resetMintNftDetails } from '../stores'
 import { getActiveNetworkId } from '@core/network'
-import { addOrUpdateNftForAccount } from '@core/nfts/stores'
+import { addOrUpdateNftsForAccount } from '@core/nfts/stores'
 
 export async function mintNft(
     metadata: IIrc27Metadata,
@@ -59,6 +59,7 @@ export async function mintNft(
         const processedTransaction = await preprocessTransaction(mintNftTransaction, account)
         const outputs = processedTransaction.outputs
 
+        const generatedNfts: Nft[] = []
         // Generate Activities
         for (const output of outputs) {
             if (output.output?.type === OutputType.Nft) {
@@ -72,9 +73,10 @@ export async function mintNft(
 
                 // Store NFT metadata for each minted NFT
                 const nft = buildNftFromNftOutput(output, networkId, account.depositAddress, false)
-                addOrUpdateNftForAccount(account.index, nft)
+                generatedNfts.push(nft)
             }
         }
+        addOrUpdateNftsForAccount(account.index, generatedNfts)
     } catch (err) {
         return Promise.reject(err)
     } finally {

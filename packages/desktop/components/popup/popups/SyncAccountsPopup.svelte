@@ -10,7 +10,7 @@
     import { RecoverAccountsPayload, recoverAccounts } from '@core/profile-manager'
     import { checkActiveProfileAuth, getBaseToken, loadAccounts } from '@core/profile/actions'
     import { activeAccounts, activeProfile, getActiveProfileId, visibleActiveAccounts } from '@core/profile/stores'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { loadTokensForAllAccountBalances } from '@core/token/actions'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { onDestroy } from 'svelte'
@@ -167,7 +167,7 @@
                 },
                 {
                     key: localize('popups.walletFinder.totalWalletBalance'),
-                    value: formatTokenAmountBestMatch(totalBalance, getBaseToken()),
+                    value: formatTokenAmount(totalBalance, getBaseToken()),
                 },
             ]}
         />

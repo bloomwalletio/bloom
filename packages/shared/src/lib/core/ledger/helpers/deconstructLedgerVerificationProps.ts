@@ -1,4 +1,4 @@
-import { formatTokenAmountBestMatch } from '@core/token'
+import { formatTokenAmount } from '@core/token'
 import { sendFlowParameters } from '@core/wallet/stores'
 import { SendFlowType } from '@core/wallet/enums'
 import { get } from 'svelte/store'
@@ -24,7 +24,7 @@ export function deconstructLedgerVerificationProps(): PopupProps | undefined {
             ? _sendFlowParameters.baseCoinTransfer
             : _sendFlowParameters.tokenTransfer) ?? {}
     const toAmount = token?.metadata
-        ? formatTokenAmountBestMatch(rawAmount ?? BigInt(0), token.metadata, { withUnit: true, round: false })
+        ? formatTokenAmount(rawAmount ?? BigInt(0), token.metadata, { withUnit: true, round: false })
         : String(rawAmount)
 
     return {

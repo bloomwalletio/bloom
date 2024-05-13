@@ -5,7 +5,7 @@
     import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
     import { ExplorerEndpoint, getDefaultExplorerUrl, getNetwork } from '@core/network'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { buildUrl } from '@core/utils'
     import { getTimeDifference } from '@core/utils/time'
     import { NetworkLabel, ExpiredPill, TimelockPill, UnclaimedPill } from '@ui'
@@ -31,7 +31,7 @@
     }
 
     function formatAmount(amount: bigint | undefined): string | undefined {
-        return amount ? formatTokenAmountBestMatch(amount, getNetwork(activity.sourceNetworkId)?.baseToken) : undefined
+        return amount ? formatTokenAmount(amount, getNetwork(activity.sourceNetworkId)?.baseToken) : undefined
     }
 </script>
 

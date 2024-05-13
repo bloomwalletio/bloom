@@ -6,7 +6,7 @@
     import { CURRENT_IRC27_VERSION, IIrc27Metadata } from '@core/nfts'
     import { getClient } from '@core/profile-manager'
     import { checkActiveProfileAuth, getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { buildNftOutputBuilderParams, mintNft, mintNftDetails } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { MediaIcon, PopupTab, getTabItems } from '@ui'
@@ -124,24 +124,16 @@
                             },
                             {
                                 key: localize('general.storageDepositPerNft'),
-                                value:
-                                    quantity > 1
-                                        ? formatTokenAmountBestMatch(storageDeposit, getBaseToken())
-                                        : undefined,
+                                value: quantity > 1 ? formatTokenAmount(storageDeposit, getBaseToken()) : undefined,
                             },
                             {
                                 key: localize('general.totalStorageDeposit'),
                                 value:
-                                    quantity > 1
-                                        ? formatTokenAmountBestMatch(totalStorageDeposit, getBaseToken())
-                                        : undefined,
+                                    quantity > 1 ? formatTokenAmount(totalStorageDeposit, getBaseToken()) : undefined,
                             },
                             {
                                 key: localize('general.storageDeposit'),
-                                value:
-                                    quantity === 1
-                                        ? formatTokenAmountBestMatch(storageDeposit, getBaseToken())
-                                        : undefined,
+                                value: quantity === 1 ? formatTokenAmount(storageDeposit, getBaseToken()) : undefined,
                             },
                             {
                                 key: localize('general.immutableIssuer'),

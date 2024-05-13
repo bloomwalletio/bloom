@@ -13,7 +13,7 @@
     import { formatDate, localize } from '@core/i18n'
     import { getL1Network } from '@core/network/stores'
     import { activeProfile } from '@core/profile/stores'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { DATE_FORMAT, milestoneToDate, truncateString } from '@core/utils'
     import { EventStatus } from '@iota/sdk/out/types'
@@ -93,11 +93,11 @@
             },
             {
                 key: localize('views.governance.details.yourVote.power'),
-                value: formatTokenAmountBestMatch($selectedAccount?.votingPower, metadata),
+                value: formatTokenAmount($selectedAccount?.votingPower, metadata),
             },
             {
                 key: localize('views.governance.details.yourVote.total'),
-                value: formatTokenAmountBestMatch(totalVotes, metadata),
+                value: formatTokenAmount(totalVotes, metadata),
             },
             {
                 key: localize('views.governance.details.proposalInformation.eventId'),

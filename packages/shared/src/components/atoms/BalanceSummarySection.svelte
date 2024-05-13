@@ -3,7 +3,7 @@
     import { formatCurrency, localize } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { BalanceSummaryRow } from '@ui'
 
@@ -19,7 +19,7 @@
     $: baseCoin = $selectedAccountTokens?.[$activeProfile?.network?.id]?.baseCoin
 
     function getAmount(amount: bigint): string {
-        return baseCoin?.metadata ? formatTokenAmountBestMatch(amount, baseCoin.metadata) : ''
+        return baseCoin?.metadata ? formatTokenAmount(amount, baseCoin.metadata) : ''
     }
 
     function getCurrencyAmount(amount: bigint): string {
