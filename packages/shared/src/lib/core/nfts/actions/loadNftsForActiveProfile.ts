@@ -9,7 +9,6 @@ import { Nft } from '../interfaces'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { buildNftFromNftOutput } from './buildNftFromNftOutput'
 import { setNftsForAccount } from '../stores'
-import { persistAndUpdateCollections } from './persistAndUpdateCollections'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
     let nftsToDownload: Nft[] = []
@@ -62,7 +61,6 @@ export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]>
         }
     }
     setNftsForAccount(account.index, accountNfts)
-    await persistAndUpdateCollections(account.index, accountNfts)
 
     return accountNfts
 }

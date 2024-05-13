@@ -6,32 +6,34 @@
     import features from '@features/features'
     import { SearchInput } from '@ui'
     import { CollectiblesTabs, CollectionsGallery } from '../components'
-    import { activeProfileCollectionsPerAccount, collectionsSearchTerm } from '@core/nfts/stores'
-    import { Collections, isVisibleCollection } from '@core/nfts'
-    import { selectedAccountIndex } from '@core/account/stores'
+    import { collectionsSearchTerm, ownedNfts, persistedCollections } from '@core/nfts/stores'
+    import { isVisibleCollection } from '@core/nfts'
+
+    let queriedCollectionsIds: string[] = []
+
+    $: collectionsIds = new Set(
+        $ownedNfts
+            ?.map((nft) => nft.collectionId)
+            .filter((collectionId) => collectionId && $persistedCollections[collectionId])
+    )
+
+    $: $collectionsSearchTerm, collectionsIds, setQueriedCollectionsIds()
+
+    function setQueriedCollectionsIds(): void {
+        queriedCollectionsIds = Array.from(collectionsIds)
+            .filter((collectionId) => isVisibleCollection($persistedCollections[collectionId]))
+            .sort((collectionId1, collectionId2) =>
+                $persistedCollections[collectionId1]?.name
+                    .toLowerCase()
+                    .localeCompare($persistedCollections[collectionId2]?.name.toLowerCase())
+            )
+    }
 
     function onReceiveClick(): void {
         openPopup({
             id: PopupId.ReceiveAddress,
         })
     }
-
-    let queriedCollections: Collections = {}
-    $: $collectionsSearchTerm,
-        (queriedCollections = $activeProfileCollectionsPerAccount[$selectedAccountIndex]
-            ? Object.fromEntries(
-                  Object.entries($activeProfileCollectionsPerAccount[$selectedAccountIndex])
-                      .filter(([, collection]) => isVisibleCollection(collection))
-                      .sort(([, collection1], [, collection2]) =>
-                          collection1?.name.toLowerCase().localeCompare(collection2?.name.toLowerCase())
-                      )
-              )
-            : {})
-
-    $: selectedAccountCollectionsLength = $activeProfileCollectionsPerAccount[$selectedAccountIndex]
-        ? Object.keys($activeProfileCollectionsPerAccount[$selectedAccountIndex]).length
-        : 0
-    $: hasCollections = selectedAccountCollectionsLength > 0
 </script>
 
 <collections-gallery-view class="flex flex-col w-full h-full gap-4">
@@ -39,12 +41,12 @@
         <div class="flex flex-row text-left gap-2 items-center flex-1">
             <Text type="h6">{localize('views.collectibles.collectionsGallery.title')}</Text>
             <Pill color="neutral">
-                <Text textColor="secondary">{String(selectedAccountCollectionsLength ?? '')}</Text>
+                <Text textColor="secondary">{String(collectionsIds.size ?? '')}</Text>
             </Pill>
         </div>
         <CollectiblesTabs />
         <div class="flex justify-end items-center gap-5 h-10 shrink-0 flex-1">
-            {#if hasCollections}
+            {#if collectionsIds.size}
                 <SearchInput bind:value={$collectionsSearchTerm} />
             {/if}
             {#if features.collectibles.erc721.enabled}
@@ -52,9 +54,9 @@
             {/if}
         </div>
     </header>
-    {#if hasCollections}
-        {#if Object.keys(queriedCollections).length > 0}
-            <CollectionsGallery collections={queriedCollections} />
+    {#if collectionsIds.size}
+        {#if queriedCollectionsIds.length > 0}
+            <CollectionsGallery collectionsIds={queriedCollectionsIds} />
         {:else}
             <div class="w-full h-full flex flex-col items-center justify-center">
                 <EmptyListPlaceholder
