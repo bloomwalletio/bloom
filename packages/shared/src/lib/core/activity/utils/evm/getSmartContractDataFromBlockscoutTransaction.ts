@@ -69,7 +69,7 @@ export function getSmartContractDataFromBlockscoutTransaction(
                 type = EvmActivityType.TokenTransfer
 
                 tokenTransfer = {
-                    standard: TokenStandard.Erc20,
+                    standard: parsedData.standard,
                     tokenId: parsedData.tokenId,
                     rawAmount: parsedData.rawAmount,
                 }
@@ -78,7 +78,7 @@ export function getSmartContractDataFromBlockscoutTransaction(
                 type = EvmActivityType.TokenTransfer
 
                 tokenTransfer = {
-                    standard: NftStandard.Irc27,
+                    standard: parsedData.standard,
                     tokenId: parsedData.nftId,
                     rawAmount: BigInt(1),
                 }

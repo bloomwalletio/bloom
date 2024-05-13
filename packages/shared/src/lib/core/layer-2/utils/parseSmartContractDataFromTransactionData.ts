@@ -16,6 +16,8 @@ import { BigIntLike, BytesLike } from '@ethereumjs/util'
 import { lookupMethodSignature } from './lookupMethodSignature'
 import { ParsedSmartContractData } from '../types/parsed-smart-contract-data.type'
 import { ParsedSmartContractType } from '../enums'
+import { TokenStandard } from '@core/token'
+import { NftStandard } from '@core/nfts'
 
 export function parseSmartContractDataFromTransactionData(
     transaction: { to?: string; data: BytesLike; value?: BigIntLike },
@@ -79,6 +81,7 @@ function parseSmartContractDataWithIscMagicAbi(
                         : BigInt(nativeToken.amount)
                 return {
                     type: ParsedSmartContractType.TokenTransfer,
+                    standard: TokenStandard.Irc30,
                     tokenId: nativeToken.ID.data,
                     rawAmount,
                     parsedMethod,
@@ -88,6 +91,7 @@ function parseSmartContractDataWithIscMagicAbi(
             } else if (nftId) {
                 return {
                     type: ParsedSmartContractType.NftTransfer,
+                    standard: NftStandard.Irc27,
                     nftId,
                     parsedMethod,
                     rawMethod,
@@ -112,6 +116,7 @@ function parseSmartContractDataWithIscMagicAbi(
             if (nativeToken) {
                 return {
                     type: ParsedSmartContractType.TokenTransfer,
+                    standard: TokenStandard.Irc30,
                     tokenId: nativeToken.ID.data,
                     rawAmount: BigInt(nativeToken.amount),
                     rawMethod,
@@ -123,6 +128,7 @@ function parseSmartContractDataWithIscMagicAbi(
             if (nftId) {
                 return {
                     type: ParsedSmartContractType.NftTransfer,
+                    standard: NftStandard.Irc27,
                     nftId,
                     rawMethod,
                     parsedMethod,
@@ -131,8 +137,7 @@ function parseSmartContractDataWithIscMagicAbi(
                 }
             } else if (baseTokenAmount) {
                 return {
-                    type: ParsedSmartContractType.TokenTransfer,
-                    tokenId: BASE_TOKEN_ID,
+                    type: ParsedSmartContractType.CoinTransfer,
                     rawAmount: network.denormaliseAmount(baseTokenAmount),
                     rawMethod,
                     parsedMethod,
@@ -171,6 +176,7 @@ function parseSmartContractDataWithErc20Abi(
 
             return {
                 type: ParsedSmartContractType.TokenTransfer,
+                standard: TokenStandard.Erc20,
                 tokenId: recipientAddress,
                 rawAmount: BigInt(inputs._value.value),
                 rawMethod,
@@ -215,6 +221,7 @@ function parseSmartContractDataWithErc721Abi(
 
             return {
                 type: ParsedSmartContractType.NftTransfer,
+                standard: NftStandard.Erc721,
                 nftId: `${recipientAddress}:${inputs.tokenId.value}`,
                 rawMethod,
                 parsedMethod,

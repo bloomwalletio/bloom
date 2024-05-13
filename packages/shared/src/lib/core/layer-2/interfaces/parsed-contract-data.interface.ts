@@ -1,4 +1,6 @@
+import { TokenStandard } from '@core/token'
 import { ParsedSmartContractType } from '../enums'
+import { NftStandard } from '@core/nfts'
 
 export interface IParsedCoinTransfer extends Omit<IParsedSmartContractData, 'type'> {
     type: ParsedSmartContractType.CoinTransfer
@@ -7,12 +9,14 @@ export interface IParsedCoinTransfer extends Omit<IParsedSmartContractData, 'typ
 
 export interface IParsedTokenTransfer extends Omit<IParsedSmartContractData, 'type'> {
     type: ParsedSmartContractType.TokenTransfer
+    standard: TokenStandard.Erc20 | TokenStandard.Irc30
     tokenId: string
     rawAmount: bigint
 }
 
 export interface IParsedNftTransfer extends Omit<IParsedSmartContractData, 'type'> {
     type: ParsedSmartContractType.NftTransfer
+    standard: NftStandard.Erc721 | NftStandard.Irc27
     nftId: string
 }
 
