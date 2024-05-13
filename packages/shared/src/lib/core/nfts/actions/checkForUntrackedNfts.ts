@@ -6,7 +6,6 @@ import features from '@features/features'
 
 import { NftStandard } from '../enums'
 import { persistNftWithContractMetadata } from './persistNftWithContractMetadata'
-import { updateAllAccountNftsForAccount } from './updateAllAccountNfts'
 import { buildNftFromPersistedErc721Nft } from '../utils'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { Nft } from '../interfaces'
@@ -14,6 +13,7 @@ import { addNewTrackedNftToActiveProfile } from './addNewTrackedNftToActiveProfi
 import { TokenTrackingStatus } from '@core/token'
 import { IBlockscoutAsset } from '@auxiliary/blockscout/interfaces'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
+import { addOrUpdateNftForAccount } from '../stores'
 
 export async function checkForUntrackedNfts(account: IAccountState): Promise<void> {
     if (!features?.collectibles?.erc721?.enabled) {
@@ -23,7 +23,7 @@ export async function checkForUntrackedNfts(account: IAccountState): Promise<voi
     const evmNetworks = getEvmNetworks()
     for (const evmNetwork of evmNetworks) {
         const evmAddress = account.evmAddresses[evmNetwork.coinType]
-        if (!evmAddress) {
+        if (!evmAddress || !evmNetwork.explorerUrl) {
             return
         }
         const blockscoutApi = new BlockscoutApi(evmNetwork.id)
@@ -69,7 +69,7 @@ async function persistNftsFromExplorerAsset(
                 addNewTrackedNftToActiveProfile(networkId, persistedNft.id, TokenTrackingStatus.AutomaticallyTracked)
 
                 const nft = buildNftFromPersistedErc721Nft(persistedNft, evmAddress)
-                updateAllAccountNftsForAccount(account.index, nft)
+                addOrUpdateNftForAccount(account.index, nft)
                 return nft
             } catch (err) {
                 // If we don't have the tokenId we cannot persist the NFT. ERC-721 contracts should implement

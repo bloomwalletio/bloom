@@ -1,13 +1,18 @@
 import { Platform } from '@core/app/classes'
 import { get } from 'svelte/store'
-import { downloadingNftId, nftDownloadQueue, removeNftFromDownloadQueue, updatePersistedNft } from '../stores'
+import {
+    downloadingNftId,
+    nftDownloadQueue,
+    removeNftFromDownloadQueue,
+    updateNftForAllAccounts,
+    updatePersistedNft,
+} from '../stores'
 import { buildFilePath, fetchWithTimeout, getFetchableNftUrls, isIrc27Nft } from '../utils'
 import { activeProfile } from '@core/profile/stores'
 import { BYTES_PER_MEGABYTE, HttpHeader, sleep } from '@core/utils'
 import { IDownloadMetadata, Nft } from '../interfaces'
 import { StatusCodes, getReasonPhrase } from 'http-status-codes'
 import { DownloadErrorType, DownloadWarningType, NftStandard } from '../enums'
-import { updateNftInAllAccountNfts } from './updateNftInAllAccountNfts'
 
 const HEAD_FETCH_TIMEOUT_SECONDS = 10
 const DELAY_AFTER_DOWNLOAD_ERROR = 2000
@@ -45,7 +50,7 @@ export async function downloadNextNftInQueue(): Promise<void> {
             throw new Error('Invalid download metadata')
         }
         updatePersistedNft(nft.id, { downloadMetadata })
-        updateNftInAllAccountNfts(nft.id, { downloadMetadata })
+        updateNftForAllAccounts({ id: nft.id, downloadMetadata })
 
         if (
             !downloadMetadata?.downloadUrl ||

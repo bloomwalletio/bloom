@@ -250,12 +250,13 @@
                 "title": "IPFS-Gateways",
                 "description": "IPFS-Gateway für Medien-Abruf auswählen",
                 "setAsPrimary": "Als primär festlegen",
+                "unsetPrimary": "Primär löschen",
                 "addGateway": {
                     "title": "Neues IPFS-Gateway hinzufügen",
                     "placeholder": "IPFS-Gateway",
                     "error": {
-                        "notReachable": "Gateway isn't reachable",
-                        "invalidGateway": "Invalid IPFS gateway"
+                        "notReachable": "Gateway ist nicht erreichbar",
+                        "invalidGateway": "Ungültiges IPFS-Gateway"
                     }
                 },
                 "removeConfirmation": {
@@ -388,7 +389,7 @@
                 "down": "Netzwerk ausgefallen",
                 "disconnected": "Verbindung zur Node unterbrochen",
                 "status": "Status",
-                "undefined": "Undefined Network"
+                "undefined": "Undefiniertes Netzwerk"
             },
             "portfolio": {
                 "tab": "Portfolio",
@@ -662,10 +663,17 @@
                     "loadMedia": "Medien in Wallet laden",
                     "unsetPfp": "Als NFT-Profilbild zurückziehen",
                     "view": "Medien im Browser anzeigen",
+                    "refresh": "NFT aktualisieren",
                     "hide": "NFT ausblenden",
                     "unhide": "NFT einblenden",
                     "burn": "Lösche das NFT"
                 }
+            },
+            "collectionsGallery": {
+                "title": "Sammlungen",
+                "emptyTitle": "Keine Sammlungen gefunden",
+                "noResults": "Keine Ergebnisse gefunden",
+                "emptyDescription": "Empfange oder hinterlege dein erstes Sammlerstück!"
             }
         },
         "campaigns": {
@@ -883,7 +891,7 @@
             "releasedAt": "Veröffentlicht am",
             "updateAvailable": "Ein Update ist verfügbar",
             "updatesDisabled": "Es sind Updates verfügbar, aber In-App-Upgrade ist für Ihr Betriebssystem deaktiviert.",
-            "latestInstalled": "Du verwendest die neueste und sicherste Version von Firefly"
+            "latestInstalled": "Du verwendest die neueste und sicherste Version von Bloom"
         },
         "backupStronghold": {
             "title": "Stronghold-Backup erstellen",
@@ -970,8 +978,7 @@
                     "tickerSymbol": "Ticker",
                     "unit": "Einheit",
                     "subunit": "Untereinheit",
-                    "decimals": "Dezimalstellen",
-                    "useMetricPrefix": "Metrisches Präfix verwenden"
+                    "decimals": "Dezimalstellen"
                 }
             },
             "jwt": "JSON-Web-Token",
@@ -1627,6 +1634,7 @@
         "token": "Token",
         "unknownToken": "Unbekannter Token",
         "nft": "NFT",
+        "nfts": "{count, plural, one {# NFT} other {# NFTs}}",
         "type": "Typ",
         "immutableIssuer": "Unveränderlicher Aussteller",
         "magicContract": "Magic Contract",
@@ -2086,7 +2094,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Laden blockiert",
-                "long": "NFT-Dateityp stimmt nicht mit dem erwarteten Medientyp überein"
+                "long": "NFT-Dateityp stimmt nicht mit dem erwarteten Medientyp überein - Erwartet: {expected}, Tatsächlich: {actual}"
             },
             "notReachable": {
                 "short": "Nicht erreichbar",

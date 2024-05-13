@@ -1,11 +1,7 @@
+import { calculateGasFee } from '@core/network/utils'
 import { EvmTransactionData } from '../types'
-import { calculateGasFeeInGlow } from '../helpers'
 
-export function calculateMaxGasFeeFromTransactionData(transactionData: EvmTransactionData): bigint | undefined {
+export function calculateMaxGasFeeFromTransactionData(transactionData: EvmTransactionData): bigint {
     const { gasLimit, gasPrice } = transactionData
-    if (gasLimit && gasPrice) {
-        return calculateGasFeeInGlow(gasLimit, gasPrice)
-    } else {
-        return undefined
-    }
+    return calculateGasFee(gasLimit, gasPrice)
 }

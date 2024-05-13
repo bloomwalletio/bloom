@@ -1,7 +1,6 @@
 import { get } from 'svelte/store'
-import { updateNftInAllAccountNfts } from '.'
 import { Nft } from '../interfaces'
-import { addNftToDownloadQueue, nftDownloadQueue, updatePersistedNft } from '../stores'
+import { nftDownloadQueue, updateNftsForAllAccounts, updatePersistedNfts } from '../stores'
 import { checkIfNftShouldBeDownloaded } from '../utils/checkIfNftShouldBeDownloaded'
 import { NftDownloadOptions } from '../types'
 
@@ -11,37 +10,50 @@ export async function addNftsToDownloadQueue(nfts: Nft[], options?: Partial<NftD
     }
 
     const fullOptions: NftDownloadOptions = { skipDownloadSettingsCheck: false, skipSizeCheck: false, ...options }
-    const nftsToAdd: Nft[] = []
+    const checkedNfts = await validateNftAndCheckIfShouldBeDownloaded(nfts, fullOptions)
+
+    updatePersistedNfts(checkedNfts.map(({ nft }) => ({ id: nft.id, downloadMetadata: nft.downloadMetadata })))
+    updateNftsForAllAccounts(
+        checkedNfts.map(({ nft }) => ({ id: nft.id, downloadMetadata: nft.downloadMetadata, isLoaded: nft.isLoaded }))
+    )
+
+    addNftsToDownloadQueueIfShouldBeDownloaded(checkedNfts, fullOptions)
+}
+
+async function validateNftAndCheckIfShouldBeDownloaded(
+    nfts: Nft[],
+    options: NftDownloadOptions
+): Promise<{ nft: Nft; shouldDownload: boolean }[]> {
+    const checkedNfts: { nft: Nft; shouldDownload: boolean }[] = []
     for (const nft of nfts) {
         const isNftInDownloadQueue = get(nftDownloadQueue).some((queueItem) => queueItem.nft.id === nft.id)
         if (isNftInDownloadQueue || nft.isLoaded) {
             continue
         }
+        try {
+            const { shouldDownload, downloadMetadata, isLoaded } = await checkIfNftShouldBeDownloaded(
+                nft,
+                options.skipDownloadSettingsCheck
+            )
 
-        const nftToAdd = await validateNft(nft, fullOptions.skipDownloadSettingsCheck)
-        if (nftToAdd) {
-            nftsToAdd.push(nftToAdd)
+            checkedNfts.push({ nft: { ...nft, downloadMetadata, isLoaded }, shouldDownload })
+        } catch (error) {
+            console.error(error)
         }
     }
-
-    for (const nft of nftsToAdd) {
-        addNftToDownloadQueue(nft, fullOptions)
-    }
+    return checkedNfts
 }
 
-async function validateNft(nft: Nft, skipDownloadSettingsCheck: boolean): Promise<Nft | undefined> {
-    try {
-        const { shouldDownload, downloadMetadata, isLoaded } = await checkIfNftShouldBeDownloaded(
-            nft,
-            skipDownloadSettingsCheck
-        )
-        updatePersistedNft(nft.id, { downloadMetadata })
-        updateNftInAllAccountNfts(nft.id, { downloadMetadata, isLoaded })
-
-        if (shouldDownload) {
-            return nft
+function addNftsToDownloadQueueIfShouldBeDownloaded(
+    items: { nft: Nft; shouldDownload: boolean }[],
+    options: NftDownloadOptions
+): void {
+    nftDownloadQueue.update((state) => {
+        for (const item of items) {
+            if (item.shouldDownload) {
+                state.push({ nft: item.nft, options })
+            }
         }
-    } catch (error) {
-        console.error(error)
-    }
+        return state
+    })
 }

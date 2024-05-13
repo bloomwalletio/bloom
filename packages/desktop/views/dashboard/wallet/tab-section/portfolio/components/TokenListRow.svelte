@@ -2,7 +2,7 @@
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
     import { SupportedStardustNetworkId, TokenSupply, getActiveNetworkId } from '@core/network'
-    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmountBestMatch } from '@core/token'
+    import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmount } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { TokenAvatar, NetworkAvatar, NetworkTypePill } from '@ui'
@@ -84,7 +84,7 @@
     </div>
     <div class="flex flex-col items-end text-end">
         <Text>
-            {token.metadata ? formatTokenAmountBestMatch(token.balance.available, token.metadata) : '-'}
+            {token.metadata ? formatTokenAmount(token.balance.available, token.metadata) : '-'}
         </Text>
         <Text textColor="secondary">
             {getFormattedMarketPriceForTokenAvailable(token)}
@@ -92,7 +92,7 @@
     </div>
     <div class="flex flex-col items-end text-end">
         <Text>
-            {token.metadata ? formatTokenAmountBestMatch(token.balance.total, token.metadata) : '-'}
+            {token.metadata ? formatTokenAmount(token.balance.total, token.metadata) : '-'}
         </Text>
         <Text textColor="secondary">
             {getFormattedMarketPriceForTokenTotal(token)}

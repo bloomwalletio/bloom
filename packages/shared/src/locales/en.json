@@ -980,8 +980,7 @@
                     "tickerSymbol": "Ticker",
                     "unit": "Unit",
                     "subunit": "Sub-unit",
-                    "decimals": "Decimals",
-                    "useMetricPrefix": "Use metric prefix"
+                    "decimals": "Decimals"
                 }
             },
             "jwt": "JSON web token",
@@ -992,7 +991,7 @@
             "empty": "The error log is empty."
         },
         "deleteProfile": {
-            "title": "Delete profile",
+            "title": "Delete {name} profile",
             "confirmation": "Are you sure you want to delete this profile? This operation cannot be undone.",
             "typePassword": "Type your password to confirm."
         },
@@ -1011,6 +1010,7 @@
         },
         "transaction": {
             "selectToken": "Select a token",
+            "allNetworks": "All networks",
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",

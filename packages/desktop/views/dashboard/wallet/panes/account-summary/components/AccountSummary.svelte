@@ -24,6 +24,7 @@
         openPopup({
             id: PopupId.SendFlow,
             overflow: true,
+            autofocusContent: false,
         })
     }
 

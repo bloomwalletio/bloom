@@ -10,19 +10,21 @@
     export let shape: 'circle' | 'square' | 'squircle' = 'circle'
 
     const AVATAR_BACKGROUND_COLOR: { [id in NetworkId]?: string } = {
-        [SupportedNetworkId.Iota]: '#000000',
+        [SupportedNetworkId.Iota]: 'iota-background',
         [SupportedNetworkId.Shimmer]: 'shimmer-background',
         [SupportedNetworkId.Testnet]: 'shimmer-background',
-        [SupportedNetworkId.ShimmerEvm]: 'shimmer-background',
-        [SupportedNetworkId.TestnetEvm]: 'text-secondary',
+        [SupportedNetworkId.IotaEvm]: 'iota-evm-background',
+        [SupportedNetworkId.ShimmerEvm]: 'shimmer-evm-background',
+        [SupportedNetworkId.TestnetEvm]: 'shimmer-evm-background',
     }
 
     const AVATAR_TEXT_COLOR: { [id in NetworkId]?: string } = {
-        [SupportedNetworkId.Iota]: '#FFFFFF',
+        [SupportedNetworkId.Iota]: 'iota',
         [SupportedNetworkId.Shimmer]: 'shimmer',
-        [SupportedNetworkId.Testnet]: 'text-secondary',
-        [SupportedNetworkId.ShimmerEvm]: 'text-invert',
-        [SupportedNetworkId.TestnetEvm]: 'shimmer-background',
+        [SupportedNetworkId.Testnet]: 'shimmer',
+        [SupportedNetworkId.IotaEvm]: 'iota-evm',
+        [SupportedNetworkId.ShimmerEvm]: 'shimmer-evm',
+        [SupportedNetworkId.TestnetEvm]: 'shimmer-evm',
     }
 
     let anchor: HTMLElement

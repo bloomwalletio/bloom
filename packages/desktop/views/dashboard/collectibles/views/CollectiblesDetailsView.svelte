@@ -1,9 +1,13 @@
 <script lang="ts">
     import { Pane } from '@ui'
-    import { Collection, Nft } from '@core/nfts/interfaces'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { Nft } from '@core/nfts/interfaces'
     import { NftStandard } from '@core/nfts/enums'
-    import { allAccountNfts, selectedAccountCollections, selectedCollectionId, selectedNftId } from '@core/nfts/stores'
+    import {
+        activeProfileNftsPerAccount,
+        getNftByIdForAccount,
+        selectedCollectionId,
+        selectedNftId,
+    } from '@core/nfts/stores'
     import { selectedAccountIndex } from '@core/account/stores'
     import { CollectionDetails, Erc721CollectibleDetails, Irc27CollectibleDetails } from '../components'
     import { time } from '@core/app/stores'
@@ -11,27 +15,24 @@
     import { isIrc27Nft } from '@core/nfts'
 
     let nft: Nft | undefined
-    let collection: Collection | undefined
-    $: $allAccountNfts, (nft = getNftByIdFromAllAccountNfts($selectedAccountIndex, $selectedNftId))
-    $: collection = $selectedCollectionId ? $selectedAccountCollections[$selectedCollectionId] : undefined
-
-    $: returnIfNftWasSent($allAccountNfts[$selectedAccountIndex], $time)
+    $: $activeProfileNftsPerAccount, (nft = getNftByIdForAccount($selectedAccountIndex, $selectedNftId))
+    $: returnIfNftWasSent($activeProfileNftsPerAccount[$selectedAccountIndex], $time)
 
     function returnIfNftWasSent(ownedNfts: Nft[], currentTime: Date): void {
         if (!nft) return
 
         const ownedNft = ownedNfts.find((_nft) => _nft.id === nft?.id)
-        const isLocked = ownedNft && isIrc27Nft(ownedNft) && ownedNft.timelockTime > currentTime.getTime()
+        const isLocked = ownedNft && isIrc27Nft(ownedNft) && (ownedNft.timelockTime ?? 0) > currentTime.getTime()
         if (ownedNft?.isSpendable || isLocked) {
             // empty
-        } else {
-            $collectiblesRouter.previous()
+        } else if (!$selectedCollectionId) {
+            $collectiblesRouter?.previous()
         }
     }
 </script>
 
-{#if collection}
-    <CollectionDetails {collection} />
+{#if $selectedCollectionId}
+    <CollectionDetails collectionId={$selectedCollectionId} />
 {:else}
     <Pane classes="h-full">
         {#if nft?.standard === NftStandard.Irc27}

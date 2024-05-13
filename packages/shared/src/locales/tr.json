@@ -250,12 +250,13 @@
                 "title": "IPFS ağ geçitleri",
                 "description": "Medya alımı için kullanılacak IPFS ağ geçidini seçin",
                 "setAsPrimary": "Birincil olarak ayarla",
+                "unsetPrimary": "Birincil ayarlanmadı",
                 "addGateway": {
                     "title": "Yeni IPFS ağ geçidi ekle",
                     "placeholder": "IPFS ağ geçidi",
                     "error": {
-                        "notReachable": "Gateway isn't reachable",
-                        "invalidGateway": "Invalid IPFS gateway"
+                        "notReachable": "Ağ geçidine ulaşılamıyor",
+                        "invalidGateway": "Geçersiz IPFS ağ geçidi"
                     }
                 },
                 "removeConfirmation": {
@@ -388,7 +389,7 @@
                 "down": "Ağ düşük",
                 "disconnected": "Düğüm bağlantısı kesildi",
                 "status": "Durum",
-                "undefined": "Undefined Network"
+                "undefined": "Tanımsız Ağ"
             },
             "portfolio": {
                 "tab": "Portföy",
@@ -662,10 +663,17 @@
                     "loadMedia": "Medyayı cüzdana yükle",
                     "unsetPfp": "{timeDiff} için kilitlendi",
                     "view": "{timeDiff} için kilitlendi",
+                    "refresh": "NFT'yi yenile",
                     "hide": "NFT'yi gizle",
                     "unhide": "NFT'yi göster",
                     "burn": "{timeDiff} için kilitlendi"
                 }
+            },
+            "collectionsGallery": {
+                "title": "Koleksiyonlar",
+                "emptyTitle": "Koleksiyonlar bulunamadı",
+                "noResults": "Sonuç bulunamadı",
+                "emptyDescription": "İlk koleksiyonunuzu yatırın veya alın!"
             }
         },
         "campaigns": {
@@ -970,8 +978,7 @@
                     "tickerSymbol": "Şerit",
                     "unit": "Birim",
                     "subunit": "Alt birim",
-                    "decimals": "Ondalıklı sayılar",
-                    "useMetricPrefix": "Metrik öneki kullan"
+                    "decimals": "Ondalıklı sayılar"
                 }
             },
             "jwt": "JSON web belirteci",
@@ -1627,6 +1634,7 @@
         "token": "Token (Jeton)",
         "unknownToken": "Bilinmeyen Token",
         "nft": "NFT (Nitelikli Fikri Tapu)",
+        "nfts": "{count, plural, one {# NFT} other {# NFT}}",
         "type": "Tip",
         "immutableIssuer": "Değişmez İhraççı",
         "magicContract": "Sihirli Sözleşme",
@@ -2086,7 +2094,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Yükleme engellendi",
-                "long": "NFT dosya türü beklenen ortam türüyle eşleşmiyor"
+                "long": "NFT dosya türü beklenen medya türüyle eşleşmiyor - Beklenen: {expected}, Gerçek: {actual}"
             },
             "notReachable": {
                 "short": "Ulaşılamıyor",

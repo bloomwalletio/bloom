@@ -69,5 +69,6 @@ function setSendParametersForClaiming(activity: StardustActivity): void {
             token,
         }
     }
+    params.sourceNetworkId = token.networkId
     setSendFlowParameters(params)
 }
