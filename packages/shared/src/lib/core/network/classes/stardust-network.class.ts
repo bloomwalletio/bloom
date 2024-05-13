@@ -4,13 +4,13 @@ import { NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { IIscChainConfiguration, IProtocol, IStardustNetwork, IStardustNetworkMetadata } from '../interfaces'
 import { EvmNetworkId, StardustNetworkId } from '../types'
 
-import { getAndUpdateNodeInfo } from '@core/network/actions'
 import { getNetworkStatusFromNodeInfo } from '@core/network/helpers'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 import { IBaseToken } from '@core/token/interfaces'
 
 import { addChain, removeChain } from '../stores'
 import { IscChain } from './isc-chain.class'
+import { getNodeInfo } from '@core/profile-manager/api'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -50,7 +50,7 @@ export class StardustNetwork implements IStardustNetwork {
 
     startStatusPoll(): void {
         this.statusPoll = window.setInterval(() => {
-            getAndUpdateNodeInfo().then((nodeResponse) => {
+            getNodeInfo().then((nodeResponse) => {
                 const { health, currentMilestone } = getNetworkStatusFromNodeInfo(nodeResponse?.nodeInfo)
                 this.currentMilestone.set(currentMilestone)
                 this.health.set(health)
