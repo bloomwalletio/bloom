@@ -19,16 +19,13 @@ export async function getNodeInfoWhileLoggedOut(url: string, auth: IAuth): Promi
         )
         nodeInfoResponse = await api.getNodeInfo(manager?.id, url, auth)
 
-        await cleanupTemporaryProfile(manager, storagePath)
-
         if (!nodeInfoResponse) {
-            return Promise.reject(new Error('error.node.invalidNode'))
+            throw new Error('error.node.invalidNode')
         }
 
         return nodeInfoResponse
-    } catch (error) {
+    } finally {
         await cleanupTemporaryProfile(manager, storagePath)
-        return Promise.reject(error)
     }
 }
 
