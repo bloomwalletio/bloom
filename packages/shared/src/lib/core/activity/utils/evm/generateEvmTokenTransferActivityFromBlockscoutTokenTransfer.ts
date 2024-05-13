@@ -128,9 +128,9 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         }
     }
 
-    const { method, inputs } = blockscoutTransaction
+    const smartContractData = blockscoutTransaction
         ? getSmartContractDataFromBlockscoutTransaction(blockscoutTransaction, evmNetwork)
-        : { method: undefined, inputs: undefined }
+        : undefined
 
     return {
         ...baseActivity,
@@ -143,8 +143,8 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         },
 
         methodId: blockscoutTransaction?.decoded_input?.method_id ?? blockscoutTransaction?.method,
-        method,
-        inputs,
+        method: smartContractData?.method,
+        inputs: smartContractData?.inputs,
         rawData: blockscoutTransaction?.raw_input ?? '',
         contract,
     }

@@ -3,7 +3,7 @@ import { IAccountState } from '@core/account'
 import { IEvmNetwork } from '@core/network'
 import { LocalEvmTransaction, buildPersistedEvmTransactionFromBlockscoutTransaction } from '@core/transactions'
 import { generateEvmActivityFromLocalEvmTransaction } from './generateEvmActivityFromLocalEvmTransaction'
-import { BaseEvmActivity, EvmActivity, EvmCoinTransferActivity } from '@core/activity/types'
+import { BaseEvmActivity, EvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } from '@core/activity/types'
 import { BASE_TOKEN_ID } from '@core/token'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { EvmActivityType } from '@core/activity/enums/evm'
@@ -51,7 +51,7 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
     localTransaction: LocalEvmTransaction | undefined,
     evmNetwork: IEvmNetwork,
     account: IAccountState
-): Promise<EvmContractCallActivity> {
+): Promise<EvmActivity> {
     const baseActivity = await generateBaseEvmActivityFromBlockscoutTransaction(
         blockscoutTransaction,
         localTransaction,
@@ -59,20 +59,43 @@ async function generateEvmContractCallActivityFromBlockscoutTransaction(
         account
     )
 
-    const { type, method, inputs } = blockscoutTransaction
-        ? getSmartContractDataFromBlockscoutTransaction(blockscoutTransaction, evmNetwork)
-        : { type: EvmActivityType.ContractCall, method: undefined, inputs: undefined }
+    const methodId = blockscoutTransaction.decoded_input?.method_id ?? blockscoutTransaction.method // `method` is the methodId if the inputs cannot be decoded
+    const rawData = blockscoutTransaction.raw_input
 
-    return {
-        ...baseActivity,
-        type,
-        method,
-        inputs,
-        verified: blockscoutTransaction.to.is_verified,
-        methodId: blockscoutTransaction.decoded_input?.method_id ?? blockscoutTransaction.method, // `method` is the methodId if the inputs cannot be decoded
-        rawData: blockscoutTransaction.raw_input,
-        contractAddress: blockscoutTransaction.to?.hash.toLowerCase(),
-    } as EvmContractCallActivity
+    const smartContractData = blockscoutTransaction
+        ? getSmartContractDataFromBlockscoutTransaction(blockscoutTransaction, evmNetwork)
+        : undefined
+
+    switch (smartContractData?.type) {
+        case EvmActivityType.CoinTransfer:
+            return {
+                ...baseActivity,
+                type: EvmActivityType.CoinTransfer,
+                baseTokenTransfer: smartContractData.baseTokenTransfer,
+                methodId,
+                method: smartContractData.method,
+                inputs: smartContractData.inputs,
+            } as EvmCoinTransferActivity
+        case EvmActivityType.TokenTransfer:
+            return {
+                ...baseActivity,
+                type: EvmActivityType.TokenTransfer,
+                tokenTransfer: smartContractData.tokenTransfer,
+                methodId,
+                method: smartContractData.method,
+                inputs: smartContractData.inputs,
+            } as EvmTokenTransferActivity
+        case EvmActivityType.ContractCall:
+        default:
+            return {
+                ...baseActivity,
+                type: EvmActivityType.ContractCall,
+                rawData,
+                methodId,
+                method: smartContractData?.method,
+                inputs: smartContractData?.inputs,
+            } as EvmContractCallActivity
+    }
 }
 
 async function generateEvmCoinTransferActivityFromBlockscoutTransaction(
