@@ -15,37 +15,43 @@
 
     const AVATAR_BACKGROUND_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
         [SupportedNetworkId.Iota]: {
-            [BASE_TOKEN_ID]: '#000000',
+            [BASE_TOKEN_ID]: 'iota-background',
         },
         [SupportedNetworkId.Shimmer]: {
-            [BASE_TOKEN_ID]: 'shimmer',
+            [BASE_TOKEN_ID]: 'shimmer-background',
         },
         [SupportedNetworkId.Testnet]: {
-            [BASE_TOKEN_ID]: 'shimmer',
+            [BASE_TOKEN_ID]: 'shimmer-background',
+        },
+        [SupportedNetworkId.IotaEvm]: {
+            [BASE_TOKEN_ID]: 'iota-background',
         },
         [SupportedNetworkId.ShimmerEvm]: {
-            [BASE_TOKEN_ID]: 'shimmer',
+            [BASE_TOKEN_ID]: 'shimmer-background',
         },
         [SupportedNetworkId.TestnetEvm]: {
-            [BASE_TOKEN_ID]: 'shimmer',
+            [BASE_TOKEN_ID]: 'shimmer-background',
         },
     }
 
     const AVATAR_TEXT_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
         [SupportedNetworkId.Iota]: {
-            [BASE_TOKEN_ID]: '#FFFFFF',
+            [BASE_TOKEN_ID]: 'iota',
         },
         [SupportedNetworkId.Shimmer]: {
-            [BASE_TOKEN_ID]: 'shimmer-background',
+            [BASE_TOKEN_ID]: 'shimmer',
         },
         [SupportedNetworkId.Testnet]: {
-            [BASE_TOKEN_ID]: 'shimmer-background',
+            [BASE_TOKEN_ID]: 'shimmer',
+        },
+        [SupportedNetworkId.IotaEvm]: {
+            [BASE_TOKEN_ID]: 'iota',
         },
         [SupportedNetworkId.ShimmerEvm]: {
-            [BASE_TOKEN_ID]: 'shimmer-background',
+            [BASE_TOKEN_ID]: 'shimmer',
         },
         [SupportedNetworkId.TestnetEvm]: {
-            [BASE_TOKEN_ID]: 'shimmer-background',
+            [BASE_TOKEN_ID]: 'shimmer',
         },
     }
 

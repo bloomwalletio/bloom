@@ -11,7 +11,6 @@ import {
     utilityProcess,
     UtilityProcess,
 } from 'electron'
-import { WebPreferences } from 'electron/main'
 import fs from 'fs'
 import path from 'path'
 
@@ -19,11 +18,17 @@ import features from '@features/features'
 
 import { LedgerApiMethod } from '@core/ledger/enums'
 
+import { ITransakWindowData } from '@core/app/interfaces'
+import { DEFAULT_WEB_PREFERENCES } from '../constants/default-web-preferences.constant'
 import { windows } from '../constants/windows.constant'
+import { IElectronSettings, IWindowState } from '../interfaces'
 import type { ILedgerProcessMessage } from '../interfaces/ledger-process-message.interface'
+import { registerPowerMonitorListeners } from '../listeners'
 import AutoUpdateManager from '../managers/auto-update.manager'
+import { ElectronSettingsManager } from '../managers/electron-settings.manager'
 import KeychainManager from '../managers/keychain.manager'
 import NftDownloadManager from '../managers/nft-download.manager'
+import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
 import TransakManager from '../managers/transak.manager'
 import { contextMenu } from '../menus/context.menu'
 import { initMenu } from '../menus/menu'
@@ -33,11 +38,7 @@ import { getDiagnostics } from '../utils/diagnostics.utils'
 import { shouldReportError } from '../utils/error.utils'
 import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
-import { registerPowerMonitorListeners } from '../listeners'
-import ThirdPartyAppManager from '../managers/third-party-profiles.manager'
-import { ITransakWindowData } from '@core/app/interfaces'
-import { ElectronSettingsManager } from '../managers/electron-settings.manager'
-import { IElectronSettings, IWindowState } from '../interfaces'
+import { AboutWindow } from '../windows/about.window'
 
 export let appIsReady = false
 
@@ -111,39 +112,15 @@ process.on('unhandledRejection', (error) => {
 
 const paths = {
     html: '',
-    aboutHtml: '',
     errorHtml: '',
     preload: '',
-    aboutPreload: '',
     errorPreload: '',
     ledger: '',
-}
-
-let versionDetails = {
-    upToDate: true,
-    currentVersion: app.getVersion(),
-    newVersion: '',
-    newVersionReleaseDate: new Date(),
-    changelog: '',
-}
-
-/**
- * Default web preferences (see https://www.electronjs.org/docs/tutorial/security)
- */
-const DEFAULT_WEB_PREFERENCES: WebPreferences = {
-    nodeIntegration: false,
-    contextIsolation: true,
-    disableBlinkFeatures: 'Auxclick',
-    webviewTag: false,
-    enableWebSQL: false,
-    devTools: !app.isPackaged || features?.electron?.developerTools?.enabled,
 }
 
 if (app.isPackaged) {
     paths.html = path.join(app.getAppPath(), '/public/index.html')
     paths.preload = path.join(app.getAppPath(), '/public/build/preload.js')
-    paths.aboutHtml = path.join(app.getAppPath(), '/public/about.html')
-    paths.aboutPreload = path.join(app.getAppPath(), '/public/build/about.preload.js')
     paths.errorHtml = path.join(app.getAppPath(), '/public/error.html')
     paths.errorPreload = path.join(app.getAppPath(), '/public/build/error.preload.js')
     paths.ledger = path.join(app.getAppPath(), '/public/build/ledger.process.js')
@@ -151,8 +128,6 @@ if (app.isPackaged) {
     // __dirname is desktop/public/build
     paths.html = path.join(__dirname, '../index.html')
     paths.preload = path.join(__dirname, 'preload.js')
-    paths.aboutHtml = path.join(__dirname, '../about.html')
-    paths.aboutPreload = path.join(__dirname, 'about.preload.js')
     paths.errorHtml = path.join(__dirname, '../error.html')
     paths.errorPreload = path.join(__dirname, 'error.preload.js')
     paths.ledger = path.join(__dirname, 'ledger.process.js')
@@ -179,6 +154,7 @@ function tryOpenExternalUrl(e: Event, url: string): void {
     }
 }
 
+let autoUpdateManager: AutoUpdateManager
 export function createMainWindow(): BrowserWindow {
     const mainWindowState = windowStateKeeper('main')
 
@@ -215,12 +191,11 @@ export function createMainWindow(): BrowserWindow {
 
         void windows.main.loadURL('http://localhost:8080')
     } else {
-        new AutoUpdateManager()
-
         // load the index.html of the app.
         void windows.main.loadFile(paths.html)
     }
 
+    autoUpdateManager = new AutoUpdateManager(windows.main)
     new NftDownloadManager()
     new ThirdPartyAppManager()
 
@@ -245,7 +220,7 @@ export function createMainWindow(): BrowserWindow {
     })
 
     windows.main.on('close', () => {
-        closeAboutWindow()
+        AboutWindow.close()
         closeErrorWindow()
         transakManager?.closeWindow()
     })
@@ -256,7 +231,7 @@ export function createMainWindow(): BrowserWindow {
     })
 
     windows.main.webContents.on('did-finish-load', () => {
-        windows.main?.webContents?.send?.('version-details', versionDetails)
+        windows.main?.webContents?.send?.('version-details', autoUpdateManager.getVersionDetails())
     })
 
     /**
@@ -374,8 +349,6 @@ export function getOrInitWindow(windowName: string, ...args: unknown[]): Browser
         switch (windowName) {
             case 'main':
                 return createMainWindow()
-            case 'about':
-                return openAboutWindow()
             case 'error':
                 return openErrorWindow()
             case 'transak': {
@@ -446,7 +419,6 @@ ipcMain.handle('get-path', (_e, path) => {
     }
     return app.getPath(path)
 })
-ipcMain.handle('get-version-details', () => versionDetails)
 ipcMain.handle('focus-window', () => {
     if (windows.main) {
         if (windows.main.isMinimized()) {
@@ -557,56 +529,6 @@ ipcMain.handle('update-transak-bounds', (event, rect) => {
     transakManager?.updateTransakBounds(rect)
 })
 
-/**
- * Create about window
- * @returns {BrowserWindow} About window
- */
-export function openAboutWindow(): BrowserWindow {
-    if (windows.about !== null) {
-        windows.about.focus()
-        return windows.about
-    }
-
-    windows.about = new BrowserWindow({
-        width: 380,
-        height: 230,
-        useContentSize: true,
-        titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'hidden',
-        /**
-         * NOTE: This only affects Windows.
-         */
-        titleBarOverlay: {
-            color: '#161926',
-            symbolColor: '#ffffff',
-        },
-        show: true,
-        fullscreenable: false,
-        resizable: false,
-        minimizable: false,
-        webPreferences: {
-            ...DEFAULT_WEB_PREFERENCES,
-            preload: paths.aboutPreload,
-        },
-    })
-
-    windows.about.once('closed', () => {
-        windows.about = null
-    })
-
-    void windows.about.loadFile(paths.aboutHtml)
-
-    windows.about.setMenu(null)
-
-    return windows.about
-}
-
-export function closeAboutWindow(): void {
-    if (windows.about) {
-        windows.about.close()
-        windows.about = null
-    }
-}
-
 export function openErrorWindow(): BrowserWindow {
     if (windows.error !== null) {
         return windows.error
@@ -695,10 +617,4 @@ function windowStateKeeper(windowName: string): IWindowState {
         isMaximized: windowState.isMaximized,
         track,
     }
-}
-
-export function updateAppVersionDetails(details: object): void {
-    versionDetails = Object.assign({}, versionDetails, details)
-
-    getOrInitWindow('main').webContents.send('version-details', versionDetails)
 }

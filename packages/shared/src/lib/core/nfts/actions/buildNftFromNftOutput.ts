@@ -44,11 +44,13 @@ export function buildNftFromNftOutput(
 
     const isScam = persistedNft?.isScam ?? (parsedMetadata ? isScamIrc27Nft(parsedMetadata) : false)
     const expirationTime = getExpirationDateFromOutput(nftOutput)?.getTime()
+    const collectionId = issuer?.nftId ?? issuer?.aliasId ?? ''
 
     return {
         standard: NftStandard.Irc27,
         type: parsedMetadata?.type ?? MimeType.TextPlain,
         id,
+        collectionId,
         nftAddress: address,
         name: parsedMetadata?.name ?? DEFAULT_NFT_NAME,
         description: parsedMetadata?.description,

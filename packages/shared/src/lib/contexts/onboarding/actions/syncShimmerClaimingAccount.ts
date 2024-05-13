@@ -3,7 +3,7 @@ import { setTotalUnclaimedShimmerRewards } from '@contexts/onboarding'
 import { IAccount } from '@core/account'
 import { localize } from '@core/i18n'
 import { getAccount, profileManager } from '@core/profile-manager'
-import { formatTokenAmountBestMatch } from '@core/token'
+import { formatTokenAmount } from '@core/token'
 import { get } from 'svelte/store'
 import { MissingShimmerClaimingProfileManagerError } from '../errors'
 import { prepareShimmerClaimingAccount } from '../helpers'
@@ -30,7 +30,7 @@ export async function syncShimmerClaimingAccount(account: IAccount | undefined):
 
     if (syncedShimmerClaimingAccount?.unclaimedRewards > 0) {
         const foundRewardsAmount = syncedShimmerClaimingAccount?.unclaimedRewards
-        const foundRewardsAmountFormatted = formatTokenAmountBestMatch(foundRewardsAmount, getOnboardingBaseToken())
+        const foundRewardsAmountFormatted = formatTokenAmount(foundRewardsAmount, getOnboardingBaseToken())
 
         showNotification({
             variant: 'success',

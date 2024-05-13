@@ -5,11 +5,11 @@ import { addNewTrackedTokenToActiveProfile, hasTokenBeenUntracked } from '@core/
 import { BASE_TOKEN_CONTRACT_ADDRESS } from '../constants'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 
-export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUntracked?: boolean): void {
+export async function checkForUntrackedTokens(account: IAccountState, addPreviouslyUntracked?: boolean): Promise<void> {
     const evmNetworks = getEvmNetworks()
-    evmNetworks?.forEach(async (evmNetwork) => {
+    for (const evmNetwork of evmNetworks) {
         const evmAddress = account.evmAddresses[evmNetwork.coinType]
-        if (!evmAddress) {
+        if (!evmAddress || !evmNetwork.explorerUrl) {
             return
         }
         const networkId = evmNetwork.id
@@ -30,5 +30,5 @@ export function checkForUntrackedTokens(account: IAccountState, addPreviouslyUnt
                 )
             }
         })
-    })
+    }
 }

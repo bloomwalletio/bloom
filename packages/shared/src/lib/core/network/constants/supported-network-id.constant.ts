@@ -15,6 +15,7 @@ export const SupportedL1EvmNetworkId: Record<string, EvmNetworkId> = {
 }
 
 export const SupportedIscNetworkId: Record<string, EvmNetworkId> = {
+    IotaEvm: `${NetworkNamespace.Evm}:${ChainId.IotaEvm}`,
     ShimmerEvm: `${NetworkNamespace.Evm}:${ChainId.ShimmerEvm}`,
     TestnetEvm: `${NetworkNamespace.Evm}:${ChainId.TestnetEvm}`,
 }

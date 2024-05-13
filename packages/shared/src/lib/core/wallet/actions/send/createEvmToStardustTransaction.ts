@@ -1,24 +1,24 @@
 import { IAccountState } from '@core/account/interfaces'
+import { IError } from '@core/error'
 import { localize } from '@core/i18n'
 import { buildUnwrapAssetParameters } from '@core/layer-2/actions'
-import { ISC_MAGIC_CONTRACT_ADDRESS, L2_TO_L1_STORAGE_DEPOSIT_BUFFER } from '@core/layer-2/constants'
+import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { AssetType, ContractType, EvmErrorMessage } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
-import { buildAssetAllowance, buildEvmTransactionData } from '@core/layer-2/utils'
+import { buildAssetAllowance, buildEvmTransactionData, getL2ToL1StorageDepositBuffer } from '@core/layer-2/utils'
+import { StardustNetworkId } from '@core/network/types'
+import { IIscChain } from '@core/network/interfaces'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
-import { IEvmNetwork } from '@core/network/interfaces'
-
+import { IIrc27Nft } from '@core/nfts'
+import { getTokenBalance } from '@core/token/actions'
+import { TokenStandard } from '@core/token/enums'
 import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
 import { getAmountAndTokenFromSendFlowParameters } from '../../utils'
-import { TokenStandard } from '@core/token/enums'
-import { IIrc27Nft } from '@core/nfts'
-import { getTokenBalance } from '@core/token/actions'
-import { IError } from '@core/error'
 
 export async function createEvmToStardustTransaction(
     sendFlowParameters: SendFlowParameters,
-    evmNetwork: IEvmNetwork,
+    iscChain: IIscChain,
     account: IAccountState
 ): Promise<EvmTransactionData | undefined> {
     try {
@@ -30,27 +30,28 @@ export async function createEvmToStardustTransaction(
 
         const { targetAddress, adjustMinimumStorageDeposit, sendMetadata, sendOptions } =
             buildUnwrapAssetParameters(recipientAddress)
-
         let transferredAsset: TransferredAsset | undefined
         let storageDepositRequired = BigInt(0)
-        if (
-            sendFlowParameters.type === SendFlowType.TokenTransfer ||
-            sendFlowParameters.type === SendFlowType.BaseCoinTransfer
-        ) {
+
+        const { type, destinationNetworkId } = sendFlowParameters
+        if (type === SendFlowType.TokenTransfer || type === SendFlowType.BaseCoinTransfer) {
             const { token, amount } = getAmountAndTokenFromSendFlowParameters(sendFlowParameters)
             const isBaseCoin = token?.standard === TokenStandard.BaseToken
             const assetType = isBaseCoin ? AssetType.BaseCoin : AssetType.Token
-            storageDepositRequired = L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.TokenUnwrap] ?? BigInt(0)
+            storageDepositRequired = getL2ToL1StorageDepositBuffer(
+                SendFlowType.TokenUnwrap,
+                destinationNetworkId as StardustNetworkId
+            )
             transferredAsset = token && amount ? { type: assetType, token, amount } : undefined
             if (token?.standard === TokenStandard.BaseToken && amount) {
-                const availableBalance = getTokenBalance(token.id, evmNetwork.id)?.available ?? BigInt(0)
+                const availableBalance = getTokenBalance(token.id, iscChain.id)?.available ?? BigInt(0)
                 maximumGasLimit = availableBalance - amount
             }
         } else {
             const nft = sendFlowParameters.nft as IIrc27Nft
             storageDepositRequired =
                 (nft?.storageDeposit ?? BigInt(0)) +
-                (L2_TO_L1_STORAGE_DEPOSIT_BUFFER[SendFlowType.NftUnwrap] ?? BigInt(0))
+                getL2ToL1StorageDepositBuffer(SendFlowType.NftUnwrap, destinationNetworkId as StardustNetworkId)
             transferredAsset = nft ? { type: AssetType.Nft, nft } : undefined
         }
 
@@ -58,8 +59,8 @@ export async function createEvmToStardustTransaction(
             return
         }
 
-        const assetAllowance = buildAssetAllowance(transferredAsset, storageDepositRequired)
-        const contract = evmNetwork?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
+        const assetAllowance = buildAssetAllowance(iscChain, transferredAsset, storageDepositRequired)
+        const contract = iscChain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
         const data =
             (await contract?.methods
                 .send(targetAddress, assetAllowance, adjustMinimumStorageDeposit, sendMetadata, sendOptions)
@@ -67,7 +68,7 @@ export async function createEvmToStardustTransaction(
 
         const originAddress = account?.evmAddresses?.[ETHEREUM_COIN_TYPE] ?? ''
         const evmTransactionData = await buildEvmTransactionData(
-            evmNetwork,
+            iscChain,
             originAddress,
             ISC_MAGIC_CONTRACT_ADDRESS,
             BigInt(0),

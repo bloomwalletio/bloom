@@ -15,10 +15,9 @@
     import { darkMode, time } from '@core/app/stores'
     import { localize } from '@core/i18n'
     import { NetworkNamespace } from '@core/network'
-    import { NftStandard } from '@core/nfts'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
+    import { NftStandard } from '@core/nfts/enums'
+    import { getNftByIdForAccount, selectedAccountNfts } from '@core/nfts/stores'
     import { Nft } from '@core/nfts/interfaces'
-    import { selectedAccountNfts } from '@core/nfts/stores'
     import { ITokenWithBalance } from '@core/token'
     import { selectedAccountTokens } from '@core/token/stores'
     import { GovernanceAvatar, NftAvatar, TokenAvatar } from '@ui'
@@ -47,10 +46,10 @@
                 activity.tokenTransfer.standard === NftStandard.Erc721 ||
                 activity.tokenTransfer.standard === NftStandard.Irc27
             ) {
-                return getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.tokenTransfer.tokenId)
+                return getNftByIdForAccount($selectedAccountIndex, activity.tokenTransfer.tokenId)
             }
         } else if (activity.namespace === NetworkNamespace.Stardust && activity.type === StardustActivityType.Nft) {
-            return getNftByIdFromAllAccountNfts($selectedAccountIndex, activity.nftId)
+            return getNftByIdForAccount($selectedAccountIndex, activity.nftId)
         }
     }
 </script>

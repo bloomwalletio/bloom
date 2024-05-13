@@ -2,7 +2,7 @@
     import { Popover, Text, Toggle } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { getBaseToken } from '@core/profile/actions'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { fade } from 'svelte/transition'
 
     export let storageDeposit: bigint
@@ -21,9 +21,7 @@
     <button class="flex items-center justify-center {disabled ? 'cursor-default' : 'cursor-pointer'}" {disabled}>
         <div class="flex flex-row items-center">
             <Text textColor={disabled ? 'secondary' : 'brand'} type="base" fontWeight="medium">
-                {giftStorageDeposit
-                    ? localize('general.gifted')
-                    : formatTokenAmountBestMatch(storageDeposit, getBaseToken())}
+                {giftStorageDeposit ? localize('general.gifted') : formatTokenAmount(storageDeposit, getBaseToken())}
             </Text>
         </div>
     </button>

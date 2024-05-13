@@ -250,6 +250,7 @@
                 "title": "IPFS gateways",
                 "description": "Select the IPFS gateway to use for media retrieval",
                 "setAsPrimary": "Set as primary",
+                "unsetPrimary": "Unset primary",
                 "addGateway": {
                     "title": "Add new IPFS gateway",
                     "placeholder": "IPFS gateway",
@@ -662,10 +663,17 @@
                     "loadMedia": "Load media in wallet",
                     "unsetPfp": "Unset NFT profile pic",
                     "view": "Visualizza il media nel browser",
+                    "refresh": "Refresh NFT",
                     "hide": "Hide NFT",
                     "unhide": "Unhide NFT",
                     "burn": "Brucia NFT"
                 }
+            },
+            "collectionsGallery": {
+                "title": "Collections",
+                "emptyTitle": "No collections found",
+                "noResults": "No results found",
+                "emptyDescription": "Deposit or receive your first collectible!"
             }
         },
         "campaigns": {
@@ -970,8 +978,7 @@
                     "tickerSymbol": "Ticker",
                     "unit": "Unità",
                     "subunit": "Sottounità",
-                    "decimals": "Decimali",
-                    "useMetricPrefix": "Usa prefisso metrico"
+                    "decimals": "Decimali"
                 }
             },
             "jwt": "JSON web token",
@@ -1627,6 +1634,7 @@
         "token": "Token",
         "unknownToken": "Unknown Token",
         "nft": "NFT",
+        "nfts": "{count, plural, one {# NFT} other {# NFTs}}",
         "type": "Tipo",
         "immutableIssuer": "Emittente Immutabile",
         "magicContract": "Magic Contract",
@@ -2086,7 +2094,7 @@
             },
             "notMatchingFileTypes": {
                 "short": "Caricamento bloccato",
-                "long": "Il tipo di file NFT non corrisponde al tipo di media previsto"
+                "long": "NFT file type does not match the expected media type - Expected: {expected}, Actual: {actual}"
             },
             "notReachable": {
                 "short": "Not reachable",

@@ -10,6 +10,7 @@ import { ITokenWithBalance, TokenFilter } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getPersistedToken, persistedTokens } from './persisted-tokens.store'
 import { activeAccounts, activeProfile } from '@core/profile/stores'
+import { tryNumberOrZero } from '@core/utils'
 
 export const tokenFilter: Writable<TokenFilter> = writable(DEFAULT_ASSET_FILTER)
 
@@ -52,9 +53,9 @@ export const allAccountFiatBalances: Readable<{ [accountIndex: string]: string }
             let fiatBalance = 0
             for (const networkId of Object.keys(accountTokens)) {
                 const tokens = accountTokens[networkId as NetworkId]
-                fiatBalance += Number(tokens?.baseCoin?.balance?.totalFiat ?? 0)
+                fiatBalance += tryNumberOrZero(tokens?.baseCoin?.balance?.totalFiat)
                 for (const token of tokens?.nativeTokens ?? []) {
-                    const totalFiat = Number(token.balance.totalFiat) ?? 0
+                    const totalFiat = tryNumberOrZero(token.balance.totalFiat)
                     const fiatValue = Number.isFinite(totalFiat) ? totalFiat : 0
                     fiatBalance += fiatValue
                 }

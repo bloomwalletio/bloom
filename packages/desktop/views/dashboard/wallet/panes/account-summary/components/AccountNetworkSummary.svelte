@@ -4,12 +4,12 @@
     import { formatCurrency, localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { Network, NetworkNamespace, setSelectedChain } from '@core/network'
+    import { Network, NetworkNamespace, setSelectedNetworkForNetworkDrawer } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, dashboardRouter } from '@core/router'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { NetworkAvatar, NetworkStatusIndicator, NftAvatar, TokenAvatar } from '@ui'
@@ -28,10 +28,7 @@
     $: health = network.health
     $: tokens = $selectedAccountTokens?.[network.id]
     $: nfts = $ownedNfts.filter((nft) => nft.networkId === network.id && !(nft.hidden || nft.isScam))
-    $: tokenBalance = formatTokenAmountBestMatch(
-        tokens?.baseCoin?.balance.total ?? BigInt(0),
-        tokens?.baseCoin?.metadata
-    )
+    $: tokenBalance = formatTokenAmount(tokens?.baseCoin?.balance.total ?? BigInt(0), tokens?.baseCoin?.metadata)
     $: fiatBalance = tokens
         ? formatCurrency(getFiatValueFromTokenAmount(BigInt(tokens?.baseCoin?.balance.total ?? 0), tokens.baseCoin))
         : ''
@@ -91,7 +88,7 @@
             await generateAndStoreEvmAddressForAccounts($activeProfile.type, network.coinType, account)
             pollEvmBalancesForAccount($activeProfile.id, account)
             if ($activeProfile.type === ProfileType.Ledger) {
-                setSelectedChain(network)
+                setSelectedNetworkForNetworkDrawer(network)
                 toggleDashboardDrawer({
                     id: DashboardDrawerRoute.NetworkConfig,
                     initialSubroute: NetworkConfigRoute.ConfirmLedgerEvmAddress,

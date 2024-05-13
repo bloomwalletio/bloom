@@ -20,6 +20,10 @@ export async function fetchAndPersistTransactionsForAccounts(
 ): Promise<void> {
     const networks = getEvmNetworks()
     for (const network of networks) {
+        if (!network.explorerUrl) {
+            continue
+        }
+
         const networkId = network.id
         for (const account of accounts) {
             try {

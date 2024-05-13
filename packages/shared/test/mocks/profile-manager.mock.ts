@@ -116,7 +116,6 @@ export class ProfileManagerMock implements IProfileManager {
                     unit: 'SMR',
                     subunit: 'glow',
                     decimals: 6,
-                    useMetricPrefix: false,
                 },
                 metrics: {
                     blocksPerSecond: 1.3,

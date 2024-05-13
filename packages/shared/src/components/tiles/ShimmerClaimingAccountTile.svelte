@@ -2,7 +2,7 @@
     import { Icon, IconName, Spinner, Text, Tile } from '@bloomwalletio/ui'
     import { IShimmerClaimingAccount, ShimmerClaimingAccountState } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { IBaseToken, formatTokenAmountBestMatch } from '@core/token'
+    import { IBaseToken, formatTokenAmount } from '@core/token'
 
     export let shimmerClaimingAccount: IShimmerClaimingAccount
     export let baseToken: IBaseToken | undefined
@@ -24,7 +24,7 @@
             </div>
             <div class="flex flex-col justify-end items-end">
                 <Text type="body1" align="right">
-                    {formatTokenAmountBestMatch(total, baseToken)}
+                    {formatTokenAmount(total, baseToken)}
                 </Text>
                 {#if shimmerClaimingAccount?.state === ShimmerClaimingAccountState.Claiming}
                     <div class="flex justify-end items-center gap-1">

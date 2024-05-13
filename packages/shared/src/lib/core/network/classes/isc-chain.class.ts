@@ -1,15 +1,24 @@
-import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
-import { Converter } from '@core/utils'
-import { IAccountState } from '@core/account/interfaces'
-import { ITokenBalance } from '@core/token/interfaces'
-import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
-import { getActiveProfileId } from '@core/profile/stores'
-import { NetworkType } from '@core/network/enums'
+// Potential circular import so importing this first
 import { EvmNetwork } from './evm-network.class'
+
+import { IAccountState } from '@core/account/interfaces'
+import { StardustActivityType } from '@core/activity/enums'
+import { fetchIscAssetsForAccount } from '@core/layer-2/utils'
+import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
+import { NetworkType } from '@core/network/enums'
+import { Nft } from '@core/nfts/interfaces'
+import { getNftsFromNftIds } from '@core/nfts/utils'
+import { getActiveProfileId } from '@core/profile/stores'
+import { ITokenBalance } from '@core/token/interfaces'
+import { getPersistedTransactionsForChain } from '@core/transactions/stores'
+import { Converter } from '@core/utils'
+import { BigIntLike } from '@ethereumjs/util'
+import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 
 export class IscChain extends EvmNetwork implements IIscChain {
     private readonly _chainApi: string
     private _metadata: IIscChainMetadata | undefined
+    private WEI_PER_GLOW = BigInt(1_000_000_000_000)
 
     public readonly explorerUrl: string | undefined
     public readonly apiEndpoint: string
@@ -27,13 +36,39 @@ export class IscChain extends EvmNetwork implements IIscChain {
         this._chainApi = new URL(`v1/chains/${aliasAddress}`, apiEndpoint).href
     }
 
-    getMetadata(): Promise<IIscChainMetadata> {
-        if (this._metadata) {
-            return Promise.resolve(this._metadata)
-        } else {
-            this._metadata = <IIscChainMetadata>{} // await this.fetchChainMetadata()
-            return Promise.resolve(this._metadata)
+    getMetadata(): IIscChainMetadata | undefined {
+        return this._metadata
+    }
+
+    async setMetadata(): Promise<void> {
+        try {
+            this._metadata = await this.fetchChainMetadata()
+        } catch (err) {
+            console.error(err)
         }
+    }
+
+    async getNftsForAccount(account: IAccountState): Promise<Nft[]> {
+        // ERC721 NFTs
+        const erc721Nfts = await super.getNftsForAccount(account)
+
+        // Wrapped L1 IRC NFTs
+        const transactionsOnChain = getPersistedTransactionsForChain(getActiveProfileId(), account.index, this)
+        const nftIdsOnChain: string[] = []
+        for (const transaction of transactionsOnChain) {
+            if (!transaction.local) {
+                continue
+            }
+            const transferInfo = getTransferInfoFromTransactionData(transaction.local, this)
+            if (transferInfo?.type !== StardustActivityType.Nft || transferInfo.nftId.includes(':')) {
+                continue
+            }
+
+            nftIdsOnChain.push(transferInfo.nftId)
+        }
+        const ircNfts = await getNftsFromNftIds(nftIdsOnChain, this.id)
+
+        return [...ircNfts, ...erc721Nfts]
     }
 
     /**
@@ -53,15 +88,15 @@ export class IscChain extends EvmNetwork implements IIscChain {
             return undefined
         }
 
-        const tokenBalance = (await super.getBalance(account)) ?? {}
-        const iscBalance = (await fetchIscAssetsForAccount(getActiveProfileId(), evmAddress, this, account)) ?? {}
+        const evmTokenBalances = (await super.getBalance(account)) ?? {}
+        const iscTokenBalances = (await fetchIscAssetsForAccount(getActiveProfileId(), evmAddress, this, account)) ?? {}
 
-        return { ...tokenBalance, ...iscBalance }
+        return { ...evmTokenBalances, ...iscTokenBalances }
     }
 
-    async getGasEstimate(hex: string): Promise<bigint> {
+    async getGasFeeEstimate(outputBytes: string): Promise<bigint> {
         const URL = `${this._chainApi}/estimategas-onledger`
-        const body = JSON.stringify({ outputBytes: hex })
+        const body = JSON.stringify({ outputBytes })
 
         const requestInit: RequestInit = {
             method: 'POST',
@@ -76,14 +111,22 @@ export class IscChain extends EvmNetwork implements IIscChain {
         const data = await response.json()
 
         if (response.status === 200) {
-            const gasEstimate = Converter.bigIntLikeToBigInt(data.gasFeeCharged)
-            if (gasEstimate === BigInt(0)) {
-                throw new Error(`Gas fee has an invalid value: ${gasEstimate}!`)
+            const gasFee = BigInt(data.gasFeeCharged)
+            if (gasFee === BigInt(0)) {
+                throw new Error(`Gas fee has an invalid value: ${gasFee}!`)
             }
 
-            return gasEstimate
+            return gasFee
         } else {
             throw new Error(data)
         }
+    }
+
+    denormaliseAmount(amount: BigIntLike): bigint {
+        return Converter.bigIntLikeToBigInt(amount) * this.WEI_PER_GLOW
+    }
+
+    normaliseAmount(amount: BigIntLike): bigint {
+        return Converter.bigIntLikeToBigInt(amount) / this.WEI_PER_GLOW
     }
 }

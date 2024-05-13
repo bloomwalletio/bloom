@@ -2,7 +2,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
     import { activeProfile } from '@core/profile/stores'
-    import { formatTokenAmountBestMatch } from '@core/token'
+    import { formatTokenAmount } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { Button, Text } from '@bloomwalletio/ui'
@@ -13,8 +13,8 @@
 
     $: votingPower = $selectedAccount?.votingPower
     $: maxVotingPower = $selectedAccount?.balances?.baseCoin?.available + votingPower
-    $: formattedVotingPower = formatTokenAmountBestMatch(votingPower, token?.metadata)
-    $: formattedMaxVotingPower = formatTokenAmountBestMatch(maxVotingPower, token?.metadata)
+    $: formattedVotingPower = formatTokenAmount(votingPower, token?.metadata)
+    $: formattedMaxVotingPower = formatTokenAmount(maxVotingPower, token?.metadata)
     $: hasTransactionInProgress =
         $selectedAccount?.hasVotingPowerTransactionInProgress ||
         $selectedAccount?.hasVotingTransactionInProgress ||

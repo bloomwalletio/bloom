@@ -2,20 +2,20 @@
     import { Alert, Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { resetShowInternalVerificationPopup, showInternalVerificationPopup } from '@core/ledger'
-    import { getBaseToken } from '@core/profile/actions'
     import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
-    import { formatTokenAmountBestMatch } from '@core/token/utils'
+    import { formatTokenAmount } from '@core/token/utils'
     import { formatHexString } from '@core/utils'
     import { onDestroy } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { IEvmNetwork } from '@core/network/interfaces'
 
     export let isEvmTransaction: boolean = false
     export let useBlindSigning: boolean = false
 
     // Regular transaction
     export let toAddress: string | undefined = undefined
-    export let toAmount: string | undefined = undefined
-    export let chainId: string | undefined = undefined
+    export let toAmount: bigint | undefined = undefined
+    export let network: IEvmNetwork | undefined = undefined
     export let maxGasFee: bigint | undefined = undefined
 
     // Blindly signed transaction
@@ -64,7 +64,10 @@
                         },
                         {
                             key: localize('general.amount'),
-                            value: !useBlindSigning && isEvmTransaction ? toAmount : undefined,
+                            value:
+                                !useBlindSigning && isEvmTransaction
+                                    ? formatTokenAmount(toAmount, network?.baseToken)
+                                    : undefined,
                         },
                         {
                             key: localize('general.address'),
@@ -73,14 +76,14 @@
                         },
                         {
                             key: localize('general.network'),
-                            value: !useBlindSigning && isEvmTransaction ? chainId : undefined,
+                            value: !useBlindSigning && isEvmTransaction ? network?.chainId : undefined,
                             copyable: true,
                         },
                         {
                             key: localize('general.maxFees'),
                             value:
                                 !useBlindSigning && isEvmTransaction
-                                    ? formatTokenAmountBestMatch(maxGasFee, getBaseToken())
+                                    ? formatTokenAmount(maxGasFee, network?.baseToken)
                                     : undefined,
                         },
                         {
@@ -90,7 +93,10 @@
                         },
                         {
                             key: localize('general.amount'),
-                            value: !useBlindSigning && !isEvmTransaction ? toAmount : undefined,
+                            value:
+                                !useBlindSigning && !isEvmTransaction
+                                    ? formatTokenAmount(toAmount, network?.baseToken)
+                                    : undefined,
                         },
                         {
                             key: localize('general.message'),

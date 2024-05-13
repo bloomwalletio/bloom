@@ -20,7 +20,6 @@
     import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
     import { TokenTransferData } from '@core/wallet'
     import { Nft } from '@core/nfts'
-    import { getNftByIdFromAllAccountNfts } from '@core/nfts/actions'
     import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { buildUrl, truncateString } from '@core/utils'
@@ -33,6 +32,7 @@
     import { LegacyTransaction } from '@ethereumjs/tx'
     import { getActiveProfileId } from '@core/profile/stores'
     import { IAccountState } from '@core/account'
+    import { getNftByIdForAccount } from '@core/nfts/stores'
 
     export let preparedTransaction: EvmTransactionData
     export let evmNetwork: IEvmNetwork
@@ -77,7 +77,7 @@
                 break
             }
             case StardustActivityType.Nft: {
-                nft = getNftByIdFromAllAccountNfts($selectedAccount.index, transferInfo.nftId)
+                nft = getNftByIdForAccount($selectedAccount.index, transferInfo.nftId)
                 break
             }
             case StardustActivityType.SmartContract: {
@@ -227,6 +227,7 @@
             <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
         {/if}
         <EvmTransactionDetails
+            sourceNetwork={evmNetwork}
             destinationNetworkId={evmNetwork.id}
             estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction)}
             maxGasFee={calculateMaxGasFeeFromTransactionData(preparedTransaction)}
