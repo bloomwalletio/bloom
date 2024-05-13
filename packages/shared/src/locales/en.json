@@ -991,7 +991,7 @@
             "empty": "The error log is empty."
         },
         "deleteProfile": {
-            "title": "Delete profile",
+            "title": "Delete {name} profile",
             "confirmation": "Are you sure you want to delete this profile? This operation cannot be undone.",
             "typePassword": "Type your password to confirm."
         },
