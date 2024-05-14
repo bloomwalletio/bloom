@@ -44,4 +44,5 @@
     bind:error
     {disabled}
     options={nodeOptions}
+    customValue
 />
