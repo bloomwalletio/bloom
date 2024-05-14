@@ -4,7 +4,7 @@
 
 The following **must** be installed on all platforms:
 
--   [Node.js](https://nodejs.org/en/) 18.15.0+
+-   [Node.js](https://nodejs.org/en/) 20.10.0+
 -   [Yarn](https://classic.yarnpkg.com/en/docs/install)
 -   [Rust](https://www.rust-lang.org/tools/install)
 

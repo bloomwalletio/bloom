@@ -134,7 +134,7 @@
     onMount(() => {
         getNodeInfo(node?.url, node?.auth)
             .then((nodeInfoResponse) => {
-                nodeInfo = nodeInfoResponse.nodeInfo
+                nodeInfo = nodeInfoResponse?.nodeInfo
             })
             .catch((err) => {
                 closePopup()
