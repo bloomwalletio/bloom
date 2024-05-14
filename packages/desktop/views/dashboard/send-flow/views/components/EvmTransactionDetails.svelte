@@ -1,5 +1,5 @@
 <script lang="ts">
-    import SetTransactionFeeButton from './SetTransactionFeeButton.svelte'
+    import SetTransactionFeeMenu from './SetTransactionFeeMenu.svelte'
     import { Table, TableRow } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { IEvmNetwork, NetworkId, calculateGasFee } from '@core/network'
@@ -10,12 +10,12 @@
     export let selectedGasSpeed: GasSpeed = GasSpeed.Required
     export let sourceNetwork: IEvmNetwork
     export let destinationNetworkId: NetworkId | undefined = undefined
-    export let maxGasFee: bigint | undefined = undefined
     export let transaction: EvmTransactionData
     export let gasPrices: IGasPricesBySpeed
     export let storageDeposit: bigint
 
-    $: maxGasFee = calculateGasFee(transaction.gasLimit, gasPrices[selectedGasSpeed]) + storageDeposit
+    const { gasLimit, estimatedGas } = transaction
+    $: maxGasFee = calculateGasFee(gasLimit, gasPrices[selectedGasSpeed]) + storageDeposit
 </script>
 
 <Table
@@ -37,7 +37,7 @@
         }}
     >
         <div slot="boundValue">
-            <SetTransactionFeeButton bind:selectedGasSpeed {sourceNetwork} {gasPrices} {transaction} {storageDeposit} />
+            <SetTransactionFeeMenu bind:selectedGasSpeed {sourceNetwork} {gasPrices} {estimatedGas} {storageDeposit} />
         </div>
     </TableRow>
     <TableRow
