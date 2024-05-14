@@ -10,10 +10,11 @@
 
     let nodeOptions: IOption[]
     let selected: IOption = { value: nodeUrl }
+    let value: string
 
     $: clientOptionsNodes = $activeProfile?.clientOptions?.nodes ?? []
     $: clientOptionsNodes, (nodeOptions = getNodeOptionsFromClientOptions())
-    $: nodeUrl = stripTrailingSlash(selected?.value?.trim())
+    $: nodeUrl = stripTrailingSlash(selected?.value?.trim() ?? value)
 
     export async function validate(): Promise<void> {
         try {
@@ -41,6 +42,7 @@
 <SelectInput
     label={localize('views.governance.details.proposalInformation.nodeUrl')}
     bind:selected
+    bind:value
     bind:error
     {disabled}
     options={nodeOptions}
