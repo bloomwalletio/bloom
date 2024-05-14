@@ -4,6 +4,7 @@
     import { localize } from '@core/i18n'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import SettingsSection from '../SettingsSection.svelte'
+    import { getActiveProfileId } from '@core/profile/stores'
 
     function onDeleteClick(): void {
         openPopup({
@@ -13,7 +14,7 @@
                 title: localize('popups.deleteProfile.title'),
                 alert: { variant: 'warning', text: localize('popups.deleteProfile.confirmation') },
                 confirmText: localize('actions.delete'),
-                onConfirm: deleteProfile,
+                onConfirm: () => deleteProfile(getActiveProfileId() as string),
             },
         })
     }

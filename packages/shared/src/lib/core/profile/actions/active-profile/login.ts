@@ -34,7 +34,7 @@ import {
 } from '../../stores'
 import { isLedgerProfile, waitForPreviousManagerToBeDestroyed } from '../../utils'
 // import { checkAndRemoveProfilePicture } from './checkAndRemoveProfilePicture'
-import { checkAndUpdateActiveProfileNetwork } from './checkAndUpdateActiveProfileNetwork'
+import { checkAndInitializeActiveProfileNetwork } from './checkAndInitializeActiveProfileNetwork'
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
@@ -67,7 +67,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         // Step 2: get node info to check we have a synced node
         incrementLoginProgress()
-        await checkAndUpdateActiveProfileNetwork()
+        await checkAndInitializeActiveProfileNetwork()
 
         // Step 3: load accounts
         incrementLoginProgress()

@@ -29,12 +29,12 @@
     bind:this={modal}
     on:close={closeFilters}
     position={{ absolute: true, right: '0', top: '30px' }}
-    classes="overflow-visible"
+    classes="flex !overflow-hidden"
     autoMaxHeight
 >
-    <filter-modal>
+    <filter-modal class="flex flex-col w-64 rounded-[inherit]">
         <filter-modal-header
-            class="flex flex-row items-center justify-between bg-surface-1 dark:bg-transparent px-4 py-2 rounded-t-xl"
+            class="flex-none flex flex-row items-center justify-between bg-surface-1 dark:bg-transparent px-4 py-2 rounded-t-xl"
         >
             <Button text={localize('actions.clear')} on:click={onClearClick} size="xs" variant="outlined" />
             <Text align="center">
@@ -42,15 +42,8 @@
             </Text>
             <Button text={localize('actions.apply')} on:click={onConfirmClick} size="xs" disabled={!isChanged} />
         </filter-modal-header>
-        <filter-modal-slot class="block">
+        <filter-modal-slot class="flex-1 h-0 overflow-y-scroll">
             <slot />
         </filter-modal-slot>
     </filter-modal>
 </Modal>
-
-<style lang="scss">
-    filter-modal {
-        @apply block w-64;
-        border-radius: inherit;
-    }
-</style>

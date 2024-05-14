@@ -120,7 +120,7 @@ function getAccountAssetForChain(
             )
         } else {
             const persistedAsset = getPersistedToken(networkId, tokenId)
-            if (persistedAsset && persistedAsset?.metadata && isValidToken(persistedAsset.metadata)) {
+            if (balance && persistedAsset && persistedAsset?.metadata && isValidToken(persistedAsset.metadata)) {
                 const assetMarketPrices = marketCoinPrices?.[get(shimmerEvmAddressToCoinGeckoIdMap)?.[tokenId]]
                 const nativeToken = createTokenWithBalanceFromPersistedAsset(
                     persistedAsset,

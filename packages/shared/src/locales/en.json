@@ -1002,7 +1002,7 @@
             "empty": "The error log is empty."
         },
         "deleteProfile": {
-            "title": "Delete profile",
+            "title": "Delete {name} profile",
             "confirmation": "Are you sure you want to delete this profile? This operation cannot be undone.",
             "typePassword": "Type your password to confirm."
         },
@@ -2037,6 +2037,7 @@
             "timeNotSynced": "Device time is incorrect, unable to sync node.",
             "unabledToConnect": "Unable to connect to the node",
             "differentNetwork": "The node is located on a different network",
+            "invalidNode": "The URL is not a valid node",
             "duplicateNodes": "Unable to add duplicate node",
             "noCoinType": "No coin type specified"
         },
