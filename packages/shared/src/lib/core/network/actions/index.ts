@@ -1,7 +1,6 @@
 export * from './addNodeToClientOptions'
 export * from './editNodeInClientOptions'
 export * from './getActiveNetworkId'
-export * from './getAndUpdateNodeInfo'
 export * from './getNameFromNetworkId'
 export * from './getNodeInfoWhileLoggedOut'
 export * from './removeNodeFromClientOptions'
