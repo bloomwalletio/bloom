@@ -2,14 +2,14 @@
     import { IEvmNetwork, calculateGasFee } from '@core/network'
     import { IconName, Menu, Text, type IMenuItem } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { EvmTransactionData, GasSpeed } from '@core/layer-2'
+    import { GasSpeed } from '@core/layer-2'
     import { IGasPricesBySpeed } from '@core/layer-2/interfaces'
     import { formatTokenAmount } from '@core/token'
 
     export let selectedGasSpeed: GasSpeed = GasSpeed.Required
     export let sourceNetwork: IEvmNetwork
     export let gasPrices: IGasPricesBySpeed
-    export let transaction: EvmTransactionData
+    export let estimatedGas: number | undefined
     export let storageDeposit: bigint
 
     let menu: Menu | undefined
@@ -26,7 +26,7 @@
                 icon: IconName.ClockPlus,
                 title: localize('general.required'),
                 subtitle: formatTokenAmount(
-                    calculateGasFee(transaction.estimatedGas, gasPrices.average) + storageDeposit,
+                    calculateGasFee(estimatedGas, gasPrices.average) + storageDeposit,
                     sourceNetwork.baseToken
                 ),
                 selected: selectedGasSpeed === GasSpeed.Required,
@@ -39,7 +39,7 @@
                 icon: IconName.ClockPlus,
                 title: localize('general.slow'),
                 subtitle: formatTokenAmount(
-                    calculateGasFee(transaction.estimatedGas, gasPrices.slow) + storageDeposit,
+                    calculateGasFee(estimatedGas, gasPrices.slow) + storageDeposit,
                     sourceNetwork.baseToken
                 ),
                 selected: selectedGasSpeed === GasSpeed.Slow,
@@ -52,7 +52,7 @@
                 icon: IconName.CalendarDate,
                 title: localize('general.average'),
                 subtitle: formatTokenAmount(
-                    calculateGasFee(transaction.estimatedGas, gasPrices.average) + storageDeposit,
+                    calculateGasFee(estimatedGas, gasPrices.average) + storageDeposit,
                     sourceNetwork.baseToken
                 ),
                 selected: selectedGasSpeed === GasSpeed.Average,
@@ -65,7 +65,7 @@
                 icon: IconName.CalendarPlus,
                 title: localize('general.fast'),
                 subtitle: formatTokenAmount(
-                    calculateGasFee(transaction.estimatedGas, gasPrices.fast) + storageDeposit,
+                    calculateGasFee(estimatedGas, gasPrices.fast) + storageDeposit,
                     sourceNetwork.baseToken
                 ),
                 selected: selectedGasSpeed === GasSpeed.Fast,
@@ -77,7 +77,7 @@
 
     $: disabled = items.length < 2
 
-    $: estimatedGasFee = calculateGasFee(transaction.estimatedGas, gasPrices[selectedGasSpeed])
+    $: estimatedGasFee = calculateGasFee(estimatedGas, gasPrices[selectedGasSpeed])
 </script>
 
 <Menu bind:this={menu} {disabled} compact={false} placement="top-end" {items}>
