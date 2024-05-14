@@ -34,6 +34,7 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: N
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.IotaTestnet],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.IotaTestnet],
         baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.IotaTestnet],
+        explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.IotaTestnet],
     },
     [SupportedNetworkId.Testnet]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Testnet,

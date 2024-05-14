@@ -10,6 +10,6 @@ export function getExplorerApiNetworkName(networkId: NetworkId): string {
         case SupportedStardustNetworkId.Testnet:
             return 'testnet'
         default:
-            return ''
+            return 'iota-testnet'
     }
 }

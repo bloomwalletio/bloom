@@ -25,14 +25,14 @@ export function cleanUrl(
 }
 
 type UrlParams = {
-    origin: string
+    base: string
     pathname?: string
     query?: QueryParameters
 }
 
 export function buildUrl(urlParams: UrlParams): URL | undefined {
     try {
-        const url = new URL(urlParams.pathname ?? '', urlParams.origin)
+        const url = new URL(urlParams.pathname ?? '', urlParams.base)
         for (const key of Object.keys(urlParams.query ?? {})) {
             const value = urlParams.query?.[key]
             if (!value) continue
