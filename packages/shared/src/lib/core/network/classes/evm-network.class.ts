@@ -116,10 +116,11 @@ export class EvmNetwork implements IEvmNetwork {
             const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
             const blockscoutApi = new BlockscoutApi(this.id)
             const stats = await blockscoutApi.getStats()
+            const { fast, average, slow } = stats?.gas_prices ?? {}
             return {
-                ...(stats?.gas_prices.fast && { fast: convertGweiToWei(stats.gas_prices.fast) }),
-                ...(stats?.gas_prices.average && { average: convertGweiToWei(stats.gas_prices.average) }),
-                ...(stats?.gas_prices.slow && { slow: convertGweiToWei(stats.gas_prices.slow) }),
+                ...(fast && { fast: fast > required ? convertGweiToWei(fast) : required }),
+                ...(average && { fast: average > required ? convertGweiToWei(average) : required }),
+                ...(slow && { fast: slow > required ? convertGweiToWei(slow) : required }),
                 required,
             }
         } catch {
