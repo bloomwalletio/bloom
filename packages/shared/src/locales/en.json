@@ -1713,7 +1713,10 @@
         "appName": "App name",
         "question": "Question",
         "id": "ID",
-        "location": "Location"
+        "location": "Location",
+        "slow": "slow",
+        "average": "average",
+        "fast": "fast"
     },
     "filters":{
         "title": "Filters",

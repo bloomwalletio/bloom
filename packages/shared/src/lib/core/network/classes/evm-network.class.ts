@@ -20,6 +20,7 @@ import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 import { convertGweiToWei } from '@core/layer-2/utils'
+import { IGasPrices } from '@core/layer-2'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -110,10 +111,10 @@ export class EvmNetwork implements IEvmNetwork {
         }
     }
 
-    async getGasPrices(): Promise<{ fast: bigint; average: bigint; slow: bigint; required?: bigint } | undefined> {
+    async getGasPrices(): Promise<IGasPrices | undefined> {
         try {
-            const blockscoutApi = new BlockscoutApi(this.id)
             const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
+            const blockscoutApi = new BlockscoutApi(this.id)
             const stats = await blockscoutApi.getStats()
             if (stats?.gas_prices) {
                 return {

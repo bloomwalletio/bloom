@@ -1,6 +1,7 @@
 <script lang="ts">
     import {
         EvmTransactionData,
+        IGasPrices,
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
         getL2ToL1StorageDepositBuffer,
@@ -12,10 +13,23 @@
     import { IEvmNetwork } from '@core/network'
     import { handleError } from '@core/error/handlers'
     import { StardustNetworkId } from '@core/network'
+    import { onDestroy, onMount } from 'svelte'
+    import { MILLISECONDS_PER_SECOND } from '@core/utils'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
     export let network: IEvmNetwork
+    let selectedGasSpeed: 'required' | 'slow' | 'average' | 'fast' = 'required'
+
+    let gasPrices: IGasPrices | undefined = undefined
+    async function setGasPrices(): Promise<void> {
+        const _gasPrices = await network.getGasPrices()
+        if (_gasPrices) {
+            gasPrices = _gasPrices
+        }
+    }
+
+    $: console.log('gasPrices', gasPrices)
 
     $: transactionAsset = getTransactionAsset(sendFlowParameters)
     function getTransactionAsset(_sendFlowParameters: SendFlowParameters): {
@@ -61,15 +75,30 @@
             handleError(err)
         }
     }
+
+    let intervalId
+    onMount(async () => {
+        await setGasPrices()
+        intervalId = setInterval(setGasPrices, MILLISECONDS_PER_SECOND * 10)
+    })
+
+    onDestroy(() => {
+        clearInterval(intervalId)
+    })
+
 </script>
 
 <div class="w-full space-y-5">
     <TransactionAssetSection baseCoinTransfer={sendFlowParameters.baseCoinTransfer} {...transactionAsset} />
 
     <EvmTransactionDetails
+        bind:selectedGasSpeed
         sourceNetwork={network}
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
         estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction) + storageDeposit}
         maxGasFee={calculateMaxGasFeeFromTransactionData(transaction) + storageDeposit}
+        {transaction}
+        {storageDeposit}
+        {gasPrices}
     />
 </div>
