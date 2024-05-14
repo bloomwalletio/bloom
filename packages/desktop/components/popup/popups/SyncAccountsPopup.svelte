@@ -1,6 +1,6 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
-    import { Alert, Table } from '@bloomwalletio/ui'
+    import { Alert, Table, Text, Toggle } from '@bloomwalletio/ui'
     import { sumBalanceForAccounts } from '@core/account'
     import { DEFAULT_SYNC_OPTIONS } from '@core/account/constants'
     import { generateAndStoreActivitiesForAllAccounts } from '@core/activity/actions'
@@ -18,6 +18,7 @@
     import { SupportedStardustNetworkId } from '@core/network/constants'
     import { ledgerRaceConditionProtectionWrapper } from '@core/ledger'
     import { StardustNetworkId } from '@core/network/types'
+    import { selectedAccountIndex } from '@core/account/stores'
 
     const { network, type } = $activeProfile
 
@@ -61,30 +62,41 @@
     let searchCount = 0
     let depthSearchCount = 0
     let breadthSearchCountSinceLastDepthSearch = 0
-    let depthSearch = false
+    let isDepthSearch = false
+    let isSingleAccountSearch = false
     // Please don't modify this algorithm without consulting with the team
     async function multiAddressSearch(): Promise<void> {
         let recoverAccountsPayload: RecoverAccountsPayload
 
         if (
-            !depthSearch &&
-            breadthSearchCountSinceLastDepthSearch &&
-            breadthSearchCountSinceLastDepthSearch % accountGapLimit === 0
+            isSingleAccountSearch ||
+            (!isDepthSearch &&
+                breadthSearchCountSinceLastDepthSearch &&
+                breadthSearchCountSinceLastDepthSearch % accountGapLimit === 0)
         ) {
             // Depth search
-            depthSearch = true
+            isDepthSearch = true
             recoverAccountsPayload = {
-                accountStartIndex: accountGapLimit,
-                accountGapLimit: 1,
-                addressGapLimit: (searchCount - depthSearchCount) * addressGapLimit,
-                syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
+                accountStartIndex: isSingleAccountSearch ? $selectedAccountIndex : accountGapLimit,
+                accountGapLimit: 0,
+                addressGapLimit: isSingleAccountSearch
+                    ? addressGapLimit
+                    : (searchCount - depthSearchCount) * addressGapLimit,
+                syncOptions: {
+                    ...DEFAULT_SYNC_OPTIONS,
+                    addressStartIndex: isSingleAccountSearch ? addressStartIndex : 0,
+                },
             }
             breadthSearchCountSinceLastDepthSearch = 0
             depthSearchCount++
-            accountGapLimit++
+            if (isSingleAccountSearch) {
+                addressStartIndex += addressGapLimit
+            } else {
+                accountGapLimit++
+            }
         } else {
             // Breadth search
-            depthSearch = false
+            isDepthSearch = false
             recoverAccountsPayload = {
                 accountStartIndex,
                 accountGapLimit,
@@ -155,6 +167,15 @@
     }}
 >
     <div class="space-y-5">
+        {#if network?.id === SupportedStardustNetworkId.Iota}
+            <div class="flex gap-2">
+                <Toggle
+                    label={localize('popups.walletFinder.singleAccountSearch')}
+                    bind:checked={isSingleAccountSearch}
+                />
+                <Text>{localize('popups.walletFinder.singleAccountSearch')}</Text>
+            </div>
+        {/if}
         <Table
             items={[
                 {
