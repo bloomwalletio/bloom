@@ -226,6 +226,7 @@
         bind:this={popupContent}
         class:relative
         class="popup {size}"
+        class:-mt-7={IS_WINDOWS}
     >
         <svelte:component this={POPUP_MAP[id]} {...props} />
         {#if !hideClose}

@@ -4,7 +4,7 @@
     import { INode } from '@iota/sdk/out/types'
     import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INodeInfoResponse } from '@core/network/interfaces'
-    import { nodeInfo } from '@core/network/stores'
+    import { getL1Network } from '@core/network/stores'
     import {
         checkIfOnSameNetwork,
         checkNodeUrlValidity,
@@ -69,11 +69,7 @@
             return Promise.reject({ type: 'validationError', error: formError })
         }
 
-        const errorUrlValidity = checkNodeUrlValidity(
-            currentClientOptions?.nodes,
-            node.url,
-            $activeProfile.features.developer
-        )
+        const errorUrlValidity = checkNodeUrlValidity(currentClientOptions?.nodes, node.url, false)
         if (errorUrlValidity) {
             formError = localize(errorUrlValidity) ?? ''
             return Promise.reject({ type: 'validationError', error: formError })
@@ -84,6 +80,10 @@
         if (options.checkNodeInfo) {
             try {
                 nodeInfoResponse = await getNodeInfo(node.url)
+                if (!nodeInfoResponse?.nodeInfo) {
+                    formError = localize('error.node.invalidNode')
+                    return Promise.reject({ type: 'validationError', error: formError })
+                }
             } catch (err) {
                 formError = localize('error.node.unabledToConnect')
                 return Promise.reject({ type: 'validationError', error: formError })
@@ -92,7 +92,8 @@
         const networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
 
         if (options.checkSameNetwork) {
-            const isInSameNetwork = !!$nodeInfo && $nodeInfo.protocol.networkName === networkName
+            const stardustNetwork = getL1Network()
+            const isInSameNetwork = stardustNetwork?.protocol.networkName === networkName
             if (!isInSameNetwork) {
                 formError = localize('error.node.differentNetwork')
                 return Promise.reject({ type: 'validationError', error: formError })

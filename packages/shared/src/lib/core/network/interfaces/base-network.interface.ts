@@ -17,4 +17,5 @@ export interface IBaseNetworkMetadata {
     name: string
     baseToken: IBaseToken
     coinType: number
+    explorerUrl: string | undefined
 }

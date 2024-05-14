@@ -3,15 +3,13 @@
     import { localize } from '@core/i18n'
     import { EvmContractCallActivity, EvmTokenMintingActivity, EvmTokenTransferActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
-    import { ExplorerEndpoint, getDefaultExplorerUrl } from '@core/network'
-    import { buildUrl } from '@core/utils'
+    import { ExplorerEndpoint, getExplorerUrl } from '@core/network'
 
     export let activity: EvmContractCallActivity | EvmTokenTransferActivity | EvmTokenMintingActivity
 
-    $: explorer = getDefaultExplorerUrl(activity.destinationNetworkId, ExplorerEndpoint.Address)
     function onExplorerClick(address: string): void {
-        const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
-        openUrlInBrowser(url?.href)
+        const url = getExplorerUrl(activity.destinationNetworkId, ExplorerEndpoint.Address, address)
+        openUrlInBrowser(url)
     }
 </script>
 

@@ -5,12 +5,13 @@
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
     import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
-    import { ExplorerEndpoint, IEvmNetwork, getDefaultExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint, IEvmNetwork, getExplorerUrl } from '@core/network'
     import { DappInfo, TransactionAssetSection } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { EvmTransactionData } from '@core/layer-2/types'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import {
+        IParsedInput,
         ParsedSmartContractType,
         calculateEstimatedGasFeeFromTransactionData,
         calculateMaxGasFeeFromTransactionData,
@@ -22,7 +23,7 @@
     import { Nft } from '@core/nfts'
     import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
-    import { Converter, buildUrl, truncateString } from '@core/utils'
+    import { Converter, truncateString } from '@core/utils'
     import { openUrlInBrowser } from '@core/app'
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { checkActiveProfileAuth } from '@core/profile/actions'
@@ -52,7 +53,7 @@
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false
     let methodName: string | undefined = undefined
-    let parameters: Record<string, string> | undefined = undefined
+    let inputs: IParsedInput[] | undefined = undefined
     let busy = false
 
     setTransactionInformation()
@@ -75,7 +76,7 @@
         )
 
         methodName = parsedData?.parsedMethod?.name
-        parameters = parsedData?.parsedMethod?.inputs
+        inputs = parsedData?.parsedMethod?.inputs
 
         switch (parsedData?.type) {
             case ParsedSmartContractType.CoinTransfer: {
@@ -185,9 +186,8 @@
     }
 
     function onExplorerClick(contractAddress: string): void {
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(evmNetwork.id, ExplorerEndpoint.Address)
-        const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${contractAddress}` })
-        openUrlInBrowser(url?.href)
+        const url = getExplorerUrl(evmNetwork.id, ExplorerEndpoint.Address, contractAddress)
+        openUrlInBrowser(url)
     }
 </script>
 
@@ -236,7 +236,7 @@
                                 onClick: () => onExplorerClick(String(preparedTransaction.to)),
                             },
                             { key: localize('general.methodName'), value: methodName },
-                            { key: localize('general.parameters'), value: parameters },
+                            { key: localize('general.parameters'), value: inputs },
                             { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                         ]}
                     />
