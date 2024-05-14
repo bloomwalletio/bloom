@@ -10,7 +10,7 @@
     import { IEvmNetwork, getNetwork, isEvmNetwork } from '@core/network'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { getActiveProfileId, getIsActiveLedgerProfile } from '@core/profile/stores'
-    import { truncateString } from '@core/utils'
+    import { Converter, MILLISECONDS_PER_SECOND, truncateString } from '@core/utils'
     import { SendFlowParameters, SubjectType } from '@core/wallet'
     import {
         createEvmTransactionFromSendFlowParameters,
@@ -22,13 +22,19 @@
     import { sendFlowParameters } from '@core/wallet/stores'
     import { validateSendConfirmation } from '@core/wallet/utils'
     import { closePopup, modifyPopupState } from '@desktop/auxiliary/popup'
-    import { onMount } from 'svelte'
+    import { onDestroy, onMount } from 'svelte'
     import { sendFlowRouter } from '../send-flow.router'
     import { EvmTransactionSummary, StardustToEvmTransactionSummary, StardustTransactionSummary } from './components'
     import { TransactionSummaryProps } from './types'
+    import { GasSpeed, IGasPricesBySpeed } from '@core/layer-2'
 
-    export let transactionSummaryProps: TransactionSummaryProps
+    export let transactionSummaryProps: TransactionSummaryProps | undefined
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
+
+    let selectedGasSpeed: GasSpeed = GasSpeed.Required
+    let gasPrices: IGasPricesBySpeed = {
+        [GasSpeed.Required]: Converter.bigIntLikeToBigInt(preparedTransaction?.gasPrice as number),
+    }
 
     $: void prepareTransactions($sendFlowParameters)
     $: isSourceNetworkLayer2 = !!evmNetwork
@@ -90,6 +96,13 @@
         }
     }
 
+    async function setGasPrices(): Promise<void> {
+        const _gasPrices = await evmNetwork?.getGasPrices()
+        if (_gasPrices) {
+            gasPrices = { ...gasPrices, ..._gasPrices }
+        }
+    }
+
     async function onConfirmClick(): Promise<void> {
         if (!isValidTransaction()) {
             return
@@ -104,7 +117,10 @@
         try {
             busy = true
             modifyPopupState({ preventClose: true })
-            if (isSourceNetworkLayer2) {
+            if (preparedTransaction) {
+                preparedTransaction.gasPrice = Converter.bigIntToHex(
+                    gasPrices?.[selectedGasSpeed] ?? gasPrices.required
+                )
                 const signedTransaction = await signEvmTransaction(preparedTransaction, evmNetwork, $selectedAccount)
                 const profileId = getActiveProfileId()
                 const account = getSelectedAccount()
@@ -116,7 +132,7 @@
                     profileId,
                     account
                 )
-            } else {
+            } else if (preparedOutput) {
                 await signAndSendStardustTransaction(preparedOutput, $selectedAccount)
             }
             modifyPopupState({ preventClose: false }, true)
@@ -144,8 +160,13 @@
         }
     }
 
+    let intervalId: NodeJS.Timeout
     onMount(async () => {
         try {
+            if (isSourceNetworkLayer2 || isDestinationNetworkLayer2) {
+                await setGasPrices()
+                intervalId = setInterval(() => void setGasPrices, MILLISECONDS_PER_SECOND * 10)
+            }
             if (_onMount) {
                 await _onMount()
             } else {
@@ -156,6 +177,10 @@
         } finally {
             hasMounted = true
         }
+    })
+
+    onDestroy(() => {
+        clearInterval(intervalId)
     })
 </script>
 
@@ -175,6 +200,8 @@
 >
     {#if isSourceNetworkLayer2 && preparedTransaction && $sendFlowParameters && evmNetwork}
         <EvmTransactionSummary
+            bind:selectedGasSpeed
+            {gasPrices}
             transaction={preparedTransaction}
             sendFlowParameters={$sendFlowParameters}
             network={evmNetwork}

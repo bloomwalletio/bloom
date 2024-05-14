@@ -1,34 +1,17 @@
 <script lang="ts">
     import { handleError } from '@core/error/handlers'
-    import {
-        EvmTransactionData,
-        GasSpeed,
-        IGasPricesBySpeed,
-        calculateMaxGasFeeFromTransactionData,
-        getL2ToL1StorageDepositBuffer,
-    } from '@core/layer-2'
+    import { EvmTransactionData, GasSpeed, IGasPricesBySpeed, getL2ToL1StorageDepositBuffer } from '@core/layer-2'
     import { IEvmNetwork, StardustNetworkId } from '@core/network'
     import { Nft, isIrc27Nft } from '@core/nfts'
-    import { Converter, MILLISECONDS_PER_SECOND } from '@core/utils'
     import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
-    import { onDestroy, onMount } from 'svelte'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
     export let network: IEvmNetwork
-
-    let selectedGasSpeed: GasSpeed = GasSpeed.Required
-    let gasPrices: IGasPricesBySpeed = {
-        [GasSpeed.Required]: Converter.bigIntLikeToBigInt(transaction.gasPrice as number),
-    }
-    async function setGasPrices(): Promise<void> {
-        const _gasPrices = await network.getGasPrices()
-        if (_gasPrices) {
-            gasPrices = { ...gasPrices, ..._gasPrices }
-        }
-    }
+    export let selectedGasSpeed: GasSpeed
+    export let gasPrices: IGasPricesBySpeed
 
     $: transactionAsset = getTransactionAsset(sendFlowParameters)
     function getTransactionAsset(_sendFlowParameters: SendFlowParameters): {
@@ -74,16 +57,6 @@
             handleError(err)
         }
     }
-
-    let intervalId
-    onMount(async () => {
-        await setGasPrices()
-        intervalId = setInterval(() => void setGasPrices, MILLISECONDS_PER_SECOND * 10)
-    })
-
-    onDestroy(() => {
-        clearInterval(intervalId)
-    })
 </script>
 
 <div class="w-full space-y-5">
@@ -93,7 +66,6 @@
         bind:selectedGasSpeed
         sourceNetwork={network}
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
-        maxGasFee={calculateMaxGasFeeFromTransactionData(transaction) + storageDeposit}
         {transaction}
         {storageDeposit}
         {gasPrices}
