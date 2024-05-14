@@ -1,35 +1,34 @@
 <script lang="ts">
+    import { handleError } from '@core/error/handlers'
     import {
         EvmTransactionData,
-        IGasPrices,
-        calculateEstimatedGasFeeFromTransactionData,
+        GasSpeed,
+        IGasPricesBySpeed,
         calculateMaxGasFeeFromTransactionData,
         getL2ToL1StorageDepositBuffer,
     } from '@core/layer-2'
+    import { IEvmNetwork, StardustNetworkId } from '@core/network'
     import { Nft, isIrc27Nft } from '@core/nfts'
+    import { Converter, MILLISECONDS_PER_SECOND } from '@core/utils'
     import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
-    import EvmTransactionDetails from './EvmTransactionDetails.svelte'
-    import { IEvmNetwork } from '@core/network'
-    import { handleError } from '@core/error/handlers'
-    import { StardustNetworkId } from '@core/network'
     import { onDestroy, onMount } from 'svelte'
-    import { MILLISECONDS_PER_SECOND } from '@core/utils'
+    import EvmTransactionDetails from './EvmTransactionDetails.svelte'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
     export let network: IEvmNetwork
-    let selectedGasSpeed: 'required' | 'slow' | 'average' | 'fast' = 'required'
 
-    let gasPrices: IGasPrices | undefined = undefined
+    let selectedGasSpeed: GasSpeed = GasSpeed.Required
+    let gasPrices: IGasPricesBySpeed = {
+        [GasSpeed.Required]: Converter.bigIntLikeToBigInt(transaction.gasPrice as number),
+    }
     async function setGasPrices(): Promise<void> {
         const _gasPrices = await network.getGasPrices()
         if (_gasPrices) {
-            gasPrices = _gasPrices
+            gasPrices = { ...gasPrices, ..._gasPrices }
         }
     }
-
-    $: console.log('gasPrices', gasPrices)
 
     $: transactionAsset = getTransactionAsset(sendFlowParameters)
     function getTransactionAsset(_sendFlowParameters: SendFlowParameters): {
@@ -79,13 +78,12 @@
     let intervalId
     onMount(async () => {
         await setGasPrices()
-        intervalId = setInterval(setGasPrices, MILLISECONDS_PER_SECOND * 10)
+        intervalId = setInterval(() => void setGasPrices, MILLISECONDS_PER_SECOND * 10)
     })
 
     onDestroy(() => {
         clearInterval(intervalId)
     })
-
 </script>
 
 <div class="w-full space-y-5">
@@ -95,7 +93,6 @@
         bind:selectedGasSpeed
         sourceNetwork={network}
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
-        estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction) + storageDeposit}
         maxGasFee={calculateMaxGasFeeFromTransactionData(transaction) + storageDeposit}
         {transaction}
         {storageDeposit}

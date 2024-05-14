@@ -1,20 +1,21 @@
 <script lang="ts">
-	import SetTransactionFeeButton from './SetTransactionFeeButton.svelte';
+    import SetTransactionFeeButton from './SetTransactionFeeButton.svelte'
     import { Table, TableRow } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { IEvmNetwork, NetworkId } from '@core/network'
+    import { IEvmNetwork, NetworkId, calculateGasFee } from '@core/network'
     import { formatTokenAmount } from '@core/token'
     import { NetworkLabel } from '@ui'
-    import { EvmTransactionData, IGasPrices } from '@core/layer-2'
+    import { EvmTransactionData, GasSpeed, IGasPricesBySpeed } from '@core/layer-2'
 
-    export let selectedGasSpeed: 'required' | 'slow' | 'average' | 'fast' = 'required'
+    export let selectedGasSpeed: GasSpeed = GasSpeed.Required
     export let sourceNetwork: IEvmNetwork
     export let destinationNetworkId: NetworkId | undefined = undefined
-    export let estimatedGasFee: bigint | undefined = undefined
     export let maxGasFee: bigint | undefined = undefined
     export let transaction: EvmTransactionData
-    export let gasPrices: IGasPrices | undefined = undefined
-    export let storageDeposit: bigint | undefined = undefined
+    export let gasPrices: IGasPricesBySpeed
+    export let storageDeposit: bigint
+
+    $: maxGasFee = calculateGasFee(transaction.gasLimit, gasPrices[selectedGasSpeed]) + storageDeposit
 </script>
 
 <Table
@@ -28,10 +29,6 @@
                 },
             },
         },
-        {
-            key: localize('general.maxFees'),
-            value: maxGasFee ? formatTokenAmount(maxGasFee, sourceNetwork.baseToken) : undefined,
-        },
     ]}
 >
     <TableRow
@@ -40,9 +37,7 @@
         }}
     >
         <div slot="boundValue">
-            <SetTransactionFeeButton
-                {gasPrices}
-            />
+            <SetTransactionFeeButton bind:selectedGasSpeed {sourceNetwork} {gasPrices} {transaction} {storageDeposit} />
         </div>
     </TableRow>
     <TableRow
@@ -50,5 +45,5 @@
             key: localize('general.maxFees'),
             value: maxGasFee ? formatTokenAmount(maxGasFee, sourceNetwork.baseToken) : undefined,
         }}
-/>
+    />
 </Table>

@@ -1714,9 +1714,9 @@
         "question": "Question",
         "id": "ID",
         "location": "Location",
-        "slow": "slow",
-        "average": "average",
-        "fast": "fast"
+        "slow": "Slow",
+        "average": "Average",
+        "fast": "Fast"
     },
     "filters":{
         "title": "Filters",

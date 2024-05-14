@@ -20,7 +20,7 @@ import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 import { convertGweiToWei } from '@core/layer-2/utils'
-import { IGasPrices } from '@core/layer-2'
+import { IGasPricesBySpeed } from '@core/layer-2'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -111,18 +111,16 @@ export class EvmNetwork implements IEvmNetwork {
         }
     }
 
-    async getGasPrices(): Promise<IGasPrices | undefined> {
+    async getGasPrices(): Promise<IGasPricesBySpeed | undefined> {
         try {
             const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
             const blockscoutApi = new BlockscoutApi(this.id)
             const stats = await blockscoutApi.getStats()
-            if (stats?.gas_prices) {
-                return {
-                    fast: convertGweiToWei(stats?.gas_prices.fast),
-                    average: convertGweiToWei(stats?.gas_prices.average),
-                    slow: convertGweiToWei(stats?.gas_prices.slow),
-                    required,
-                }
+            return {
+                ...(stats?.gas_prices.fast && { fast: convertGweiToWei(stats.gas_prices.fast) }),
+                ...(stats?.gas_prices.average && { average: convertGweiToWei(stats.gas_prices.average) }),
+                ...(stats?.gas_prices.slow && { slow: convertGweiToWei(stats.gas_prices.slow) }),
+                required,
             }
         } catch {
             console.error('failed to fetch gas prices!')
