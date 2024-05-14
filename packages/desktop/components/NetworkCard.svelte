@@ -11,30 +11,29 @@
         ExplorerEndpoint,
         Network,
         NetworkNamespace,
-        getDefaultExplorerUrl,
+        getExplorerUrl,
         setSelectedNetworkForNetworkDrawer,
     } from '@core/network'
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
-    import { buildUrl, truncateString } from '@core/utils'
+    import { truncateString } from '@core/utils'
     import { NetworkAvatar, NetworkStatusPill } from '@ui'
     import { NetworkConfigRoute, networkConfigRouter } from '@views/dashboard/drawers'
 
     export let network: Network
 
     let address: string | undefined
-    const explorer = getDefaultExplorerUrl(network.id, ExplorerEndpoint.Address)
 
     $: health = network.health
     $: address = getAddressFromAccountForNetwork($selectedAccount as IAccountState, network.id)
 
     function onExplorerClick(): void {
-        if (!explorer || !address) {
+        if (!address) {
             return
         }
-        const url = buildUrl({ origin: explorer.baseUrl, pathname: `${explorer.endpoint}/${address}` })
-        openUrlInBrowser(url?.href)
+        const url = getExplorerUrl(network.id, ExplorerEndpoint.Address, address)
+        openUrlInBrowser(url)
     }
 
     function onCardClick(): void {
@@ -107,7 +106,7 @@
                 {/if}
             </div>
             <div class="flex flex-row space-x-1">
-                {#if explorer?.baseUrl && address}
+                {#if network.explorerUrl && address}
                     <IconButton
                         size="sm"
                         icon={IconName.Globe}
