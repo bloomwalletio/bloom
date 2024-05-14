@@ -25,7 +25,7 @@
     const DEFAULT_CONFIG = DEFAULT_ACCOUNT_RECOVERY_CONFIGURATION[type]
 
     let accountStartIndex = 0
-    let accountGapLimit = DEFAULT_CONFIG.initialAccountRange
+    let accountGapLimit = Math.max(DEFAULT_CONFIG.initialAccountRange, $activeAccounts.length)
 
     let addressStartIndex = 0
     const addressGapLimit = DEFAULT_CONFIG.addressGapLimit
