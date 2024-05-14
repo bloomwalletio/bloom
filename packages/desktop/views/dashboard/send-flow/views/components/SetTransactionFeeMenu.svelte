@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { BigIntLike } from '@ethereumjs/util'
     import { IEvmNetwork, calculateGasFee } from '@core/network'
     import { IconName, Menu, Text, type IMenuItem } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
@@ -9,8 +10,9 @@
     export let selectedGasSpeed: GasSpeed = GasSpeed.Required
     export let sourceNetwork: IEvmNetwork
     export let gasPrices: IGasPricesBySpeed
-    export let estimatedGas: number | undefined
+    export let gasUnit: BigIntLike | undefined
     export let storageDeposit: bigint
+    export let disabled: boolean = false
 
     let menu: Menu | undefined
     let anchor: HTMLElement | undefined = undefined
@@ -26,7 +28,7 @@
                 icon: IconName.ClockPlus,
                 title: localize('general.required'),
                 subtitle: formatTokenAmount(
-                    calculateGasFee(estimatedGas, gasPrices.average) + storageDeposit,
+                    calculateGasFee(gasUnit, gasPrices.average) + storageDeposit,
                     sourceNetwork.baseToken
                 ),
                 selected: selectedGasSpeed === GasSpeed.Required,
@@ -39,7 +41,7 @@
                 icon: IconName.ClockPlus,
                 title: localize('general.slow'),
                 subtitle: formatTokenAmount(
-                    calculateGasFee(estimatedGas, gasPrices.slow) + storageDeposit,
+                    calculateGasFee(gasUnit, gasPrices.slow) + storageDeposit,
                     sourceNetwork.baseToken
                 ),
                 selected: selectedGasSpeed === GasSpeed.Slow,
@@ -52,7 +54,7 @@
                 icon: IconName.CalendarDate,
                 title: localize('general.average'),
                 subtitle: formatTokenAmount(
-                    calculateGasFee(estimatedGas, gasPrices.average) + storageDeposit,
+                    calculateGasFee(gasUnit, gasPrices.average) + storageDeposit,
                     sourceNetwork.baseToken
                 ),
                 selected: selectedGasSpeed === GasSpeed.Average,
@@ -65,7 +67,7 @@
                 icon: IconName.CalendarPlus,
                 title: localize('general.fast'),
                 subtitle: formatTokenAmount(
-                    calculateGasFee(estimatedGas, gasPrices.fast) + storageDeposit,
+                    calculateGasFee(gasUnit, gasPrices.fast) + storageDeposit,
                     sourceNetwork.baseToken
                 ),
                 selected: selectedGasSpeed === GasSpeed.Fast,
@@ -75,20 +77,20 @@
         return _items
     }
 
-    $: disabled = items.length < 2
+    $: _disabled = disabled || items.length < 2
 
-    $: estimatedGasFee = calculateGasFee(estimatedGas, gasPrices[selectedGasSpeed])
+    $: estimatedGasFee = calculateGasFee(gasUnit, gasPrices[selectedGasSpeed])
 </script>
 
-<Menu bind:this={menu} {disabled} compact={false} placement="top-end" {items}>
+<Menu bind:this={menu} disabled={_disabled} compact={false} placement="top-end" {items}>
     <button
         bind:this={anchor}
         slot="anchor"
-        class="flex items-center justify-center {disabled ? 'cursor-default' : 'cursor-pointer'}"
-        {disabled}
+        class="flex items-center justify-center {_disabled ? 'cursor-default' : 'cursor-pointer'}"
+        disabled={_disabled}
     >
         <div class="flex flex-row items-center">
-            <Text textColor={disabled ? 'secondary' : 'brand'} fontWeight="medium">
+            <Text textColor={_disabled ? 'secondary' : 'brand'} fontWeight="medium">
                 {formatTokenAmount(estimatedGasFee, sourceNetwork.baseToken)}
             </Text>
         </div>
