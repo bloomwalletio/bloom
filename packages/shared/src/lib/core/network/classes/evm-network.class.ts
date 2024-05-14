@@ -19,6 +19,7 @@ import { ChainId, NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
+import { convertGweiToWei } from '@core/layer-2/utils'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -116,9 +117,9 @@ export class EvmNetwork implements IEvmNetwork {
             const stats = await blockscoutApi.getStats()
             if (stats?.gas_prices) {
                 return {
-                    fast: BigInt(stats?.gas_prices.fast),
-                    average: BigInt(stats?.gas_prices.average),
-                    slow: BigInt(stats?.gas_prices.slow),
+                    fast: convertGweiToWei(stats?.gas_prices.fast),
+                    average: convertGweiToWei(stats?.gas_prices.average),
+                    slow: convertGweiToWei(stats?.gas_prices.slow),
                     required,
                 }
             }
