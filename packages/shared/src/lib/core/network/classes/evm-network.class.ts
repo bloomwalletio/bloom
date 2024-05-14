@@ -38,6 +38,8 @@ export class EvmNetwork implements IEvmNetwork {
     public health: Writable<NetworkHealth> = writable(NetworkHealth.Operational)
     public statusPoll: number | undefined
 
+    private gasPrices: IGasPricesBySpeed | undefined
+
     constructor({
         id,
         namespace,
@@ -114,17 +116,27 @@ export class EvmNetwork implements IEvmNetwork {
     async getGasPrices(): Promise<IGasPricesBySpeed | undefined> {
         try {
             const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
-            const blockscoutApi = new BlockscoutApi(this.id)
-            const stats = await blockscoutApi.getStats()
-            const { fast, average, slow } = stats?.gas_prices ?? {}
-            return {
-                ...(fast && { fast: fast > required ? convertGweiToWei(fast) : required }),
-                ...(average && { fast: average > required ? convertGweiToWei(average) : required }),
-                ...(slow && { fast: slow > required ? convertGweiToWei(slow) : required }),
-                required,
+            let gasPrices: IGasPricesBySpeed
+            try {
+                const blockscoutApi = new BlockscoutApi(this.id)
+                const stats = await blockscoutApi.getStats()
+                const { fast, average, slow } = stats?.gas_prices ?? {}
+                gasPrices = {
+                    ...(fast && { fast: convertGweiToWei(fast) > required ? convertGweiToWei(fast) : required }),
+                    ...(average && {
+                        average: convertGweiToWei(average) > required ? convertGweiToWei(average) : required,
+                    }),
+                    ...(slow && { slow: convertGweiToWei(slow) > required ? convertGweiToWei(slow) : required }),
+                    required,
+                }
+            } catch (err) {
+                console.error(err)
+                gasPrices = { ...this.gasPrices, required }
             }
-        } catch {
-            console.error('failed to fetch gas prices!')
+            this.gasPrices = gasPrices
+            return gasPrices
+        } catch (err) {
+            console.error('Failed to fetch required gas prices!', err)
         }
     }
 
