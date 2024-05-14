@@ -257,12 +257,8 @@ export function createMainWindow(): BrowserWindow {
     /**
      * Handle permissions requests
      */
-    session.defaultSession.setPermissionRequestHandler((_webContents, permission, cb, details) => {
-        if (permission === 'openExternal' && details && details.externalURL) {
-            return cb(true)
-        }
-
-        const permissionAllowlist = ['clipboard-read', 'notifications', 'fullscreen']
+    session.defaultSession.setPermissionRequestHandler((_webContents, permission, cb) => {
+        const permissionAllowlist = ['clipboard-read', 'notifications', 'fullscreen', 'openExternal']
 
         return cb(permissionAllowlist.indexOf(permission) > -1)
     })

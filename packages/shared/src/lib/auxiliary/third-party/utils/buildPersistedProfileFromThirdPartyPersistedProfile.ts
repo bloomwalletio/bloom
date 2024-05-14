@@ -2,6 +2,7 @@ import { IPersistedAccountData } from '@core/account'
 import { APP_STAGE } from '@core/app'
 import { MarketCurrency } from '@core/market'
 import {
+    DEFAULT_EXPLORER_URLS,
     DEFAULT_ISC_CHAINS_CONFIGURATIONS,
     IStardustNetworkMetadata,
     NetworkNamespace,
@@ -78,6 +79,7 @@ function buildStardustNetworkFromThirdPartyPersistedNetwork(
         NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP[network.protocol.networkName] ??
         `${NetworkNamespace.Stardust}:${network.protocol.networkName}`
     const defaultChainConfigurations = structuredClone(DEFAULT_ISC_CHAINS_CONFIGURATIONS?.[networkId])
+    const explorerUrl = DEFAULT_EXPLORER_URLS[networkId]
 
     return {
         id: networkId,
@@ -87,6 +89,7 @@ function buildStardustNetworkFromThirdPartyPersistedNetwork(
         protocol: network.protocol,
         baseToken: network.baseToken,
         chainConfigurations: defaultChainConfigurations ? [defaultChainConfigurations] : [],
+        explorerUrl,
     }
 }
 

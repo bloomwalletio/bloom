@@ -1,7 +1,7 @@
 <script lang="ts">
     import { type IItem } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint, getActiveNetworkId, getDefaultExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint, getActiveNetworkId, getExplorerUrl } from '@core/network'
     import { IIrc27Nft } from '@core/nfts'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmount } from '@core/token'
@@ -9,14 +9,14 @@
     import { AddressType } from '@iota/sdk/out/types'
     import { NetworkLabel } from '@ui'
     import CollectibleDetails from './CollectibleDetails.svelte'
-    import { buildUrl } from '@core/utils/url'
 
     export let nft: IIrc27Nft
 
     const { id, issuer, nftAddress, metadata, storageDeposit, mediaUrl } = nft ?? {}
     const { standard, version, issuerName, collectionName } = nft?.metadata || {}
 
-    const explorerEndpoint = getExplorerEndpoint()
+    // We don't use `nft.networkId` on this one, as for IRC27 nfts we still want the L1 explorer
+    const explorerUrl = getExplorerUrl(getActiveNetworkId(), ExplorerEndpoint.Nft, id)
 
     const issuerAddress = getBech32AddressFromAddressTypes(issuer)
     const collectionId = getHexAddressFromAddressTypes(issuer)
@@ -83,17 +83,6 @@
             copyable: true,
         },
     ]
-
-    function getExplorerEndpoint(): string | undefined {
-        // We don't use `nft.networkId` on this one, as for IRC27 nfts we still want the L1 explorer
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(getActiveNetworkId(), ExplorerEndpoint.Nft)
-        const url = buildUrl({
-            origin: baseUrl,
-            pathname: `${endpoint}/${id}`,
-        })
-
-        return url?.href
-    }
 </script>
 
-<CollectibleDetails {nft} {details} attributes={nft.metadata?.attributes} {explorerEndpoint} />
+<CollectibleDetails {nft} {details} attributes={nft.metadata?.attributes} explorerEndpoint={explorerUrl} />
