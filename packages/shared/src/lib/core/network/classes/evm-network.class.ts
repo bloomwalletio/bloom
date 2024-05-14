@@ -18,6 +18,7 @@ import Web3 from 'web3'
 import { ChainId, NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
+import { BlockscoutApi } from '@auxiliary/blockscout/api'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -99,12 +100,30 @@ export class EvmNetwork implements IEvmNetwork {
         return new this.provider.eth.Contract(abi, address)
     }
 
-    async getGasPrice(): Promise<bigint | undefined> {
+    async getRequiredGasPrice(): Promise<bigint | undefined> {
         try {
             const gasPrice = await this.provider.eth.getGasPrice()
             return BigInt(gasPrice)
         } catch {
             return undefined
+        }
+    }
+
+    async getGasPrices(): Promise<{ fast: bigint; average: bigint; slow: bigint; required?: bigint } | undefined> {
+        try {
+            const blockscoutApi = new BlockscoutApi(this.id)
+            const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
+            const stats = await blockscoutApi.getStats()
+            if (stats?.gas_prices) {
+                return {
+                    fast: BigInt(stats?.gas_prices.fast),
+                    average: BigInt(stats?.gas_prices.average),
+                    slow: BigInt(stats?.gas_prices.slow),
+                    required,
+                }
+            }
+        } catch {
+            console.error('failed to fetch gas prices!')
         }
     }
 

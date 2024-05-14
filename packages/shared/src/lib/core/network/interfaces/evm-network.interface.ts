@@ -32,7 +32,7 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
 
     provider: Web3Provider
 
-    getGasPrice(): Promise<bigint | undefined>
+    getRequiredGasPrice(): Promise<bigint | undefined>
     getBalance(account: IAccountState): Promise<ITokenBalance | undefined>
     getNftsForAccount(account: IAccountState): Promise<Nft[]>
 

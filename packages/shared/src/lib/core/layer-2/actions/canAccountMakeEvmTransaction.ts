@@ -12,7 +12,7 @@ export async function canAccountMakeEvmTransaction(
     const gasLimit = Math.floor(
         FALLBACK_ESTIMATED_GAS[sendFlowType ?? SendFlowType.BaseCoinTransfer] * GAS_LIMIT_MULTIPLIER
     )
-    const gasPrice = await network.getGasPrice()
+    const gasPrice = await network.getRequiredGasPrice()
     if (gasPrice === undefined) {
         return false
     }

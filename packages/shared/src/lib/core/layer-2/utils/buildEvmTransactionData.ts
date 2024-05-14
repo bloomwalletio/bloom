@@ -11,7 +11,7 @@ export async function buildEvmTransactionData(
     data: string | undefined
 ): Promise<EvmTransactionData> {
     const nonce = await evmNetwork.provider.eth.getTransactionCount(originAddress)
-    const gasPrice = await evmNetwork.provider.eth.getGasPrice()
+    const gasPrice = await evmNetwork.getRequiredGasPrice()
     const hexGasPrice = Converter.decimalToHex(Number(gasPrice), true)
     const estimatedGas = await evmNetwork.provider.eth.estimateGas({
         from: originAddress,
