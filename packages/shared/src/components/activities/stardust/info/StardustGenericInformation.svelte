@@ -4,9 +4,8 @@
     import { openUrlInBrowser } from '@core/app'
     import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { ExplorerEndpoint, getDefaultExplorerUrl, getNetwork } from '@core/network'
+    import { ExplorerEndpoint, getExplorerUrl, getNetwork } from '@core/network'
     import { formatTokenAmount } from '@core/token'
-    import { buildUrl } from '@core/utils'
     import { getTimeDifference } from '@core/utils/time'
     import { NetworkLabel, ExpiredPill, TimelockPill, UnclaimedPill } from '@ui'
 
@@ -21,13 +20,14 @@
     $: formattedMaxGasFee = formatAmount(BigInt(gasLimit ?? 0))
     $: formattedTransactionFee = formatAmount(activity.transactionFee ?? BigInt(0))
 
-    $: explorer = getDefaultExplorerUrl(activity.sourceNetworkId, ExplorerEndpoint.Transaction) ?? ''
+    $: hasExplorer = !!getNetwork(activity.sourceNetworkId)?.explorerUrl
     function onTransactionIdClick(): void {
-        const url = buildUrl({
-            origin: explorer.baseUrl,
-            pathname: `${explorer.endpoint}/${activity.asyncData?.claimingTransactionId}`,
-        })
-        openUrlInBrowser(url?.href)
+        const url = getExplorerUrl(
+            activity.sourceNetworkId,
+            ExplorerEndpoint.Transaction,
+            activity.asyncData?.claimingTransactionId
+        )
+        openUrlInBrowser(url)
     }
 
     function formatAmount(amount: bigint | undefined): string | undefined {
@@ -129,7 +129,7 @@
             value: activity.asyncData?.claimingTransactionId,
             copyable: true,
             truncate: { firstCharCount: 12, endCharCount: 12 },
-            onClick: explorer.baseUrl ? onTransactionIdClick : undefined,
+            onClick: hasExplorer ? onTransactionIdClick : undefined,
         },
     ]}
 />

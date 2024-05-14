@@ -6,13 +6,13 @@
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network'
-    import { getDefaultExplorerUrl } from '@core/network/utils'
+    import { getExplorerUrl } from '@core/network/utils'
     import { NftStandard } from '@core/nfts'
     import { Nft } from '@core/nfts/interfaces'
     import { ownedNfts, selectedNftId, getNftByIdForAccount } from '@core/nfts/stores'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
-    import { buildUrl, setClipboard, truncateString } from '@core/utils'
+    import { setClipboard, truncateString } from '@core/utils'
     import { TokenTransferData } from '@core/wallet/types'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { EvmActivityInformation, TransactionAssetSection } from '@ui'
@@ -31,10 +31,12 @@
         }
     }
 
-    $: explorerUrl = getExplorerUrl(activity)
-    function getExplorerUrl(_activity: EvmActivity): string | undefined {
-        const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
-        return buildUrl({ origin: baseUrl, pathname: `${endpoint}/${_activity?.transactionId}` })?.href
+    $: explorerUrl = buildExplorerUrl(activity)
+    function buildExplorerUrl(_activity: EvmActivity): string | undefined {
+        if (_activity.type === EvmActivityType.BalanceChange) {
+            return
+        }
+        return getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction, _activity?.transactionId)
     }
 
     $: nft = getNft(activity)
