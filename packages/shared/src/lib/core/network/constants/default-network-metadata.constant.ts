@@ -3,6 +3,7 @@ import { IStardustNetworkMetadata } from '../interfaces'
 import { NetworkMetadata, StardustNetworkId } from '../types'
 import { DEFAULT_BASE_TOKEN } from './default-base-token.constant'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
+import { DEFAULT_EXPLORER_URLS } from './default-explorer-urls.constant'
 import { DEFAULT_PROTOCOL } from './default-protocol.constant'
 import { SupportedNetworkId } from './supported-network-id.constant'
 
@@ -15,6 +16,7 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: N
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Iota],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.Iota],
         baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Iota],
+        explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Iota],
     },
     [SupportedNetworkId.Shimmer]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Shimmer,
@@ -23,6 +25,7 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: N
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Shimmer],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.Shimmer],
         baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Shimmer],
+        explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Shimmer],
     },
     [SupportedNetworkId.Testnet]: <IStardustNetworkMetadata>{
         id: SupportedNetworkId.Testnet,
@@ -31,5 +34,6 @@ export const DEFAULT_NETWORK_METADATA: Readonly<{ [key in StardustNetworkId]?: N
         coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Testnet],
         protocol: DEFAULT_PROTOCOL[SupportedNetworkId.Testnet],
         baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Testnet],
+        explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Testnet],
     },
 }

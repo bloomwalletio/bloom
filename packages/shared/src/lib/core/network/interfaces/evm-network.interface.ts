@@ -28,7 +28,6 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
     id: EvmNetworkId
     namespace: NetworkNamespace.Evm
     chainId: ChainId
-    explorerUrl: string | undefined
     rpcEndpoint: string
 
     provider: Web3Provider

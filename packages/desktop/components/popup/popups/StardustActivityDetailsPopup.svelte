@@ -12,10 +12,10 @@
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
     import { ExplorerEndpoint } from '@core/network'
-    import { getDefaultExplorerUrl } from '@core/network/utils'
+    import { getExplorerUrl } from '@core/network/utils'
     import { getNftByIdForAccount, ownedNfts, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'
-    import { buildUrl, setClipboard, truncateString } from '@core/utils'
+    import { setClipboard, truncateString } from '@core/utils'
     import { claimActivity, rejectActivity } from '@core/wallet'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { StardustActivityInformation, TransactionAssetSection } from '@ui'
@@ -45,16 +45,12 @@
         }
     }
 
-    $: explorerUrl = getExplorerUrl(activity)
-    function getExplorerUrl(_activity: StardustActivity): string | undefined {
+    $: explorerUrl = buildExplorerUrl(activity)
+    function buildExplorerUrl(_activity: StardustActivity): string | undefined {
         if (activity?.direction === ActivityDirection.Genesis) {
-            const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Output)
-            const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${_activity?.outputId}` })
-            return url?.href
+            return getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Output, _activity?.outputId)
         } else {
-            const { baseUrl, endpoint } = getDefaultExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction)
-            const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}/${_activity?.transactionId}` })
-            return url?.href
+            return getExplorerUrl(activity?.sourceNetworkId, ExplorerEndpoint.Transaction, _activity?.transactionId)
         }
     }
 
