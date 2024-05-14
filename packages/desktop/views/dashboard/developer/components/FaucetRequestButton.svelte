@@ -1,10 +1,11 @@
 <script lang="ts">
     import { IconName } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { FAUCET_URLS, nodeInfo } from '@core/network'
-    import { activeProfile } from '@core/profile/stores'
+    import { FAUCET_URLS, getL1Network } from '@core/network'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ButtonTile } from '../../../components'
+
+    const network = getL1Network()
 
     function onGetTokensClick(): void {
         openPopup({
@@ -13,13 +14,13 @@
     }
 </script>
 
-{#if FAUCET_URLS?.[$activeProfile?.network?.id] && $nodeInfo}
+{#if network && FAUCET_URLS?.[network?.id]}
     <ButtonTile
         primaryText={localize('actions.faucetRequest', {
-            values: { token: $nodeInfo.baseToken.name },
+            values: { token: network.baseToken.name },
         })}
         secondaryText={localize('general.faucetRequestDescription', {
-            values: { network: $nodeInfo.protocol.networkName },
+            values: { network: network.name },
         })}
         onClick={onGetTokensClick}
         icon={IconName.CoinsHand}
