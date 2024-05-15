@@ -24,7 +24,7 @@ export class AppRouter extends Router<AppRoute> {
         this.init()
     }
 
-    public next(params?: { shouldAddProfile: boolean; reset: boolean; thirdPartyProfilesImported: boolean }): void {
+    public next(params?: { shouldAddProfile?: boolean; reset?: boolean; thirdPartyProfilesImported?: boolean }): void {
         const currentRoute = get(this.routeStore)
         switch (currentRoute) {
             case AppRoute.Login: {
