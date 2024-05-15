@@ -116,19 +116,15 @@ export class EvmNetwork implements IEvmNetwork {
     async getGasPrices(): Promise<IGasPricesBySpeed | undefined> {
         try {
             const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
-            let gasPrices: IGasPricesBySpeed
+            let gasPrices: IGasPricesBySpeed = { required }
             try {
                 const blockscoutApi = new BlockscoutApi(this.id)
                 const stats = await blockscoutApi.getStats()
-                const { fast, average, slow } = stats?.gas_prices ?? {}
-                gasPrices = {
-                    ...(fast && { fast: convertGweiToWei(fast) > required ? convertGweiToWei(fast) : required }),
-                    ...(average && {
-                        average: convertGweiToWei(average) > required ? convertGweiToWei(average) : required,
-                    }),
-                    ...(slow && { slow: convertGweiToWei(slow) > required ? convertGweiToWei(slow) : required }),
-                    required,
-                }
+
+                Object.entries(stats?.gas_prices ?? {}).forEach(([key, value]) => {
+                    const gasInWei = convertGweiToWei(value)
+                    gasPrices[key] = gasInWei > required ? gasInWei : required
+                })
             } catch (err) {
                 console.error(err)
                 gasPrices = { ...this.gasPrices, required }

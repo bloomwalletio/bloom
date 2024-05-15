@@ -27,10 +27,7 @@
             {
                 icon: IconName.ClockPlus,
                 title: localize('general.required'),
-                subtitle: formatTokenAmount(
-                    calculateGasFee(gasUnit, gasPrices.average) + storageDeposit,
-                    sourceNetwork.baseToken
-                ),
+                subtitle: formatGasFee(gasPrices.required),
                 selected: selectedGasSpeed === GasSpeed.Required,
                 onClick: () => onChooseGasPriceClick(GasSpeed.Required),
             },
@@ -40,10 +37,7 @@
             _items.push({
                 icon: IconName.ClockPlus,
                 title: localize('general.slow'),
-                subtitle: formatTokenAmount(
-                    calculateGasFee(gasUnit, gasPrices.slow) + storageDeposit,
-                    sourceNetwork.baseToken
-                ),
+                subtitle: formatGasFee(gasPrices.slow),
                 selected: selectedGasSpeed === GasSpeed.Slow,
                 onClick: () => onChooseGasPriceClick(GasSpeed.Slow),
             })
@@ -53,10 +47,7 @@
             _items.push({
                 icon: IconName.CalendarDate,
                 title: localize('general.average'),
-                subtitle: formatTokenAmount(
-                    calculateGasFee(gasUnit, gasPrices.average) + storageDeposit,
-                    sourceNetwork.baseToken
-                ),
+                subtitle: formatGasFee(gasPrices.average),
                 selected: selectedGasSpeed === GasSpeed.Average,
                 onClick: () => onChooseGasPriceClick(GasSpeed.Average),
             })
@@ -66,15 +57,17 @@
             _items.push({
                 icon: IconName.CalendarPlus,
                 title: localize('general.fast'),
-                subtitle: formatTokenAmount(
-                    calculateGasFee(gasUnit, gasPrices.fast) + storageDeposit,
-                    sourceNetwork.baseToken
-                ),
+                subtitle: formatGasFee(gasPrices.fast),
                 selected: selectedGasSpeed === GasSpeed.Fast,
                 onClick: () => onChooseGasPriceClick(GasSpeed.Fast),
             })
         }
         return _items
+    }
+
+    function formatGasFee(gasPrice: bigint): string {
+        const gasFee = calculateGasFee(gasUnit, gasPrice) + storageDeposit
+        return formatTokenAmount(gasFee, sourceNetwork.baseToken)
     }
 
     $: _disabled = disabled || items.length < 2
