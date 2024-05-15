@@ -20,8 +20,11 @@
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer-background',
         },
+        [SupportedNetworkId.IotaTestnet]: {
+            [BASE_TOKEN_ID]: 'text-secondary',
+        },
         [SupportedNetworkId.Testnet]: {
-            [BASE_TOKEN_ID]: 'shimmer-background',
+            [BASE_TOKEN_ID]: 'text-secondary',
         },
         [SupportedNetworkId.IotaEvm]: {
             [BASE_TOKEN_ID]: 'iota-background',
@@ -29,8 +32,11 @@
         [SupportedNetworkId.ShimmerEvm]: {
             [BASE_TOKEN_ID]: 'shimmer-background',
         },
+        [SupportedNetworkId.IotaTestnetEvm]: {
+            [BASE_TOKEN_ID]: 'text-secondary',
+        },
         [SupportedNetworkId.TestnetEvm]: {
-            [BASE_TOKEN_ID]: 'shimmer-background',
+            [BASE_TOKEN_ID]: 'text-secondary',
         },
     }
 
@@ -41,8 +47,11 @@
         [SupportedNetworkId.Shimmer]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
+        [SupportedNetworkId.IotaTestnet]: {
+            [BASE_TOKEN_ID]: '#FFFFFF',
+        },
         [SupportedNetworkId.Testnet]: {
-            [BASE_TOKEN_ID]: 'shimmer',
+            [BASE_TOKEN_ID]: '#FFFFFF',
         },
         [SupportedNetworkId.IotaEvm]: {
             [BASE_TOKEN_ID]: 'iota',
@@ -50,8 +59,11 @@
         [SupportedNetworkId.ShimmerEvm]: {
             [BASE_TOKEN_ID]: 'shimmer',
         },
+        [SupportedNetworkId.IotaTestnetEvm]: {
+            [BASE_TOKEN_ID]: '#FFFFFF',
+        },
         [SupportedNetworkId.TestnetEvm]: {
-            [BASE_TOKEN_ID]: 'shimmer',
+            [BASE_TOKEN_ID]: '#FFFFFF',
         },
     }
 

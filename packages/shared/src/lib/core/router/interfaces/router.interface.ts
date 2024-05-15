@@ -1,7 +1,5 @@
-import { IRouterEvent } from './router-event.interface'
-
 export interface IRouter {
-    next(event?: IRouterEvent): void
+    next(params?: Record<string, unknown>): void
     previous(): void
 
     reset?(): void
