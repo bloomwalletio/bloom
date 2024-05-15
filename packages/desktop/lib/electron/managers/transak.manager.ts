@@ -179,9 +179,9 @@ export default class TransakManager implements ITransakManager {
     public positionWindow(): void {
         try {
             if (windows.transak) {
-                const [mainWindowX, mainWindowY] = windows.main?.getPosition() ?? []
-                const [, mainWindowHeight] = windows.main?.getSize() ?? []
-                const [, bodyHeight] = windows.main?.getContentSize() ?? []
+                const [mainWindowX, mainWindowY] = windows.main?.getPosition() ?? [0, 0]
+                const [, mainWindowHeight] = windows.main?.getSize() ?? [1280, 720]
+                const [, bodyHeight] = windows.main?.getContentSize() ?? [1280, 720]
 
                 const menuHeight = mainWindowHeight - bodyHeight
 
@@ -258,7 +258,7 @@ export default class TransakManager implements ITransakManager {
             colorMode,
         }
 
-        const urlObject = buildUrl({ origin: TRANSAK_WIDGET_URL, query: queryParams })
+        const urlObject = buildUrl({ base: TRANSAK_WIDGET_URL, query: queryParams })
 
         return urlObject?.href ?? ''
     }

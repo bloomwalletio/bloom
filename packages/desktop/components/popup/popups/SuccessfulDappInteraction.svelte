@@ -4,13 +4,11 @@
     import { Alert, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { closePopup } from '@desktop/auxiliary/popup/actions'
-    import { getConnectedDappByOrigin } from '@auxiliary/wallet-connect/stores'
     import { DappInfo } from '@ui'
+    import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 
-    export let url: string | undefined
+    export let dapp: IConnectedDapp | undefined
     export let successMessage: string
-
-    const dapp = getConnectedDappByOrigin(url)
 </script>
 
 <PopupTemplate
@@ -21,7 +19,7 @@
 >
     <DappInfo
         slot="banner"
-        metadata={dapp.metadata}
+        metadata={dapp?.metadata}
         showLink={false}
         classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
     />

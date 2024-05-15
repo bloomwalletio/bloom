@@ -61,7 +61,7 @@
     <Checkbox bind:checked size="lg">
         <div slot="label" class="flex flex-col">
             <Text type="body2" fontWeight="medium">{localize('views.onboarding.welcome.legalAction')}</Text>
-            <div class="flex">
+            <div class="flex flex-wrap">
                 <Link href={PRIVACY_POLICY_URL} text={localize('general.privacyPolicy')} textType="body2" external />
                 <Text type="body2" fontWeight="medium">&nbsp&&nbsp</Text>
                 <Link href={TERMS_OF_SERVICE_URL} text={localize('general.termsOfService')} textType="body2" external />

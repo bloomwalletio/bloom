@@ -37,14 +37,26 @@
     }
 
     function onContinueClick(): void {
-        if (selectedNetworkType !== OnboardingNetworkType.Custom) {
-            const networkName = getNetworkNameFromOnboardingNetworkType(selectedNetworkType)
-            const networkId: StardustNetworkId = `${NetworkNamespace.Stardust}:${networkName}`
-            const network = getDefaultStardustNetwork(networkId)
-            const clientOptions = getDefaultClientOptions(networkId)
-            updateOnboardingProfile({ network, clientOptions })
+        switch (selectedNetworkType) {
+            case OnboardingNetworkType.Iota:
+            case OnboardingNetworkType.Shimmer:
+                {
+                    const networkName = getNetworkNameFromOnboardingNetworkType(selectedNetworkType)
+                    const networkId: StardustNetworkId = `${NetworkNamespace.Stardust}:${networkName}`
+                    const network = getDefaultStardustNetwork(networkId)
+                    const clientOptions = getDefaultClientOptions(networkId)
+                    updateOnboardingProfile({ network, clientOptions })
+                    $networkSetupRouter.next()
+                }
+                break
+            case OnboardingNetworkType.IotaTestnet:
+            case OnboardingNetworkType.Testnet:
+                $networkSetupRouter.next({ type: 'testnet' })
+                break
+            case OnboardingNetworkType.Custom:
+                $networkSetupRouter.next({ type: 'custom' })
+                break
         }
-        $networkSetupRouter.next()
     }
 
     function getNetworkNameFromOnboardingNetworkType(
@@ -55,6 +67,8 @@
                 return StardustNetworkName.Iota
             case OnboardingNetworkType.Shimmer:
                 return StardustNetworkName.Shimmer
+            case OnboardingNetworkType.IotaTestnet:
+                return StardustNetworkName.IotaTestnet
             case OnboardingNetworkType.Testnet:
                 return StardustNetworkName.Testnet
             case OnboardingNetworkType.Custom:
@@ -96,8 +110,8 @@
             )}
             icon={IconName.Iota}
             iconSize="md"
-            iconColor="#ffffff"
-            backgroundColor="#000000"
+            iconColor="iota"
+            backgroundColor="iota-background"
             hidden={features?.onboarding?.[OnboardingNetworkType.Iota]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Iota]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Iota)}
@@ -112,8 +126,8 @@
             )}
             icon={IconName.Shimmer}
             iconSize="md"
-            iconColor="blue-900"
-            backgroundColor="shimmer"
+            iconColor="shimmer"
+            backgroundColor="shimmer-background"
             hidden={features?.onboarding?.[OnboardingNetworkType.Shimmer]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Shimmer]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Shimmer)}

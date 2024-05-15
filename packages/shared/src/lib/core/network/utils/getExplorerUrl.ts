@@ -12,6 +12,6 @@ export function getExplorerUrl(
     const baseUrl = getNetwork(networkId)?.explorerUrl ?? ''
     const endpoint = getExplorerEndpoint(networkId, requestedEndpoint) ?? ''
 
-    const url = buildUrl({ origin: baseUrl, pathname: `${endpoint}${pathParameter ? '/' + pathParameter : ''}` })
+    const url = buildUrl({ base: baseUrl, pathname: `${endpoint}${pathParameter ? '/' + pathParameter : ''}` })
     return url?.href
 }

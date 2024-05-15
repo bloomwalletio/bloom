@@ -45,7 +45,7 @@
         const recoverAccountsPayload: RecoverAccountsPayload = {
             accountStartIndex,
             accountGapLimit,
-            addressGapLimit: 1,
+            addressGapLimit: 0,
             syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
         }
 
@@ -72,7 +72,7 @@
             depthSearch = true
             recoverAccountsPayload = {
                 accountStartIndex: accountGapLimit,
-                accountGapLimit: 1,
+                accountGapLimit: 0,
                 addressGapLimit: (searchCount - depthSearchCount) * addressGapLimit,
                 syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
             }
