@@ -1033,7 +1033,8 @@
             "accountsSearched": "Accounts searched",
             "accountsFound": "Accounts found",
             "totalWalletBalance": "Total balance",
-            "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
+            "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown.",
+            "singleAccountSearch": "Search only current account"
         },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
