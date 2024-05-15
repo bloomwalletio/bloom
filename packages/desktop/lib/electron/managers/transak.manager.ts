@@ -258,7 +258,7 @@ export default class TransakManager implements ITransakManager {
             colorMode,
         }
 
-        const urlObject = buildUrl({ origin: TRANSAK_WIDGET_URL, query: queryParams })
+        const urlObject = buildUrl({ base: TRANSAK_WIDGET_URL, query: queryParams })
 
         return urlObject?.href ?? ''
     }

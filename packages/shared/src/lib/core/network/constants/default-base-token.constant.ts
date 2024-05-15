@@ -31,6 +31,20 @@ export const SHIMMER_EVM_BASE_TOKEN: IBaseToken = {
     decimals: 18,
 }
 
+const IOTA_TESTNET_BASE_TOKEN: IBaseToken = {
+    standard: TokenStandard.BaseToken,
+    name: 'Test Token',
+    tickerSymbol: 'TST',
+    unit: 'TST',
+    decimals: 6,
+    subunit: 'testies',
+}
+
+export const IOTA_TESTNET_EVM_BASE_TOKEN: IBaseToken = {
+    ...IOTA_TESTNET_BASE_TOKEN,
+    decimals: 18,
+}
+
 export const EVM_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,
     name: 'Ether',
@@ -42,9 +56,11 @@ export const EVM_BASE_TOKEN: IBaseToken = {
 export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]: IBaseToken }> = {
     [SupportedNetworkId.Iota]: IOTA_BASE_TOKEN,
     [SupportedNetworkId.Shimmer]: SHIMMER_BASE_TOKEN,
+    [SupportedNetworkId.IotaTestnet]: IOTA_TESTNET_BASE_TOKEN,
     [SupportedNetworkId.Testnet]: SHIMMER_BASE_TOKEN,
     [SupportedNetworkId.IotaEvm]: IOTA_EVM_BASE_TOKEN,
     [SupportedNetworkId.ShimmerEvm]: SHIMMER_EVM_BASE_TOKEN,
+    [SupportedNetworkId.IotaTestnetEvm]: IOTA_TESTNET_EVM_BASE_TOKEN,
     [SupportedNetworkId.TestnetEvm]: SHIMMER_EVM_BASE_TOKEN,
     [SupportedNetworkId.Ethereum]: EVM_BASE_TOKEN,
     [SupportedNetworkId.Sepolia]: EVM_BASE_TOKEN,

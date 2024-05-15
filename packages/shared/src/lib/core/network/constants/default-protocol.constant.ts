@@ -32,6 +32,20 @@ const DEFAULT_SHIMMER_PROTOCOL: IProtocol = {
     tokenSupply: TokenSupply.Shimmer,
 }
 
+const DEFAULT_IOTA_TESTNET_PROTOCOL: IProtocol = {
+    version: 2,
+    networkName: StardustNetworkName.IotaTestnet,
+    bech32Hrp: DEFAULT_BECH32_HRP[SupportedNetworkId.IotaTestnet] ?? '',
+    minPowScore: 1500,
+    belowMaxDepth: 15,
+    rentStructure: {
+        vByteCost: 250,
+        vByteFactorData: 1,
+        vByteFactorKey: 10,
+    },
+    tokenSupply: TokenSupply.Iota,
+}
+
 const DEFAULT_TESTNET_PROTOCOL: IProtocol = {
     version: 2,
     networkName: StardustNetworkName.Testnet,
@@ -49,5 +63,6 @@ const DEFAULT_TESTNET_PROTOCOL: IProtocol = {
 export const DEFAULT_PROTOCOL: Readonly<{ [id in StardustNetworkId]?: IProtocol }> = {
     [SupportedNetworkId.Iota]: DEFAULT_IOTA_PROTOCOL,
     [SupportedNetworkId.Shimmer]: DEFAULT_SHIMMER_PROTOCOL,
+    [SupportedNetworkId.IotaTestnet]: DEFAULT_IOTA_TESTNET_PROTOCOL,
     [SupportedNetworkId.Testnet]: DEFAULT_TESTNET_PROTOCOL,
 }

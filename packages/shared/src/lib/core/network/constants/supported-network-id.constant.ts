@@ -1,4 +1,4 @@
-import { EvmNetworkId, StardustNetworkId } from '../types'
+import type { EvmNetworkId, StardustNetworkId } from '../types/network-id.type'
 import { ChainId } from '../enums/chain-id.enum'
 import { NetworkNamespace } from '../enums/network-namespace.enum'
 import { StardustNetworkName } from '../enums/stardust-network-name.enum'
@@ -7,6 +7,7 @@ export const SupportedStardustNetworkId: Record<string, StardustNetworkId> = {
     Iota: `${NetworkNamespace.Stardust}:${StardustNetworkName.Iota}`,
     Shimmer: `${NetworkNamespace.Stardust}:${StardustNetworkName.Shimmer}`,
     Testnet: `${NetworkNamespace.Stardust}:${StardustNetworkName.Testnet}`,
+    IotaTestnet: `${NetworkNamespace.Stardust}:${StardustNetworkName.IotaTestnet}`,
 }
 
 export const SupportedL1EvmNetworkId: Record<string, EvmNetworkId> = {
@@ -18,6 +19,7 @@ export const SupportedIscNetworkId: Record<string, EvmNetworkId> = {
     IotaEvm: `${NetworkNamespace.Evm}:${ChainId.IotaEvm}`,
     ShimmerEvm: `${NetworkNamespace.Evm}:${ChainId.ShimmerEvm}`,
     TestnetEvm: `${NetworkNamespace.Evm}:${ChainId.TestnetEvm}`,
+    IotaTestnetEvm: `${NetworkNamespace.Evm}:${ChainId.IotaTestnetEvm}`,
 }
 
 export const SupportedNetworkId = {

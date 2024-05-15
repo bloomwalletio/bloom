@@ -9,7 +9,6 @@ import {
 } from '../../../../../../desktop/views/update-stronghold/update-stronghold-router'
 import { Subrouter } from '../classes'
 import { LoginRoute } from '../enums'
-import { IRouterEvent } from '../interfaces'
 import { appRouter } from '../routers'
 
 export const loginRoute = writable<LoginRoute>(undefined)
@@ -20,7 +19,7 @@ export class LoginRouter extends Subrouter<LoginRoute> {
         super(LoginRoute.SelectProfile, loginRoute, get(appRouter))
     }
 
-    next(event?: IRouterEvent): void {
+    next(params?: Record<string, unknown>): void {
         const currentRoute = get(this.routeStore)
 
         const requiresUpdate =
@@ -31,8 +30,8 @@ export class LoginRouter extends Subrouter<LoginRoute> {
 
         switch (currentRoute) {
             case LoginRoute.SelectProfile: {
-                if (event?.shouldAddProfile) {
-                    this.parentRouter?.next(event)
+                if (params?.shouldAddProfile) {
+                    this.parentRouter?.next(params)
                     return
                 } else {
                     this.setNext(LoginRoute.EnterPin)
@@ -51,7 +50,7 @@ export class LoginRouter extends Subrouter<LoginRoute> {
                 this.setNext(LoginRoute.LoadProfile)
                 break
             case LoginRoute.LoadProfile:
-                this.parentRouter?.next(event)
+                this.parentRouter?.next(params)
                 return
         }
     }

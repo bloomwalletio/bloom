@@ -46,14 +46,14 @@
 
     function onProjectClick(): void {
         const url = buildUrl({
-            origin: TIDE_BASE_URL,
+            base: TIDE_BASE_URL,
             pathname: `${TideWebsiteEndpoint.Project}/${campaign.projectId}`,
         })
         openUrlInBrowser(url?.href)
     }
 
     function onCampaignClick(): void {
-        const url = buildUrl({ origin: TIDE_BASE_URL, pathname: `${TideWebsiteEndpoint.Campaign}/${campaign.id}` })
+        const url = buildUrl({ base: TIDE_BASE_URL, pathname: `${TideWebsiteEndpoint.Campaign}/${campaign.id}` })
         openUrlInBrowser(url?.href)
     }
 </script>

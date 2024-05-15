@@ -96,6 +96,53 @@ const onboardingFeaturesForShimmer: IOnboardingFeaturesForNetwork = {
     },
 }
 
+const onboardingFeaturesForIotaTestnet: IOnboardingFeaturesForNetwork = {
+    enabled: true,
+    newProfile: {
+        enabled: true,
+        softwareProfile: {
+            enabled: true,
+            skipVerification: {
+                enabled: false,
+            },
+        },
+        ledgerProfile: {
+            enabled: true,
+        },
+    },
+    restoreProfile: {
+        enabled: true,
+        recoveryPhrase: {
+            enabled: true,
+        },
+        strongholdBackup: {
+            enabled: true,
+        },
+        ledgerBackup: {
+            enabled: true,
+        },
+    },
+    claimRewards: {
+        enabled: true,
+        hidden: true,
+        recoveryPhrase: {
+            enabled: true,
+        },
+        strongholdBackup: {
+            enabled: true,
+        },
+        ledgerBackup: {
+            enabled: true,
+        },
+    },
+    defaultIscChains: {
+        enabled: true,
+    },
+    defaultEvmChains: {
+        enabled: true,
+    },
+}
+
 const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
     enabled: true,
     newProfile: {
@@ -126,13 +173,13 @@ const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
         enabled: true,
         hidden: false,
         recoveryPhrase: {
-            enabled: true,
+            enabled: false,
         },
         strongholdBackup: {
-            enabled: true,
+            enabled: false,
         },
         ledgerBackup: {
-            enabled: true,
+            enabled: false,
         },
     },
     defaultIscChains: {
@@ -183,7 +230,7 @@ const onboardingFeaturesForCustom: IOnboardingFeaturesForNetwork = {
         },
     },
     defaultIscChains: {
-        enabled: false,
+        enabled: true,
     },
     defaultEvmChains: {
         enabled: false,
@@ -194,6 +241,7 @@ const onboardingFeatures: OnboardingFeatures = {
     enabled: true,
     iota: onboardingFeaturesForIota,
     shimmer: onboardingFeaturesForShimmer,
+    iotaTestnet: onboardingFeaturesForIotaTestnet,
     testnet: onboardingFeaturesForTestnet,
     custom: onboardingFeaturesForCustom,
     importFromThirdParty: {

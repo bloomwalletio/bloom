@@ -1,6 +1,6 @@
 import { get, Writable } from 'svelte/store'
 
-import { IRouter, IRouterEvent } from '../interfaces'
+import { IRouter } from '../interfaces'
 
 export abstract class Router<R> implements IRouter {
     protected history: R[] = []
@@ -35,9 +35,9 @@ export abstract class Router<R> implements IRouter {
     }
 
     // This function should be implemented in the child router
-    next(event?: IRouterEvent): void {
+    next(params?: Record<string, unknown>): void {
         throw Error(`Unimplemented state machine within custom router!\n
-        Called with event: ${JSON.stringify(event)}`)
+        Called with event: ${JSON.stringify(params)}`)
     }
 
     previous(): void {

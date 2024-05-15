@@ -1,6 +1,5 @@
 import { ExplorerEndpoint } from '../enums'
 import { NetworkId } from '../types'
-import { getExplorerApiNetworkName } from './getExplorerApiNetworkName'
 import { isStardustNetwork } from './isStardustNetwork'
 import { isEvmNetwork } from './isEvmNetwork'
 
@@ -20,7 +19,7 @@ const EVM_EXPLORER_ENDPOINTS: Readonly<{ [key in ExplorerEndpoint]?: string }> =
 
 export function getExplorerEndpoint(networkId: NetworkId, explorerEndpoint: ExplorerEndpoint): string | undefined {
     if (isStardustNetwork(networkId)) {
-        return `${getExplorerApiNetworkName(networkId)}/${STARDUST_EXPLORER_ENDPOINTS[explorerEndpoint]}`
+        return STARDUST_EXPLORER_ENDPOINTS[explorerEndpoint]
     } else if (isEvmNetwork(networkId)) {
         return EVM_EXPLORER_ENDPOINTS[explorerEndpoint]
     }

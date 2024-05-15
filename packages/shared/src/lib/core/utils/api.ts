@@ -50,7 +50,7 @@ export class BaseApi {
             }
 
             const url = buildUrl({
-                origin: this._baseUrl,
+                base: this._baseUrl,
                 pathname: `${this._basePath ? this._basePath + '/' : ''}${path}`,
                 query: queryParameters,
             })

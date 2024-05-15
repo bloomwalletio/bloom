@@ -54,6 +54,17 @@
                         "secondary": "Connect to any network with custom settings"
                     }
                 },
+                "testnetSelection": {
+                    "title": "Select your testnet",
+                    "iotaTestnet": {
+                        "primary": "IOTA Testnet",
+                        "secondary": "Test network using valueless TST tokens"
+                    },
+                    "testnet": {
+                        "primary": "Shimmer Testnet",
+                        "secondary": "Test network using valueless RMS tokens"
+                    }
+                },
                 "setupCustomNetwork": {
                     "title": "Advanced configuration"
                 }
@@ -1022,7 +1033,8 @@
             "accountsSearched": "Accounts searched",
             "accountsFound": "Accounts found",
             "totalWalletBalance": "Total balance",
-            "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown."
+            "searchAgainHint": "Is your balance or number of wallets incorrect? Search again until your full balance is shown.",
+            "singleAccountSearch": "Search only current account"
         },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
