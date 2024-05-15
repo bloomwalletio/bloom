@@ -67,7 +67,7 @@
     </div>
     <div class="flex flex-col gap-2 p-3">
         <nft-name class="w-full flex flex-row items-center justify-between gap-2">
-            <Text type="body2" truncate>{nft.name}</Text>
+            <Text type="body2" truncate class="after:content-['\200b']">{nft.name}</Text>
         </nft-name>
         <nft-pills class="flex flex-row items-center gap-2">
             <NetworkAvatar networkId={nft.networkId} size="sm" showTooltip />
