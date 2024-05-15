@@ -10,7 +10,7 @@
     export let url: string | undefined
     export let successMessage: string
 
-    const dapp = getConnectedDappByOrigin(url)
+    const dapp = url ? getConnectedDappByOrigin(url) : undefined
 </script>
 
 <PopupTemplate
@@ -21,7 +21,7 @@
 >
     <DappInfo
         slot="banner"
-        metadata={dapp.metadata}
+        metadata={dapp?.metadata}
         showLink={false}
         classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
     />

@@ -3,7 +3,12 @@ import { NetworkId, getEvmNetwork } from '@core/network'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import { getConnectedDappByOrigin, getWalletClient, setConnectedDapps, updateVerificationStateForDapp } from '../stores'
+import {
+    getConnectedDappBySessionTopic,
+    getWalletClient,
+    setConnectedDapps,
+    updateVerificationStateForDapp,
+} from '../stores'
 import { CallbackParameters } from '../types'
 import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { handleEthTransaction } from './eth_transaction.handler'
@@ -19,7 +24,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const { request, chainId } = params
     const method = request.method as RpcMethod
 
-    const dapp = getConnectedDappByOrigin(verifyContext.verified.origin)
+    const dapp = getConnectedDappBySessionTopic(topic)
     const verifiedState = verifyContext.verified.isScam
         ? DappVerification.Scam
         : (verifyContext.verified.validation as DappVerification)
