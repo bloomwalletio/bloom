@@ -52,7 +52,7 @@
     let parameters: Record<string, string> | undefined = undefined
     let busy = false
 
-    let selectedGasSpeed: GasSpeed = GasSpeed.Required
+    let selectedGasSpeed = GasSpeed.Required
     let gasPrices: IGasPricesBySpeed = {
         [GasSpeed.Required]: Converter.bigIntLikeToBigInt(preparedTransaction?.gasPrice as number),
     }
@@ -85,7 +85,7 @@
                 break
             }
             case StardustActivityType.Nft: {
-                nft = getNftByIdForAccount($selectedAccount.index, transferInfo.nftId)
+                nft = getNftByIdForAccount($selectedAccount?.index, transferInfo.nftId)
                 break
             }
             case StardustActivityType.SmartContract: {

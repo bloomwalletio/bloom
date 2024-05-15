@@ -31,7 +31,7 @@
     export let transactionSummaryProps: TransactionSummaryProps | undefined
     let { _onMount, preparedOutput, preparedTransaction } = transactionSummaryProps ?? {}
 
-    let selectedGasSpeed: GasSpeed = GasSpeed.Required
+    let selectedGasSpeed = GasSpeed.Required
     let gasPrices: IGasPricesBySpeed = {
         [GasSpeed.Required]: Converter.bigIntLikeToBigInt(preparedTransaction?.gasPrice as number),
     }
@@ -47,8 +47,8 @@
     let recipientAddress: string
     let evmNetwork: IEvmNetwork | undefined
 
-    async function prepareTransactions(sendFlowParameters: SendFlowParameters): Promise<void> {
-        if (_onMount) {
+    async function prepareTransactions(sendFlowParameters?: SendFlowParameters): Promise<void> {
+        if (_onMount || !sendFlowParameters || !$selectedAccount) {
             // The unlock stronghold/ledger flow passes the _onMount prop and the preparedTransactions
             return
         }
@@ -57,7 +57,7 @@
             const { recipient } = sendFlowParameters
 
             recipientAddress =
-                recipient.type === SubjectType.Account
+                recipient?.type === SubjectType.Account
                     ? recipient.account.name
                     : truncateString(recipient?.address, 6, 6)
 
@@ -104,7 +104,7 @@
     }
 
     async function onConfirmClick(): Promise<void> {
-        if (!isValidTransaction()) {
+        if (!isValidTransaction() || !$selectedAccount) {
             return
         }
 
@@ -117,7 +117,7 @@
         try {
             busy = true
             modifyPopupState({ preventClose: true })
-            if (preparedTransaction) {
+            if (preparedTransaction && evmNetwork) {
                 preparedTransaction.gasPrice = Converter.bigIntToHex(
                     gasPrices?.[selectedGasSpeed] ?? gasPrices.required
                 )

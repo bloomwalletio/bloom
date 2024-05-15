@@ -5,7 +5,7 @@
     import { DappVerificationPill } from '@ui'
     import { VERIFICATION_ICONS } from '@auxiliary/wallet-connect/constants/verification-icons.constant'
 
-    export let metadata: CoreTypes.Metadata
+    export let metadata: CoreTypes.Metadata | undefined
     export let verifiedState: DappVerification | undefined = undefined
     export let showLink: boolean = true
     export let classes: string = ''
