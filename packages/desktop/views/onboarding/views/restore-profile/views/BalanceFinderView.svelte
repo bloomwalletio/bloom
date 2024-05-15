@@ -72,7 +72,7 @@
             depthSearch = true
             recoverAccountsPayload = {
                 accountStartIndex: accountGapLimit,
-                accountGapLimit: 0,
+                accountGapLimit: 1,
                 addressGapLimit: (searchCount - depthSearchCount) * addressGapLimit,
                 syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
             }
