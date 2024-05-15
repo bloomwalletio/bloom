@@ -20,25 +20,16 @@
 
     $: items = setItems(gasPrices, selectedGasSpeed)
     function setItems(gasPrices: IGasPricesBySpeed, selectedGasSpeed: GasSpeed): IMenuItem[] {
+        const gasPriceSlow = gasPrices.required > (gasPrices.slow ?? 0) ? gasPrices.required : gasPrices.slow
         const _items = [
             {
                 icon: IconName.ClockPlus,
-                title: localize('general.required'),
-                subtitle: formatGasFee(gasUnit, gasPrices.required),
-                selected: selectedGasSpeed === GasSpeed.Required,
-                onClick: () => onChooseGasPriceClick(GasSpeed.Required),
-            },
-        ]
-
-        if (gasPrices.slow) {
-            _items.push({
-                icon: IconName.ClockPlus,
                 title: localize('general.slow'),
-                subtitle: formatGasFee(gasUnit, gasPrices.slow),
+                subtitle: formatGasFee(gasUnit, gasPriceSlow),
                 selected: selectedGasSpeed === GasSpeed.Slow,
                 onClick: () => onChooseGasPriceClick(GasSpeed.Slow),
-            })
-        }
+            },
+        ]
 
         if (gasPrices.average) {
             _items.push({
