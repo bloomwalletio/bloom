@@ -3,7 +3,12 @@ import { NetworkId, getEvmNetwork } from '@core/network'
 import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import { getConnectedDappByOrigin, getWalletClient, setConnectedDapps, updateVerificationStateForDapp } from '../stores'
+import {
+    getConnectedDappBySessionTopic,
+    getWalletClient,
+    setConnectedDapps,
+    updateVerificationStateForDapp,
+} from '../stores'
 import { CallbackParameters } from '../types'
 import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { handleEthTransaction } from './eth_transaction.handler'
@@ -11,6 +16,8 @@ import { handleSignMessage } from './sign_message.handler'
 import { handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
 import { DappVerification, RpcMethod } from '../enums'
 import { EvmTransactionData, getEvmTransactionFromHexString } from '@core/layer-2'
+import { activeProfileId } from '@core/profile/stores'
+import { get } from 'svelte/store'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
@@ -18,12 +25,6 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const { topic, params, id, verifyContext } = event
     const { request, chainId } = params
     const method = request.method as RpcMethod
-
-    const dapp = getConnectedDappByOrigin(verifyContext.verified.origin)
-    const verifiedState = verifyContext.verified.isScam
-        ? DappVerification.Scam
-        : (verifyContext.verified.validation as DappVerification)
-    updateVerificationStateForDapp(verifyContext.verified.origin, verifiedState)
 
     function returnResponse({ result, error }: CallbackParameters): void {
         const response: JsonRpcResponse | undefined = result
@@ -48,6 +49,17 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             }
         }
     }
+
+    if (!get(activeProfileId)) {
+        returnResponse({ error: getSdkError('SESSION_SETTLEMENT_FAILED') })
+        return
+    }
+
+    const dapp = getConnectedDappBySessionTopic(topic)
+    const verifiedState = verifyContext.verified.isScam
+        ? DappVerification.Scam
+        : (verifyContext.verified.validation as DappVerification)
+    updateVerificationStateForDapp(verifyContext.verified.origin, verifiedState)
 
     if (!dapp) {
         returnResponse({ error: getSdkError('SESSION_SETTLEMENT_FAILED') })
