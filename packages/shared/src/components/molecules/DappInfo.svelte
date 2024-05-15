@@ -4,8 +4,9 @@
     import { Avatar, Icon, IconName, Link, Text } from '@bloomwalletio/ui'
     import { DappVerificationPill } from '@ui'
     import { VERIFICATION_ICONS } from '@auxiliary/wallet-connect/constants/verification-icons.constant'
+    import { IDappMetadata } from '@auxiliary/wallet-connect/interface'
 
-    export let metadata: CoreTypes.Metadata | undefined
+    export let metadata: CoreTypes.Metadata | IDappMetadata | undefined
     export let verifiedState: DappVerification | undefined = undefined
     export let showLink: boolean = true
     export let classes: string = ''
