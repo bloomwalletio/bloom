@@ -26,3 +26,7 @@ export function getConnectedDapps(): IConnectedDapp[] {
 export function getConnectedDappByOrigin(origin: string): IConnectedDapp | undefined {
     return get(connectedDapps).find((dapp) => dapp.metadata?.url === origin)
 }
+
+export function getConnectedDappBySessionTopic(sessionTopic: string): IConnectedDapp | undefined {
+    return get(connectedDapps).find((dapp) => dapp.session?.topic === sessionTopic)
+}

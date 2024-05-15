@@ -58,7 +58,7 @@
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
                     successMessage: localize('popups.signMessage.success'),
-                    url: dapp.metadata?.url,
+                    dapp,
                 },
             })
         } catch (err) {

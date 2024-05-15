@@ -137,7 +137,7 @@
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
                     successMessage: getSuccessMessage(),
-                    url: dapp?.metadata?.url,
+                    dapp,
                 },
             })
         } catch (err) {
