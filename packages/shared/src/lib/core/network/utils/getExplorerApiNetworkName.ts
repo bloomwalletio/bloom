@@ -7,9 +7,11 @@ export function getExplorerApiNetworkName(networkId: NetworkId): string {
             return 'mainnet'
         case SupportedStardustNetworkId.Shimmer:
             return 'shimmer'
+        case SupportedStardustNetworkId.IotaTestnet:
+            return 'iota-testnet'
         case SupportedStardustNetworkId.Testnet:
             return 'testnet'
         default:
-            return 'iota-testnet'
+            return ''
     }
 }
