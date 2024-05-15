@@ -34,12 +34,12 @@ export function parseSmartContractDataFromTransactionData(
     const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
     let parsedData
-    if (isErc20) {
+    if (isIscContract) {
+        parsedData = parseSmartContractDataWithIscMagicAbi(evmNetwork, rawData, recipientAddress)
+    } else if (isErc20) {
         parsedData = parseSmartContractDataWithErc20Abi(evmNetwork, rawData, recipientAddress)
     } else if (isErc721) {
         parsedData = parseSmartContractDataWithErc721Abi(evmNetwork, rawData, recipientAddress)
-    } else if (isIscContract) {
-        parsedData = parseSmartContractDataWithIscMagicAbi(evmNetwork, rawData, recipientAddress)
     }
 
     return parsedData ?? parseSmartContractDataWithMethodRegistry(rawData, recipientAddress)
@@ -257,13 +257,17 @@ function parseSmartContractDataWithMethodRegistry(
         }
 
         const name = matches[1]
-        const parametersArr = matches[2] ?? ''
+        const inputsArr = matches[2] ?? ''
+        const inputs: IParsedInput[] = inputsArr.split(',').map((param, index) => {
+            // Method registry can either contain just `uint64` or `uint64 amount`
+            const [type, name] = param.trim().split(' ')
 
-        const inputs: IParsedInput[] = parametersArr.split(',').map((type, index) => ({
-            name: `param${index + 1}`,
-            type,
-            value: undefined,
-        }))
+            return {
+                name: name ?? `param${index + 1}`,
+                type,
+                value: undefined,
+            }
+        })
 
         return {
             type: ParsedSmartContractType.SmartContract,
