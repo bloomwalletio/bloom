@@ -9,7 +9,7 @@ export class CoinGeckoApi {
     static async makeRequest<T>(endpoint: string, query?: QueryParameters): Promise<T> {
         try {
             const url = buildUrl({
-                origin: MARKET_API_BASE_URL,
+                base: MARKET_API_BASE_URL,
                 pathname: `api/v3/${endpoint}`,
                 query,
             })

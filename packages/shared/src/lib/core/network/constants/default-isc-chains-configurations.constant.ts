@@ -3,6 +3,7 @@ import { IIscChainConfiguration } from '../interfaces'
 import { StardustNetworkId } from '../types'
 import { DEFAULT_BASE_TOKEN } from './default-base-token.constant'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
+import { DEFAULT_EXPLORER_URLS } from './default-explorer-urls.constant'
 import { SupportedIscNetworkId, SupportedNetworkId, SupportedStardustNetworkId } from './supported-network-id.constant'
 import { isFeatureEnabled } from '@lib/features/utils'
 
@@ -38,11 +39,25 @@ const SHIMMER_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     explorerUrl: 'https://explorer.evm.shimmer.network/',
 }
 
+const IOTA_TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
+    id: SupportedIscNetworkId.IotaTestnetEvm,
+    type: NetworkType.Isc,
+    name: 'IOTA Testnet EVM',
+    chainId: ChainId.IotaTestnetEvm,
+    namespace: NetworkNamespace.Evm,
+    baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.IotaTestnetEvm],
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.IotaTestnetEvm] ?? 0,
+    aliasAddress: 'tst1pzxsrr7apqkdzz633dyntmvxwtyvk029p39te5j0m33q6946h7akzv663zu',
+    rpcEndpoint: 'https://json-rpc.evm.testnet.iotaledger.net/',
+    apiEndpoint: 'https://api.evm.testnet.iotaledger.net/',
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.IotaTestnetEvm],
+}
+
 // exported as used in tests
 export const TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     id: SupportedIscNetworkId.TestnetEvm,
     type: NetworkType.Isc,
-    name: 'Testnet EVM',
+    name: 'Shimmer Testnet EVM',
     chainId: ChainId.TestnetEvm,
     namespace: NetworkNamespace.Evm,
     baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.TestnetEvm],
@@ -59,6 +74,9 @@ export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetwor
     }),
     ...(isFeatureEnabled('onboarding.shimmer.defaultIscChains') && {
         [SupportedStardustNetworkId.Shimmer]: SHIMMER_EVM_CHAIN_CONFIGURATION,
+    }),
+    ...(isFeatureEnabled('onboarding.iotaTestnet.defaultIscChains') && {
+        [SupportedStardustNetworkId.IotaTestnet]: IOTA_TESTNET_EVM_CHAIN_CONFIGURATION,
     }),
     ...(isFeatureEnabled('onboarding.testnet.defaultIscChains') && {
         [SupportedStardustNetworkId.Testnet]: TESTNET_EVM_CHAIN_CONFIGURATION,

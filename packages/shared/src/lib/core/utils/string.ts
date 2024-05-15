@@ -15,6 +15,10 @@ export function stripTrailingSlash(str: string): string {
     return str ? str.replace(/\/+$/, '') : ''
 }
 
+export function addTrailingSlash(str: string): string {
+    return stripTrailingSlash(str) + '/'
+}
+
 /**
  * Strip spaces from the text
  * @param str The text to strip the values from

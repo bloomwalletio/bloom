@@ -1,4 +1,4 @@
-import { stripSpaces, stripTrailingSlash } from './string'
+import { addTrailingSlash, stripSpaces, stripTrailingSlash } from './string'
 import { QueryParameters } from './types'
 
 export function cleanUrl(
@@ -25,14 +25,15 @@ export function cleanUrl(
 }
 
 type UrlParams = {
-    origin: string
+    base: string
     pathname?: string
     query?: QueryParameters
 }
 
 export function buildUrl(urlParams: UrlParams): URL | undefined {
     try {
-        const url = new URL(urlParams.pathname ?? '', urlParams.origin)
+        // URL parser requires a slash at the end of the base URL to parse the URL correctly
+        const url = new URL(urlParams.pathname ?? '', addTrailingSlash(urlParams.base))
         for (const key of Object.keys(urlParams.query ?? {})) {
             const value = urlParams.query?.[key]
             if (!value) continue
