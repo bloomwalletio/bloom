@@ -13,6 +13,7 @@
     import { SignTypedDataVersion } from '@metamask/eth-sig-util'
     import { signEip712Message } from '@core/wallet/actions/signEip712Message'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { handleError } from '@core/error/handlers'
 
     export let data: string
     export let version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4
@@ -32,7 +33,6 @@
         }
 
         isBusy = true
-
         try {
             const result = await signEip712Message(data, version, evmNetwork.coinType, account)
             closePopup({ forceClose: true })
@@ -42,12 +42,11 @@
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
                     successMessage: localize('popups.signMessage.success'),
-                    url: dapp.metadata?.url,
+                    dapp,
                 },
             })
         } catch (err) {
-            closePopup({ forceClose: true })
-            callback({ error: err.message ?? localize('error.global.generic') })
+            handleError(err)
         } finally {
             isBusy = false
         }
