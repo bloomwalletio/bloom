@@ -54,6 +54,17 @@
                         "secondary": "Verbinde dich mit jedem Netzwerk mit benutzerdefinierten Einstellungen"
                     }
                 },
+                "testnetSelection": {
+                    "title": "Select your testnet",
+                    "iotaTestnet": {
+                        "primary": "IOTA Testnet",
+                        "secondary": "Test network using valueless TST tokens"
+                    },
+                    "testnet": {
+                        "primary": "Shimmer Testnet",
+                        "secondary": "Test network using valueless RMS tokens"
+                    }
+                },
                 "setupCustomNetwork": {
                     "title": "Fortgeschrittene Konfiguration"
                 }
@@ -891,7 +902,7 @@
             "releasedAt": "Veröffentlicht am",
             "updateAvailable": "Ein Update ist verfügbar",
             "updatesDisabled": "Es sind Updates verfügbar, aber In-App-Upgrade ist für Ihr Betriebssystem deaktiviert.",
-            "latestInstalled": "Du verwendest die neueste und sicherste Version von Bloom"
+            "latestInstalled": "Du verwendest die neueste und sicherste Version von Firefly"
         },
         "backupStronghold": {
             "title": "Stronghold-Backup erstellen",
@@ -989,7 +1000,7 @@
             "empty": "Das Fehlerprotokoll ist leer."
         },
         "deleteProfile": {
-            "title": "Profil löschen",
+            "title": "Delete {name} profile",
             "confirmation": "Willst du dieses Profil wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
             "typePassword": "Gib zur Bestätigung dein Passwort ein."
         },
@@ -1008,6 +1019,7 @@
         },
         "transaction": {
             "selectToken": "Wähle einen Token aus",
+            "allNetworks": "All networks",
             "selectAmount": "{tokenName} senden",
             "selectRecipient": "{assetName} senden an",
             "transactionSummary": "Transaktion an {recipient}",
@@ -1019,7 +1031,8 @@
             "accountsSearched": "Konten durchsucht",
             "accountsFound": "Konten gefunden",
             "totalWalletBalance": "Gesamtguthaben",
-            "searchAgainHint": "Ist das angezeigte Guthaben oder die Anzahl der Wallets nicht korrekt? Dann suche erneut, bis dein gesamtes Guthaben angezeigt wird."
+            "searchAgainHint": "Ist das angezeigte Guthaben oder die Anzahl der Wallets nicht korrekt? Dann suche erneut, bis dein gesamtes Guthaben angezeigt wird.",
+            "singleAccountSearch": "Search only current account"
         },
         "ledgerNotConnected": {
             "title": "Verbinde deinen Ledger",
@@ -2023,6 +2036,7 @@
             "timeNotSynced": "Gerätezeit ist falsch, Synchronisierung nicht möglich.",
             "unabledToConnect": "Verbindung zur Node kann nicht hergestellt werden",
             "differentNetwork": "Die Node ist in einem anderen Netzwerk verfügbar",
+            "invalidNode": "The URL is not a valid node",
             "duplicateNodes": "Duplizierte Node kann nicht hinzugefügt werden",
             "noCoinType": "Kein Cointyp angegeben"
         },

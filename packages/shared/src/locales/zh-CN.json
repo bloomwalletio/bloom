@@ -54,6 +54,17 @@
                         "secondary": "Connect to any network with custom settings"
                     }
                 },
+                "testnetSelection": {
+                    "title": "Select your testnet",
+                    "iotaTestnet": {
+                        "primary": "IOTA Testnet",
+                        "secondary": "Test network using valueless TST tokens"
+                    },
+                    "testnet": {
+                        "primary": "Shimmer Testnet",
+                        "secondary": "Test network using valueless RMS tokens"
+                    }
+                },
                 "setupCustomNetwork": {
                     "title": "Advanced configuration"
                 }
@@ -989,7 +1000,7 @@
             "empty": "错误日志为空。"
         },
         "deleteProfile": {
-            "title": "删除配置文件",
+            "title": "Delete {name} profile",
             "confirmation": "您确定要删除此配置文件吗？此操作无法撤消。",
             "typePassword": "请输入您的密码以确认。"
         },
@@ -1008,6 +1019,7 @@
         },
         "transaction": {
             "selectToken": "Select a token",
+            "allNetworks": "All networks",
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",
@@ -1019,7 +1031,8 @@
             "accountsSearched": "Accounts searched",
             "accountsFound": "Accounts found",
             "totalWalletBalance": "总余额",
-            "searchAgainHint": "你的余额或钱包数量不正确吗？再次搜索，直到显示你的全部余额。"
+            "searchAgainHint": "你的余额或钱包数量不正确吗？再次搜索，直到显示你的全部余额。",
+            "singleAccountSearch": "Search only current account"
         },
         "ledgerNotConnected": {
             "title": "连接您的Ledger",
@@ -2023,6 +2036,7 @@
             "timeNotSynced": "设备时间不正确，无法同步节点。",
             "unabledToConnect": "无法连接到节点",
             "differentNetwork": "节点位于不同的网络",
+            "invalidNode": "The URL is not a valid node",
             "duplicateNodes": "无法添加重复节点",
             "noCoinType": "No coin type specified"
         },
