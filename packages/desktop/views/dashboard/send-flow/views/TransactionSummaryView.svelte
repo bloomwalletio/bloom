@@ -47,7 +47,7 @@
     let recipientAddress: string
     let evmNetwork: IEvmNetwork | undefined
 
-    async function prepareTransactions(sendFlowParameters?: SendFlowParameters): Promise<void> {
+    async function prepareTransactions(sendFlowParameters: SendFlowParameters | undefined): Promise<void> {
         if (_onMount || !sendFlowParameters || !$selectedAccount) {
             // The unlock stronghold/ledger flow passes the _onMount prop and the preparedTransactions
             return
