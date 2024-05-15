@@ -62,7 +62,7 @@
             gasPrices = { ...gasPrices, ..._gasPrices }
         }
     }
-    $: preparedTransaction.gasPrice = gasPrices[selectedGasSpeed]
+    $: preparedTransaction.gasPrice = Converter.bigIntToHex(gasPrices?.[selectedGasSpeed] ?? gasPrices.required)
 
     setTokenTransfer()
     function setTokenTransfer(): void {
