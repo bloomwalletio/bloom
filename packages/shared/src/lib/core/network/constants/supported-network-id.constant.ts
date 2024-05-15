@@ -1,4 +1,4 @@
-import { EvmNetworkId, StardustNetworkId } from '../types'
+import type { EvmNetworkId, StardustNetworkId } from '../types/network-id.type'
 import { ChainId } from '../enums/chain-id.enum'
 import { NetworkNamespace } from '../enums/network-namespace.enum'
 import { StardustNetworkName } from '../enums/stardust-network-name.enum'

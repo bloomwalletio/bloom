@@ -1,17 +1,10 @@
-import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS, buildUrl } from '@core/utils'
-import {} from '../enums'
+import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS } from '@core/utils/constants'
+import { buildUrl } from '@core/utils/url'
+import { SupportedNetworkId } from '../constants'
 import { DEFAULT_EXPLORER_API_BASE_URL } from '../constants/default-explorer-api-base-url.constant'
 import { ExplorerApiEndpoint } from '../enums'
 import { IExplorerApiNetwork, IExplorerApiNetworks } from '../interfaces'
-import { NetworkId } from '../types'
-import { SupportedStardustNetworkId } from '../constants'
-
-const ExplorerNetworkId = {
-    [SupportedStardustNetworkId.Iota]: 'mainnet',
-    [SupportedStardustNetworkId.Shimmer]: 'shimmer',
-    [SupportedStardustNetworkId.IotaTestnet]: 'iota-testnet',
-    [SupportedStardustNetworkId.Testnet]: 'shimmer-testnet',
-}
+import type { NetworkId } from '../types'
 
 export class ExplorerApi {
     static async makeRequest<T>(endpoint: ExplorerApiEndpoint): Promise<T> {
@@ -35,6 +28,12 @@ export class ExplorerApi {
     }
 
     static async getNetworkInfo(networkId: NetworkId): Promise<IExplorerApiNetwork | undefined> {
+        const ExplorerNetworkId = {
+            [SupportedNetworkId.Iota]: 'mainnet',
+            [SupportedNetworkId.Shimmer]: 'shimmer',
+            [SupportedNetworkId.IotaTestnet]: 'iota-testnet',
+            [SupportedNetworkId.Testnet]: 'shimmer-testnet',
+        }
         const networksInfo = await ExplorerApi.makeRequest<IExplorerApiNetworks>(ExplorerApiEndpoint.Networks)
         const networkInfo = networksInfo?.networks.find((network) => network.network === ExplorerNetworkId[networkId])
         return networkInfo
