@@ -54,6 +54,17 @@
                         "secondary": "Verbind met een elk netwerk met de standaard instellingen"
                     }
                 },
+                "testnetSelection": {
+                    "title": "Select your testnet",
+                    "iotaTestnet": {
+                        "primary": "IOTA Testnet",
+                        "secondary": "Test network using valueless TST tokens"
+                    },
+                    "testnet": {
+                        "primary": "Shimmer Testnet",
+                        "secondary": "Test network using valueless RMS tokens"
+                    }
+                },
                 "setupCustomNetwork": {
                     "title": "Geavanceerde instellingen"
                 }
@@ -989,7 +1000,7 @@
             "empty": "Het foutenlogboek is leeg."
         },
         "deleteProfile": {
-            "title": "Profiel verwijderen",
+            "title": "Delete {name} profile",
             "confirmation": "Weet u zeker dat u dit profiel wil verwijderen? Deze handeling kan niet ongedaan worden gemaakt.",
             "typePassword": "Voer je wachtwoord in om te bevestigen."
         },
@@ -1008,6 +1019,7 @@
         },
         "transaction": {
             "selectToken": "Selecteer een token",
+            "allNetworks": "All networks",
             "selectAmount": "Verzend {tokenName}",
             "selectRecipient": "Verzend {assetName} naar",
             "transactionSummary": "Transactie naar {recipient}",
@@ -1019,7 +1031,8 @@
             "accountsSearched": "Accounts doorzocht",
             "accountsFound": "Gevonden accounts",
             "totalWalletBalance": "Totaalsaldo",
-            "searchAgainHint": "Is jouw saldo of aantal wallets onjuist? Zoek opnieuw totdat jouw volledige saldo wordt weergegeven."
+            "searchAgainHint": "Is jouw saldo of aantal wallets onjuist? Zoek opnieuw totdat jouw volledige saldo wordt weergegeven.",
+            "singleAccountSearch": "Search only current account"
         },
         "ledgerNotConnected": {
             "title": "Sluit jouw Ledger aan",
@@ -2023,6 +2036,7 @@
             "timeNotSynced": "Apparaat tijd is onjuist, kan knooppunt niet synchroniseren.",
             "unabledToConnect": "Kan niet verbinden met knooppunt",
             "differentNetwork": "Het knooppunt bevindt zich op een ander netwerk",
+            "invalidNode": "The URL is not a valid node",
             "duplicateNodes": "Kan dubbel knooppunt niet toevoegen",
             "noCoinType": "Geen munt type opgegeven"
         },

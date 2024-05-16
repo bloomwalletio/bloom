@@ -54,6 +54,17 @@
                         "secondary": "Connect to any network with custom settings"
                     }
                 },
+                "testnetSelection": {
+                    "title": "Select your testnet",
+                    "iotaTestnet": {
+                        "primary": "IOTA Testnet",
+                        "secondary": "Test network using valueless TST tokens"
+                    },
+                    "testnet": {
+                        "primary": "Shimmer Testnet",
+                        "secondary": "Test network using valueless RMS tokens"
+                    }
+                },
                 "setupCustomNetwork": {
                     "title": "Advanced configuration"
                 }
@@ -989,7 +1000,7 @@
             "empty": "El registro de errores está vacío."
         },
         "deleteProfile": {
-            "title": "Eliminar perfil",
+            "title": "Delete {name} profile",
             "confirmation": "¿Estás seguro de que quieres eliminar este perfil? Esta operación no se puede deshacer.",
             "typePassword": "Escribe tu contraseña para confirmar."
         },
@@ -1008,6 +1019,7 @@
         },
         "transaction": {
             "selectToken": "Selecciona un token",
+            "allNetworks": "All networks",
             "selectAmount": "Enviar {tokenName}",
             "selectRecipient": "Enviar {assetName} a",
             "transactionSummary": "Transaction to {recipient}",
@@ -1019,7 +1031,8 @@
             "accountsSearched": "Accounts searched",
             "accountsFound": "Accounts found",
             "totalWalletBalance": "Balance total",
-            "searchAgainHint": "¿Su saldo o número de billeteras es incorrecto? Busque de nuevo hasta que se muestre su saldo completo."
+            "searchAgainHint": "¿Su saldo o número de billeteras es incorrecto? Busque de nuevo hasta que se muestre su saldo completo.",
+            "singleAccountSearch": "Search only current account"
         },
         "ledgerNotConnected": {
             "title": "Conecte su ledger",
@@ -2023,6 +2036,7 @@
             "timeNotSynced": "La hora del dispositivo es incorrecta, no se puede sincronizar el nodo.",
             "unabledToConnect": "No se puede conectar al nodo",
             "differentNetwork": "El nodo se encuentra en una red diferente",
+            "invalidNode": "The URL is not a valid node",
             "duplicateNodes": "No se puede agregar un nodo duplicado",
             "noCoinType": "No coin type specified"
         },

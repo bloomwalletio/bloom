@@ -54,6 +54,17 @@
                         "secondary": "Connect to any network with custom settings"
                     }
                 },
+                "testnetSelection": {
+                    "title": "Select your testnet",
+                    "iotaTestnet": {
+                        "primary": "IOTA Testnet",
+                        "secondary": "Test network using valueless TST tokens"
+                    },
+                    "testnet": {
+                        "primary": "Shimmer Testnet",
+                        "secondary": "Test network using valueless RMS tokens"
+                    }
+                },
                 "setupCustomNetwork": {
                     "title": "Advanced configuration"
                 }
@@ -989,7 +1000,7 @@
             "empty": "Le journal d'erreur est vide."
         },
         "deleteProfile": {
-            "title": "Supprimer le profil",
+            "title": "Delete {name} profile",
             "confirmation": "Êtes-vous sûr de vouloir supprimer ce profil? Cette opération ne peut pas être annulée.",
             "typePassword": "Saisissez votre mot de passe pour confirmer."
         },
@@ -1008,6 +1019,7 @@
         },
         "transaction": {
             "selectToken": "Sélectionnez un jeton",
+            "allNetworks": "All networks",
             "selectAmount": "Envoyer {tokenName}",
             "selectRecipient": "Envoyer {assetName} à",
             "transactionSummary": "Transaction vers {recipient}",
@@ -1019,7 +1031,8 @@
             "accountsSearched": "Accounts searched",
             "accountsFound": "Accounts found",
             "totalWalletBalance": "Solde total",
-            "searchAgainHint": "Votre solde ou le nombre de portefeuilles sont incorrects ? Appuyez à nouveau sur la recherche jusqu'à ce que votre solde complet soit affiché."
+            "searchAgainHint": "Votre solde ou le nombre de portefeuilles sont incorrects ? Appuyez à nouveau sur la recherche jusqu'à ce que votre solde complet soit affiché.",
+            "singleAccountSearch": "Search only current account"
         },
         "ledgerNotConnected": {
             "title": "Connect your Ledger",
@@ -2023,6 +2036,7 @@
             "timeNotSynced": "Device time is incorrect, unable to sync node.",
             "unabledToConnect": "Impossible de se connecter au nœud",
             "differentNetwork": "Le nœud est situé sur un réseau différent",
+            "invalidNode": "The URL is not a valid node",
             "duplicateNodes": "Impossible d'ajouter un nœud en double",
             "noCoinType": "No coin type specified"
         },
