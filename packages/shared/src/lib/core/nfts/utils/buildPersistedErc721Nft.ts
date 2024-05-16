@@ -26,10 +26,10 @@ export async function buildPersistedErc721Nft(
         downloadMetadata: undefined,
     }
 
-    const hasTokenMetadata = await contract.methods.supportsInterface(Erc721InterfaceId.Metadata).call()
+    const hasTokenMetadata = await contract.methods.supportsInterface(Erc721InterfaceId.Metadata).call<boolean>()
     if (hasTokenMetadata) {
         try {
-            const tokenUri = await contract.methods.tokenURI(tokenId).call()
+            const tokenUri = await contract.methods.tokenURI(tokenId).call<string>()
             const composedTokenUri = getPrimaryNftUrl(tokenUri)
             if (!composedTokenUri) {
                 throw new Error('Unable to create composed NFT URI!')

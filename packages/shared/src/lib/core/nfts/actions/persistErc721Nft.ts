@@ -1,5 +1,4 @@
 import { getEvmTokenMetadata } from '@core/layer-2/utils'
-import { ContractType } from '../../layer-2/enums'
 import { EvmNetworkId } from '@core/network/types'
 import { persistNftWithContractMetadata } from './persistNftWithContractMetadata'
 import { IErc721ContractMetadata, IPersistedErc721Nft } from '@core/nfts'
@@ -20,12 +19,8 @@ export async function persistErc721Nft(
         return
     }
 
-    const metadata = (await getEvmTokenMetadata(
-        tokenAddress,
-        networkId,
-        ERC721_ABI
-    )) as IErc721ContractMetadata
-    let owner = await contract.methods.ownerOf(tokenId).call()
+    const metadata = (await getEvmTokenMetadata(tokenAddress, networkId, ERC721_ABI)) as IErc721ContractMetadata
+    let owner = await contract.methods.ownerOf(tokenId).call<string>()
     owner = owner.toLowerCase()
 
     const expectedOwnerAddress = expectedOwner ? getAddressFromAccountForNetwork(expectedOwner, networkId) : undefined

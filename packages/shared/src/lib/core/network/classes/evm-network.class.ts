@@ -1,6 +1,5 @@
 import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import { IError } from '@core/error/interfaces'
-import { ContractType } from '@core/layer-2/enums'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 import { getPersistedErc721NftsForNetwork, updateErc721NftsOwnership } from '@core/nfts/actions'
 import { Nft } from '@core/nfts/interfaces'
@@ -12,11 +11,12 @@ import { Converter } from '@core/utils'
 import features from '@features/features'
 import { CoinType } from '@iota/sdk/out/types'
 import { writable, Writable } from 'svelte/store'
-import { Contract, ContractAbi, Web3 } from 'web3'
+import { Block, Contract, ContractAbi, Web3 } from 'web3'
 import { ChainId, NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
-import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces'
+import { IBaseEvmNetworkConfiguration, IEvmNetwork } from '../interfaces'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { ERC20_ABI } from '@core/layer-2'
+import { BigIntLike } from '@ethereumjs/util'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -103,7 +103,7 @@ export class EvmNetwork implements IEvmNetwork {
         }
     }
 
-    async getLatestBlock(): Promise<IBlock> {
+    async getLatestBlock(): Promise<Block> {
         const number = await this.provider.eth.getBlockNumber()
         return this.provider.eth.getBlock(number)
     }
@@ -144,7 +144,7 @@ export class EvmNetwork implements IEvmNetwork {
                 if (!contract || !this.coinType) {
                     continue
                 }
-                const rawBalance = await contract.methods.balanceOf(evmAddress).call()
+                const rawBalance = await contract.methods.balanceOf(evmAddress).call<BigIntLike>()
                 erc20TokenBalances[erc20Address] = Converter.bigIntLikeToBigInt(rawBalance)
             } catch (err) {
                 const error = (err as IError)?.message ?? err

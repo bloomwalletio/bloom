@@ -49,7 +49,7 @@ async function persistNftsFromExplorerAsset(
 
         const nftPromises = Array.from({ length: Number(value) }).map(async (_, idx) => {
             try {
-                const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call()
+                const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call<string>()
                 const persistedNft = await persistNftWithContractMetadata(
                     evmAddress,
                     networkId,

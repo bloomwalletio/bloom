@@ -4,10 +4,9 @@ import { ITokenBalance } from '@core/token/interfaces'
 import { ChainId, NetworkNamespace, NetworkType } from '../enums'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { IBaseNetwork, IBaseNetworkMetadata } from './base-network.interface'
-import { IBlock } from './block.interface'
 import { IIscChainMetadata } from './isc-chain-metadata.interface'
 import { BigIntLike } from '@ethereumjs/util'
-import { Contract, ContractAbi } from 'web3'
+import { Block, Contract, ContractAbi } from 'web3'
 
 export interface IIscChain extends IEvmNetwork {
     type: NetworkType.Isc
@@ -36,5 +35,5 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
     getNftsForAccount(account: IAccountState): Promise<Nft[]>
 
     getContract(abi: ContractAbi, address: string): Contract<ContractAbi>
-    getLatestBlock(): Promise<IBlock>
+    getLatestBlock(): Promise<Block>
 }
