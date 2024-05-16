@@ -25,7 +25,19 @@ export class AbiDecoder {
         this.web3 = _web3
     }
 
-    public decodeData(data: string): { name: string; inputs: unknown } | undefined {
+    public decodeData(data: string):
+        | {
+              name: string
+              inputs: Record<
+                  string,
+                  {
+                      name: string
+                      type: string
+                      value: unknown
+                  }
+              >
+          }
+        | undefined {
         const functionSignature = data.slice(2, 10)
         const abiItem = this.abi[functionSignature]
 
@@ -35,7 +47,13 @@ export class AbiDecoder {
 
         const decoded = this.web3.eth.abi.decodeParameters(abiItem.inputs ?? [], data.slice(10))
 
-        const inputs: { [key: string]: unknown } = {}
+        const inputs: {
+            [key: string]: {
+                name: string
+                type: string
+                value: unknown
+            }
+        } = {}
         for (let i = 0; i < decoded.__length__; i++) {
             const dataInput = decoded[i]
             const abiInput = abiItem.inputs?.[i]
@@ -45,7 +63,11 @@ export class AbiDecoder {
             }
 
             const parsedInput = this.parseInputParameter(abiInput, dataInput)
-            inputs[abiInput.name] = parsedInput
+            inputs[abiInput.name] = {
+                name: abiInput.name,
+                type: abiInput.type,
+                value: parsedInput,
+            }
         }
 
         return {

@@ -1,20 +1,36 @@
 export interface IscCallMethodInputs {
-    contractHname: string
-    entryPoint: string
+    contractHname: {
+        name: string
+        type: string
+        value: string
+    }
+    entryPoint: {
+        name: string
+        type: string
+        value: string
+    }
     params: {
-        items: {
-            key: string
-            value: string
-        }[]
+        name: string
+        type: string
+        value: {
+            items: {
+                key: string
+                value: string
+            }[]
+        }
     }
     allowance: {
-        baseTokens: string
-        nativeTokens: {
-            ID: {
-                data: string
-            }
-            amount: string
-        }[]
-        nfts: string[]
+        name: string
+        type: string
+        value: {
+            baseTokens: string
+            nativeTokens: {
+                ID: {
+                    data: string
+                }
+                amount: string
+            }[]
+            nfts: string[]
+        }
     }
 }

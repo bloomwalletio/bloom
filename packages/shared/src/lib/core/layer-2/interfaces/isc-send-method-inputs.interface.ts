@@ -3,24 +3,16 @@ import { ILayer2SendOptionsParameter } from './layer-2-send-options-parameter.in
 
 export interface IscSendMethodInputs {
     targetAddress: {
-        data: string
+        name: string
+        type: string
+        value: {
+            data: string
+        }
     }
     assets: {
-        baseTokens: string
-        nativeTokens: {
-            ID: {
-                data: string
-            }
-            amount: string
-        }[]
-        nfts: string[]
-    }
-    adjustMinimumStorageDeposit: boolean
-    metadata: {
-        targetContract: number
-        entrypoint: number
-        params: ILayer2SendMetadataParameterParameters[]
-        allowance: {
+        name: string
+        type: string
+        value: {
             baseTokens: string
             nativeTokens: {
                 ID: {
@@ -30,7 +22,31 @@ export interface IscSendMethodInputs {
             }[]
             nfts: string[]
         }
-        gasBudget: number
     }
-    sendOptions: ILayer2SendOptionsParameter
+    adjustMinimumStorageDeposit: boolean
+    metadata: {
+        name: string
+        type: string
+        value: {
+            targetContract: number
+            entrypoint: number
+            params: ILayer2SendMetadataParameterParameters[]
+            allowance: {
+                baseTokens: string
+                nativeTokens: {
+                    ID: {
+                        data: string
+                    }
+                    amount: string
+                }[]
+                nfts: string[]
+            }
+            gasBudget: number
+        }
+    }
+    sendOptions: {
+        name: string
+        type: string
+        value: ILayer2SendOptionsParameter
+    }
 }
