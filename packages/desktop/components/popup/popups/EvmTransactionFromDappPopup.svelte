@@ -249,6 +249,7 @@
             destinationNetworkId={evmNetwork.id}
             transaction={preparedTransaction}
             {gasPrices}
+            {busy}
         />
     </div>
 </PopupTemplate>

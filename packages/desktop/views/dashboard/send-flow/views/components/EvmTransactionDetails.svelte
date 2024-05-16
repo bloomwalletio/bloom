@@ -14,6 +14,7 @@
     export let transaction: EvmTransactionData
     export let gasPrices: IGasPricesBySpeed
     export let storageDeposit: bigint = BigInt(0)
+    export let busy: boolean
 
     const { gasLimit, estimatedGas } = transaction
 
@@ -47,7 +48,13 @@
             }}
         >
             <div slot="boundValue">
-                <SetTransactionFeeMenu bind:selectedGasSpeed {gasPrices} gasUnit={gasLimit} {formatGasFee} />
+                <SetTransactionFeeMenu
+                    bind:selectedGasSpeed
+                    {gasPrices}
+                    gasUnit={gasLimit}
+                    {formatGasFee}
+                    disabled={busy}
+                />
             </div>
         </TableRow>
     {/if}

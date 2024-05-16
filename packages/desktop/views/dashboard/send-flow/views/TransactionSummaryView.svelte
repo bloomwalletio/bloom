@@ -205,6 +205,7 @@
             transaction={preparedTransaction}
             sendFlowParameters={$sendFlowParameters}
             network={evmNetwork}
+            {busy}
         />
     {:else if !isSourceNetworkLayer2 && preparedOutput && $sendFlowParameters}
         {#if isDestinationNetworkLayer2}

@@ -12,6 +12,7 @@
     export let network: IEvmNetwork
     export let selectedGasSpeed: GasSpeed
     export let gasPrices: IGasPricesBySpeed
+    export let busy: boolean
 
     $: transactionAsset = getTransactionAsset(sendFlowParameters)
     function getTransactionAsset(_sendFlowParameters: SendFlowParameters): {
@@ -69,5 +70,6 @@
         {transaction}
         {storageDeposit}
         {gasPrices}
+        {busy}
     />
 </div>
