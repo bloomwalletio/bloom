@@ -45,7 +45,7 @@
         const recoverAccountsPayload: RecoverAccountsPayload = {
             accountStartIndex,
             accountGapLimit,
-            addressGapLimit: 0,
+            addressGapLimit: 1,
             syncOptions: { ...DEFAULT_SYNC_OPTIONS, addressStartIndex: 0 },
         }
 

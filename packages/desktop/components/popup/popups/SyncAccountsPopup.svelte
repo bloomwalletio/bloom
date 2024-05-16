@@ -75,7 +75,7 @@
             isDepthSearch = true
             recoverAccountsPayload = {
                 accountStartIndex: isSingleAccountSearch ? $selectedAccountIndex : accountGapLimit,
-                accountGapLimit: isSingleAccountSearch ? 0 : 1,
+                accountGapLimit: 1,
                 addressGapLimit: isSingleAccountSearch
                     ? addressGapLimit
                     : (searchCount - depthSearchCount) * addressGapLimit,
