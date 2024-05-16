@@ -3,7 +3,7 @@ import { BASE_TOKEN_ID } from '@core/token/constants'
 import { AbiDecoder, HEX_PREFIX } from '@core/utils'
 import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
 import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
+import { ISC_BASE_COIN_ADDRESS, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import {
     Erc20TransferMethodInputs,
     Erc721SafeTransferMethodInputs,
@@ -29,7 +29,7 @@ export function parseSmartContractDataFromTransactionData(
     }
 
     const rawData = transaction.data as string
-    const isErc20 = isTrackedTokenAddress(evmNetwork.id, recipientAddress)
+    const isErc20 = isTrackedTokenAddress(evmNetwork.id, recipientAddress) || recipientAddress === ISC_BASE_COIN_ADDRESS
     const isErc721 = isTrackedNftAddress(evmNetwork.id, recipientAddress)
     const isIscContract = recipientAddress === ISC_MAGIC_CONTRACT_ADDRESS
 
