@@ -1,5 +1,6 @@
-import { AbiType, StateMutabilityType } from '@core/layer-2'
 import { ContractAbi } from 'web3'
+import { AbiType } from '../enums/abi-type.enum'
+import { StateMutabilityType } from '../enums/state-mutability-type.enum'
 
 export const ERC165_ABI: ContractAbi = [
     // / @notice Query if a contract implements an interface

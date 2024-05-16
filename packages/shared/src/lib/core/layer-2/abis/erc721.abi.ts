@@ -1,6 +1,7 @@
 import { ContractAbi } from 'web3'
-import { AbiType, StateMutabilityType } from '../enums'
 import { ERC165_ABI } from './erc165.abi'
+import { AbiType } from '../enums/abi-type.enum'
+import { StateMutabilityType } from '../enums/state-mutability-type.enum'
 
 const ERC721_BASE_ABI: ContractAbi = [
     {
@@ -556,4 +557,9 @@ export const ERC721_ENUMERABLE_ABI: ContractAbi = [
     },
 ]
 
-export const ERC721_ABI: ContractAbi = [...ERC165_ABI, ...ERC721_BASE_ABI, ...ERC721_METADATA_ABI, ...ERC721_ENUMERABLE_ABI]
+export const ERC721_ABI: ContractAbi = [
+    ...ERC165_ABI,
+    ...ERC721_BASE_ABI,
+    ...ERC721_METADATA_ABI,
+    ...ERC721_ENUMERABLE_ABI,
+]
