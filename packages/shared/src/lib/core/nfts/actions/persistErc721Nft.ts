@@ -6,6 +6,7 @@ import { IErc721ContractMetadata, IPersistedErc721Nft } from '@core/nfts'
 import { getEvmNetwork } from '@core/network'
 import { localize } from '@core/i18n'
 import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+import { ERC721_ABI } from '@core/layer-2'
 
 export async function persistErc721Nft(
     tokenAddress: string,
@@ -14,7 +15,7 @@ export async function persistErc721Nft(
     expectedOwner?: IAccountState
 ): Promise<IPersistedErc721Nft | undefined> {
     const evmNetwork = getEvmNetwork(networkId)
-    const contract = evmNetwork?.getContract(ContractType.Erc721, tokenAddress)
+    const contract = evmNetwork?.getContract(ERC721_ABI, tokenAddress)
     if (!contract) {
         return
     }
@@ -22,7 +23,7 @@ export async function persistErc721Nft(
     const metadata = (await getEvmTokenMetadata(
         tokenAddress,
         networkId,
-        ContractType.Erc721
+        ERC721_ABI
     )) as IErc721ContractMetadata
     let owner = await contract.methods.ownerOf(tokenId).call()
     owner = owner.toLowerCase()

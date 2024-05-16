@@ -1,17 +1,17 @@
 import { Erc721InterfaceId } from '@core/layer-2/enums'
-import { Contract } from '@core/layer-2/types'
 import { EvmNetworkId } from '@core/network/types'
 
 import { MimeType, NftStandard } from '../enums'
 import { IErc721ContractMetadata, IErc721TokenMetadata, IPersistedErc721Nft } from '../interfaces'
 import { getPrimaryNftUrl } from './getPrimaryNftUrl'
+import { Contract, ContractAbi } from 'web3'
 
 export async function buildPersistedErc721Nft(
     nftId: string,
     ownerAddress: string,
     networkId: EvmNetworkId,
     tokenId: string,
-    contract: Contract,
+    contract: Contract<ContractAbi>,
     contractMetadata: IErc721ContractMetadata
 ): Promise<IPersistedErc721Nft> {
     const persistedNft: IPersistedErc721Nft = {

@@ -1,5 +1,4 @@
 import { IAccountState } from '@core/account/interfaces'
-import { ContractType } from '@core/layer-2/enums'
 import { getEvmNetworks } from '@core/network/stores'
 import { IEvmNetwork } from '@core/network/interfaces'
 import features from '@features/features'
@@ -14,6 +13,7 @@ import { TokenTrackingStatus } from '@core/token'
 import { IBlockscoutAsset } from '@auxiliary/blockscout/interfaces'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 import { addOrUpdateNftForAccount } from '../stores'
+import { ERC721_ABI } from '@core/layer-2'
 
 export async function checkForUntrackedNfts(account: IAccountState): Promise<void> {
     if (!features?.collectibles?.erc721?.enabled) {
@@ -44,7 +44,7 @@ async function persistNftsFromExplorerAsset(
     const { token, value } = asset
     const { address, name, symbol } = token
     try {
-        const contract = evmNetwork.getContract(ContractType.Erc721, address)
+        const contract = evmNetwork.getContract(ERC721_ABI, address)
         const networkId = evmNetwork.id
 
         const nftPromises = Array.from({ length: Number(value) }).map(async (_, idx) => {

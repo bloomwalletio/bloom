@@ -1,6 +1,5 @@
 import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import { IError } from '@core/error/interfaces'
-import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 import { getPersistedErc721NftsForNetwork, updateErc721NftsOwnership } from '@core/nfts/actions'
@@ -17,6 +16,7 @@ import { Contract, ContractAbi, Web3 } from 'web3'
 import { ChainId, NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
+import { ERC20_ABI } from '@core/layer-2'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -90,10 +90,7 @@ export class EvmNetwork implements IEvmNetwork {
         clearInterval(this.statusPoll)
     }
 
-    getContract(abi: ContractAbi | undefined, address: string): Contract<ContractAbi> {
-        if (!abi) {
-            throw new Error(`Unable to determine contract on address "${address}"`)
-        }
+    getContract(abi: ContractAbi, address: string): Contract<ContractAbi> {
         return new this.provider.eth.Contract(abi, address)
     }
 
@@ -143,7 +140,7 @@ export class EvmNetwork implements IEvmNetwork {
                     continue
                 }
 
-                const contract = this.getContract(ContractType.Erc20, erc20Address)
+                const contract = this.getContract(ERC20_ABI, erc20Address)
                 if (!contract || !this.coinType) {
                     continue
                 }
