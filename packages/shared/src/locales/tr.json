@@ -54,6 +54,17 @@
                         "secondary": "Özel ayarlarla herhangi bir ağa bağlanın"
                     }
                 },
+                "testnetSelection": {
+                    "title": "Select your testnet",
+                    "iotaTestnet": {
+                        "primary": "IOTA Testnet",
+                        "secondary": "Test network using valueless TST tokens"
+                    },
+                    "testnet": {
+                        "primary": "Shimmer Testnet",
+                        "secondary": "Test network using valueless RMS tokens"
+                    }
+                },
                 "setupCustomNetwork": {
                     "title": "Gelişmiş yapılandırma"
                 }
@@ -989,7 +1000,7 @@
             "empty": "Hata geçmişi boş."
         },
         "deleteProfile": {
-            "title": "Profili sil",
+            "title": "Delete {name} profile",
             "confirmation": "Bu dosyayı silmek istiyor musunuz? Bu işlem geri alınamaz.",
             "typePassword": "Onaylamak için parolanızı girin."
         },
@@ -1008,6 +1019,7 @@
         },
         "transaction": {
             "selectToken": "Bir token seçin",
+            "allNetworks": "All networks",
             "selectAmount": "Gönder {tokenName}",
             "selectRecipient": "{assetName}'i şuraya gönder",
             "transactionSummary": "Transaction to {recipient}",
@@ -1019,7 +1031,8 @@
             "accountsSearched": "Aranan hesaplar",
             "accountsFound": "Bulunan hesaplar",
             "totalWalletBalance": "Toplam bakiye",
-            "searchAgainHint": "Bakiyeniz veya cüzdan sayınız yanlış mı? Bakiyenizin tamamı gösterilene kadar tekrar arama yapın."
+            "searchAgainHint": "Bakiyeniz veya cüzdan sayınız yanlış mı? Bakiyenizin tamamı gösterilene kadar tekrar arama yapın.",
+            "singleAccountSearch": "Search only current account"
         },
         "ledgerNotConnected": {
             "title": "Ledger'ınızı bağlayın",
@@ -2023,6 +2036,7 @@
             "timeNotSynced": "Cihaz saati yanlış, düğüm senkronize edilemiyor.",
             "unabledToConnect": "Düğüme bağlanılamıyor",
             "differentNetwork": "Düğüm farklı bir ağda bulunuyor",
+            "invalidNode": "The URL is not a valid node",
             "duplicateNodes": "Yinelenen düğüm eklenemiyor",
             "noCoinType": "Belirtilen coin türü yok"
         },

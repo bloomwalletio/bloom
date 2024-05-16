@@ -5,13 +5,17 @@
     import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
-    import { StardustActivityType } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { GasSpeed, IGasPricesBySpeed, getHexEncodedTransaction, getMethodForEvmTransaction } from '@core/layer-2'
+    import {
+        GasSpeed,
+        IGasPricesBySpeed,
+        IParsedInput,
+        getHexEncodedTransaction,
+        parseSmartContractDataFromTransactionData,
+    } from '@core/layer-2'
     import { EvmTransactionData } from '@core/layer-2/types'
-    import { getTransferInfoFromTransactionData } from '@core/layer-2/utils/getTransferInfoFromTransactionData'
     import { LedgerAppName } from '@core/ledger'
     import { ExplorerEndpoint, IEvmNetwork, getExplorerUrl } from '@core/network'
     import { Nft } from '@core/nfts'
@@ -29,6 +33,7 @@
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { ParsedSmartContractType } from '@core/layer-2/enums/parsed-smart-contract-type.enum'
 
     export let preparedTransaction: EvmTransactionData
     export let evmNetwork: IEvmNetwork
@@ -49,7 +54,7 @@
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false
     let methodName: string | undefined = undefined
-    let parameters: Record<string, string> | undefined = undefined
+    let inputs: IParsedInput[] | undefined = undefined
     let busy = false
 
     let selectedGasSpeed = GasSpeed.Required
@@ -64,31 +69,58 @@
     }
     $: preparedTransaction.gasPrice = Converter.bigIntToHex(gasPrices?.[selectedGasSpeed] ?? gasPrices.required)
 
-    setTokenTransfer()
-    function setTokenTransfer(): void {
-        const transferInfo = getTransferInfoFromTransactionData(preparedTransaction, evmNetwork)
-        switch (transferInfo?.type) {
-            case StardustActivityType.Basic: {
+    setTransactionInformation()
+    function setTransactionInformation(): void {
+        if (!preparedTransaction.data) {
+            baseCoinTransfer = {
+                token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
+                rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
+            } as TokenTransferData
+            return
+        }
+
+        const parsedData = parseSmartContractDataFromTransactionData(
+            {
+                to: preparedTransaction.to?.toString(),
+                data: String(preparedTransaction.data),
+                value: preparedTransaction.value,
+            },
+            evmNetwork
+        )
+
+        methodName = parsedData?.parsedMethod?.name
+        inputs = parsedData?.parsedMethod?.inputs
+
+        switch (parsedData?.type) {
+            case ParsedSmartContractType.CoinTransfer: {
                 const transfer = {
-                    token: getTokenFromSelectedAccountTokens(transferInfo.tokenId, evmNetwork.id),
-                    rawAmount: transferInfo.rawAmount,
+                    token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
+                    rawAmount: parsedData.rawAmount,
                 } as TokenTransferData
                 if (!transfer.token) {
                     return
                 }
 
-                if (transferInfo.tokenId === BASE_TOKEN_ID) {
-                    baseCoinTransfer = transfer
-                } else {
-                    tokenTransfer = transfer
+                baseCoinTransfer = transfer
+                break
+            }
+            case ParsedSmartContractType.TokenTransfer: {
+                const transfer = {
+                    token: getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id),
+                    rawAmount: parsedData.rawAmount,
+                } as TokenTransferData
+                if (!transfer.token) {
+                    return
                 }
+
+                tokenTransfer = transfer
                 break
             }
-            case StardustActivityType.Nft: {
-                nft = getNftByIdForAccount($selectedAccount?.index, transferInfo.nftId)
+            case ParsedSmartContractType.NftTransfer: {
+                nft = getNftByIdForAccount($selectedAccount?.index as number, parsedData.nftId)
                 break
             }
-            case StardustActivityType.SmartContract: {
+            case ParsedSmartContractType.SmartContract: {
                 isSmartContractCall = true
                 break
             }
@@ -153,13 +185,6 @@
             modifyPopupState({ preventClose: false }, true)
             handleError(err)
         }
-    }
-
-    $: void setMethodName(preparedTransaction)
-    function setMethodName(preparedTransaction: EvmTransactionData): void {
-        const [method, _parameters] = getMethodForEvmTransaction(String(preparedTransaction.data ?? '')) ?? []
-        methodName = method
-        parameters = _parameters
     }
 
     function getSuccessMessage(): string {
@@ -234,7 +259,7 @@
                                 onClick: () => onExplorerClick(String(preparedTransaction.to)),
                             },
                             { key: localize('general.methodName'), value: methodName },
-                            { key: localize('general.parameters'), value: parameters },
+                            { key: localize('general.parameters'), value: inputs },
                             { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                         ]}
                     />

@@ -23,7 +23,7 @@
         const gasPriceSlow = gasPrices.required > (gasPrices.slow ?? 0) ? gasPrices.required : gasPrices.slow
         const _items = [
             {
-                icon: IconName.ClockPlus,
+                icon: IconName.BatteryLow,
                 title: localize('general.slow'),
                 subtitle: formatGasFee(gasUnit, gasPriceSlow),
                 selected: selectedGasSpeed === GasSpeed.Slow,
@@ -33,7 +33,7 @@
 
         if (gasPrices.average) {
             _items.push({
-                icon: IconName.CalendarDate,
+                icon: IconName.BatteryMid,
                 title: localize('general.average'),
                 subtitle: formatGasFee(gasUnit, gasPrices.average),
                 selected: selectedGasSpeed === GasSpeed.Average,
@@ -43,7 +43,7 @@
 
         if (gasPrices.fast) {
             _items.push({
-                icon: IconName.CalendarPlus,
+                icon: IconName.BatteryFull,
                 title: localize('general.fast'),
                 subtitle: formatGasFee(gasUnit, gasPrices.fast),
                 selected: selectedGasSpeed === GasSpeed.Fast,

@@ -2,6 +2,7 @@ import { EvmActivityType } from '@core/activity/enums/evm'
 import { TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
 import { BaseEvmActivity } from './base-evm-activity.type'
+import { IParsedInput } from '@core/layer-2/interfaces'
 
 export type EvmTokenMintingActivity = BaseEvmActivity & {
     type: EvmActivityType.TokenMinting
@@ -14,5 +15,5 @@ export type EvmTokenMintingActivity = BaseEvmActivity & {
 
     methodId?: string
     method?: string
-    parameters?: Record<string, string>
+    inputs?: IParsedInput[]
 }
