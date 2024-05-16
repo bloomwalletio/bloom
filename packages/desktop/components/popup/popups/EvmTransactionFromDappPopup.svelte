@@ -53,7 +53,7 @@
     let baseCoinTransfer: TokenTransferData | undefined
     let isSmartContractCall = false
     let methodName: string | undefined = undefined
-    let inputs: IParsedInput[] | undefined = undefined
+    let inputs: Record<string, unknown> | undefined = undefined
     let busy = false
 
     setTransactionInformation()
@@ -76,7 +76,10 @@
         )
 
         methodName = parsedData?.parsedMethod?.name
-        inputs = parsedData?.parsedMethod?.inputs
+        inputs = parsedData?.parsedMethod?.inputs.reduce((acc, input: IParsedInput) => {
+            acc[input.name] = input.value
+            return acc
+        }, {})
 
         switch (parsedData?.type) {
             case ParsedSmartContractType.CoinTransfer: {
