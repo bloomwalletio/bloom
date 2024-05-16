@@ -5,6 +5,27 @@
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta
+        http-equiv="Content-Security-Policy"
+        content="
+            default-src 'self';
+            connect-src 'self';
+            img-src 'self';
+            base-uri 'self';
+            form-action 'none';
+            frame-src 'none';
+            worker-src 'none';
+            script-src 'self' 'unsafe-inline';
+            style-src-elem 'self' 'unsafe-inline';
+            style-src-attr 'none';
+            object-src 'none';
+            media-src 'self';
+            font-src 'self';
+            manifest-src 'self';
+            navigate-to 'self';
+            upgrade-insecure-requests;
+        "
+    />
     <title>Bloom Error</title>
     <style>
         @font-face {
