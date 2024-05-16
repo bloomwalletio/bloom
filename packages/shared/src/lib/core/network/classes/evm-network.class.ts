@@ -2,7 +2,6 @@ import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import { IError } from '@core/error/interfaces'
 import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
 import { ContractType } from '@core/layer-2/enums'
-import { Contract } from '@core/layer-2/types'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 import { getPersistedErc721NftsForNetwork, updateErc721NftsOwnership } from '@core/nfts/actions'
 import { Nft } from '@core/nfts/interfaces'
@@ -14,7 +13,7 @@ import { Converter } from '@core/utils'
 import features from '@features/features'
 import { CoinType } from '@iota/sdk/out/types'
 import { writable, Writable } from 'svelte/store'
-import Web3 from 'web3'
+import { Contract, ContractAbi, Web3 } from 'web3'
 import { ChainId, NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
@@ -91,10 +90,9 @@ export class EvmNetwork implements IEvmNetwork {
         clearInterval(this.statusPoll)
     }
 
-    getContract(type: ContractType, address: string): Contract {
-        const abi = EVM_CONTRACT_ABIS[type]
+    getContract(abi: ContractAbi | undefined, address: string): Contract<ContractAbi> {
         if (!abi) {
-            throw new Error(`Unable to determine contract type "${type}"`)
+            throw new Error(`Unable to determine contract on address "${address}"`)
         }
         return new this.provider.eth.Contract(abi, address)
     }

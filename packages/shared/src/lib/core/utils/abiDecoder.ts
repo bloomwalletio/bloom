@@ -1,14 +1,17 @@
-import { Abi } from '@core/layer-2'
-import Web3 from 'web3'
-import type { AbiItem, AbiInput } from 'web3-utils'
+import type { AbiEventFragment, AbiFunctionFragment, AbiInput, AbiParameter, ContractAbi, Web3 } from 'web3'
 
 export class AbiDecoder {
-    public abi: Record<string, AbiItem>
+    public abi: Record<string, AbiFunctionFragment>
     public web3: Web3
 
-    constructor(_abi: Abi, _web3: Web3) {
-        const tmpAbi: Record<string, AbiItem> = {}
-        for (const abiItem of _abi) {
+    constructor(_abi: ContractAbi, _web3: Web3) {
+        const tmpAbi: Record<string, AbiFunctionFragment> = {}
+        for (let abiItem of _abi) {
+            if (abiItem.type !== 'function' && abiItem.type !== 'event') {
+                continue
+            }
+            abiItem = abiItem as AbiFunctionFragment | AbiEventFragment
+
             const functionParameters = abiItem.inputs?.map(concatInputsToString).join(',') ?? ''
             const functionSignature = `${abiItem.name}(${functionParameters})`
 
@@ -33,7 +36,7 @@ export class AbiDecoder {
             return undefined
         }
 
-        const decoded = this.web3.eth.abi.decodeParameters(abiItem.inputs ?? [], data.slice(10))
+        const decoded = this.web3.eth.abi.decodeParameters(abiItem.inputs as AbiInput[] ?? [], data.slice(10))
 
         const inputs: { [key: string]: unknown } = {}
         for (let i = 0; i < decoded.__length__; i++) {
@@ -54,7 +57,7 @@ export class AbiDecoder {
         }
     }
 
-    private parseInputParameter(input: AbiInput, value: unknown): unknown {
+    private parseInputParameter(input: AbiParameter, value: unknown): unknown {
         if (input.type === 'tuple') {
             const parsedValueMap: { [key: string]: unknown } = {}
             input.components?.forEach((_input, index) => {
@@ -69,9 +72,9 @@ export class AbiDecoder {
             const isArray = Array.isArray(value)
 
             if (isArray) {
-                return value.map((val) => this.web3.utils.toBN(val).toString())
+                return value.map((val) => this.web3.utils.toBigInt(val).toString())
             } else {
-                return this.web3.utils.toBN(value as string).toString()
+                return this.web3.utils.toBigInt(value as string).toString()
             }
         } else if (input.type.startsWith('address')) {
             const isArray = Array.isArray(value)
@@ -87,7 +90,7 @@ export class AbiDecoder {
     }
 }
 
-function concatInputsToString(input: AbiInput): string {
+function concatInputsToString(input: AbiParameter): string {
     if (input.type === 'tuple') {
         return '(' + input.components?.map(concatInputsToString).join(',') + ')'
     } else if (input.type === 'tuple[]') {

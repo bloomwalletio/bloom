@@ -1,6 +1,7 @@
-import { Abi, AbiType, StateMutabilityType } from '@core/layer-2'
+import { AbiType, StateMutabilityType } from '@core/layer-2'
+import { ContractAbi } from 'web3'
 
-export const ERC165_ABI: Abi = [
+export const ERC165_ABI: ContractAbi = [
     // / @notice Query if a contract implements an interface
     // / @param interfaceID The interface identifier, as specified in ERC-165
     // / @dev Interface identification is specified in ERC-165. This function

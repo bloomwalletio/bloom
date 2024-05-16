@@ -1,8 +1,8 @@
+import { ContractAbi } from 'web3'
 import { AbiType, StateMutabilityType } from '../enums'
-import { Abi } from '../types'
 import { ERC165_ABI } from './erc165.abi'
 
-const ERC721_BASE_ABI: Abi = [
+const ERC721_BASE_ABI: ContractAbi = [
     {
         inputs: [],
         payable: false,
@@ -400,7 +400,7 @@ const ERC721_BASE_ABI: Abi = [
     },
 ]
 
-export const ERC721_METADATA_ABI: Abi = [
+export const ERC721_METADATA_ABI: ContractAbi = [
     // / @notice A descriptive name for a collection of NFTs in this contract
     // /
     // / function name() external view returns (string _name);
@@ -468,7 +468,7 @@ export const ERC721_METADATA_ABI: Abi = [
     },
 ]
 
-export const ERC721_ENUMERABLE_ABI: Abi = [
+export const ERC721_ENUMERABLE_ABI: ContractAbi = [
     // / @notice Count NFTs tracked by this contract
     // / @return A count of valid NFTs tracked by this contract, where each one of
     // /  them has an assigned and queryable owner not equal to the zero address
@@ -556,4 +556,4 @@ export const ERC721_ENUMERABLE_ABI: Abi = [
     },
 ]
 
-export const ERC721_ABI: Abi = [...ERC165_ABI, ...ERC721_BASE_ABI, ...ERC721_METADATA_ABI, ...ERC721_ENUMERABLE_ABI]
+export const ERC721_ABI: ContractAbi = [...ERC165_ABI, ...ERC721_BASE_ABI, ...ERC721_METADATA_ABI, ...ERC721_ENUMERABLE_ABI]
