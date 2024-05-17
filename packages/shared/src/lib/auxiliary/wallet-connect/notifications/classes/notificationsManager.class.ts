@@ -38,25 +38,34 @@ export class NotificationsManager {
         }
 
         this.notifyClient.on(
-            NotifyEvent.Subscription,
-            (event: NotifyClientTypes.EventArguments[NotifyEvent.Subscription]) => {
-                console.warn('Unimplemented: NotifyEvent.Subscription', event)
+            NotifyEvent.SubscriptionsChanged,
+            (event: NotifyClientTypes.EventArguments[NotifyEvent.SubscriptionsChanged]) => {
+                this.updateSubscriptionsPerAddress(event.params.subscriptions)
+                void this.updateNotificationsForSubscriptions(event.params.subscriptions)
             }
         )
 
-        this.notifyClient.on(NotifyEvent.Message, (event: NotifyClientTypes.EventArguments[NotifyEvent.Message]) => {
-            console.warn('Unimplemented: NotifyEvent.Message', event)
-        })
+        // There is both a notification and a message event that returns at the same time,
+        // We have only registered a listener for notification and will ask WC what the difference is
+        this.notifyClient.on(
+            NotifyEvent.Notification,
+            (event: NotifyClientTypes.EventArguments[NotifyEvent.Notification]) => {
+                this.handleNewNotification(event.topic, event.params.notification)
+            }
+        )
 
         this.notifyClient.on(NotifyEvent.Update, (event: NotifyClientTypes.EventArguments[NotifyEvent.Update]) => {
             console.warn('Unimplemented: NotifyEvent.Update', event)
         })
 
+        this.notifyClient.on(NotifyEvent.Delete, (event: NotifyClientTypes.EventArguments[NotifyEvent.Delete]) => {
+            console.warn('Unimplemented: NotifyEvent.Delete', event)
+        })
+
         this.notifyClient.on(
-            NotifyEvent.SubscriptionsChanged,
-            (event: NotifyClientTypes.EventArguments[NotifyEvent.SubscriptionsChanged]) => {
-                this.updateSubscriptionsPerAddress(event.params.subscriptions)
-                void this.updateNotificationsForSubscriptions(event.params.subscriptions)
+            NotifyEvent.Subscription,
+            (event: NotifyClientTypes.EventArguments[NotifyEvent.Subscription]) => {
+                console.warn('Unimplemented: NotifyEvent.Subscription', event)
             }
         )
     }
@@ -195,6 +204,18 @@ export class NotificationsManager {
 
         this.notificationsPerSubscription.update((state) => {
             return { ...state, ...notificationsPerSubscription }
+        })
+    }
+
+    private handleNewNotification(topic: string, notification: NotifyClientTypes.NotifyNotification): void {
+        this.notificationsPerSubscription.update((state) => {
+            if (!state[topic]) {
+                return state
+            }
+
+            const notificationsForTopic = state[topic]
+            state[topic] = [...notificationsForTopic, notification]
+            return state
         })
     }
 
