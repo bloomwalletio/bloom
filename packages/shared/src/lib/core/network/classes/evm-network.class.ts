@@ -17,6 +17,9 @@ import { IBaseEvmNetworkConfiguration, IEvmNetwork } from '../interfaces'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { ERC20_ABI } from '@core/layer-2'
 import { BigIntLike } from '@ethereumjs/util'
+import { BlockscoutApi } from '@auxiliary/blockscout/api'
+import { convertGweiToWei } from '@core/layer-2/utils'
+import { IGasPricesBySpeed } from '@core/layer-2'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -33,6 +36,8 @@ export class EvmNetwork implements IEvmNetwork {
 
     public health: Writable<NetworkHealth> = writable(NetworkHealth.Operational)
     public statusPoll: number | undefined
+
+    private gasPrices: IGasPricesBySpeed | undefined
 
     constructor({
         id,
@@ -94,12 +99,35 @@ export class EvmNetwork implements IEvmNetwork {
         return new this.provider.eth.Contract(abi, address)
     }
 
-    async getGasPrice(): Promise<bigint | undefined> {
+    async getRequiredGasPrice(): Promise<bigint | undefined> {
         try {
             const gasPrice = await this.provider.eth.getGasPrice()
             return BigInt(gasPrice)
         } catch {
             return undefined
+        }
+    }
+
+    async getGasPrices(): Promise<IGasPricesBySpeed | undefined> {
+        try {
+            const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
+            let gasPrices: IGasPricesBySpeed = { required }
+            try {
+                const blockscoutApi = new BlockscoutApi(this.id)
+                const stats = await blockscoutApi.getStats()
+
+                Object.entries(stats?.gas_prices ?? {}).forEach(([key, value]) => {
+                    const gasInWei = convertGweiToWei(value)
+                    gasPrices[key] = gasInWei > required ? gasInWei : required
+                })
+            } catch (err) {
+                console.error(err)
+                gasPrices = { ...this.gasPrices, required }
+            }
+            this.gasPrices = gasPrices
+            return gasPrices
+        } catch (err) {
+            console.error('Failed to fetch required gas prices!', err)
         }
     }
 

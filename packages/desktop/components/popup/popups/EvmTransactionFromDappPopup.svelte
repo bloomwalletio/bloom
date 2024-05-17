@@ -1,38 +1,39 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { handleError } from '@core/error/handlers'
+    import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
+    import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
+    import { IAccountState } from '@core/account'
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
-    import { ExplorerEndpoint, IEvmNetwork, getExplorerUrl } from '@core/network'
-    import { DappInfo, TransactionAssetSection } from '@ui'
-    import PopupTemplate from '../PopupTemplate.svelte'
-    import { EvmTransactionData } from '@core/layer-2/types'
-    import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
+    import { openUrlInBrowser } from '@core/app'
+    import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
     import {
+        GasSpeed,
+        IGasPricesBySpeed,
         IParsedInput,
-        ParsedSmartContractType,
-        calculateEstimatedGasFeeFromTransactionData,
-        calculateMaxGasFeeFromTransactionData,
         getHexEncodedTransaction,
         parseSmartContractDataFromTransactionData,
     } from '@core/layer-2'
-    import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
-    import { TokenTransferData } from '@core/wallet'
-    import { Nft } from '@core/nfts'
-    import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
-    import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
-    import { Converter, truncateString } from '@core/utils'
-    import { openUrlInBrowser } from '@core/app'
-    import { BASE_TOKEN_ID } from '@core/token/constants'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { EvmTransactionData } from '@core/layer-2/types'
     import { LedgerAppName } from '@core/ledger'
-    import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
-    import { LegacyTransaction } from '@ethereumjs/tx'
-    import { getActiveProfileId } from '@core/profile/stores'
-    import { IAccountState } from '@core/account'
+    import { ExplorerEndpoint, IEvmNetwork, getExplorerUrl } from '@core/network'
+    import { Nft } from '@core/nfts'
     import { getNftByIdForAccount } from '@core/nfts/stores'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { getActiveProfileId } from '@core/profile/stores'
+    import { BASE_TOKEN_ID } from '@core/token/constants'
+    import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
+    import { Converter, MILLISECONDS_PER_SECOND, truncateString } from '@core/utils'
+    import { TokenTransferData } from '@core/wallet'
+    import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
+    import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
+    import { LegacyTransaction } from '@ethereumjs/tx'
+    import { DappInfo, TransactionAssetSection } from '@ui'
+    import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
+    import { onDestroy, onMount } from 'svelte'
+    import PopupTemplate from '../PopupTemplate.svelte'
+    import { ParsedSmartContractType } from '@core/layer-2/enums/parsed-smart-contract-type.enum'
 
     export let preparedTransaction: EvmTransactionData
     export let evmNetwork: IEvmNetwork
@@ -55,6 +56,18 @@
     let methodName: string | undefined = undefined
     let inputs: IParsedInput[] | undefined = undefined
     let busy = false
+
+    let selectedGasSpeed = GasSpeed.Required
+    let gasPrices: IGasPricesBySpeed = {
+        [GasSpeed.Required]: Converter.bigIntLikeToBigInt(preparedTransaction?.gasPrice as number),
+    }
+    async function setGasPrices(): Promise<void> {
+        const _gasPrices = await evmNetwork?.getGasPrices()
+        if (_gasPrices) {
+            gasPrices = { ...gasPrices, ..._gasPrices }
+        }
+    }
+    $: preparedTransaction.gasPrice = Converter.bigIntToHex(gasPrices?.[selectedGasSpeed] ?? gasPrices.required)
 
     setTransactionInformation()
     function setTransactionInformation(): void {
@@ -189,6 +202,16 @@
         const url = getExplorerUrl(evmNetwork.id, ExplorerEndpoint.Address, contractAddress)
         openUrlInBrowser(url)
     }
+
+    let intervalId: NodeJS.Timeout
+    onMount(async () => {
+        await setGasPrices()
+        intervalId = setInterval(() => void setGasPrices, MILLISECONDS_PER_SECOND * 10)
+    })
+
+    onDestroy(() => {
+        clearInterval(intervalId)
+    })
 </script>
 
 <PopupTemplate
@@ -246,10 +269,12 @@
             <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
         {/if}
         <EvmTransactionDetails
+            bind:selectedGasSpeed
             sourceNetwork={evmNetwork}
             destinationNetworkId={evmNetwork.id}
-            estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(preparedTransaction)}
-            maxGasFee={calculateMaxGasFeeFromTransactionData(preparedTransaction)}
+            transaction={preparedTransaction}
+            {gasPrices}
+            {busy}
         />
     </div>
 </PopupTemplate>

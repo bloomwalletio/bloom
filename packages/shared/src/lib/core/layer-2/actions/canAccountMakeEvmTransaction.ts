@@ -11,7 +11,8 @@ export async function canAccountMakeEvmTransaction(
 ): Promise<boolean> {
     const baseTokenAccountBalance = getLayer2AccountBalanceForToken(accountIndex, network.id)
     const gasLimit = addGasBuffer(FALLBACK_ESTIMATED_GAS[sendFlowType ?? SendFlowType.BaseCoinTransfer])
-    const gasPrice = await network.getGasPrice()
+
+    const gasPrice = await network.getRequiredGasPrice()
     if (gasPrice === undefined) {
         return false
     }

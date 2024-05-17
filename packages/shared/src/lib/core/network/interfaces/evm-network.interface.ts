@@ -7,6 +7,7 @@ import { IBaseNetwork, IBaseNetworkMetadata } from './base-network.interface'
 import { IIscChainMetadata } from './isc-chain-metadata.interface'
 import { BigIntLike } from '@ethereumjs/util'
 import { Block, Contract, ContractAbi } from 'web3'
+import { IGasPricesBySpeed } from '@core/layer-2'
 
 export interface IIscChain extends IEvmNetwork {
     type: NetworkType.Isc
@@ -30,7 +31,8 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
 
     provider: Web3Provider
 
-    getGasPrice(): Promise<bigint | undefined>
+    getRequiredGasPrice(): Promise<bigint | undefined>
+    getGasPrices(): Promise<IGasPricesBySpeed | undefined>
     getBalance(account: IAccountState): Promise<ITokenBalance | undefined>
     getNftsForAccount(account: IAccountState): Promise<Nft[]>
 
