@@ -1,14 +1,13 @@
 import { IAccountState } from '@core/account/interfaces'
-import { ContractType } from '@core/layer-2/enums'
-import { Contract } from '@core/layer-2/types'
 import { Nft } from '@core/nfts/interfaces'
 import { ITokenBalance } from '@core/token/interfaces'
 import { ChainId, NetworkNamespace, NetworkType } from '../enums'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
 import { IBaseNetwork, IBaseNetworkMetadata } from './base-network.interface'
-import { IBlock } from './block.interface'
 import { IIscChainMetadata } from './isc-chain-metadata.interface'
 import { BigIntLike } from '@ethereumjs/util'
+import { Block, Contract, ContractAbi } from 'web3'
+import { IGasPricesBySpeed } from '@core/layer-2'
 
 export interface IIscChain extends IEvmNetwork {
     type: NetworkType.Isc
@@ -32,10 +31,11 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
 
     provider: Web3Provider
 
-    getGasPrice(): Promise<bigint | undefined>
+    getRequiredGasPrice(): Promise<bigint | undefined>
+    getGasPrices(): Promise<IGasPricesBySpeed | undefined>
     getBalance(account: IAccountState): Promise<ITokenBalance | undefined>
     getNftsForAccount(account: IAccountState): Promise<Nft[]>
 
-    getContract(type: ContractType, address: string): Contract
-    getLatestBlock(): Promise<IBlock>
+    getContract(abi: ContractAbi, address: string): Contract<ContractAbi>
+    getLatestBlock(): Promise<Block>
 }
