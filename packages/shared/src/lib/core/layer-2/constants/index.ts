@@ -1,5 +1,4 @@
 export * from './accounts-contract.constant'
-export * from './base-token-contract-address.constant'
 export * from './contract-functions.constant'
 export * from './empty-buffer.constants'
 export * from './erc20-tokens-poll-interval.constant'
