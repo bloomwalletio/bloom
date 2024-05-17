@@ -5,12 +5,7 @@ import { signMessage } from '@core/wallet'
 import { NotifyClient, NotifyClientTypes } from '@walletconnect/notify-client'
 import { Writable, writable } from 'svelte/store'
 import { NotifyEvent } from '../enums'
-import {
-    notifySubscriptionEventHandler,
-    notifyMessageEventHandler,
-    notifyUpdateEventHandler,
-    notifySubscriptionsChangedEventHandler,
-} from '../handlers'
+
 // TODO: where should this be placed?
 const APP_DOMAIN = 'https://bloomwallet.io'
 
@@ -21,6 +16,7 @@ export class NotificationsManager {
     private trackedNetworkAddresses: Set<string> = new Set()
     public subscriptions: Writable<{ [address: string]: NotifyClientTypes.NotifySubscription[] }> = writable({})
     public notificationsPerSubscription: Writable<Notifications> = writable({})
+
     constructor() {
         void this.initialiseNotify()
     }
@@ -78,17 +74,15 @@ export class NotificationsManager {
             return
         }
 
-        this.notifyClient.on(NotifyEvent.Subscription, notifySubscriptionEventHandler)
+        this.notifyClient.on(NotifyEvent.Subscription, () => {})
 
-        this.notifyClient.on(NotifyEvent.Message, notifyMessageEventHandler)
+        this.notifyClient.on(NotifyEvent.Message, () => {})
 
-        this.notifyClient.on(NotifyEvent.Update, notifyUpdateEventHandler)
-        this.notifyClient.on(NotifyEvent.SubscriptionsChanged, (event) => {
+        this.notifyClient.on(NotifyEvent.Update, () => {})
+        this.notifyClient.on(NotifyEvent.SubscriptionsChanged, () => {
             for (const address of this.trackedNetworkAddresses) {
                 void this.setAllNotificationsAndSubscriptionsForNetworkAddress(address)
             }
-
-            notifySubscriptionsChangedEventHandler(event)
         })
     }
 
