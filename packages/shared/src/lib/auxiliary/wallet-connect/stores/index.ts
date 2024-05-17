@@ -1,5 +1,4 @@
 export * from './connected-dapps.store'
-export * from './notify-client.store'
 export * from './persisted-dapps.store'
 export * from './persisted-dapp-namespaces.store'
 export * from './selected-dapp.store'

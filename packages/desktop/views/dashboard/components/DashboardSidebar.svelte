@@ -4,7 +4,7 @@
     import { ProfileActionsMenu, SidebarTab } from '@components'
     import { APP_STAGE, AppStage } from '@core/app'
     import { localize } from '@core/i18n'
-    import { SupportedStardustNetworkId, getEvmNetwork } from '@core/network'
+    import { SupportedNetworkId, SupportedStardustNetworkId, getEvmNetwork } from '@core/network'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
     import {
         DashboardRoute,
@@ -22,14 +22,11 @@
     import LedgerStatusTile from './LedgerStatusTile.svelte'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { BackupToast, VersionToast } from './toasts'
-    import { notifyClient } from '@auxiliary/wallet-connect/stores'
-    import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
-    import { signMessage } from '@core/wallet/actions'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger/enums'
     import { handleError } from '@core/error/handlers'
-    import { buildAccountForWalletConnect } from '@auxiliary/wallet-connect/utils'
+    import { notificationsManager } from '@auxiliary/wallet-connect/notifications/classes'
 
     let expanded = true
     function toggleExpand(): void {
@@ -143,21 +140,7 @@
         $settingsRouter.reset()
     }
 
-    const evmNetwork = getEvmNetwork('eip155:1')
-
-    $: account = evmNetwork ? buildAccountForWalletConnect($selectedAccount as IAccountState, evmNetwork.id) : undefined
-    $: notifyClientOptions =
-        account && evmNetwork?.id
-            ? {
-                  account,
-                  domain: 'bloomwallet.io',
-                  allApps: true,
-              }
-            : undefined
-
     async function enableNotifications(): Promise<void> {
-        if (!$notifyClient || !notifyClientOptions || !evmNetwork) return
-
         try {
             await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch (error) {
@@ -165,14 +148,7 @@
         }
 
         try {
-            const { registerParams, message } = await $notifyClient.prepareRegistration(notifyClientOptions)
-            const signature = await signMessage(message, evmNetwork.coinType, $selectedAccount as IAccountState)
-            if (!signature) return
-
-            await $notifyClient.register({
-                registerParams,
-                signature,
-            })
+            notificationsManager.registerAccount($selectedAccount, getEvmNetwork(SupportedNetworkId.Ethereum))
         } catch (err) {
             handleError(err)
         }
@@ -210,7 +186,7 @@
 
         {#if expanded}
             <dashboard-sidebar-tiles class="w-full flex flex-col space-y-2">
-                {#if notifyClientOptions && $notifyClient?.isRegistered(notifyClientOptions)}
+                {#if notificationsManager?.isRegistered($selectedAccount, getEvmNetwork(SupportedNetworkId.Ethereum))}
                     <Pill color="success">Can subscribe</Pill>
                 {:else}
                     <Button text="Enable notifications" on:click={() => enableNotifications()} />

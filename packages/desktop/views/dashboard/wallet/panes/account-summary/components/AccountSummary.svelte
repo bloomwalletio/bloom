@@ -1,13 +1,11 @@
 <script lang="ts">
-    import { notifyClient } from '@auxiliary/wallet-connect/stores'
-    import { buildAccountForWalletConnect } from '@auxiliary/wallet-connect/utils'
+    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { Button, IconName } from '@bloomwalletio/ui'
     import { AccountActionsMenu, AccountSwitcher, FormattedBalance } from '@components'
-    import { IAccountState } from '@core/account'
     import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
     import { formatCurrency, localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { getEvmNetwork } from '@core/network'
+    import { SupportedL1EvmNetworkId } from '@core/network'
     import { allAccountFiatBalances, selectedAccountTokens } from '@core/token/stores'
     import { resetSendFlowParameters } from '@core/wallet'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
@@ -33,44 +31,17 @@
     }
 
     function onReceiveClick(): void {
-        void subscribeToNotifications()
+        subscribeToNotifications()
 
         // openPopup({
         //     id: PopupId.ReceiveAddress,
         // })
     }
 
-    async function subscribeToNotifications(): Promise<void> {
-        const network = getEvmNetwork('eip155:1')
-        if (!$notifyClient || !network) return
+    function subscribeToNotifications(): void {
         // Get the domain of the target dapp from the Explorer API response (https://explorer-api.walletconnect.com/v3/dapps?projectId=YOUR_PROJECT_ID&is_notify_enabled=true)
-        const appDomain1 = new URL('https://walletconnect.com').hostname
-        const appDomain2 = new URL('https://gm.walletconnect.com').hostname
-
-        const account = buildAccountForWalletConnect($selectedAccount as IAccountState, network.id)
-        if (!account) return
-
-        await $notifyClient.subscribe({
-            account,
-            appDomain: appDomain1,
-        })
-        await $notifyClient.subscribe({
-            account,
-            appDomain: appDomain2,
-        })
-        console.error('Subscribed to notifications')
-
-        const subscriptions = $notifyClient.getActiveSubscriptions({ account })
-        console.error('Subscriptions:', subscriptions)
-
-        const firstSubscription = Object.values(subscriptions)[0]
-        console.error('First subscription:', firstSubscription, firstSubscription.topic)
-
-        const notifications = await $notifyClient.getNotificationHistory({
-            topic: firstSubscription.topic,
-        })
-
-        console.error('Notifications:', notifications)
+        const appDomain = new URL('https://gm.walletconnect.com').hostname
+        notificationsManager.subscribeToDapp(appDomain, $selectedAccount, SupportedL1EvmNetworkId.Ethereum)
     }
 </script>
 
