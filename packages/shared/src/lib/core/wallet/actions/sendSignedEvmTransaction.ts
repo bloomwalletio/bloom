@@ -1,8 +1,8 @@
-import { TransactionReceipt } from 'web3-core'
 import { updateSelectedAccount } from '@core/account/stores'
 import { closePopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { IEvmNetwork } from '@core/network'
 import { getIsActiveLedgerProfile } from '@core/profile/stores'
+import { TransactionReceipt } from 'web3'
 
 export async function sendSignedEvmTransaction(
     evmNetwork: IEvmNetwork,

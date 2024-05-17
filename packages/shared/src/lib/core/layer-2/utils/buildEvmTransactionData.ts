@@ -1,7 +1,7 @@
 import { IEvmNetwork } from '@core/network'
 import { Converter, HEX_PREFIX } from '@core/utils'
-import { GAS_LIMIT_MULTIPLIER } from '../constants'
 import { EvmTransactionData } from '../types'
+import { addGasBuffer } from './addGasBuffer'
 
 export async function buildEvmTransactionData(
     evmNetwork: IEvmNetwork,
@@ -19,7 +19,7 @@ export async function buildEvmTransactionData(
         data,
         value: amount.toString(),
     })
-    const gasLimit = Math.floor(estimatedGas * GAS_LIMIT_MULTIPLIER)
+    const gasLimit = addGasBuffer(estimatedGas)
 
     const to = destinationAddress
 

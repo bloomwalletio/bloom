@@ -1,4 +1,15 @@
 import { EvmTransactionData } from '@core/layer-2/types'
-import { TransactionReceipt } from 'web3-core'
 
-export type LocalEvmTransaction = TransactionReceipt & EvmTransactionData
+// estimatedGas, gasLimit and nonce has to be a `number` instead of `biging` because bigints cannot be stored in local storage
+export type LocalEvmTransaction = Omit<EvmTransactionData, 'estimatedGas' | 'gasLimit' | 'nonce'> & {
+    status: boolean
+    transactionHash: string
+    transactionIndex: number
+    blockNumber: number
+    to: string
+    from: string
+    gasUsed: number
+    estimatedGas?: number
+    gasLimit?: number
+    nonce?: number
+}

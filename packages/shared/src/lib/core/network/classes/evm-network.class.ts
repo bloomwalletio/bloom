@@ -1,8 +1,5 @@
 import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import { IError } from '@core/error/interfaces'
-import { EVM_CONTRACT_ABIS } from '@core/layer-2/constants'
-import { ContractType } from '@core/layer-2/enums'
-import { Contract } from '@core/layer-2/types'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 import { getPersistedErc721NftsForNetwork, updateErc721NftsOwnership } from '@core/nfts/actions'
 import { Nft } from '@core/nfts/interfaces'
@@ -14,10 +11,12 @@ import { Converter } from '@core/utils'
 import features from '@features/features'
 import { CoinType } from '@iota/sdk/out/types'
 import { writable, Writable } from 'svelte/store'
-import Web3 from 'web3'
+import { Block, Contract, ContractAbi, Web3 } from 'web3'
 import { ChainId, NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
-import { IBaseEvmNetworkConfiguration, IBlock, IEvmNetwork } from '../interfaces'
+import { IBaseEvmNetworkConfiguration, IEvmNetwork } from '../interfaces'
 import { EvmNetworkId, EvmNetworkType, Web3Provider } from '../types'
+import { ERC20_ABI } from '@core/layer-2'
+import { BigIntLike } from '@ethereumjs/util'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 import { convertGweiToWei } from '@core/layer-2/utils'
 import { IGasPricesBySpeed } from '@core/layer-2'
@@ -96,11 +95,7 @@ export class EvmNetwork implements IEvmNetwork {
         clearInterval(this.statusPoll)
     }
 
-    getContract(type: ContractType, address: string): Contract {
-        const abi = EVM_CONTRACT_ABIS[type]
-        if (!abi) {
-            throw new Error(`Unable to determine contract type "${type}"`)
-        }
+    getContract(abi: ContractAbi, address: string): Contract<ContractAbi> {
         return new this.provider.eth.Contract(abi, address)
     }
 
@@ -136,7 +131,7 @@ export class EvmNetwork implements IEvmNetwork {
         }
     }
 
-    async getLatestBlock(): Promise<IBlock> {
+    async getLatestBlock(): Promise<Block> {
         const number = await this.provider.eth.getBlockNumber()
         return this.provider.eth.getBlock(number)
     }
@@ -173,11 +168,11 @@ export class EvmNetwork implements IEvmNetwork {
                     continue
                 }
 
-                const contract = this.getContract(ContractType.Erc20, erc20Address)
+                const contract = this.getContract(ERC20_ABI, erc20Address)
                 if (!contract || !this.coinType) {
                     continue
                 }
-                const rawBalance = await contract.methods.balanceOf(evmAddress).call()
+                const rawBalance = await contract.methods.balanceOf(evmAddress).call<BigIntLike>()
                 erc20TokenBalances[erc20Address] = Converter.bigIntLikeToBigInt(rawBalance)
             } catch (err) {
                 const error = (err as IError)?.message ?? err

@@ -1,7 +1,6 @@
 export * from './abi-type.enum'
 export * from './allowance.enum'
 export * from './asset-type.enum'
-export * from './contract-type.enum'
 export * from './erc721-interface-id.enum'
 export * from './evm-error-message.enum'
 export * from './gas-speed.enum'

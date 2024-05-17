@@ -3,7 +3,7 @@ import { IError } from '@core/error'
 import { localize } from '@core/i18n'
 import { buildUnwrapAssetParameters } from '@core/layer-2/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { AssetType, ContractType, EvmErrorMessage } from '@core/layer-2/enums'
+import { AssetType, EvmErrorMessage } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
 import { buildAssetAllowance, buildEvmTransactionData, getL2ToL1StorageDepositBuffer } from '@core/layer-2/utils'
 import { StardustNetworkId } from '@core/network/types'
@@ -15,6 +15,7 @@ import { TokenStandard } from '@core/token/enums'
 import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
 import { getAmountAndTokenFromSendFlowParameters } from '../../utils'
+import { ISC_SANDBOX_ABI } from '@core/layer-2'
 
 export async function createEvmToStardustTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -60,7 +61,7 @@ export async function createEvmToStardustTransaction(
         }
 
         const assetAllowance = buildAssetAllowance(iscChain, transferredAsset, storageDepositRequired)
-        const contract = iscChain?.getContract(ContractType.IscMagic, ISC_MAGIC_CONTRACT_ADDRESS)
+        const contract = iscChain?.getContract(ISC_SANDBOX_ABI, ISC_MAGIC_CONTRACT_ADDRESS)
         const data =
             (await contract?.methods
                 .send(targetAddress, assetAllowance, adjustMinimumStorageDeposit, sendMetadata, sendOptions)
