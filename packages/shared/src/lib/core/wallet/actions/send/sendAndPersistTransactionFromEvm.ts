@@ -40,6 +40,9 @@ export async function sendAndPersistTransactionFromEvm(
         to: transactionReceipt.to,
         from: transactionReceipt.from,
         gasUsed: Number(transactionReceipt.gasUsed),
+        estimatedGas: Number(preparedTransaction.estimatedGas),
+        nonce: Number(preparedTransaction.nonce),
+        gasLimit: Number(preparedTransaction.gasLimit),
         timestamp: Date.now(),
     }
     await persistEvmTransaction(profileId, account, evmNetwork, evmTransaction)

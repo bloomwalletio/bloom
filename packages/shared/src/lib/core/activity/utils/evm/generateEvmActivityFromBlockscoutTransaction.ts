@@ -124,7 +124,7 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
             recipient: blockscoutTransaction.to.hash.toLowerCase(),
             from: blockscoutTransaction.from.hash.toLowerCase(),
             gasUsed: Number(blockscoutTransaction.gas_used),
-            estimatedGas: localTransaction?.estimatedGas,
+            estimatedGas: localTransaction?.estimatedGas ? BigInt(localTransaction.estimatedGas) : undefined,
             gasPrice: blockscoutTransaction.gas_price,
             transactionHash: blockscoutTransaction.hash,
             timestamp: new Date(blockscoutTransaction.timestamp).getTime(),
