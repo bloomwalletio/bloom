@@ -1,3 +1,4 @@
+export * from './buildAccountForWalletConnect'
 export * from './disconnectAllDapps'
 export * from './getBloomError'
 export * from './getPermissionForMethod'
