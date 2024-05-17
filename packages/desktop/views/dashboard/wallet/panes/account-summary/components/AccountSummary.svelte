@@ -56,10 +56,11 @@
         console.error('Subscribed to notifications')
 
         const subscriptions = $notifyClient.getActiveSubscriptions({ account })
-
         console.error('Subscriptions:', subscriptions)
 
-        const notifications = $notifyClient.getNotificationHistory({ topic: subscriptions[0].topic })
+        const notifications = await $notifyClient.getNotificationHistory({
+            topic: Object.values(subscriptions)[0].topic,
+        })
 
         console.error('Notifications:', notifications)
     }
