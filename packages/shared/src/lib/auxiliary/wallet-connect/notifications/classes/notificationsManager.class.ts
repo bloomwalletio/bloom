@@ -1,4 +1,4 @@
-import { buildAccountForWalletConnect } from '@auxiliary/wallet-connect/utils'
+import { buildNetworkAddressForWalletConnect } from '@auxiliary/wallet-connect/utils'
 import { IAccountState } from '@core/account'
 import { EvmNetworkId, IEvmNetwork } from '@core/network'
 import { signMessage } from '@core/wallet'
@@ -40,7 +40,7 @@ export class NotificationsManager {
 
     updateTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): void {
         this.trackedNetworkAddresses = accounts
-            .map((acc) => buildAccountForWalletConnect(acc, networkId))
+            .map((acc) => buildNetworkAddressForWalletConnect(acc, networkId))
             .filter(Boolean) as string[]
         this.notifications = writable({})
         this.subscriptions = writable({})
@@ -70,7 +70,7 @@ export class NotificationsManager {
               allApps: boolean
           }
         | undefined {
-        const networkAddress = buildAccountForWalletConnect(account, networkId)
+        const networkAddress = buildNetworkAddressForWalletConnect(account, networkId)
         if (!networkAddress) {
             return undefined
         }
@@ -122,23 +122,35 @@ export class NotificationsManager {
             return
         }
 
-        const networkAddress = buildAccountForWalletConnect(account, networkId)
+        const networkAddress = buildNetworkAddressForWalletConnect(account, networkId)
         if (!networkAddress) return
 
         await this.notifyClient?.subscribe({ appDomain, account: networkAddress })
+    }
 
-        console.error('Subscribed to notifications')
-        const subscriptions = this.notifyClient.getActiveSubscriptions({ account: networkAddress })
-        console.error('Subscriptions:', subscriptions)
+    async setAllNotificationsAndSubscriptionsForNetworkAddress(address: string): Promise<void> {
+        if (!this.notifyClient) {
+            return
+        }
 
-        const firstSubscription = Object.values(subscriptions ?? {})[0]
-        console.error('First subscription:', firstSubscription, firstSubscription.topic)
+        const subscriptions = this.notifyClient.getActiveSubscriptions({ account: address })
 
-        const notifications = await notificationsManager.notifyClient?.getNotificationHistory({
-            topic: firstSubscription.topic,
+        const allNotifications: (NotifyClientTypes.NotifyNotification & { subsriptionTopic: string })[] = []
+        for (const subscription of Object.values(subscriptions)) {
+            const notifications = await this.notifyClient.getNotificationHistory({ topic: subscription.topic })
+            allNotifications.push(
+                ...(notifications.notifications.map((n) => ({ ...n, subsriptionTopic: subscription.topic })) ?? [])
+            )
+        }
+
+        this.subscriptions.update((state) => {
+            state[address] = Object.values(subscriptions)
+            return state
         })
-
-        console.error('Notifications:', notifications)
+        this.notifications.update((state) => {
+            state[address] = allNotifications
+            return state
+        })
     }
 }
 

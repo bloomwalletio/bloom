@@ -1,4 +1,4 @@
-export * from './buildAccountForWalletConnect'
+export * from './buildNetworkAddressForWalletConnect'
 export * from './disconnectAllDapps'
 export * from './getBloomError'
 export * from './getPermissionForMethod'

@@ -1,9 +1,9 @@
 import { ProposalTypes } from '@walletconnect/types'
 import { GENERAL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '../constants'
-import { NetworkId } from '@core/network/types'
+import { EvmNetworkId } from '@core/network/types'
 import { ISelections } from '../interface'
 import { ISupportedNamespace, SupportedNamespaces } from '../types'
-import { buildAccountForWalletConnect } from '../utils'
+import { buildNetworkAddressForWalletConnect } from '../utils'
 
 export function buildSupportedNamespacesFromSelections(
     selections: ISelections,
@@ -49,7 +49,7 @@ function buildSupportedNamespace(
         addresses = allowedChains.flatMap((evmNetwork) => {
             return (
                 selections.accounts
-                    ?.map((account) => buildAccountForWalletConnect(account, evmNetwork as NetworkId) ?? '')
+                    ?.map((account) => buildNetworkAddressForWalletConnect(account, evmNetwork as EvmNetworkId) ?? '')
                     .filter(Boolean) ?? []
             )
         })
