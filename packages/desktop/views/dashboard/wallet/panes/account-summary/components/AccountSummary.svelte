@@ -44,22 +44,30 @@
         const network = getEvmNetwork('eip155:1')
         if (!$notifyClient || !network) return
         // Get the domain of the target dapp from the Explorer API response (https://explorer-api.walletconnect.com/v3/dapps?projectId=YOUR_PROJECT_ID&is_notify_enabled=true)
-        const appDomain = new URL('https://walletconnect.com').hostname
+        const appDomain1 = new URL('https://walletconnect.com').hostname
+        const appDomain2 = new URL('https://gm.walletconnect.com').hostname
 
         const account = buildAccountForWalletConnect($selectedAccount as IAccountState, network.id)
         if (!account) return
 
         await $notifyClient.subscribe({
             account,
-            appDomain,
+            appDomain: appDomain1,
+        })
+        await $notifyClient.subscribe({
+            account,
+            appDomain: appDomain2,
         })
         console.error('Subscribed to notifications')
 
         const subscriptions = $notifyClient.getActiveSubscriptions({ account })
         console.error('Subscriptions:', subscriptions)
 
+        const firstSubscription = Object.values(subscriptions)[0]
+        console.error('First subscription:', firstSubscription, firstSubscription.topic)
+
         const notifications = await $notifyClient.getNotificationHistory({
-            topic: Object.values(subscriptions)[0].topic,
+            topic: firstSubscription.topic,
         })
 
         console.error('Notifications:', notifications)
