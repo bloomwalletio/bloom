@@ -1,7 +1,7 @@
+import { ContractAbi } from 'web3'
 import { AbiType, StateMutabilityType } from '../enums'
-import { Abi } from '../types'
 
-export const ISC_SANDBOX_ABI: Abi = [
+export const ISC_SANDBOX_ABI: ContractAbi = [
     {
         inputs: [
             { internalType: 'address', name: 'target', type: 'address' },

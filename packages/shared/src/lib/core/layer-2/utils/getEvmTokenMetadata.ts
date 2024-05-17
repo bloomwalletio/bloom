@@ -1,23 +1,24 @@
-import { ContractType } from '../enums'
 import { IErc20Metadata } from '@core/token/interfaces'
 import { TokenStandard } from '@core/token/enums'
 import { NetworkId } from '@core/network/types'
 import { getEvmNetwork } from '@core/network'
 import { IErc721ContractMetadata, NftStandard } from '@core/nfts'
+import { ERC20_ABI } from '../abis'
+import { ContractAbi } from 'web3'
 
 export async function getEvmTokenMetadata(
     tokenAddress: string,
     networkId: NetworkId,
-    tokenType: ContractType = ContractType.Erc20
+    tokenAbi: ContractAbi = ERC20_ABI
 ): Promise<IErc20Metadata | IErc721ContractMetadata | undefined> {
     const evmNetwork = getEvmNetwork(networkId)
-    const contract = evmNetwork?.getContract(tokenType, tokenAddress)
+    const contract = evmNetwork?.getContract(tokenAbi, tokenAddress)
     if (contract) {
-        const isErc20 = tokenType === ContractType.Erc20
+        const isErc20 = tokenAbi === ERC20_ABI
         const [name, symbol, decimals] = await Promise.all([
-            contract.methods.name().call(),
-            contract.methods.symbol().call(),
-            isErc20 ? contract.methods.decimals().call() : 0,
+            contract.methods.name().call<string>(),
+            contract.methods.symbol().call<string>(),
+            isErc20 ? contract.methods.decimals().call<number>() : 0,
         ])
         const standard = isErc20 ? TokenStandard.Erc20 : NftStandard.Erc721
         return { standard, name, symbol, decimals, address: tokenAddress }

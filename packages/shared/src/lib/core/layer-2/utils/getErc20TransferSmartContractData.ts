@@ -1,6 +1,6 @@
 import { IEvmNetwork } from '@core/network/interfaces'
-import { ContractType } from '../enums'
 import { IToken } from '@core/token/interfaces'
+import { ERC20_ABI } from '../abis'
 
 export function getErc20TransferSmartContractData(
     recipientAddress: string,
@@ -8,6 +8,6 @@ export function getErc20TransferSmartContractData(
     amount: bigint,
     evmNetwork: IEvmNetwork
 ): string {
-    const contract = evmNetwork.getContract(ContractType.Erc20, token.id)
+    const contract = evmNetwork.getContract(ERC20_ABI, token.id)
     return contract.methods.transfer(recipientAddress, String(amount)).encodeABI() ?? ''
 }
