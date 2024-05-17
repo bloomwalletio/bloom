@@ -22,7 +22,7 @@ export interface IWatchlistName {
 interface IDecodedInput {
     method_call: string
     method_id: string
-    parameters: Record<string, string> // IDecodedInputParameters
+    parameters: { name: string; type: string; value: unknown }[] // IDecodedInputParameters
 }
 
 interface ITokenTransfer {
