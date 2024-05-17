@@ -20,7 +20,7 @@ export async function initializeWalletConnect(): Promise<void> {
 }
 
 async function initializeWalletClient(): Promise<void> {
-    if (!features?.walletConnect?.enabled || get(walletClient)) {
+    if (get(walletClient)) {
         return
     }
 
@@ -43,6 +43,10 @@ async function initializeWalletClient(): Promise<void> {
 }
 
 async function initializeNotifyClient(): Promise<void> {
+    if (get(notifyClient)) {
+        return
+    }
+
     const _notifyClient = await NotifyClient.init({
         projectId: process.env.WALLETCONNECT_PROJECT_ID ?? '41511f9b50c46a80cdf8bd1a3532f2f9',
     })
