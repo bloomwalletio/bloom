@@ -1,5 +1,5 @@
-import { WEI_PER_GWEI } from '../constants'
+const WEI_PER_GWEI = 1000000000
 
 export function convertGweiToWei(gwei: number): bigint {
-    return BigInt(gwei * WEI_PER_GWEI)
+    return BigInt(Math.round(gwei * WEI_PER_GWEI))
 }
