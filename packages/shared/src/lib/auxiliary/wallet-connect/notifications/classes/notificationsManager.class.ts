@@ -11,17 +11,16 @@ import {
     notifyUpdateEventHandler,
     notifySubscriptionsChangedEventHandler,
 } from '../handlers'
-
 // TODO: where should this be placed?
 const APP_DOMAIN = 'https://bloomwallet.io'
 
+export type Notifications = { [subscriptionTopic: string]: NotifyClientTypes.NotifyNotification[] }
 export class NotificationsManager {
     private initiliased: boolean = false
     private notifyClient: NotifyClient | undefined
-    private trackedNetworkAddresses: string[] = []
-    public notifications: Writable<Record<string, NotifyClientTypes.NotifyNotification[]>> = writable({})
-    public subscriptions: Writable<Record<string, NotifyClientTypes.NotifySubscription[]>> = writable({})
-
+    private trackedNetworkAddresses: Set<string> = new Set()
+    public subscriptions: Writable<{ [address: string]: NotifyClientTypes.NotifySubscription[] }> = writable({})
+    public notificationsPerSubscription: Writable<Notifications> = writable({})
     constructor() {
         void this.initialiseNotify()
     }
@@ -38,12 +37,40 @@ export class NotificationsManager {
         }
     }
 
-    updateTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): void {
-        this.trackedNetworkAddresses = accounts
-            .map((acc) => buildNetworkAddressForWalletConnect(acc, networkId))
-            .filter(Boolean) as string[]
-        this.notifications = writable({})
-        this.subscriptions = writable({})
+    async setTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
+        this.trackedNetworkAddresses.clear()
+        this.notificationsPerSubscription.set({})
+        this.subscriptions.set({})
+
+        await this.updateTrackedNetworkAccounts(accounts, networkId)
+    }
+
+    async updateTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
+        const newNetworkAddressesToTrack = new Set(
+            accounts
+                .map((acc) => buildNetworkAddressForWalletConnect(acc, networkId))
+                .filter(
+                    (acc) =>
+                        acc &&
+                        this.notifyClient?.watchedAccounts.getAll().some((accountObj) => accountObj.account === acc)
+                )
+                .filter(Boolean) as string[]
+        )
+
+        // TODO: Upgrade to this set operation once we upgade node to v22+
+        newNetworkAddressesToTrack.forEach((address) => this.trackedNetworkAddresses.add(address))
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/union#browser_compatibility
+        // this.trackedNetworkAddresses = this.trackedNetworkAddresses.union(newNetworkAddressesToTrack)
+
+        for (const address of this.trackedNetworkAddresses) {
+            await this.setAllNotificationsAndSubscriptionsForNetworkAddress(address)
+        }
+    }
+
+    clearTrackedNetworkAccounts(): void {
+        this.trackedNetworkAddresses.clear()
+        this.notificationsPerSubscription.set({})
+        this.subscriptions.set({})
     }
 
     initialiseHandlers(): void {
@@ -56,8 +83,35 @@ export class NotificationsManager {
         this.notifyClient.on(NotifyEvent.Message, notifyMessageEventHandler)
 
         this.notifyClient.on(NotifyEvent.Update, notifyUpdateEventHandler)
+        this.notifyClient.on(NotifyEvent.SubscriptionsChanged, (event) => {
+            for (const address of this.trackedNetworkAddresses) {
+                void this.setAllNotificationsAndSubscriptionsForNetworkAddress(address)
+            }
 
-        this.notifyClient.on(NotifyEvent.SubscriptionsChanged, notifySubscriptionsChangedEventHandler)
+            notifySubscriptionsChangedEventHandler(event)
+        })
+    }
+
+    async setAllNotificationsAndSubscriptionsForNetworkAddress(address: string): Promise<void> {
+        if (!this.notifyClient) {
+            return
+        }
+
+        const subscriptions = this.notifyClient.getActiveSubscriptions({ account: address })
+
+        const allNotifications: Notifications = {}
+        for (const subscription of Object.values(subscriptions)) {
+            const notifications = await this.notifyClient.getNotificationHistory({ topic: subscription.topic })
+            allNotifications[subscription.topic] = notifications.notifications
+        }
+
+        this.subscriptions.update((state) => {
+            state[address] = Object.values(subscriptions)
+            return state
+        })
+        this.notificationsPerSubscription.update((state) => {
+            return { ...state, ...allNotifications }
+        })
     }
 
     static buildNotifyClientOptions(
@@ -96,6 +150,11 @@ export class NotificationsManager {
             return
         }
 
+        const address = buildNetworkAddressForWalletConnect(account, network.id)
+        if (!address) {
+            return
+        }
+
         const notifyClientOptions = NotificationsManager.buildNotifyClientOptions(account, network.id)
         if (!notifyClientOptions) {
             return
@@ -111,6 +170,7 @@ export class NotificationsManager {
             registerParams,
             signature,
         })
+        await this.updateTrackedNetworkAccounts([account], network.id)
     }
 
     async subscribeToDapp(
@@ -123,34 +183,13 @@ export class NotificationsManager {
         }
 
         const networkAddress = buildNetworkAddressForWalletConnect(account, networkId)
-        if (!networkAddress) return
-
-        await this.notifyClient?.subscribe({ appDomain, account: networkAddress })
-    }
-
-    async setAllNotificationsAndSubscriptionsForNetworkAddress(address: string): Promise<void> {
-        if (!this.notifyClient) {
+        if (!networkAddress) {
             return
         }
 
-        const subscriptions = this.notifyClient.getActiveSubscriptions({ account: address })
+        await this.notifyClient?.subscribe({ appDomain, account: networkAddress })
 
-        const allNotifications: (NotifyClientTypes.NotifyNotification & { subsriptionTopic: string })[] = []
-        for (const subscription of Object.values(subscriptions)) {
-            const notifications = await this.notifyClient.getNotificationHistory({ topic: subscription.topic })
-            allNotifications.push(
-                ...(notifications.notifications.map((n) => ({ ...n, subsriptionTopic: subscription.topic })) ?? [])
-            )
-        }
-
-        this.subscriptions.update((state) => {
-            state[address] = Object.values(subscriptions)
-            return state
-        })
-        this.notifications.update((state) => {
-            state[address] = allNotifications
-            return state
-        })
+        await this.setAllNotificationsAndSubscriptionsForNetworkAddress(networkAddress)
     }
 }
 

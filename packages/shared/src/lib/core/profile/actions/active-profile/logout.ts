@@ -26,6 +26,7 @@ import { clearActiveProfileNftsPerAccount } from '@core/nfts/stores'
 import { clearAccountActivities } from '@core/activity/stores'
 import { destroyNetworks } from '@core/network/stores'
 import { resetClient } from '@core/profile-manager/api'
+import { notificationsManager } from '@auxiliary/wallet-connect/notifications/classes'
 
 /**
  * Logout from active profile
@@ -66,6 +67,8 @@ function cleanupProfileState(clearActiveProfile: boolean): void {
     resetSelectedAccountIndex()
 
     void stopDownloadingNftMediaFromQueue()
+
+    notificationsManager.clearTrackedNetworkAccounts()
 
     // Governance Stores
     resetRegisteredProposals()
