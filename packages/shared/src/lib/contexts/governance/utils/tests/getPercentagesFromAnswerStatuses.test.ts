@@ -5,7 +5,7 @@ import type { IProposal } from '../../interfaces'
 import { writable } from 'svelte/store'
 
 jest.mock('../../../../core/network/stores/networks.store.ts', () => ({
-    getL1Network: jest.fn(() => {
+    getStardustNetwork: jest.fn(() => {
         return { currentMilestone: writable(-1) }
     }),
 }))

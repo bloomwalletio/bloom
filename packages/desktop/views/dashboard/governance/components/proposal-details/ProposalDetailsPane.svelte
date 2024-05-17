@@ -5,11 +5,11 @@
     import { getTimeDifference, milestoneToDate } from '@core/utils'
     import { EventStatus } from '@iota/sdk/out/types'
     import { ProposalDetailsMenu, ProposalStatusPill } from '../'
-    import { getL1Network } from '@core/network/stores'
+    import { getStardustNetwork } from '@core/network/stores'
 
     export let proposal: IProposal
 
-    const currentMilestone = getL1Network().currentMilestone
+    const currentMilestone = getStardustNetwork().currentMilestone
 
     let remainingTime: string = ''
     $: switch (proposal?.status) {
