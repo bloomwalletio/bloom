@@ -1,10 +1,10 @@
 <script lang="ts">
     import { LogoName } from '@auxiliary/logo'
-    import { IconButton, IconName } from '@bloomwalletio/ui'
+    import { Button, IconButton, IconName, Pill } from '@bloomwalletio/ui'
     import { ProfileActionsMenu, SidebarTab } from '@components'
     import { APP_STAGE, AppStage } from '@core/app'
     import { localize } from '@core/i18n'
-    import { SupportedStardustNetworkId } from '@core/network'
+    import { SupportedStardustNetworkId, getEvmNetworks } from '@core/network'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
     import {
         DashboardRoute,
@@ -22,6 +22,9 @@
     import LedgerStatusTile from './LedgerStatusTile.svelte'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { BackupToast, VersionToast } from './toasts'
+    import { notifyClient } from '@auxiliary/wallet-connect/stores'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
 
     let expanded = true
     function toggleExpand(): void {
@@ -134,6 +137,14 @@
         $governanceRouter.reset()
         $settingsRouter.reset()
     }
+
+    $: notifyClientOptions = getEvmNetworks()[0].id
+        ? {
+              account: `${getEvmNetworks()[0].id}:${getAddressFromAccountForNetwork($selectedAccount as IAccountState, getEvmNetworks()[0].id)}`,
+              domain: 'app.mydomain.com',
+              allApps: true,
+          }
+        : undefined
 </script>
 
 <aside class:expanded class="flex flex-col justify-between">
@@ -167,6 +178,12 @@
 
         {#if expanded}
             <dashboard-sidebar-tiles class="w-full flex flex-col space-y-2">
+                {#if notifyClientOptions && $notifyClient?.isRegistered(notifyClientOptions)}
+                    <Pill color="success">Can subscribe</Pill>
+                {:else}
+                    <Button text="Enable notifications" />
+                {/if}
+
                 {#if APP_STAGE === AppStage.PROD}
                     <BackupToast />
                 {:else}

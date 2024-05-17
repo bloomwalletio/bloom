@@ -6,8 +6,9 @@ import { NotifyClient } from '@walletconnect/notify-client'
 import { get } from 'svelte/store'
 import { WALLET_METADATA } from '../constants'
 import { onSessionDelete, onSessionProposal, onSessionRequest } from '../handlers'
-import { walletClient } from '../stores'
+import { walletClient } from '../stores/wallet-client.store'
 import { setConnectedDapps } from '../stores/connected-dapps.store'
+import { notifyClient } from '../stores/notify-client.store'
 
 export async function initializeWalletConnect(): Promise<void> {
     if (!features?.walletConnect?.enabled) {
@@ -42,11 +43,12 @@ async function initializeWalletClient(): Promise<void> {
 }
 
 async function initializeNotifyClient(): Promise<void> {
-    const notifyClient = await NotifyClient.init({
+    const _notifyClient = await NotifyClient.init({
         projectId: process.env.WALLETCONNECT_PROJECT_ID ?? '41511f9b50c46a80cdf8bd1a3532f2f9',
     })
+    notifyClient.set(_notifyClient)
 
-    notifyClient.on('notify_subscription', ({ params }) => {
+    _notifyClient.on('notify_subscription', ({ params }) => {
         const { error } = params
 
         if (error) {
@@ -56,12 +58,12 @@ async function initializeNotifyClient(): Promise<void> {
         }
     })
 
-    notifyClient.on('notify_message', ({ params }) => {
+    _notifyClient.on('notify_message', ({ params }) => {
         const { message } = params
         console.warn('Message: ', message)
     })
 
-    notifyClient.on('notify_update', ({ params }) => {
+    _notifyClient.on('notify_update', ({ params }) => {
         const { error } = params
 
         if (error) {
@@ -71,7 +73,7 @@ async function initializeNotifyClient(): Promise<void> {
         }
     })
 
-    notifyClient.on('notify_subscriptions_changed', ({ params }) => {
+    _notifyClient.on('notify_subscriptions_changed', ({ params }) => {
         const { subscriptions } = params
         console.warn('Changed subscriptions: ', subscriptions)
         // `subscriptions` will contain any *changed* subscriptions since the last time this event was emitted.
