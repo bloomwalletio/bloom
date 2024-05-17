@@ -1,3 +1,4 @@
+export * from './blockscout-stats.interface'
 export * from './blockscout-address-param.interface'
 export * from './blockscout-api.interface'
 export * from './blockscout-asset.interface'

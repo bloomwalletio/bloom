@@ -1725,7 +1725,10 @@
         "appName": "App name",
         "question": "Question",
         "id": "ID",
-        "location": "Location"
+        "location": "Location",
+        "slow": "Slow",
+        "average": "Average",
+        "fast": "Fast"
     },
     "filters":{
         "title": "Filters",
