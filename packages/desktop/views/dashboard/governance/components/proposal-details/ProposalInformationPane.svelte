@@ -11,7 +11,7 @@
     } from '@contexts/governance/utils'
     import { selectedAccount } from '@core/account/stores'
     import { formatDate, localize } from '@core/i18n'
-    import { getL1Network } from '@core/network/stores'
+    import { getStardustNetwork } from '@core/network/stores'
     import { activeProfile } from '@core/profile/stores'
     import { formatTokenAmount } from '@core/token'
     import { visibleSelectedAccountTokens } from '@core/token/stores'
@@ -23,7 +23,7 @@
         milestone: number
     }
 
-    const currentMilestone = getL1Network().currentMilestone
+    const currentMilestone = getStardustNetwork().currentMilestone
 
     $: proposalDateData = getNextProposalDateData($currentMilestone)
     function getNextProposalDateData(_currentMilestone: number): IProposalDateData | undefined {

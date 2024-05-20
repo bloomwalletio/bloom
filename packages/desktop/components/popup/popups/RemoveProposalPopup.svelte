@@ -17,7 +17,7 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { IAccountState } from '@core/account'
     import { getProposalStatusForMilestone } from '@contexts/governance'
-    import { getL1Network } from '@core/network/stores'
+    import { getStardustNetwork } from '@core/network/stores'
 
     function onCancelClick(): void {
         closePopup()
@@ -49,7 +49,7 @@
     }
 
     // TODO: User can only remove a proposal when he is not voting for it
-    const { currentMilestone } = getL1Network()
+    const { currentMilestone } = getStardustNetwork()
     $: status = getProposalStatusForMilestone($currentMilestone, $selectedProposal?.milestones)
     $: showAlert = status === EventStatus.Commencing || status === EventStatus.Holding
 </script>

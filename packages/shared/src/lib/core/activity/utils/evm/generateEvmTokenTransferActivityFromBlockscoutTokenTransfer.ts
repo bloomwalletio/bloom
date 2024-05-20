@@ -20,7 +20,7 @@ import {
 } from '@auxiliary/blockscout/types'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { isNftPersisted, persistErc721Nft } from '@core/nfts/actions'
-import { BASE_TOKEN_CONTRACT_ADDRESS } from '@core/layer-2/constants'
+import { ISC_BASE_COIN_ADDRESS } from '@core/layer-2/constants'
 import { getSmartContractDataFromBlockscoutTransaction } from './getSmartContractDataFromBlockscoutTransaction'
 
 export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
@@ -116,7 +116,7 @@ export async function generateEvmTokenTransferActivityFromBlockscoutTokenTransfe
         transactionFee,
     }
 
-    if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS[networkId]) {
+    if (tokenId === ISC_BASE_COIN_ADDRESS) {
         return {
             ...baseActivity,
             type: EvmActivityType.CoinTransfer,

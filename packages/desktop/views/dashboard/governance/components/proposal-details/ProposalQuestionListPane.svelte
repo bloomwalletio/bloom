@@ -22,7 +22,7 @@
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { getL1Network } from '@core/network/stores'
+    import { getStardustNetwork } from '@core/network/stores'
     import { getBestTimeDuration, milestoneToDate } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ProposalQuestion } from '../../components'
@@ -43,7 +43,7 @@
     let openedQuestionIndex: number = -1
     let isUpdatingVotedAnswerValues: boolean = false
     let lastAction: 'vote' | 'stopVote'
-    const currentMilestone = getL1Network().currentMilestone
+    const currentMilestone = getStardustNetwork().currentMilestone
 
     $: selectedProposalOverview = $participationOverviewForSelectedAccount?.participations?.[$selectedProposal?.id]
     $: trackedParticipations = Object.values(selectedProposalOverview ?? {})
