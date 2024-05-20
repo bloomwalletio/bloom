@@ -5,7 +5,13 @@ import { calculateMaxGasFeeFromTransactionData } from '@core/layer-2/utils'
 import { getEvmNetwork, isEvmNetwork } from '@core/network'
 import { SendFlowParameters, createEvmTransactionFromSendFlowParameters, updateSendFlowParameters } from '@core/wallet'
 
-export async function setGasFee(sendFlowParams: SendFlowParameters, account: IAccountState): Promise<void> {
+export async function setGasFee(
+    sendFlowParams: SendFlowParameters | undefined,
+    account: IAccountState | undefined
+): Promise<void> {
+    if (!sendFlowParams || !account) {
+        throw new Error('Send flow parameter or account is undefined!')
+    }
     try {
         if (sendFlowParams.gasFee) {
             return

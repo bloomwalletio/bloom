@@ -71,6 +71,7 @@
  delete mode 100644 packages/desktop/components/buttons/index.js
  delete mode 100644 packages/desktop/components/buttons/menu-buttons/AccountActionsButton.svelte
  delete mode 100644 packages/desktop/components/buttons/menu-buttons/index.js
+ delete mode 100644 packages/desktop/components/buttons/popup-buttons/FaucetRequestButton.svelte
  delete mode 100644 packages/desktop/components/buttons/popup-buttons/ImportErc20TokenButton.svelte
  delete mode 100644 packages/desktop/components/buttons/popup-buttons/RefreshTokenMetadataButton.svelte
  delete mode 100644 packages/desktop/components/drawers/network-config/NetworkConfigDrawerRouter.svelte
@@ -189,7 +190,6 @@
  rename packages/desktop/views/dashboard/collectibles/{index.js => index.ts} (100%)
  rename packages/desktop/views/dashboard/collectibles/views/{index.js => index.ts} (67%)
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/CreateAliasButton.svelte (74%)
- rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/FaucetRequestButton.svelte (69%)
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/MintNativeTokenButton.svelte (76%)
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/MintNftButton.svelte (72%)
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/TestDeepLinkButton.svelte (72%)
@@ -1104,6 +1104,7 @@
  delete mode 100644 packages/shared/lib/core/layer-2/constants/gas-multiplier.constant.ts
  delete mode 100644 packages/shared/lib/core/layer-2/enums/allowance.enum.ts
  delete mode 100644 packages/shared/lib/core/layer-2/enums/destination-network.enum.ts
+ delete mode 100644 packages/shared/lib/core/layer-2/enums/index.ts
  delete mode 100644 packages/shared/lib/core/layer-2/helpers/encodeAddress.ts
  delete mode 100644 packages/shared/lib/core/layer-2/helpers/encodeAssetAllowance.ts
  delete mode 100644 packages/shared/lib/core/layer-2/helpers/encodeSmartContractParameters.ts
@@ -1164,6 +1165,7 @@
  delete mode 100644 packages/shared/lib/core/market/utils/index.ts
  delete mode 100644 packages/shared/lib/core/network/actions/addOfficialNodesToClientOptions.ts
  delete mode 100644 packages/shared/lib/core/network/actions/chain-polling.ts
+ delete mode 100644 packages/shared/lib/core/network/actions/getAndUpdateNodeInfo.ts
  delete mode 100644 packages/shared/lib/core/network/actions/network-polling.ts
  delete mode 100644 packages/shared/lib/core/network/actions/showNetworkIssueNotification.ts
  delete mode 100644 packages/shared/lib/core/network/actions/toggleDisabledNodeInClientOptions.ts
@@ -1204,6 +1206,7 @@
  delete mode 100644 packages/shared/lib/core/network/stores/index.ts
  delete mode 100644 packages/shared/lib/core/network/stores/network-status.store.ts
  delete mode 100644 packages/shared/lib/core/network/stores/network.store.ts
+ delete mode 100644 packages/shared/lib/core/network/stores/node-info.store.ts
  delete mode 100644 packages/shared/lib/core/network/stores/selected-chain.store.ts
  delete mode 100644 packages/shared/lib/core/network/tests/network.test.ts
  delete mode 100644 packages/shared/lib/core/network/types/chain-configuration.type.ts
@@ -1281,6 +1284,7 @@
  delete mode 100644 packages/shared/lib/core/profile-manager/utils/validateWalletApiEvent.ts
  delete mode 100644 packages/shared/lib/core/profile/actions/active-accounts/findActiveAccountWithAddress.ts
  delete mode 100644 packages/shared/lib/core/profile/actions/active-profile/checkActiveProfileAuth.ts
+ delete mode 100644 packages/shared/lib/core/profile/actions/active-profile/checkAndUpdateActiveProfileNetwork.ts
  delete mode 100644 packages/shared/lib/core/profile/actions/active-profile/getCoinType.ts
  delete mode 100644 packages/shared/lib/core/profile/actions/active-profile/login.ts
  delete mode 100644 packages/shared/lib/core/profile/actions/active-profile/setActiveProfile.ts
@@ -1301,6 +1305,8 @@
  delete mode 100644 packages/shared/lib/core/router/enums/onboarding/storage-protection-setup-route.enum.ts
  delete mode 100644 packages/shared/lib/core/router/enums/onboarding/stronghold-setup-route.enum.ts
  delete mode 100644 packages/shared/lib/core/router/enums/settings/network-settings-route.enum.ts
+ delete mode 100644 packages/shared/lib/core/router/interfaces/router-event.interface.ts
+ delete mode 100644 packages/shared/lib/core/router/routers/app-router.ts
  delete mode 100644 packages/shared/lib/core/router/routers/collectibles-router.ts
  delete mode 100644 packages/shared/lib/core/router/routers/governance-router.ts
  delete mode 100644 packages/shared/lib/core/router/types/router-manager-extension-function.type.ts
@@ -1491,7 +1497,7 @@
  rename packages/shared/{components/atoms/iconButtons/index.js => src/components/iconButtons/index.ts} (100%)
  rename packages/shared/{ => src}/components/inputs/AliasInput.svelte (51%)
  rename packages/shared/{components/inputs/Dropdown2.svelte => src/components/inputs/Dropdown.svelte} (94%)
- rename packages/shared/{ => src}/components/inputs/NodeInput.svelte (79%)
+ rename packages/shared/{ => src}/components/inputs/NodeInput.svelte (75%)
  rename packages/shared/{ => src}/components/inputs/OptionalInput.svelte (52%)
  rename packages/shared/{ => src}/components/inputs/SliderInput.svelte (56%)
  rename packages/shared/{ => src}/components/interfaces/index.ts (63%)
@@ -1626,7 +1632,7 @@
  rename packages/shared/{ => src}/lib/contexts/onboarding/constants/temporary-profile-manager-directory-name.constant.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/enums/create-profile-type.enum.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/enums/index.ts (79%)
- rename packages/shared/{lib/core/network/enums/network-id.enum.ts => src/lib/contexts/onboarding/enums/onboarding-network-type.enum.ts} (72%)
+ rename packages/shared/{lib/core/network/enums/network-id.enum.ts => src/lib/contexts/onboarding/enums/onboarding-network-type.enum.ts} (57%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/enums/onboarding-type.enum.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/enums/restore-profile-type.enum.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/enums/shimmer-claiming-account-state.enum.ts (100%)
@@ -1669,7 +1675,7 @@
  rename packages/shared/{ => src}/lib/contexts/onboarding/utils/sumTotalClaimedRewards.ts (75%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/utils/sumTotalUnclaimedRewards.ts (86%)
  rename packages/shared/{ => src}/lib/contexts/onboarding/utils/validateBackupFile.ts (100%)
- rename packages/shared/{ => src}/lib/contexts/settings/actions/deleteProfile.ts (69%)
+ rename packages/shared/{ => src}/lib/contexts/settings/actions/deleteProfile.ts (63%)
  rename packages/shared/{ => src}/lib/contexts/settings/actions/index.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/settings/constants/index.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/settings/index.ts (100%)
@@ -1848,7 +1854,6 @@
  rename packages/shared/{ => src}/lib/core/layer-2/constants/transfer-allowance.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/enums/abi-type.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/enums/contract-type.enum.ts (77%)
- rename packages/shared/{ => src}/lib/core/layer-2/enums/index.ts (55%)
  rename packages/shared/{ => src}/lib/core/layer-2/enums/state-mutability-type.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/errors/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/errors/layer1-recipient.error.ts (100%)
@@ -1902,8 +1907,7 @@
  rename packages/shared/{ => src}/lib/core/market/types/market-prices.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/actions/addNodeToClientOptions.ts (76%)
  rename packages/shared/{ => src}/lib/core/network/actions/editNodeInClientOptions.ts (82%)
- rename packages/shared/{ => src}/lib/core/network/actions/getAndUpdateNodeInfo.ts (85%)
- rename packages/shared/{ => src}/lib/core/network/actions/index.ts (63%)
+ rename packages/shared/{ => src}/lib/core/network/actions/index.ts (56%)
  rename packages/shared/{ => src}/lib/core/network/actions/removeNodeFromClientOptions.ts (63%)
  rename packages/shared/{ => src}/lib/core/network/actions/toggleLocalPowInClientOptions.ts (84%)
  rename packages/shared/{ => src}/lib/core/network/actions/togglePrimaryNodeInClientOptions.ts (63%)
@@ -1926,7 +1930,6 @@
  rename packages/shared/{lib/core/network/interfaces/chain-metadata.interface.ts => src/lib/core/network/interfaces/isc-chain-metadata.interface.ts} (76%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/node-info-response.interface.ts (62%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/protocol.interface.ts (62%)
- rename packages/shared/{ => src}/lib/core/network/stores/node-info.store.ts (83%)
  rename packages/shared/{ => src}/lib/core/network/types/network-metadata.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/types/web3-provider.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/utils/checkNodeUrlValidity.ts (95%)
@@ -2003,14 +2006,13 @@
  rename packages/shared/{ => src}/lib/core/profile/actions/active-accounts/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-accounts/updateActiveAccountPersistedData.ts (63%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/checkAndRemoveProfilePicture.ts (100%)
- rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/checkAndUpdateActiveProfileNetwork.ts (54%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/getBaseToken.ts (81%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/getNetworkHrp.ts (100%)
- rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/index.ts (92%)
+ rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/index.ts (84%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/loadAccounts.ts (68%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/loadPersistedProfileIntoActiveProfile.ts (74%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/lockStronghold.ts (88%)
- rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/logout.ts (66%)
+ rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/logout.ts (67%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/migrateStrongholdFromActiveProfile.ts (100%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/reflectLockedStronghold.ts (92%)
  rename packages/shared/{ => src}/lib/core/profile/actions/active-profile/resetActiveProfile.ts (59%)
@@ -2056,7 +2058,7 @@
  rename packages/shared/{ => src}/lib/core/profile/utils/validateProfileName.ts (100%)
  rename packages/shared/{ => src}/lib/core/router/actions/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/router/classes/index.ts (100%)
- rename packages/shared/{ => src}/lib/core/router/classes/router.class.ts (80%)
+ rename packages/shared/{ => src}/lib/core/router/classes/router.class.ts (75%)
  rename packages/shared/{ => src}/lib/core/router/classes/subrouter.class.ts (63%)
  rename packages/{mobile/lib/routers => shared/src/lib/core/router}/enums/app-route.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/router/enums/collectibles-route.enum.ts (100%)
@@ -2082,19 +2084,17 @@
  rename packages/shared/{ => src}/lib/core/router/enums/settings/security-settings-route.enum.ts (64%)
  rename packages/shared/{ => src}/lib/core/router/enums/settings/settings-route.enum.ts (72%)
  rename packages/shared/{ => src}/lib/core/router/index.ts (100%)
- rename packages/shared/{ => src}/lib/core/router/interfaces/index.ts (100%)
- rename packages/shared/{ => src}/lib/core/router/interfaces/router-event.interface.ts (67%)
+ rename packages/shared/{ => src}/lib/core/router/interfaces/index.ts (75%)
  rename packages/shared/{ => src}/lib/core/router/interfaces/router-manager-options.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/router/interfaces/router-manager.interface.ts (78%)
- rename packages/shared/{ => src}/lib/core/router/interfaces/router.interface.ts (100%)
- rename packages/shared/{ => src}/lib/core/router/routers/app-router.ts (63%)
+ rename packages/shared/{ => src}/lib/core/router/interfaces/router.interface.ts (50%)
  rename packages/shared/{ => src}/lib/core/router/routers/dashboard-router.ts (62%)
  rename packages/shared/{ => src}/lib/core/router/routers/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/router/routers/settings-router.ts (56%)
  rename packages/shared/{ => src}/lib/core/router/stores/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/router/stores/router-manager.store.ts (53%)
  rename packages/shared/{ => src}/lib/core/router/subrouters/index.ts (100%)
- rename packages/shared/{ => src}/lib/core/router/subrouters/login-router.ts (70%)
+ rename packages/shared/{ => src}/lib/core/router/subrouters/login-router.ts (64%)
  rename packages/shared/{ => src}/lib/core/router/types/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/router/types/router-manager-extension.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/stronghold/actions/index.ts (100%)
@@ -2183,7 +2183,7 @@
  rename packages/shared/{ => src}/lib/core/utils/stores/currencies.store.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/stores/exchange-rates.store.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/stores/index.ts (100%)
- rename packages/shared/{ => src}/lib/core/utils/string.ts (60%)
+ rename packages/shared/{ => src}/lib/core/utils/string.ts (59%)
  rename packages/shared/{ => src}/lib/core/utils/tests/convert.test.ts (60%)
  rename packages/shared/{ => src}/lib/core/utils/tests/crypto.test.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/tests/date.test.ts (100%)
@@ -2263,7 +2263,7 @@
  rename packages/shared/{ => src}/locales/lv.json (52%)
  rename packages/shared/{ => src}/locales/mk.json (52%)
  rename packages/shared/{ => src}/locales/no.json (52%)
- rename packages/shared/{ => src}/locales/pl.json (52%)
+ rename packages/shared/{ => src}/locales/pl.json (51%)
  rename packages/shared/{ => src}/locales/pt-PT.json (52%)
  rename packages/shared/{ => src}/locales/ro.json (52%)
  rename packages/shared/{ => src}/locales/sk.json (51%)
@@ -2273,7 +2273,7 @@
  rename packages/shared/{ => src}/locales/uk.json (50%)
  rename packages/shared/{ => src}/locales/ur.json (52%)
  rename packages/shared/{ => src}/locales/vi.json (51%)
- rename packages/shared/{ => src}/locales/zh-CN.json (51%)
+ rename packages/shared/{ => src}/locales/zh-CN.json (50%)
  rename packages/shared/{ => src}/locales/zh-TW.json (52%)
  delete mode 100644 packages/shared/style/style.scss
  rename packages/shared/{lib/tests/__mocks__ => test/mocks}/account.mock.ts (53%)
