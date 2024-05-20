@@ -11,7 +11,7 @@ import { IPersistedToken, ITokenWithBalance } from '../interfaces'
 import { AccountTokens, IAccountTokensPerNetwork } from '../interfaces/account-tokens.interface'
 import { getPersistedToken } from '../stores'
 import { isValidIrc30Token, isValidToken } from '../utils'
-import { BASE_TOKEN_CONTRACT_ADDRESS } from '@core/layer-2'
+import { ISC_BASE_COIN_ADDRESS } from '@core/layer-2'
 
 export function getAccountTokensForAccount(
     account: IAccountState,
@@ -107,7 +107,7 @@ function getAccountAssetForChain(
     const tokens = Object.entries(balanceForNetworkId ?? {}) ?? []
 
     for (const [tokenId, balance] of tokens) {
-        if (tokenId === BASE_TOKEN_CONTRACT_ADDRESS?.[networkId]) {
+        if (tokenId === ISC_BASE_COIN_ADDRESS) {
             // ignore erc20 interface of the base coin of the evmNetwork
             continue
         } else if (tokenId === BASE_TOKEN_ID) {

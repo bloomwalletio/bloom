@@ -6,7 +6,7 @@
     } from '@contexts/governance'
     import { Text, Progress, TooltipIcon } from '@bloomwalletio/ui'
     import { getDecimalSeparator, localize } from '@core/i18n'
-    import { getL1Network } from '@core/network'
+    import { getStardustNetwork } from '@core/network'
     import { getSignificantDigitsAndRound } from '@core/utils'
 
     export let proposal: IProposal
@@ -14,7 +14,7 @@
 
     const QUORUM_PERCENTAGE_DECIMAL = 0.05
 
-    const currentMilestone = getL1Network().currentMilestone
+    const currentMilestone = getStardustNetwork().currentMilestone
 
     $: ({ actualPercentage, projectedPercentage } = getCirculatingSupplyVotedPercentage(
         $selectedParticipationEventStatus,
