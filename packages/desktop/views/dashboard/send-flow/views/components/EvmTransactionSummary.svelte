@@ -1,21 +1,18 @@
 <script lang="ts">
-    import {
-        EvmTransactionData,
-        calculateEstimatedGasFeeFromTransactionData,
-        calculateMaxGasFeeFromTransactionData,
-        getL2ToL1StorageDepositBuffer,
-    } from '@core/layer-2'
+    import { handleError } from '@core/error/handlers'
+    import { EvmTransactionData, GasSpeed, IGasPricesBySpeed, getL2ToL1StorageDepositBuffer } from '@core/layer-2'
+    import { IEvmNetwork, StardustNetworkId } from '@core/network'
     import { Nft, isIrc27Nft } from '@core/nfts'
     import { SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
     import EvmTransactionDetails from './EvmTransactionDetails.svelte'
-    import { IEvmNetwork } from '@core/network'
-    import { handleError } from '@core/error/handlers'
-    import { StardustNetworkId } from '@core/network'
 
     export let transaction: EvmTransactionData
     export let sendFlowParameters: SendFlowParameters
     export let network: IEvmNetwork
+    export let selectedGasSpeed: GasSpeed
+    export let gasPrices: IGasPricesBySpeed
+    export let busy: boolean
 
     $: transactionAsset = getTransactionAsset(sendFlowParameters)
     function getTransactionAsset(_sendFlowParameters: SendFlowParameters): {
@@ -67,9 +64,12 @@
     <TransactionAssetSection baseCoinTransfer={sendFlowParameters.baseCoinTransfer} {...transactionAsset} />
 
     <EvmTransactionDetails
+        bind:selectedGasSpeed
         sourceNetwork={network}
         destinationNetworkId={sendFlowParameters?.destinationNetworkId}
-        estimatedGasFee={calculateEstimatedGasFeeFromTransactionData(transaction) + storageDeposit}
-        maxGasFee={calculateMaxGasFeeFromTransactionData(transaction) + storageDeposit}
+        {transaction}
+        {storageDeposit}
+        {gasPrices}
+        {busy}
     />
 </div>

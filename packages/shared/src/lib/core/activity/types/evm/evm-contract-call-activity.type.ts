@@ -1,5 +1,6 @@
 import { EvmActivityType } from '@core/activity/enums/evm'
 import { BaseEvmActivity } from './base-evm-activity.type'
+import { IParsedInput } from '@core/layer-2'
 
 export type EvmContractCallActivity = BaseEvmActivity & {
     type: EvmActivityType.ContractCall
@@ -7,5 +8,5 @@ export type EvmContractCallActivity = BaseEvmActivity & {
 
     methodId?: string
     method?: string
-    parameters?: Record<string, string>
+    inputs?: IParsedInput[]
 }

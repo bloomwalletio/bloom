@@ -8,9 +8,13 @@ import {
 } from '@contexts/wallet'
 import { convertUnixTimestampToDate, isFutureDateTime } from '@core/utils'
 
-export function validateSendConfirmation(output: Output): void {
+export function validateSendConfirmation(output: Output | undefined): void {
+    if (!output) {
+        throw new Error('Output is undefined!')
+    }
+
     const parseNumber: (value: string) => number = (value: string) => parseInt(value, 10) ?? 0
-    const amount = parseNumber(output?.amount)
+    const amount = parseNumber(output.amount)
     const balance = parseNumber(getSelectedAccount()?.balances?.baseCoin.available.toString() ?? '0')
 
     const expirationDateTime = getDateFromUnlockCondition(output, UnlockConditionType.Expiration)

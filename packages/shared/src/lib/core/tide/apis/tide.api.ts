@@ -32,6 +32,7 @@ interface ICampaignsResponse {
     startTime: string
     endTime: string
     address: string
+    chain: number
     url: string
     evmNetwork: number
     projectId: number

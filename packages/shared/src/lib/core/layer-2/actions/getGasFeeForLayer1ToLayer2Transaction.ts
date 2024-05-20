@@ -23,7 +23,7 @@ export async function getGasFeeForLayer1ToLayer2Transaction(sendFlowParameters: 
         return gasFeeEstimate
     } catch (err) {
         console.error(err)
-        return BigInt(FALLBACK_ESTIMATED_GAS[sendFlowParameters.type])
+        return FALLBACK_ESTIMATED_GAS[sendFlowParameters.type]
     }
 }
 

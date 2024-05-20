@@ -1,9 +1,10 @@
 import { HEX_PREFIX } from '@core/utils'
 import type { SendFlowParameters } from '@core/wallet/types'
 import { SpecialStream } from '../classes'
-import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, GAS_LIMIT_MULTIPLIER, TRANSFER_ALLOWANCE } from '../constants'
+import { ACCOUNTS_CONTRACT, EXTERNALLY_OWNED_ACCOUNT, TRANSFER_ALLOWANCE } from '../constants'
 import { encodeAddress, encodeAssetAllowance, encodeSmartContractParameters } from '../helpers'
 import { getIscChain } from '@core/network'
+import { addGasBuffer } from '../utils'
 
 export function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParameters): string {
     const metadataStream = new SpecialStream()
@@ -18,12 +19,12 @@ export function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParamet
 
     const gasFee = sendFlowParameters.gasFee ?? BigInt(0)
     const gasPerToken = iscChain.getMetadata()?.gasFeePolicy.gasPerToken
-    let gasLimit: number
+    let gasLimit: bigint
     if (gasPerToken) {
         // More information can be found here: https://wiki.iota.org/isc/reference/core-contracts/governance/#ratio32
-        gasLimit = (Number(gasFee) * gasPerToken['a']) / gasPerToken['b']
+        gasLimit = (gasFee * BigInt(gasPerToken['a'])) / BigInt(gasPerToken['b'])
     } else {
-        gasLimit = Number(gasFee) * GAS_LIMIT_MULTIPLIER
+        gasLimit = addGasBuffer(gasFee)
     }
 
     metadataStream.writeUInt8('senderContract', EXTERNALLY_OWNED_ACCOUNT)
@@ -31,7 +32,7 @@ export function getLayer2MetadataForTransfer(sendFlowParameters: SendFlowParamet
     metadataStream.writeUInt32('targetContract', ACCOUNTS_CONTRACT)
     metadataStream.writeUInt32('contractFunction', TRANSFER_ALLOWANCE)
     // Gas budget is the ISC equivalent of gas limit in ethereum and what we use throughout the code
-    metadataStream.writeUInt64SpecialEncoding('gasLimit', BigInt(Math.floor(gasLimit)))
+    metadataStream.writeUInt64SpecialEncoding('gasLimit', gasLimit)
 
     const smartContractParameters = Object.entries({ a: encodedAddress })
     const parameters = encodeSmartContractParameters(smartContractParameters)
