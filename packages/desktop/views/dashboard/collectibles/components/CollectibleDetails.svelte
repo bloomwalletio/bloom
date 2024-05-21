@@ -67,7 +67,8 @@
             }
         } else if (
             nft.standard === NftStandard.Irc27 &&
-            (nft.expirationTime || activity?.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed)
+            nft.expirationTime &&
+            activity?.asyncData?.asyncStatus === StardustActivityAsyncStatus.Unclaimed
         ) {
             return {
                 text: localize('actions.claim'),

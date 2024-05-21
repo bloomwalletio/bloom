@@ -19,8 +19,12 @@ export function getSpendableStatusFromUnspentNftOutput(
         const timeLockUnixTime = getTimelockDateFromOutput(nftOutput)?.getTime()
         const isRecipient = getRecipientAddressFromOutput(nftOutput) === accountAddress
 
-        if (expirationUnixTime && !isRecipient) {
-            isSpendable = expirationUnixTime < Date.now()
+        if (expirationUnixTime) {
+            if (isRecipient) {
+                isSpendable = false
+            } else {
+                isSpendable = expirationUnixTime < Date.now()
+            }
         }
 
         if (isRecipient && timeLockUnixTime) {
