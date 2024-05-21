@@ -21,7 +21,7 @@ export function getSpendableStatusFromUnspentNftOutput(
 
         if (expirationUnixTime) {
             if (isRecipient) {
-                isSpendable = false
+                isSpendable = expirationUnixTime >= Date.now()
             } else {
                 isSpendable = expirationUnixTime < Date.now()
             }
