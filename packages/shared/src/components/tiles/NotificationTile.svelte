@@ -16,8 +16,15 @@
             class="w-12 h-12 flex justify-center items-center rounded-xl shrink-0"
             style:background-color={'#fff'}
         >
-            {#if subscription?.metadata?.icons[0]}
-                <img src={subscription.metadata.icons[0]} alt="icon" class="w-10 h-10 rounded-md" />
+            {#if subscription?.metadata?.icons[0] && subscription?.scope[notification.type]?.imageUrls?.sm}
+                <div class="relative">
+                    <img src={subscription.metadata.icons[0]} alt="icon" class="w-10 h-10 rounded-md" />
+                    <img
+                        src={subscription.scope[notification.type]?.imageUrls.sm}
+                        alt="icon"
+                        class="absolute -right-1 -bottom-1 w-4 h-4 rounded-full"
+                    />
+                </div>
             {:else}
                 <Icon name={IconName.Bell} customColor={'brand'} size="sm" />
             {/if}
