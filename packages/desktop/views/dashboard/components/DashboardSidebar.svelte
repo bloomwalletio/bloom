@@ -1,10 +1,10 @@
 <script lang="ts">
     import { LogoName } from '@auxiliary/logo'
-    import { Button, IconButton, IconName, Pill } from '@bloomwalletio/ui'
+    import { IconButton, IconName } from '@bloomwalletio/ui'
     import { ProfileActionsMenu, SidebarTab } from '@components'
     import { APP_STAGE, AppStage } from '@core/app'
     import { localize } from '@core/i18n'
-    import { SupportedNetworkId, SupportedStardustNetworkId, getEvmNetwork } from '@core/network'
+    import { SupportedStardustNetworkId } from '@core/network'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
     import {
         DashboardRoute,
@@ -22,11 +22,6 @@
     import LedgerStatusTile from './LedgerStatusTile.svelte'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { BackupToast, VersionToast } from './toasts'
-    import { selectedAccount } from '@core/account/stores'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { LedgerAppName } from '@core/ledger/enums'
-    import { handleError } from '@core/error/handlers'
-    import { notificationsManager } from '@auxiliary/wallet-connect/notifications/classes'
 
     let expanded = true
     function toggleExpand(): void {
@@ -139,20 +134,6 @@
         $governanceRouter.reset()
         $settingsRouter.reset()
     }
-
-    async function enableNotifications(): Promise<void> {
-        try {
-            await checkActiveProfileAuth(LedgerAppName.Ethereum)
-        } catch (error) {
-            return
-        }
-
-        try {
-            notificationsManager.registerAccount($selectedAccount, getEvmNetwork(SupportedNetworkId.Ethereum))
-        } catch (err) {
-            handleError(err)
-        }
-    }
 </script>
 
 <aside class:expanded class="flex flex-col justify-between">
@@ -186,12 +167,6 @@
 
         {#if expanded}
             <dashboard-sidebar-tiles class="w-full flex flex-col space-y-2">
-                {#if notificationsManager?.isRegistered($selectedAccount, getEvmNetwork(SupportedNetworkId.Ethereum))}
-                    <Pill color="success">Can subscribe</Pill>
-                {:else}
-                    <Button text="Enable notifications" on:click={() => enableNotifications()} />
-                {/if}
-
                 {#if APP_STAGE === AppStage.PROD}
                     <BackupToast />
                 {:else}

@@ -1,0 +1,27 @@
+<script lang="ts">
+    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
+    import { Text, Tile } from '@bloomwalletio/ui'
+    import { getBestTimeDuration } from '@core/utils'
+    import { NotificationAvatar } from '@ui/avatars'
+    import { NotifyClientTypes } from '@walletconnect/notify-client'
+
+    export let notification: NotifyClientTypes.NotifyNotification
+    export let subscriptionTopic: string
+
+    $: subscription = notificationsManager.getSubscriptionsForTopic(subscriptionTopic)
+</script>
+
+<Tile class="!rounded-none">
+    <div class="flex justify-between gap-4 w-full">
+        <NotificationAvatar {subscription} notificationType={notification.type} />
+        <div class="flex-grow flex flex-col items-start">
+            <div class="flex justify-between items-center gap-2">
+                <Text type="sm" lineClamp={1}>{notification.title}</Text>
+                <Text type="xs" fontWeight="normal"
+                    >{getBestTimeDuration(new Date().getTime() - notification.sentAt, 'day', true)}</Text
+                >
+            </div>
+            <Text type="xs" fontWeight="normal" lineClamp={2}>{notification.body}</Text>
+        </div>
+    </div>
+</Tile>
