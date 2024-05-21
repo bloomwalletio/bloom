@@ -148,7 +148,10 @@
         }
 
         try {
-            notificationsManager.registerAccount($selectedAccount, getEvmNetwork(SupportedNetworkId.Ethereum))
+            const evmNetwork = getEvmNetwork(SupportedNetworkId.Ethereum)
+            if ($selectedAccount && evmNetwork) {
+                notificationsManager.registerAccount($selectedAccount, evmNetwork)
+            }
         } catch (err) {
             handleError(err)
         }
@@ -185,8 +188,9 @@
         </dashboard-sidebar-tabs>
 
         {#if expanded}
+            {@const evmNetwork = getEvmNetwork(SupportedNetworkId.Ethereum)}
             <dashboard-sidebar-tiles class="w-full flex flex-col space-y-2">
-                {#if notificationsManager?.isRegistered($selectedAccount, getEvmNetwork(SupportedNetworkId.Ethereum))}
+                {#if $selectedAccount && evmNetwork && notificationsManager?.isRegistered($selectedAccount, evmNetwork)}
                     <Pill color="success">Can subscribe</Pill>
                 {:else}
                     <Button text="Enable notifications" on:click={() => enableNotifications()} />

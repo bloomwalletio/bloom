@@ -7,6 +7,7 @@
     import features from '@features/features'
     import { DashboardDrawerRoute } from '../drawers'
     import Breadcrumbs from './Breadcrumbs.svelte'
+    import NotificationsButton from './NotificationsButton.svelte'
 </script>
 
 <NavbarContainer draggable={IS_MAC}>
@@ -40,6 +41,9 @@
                     textColor="primary"
                     size="sm"
                 />
+            {/if}
+            {#if features?.walletConnect?.notifications?.enabled}
+                <NotificationsButton />
             {/if}
         </div>
     </div>

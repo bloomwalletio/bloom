@@ -202,6 +202,7 @@ export class NotificationsManager {
         }
 
         this.notificationsPerSubscription.update((state) => {
+            console.log('Updating notifications', notificationsPerSubscription)
             return { ...state, ...notificationsPerSubscription }
         })
     }
