@@ -1,10 +1,11 @@
-import { buildNetworkAddressForWalletConnect } from '@auxiliary/wallet-connect/utils'
+import { buildNetworkAddressForWalletConnect } from '../../utils'
 import { IAccountState } from '@core/account'
 import { EvmNetworkId, IEvmNetwork } from '@core/network'
 import { signMessage } from '@core/wallet'
 import { NotifyClient, NotifyClientTypes } from '@walletconnect/notify-client'
 import { Writable, writable } from 'svelte/store'
 import { NotifyEvent } from '../enums'
+import { WALLET_CONNECT_CORE } from '../../constants/wallet-connect-core.constant'
 
 // TODO: where should this be placed?
 const APP_DOMAIN = 'https://bloomwallet.io'
@@ -17,18 +18,16 @@ export class NotificationsManager {
     public subscriptionsPerAddress: Writable<{ [address: string]: Subscriptions }> = writable({})
     public notificationsPerSubscription: Writable<Notifications> = writable({})
 
-    constructor() {
-        void this.initialiseNotify()
-    }
+    constructor() {}
 
-    async initialiseNotify(): Promise<void> {
+    async init(): Promise<void> {
         try {
             this.notifyClient = await NotifyClient.init({
-                projectId: process.env.WALLETCONNECT_PROJECT_ID,
+                core: WALLET_CONNECT_CORE,
             })
             this.initialiseHandlers()
-        } catch {
-            console.error('Unable to initialise Notify Client')
+        } catch (err) {
+            console.error('Unable to initialise Notify Client', err)
         }
     }
 
@@ -146,7 +145,7 @@ export class NotificationsManager {
                         acc &&
                         this.notifyClient?.watchedAccounts.getAll().some((accountObj) => accountObj.account === acc)
                 )
-                .filter(Boolean) as string[]
+                .filter(Boolean)
         )
 
         // TODO: Upgrade to this set operation once we upgade node to v22+
