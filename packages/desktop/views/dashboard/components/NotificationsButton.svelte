@@ -1,72 +1,86 @@
 <script lang="ts">
     import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { Button, IconButton, IconName, Indicator, Popover, Tabs, Text } from '@bloomwalletio/ui'
+    import { selectedAccount } from '@core/account/stores'
+    import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
+    import { LedgerAppName } from '@core/ledger/enums'
+    import { SupportedNetworkId, getEvmNetwork } from '@core/network'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeAccounts } from '@core/profile/stores'
     import { NotificationTile } from '@ui'
-    import { NotifyClientTypes } from '@walletconnect/notify-client'
 
-    const TABS = [ { key: 'all', value: 'All' }, { key: 'unread', value: 'Unread' } ]
+    const TABS = [
+        { key: 'all', value: 'All' },
+        { key: 'unread', value: 'Unread' },
+    ]
 
     let selectedTab = TABS[0]
 
-    let notifications: NotifyClientTypes.NotifyNotification[] = [{
-        title: 'This is a long notification title that should be truncated at some point',
-        sentAt: new Date().getTime() - 10000000,
-        body: 'This is a very long notification text that should be truncated at some point in the future',
-        id: '1230',
-        url: 'https://stackoverflow.com/questions/28798330/arrow-functions-and-this',
-        isRead: true,
-        type: 'w',
-    }]
-
-    $: notificationsToDisplay = new Array(10).fill(notifications[0]).filter(notification => selectedTab.key === 'unread' ? !notification.isRead : notification).slice(0, 5)
+    const evmNetwork = getEvmNetwork(SupportedNetworkId.Ethereum)
+    const notifications = notificationsManager.notificationsPerSubscription
+    $: notificationsToDisplay = Object.values($notifications)
+        .flat()
+        .sort((a, b) => b.sentAt - a.sentAt)
 
     let anchor: HTMLElement | undefined = undefined
     let popover: Popover | undefined = undefined
 
-    const { notificationsPerSubscription } = notificationsManager
+    $: isAtLeast1AccountRegistered =
+        evmNetwork && $activeAccounts.some((account) => notificationsManager.isRegistered(account, evmNetwork))
 
-    $: console.log($notificationsPerSubscription)
+    async function enableNotifications(): Promise<void> {
+        try {
+            await checkActiveProfileAuth(LedgerAppName.Ethereum)
+        } catch (error) {
+            return
+        }
+
+        try {
+            if ($selectedAccount && evmNetwork) {
+                notificationsManager.registerAccount($selectedAccount, evmNetwork)
+            }
+        } catch (err) {
+            handleError(err)
+        }
+    }
 </script>
 
 <button bind:this={anchor} class="relative flex items-center">
-    <IconButton
-        icon={IconName.Bell}
-        tooltip={localize('views.notifications.title')}
-        textColor="primary"
-        size="sm"
-    />
-    {#if notifications.some(notification => !notification.isRead)}
-        <Indicator size='sm' class="absolute top-0 right-0 box-content rounded-full
+    <IconButton icon={IconName.Bell} tooltip={localize('views.notifications.title')} textColor="primary" size="sm" />
+    {#if notificationsToDisplay.some((notification) => !notification.isRead)}
+        <Indicator
+            size="sm"
+            class="absolute top-0 right-0 box-content rounded-full
             border-2 border-solid border-surface dark:border-surface-dark"
         />
     {/if}
 </button>
 
-<Popover
-    bind:this={popover}
-    {anchor}
-    event="click"
-    placement="bottom-start"
-    preventClose
->
+<Popover bind:this={popover} {anchor} event="click" placement="bottom-start" preventClose>
     <div
         class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
-        shadow-lg overflow-hidden divide-y divide-solid divide-stroke dark:divide-stroke-dark bg-surface dark:bg-surface-dark">
-        <div class="w-full">
-            <Tabs bind:selectedTab tabs={TABS} />
-        </div>
+        shadow-lg overflow-hidden divide-y divide-solid divide-stroke dark:divide-stroke-dark bg-surface dark:bg-surface-dark"
+    >
         {#if notificationsToDisplay.length}
+            <div class="w-full p-4">
+                <Tabs bind:selectedTab tabs={TABS} />
+            </div>
             {#each notificationsToDisplay as notification}
                 <NotificationTile {notification} />
             {/each}
+            <div class="p-3 w-full">
+                <Button size="xs" text="View all notifications" width="full" />
+            </div>
+        {:else if !isAtLeast1AccountRegistered}
+            <div class="px-3 py-8 w-full flex flex-col gap-4 items-center">
+                <Text type="body2" align="center">Receiving notifications not enabled</Text>
+                <Button text="Enable notifications" on:click={() => enableNotifications()} />
+            </div>
         {:else}
             <div class="px-3 py-8 w-full">
-                <Text align="center">Notifications empty</Text>
+                <Text type="body2" align="center">Notifications empty</Text>
             </div>
         {/if}
-        <div class="p-3 w-full">
-            <Button size="xs" text="View all notifications" width="full" />
-        </div>
     </div>
 </Popover>
