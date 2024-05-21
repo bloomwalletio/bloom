@@ -17,6 +17,7 @@
 
     let selectedTab = TABS[0]
 
+    const MAX_AMOUNT_OF_NOTIFICATIONS = 7
     const evmNetwork = getEvmNetwork(SupportedNetworkId.Ethereum)
     const notifications = notificationsManager.notificationsPerSubscription
     $: notificationsToDisplay = Object.keys($notifications)
@@ -29,6 +30,7 @@
             })
         })
         .sort((a, b) => b.sentAt - a.sentAt)
+        .slice(0, MAX_AMOUNT_OF_NOTIFICATIONS)
 
     let anchor: HTMLElement | undefined = undefined
     let popover: Popover | undefined = undefined
@@ -54,7 +56,12 @@
 </script>
 
 <button bind:this={anchor} class="relative flex items-center">
-    <IconButton icon={IconName.Bell} tooltip={localize('views.notifications.title')} textColor="primary" size="sm" />
+    <IconButton
+        icon={IconName.Bell}
+        tooltip={localize('views.dashboard.dappNotifications.title')}
+        textColor="primary"
+        size="sm"
+    />
     {#if notificationsToDisplay.some((notification) => !notification.isRead)}
         <Indicator
             size="sm"
@@ -76,17 +83,22 @@
             {#each notificationsToDisplay as notification}
                 <NotificationTile {notification} subscriptionTopic={notification.subscriptionTopic} />
             {/each}
-            <div class="p-3 w-full">
-                <Button size="xs" text="View all notifications" width="full" />
-            </div>
+            {#if Object.values($notifications).flat().length > MAX_AMOUNT_OF_NOTIFICATIONS}
+                <div class="p-3 w-full">
+                    <Button size="xs" text={localize('views.dashboard.dappNotifications.viewAll')} width="full" />
+                </div>
+            {/if}
         {:else if !isAtLeast1AccountRegistered}
             <div class="px-3 py-8 w-full flex flex-col gap-4 items-center">
-                <Text type="body2" align="center">Receiving notifications not enabled</Text>
-                <Button text="Enable notifications" on:click={() => enableNotifications()} />
+                <Text type="body2" align="center">{localize('views.dashboard.dappNotifications.notEnabledHint')}</Text>
+                <Button
+                    text={localize('views.dashboard.dappNotifications.enable')}
+                    on:click={() => enableNotifications()}
+                />
             </div>
         {:else}
             <div class="px-3 py-8 w-full">
-                <Text type="body2" align="center">Notifications empty</Text>
+                <Text type="body2" align="center">{localize('views.dashboard.dappNotifications.empty')}</Text>
             </div>
         {/if}
     </div>

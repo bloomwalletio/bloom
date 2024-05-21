@@ -31,7 +31,10 @@
         {/if}
     </Avatar>
     {#if notificationType && subscription?.scope[notificationType]}
-        <span class="absolute -right-1 -bottom-1" bind:this={notificationAnchor}>
+        <span
+            class="absolute -right-1 -bottom-1 bg-surface dark:bg-surface-dark p-0.5 rounded-full"
+            bind:this={notificationAnchor}
+        >
             <Avatar
                 size="xs"
                 icon={notificationImageError ? IconName.Bell : undefined}
