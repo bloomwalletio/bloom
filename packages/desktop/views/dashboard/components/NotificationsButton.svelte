@@ -19,8 +19,15 @@
 
     const evmNetwork = getEvmNetwork(SupportedNetworkId.Ethereum)
     const notifications = notificationsManager.notificationsPerSubscription
-    $: notificationsToDisplay = Object.values($notifications)
-        .flat()
+    $: notificationsToDisplay = Object.keys($notifications)
+        .flatMap((subscriptionTopic) => {
+            return $notifications[subscriptionTopic].map((notification) => {
+                return {
+                    ...notification,
+                    subscriptionTopic,
+                }
+            })
+        })
         .sort((a, b) => b.sentAt - a.sentAt)
 
     let anchor: HTMLElement | undefined = undefined
@@ -67,7 +74,7 @@
                 <Tabs bind:selectedTab tabs={TABS} />
             </div>
             {#each notificationsToDisplay as notification}
-                <NotificationTile {notification} />
+                <NotificationTile {notification} subscriptionTopic={notification.subscriptionTopic} />
             {/each}
             <div class="p-3 w-full">
                 <Button size="xs" text="View all notifications" width="full" />

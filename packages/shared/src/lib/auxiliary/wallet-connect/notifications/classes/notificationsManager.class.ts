@@ -3,7 +3,7 @@ import { IAccountState } from '@core/account'
 import { EvmNetworkId, IEvmNetwork } from '@core/network'
 import { signMessage } from '@core/wallet'
 import { NotifyClient, NotifyClientTypes } from '@walletconnect/notify-client'
-import { Writable, writable } from 'svelte/store'
+import { Writable, get, writable } from 'svelte/store'
 import { NotifyEvent } from '../enums'
 import { WALLET_CONNECT_CORE } from '../../constants/wallet-connect-core.constant'
 
@@ -136,6 +136,14 @@ export class NotificationsManager {
         await this.addTrackedNetworkAccounts(accounts, networkId)
     }
 
+    getSubscriptionsForTopic(topic: string): NotifyClientTypes.NotifySubscription | undefined {
+        for (const subscriptions of Object.values(get(this.subscriptionsPerAddress))) {
+            if (subscriptions[topic]) {
+                return subscriptions[topic]
+            }
+        }
+    }
+
     async addTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
         const newNetworkAddressesToTrack = new Set(
             accounts
@@ -202,7 +210,6 @@ export class NotificationsManager {
         }
 
         this.notificationsPerSubscription.update((state) => {
-            console.log('Updating notifications', notificationsPerSubscription)
             return { ...state, ...notificationsPerSubscription }
         })
     }

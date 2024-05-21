@@ -1,9 +1,13 @@
 <script lang="ts">
+    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { Icon, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { getBestTimeDuration } from '@core/utils'
     import { NotifyClientTypes } from '@walletconnect/notify-client'
 
     export let notification: NotifyClientTypes.NotifyNotification
+    export let subscriptionTopic: string
+
+    $: subscription = notificationsManager.getSubscriptionsForTopic(subscriptionTopic)
 </script>
 
 <Tile class="!rounded-none">
@@ -12,7 +16,11 @@
             class="w-12 h-12 flex justify-center items-center rounded-xl shrink-0"
             style:background-color={'#fff'}
         >
-            <Icon name={IconName.Bell} customColor={'brand'} size="sm" />
+            {#if subscription?.metadata?.icons[0]}
+                <img src={subscription.metadata.icons[0]} alt="icon" class="w-10 h-10 rounded-md" />
+            {:else}
+                <Icon name={IconName.Bell} customColor={'brand'} size="sm" />
+            {/if}
         </icon-container>
         <div class="flex-grow flex flex-col items-start">
             <div class="flex justify-between items-center gap-2">
