@@ -14,22 +14,27 @@
     let notificationAnchor: HTMLElement
 </script>
 
-<div class="relative self-start" bind:this={dappAnchor}>
-    <Avatar
-        size="lg"
-        icon={!hasDappImage ? IconName.Application : undefined}
-        textColor="primary"
-        backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
-    >
-        {#if hasDappImage}
-            <img
-                src={subscription?.metadata.icons[0]}
-                alt={subscription?.metadata?.name}
-                class="size-full"
-                on:error={() => (dappImageError = true)}
-            />
-        {/if}
-    </Avatar>
+<div class="relative self-start">
+    <div bind:this={dappAnchor}>
+        <Avatar
+            size="lg"
+            icon={!hasDappImage ? IconName.Application : undefined}
+            textColor="primary"
+            backgroundColor={$darkMode ? 'surface-2-dark' : 'surface-2'}
+        >
+            {#if hasDappImage}
+                <img
+                    src={subscription?.metadata.icons[0]}
+                    alt={subscription?.metadata?.name}
+                    class="size-full"
+                    on:error={() => (dappImageError = true)}
+                />
+            {/if}
+        </Avatar>
+    </div>
+    {#if subscription?.metadata.name}
+        <Tooltip anchor={dappAnchor} text={subscription.metadata.name} placement="right" event="hover" />
+    {/if}
     {#if notificationType && subscription?.scope[notificationType]}
         <span
             class="absolute -right-1 -bottom-1 bg-surface dark:bg-surface-dark p-0.5 rounded-full"
@@ -51,16 +56,11 @@
                 {/if}
             </Avatar>
         </span>
+        <Tooltip
+            anchor={notificationAnchor}
+            text={subscription.scope[notificationType].name}
+            placement="right"
+            event="hover"
+        />
     {/if}
 </div>
-{#if subscription?.metadata.name}
-    <Tooltip anchor={dappAnchor} text={subscription.metadata.name} placement="right" event="hover" />
-{/if}
-{#if notificationType && subscription?.scope[notificationType].name}
-    <Tooltip
-        anchor={notificationAnchor}
-        text={subscription.scope[notificationType].name}
-        placement="right"
-        event="hover"
-    />
-{/if}

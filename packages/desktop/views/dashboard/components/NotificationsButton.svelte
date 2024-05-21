@@ -21,19 +21,16 @@
     const evmNetwork = getEvmNetwork(SupportedNetworkId.Ethereum)
     const notifications = notificationsManager.notificationsPerSubscription
     $: notificationsToDisplay = Object.keys($notifications)
-        .flatMap((subscriptionTopic) => {
-            return $notifications[subscriptionTopic].map((notification) => {
-                return {
-                    ...notification,
-                    subscriptionTopic,
-                }
-            })
-        })
+        .flatMap((subscriptionTopic) =>
+            $notifications[subscriptionTopic].map((notification) => ({
+                ...notification,
+                subscriptionTopic,
+            }))
+        )
         .sort((a, b) => b.sentAt - a.sentAt)
         .slice(0, MAX_AMOUNT_OF_NOTIFICATIONS)
 
     let anchor: HTMLElement | undefined = undefined
-    let popover: Popover | undefined = undefined
 
     $: isAtLeast1AccountRegistered =
         evmNetwork && $activeAccounts.some((account) => notificationsManager.isRegistered(account, evmNetwork))
@@ -71,7 +68,7 @@
     {/if}
 </button>
 
-<Popover bind:this={popover} {anchor} event="click" placement="bottom-start" preventClose>
+<Popover {anchor} event="click" placement="bottom-start" preventClose>
     <div
         class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
         shadow-lg overflow-hidden divide-y divide-solid divide-stroke dark:divide-stroke-dark bg-surface dark:bg-surface-dark"

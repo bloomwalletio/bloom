@@ -137,11 +137,9 @@ export class NotificationsManager {
     }
 
     getSubscriptionsForTopic(topic: string): NotifyClientTypes.NotifySubscription | undefined {
-        for (const subscriptions of Object.values(get(this.subscriptionsPerAddress))) {
-            if (subscriptions[topic]) {
-                return subscriptions[topic]
-            }
-        }
+        return Object.values(get(this.subscriptionsPerAddress))
+            .map((subscriptions) => subscriptions[topic])
+            .find(Boolean)
     }
 
     async addTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
