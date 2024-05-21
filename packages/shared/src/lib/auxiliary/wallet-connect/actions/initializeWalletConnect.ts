@@ -1,19 +1,20 @@
 import { handleError } from '@core/error/handlers'
-import { Core } from '@walletconnect/core'
 import { Web3Wallet } from '@walletconnect/web3wallet'
 import { get } from 'svelte/store'
+import { WALLET_CONNECT_CORE } from '../constants/wallet-connect-core.constant'
 import { WALLET_METADATA } from '../constants'
 import { onSessionDelete, onSessionProposal, onSessionRequest } from '../handlers'
 import { walletClient } from '../stores/wallet-client.store'
 import { setConnectedDapps } from '../stores/connected-dapps.store'
 import { isFeatureEnabled } from '@lib/features/utils'
+import { notificationsManager } from '../notifications'
 
 export async function initializeWalletConnect(): Promise<void> {
     if (isFeatureEnabled('walletConnect.web3Wallet')) {
         await initializeWalletClient()
     }
     if (isFeatureEnabled('walletConnect.notifications')) {
-        // await initializeNotifyClient()
+        await notificationsManager.init()
     }
 }
 
@@ -24,9 +25,7 @@ async function initializeWalletClient(): Promise<void> {
 
     try {
         const _walletClient = await Web3Wallet.init({
-            core: new Core({
-                projectId: process.env.WALLETCONNECT_PROJECT_ID,
-            }),
+            core: WALLET_CONNECT_CORE,
             metadata: WALLET_METADATA,
         })
         walletClient.set(_walletClient)
