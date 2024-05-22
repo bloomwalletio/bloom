@@ -80,7 +80,7 @@
                         startTime: campaign.startTime,
                         endTime: campaign.endTime,
                         url: campaign.url,
-                        chainId: campaign.evmNetwork,
+                        chainId: campaign.chain,
                         listingStatus: campaign.listingStatus,
                         ERC20Reward: campaign.ERC20Reward,
                     } as ICampaign

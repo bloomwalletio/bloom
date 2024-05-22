@@ -7,6 +7,7 @@ import {
     IBlockscoutApi,
     IBlockscoutAsset,
     IBlockscoutAssetDto,
+    IBlockscoutStats,
     IBlockscoutTokenInfo,
     IBlockscoutTokenInfoDto,
     IBlockscoutTransaction,
@@ -59,6 +60,13 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
                 )
             }
         )
+    }
+
+    async getStats(): Promise<IBlockscoutStats | undefined> {
+        const response = await this.get<IBlockscoutStats>('stats')
+        if (response) {
+            return this.get('stats')
+        }
     }
 
     async getAssetMetadata(assetAddress: string): Promise<IBlockscoutTokenInfo | undefined> {

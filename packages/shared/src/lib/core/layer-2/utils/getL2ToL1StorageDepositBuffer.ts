@@ -10,7 +10,7 @@ const L2_TO_L1_STORAGE_DEPOSIT_BUFFER_BYTES: { [key in UnwrapSendFlow]: bigint }
 type UnwrapSendFlow = SendFlowType.TokenUnwrap | SendFlowType.NftUnwrap
 
 export function getL2ToL1StorageDepositBuffer(type: UnwrapSendFlow, networkId: StardustNetworkId): bigint {
-    const network = getStardustNetwork(networkId)
+    const network = getStardustNetwork()
     if (!network) {
         return BigInt(0)
     }

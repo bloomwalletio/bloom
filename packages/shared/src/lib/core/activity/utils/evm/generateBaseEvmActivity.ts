@@ -14,7 +14,7 @@ export async function generateBaseEvmActivity(
         recipient: string
         gasUsed: number
         blockNumber: number
-        estimatedGas?: number
+        estimatedGas?: bigint
         gasPrice?: BigIntLike
         timestamp?: number
     },

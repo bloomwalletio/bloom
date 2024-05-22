@@ -1,11 +1,11 @@
 <script lang="ts">
     import { IconName } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { FAUCET_URLS, getL1Network } from '@core/network'
+    import { FAUCET_URLS, getStardustNetwork } from '@core/network'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { ButtonTile } from '../../../components'
 
-    const network = getL1Network()
+    const network = getStardustNetwork()
 
     function onGetTokensClick(): void {
         openPopup({

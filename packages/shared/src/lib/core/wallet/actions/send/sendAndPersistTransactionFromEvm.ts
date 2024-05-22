@@ -33,11 +33,20 @@ export async function sendAndPersistTransactionFromEvm(
     // taking precedence over send/receive activities
     const evmTransaction: LocalEvmTransaction = {
         ...preparedTransaction,
-        ...transactionReceipt,
+        status: true,
+        transactionHash: transactionReceipt.transactionHash.toString(),
+        transactionIndex: Number(transactionReceipt.transactionIndex),
+        blockNumber: Number(transactionReceipt.blockNumber),
+        to: transactionReceipt.to,
+        from: transactionReceipt.from,
+        gasUsed: Number(transactionReceipt.gasUsed),
+        estimatedGas: Number(preparedTransaction.estimatedGas),
+        nonce: Number(preparedTransaction.nonce),
+        gasLimit: Number(preparedTransaction.gasLimit),
         timestamp: Date.now(),
     }
     await persistEvmTransaction(profileId, account, evmNetwork, evmTransaction)
-    return transactionReceipt.transactionHash
+    return evmTransaction.transactionHash
 }
 
 async function persistEvmTransaction(

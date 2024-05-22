@@ -1,7 +1,7 @@
+import { ContractAbi } from 'web3'
 import { AbiType, StateMutabilityType } from '../enums'
-import { Abi } from '../types'
 
-export const ERC20_ABI: Abi = [
+export const ERC20_ABI: ContractAbi = [
     {
         constant: true,
         inputs: [],

@@ -1,5 +1,4 @@
 export * from './base-network.interface'
-export * from './block.interface'
 export * from './evm-network-configuration.interface'
 export * from './isc-chain-metadata.interface'
 export * from './evm-network.interface'
