@@ -19,18 +19,20 @@
             <div class="w-full flex justify-between gap-2">
                 <div class="flex items-center gap-2">
                     <Text type="sm" lineClamp={1}>{notification.title}</Text>
-                    <Text type="xs" fontWeight="normal">
-                        {getBestTimeDuration($time.getTime() - notification.sentAt, 'day', true)}
-                    </Text>
+                    {#if notification.url}
+                        <Link textType="xs" href={notification.url} external />
+                    {/if}
                 </div>
                 {#if !notification.isRead}
                     <Indicator size="sm" />
                 {/if}
-                {#if notification.url}
-                    <Link textType="xs" href={notification.url} external />
-                {/if}
             </div>
-            <Text type="xs" fontWeight="normal" lineClamp={2}>{notification.body}</Text>
+            <div class="w-full flex justify-between gap-2">
+                <Text type="xs" fontWeight="normal" lineClamp={2}>{notification.body}</Text>
+                <Text type="xs" fontWeight="normal">
+                    {getBestTimeDuration($time.getTime() - notification.sentAt, 'day', true)}
+                </Text>
+            </div>
         </div>
     </div>
 </Tile>
