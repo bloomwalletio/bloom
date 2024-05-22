@@ -254,7 +254,13 @@
                                 onClick: () => onExplorerClick(String(preparedTransaction.to)),
                             },
                             { key: localize('general.methodName'), value: parsedData.parsedMethod?.name },
-                            { key: localize('general.parameters'), value: parsedData.parsedMethod?.inputs },
+                            {
+                                key: localize('general.parameters'),
+                                value: parsedData?.parsedMethod?.inputs.reduce((acc, input) => {
+                                    acc[input.name] = input.value
+                                    return acc
+                                }, {}),
+                            },
                             { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                         ]}
                     />

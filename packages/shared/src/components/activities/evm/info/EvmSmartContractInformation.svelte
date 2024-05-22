@@ -11,6 +11,12 @@
         const url = getExplorerUrl(activity.destinationNetworkId, ExplorerEndpoint.Address, address)
         openUrlInBrowser(url)
     }
+
+    // change inputs from object with index as key to object with name as key
+    $: inputs = activity.inputs?.reduce((acc, input) => {
+        acc[input.name] = input.value
+        return acc
+    }, {})
 </script>
 
 <Table
@@ -41,7 +47,7 @@
         },
         {
             key: localize('general.inputs'),
-            value: activity.inputs,
+            value: inputs,
         },
         {
             key: localize('general.data'),
