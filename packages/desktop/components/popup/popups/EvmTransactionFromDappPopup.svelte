@@ -17,14 +17,12 @@
     import { EvmTransactionData } from '@core/layer-2/types'
     import { LedgerAppName } from '@core/ledger'
     import { ExplorerEndpoint, IEvmNetwork, getExplorerUrl } from '@core/network'
-    import { Nft } from '@core/nfts'
     import { getNftByIdForAccount } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { getActiveProfileId } from '@core/profile/stores'
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
     import { Converter, MILLISECONDS_PER_SECOND, truncateString } from '@core/utils'
-    import { TokenTransferData } from '@core/wallet'
     import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { LegacyTransaction } from '@ethereumjs/tx'
@@ -43,9 +41,6 @@
     export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
     export let callback: (params: CallbackParameters) => void
 
-    let nft: Nft | undefined
-    let tokenTransfer: TokenTransferData | undefined
-    let baseCoinTransfer: TokenTransferData | undefined
     let busy = false
 
     let parsedData: ParsedSmartContractData | undefined
@@ -62,13 +57,9 @@
     }
     $: preparedTransaction.gasPrice = Converter.bigIntToHex(gasPrices?.[selectedGasSpeed] ?? gasPrices.required)
 
-    setTransactionInformation()
-    function setTransactionInformation(): void {
+    setParsedContractData()
+    function setParsedContractData(): void {
         if (!preparedTransaction.data) {
-            baseCoinTransfer = {
-                token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
-                rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
-            } as TokenTransferData
             return
         }
 
@@ -154,10 +145,15 @@
 
             modifyPopupState({ preventClose: false }, true)
             busy = false
+
+            const successMessage = localize(`popups.${localeKey}}.success`, {
+                recipient: truncateString(String(preparedTransaction.to), 6, 6),
+                assetName: getAssetName(),
+            })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
-                    successMessage: getSuccessMessage(),
+                    successMessage,
                     dapp,
                 },
             })
@@ -168,11 +164,17 @@
         }
     }
 
-    function getSuccessMessage(): string {
-        const recipient = truncateString(String(preparedTransaction.to), 6, 6)
-        const assetName =
-            tokenTransfer?.token?.metadata?.name ?? baseCoinTransfer?.token?.metadata?.name ?? nft?.name ?? ''
-        return localize(`popups.${localeKey}}.success`, { recipient, assetName })
+    function getAssetName(): string {
+        switch (parsedData?.type) {
+            case ParsedSmartContractType.CoinTransfer:
+                return getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id)?.metadata?.name ?? ''
+            case ParsedSmartContractType.TokenTransfer:
+                return getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id)?.metadata?.name ?? ''
+            case ParsedSmartContractType.NftTransfer:
+                return getNftByIdForAccount($selectedAccount?.index, parsedData.nftId)?.metadata?.name ?? ''
+            default:
+                return ''
+        }
     }
 
     function onCancelClick(): void {
@@ -217,7 +219,13 @@
     />
 
     <div class="space-y-5">
-        {#if parsedData?.type === ParsedSmartContractType.CoinTransfer}
+        {#if !preparedTransaction.data}
+            {@const baseCoinTransfer = {
+                token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
+                rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
+            }}
+            <TransactionAssetSection {baseCoinTransfer} />
+        {:else if parsedData?.type === ParsedSmartContractType.CoinTransfer}
             {@const baseCoinTransfer = {
                 token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
                 rawAmount: parsedData.rawAmount,
