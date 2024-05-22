@@ -1,4 +1,5 @@
 export * from './drawers'
+export * from './evm-transactions'
 export * from './filter'
 export * from './menus'
 export * from './modals'
