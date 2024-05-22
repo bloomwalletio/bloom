@@ -1094,6 +1094,11 @@
             "action": "Sign",
             "success": "Signed transaction"
         },
+        "tokenApproval": {
+            "title": "Approve {contractName} to spend {assetName}",
+            "action": "Approve",
+            "success": "Successfully approved"
+        },
         "sendTransaction": {
             "title": "Send transaction",
             "action": "Send",

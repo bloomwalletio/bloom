@@ -11,7 +11,6 @@
     import {
         GasSpeed,
         IGasPricesBySpeed,
-        IParsedInput,
         getHexEncodedTransaction,
         parseSmartContractDataFromTransactionData,
     } from '@core/layer-2'
@@ -34,6 +33,8 @@
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { ParsedSmartContractType } from '@core/layer-2/enums/parsed-smart-contract-type.enum'
+    import { ParsedSmartContractData } from '@core/layer-2/types/parsed-smart-contract-data.type'
+    import { formatTokenAmount } from '@core/token/utils'
 
     export let preparedTransaction: EvmTransactionData
     export let evmNetwork: IEvmNetwork
@@ -42,20 +43,12 @@
     export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
     export let callback: (params: CallbackParameters) => void
 
-    $: localeKey =
-        method === RpcMethod.EthSignTransaction
-            ? 'signTransaction'
-            : isSmartContractCall
-              ? 'smartContractCall'
-              : 'sendTransaction'
-
     let nft: Nft | undefined
     let tokenTransfer: TokenTransferData | undefined
     let baseCoinTransfer: TokenTransferData | undefined
-    let isSmartContractCall = false
-    let methodName: string | undefined = undefined
-    let inputs: IParsedInput[] | undefined = undefined
     let busy = false
+
+    let parsedData: ParsedSmartContractData | undefined
 
     let selectedGasSpeed = GasSpeed.Required
     let gasPrices: IGasPricesBySpeed = {
@@ -79,7 +72,7 @@
             return
         }
 
-        const parsedData = parseSmartContractDataFromTransactionData(
+        parsedData = parseSmartContractDataFromTransactionData(
             {
                 to: preparedTransaction.to?.toString(),
                 data: String(preparedTransaction.data),
@@ -87,46 +80,23 @@
             },
             evmNetwork
         )
+    }
 
-        methodName = parsedData?.parsedMethod?.name
-        inputs = parsedData?.parsedMethod?.inputs
-
-        switch (parsedData?.type) {
-            case ParsedSmartContractType.CoinTransfer: {
-                const transfer = {
-                    token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
-                    rawAmount: parsedData.rawAmount,
-                } as TokenTransferData
-                if (!transfer.token) {
-                    return
-                }
-
-                baseCoinTransfer = transfer
-                break
-            }
-            case ParsedSmartContractType.TokenTransfer: {
-                const transfer = {
-                    token: getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id),
-                    rawAmount: parsedData.rawAmount,
-                } as TokenTransferData
-                if (!transfer.token) {
-                    return
-                }
-
-                tokenTransfer = transfer
-                break
-            }
-            case ParsedSmartContractType.NftTransfer: {
-                nft = getNftByIdForAccount($selectedAccount?.index as number, parsedData.nftId)
-                break
-            }
-            case ParsedSmartContractType.SmartContract: {
-                isSmartContractCall = true
-                break
-            }
-            default: {
-                break
-            }
+    $: localeKey = getLocalKey(parsedData?.type)
+    function getLocalKey(type?: ParsedSmartContractType): string {
+        if (method === RpcMethod.EthSignTransaction) {
+            return 'signTransaction'
+        }
+        switch (type) {
+            case ParsedSmartContractType.CoinTransfer:
+            case ParsedSmartContractType.TokenTransfer:
+            case ParsedSmartContractType.NftTransfer:
+                return 'sendTransaction'
+            case ParsedSmartContractType.TokenApproval:
+                return 'tokenApproval'
+            case ParsedSmartContractType.SmartContract:
+            default:
+                return 'smartContractCall'
         }
     }
 
@@ -191,7 +161,7 @@
         const recipient = truncateString(String(preparedTransaction.to), 6, 6)
         const assetName =
             tokenTransfer?.token?.metadata?.name ?? baseCoinTransfer?.token?.metadata?.name ?? nft?.name ?? ''
-        return localize(`popups.${localeKey}.success`, { recipient, assetName })
+        return localize(`popups.${localeKey}}.success`, { recipient, assetName })
     }
 
     function onCancelClick(): void {
@@ -238,7 +208,57 @@
     />
 
     <div class="space-y-5">
-        {#if isSmartContractCall}
+        {#if parsedData?.type === ParsedSmartContractType.CoinTransfer}
+            {@const baseCoinTransfer = {
+                token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
+                rawAmount: parsedData.rawAmount,
+            }}
+            <TransactionAssetSection {baseCoinTransfer} />
+        {:else if parsedData?.type === ParsedSmartContractType.TokenTransfer}
+            {@const tokenTransfer = {
+                token: getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id),
+                rawAmount: parsedData.rawAmount,
+            }}
+            <TransactionAssetSection {tokenTransfer} />
+        {:else if parsedData?.type === ParsedSmartContractType.NftTransfer}
+            {@const nft = getNftByIdForAccount($selectedAccount?.index, parsedData.nftId)}
+            <TransactionAssetSection {nft} />
+        {:else if parsedData?.type === ParsedSmartContractType.TokenApproval}
+            {@const { spender, rawAmount, tokenId } = parsedData}
+            {@const tokenTransfer = {
+                token: getTokenFromSelectedAccountTokens(tokenId, evmNetwork.id),
+                rawAmount: rawAmount,
+            }}
+            <TransactionAssetSection {tokenTransfer} />
+            <div class="flex flex-col gap-3">
+                <Alert variant="warning">
+                    <Text slot="text">
+                        {localize('popups.smartContractCall.unableToVerify')}
+                        <Link
+                            on:click={() => onExplorerClick(String(preparedTransaction.to))}
+                            text={localize('popups.smartContractCall.viewSmartContract')}
+                        />
+                    </Text>
+                    <Table
+                        collapsible
+                        collapsibleTitle={localize('general.details')}
+                        slot="body"
+                        items={[
+                            {
+                                key: localize('general.address'),
+                                value: truncateString(spender, 16, 16),
+                                onClick: () => onExplorerClick(spender),
+                            },
+                            {
+                                key: localize('general.value'),
+                                value: formatTokenAmount(rawAmount, tokenTransfer.token?.metadata),
+                                copyable: true,
+                            },
+                        ]}
+                    />
+                </Alert>
+            </div>
+        {:else if parsedData?.type === ParsedSmartContractType.SmartContract}
             <div class="flex flex-col gap-3">
                 <Alert variant="warning">
                     <Text slot="text">
@@ -258,15 +278,13 @@
                                 value: truncateString(String(preparedTransaction.to), 16, 16),
                                 onClick: () => onExplorerClick(String(preparedTransaction.to)),
                             },
-                            { key: localize('general.methodName'), value: methodName },
-                            { key: localize('general.parameters'), value: inputs },
+                            { key: localize('general.methodName'), value: parsedData.parsedMethod?.name },
+                            { key: localize('general.parameters'), value: parsedData.parsedMethod?.inputs },
                             { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                         ]}
                     />
                 </Alert>
             </div>
-        {:else}
-            <TransactionAssetSection {baseCoinTransfer} {tokenTransfer} {nft} />
         {/if}
         <EvmTransactionDetails
             bind:selectedGasSpeed

@@ -181,10 +181,11 @@ function parseSmartContractDataWithErc20Abi(
                 type: ParsedSmartContractType.TokenApproval,
                 standard: TokenStandard.Erc20,
                 tokenId: recipientAddress,
+                spender: decodedData.inputs._spender.value,
                 rawAmount: BigInt(decodedData.inputs._value.value),
                 rawMethod,
                 parsedMethod,
-                recipientAddress: decodedData.inputs._spender.value,
+                recipientAddress,
             }
         }
         default: {
