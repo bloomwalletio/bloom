@@ -1,6 +1,7 @@
 <script lang="ts">
     import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { Link, Indicator, Text, Tile } from '@bloomwalletio/ui'
+    import { time } from '@core/app/stores'
     import { getBestTimeDuration } from '@core/utils'
     import { NotificationAvatar } from '@ui/avatars'
     import { NotifyClientTypes } from '@walletconnect/notify-client'
@@ -19,7 +20,7 @@
                 <div class="flex items-center gap-2">
                     <Text type="sm" lineClamp={1}>{notification.title}</Text>
                     <Text type="xs" fontWeight="normal">
-                        {getBestTimeDuration(new Date().getTime() - notification.sentAt, 'day', true)}
+                        {getBestTimeDuration($time.getTime() - notification.sentAt, 'day', true)}
                     </Text>
                 </div>
                 {#if !notification.isRead}
