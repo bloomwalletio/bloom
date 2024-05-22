@@ -7,9 +7,9 @@
     import { ProposalCard } from './'
     import ProposalListMenu from './ProposalListMenu.svelte'
     import { localize } from '@core/i18n'
-    import { getL1Network } from '@core/network'
+    import { getStardustNetwork } from '@core/network'
 
-    const { currentMilestone } = getL1Network()
+    const { currentMilestone } = getStardustNetwork()
     $: proposals = getProposalsWithStatus($registeredProposalsForSelectedAccount, $currentMilestone)
 
     let searchTerm = ''

@@ -1,4 +1,4 @@
-import { IEvmNetwork, IStardustNetwork, NetworkId, getEvmNetworks, getL1Network } from '@core/network'
+import { IEvmNetwork, IStardustNetwork, NetworkId, getEvmNetworks, getStardustNetwork } from '@core/network'
 import { activeAccounts, activeProfile } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { getOrRequestTokenFromPersistedTokens } from '.'
@@ -20,7 +20,7 @@ export async function loadTokensForAllAccountBalances(
     clearPersistedAssets && clearPersistedTokensForActiveProfile()
 
     const tokens: { [networkId: NetworkId]: IPersistedToken[] } = {}
-    const l1StardustNetwork = getL1Network()
+    const l1StardustNetwork = getStardustNetwork()
     const stardustTokens = await loadTokensForStardustNetwork(l1StardustNetwork, keepVerificationStatus)
     tokens[l1StardustNetwork.id] = stardustTokens
 

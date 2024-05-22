@@ -9,13 +9,13 @@
     import { onMount } from 'svelte'
     import { ProposalStatusInfo } from './'
     import { getTimeDifference, milestoneToDate } from '@core/utils'
-    import { getL1Network } from '@core/network/stores'
+    import { getStardustNetwork } from '@core/network/stores'
     import { time } from '@core/app/stores'
 
     export let proposal: IProposalWithStatus
 
     let hasVoted = false
-    const currentMilestone = getL1Network().currentMilestone
+    const currentMilestone = getStardustNetwork().currentMilestone
 
     $: $participationOverviewForSelectedAccount, proposal, setHasVoted()
 

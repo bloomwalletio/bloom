@@ -4,14 +4,14 @@
 
     import { formatDate, localize } from '@core/i18n'
     import { DATE_FORMAT, milestoneToDate } from '@core/utils'
-    import { getL1Network } from '@core/network/stores'
+    import { getStardustNetwork } from '@core/network/stores'
 
     export let milestones: Record<EventStatus, number>
     export let status: EventStatus
     export let anchor: HTMLElement
     export let placement: 'top' | 'bottom' | 'left' | 'right' = 'right'
 
-    const currentMilestone = getL1Network().currentMilestone
+    const currentMilestone = getStardustNetwork().currentMilestone
 
     let eventProgress: number
     switch (status) {
