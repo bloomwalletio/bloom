@@ -2,7 +2,7 @@
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { Alert, Link, Table, Text } from '@bloomwalletio/ui'
+    import { Table } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { openUrlInBrowser } from '@core/app'
@@ -29,12 +29,12 @@
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { LegacyTransaction } from '@ethereumjs/tx'
     import { DappInfo, TransactionAssetSection } from '@ui'
+    import { EvmTransactionAlert, EvmTokenApprovalAlert } from '@components'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { ParsedSmartContractType } from '@core/layer-2/enums/parsed-smart-contract-type.enum'
     import { ParsedSmartContractData } from '@core/layer-2/types/parsed-smart-contract-data.type'
-    import { formatTokenAmount } from '@core/token/utils'
 
     export let preparedTransaction: EvmTransactionData
     export let evmNetwork: IEvmNetwork
@@ -98,6 +98,17 @@
             default:
                 return 'smartContractCall'
         }
+    }
+
+    $: title = getTitle(parsedData)
+    function getTitle(data?: ParsedSmartContractData): string {
+        const locale = `popups.${localeKey}.title`
+
+        if (data?.type === ParsedSmartContractType.TokenApproval) {
+            const token = getTokenFromSelectedAccountTokens(data.tokenId, evmNetwork.id)
+            return localize(locale, { dappName: dapp.metadata?.name, assetName: token?.metadata?.name })
+        }
+        return localize(locale)
     }
 
     async function getSignedTransaction(account: IAccountState): Promise<string> {
@@ -185,9 +196,7 @@
 </script>
 
 <PopupTemplate
-    title={localize(`popups.${localeKey}.title`, {
-        contractAddress: truncateString(String(preparedTransaction.to), 6, 6),
-    })}
+    {title}
     backButton={{
         text: localize('actions.cancel'),
         onClick: onCancelClick,
@@ -224,54 +233,20 @@
             {@const nft = getNftByIdForAccount($selectedAccount?.index, parsedData.nftId)}
             <TransactionAssetSection {nft} />
         {:else if parsedData?.type === ParsedSmartContractType.TokenApproval}
-            {@const { spender, rawAmount, tokenId } = parsedData}
-            {@const tokenTransfer = {
-                token: getTokenFromSelectedAccountTokens(tokenId, evmNetwork.id),
-                rawAmount: rawAmount,
-            }}
-            <TransactionAssetSection {tokenTransfer} />
             <div class="flex flex-col gap-3">
-                <Alert variant="warning">
-                    <Text slot="text">
-                        {localize('popups.smartContractCall.unableToVerify')}
-                        <Link
-                            on:click={() => onExplorerClick(String(preparedTransaction.to))}
-                            text={localize('popups.smartContractCall.viewSmartContract')}
-                        />
-                    </Text>
-                    <Table
-                        collapsible
-                        collapsibleTitle={localize('general.details')}
-                        slot="body"
-                        items={[
-                            {
-                                key: localize('general.address'),
-                                value: truncateString(spender, 16, 16),
-                                onClick: () => onExplorerClick(spender),
-                            },
-                            {
-                                key: localize('general.value'),
-                                value: formatTokenAmount(rawAmount, tokenTransfer.token?.metadata),
-                                copyable: true,
-                            },
-                        ]}
-                    />
-                </Alert>
+                <EvmTokenApprovalAlert parsedTokenApproval={parsedData} networkId={evmNetwork.id} />
             </div>
         {:else if parsedData?.type === ParsedSmartContractType.SmartContract}
             <div class="flex flex-col gap-3">
-                <Alert variant="warning">
-                    <Text slot="text">
-                        {localize('popups.smartContractCall.unableToVerify')}
-                        <Link
-                            on:click={() => onExplorerClick(String(preparedTransaction.to))}
-                            text={localize('popups.smartContractCall.viewSmartContract')}
-                        />
-                    </Text>
+                <EvmTransactionAlert
+                    variant="warning"
+                    message={localize('popups.smartContractCall.unableToVerify')}
+                    networkId={evmNetwork.id}
+                    contractAddress={String(preparedTransaction.to)}
+                >
                     <Table
                         collapsible
                         collapsibleTitle={localize('general.details')}
-                        slot="body"
                         items={[
                             {
                                 key: localize('general.address'),
@@ -283,7 +258,7 @@
                             { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
                         ]}
                     />
-                </Alert>
+                </EvmTransactionAlert>
             </div>
         {/if}
         <EvmTransactionDetails

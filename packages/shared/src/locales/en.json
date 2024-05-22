@@ -1095,7 +1095,8 @@
             "success": "Signed transaction"
         },
         "tokenApproval": {
-            "title": "Approve {contractName} to spend {assetName}",
+            "title": "Approve {dappName} to access {assetName}",
+            "hint": "{address} is requesting approval to spend {assetName}",
             "action": "Approve",
             "success": "Successfully approved"
         },
