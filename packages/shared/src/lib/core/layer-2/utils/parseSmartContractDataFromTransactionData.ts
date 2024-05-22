@@ -4,20 +4,14 @@ import { AbiDecoder, HEX_PREFIX } from '@core/utils'
 import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
 import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
 import { ISC_BASE_COIN_ADDRESS, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
-import {
-    Erc20TransferMethodInputs,
-    Erc721SafeTransferMethodInputs,
-    IscCallMethodInputs,
-    IscSendMethodInputs,
-    IParsedMethod,
-    IParsedInput,
-} from '../interfaces'
+import { IParsedMethod, IParsedInput } from '../interfaces'
 import { BigIntLike, BytesLike } from '@ethereumjs/util'
 import { lookupMethodSignature } from './lookupMethodSignature'
 import { ParsedSmartContractData } from '../types/parsed-smart-contract-data.type'
 import { ParsedSmartContractType } from '../enums'
 import { TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
+import { Erc20Abi, Erc721Abi, IscAbi } from '../types'
 
 export function parseSmartContractDataFromTransactionData(
     transaction: { to?: string; data: BytesLike; value?: BigIntLike },
@@ -50,8 +44,8 @@ function parseSmartContractDataWithIscMagicAbi(
     data: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
-    const iscMagicDecoder = new AbiDecoder(ISC_SANDBOX_ABI, network.provider)
-    const decodedData = iscMagicDecoder.decodeData(data) // TODO: Type this return
+    const iscMagicDecoder = new AbiDecoder<IscAbi>(ISC_SANDBOX_ABI, network.provider)
+    const decodedData = iscMagicDecoder.decodeData(data)
 
     if (!decodedData) {
         return undefined
@@ -69,7 +63,7 @@ function parseSmartContractDataWithIscMagicAbi(
                 return undefined
             }
 
-            const inputs = decodedData.inputs as unknown as IscCallMethodInputs
+            const inputs = decodedData.inputs
             const nativeToken = inputs?.allowance?.value?.nativeTokens?.[0]
             const nftId = inputs?.allowance?.value?.nfts?.[0]
             const agentId = inputs?.params?.value.items?.find((item) => item.key === '0x61')?.value
@@ -106,7 +100,7 @@ function parseSmartContractDataWithIscMagicAbi(
                 return undefined
             }
 
-            const inputs = decodedData.inputs as unknown as IscSendMethodInputs
+            const inputs = decodedData.inputs
             const assets = inputs.assets?.value
 
             const nativeToken = assets?.nativeTokens?.[0]
@@ -157,8 +151,8 @@ function parseSmartContractDataWithErc20Abi(
     data: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
-    const erc20Decoder = new AbiDecoder(ERC20_ABI, network.provider)
-    const decodedData = erc20Decoder.decodeData(data) // TODO: Type this return
+    const erc20Decoder = new AbiDecoder<Erc20Abi>(ERC20_ABI, network.provider)
+    const decodedData = erc20Decoder.decodeData(data)
 
     if (!decodedData) {
         return undefined
@@ -172,19 +166,27 @@ function parseSmartContractDataWithErc20Abi(
 
     switch (decodedData.name) {
         case 'transfer': {
-            const inputs = decodedData.inputs as unknown as Erc20TransferMethodInputs
-
             return {
                 type: ParsedSmartContractType.TokenTransfer,
                 standard: TokenStandard.Erc20,
                 tokenId: recipientAddress,
-                rawAmount: BigInt(inputs._value.value),
+                rawAmount: BigInt(decodedData.inputs._value.value),
                 rawMethod,
                 parsedMethod,
-                recipientAddress: inputs._to.value,
+                recipientAddress: decodedData.inputs._to.value,
             }
         }
-        // TODO: Support more ERC20 methods
+        case 'approve': {
+            return {
+                type: ParsedSmartContractType.TokenApproval,
+                standard: TokenStandard.Erc20,
+                tokenId: recipientAddress,
+                rawAmount: BigInt(decodedData.inputs._value.value),
+                rawMethod,
+                parsedMethod,
+                recipientAddress: decodedData.inputs._spender.value,
+            }
+        }
         default: {
             return {
                 type: ParsedSmartContractType.SmartContract,
@@ -201,8 +203,8 @@ function parseSmartContractDataWithErc721Abi(
     data: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
-    const erc721Decoder = new AbiDecoder(ERC721_ABI, network.provider)
-    const decodedData = erc721Decoder.decodeData(data) // TODO: Type this return
+    const erc721Decoder = new AbiDecoder<Erc721Abi>(ERC721_ABI, network.provider)
+    const decodedData = erc721Decoder.decodeData(data)
 
     if (!decodedData) {
         return undefined
@@ -217,7 +219,7 @@ function parseSmartContractDataWithErc721Abi(
     switch (decodedData.name) {
         case 'safeTransferFrom': {
             // Enum?
-            const inputs = decodedData.inputs as unknown as Erc721SafeTransferMethodInputs
+            const inputs = decodedData.inputs
 
             return {
                 type: ParsedSmartContractType.NftTransfer,

@@ -1,6 +1,7 @@
+import { Erc20Abi, Erc721Abi, IscAbi } from '@core/layer-2'
 import type { AbiEventFragment, AbiFunctionFragment, AbiInput, AbiParameter, ContractAbi, Web3 } from 'web3'
 
-export class AbiDecoder {
+export class AbiDecoder<T extends IscAbi | Erc20Abi | Erc721Abi> {
     public abi: Record<string, AbiFunctionFragment>
     public web3: Web3
 
@@ -28,19 +29,7 @@ export class AbiDecoder {
         this.web3 = _web3
     }
 
-    public decodeData(data: string):
-        | {
-              name: string
-              inputs: Record<
-                  string,
-                  {
-                      name: string
-                      type: string
-                      value: unknown
-                  }
-              >
-          }
-        | undefined {
+    public decodeData(data: string): T | undefined {
         const functionSignature = data.slice(2, 10)
         const abiItem = this.abi[functionSignature]
 
@@ -50,13 +39,7 @@ export class AbiDecoder {
 
         const decoded = this.web3.eth.abi.decodeParameters((abiItem.inputs as AbiInput[]) ?? [], data.slice(10))
 
-        const inputs: {
-            [key: string]: {
-                name: string
-                type: string
-                value: unknown
-            }
-        } = {}
+        const inputs: T['inputs'] = {}
         for (let i = 0; i < decoded.__length__; i++) {
             const dataInput = decoded[i]
             const abiInput = abiItem.inputs?.[i]
@@ -76,7 +59,7 @@ export class AbiDecoder {
         return {
             name: abiItem.name,
             inputs,
-        }
+        } as T
     }
 
     private parseInputParameter(input: AbiParameter, value: unknown): unknown {

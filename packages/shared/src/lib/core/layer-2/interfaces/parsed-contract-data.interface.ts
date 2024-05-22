@@ -20,6 +20,13 @@ export interface IParsedNftTransfer extends Omit<IParsedSmartContractData, 'type
     nftId: string
 }
 
+export interface IParsedTokenApproval extends Omit<IParsedSmartContractData, 'type'> {
+    type: ParsedSmartContractType.TokenApproval
+    standard: TokenStandard.Erc20
+    tokenId: string
+    rawAmount: bigint
+}
+
 export interface IParsedSmartContractData {
     type: ParsedSmartContractType.SmartContract
     rawMethod: string
