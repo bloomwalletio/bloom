@@ -1,240 +1,58 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <meta
-        http-equiv="Content-Security-Policy"
-        content="
-            default-src 'self';
-            connect-src 'self';
-            img-src 'self';
-            base-uri 'self';
-            form-action 'none';
-            frame-src 'none';
-            worker-src 'none';
-            script-src 'self' 'unsafe-inline';
-            style-src-elem 'self' 'unsafe-inline';
-            style-src-attr 'none';
-            object-src 'none';
-            media-src 'self';
-            font-src 'self';
-            manifest-src 'self';
-            navigate-to 'self';
-            upgrade-insecure-requests;
-        "
-    />
-    <title>Bloom Error</title>
-    <style>
-        @font-face {
-            font-family: 'Silka';
-            font-style: normal;
-            font-weight: 500;
-            font-display: swap;
-            src: url('./assets/fonts/silka/silka-medium-webfont.woff2') format('woff2');
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body,
-        html {
-            width: 100%;
-            height: 100%;
-            user-select: none;
-            -webkit-user-drag: none;
-            overflow: hidden;
-        }
-
-        body {
-            display: flex;
-            justify-content: stretch;
-            color: #ffffff;
-            background-color: #161926;
-            font-size: 11px;
-            font-family: 'Silka';
-        }
-
-        a {
-            color: #b196ef;
-        }
-
-        hr {
-            width: 100%;
-            border: 0;
-            border-top: 1px solid #212537;
-            margin: 1.5rem 0;
-        }
-
-        button {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            border: 0px solid rgb(150, 108, 230);
-            box-sizing: border-box;
-            cursor: pointer;
-            border-radius: 3rem;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-            height: 3rem;
-            background-color: rgb(150, 108, 230);
-            width: fit-content;
-            color: white;
-            font-family: Silka;
-            font-size: 16px;
-        }
-
-        .content {
-            flex: 1;
-            display: flex;
-            margin: 2rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #app-icon {
-            -webkit-user-drag: none;
-            margin: 1rem 0;
-        }
-
-        #title {
-            margin: 1rem 0;
-        }
-
-        #diagnostics {
-            margin: 1rem 0;
-        }
-
-        #details {
-            margin: 1rem 0;
-            flex: 1;
-            overflow-y: auto;
-            white-space: pre-line;
-            min-height: 50px;
-        }
-
-        .help {
-            color: #C4D1E8;
-            font-size: 0.8rem;
-            line-height: 1.5rem;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: #D8E3F5;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background-color: transparent;
-        }
-    </style>
-</head>
-
-<body>
-<div class="content">
-    <img id="app-icon"
-         alt="App icon"
-         height="70"
-         width="70"/>
-    <h2>Unfortunately an error has occurred in Bloom.</h2>
-    <hr/>
-    <p id="version"></p>
-    <pre id="diagnostics"></pre>
-    <pre id="errorType"></pre>
-    <pre id="details"></pre>
-    <button onclick="javascript:copy()">Copy</button>
-    <hr/>
-    <footer>
-        <p class="help">
-            Please visit <a href="#"
-                            onclick="javascript:window.error.openUrl('https://bloomwallet.io')">https://bloomwallet.io</a>
-            to get
-            help from the Bloom community.
-        </p>
-        <p class="help">
-            Alternatively report this problem at <a href="#"
-                                  onclick="javascript:window.error.openUrl('https://github.com/bloomwalletio/bloom/issues')">https://github.com/bloomwalletio/bloom/issues</a>
-        </p>
-    </footer>
-</div>
-<!-- https://github.com/electron/electron/issues/2863 -->
-<script>var exports = exports || {}</script>
-
-<script>
-    let errorData
-
-    window.error.getData().then((err) => {
-        errorData = err
-        document.getElementById('app-icon').src = errorData.iconPath
-        document.getElementById('version').textContent = `App Version: ${errorData.version}`
-        document.getElementById('diagnostics').textContent = errorData.diagnostics
-        document.getElementById('errorType').textContent = `Error Type: ${errorData.errorType}`
-        document.getElementById('details').textContent = formatError()
-    })
-
-    function formatError() {
-        let formatted = []
-
-        if (errorData.error) {
-            if (errorData.error instanceof Error || errorData.error.stack || errorData.error.message) {
-                if (errorData.error.stack) {
-                    formatted.push(errorData.error.stack)
-                } else if (errorData.error.message) {
-                    formatted.push(errorData.error.message)
-                }
-            } else if (typeof errorData.error == 'string') {
-                formatted.push(errorData.error)
-            } else {
-                formatted.push(JSON.stringify(errorData.error))
-            }
-        }
-
-        return formatted.join('\r\n')
-    }
-
-    function copy() {
-        let content = `App Version: ${errorData.version}\r\n\r\n`
-        content += errorData.diagnostics + '\r\n\r\n'
-        content += `Error Type: ${errorData.errorType}` + '\r\n\r\n'
-        content += formatError()
-        copyToClipboard(content)
-    }
-
-    function copyToClipboard(input) {
-        try {
-            const textArea = document.createElement('textarea')
-            textArea.value = input
-            document.body.appendChild(textArea)
-
-            if (navigator.userAgent.match(/ipad|iphone/i)) {
-                const range = document.createRange()
-                range.selectNodeContents(textArea)
-                const selection = window.getSelection()
-                selection.removeAllRanges()
-                selection.addRange(range)
-                textArea.setSelectionRange(0, 999999)
-            } else {
-                textArea.select()
-            }
-
-            document.execCommand('copy')
-            document.body.removeChild(textArea)
-        } catch (err) {
-        }
-    }
-</script>
-</body>
-
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="
+                default-src 'self';
+                connect-src 'self';
+                img-src 'self';
+                base-uri 'self';
+                form-action 'none';
+                frame-src 'none';
+                worker-src 'none';
+                script-src 'self';
+                style-src-elem 'self';
+                style-src-attr 'none';
+                object-src 'none';
+                media-src 'self';
+                font-src 'self';
+                manifest-src 'self';
+                navigate-to 'self';
+                upgrade-insecure-requests;
+            "
+        />
+        <title>Bloom Error</title>
+        <link rel="stylesheet" href="error.css">
+    </head>
+    <body>
+        <div class="content">
+            <img id="app-icon"
+                alt="App icon"
+                height="70"
+                width="70"/>
+            <h2>Unfortunately an error has occurred in Bloom.</h2>
+            <hr/>
+            <p id="version"></p>
+            <pre id="diagnostics"></pre>
+            <pre id="errorType"></pre>
+            <pre id="details"></pre>
+            <button id="copyButton">Copy</button>
+            <hr/>
+            <footer>
+                <p class="help">
+                    Please visit 
+                    <a target="_blank" rel="external" href="https://bloomwallet.io">https://bloomwallet.io</a>
+                    to get help from the Bloom community.
+                </p>
+                <p class="help">
+                    Alternatively report this problem at 
+                    <a target="_blank" rel="external" href="https://github.com/bloomwalletio/bloom/issues">https://github.com/bloomwalletio/bloom/issues</a>
+                </p>
+            </footer>
+        </div>
+        <script src="error.js"></script>
+    </body>
 </html>
