@@ -1,7 +1,7 @@
 <script lang="ts">
     import { requestTokensFromFaucet } from '@contexts/developer'
     import { localize } from '@core/i18n'
-    import { getL1Network } from '@core/network'
+    import { getStardustNetwork } from '@core/network'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { Error } from '@bloomwalletio/ui'
     import { handleError } from '@core/error/handlers/handleError'
@@ -10,7 +10,7 @@
     let isBusy = false
     let error: string | undefined
 
-    const network = getL1Network()
+    const network = getStardustNetwork()
 
     async function onConfirmClick(): Promise<void> {
         error = undefined

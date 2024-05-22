@@ -4,7 +4,7 @@
     import { INode } from '@iota/sdk/out/types'
     import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
     import { IClientOptions, INodeInfoResponse } from '@core/network/interfaces'
-    import { getL1Network } from '@core/network/stores'
+    import { getStardustNetwork } from '@core/network/stores'
     import {
         checkIfOnSameNetwork,
         checkNodeUrlValidity,
@@ -96,7 +96,7 @@
         const networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
 
         if (options.checkSameNetwork) {
-            const stardustNetwork = getL1Network()
+            const stardustNetwork = getStardustNetwork()
             const isInSameNetwork = stardustNetwork?.protocol.networkName === networkName
             if (!isInSameNetwork) {
                 formError = localize('error.node.differentNetwork')

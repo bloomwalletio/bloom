@@ -16,7 +16,7 @@
         ProposalQuestionListPane,
         QuorumProgress,
     } from '../components/proposal-details'
-    import { getL1Network } from '@core/network'
+    import { getStardustNetwork } from '@core/network'
     import { getProposalWithStatus } from '@contexts/governance/utils'
 
     let statusLoaded: boolean = false
@@ -38,7 +38,7 @@
         clearSelectedParticipationEventStatus()
     })
 
-    const { currentMilestone } = getL1Network()
+    const { currentMilestone } = getStardustNetwork()
     $: proposal = getProposalWithStatus($selectedProposal, $currentMilestone)
 </script>
 

@@ -11,7 +11,7 @@
         NetworkType,
         getEvmNetwork,
         getIscChains,
-        getL1Network,
+        getStardustNetwork,
         getNetwork,
         isEvmNetwork,
     } from '@core/network'
@@ -107,7 +107,7 @@
     }
 
     function getLayer1RecipientOption(accountIndexToExclude?: number): INetworkRecipientSelectorOption {
-        const network = getL1Network()
+        const network = getStardustNetwork()
         return {
             networkId: network.id,
             name: network.name,
