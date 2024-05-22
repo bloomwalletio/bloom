@@ -8,7 +8,7 @@ import { get } from 'svelte/store'
 import { Nft } from '../interfaces'
 import { addNftsToDownloadQueue } from './addNftsToDownloadQueue'
 import { buildNftFromNftOutput } from './buildNftFromNftOutput'
-import { setNftsForAccount } from '../stores'
+import { addOrUpdateNftsForAccount } from '../stores'
 
 export async function loadNftsForActiveProfile(): Promise<void> {
     let nftsToDownload: Nft[] = []
@@ -60,7 +60,7 @@ export async function loadNftsForAccount(account: IAccountState): Promise<Nft[]>
             }
         }
     }
-    setNftsForAccount(account.index, accountNfts)
+    addOrUpdateNftsForAccount(account.index, accountNfts)
 
     return accountNfts
 }
