@@ -38,6 +38,12 @@
         [SupportedNetworkId.TestnetEvm]: {
             [BASE_TOKEN_ID]: 'text-secondary',
         },
+        [SupportedNetworkId.Ethereum]: {
+            [BASE_TOKEN_ID]: '#627eea',
+        },
+        [SupportedNetworkId.Sepolia]: {
+            [BASE_TOKEN_ID]: 'text-secondary',
+        },
     }
 
     const AVATAR_TEXT_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
@@ -63,6 +69,12 @@
             [BASE_TOKEN_ID]: '#FFFFFF',
         },
         [SupportedNetworkId.TestnetEvm]: {
+            [BASE_TOKEN_ID]: '#FFFFFF',
+        },
+        [SupportedNetworkId.Ethereum]: {
+            [BASE_TOKEN_ID]: '#FFFFFF',
+        },
+        [SupportedNetworkId.Sepolia]: {
             [BASE_TOKEN_ID]: '#FFFFFF',
         },
     }

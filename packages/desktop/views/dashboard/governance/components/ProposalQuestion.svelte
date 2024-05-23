@@ -14,7 +14,7 @@
     import { openPopup } from '@desktop/auxiliary/popup/actions'
     import { PopupId } from '@desktop/auxiliary/popup'
     import { localize } from '@core/i18n'
-    import { getL1Network } from '@core/network/stores'
+    import { getStardustNetwork } from '@core/network/stores'
 
     export let onQuestionClick: (questionIndex: number) => void
     export let onAnswerClick: (answerValue: number, questionIndex: number) => void
@@ -31,7 +31,7 @@
     let percentages: IProposalAnswerPercentages = {}
     let winnerAnswerIndex: number
 
-    const { currentMilestone } = getL1Network()
+    const { currentMilestone } = getStardustNetwork()
     $: status = getProposalStatusForMilestone($currentMilestone, $selectedProposal?.milestones)
 
     $: answers = [...(question?.answers ?? []), { value: 0, text: 'Abstain', additionalInfo: '' }]

@@ -18,6 +18,8 @@
         [SupportedNetworkId.ShimmerEvm]: 'shimmer-evm-background',
         [SupportedNetworkId.IotaTestnetEvm]: 'iota-evm-background/90',
         [SupportedNetworkId.TestnetEvm]: 'shimmer-evm-background/90',
+        [SupportedNetworkId.Ethereum]: '#627eea',
+        [SupportedNetworkId.Sepolia]: 'text-secondary',
     }
 
     const AVATAR_TEXT_COLOR: { [id in NetworkId]?: string } = {
@@ -29,6 +31,8 @@
         [SupportedNetworkId.ShimmerEvm]: 'shimmer-evm',
         [SupportedNetworkId.IotaTestnetEvm]: '#FFFFFF',
         [SupportedNetworkId.TestnetEvm]: '#FFFFFF',
+        [SupportedNetworkId.Ethereum]: '#FFFFFF',
+        [SupportedNetworkId.Sepolia]: '#FFFFFF',
     }
 
     let anchor: HTMLElement

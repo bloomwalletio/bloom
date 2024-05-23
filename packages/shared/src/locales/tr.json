@@ -55,14 +55,14 @@
                     }
                 },
                 "testnetSelection": {
-                    "title": "Select your testnet",
+                    "title": "Test ağınızı seçiniz",
                     "iotaTestnet": {
-                        "primary": "IOTA Testnet",
-                        "secondary": "Test network using valueless TST tokens"
+                        "primary": "IOTA Test ağı",
+                        "secondary": "Değersiz TST belirteçlerini kullanarak ağı test edin"
                     },
                     "testnet": {
-                        "primary": "Shimmer Testnet",
-                        "secondary": "Test network using valueless RMS tokens"
+                        "primary": "Shimmer Test ağı",
+                        "secondary": "Değersiz RMS belirteçlerini kullanarak ağı test edin"
                     }
                 },
                 "setupCustomNetwork": {
@@ -1000,7 +1000,7 @@
             "empty": "Hata geçmişi boş."
         },
         "deleteProfile": {
-            "title": "Delete {name} profile",
+            "title": "{name} profilini sil",
             "confirmation": "Bu dosyayı silmek istiyor musunuz? Bu işlem geri alınamaz.",
             "typePassword": "Onaylamak için parolanızı girin."
         },
@@ -1019,7 +1019,7 @@
         },
         "transaction": {
             "selectToken": "Bir token seçin",
-            "allNetworks": "All networks",
+            "allNetworks": "Tüm ağlar",
             "selectAmount": "Gönder {tokenName}",
             "selectRecipient": "{assetName}'i şuraya gönder",
             "transactionSummary": "Transaction to {recipient}",
@@ -1032,7 +1032,7 @@
             "accountsFound": "Bulunan hesaplar",
             "totalWalletBalance": "Toplam bakiye",
             "searchAgainHint": "Bakiyeniz veya cüzdan sayınız yanlış mı? Bakiyenizin tamamı gösterilene kadar tekrar arama yapın.",
-            "singleAccountSearch": "Search only current account"
+            "singleAccountSearch": "Yalnızca mevcut hesabı ara"
         },
         "ledgerNotConnected": {
             "title": "Ledger'ınızı bağlayın",
@@ -1723,7 +1723,10 @@
         "appName": "Uygulama Adı",
         "question": "Soru",
         "id": "Kimlik",
-        "location": "Konum"
+        "location": "Konum",
+        "slow": "Slow",
+        "average": "Average",
+        "fast": "Fast"
     },
     "filters": {
         "title": "Filtreler",
@@ -2036,7 +2039,7 @@
             "timeNotSynced": "Cihaz saati yanlış, düğüm senkronize edilemiyor.",
             "unabledToConnect": "Düğüme bağlanılamıyor",
             "differentNetwork": "Düğüm farklı bir ağda bulunuyor",
-            "invalidNode": "The URL is not a valid node",
+            "invalidNode": "URL geçerli bir düğüm değil",
             "duplicateNodes": "Yinelenen düğüm eklenemiyor",
             "noCoinType": "Belirtilen coin türü yok"
         },
