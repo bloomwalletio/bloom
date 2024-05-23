@@ -85,6 +85,8 @@
     function onVisibilityChange({ detail }: CustomEvent): void {
         if (detail.visible) {
             toggleObserve()
+        } else {
+            notificationsManager.updateAllSubscriptionsAndNotifications()
         }
     }
 </script>

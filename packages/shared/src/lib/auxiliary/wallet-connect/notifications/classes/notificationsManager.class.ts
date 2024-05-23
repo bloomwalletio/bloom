@@ -257,16 +257,18 @@ export class NotificationsManager {
     }
 
     markAsRead(notificationIds: string[], topic: string): void {
-        this.notifyClient?.markNotificationsAsRead({ notificationIds, topic })
-        this.notificationsPerSubscription.update((state) => {
-            state[topic] = state[topic].map((notification) => {
-                if (notificationIds.includes(notification.id)) {
-                    notification.isRead = true
-                }
-                return notification
-            })
-            return state
-        })
+        void this.notifyClient?.markNotificationsAsRead({ notificationIds, topic })
+    }
+
+    async updateAllSubscriptionsAndNotifications(): Promise<void> {
+        if (!this.notifyClient) {
+            return
+        }
+
+        const activeSubscriptions = Object.values(this.notifyClient.getActiveSubscriptions())
+        this.updateSubscriptionsPerAddress(activeSubscriptions)
+
+        await this.updateNotificationsForSubscriptions(activeSubscriptions)
     }
 }
 
