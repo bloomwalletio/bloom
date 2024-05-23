@@ -279,6 +279,10 @@ function parseSmartContractDataWithMethodRegistry(
             parsedMethod: { name, inputs },
         }
     } catch (error) {
-        return undefined
+        return {
+            type: ParsedSmartContractType.SmartContract,
+            recipientAddress,
+            rawMethod: fourBytePrefix,
+        }
     }
 }
