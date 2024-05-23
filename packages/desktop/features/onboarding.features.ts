@@ -139,7 +139,7 @@ const onboardingFeaturesForIotaTestnet: IOnboardingFeaturesForNetwork = {
         enabled: true,
     },
     defaultEvmChains: {
-        enabled: false,
+        enabled: true,
     },
 }
 
@@ -186,7 +186,7 @@ const onboardingFeaturesForTestnet: IOnboardingFeaturesForNetwork = {
         enabled: true,
     },
     defaultEvmChains: {
-        enabled: false,
+        enabled: true,
     },
 }
 
