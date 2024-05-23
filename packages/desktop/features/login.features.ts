@@ -7,7 +7,7 @@ const loginFeatures: ILoginFeatures = {
             enabled: true,
         },
         delete: {
-            enabled: false,
+            enabled: true,
         },
     },
 }

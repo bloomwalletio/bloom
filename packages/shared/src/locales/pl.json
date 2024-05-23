@@ -55,14 +55,14 @@
                     }
                 },
                 "testnetSelection": {
-                    "title": "Select your testnet",
+                    "title": "Wybierz sieć testową",
                     "iotaTestnet": {
                         "primary": "IOTA Testnet",
-                        "secondary": "Test network using valueless TST tokens"
+                        "secondary": "Testuj sieć przy użyciu bezwartościowych tokenów TST"
                     },
                     "testnet": {
                         "primary": "Shimmer Testnet",
-                        "secondary": "Test network using valueless RMS tokens"
+                        "secondary": "Testuj sieć przy użyciu bezwartościowych tokenów RMS"
                     }
                 },
                 "setupCustomNetwork": {
@@ -1000,7 +1000,7 @@
             "empty": "Dziennik błędów jest pusty."
         },
         "deleteProfile": {
-            "title": "Delete {name} profile",
+            "title": "Usuń profil {name}",
             "confirmation": "Czy na pewno chcesz usunąć ten profil? Tej operacji nie można cofnąć.",
             "typePassword": "Wpisz swoje hasło, aby potwierdzić."
         },
@@ -1019,7 +1019,7 @@
         },
         "transaction": {
             "selectToken": "Wybierz token",
-            "allNetworks": "All networks",
+            "allNetworks": "Wszystkie sieci",
             "selectAmount": "Wyślij {tokenName}",
             "selectRecipient": "Wyślij {assetName} do",
             "transactionSummary": "Transakcja do {recipient}",
@@ -1032,7 +1032,7 @@
             "accountsFound": "Znalezione konta",
             "totalWalletBalance": "Wszystkie środki",
             "searchAgainHint": "Czy Twoje saldo lub liczba portfeli są nieprawidłowe? Wykonaj ponowne szukanie, aż Twoje pełne saldo zostanie wyświetlone.",
-            "singleAccountSearch": "Search only current account"
+            "singleAccountSearch": "Przeszukaj tylko to konto"
         },
         "ledgerNotConnected": {
             "title": "Podłącz swój Ledger",
@@ -1723,7 +1723,10 @@
         "appName": "Nazwa aplikacji",
         "question": "Pytanie",
         "id": "ID",
-        "location": "Lokalizacja"
+        "location": "Lokalizacja",
+        "slow": "Slow",
+        "average": "Average",
+        "fast": "Fast"
     },
     "filters": {
         "title": "Filtry",
@@ -2036,7 +2039,7 @@
             "timeNotSynced": "Czas urządzenia jest nieprawidłowy, nie można zsynchronizować z serwerem.",
             "unabledToConnect": "Nie można połączyć się z serwerem",
             "differentNetwork": "Serwer jest zlokalizowany w innej sieci",
-            "invalidNode": "The URL is not a valid node",
+            "invalidNode": "Adres URL nie jest prawidłowym serwerem",
             "duplicateNodes": "Nie można dodać duplikatu serwera",
             "noCoinType": "Nie określono typu tokena"
         },

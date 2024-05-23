@@ -49,7 +49,7 @@ async function persistNftsFromExplorerAsset(
 
         const nftPromises = Array.from({ length: Number(value) }).map(async (_, idx) => {
             try {
-                const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call<string>()
+                const tokenId = await contract.methods.tokenOfOwnerByIndex(evmAddress, idx).call<bigint>()
                 const persistedNft = await persistNftWithContractMetadata(
                     evmAddress,
                     networkId,
@@ -59,7 +59,7 @@ async function persistNftsFromExplorerAsset(
                         name,
                         symbol,
                     },
-                    tokenId,
+                    String(tokenId),
                     contract
                 )
                 if (!persistedNft) {
@@ -75,6 +75,7 @@ async function persistNftsFromExplorerAsset(
                 // If we don't have the tokenId we cannot persist the NFT. ERC-721 contracts should implement
                 // the ERC-165 interface to support `tokenOfOwnerByIndex`
                 // https://stackoverflow.com/questions/69302924/erc-721-how-to-get-all-token-ids
+                console.error(err)
             }
         })
 
