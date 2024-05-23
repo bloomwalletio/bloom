@@ -35,6 +35,8 @@ export class IscChain extends EvmNetwork implements IIscChain {
         this.aliasAddress = aliasAddress
         this.apiEndpoint = apiEndpoint
         this._chainApi = new URL(`v1/chains/${aliasAddress}`, apiEndpoint).href
+
+        void this.setMetadata()
     }
 
     getMetadata(): IIscChainMetadata | undefined {

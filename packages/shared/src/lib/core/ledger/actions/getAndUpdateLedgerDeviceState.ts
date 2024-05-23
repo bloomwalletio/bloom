@@ -7,10 +7,7 @@ import { LedgerAppName } from '@core/ledger/enums'
 
 let isMakingRequest: boolean = false
 
-export async function getAndUpdateLedgerDeviceState(
-    profileManager = _profileManager,
-    forwardErrors = false
-): Promise<void> {
+export async function getAndUpdateLedgerDeviceState(profileManager = _profileManager): Promise<void> {
     try {
         if (!isMakingRequest) {
             isMakingRequest = true
@@ -28,11 +25,7 @@ export async function getAndUpdateLedgerDeviceState(
             }
         }
     } catch (err) {
-        if (forwardErrors) {
-            return Promise.reject(err)
-        } else {
-            console.error(err)
-        }
+        console.error(err)
     } finally {
         isMakingRequest = false
     }
