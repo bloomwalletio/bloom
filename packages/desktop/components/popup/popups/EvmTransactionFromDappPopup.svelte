@@ -149,7 +149,7 @@
             modifyPopupState({ preventClose: false }, true)
             busy = false
 
-            const successMessage = localize(`popups.${localeKey}}.success`, {
+            const successMessage = localize(`popups.${localeKey}.success`, {
                 recipient: truncateString(String(preparedTransaction.to), 6, 6),
                 assetName: getAssetName(),
             })
