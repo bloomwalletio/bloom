@@ -7,24 +7,36 @@
 
     export let parsedSmartContract: IParsedSmartContractData
     export let networkId: EvmNetworkId
+
+    function getMethodSignature(parsedMethod) {
+        const parameterSignatures = parsedMethod.inputs.map((input) => `${input.name} ${input.type}`)
+        return `${parsedMethod.name}(${parameterSignatures.join(', ')})`
+    }
 </script>
 
-<EvmTransactionAlert
-    variant="warning"
-    message={localize('popups.smartContractCall.unableToVerify')}
-    {networkId}
-    contractAddress={parsedSmartContract.recipientAddress}
->
-    {#if parsedSmartContract.parsedMethod}
+{#if parsedSmartContract.parsedMethod}
+    <EvmTransactionAlert
+        variant="warning"
+        message={localize('popups.smartContractCall.partiallyVerified')}
+        {networkId}
+        contractAddress={parsedSmartContract.recipientAddress}
+    >
         <Table
             collapsible
-            collapsibleTitle={parsedSmartContract.parsedMethod.name}
+            collapsibleTitle={getMethodSignature(parsedSmartContract.parsedMethod)}
             items={parsedSmartContract?.parsedMethod.inputs.map((input) => ({
                 key: input.name,
                 value: String(input.value) ?? localize('general.unknown'),
             }))}
         />
-    {:else}
+    </EvmTransactionAlert>
+{:else}
+    <EvmTransactionAlert
+        variant="danger"
+        message={localize('popups.smartContractCall.unableToVerify')}
+        {networkId}
+        contractAddress={parsedSmartContract.recipientAddress}
+    >
         <Table
             items={[
                 {
@@ -34,5 +46,5 @@
                 },
             ]}
         />
-    {/if}
-</EvmTransactionAlert>
+    </EvmTransactionAlert>
+{/if}
