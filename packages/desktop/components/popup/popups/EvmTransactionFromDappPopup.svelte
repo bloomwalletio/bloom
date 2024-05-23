@@ -97,7 +97,10 @@
 
         if (data?.type === ParsedSmartContractType.TokenApproval) {
             const token = getTokenFromSelectedAccountTokens(data.tokenId, evmNetwork.id)
-            return localize(locale, { dappName: dapp.metadata?.name, assetName: token?.metadata?.name })
+            return localize(locale, {
+                dappName: dapp.metadata?.name,
+                assetName: token?.metadata?.name ?? truncateString(data.tokenId, 6, 6),
+            })
         }
         return localize(locale)
     }

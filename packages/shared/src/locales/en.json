@@ -1734,7 +1734,8 @@
         "location": "Location",
         "slow": "Slow",
         "average": "Average",
-        "fast": "Fast"
+        "fast": "Fast",
+        "spender": "Spender"
     },
     "filters":{
         "title": "Filters",
