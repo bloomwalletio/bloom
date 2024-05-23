@@ -1094,6 +1094,12 @@
             "action": "Sign",
             "success": "Signed transaction"
         },
+        "tokenApproval": {
+            "title": "Approve {dappName} to access {assetName}",
+            "hint": "{address} is requesting approval to spend {assetName}",
+            "action": "Approve",
+            "success": "Successfully approved"
+        },
         "sendTransaction": {
             "title": "Send transaction",
             "action": "Send",
@@ -1728,7 +1734,8 @@
         "location": "Location",
         "slow": "Slow",
         "average": "Average",
-        "fast": "Fast"
+        "fast": "Fast",
+        "spender": "Spender"
     },
     "filters":{
         "title": "Filters",
