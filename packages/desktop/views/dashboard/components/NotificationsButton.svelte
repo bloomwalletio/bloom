@@ -48,9 +48,48 @@
             handleError(err)
         }
     }
+
+    const observedElements = new Set<HTMLElement>()
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                const element = entry.target as HTMLElement
+                const isVisible = element.checkVisibility({ checkOpacity: true })
+                if (isVisible && entry.isIntersecting) {
+                    const { id, topic } = element.dataset
+                    if (id && topic) {
+                        void notificationsManager.markAsRead([id], topic)
+                        observedElements.delete(element)
+                    }
+                }
+            })
+        },
+        { threshold: 1 }
+    )
+
+    function observe(node: HTMLElement): void {
+        const isRead = node.dataset.isread === 'true'
+        if (!isRead) {
+            observedElements.add(node)
+        }
+    }
+
+    function toggleObserve(): void {
+        observedElements.forEach((element) => {
+            observer.unobserve(element)
+            observer.observe(element)
+        })
+    }
+
+    function onVisibilityChange({ detail }: CustomEvent): void {
+        if (detail.visible) {
+            toggleObserve()
+        }
+    }
 </script>
 
-<button bind:this={anchor} class="relative flex items-center">
+<button bind:this={anchor} type="button" class="relative flex items-center">
     <IconButton
         icon={IconName.Bell}
         tooltip={localize('views.dashboard.dappNotifications.title')}
@@ -66,7 +105,7 @@
     {/if}
 </button>
 
-<Popover {anchor} event="click" placement="bottom-start" preventClose>
+<Popover {anchor} event="click" placement="bottom-start" preventClose on:visibilityChange={onVisibilityChange}>
     <div
         class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
         shadow-lg overflow-hidden divide-y divide-solid divide-stroke dark:divide-stroke-dark bg-surface dark:bg-surface-dark"
@@ -78,8 +117,15 @@
             <ul
                 class="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark w-full max-h-[75vh] overflow-y-scroll"
             >
-                {#each notificationsToDisplay as notification}
-                    <li><NotificationTile {notification} subscriptionTopic={notification.subscriptionTopic} /></li>
+                {#each notificationsToDisplay as notification (notification.id)}
+                    <li
+                        data-id={notification.id}
+                        data-topic={notification.subscriptionTopic}
+                        data-isread={notification.isRead}
+                        use:observe
+                    >
+                        <NotificationTile {notification} subscriptionTopic={notification.subscriptionTopic} />
+                    </li>
                 {/each}
             </ul>
         {:else if !isAtLeast1AccountRegistered}
