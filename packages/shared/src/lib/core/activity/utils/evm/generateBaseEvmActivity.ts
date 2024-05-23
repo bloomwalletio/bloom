@@ -1,11 +1,13 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
-import { IEvmNetwork, NetworkNamespace, calculateGasFee } from '@core/network'
+import { IEvmNetwork, NetworkNamespace, calculateGasFee, getEvmNetwork } from '@core/network'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
-import { BaseEvmActivity } from '../../types'
+import { BaseEvmActivity, EvmActivity } from '../../types'
 import type { BigIntLike } from '@ethereumjs/util'
+import { allAccountActivities } from '@core/activity/stores'
+import { LocalEvmTransaction } from '@core/transactions'
 
 export async function generateBaseEvmActivity(
     transaction: {
@@ -62,6 +64,7 @@ export async function generateBaseEvmActivity(
         isInternal,
 
         transactionFee,
+        confirmations: 0,
     }
 }
 
