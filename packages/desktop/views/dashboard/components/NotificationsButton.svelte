@@ -17,7 +17,6 @@
 
     let selectedTab = TABS[0]
 
-    const MAX_AMOUNT_OF_NOTIFICATIONS = 7
     const evmNetwork = getEvmNetwork(SupportedNetworkId.Ethereum)
     const notifications = notificationsManager.notificationsPerSubscription
     $: notificationsToDisplay = Object.keys($notifications)
@@ -28,7 +27,6 @@
             }))
         )
         .sort((a, b) => b.sentAt - a.sentAt)
-        .slice(0, MAX_AMOUNT_OF_NOTIFICATIONS)
 
     let anchor: HTMLElement | undefined = undefined
 
@@ -50,9 +48,50 @@
             handleError(err)
         }
     }
+
+    const observedElements = new Set<HTMLElement>()
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                const element = entry.target as HTMLElement
+                const isVisible = element.checkVisibility({ checkOpacity: true })
+                if (isVisible && entry.isIntersecting) {
+                    const { id, topic } = element.dataset
+                    if (id && topic) {
+                        void notificationsManager.markAsRead([id], topic)
+                        observedElements.delete(element)
+                    }
+                }
+            })
+        },
+        { threshold: 0.5 }
+    )
+
+    function observe(node: HTMLElement): void {
+        const isRead = node.dataset.isread === 'true'
+        if (!isRead) {
+            observedElements.add(node)
+        }
+    }
+
+    function toggleObserve(): void {
+        observedElements.forEach((element) => {
+            observer.unobserve(element)
+            observer.observe(element)
+        })
+    }
+
+    function onVisibilityChange({ detail }: CustomEvent): void {
+        if (detail.visible) {
+            toggleObserve()
+        } else {
+            notificationsManager.updateAllSubscriptionsAndNotifications()
+        }
+    }
 </script>
 
-<button bind:this={anchor} class="relative flex items-center">
+<button bind:this={anchor} type="button" class="relative flex items-center">
     <IconButton
         icon={IconName.Bell}
         tooltip={localize('views.dashboard.dappNotifications.title')}
@@ -68,7 +107,7 @@
     {/if}
 </button>
 
-<Popover {anchor} event="click" placement="bottom-start" preventClose>
+<Popover {anchor} event="click" placement="bottom-start" preventClose on:visibilityChange={onVisibilityChange}>
     <div
         class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
         shadow-lg overflow-hidden divide-y divide-solid divide-stroke dark:divide-stroke-dark bg-surface dark:bg-surface-dark"
@@ -77,14 +116,20 @@
             <div class="w-full p-4">
                 <Tabs bind:selectedTab tabs={TABS} />
             </div>
-            {#each notificationsToDisplay as notification}
-                <NotificationTile {notification} subscriptionTopic={notification.subscriptionTopic} />
-            {/each}
-            {#if Object.values($notifications).flat().length > MAX_AMOUNT_OF_NOTIFICATIONS}
-                <div class="p-3 w-full">
-                    <Button size="xs" text={localize('views.dashboard.dappNotifications.viewAll')} width="full" />
-                </div>
-            {/if}
+            <ul
+                class="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark w-full max-h-[75vh] overflow-y-scroll"
+            >
+                {#each notificationsToDisplay as notification (notification.id)}
+                    <li
+                        data-id={notification.id}
+                        data-topic={notification.subscriptionTopic}
+                        data-isread={notification.isRead}
+                        use:observe
+                    >
+                        <NotificationTile {notification} subscriptionTopic={notification.subscriptionTopic} />
+                    </li>
+                {/each}
+            </ul>
         {:else if !isAtLeast1AccountRegistered}
             <div class="px-3 py-8 w-full flex flex-col gap-4 items-center">
                 <Text type="body2" align="center">{localize('views.dashboard.dappNotifications.notEnabledHint')}</Text>

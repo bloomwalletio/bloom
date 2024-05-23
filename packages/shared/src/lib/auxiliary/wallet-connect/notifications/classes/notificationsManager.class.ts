@@ -255,6 +255,21 @@ export class NotificationsManager {
 
         await this.notifyClient?.subscribe({ appDomain, account: networkAddress })
     }
+
+    markAsRead(notificationIds: string[], topic: string): void {
+        void this.notifyClient?.markNotificationsAsRead({ notificationIds, topic })
+    }
+
+    async updateAllSubscriptionsAndNotifications(): Promise<void> {
+        if (!this.notifyClient) {
+            return
+        }
+
+        const activeSubscriptions = Object.values(this.notifyClient.getActiveSubscriptions())
+        this.updateSubscriptionsPerAddress(activeSubscriptions)
+
+        await this.updateNotificationsForSubscriptions(activeSubscriptions)
+    }
 }
 
 export const notificationsManager = new NotificationsManager()
