@@ -4,22 +4,11 @@ import { IEvmNetwork, NetworkNamespace, calculateGasFee, getEvmNetwork } from '@
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
-import { BaseEvmActivity, EvmActivity } from '../../types'
-import type { BigIntLike } from '@ethereumjs/util'
-import { allAccountActivities } from '@core/activity/stores'
+import { BaseEvmActivity } from '../../types'
 import { LocalEvmTransaction } from '@core/transactions'
 
 export async function generateBaseEvmActivity(
-    transaction: {
-        transactionHash: string
-        from: string
-        recipient: string
-        gasUsed: number
-        blockNumber: number
-        estimatedGas?: bigint
-        gasPrice?: BigIntLike
-        timestamp?: number
-    },
+    transaction: LocalEvmTransaction,
     evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<BaseEvmActivity> {
@@ -30,7 +19,7 @@ export async function generateBaseEvmActivity(
             : ActivityDirection.Outgoing
 
     const sender = getSubjectFromAddress(transaction.from, networkId)
-    const recipient = getSubjectFromAddress(transaction.recipient, networkId)
+    const recipient = getSubjectFromAddress(transaction.recipient ?? transaction.to, networkId)
 
     const subject = direction === ActivityDirection.Outgoing ? recipient : sender
     const isInternal = isSubjectInternal(recipient)
@@ -64,7 +53,7 @@ export async function generateBaseEvmActivity(
         isInternal,
 
         transactionFee,
-        confirmations: 0,
+        confirmations: transaction.confirmations ?? 0,
     }
 }
 

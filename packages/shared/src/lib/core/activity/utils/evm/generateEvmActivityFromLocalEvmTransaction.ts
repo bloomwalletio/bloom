@@ -22,22 +22,8 @@ export async function generateEvmActivityFromLocalEvmTransaction(
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
     if (!transaction.data) {
-        const { to, from, gasUsed, estimatedGas, gasPrice, transactionHash, timestamp, blockNumber } = transaction
         // i.e must be a coin transfer
-        const baseActivity = await generateBaseEvmActivity(
-            {
-                recipient: to?.toString().toLowerCase(),
-                from: from?.toString().toLowerCase(),
-                gasUsed: Number(gasUsed),
-                estimatedGas: estimatedGas ? BigInt(estimatedGas) : undefined,
-                gasPrice: gasPrice ?? undefined,
-                transactionHash,
-                timestamp,
-                blockNumber,
-            },
-            evmNetwork,
-            account
-        )
+        const baseActivity = await generateBaseEvmActivity(transaction, evmNetwork, account)
 
         return {
             ...baseActivity,
@@ -57,21 +43,8 @@ export async function generateEvmActivityFromLocalEvmTransaction(
         return
     }
 
-    const { to, from, gasUsed, estimatedGas, gasPrice, transactionHash, timestamp, blockNumber } = transaction
-    let baseActivity = await generateBaseEvmActivity(
-        {
-            recipient: parsedData.recipientAddress ?? to?.toString().toLowerCase(),
-            from: from?.toString().toLowerCase(),
-            gasUsed: Number(gasUsed),
-            estimatedGas: estimatedGas ? BigInt(estimatedGas) : undefined,
-            gasPrice: gasPrice ?? undefined,
-            transactionHash,
-            timestamp,
-            blockNumber,
-        },
-        evmNetwork,
-        account
-    )
+    transaction.recipient = parsedData.recipientAddress ?? transaction.to?.toString().toLowerCase()
+    let baseActivity = await generateBaseEvmActivity(transaction, evmNetwork, account)
 
     baseActivity = {
         ...baseActivity,
@@ -81,7 +54,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
         rawData: String(transaction.data ?? ''),
         contract: {
             type: SubjectType.SmartContract,
-            address: to?.toString().toLowerCase(),
+            address: transaction.to?.toString().toLowerCase(),
             name: '',
             verified: false,
         },
