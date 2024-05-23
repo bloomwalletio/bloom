@@ -18,9 +18,9 @@ export async function getEvmTokenMetadata(
         const [name, symbol, decimals] = await Promise.all([
             contract.methods.name().call<string>(),
             contract.methods.symbol().call<string>(),
-            isErc20 ? contract.methods.decimals().call<number>() : 0,
+            isErc20 ? contract.methods.decimals().call<bigint>() : BigInt(0),
         ])
         const standard = isErc20 ? TokenStandard.Erc20 : NftStandard.Erc721
-        return { standard, name, symbol, decimals, address: tokenAddress }
+        return { standard, name, symbol, decimals: Number(decimals), address: tokenAddress }
     }
 }

@@ -3,4 +3,5 @@ export enum ParsedSmartContractType {
     TokenTransfer,
     NftTransfer,
     SmartContract,
+    TokenApproval,
 }

@@ -7,7 +7,7 @@ export async function updatePersistedCollections(nfts: Nft[]): Promise<void> {
     const collectionsToAdd: PersistedCollection[] = []
     for (const nft of nfts) {
         if (!nft.collectionId || get(persistedCollections)[nft.collectionId]) {
-            return
+            continue
         }
 
         const collection = await buildPersistedCollectionFromNft(nft)

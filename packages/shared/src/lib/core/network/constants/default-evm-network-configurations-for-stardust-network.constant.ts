@@ -44,6 +44,9 @@ export const DEFAULT_EVM_NETWORK_CONFIGURATIONS_FOR_STARDUST_NETWORK: Readonly<{
     ...(isFeatureEnabled('onboarding.shimmer.defaultEvmChains') && {
         [SupportedStardustNetworkId.Shimmer]: [ETHEREUM_NETWORK_CONFIGURATION],
     }),
+    ...(isFeatureEnabled('onboarding.iotaTestnet.defaultEvmChains') && {
+        [SupportedStardustNetworkId.IotaTestnet]: [SEPOLIA_NETWORK_CONFIGURATION],
+    }),
     ...(isFeatureEnabled('onboarding.testnet.defaultEvmChains') && {
         [SupportedStardustNetworkId.Testnet]: [SEPOLIA_NETWORK_CONFIGURATION],
     }),

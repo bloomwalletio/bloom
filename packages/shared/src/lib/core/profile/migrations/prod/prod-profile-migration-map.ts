@@ -19,5 +19,7 @@ export const PROD_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     5: prodProfileMigration5To6,
     6: prodProfileMigration6To7,
     7: prodProfileMigration7To8,
+    // ^^^ release 1.0.2 ^^^
     8: prodProfileMigration8To9,
+    // ^^^ release 1.0.3 ^^^
 }

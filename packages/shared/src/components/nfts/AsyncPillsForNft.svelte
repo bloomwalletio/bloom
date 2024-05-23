@@ -13,7 +13,7 @@
         {@const timeLockDiff = getTimeDifference(new Date(nft.timelockTime ?? 0), $time)}
         <TimelockPill timeDiff={timeLockDiff} />
     {/if}
-    {#if nft.expirationTime}
+    {#if nft.expirationTime && nft.expirationTime > $time.getTime()}
         {@const expirationTimeDiff = getTimeDifference(new Date(nft.expirationTime), $time)}
         <UnclaimedPill timeDiff={expirationTimeDiff} />
     {/if}
