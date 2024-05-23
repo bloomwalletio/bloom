@@ -102,7 +102,8 @@
                 assetName: token?.metadata?.name ?? truncateString(data.tokenId, 6, 6),
             })
         }
-        return localize(locale)
+
+        return localize(locale, { contractAddress: truncateString(String(preparedTransaction.to), 6, 6) })
     }
 
     async function getSignedTransaction(account: IAccountState): Promise<string> {
