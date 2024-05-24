@@ -19,15 +19,21 @@ export function prodProfileMigration8To9(existingProfile: unknown): Promise<void
         return state
     })
 
-    profile.network = {
-        ...profile.network,
-        explorerUrl: DEFAULT_EXPLORER_URLS[profile.network.id],
-    }
-
     profile.evmNetworks = (profile.evmNetworks ?? []).map((evmNetwork) => ({
         ...evmNetwork,
         baseToken: DEFAULT_BASE_TOKEN[evmNetwork.id] as IBaseToken,
     }))
+
+    const updatedChainConfiguration = (profile.network.chainConfigurations ?? []).map((chain) => ({
+        ...chain,
+        baseToken: DEFAULT_BASE_TOKEN[chain.id] as IBaseToken,
+    }))
+
+    profile.network = {
+        ...profile.network,
+        explorerUrl: DEFAULT_EXPLORER_URLS[profile.network.id],
+        chainConfigurations: updatedChainConfiguration,
+    }
 
     persistedTokens.update((state) => {
         delete state[profile.id]

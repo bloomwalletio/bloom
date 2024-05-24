@@ -1,4 +1,5 @@
 import {
+    IParsedTokenApproval,
     IParsedCoinTransfer,
     IParsedNftTransfer,
     IParsedSmartContractData,
@@ -9,4 +10,5 @@ export type ParsedSmartContractData =
     | IParsedCoinTransfer
     | IParsedTokenTransfer
     | IParsedNftTransfer
+    | IParsedTokenApproval
     | IParsedSmartContractData

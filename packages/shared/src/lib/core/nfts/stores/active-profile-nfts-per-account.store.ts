@@ -18,13 +18,6 @@ export function getNftsForAccount(accountIndex: number): Nft[] {
     return get(activeProfileNftsPerAccount)[accountIndex] ?? []
 }
 
-export function setNftsForAccount(accountIndex: number, nfts: Nft[]): void {
-    activeProfileNftsPerAccount.update((state) => {
-        state[accountIndex] = nfts
-        return state
-    })
-}
-
 export function addOrUpdateNftsForAccount(accountIndex: number, nfts: Nft[]): void {
     const addedNfts: Nft[] = []
     activeProfileNftsPerAccount.update((state) => {
