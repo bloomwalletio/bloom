@@ -6,68 +6,36 @@
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+          default-src 'self';
+          connect-src 'self';
+          img-src 'self';
+          base-uri 'self';
+          form-action 'none';
+          frame-src 'none';
+          worker-src 'none';
+          script-src-elem 'self';
+          script-src-attr 'none';
+          style-src-elem 'self';
+          style-src-attr 'none';
+          object-src 'none';
+          media-src 'self';
+          font-src 'self';
+          manifest-src 'self';
+          navigate-to 'self';
+          upgrade-insecure-requests;
+      "
+    />
     <title></title>
-    <style>
-      @font-face {
-        font-family: 'Silka';
-        font-style: normal;
-        font-weight: 500;
-        font-display: swap;
-        src: url('./assets/fonts/silka/silka-medium-webfont.woff2') format('woff2');
-      }
-
-      body,
-
-      html {
-        width: 100%;
-        height: 100%;
-        user-select: none;
-        -webkit-user-drag: none;
-        overflow: hidden;
-      }
-
-      body {
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: #ffffff;
-        background-color: #161926;
-        font-size: 11px;
-        font-family: 'Silka';
-      }
-
-      #app-icon {
-        margin-top: 20px;
-        -webkit-user-drag: none;
-      }
-
-      #app-version {
-        margin-bottom: 0.05rem;
-      }
-
-      #footer {
-        margin-bottom: 30px;
-      }
-    </style>
+    <link rel="stylesheet" href="about.css">
   </head>
   <body>
     <img id="app-icon" alt="App icon" height="70" width="70" />
     <h2 id="title"></h2>
     <p id="app-version"></p>
-
     <p id="footer"></p>
-    <!-- https://github.com/electron/electron/issues/2863 -->
-    <script>var exports = exports || {};</script>
-
-    <script>
-        window.about.getData().then((aboutData) => {
-          document.getElementById('title').textContent = aboutData.appName
-          document.getElementById('app-icon').src = aboutData.iconPath
-          document.getElementById('app-version').textContent = aboutData.version
-          document.getElementById('footer').textContent = `Bloom Labs Ltd. ${new Date().getFullYear()}`
-        })
-    </script>
+    <script src="about.js"></script>
   </body>
 </html>
