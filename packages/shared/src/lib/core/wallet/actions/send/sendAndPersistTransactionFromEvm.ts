@@ -45,6 +45,7 @@ export async function sendAndPersistTransactionFromEvm(
         nonce: Number(preparedTransaction.nonce),
         gasLimit: Number(preparedTransaction.gasLimit),
         timestamp: Date.now(),
+        confirmations: 0,
     }
     await persistEvmTransaction(profileId, account, evmNetwork, evmTransaction)
     return evmTransaction.transactionHash
@@ -62,7 +63,7 @@ async function persistEvmTransaction(
     if (!activity) {
         return
     }
-    startEvmConfirmationPoll(evmTransaction, evmNetwork, account.index)
+    startEvmConfirmationPoll(evmTransaction, evmNetwork, account.index, profileId)
 
     addAccountActivity(account.index, activity)
 

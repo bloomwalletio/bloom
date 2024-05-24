@@ -1,7 +1,7 @@
 import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import { IError } from '@core/error/interfaces'
 import {
-    AVERAGE_BLOCK_TIME,
+    AVERAGE_BLOCK_TIME_IN_SECONDS,
     ETHEREUM_CONFIRMATION_THRESHOLD,
     NETWORK_STATUS_POLL_INTERVAL,
 } from '@core/network/constants'
@@ -37,7 +37,7 @@ export class EvmNetwork implements IEvmNetwork {
     public readonly explorerUrl: string | undefined
     public readonly rpcEndpoint: string
     public readonly type: EvmNetworkType = NetworkType.Evm
-    public readonly averageBlockTimeInSeconds: number = AVERAGE_BLOCK_TIME
+    public readonly averageBlockTimeInSeconds: number = AVERAGE_BLOCK_TIME_IN_SECONDS
     public readonly blocksUntilConfirmed: number = ETHEREUM_CONFIRMATION_THRESHOLD
 
     public health: Writable<NetworkHealth> = writable(NetworkHealth.Operational)

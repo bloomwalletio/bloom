@@ -1,24 +1,25 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
+    import { EvmActivity } from '@core/activity'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { NetworkId, getNetwork } from '@core/network'
+    import { getEvmNetwork, getNetwork } from '@core/network'
     import { formatTokenAmount } from '@core/token'
     import { NetworkLabel } from '@ui'
 
-    export let time: Date
-    export let sourceNetworkId: NetworkId
-    export let destinationNetworkId: NetworkId
-    export let maxGasFee: bigint | undefined = undefined
-    export let transactionFee: bigint | undefined = undefined
+    export let activity: EvmActivity
 
-    $: formattedTransactionTime = getFormattedTimeStamp(time)
+    $: formattedTransactionTime = getFormattedTimeStamp(activity.time)
 
-    $: formattedMaxGasFee = formatAmount(maxGasFee)
-    $: formattedTransactionFee = formatAmount(transactionFee)
+    $: formattedMaxGasFee = formatAmount(activity.maxGasFee)
+    $: formattedTransactionFee = formatAmount(activity.transactionFee)
 
     function formatAmount(amount: bigint | undefined): string | undefined {
-        return amount ? formatTokenAmount(amount, getNetwork(sourceNetworkId)?.baseToken) : undefined
+        return amount ? formatTokenAmount(amount, getNetwork(activity.sourceNetworkId)?.baseToken) : undefined
     }
+
+    const { blocksUntilConfirmed } = getEvmNetwork(activity.sourceNetworkId) ?? { blocksUntilConfirmed: 0 }
+
+    $: isConfirmed = activity.confirmations >= blocksUntilConfirmed
 </script>
 
 <Table
@@ -28,7 +29,7 @@
             slot: {
                 component: NetworkLabel,
                 props: {
-                    networkId: destinationNetworkId,
+                    networkId: activity.destinationNetworkId,
                 },
             },
         },
@@ -43,6 +44,12 @@
         {
             key: localize('general.transactionFee'),
             value: formattedTransactionFee,
+        },
+        {
+            key: localize('filters.status.label'),
+            value: isConfirmed
+                ? localize('filters.status.confirmed')
+                : `${localize('filters.status.pending')}:  ${activity.confirmations}/${blocksUntilConfirmed}`,
         },
     ]}
 />
