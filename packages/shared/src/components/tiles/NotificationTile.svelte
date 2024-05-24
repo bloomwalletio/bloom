@@ -12,7 +12,7 @@
     $: subscription = notificationsManager.getSubscriptionsForTopic(subscriptionTopic)
 </script>
 
-<Tile class="!rounded-none {notification.isRead ? '' : '!bg-brand/5 !dark:bg-brand-dark/5'}">
+<Tile class="h-full items-center !rounded-none {notification.isRead ? '' : '!bg-brand/5 !dark:bg-brand-dark/5'}">
     <div class="flex justify-between gap-4 w-full">
         <NotificationAvatar {subscription} notificationType={notification.type} />
         <div class="flex-grow flex flex-col items-start">
