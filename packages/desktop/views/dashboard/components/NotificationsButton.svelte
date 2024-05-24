@@ -9,6 +9,7 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeAccounts } from '@core/profile/stores'
     import { NotificationTile } from '@ui'
+    import VirtualList from '@sveltejs/svelte-virtual-list'
 
     const TABS = [
         { key: 'all', value: 'All' },
@@ -109,6 +110,7 @@
 </button>
 
 <Popover {anchor} event="click" placement="bottom-start" preventClose on:visibilityChange={onVisibilityChange}>
+    {@const notificationHeight = 76}
     {@const hasNotifications = Object.keys($notifications).flat().length > 0}
     <div
         class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
@@ -120,20 +122,24 @@
             </div>
         {/if}
         {#if notificationsToDisplay.length}
-            <ul
-                class="flex flex-col divide-y divide-solid divide-stroke dark:divide-stroke-dark w-full max-h-[75vh] overflow-y-scroll"
+            <virtual-list-wrapper
+                class="w-full"
+                style:--notification-height={notificationHeight}
+                style:--notification-count={notificationsToDisplay.length}
             >
-                {#each notificationsToDisplay as notification (notification.id)}
-                    <li
-                        data-id={notification.id}
-                        data-topic={notification.subscriptionTopic}
-                        data-isread={notification.isRead}
+                <VirtualList items={notificationsToDisplay} let:item itemHeight={notificationHeight}>
+                    <div
+                        data-id={item.id}
+                        data-topic={item.subscriptionTopic}
+                        data-isread={item.isRead}
+                        style:height={notificationHeight + 'px'}
+                        class="border-b border-solid border-stroke dark:border-stroke-dark"
                         use:observe
                     >
-                        <NotificationTile {notification} subscriptionTopic={notification.subscriptionTopic} />
-                    </li>
-                {/each}
-            </ul>
+                        <NotificationTile notification={item} subscriptionTopic={item.subscriptionTopic} />
+                    </div>
+                </VirtualList>
+            </virtual-list-wrapper>
         {:else if !isAtLeast1AccountRegistered}
             <div class="px-3 py-8 w-full flex flex-col gap-4 items-center">
                 <Text type="body2" align="center">{localize('views.dashboard.dappNotifications.notEnabledHint')}</Text>
@@ -149,3 +155,9 @@
         {/if}
     </div>
 </Popover>
+
+<style lang="postcss">
+    virtual-list-wrapper {
+        height: min(75vh, var(--notification-height) * var(--notification-count) * 1px);
+    }
+</style>
