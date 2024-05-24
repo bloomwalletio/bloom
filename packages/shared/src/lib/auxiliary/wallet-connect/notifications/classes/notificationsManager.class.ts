@@ -159,12 +159,18 @@ export class NotificationsManager {
         )
 
         // TODO: Upgrade to this set operation once we upgade node to v22+
-        newNetworkAddressesToTrack.forEach((address) => this.trackedNetworkAddresses.add(address))
+        newNetworkAddressesToTrack.forEach((address) => {
+            if (address) {
+                this.trackedNetworkAddresses.add(address)
+            }
+        })
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/union#browser_compatibility
         // this.trackedNetworkAddresses = this.trackedNetworkAddresses.union(newNetworkAddressesToTrack)
 
         for (const networkAddress of newNetworkAddressesToTrack) {
-            await this.updateSubscriptionsAndNotificationsForNetworkAddress(networkAddress)
+            if (networkAddress) {
+                await this.updateSubscriptionsAndNotificationsForNetworkAddress(networkAddress)
+            }
         }
     }
 
