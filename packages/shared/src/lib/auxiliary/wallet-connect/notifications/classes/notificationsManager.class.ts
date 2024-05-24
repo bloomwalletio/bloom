@@ -49,7 +49,11 @@ export class NotificationsManager {
         this.notifyClient.on(
             NotifyEvent.Notification,
             (event: NotifyClientTypes.EventArguments[NotifyEvent.Notification]) => {
-                this.handleNewNotification(event.topic, event.params.notification)
+                // The types are not correct on this event, so we need to cast it to the correct type
+                this.handleNewNotification(
+                    event.topic,
+                    event.params.notification as unknown as NotifyClientTypes.NotifyServerNotification
+                )
             }
         )
 
@@ -212,14 +216,25 @@ export class NotificationsManager {
         })
     }
 
-    private handleNewNotification(topic: string, notification: NotifyClientTypes.NotifyNotification): void {
+    private handleNewNotification(topic: string, notification: NotifyClientTypes.NotifyServerNotification): void {
+        const notificationsForTopic = get(this.notificationsPerSubscription)[topic]
+
+        if (!notificationsForTopic || notificationsForTopic?.find((n) => n.id === notification.id)) {
+            return
+        }
+
         this.notificationsPerSubscription.update((state) => {
-            if (!state[topic]) {
-                return state
+            const parsedNotification = {
+                title: notification.title,
+                sentAt: notification.sent_at,
+                body: notification.body,
+                id: notification.id,
+                url: notification.url,
+                isRead: notification.is_read,
+                type: notification.type,
             }
 
-            const notificationsForTopic = state[topic]
-            state[topic] = [...notificationsForTopic, notification]
+            state[topic] = [...state[topic], parsedNotification]
             return state
         })
     }
@@ -239,6 +254,21 @@ export class NotificationsManager {
         }
 
         await this.notifyClient?.subscribe({ appDomain, account: networkAddress })
+    }
+
+    markAsRead(notificationIds: string[], topic: string): void {
+        void this.notifyClient?.markNotificationsAsRead({ notificationIds, topic })
+    }
+
+    async updateAllSubscriptionsAndNotifications(): Promise<void> {
+        if (!this.notifyClient) {
+            return
+        }
+
+        const activeSubscriptions = Object.values(this.notifyClient.getActiveSubscriptions())
+        this.updateSubscriptionsPerAddress(activeSubscriptions)
+
+        await this.updateNotificationsForSubscriptions(activeSubscriptions)
     }
 }
 
