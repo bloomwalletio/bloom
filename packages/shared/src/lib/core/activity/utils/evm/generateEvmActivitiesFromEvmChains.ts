@@ -17,7 +17,7 @@ export async function generateEvmActivitiesFromEvmChains(
         for (const persistedTransaction of persistedTransactions) {
             const { local } = persistedTransaction
             if (local) {
-                await updateConfirmationsForEvmTransactions(evmNetwork, local, account.index, profileId)
+                updateConfirmationsForEvmTransactions(evmNetwork, local, account.index, profileId)
             }
 
             try {
@@ -38,21 +38,21 @@ export async function generateEvmActivitiesFromEvmChains(
     return activities
 }
 
-async function updateConfirmationsForEvmTransactions(
+function updateConfirmationsForEvmTransactions(
     evmNetwork: IEvmNetwork,
     transaction: LocalEvmTransaction,
     accountIndex: number,
     profileId: string
-): Promise<void> {
-    try {
-        if (transaction.confirmations === FAILED_CONFIRMATION) {
-            return
-        }
+): void {
+    if (transaction.confirmations === FAILED_CONFIRMATION) {
+        return
+    }
 
-        if (!transaction?.confirmations || transaction.confirmations < evmNetwork.blocksUntilConfirmed) {
+    if (!transaction?.confirmations || transaction.confirmations < evmNetwork.blocksUntilConfirmed) {
+        try {
             startEvmConfirmationPoll(transaction, evmNetwork, accountIndex, profileId)
+        } catch (error) {
+            console.error(error)
         }
-    } catch (error) {
-        console.error(error)
     }
 }

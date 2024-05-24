@@ -13,7 +13,7 @@ export function startEvmConfirmationPoll(
     const { transactionHash, blockNumber } = transaction
     const pollInterval = evmNetwork.averageBlockTimeInSeconds * MILLISECONDS_PER_SECOND
 
-    const interval = setInterval(async () => {
+    const poll = async () => {
         const currentBlockNumber = await evmNetwork.provider.eth.getBlockNumber()
         let confirmations = Number(BigInt(currentBlockNumber) - BigInt(blockNumber))
         if (confirmations >= evmNetwork.blocksUntilConfirmed) {
@@ -31,5 +31,7 @@ export function startEvmConfirmationPoll(
         } else {
             updateEvmActivity(accountIndex, transactionHash, { confirmations })
         }
-    }, pollInterval)
+    }
+
+    const interval = setInterval(() => void poll(), pollInterval)
 }

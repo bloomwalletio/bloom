@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
-import { IEvmNetwork, NetworkNamespace, calculateGasFee, getEvmNetwork } from '@core/network'
+import { IEvmNetwork, NetworkNamespace, calculateGasFee } from '@core/network'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
