@@ -28,6 +28,7 @@
             }))
         )
         .sort((a, b) => b.sentAt - a.sentAt)
+        .filter((notification) => (selectedTab.key === 'unread' ? !notification.isRead : true))
 
     let anchor: HTMLElement | undefined = undefined
 
@@ -110,11 +111,12 @@
 
 <Popover {anchor} event="click" placement="bottom-start" preventClose on:visibilityChange={onVisibilityChange}>
     {@const notificationHeight = 76}
+    {@const hasNotifications = Object.keys($notifications).flat().length > 0}
     <div
         class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
         shadow-lg overflow-hidden divide-y divide-solid divide-stroke dark:divide-stroke-dark bg-surface dark:bg-surface-dark"
     >
-        {#if notificationsToDisplay.length}
+        {#if isAtLeast1AccountRegistered && hasNotifications}
             <div class="w-full p-4">
                 <Tabs bind:selectedTab tabs={TABS} />
             </div>
@@ -144,7 +146,7 @@
                     on:click={() => enableNotifications()}
                 />
             </div>
-        {:else}
+        {:else if hasNotifications}
             <div class="px-3 py-8 w-full">
                 <Text type="body2" align="center">{localize('views.dashboard.dappNotifications.empty')}</Text>
             </div>
