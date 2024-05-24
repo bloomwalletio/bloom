@@ -48,7 +48,7 @@
             >
                 {#if !notificationImageError}
                     <img
-                        src={subscription.scope[notificationType]?.imageUrls.sm}
+                        src={subscription.scope[notificationType]?.imageUrls?.sm}
                         alt={notificationType}
                         class="size-full"
                         on:error={() => (notificationImageError = true)}
