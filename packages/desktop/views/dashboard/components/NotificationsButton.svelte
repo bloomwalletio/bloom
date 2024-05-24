@@ -120,6 +120,8 @@
             <div class="w-full p-4">
                 <Tabs bind:selectedTab tabs={TABS} />
             </div>
+        {/if}
+        {#if notificationsToDisplay.length}
             <virtual-list-wrapper
                 class="w-full"
                 style:--notification-height={notificationHeight}
