@@ -1,6 +1,6 @@
 {
     "denylists": {
-        "keywords": ["lottery", "lotto", "raffle", "giveaway", "scam", "won"],
+        "keywords": ["lottery", "lotto", "raffle", "giveaway", "scam"],
         "urls": ["iotalottery.com", "iota-lottery.com", "lottery-iota.com", "fly-fire.com"]
     },
     "allowlists": {

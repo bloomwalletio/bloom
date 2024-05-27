@@ -11,17 +11,18 @@
 
     let queriedCollectionsIds: string[] = []
 
-    $: collectionsIds = new Set(
-        $ownedNfts
-            ?.map((nft) => nft.collectionId)
-            .filter((collectionId) => collectionId && $persistedCollections[collectionId])
-    )
+    $: collectionsIds = $ownedNfts?.reduce((set, nft) => {
+        if (!nft.hidden && !nft.isScam && nft.collectionId && $persistedCollections[nft.collectionId]) {
+            set.add(nft.collectionId)
+        }
+        return set
+    }, new Set<string>())
 
     $: $collectionsSearchTerm, collectionsIds, setQueriedCollectionsIds()
 
     function setQueriedCollectionsIds(): void {
         queriedCollectionsIds = Array.from(collectionsIds)
-            .filter((collectionId) => isVisibleCollection($persistedCollections[collectionId]))
+            ?.filter((collectionId) => isVisibleCollection($persistedCollections[collectionId]))
             .sort((collectionId1, collectionId2) =>
                 $persistedCollections[collectionId1]?.name
                     .toLowerCase()

@@ -1,0 +1,111 @@
+@font-face {
+    font-family: 'Silka';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('./assets/fonts/silka/silka-medium-webfont.woff2') format('woff2');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    -webkit-user-drag: none;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    justify-content: stretch;
+    color: #ffffff;
+    background-color: #161926;
+    font-size: 11px;
+    font-family: 'Silka';
+}
+
+a {
+    color: #b196ef;
+}
+
+hr {
+    width: 100%;
+    border: 0;
+    border-top: 1px solid #212537;
+    margin: 1.5rem 0;
+}
+
+button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 0px solid rgb(150, 108, 230);
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    height: 3rem;
+    background-color: rgb(150, 108, 230);
+    width: fit-content;
+    color: white;
+    font-family: Silka;
+    font-size: 16px;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#app-icon {
+    -webkit-user-drag: none;
+    margin: 1rem 0;
+}
+
+#title {
+    margin: 1rem 0;
+}
+
+#diagnostics {
+    margin: 1rem 0;
+}
+
+#details {
+    margin: 1rem 0;
+    flex: 1;
+    overflow-y: auto;
+    white-space: pre-line;
+    min-height: 50px;
+}
+
+.help {
+    color: #c4d1e8;
+    font-size: 0.8rem;
+    line-height: 1.5rem;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d8e3f5;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
