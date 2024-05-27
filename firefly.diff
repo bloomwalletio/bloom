@@ -197,7 +197,7 @@
  rename packages/desktop/views/dashboard/developer/{index.js => index.ts} (100%)
  rename packages/desktop/{lib/routers/enums => views/dashboard/drawers/network-config}/network-config-route.enum.ts (86%)
  rename packages/desktop/{components/menu-buttons/ProposalDetailsButton.svelte => views/dashboard/governance/components/ProposalDetailsMenu.svelte} (55%)
- rename packages/desktop/{ => views/dashboard/governance}/components/ProposalQuestion.svelte (59%)
+ rename packages/desktop/{ => views/dashboard/governance}/components/ProposalQuestion.svelte (58%)
  rename packages/desktop/views/dashboard/{index.js => index.ts} (77%)
  rename packages/desktop/views/dashboard/send-flow/{index.js => index.ts} (100%)
  delete mode 100644 packages/desktop/views/dashboard/send-flow/views/SendFlowTemplate.svelte
@@ -205,6 +205,7 @@
  delete mode 100644 packages/desktop/views/dashboard/send-flow/views/components/DateTimePickerButton.svelte
  delete mode 100644 packages/desktop/views/dashboard/send-flow/views/components/TokenAmountTile.svelte
  delete mode 100644 packages/desktop/views/dashboard/send-flow/views/components/TransactionDetails.svelte
+ delete mode 100644 packages/desktop/views/dashboard/send-flow/views/components/index.js
  rename packages/desktop/views/dashboard/send-flow/views/{index.js => index.ts} (100%)
  delete mode 100644 packages/desktop/views/dashboard/settings/Settings.svelte
  delete mode 100644 packages/desktop/views/dashboard/settings/views/SettingsNavigator.svelte
@@ -242,8 +243,7 @@
  rename packages/desktop/views/{index.js => index.ts} (83%)
  rename packages/desktop/views/login/{index.js => index.ts} (100%)
  delete mode 100644 packages/desktop/views/login/views/EnterPinView.svelte
- delete mode 100644 packages/desktop/views/login/views/index.js
- rename packages/{mobile/views/login/views/index.js => desktop/views/login/views/index.ts} (69%)
+ rename packages/desktop/views/login/views/{index.js => index.ts} (69%)
  rename packages/desktop/views/onboarding/{index.js => index.ts} (100%)
  rename packages/desktop/views/onboarding/views/create-from-ledger/{index.js => index.ts} (100%)
  rename packages/desktop/views/onboarding/views/create-from-ledger/views/{index.js => index.ts} (77%)
@@ -589,6 +589,7 @@
  delete mode 100644 packages/mobile/views/login/views/EnterPinView.svelte
  delete mode 100644 packages/mobile/views/login/views/LoadProfileView.svelte
  delete mode 100644 packages/mobile/views/login/views/SelectProfileView.svelte
+ delete mode 100644 packages/mobile/views/login/views/index.js
  delete mode 100644 packages/mobile/views/onboarding/OnboardingRouter.svelte
  delete mode 100644 packages/mobile/views/onboarding/index.js
  delete mode 100644 packages/mobile/views/onboarding/views/CongratulationsView.svelte
@@ -1103,6 +1104,7 @@
  delete mode 100644 packages/shared/lib/core/layer-2/constants/gas-budget.constant.ts
  delete mode 100644 packages/shared/lib/core/layer-2/constants/gas-multiplier.constant.ts
  delete mode 100644 packages/shared/lib/core/layer-2/enums/allowance.enum.ts
+ delete mode 100644 packages/shared/lib/core/layer-2/enums/contract-type.enum.ts
  delete mode 100644 packages/shared/lib/core/layer-2/enums/destination-network.enum.ts
  delete mode 100644 packages/shared/lib/core/layer-2/enums/index.ts
  delete mode 100644 packages/shared/lib/core/layer-2/helpers/encodeAddress.ts
@@ -1115,7 +1117,10 @@
  delete mode 100644 packages/shared/lib/core/layer-2/interfaces/layer2-parameters.interface.ts
  delete mode 100644 packages/shared/lib/core/layer-2/interfaces/layer2-profile-balance.interface.ts
  delete mode 100644 packages/shared/lib/core/layer-2/stores/layer2-balances.store.ts
+ delete mode 100644 packages/shared/lib/core/layer-2/types/abi.type.ts
+ delete mode 100644 packages/shared/lib/core/layer-2/types/contract.type.ts
  delete mode 100644 packages/shared/lib/core/layer-2/types/evm-transaction-data.type.ts
+ delete mode 100644 packages/shared/lib/core/layer-2/types/index.ts
  delete mode 100644 packages/shared/lib/core/layer-2/types/layer2-metadata.interface.ts
  delete mode 100644 packages/shared/lib/core/layer-2/utils/addGasBudget.ts
  delete mode 100644 packages/shared/lib/core/layer-2/utils/getAbiForContractType.ts
@@ -1189,6 +1194,7 @@
  delete mode 100644 packages/shared/lib/core/network/enums/explorer-endpoint.enum.ts
  delete mode 100644 packages/shared/lib/core/network/enums/index.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/auth.interface.ts
+ delete mode 100644 packages/shared/lib/core/network/interfaces/block.interface.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/chain-configuration.interface.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/chain-status.interface.ts
  delete mode 100644 packages/shared/lib/core/network/interfaces/chain.interface.ts
@@ -1586,10 +1592,10 @@
  rename packages/shared/{ => src}/lib/contexts/governance/stores/selected-participation-event-status.store.ts (64%)
  rename packages/shared/{ => src}/lib/contexts/governance/stores/selected-proposal.store.ts (57%)
  rename packages/shared/{ => src}/lib/contexts/governance/types/index.ts (100%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/calculateTotalVotesForTrackedParticipations.ts (65%)
+ rename packages/shared/{ => src}/lib/contexts/governance/utils/calculateTotalVotesForTrackedParticipations.ts (64%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/createProposalFromError.ts (52%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getActiveParticipation.ts (82%)
- rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfActiveProposals.ts (54%)
+ rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfActiveProposals.ts (53%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfTotalProposals.ts (100%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfVotedProposals.ts (92%)
  rename packages/shared/{ => src}/lib/contexts/governance/utils/getNumberOfVotingProposals.ts (94%)
@@ -1837,9 +1843,9 @@
  rename packages/shared/{ => src}/lib/core/i18n/utils/getGroupSeparator.ts (83%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/replaceCurrencyDecimal.ts (100%)
- rename packages/shared/{ => src}/lib/core/layer-2/abis/erc20.abi.ts (100%)
+ rename packages/shared/{ => src}/lib/core/layer-2/abis/erc20.abi.ts (98%)
  rename packages/shared/{ => src}/lib/core/layer-2/abis/index.ts (68%)
- rename packages/shared/{ => src}/lib/core/layer-2/abis/isc-sandbox.abi.ts (100%)
+ rename packages/shared/{ => src}/lib/core/layer-2/abis/isc-sandbox.abi.ts (99%)
  rename packages/shared/{ => src}/lib/core/layer-2/classes/simple-buffer.class.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/accounts-contract.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/contract-functions.constant.ts (100%)
@@ -1847,13 +1853,12 @@
  rename packages/shared/{ => src}/lib/core/layer-2/constants/erc20-tokens-poll-interval.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/externally-owned-account-type-id.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/externally-owned-account.constant.ts (100%)
- rename packages/shared/{ => src}/lib/core/layer-2/constants/index.ts (66%)
+ rename packages/shared/{ => src}/lib/core/layer-2/constants/index.ts (78%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/isc-magic-contract-address.constant.ts (51%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/layer2-tokens-poll-interval.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/target-contracts.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/transfer-allowance.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/enums/abi-type.enum.ts (100%)
- rename packages/shared/{ => src}/lib/core/layer-2/enums/contract-type.enum.ts (77%)
  rename packages/shared/{ => src}/lib/core/layer-2/enums/state-mutability-type.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/errors/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/errors/layer1-recipient.error.ts (100%)
@@ -1869,10 +1874,7 @@
  rename packages/shared/{lib/core/token/types/native-token-amount.type.ts => src/lib/core/layer-2/interfaces/native-token-amount.interface.ts} (73%)
  rename packages/shared/{ => src}/lib/core/layer-2/stores/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/tests/parseLayer2MetadataForTransfer.test.ts (63%)
- rename packages/shared/{ => src}/lib/core/layer-2/types/abi.type.ts (100%)
- rename packages/shared/{ => src}/lib/core/layer-2/types/contract.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/types/evm-transaction-options.type.ts (100%)
- rename packages/shared/{ => src}/lib/core/layer-2/types/index.ts (54%)
  rename packages/shared/{ => src}/lib/core/layer-2/utils/parseLayer2Metadata.ts (56%)
  rename packages/shared/{ => src}/lib/core/ledger/classes/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/ledger/constants/ledger-error-locales.constant.ts (100%)
@@ -1921,7 +1923,6 @@
  rename packages/shared/{ => src}/lib/core/network/helpers/getNetworkStatusFromNodeInfo.ts (69%)
  rename packages/shared/{ => src}/lib/core/network/helpers/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/index.ts (100%)
- rename packages/shared/{ => src}/lib/core/network/interfaces/block.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/client-options.interface.ts (54%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/connected-chain.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/evm-addresses.interface.ts (100%)
@@ -1931,7 +1932,7 @@
  rename packages/shared/{ => src}/lib/core/network/interfaces/node-info-response.interface.ts (62%)
  rename packages/shared/{ => src}/lib/core/network/interfaces/protocol.interface.ts (62%)
  rename packages/shared/{ => src}/lib/core/network/types/network-metadata.type.ts (100%)
- rename packages/shared/{ => src}/lib/core/network/types/web3-provider.type.ts (100%)
+ rename packages/shared/{ => src}/lib/core/network/types/web3-provider.type.ts (54%)
  rename packages/shared/{ => src}/lib/core/network/utils/checkNodeUrlValidity.ts (95%)
  rename packages/shared/{lib/core/network/utils/getDefaultPersistedNetwork.ts => src/lib/core/network/utils/getDefaultStardustNetwork.ts} (50%)
  rename packages/shared/{ => src}/lib/core/network/utils/getEvmTransactionOptions.ts (88%)
