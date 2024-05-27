@@ -10,6 +10,7 @@
     import { EvmActivityType } from '@core/activity/enums/evm'
     import { NftStandard } from '@core/nfts/enums'
     import { convertCamelCaseToPhrase } from '@core/utils/string'
+    import { ConfirmationPill } from '@ui'
 
     export let activity: Activity
 
@@ -17,13 +18,13 @@
     let standardPill = ''
 
     $: activity, setPills()
-    function setPills() {
+    function setPills(): void {
         if (activity.namespace === NetworkNamespace.Stardust) {
             if (activity.type === StardustActivityType.Basic) {
                 if (activity.tokenTransfer && activity.tokenTransfer?.tokenId !== BASE_TOKEN_ID) {
                     const token = getTokenFromActivity(activity)
                     typePill = 'token'
-                    standardPill = token.standard
+                    standardPill = token?.standard ?? ''
                 } else {
                     typePill = 'baseCoin'
                     standardPill = ''
@@ -79,6 +80,9 @@
             <Pill color="neutral" compact>
                 {standardPill}
             </Pill>
+        {/if}
+        {#if activity.namespace === NetworkNamespace.Evm}
+            <ConfirmationPill {activity} />
         {/if}
     </div>
 {/if}

@@ -35,7 +35,13 @@ export function setAccountActivities(accountIndex: number, accountActivities: Ac
     })
 }
 
-export function getActivityByTransactionId(accountIndex: number, transactionId: string): Activity | undefined {
+export function getActivityByTransactionId(
+    accountIndex: number,
+    transactionId: string | undefined
+): Activity | undefined {
+    if (!transactionId) {
+        return
+    }
     return get(allAccountActivities)?.[accountIndex]?.find((_activity) => _activity?.transactionId === transactionId)
 }
 
