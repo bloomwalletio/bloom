@@ -2,6 +2,6 @@ import { IToken } from '@core/token/interfaces'
 
 export type TokenTransferData = {
     rawAmount: bigint
-    token: IToken
+    token?: IToken
     unit?: string
 }
