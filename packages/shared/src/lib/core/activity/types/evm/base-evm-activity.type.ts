@@ -11,6 +11,4 @@ export type BaseEvmActivity = BaseActivity & {
     estimatedGasFee?: bigint
     maxGasFee?: bigint
     transactionFee?: bigint
-
-    confirmations: number
 }

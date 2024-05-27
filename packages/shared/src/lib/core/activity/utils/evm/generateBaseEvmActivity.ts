@@ -29,6 +29,10 @@ export async function generateBaseEvmActivity(
     // https://discord.com/channels/397872799483428865/930642258427019354/1168854453005332490
     const gasUsed = transaction.gasUsed || transaction.estimatedGas
     const transactionFee = transaction.gasPrice ? calculateGasFee(gasUsed, transaction.gasPrice) : undefined
+    const inclusionState =
+        Number(transaction.confirmations) >= evmNetwork.blocksUntilConfirmed
+            ? InclusionState.Confirmed
+            : InclusionState.Pending
 
     return {
         namespace: NetworkNamespace.Evm,
@@ -41,7 +45,7 @@ export async function generateBaseEvmActivity(
         // transaction information
         transactionId: transaction.transactionHash,
         time: new Date(timestamp),
-        inclusionState: InclusionState.Confirmed,
+        inclusionState,
 
         // sender / recipient information
         sourceNetworkId: networkId,
@@ -53,7 +57,6 @@ export async function generateBaseEvmActivity(
         isInternal,
 
         transactionFee,
-        confirmations: transaction.confirmations ?? 0,
     }
 }
 
