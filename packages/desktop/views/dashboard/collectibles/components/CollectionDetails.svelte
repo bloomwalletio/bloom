@@ -5,7 +5,7 @@
 
     export let collectionId: string
 
-    $: nfts = $ownedNfts.filter((nft) => nft.collectionId === collectionId)
+    $: nfts = $ownedNfts.filter((nft) => nft.collectionId === collectionId && !nft.hidden && !nft.isScam)
 
     onDestroy(() => {
         $selectedCollectionId = undefined
