@@ -14,7 +14,7 @@
     }
 
     $: collection = $persistedCollections[collectionId]
-    $: nfts = $ownedNfts.filter((nft) => nft.collectionId === collectionId)
+    $: nfts = $ownedNfts.filter((nft) => nft.collectionId === collectionId && !nft.hidden && !nft.isScam)
 </script>
 
 {#if collection && nfts.length > 0}

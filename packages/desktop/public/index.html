@@ -7,13 +7,22 @@
             http-equiv="Content-Security-Policy"
             content="
                 default-src 'self';
-                connect-src 'self' https://* wss://*;
-                frame-src 'self' https://*;
+                connect-src 'self' https://* wss://relay.walletconnect.com;
+                img-src 'self' https://tideprotocol.infura-ipfs.io data:;
+                base-uri 'self';
+                form-action 'self';
+                frame-src 'self' https://verify.walletconnect.org https://verify.walletconnect.com;
+                worker-src 'self';
+                script-src-elem 'self' 'unsafe-inline';
+                script-src-attr 'none';
+                style-src-elem 'self' 'unsafe-inline';
+                style-src-attr 'self' 'unsafe-inline';
                 object-src 'none';
-                img-src 'self' https: data:;
-                style-src 'self' 'unsafe-inline';
-                media-src 'self' data:;
-                script-src 'self';
+                media-src 'self';
+                font-src 'self';
+                manifest-src 'self';
+                navigate-to 'self';
+                upgrade-insecure-requests;
             "
         />
 

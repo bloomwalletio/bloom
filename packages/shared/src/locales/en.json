@@ -1114,8 +1114,9 @@
         },
         "smartContractCall": {
             "title": "Smart contract call to {contractAddress}",
-            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
-            "viewSmartContract": "View Smart Contract",
+            "unableToVerify": "Bloom is unable to parse the smart contract data, only proceed with apps you trust.",
+            "partiallyVerified": "Bloom has partially parsed the smart contract data, proceed with apps you trust.",
+            "viewSmartContract": "View Contract",
             "action": "Confirm",
             "success": "Smart contract call to {recipient}"
         },
