@@ -1,11 +1,9 @@
 <script lang="ts">
-    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { Button, IconName } from '@bloomwalletio/ui'
     import { AccountActionsMenu, AccountSwitcher, FormattedBalance } from '@components'
-    import { selectedAccount, selectedAccountIndex } from '@core/account/stores'
+    import { selectedAccountIndex } from '@core/account/stores'
     import { formatCurrency, localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { SupportedL1EvmNetworkId } from '@core/network'
     import { allAccountFiatBalances, selectedAccountTokens } from '@core/token/stores'
     import { resetSendFlowParameters } from '@core/wallet'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
@@ -31,17 +29,9 @@
     }
 
     function onReceiveClick(): void {
-        subscribeToNotifications()
-
-        // openPopup({
-        //     id: PopupId.ReceiveAddress,
-        // })
-    }
-
-    function subscribeToNotifications(): void {
-        // Get the domain of the target dapp from the Explorer API response (https://explorer-api.walletconnect.com/v3/dapps?projectId=YOUR_PROJECT_ID&is_notify_enabled=true)
-        const appDomain = new URL('https://gm.walletconnect.com').hostname
-        notificationsManager.subscribeToDapp(appDomain, $selectedAccount, SupportedL1EvmNetworkId.Ethereum)
+        openPopup({
+            id: PopupId.ReceiveAddress,
+        })
     }
 </script>
 

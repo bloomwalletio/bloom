@@ -1,1 +1,1 @@
-export * from './notifyEvent.enum'
+export * from './notify-event.enum'
