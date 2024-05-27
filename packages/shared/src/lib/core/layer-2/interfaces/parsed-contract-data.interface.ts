@@ -30,6 +30,7 @@ export interface IParsedTokenApproval extends Omit<IParsedSmartContractData, 'ty
 
 export interface IParsedSmartContractData {
     type: ParsedSmartContractType.SmartContract
+    rawData: string
     rawMethod: string
     parsedMethod?: IParsedMethod
     additionalBaseTokenAmount?: bigint

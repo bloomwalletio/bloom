@@ -2,10 +2,10 @@
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-    import { Table } from '@bloomwalletio/ui'
+    import { EvmTokenApprovalAlert } from '@components'
+    import { EvmSmartContractAlert } from '@components/evm-transactions'
     import { IAccountState } from '@core/account'
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
-    import { openUrlInBrowser } from '@core/app'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import {
@@ -14,9 +14,11 @@
         getHexEncodedTransaction,
         parseSmartContractDataFromTransactionData,
     } from '@core/layer-2'
+    import { ParsedSmartContractType } from '@core/layer-2/enums/parsed-smart-contract-type.enum'
     import { EvmTransactionData } from '@core/layer-2/types'
+    import { ParsedSmartContractData } from '@core/layer-2/types/parsed-smart-contract-data.type'
     import { LedgerAppName } from '@core/ledger'
-    import { ExplorerEndpoint, IEvmNetwork, getExplorerUrl } from '@core/network'
+    import { IEvmNetwork } from '@core/network'
     import { getNftByIdForAccount } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { getActiveProfileId } from '@core/profile/stores'
@@ -27,12 +29,9 @@
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { LegacyTransaction } from '@ethereumjs/tx'
     import { DappInfo, TransactionAssetSection } from '@ui'
-    import { EvmTransactionAlert, EvmTokenApprovalAlert } from '@components'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { ParsedSmartContractType } from '@core/layer-2/enums/parsed-smart-contract-type.enum'
-    import { ParsedSmartContractData } from '@core/layer-2/types/parsed-smart-contract-data.type'
 
     export let preparedTransaction: EvmTransactionData
     export let evmNetwork: IEvmNetwork
@@ -56,6 +55,10 @@
         }
     }
     $: preparedTransaction.gasPrice = Converter.bigIntToHex(gasPrices?.[selectedGasSpeed] ?? gasPrices.required)
+    $: baseCoinTransfer = {
+        token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
+        rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
+    }
 
     setParsedContractData()
     function setParsedContractData(): void {
@@ -185,11 +188,6 @@
         closePopup({ callOnCancel: true })
     }
 
-    function onExplorerClick(contractAddress: string): void {
-        const url = getExplorerUrl(evmNetwork.id, ExplorerEndpoint.Address, contractAddress)
-        openUrlInBrowser(url)
-    }
-
     let intervalId: NodeJS.Timeout
     onMount(async () => {
         await setGasPrices()
@@ -223,13 +221,10 @@
     />
 
     <div class="space-y-5">
-        {#if !preparedTransaction.data}
-            {@const baseCoinTransfer = {
-                token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
-                rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
-            }}
+        {#if preparedTransaction.value}
             <TransactionAssetSection {baseCoinTransfer} />
-        {:else if parsedData?.type === ParsedSmartContractType.CoinTransfer}
+        {/if}
+        {#if parsedData?.type === ParsedSmartContractType.CoinTransfer}
             {@const baseCoinTransfer = {
                 token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
                 rawAmount: parsedData.rawAmount,
@@ -250,33 +245,7 @@
             </div>
         {:else if parsedData?.type === ParsedSmartContractType.SmartContract}
             <div class="flex flex-col gap-3">
-                <EvmTransactionAlert
-                    variant="warning"
-                    message={localize('popups.smartContractCall.unableToVerify')}
-                    networkId={evmNetwork.id}
-                    contractAddress={String(preparedTransaction.to)}
-                >
-                    <Table
-                        collapsible
-                        collapsibleTitle={localize('general.details')}
-                        items={[
-                            {
-                                key: localize('general.address'),
-                                value: truncateString(String(preparedTransaction.to), 16, 16),
-                                onClick: () => onExplorerClick(String(preparedTransaction.to)),
-                            },
-                            { key: localize('general.methodName'), value: parsedData.parsedMethod?.name },
-                            {
-                                key: localize('general.parameters'),
-                                value: parsedData?.parsedMethod?.inputs.reduce((acc, input) => {
-                                    acc[input.name] = input.value
-                                    return acc
-                                }, {}),
-                            },
-                            { key: localize('general.data'), value: String(preparedTransaction.data), copyable: true },
-                        ]}
-                    />
-                </EvmTransactionAlert>
+                <EvmSmartContractAlert parsedSmartContract={parsedData} networkId={evmNetwork.id} />
             </div>
         {/if}
         <EvmTransactionDetails
