@@ -41,17 +41,17 @@ export function parseSmartContractDataFromTransactionData(
 
 function parseSmartContractDataWithIscMagicAbi(
     network: IEvmNetwork,
-    data: string,
+    rawData: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
     const iscMagicDecoder = new AbiDecoder<IscAbi>(ISC_SANDBOX_ABI, network.provider)
-    const decodedData = iscMagicDecoder.decodeData(data)
+    const decodedData = iscMagicDecoder.decodeData(rawData)
 
     if (!decodedData) {
         return undefined
     }
 
-    const rawMethod = data.substring(0, 10)
+    const rawMethod = rawData.substring(0, 10)
     const parsedMethod: IParsedMethod = {
         name: decodedData.name,
         inputs: Object.values(decodedData.inputs),
@@ -79,6 +79,7 @@ function parseSmartContractDataWithIscMagicAbi(
                     tokenId: nativeToken.ID.data,
                     rawAmount,
                     parsedMethod,
+                    rawData,
                     rawMethod,
                     recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                 }
@@ -88,11 +89,18 @@ function parseSmartContractDataWithIscMagicAbi(
                     standard: NftStandard.Irc27,
                     nftId,
                     parsedMethod,
+                    rawData,
                     rawMethod,
                     recipientAddress: HEX_PREFIX + agentId?.substring(agentId.length - 40),
                 }
             } else {
-                return { type: ParsedSmartContractType.SmartContract, recipientAddress, rawMethod, parsedMethod }
+                return {
+                    type: ParsedSmartContractType.SmartContract,
+                    recipientAddress,
+                    rawData,
+                    rawMethod,
+                    parsedMethod,
+                }
             }
         }
         case 'send': {
@@ -113,6 +121,7 @@ function parseSmartContractDataWithIscMagicAbi(
                     standard: TokenStandard.Irc30,
                     tokenId: nativeToken.ID.data,
                     rawAmount: BigInt(nativeToken.amount),
+                    rawData,
                     rawMethod,
                     parsedMethod,
                     additionalBaseTokenAmount: baseTokenAmount,
@@ -124,6 +133,7 @@ function parseSmartContractDataWithIscMagicAbi(
                     type: ParsedSmartContractType.NftTransfer,
                     standard: NftStandard.Irc27,
                     nftId,
+                    rawData,
                     rawMethod,
                     parsedMethod,
                     additionalBaseTokenAmount: baseTokenAmount,
@@ -133,32 +143,33 @@ function parseSmartContractDataWithIscMagicAbi(
                 return {
                     type: ParsedSmartContractType.CoinTransfer,
                     rawAmount: network.denormaliseAmount(baseTokenAmount),
+                    rawData,
                     rawMethod,
                     parsedMethod,
                     recipientAddress, // for now, set it to the magic contract address
                 }
             }
 
-            return { type: ParsedSmartContractType.SmartContract, recipientAddress, rawMethod, parsedMethod }
+            return { type: ParsedSmartContractType.SmartContract, recipientAddress, rawData, rawMethod, parsedMethod }
         }
         default:
-            return { type: ParsedSmartContractType.SmartContract, recipientAddress, rawMethod, parsedMethod }
+            return { type: ParsedSmartContractType.SmartContract, recipientAddress, rawData, rawMethod, parsedMethod }
     }
 }
 
 function parseSmartContractDataWithErc20Abi(
     network: IEvmNetwork,
-    data: string,
+    rawData: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
     const erc20Decoder = new AbiDecoder<Erc20Abi>(ERC20_ABI, network.provider)
-    const decodedData = erc20Decoder.decodeData(data)
+    const decodedData = erc20Decoder.decodeData(rawData)
 
     if (!decodedData) {
         return undefined
     }
 
-    const rawMethod = data.substring(0, 10)
+    const rawMethod = rawData.substring(0, 10)
     const parsedMethod: IParsedMethod = {
         name: decodedData.name,
         inputs: Object.values(decodedData.inputs),
@@ -171,6 +182,7 @@ function parseSmartContractDataWithErc20Abi(
                 standard: TokenStandard.Erc20,
                 tokenId: recipientAddress,
                 rawAmount: BigInt(decodedData.inputs._value.value),
+                rawData,
                 rawMethod,
                 parsedMethod,
                 recipientAddress: decodedData.inputs._to.value,
@@ -183,6 +195,7 @@ function parseSmartContractDataWithErc20Abi(
                 tokenId: recipientAddress,
                 spender: decodedData.inputs._spender.value,
                 rawAmount: BigInt(decodedData.inputs._value.value),
+                rawData,
                 rawMethod,
                 parsedMethod,
                 recipientAddress,
@@ -191,6 +204,7 @@ function parseSmartContractDataWithErc20Abi(
         default: {
             return {
                 type: ParsedSmartContractType.SmartContract,
+                rawData,
                 rawMethod,
                 parsedMethod,
                 recipientAddress,
@@ -201,17 +215,17 @@ function parseSmartContractDataWithErc20Abi(
 
 function parseSmartContractDataWithErc721Abi(
     network: IEvmNetwork,
-    data: string,
+    rawData: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
     const erc721Decoder = new AbiDecoder<Erc721Abi>(ERC721_ABI, network.provider)
-    const decodedData = erc721Decoder.decodeData(data)
+    const decodedData = erc721Decoder.decodeData(rawData)
 
     if (!decodedData) {
         return undefined
     }
 
-    const rawMethod = data.substring(0, 10)
+    const rawMethod = rawData.substring(0, 10)
     const parsedMethod: IParsedMethod = {
         name: decodedData.name,
         inputs: Object.values(decodedData.inputs),
@@ -226,6 +240,7 @@ function parseSmartContractDataWithErc721Abi(
                 type: ParsedSmartContractType.NftTransfer,
                 standard: NftStandard.Erc721,
                 nftId: `${recipientAddress}:${inputs.tokenId.value}`,
+                rawData,
                 rawMethod,
                 parsedMethod,
                 recipientAddress: inputs.to.value,
@@ -236,6 +251,7 @@ function parseSmartContractDataWithErc721Abi(
             return {
                 type: ParsedSmartContractType.SmartContract,
                 recipientAddress,
+                rawData,
                 rawMethod,
                 parsedMethod,
             }
@@ -275,6 +291,7 @@ function parseSmartContractDataWithMethodRegistry(
         return {
             type: ParsedSmartContractType.SmartContract,
             recipientAddress,
+            rawData,
             rawMethod: fourBytePrefix,
             parsedMethod: { name, inputs },
         }
@@ -282,6 +299,7 @@ function parseSmartContractDataWithMethodRegistry(
         return {
             type: ParsedSmartContractType.SmartContract,
             recipientAddress,
+            rawData,
             rawMethod: fourBytePrefix,
         }
     }
