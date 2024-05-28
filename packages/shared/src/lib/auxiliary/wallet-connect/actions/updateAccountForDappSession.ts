@@ -13,6 +13,13 @@ export async function updateAccountForDappSession(dappSession: ISession, account
 
     const protocols = Object.keys(dappSession.namespaces)
     for (const protocol of protocols) {
+        if (
+            !dappSession.namespaces[protocol] ||
+            !dappSession.namespaces[protocol].events?.includes(WalletConnectEvents.AccountsChanged)
+        ) {
+            continue
+        }
+
         for (const chainId of dappSession.namespaces[protocol]?.chains ?? []) {
             const address = getAddressFromAccountForNetwork(account, chainId as NetworkId)
 
