@@ -2,6 +2,8 @@
  * CAUTION: If this file is exported in alphabetical order, it will
  * break the dependency flow. It MUST be exported first!
  */
+export * from './average-block-time-in-seconds.constant'
+export * from './confirmation-threshold.constant'
 export * from './default-coin-type.constant'
 export * from './default-bech32-hrp.constant'
 export * from './default-base-token.constant'

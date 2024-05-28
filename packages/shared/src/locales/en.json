@@ -1736,7 +1736,8 @@
         "slow": "Slow",
         "average": "Average",
         "fast": "Fast",
-        "spender": "Spender"
+        "spender": "Spender",
+        "status": "Status"
     },
     "filters":{
         "title": "Filters",

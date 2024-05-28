@@ -59,7 +59,7 @@
         <GovernanceAvatar governanceAction={activity.governanceAction} size="lg" />
     {:else if token}
         <TokenAvatar {token} hideNetworkBadge size="lg" />
-    {:else if showNft}
+    {:else if showNft && nft}
         <NftAvatar {nft} size="lg" shape="square" />
     {:else if activity.type === EvmActivityType.ContractCall}
         <Avatar

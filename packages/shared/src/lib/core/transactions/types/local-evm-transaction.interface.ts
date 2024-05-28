@@ -12,4 +12,6 @@ export type LocalEvmTransaction = Omit<EvmTransactionData, 'estimatedGas' | 'gas
     estimatedGas?: number
     gasLimit?: number
     nonce?: number
+    confirmations?: number
+    recipient?: string
 }
