@@ -1503,7 +1503,8 @@
         "readMore": "Read more",
         "importThirdPartyProfiles": "Import third-party profiles",
         "retry": "Retry",
-        "loadAnyway": "Load anyway"
+        "loadAnyway": "Load anyway",
+        "visit": "Visit"
     },
     "general": {
         "recipient": "Recipient",
