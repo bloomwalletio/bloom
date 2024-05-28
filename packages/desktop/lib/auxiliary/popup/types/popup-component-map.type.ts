@@ -1,4 +1,5 @@
 import { SvelteComponent } from 'svelte'
 import { PopupId } from '../enums'
 
-export type PopupComponentMap = { [key in PopupId]: SvelteComponent }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PopupComponentMap = { [key in PopupId]: typeof SvelteComponent<any> }
