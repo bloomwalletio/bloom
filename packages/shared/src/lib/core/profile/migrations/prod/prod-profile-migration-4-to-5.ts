@@ -1,12 +1,10 @@
-import { NetworkId } from '@core/network'
 import { IPersistedProfile } from '@core/profile/interfaces'
-import { LocalEvmTransaction } from '@core/transactions'
-import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
+import { checkAndMigrateOldLocalEvmTransactions } from '../actions/checkAndMigrateOldLocalEvmTransactions'
 
-export function prodProfileMigration4To5(existingProfile: unknown): Promise<void> {
+export async function prodProfileMigration4To5(existingProfile: unknown): Promise<void> {
     const profile = existingProfile as IPersistedProfile
 
-    profile.features = {
+    const defaultFeatures = {
         wallet: true,
         collectibles: true,
         campaigns: true,
@@ -17,39 +15,13 @@ export function prodProfileMigration4To5(existingProfile: unknown): Promise<void
         settings: true,
     }
 
+    profile.features = {
+        ...defaultFeatures,
+        ...profile.features,
+    }
+
     try {
-        const json = localStorage.getItem('evmTransactions')
-        if (!json) {
-            return Promise.resolve()
-        }
-
-        const transactions =
-            JSON.parse(json) ??
-            ({} as {
-                [profileId: string]: {
-                    [accountId: string]: {
-                        [networkId in NetworkId]?: LocalEvmTransaction[]
-                    }
-                }
-            })
-        const transactionsForProfile = transactions[profile.id] ?? {}
-        for (const accountIndex of Object.keys(transactionsForProfile)) {
-            const transactionsForAccount = transactionsForProfile[accountIndex] ?? {}
-
-            for (const networkId of Object.keys(transactionsForAccount)) {
-                const transactionsForNetwork = transactionsForAccount[networkId] ?? []
-
-                addLocalTransactionToPersistedTransaction(
-                    profile.id,
-                    parseInt(accountIndex),
-                    networkId as NetworkId,
-                    transactionsForNetwork
-                )
-            }
-        }
-        delete transactions[profile.id]
-
-        localStorage.setItem('evmTransactions', JSON.stringify(transactions))
+        await checkAndMigrateOldLocalEvmTransactions(profile)
     } catch (error) {
         return Promise.reject()
     }
