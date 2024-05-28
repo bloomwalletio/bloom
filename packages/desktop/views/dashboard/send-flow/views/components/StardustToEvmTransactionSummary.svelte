@@ -4,9 +4,10 @@
     import { Output, SendFlowParameters, SendFlowType, TokenTransferData } from '@core/wallet'
     import { TransactionAssetSection } from '@ui'
     import StardustTransactionDetails from './StardustTransactionDetails.svelte'
-    import { BASE_TOKEN_ID } from '@core/token'
+    import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
     import { localize } from '@core/i18n'
     import { Alert } from '@bloomwalletio/ui'
+    import { NftStandard } from '@core/nfts'
 
     export let output: Output
     export let sendFlowParameters: SendFlowParameters
@@ -57,7 +58,7 @@
 
 <div class="w-full space-y-5">
     <TransactionAssetSection {baseCoinTransfer} {nft} {tokenTransfer} />
-    {#if true}
+    {#if nft?.standard === NftStandard.Irc27 || tokenTransfer?.token?.standard === TokenStandard.Irc30}
         <Alert variant="warning" text={localize('popups.transaction.ircAssetsToL2Hint')} />
     {/if}
 
