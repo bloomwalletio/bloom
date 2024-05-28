@@ -10,6 +10,8 @@
     import { activeAccounts } from '@core/profile/stores'
     import { NotificationTile } from '@ui'
     import VirtualList from '@sveltejs/svelte-virtual-list'
+    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { NotifyClientTypes } from '@walletconnect/notify-client'
 
     const TABS = [
         { key: 'all', value: 'All' },
@@ -91,6 +93,19 @@
             notificationsManager.updateAllSubscriptionsAndNotifications()
         }
     }
+
+    function onNotificationClick(
+        notification: NotifyClientTypes.NotifyNotification,
+        subscription?: NotifyClientTypes.NotifySubscription
+    ): void {
+        openPopup({
+            id: PopupId.NotificationDetails,
+            props: {
+                notification,
+                subscription,
+            },
+        })
+    }
 </script>
 
 <button bind:this={anchor} type="button" class="relative flex items-center">
@@ -136,7 +151,11 @@
                         class="border-b border-solid border-stroke dark:border-stroke-dark"
                         use:observe
                     >
-                        <NotificationTile notification={item} subscriptionTopic={item.subscriptionTopic} />
+                        <NotificationTile
+                            notification={item}
+                            subscriptionTopic={item.subscriptionTopic}
+                            onClick={onNotificationClick}
+                        />
                     </div>
                 </VirtualList>
             </virtual-list-wrapper>

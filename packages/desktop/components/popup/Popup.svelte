@@ -48,6 +48,7 @@
     import MintNftCollectionFormPopup from './popups/MintNftCollectionFormPopup.svelte'
     import MintNftConfirmationPopup from './popups/MintNftConfirmationPopup.svelte'
     import MintNftFormPopup from './popups/MintNftFormPopup.svelte'
+    import NotificationDetailsPopup from './popups/NotificationDetailsPopup.svelte'
     import NodeAuthRequiredPopup from './popups/NodeAuthRequiredPopup.svelte'
     import NodeInfoPopup from './popups/NodeInfoPopup.svelte'
     import ProfileDiagnosticsPopup from './popups/ProfileDiagnosticsPopup.svelte'
@@ -131,6 +132,7 @@
         [PopupId.MintNftCollectionConfirmation]: MintNftCollectionConfirmationPopup,
         [PopupId.NodeAuthRequired]: NodeAuthRequiredPopup,
         [PopupId.NodeInfo]: NodeInfoPopup,
+        [PopupId.NotificationDetails]: NotificationDetailsPopup,
         [PopupId.ProfileDiagnostics]: ProfileDiagnosticsPopup,
         [PopupId.ReceiveAddress]: ReceiveAddressPopup,
         [PopupId.RemoveProposal]: RemoveProposalPopup,
