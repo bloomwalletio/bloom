@@ -6,6 +6,7 @@ import { truncateString } from '@core/utils'
 import { getNameFromSubject } from './helper'
 import { NetworkNamespace } from '@core/network/enums'
 import { EvmActivityType } from '../enums/evm'
+import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
 
 export async function getActivityDetailsTitle(activity: Activity): Promise<string> {
     const localizationPrefix = 'popups.activityDetails.title'
@@ -67,6 +68,11 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
             const displayedSubject = getNameFromSubject(activity.subject, true)
 
             return localize('general.contractCall') + ` - ${displayedSubject}`
+        } else if (activity.type === EvmActivityType.TokenApproval) {
+            const key = `${localizationPrefix}.tokenApproval.${activity.inclusionState}`
+            const token = getTokenFromSelectedAccountTokens(activity.tokenTransfer.tokenId, activity.sourceNetworkId)
+
+            return localize(key, { assetName: token?.metadata?.name ?? '' })
         } else {
             return localize(`${localizationPrefix}.fallback`)
         }

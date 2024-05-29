@@ -1164,6 +1164,11 @@
                     "Confirmed": "Burned",
                     "Conflicting": "Failed to burn"
                 },
+                "tokenApproval": {
+                    "Pending": "Approving to spend {assetName}",
+                    "Confirmed": "Approved to spend {assetName}",
+                    "Conflicting": "Failed to approve to spend {assetName}"
+                },
                 "consolidation": {
                     "Pending": "Consolidating",
                     "Confirmed": "Consolidated",
