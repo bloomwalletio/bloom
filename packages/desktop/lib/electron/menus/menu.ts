@@ -2,9 +2,9 @@ import { app, ipcMain, Menu } from 'electron'
 import features from '@features/features'
 import { getOrInitWindow } from '../processes/main.process'
 import { MENU_STATE } from './menu-state.constant'
-import { editMenu } from './edit.menu'
-import { helpMenu } from './help.menu'
-import { walletMenu } from './wallet.menu'
+import { buildEditMenu } from './edit.menu'
+import { buildHelpMenu } from './help.menu'
+import { buildWalletMenu } from './wallet.menu'
 import { AboutWindow } from '../windows/about.window'
 
 interface MenuState {
@@ -15,7 +15,7 @@ interface MenuState {
     loggedIn?: boolean
 }
 
-let state: MenuState = MENU_STATE
+export let menuState: MenuState = MENU_STATE
 
 function createMenu(): Electron.Menu {
     const template = buildTemplate()
@@ -44,14 +44,14 @@ export function initMenu(): void {
 
     app.once('ready', () => {
         ipcMain.handle('menu-update', (e, args) => {
-            state = { ...state, ...args }
+            menuState = { ...menuState, ...args }
             mainMenu = createMenu()
         })
 
         ipcMain.handle('menu-popup', () => {
             mainMenu.popup({ window: getOrInitWindow('main') })
         })
-        ipcMain.handle('menu-data', () => state)
+        ipcMain.handle('menu-data', () => menuState)
         handleWindowControls()
         mainMenu = createMenu()
     })
@@ -79,12 +79,12 @@ function buildTemplate(): Electron.MenuItemConstructorOptions[] {
     let firstMenuSubmenu: Electron.MenuItemConstructorOptions[] = getFirstSubmenuItems()
 
     if (!app.isPackaged || features?.electron?.developerTools?.enabled) {
-        firstMenuSubmenu = [...firstMenuSubmenu, roleMenuItem('Developer Tools', 'toggleDevTools')]
+        firstMenuSubmenu = [...firstMenuSubmenu, roleMenuItem(menuState.strings.developerTools, 'toggleDevTools')]
     }
 
     firstMenuSubmenu = [
         ...firstMenuSubmenu,
-        commandMenuItem(state.strings.errorLog, 'menu-error-log'),
+        commandMenuItem(menuState.strings.errorLog, 'menu-error-log'),
         { type: 'separator' },
     ]
 
@@ -95,7 +95,7 @@ function buildTemplate(): Electron.MenuItemConstructorOptions[] {
     firstMenuSubmenu = [
         ...firstMenuSubmenu,
         {
-            label: state.strings.quit,
+            label: menuState.strings.quit,
             accelerator: process.platform === 'win32' ? 'Alt+F4' : 'CmdOrCtrl+Q',
             click: function (): void {
                 app.quit()
@@ -108,14 +108,14 @@ function buildTemplate(): Electron.MenuItemConstructorOptions[] {
         submenu: firstMenuSubmenu,
     }
 
-    const template: Electron.MenuItemConstructorOptions[] = [firstMenu, editMenu]
+    const template: Electron.MenuItemConstructorOptions[] = [firstMenu, buildEditMenu()]
 
     // TODO: this doesn't work because the state is not updated when the user logs in
-    if (state.loggedIn) {
-        template.push(walletMenu)
+    if (menuState.loggedIn) {
+        template.push(buildWalletMenu())
     }
 
-    template.push(helpMenu)
+    template.push(buildHelpMenu())
 
     return template
 }
@@ -123,33 +123,33 @@ function buildTemplate(): Electron.MenuItemConstructorOptions[] {
 function getFirstSubmenuItems(): Electron.MenuItemConstructorOptions[] {
     let menuItems: Electron.MenuItemConstructorOptions[] = [
         {
-            label: `${state.strings.about} ${app.name}`,
+            label: `${menuState.strings.about} ${app.name}`,
             click: AboutWindow.open,
-            enabled: state.enabled,
+            enabled: menuState.enabled,
         },
         commandMenuItem(
-            `${state.strings.checkForUpdates}...`,
+            `${menuState.strings.checkForUpdates}...`,
             'menu-check-for-update',
-            app.isPackaged && state.enabled
+            app.isPackaged && menuState.enabled
         ),
     ]
     if (features?.electron?.importFromThirdParty?.enabled) {
-        menuItems.push(commandMenuItem(state.strings.importThirdPartyProfiles, 'import-third-party-profile'))
+        menuItems.push(commandMenuItem(menuState.strings.importThirdPartyProfiles, 'import-third-party-profile'))
     }
     menuItems = [
         ...menuItems,
         { type: 'separator' },
-        commandMenuItem(state.strings.settings, 'menu-navigate-settings'),
+        commandMenuItem(menuState.strings.settings, 'menu-navigate-settings'),
         { type: 'separator' },
-        commandMenuItem(state.strings.diagnostics, 'menu-diagnostics'),
+        commandMenuItem(menuState.strings.diagnostics, 'menu-diagnostics'),
     ]
     return menuItems
 }
 
 function getDarwinSubmenuItems(): Electron.MenuItemConstructorOptions[] {
     return [
-        roleMenuItem(`${state.strings.hide} ${app.name}`, 'hide'),
-        roleMenuItem(state.strings.hideOthers, 'hideOthers'),
-        roleMenuItem(state.strings.showAll, 'unhide'),
+        roleMenuItem(`${menuState.strings.hide} ${app.name}`, 'hide'),
+        roleMenuItem(menuState.strings.hideOthers, 'hideOthers'),
+        roleMenuItem(menuState.strings.showAll, 'unhide'),
     ]
 }
