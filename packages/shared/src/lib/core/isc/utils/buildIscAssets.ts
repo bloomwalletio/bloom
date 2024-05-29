@@ -1,7 +1,7 @@
+import { IscAssets } from '@core/isc/types'
 import { IIscChain } from '@core/network/interfaces'
 import { AssetType } from '../../layer-2/enums'
 import { TransferredAsset } from '../../layer-2/types'
-import { IscAssets } from '@core/isc/types'
 
 export function buildIscAssets(
     iscChain: IIscChain,

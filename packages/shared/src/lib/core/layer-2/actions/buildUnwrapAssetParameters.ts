@@ -1,13 +1,12 @@
 import { IscSendMetadata, IscSendOptions } from '@core/isc/types'
-import { Uint32, Uint64 } from '@core/utils/types/solidity.types'
 
 export function buildUnwrapAssetParameters(): {
     sendMetadata: IscSendMetadata
     sendOptions: IscSendOptions
 } {
     const sendMetadata: IscSendMetadata = {
-        targetContract: Uint32.from('0'),
-        entrypoint: Uint32.from('0'),
+        targetContract: 0,
+        entrypoint: 0,
         params: {
             items: [],
         },
@@ -16,13 +15,13 @@ export function buildUnwrapAssetParameters(): {
             nativeTokens: [],
             nfts: [],
         },
-        gasBudget: Uint64.from('0'),
+        gasBudget: BigInt(0),
     }
 
     const sendOptions: IscSendOptions = {
-        timelock: Uint64.from('0'),
+        timelock: BigInt(0),
         expiration: {
-            time: Uint64.from('0'),
+            time: BigInt(0),
             returnAddress: {
                 data: new Uint8Array([]),
             },

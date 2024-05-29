@@ -6,14 +6,11 @@ import { IscAssets, IscL1Address, IscSendMetadata, IscSendOptions } from '../typ
 
 interface IEncodableIscMagicContractSandboxMethods {
     send: {
-        params: {
-            targetAddress: IscL1Address
-            assets: IscAssets
-            adjustMinimumStorageDeposit: boolean
-            sendMetadata: IscSendMetadata
-            sendOptions: IscSendOptions
-        }
-        returns: string
+        targetAddress: IscL1Address
+        assets: IscAssets
+        adjustMinimumStorageDeposit: boolean
+        sendMetadata: IscSendMetadata
+        sendOptions: IscSendOptions
     }
 }
 
@@ -26,9 +23,16 @@ class IscMagicContractSandbox {
 
     encode<K extends keyof IEncodableIscMagicContractSandboxMethods>(
         method: K,
-        params: IEncodableIscMagicContractSandboxMethods[K]['params']
-    ): IEncodableIscMagicContractSandboxMethods[K]['returns'] {
-        return this._contract.methods[method](params).encodeABI()
+        params: IEncodableIscMagicContractSandboxMethods[K]
+    ): string {
+        return this[method as keyof Omit<IscMagicContractSandbox, 'encode' | 'estimateGas'>](params).encodeABI()
+    }
+
+    estimateGas<K extends keyof IEncodableIscMagicContractSandboxMethods>(
+        method: K,
+        params: IEncodableIscMagicContractSandboxMethods[K]
+    ): Promise<number> {
+        return this[method as keyof Omit<IscMagicContractSandbox, 'encode' | 'estimateGas'>](params).estimateGas()
     }
 
     protected send({
@@ -37,10 +41,14 @@ class IscMagicContractSandbox {
         adjustMinimumStorageDeposit,
         sendMetadata,
         sendOptions,
-    }: IEncodableIscMagicContractSandboxMethods['send']['params']): Promise<unknown> {
-        return this._contract.methods
-            .send(targetAddress, assets, adjustMinimumStorageDeposit, sendMetadata, sendOptions)
-            .call()
+    }: IEncodableIscMagicContractSandboxMethods['send']): unknown {
+        return this._contract.methods.send(
+            targetAddress,
+            assets,
+            adjustMinimumStorageDeposit,
+            sendMetadata,
+            sendOptions
+        )
     }
 }
 
