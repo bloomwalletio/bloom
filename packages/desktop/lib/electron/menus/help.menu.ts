@@ -1,4 +1,4 @@
-import { MENU_STATE } from './menu-state.constant'
+import { menuState } from './menu'
 import { shell } from 'electron'
 import { DISCORD_URL, DOCUMENTATION_URL, ISSUE_REPORT_URL } from '@contexts/settings/constants'
 
@@ -6,16 +6,18 @@ const menuItem = (
     action: 'faq' | 'documentation' | 'discord' | 'reportAnIssue',
     url: string
 ): Electron.MenuItemConstructorOptions => ({
-    label: MENU_STATE.strings[action],
+    label: menuState.strings[action],
     click: () => void shell.openExternal(url),
 })
 
-export const helpMenu: Electron.MenuItemConstructorOptions = {
-    label: MENU_STATE.strings.help,
-    submenu: [
-        // menuItem('faq', FAQ_URL),
-        menuItem('documentation', DOCUMENTATION_URL),
-        menuItem('discord', DISCORD_URL),
-        menuItem('reportAnIssue', ISSUE_REPORT_URL),
-    ],
+export function buildHelpMenu(): Electron.MenuItemConstructorOptions {
+    return {
+        label: menuState.strings.help,
+        submenu: [
+            // menuItem('faq', FAQ_URL),
+            menuItem('documentation', DOCUMENTATION_URL),
+            menuItem('discord', DISCORD_URL),
+            menuItem('reportAnIssue', ISSUE_REPORT_URL),
+        ],
+    }
 }
