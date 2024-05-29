@@ -156,13 +156,13 @@ module.exports = [
                 module: 'readonly',
             },
         },
+        plugins: { '@typescript-eslint': tsEslint },
         rules: {
             ...eslintRules,
         },
     },
     {
         files: ['**/*.ts'],
-        // extends: [jsEslint.configs.recommended, tsEslint.configs.recommended],
         languageOptions: {
             parser: tsParser,
             parserOptions: {
@@ -172,14 +172,12 @@ module.exports = [
                 tsconfigRootDir: './',
             },
         },
-        plugins: { '@typescript-eslint': tsEslint },
         rules: linterRules,
         // settings: svelteSettings,
     },
     {
         files: ['**/*.svelte'],
         settings: svelteSettings,
-        // extends: [jsEslint.configs.recommended],
         languageOptions: {
             parser: svelteParser,
             parserOptions: {
@@ -190,7 +188,7 @@ module.exports = [
             },
         },
         rules: {
-            // ...linterRules,
+            ...linterRules,
             ...svelteRules,
         },
     },
