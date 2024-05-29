@@ -3,6 +3,8 @@ import { IIscChain } from '@core/network'
 import { Contract } from 'web3'
 import { ISC_MAGIC_CONTRACT_SANDBOX_ABI } from '../abis'
 import { IscAssets, IscDict, IscHName, IscL1Address, IscSendMetadata, IscSendOptions } from '../types'
+import { evmAddressToAgentId } from '@core/layer-2/helpers'
+import { ISC_MAGIC_CONTRACT_ACCOUNTS_ABI } from '../abis/isc-magic-contract-accounts.abi'
 
 interface IEncodableIscMagicContractSandboxMethods {
     send: {
@@ -82,14 +84,27 @@ class IscMagicContractSandbox {
 }
 
 class IscMagicContractAccounts {
-    private _contract: Contract<typeof ISC_MAGIC_CONTRACT_SANDBOX_ABI>
+    private _contract: Contract<typeof ISC_MAGIC_CONTRACT_ACCOUNTS_ABI>
+    private _iscChain: IIscChain
 
     constructor(iscChain: IIscChain, contractAddress: string) {
-        this._contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, contractAddress)
+        this._iscChain = iscChain
+        this._contract = this._iscChain.getContract(ISC_MAGIC_CONTRACT_ACCOUNTS_ABI, contractAddress)
     }
 
-    getL2BalanceBaseTokens(agentId: string): Promise<string> {
+    getL2BalanceBaseTokens(address: string): Promise<string> {
+        const agentId = [evmAddressToAgentId(address, this._iscChain.aliasAddress)]
         return this._contract.methods.getL2BalanceBaseTokens(agentId).call()
+    }
+
+    getL2BalanceNativeTokens(address: string, tokenId: string): Promise<string> {
+        const agentId = [evmAddressToAgentId(address, this._iscChain.aliasAddress)]
+        return this._contract.methods.getL2BalanceNativeTokens(agentId, tokenId).call()
+    }
+
+    getL2Nfts(address: string): Promise<string[]> {
+        const agentId = [evmAddressToAgentId(address, this._iscChain.aliasAddress)]
+        return this._contract.methods.getL2NFTs(agentId).call()
     }
 }
 

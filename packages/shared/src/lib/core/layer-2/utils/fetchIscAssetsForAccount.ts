@@ -1,9 +1,7 @@
 import { IAccountState } from '@core/account'
 import { calculateAndAddPersistedNftBalanceChange, calculateAndAddPersistedTokenBalanceChange } from '@core/activity'
-import { ISC_MAGIC_CONTRACT_SANDBOX_ABI } from '@core/isc/abis'
 import { IscCoreContracts } from '@core/isc/classes/isc-core-contracts.class'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '@core/layer-2/helpers'
+import { IscMagicContracts } from '@core/isc/classes/isc-magic-contracts.class'
 import { IscChain } from '@core/network'
 import { Nft, getNftsFromNftIds, isIrc27Nft } from '@core/nfts'
 import { addNftsToDownloadQueue } from '@core/nfts/actions'
@@ -11,7 +9,6 @@ import { addOrUpdateNftsForAccount, selectedAccountNfts, updateNftsForAccount } 
 import { BASE_TOKEN_ID, ITokenBalance } from '@core/token'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { PartialWithId } from '@core/utils'
-import { KeyValue } from '@ui'
 import { get } from 'svelte/store'
 
 export async function fetchIscAssetsForAccount(
@@ -39,7 +36,6 @@ async function getL2NativeTokenBalancesForAddress(evmAddress: string, iscChain: 
     try {
         const coreContracts = new IscCoreContracts(iscChain)
         const balance = await coreContracts.accounts.getBalance(evmAddress)
-
         // Make sure that we remove the base token here as we get it from the evm provider in the correct format
         delete balance[BASE_TOKEN_ID]
         return balance
@@ -55,18 +51,9 @@ async function fetchL2Irc27Nfts(
     iscChain: IscChain,
     account: IAccountState
 ): Promise<void> {
-    const accountsCoreContract = getSmartContractHexName('accounts')
-    const getBalanceFunc = getSmartContractHexName('accountNFTs')
-    const agentID = evmAddressToAgentId(evmAddress, iscChain.aliasAddress)
-    const parameters = getAgentBalanceParameters(agentID)
     try {
-        const contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, ISC_MAGIC_CONTRACT_ADDRESS)
-        const nftResult = (await contract.methods
-            .callView(accountsCoreContract, getBalanceFunc, parameters)
-            .call()) as { items: KeyValue<string>[] }
-
-        // the element with `key: "0x69"` just represents the length of the list, so it needs to be excluded
-        const nftIds = nftResult.items.filter((item) => item.key !== '0x69').map((item) => item.value)
+        const magicContracts = new IscMagicContracts(iscChain)
+        const nftIds = await magicContracts.accounts.getL2Nfts(evmAddress)
 
         const networkId = iscChain.id
         const nftsForChain = get(selectedAccountNfts).filter((nft) => nft.networkId === networkId && isIrc27Nft(nft))
