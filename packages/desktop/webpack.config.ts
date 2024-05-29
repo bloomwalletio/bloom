@@ -240,6 +240,7 @@ const webpackConfig: Configuration[] = [
                     errors: true,
                     warnings: false,
                 },
+                logging: 'error',
             },
         },
         snapshot: {
