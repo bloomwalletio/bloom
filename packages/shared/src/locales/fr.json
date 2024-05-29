@@ -1023,6 +1023,7 @@
             "selectAmount": "Envoyer {tokenName}",
             "selectRecipient": "Envoyer {assetName} à",
             "transactionSummary": "Transaction vers {recipient}",
+            "ircAssetsToL2Hint": "You are about to send an IRC asset to an EVM network. Most EVM based wallets don't support displaying IRC assets correctly.",
             "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send."
         },
         "walletFinder": {
@@ -1092,6 +1093,12 @@
             "action": "Sign",
             "success": "Signed transaction"
         },
+        "tokenApproval": {
+            "title": "Approve {dappName} to access {assetName}",
+            "hint": "{address} is requesting approval to spend {assetName}",
+            "action": "Approve",
+            "success": "Successfully approved"
+        },
         "sendTransaction": {
             "title": "Send transaction",
             "action": "Send",
@@ -1099,8 +1106,9 @@
         },
         "smartContractCall": {
             "title": "Smart contract call to {contractAddress}",
-            "unableToVerify": "Bloom is unable to verify the smart contract call. Only proceed with apps you trust.",
-            "viewSmartContract": "View Smart Contract",
+            "unableToVerify": "Bloom is unable to parse the smart contract data, only proceed with apps you trust.",
+            "partiallyVerified": "Bloom has partially parsed the smart contract data, proceed with apps you trust.",
+            "viewSmartContract": "View Contract",
             "action": "Confirm",
             "success": "Smart contract call to {recipient}"
         },
@@ -1726,7 +1734,9 @@
         "location": "Location",
         "slow": "Slow",
         "average": "Average",
-        "fast": "Fast"
+        "fast": "Fast",
+        "spender": "Spender",
+        "status": "Status"
     },
     "filters": {
         "title": "Filters",
