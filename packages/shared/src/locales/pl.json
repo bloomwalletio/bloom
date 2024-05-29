@@ -1023,6 +1023,7 @@
             "selectAmount": "Wyślij {tokenName}",
             "selectRecipient": "Wyślij {assetName} do",
             "transactionSummary": "Transakcja do {recipient}",
+            "ircAssetsToL2Hint": "You are about to send an IRC asset to an EVM network. Most EVM based wallets don't support displaying IRC assets correctly.",
             "surplusIncluded": "Ta transakcja zawiera nadwyżkę środków. Proszę sprawdzić, czy na pewno jest to kwota, którą chcesz wysłać."
         },
         "walletFinder": {
@@ -1092,6 +1093,12 @@
             "action": "Podpisz",
             "success": "Podpisana transakcja"
         },
+        "tokenApproval": {
+            "title": "Approve {dappName} to access {assetName}",
+            "hint": "{address} is requesting approval to spend {assetName}",
+            "action": "Approve",
+            "success": "Successfully approved"
+        },
         "sendTransaction": {
             "title": "Wyślij transakcję",
             "action": "Wyślij",
@@ -1099,8 +1106,9 @@
         },
         "smartContractCall": {
             "title": "Interakcja smart kontraktu z {contractAddress}",
-            "unableToVerify": "Bloom nie może zweryfikować interakcji z smart kontraktem. Kontynuuj tylko z aplikacjami, którym ufasz.",
-            "viewSmartContract": "Zobacz Smart Kontrakt",
+            "unableToVerify": "Bloom is unable to parse the smart contract data, only proceed with apps you trust.",
+            "partiallyVerified": "Bloom has partially parsed the smart contract data, proceed with apps you trust.",
+            "viewSmartContract": "View Contract",
             "action": "Potwierdź",
             "success": "Interakcja smart kontraktu z {recipient}"
         },
@@ -1724,9 +1732,11 @@
         "question": "Pytanie",
         "id": "ID",
         "location": "Lokalizacja",
-        "slow": "Slow",
-        "average": "Average",
-        "fast": "Fast"
+        "slow": "Powoli",
+        "average": "Średnio",
+        "fast": "Szybko",
+        "spender": "Spender",
+        "status": "Status"
     },
     "filters": {
         "title": "Filtry",
