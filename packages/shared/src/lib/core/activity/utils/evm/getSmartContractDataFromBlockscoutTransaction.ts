@@ -70,6 +70,15 @@ export function getSmartContractDataFromBlockscoutTransaction(
                     rawAmount: parsedData.rawAmount,
                 }
                 break
+            case ParsedSmartContractType.TokenApproval:
+                type = EvmActivityType.TokenApproval
+
+                tokenTransfer = {
+                    standard: parsedData.standard,
+                    tokenId: parsedData.tokenId,
+                    rawAmount: parsedData.rawAmount,
+                }
+                break
             case ParsedSmartContractType.NftTransfer:
                 type = EvmActivityType.TokenTransfer
 

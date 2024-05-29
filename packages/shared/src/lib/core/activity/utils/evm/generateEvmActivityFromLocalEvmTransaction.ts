@@ -21,10 +21,10 @@ export async function generateEvmActivityFromLocalEvmTransaction(
     evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
+    let baseActivity = await generateBaseEvmActivity(transaction, evmNetwork, account)
+
     if (!transaction.data) {
         // i.e must be a coin transfer
-        const baseActivity = await generateBaseEvmActivity(transaction, evmNetwork, account)
-
         return {
             ...baseActivity,
             type: EvmActivityType.CoinTransfer,
@@ -44,7 +44,6 @@ export async function generateEvmActivityFromLocalEvmTransaction(
     }
 
     transaction.recipient = parsedData.recipientAddress ?? transaction.to?.toString().toLowerCase()
-    let baseActivity = await generateBaseEvmActivity(transaction, evmNetwork, account)
 
     baseActivity = {
         ...baseActivity,
@@ -93,6 +92,16 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                     standard: NftStandard.Erc721,
                     tokenId: parsedData.nftId,
                     rawAmount: BigInt(1),
+                },
+            } as EvmTokenTransferActivity
+        case ParsedSmartContractType.TokenApproval:
+            return {
+                ...baseActivity,
+                type: EvmActivityType.TokenTransfer,
+                tokenTransfer: {
+                    standard: TokenStandard.Erc20,
+                    tokenId: parsedData.tokenId,
+                    rawAmount: parsedData.rawAmount,
                 },
             } as EvmTokenTransferActivity
         default:
