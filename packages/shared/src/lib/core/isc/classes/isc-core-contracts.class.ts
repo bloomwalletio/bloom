@@ -5,6 +5,8 @@ import { IscAssets, IscHName } from '../types'
 import { buildIscAssets } from '../utils'
 import { IscMagicContracts } from './isc-magic-contracts.class'
 import { buildIscDictFromObject } from '../helpers'
+import { Converter } from '@core/utils'
+import { ITokenBalance } from '@core/token/interfaces'
 
 class IscCoreContractAccounts {
     private _contractHname = getSmartContractHexName('accounts')
@@ -12,6 +14,41 @@ class IscCoreContractAccounts {
 
     constructor(coreContracts: IscCoreContracts) {
         this.parent = coreContracts
+    }
+
+    async getBalance(address: string): Promise<ITokenBalance> {
+        const agentId = evmAddressToAgentId(address, this.parent._iscChain.aliasAddress)
+        return (
+            await this.parent.callView<{ items: { key: string; value: string }[] }>(this._contractHname, 'balance', {
+                a: agentId,
+            })
+        ).items.reduce((acc, item) => {
+            acc[item.key] = Converter.bigIntLikeToBigInt(item.value)
+            return acc
+        }, {} as ITokenBalance)
+    }
+
+    async getBalanceBaseToken(address: string): Promise<bigint> {
+        const agentId = evmAddressToAgentId(address, this.parent._iscChain.aliasAddress)
+        const results = await this.parent.callView<{ items: { key: '0x42'; value: 'string' }[] }>(
+            this._contractHname,
+            'balanceBaseToken',
+            { a: agentId }
+        )
+        const value = results.items.find((item) => item.key === '0x42')?.value
+        return Converter.bigIntLikeToBigInt(value)
+    }
+
+    async getBalanceNativeToken(address: string, tokenId: string): Promise<bigint> {
+        const agentId = evmAddressToAgentId(address, this.parent._iscChain.aliasAddress)
+        // TODO: fix type of param builder
+        const result = await this.parent.callView<{ items: { key: '0x42'; value: 'string' }[] }>(
+            this._contractHname,
+            'balanceNativeToken',
+            { a: agentId, N: tokenId }
+        )
+        const value = result.items.find((item) => item.key === '0x42')?.value
+        return Converter.bigIntLikeToBigInt(value)
     }
 
     encodeTransferAllowanceTo(recipientAddress: string, transferredAsset: TransferredAsset): string {
@@ -50,5 +87,15 @@ export class IscCoreContracts {
             params: paramsDict,
             allowance,
         })
+    }
+
+    public callView<T>(contractHname: IscHName, entryPoint: string, params: Record<string, Uint8Array>): Promise<T> {
+        const entryPointHname = getSmartContractHexName(entryPoint)
+        const paramsDict = buildIscDictFromObject(params)
+        return this._magicContracts.sandbox.callView({
+            contractName: contractHname,
+            entryPoint: entryPointHname,
+            params: paramsDict,
+        }) as Promise<T>
     }
 }

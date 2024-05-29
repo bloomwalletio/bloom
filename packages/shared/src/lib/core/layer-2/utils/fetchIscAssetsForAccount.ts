@@ -1,15 +1,16 @@
 import { IAccountState } from '@core/account'
-import { calculateAndAddPersistedTokenBalanceChange, calculateAndAddPersistedNftBalanceChange } from '@core/activity'
+import { calculateAndAddPersistedNftBalanceChange, calculateAndAddPersistedTokenBalanceChange } from '@core/activity'
 import { ISC_MAGIC_CONTRACT_SANDBOX_ABI } from '@core/isc/abis'
+import { IscCoreContracts } from '@core/isc/classes/isc-core-contracts.class'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
-import { getSmartContractHexName, evmAddressToAgentId, getAgentBalanceParameters } from '@core/layer-2/helpers'
+import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '@core/layer-2/helpers'
 import { IscChain } from '@core/network'
-import { isIrc27Nft, getNftsFromNftIds, Nft } from '@core/nfts'
+import { Nft, getNftsFromNftIds, isIrc27Nft } from '@core/nfts'
 import { addNftsToDownloadQueue } from '@core/nfts/actions'
 import { addOrUpdateNftsForAccount, selectedAccountNfts, updateNftsForAccount } from '@core/nfts/stores'
 import { BASE_TOKEN_ID, ITokenBalance } from '@core/token'
 import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
-import { Converter, PartialWithId } from '@core/utils'
+import { PartialWithId } from '@core/utils'
 import { KeyValue } from '@ui'
 import { get } from 'svelte/store'
 
@@ -35,21 +36,13 @@ export async function fetchIscAssetsForAccount(
 }
 
 async function getL2NativeTokenBalancesForAddress(evmAddress: string, iscChain: IscChain): Promise<ITokenBalance> {
-    const accountsCoreContract = getSmartContractHexName('accounts')
-    const getBalanceFunc = getSmartContractHexName('balance')
-    const agentID = evmAddressToAgentId(evmAddress, iscChain.aliasAddress)
-    const parameters = getAgentBalanceParameters(agentID)
     try {
-        const contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, ISC_MAGIC_CONTRACT_ADDRESS)
-        const nativeTokenResult = (await contract.methods
-            .callView(accountsCoreContract, getBalanceFunc, parameters)
-            .call()) as { items: KeyValue<string>[] }
+        const coreContracts = new IscCoreContracts(iscChain)
+        const balance = await coreContracts.accounts.getBalance(evmAddress)
 
-        const nativeTokens = {}
-        nativeTokenResult.items?.forEach((item) => (nativeTokens[item.key] = Converter.bigIntLikeToBigInt(item.value)))
         // Make sure that we remove the base token here as we get it from the evm provider in the correct format
-        delete nativeTokens[BASE_TOKEN_ID]
-        return nativeTokens
+        delete balance[BASE_TOKEN_ID]
+        return balance
     } catch (e) {
         console.error(e)
         return {}

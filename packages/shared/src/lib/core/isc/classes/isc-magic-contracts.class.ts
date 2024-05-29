@@ -27,6 +27,7 @@ class IscMagicContractSandbox {
         this._contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, contractAddress)
     }
 
+    // TODO: fix type and move to parent class
     encode<K extends keyof IEncodableIscMagicContractSandboxMethods>(
         method: K,
         params: IEncodableIscMagicContractSandboxMethods[K]
@@ -34,6 +35,7 @@ class IscMagicContractSandbox {
         return this[method as keyof Omit<IscMagicContractSandbox, 'encode' | 'estimateGas'>](params).encodeABI()
     }
 
+    // TODO: fix type and move to parent class
     estimateGas<K extends keyof IEncodableIscMagicContractSandboxMethods>(
         method: K,
         params: IEncodableIscMagicContractSandboxMethods[K]
@@ -64,6 +66,18 @@ class IscMagicContractSandbox {
         allowance,
     }: IEncodableIscMagicContractSandboxMethods['call']): unknown {
         return this._contract.methods.call(contractName, entryPoint, params, allowance)
+    }
+
+    callView({
+        contractName,
+        entryPoint,
+        params,
+    }: {
+        contractName: IscHName
+        entryPoint: IscHName
+        params: IscDict
+    }): Promise<unknown> {
+        return this._contract.methods.callView(contractName, entryPoint, params).call()
     }
 }
 
