@@ -1,10 +1,8 @@
-import { bytes } from '@core/utils/types/solidity.types'
-
 export type IscDict = {
     items: IscDictItem[]
 }
 
-type IscDictItem = {
-    key: bytes
-    value: bytes
+export type IscDictItem = {
+    key: Uint8Array
+    value: Uint8Array
 }

@@ -8,10 +8,10 @@ export function buildIscAssets(
     transferredAsset: TransferredAsset,
     storageDepositRequired?: bigint
 ): IscAssets {
-    const baseTokens = BigInt(storageDepositRequired ?? 0)
+    const baseTokens = BigInt(storageDepositRequired ?? 0).toString()
     if (transferredAsset.type === AssetType.BaseCoin) {
         return {
-            baseTokens: iscChain.normaliseAmount(transferredAsset.amount),
+            baseTokens: iscChain.normaliseAmount(transferredAsset.amount).toString(),
             nativeTokens: [],
             nfts: [],
         }
@@ -20,8 +20,8 @@ export function buildIscAssets(
             baseTokens,
             nativeTokens: [
                 {
-                    tokenId: transferredAsset.token.id,
-                    amount: transferredAsset.amount,
+                    ID: [transferredAsset.token.id],
+                    amount: transferredAsset.amount.toString(),
                 },
             ],
             nfts: [],

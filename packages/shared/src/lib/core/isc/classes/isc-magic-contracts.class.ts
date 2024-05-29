@@ -1,8 +1,8 @@
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2'
-import { IscChain } from '@core/network'
+import { IIscChain } from '@core/network'
 import { Contract } from 'web3'
 import { ISC_MAGIC_CONTRACT_SANDBOX_ABI } from '../abis'
-import { IscAssets, IscL1Address, IscSendMetadata, IscSendOptions } from '../types'
+import { IscAssets, IscDict, IscHName, IscL1Address, IscSendMetadata, IscSendOptions } from '../types'
 
 interface IEncodableIscMagicContractSandboxMethods {
     send: {
@@ -12,12 +12,18 @@ interface IEncodableIscMagicContractSandboxMethods {
         sendMetadata: IscSendMetadata
         sendOptions: IscSendOptions
     }
+    call: {
+        contractName: IscHName
+        entryPoint: IscHName
+        params: IscDict
+        allowance: IscAssets
+    }
 }
 
 class IscMagicContractSandbox {
     private _contract: Contract<typeof ISC_MAGIC_CONTRACT_SANDBOX_ABI>
 
-    constructor(iscChain: IscChain, contractAddress: string) {
+    constructor(iscChain: IIscChain, contractAddress: string) {
         this._contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, contractAddress)
     }
 
@@ -50,23 +56,32 @@ class IscMagicContractSandbox {
             sendOptions
         )
     }
+
+    protected call({
+        contractName,
+        entryPoint,
+        params,
+        allowance,
+    }: IEncodableIscMagicContractSandboxMethods['call']): unknown {
+        return this._contract.methods.call(contractName, entryPoint, params, allowance)
+    }
 }
 
 class IscMagicContractAccounts {
     private _contract: Contract<typeof ISC_MAGIC_CONTRACT_SANDBOX_ABI>
 
-    constructor(iscChain: IscChain, contractAddress: string) {
+    constructor(iscChain: IIscChain, contractAddress: string) {
         this._contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, contractAddress)
     }
 }
 
 export class IscMagicContracts {
-    private _iscChain: IscChain
+    private _iscChain: IIscChain
     private _contractAddress: string
     public sandbox: IscMagicContractSandbox
     public accounts: IscMagicContractAccounts
 
-    constructor(iscChain: IscChain) {
+    constructor(iscChain: IIscChain) {
         this._iscChain = iscChain
         this._contractAddress = ISC_MAGIC_CONTRACT_ADDRESS
 

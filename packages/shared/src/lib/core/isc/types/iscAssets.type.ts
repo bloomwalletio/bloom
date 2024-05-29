@@ -1,5 +1,7 @@
+import { IscNativeToken } from './IscNativeToken.type'
+
 export type IscAssets = {
-    baseTokens: bigint
-    nativeTokens: { tokenId: string; amount: bigint }[]
+    baseTokens: string
+    nativeTokens: IscNativeToken[]
     nfts: string[]
 }
