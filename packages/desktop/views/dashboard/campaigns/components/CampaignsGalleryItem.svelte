@@ -47,7 +47,7 @@
     <div class="w-full flex flex-col items-start p-3 gap-2 overflow-hidden">
         <Text type="body2" truncate>{campaign.title}</Text>
         <div class="flex flex-row gap-2 items-center">
-            <NetworkAvatar size="xs" networkId={`${NetworkNamespace.Evm}:${campaign.chainId}`} />
+            <NetworkAvatar size="xs" networkId={`${NetworkNamespace.Evm}:${campaign.chainId}`} showTooltip />
             <CampaignStatusPill {campaign} />
             <CampaignTimestampPill {campaign} />
             <CampaignParticipantsPill {campaign} />

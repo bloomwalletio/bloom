@@ -111,7 +111,7 @@
             >
             <div class="w-full flex flex-row justify-between gap-4">
                 <div class="flex flex-row gap-2 items-center">
-                    <NetworkAvatar size="xs" networkId={`${NetworkNamespace.Evm}:${campaign.chainId}`} />
+                    <NetworkAvatar size="xs" networkId={`${NetworkNamespace.Evm}:${campaign.chainId}`} showTooltip />
                     <CampaignStatusPill {campaign} />
                     <CampaignTimestampPill {campaign} />
                     <CampaignUsersPill {campaign} />
