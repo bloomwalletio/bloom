@@ -73,6 +73,10 @@ class IscMagicContractAccounts {
     constructor(iscChain: IIscChain, contractAddress: string) {
         this._contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, contractAddress)
     }
+
+    getL2BalanceBaseTokens(agentId: string): Promise<string> {
+        return this._contract.methods.getL2BalanceBaseTokens(agentId).call()
+    }
 }
 
 export class IscMagicContracts {
