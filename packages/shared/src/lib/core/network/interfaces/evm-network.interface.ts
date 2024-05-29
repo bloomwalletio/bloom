@@ -31,6 +31,9 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
 
     provider: Web3Provider
 
+    averageBlockTimeInSeconds: number
+    blocksUntilConfirmed: number
+
     getRequiredGasPrice(): Promise<bigint | undefined>
     getGasPrices(): Promise<IGasPricesBySpeed | undefined>
     getBalance(account: IAccountState): Promise<ITokenBalance | undefined>

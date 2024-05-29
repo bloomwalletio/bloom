@@ -22,15 +22,18 @@ export function prodProfileMigration6To7(existingProfile: unknown): Promise<void
     const profile = existingProfile as IPersistedProfile & {
         settings: { maxMediaSizeInMegaBytes?: number; maxMediaDownloadTimeInSeconds?: number }
     }
-    profile.settings.nfts = {
-        ipfsGateways: DEFAULT_IPFS_GATEWAYS,
-        downloadPermissions: DownloadPermission.AllowListOnly,
-        maxMediaSizeInMegaBytes: profile.settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
-        maxMediaDownloadTimeInSeconds:
-            profile.settings.maxMediaDownloadTimeInSeconds ?? DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+
+    if (!profile.settings.nfts) {
+        profile.settings.nfts = {
+            ipfsGateways: DEFAULT_IPFS_GATEWAYS,
+            downloadPermissions: DownloadPermission.AllowListOnly,
+            maxMediaSizeInMegaBytes: profile.settings.maxMediaSizeInMegaBytes ?? DEFAULT_MAX_NFT_SIZE_IN_MEGABYTES,
+            maxMediaDownloadTimeInSeconds:
+                profile.settings.maxMediaDownloadTimeInSeconds ?? DEFAULT_MAX_NFT_DOWNLOADING_TIME_IN_SECONDS,
+        }
+        delete profile.settings.maxMediaSizeInMegaBytes
+        delete profile.settings.maxMediaDownloadTimeInSeconds
     }
-    delete profile.settings.maxMediaSizeInMegaBytes
-    delete profile.settings.maxMediaDownloadTimeInSeconds
 
     persistedDappNamespaces.update((state) => {
         const profileId = profile.id
@@ -38,12 +41,20 @@ export function prodProfileMigration6To7(existingProfile: unknown): Promise<void
             state[profileId] = {}
             return state
         }
-        const persistedNamespaces = state[profileId] as unknown as OldPersistedNamespaces
+        const persistedNamespaces = state[profileId] as unknown as OldPersistedNamespaces | NewPersistedNamespaces
 
-        const newPersistedNamespaces = Object.entries(persistedNamespaces).reduce((acc, [dappOriginUrl, supported]) => {
-            acc[dappOriginUrl] = { supported, required: {}, optional: {} }
-            return acc
-        }, {} as NewPersistedNamespaces)
+        const newPersistedNamespaces = Object.entries(persistedNamespaces).reduce(
+            (current, [dappOriginUrl, previousValue]) => {
+                if (previousValue?.supported) {
+                    current[dappOriginUrl] = previousValue
+                    return current
+                } else {
+                    current[dappOriginUrl] = { supported: previousValue, required: {}, optional: {} }
+                    return current
+                }
+            },
+            {} as NewPersistedNamespaces
+        )
 
         state[profileId] = newPersistedNamespaces
         return state

@@ -5,19 +5,10 @@ import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
 import { BaseEvmActivity } from '../../types'
-import type { BigIntLike } from '@ethereumjs/util'
+import { LocalEvmTransaction } from '@core/transactions'
 
 export async function generateBaseEvmActivity(
-    transaction: {
-        transactionHash: string
-        from: string
-        recipient: string
-        gasUsed: number
-        blockNumber: number
-        estimatedGas?: bigint
-        gasPrice?: BigIntLike
-        timestamp?: number
-    },
+    transaction: LocalEvmTransaction,
     evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<BaseEvmActivity> {
@@ -28,7 +19,7 @@ export async function generateBaseEvmActivity(
             : ActivityDirection.Outgoing
 
     const sender = getSubjectFromAddress(transaction.from, networkId)
-    const recipient = getSubjectFromAddress(transaction.recipient, networkId)
+    const recipient = getSubjectFromAddress(transaction.recipient ?? transaction.to, networkId)
 
     const subject = direction === ActivityDirection.Outgoing ? recipient : sender
     const isInternal = isSubjectInternal(recipient)
@@ -38,6 +29,10 @@ export async function generateBaseEvmActivity(
     // https://discord.com/channels/397872799483428865/930642258427019354/1168854453005332490
     const gasUsed = transaction.gasUsed || transaction.estimatedGas
     const transactionFee = transaction.gasPrice ? calculateGasFee(gasUsed, transaction.gasPrice) : undefined
+    const inclusionState =
+        Number(transaction.confirmations) >= evmNetwork.blocksUntilConfirmed
+            ? InclusionState.Confirmed
+            : InclusionState.Pending
 
     return {
         namespace: NetworkNamespace.Evm,
@@ -50,7 +45,7 @@ export async function generateBaseEvmActivity(
         // transaction information
         transactionId: transaction.transactionHash,
         time: new Date(timestamp),
-        inclusionState: InclusionState.Confirmed,
+        inclusionState,
 
         // sender / recipient information
         sourceNetworkId: networkId,

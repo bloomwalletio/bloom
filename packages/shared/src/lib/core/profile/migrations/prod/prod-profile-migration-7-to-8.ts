@@ -9,7 +9,7 @@ export function prodProfileMigration7To8(existingProfile: unknown): Promise<void
         const profilePersistedNfts = state[profile.id] ?? {}
         for (const nftId of Object.keys(profilePersistedNfts)) {
             const nft = profilePersistedNfts[nftId]
-            if (nft.standard === NftStandard.Erc721) {
+            if (!nft.mediaUrl && nft.standard === NftStandard.Erc721) {
                 nft.mediaUrl = nft?.metadata?.image
                 profilePersistedNfts[nftId] = nft
             }
