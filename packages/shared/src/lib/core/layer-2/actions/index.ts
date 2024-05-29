@@ -1,5 +1,5 @@
 export * from './buildUnwrapAssetParameters'
-export * from './buildUnwrapAssetTargetAddress'
+export * from '../../isc/utils/buildIscL1AddressFromBech32Address'
 export * from './canAccountMakeEvmTransaction'
 export * from './checkForUntrackedTokens'
 export * from './fetchEvmBalancesForAccount'

@@ -1,21 +1,23 @@
 import { IAccountState } from '@core/account/interfaces'
 import { IError } from '@core/error'
 import { localize } from '@core/i18n'
+import { IscMagicContracts } from '@core/isc/classes/isc-magic-contracts.class'
 import { buildUnwrapAssetParameters } from '@core/layer-2/actions'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { AssetType, EvmErrorMessage } from '@core/layer-2/enums'
 import { EvmTransactionData, TransferredAsset } from '@core/layer-2/types'
-import { buildAssetAllowance, buildEvmTransactionData, getL2ToL1StorageDepositBuffer } from '@core/layer-2/utils'
-import { StardustNetworkId } from '@core/network/types'
-import { IIscChain } from '@core/network/interfaces'
+import { buildEvmTransactionData, getL2ToL1StorageDepositBuffer } from '@core/layer-2/utils'
+import { IscChain } from '@core/network'
 import { ETHEREUM_COIN_TYPE } from '@core/network/constants'
+import { IIscChain } from '@core/network/interfaces'
+import { StardustNetworkId } from '@core/network/types'
 import { IIrc27Nft } from '@core/nfts'
 import { getTokenBalance } from '@core/token/actions'
 import { TokenStandard } from '@core/token/enums'
 import { SendFlowType } from '../../enums'
 import { SendFlowParameters } from '../../types'
 import { getAmountAndTokenFromSendFlowParameters } from '../../utils'
-import { ISC_SANDBOX_ABI } from '@core/layer-2'
+import { buildIscAssets, buildIscL1AddressFromBech32Address } from '@core/isc/utils'
 
 export async function createEvmToStardustTransaction(
     sendFlowParameters: SendFlowParameters,
@@ -29,8 +31,6 @@ export async function createEvmToStardustTransaction(
         }
         let maximumGasLimit: bigint = BigInt(0)
 
-        const { targetAddress, adjustMinimumStorageDeposit, sendMetadata, sendOptions } =
-            buildUnwrapAssetParameters(recipientAddress)
         let transferredAsset: TransferredAsset | undefined
         let storageDepositRequired = BigInt(0)
 
@@ -60,12 +60,19 @@ export async function createEvmToStardustTransaction(
             return
         }
 
-        const assetAllowance = buildAssetAllowance(iscChain, transferredAsset, storageDepositRequired)
-        const contract = iscChain?.getContract(ISC_SANDBOX_ABI, ISC_MAGIC_CONTRACT_ADDRESS)
+        const targetAddress = buildIscL1AddressFromBech32Address(recipientAddress)
+        const assets = buildIscAssets(iscChain, transferredAsset, storageDepositRequired)
+        const { sendMetadata, sendOptions } = buildUnwrapAssetParameters()
+
+        const magicContracts = new IscMagicContracts(iscChain as IscChain)
         const data =
-            (await contract?.methods
-                .send(targetAddress, assetAllowance, adjustMinimumStorageDeposit, sendMetadata, sendOptions)
-                .encodeABI()) ?? ''
+            (await magicContracts.sandbox.encode('send', {
+                targetAddress,
+                assets,
+                adjustMinimumStorageDeposit: false,
+                sendMetadata,
+                sendOptions,
+            })) ?? ''
 
         const originAddress = account?.evmAddresses?.[ETHEREUM_COIN_TYPE] ?? ''
         const evmTransactionData = await buildEvmTransactionData(

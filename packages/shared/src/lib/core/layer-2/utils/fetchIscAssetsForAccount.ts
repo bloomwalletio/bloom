@@ -1,5 +1,6 @@
 import { IAccountState } from '@core/account'
 import { calculateAndAddPersistedTokenBalanceChange, calculateAndAddPersistedNftBalanceChange } from '@core/activity'
+import { ISC_MAGIC_CONTRACT_SANDBOX_ABI } from '@core/isc/abis'
 import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { getSmartContractHexName, evmAddressToAgentId, getAgentBalanceParameters } from '@core/layer-2/helpers'
 import { IscChain } from '@core/network'
@@ -11,7 +12,6 @@ import { getOrRequestTokenFromPersistedTokens } from '@core/token/actions'
 import { Converter, PartialWithId } from '@core/utils'
 import { KeyValue } from '@ui'
 import { get } from 'svelte/store'
-import { ISC_SANDBOX_ABI } from '../abis'
 
 export async function fetchIscAssetsForAccount(
     profileId: string,
@@ -40,7 +40,7 @@ async function getL2NativeTokenBalancesForAddress(evmAddress: string, iscChain: 
     const agentID = evmAddressToAgentId(evmAddress, iscChain.aliasAddress)
     const parameters = getAgentBalanceParameters(agentID)
     try {
-        const contract = iscChain.getContract(ISC_SANDBOX_ABI, ISC_MAGIC_CONTRACT_ADDRESS)
+        const contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, ISC_MAGIC_CONTRACT_ADDRESS)
         const nativeTokenResult = (await contract.methods
             .callView(accountsCoreContract, getBalanceFunc, parameters)
             .call()) as { items: KeyValue<string>[] }
@@ -67,7 +67,7 @@ async function fetchL2Irc27Nfts(
     const agentID = evmAddressToAgentId(evmAddress, iscChain.aliasAddress)
     const parameters = getAgentBalanceParameters(agentID)
     try {
-        const contract = iscChain.getContract(ISC_SANDBOX_ABI, ISC_MAGIC_CONTRACT_ADDRESS)
+        const contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, ISC_MAGIC_CONTRACT_ADDRESS)
         const nftResult = (await contract.methods
             .callView(accountsCoreContract, getBalanceFunc, parameters)
             .call()) as { items: KeyValue<string>[] }

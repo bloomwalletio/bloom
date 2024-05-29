@@ -1,50 +1,33 @@
-import {
-    ILayer2AssetAllowance,
-    ILayer2SendMetadataParameter,
-    ILayer2SendOptionsParameter,
-    ILayer2TargetAddressParameter,
-} from '../interfaces'
-import { buildUnwrapAssetTargetAddress } from './buildUnwrapAssetTargetAddress'
+import { IscSendMetadata, IscSendOptions } from '@core/isc/types'
+import { Uint32, Uint64 } from '@core/utils/types/solidity.types'
 
-interface IUnwrapAssetParameters {
-    targetAddress: ILayer2TargetAddressParameter
-    assetAllowance: ILayer2AssetAllowance
-    adjustMinimumStorageDeposit: boolean
-    sendMetadata: ILayer2SendMetadataParameter
-    sendOptions: ILayer2SendOptionsParameter
-}
-
-export function buildUnwrapAssetParameters(recipientAddress: string): Partial<IUnwrapAssetParameters> {
-    const targetAddress = buildUnwrapAssetTargetAddress(recipientAddress)
-
-    const sendMetadata: ILayer2SendMetadataParameter = {
-        targetContract: 0,
-        entrypoint: 0,
+export function buildUnwrapAssetParameters(): {
+    sendMetadata: IscSendMetadata
+    sendOptions: IscSendOptions
+} {
+    const sendMetadata: IscSendMetadata = {
+        targetContract: Uint32.from('0'),
+        entrypoint: Uint32.from('0'),
         params: {
             items: [],
         },
-        allowance: <ILayer2AssetAllowance>{
-            baseTokens: '0',
+        allowance: {
+            baseTokens: BigInt(0),
             nativeTokens: [],
             nfts: [],
         },
-        gasBudget: 0,
+        gasBudget: Uint64.from('0'),
     }
 
-    const sendOptions: ILayer2SendOptionsParameter = {
-        timelock: 0,
+    const sendOptions: IscSendOptions = {
+        timelock: Uint64.from('0'),
         expiration: {
-            time: 0,
+            time: Uint64.from('0'),
             returnAddress: {
                 data: new Uint8Array([]),
             },
         },
     }
 
-    return {
-        targetAddress,
-        adjustMinimumStorageDeposit: false,
-        sendMetadata,
-        sendOptions,
-    }
+    return { sendMetadata, sendOptions }
 }
