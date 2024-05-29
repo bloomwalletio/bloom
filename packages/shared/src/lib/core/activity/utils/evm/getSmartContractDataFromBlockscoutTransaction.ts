@@ -31,17 +31,7 @@ export function getSmartContractDataFromBlockscoutTransaction(
           }
         | undefined
 
-    if (blockscoutTransaction.decoded_input) {
-        // if decoded input is available we know the method and parameters and contract is verified
-        const { method_id, method_call, parameters } = blockscoutTransaction.decoded_input
-        method = blockscoutTransaction.method
-        inputs = parameters
-
-        if (!getMethodFromRegistry(HEX_PREFIX + method_id)) {
-            const fourBytePrefix = HEX_PREFIX + method_id
-            addMethodToRegistry(fourBytePrefix, method_call)
-        }
-    } else if (blockscoutTransaction?.raw_input) {
+    if (blockscoutTransaction?.raw_input) {
         const parsedData = parseSmartContractDataFromTransactionData(
             {
                 to: blockscoutTransaction.to.hash.toLowerCase(),
@@ -91,6 +81,18 @@ export function getSmartContractDataFromBlockscoutTransaction(
             case ParsedSmartContractType.SmartContract:
                 type = EvmActivityType.ContractCall
                 break
+        }
+    }
+
+    if (blockscoutTransaction.decoded_input && !method && !inputs) {
+        // if decoded input is available we know the method and parameters and contract is verified
+        const { method_id, method_call, parameters } = blockscoutTransaction.decoded_input
+        method = blockscoutTransaction.method
+        inputs = parameters
+
+        if (!getMethodFromRegistry(HEX_PREFIX + method_id)) {
+            const fourBytePrefix = HEX_PREFIX + method_id
+            addMethodToRegistry(fourBytePrefix, method_call)
         }
     }
 

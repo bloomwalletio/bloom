@@ -4,6 +4,7 @@ import {
     EvmActivity,
     EvmCoinTransferActivity,
     EvmContractCallActivity,
+    EvmTokenApprovalActivity,
     EvmTokenTransferActivity,
 } from '@core/activity/types'
 import { parseSmartContractDataFromTransactionData } from '@core/layer-2/utils/parseSmartContractDataFromTransactionData'
@@ -15,6 +16,7 @@ import { SubjectType } from '@core/wallet'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { Converter } from '@core/utils'
 import { ParsedSmartContractType } from '@core/layer-2'
+import { ActivityDirection } from '@core/activity/enums'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
@@ -97,13 +99,14 @@ export async function generateEvmActivityFromLocalEvmTransaction(
         case ParsedSmartContractType.TokenApproval:
             return {
                 ...baseActivity,
-                type: EvmActivityType.TokenTransfer,
+                type: EvmActivityType.TokenApproval,
                 tokenTransfer: {
                     standard: TokenStandard.Erc20,
                     tokenId: parsedData.tokenId,
                     rawAmount: parsedData.rawAmount,
                 },
-            } as EvmTokenTransferActivity
+                direction: ActivityDirection.SelfTransaction,
+            } as EvmTokenApprovalActivity
         default:
             break
     }

@@ -1511,6 +1511,8 @@
         "sending": "Sending",
         "received": "Received",
         "receiving": "Receiving",
+        "approving": "Approving",
+        "approved": "Approved",
         "newVotingPower": "New voting power",
         "votingPower": "Voting power",
         "increased": "Voting power increased",

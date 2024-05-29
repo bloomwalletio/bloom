@@ -106,6 +106,7 @@ async function _generateEvmActivityFromBlockscoutTransaction(
                 methodId,
                 method: smartContractData.method,
                 inputs: smartContractData.inputs,
+                direction: ActivityDirection.SelfTransaction,
             } as EvmTokenApprovalActivity
         case EvmActivityType.ContractCall:
         default:
