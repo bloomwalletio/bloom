@@ -58,10 +58,7 @@
                   },
               ]
             : []),
-        ...(features?.campaigns?.enabled &&
-        profileFeatures?.campaigns &&
-        ($activeProfile?.network?.id === SupportedStardustNetworkId.Shimmer ||
-            $activeProfile?.network?.id === SupportedStardustNetworkId.Testnet)
+        ...(features?.campaigns?.enabled && profileFeatures?.campaigns
             ? [
                   {
                       icon: IconName.Trophy,
