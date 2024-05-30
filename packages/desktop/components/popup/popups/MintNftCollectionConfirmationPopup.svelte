@@ -37,8 +37,8 @@
             const outputData = buildNftOutputBuilderParams(irc27Metadata, depositAddress)
             const client = await getClient()
             const preparedOutput = await client.buildNftOutput(outputData)
-
-            storageDeposit = Number(preparedOutput.amount) ?? 0
+            const amount = Number(preparedOutput.amount)
+            storageDeposit = isNaN(amount) ? 0 : amount
         } catch (err) {
             handleError(err)
         }

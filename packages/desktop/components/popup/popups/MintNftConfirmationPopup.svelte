@@ -54,8 +54,8 @@
             const client = await getClient()
             const preparedOutput = await client.buildNftOutput(outputData)
 
-            storageDeposit = Number(preparedOutput.amount) ?? 0
-            totalStorageDeposit = storageDeposit * quantity
+            storageDeposit = Number(preparedOutput.amount)
+            totalStorageDeposit = (isNaN(storageDeposit) ? 0 : storageDeposit) * quantity
         } catch (err) {
             handleError(err)
         }

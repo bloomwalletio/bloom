@@ -21,7 +21,7 @@
     }
 
     let items: IMenuItem[] = []
-    function setItems(accounts: IAccountState[], selectedIndex) {
+    function setItems(accounts: IAccountState[], selectedIndex: number | undefined): void {
         items = accounts.map((account) => {
             return {
                 title: account.name,

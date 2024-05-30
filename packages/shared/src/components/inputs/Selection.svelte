@@ -15,7 +15,7 @@
         if (allChecked) {
             selectionOptions = selectionOptions.map((option) => ({ ...option, checked: true }))
         } else {
-            selectionOptions = selectionOptions.map((option) => ({ ...option, checked: false || option.required }))
+            selectionOptions = selectionOptions.map((option) => ({ ...option, checked: option.required }))
         }
     }
 
