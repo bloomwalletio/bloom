@@ -21,7 +21,7 @@
             } else {
                 await migrateStrongholdFromActiveProfile(password)
             }
-            $updateStrongholdRouter.next()
+            $updateStrongholdRouter?.next()
         } catch (err) {
             const message = err?.message ?? ''
             const parsedError = isValidJson(message) ? JSON.parse(message) : ''
@@ -32,7 +32,7 @@
     }
 
     function onBackClick(): void {
-        $updateStrongholdRouter.previous()
+        $updateStrongholdRouter?.previous()
     }
 </script>
 
