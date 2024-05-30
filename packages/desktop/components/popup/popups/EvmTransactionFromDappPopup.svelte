@@ -55,6 +55,10 @@
         }
     }
     $: preparedTransaction.gasPrice = Converter.bigIntToHex(gasPrices?.[selectedGasSpeed] ?? gasPrices.required)
+    $: baseCoinTransfer = {
+        token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
+        rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
+    }
 
     setParsedContractData()
     function setParsedContractData(): void {
@@ -217,13 +221,10 @@
     />
 
     <div class="space-y-5">
-        {#if !preparedTransaction.data}
-            {@const baseCoinTransfer = {
-                token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
-                rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
-            }}
+        {#if preparedTransaction.value}
             <TransactionAssetSection {baseCoinTransfer} />
-        {:else if parsedData?.type === ParsedSmartContractType.CoinTransfer}
+        {/if}
+        {#if parsedData?.type === ParsedSmartContractType.CoinTransfer}
             {@const baseCoinTransfer = {
                 token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
                 rawAmount: parsedData.rawAmount,

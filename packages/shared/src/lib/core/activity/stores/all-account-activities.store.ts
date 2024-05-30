@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store'
-import { AsyncData, BaseStardustActivity, Activity } from '../types'
+import { AsyncData, BaseStardustActivity, Activity, EvmActivity, BaseEvmActivity } from '../types'
 import { NetworkNamespace } from '@core/network'
 
 export const allAccountActivities = writable<{ [accountIndex: number]: Activity[] }>({})
@@ -35,7 +35,13 @@ export function setAccountActivities(accountIndex: number, accountActivities: Ac
     })
 }
 
-export function getActivityByTransactionId(accountIndex: number, transactionId: string): Activity | undefined {
+export function getActivityByTransactionId(
+    accountIndex: number,
+    transactionId: string | undefined
+): Activity | undefined {
+    if (!transactionId) {
+        return
+    }
     return get(allAccountActivities)?.[accountIndex]?.find((_activity) => _activity?.transactionId === transactionId)
 }
 
@@ -93,6 +99,25 @@ export function updateAsyncDataByTransactionId(
         if (activity?.namespace === NetworkNamespace.Stardust) {
             Object.assign(activity, { asyncData: { ...activity.asyncData, ...partialAsyncData } })
         }
+        return state
+    })
+}
+
+export function updateEvmActivity(
+    accountIndex: number,
+    transactionHash: string,
+    partialActivity: Partial<BaseEvmActivity>
+): void {
+    allAccountActivities.update((state) => {
+        const activity = state[accountIndex]?.find(
+            (_activity) => _activity.namespace === NetworkNamespace.Evm && _activity?.transactionId === transactionHash
+        ) as EvmActivity
+
+        if (!activity) {
+            return state
+        }
+
+        Object.assign(activity, partialActivity)
         return state
     })
 }

@@ -17,7 +17,7 @@
             foreground: color,
             level: 'L',
             padding: 0,
-            size: 200, // if this value is changed, the image gets some weird padding. Therefore we need to do the sizing with css
+            size: 135,
             value: data,
         })
 
@@ -36,10 +36,3 @@
 <div class="flex justify-center items-center">
     <img src={image} alt={data} class="qr-code" />
 </div>
-
-<style lang="scss">
-    .qr-code {
-        width: 96px;
-        height: 96px;
-    }
-</style>

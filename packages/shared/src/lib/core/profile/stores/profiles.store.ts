@@ -1,8 +1,13 @@
 import { persistent } from '@core/utils/store'
 
 import { IPersistedProfile } from '../interfaces'
+import { get } from 'svelte/store'
 
 export const profiles = persistent<IPersistedProfile[]>('profiles', [])
+
+export function getPersistedProfile(profileId: string): IPersistedProfile | undefined {
+    return get(profiles).find((profile) => profile.id === profileId)
+}
 
 /**
  * Adds a new profile to persistent storage

@@ -20,7 +20,7 @@ async function migratePersistedProfiles(): Promise<void> {
 
             for (currentVersion; currentVersion < PROFILE_VERSION?.[APP_STAGE]; currentVersion++) {
                 await PROFILE_MIGRATION_STAGE_MAP?.[APP_STAGE]?.[currentVersion]?.(profile)
-                updatePersistedProfile(profile.id, { version: currentVersion + 1 })
+                updatePersistedProfile(profile.id, { ...profile, version: currentVersion + 1 })
             }
         } catch (err) {
             console.error(err)
