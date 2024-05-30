@@ -15,6 +15,7 @@ import { Converter } from '@core/utils'
 import { BigIntLike } from '@ethereumjs/util'
 import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 import { NftStandard } from '@core/nfts/enums'
+import { ISC_CONFIRMATION_THRESHOLD } from '@core/network/constants'
 
 export class IscChain extends EvmNetwork implements IIscChain {
     private readonly _chainApi: string
@@ -25,6 +26,7 @@ export class IscChain extends EvmNetwork implements IIscChain {
     public readonly apiEndpoint: string
     public readonly aliasAddress: string
     public readonly type = NetworkType.Isc
+    public readonly blocksUntilConfirmed = ISC_CONFIRMATION_THRESHOLD
 
     constructor(chainConfiguration: IIscChainConfiguration) {
         const { rpcEndpoint, aliasAddress, apiEndpoint } = chainConfiguration

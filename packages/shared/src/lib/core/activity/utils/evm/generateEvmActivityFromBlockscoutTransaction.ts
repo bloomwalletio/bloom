@@ -127,20 +127,20 @@ async function generateBaseEvmActivityFromBlockscoutTransaction(
     evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<BaseEvmActivity> {
-    const baseActivity = await generateBaseEvmActivity(
-        {
-            recipient: blockscoutTransaction.to.hash.toLowerCase(),
-            from: blockscoutTransaction.from.hash.toLowerCase(),
-            gasUsed: Number(blockscoutTransaction.gas_used),
-            estimatedGas: localTransaction?.estimatedGas ? BigInt(localTransaction.estimatedGas) : undefined,
-            gasPrice: blockscoutTransaction.gas_price,
-            transactionHash: blockscoutTransaction.hash,
-            timestamp: new Date(blockscoutTransaction.timestamp).getTime(),
-            blockNumber: blockscoutTransaction.block,
-        },
-        evmNetwork,
-        account
-    )
+    const newLocalTransaction: LocalEvmTransaction = {
+        recipient: blockscoutTransaction.to.hash.toLowerCase(),
+        from: blockscoutTransaction.from.hash.toLowerCase(),
+        gasUsed: Number(blockscoutTransaction.gas_used),
+        gasPrice: blockscoutTransaction.gas_price,
+        transactionHash: blockscoutTransaction.hash,
+        timestamp: new Date(blockscoutTransaction.timestamp).getTime(),
+        blockNumber: blockscoutTransaction.block,
+        confirmations: blockscoutTransaction.confirmations,
+        status: localTransaction?.status ?? false,
+        transactionIndex: localTransaction?.transactionIndex ?? 0,
+        to: localTransaction?.to ?? blockscoutTransaction.to.hash.toLowerCase(),
+    }
+    const baseActivity = await generateBaseEvmActivity(newLocalTransaction, evmNetwork, account)
 
     if (blockscoutTransaction.to.is_contract) {
         baseActivity.recipient = {

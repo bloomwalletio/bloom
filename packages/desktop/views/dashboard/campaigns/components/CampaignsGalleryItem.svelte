@@ -2,8 +2,9 @@
     import { Text } from '@bloomwalletio/ui'
     import { ICampaign, featuredCampaigns } from '@contexts/campaigns'
     import { setSelectedCampaign } from '@contexts/campaigns/stores'
-    import { MediaPlaceholder } from '@ui'
+    import { MediaPlaceholder, NetworkAvatar } from '@ui'
     import { CampaignsRoute, campaignsRouter } from '../'
+    import { NetworkNamespace } from '@core/network'
     import CampaignParticipantsPill from './CampaignParticipantsPill.svelte'
     import CampaignStatusPill from './CampaignStatusPill.svelte'
     import CampaignTimestampPill from './CampaignTimestampPill.svelte'
@@ -45,7 +46,8 @@
     </div>
     <div class="w-full flex flex-col items-start p-3 gap-2 overflow-hidden">
         <Text type="body2" truncate>{campaign.title}</Text>
-        <div class="flex flex-row gap-2">
+        <div class="flex flex-row gap-2 items-center">
+            <NetworkAvatar size="xs" networkId={`${NetworkNamespace.Evm}:${campaign.chainId}`} showTooltip />
             <CampaignStatusPill {campaign} />
             <CampaignTimestampPill {campaign} />
             <CampaignParticipantsPill {campaign} />
