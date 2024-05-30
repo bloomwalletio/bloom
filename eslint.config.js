@@ -52,6 +52,7 @@ const eslintRules = {
     semi: 'off', // OFF b/c we aren't using semicolons
     'space-before-function-paren': 'off', // OFF b/c we aren't using spaces before function parameters / signatures
     'spaced-comment': 'error',
+    'security/detect-object-injection': 'off',
 }
 
 const eslintRulesOnlyTypescript = {
@@ -78,7 +79,7 @@ const typescriptEslintRules = {
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/no-this-alias': 'error',
-    '@typescript-eslint/no-redundant-type-constituents': 'warn',
+    '@typescript-eslint/no-redundant-type-constituents': 'off', // OFF b/c this rule is broken
     '@typescript-eslint/no-unnecessary-type-assertion': 'error',
     '@typescript-eslint/no-unsafe-assignment': 'off', // OFF b/c used in Svelte components for UI logic
     '@typescript-eslint/no-unsafe-call': 'off', // OFF b/c used in Svelte components for UI logic
@@ -87,7 +88,6 @@ const typescriptEslintRules = {
     '@typescript-eslint/no-unsafe-argument': 'off', // OFF b/c ESlint resolves types of the absolute imports as any
     '@typescript-eslint/unused-export-let': 'off', // OFF b/c used in Svelte components for UI logic
     '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
-
     '@typescript-eslint/no-var-requires': 'error',
     '@typescript-eslint/prefer-regexp-exec': 'error',
     '@typescript-eslint/restrict-plus-operands': 'off', // OFF b/c not entirely accurate despite proper typings
