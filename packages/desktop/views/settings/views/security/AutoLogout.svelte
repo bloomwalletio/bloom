@@ -9,8 +9,9 @@
     let selected: IOption =
         options.find(
             (option) =>
-                option.value === $activeProfile?.settings?.lockScreenTimeoutInMinutes.toString() ??
-                DEFAULT_PERSISTED_PROFILE_OBJECT.settings.lockScreenTimeoutInMinutes.toString()
+                option.value ===
+                ($activeProfile?.settings?.lockScreenTimeoutInMinutes.toString() ??
+                    DEFAULT_PERSISTED_PROFILE_OBJECT.settings.lockScreenTimeoutInMinutes.toString())
         ) ?? options[0]
     $: onLockScreenTimeoutChange(selected)
 

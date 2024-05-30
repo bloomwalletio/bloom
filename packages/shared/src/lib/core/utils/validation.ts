@@ -3,6 +3,7 @@ import { isHttpsUri, isUri, isWebUri } from 'valid-url'
 import { PIN_LENGTH } from './constants'
 
 export function isValidPin(pin: string): boolean {
+    // eslint-disable-next-line security/detect-non-literal-regexp
     const REGEX = new RegExp(`^\\d{${PIN_LENGTH}}$`)
     return REGEX.test(pin)
 }
