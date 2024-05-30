@@ -1,3 +1,12 @@
+const globals = require('globals')
+const jsEslint = require('@eslint/js')
+const securityPlugin = require('eslint-plugin-security')
+const babelParser = require('@babel/eslint-parser')
+const tsEslint = require('@typescript-eslint/eslint-plugin')
+const tsParser = require('@typescript-eslint/parser')
+const sveltePlugin = require('eslint-plugin-svelte')
+const svelteParser = require('svelte-eslint-parser')
+
 const parserOptions = {
     ecmaVersion: 6,
     sourceType: 'module',
@@ -7,9 +16,9 @@ const eslintRules = {
     'arrow-body-style': 'off', // OFF b/c blocks style allows for readability and ensure scope
     'arrow-spacing': 'error',
     'eol-last': 'error',
-    'eqeqeq': 'error',
+    eqeqeq: 'error',
     'func-call-spacing': 'error',
-    'indent': 'off', // OFF b/c causes problems between Prettier and ESLint
+    indent: 'off', // OFF b/c causes problems between Prettier and ESLint
     'linebreak-style': 'off', // OFF b/c Windows (Git) puts CRLF line endings
     'missing-declaration': 'off', // OFF b/c throws errors on imports / require statements
     'multiline-ternary': 'off', // OFF b/c causes problems between Prettier and ESLint
@@ -39,14 +48,14 @@ const eslintRules = {
     'prefer-arrow-callback': 'warn',
     'prefer-const': 'warn',
     'prefer-destructuring': 'off', // OFF b/c it's not really correct
-    'quotes': ['error', 'single'],
-    'semi': 'off', // OFF b/c we aren't using semicolons
+    quotes: ['error', 'single'],
+    semi: 'off', // OFF b/c we aren't using semicolons
     'space-before-function-paren': 'off', // OFF b/c we aren't using spaces before function parameters / signatures
     'spaced-comment': 'error',
 }
 
 const eslintRulesOnlyTypescript = {
-    'no-undef': 'off' // Typescript handles undefined variables better than eslint
+    'no-undef': 'off', // Typescript handles undefined variables better than eslint
 }
 
 const typescriptEslintRules = {
@@ -104,51 +113,85 @@ const svelteSettings = {
     'svelte/ignore-warnings': () => false,
 }
 
-module.exports = {
-    env: {
-        browser: true,
-        es6: true,
-        node: true,
+const ignores = [
+    // Repository
+    '.vscode/',
+    'patches/',
+
+    // Desktop (packages/desktop)
+    'packages/desktop/electron-builder-config.js',
+    'packages/desktop/out/',
+    'packages/desktop/public/',
+    'packages/desktop/electron/lib/keychain.js',
+
+    // Shared (packages/shared)
+    'packages/shared/src/assets/',
+    '!packages/shared/src/lib/tests/',
+    'packages/shared/src/locales/',
+    '!packages/shared/src/locales/en.json',
+
+    // Common files and folders
+    '**/node_modules/',
+    '**/out/',
+    '**/tests/',
+]
+
+module.exports = [
+    // Global ignores
+    {
+        ignores,
     },
-    extends: ['eslint:recommended', 'plugin:svelte/recommended'],
-    overrides: [
-        {
-            files: ['**/*.ts', '**/*.svelte'],
-            extends: [
-                'plugin:@typescript-eslint/eslint-recommended',
-                'plugin:@typescript-eslint/recommended',
-                'plugin:@typescript-eslint/recommended-requiring-type-checking',
-            ],
-            parser: '@typescript-eslint/parser',
+    // Load predefined configs
+    jsEslint.configs.recommended,
+    securityPlugin.configs.recommended,
+    ...sveltePlugin.configs['flat/recommended'],
+    {
+        languageOptions: {
+            parser: babelParser,
+            parserOptions: {
+                ...parserOptions,
+                requireConfigFile: false,
+            },
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+                ...globals.es2021,
+            },
+        },
+        plugins: { '@typescript-eslint': tsEslint },
+        rules: {
+            ...eslintRules,
+        },
+    },
+    {
+        files: ['**/*.ts'],
+        languageOptions: {
+            parser: tsParser,
             parserOptions: {
                 ...parserOptions,
                 extraFileExtensions: ['.svelte'],
                 project: './tsconfig.lint.json',
                 tsconfigRootDir: './',
             },
-            plugins: ['@typescript-eslint'],
-            rules: linterRules,
-            settings: svelteSettings,
         },
-        {
-            files: '**/*.svelte',
-            parser: 'svelte-eslint-parser',
-            settings: svelteSettings,
+        rules: linterRules,
+        settings: svelteSettings,
+    },
+    {
+        files: ['**/*.svelte'],
+        settings: svelteSettings,
+        languageOptions: {
+            parser: svelteParser,
             parserOptions: {
-                parser: '@typescript-eslint/parser'
+                parser: tsParser,
+                extraFileExtensions: ['.svelte'],
+                project: './tsconfig.lint.json',
+                tsconfigRootDir: './',
             },
-            rules: {
-                ...linterRules,
-                ...svelteRules,
-            }
         },
-    ],
-    parser: '@babel/eslint-parser',
-    parserOptions: {
-        ...parserOptions,
-        requireConfigFile: false,
+        rules: {
+            ...linterRules,
+            ...svelteRules,
+        },
     },
-    rules: {
-        ...eslintRules,
-    },
-}
+]
