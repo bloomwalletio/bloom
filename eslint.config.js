@@ -1,5 +1,6 @@
+const globals = require('globals')
 const jsEslint = require('@eslint/js')
-const securityPlugin = require('eslint-plugin-security')
+// const securityPlugin = require('eslint-plugin-security')
 const babelParser = require('@babel/eslint-parser')
 const tsEslint = require('@typescript-eslint/eslint-plugin')
 const tsParser = require('@typescript-eslint/parser')
@@ -152,8 +153,9 @@ module.exports = [
                 requireConfigFile: false,
             },
             globals: {
-                require: 'readonly',
-                module: 'readonly',
+                ...globals.browser,
+                ...globals.node,
+                ...globals.es2021,
             },
         },
         plugins: { '@typescript-eslint': tsEslint },
@@ -167,13 +169,13 @@ module.exports = [
             parser: tsParser,
             parserOptions: {
                 ...parserOptions,
-                // extraFileExtensions: ['.svelte'],
+                extraFileExtensions: ['.svelte'],
                 project: './tsconfig.lint.json',
                 tsconfigRootDir: './',
             },
         },
         rules: linterRules,
-        // settings: svelteSettings,
+        settings: svelteSettings,
     },
     {
         files: ['**/*.svelte'],
