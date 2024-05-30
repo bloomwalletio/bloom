@@ -72,7 +72,13 @@ export async function getActivityDetailsTitle(activity: Activity): Promise<strin
             const key = `${localizationPrefix}.tokenApproval.${activity.inclusionState}`
             const token = getTokenFromSelectedAccountTokens(activity.tokenTransfer.tokenId, activity.sourceNetworkId)
 
-            return localize(key, { assetName: token?.metadata?.name ?? '' })
+            // We are looking for the spender by address because the input name does not have to be 'spender'
+            const spender = activity.inputs?.find((input) => input.type === 'address')?.value as string | undefined
+
+            return localize(key, {
+                address: spender ? truncateString(spender, 4, 6) : '',
+                assetName: token?.metadata?.name ?? '',
+            })
         } else {
             return localize(`${localizationPrefix}.fallback`)
         }
