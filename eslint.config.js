@@ -1,6 +1,6 @@
 const globals = require('globals')
 const jsEslint = require('@eslint/js')
-// const securityPlugin = require('eslint-plugin-security')
+const securityPlugin = require('eslint-plugin-security')
 const babelParser = require('@babel/eslint-parser')
 const tsEslint = require('@typescript-eslint/eslint-plugin')
 const tsParser = require('@typescript-eslint/parser')
@@ -143,7 +143,7 @@ module.exports = [
     },
     // Load predefined configs
     jsEslint.configs.recommended,
-    // securityPlugin.configs.recommended,
+    securityPlugin.configs.recommended,
     ...sveltePlugin.configs['flat/recommended'],
     {
         languageOptions: {
