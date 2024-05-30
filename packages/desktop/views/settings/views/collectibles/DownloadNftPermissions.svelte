@@ -30,7 +30,7 @@
         options.find((option) => option.value === $activeProfile?.settings.nfts.downloadPermissions?.toString()) ||
         options[0]
 
-    $: selected && onNftDownloadPermissionChange(selected)
+    $: selected && void onNftDownloadPermissionChange(selected)
     async function onNftDownloadPermissionChange(option: IOption): Promise<void> {
         const nftDownloadPermissions = option.value
         updateActiveProfileSettings({

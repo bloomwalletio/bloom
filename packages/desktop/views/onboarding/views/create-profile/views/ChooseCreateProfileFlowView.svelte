@@ -29,7 +29,7 @@
     let selectedCreateProfileType: CreateProfileType | undefined = undefined
     function onProfileTypeClick(createProfileType: CreateProfileType): void {
         if (createProfileType === selectedCreateProfileType) {
-            onContinueClick()
+            void onContinueClick()
         } else {
             selectedCreateProfileType = createProfileType
         }

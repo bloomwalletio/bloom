@@ -16,7 +16,7 @@
                 title: localize('actions.refreshNftMedia.title'),
                 description: localize('actions.refreshNftMedia.description'),
                 onConfirm: () => {
-                    refreshNftMedia()
+                    void refreshNftMedia()
                     closePopup()
                 },
             },
@@ -29,7 +29,9 @@
             await stopDownloadingNftMediaFromQueue()
             await Promise.all(
                 $selectedAccountNfts.map(async (nft) => {
-                    await Platform.deleteFile(nft.downloadMetadata?.filePath)
+                    if (nft.downloadMetadata?.filePath) {
+                        await Platform.deleteFile(nft.downloadMetadata?.filePath)
+                    }
                     updateNftForAllAccounts({ id: nft.id, isLoaded: false })
                 })
             )

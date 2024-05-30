@@ -8,14 +8,15 @@
     import SettingsSection from '../SettingsSection.svelte'
 
     const options: IOption[] = getStrongholdPasswordTimeoutOptions()
-    let selected: IOption = options.find(
+    let selected: IOption | undefined = options.find(
         (option) =>
-            option.value === $activeProfile?.settings?.strongholdPasswordTimeoutInMinutes.toString() ??
-            DEFAULT_PERSISTED_PROFILE_OBJECT.settings.strongholdPasswordTimeoutInMinutes.toString()
+            option.value ===
+            ($activeProfile?.settings?.strongholdPasswordTimeoutInMinutes.toString() ??
+                DEFAULT_PERSISTED_PROFILE_OBJECT.settings.strongholdPasswordTimeoutInMinutes.toString())
     )
     $: onStrongholdPasswordTimeoutChange(selected)
 
-    function onStrongholdPasswordTimeoutChange(option: IOption): void {
+    function onStrongholdPasswordTimeoutChange(option: IOption | undefined): void {
         if (option) {
             const strongholdPasswordTimeoutInMinutes = parseInt(option.value)
             updateActiveProfileSettings({ strongholdPasswordTimeoutInMinutes })
@@ -47,7 +48,7 @@
         <SelectInput
             label={localize('views.settings.strongholdTimeout.title')}
             bind:selected
-            value={selected.value}
+            value={selected?.value}
             {options}
             hideValue
         />
