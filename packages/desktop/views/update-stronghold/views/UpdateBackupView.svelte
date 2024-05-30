@@ -26,10 +26,13 @@
 
     async function onBackupClick(): Promise<void> {
         try {
+            busy = true
             await exportStronghold(password, handleExportStrongholdResponse)
             onAdvanceView()
         } catch (err) {
             console.error(err)
+        } finally {
+            busy = false
         }
     }
 
