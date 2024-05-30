@@ -44,7 +44,10 @@
     }
 
     function onClickOutside(): void {
-        if (disableOnClickOutside) return
+        if (disableOnClickOutside) {
+            return
+        }
+
         close()
     }
 
@@ -61,14 +64,14 @@
         maxHeight = availableSpace - 10
     }
 
-    function handleResize() {
-        updateMaxHeight()
+    function handleResize(): void {
+        void updateMaxHeight()
     }
 
     onMount(() => {
         if (autoMaxHeight) {
             window.addEventListener('resize', handleResize)
-            updateMaxHeight()
+            void updateMaxHeight()
         }
     })
 
@@ -78,7 +81,9 @@
         }
     })
 
-    $: if (show && autoMaxHeight) updateMaxHeight()
+    $: if (show && autoMaxHeight) {
+        void updateMaxHeight()
+    }
 </script>
 
 {#if show}

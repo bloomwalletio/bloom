@@ -11,7 +11,7 @@
     export let error: string | undefined = undefined
 
     let allChecked = true
-    function onAllClick() {
+    function onAllClick(): void {
         if (allChecked) {
             selectionOptions = selectionOptions.map((option) => ({ ...option, checked: true }))
         } else {

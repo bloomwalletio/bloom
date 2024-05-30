@@ -22,7 +22,7 @@
 
     let items: IMenuItem[] = []
     function setItems(accounts: IAccountState[], selectedIndex: number | undefined): void {
-        items = accounts.map((account) => {
+        items = accounts.map((account): IMenuItem => {
             return {
                 title: account.name,
                 subtitle: formatCurrency($allAccountFiatBalances[account.index]),

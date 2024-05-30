@@ -7,7 +7,7 @@
 
 import json from '../../src/locales/en.json'
 
-function flattenObject(object: object, parent?: string, result = {}) {
+function flattenObject(object: object, parent?: string, result = {}): object {
     for (const key of Object.keys(object)) {
         const propName = parent ? parent + '.' + key : key
         if (typeof object[key] === 'object') {
@@ -19,7 +19,7 @@ function flattenObject(object: object, parent?: string, result = {}) {
     return result
 }
 
-function getLocaleData(values?: unknown): unknown {
+function getLocaleData(values?: { time: number; prefix: string }): object {
     const locales = flattenObject(json)
 
     if (values?.time !== undefined) {
