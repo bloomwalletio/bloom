@@ -12,9 +12,9 @@
     titleLocale="dapps.editNetworks"
     selections={{ chains: checkedNetworks }}
     let:persistedSupportedNamespaces
-    let:requiredNamespaces
-    let:optionalNamespaces
+    let:requiredNetworks
+    let:optionalNetworks
     disableContinue={checkedNetworks.length === 0}
 >
-    <NetworkSelection bind:checkedNetworks {requiredNamespaces} {optionalNamespaces} {persistedSupportedNamespaces} />
+    <NetworkSelection bind:checkedNetworks {requiredNetworks} {optionalNetworks} {persistedSupportedNamespaces} />
 </EditSelectionDrawer>

@@ -16,6 +16,7 @@
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import { approveSessionAuthenticate } from '@auxiliary/wallet-connect/actions/approveSessionAuthenticate'
+    import { ALL_EVM_METHODS } from '@auxiliary/wallet-connect/constants'
 
     export let drawerRouter: Router<unknown>
     export let sessionProposal: Web3WalletTypes.SessionAuthenticate
@@ -42,29 +43,7 @@
     const optionalNetworks = sessionProposal.params.authPayload.chains
 
     const requiredMethods = []
-    const optionalMethods = [
-        'eth_accounts',
-        'eth_requestAccounts',
-        'eth_sendRawTransaction',
-        'eth_sendTransaction',
-        'eth_sign',
-        'eth_signTransaction',
-        'eth_signTypedData',
-        'eth_signTypedData_v3',
-        'eth_signTypedData_v4',
-        'personal_sign',
-        'wallet_addEthereumChain',
-        'wallet_getCallsStatus',
-        'wallet_getCapabilities',
-        'wallet_getPermissions',
-        'wallet_registerOnboarding',
-        'wallet_requestPermissions',
-        'wallet_scanQRCode',
-        'wallet_sendCalls',
-        'wallet_showCallsStatus',
-        'wallet_switchEthereumChain',
-        'wallet_watchAsset',
-    ]
+    const optionalMethods = ALL_EVM_METHODS
 
     $: isButtonDisabled =
         loading ||
