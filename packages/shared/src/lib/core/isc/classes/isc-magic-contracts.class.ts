@@ -5,13 +5,9 @@ import { ISC_MAGIC_CONTRACT_SANDBOX_ABI } from '../abis'
 import { IscAssets, IscDict, IscHName, IscL1Address, IscSendMetadata, IscSendOptions } from '../types'
 import { evmAddressToAgentId } from '@core/layer-2/helpers'
 import { ISC_MAGIC_CONTRACT_ACCOUNTS_ABI } from '../abis/isc-magic-contract-accounts.abi'
+import { type NonPayableMethodObject, type PayableMethodObject } from 'web3-eth-contract'
 
-export interface MethodObject {
-    encodeABI: () => string
-    estimateGas: () => Promise<number>
-}
-
-interface ISendableIscMagicContractSandboxMethods {
+interface IEncodableIscMagicContractSandboxMethods {
     send: {
         targetAddress: IscL1Address
         assets: IscAssets
@@ -27,6 +23,10 @@ interface ISendableIscMagicContractSandboxMethods {
     }
 }
 
+type EncodableIscMagicContractSandboxMethod<K extends keyof IEncodableIscMagicContractSandboxMethods> = (
+    params: IEncodableIscMagicContractSandboxMethods[K]
+) => PayableMethodObject | NonPayableMethodObject
+
 class IscMagicContractSandbox {
     private _contract: Contract<typeof ISC_MAGIC_CONTRACT_SANDBOX_ABI>
 
@@ -34,26 +34,18 @@ class IscMagicContractSandbox {
         this._contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, contractAddress)
     }
 
-    encode<K extends keyof ISendableIscMagicContractSandboxMethods>(
+    encode<K extends keyof IEncodableIscMagicContractSandboxMethods>(
         method: K,
-        params: ISendableIscMagicContractSandboxMethods[K]
+        params: IEncodableIscMagicContractSandboxMethods[K]
     ): string {
-        // Use a type assertion to let TypeScript know the type of this[method]
-        const methodFunction = this[method] as unknown as (
-            params: ISendableIscMagicContractSandboxMethods[K]
-        ) => MethodObject
-        return methodFunction(params).encodeABI()
+        return (this[method] as EncodableIscMagicContractSandboxMethod<K>)(params).encodeABI()
     }
 
-    estimateGas<K extends keyof ISendableIscMagicContractSandboxMethods>(
+    estimateGas<K extends keyof IEncodableIscMagicContractSandboxMethods>(
         method: K,
-        params: ISendableIscMagicContractSandboxMethods[K]
-    ): Promise<number> {
-        // Use a type assertion to let TypeScript know the type of this[method]
-        const methodFunction = this[method] as unknown as (
-            params: ISendableIscMagicContractSandboxMethods[K]
-        ) => MethodObject
-        return methodFunction(params).estimateGas()
+        params: IEncodableIscMagicContractSandboxMethods[K]
+    ): Promise<bigint> {
+        return (this[method] as EncodableIscMagicContractSandboxMethod<K>)(params).estimateGas()
     }
 
     private send({
@@ -62,14 +54,14 @@ class IscMagicContractSandbox {
         adjustMinimumStorageDeposit,
         sendMetadata,
         sendOptions,
-    }: ISendableIscMagicContractSandboxMethods['send']): MethodObject {
+    }: IEncodableIscMagicContractSandboxMethods['send']): PayableMethodObject {
         return this._contract.methods.send(
             targetAddress,
             assets,
             adjustMinimumStorageDeposit,
             sendMetadata,
             sendOptions
-        ) as MethodObject
+        )
     }
 
     private call({
@@ -77,8 +69,8 @@ class IscMagicContractSandbox {
         entryPoint,
         params,
         allowance,
-    }: ISendableIscMagicContractSandboxMethods['call']): MethodObject {
-        return this._contract.methods.call(contractName, entryPoint, params, allowance) as MethodObject
+    }: IEncodableIscMagicContractSandboxMethods['call']): NonPayableMethodObject {
+        return this._contract.methods.call(contractName, entryPoint, params, allowance)
     }
 
     callView<T>({
