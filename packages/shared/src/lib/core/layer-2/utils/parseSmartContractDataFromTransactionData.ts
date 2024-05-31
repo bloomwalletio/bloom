@@ -2,7 +2,7 @@ import { IEvmNetwork, isIscNetwork } from '@core/network'
 import { BASE_TOKEN_ID } from '@core/token/constants'
 import { AbiDecoder, HEX_PREFIX } from '@core/utils'
 import { isTrackedNftAddress, isTrackedTokenAddress } from '@core/wallet/actions'
-import { ERC20_ABI, ERC721_ABI, ISC_SANDBOX_ABI } from '../abis'
+import { ERC20_ABI, ERC721_ABI } from '../abis'
 import { ISC_BASE_COIN_ADDRESS, ISC_MAGIC_CONTRACT_ADDRESS } from '../constants'
 import { IParsedMethod, IParsedInput } from '../interfaces'
 import { BigIntLike, BytesLike } from '@ethereumjs/util'
@@ -12,6 +12,7 @@ import { ParsedSmartContractType } from '../enums'
 import { TokenStandard } from '@core/token'
 import { NftStandard } from '@core/nfts'
 import { Erc20Abi, Erc721Abi, IscAbi } from '../types'
+import { ISC_MAGIC_CONTRACT_SANDBOX_ABI } from '@core/isc/abis'
 
 export function parseSmartContractDataFromTransactionData(
     transaction: { to?: string; data: BytesLike; value?: BigIntLike },
@@ -44,7 +45,7 @@ function parseSmartContractDataWithIscMagicAbi(
     rawData: string,
     recipientAddress: string
 ): ParsedSmartContractData | undefined {
-    const iscMagicDecoder = new AbiDecoder<IscAbi>(ISC_SANDBOX_ABI, network.provider)
+    const iscMagicDecoder = new AbiDecoder<IscAbi>(ISC_MAGIC_CONTRACT_SANDBOX_ABI, network.provider)
     const decodedData = iscMagicDecoder.decodeData(rawData)
 
     if (!decodedData) {

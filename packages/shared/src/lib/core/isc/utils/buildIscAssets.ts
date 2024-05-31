@@ -1,13 +1,13 @@
+import { IscAssets } from '@core/isc/types'
 import { IIscChain } from '@core/network/interfaces'
-import { AssetType } from '../enums'
-import { ILayer2AssetAllowance } from '../interfaces'
-import { TransferredAsset } from '../types'
+import { AssetType } from '../../layer-2/enums'
+import { TransferredAsset } from '../../layer-2/types'
 
-export function buildAssetAllowance(
+export function buildIscAssets(
     iscChain: IIscChain,
     transferredAsset: TransferredAsset,
     storageDepositRequired?: bigint
-): ILayer2AssetAllowance {
+): IscAssets {
     const baseTokens = String(storageDepositRequired ?? 0)
     if (transferredAsset.type === AssetType.BaseCoin) {
         return {
@@ -21,7 +21,7 @@ export function buildAssetAllowance(
             nativeTokens: [
                 {
                     ID: [transferredAsset.token.id],
-                    amount: String(transferredAsset.amount),
+                    amount: transferredAsset.amount.toString(),
                 },
             ],
             nfts: [],
