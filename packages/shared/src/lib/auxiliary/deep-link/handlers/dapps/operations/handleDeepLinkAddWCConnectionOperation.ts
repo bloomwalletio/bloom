@@ -1,5 +1,5 @@
 import { pairWithNewDapp } from '@auxiliary/wallet-connect/actions'
-import { rejectSession, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
+import { rejectConnectionRequest, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
 import { get } from 'svelte/store'
 import { DrawerRoute, openDrawer } from '../../../../../../../../desktop/lib/auxiliary/drawer'
 import { dappConfigRouter } from '../../../../../../../../desktop/views/dashboard/drawers/dapp-config/dapp-config.router'
@@ -24,7 +24,7 @@ export function handleDeepLinkAddWCConnectionOperation(searchParams: URLSearchPa
             route: DrawerRoute.Dashboard,
             id: DashboardDrawerRoute.DappConfig,
             initialSubroute: DappConfigRoute.ConnectionRequest,
-            props: { onClose: rejectSession },
+            props: { onClose: rejectConnectionRequest },
         })
     } catch (err) {
         $dappConfigRouter?.reset()

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { ProposalTypes } from '@walletconnect/types'
     import { METHODS_FOR_PERMISSION } from '@auxiliary/wallet-connect/constants'
     import { onMount } from 'svelte'
     import { Selection } from '@ui'
@@ -11,25 +10,21 @@
     import { SelectionOption } from '@core/utils/interfaces'
 
     export let checkedMethods: string[]
-    export let requiredNamespaces: ProposalTypes.RequiredNamespaces
-    export let optionalNamespaces: ProposalTypes.RequiredNamespaces
+    export let requiredMethods: string[]
+    export let optionalMethods: string[]
     export let persistedSupportedNamespaces: SupportedNamespaces | undefined = undefined
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.permissions'
-    let requiredPermissions: SelectionOption<string>[] = []
-    let optionalPermissions: SelectionOption<string>[] = []
+    let requiredPermissionsOptions: SelectionOption<string>[] = []
+    let optionalPermissionsOptions: SelectionOption<string>[] = []
 
     function setPermissionSelections(): void {
         const checkedMethods: { [method: string]: boolean } = {}
         const addedPermission: { [permission: string]: boolean } = {}
 
         const methods = [
-            ...Object.values(requiredNamespaces).flatMap((namespace) =>
-                namespace.methods.map((method) => ({ method, required: true }))
-            ),
-            ...Object.values(optionalNamespaces).flatMap((namespace) =>
-                namespace.methods.map((method) => ({ method, required: false }))
-            ),
+            ...requiredMethods.map((method) => ({ method, required: true })),
+            ...optionalMethods.map((method) => ({ method, required: false })),
         ]
 
         for (const method of methods) {
@@ -57,17 +52,17 @@
                 required: method.required,
             }
             if (method.required) {
-                requiredPermissions = [...requiredPermissions, option]
+                requiredPermissionsOptions = [...requiredPermissionsOptions, option]
             } else {
-                optionalPermissions = [...optionalPermissions, option]
+                optionalPermissionsOptions = [...optionalPermissionsOptions, option]
             }
         }
     }
 
-    $: requiredPermissions, optionalPermissions, (checkedMethods = getMethodsFromCheckedPermissions())
+    $: requiredPermissionsOptions, optionalPermissionsOptions, (checkedMethods = getMethodsFromCheckedPermissions())
 
     function getMethodsFromCheckedPermissions(): string[] {
-        return [...requiredPermissions, ...optionalPermissions]
+        return [...requiredPermissionsOptions, ...optionalPermissionsOptions]
             .filter((selection) => selection.checked)
             .flatMap((selection) => METHODS_FOR_PERMISSION[selection.value])
     }
@@ -77,18 +72,18 @@
     })
 </script>
 
-{#if requiredPermissions.length || optionalPermissions.length}
+{#if requiredPermissionsOptions.length || optionalPermissionsOptions.length}
     <div class="h-full flex flex-col gap-8">
-        {#if requiredPermissions.length}
+        {#if requiredPermissionsOptions.length}
             <Selection
-                bind:selectionOptions={requiredPermissions}
+                bind:selectionOptions={requiredPermissionsOptions}
                 disableSelectAll
                 title={localize(`${localeKey}.requiredTitle`)}
             />
         {/if}
-        {#if optionalPermissions.length}
+        {#if optionalPermissionsOptions.length}
             <Selection
-                bind:selectionOptions={optionalPermissions}
+                bind:selectionOptions={optionalPermissionsOptions}
                 title={localize(`${localeKey}.optionalTitle`)}
                 error={checkedMethods.length ? undefined : localize(`${localeKey}.empty`)}
             />
@@ -96,7 +91,7 @@
     </div>
 {:else}
     <selection-component class="h-full flex flex-col gap-4">
-        <Text textColor="secondary">{localize(`${localeKey}.title`)}</Text>
+        <Text textColor="secondary">{localize(`${localeKey}.step`)}</Text>
 
         <div class="w-full flex-grow flex justify-center items-center">
             <Text type="body2">{localize(`${localeKey}.noPermissionsRequired`)}</Text>
