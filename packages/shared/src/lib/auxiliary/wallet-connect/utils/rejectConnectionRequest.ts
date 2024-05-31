@@ -1,15 +1,15 @@
 import { getSdkError } from '@walletconnect/utils'
-import { getWalletClient, connectionRequest } from '../stores'
+import { getWalletClient, sessionInitiationRequest } from '../stores'
 import { get } from 'svelte/store'
 import { handleError } from '@core/error/handlers'
 
 export async function rejectConnectionRequest(): Promise<void> {
-    const _connectionRequest = get(connectionRequest)
+    const _connectionRequest = get(sessionInitiationRequest)
     if (!_connectionRequest) {
         return
     }
 
-    connectionRequest.set(undefined)
+    sessionInitiationRequest.set(undefined)
     try {
         if (_connectionRequest.type === 'session_proposal') {
             await getWalletClient()?.rejectSession({

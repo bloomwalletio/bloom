@@ -11,6 +11,6 @@ export interface IConnectedDapp {
     requiredNamespaces?: ProposalTypes.RequiredNamespaces
     optionalNamespaces?: ProposalTypes.OptionalNamespaces
 
-    // pairing {
+    // pairing
     pairingTopic?: string
 }

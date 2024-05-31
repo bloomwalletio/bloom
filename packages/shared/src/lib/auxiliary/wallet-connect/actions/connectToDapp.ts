@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { clearConnectionRequest, persistDapp } from '../stores'
+import { clearSessionInitiationRequest, persistDapp } from '../stores'
 import { approveSession } from './approveSession'
 import { buildSupportedNamespacesFromSelections } from './buildSupportedNamespaceFromSelections'
 import { clearOldPairings } from './clearOldPairings'
@@ -33,5 +33,5 @@ export async function connectToDapp(
         verificationState.isScam ? DappVerification.Scam : (verificationState.validation as DappVerification),
         { supported: supportedNamespaces, required: requiredNamespaces, optional: optionalNamespaces }
     )
-    clearConnectionRequest()
+    clearSessionInitiationRequest()
 }

@@ -1,5 +1,5 @@
 import { getAddressFromAccountForNetwork } from '@core/account'
-import { clearConnectionRequest, getWalletClient, persistDapp } from '../stores'
+import { clearSessionInitiationRequest, getWalletClient, persistDapp } from '../stores'
 import { clearOldPairings } from './clearOldPairings'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { DappVerification } from '../enums'
@@ -68,5 +68,5 @@ export async function approveSessionAuthenticate(
         required: session.requiredNamespaces,
         optional: session.optionalNamespaces,
     })
-    clearConnectionRequest()
+    clearSessionInitiationRequest()
 }

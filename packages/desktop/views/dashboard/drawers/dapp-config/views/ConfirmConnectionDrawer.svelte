@@ -5,7 +5,7 @@
     import { DrawerTemplate } from '@components'
     import OneClickAuthFlow from './OneClickAuthFlow.svelte'
     import SessionProposalFlow from './SessionProposalFlow.svelte'
-    import { connectionRequest } from '@auxiliary/wallet-connect/stores'
+    import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
 
     export let drawerRouter: Router<unknown>
@@ -13,10 +13,10 @@
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
 </script>
 
-{#if $connectionRequest?.type === 'session_proposal'}
-    <SessionProposalFlow sessionProposal={$connectionRequest.payload} {drawerRouter} />
-{:else if $connectionRequest?.type === 'session_authenticate'}
-    <OneClickAuthFlow sessionProposal={$connectionRequest.payload} {drawerRouter} />
+{#if $sessionInitiationRequest?.type === 'session_proposal'}
+    <SessionProposalFlow sessionProposal={$sessionInitiationRequest.payload} {drawerRouter} />
+{:else if $sessionInitiationRequest?.type === 'session_authenticate'}
+    <OneClickAuthFlow sessionProposal={$sessionInitiationRequest.payload} {drawerRouter} />
 {:else}
     <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
         <div class="w-full h-full flex items-center justify-center">

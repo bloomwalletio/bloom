@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { connectionRequest } from '@auxiliary/wallet-connect/stores'
+    import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import ConnectionRequest from './ConnectionRequest.svelte'
     import { getNetworksAndMethodsFromNamespaces, rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
@@ -18,7 +18,7 @@
 
     let timeout: ReturnType<typeof setTimeout> | undefined
     $: {
-        if ($connectionRequest) {
+        if ($sessionInitiationRequest) {
             clearTimeout(timeout)
         } else {
             timeout = setTimeout(() => {
@@ -83,9 +83,9 @@
     })
 </script>
 
-{#if $connectionRequest?.type === 'session_proposal'}
+{#if $sessionInitiationRequest?.type === 'session_proposal'}
     {@const { dappMetadata, verifiedState, requiredNetworks, optionalNetworks, requiredMethods } =
-        getConnectionRequestDataFromSessionProposal($connectionRequest.payload)}
+        getConnectionRequestDataFromSessionProposal($sessionInitiationRequest.payload)}
     <ConnectionRequest
         {dappMetadata}
         {verifiedState}
@@ -94,9 +94,9 @@
         {requiredMethods}
         {drawerRouter}
     />
-{:else if $connectionRequest?.type === 'session_authenticate'}
+{:else if $sessionInitiationRequest?.type === 'session_authenticate'}
     {@const { dappMetadata, verifiedState, requiredNetworks, optionalNetworks, requiredMethods } =
-        getConnectionRequestDataFromSessionAuthenticate($connectionRequest.payload)}
+        getConnectionRequestDataFromSessionAuthenticate($sessionInitiationRequest.payload)}
     <ConnectionRequest
         {dappMetadata}
         {verifiedState}

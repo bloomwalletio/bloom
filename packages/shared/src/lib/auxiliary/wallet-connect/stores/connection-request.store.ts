@@ -1,7 +1,7 @@
 import { Writable, writable } from 'svelte/store'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 
-export type ConnectionRequest =
+export type SessionInitiationRequest =
     | {
           type: 'session_proposal'
           payload: Web3WalletTypes.SessionProposal
@@ -11,8 +11,8 @@ export type ConnectionRequest =
           payload: Web3WalletTypes.SessionAuthenticate
       }
 
-export const connectionRequest: Writable<ConnectionRequest | undefined> = writable(undefined)
+export const sessionInitiationRequest: Writable<SessionInitiationRequest | undefined> = writable(undefined)
 
-export function clearConnectionRequest(): void {
-    connectionRequest.set(undefined)
+export function clearSessionInitiationRequest(): void {
+    sessionInitiationRequest.set(undefined)
 }
