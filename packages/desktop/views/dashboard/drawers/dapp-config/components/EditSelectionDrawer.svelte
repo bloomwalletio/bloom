@@ -12,7 +12,7 @@
     } from '@auxiliary/wallet-connect/stores'
     import { onMount } from 'svelte'
     import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
-    import { updateSession } from '@auxiliary/wallet-connect/utils'
+    import { getNetworksAndMethodsFromNamespaces, updateSession } from '@auxiliary/wallet-connect/utils'
     import { IConnectedDapp, IDappMetadata, ISelections } from '@auxiliary/wallet-connect/interface'
     import { DappInfo } from '@ui'
     import { ALL_EVM_METHODS } from '@auxiliary/wallet-connect/constants'
@@ -48,31 +48,20 @@
         connectionRequest: ConnectionRequest | undefined
     ): { requiredMethods: string[]; optionalMethods: string[] } {
         if (selectedDapp) {
-            const { requiredNamespaces, optionalNamespaces } = selectedDapp.session ?? {
-                requiredNamespaces: [],
-                optionalNamespaces: [],
-            }
-            return {
-                requiredMethods: Object.values(requiredNamespaces)
-                    .flatMap(({ methods }) => methods ?? [])
-                    .filter(Boolean),
-                optionalMethods: Object.values(optionalNamespaces)
-                    .flatMap(({ methods }) => methods ?? [])
-                    .filter(Boolean),
-            }
+            const { requiredNamespaces, optionalNamespaces } = selectedDapp.session ?? {}
+
+            const { requiredMethods, optionalMethods } = getNetworksAndMethodsFromNamespaces(
+                requiredNamespaces ?? {},
+                optionalNamespaces ?? {}
+            )
+            return { requiredMethods, optionalMethods }
         } else if (connectionRequest?.type === 'session_proposal') {
-            const { requiredNamespaces, optionalNamespaces } = connectionRequest.payload?.params ?? {
-                requiredNamespaces: [],
-                optionalNamespaces: [],
-            }
-            return {
-                requiredMethods: Object.values(requiredNamespaces)
-                    .flatMap(({ methods }) => methods ?? [])
-                    .filter(Boolean),
-                optionalMethods: Object.values(optionalNamespaces)
-                    .flatMap(({ methods }) => methods ?? [])
-                    .filter(Boolean),
-            }
+            const { requiredNamespaces, optionalNamespaces } = connectionRequest.payload?.params ?? {}
+            const { requiredMethods, optionalMethods } = getNetworksAndMethodsFromNamespaces(
+                requiredNamespaces ?? {},
+                optionalNamespaces ?? {}
+            )
+            return { requiredMethods, optionalMethods }
         } else if (connectionRequest?.type === 'session_authenticate') {
             return { requiredMethods: [], optionalMethods: ALL_EVM_METHODS }
         } else {
@@ -85,31 +74,19 @@
         connectionRequest: ConnectionRequest | undefined
     ): { requiredNetworks: string[]; optionalNetworks: string[] } {
         if (selectedDapp) {
-            const { requiredNamespaces, optionalNamespaces } = selectedDapp.session ?? {
-                requiredNamespaces: [],
-                optionalNamespaces: [],
-            }
-            return {
-                requiredNetworks: Object.values(requiredNamespaces)
-                    .flatMap(({ chains }) => chains ?? [])
-                    .filter(Boolean),
-                optionalNetworks: Object.values(optionalNamespaces)
-                    .flatMap(({ chains }) => chains ?? [])
-                    .filter(Boolean),
-            }
+            const { requiredNamespaces, optionalNamespaces } = selectedDapp.session ?? {}
+            const { requiredNetworks, optionalNetworks } = getNetworksAndMethodsFromNamespaces(
+                requiredNamespaces ?? {},
+                optionalNamespaces ?? {}
+            )
+            return { requiredNetworks, optionalNetworks }
         } else if (connectionRequest?.type === 'session_proposal') {
-            const { requiredNamespaces, optionalNamespaces } = connectionRequest.payload?.params ?? {
-                requiredNamespaces: [],
-                optionalNamespaces: [],
-            }
-            return {
-                requiredNetworks: Object.values(requiredNamespaces)
-                    .flatMap(({ chains }) => chains ?? [])
-                    .filter(Boolean),
-                optionalNetworks: Object.values(optionalNamespaces)
-                    .flatMap(({ chains }) => chains ?? [])
-                    .filter(Boolean),
-            }
+            const { requiredNamespaces, optionalNamespaces } = connectionRequest.payload?.params ?? {}
+            const { requiredNetworks, optionalNetworks } = getNetworksAndMethodsFromNamespaces(
+                requiredNamespaces ?? {},
+                optionalNamespaces ?? {}
+            )
+            return { requiredNetworks, optionalNetworks }
         } else if (connectionRequest?.type === 'session_authenticate') {
             // TODO: Implement this
             return { requiredNetworks: [], optionalNetworks: [] }

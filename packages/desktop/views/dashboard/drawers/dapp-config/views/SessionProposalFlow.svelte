@@ -6,14 +6,14 @@
     import { DrawerTemplate } from '@components'
     import { connectToDapp } from '@auxiliary/wallet-connect/actions'
     import { getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
-    import { rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
+    import { getNetworksAndMethodsFromNamespaces, rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
     import { DappConfigRoute } from '../dapp-config-route.enum'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { selectedAccount } from '@core/account/stores'
-    import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { deepEquals } from '@core/utils/object'
     import { ProposalTypes } from '@walletconnect/types'
     import { IPersistedNamespaces } from '@auxiliary/wallet-connect/interface'
@@ -45,15 +45,8 @@
     const requiredNamespaces = sessionProposal.params.requiredNamespaces
     const optionalNamespaces = sessionProposal.params.optionalNamespaces
 
-    const requiredNetworks = Object.values(requiredNamespaces)
-        .flatMap(({ chains }) => chains ?? [])
-        .filter(Boolean)
-    const optionalNetworks = Object.values(optionalNamespaces)
-        .flatMap(({ chains }) => chains ?? [])
-        .filter(Boolean)
-
-    const requiredMethods = Object.values(requiredNamespaces).flatMap(({ methods }) => methods) as RpcMethod[]
-    const optionalMethods = Object.values(optionalNamespaces).flatMap(({ methods }) => methods) as RpcMethod[]
+    const { requiredNetworks, optionalNetworks, requiredMethods, optionalMethods } =
+        getNetworksAndMethodsFromNamespaces(requiredNamespaces, optionalNamespaces)
 
     $: isButtonDisabled =
         loading ||

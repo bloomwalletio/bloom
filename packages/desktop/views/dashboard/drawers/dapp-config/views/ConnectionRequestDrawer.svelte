@@ -6,7 +6,7 @@
     import { connectionRequest } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import ConnectionRequest from './ConnectionRequest.svelte'
-    import { rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
+    import { getNetworksAndMethodsFromNamespaces, rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
     import { onDestroy } from 'svelte'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
@@ -47,15 +47,10 @@
             ? DappVerification.Scam
             : (sessionProposal.verifyContext.verified.validation as DappVerification)
 
-        const requiredNetworks = Object.values(sessionProposal.params.requiredNamespaces)
-            .flatMap(({ chains }) => chains ?? [])
-            .filter(Boolean)
-        const optionalNetworks = Object.values(sessionProposal.params.optionalNamespaces)
-            .flatMap(({ chains }) => chains ?? [])
-            .filter(Boolean)
-        const requiredMethods = Object.values(sessionProposal.params.requiredNamespaces).flatMap(
-            ({ methods }) => methods
-        ) as RpcMethod[]
+        const { requiredNetworks, optionalNetworks, requiredMethods } = getNetworksAndMethodsFromNamespaces(
+            sessionProposal.params.requiredNamespaces,
+            sessionProposal.params.optionalNamespaces
+        )
 
         return {
             dappMetadata,

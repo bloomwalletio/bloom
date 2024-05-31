@@ -1,5 +1,6 @@
 export * from './disconnectAllDapps'
 export * from './getBloomError'
+export * from './getNetworksAndMethodsFromNamespaces'
 export * from './getPermissionForMethod'
 export * from './normalizeSupportedNamespace'
 export * from './rejectConnectionRequest'
