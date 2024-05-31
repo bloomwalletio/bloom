@@ -10,9 +10,9 @@ export async function removeDapp(dapp: IConnectedDapp): Promise<void> {
     }
 
     try {
-        if (dapp.session) {
+        if (dapp.sessionTopic) {
             await client.disconnectSession({
-                topic: dapp.session.topic,
+                topic: dapp.sessionTopic,
                 reason: getSdkError('USER_DISCONNECTED'),
             })
         }

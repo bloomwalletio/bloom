@@ -3,21 +3,25 @@ import { get } from 'svelte/store'
 import { WalletConnectEvents } from '../enums'
 import { walletClient } from '../stores'
 import { NetworkId } from '@core/network/types'
-import { ISession } from '../interface/session.interface'
+import { ISupportedNamespace } from '../types'
 
-export async function updateAccountForDappSession(dappSession: ISession, account: IAccountState): Promise<void> {
+export async function updateAccountForDappSession(
+    sessionTopic: string,
+    namespaces: Record<string, ISupportedNamespace>,
+    account: IAccountState
+): Promise<void> {
     const walletConnectClient = get(walletClient)
-    if (!walletConnectClient || !dappSession) {
+    if (!walletConnectClient) {
         return
     }
 
-    const protocols = Object.keys(dappSession.namespaces)
+    const protocols = Object.keys(namespaces ?? {})
     for (const protocol of protocols) {
-        for (const chainId of dappSession.namespaces[protocol]?.chains ?? []) {
+        for (const chainId of namespaces[protocol]?.chains ?? []) {
             const address = getAddressFromAccountForNetwork(account, chainId as NetworkId)
 
             await walletConnectClient.emitSessionEvent({
-                topic: dappSession.topic,
+                topic: sessionTopic,
                 event: {
                     name: WalletConnectEvents.AccountsChanged,
                     data: [address],
