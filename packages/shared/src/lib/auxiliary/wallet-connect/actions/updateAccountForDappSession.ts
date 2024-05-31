@@ -4,6 +4,7 @@ import { WalletConnectEvents } from '../enums'
 import { walletClient } from '../stores'
 import { NetworkId } from '@core/network/types'
 import { ISession } from '../interface/session.interface'
+import { doesNamespaceSupportEvent } from '../utils'
 
 export async function updateAccountForDappSession(dappSession: ISession, account: IAccountState): Promise<void> {
     const walletConnectClient = get(walletClient)
@@ -15,7 +16,7 @@ export async function updateAccountForDappSession(dappSession: ISession, account
     for (const protocol of protocols) {
         if (
             !dappSession.namespaces[protocol] ||
-            !dappSession.namespaces[protocol].events?.includes(WalletConnectEvents.AccountsChanged)
+            !doesNamespaceSupportEvent(dappSession.namespaces[protocol], WalletConnectEvents.AccountsChanged)
         ) {
             continue
         }
