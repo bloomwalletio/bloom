@@ -8,7 +8,7 @@ export function buildIscAssets(
     transferredAsset: TransferredAsset,
     storageDepositRequired?: bigint
 ): IscAssets {
-    const baseTokens = BigInt(storageDepositRequired ?? 0).toString()
+    const baseTokens = String(storageDepositRequired ?? 0)
     if (transferredAsset.type === AssetType.BaseCoin) {
         return {
             baseTokens: iscChain.normaliseAmount(transferredAsset.amount).toString(),
