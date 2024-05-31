@@ -7,6 +7,7 @@ import { WALLET_METADATA } from '../constants'
 import { onSessionDelete, onSessionProposal, onSessionRequest } from '../handlers'
 import { walletClient } from '../stores'
 import { setConnectedDapps } from '../stores/connected-dapps.store'
+import { onSessionAuthenticate } from '../handlers/onSessionAuthenticate.handler'
 
 export async function initializeWalletConnect(): Promise<void> {
     if (!features?.walletConnect?.enabled || get(walletClient)) {
@@ -26,6 +27,7 @@ export async function initializeWalletConnect(): Promise<void> {
         client.on('session_proposal', (sessionProposal) => void onSessionProposal(sessionProposal))
         client.on('session_request', (event) => onSessionRequest(event))
         client.on('session_delete', (event) => onSessionDelete(event))
+        client.on('session_authenticate', (payload) => onSessionAuthenticate(payload))
     } catch (err) {
         handleError(err)
     }

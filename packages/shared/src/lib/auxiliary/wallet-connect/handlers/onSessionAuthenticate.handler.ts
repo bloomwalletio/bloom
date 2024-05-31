@@ -3,10 +3,10 @@ import { connectionRequest } from '../stores'
 import { get } from 'svelte/store'
 import { rejectConnectionRequest } from '../utils'
 
-export function onSessionProposal(_sessionProposal: Web3WalletTypes.SessionProposal): void {
+export function onSessionAuthenticate(event: Web3WalletTypes.SessionAuthenticate): void {
     if (get(connectionRequest)) {
         void rejectConnectionRequest()
     } else {
-        connectionRequest.set({ type: 'session_proposal', payload: _sessionProposal })
+        connectionRequest.set({ type: 'session_authenticate', payload: event })
     }
 }
