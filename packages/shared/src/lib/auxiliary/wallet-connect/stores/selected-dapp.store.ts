@@ -6,3 +6,7 @@ export const selectedDapp: Writable<IConnectedDapp | undefined> = writable(undef
 export function setSelectedDapp(dapp: IConnectedDapp): void {
     selectedDapp.set(dapp)
 }
+
+export function clearSelectedDapp(): void {
+    selectedDapp.set(undefined)
+}

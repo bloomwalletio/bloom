@@ -42,8 +42,8 @@
                 {/if}
                 {#if persistedDapp?.namespaces.supported}
                     <ConnectionSummary
-                        requiredNamespaces={dapp.session?.requiredNamespaces}
-                        editable={!!dapp.session}
+                        requiredNamespaces={dapp.requiredNamespaces}
+                        editable={!!dapp.sessionTopic}
                         persistedSupportedNamespaces={persistedDapp?.namespaces.supported}
                         {drawerRouter}
                     />

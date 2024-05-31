@@ -1,5 +1,10 @@
 <script lang="ts">
-    import { connectedDapps, persistedDapps, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
+    import {
+        clearSelectedDapp,
+        connectedDapps,
+        persistedDapps,
+        setSelectedDapp,
+    } from '@auxiliary/wallet-connect/stores'
     import { Button, IconName, Tabs, Text } from '@bloomwalletio/ui'
     import { DappListActionsMenu, DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { localize } from '@core/i18n'
@@ -30,15 +35,13 @@
         (dapp) => !!$persistedDapps[$activeProfileId as string]?.[dapp.metadata?.url ?? '']
     )
     $: displayedDapps = connectedDappsForProfile.filter(
-        (dapp) => (selectedIndex === 0 && !!dapp.session) || (selectedIndex === 1 && !dapp.session)
+        (dapp) => (selectedIndex === 0 && !!dapp.sessionTopic) || (selectedIndex === 1 && !dapp.sessionTopic)
     )
 
     function onDappCardClick(connectedDapp: IConnectedDapp): void {
         setSelectedDapp(connectedDapp)
         updateDrawerProps({
-            onClose: () => {
-                setSelectedDapp(undefined)
-            },
+            onClose: () => clearSelectedDapp(),
         })
         drawerRouter.goTo(DappConfigRoute.DappDetails)
     }
