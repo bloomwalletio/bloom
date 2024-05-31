@@ -48,10 +48,10 @@
             : (sessionProposal.verifyContext.verified.validation as DappVerification)
 
         const requiredNetworks = Object.values(sessionProposal.params.requiredNamespaces)
-            .flatMap(({ chains }) => chains)
+            .flatMap(({ chains }) => chains ?? [])
             .filter(Boolean)
         const optionalNetworks = Object.values(sessionProposal.params.optionalNamespaces)
-            .flatMap(({ chains }) => chains)
+            .flatMap(({ chains }) => chains ?? [])
             .filter(Boolean)
         const requiredMethods = Object.values(sessionProposal.params.requiredNamespaces).flatMap(
             ({ methods }) => methods

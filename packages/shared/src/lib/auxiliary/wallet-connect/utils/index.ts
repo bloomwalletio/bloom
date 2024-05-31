@@ -1,6 +1,7 @@
 export * from './disconnectAllDapps'
 export * from './getBloomError'
 export * from './getPermissionForMethod'
+export * from './normalizeSupportedNamespace'
 export * from './rejectConnectionRequest'
 export * from './switchToRequiredAccount'
 export * from './updateSession'

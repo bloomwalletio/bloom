@@ -7,19 +7,15 @@
     import { rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
-    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { IAccountState } from '@core/account'
     import { DappConfigRoute } from '../dapp-config-route.enum'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { Web3WalletTypes } from '@walletconnect/web3wallet'
     import { walletClient } from '@auxiliary/wallet-connect/stores'
-    import { populateAuthPayload, buildAuthObject } from '@walletconnect/utils'
-    import { NetworkId, getEvmNetwork } from '@core/network'
-    import { AuthTypes } from '@walletconnect/types'
-    import { signMessage } from '@core/wallet'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
-    import { GENERAL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
+    import { approveSessionAuthenticate } from '@auxiliary/wallet-connect/actions/approveSessionAuthenticate'
 
     export let drawerRouter: Router<unknown>
     export let sessionProposal: Web3WalletTypes.SessionAuthenticate
@@ -107,49 +103,18 @@
         }
 
         try {
-            const allowedMethods = [...checkedMethods, ...GENERAL_SUPPORTED_METHODS]
-
-            const authPayload = populateAuthPayload({
-                authPayload: sessionProposal.params.authPayload,
+            await approveSessionAuthenticate(sessionProposal, {
+                accounts: checkedAccounts,
                 chains: checkedNetworks,
-                methods: allowedMethods,
-            })
-
-            const auths: AuthTypes.Cacao[] = []
-            for (const chain of authPayload.chains) {
-                const network = getEvmNetwork(chain as NetworkId)
-                if (!network) {
-                    continue
-                }
-
-                for (const account of checkedAccounts) {
-                    const address = `${chain}:${getAddressFromAccountForNetwork(account, chain as NetworkId)}`
-
-                    const message = $walletClient.formatAuthMessage({
-                        request: authPayload,
-                        iss: address,
-                    })
-                    const signature = await signMessage(message, network.coinType, account)
-                    if (!signature) {
-                        continue
-                    }
-
-                    const auth = buildAuthObject(authPayload, { t: 'eip191', s: signature }, address)
-                    auths.push(auth)
-                }
-            }
-
-            await $walletClient.approveSessionAuthenticate({
-                id: sessionProposal.id,
-                auths,
+                methods: checkedMethods,
             })
 
             drawerRouter.reset()
             drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
-            loading = false
         } catch (error) {
-            loading = false
             handleError(error)
+        } finally {
+            loading = false
         }
     }
 </script>

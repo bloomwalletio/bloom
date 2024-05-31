@@ -46,10 +46,10 @@
     const optionalNamespaces = sessionProposal.params.optionalNamespaces
 
     const requiredNetworks = Object.values(requiredNamespaces)
-        .flatMap(({ chains }) => chains)
+        .flatMap(({ chains }) => chains ?? [])
         .filter(Boolean)
     const optionalNetworks = Object.values(optionalNamespaces)
-        .flatMap(({ chains }) => chains)
+        .flatMap(({ chains }) => chains ?? [])
         .filter(Boolean)
 
     const requiredMethods = Object.values(requiredNamespaces).flatMap(({ methods }) => methods) as RpcMethod[]
