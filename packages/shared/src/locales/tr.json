@@ -1023,6 +1023,7 @@
             "selectAmount": "Gönder {tokenName}",
             "selectRecipient": "{assetName}'i şuraya gönder",
             "transactionSummary": "Transaction to {recipient}",
+            "ircAssetsToL2Hint": "You are about to send an IRC asset to an EVM network. Most EVM based wallets don't support displaying IRC assets correctly.",
             "surplusIncluded": "Bu işlem fazla tutar içermektedir. Lütfen göndermek istediğiniz tutarın bu olup olmadığını bir kez daha kontrol edin."
         },
         "walletFinder": {
@@ -1092,6 +1093,12 @@
             "action": "İmza",
             "success": "İmzalı işlem"
         },
+        "tokenApproval": {
+            "title": "Approve {dappName} to access {assetName}",
+            "hint": "{address} is requesting approval to spend {assetName}",
+            "action": "Approve",
+            "success": "Successfully approved"
+        },
         "sendTransaction": {
             "title": "İşlemi gönder",
             "action": "Gönder",
@@ -1099,8 +1106,9 @@
         },
         "smartContractCall": {
             "title": "{contractAddress} adresine akıllı sözleşme çağrısı",
-            "unableToVerify": "Bloom akıllı sözleşme çağrısını doğrulayamıyor. Yalnızca güvendiğiniz uygulamalarla devam edin.",
-            "viewSmartContract": "Akıllı Sözleşmeyi Görüntüle",
+            "unableToVerify": "Bloom is unable to parse the smart contract data, only proceed with apps you trust.",
+            "partiallyVerified": "Bloom has partially parsed the smart contract data, proceed with apps you trust.",
+            "viewSmartContract": "View Contract",
             "action": "Onayla",
             "success": "{recipient} adlı kişiye akıllı sözleşme çağrısı"
         },
@@ -1724,9 +1732,11 @@
         "question": "Soru",
         "id": "Kimlik",
         "location": "Konum",
-        "slow": "Slow",
-        "average": "Average",
-        "fast": "Fast"
+        "slow": "Yavaş",
+        "average": "Ortalama",
+        "fast": "Hızlı",
+        "spender": "Spender",
+        "status": "Status"
     },
     "filters": {
         "title": "Filtreler",

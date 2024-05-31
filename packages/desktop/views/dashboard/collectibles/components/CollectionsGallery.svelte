@@ -16,7 +16,7 @@
     let rowDivElement: HTMLDivElement
     $: rowDivHeight = getRowDivHeight(rowDivElement?.clientHeight)
 
-    function getRowDivHeight(clientHeight: number | undefined) {
+    function getRowDivHeight(clientHeight: number | undefined): number {
         if (!clientHeight) {
             return rowDivHeight
         }

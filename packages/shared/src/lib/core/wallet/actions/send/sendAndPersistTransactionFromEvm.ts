@@ -11,11 +11,12 @@ import { EvmTransactionData } from '@core/layer-2'
 import { IEvmNetwork } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
-import { sendSignedEvmTransaction } from '@core/wallet/actions/sendSignedEvmTransaction'
+import { sendSignedEvmTransaction } from '../sendSignedEvmTransaction'
 import { updateLayer2AccountBalanceForTokenOnChain } from '@core/layer-2/stores'
 import { EvmActivityType } from '@core/activity/enums/evm'
 import { NftStandard } from '@core/nfts'
 import { TokenStandard } from '@core/token/enums'
+import { startEvmConfirmationPoll } from '../../utils'
 
 export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
@@ -44,6 +45,7 @@ export async function sendAndPersistTransactionFromEvm(
         nonce: Number(preparedTransaction.nonce),
         gasLimit: Number(preparedTransaction.gasLimit),
         timestamp: Date.now(),
+        confirmations: 0,
     }
     await persistEvmTransaction(profileId, account, evmNetwork, evmTransaction)
     return evmTransaction.transactionHash
@@ -61,6 +63,7 @@ async function persistEvmTransaction(
     if (!activity) {
         return
     }
+    startEvmConfirmationPoll(evmTransaction, evmNetwork, account.index, profileId)
 
     addAccountActivity(account.index, activity)
 

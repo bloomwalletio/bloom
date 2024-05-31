@@ -4,13 +4,14 @@
     import { ICampaign } from '@contexts/campaigns'
     import { openUrlInBrowser } from '@core/app'
     import { TIDE_BASE_URL, TideWebsiteEndpoint } from '@core/tide'
-    import Pane from '@ui/atoms/Pane.svelte'
+    import { Pane, NetworkAvatar } from '@ui'
     import { MediaPlaceholder } from '@ui/molecules'
     import CampaignParticipantsPill from './CampaignParticipantsPill.svelte'
     import CampaignRewardsPill from './CampaignRewardsPill.svelte'
     import CampaignStatusPill from './CampaignStatusPill.svelte'
     import CampaignTimestampPill from './CampaignTimestampPill.svelte'
     import sanitizeHtml from 'sanitize-html'
+    import { NetworkNamespace } from '@core/network'
     import { localize } from '@core/i18n'
     import CampaignUsersPill from './CampaignUsersPill.svelte'
 
@@ -109,7 +110,8 @@
                 class="whitespace-pre-line overflow-hidden text-ellipsis line-clamp-3">{description}</Text
             >
             <div class="w-full flex flex-row justify-between gap-4">
-                <div class="flex flex-row gap-2">
+                <div class="flex flex-row gap-2 items-center">
+                    <NetworkAvatar size="xs" networkId={`${NetworkNamespace.Evm}:${campaign.chainId}`} showTooltip />
                     <CampaignStatusPill {campaign} />
                     <CampaignTimestampPill {campaign} />
                     <CampaignUsersPill {campaign} />

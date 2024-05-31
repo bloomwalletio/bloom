@@ -1,6 +1,10 @@
 import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import { IError } from '@core/error/interfaces'
-import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
+import {
+    AVERAGE_BLOCK_TIME_IN_SECONDS,
+    ETHEREUM_CONFIRMATION_THRESHOLD,
+    NETWORK_STATUS_POLL_INTERVAL,
+} from '@core/network/constants'
 import { getPersistedErc721NftsForNetwork, updateErc721NftsOwnership } from '@core/nfts/actions'
 import { Nft } from '@core/nfts/interfaces'
 import { buildNftFromPersistedErc721Nft } from '@core/nfts/utils'
@@ -33,6 +37,8 @@ export class EvmNetwork implements IEvmNetwork {
     public readonly explorerUrl: string | undefined
     public readonly rpcEndpoint: string
     public readonly type: EvmNetworkType = NetworkType.Evm
+    public readonly averageBlockTimeInSeconds: number = AVERAGE_BLOCK_TIME_IN_SECONDS
+    public readonly blocksUntilConfirmed: number = ETHEREUM_CONFIRMATION_THRESHOLD
 
     public health: Writable<NetworkHealth> = writable(NetworkHealth.Operational)
     public statusPoll: number | undefined

@@ -27,6 +27,18 @@ export function getPersistedTransactionsForChain(
     return Object.values(get(persistedTransactions)?.[profileId]?.[accountIndex]?.[networkId] ?? {}) ?? []
 }
 
+export function getPersistedTransaction(transactionId: string | undefined): PersistedTransaction | undefined {
+    if (!transactionId) {
+        return undefined
+    }
+    const allTransactions = Object.values(get(persistedTransactions)).flatMap((profile) =>
+        Object.values(profile).flatMap((account) =>
+            Object.values(account).flatMap((network) => Object.values(network ?? {}))
+        )
+    )
+    return allTransactions.find((transaction) => transaction.local?.transactionHash === transactionId)
+}
+
 export function addLocalTransactionToPersistedTransaction(
     profileId: string,
     accountIndex: number,
