@@ -6,7 +6,12 @@ import { IscAssets, IscDict, IscHName, IscL1Address, IscSendMetadata, IscSendOpt
 import { evmAddressToAgentId } from '@core/layer-2/helpers'
 import { ISC_MAGIC_CONTRACT_ACCOUNTS_ABI } from '../abis/isc-magic-contract-accounts.abi'
 
-interface IEncodableIscMagicContractSandboxMethods {
+export interface MethodObject {
+    encodeABI: () => string
+    estimateGas: () => Promise<number>
+}
+
+interface ISendableIscMagicContractSandboxMethods {
     send: {
         targetAddress: IscL1Address
         assets: IscAssets
@@ -29,20 +34,26 @@ class IscMagicContractSandbox {
         this._contract = iscChain.getContract(ISC_MAGIC_CONTRACT_SANDBOX_ABI, contractAddress)
     }
 
-    // TODO: fix type and move to parent class
-    encode<K extends keyof IEncodableIscMagicContractSandboxMethods>(
+    encode<K extends keyof ISendableIscMagicContractSandboxMethods>(
         method: K,
-        params: IEncodableIscMagicContractSandboxMethods[K]
+        params: ISendableIscMagicContractSandboxMethods[K]
     ): string {
-        return this[method as keyof Omit<IscMagicContractSandbox, 'encode' | 'estimateGas'>](params).encodeABI()
+        // Use a type assertion to let TypeScript know the type of this[method]
+        const methodFunction = this[method] as unknown as (
+            params: ISendableIscMagicContractSandboxMethods[K]
+        ) => MethodObject
+        return methodFunction(params).encodeABI()
     }
 
-    // TODO: fix type and move to parent class
-    estimateGas<K extends keyof IEncodableIscMagicContractSandboxMethods>(
+    estimateGas<K extends keyof ISendableIscMagicContractSandboxMethods>(
         method: K,
-        params: IEncodableIscMagicContractSandboxMethods[K]
+        params: ISendableIscMagicContractSandboxMethods[K]
     ): Promise<number> {
-        return this[method as keyof Omit<IscMagicContractSandbox, 'encode' | 'estimateGas'>](params).estimateGas()
+        // Use a type assertion to let TypeScript know the type of this[method]
+        const methodFunction = this[method] as unknown as (
+            params: ISendableIscMagicContractSandboxMethods[K]
+        ) => MethodObject
+        return methodFunction(params).estimateGas()
     }
 
     protected send({
@@ -51,14 +62,14 @@ class IscMagicContractSandbox {
         adjustMinimumStorageDeposit,
         sendMetadata,
         sendOptions,
-    }: IEncodableIscMagicContractSandboxMethods['send']): unknown {
+    }: ISendableIscMagicContractSandboxMethods['send']): MethodObject {
         return this._contract.methods.send(
             targetAddress,
             assets,
             adjustMinimumStorageDeposit,
             sendMetadata,
             sendOptions
-        )
+        ) as MethodObject
     }
 
     protected call({
@@ -66,11 +77,11 @@ class IscMagicContractSandbox {
         entryPoint,
         params,
         allowance,
-    }: IEncodableIscMagicContractSandboxMethods['call']): unknown {
-        return this._contract.methods.call(contractName, entryPoint, params, allowance)
+    }: ISendableIscMagicContractSandboxMethods['call']): MethodObject {
+        return this._contract.methods.call(contractName, entryPoint, params, allowance) as MethodObject
     }
 
-    callView({
+    callView<T>({
         contractName,
         entryPoint,
         params,
@@ -78,7 +89,7 @@ class IscMagicContractSandbox {
         contractName: IscHName
         entryPoint: IscHName
         params: IscDict
-    }): Promise<unknown> {
+    }): Promise<T> {
         return this._contract.methods.callView(contractName, entryPoint, params).call()
     }
 }
