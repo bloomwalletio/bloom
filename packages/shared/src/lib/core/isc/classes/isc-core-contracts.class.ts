@@ -89,7 +89,11 @@ export class IscCoreContracts {
         })
     }
 
-    public callView<T>(contractHname: IscHName, entryPoint: string, params: Record<string, Uint8Array>): Promise<T> {
+    public callView<T>(
+        contractHname: IscHName,
+        entryPoint: string,
+        params: Record<string, string | number | bigint | Uint8Array>
+    ): Promise<T> {
         const entryPointHname = getSmartContractHexName(entryPoint)
         const paramsDict = buildIscDictFromObject(params)
         return this._magicContracts.sandbox.callView<T>({

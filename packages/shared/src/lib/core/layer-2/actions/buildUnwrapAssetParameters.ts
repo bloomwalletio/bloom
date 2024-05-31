@@ -11,7 +11,7 @@ export function buildUnwrapAssetParameters(): {
             items: [],
         },
         allowance: {
-            baseTokens: BigInt(0),
+            baseTokens: String(0),
             nativeTokens: [],
             nfts: [],
         },
