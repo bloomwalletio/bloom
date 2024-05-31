@@ -56,7 +56,7 @@ class IscMagicContractSandbox {
         return methodFunction(params).estimateGas()
     }
 
-    protected send({
+    private send({
         targetAddress,
         assets,
         adjustMinimumStorageDeposit,
@@ -72,7 +72,7 @@ class IscMagicContractSandbox {
         ) as MethodObject
     }
 
-    protected call({
+    private call({
         contractName,
         entryPoint,
         params,
