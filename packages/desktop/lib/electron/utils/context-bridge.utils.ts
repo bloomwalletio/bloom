@@ -21,7 +21,7 @@ export function bindSdkUtilsMethods(): IotaSdk.Utils {
     const methods = {}
 
     for (const name of methodNames) {
-        methods[name] = (...args) => IotaSdk.Utils[name](...args)
+        methods[name] = (...args): void => IotaSdk.Utils[name](...args)
     }
 
     return methods

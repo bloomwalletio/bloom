@@ -1023,6 +1023,7 @@
             "selectAmount": "Verzend {tokenName}",
             "selectRecipient": "Verzend {assetName} naar",
             "transactionSummary": "Transactie naar {recipient}",
+            "ircAssetsToL2Hint": "You are about to send an IRC asset to an EVM network. Most EVM based wallets don't support displaying IRC assets correctly.",
             "surplusIncluded": "Deze transactie bevat een overschot. Controleer of dit het bedrag is dat u wilt versturen."
         },
         "walletFinder": {
@@ -1092,6 +1093,12 @@
             "action": "Ondertekenen",
             "success": "Ondertekende transactie"
         },
+        "tokenApproval": {
+            "title": "Approve {dappName} to access {assetName}",
+            "hint": "{address} is requesting approval to spend {assetName}",
+            "action": "Approve",
+            "success": "Successfully approved"
+        },
         "sendTransaction": {
             "title": "Transactie verzenden",
             "action": "Verzend",
@@ -1099,8 +1106,9 @@
         },
         "smartContractCall": {
             "title": "Smart Contract-oproep naar {contractAddress}",
-            "unableToVerify": "Bloom is niet in staat om de smart Contract-oproep te verifiëren. Ga alleen verder met apps die je vertrouwt.",
-            "viewSmartContract": "Bekijk Smart Contract",
+            "unableToVerify": "Bloom is unable to parse the smart contract data, only proceed with apps you trust.",
+            "partiallyVerified": "Bloom has partially parsed the smart contract data, proceed with apps you trust.",
+            "viewSmartContract": "View Contract",
             "action": "Bevestig",
             "success": "Smart contract oproep naar {recipient}"
         },
@@ -1724,9 +1732,11 @@
         "question": "Vraag",
         "id": "ID",
         "location": "Locatie",
-        "slow": "Slow",
-        "average": "Average",
-        "fast": "Fast"
+        "slow": "Langzaam",
+        "average": "Gemiddeld",
+        "fast": "Snel",
+        "spender": "Spender",
+        "status": "Status"
     },
     "filters": {
         "title": "Filters",

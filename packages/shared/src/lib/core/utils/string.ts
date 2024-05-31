@@ -63,6 +63,7 @@ export function getInitials(name: string | undefined, maxChars?: number): string
     }
 
     // Extract initial characters of each word, considering emojis and ignoring other symbols
+    // eslint-disable-next-line security/detect-unsafe-regex
     const regexEmoji = /\p{Emoji}\uFE0F?(?:\u200D\p{Emoji}\uFE0F?)*/gu
     const regexLetterOrNumber = /[\p{L}\p{N}]/gu
     const initialsArray = name
