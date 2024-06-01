@@ -16,7 +16,7 @@
         "@metamask/eth-sig-util": "7.0.1",
         "@spruceid/siwe-parser": "2.0.2",
         "@sveltejs/svelte-virtual-list": "3.0.1",
-        "@walletconnect/jsonrpc-types": "1.0.3",
+        "@walletconnect/jsonrpc-types": "1.0.4",
         "@walletconnect/types": "2.11.3",
         "@walletconnect/web3wallet": "1.11.2",
         "http-status-codes": "2.3.0",
