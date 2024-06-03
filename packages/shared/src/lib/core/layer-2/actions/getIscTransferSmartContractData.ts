@@ -1,11 +1,8 @@
-import { IscChain } from '@core/network'
 import { getSelectedAccount } from '@core/account/stores'
-import { ISC_MAGIC_CONTRACT_ADDRESS } from '@core/layer-2/constants'
 import { handleError } from '@core/error/handlers'
+import { IscCoreContracts } from '@core/isc/classes/isc-core-contracts.class'
+import { IscChain } from '@core/network'
 import { TransferredAsset } from '../types'
-import { evmAddressToAgentId, getAgentBalanceParameters, getSmartContractHexName } from '../helpers'
-import { buildAssetAllowance } from '../utils'
-import { ISC_SANDBOX_ABI } from '..'
 
 export function getIscTransferSmartContractData(
     recipientAddress: string,
@@ -19,16 +16,8 @@ export function getIscTransferSmartContractData(
             throw new Error('No EVM address generated for this account.')
         }
 
-        const accountsCoreContract = getSmartContractHexName('accounts')
-        const transferAllowanceTo = getSmartContractHexName('transferAllowanceTo')
-
-        const agentId = evmAddressToAgentId(recipientAddress, iscChain.aliasAddress)
-        const parameters = getAgentBalanceParameters(agentId)
-        const allowance = buildAssetAllowance(iscChain, transferredAsset)
-
-        const contract = iscChain.getContract(ISC_SANDBOX_ABI, ISC_MAGIC_CONTRACT_ADDRESS)
-        const method = contract.methods.call(accountsCoreContract, transferAllowanceTo, parameters, allowance)
-        return method.encodeABI() ?? ''
+        const coreContracts = new IscCoreContracts(iscChain)
+        return coreContracts.accounts.encodeTransferAllowanceTo(recipientAddress, transferredAsset)
     } catch (err) {
         handleError(err)
         return ''

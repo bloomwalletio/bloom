@@ -15,14 +15,10 @@ const IOTA_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     namespace: NetworkNamespace.Evm,
     baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.IotaEvm],
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.IotaEvm],
-    aliasAddress:
-        'https://github.com/bloomwalletio/bloom-private/pull/17/files#diff-2e95221dbfb375be5e97b45bad40479c2b3f9a70efa14e66caa1b7fe37df8296',
-    rpcEndpoint:
-        'https://github.com/bloomwalletio/bloom-private/pull/17/files#diff-2e95221dbfb375be5e97b45bad40479c2b3f9a70efa14e66caa1b7fe37df8296',
-    apiEndpoint:
-        'https://github.com/bloomwalletio/bloom-private/pull/17/files#diff-2e95221dbfb375be5e97b45bad40479c2b3f9a70efa14e66caa1b7fe37df8296',
-    explorerUrl:
-        'https://github.com/bloomwalletio/bloom-private/pull/17/files#diff-2e95221dbfb375be5e97b45bad40479c2b3f9a70efa14e66caa1b7fe37df8296',
+    aliasAddress: 'iota1pzt3mstq6khgc3tl0mwuzk3eqddkryqnpdxmk4nr25re2466uxwm28qqxu5',
+    rpcEndpoint: 'https://json-rpc.evm.iotaledger.net/',
+    apiEndpoint: 'https://api.evm.iotaledger.net/',
+    explorerUrl: 'https://explorer.evm.iota.org/',
 }
 
 const SHIMMER_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
