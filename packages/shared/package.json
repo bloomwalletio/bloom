@@ -45,7 +45,6 @@
         "lokijs": "1.5.12",
         "postcss": "8.4.38",
         "postcss-cli": "11.0.0",
-        "sass": "1.72.0",
         "svelte-loader": "3.2.0",
         "tailwindcss": "3.3.2",
         "tslib": "2.6.2",
