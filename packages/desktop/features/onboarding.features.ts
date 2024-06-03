@@ -42,7 +42,7 @@ const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
         },
     },
     defaultIscChains: {
-        enabled: false,
+        enabled: true,
     },
     defaultEvmChains: {
         enabled: false,
