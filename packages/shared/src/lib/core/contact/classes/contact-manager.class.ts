@@ -89,9 +89,14 @@ export class ContactManager {
         return profile && profile.contacts ? Object.values(profile.contacts) : []
     }
 
-    static addContactAddress(contactId: string, networkId: NetworkId, addressName: string, address: string): void {
+    static addContactAddress(
+        contactId: string | undefined,
+        networkId: NetworkId,
+        addressName: string,
+        address: string
+    ): void {
         const profile = getActiveProfile()
-        if (!profile) {
+        if (!profile || !contactId) {
             throw new Error('Profile is not available.')
         }
 

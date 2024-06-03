@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Icon, IOption, IconName, Text, Tile } from '@bloomwalletio/ui'
-    import { isEvmNetwork } from '@core/network'
+    import { SupportedNetworkId, isEvmNetwork } from '@core/network'
     import { Subject, SubjectType } from '@core/wallet'
     import { NetworkAvatar, RecipientInput } from '@ui'
     import { INetworkRecipientSelectorOption } from '../interfaces'
@@ -35,8 +35,9 @@
                     },
                 ]
             case SubjectType.Contact: {
+                const networkId = isEvmNetwork(item.networkId) ? SupportedNetworkId.GenericEvm : item.networkId
                 const addresses = Object.values(
-                    ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)[item.networkId] ?? {}
+                    ContactManager.getNetworkContactAddressMapForContact(recipient.contact.id)[networkId] ?? {}
                 )
                 return addresses.map<IOption>((address) => ({
                     label: `${recipient.contact.name} (${address.addressName})`,
