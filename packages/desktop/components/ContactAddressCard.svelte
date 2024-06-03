@@ -3,7 +3,14 @@
     import { IContact, IContactAddress, IContactAddressMap, setSelectedContactNetworkAddress } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import { ExplorerEndpoint, getExplorerUrl, getNameFromNetworkId, getNetwork, NetworkId } from '@core/network'
+    import {
+        ExplorerEndpoint,
+        getExplorerUrl,
+        getNameFromNetworkId,
+        getNetwork,
+        NetworkId,
+        NetworkNamespace,
+    } from '@core/network'
     import { Router } from '@core/router'
     import { truncateString } from '@core/utils'
     import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'
@@ -22,6 +29,13 @@
     export let contactAddressMap: IContactAddressMap
 
     const hasExplorer = !!getNetwork(networkId)?.explorerUrl
+
+    function getTitle(): string {
+        if (networkId.includes(NetworkNamespace.Evm)) {
+            return localize('general.evmAddress')
+        }
+        return getNameFromNetworkId(networkId) ?? ''
+    }
 
     function onExplorerClick(address: string): void {
         const url = getExplorerUrl(networkId, ExplorerEndpoint.Address, address)
@@ -55,7 +69,7 @@
         <contact-address-head class="flex justify-between">
             <div class="flex items-center gap-2">
                 <NetworkAvatar {networkId} />
-                <Text type="body1">{getNameFromNetworkId(networkId)}</Text>
+                <Text type="body1">{getTitle()}</Text>
             </div>
             <ContactAddressMenu {drawerRouter} {networkId} />
         </contact-address-head>
