@@ -95,6 +95,7 @@
             bind:this={networkSelectionInput}
             bind:networkId={selectedNetworkId}
             bind:error={validationErrors[AddressField.Network]}
+            mergeLayer2Options
         />
         <TextInput
             bind:value={address}
