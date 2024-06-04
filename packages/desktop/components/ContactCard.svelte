@@ -22,7 +22,7 @@
             <ContactAvatar {contact} />
             <div class="flex w-full text-left overflow-hidden">
                 <Text type="base" truncate>
-                    {contact.name}
+                    {contact?.name}
                 </Text>
             </div>
             {#if showBreadcrumb}
