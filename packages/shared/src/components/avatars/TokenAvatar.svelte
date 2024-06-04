@@ -44,6 +44,9 @@
         [SupportedNetworkId.Sepolia]: {
             [BASE_TOKEN_ID]: 'text-secondary',
         },
+        [SupportedNetworkId.GenericEvm]: {
+            [BASE_TOKEN_ID]: 'text-secondary',
+        },
     }
 
     const AVATAR_TEXT_COLOR: { [networkId: string]: { [tokenId: string]: string } } = {
@@ -76,6 +79,9 @@
         },
         [SupportedNetworkId.Sepolia]: {
             [BASE_TOKEN_ID]: '#FFFFFF',
+        },
+        [SupportedNetworkId.GenericEvm]: {
+            [BASE_TOKEN_ID]: 'text-secondary',
         },
     }
 
