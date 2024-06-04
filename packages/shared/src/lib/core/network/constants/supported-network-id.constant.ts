@@ -11,6 +11,7 @@ export const SupportedStardustNetworkId: Record<string, StardustNetworkId> = {
 }
 
 export const SupportedL1EvmNetworkId: Record<string, EvmNetworkId> = {
+    GenericEvm: `${NetworkNamespace.Evm}:*`,
     Ethereum: `${NetworkNamespace.Evm}:${ChainId.Ethereum}`,
     Sepolia: `${NetworkNamespace.Evm}:${ChainId.Sepolia}`,
 }

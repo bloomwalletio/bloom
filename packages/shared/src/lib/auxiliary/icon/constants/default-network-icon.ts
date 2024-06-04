@@ -12,4 +12,5 @@ export const DEFAULT_NETWORK_ICON: { [id in NetworkId]?: IconName } = {
     [SupportedNetworkId.TestnetEvm]: IconName.Shimmer,
     [SupportedNetworkId.Ethereum]: IconName.Ethereum,
     [SupportedNetworkId.Sepolia]: IconName.Ethereum,
+    [SupportedNetworkId.GenericEvm]: IconName.Ethereum,
 }
