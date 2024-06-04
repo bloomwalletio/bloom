@@ -38,7 +38,7 @@
         "classic-level": "1.4.1",
         "dotenv": "16.4.5",
         "electron-dl": "3.5.2",
-        "electron-log": "4.4.8",
+        "electron-log": "5.1.5",
         "electron-updater": "6.1.8",
         "https-browserify": "1.0.0",
         "keytar": "7.9.0",
