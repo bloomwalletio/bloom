@@ -14,6 +14,7 @@
         getStardustNetwork,
         getNetwork,
         isEvmNetwork,
+        SupportedNetworkId,
     } from '@core/network'
     import { NftStandard } from '@core/nfts'
     import { visibleActiveAccounts } from '@core/profile/stores'
@@ -95,7 +96,8 @@
     }
 
     function getContactRecipientsForNetwork(networkId: NetworkId): Subject[] {
-        const recipients: Subject[] = ContactManager.listContactAddressesForNetwork(networkId).map((address) => {
+        const _networkId = isEvmNetwork(networkId) ? SupportedNetworkId.GenericEvm : networkId
+        const recipients: Subject[] = ContactManager.listContactAddressesForNetwork(_networkId).map((address) => {
             const contact = ContactManager.getContact(address.contactId)
             return {
                 type: SubjectType.Contact,

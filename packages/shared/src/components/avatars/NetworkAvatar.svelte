@@ -20,6 +20,7 @@
         [SupportedNetworkId.TestnetEvm]: 'shimmer-evm-background/90',
         [SupportedNetworkId.Ethereum]: '#627eea',
         [SupportedNetworkId.Sepolia]: 'text-secondary',
+        [SupportedNetworkId.GenericEvm]: '#627eea',
     }
 
     const AVATAR_TEXT_COLOR: { [id in NetworkId]?: string } = {
@@ -33,6 +34,7 @@
         [SupportedNetworkId.TestnetEvm]: '#FFFFFF',
         [SupportedNetworkId.Ethereum]: '#FFFFFF',
         [SupportedNetworkId.Sepolia]: '#FFFFFF',
+        [SupportedNetworkId.GenericEvm]: '#FFFFFF',
     }
 
     let anchor: HTMLElement
