@@ -29,7 +29,7 @@
         "compile:prod:win": "yarn compile prod win"
     },
     "dependencies": {
-        "@amplitude/analytics-node": "1.3.5",
+        "@amplitude/analytics-node": "1.3.6",
         "@ledgerhq/hw-app-eth": "6.36.0",
         "@ledgerhq/hw-transport-node-hid": "6.28.4",
         "@ledgerhq/logs": "6.12.0",
