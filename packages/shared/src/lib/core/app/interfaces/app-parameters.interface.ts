@@ -6,4 +6,7 @@ export interface IAppParameters {
     allowlists: {
         urls: string[]
     }
+    geoFence: {
+        buySell: string[]
+    }
 }

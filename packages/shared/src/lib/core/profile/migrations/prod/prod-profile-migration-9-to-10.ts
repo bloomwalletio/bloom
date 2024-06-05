@@ -6,6 +6,7 @@ import { prodProfileMigration6To7 } from './prod-profile-migration-6-to-7'
 import { prodProfileMigration7To8 } from './prod-profile-migration-7-to-8'
 import { prodProfileMigration4To5 } from './prod-profile-migration-4-to-5'
 import { prodProfileMigration8To9 } from './prod-profile-migration-8-to-9'
+import { addDefaultIscChainsToIotaProfiles } from '../actions/addDefaultIscChainsToIotaProfiles'
 
 export async function prodProfileMigration9To10(existingProfile: unknown): Promise<void> {
     const profile = existingProfile as IPersistedProfile
@@ -36,6 +37,8 @@ export async function prodProfileMigration9To10(existingProfile: unknown): Promi
 
     // prodProfileMigration8To9 recovery
     await prodProfileMigration8To9(profile)
+
+    addDefaultIscChainsToIotaProfiles(profile)
 
     return Promise.resolve()
 }

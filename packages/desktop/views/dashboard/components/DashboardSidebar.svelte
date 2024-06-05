@@ -16,12 +16,12 @@
     } from '@core/router'
     import { isDashboardSideBarExpanded } from '@core/ui'
     import { IDashboardSidebarTab } from '@desktop/routers'
-    import features from '@features/features'
     import { Logo } from '@ui'
     import { campaignsRouter } from '../campaigns'
     import LedgerStatusTile from './LedgerStatusTile.svelte'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { BackupToast, VersionToast } from './toasts'
+    import { isFeatureEnabled, isFeatureNotGeoFenced } from '@lib/features/utils'
 
     let expanded = true
     function toggleExpand(): void {
@@ -38,7 +38,7 @@
             route: DashboardRoute.Wallet,
             onClick: openWallet,
         },
-        ...(features?.collectibles?.enabled && profileFeatures?.collectibles
+        ...(isFeatureEnabled(DashboardRoute.Collectibles) && profileFeatures?.collectibles
             ? [
                   {
                       icon: IconName.Image,
@@ -48,7 +48,7 @@
                   },
               ]
             : []),
-        ...(features?.governance?.enabled && profileFeatures?.governance
+        ...(isFeatureEnabled(DashboardRoute.Governance) && profileFeatures?.governance
             ? [
                   {
                       icon: IconName.Bank,
@@ -58,7 +58,7 @@
                   },
               ]
             : []),
-        ...(features?.campaigns?.enabled && profileFeatures?.campaigns
+        ...(isFeatureEnabled(DashboardRoute.Campaigns) && profileFeatures?.campaigns
             ? [
                   {
                       icon: IconName.Trophy,
@@ -68,7 +68,9 @@
                   },
               ]
             : []),
-        ...(features?.buySell?.enabled && profileFeatures?.buySell
+        ...(isFeatureEnabled(DashboardRoute.BuySell) &&
+        isFeatureNotGeoFenced(DashboardRoute.BuySell) &&
+        profileFeatures?.buySell
             ? [
                   {
                       icon: IconName.ArrowDownUp,
@@ -83,7 +85,7 @@
                   },
               ]
             : []),
-        ...(features?.developerTools?.enabled && profileFeatures?.developer
+        ...(isFeatureEnabled('developerTools') && profileFeatures?.developer
             ? [
                   {
                       icon: IconName.Developer,
