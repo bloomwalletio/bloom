@@ -4,6 +4,7 @@
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { DashboardRoute } from '@core/router'
     import SettingsSection from '../SettingsSection.svelte'
+    import { isFeatureNotGeoFenced, isFeatureNotGeoFenced } from '@lib/features/utils'
 
     const features = $activeProfile?.features ?? {
         [DashboardRoute.Wallet]: true,
@@ -47,12 +48,14 @@
             label={localize('tabs.campaigns')}
             bind:checked={features[DashboardRoute.Campaigns]}
         />
-        <Checkbox
-            size="md"
-            textType="base"
-            label={localize('tabs.buySell')}
-            bind:checked={features[DashboardRoute.BuySell]}
-        />
+        {#if isFeatureNotGeoFenced(DashboardRoute.BuySell)}
+            <Checkbox
+                size="md"
+                textType="base"
+                label={localize('tabs.buySell')}
+                bind:checked={features[DashboardRoute.BuySell]}
+            />
+        {/if}
         <div class="flex flex-row space-x-2 items-center">
             <Checkbox
                 size="md"
