@@ -1,5 +1,4 @@
 export * from './buildUnwrapAssetParameters'
-export * from './buildUnwrapAssetTargetAddress'
 export * from './canAccountMakeEvmTransaction'
 export * from './checkForUntrackedTokens'
 export * from './fetchEvmBalancesForAccount'

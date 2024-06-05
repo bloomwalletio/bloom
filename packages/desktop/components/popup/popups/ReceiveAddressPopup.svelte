@@ -64,7 +64,7 @@
     }}
 >
     <div class="space-y-5 flex flex-auto flex-col shrink-0">
-        <NetworkInput bind:networkId={selectedNetworkId} />
+        <NetworkInput mergeLayer2Options bind:networkId={selectedNetworkId} />
         {#if receiveAddress}
             <AddressBox
                 address={receiveAddress}
