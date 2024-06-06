@@ -66,7 +66,7 @@
     />
     <div class="flex flex-row space-x-1 items-center">
         <div class="shrink-0">
-            <AccountSwitcher compact hasCreateAccount />
+            <AccountSwitcher breadcrumb compact hasCreateAccount />
         </div>
         <Icon name={IconName.ChevronRight} size="sm" />
         <Breadcrumb
