@@ -32,6 +32,7 @@
     import { _ } from '@core/i18n'
     import { getAndUpdateShimmerEvmTokensMetadata } from '@core/market/actions'
     import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
+    import { getAndUpdateCountryCode } from '@auxiliary/country/actions'
 
     $: $activeProfile, saveActiveProfile()
 
@@ -50,6 +51,7 @@
     let splash = true
 
     void setupI18n({ fallbackLocale: 'en', initialLocale: $appSettings.language })
+    void getAndUpdateCountryCode()
 
     onMount(async () => {
         if (features.analytics.appStart.enabled) {

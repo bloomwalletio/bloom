@@ -5,5 +5,8 @@
     },
     "allowlists": {
         "urls": ["https://tideprotocol.infura-ipfs.io"]
+    },
+    "geoFence": {
+        "buySell": ["GB"]
     }
 }

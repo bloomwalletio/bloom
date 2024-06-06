@@ -22,8 +22,9 @@ export const PROD_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     6: prodProfileMigration6To7,
     7: prodProfileMigration7To8,
     // ^^^ release 1.0.2 ^^^
-    8: prodProfileMigration8To9, // Migration was removed and replaced with 10To11 after 9To10
+    8: prodProfileMigration8To9,
     // ^^^ release 1.0.3 ^^^
     9: prodProfileMigration9To10, // rechecking some previous migrations due to a bug during migrations
     10: prodProfileMigration10To11,
+    // ^^^ release 1.0.4 ^^^
 }
