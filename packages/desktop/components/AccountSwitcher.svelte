@@ -30,6 +30,20 @@
                 onClick: () => onAccountClick(account.index),
             }
         })
+
+        if (!compact) {
+            const totalBalance = Object.values($allAccountFiatBalances)
+                .reduce((acc, balance) => Number(acc) + Number(balance), 0)
+                .toString()
+
+            items = items.concat({
+                title: localize('general.totalBalance'),
+                subtitle: formatCurrency(totalBalance),
+                selected: false,
+                hidden: accounts.length < 2,
+                onClick: () => {},
+            })
+        }
     }
     $: setItems($visibleActiveAccounts, $selectedAccount?.index)
 
