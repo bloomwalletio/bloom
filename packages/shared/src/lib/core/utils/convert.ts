@@ -273,12 +273,28 @@ export class Converter {
      * @returns The bytes.
      */
     public static bigIntLikeToBigInt(number: BigIntLike | undefined): bigint {
+        if (number === undefined || number === null || Number.isNaN(number)) {
+            return BigInt(0)
+        }
+
         if (ArrayBuffer.isView(number)) {
             return bytesToBigInt(number)
-        } else {
-            number = number === '0x' ? '0x0' : number
-            return BigInt(String(number ?? '0'))
         }
+
+        if (typeof number === 'string') {
+            if (number === '0x') {
+                return BigInt('0x0')
+            }
+            if (/\d+\.?\d*e[+-]?\d+/i.test(number)) {
+                number = Number(number)
+            }
+        }
+
+        if (typeof number === 'number' && !Number.isInteger(number)) {
+            number = Math.floor(number)
+        }
+
+        return BigInt(number)
     }
 
     /**
