@@ -1032,6 +1032,7 @@
             "selectAmount": "Send {tokenName}",
             "selectRecipient": "Send {assetName} to",
             "transactionSummary": "Transaction to {recipient}",
+            "ircAssetsToL2Hint": "You are about to send an IRC asset to an EVM network. Most EVM based wallets don't support displaying IRC assets correctly.",
             "surplusIncluded": "This transaction contains a surplus amount. Please double check this is the amount you want to send."
         },
         "walletFinder": {
@@ -1744,7 +1745,8 @@
         "slow": "Slow",
         "average": "Average",
         "fast": "Fast",
-        "spender": "Spender"
+        "spender": "Spender",
+        "status": "Status"
     },
     "filters":{
         "title": "Filters",

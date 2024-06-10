@@ -42,10 +42,14 @@ export function handleDeepLink(input: string): void {
     }
 
     try {
-        const url = new URL(input)
-        if (url.protocol !== `${process.env.APP_PROTOCOL}:`) {
+        const protocol = input.split('://')[0]
+
+        if (protocol !== process.env.APP_PROTOCOL) {
             throw new Error(`Does not start with ${process.env.APP_PROTOCOL}://`)
         }
+
+        const cleanedInput = input.replace(`${protocol}://`, 'https://')
+        const url = new URL(cleanedInput)
 
         closePopup()
         closeDrawer()
@@ -64,7 +68,6 @@ function handleDeepLinkForHostname(url: URL): void {
         if (pathnameParts.length === 0 || !pathnameParts[0]) {
             throw new Error('No operation specified in the URL')
         }
-
         switch (url.hostname as DeepLinkContext) {
             case DeepLinkContext.Wallet:
                 get(dashboardRouter)?.goTo(DashboardRoute.Wallet)

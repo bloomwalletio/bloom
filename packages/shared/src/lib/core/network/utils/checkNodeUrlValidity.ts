@@ -28,7 +28,6 @@ export function checkNodeUrlValidity(
         newUrl = newUrl.slice(0, -4)
     }
 
-    /* eslint-disable @typescript-eslint/prefer-regexp-exec */
     if (nodesList && nodesList.some(({ url }) => (url.endsWith(':443') ? url.slice(0, -4) : url).match(newUrl))) {
         return 'error.node.duplicate'
     }

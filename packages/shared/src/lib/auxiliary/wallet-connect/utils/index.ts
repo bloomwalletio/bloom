@@ -1,5 +1,6 @@
 export * from './buildNetworkAddressForWalletConnect'
 export * from './disconnectAllDapps'
+export * from './doesNamespaceSupportEvent'
 export * from './getBloomError'
 export * from './getPermissionForMethod'
 export * from './rejectSession'
