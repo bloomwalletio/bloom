@@ -6,6 +6,7 @@ import { NotifyClient, NotifyClientTypes } from '@walletconnect/notify-client'
 import { Writable, get, writable } from 'svelte/store'
 import { NotifyEvent } from '../enums'
 import { WALLET_CONNECT_CORE } from '../../constants/wallet-connect-core.constant'
+import { PartialWithId } from '@core/utils'
 
 // TODO: where should this be placed?
 const APP_DOMAIN = 'https://bloomwallet.io'
@@ -222,6 +223,28 @@ export class NotificationsManager {
         })
     }
 
+    private updateNotificationForSubscription(
+        partialNotification: PartialWithId<NotifyClientTypes.NotifyNotification>,
+        subscriptionTopic: string
+    ): void {
+        this.notificationsPerSubscription.update((state) => {
+            const notificationsForTopic = state[subscriptionTopic]
+            if (!notificationsForTopic) {
+                return state
+            }
+
+            const updatedNotifications = notificationsForTopic.map((notification) => {
+                if (notification.id === partialNotification.id) {
+                    return { ...notification, ...partialNotification }
+                }
+                return notification
+            })
+
+            state[subscriptionTopic] = updatedNotifications
+            return state
+        })
+    }
+
     private handleNewNotification(topic: string, notification: NotifyClientTypes.NotifyServerNotification): void {
         const notificationsForTopic = get(this.notificationsPerSubscription)[topic]
 
@@ -262,8 +285,16 @@ export class NotificationsManager {
         await this.notifyClient?.subscribe({ appDomain, account: networkAddress })
     }
 
-    markAsRead(notificationIds: string[], topic: string): void {
-        void this.notifyClient?.markNotificationsAsRead({ notificationIds, topic })
+    async markAsRead(notificationId: string, subscriptionTopic: string): Promise<void> {
+        try {
+            await this.notifyClient?.markNotificationsAsRead({
+                notificationIds: [notificationId],
+                topic: subscriptionTopic,
+            })
+            this.updateNotificationForSubscription({ id: notificationId, isRead: true }, subscriptionTopic)
+        } catch (e) {
+            console.error('Error marking notifications as read', e)
+        }
     }
 
     async updateAllSubscriptionsAndNotifications(): Promise<void> {

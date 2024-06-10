@@ -13,6 +13,9 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { NotifyClientTypes } from '@walletconnect/notify-client'
 
+    type NotificationWithSubscription = NotifyClientTypes.NotifyNotification & { subscriptionTopic: string }
+    type DataItem = { item: string }
+
     const TABS = [
         { key: 'all', value: 'All' },
         { key: 'unread', value: 'Unread' },
@@ -30,7 +33,9 @@
             }))
         )
         .sort((a, b) => b.sentAt - a.sentAt)
-        .filter((notification) => (selectedTab.key === 'unread' ? !notification.isRead : true))
+        .filter((notification) =>
+            selectedTab.key === 'unread' ? !notification.isRead : true
+        ) as NotificationWithSubscription[]
 
     let anchor: HTMLElement | undefined = undefined
 
@@ -53,6 +58,16 @@
         }
     }
 
+    async function markAsRead(notification, topic): Promise<void> {
+        try {
+            if (!notification.isRead) {
+                await notificationsManager.markAsRead(notification.id, topic)
+            }
+        } catch (err) {
+            handleError(err)
+        }
+    }
+
     const observedElements = new Set<HTMLElement>()
 
     const observer = new IntersectionObserver(
@@ -61,10 +76,14 @@
                 const element = entry.target as HTMLElement
                 const isVisible = element.checkVisibility({ checkOpacity: true })
                 if (isVisible && entry.isIntersecting) {
-                    const { id, topic } = element.dataset
-                    if (id && topic) {
-                        void notificationsManager.markAsRead([id], topic)
-                        observedElements.delete(element)
+                    const { item } = element.dataset as DataItem
+                    const notification = JSON.parse(item) as NotificationWithSubscription
+
+                    if (notification) {
+                        setTimeout(() => {
+                            void markAsRead(notification, notification.subscriptionTopic)
+                            observedElements.delete(element)
+                        }, 1000)
                     }
                 }
             })
@@ -72,25 +91,37 @@
         { threshold: 0.5 }
     )
 
-    function observe(node: HTMLElement): void {
-        const isRead = node.dataset.isread === 'true'
-        if (!isRead) {
+    function checkIfWeShouldObserveElement(node: HTMLElement): void {
+        const { item } = node.dataset as DataItem
+        const notification = JSON.parse(item) as NotificationWithSubscription
+
+        if (!notification?.isRead) {
             observedElements.add(node)
+            if (open) {
+                observer.observe(node)
+            }
         }
     }
 
-    function toggleObserve(): void {
+    function observeAll(): void {
         observedElements.forEach((element) => {
-            observer.unobserve(element)
             observer.observe(element)
         })
     }
 
+    function unobserveAll(): void {
+        observedElements.forEach((element) => {
+            observer.unobserve(element)
+        })
+    }
+
+    let open = false
     function onVisibilityChange({ detail }: CustomEvent): void {
+        open = detail.visible
         if (detail.visible) {
-            toggleObserve()
+            observeAll()
         } else {
-            notificationsManager.updateAllSubscriptionsAndNotifications()
+            unobserveAll()
         }
     }
 
@@ -98,6 +129,7 @@
         notification: NotifyClientTypes.NotifyNotification,
         subscription?: NotifyClientTypes.NotifySubscription
     ): void {
+        void markAsRead(notification, subscription?.topic)
         openPopup({
             id: PopupId.NotificationDetails,
             props: {
@@ -142,22 +174,22 @@
                 style:--notification-height={notificationHeight}
                 style:--notification-count={notificationsToDisplay.length}
             >
-                <VirtualList items={notificationsToDisplay} let:item itemHeight={notificationHeight}>
-                    <div
-                        data-id={item.id}
-                        data-topic={item.subscriptionTopic}
-                        data-isread={item.isRead}
-                        style:height={notificationHeight + 'px'}
-                        class="border-b border-solid border-stroke dark:border-stroke-dark"
-                        use:observe
-                    >
-                        <NotificationTile
-                            notification={item}
-                            subscriptionTopic={item.subscriptionTopic}
-                            onClick={onNotificationClick}
-                        />
-                    </div>
-                </VirtualList>
+                {#key notificationsToDisplay}
+                    <VirtualList items={notificationsToDisplay} let:item itemHeight={notificationHeight}>
+                        <div
+                            data-item={JSON.stringify(item)}
+                            style:height={notificationHeight + 'px'}
+                            class="border-b border-solid border-stroke dark:border-stroke-dark"
+                            use:checkIfWeShouldObserveElement
+                        >
+                            <NotificationTile
+                                notification={item}
+                                subscriptionTopic={item.subscriptionTopic}
+                                onClick={onNotificationClick}
+                            />
+                        </div>
+                    </VirtualList>
+                {/key}
             </virtual-list-wrapper>
         {:else if !isAtLeast1AccountRegistered}
             <div class="px-3 py-8 w-full flex flex-col gap-4 items-center">
