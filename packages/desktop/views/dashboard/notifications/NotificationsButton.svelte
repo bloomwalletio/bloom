@@ -2,7 +2,7 @@
     import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { IconButton, IconName, Indicator } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import NotificationsPopoverContent from '../components/NotificationsPopoverContent.svelte'
+    import NotificationsPopoverContent from './NotificationsPopoverContent.svelte'
 
     const notifications = notificationsManager.notificationsPerSubscription
     $: hasUnreadNotifications = Object.values($notifications).some((notifications) =>

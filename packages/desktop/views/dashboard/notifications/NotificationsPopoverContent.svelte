@@ -1,6 +1,6 @@
 <script lang="ts">
     import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
-    import { Button, Popover, Tabs, Text } from '@bloomwalletio/ui'
+    import { Button, Popover, Text } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -18,13 +18,6 @@
 
     export let anchor: HTMLElement | undefined = undefined
 
-    const TABS = [
-        { key: 'all', value: 'All' },
-        { key: 'unread', value: 'Unread' },
-    ]
-
-    let selectedTab = TABS[0]
-
     const evmNetwork = getEvmNetwork(SupportedNetworkId.Ethereum)
     const notifications = notificationsManager.notificationsPerSubscription
     $: notificationsToDisplay = Object.keys($notifications)
@@ -34,10 +27,7 @@
                 subscriptionTopic,
             }))
         )
-        .sort((a, b) => b.sentAt - a.sentAt)
-        .filter((notification) =>
-            selectedTab.key === 'unread' ? !notification.isRead : true
-        ) as NotificationWithSubscription[]
+        .sort((a, b) => b.sentAt - a.sentAt) as NotificationWithSubscription[]
 
     $: isAtLeast1AccountRegistered =
         evmNetwork && $activeAccounts.some((account) => notificationsManager.isRegistered(account, evmNetwork))
@@ -147,11 +137,6 @@
         class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
         shadow-lg overflow-hidden divide-y divide-solid divide-stroke dark:divide-stroke-dark bg-surface dark:bg-surface-dark"
     >
-        {#if isAtLeast1AccountRegistered && hasNotifications}
-            <div class="w-full p-4">
-                <Tabs bind:selectedTab tabs={TABS} />
-            </div>
-        {/if}
         {#if notificationsToDisplay.length}
             <virtual-list-wrapper
                 class="w-full"
