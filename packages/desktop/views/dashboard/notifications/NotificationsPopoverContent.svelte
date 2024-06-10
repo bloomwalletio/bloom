@@ -1,6 +1,6 @@
 <script lang="ts">
     import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
-    import { Button, IconButton, IconName, Indicator, Popover, Tabs, Text } from '@bloomwalletio/ui'
+    import { Button, Popover, Tabs, Text } from '@bloomwalletio/ui'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
@@ -15,6 +15,8 @@
 
     type NotificationWithSubscription = NotifyClientTypes.NotifyNotification & { subscriptionTopic: string }
     type DataItem = { item: string }
+
+    export let anchor: HTMLElement | undefined = undefined
 
     const TABS = [
         { key: 'all', value: 'All' },
@@ -36,8 +38,6 @@
         .filter((notification) =>
             selectedTab.key === 'unread' ? !notification.isRead : true
         ) as NotificationWithSubscription[]
-
-    let anchor: HTMLElement | undefined = undefined
 
     $: isAtLeast1AccountRegistered =
         evmNetwork && $activeAccounts.some((account) => notificationsManager.isRegistered(account, evmNetwork))
@@ -139,22 +139,6 @@
         })
     }
 </script>
-
-<button bind:this={anchor} type="button" class="relative flex items-center">
-    <IconButton
-        icon={IconName.Bell}
-        tooltip={localize('views.dashboard.dappNotifications.title')}
-        textColor="primary"
-        size="sm"
-    />
-    {#if notificationsToDisplay.some((notification) => !notification.isRead)}
-        <Indicator
-            size="sm"
-            class="absolute top-0 right-0 box-content rounded-full
-            border-2 border-solid border-surface dark:border-surface-dark"
-        />
-    {/if}
-</button>
 
 <Popover {anchor} event="click" placement="bottom-start" preventClose on:visibilityChange={onVisibilityChange}>
     {@const notificationHeight = 76}

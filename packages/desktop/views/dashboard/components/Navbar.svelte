@@ -6,7 +6,7 @@
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { DashboardDrawerRoute } from '../drawers'
     import Breadcrumbs from './Breadcrumbs.svelte'
-    import NotificationsButton from './NotificationsButton.svelte'
+    import NotificationsButton from '../notifications/NotificationsButton.svelte'
     import { isFeatureEnabled } from '@lib/features/utils'
 </script>
 
