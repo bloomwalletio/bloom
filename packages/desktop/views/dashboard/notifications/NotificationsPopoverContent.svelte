@@ -5,20 +5,20 @@
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { LedgerAppName } from '@core/ledger/enums'
-    import { SupportedNetworkId, getEvmNetwork } from '@core/network'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeAccounts } from '@core/profile/stores'
     import { NotificationTile } from '@ui'
     import VirtualList from '@sveltejs/svelte-virtual-list'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { NotifyClientTypes } from '@walletconnect/notify-client'
+    import { getEvmNetworks } from '@core/network'
 
     type NotificationWithSubscription = NotifyClientTypes.NotifyNotification & { subscriptionTopic: string }
     type DataItem = { item: string }
 
     export let anchor: HTMLElement | undefined = undefined
 
-    const evmNetwork = getEvmNetwork(SupportedNetworkId.Ethereum)
+    const evmNetworks = getEvmNetworks()
     const notifications = notificationsManager.notificationsPerSubscription
     $: notificationsToDisplay = Object.keys($notifications)
         .flatMap((subscriptionTopic) =>
@@ -29,10 +29,15 @@
         )
         .sort((a, b) => b.sentAt - a.sentAt) as NotificationWithSubscription[]
 
-    $: isAtLeast1AccountRegistered =
-        evmNetwork && $activeAccounts.some((account) => notificationsManager.isRegistered(account, evmNetwork))
+    $: isAtLeast1AccountRegistered = $activeAccounts.some((account) =>
+        evmNetworks.some((evmNetwork) => notificationsManager.isRegistered(account, evmNetwork))
+    )
 
     async function enableNotifications(): Promise<void> {
+        if (!$selectedAccount) {
+            return
+        }
+
         try {
             await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch (error) {
@@ -40,15 +45,15 @@
         }
 
         try {
-            if ($selectedAccount && evmNetwork) {
-                notificationsManager.registerAccount($selectedAccount, evmNetwork)
+            for (const evmNetwork of evmNetworks) {
+                await notificationsManager.registerAccount($selectedAccount, evmNetwork)
             }
         } catch (err) {
             handleError(err)
         }
     }
 
-    async function markAsRead(notification, topic): Promise<void> {
+    async function markAsRead(notification: NotifyClientTypes.NotifyNotification, topic: string): Promise<void> {
         try {
             if (!notification.isRead) {
                 await notificationsManager.markAsRead(notification.id, topic)
@@ -132,7 +137,6 @@
 
 <Popover {anchor} event="click" placement="bottom-start" preventClose on:visibilityChange={onVisibilityChange}>
     {@const notificationHeight = 76}
-    {@const hasNotifications = Object.keys($notifications).flat().length > 0}
     <div
         class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
         shadow-lg overflow-hidden divide-y divide-solid divide-stroke dark:divide-stroke-dark bg-surface dark:bg-surface-dark"
@@ -168,7 +172,7 @@
                     on:click={() => enableNotifications()}
                 />
             </div>
-        {:else if hasNotifications}
+        {:else}
             <div class="px-3 py-8 w-full">
                 <Text type="body2" align="center">{localize('views.dashboard.dappNotifications.empty')}</Text>
             </div>

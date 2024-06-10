@@ -40,8 +40,12 @@ export class NotificationsManager {
         this.notifyClient.on(
             NotifyEvent.SubscriptionsChanged,
             (event: NotifyClientTypes.EventArguments[NotifyEvent.SubscriptionsChanged]) => {
-                this.updateSubscriptionsPerAddress(event.params.subscriptions)
-                void this.updateNotificationsForSubscriptions(event.params.subscriptions)
+                for (const subscription of event.params.subscriptions) {
+                    if (this.trackedNetworkAddresses.has(subscription.account)) {
+                        this.updateSubscriptionsPerAddress(event.params.subscriptions)
+                        void this.updateNotificationsForSubscriptions(event.params.subscriptions)
+                    }
+                }
             }
         )
 
@@ -149,6 +153,7 @@ export class NotificationsManager {
 
     async addTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
         const newNetworkAddressesToTrack = new Set(
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
             accounts
                 .map((acc) => buildNetworkAddressForWalletConnect(acc, networkId))
                 .filter(
@@ -156,22 +161,18 @@ export class NotificationsManager {
                         acc &&
                         this.notifyClient?.watchedAccounts.getAll().some((accountObj) => accountObj.account === acc)
                 )
-                .filter(Boolean)
+                .filter(Boolean) as string[]
         )
 
         // TODO: Upgrade to this set operation once we upgade node to v22+
         newNetworkAddressesToTrack.forEach((address) => {
-            if (address) {
-                this.trackedNetworkAddresses.add(address)
-            }
+            this.trackedNetworkAddresses.add(address)
         })
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/union#browser_compatibility
         // this.trackedNetworkAddresses = this.trackedNetworkAddresses.union(newNetworkAddressesToTrack)
 
         for (const networkAddress of newNetworkAddressesToTrack) {
-            if (networkAddress) {
-                await this.updateSubscriptionsAndNotificationsForNetworkAddress(networkAddress)
-            }
+            await this.updateSubscriptionsAndNotificationsForNetworkAddress(networkAddress)
         }
     }
 
@@ -187,7 +188,6 @@ export class NotificationsManager {
         }
 
         const activeSubscriptions = Object.values(this.notifyClient.getActiveSubscriptions({ account: networkAddress }))
-
         this.updateSubscriptionsPerAddress(activeSubscriptions)
 
         await this.updateNotificationsForSubscriptions(activeSubscriptions)
@@ -295,17 +295,6 @@ export class NotificationsManager {
         } catch (e) {
             console.error('Error marking notifications as read', e)
         }
-    }
-
-    async updateAllSubscriptionsAndNotifications(): Promise<void> {
-        if (!this.notifyClient) {
-            return
-        }
-
-        const activeSubscriptions = Object.values(this.notifyClient.getActiveSubscriptions())
-        this.updateSubscriptionsPerAddress(activeSubscriptions)
-
-        await this.updateNotificationsForSubscriptions(activeSubscriptions)
     }
 }
 
