@@ -1702,6 +1702,8 @@
         "maxFees": "Max fees",
         "contacts": "Contacts",
         "apps": "Apps",
+        "connectedDapps": "Connected dApps",
+        "dapps": "dApps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
