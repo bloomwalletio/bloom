@@ -6,10 +6,10 @@
     export let selectedIndex = -1
     export let hasError: boolean = false
 
-    const reipientItems: Record<number, NetworkRecipientItem> = {}
+    const recipientItems: Record<number, NetworkRecipientItem> = {}
 
     export function validate(): void {
-        reipientItems[selectedIndex]?.validate()
+        recipientItems[selectedIndex]?.validate()
     }
 
     function onItemClick(index: number): void {
@@ -22,7 +22,7 @@
         {#each options as item, index}
             <NetworkRecipientItem
                 hasError={selectedIndex === index && hasError}
-                bind:this={reipientItems[index]}
+                bind:this={recipientItems[index]}
                 bind:item
                 selected={index === selectedIndex}
                 onChange={() => onItemClick(index)}

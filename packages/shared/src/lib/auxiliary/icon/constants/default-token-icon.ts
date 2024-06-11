@@ -33,4 +33,7 @@ export const DEFAULT_TOKEN_ICON: { [networkId in NetworkId]?: { [tokenId: string
     [SupportedNetworkId.Sepolia]: {
         [BASE_TOKEN_ID]: IconName.Ethereum,
     },
+    [SupportedNetworkId.GenericEvm]: {
+        [BASE_TOKEN_ID]: IconName.Ethereum,
+    },
 }
