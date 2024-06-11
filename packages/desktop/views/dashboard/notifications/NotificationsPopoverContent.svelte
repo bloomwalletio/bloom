@@ -9,7 +9,7 @@
     import { activeAccounts } from '@core/profile/stores'
     import { NotificationTile } from '@ui'
     import VirtualList from '@sveltejs/svelte-virtual-list'
-    import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
     import { NotifyClientTypes } from '@walletconnect/notify-client'
     import { getEvmNetworks } from '@core/network'
     import { MILLISECONDS_PER_SECOND } from '@core/utils'
@@ -134,9 +134,18 @@
             },
         })
     }
+
+    $: preventClose = $popupState.active && $popupState.id === PopupId.NotificationDetails
 </script>
 
-<Popover {anchor} event="click" placement="bottom-start" preventClose on:visibilityChange={onVisibilityChange}>
+<Popover
+    {anchor}
+    event="click"
+    placement="bottom-start"
+    {preventClose}
+    preventCloseOnElement
+    on:visibilityChange={onVisibilityChange}
+>
     {@const notificationHeight = 76}
     <div
         class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
