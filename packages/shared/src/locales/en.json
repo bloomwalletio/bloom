@@ -1748,7 +1748,8 @@
         "average": "Average",
         "fast": "Fast",
         "spender": "Spender",
-        "status": "Status"
+        "status": "Status",
+        "totalBalance": "Total balance"
     },
     "filters":{
         "title": "Filters",
