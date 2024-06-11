@@ -21,6 +21,7 @@
     import { selectedAccountTokens } from '@core/token/stores'
     import { ownedNfts } from '@core/nfts/stores'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
+    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
 
     export let network: Network
     export let account: IAccountState
@@ -86,6 +87,13 @@
 
         try {
             await generateAndStoreEvmAddressForAccounts($activeProfile.type, network.coinType, account)
+            if (account.index === 0) {
+                try {
+                    await notificationsManager.registerAccount(account, network)
+                } catch (error) {
+                    console.error(error)
+                }
+            }
             pollEvmBalancesForAccount($activeProfile.id, account)
             if ($activeProfile.type === ProfileType.Ledger) {
                 setSelectedNetworkForNetworkDrawer(network)
