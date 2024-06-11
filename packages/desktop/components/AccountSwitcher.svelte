@@ -9,7 +9,6 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
 
     export let breadcrumb: boolean = false
-    export let compact: boolean = false
     export let hasCreateAccount: boolean = false
     export let placement: 'bottom-start' | 'bottom-end' = 'bottom-start'
 
@@ -31,20 +30,18 @@
             }
         })
 
-        if (!compact) {
-            const totalBalance = Object.values($allAccountFiatBalances)
-                .reduce((acc, balance) => Number(acc) + Number(balance), 0)
-                .toString()
+        const totalBalance = Object.values($allAccountFiatBalances)
+            .reduce((acc, balance) => Number(acc) + Number(balance), 0)
+            .toString()
 
-            items = items.concat({
-                title: localize('general.totalBalance'),
-                subtitle: formatCurrency(totalBalance),
-                selected: false,
-                hidden: accounts.length < 2,
-                onClick: () => {},
-            })
-        }
+        items = items.concat({
+            title: localize('general.totalBalance'),
+            subtitle: formatCurrency(totalBalance),
+            selected: false,
+            hidden: accounts.length < 2,
+        })
     }
+
     $: setItems($visibleActiveAccounts, $selectedAccount?.index)
 
     function onCreateAccountClick(): void {
@@ -55,7 +52,7 @@
 
 <Menu
     {items}
-    {compact}
+    compact={false}
     {...hasCreateAccount && { button: { text: localize('general.newAccount'), onClick: onCreateAccountClick } }}
     {placement}
     maxHeight={320}
@@ -65,12 +62,12 @@
             {#if breadcrumb}
                 <Indicator color={$selectedAccount?.color} size="sm" />
             {/if}
-            <div class="flex flex-row justify-center items-center {compact ? 'space-x-1' : 'space-x-2'}">
-                <Text type={compact ? 'base' : 'body1'}>
+            <div class="flex flex-row justify-center items-center {breadcrumb ? 'space-x-1' : 'space-x-2'}">
+                <Text type={breadcrumb ? 'base' : 'body1'}>
                     {$selectedAccount?.name}
                 </Text>
                 {#if !breadcrumb}
-                    <Icon name={IconName.ChevronSelectorVertical} size={compact ? 'xs' : 'sm'} textColor="secondary" />
+                    <Icon name={IconName.ChevronSelectorVertical} size="sm" textColor="secondary" />
                 {/if}
             </div>
         </div>
