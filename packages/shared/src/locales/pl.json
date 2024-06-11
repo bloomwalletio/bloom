@@ -4,7 +4,7 @@
             "welcome": {
                 "title": "Witaj w",
                 "subtitle": "Czas na nową przygodę...",
-                "legalAction": "Potwierdź, że przeczytałeś i akceptujesz:",
+                "legalAction": "Potwierdź, że przeczytałeś i akceptujesz",
                 "button": "Zaczynamy"
             },
             "importThirdPartyProfiles": {
@@ -26,7 +26,7 @@
                         "failedProfileMigration": "Nie można dokonać migracji profilu"
                     },
                     "errors": {
-                        "appIsOpen": "Portfel z którego próbujesz zaimportować jest uruchomiony. Zamknij portfel i spróbuj ponownie.",
+                        "appIsOpen": "Portfel, z którego próbujesz zaimportować, jest uruchomiony. Zamknij portfel i spróbuj ponownie.",
                         "unknown": "Wystąpił nieznany błąd podczas próby importowania profili"
                     },
                     "notifications": {
@@ -1023,7 +1023,7 @@
             "selectAmount": "Wyślij {tokenName}",
             "selectRecipient": "Wyślij {assetName} do",
             "transactionSummary": "Transakcja do {recipient}",
-            "ircAssetsToL2Hint": "You are about to send an IRC asset to an EVM network. Most EVM based wallets don't support displaying IRC assets correctly.",
+            "ircAssetsToL2Hint": "Zamierzasz wysłać asset IRC do sieci EVM. Większość portfeli opartych na EVM nie obsługuje prawidłowego wyświetlania assetów IRC.",
             "surplusIncluded": "Ta transakcja zawiera nadwyżkę środków. Proszę sprawdzić, czy na pewno jest to kwota, którą chcesz wysłać."
         },
         "walletFinder": {
@@ -1094,10 +1094,10 @@
             "success": "Podpisana transakcja"
         },
         "tokenApproval": {
-            "title": "Approve {dappName} to access {assetName}",
-            "hint": "{address} is requesting approval to spend {assetName}",
-            "action": "Approve",
-            "success": "Successfully approved"
+            "title": "Zezwól {dappName} na dostęp do {assetName}",
+            "hint": "{address} prosi o zgodę na wydanie środków {assetName}",
+            "action": "Zezwalam",
+            "success": "Zatwierdzono pomyślnie"
         },
         "sendTransaction": {
             "title": "Wyślij transakcję",
@@ -1106,9 +1106,9 @@
         },
         "smartContractCall": {
             "title": "Interakcja smart kontraktu z {contractAddress}",
-            "unableToVerify": "Bloom is unable to parse the smart contract data, only proceed with apps you trust.",
-            "partiallyVerified": "Bloom has partially parsed the smart contract data, proceed with apps you trust.",
-            "viewSmartContract": "View Contract",
+            "unableToVerify": "Bloom nie jest w stanie przeanalizować danych smart kontraktu. Korzystaj tylko z zaufanych aplikacji.",
+            "partiallyVerified": "Bloom częściowo przeanalizował dane smart kontraktu. Korzystaj tylko z zaufanych aplikacji.",
+            "viewSmartContract": "Wyświetl kontrakt",
             "action": "Potwierdź",
             "success": "Interakcja smart kontraktu z {recipient}"
         },
@@ -1297,7 +1297,7 @@
         "manageVotingPower": {
             "title": "Zarządzaj siłą głosu",
             "body": "Zdefiniuj swoją siłę głosu, aby głosować na propozycje.",
-            "hint": "Wszystkie środki, które przydzielasz do głosowania, zostają zablokowane. Aby móc ich ponownie użyć, musisz zmniejszyć swoją siłę głosu. Ma to wpływ na wszystkie propozycje na które aktualnie głosujesz.",
+            "hint": "Wszystkie środki, które przydzielasz do głosowania, zostają zablokowane. Aby móc ich ponownie użyć, musisz zmniejszyć swoją siłę głosu. Ma to wpływ na wszystkie propozycje, na które aktualnie głosujesz.",
             "amountZero": "Pamiętaj, że ustawienie Twojej siły głosu na zero, zatrzyma Twoje wszystkie Twoje aktywne głosy we wszystkich propozycjach."
         },
         "addProposal": {
@@ -1641,7 +1641,7 @@
         "mintNativeTokenDescription": "Mintuj natywny token zgodny ze standardem IRC30",
         "mintNftDescription": "Mintuj NFT zgodnie z normą IRC27",
         "faucetRequestDescription": "Zażądaj tokenów z faucetu sieci {network}",
-        "refreshTokenMetadataHint": "Spowoduje to zresetowanie wszystkich metadanych Twoich tokenów (wraz z ich statusem weryfikacji) oraz odkrycie wszelkich ukrytych aktywów.",
+        "refreshTokenMetadataHint": "Spowoduje to zresetowanie wszystkich metadanych Twoich tokenów (wraz z ich statusem weryfikacji) oraz przywrócenie wszystkich ukrytych aktywów.",
         "excluded": "Wykluczone",
         "developerTools": "Narzędzia deweloperskie",
         "testDeepLinkDescription": "Symuluj deep link wysyłany do Bloom",
@@ -1735,7 +1735,7 @@
         "slow": "Powoli",
         "average": "Średnio",
         "fast": "Szybko",
-        "spender": "Spender",
+        "spender": "Wydający",
         "status": "Status"
     },
     "filters": {
