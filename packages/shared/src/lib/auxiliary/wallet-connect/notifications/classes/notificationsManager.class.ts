@@ -40,12 +40,12 @@ export class NotificationsManager {
         this.notifyClient.on(
             NotifyEvent.SubscriptionsChanged,
             (event: NotifyClientTypes.EventArguments[NotifyEvent.SubscriptionsChanged]) => {
-                for (const subscription of event.params.subscriptions) {
-                    if (this.trackedNetworkAddresses.has(subscription.account)) {
-                        this.updateSubscriptionsPerAddress(event.params.subscriptions)
-                        void this.updateNotificationsForSubscriptions(event.params.subscriptions)
-                    }
-                }
+                const subscriptions = event.params.subscriptions.filter((subscription) =>
+                    this.trackedNetworkAddresses.has(subscription.account)
+                )
+
+                this.updateSubscriptionsPerAddress(subscriptions)
+                void this.updateNotificationsForSubscriptions(subscriptions)
             }
         )
 
