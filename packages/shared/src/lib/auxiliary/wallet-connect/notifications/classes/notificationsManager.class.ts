@@ -114,6 +114,10 @@ export class NotificationsManager {
             return
         }
 
+        if (this.isRegistered(account, networkId)) {
+            return
+        }
+
         const address = buildNetworkAddressForWalletConnect(account, networkId)
         if (!address) {
             return
