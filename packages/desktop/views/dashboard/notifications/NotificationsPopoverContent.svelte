@@ -1,18 +1,19 @@
 <script lang="ts">
     import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
-    import { Button, Popover, Text } from '@bloomwalletio/ui'
+    import { Button, Popover, IconName } from '@bloomwalletio/ui'
+    import { EmptyListPlaceholder } from '@components'
     import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { LedgerAppName } from '@core/ledger/enums'
+    import { getEvmNetworks } from '@core/network'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeAccounts } from '@core/profile/stores'
-    import { NotificationTile } from '@ui'
-    import VirtualList from '@sveltejs/svelte-virtual-list'
-    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
-    import { NotifyClientTypes } from '@walletconnect/notify-client'
-    import { getEvmNetworks } from '@core/network'
     import { MILLISECONDS_PER_SECOND } from '@core/utils'
+    import { PopupId, openPopup, popupState } from '@desktop/auxiliary/popup'
+    import VirtualList from '@sveltejs/svelte-virtual-list'
+    import { NotificationTile } from '@ui'
+    import { NotifyClientTypes } from '@walletconnect/notify-client'
 
     type NotificationWithSubscription = NotifyClientTypes.NotifyNotification & { subscriptionTopic: string }
     type DataItem = { item: string }
@@ -45,9 +46,12 @@
             return
         }
 
+        // Register for account index 0 only
+        const account = $activeAccounts[0]
+
         try {
             for (const evmNetwork of evmNetworks) {
-                await notificationsManager.registerAccount($selectedAccount, evmNetwork)
+                await notificationsManager.registerAccount(account, evmNetwork)
             }
         } catch (err) {
             handleError(err)
@@ -148,7 +152,7 @@
 >
     {@const notificationHeight = 76}
     <div
-        class="flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
+        class="min-h-96 flex flex-col justify-center items-center border border-solid border-stroke dark:border-stroke-dark rounded-xl w-80
         shadow-lg overflow-hidden divide-y divide-solid divide-stroke dark:divide-stroke-dark bg-surface dark:bg-surface-dark"
     >
         {#if notificationsToDisplay.length}
@@ -175,16 +179,24 @@
                 {/key}
             </virtual-list-wrapper>
         {:else if !isAtLeast1AccountRegistered}
-            <div class="px-3 py-8 w-full flex flex-col gap-4 items-center">
-                <Text type="body2" align="center">{localize('views.dashboard.dappNotifications.notEnabledHint')}</Text>
-                <Button
-                    text={localize('views.dashboard.dappNotifications.enable')}
-                    on:click={() => enableNotifications()}
+            <div class="flex flex-col px-3 py-8 w-full items-center justify-center">
+                <EmptyListPlaceholder
+                    subtitle={localize('views.dashboard.dappNotifications.notEnabledHint')}
+                    icon={IconName.BellRinging}
                 />
             </div>
+
+            <Button
+                size="sm"
+                text={localize('views.dashboard.dappNotifications.enable')}
+                on:click={() => enableNotifications()}
+            />
         {:else}
-            <div class="px-3 py-8 w-full">
-                <Text type="body2" align="center">{localize('views.dashboard.dappNotifications.empty')}</Text>
+            <div class="flex flex-col min-h-96 px-3 py-8 w-full items-center justify-center">
+                <EmptyListPlaceholder
+                    subtitle={localize('views.dashboard.dappNotifications.empty')}
+                    icon={IconName.Bell}
+                />
             </div>
         {/if}
     </div>
@@ -192,6 +204,7 @@
 
 <style lang="postcss">
     virtual-list-wrapper {
+        @apply min-h-96;
         height: min(75vh, var(--notification-height) * var(--notification-count) * 1px);
     }
 </style>
