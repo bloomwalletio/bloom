@@ -38,7 +38,6 @@
             } else {
                 await notificationsManager.registerAccount($selectedAccount, network)
             }
-            isRegistered = !isRegistered
         } catch (err) {
             handleError(err)
         }
