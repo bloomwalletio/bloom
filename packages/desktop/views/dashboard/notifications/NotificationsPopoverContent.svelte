@@ -12,6 +12,7 @@
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
     import { NotifyClientTypes } from '@walletconnect/notify-client'
     import { getEvmNetworks } from '@core/network'
+    import { MILLISECONDS_PER_SECOND } from '@core/utils'
 
     type NotificationWithSubscription = NotifyClientTypes.NotifyNotification & { subscriptionTopic: string }
     type DataItem = { item: string }
@@ -78,7 +79,7 @@
                         setTimeout(() => {
                             void markAsRead(notification, notification.subscriptionTopic)
                             observedElements.delete(element)
-                        }, 1000)
+                        }, 2 * MILLISECONDS_PER_SECOND)
                     }
                 }
             })

@@ -343,10 +343,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bloomwalletio/ui@0.21.3":
-  version "0.21.3"
-  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.21.3/2bf5587205e01b89f67cd6b990495d3a1175b5de#2bf5587205e01b89f67cd6b990495d3a1175b5de"
-  integrity sha512-McwM3nbGmGkkq8zJAWBfriMvSDXXurTrqL26vHrTbNP1LNJJSujRo4o2Oep0sjf1xeQRoHy7HZSPVml/EKwF/g==
+"@bloomwalletio/ui@0.21.4":
+  version "0.21.4"
+  resolved "https://npm.pkg.github.com/download/@bloomwalletio/ui/0.21.4/621e1413c5dfd881e974804dee62eb65eeeb23e8#621e1413c5dfd881e974804dee62eb65eeeb23e8"
+  integrity sha512-j6xYxmefdaeqH4p9Ls6PwN/gS78KXHFMc1TtddmG01H3gr0ENxkmqswjdBTOJhGWT2oq/YyIItwRgKfOaT12SQ==
   dependencies:
     "@floating-ui/dom" "1.4.3"
     "@popperjs/core" "2.11.8"
