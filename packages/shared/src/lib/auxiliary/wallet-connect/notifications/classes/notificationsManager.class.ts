@@ -15,7 +15,7 @@ export type Notifications = { [topic: string]: NotifyClientTypes.NotifyNotificat
 export type Subscriptions = { [topic: string]: NotifyClientTypes.NotifySubscription }
 export class NotificationsManager {
     private notifyClient: NotifyClient | undefined
-    private trackedNetworkAddresses: Set<string> = new Set()
+    public trackedNetworkAddresses: Writable<Set<string>> = writable(new Set())
     public subscriptionsPerAddress: Writable<{ [address: string]: Subscriptions }> = writable({})
     public notificationsPerSubscription: Writable<Notifications> = writable({})
 
@@ -41,7 +41,7 @@ export class NotificationsManager {
             NotifyEvent.SubscriptionsChanged,
             (event: NotifyClientTypes.EventArguments[NotifyEvent.SubscriptionsChanged]) => {
                 const subscriptions = event.params.subscriptions.filter((subscription) =>
-                    this.trackedNetworkAddresses.has(subscription.account)
+                    get(this.trackedNetworkAddresses).has(subscription.account)
                 )
 
                 this.updateSubscriptionsPerAddress(subscriptions)
@@ -137,8 +137,22 @@ export class NotificationsManager {
         await this.addTrackedNetworkAccounts([account], network.id)
     }
 
+    async unregisterAccount(account: IAccountState, network: IEvmNetwork): Promise<void> {
+        if (!this.notifyClient) {
+            return
+        }
+
+        const address = buildNetworkAddressForWalletConnect(account, network.id)
+        if (!address) {
+            return
+        }
+
+        await this.notifyClient.unregister({ account: address })
+        this.removeTrackedNetworkAccounts(address)
+    }
+
     async setTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
-        this.trackedNetworkAddresses.clear()
+        this.trackedNetworkAddresses.set(new Set())
         this.notificationsPerSubscription.set({})
         this.subscriptionsPerAddress.set({})
 
@@ -166,7 +180,10 @@ export class NotificationsManager {
 
         // TODO: Upgrade to this set operation once we upgade node to v22+
         newNetworkAddressesToTrack.forEach((address) => {
-            this.trackedNetworkAddresses.add(address)
+            this.trackedNetworkAddresses.update((state) => {
+                state.add(address)
+                return state
+            })
         })
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/union#browser_compatibility
         // this.trackedNetworkAddresses = this.trackedNetworkAddresses.union(newNetworkAddressesToTrack)
@@ -176,8 +193,29 @@ export class NotificationsManager {
         }
     }
 
+    removeTrackedNetworkAccounts(networkAddress: string): void {
+        this.trackedNetworkAddresses.update((state) => {
+            state.delete(networkAddress)
+            return state
+        })
+
+        let subscriptionTopics: string[] = []
+        this.subscriptionsPerAddress.update((state) => {
+            subscriptionTopics = Object.keys(state[networkAddress] ?? {})
+            state[networkAddress] = {}
+            return state
+        })
+
+        this.notificationsPerSubscription.update((state) => {
+            for (const subscriptionTopic of subscriptionTopics) {
+                delete state[subscriptionTopic]
+            }
+            return state
+        })
+    }
+
     clearTrackedNetworkAccounts(): void {
-        this.trackedNetworkAddresses.clear()
+        this.trackedNetworkAddresses.set(new Set())
         this.subscriptionsPerAddress.set({})
         this.notificationsPerSubscription.set({})
     }

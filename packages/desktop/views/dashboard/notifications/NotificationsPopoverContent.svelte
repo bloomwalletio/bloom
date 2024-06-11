@@ -31,9 +31,12 @@
         )
         .sort((a, b) => b.sentAt - a.sentAt) as NotificationWithSubscription[]
 
-    $: isAtLeast1AccountRegistered = $activeAccounts.some((account) =>
-        evmNetworks.some((evmNetwork) => notificationsManager.isRegistered(account, evmNetwork))
-    )
+    const trackedNetworkAddresses = notificationsManager.trackedNetworkAddresses
+    let isAtLeast1AccountRegistered = false
+    $: $trackedNetworkAddresses,
+        (isAtLeast1AccountRegistered = $activeAccounts.some((account) =>
+            evmNetworks.some((evmNetwork) => notificationsManager.isRegistered(account, evmNetwork))
+        ))
 
     async function enableNotifications(): Promise<void> {
         if (!$selectedAccount) {
