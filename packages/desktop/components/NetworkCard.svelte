@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { Button, Copyable, IconButton, IconName, Text, Tile } from '@bloomwalletio/ui'
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
@@ -51,7 +52,7 @@
     }
 
     async function onGenerateAddressClick(): Promise<void> {
-        if (!network || network.namespace !== NetworkNamespace.Evm) {
+        if (!network || network.namespace !== NetworkNamespace.Evm || !$selectedAccount) {
             return
         }
 
@@ -63,12 +64,15 @@
 
         try {
             setSelectedNetworkForNetworkDrawer(network)
-            await generateAndStoreEvmAddressForAccounts(
-                $activeProfile.type,
-                network.coinType,
-                $selectedAccount as IAccountState
-            )
-            pollEvmBalancesForAccount($activeProfile.id, $selectedAccount as IAccountState)
+            await generateAndStoreEvmAddressForAccounts($activeProfile.type, network.coinType, $selectedAccount)
+            if ($selectedAccount.index === 0 && $activeProfile.type === ProfileType.Software) {
+                try {
+                    await notificationsManager.registerAccount($selectedAccount, network.id, network.coinType)
+                } catch (error) {
+                    console.error(error)
+                }
+            }
+            pollEvmBalancesForAccount($activeProfile.id, $selectedAccount)
             if ($activeProfile.type === ProfileType.Ledger) {
                 $networkConfigRouter.goTo(NetworkConfigRoute.ConfirmLedgerEvmAddress)
             }

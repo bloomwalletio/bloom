@@ -1,6 +1,6 @@
 import { buildNetworkAddressForWalletConnect } from '../../utils'
 import { IAccountState } from '@core/account'
-import { EvmNetworkId, IEvmNetwork } from '@core/network'
+import { EvmNetworkId } from '@core/network'
 import { signMessage } from '@core/wallet'
 import { NotifyClient, NotifyClientTypes } from '@walletconnect/notify-client'
 import { Writable, get, writable } from 'svelte/store'
@@ -100,8 +100,8 @@ export class NotificationsManager {
         }
     }
 
-    isRegistered(account: IAccountState, network: IEvmNetwork): boolean {
-        const notifyClientOptions = NotificationsManager.buildNotifyClientOptions(account, network.id)
+    isRegistered(account: IAccountState, networkId: EvmNetworkId): boolean {
+        const notifyClientOptions = NotificationsManager.buildNotifyClientOptions(account, networkId)
         if (!notifyClientOptions) {
             return false
         }
@@ -109,23 +109,23 @@ export class NotificationsManager {
         return this.notifyClient?.isRegistered(notifyClientOptions) || false
     }
 
-    async registerAccount(account: IAccountState, network: IEvmNetwork): Promise<void> {
+    async registerAccount(account: IAccountState, networkId: EvmNetworkId, coinType: number): Promise<void> {
         if (!this.notifyClient) {
             return
         }
 
-        const address = buildNetworkAddressForWalletConnect(account, network.id)
+        const address = buildNetworkAddressForWalletConnect(account, networkId)
         if (!address) {
             return
         }
 
-        const notifyClientOptions = NotificationsManager.buildNotifyClientOptions(account, network.id)
+        const notifyClientOptions = NotificationsManager.buildNotifyClientOptions(account, networkId)
         if (!notifyClientOptions) {
             return
         }
 
         const { registerParams, message } = await this.notifyClient.prepareRegistration(notifyClientOptions)
-        const signature = await signMessage(message, network.coinType, account)
+        const signature = await signMessage(message, coinType, account)
         if (!signature) {
             return
         }
@@ -134,15 +134,15 @@ export class NotificationsManager {
             registerParams,
             signature,
         })
-        await this.addTrackedNetworkAccounts([account], network.id)
+        await this.addTrackedNetworkAccounts([account], networkId)
     }
 
-    async unregisterAccount(account: IAccountState, network: IEvmNetwork): Promise<void> {
+    async unregisterAccount(account: IAccountState, networkId: EvmNetworkId): Promise<void> {
         if (!this.notifyClient) {
             return
         }
 
-        const address = buildNetworkAddressForWalletConnect(account, network.id)
+        const address = buildNetworkAddressForWalletConnect(account, networkId)
         if (!address) {
             return
         }
@@ -228,7 +228,11 @@ export class NotificationsManager {
         const activeSubscriptions = Object.values(this.notifyClient.getActiveSubscriptions({ account: networkAddress }))
         this.updateSubscriptionsPerAddress(activeSubscriptions)
 
-        await this.updateNotificationsForSubscriptions(activeSubscriptions)
+        try {
+            await this.updateNotificationsForSubscriptions(activeSubscriptions)
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     private updateSubscriptionsPerAddress(newSubscriptions: NotifyClientTypes.NotifySubscription[]): void {

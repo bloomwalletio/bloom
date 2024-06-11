@@ -87,9 +87,9 @@
 
         try {
             await generateAndStoreEvmAddressForAccounts($activeProfile.type, network.coinType, account)
-            if (account.index === 0) {
+            if (account.index === 0 && $activeProfile.type === ProfileType.Software) {
                 try {
-                    await notificationsManager.registerAccount(account, network)
+                    await notificationsManager.registerAccount(account, network.id, network.coinType)
                 } catch (error) {
                     console.error(error)
                 }

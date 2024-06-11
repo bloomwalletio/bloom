@@ -22,13 +22,15 @@
     const trackedAccounts = notificationsManager.trackedNetworkAddresses
     let isRegistered = false
     $: $trackedAccounts,
-        (isRegistered = !!notificationAccount && notificationsManager.isRegistered(notificationAccount, network))
+        (isRegistered = !!notificationAccount && notificationsManager.isRegistered(notificationAccount, network.id))
 
     let busy = false
     async function enableNotifications(): Promise<void> {
         busy = true
         try {
-            await checkActiveProfileAuth(LedgerAppName.Ethereum)
+            if (!isRegistered) {
+                await checkActiveProfileAuth(LedgerAppName.Ethereum)
+            }
         } catch (error) {
             busy = false
             return
@@ -36,9 +38,9 @@
 
         try {
             if (isRegistered) {
-                await notificationsManager.unregisterAccount(notificationAccount, network)
+                await notificationsManager.unregisterAccount(notificationAccount, network.id)
             } else {
-                await notificationsManager.registerAccount(notificationAccount, network)
+                await notificationsManager.registerAccount(notificationAccount, network.id, network.coinType)
             }
         } catch (err) {
             handleError(err)

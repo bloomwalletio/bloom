@@ -38,7 +38,7 @@
     $: $trackedNetworkAddresses, (isAtLeast1AccountRegistered = hasNotificationAccountRegisteredOnSomeNetworks())
 
     function hasNotificationAccountRegisteredOnSomeNetworks(): boolean {
-        return evmNetworks.some((evmNetwork) => notificationsManager.isRegistered(notificationAccount, evmNetwork))
+        return evmNetworks.some((evmNetwork) => notificationsManager.isRegistered(notificationAccount, evmNetwork.id))
     }
 
     async function enableNotifications(): Promise<void> {
@@ -54,7 +54,7 @@
 
         try {
             for (const evmNetwork of evmNetworks) {
-                await notificationsManager.registerAccount(notificationAccount, evmNetwork)
+                await notificationsManager.registerAccount(notificationAccount, evmNetwork.id, evmNetwork.coinType)
             }
         } catch (err) {
             handleError(err)
