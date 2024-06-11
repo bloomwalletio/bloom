@@ -1749,7 +1749,10 @@
         "fast": "Fast",
         "spender": "Spender",
         "status": "Status",
-        "totalBalance": "Total balance"
+        "totalBalance": "Total balance",
+        "saving": "Saving",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
     },
     "filters":{
         "title": "Filters",

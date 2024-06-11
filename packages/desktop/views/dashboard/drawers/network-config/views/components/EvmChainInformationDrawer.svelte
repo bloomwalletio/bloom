@@ -1,51 +1,55 @@
 <script lang="ts">
-    import { localize } from '@core/i18n'
-    import { IEvmNetwork, isIscNetwork } from '@core/network'
+    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { Table, Text, Toggle } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components/drawers'
-    import { NetworkConfigRoute } from '../../network-config-route.enum'
-    import { Router } from '@core/router'
-    import { LedgerAppName } from '@core/ledger'
-    import { checkActiveProfileAuth } from '@core/profile/actions'
-    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { handleError } from '@core/error/handlers'
-    import { selectedAccount } from '@core/account/stores'
+    import { localize } from '@core/i18n'
+    import { LedgerAppName } from '@core/ledger'
+    import { IEvmNetwork, isIscNetwork } from '@core/network'
+    import { checkActiveProfileAuth } from '@core/profile/actions'
+    import { activeAccounts } from '@core/profile/stores'
+    import { Router } from '@core/router'
+    import { NetworkConfigRoute } from '../../network-config-route.enum'
 
     export let drawerRouter: Router<NetworkConfigRoute>
     export let network: IEvmNetwork
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
+    // Register for account index 0 only
+    $: notificationAccount = $activeAccounts[0]
+
     const trackedAccounts = notificationsManager.trackedNetworkAddresses
     let isRegistered = false
     $: $trackedAccounts,
-        (isRegistered = !!$selectedAccount && notificationsManager.isRegistered($selectedAccount, network))
+        (isRegistered = !!notificationAccount && notificationsManager.isRegistered(notificationAccount, network))
 
+    let busy = false
     async function enableNotifications(): Promise<void> {
-        if (!$selectedAccount) {
-            return
-        }
-
+        busy = true
         try {
             await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch (error) {
+            busy = false
             return
         }
 
         try {
             if (isRegistered) {
-                await notificationsManager.unregisterAccount($selectedAccount, network)
+                await notificationsManager.unregisterAccount(notificationAccount, network)
             } else {
-                await notificationsManager.registerAccount($selectedAccount, network)
+                await notificationsManager.registerAccount(notificationAccount, network)
             }
         } catch (err) {
             handleError(err)
+        } finally {
+            busy = false
         }
     }
 </script>
 
 <DrawerTemplate title={network.name} {drawerRouter}>
-    <div class="w-full h-full px-6">
+    <div class="w-full h-full px-6 space-y-4">
         <Table
             orientation="vertical"
             items={[
@@ -75,15 +79,20 @@
                     : []),
             ]}
         />
-        <div class="flex gap-4 p-4">
+        <hr />
+        <Text type="body2">{localize('views.dashboard.dappNotifications.title')}</Text>
+        <div class="flex gap-4">
             <Toggle
                 label={localize('views.dashboard.dappNotifications.enable')}
                 checked={isRegistered}
                 size="md"
                 rounded="rounded-full"
                 onClick={() => enableNotifications()}
+                disabled={busy}
             />
-            <Text type="sm" align="center">{localize('views.dashboard.dappNotifications.enable')}</Text>
+            <Text type="sm" align="center"
+                >{localize(`general.${busy ? 'saving' : isRegistered ? 'enabled' : 'disabled'}`)}</Text
+            >
         </div>
     </div>
 </DrawerTemplate>

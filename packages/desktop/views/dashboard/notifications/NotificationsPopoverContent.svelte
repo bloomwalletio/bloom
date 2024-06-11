@@ -1,8 +1,7 @@
 <script lang="ts">
     import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
-    import { Button, Popover, IconName } from '@bloomwalletio/ui'
+    import { Button, IconName, Popover } from '@bloomwalletio/ui'
     import { EmptyListPlaceholder } from '@components'
-    import { selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { LedgerAppName } from '@core/ledger/enums'
@@ -31,30 +30,31 @@
         )
         .sort((a, b) => b.sentAt - a.sentAt) as NotificationWithSubscription[]
 
+    // Register for account index 0 only
+    $: notificationAccount = $activeAccounts[0]
+
     const trackedNetworkAddresses = notificationsManager.trackedNetworkAddresses
     let isAtLeast1AccountRegistered = false
-    $: $trackedNetworkAddresses,
-        (isAtLeast1AccountRegistered = $activeAccounts.some((account) =>
-            evmNetworks.some((evmNetwork) => notificationsManager.isRegistered(account, evmNetwork))
-        ))
+    $: $trackedNetworkAddresses, (isAtLeast1AccountRegistered = hasNotificationAccountRegisteredOnSomeNetworks())
+
+    function hasNotificationAccountRegisteredOnSomeNetworks(): boolean {
+        return evmNetworks.some((evmNetwork) => notificationsManager.isRegistered(notificationAccount, evmNetwork))
+    }
 
     async function enableNotifications(): Promise<void> {
-        if (!$selectedAccount) {
-            return
-        }
-
         try {
             await checkActiveProfileAuth(LedgerAppName.Ethereum)
         } catch (error) {
             return
         }
 
-        // Register for account index 0 only
-        const account = $activeAccounts[0]
+        if (!notificationAccount) {
+            return
+        }
 
         try {
             for (const evmNetwork of evmNetworks) {
-                await notificationsManager.registerAccount(account, evmNetwork)
+                await notificationsManager.registerAccount(notificationAccount, evmNetwork)
             }
         } catch (err) {
             handleError(err)
