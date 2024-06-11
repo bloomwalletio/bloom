@@ -11,7 +11,6 @@ export function formatCurrency(
         return ''
     }
     const value = Number(rawAmount)
-
     const appLanguage = get(appSettings).language
 
     if (!currency) {
@@ -22,7 +21,11 @@ export function formatCurrency(
     if (value < 1) {
         convertedValue = Number(value.toPrecision(2))
     } else if (value > 1e15) {
-        convertedValue = BigInt(rawAmount)
+        try {
+            convertedValue = BigInt(rawAmount)
+        } catch {
+            convertedValue = BigInt(value)
+        }
     } else {
         convertedValue = Number(value.toFixed(2))
     }
