@@ -157,9 +157,8 @@ export class NotificationsManager {
         })
         console.log('registerAccount', 'registrated')
 
-        await this.addTrackedNetworkAccounts([account], networkId)
+        this.addTrackedNetworkAccounts([account], networkId)
 
-        console.log('Network cehck', Object.values(SupportedIscNetworkId), networkId, Object.values(SupportedIscNetworkId).includes(networkId))
         if (Object.values(SupportedIscNetworkId).includes(networkId)) {
             console.log('Subscribing to Bloom with networkId:', networkId)
             await this.subscribeToBloom(account, networkId)
@@ -200,14 +199,8 @@ export class NotificationsManager {
         console.log('addTrackedNetworkAccounts', accounts, networkId)
         const newNetworkAddressesToTrack = new Set(
             accounts
+                .filter((account) => this.isRegistered(account, networkId))
                 .map((acc) => getCaip10AddressForAccount(acc, networkId))
-                .filter(
-                    (acc) =>
-                        acc &&
-                        this.notifyClient?.watchedAccounts
-                            .getAll()
-                            .some((accountObj) => accountObj.lastWatched && accountObj.account === acc)
-                )
                 .filter(Boolean) as string[]
         )
         console.log('accounts.getCaip10AddressForAccount',  accounts.map((acc) => getCaip10AddressForAccount(acc, networkId)));
@@ -215,11 +208,10 @@ export class NotificationsManager {
 
 
         // TODO: Upgrade to this set operation once we upgade node to v22+
-        newNetworkAddressesToTrack.forEach((address) => {
-            this.trackedNetworkAddresses.update((state) => {
-                state.add(address)
-                return state
-            })
+
+        this.trackedNetworkAddresses.update((state) => {
+            newNetworkAddressesToTrack.forEach((address) => state.add(address))
+            return state
         })
     }
 
