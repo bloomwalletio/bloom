@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Icon, IconName, Text } from '@bloomwalletio/ui'
 
-    export let title: string
+    export let title: string | undefined = undefined
     export let subtitle: string | undefined = undefined
     export let icon: IconName
 </script>
@@ -10,12 +10,16 @@
     <empty-list-icon>
         <Icon name={icon} size="md" customColor="primary-500" />
     </empty-list-icon>
-    <div class="flex flex-col items-center justify-center px-10 gap-4">
-        <Text type="h6" align="center">{title}</Text>
-        {#if subtitle}
-            <Text textColor="secondary" align="center">{subtitle}</Text>
-        {/if}
-    </div>
+    {#if title || subtitle}
+        <div class="flex flex-col items-center justify-center px-10 gap-4">
+            {#if title}
+                <Text type="h6" align="center">{title}</Text>
+            {/if}
+            {#if subtitle}
+                <Text textColor="secondary" align="center">{subtitle}</Text>
+            {/if}
+        </div>
+    {/if}
 </div>
 
 <style lang="postcss">

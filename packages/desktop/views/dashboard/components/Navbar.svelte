@@ -4,9 +4,10 @@
     import { IS_MAC } from '@core/app'
     import { localize } from '@core/i18n'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
-    import features from '@features/features'
     import { DashboardDrawerRoute } from '../drawers'
     import Breadcrumbs from './Breadcrumbs.svelte'
+    import NotificationsButton from '../notifications/NotificationsButton.svelte'
+    import { isFeatureEnabled } from '@lib/features/utils'
 </script>
 
 <NavbarContainer draggable={IS_MAC}>
@@ -14,7 +15,10 @@
         <Breadcrumbs />
 
         <div class="right-button flex items-center justify-end gap-2">
-            {#if features.contacts.enabled}
+            {#if isFeatureEnabled('walletConnect.notifications')}
+                <NotificationsButton />
+            {/if}
+            {#if isFeatureEnabled('contacts')}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.ContactBook })}
                     icon={IconName.Users}
@@ -23,16 +27,16 @@
                     size="sm"
                 />
             {/if}
-            {#if features?.walletConnect?.enabled}
+            {#if isFeatureEnabled('walletConnect.web3Wallet')}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.DappConfig })}
                     icon={IconName.Grid}
-                    tooltip={localize('general.apps')}
+                    tooltip={localize('general.connectedDapps')}
                     textColor="primary"
                     size="sm"
                 />
             {/if}
-            {#if features?.network?.config?.enabled}
+            {#if isFeatureEnabled('network.config')}
                 <IconButton
                     on:click={() => toggleDashboardDrawer({ id: DashboardDrawerRoute.NetworkConfig })}
                     icon={IconName.Globe}
