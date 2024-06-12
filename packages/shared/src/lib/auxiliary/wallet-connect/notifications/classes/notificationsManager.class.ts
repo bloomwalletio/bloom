@@ -177,7 +177,9 @@ export class NotificationsManager {
                 .filter(
                     (acc) =>
                         acc &&
-                        this.notifyClient?.watchedAccounts.getAll().some((accountObj) => accountObj.account === acc)
+                        this.notifyClient?.watchedAccounts
+                            .getAll()
+                            .some((accountObj) => accountObj.lastWatched && accountObj.account === acc)
                 )
                 .filter(Boolean) as string[]
         )
