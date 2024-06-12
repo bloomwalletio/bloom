@@ -44,7 +44,7 @@ import { cleanupOnboarding } from '@contexts/onboarding'
 import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actions'
 import { updateCirculatingSupplyForActiveProfile } from './updateCirculatingSupplyForActiveProfile'
 import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
-import { SupportedL1EvmNetworkId } from '@core/network'
+import { getEvmNetworks } from '@core/network'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager)?.getRouterForAppContext(AppContext.Login)
@@ -135,7 +135,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         }
         void cleanupOnboarding()
         void initializeWalletConnect()
-        notificationsManager.setTrackedNetworkAccounts(loadedAccounts, SupportedL1EvmNetworkId.Ethereum)
+        notificationsManager.setTrackedNetworkAccounts(loadedAccounts, getEvmNetworks().map(({ id }) => id))
     } catch (err) {
         handleError(err)
         if (!loginOptions?.isFromOnboardingFlow) {

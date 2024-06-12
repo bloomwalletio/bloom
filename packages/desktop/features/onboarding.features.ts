@@ -45,7 +45,7 @@ const onboardingFeaturesForIota: IOnboardingFeaturesForNetwork = {
         enabled: true,
     },
     defaultEvmChains: {
-        enabled: true,
+        enabled: false,
     },
 }
 
@@ -92,7 +92,7 @@ const onboardingFeaturesForShimmer: IOnboardingFeaturesForNetwork = {
         enabled: true,
     },
     defaultEvmChains: {
-        enabled: true,
+        enabled: false,
     },
 }
 
@@ -233,7 +233,7 @@ const onboardingFeaturesForCustom: IOnboardingFeaturesForNetwork = {
         enabled: true,
     },
     defaultEvmChains: {
-        enabled: true,
+        enabled: false,
     },
 }
 

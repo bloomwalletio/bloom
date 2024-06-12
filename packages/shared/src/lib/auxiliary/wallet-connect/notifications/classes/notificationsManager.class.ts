@@ -1,6 +1,6 @@
 import { getCaip10AddressForAccount } from '../../utils'
 import { IAccountState } from '@core/account'
-import { EvmNetworkId } from '@core/network'
+import { EvmNetworkId, SupportedIscNetworkId } from '@core/network'
 import { signMessage } from '@core/wallet'
 import { NotifyClient, NotifyClientTypes } from '@walletconnect/notify-client'
 import { Writable, get, writable } from 'svelte/store'
@@ -9,7 +9,8 @@ import { WALLET_CONNECT_CORE } from '../../constants/wallet-connect-core.constan
 import { PartialWithId } from '@core/utils'
 
 // TODO: where should this be placed?
-const APP_DOMAIN = 'https://bloomwallet.io'
+const APP_DOMAIN = 'bloomwallet.io'
+const APP_URL = 'https://' + APP_DOMAIN
 
 export type Notifications = { [topic: string]: NotifyClientTypes.NotifyNotification[] }
 export type Subscriptions = { [topic: string]: NotifyClientTypes.NotifySubscription }
@@ -26,6 +27,10 @@ export class NotificationsManager {
             this.notifyClient = await NotifyClient.init({
                 core: WALLET_CONNECT_CORE,
             })
+            this.trackedNetworkAddresses.subscribe((value) => console.log('trackedNetworkAddresses', value))
+            this.subscriptionsPerAddress.subscribe((value) => console.log('subscriptionsPerAddress', value))
+            this.notificationsPerSubscription.subscribe((value) => console.log('notificationsPerSubscription', value))
+
             this.initialiseHandlers()
         } catch (err) {
             console.error('Unable to initialise Notify Client', err)
@@ -40,9 +45,13 @@ export class NotificationsManager {
         this.notifyClient.on(
             NotifyEvent.SubscriptionsChanged,
             (event: NotifyClientTypes.EventArguments[NotifyEvent.SubscriptionsChanged]) => {
+                console.log('SubscriptionsChanged', event.params.subscriptions)
                 const subscriptions = event.params.subscriptions.filter((subscription) =>
                     get(this.trackedNetworkAddresses).has(subscription.account)
                 )
+
+                console.log('tracking addresses only', get(this.trackedNetworkAddresses))
+                console.log('subscriptions to update', subscriptions)
 
                 this.updateSubscriptionsPerAddress(subscriptions)
                 void this.updateNotificationsForSubscriptions(subscriptions)
@@ -72,8 +81,14 @@ export class NotificationsManager {
 
         this.notifyClient.on(
             NotifyEvent.Subscription,
-            (event: NotifyClientTypes.EventArguments[NotifyEvent.Subscription]) => {
-                console.warn('Unimplemented: NotifyEvent.Subscription', event)
+            (_event: NotifyClientTypes.EventArguments[NotifyEvent.Subscription]) => {
+                console.log('_event.params', _event.params)
+                // Unable to do this as expected because the subscription we receive back here is the wrong one...
+                /* const newSubscription = event.params.subscription
+                if (newSubscription && get(this.trackedNetworkAddresses)?.has(newSubscription?.account)) {
+                    this.updateSubscriptionsPerAddress([newSubscription])
+                    void this.updateNotificationsForSubscriptions([newSubscription])
+                } */
             }
         )
     }
@@ -95,12 +110,13 @@ export class NotificationsManager {
 
         return {
             account: caip10Address,
-            domain: APP_DOMAIN,
+            domain: APP_URL,
             allApps: true,
         }
     }
 
     isRegistered(account: IAccountState, networkId: EvmNetworkId): boolean {
+        console.log('isRegistered', account.index, networkId)
         const notifyClientOptions = NotificationsManager.buildNotifyClientOptions(account, networkId)
         if (!notifyClientOptions) {
             return false
@@ -110,22 +126,28 @@ export class NotificationsManager {
     }
 
     async registerAccount(account: IAccountState, networkId: EvmNetworkId, coinType: number): Promise<void> {
+        console.log('registerAccount')
         if (!this.notifyClient) {
+            console.log('registerAccount', 'no notify client')
             return
         }
 
         const notifyClientOptions = NotificationsManager.buildNotifyClientOptions(account, networkId)
         if (!notifyClientOptions) {
+            console.log('registerAccount', 'no notify client options')
             return
         }
 
         if (this.notifyClient.isRegistered(notifyClientOptions)) {
+            console.log('registerAccount', 'is already registered')
             return
         }
 
         const { registerParams, message } = await this.notifyClient.prepareRegistration(notifyClientOptions)
+        console.log('registerAccount', 'prepared registration')
         const signature = await signMessage(message, coinType, account)
         if (!signature) {
+            console.log('registerAccount', 'no sig')
             return
         }
 
@@ -133,10 +155,19 @@ export class NotificationsManager {
             registerParams,
             signature,
         })
+        console.log('registerAccount', 'registrated')
+
         await this.addTrackedNetworkAccounts([account], networkId)
+
+        console.log('Network cehck', Object.values(SupportedIscNetworkId), networkId, Object.values(SupportedIscNetworkId).includes(networkId))
+        if (Object.values(SupportedIscNetworkId).includes(networkId)) {
+            console.log('Subscribing to Bloom with networkId:', networkId)
+            await this.subscribeToBloom(account, networkId)
+        }
     }
 
     async unregisterAccount(account: IAccountState, networkId: EvmNetworkId): Promise<void> {
+        console.log('unregisterAccount', account.index, networkId)
         if (!this.notifyClient) {
             return
         }
@@ -150,21 +181,23 @@ export class NotificationsManager {
         this.removeTrackedNetworkAccounts(caip10Address)
     }
 
-    async setTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
+    async setTrackedNetworkAccounts(accounts: IAccountState[], networkIds: EvmNetworkId[]): Promise<void> {
         this.trackedNetworkAddresses.set(new Set())
-        this.notificationsPerSubscription.set({})
-        this.subscriptionsPerAddress.set({})
-
-        await this.addTrackedNetworkAccounts(accounts, networkId)
+        for (const networkId of networkIds) {
+            this.addTrackedNetworkAccounts(accounts, networkId)
+        }
+        await this.refreshAllSubscriptionsAndNotificationsForTrackedAccounts()
     }
 
     getSubscriptionsForTopic(topic: string): NotifyClientTypes.NotifySubscription | undefined {
+        console.log('getSubscriptionsForTopic', topic)
         return Object.values(get(this.subscriptionsPerAddress))
             .map((subscriptions) => subscriptions[topic])
             .find(Boolean)
     }
 
-    async addTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
+    addTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): void {
+        console.log('addTrackedNetworkAccounts', accounts, networkId)
         const newNetworkAddressesToTrack = new Set(
             accounts
                 .map((acc) => getCaip10AddressForAccount(acc, networkId))
@@ -177,6 +210,9 @@ export class NotificationsManager {
                 )
                 .filter(Boolean) as string[]
         )
+        console.log('accounts.getCaip10AddressForAccount',  accounts.map((acc) => getCaip10AddressForAccount(acc, networkId)));
+        console.log('addTrackedNetworkAccounts', newNetworkAddressesToTrack);
+
 
         // TODO: Upgrade to this set operation once we upgade node to v22+
         newNetworkAddressesToTrack.forEach((address) => {
@@ -185,15 +221,22 @@ export class NotificationsManager {
                 return state
             })
         })
+    }
+
+    async refreshAllSubscriptionsAndNotificationsForTrackedAccounts(): Promise<void> {
+        console.log('refreshAllSubscriptionsAndNotificationsForTrackedAccounts')
+        this.subscriptionsPerAddress.set({})
+        this.notificationsPerSubscription.set({})
+
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/union#browser_compatibility
         // this.trackedNetworkAddresses = this.trackedNetworkAddresses.union(newNetworkAddressesToTrack)
-
-        for (const networkAddress of newNetworkAddressesToTrack) {
+        for (const networkAddress of get(this.trackedNetworkAddresses)) {
             await this.updateSubscriptionsAndNotificationsForNetworkAddress(networkAddress)
         }
     }
 
     removeTrackedNetworkAccounts(networkAddress: string): void {
+        console.log('removeTrackedNetworkAccounts', networkAddress)
         this.trackedNetworkAddresses.update((state) => {
             state.delete(networkAddress)
             return state
@@ -215,12 +258,14 @@ export class NotificationsManager {
     }
 
     clearTrackedNetworkAccounts(): void {
+        console.log('clearTrackedNetworkAccounts')
         this.trackedNetworkAddresses.set(new Set())
         this.subscriptionsPerAddress.set({})
         this.notificationsPerSubscription.set({})
     }
 
     private async updateSubscriptionsAndNotificationsForNetworkAddress(networkAddress: string): Promise<void> {
+        console.log('updateSubscriptionsAndNotificationsForNetworkAddress', networkAddress)
         if (!this.notifyClient) {
             return
         }
@@ -236,13 +281,15 @@ export class NotificationsManager {
     }
 
     private updateSubscriptionsPerAddress(newSubscriptions: NotifyClientTypes.NotifySubscription[]): void {
+        console.log('updateSubscriptionsPerAddress', newSubscriptions);
+
         this.subscriptionsPerAddress.update((state) => {
             for (const subscription of newSubscriptions) {
                 const subscriptionsForAccount = state[subscription.account] ?? {}
                 subscriptionsForAccount[subscription.topic] = subscription
                 state[subscription.account] = subscriptionsForAccount
             }
-
+            console.log('in store', this.subscriptionsPerAddress)
             return state
         })
     }
@@ -250,6 +297,7 @@ export class NotificationsManager {
     private async updateNotificationsForSubscriptions(
         subscriptions: NotifyClientTypes.NotifySubscription[]
     ): Promise<void> {
+        console.log('updateNotificationsForSubscriptions', subscriptions)
         if (!this.notifyClient) {
             return
         }
@@ -312,19 +360,32 @@ export class NotificationsManager {
 
     async subscribeToDapp(
         appDomain: string,
-        account: IAccountState | undefined,
+        account: IAccountState,
         networkId: EvmNetworkId
-    ): Promise<void> {
-        if (!this.notifyClient || !account) {
-            return
+    ): Promise<boolean> {
+        if (!this.notifyClient) {
+            return false
         }
 
         const caip10Address = getCaip10AddressForAccount(account, networkId)
         if (!caip10Address) {
-            return
+            return false
         }
 
-        await this.notifyClient?.subscribe({ appDomain, account: caip10Address })
+        console.log('subscribeToDapp', appDomain, caip10Address)
+
+        return await this.notifyClient.subscribe({ appDomain, account: caip10Address })
+    }
+
+    async subscribeToBloom(account: IAccountState, networkId: EvmNetworkId): Promise<void> {
+        console.log('subscribe to Bloom')
+        try {
+            const isSubscribed = await this.subscribeToDapp(APP_DOMAIN, account, networkId)
+            void this.refreshAllSubscriptionsAndNotificationsForTrackedAccounts()
+            console.log('isSubscribed to Bloom', isSubscribed)
+        } catch (error) {
+            console.error('Error subscribing to dapp', error)
+        }
     }
 
     async markAsRead(notificationId: string, subscriptionTopic: string): Promise<void> {
