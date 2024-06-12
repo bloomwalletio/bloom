@@ -135,7 +135,10 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         }
         void cleanupOnboarding()
         void initializeWalletConnect()
-        notificationsManager.setTrackedNetworkAccounts(loadedAccounts, getEvmNetworks().map(({ id }) => id))
+        notificationsManager.setTrackedNetworkAccounts(
+            loadedAccounts,
+            getEvmNetworks().map(({ id }) => id)
+        )
     } catch (err) {
         handleError(err)
         if (!loginOptions?.isFromOnboardingFlow) {
