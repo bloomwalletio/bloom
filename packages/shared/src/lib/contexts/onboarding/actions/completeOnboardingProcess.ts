@@ -34,15 +34,11 @@ export async function completeOnboardingProcess(): Promise<void> {
         const { network, evmNetworks } = get(activeProfile)
         const networks = [...network.chainConfigurations, ...(evmNetworks ?? [])]
         for (const network of networks) {
-            for (const account of accounts) {
-                await generateAndStoreEvmAddressForAccounts(type, network.coinType, account)
-                if (account.index === 0) {
-                    try {
-                        await notificationsManager.registerAccount(account, network.id, network.coinType)
-                    } catch (error) {
-                        console.error(error)
-                    }
-                }
+            await generateAndStoreEvmAddressForAccounts(type, network.coinType, ...accounts)
+            try {
+                await notificationsManager.registerAccount(accounts[0], network.id, network.coinType)
+            } catch (error) {
+                console.error(error)
             }
         }
     }
