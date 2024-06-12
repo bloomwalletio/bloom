@@ -9,6 +9,7 @@ import { OnboardingType } from '../enums'
 import { onboardingProfile } from '../stores'
 import { cleanupOnboarding } from './cleanupOnboarding'
 import { createNewProfileFromOnboardingProfile } from './createNewProfileFromOnboardingProfile'
+import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
 
 export async function completeOnboardingProcess(): Promise<void> {
     // if we already have an active profile
@@ -31,15 +32,18 @@ export async function completeOnboardingProcess(): Promise<void> {
 
     if (type === ProfileType.Software) {
         const { network, evmNetworks } = get(activeProfile)
-        const coinTypes = new Set(
-            [
-                ...network.chainConfigurations.map((chain) => chain.coinType),
-                ...(evmNetworks ?? []).map((evmNetwork) => evmNetwork.coinType),
-            ].filter((cointype) => cointype !== undefined)
-        )
-
-        for (const coinType of coinTypes) {
-            await generateAndStoreEvmAddressForAccounts(type, coinType, ...accounts)
+        const networks = [...network.chainConfigurations, ...(evmNetworks ?? [])]
+        for (const network of networks) {
+            for (const account of accounts) {
+                await generateAndStoreEvmAddressForAccounts(type, network.coinType, account)
+                if (account.index === 0) {
+                    try {
+                        await notificationsManager.registerAccount(account, network.id, network.coinType)
+                    } catch (error) {
+                        console.error(error)
+                    }
+                }
+            }
         }
     }
 

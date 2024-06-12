@@ -3,7 +3,7 @@ import { GENERAL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '../constants'
 import { EvmNetworkId } from '@core/network/types'
 import { ISelections } from '../interface'
 import { ISupportedNamespace, SupportedNamespaces } from '../types'
-import { buildNetworkAddressForWalletConnect } from '../utils'
+import { getCaip10AddressForAccount } from '../utils'
 
 export function buildSupportedNamespacesFromSelections(
     selections: ISelections,
@@ -49,7 +49,7 @@ function buildSupportedNamespace(
         addresses = allowedChains.flatMap((evmNetwork) => {
             return (
                 selections.accounts
-                    ?.map((account) => buildNetworkAddressForWalletConnect(account, evmNetwork as EvmNetworkId) ?? '')
+                    ?.map((account) => getCaip10AddressForAccount(account, evmNetwork as EvmNetworkId) ?? '')
                     .filter(Boolean) ?? []
             )
         })

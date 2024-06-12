@@ -1,4 +1,4 @@
-import { buildNetworkAddressForWalletConnect } from '../../utils'
+import { getCaip10AddressForAccount } from '../../utils'
 import { IAccountState } from '@core/account'
 import { EvmNetworkId } from '@core/network'
 import { signMessage } from '@core/wallet'
@@ -88,13 +88,13 @@ export class NotificationsManager {
               allApps: boolean
           }
         | undefined {
-        const networkAddress = buildNetworkAddressForWalletConnect(account, networkId)
-        if (!networkAddress) {
+        const caip10Address = getCaip10AddressForAccount(account, networkId)
+        if (!caip10Address) {
             return undefined
         }
 
         return {
-            account: networkAddress,
+            account: caip10Address,
             domain: APP_DOMAIN,
             allApps: true,
         }
@@ -114,17 +114,12 @@ export class NotificationsManager {
             return
         }
 
-        if (this.isRegistered(account, networkId)) {
-            return
-        }
-
-        const address = buildNetworkAddressForWalletConnect(account, networkId)
-        if (!address) {
-            return
-        }
-
         const notifyClientOptions = NotificationsManager.buildNotifyClientOptions(account, networkId)
         if (!notifyClientOptions) {
+            return
+        }
+
+        if (this.notifyClient.isRegistered(notifyClientOptions)) {
             return
         }
 
@@ -146,13 +141,13 @@ export class NotificationsManager {
             return
         }
 
-        const address = buildNetworkAddressForWalletConnect(account, networkId)
-        if (!address) {
+        const caip10Address = getCaip10AddressForAccount(account, networkId)
+        if (!caip10Address) {
             return
         }
 
-        await this.notifyClient.unregister({ account: address })
-        this.removeTrackedNetworkAccounts(address)
+        await this.notifyClient.unregister({ account: caip10Address })
+        this.removeTrackedNetworkAccounts(caip10Address)
     }
 
     async setTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
@@ -171,9 +166,8 @@ export class NotificationsManager {
 
     async addTrackedNetworkAccounts(accounts: IAccountState[], networkId: EvmNetworkId): Promise<void> {
         const newNetworkAddressesToTrack = new Set(
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
             accounts
-                .map((acc) => buildNetworkAddressForWalletConnect(acc, networkId))
+                .map((acc) => getCaip10AddressForAccount(acc, networkId))
                 .filter(
                     (acc) =>
                         acc &&
@@ -325,12 +319,12 @@ export class NotificationsManager {
             return
         }
 
-        const networkAddress = buildNetworkAddressForWalletConnect(account, networkId)
-        if (!networkAddress) {
+        const caip10Address = getCaip10AddressForAccount(account, networkId)
+        if (!caip10Address) {
             return
         }
 
-        await this.notifyClient?.subscribe({ appDomain, account: networkAddress })
+        await this.notifyClient?.subscribe({ appDomain, account: caip10Address })
     }
 
     async markAsRead(notificationId: string, subscriptionTopic: string): Promise<void> {
