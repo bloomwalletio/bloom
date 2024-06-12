@@ -16,7 +16,7 @@
 
 <PopupTemplate
     title={notification.title}
-    description={notification.body + notification.body + notification.body + notification.body + notification.body}
+    description={notification.body}
     continueButton={notification.url
         ? {
               text: localize('actions.visit'),
