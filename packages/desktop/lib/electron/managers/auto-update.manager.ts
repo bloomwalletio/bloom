@@ -41,7 +41,7 @@ export default class AutoUpdateManager implements IVersionDetails {
                 autoUpdater.logger = electronLog
                 /* eslint-disable @typescript-eslint/ban-ts-comment */
                 // @ts-expect-error
-                autoUpdater.logger?.transports?.file?.level = 'info'
+                autoUpdater.logger.transports.file.level = 'info'
             } catch (error) {
                 console.error(error)
             }
