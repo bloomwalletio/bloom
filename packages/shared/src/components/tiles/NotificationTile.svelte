@@ -1,6 +1,6 @@
 <script lang="ts">
     import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
-    import { Link, Indicator, Text, Tile } from '@bloomwalletio/ui'
+    import { Indicator, Text, Tile } from '@bloomwalletio/ui'
     import { time } from '@core/app/stores'
     import { getBestTimeDuration } from '@core/utils'
     import { NotificationAvatar } from '@ui/avatars'
@@ -25,22 +25,20 @@
     <div class="flex justify-between gap-4 w-full">
         <NotificationAvatar {subscription} notificationType={notification.type} />
         <div class="flex-grow flex flex-col items-start">
-            <div class="w-full flex justify-between gap-2">
+            <div class="w-full flex justify-between items-center gap-2">
                 <div class="flex items-center gap-2">
                     <Text type="sm" lineClamp={1}>{notification.title}</Text>
-                    {#if notification.url}
-                        <Link textType="xs" href={notification.url} external />
-                    {/if}
                 </div>
                 {#if !notification.isRead}
                     <Indicator size="sm" />
+                {:else}
+                    <Text type="xs" fontWeight="normal">
+                        {getBestTimeDuration($time.getTime() - notification.sentAt, 'day', true)}
+                    </Text>
                 {/if}
             </div>
             <div class="w-full flex justify-between gap-2">
                 <Text type="xs" fontWeight="normal" lineClamp={2}>{notification.body}</Text>
-                <Text type="xs" fontWeight="normal">
-                    {getBestTimeDuration($time.getTime() - notification.sentAt, 'day', true)}
-                </Text>
             </div>
         </div>
     </div>
