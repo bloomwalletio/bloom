@@ -650,6 +650,13 @@
                     "body": "Ein neues Bloom-Update ist verfügbar.",
                     "button": "Jetzt aktualisieren"
                 }
+            },
+            "dappNotifications": {
+                "title": "Notifications",
+                "notEnabledHint": "Receiving notifications not enabled",
+                "empty": "No notifications",
+                "enable": "Enable notifications",
+                "viewAll": "View all notifications"
             }
         },
         "picker": {
@@ -1495,7 +1502,8 @@
         "readMore": "Weiterlesen",
         "importThirdPartyProfiles": "Drittanbieter-Profile importieren",
         "retry": "Wiederholen",
-        "loadAnyway": "Trotzdem laden"
+        "loadAnyway": "Trotzdem laden",
+        "visit": "Visit"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1692,6 +1700,8 @@
         "maxFees": "Max. Gebühr",
         "contacts": "Kontakte",
         "apps": "Apps",
+        "connectedDapps": "Connected dApps",
+        "dapps": "dApps",
         "networks": "Netzwerke",
         "ledgerDevice": "Ledger",
         "disconnected": "Nicht verbunden",
@@ -1736,7 +1746,11 @@
         "average": "Durchschnitt",
         "fast": "Schnell",
         "spender": "Spender",
-        "status": "Status"
+        "status": "Status",
+        "totalBalance": "Total balance",
+        "saving": "Saving",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
     },
     "filters": {
         "title": "Filter",
