@@ -1,13 +1,15 @@
 <script lang="ts">
-    import PopupTemplate from '../PopupTemplate.svelte'
-    import { NotifyClientTypes } from '@walletconnect/notify-client'
-    import { Link, Text } from '@bloomwalletio/ui'
-    import { NotificationAvatar } from '@ui/avatars'
-    import { formatDate, localize } from '@core/i18n'
+    import { Pill, Text } from '@bloomwalletio/ui'
     import { openUrlInBrowser } from '@core/app/utils'
+    import { formatDate, localize } from '@core/i18n'
+    import { NotificationSubscriptionInfo } from '@ui'
+    import { NotifyClientTypes } from '@walletconnect/notify-client'
+    import PopupTemplate from '../PopupTemplate.svelte'
 
     export let notification: NotifyClientTypes.NotifyNotification
     export let subscription: NotifyClientTypes.NotifySubscription
+
+    $: notificationType = subscription?.scope[notification.type]
 
     function onVisitClick(url: string): void {
         openUrlInBrowser(url)
@@ -15,8 +17,6 @@
 </script>
 
 <PopupTemplate
-    title={notification.title}
-    description={notification.body}
     continueButton={notification.url
         ? {
               text: localize('actions.visit'),
@@ -24,17 +24,22 @@
           }
         : undefined}
 >
-    <div class="flex gap-4">
-        <NotificationAvatar {subscription} notificationType={notification.type} />
-        <div class="flex flex-col">
-            <div class="flex items-center gap-1">
-                <Text>{subscription.metadata.name}</Text>
-                <Link textType="xs" href={subscription.metadata.appDomain} external />
-            </div>
-            <Text textColor="secondary">{subscription.metadata.description}</Text>
+    <NotificationSubscriptionInfo
+        slot="banner"
+        metadata={subscription.metadata}
+        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+    ></NotificationSubscriptionInfo>
+
+    <div class="space-y-2">
+        <div class="flex flex-row items-center justify-between gap-2">
+            <Pill compact color="primary">{notificationType.name}</Pill>
+            <Text size="sm" textColor="secondary">
+                {formatDate(new Date(notification.sentAt), { dateStyle: 'long', timeStyle: 'short' })}
+            </Text>
+        </div>
+        <div class="space-y-1">
+            <Text type="body1">{notification.title}</Text>
+            <Text type="sm" textColor="secondary">{notification.body}</Text>
         </div>
     </div>
-    <Text textColor="secondary" align="right" class="mt-4"
-        >{formatDate(new Date(notification.sentAt), { dateStyle: 'long', timeStyle: 'short' })}</Text
-    >
 </PopupTemplate>
