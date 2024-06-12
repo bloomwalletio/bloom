@@ -150,6 +150,7 @@ const mainPlugins = [
         'process.env.APP_PROTOCOL': JSON.stringify(appProtocol),
         'process.env.AMPLITUDE_API_KEY': JSON.stringify(process.env.AMPLITUDE_API_KEY),
         'process.env.TRANSAK_API_KEY': JSON.stringify(process.env.TRANSAK_API_KEY),
+        'process.env.WALLETCONNECT_PROJECT_ID': JSON.stringify(process.env.WALLETCONNECT_PROJECT_ID),
     }),
     new CopyPlugin({
         patterns: [
