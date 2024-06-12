@@ -1,5 +1,6 @@
 import { appSettings } from '@core/app/stores'
 import { activeProfile } from '@core/profile/stores'
+import { Converter } from '@core/utils'
 import { get } from 'svelte/store'
 
 export function formatCurrency(
@@ -21,11 +22,7 @@ export function formatCurrency(
     if (value < 1) {
         convertedValue = Number(value.toPrecision(2))
     } else if (value > 1e15) {
-        try {
-            convertedValue = BigInt(rawAmount)
-        } catch {
-            convertedValue = BigInt(value)
-        }
+        convertedValue = Converter.bigIntLikeToBigInt(rawAmount)
     } else {
         convertedValue = Number(value.toFixed(2))
     }
