@@ -9,7 +9,7 @@
         "@ethereumjs/common": "4.3.0",
         "@ethereumjs/rlp": "5.0.2",
         "@ethereumjs/tx": "5.3.0",
-        "@ethereumjs/util": "9.0.2",
+        "@ethereumjs/util": "9.0.3",
         "@iota/crypto.js": "1.8.6",
         "@iota/sdk": "1.1.5",
         "@iota/util.js": "2.0.0-rc.2",
