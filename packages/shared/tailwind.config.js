@@ -4,7 +4,7 @@ const { exposeDarkModeStrategy } = require('@bloomwalletio/ui/darkmode')
 /* Utilities */
 const pxToRem = (px, base = 16) => `${px / base}rem`
 
-const SHARED_CONTENT_ROUTES = ['../shared/**/*.svelte', '../shared/**/*.scss']
+const SHARED_CONTENT_ROUTES = ['../shared/**/*.svelte']
 const DESKTOP_CONTENT_ROUTES = ['../desktop/**/*.svelte']
 const NODE_MODULES_ROUTES = ['../../node_modules/@bloomwalletio/ui/**/*.{html,js,svelte,ts}']
 
