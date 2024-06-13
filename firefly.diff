@@ -1097,6 +1097,7 @@
  delete mode 100644 packages/shared/lib/core/app/stores/time.store.ts
  delete mode 100644 packages/shared/lib/core/app/utils/shouldBeDarkMode.ts
  delete mode 100644 packages/shared/lib/core/i18n/utils/parseCurrency.ts
+ delete mode 100644 packages/shared/lib/core/layer-2/abis/index.ts
  delete mode 100644 packages/shared/lib/core/layer-2/actions/fetchSelectedAccountLayer2Balance.ts
  delete mode 100644 packages/shared/lib/core/layer-2/actions/index.ts
  delete mode 100644 packages/shared/lib/core/layer-2/actions/loadEvmAddressForSelectedAccount.ts
@@ -1521,6 +1522,7 @@
  rename packages/shared/{components/atoms => src/components}/tiles/Tile.svelte (85%)
  rename packages/shared/{components/atoms/tiles/index.js => src/components/tiles/index.ts} (57%)
  rename packages/shared/{ => src}/components/types/text-prop.type.ts (100%)
+ rename packages/{mobile/capacitor/plugins/secure-filesystem-access/android/src/main/res/.gitkeep => shared/src/lib/auxiliary/country/index.ts} (100%)
  rename packages/shared/{ => src}/lib/auxiliary/deep-link/actions/index.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/deep-link/actions/resetDeepLink.ts (57%)
  rename packages/shared/{ => src}/lib/auxiliary/deep-link/constants/index.ts (100%)
@@ -1559,7 +1561,7 @@
  rename packages/shared/{lib/contexts/governance => src/lib/auxiliary/third-party}/index.ts (72%)
  rename packages/shared/{lib/core/profile/actions/profiles/checkAndMigrateProfiles.ts => src/lib/auxiliary/third-party/migrations/firefly-stardust/firefly-stardust-migrations.ts} (52%)
  rename packages/{mobile/lib/contexts/settings => shared/src/lib/auxiliary/transak}/index.ts (100%)
- rename packages/{mobile/capacitor/plugins/secure-filesystem-access/android/src/main/res/.gitkeep => shared/src/lib/auxiliary/wallet-connect/index.ts} (100%)
+ rename specs/images/.gitkeep => packages/shared/src/lib/auxiliary/wallet-connect/index.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/wordlists/english.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/wordlists/index.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/wordlists/utils/generateRandomWord.ts (90%)
@@ -1792,7 +1794,6 @@
  rename packages/shared/{ => src}/lib/core/app/utils/needsToAcceptLatestPrivacyPolicy.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/utils/needsToAcceptLatestTermsOfService.ts (100%)
  rename packages/shared/{ => src}/lib/core/app/utils/openUrlInBrowser.ts (59%)
- rename specs/images/.gitkeep => packages/shared/src/lib/core/contact/helpers/index.ts (100%)
  rename packages/shared/{lib/core/ledger => src/lib/core/contact}/index.ts (72%)
  rename packages/shared/{ => src}/lib/core/error/actions/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/error/actions/logAndNotifyError.ts (70%)
@@ -1846,9 +1847,8 @@
  rename packages/shared/{ => src}/lib/core/i18n/utils/getGroupSeparator.ts (83%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/replaceCurrencyDecimal.ts (100%)
+ rename packages/shared/{lib/core/layer-2/abis/isc-sandbox.abi.ts => src/lib/core/isc/abis/isc-magic-contract-sandbox.abi.ts} (89%)
  rename packages/shared/{ => src}/lib/core/layer-2/abis/erc20.abi.ts (98%)
- rename packages/shared/{ => src}/lib/core/layer-2/abis/index.ts (68%)
- rename packages/shared/{ => src}/lib/core/layer-2/abis/isc-sandbox.abi.ts (99%)
  rename packages/shared/{ => src}/lib/core/layer-2/classes/simple-buffer.class.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/accounts-contract.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/layer-2/constants/contract-functions.constant.ts (100%)

@@ -21,7 +21,14 @@ export function openUrlInBrowser(targetUrl: string | undefined): void {
 
     const url = new URL(targetUrl)
     const domain = url.hostname.replace(/^www\./, '')
-    const isAllowed = externalAllowedLinks.includes(domain) || externalAllowedLinks.includes(domain + url.pathname)
+    const isAllowed = externalAllowedLinks.some((link) => {
+        if (link.endsWith('*')) {
+            const prefix = link.slice(0, -1)
+            return domain.startsWith(prefix) || (domain + url.pathname).startsWith(prefix)
+        } else {
+            return link === domain || link === domain + url.pathname
+        }
+    })
 
     if (isAllowed) {
         openHttpsUrlsOnly(url.protocol, targetUrl)

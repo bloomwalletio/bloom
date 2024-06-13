@@ -9,6 +9,7 @@ export { default as NftGallery } from './NftGallery.svelte'
 export { default as NftGalleryItem } from './NftGalleryItem.svelte'
 export { default as NftMedia } from './NftMedia.svelte'
 export { default as NodeAuthTab } from './NodeAuthTab.svelte'
+export { default as NotificationSubscriptionInfo } from './NotificationSubscriptionInfo.svelte'
 export { default as ShimmerClaimingAccountList } from './ShimmerClaimingAccountList.svelte'
 export { default as TransactionAssetSection } from './TransactionAssetSection.svelte'
 
