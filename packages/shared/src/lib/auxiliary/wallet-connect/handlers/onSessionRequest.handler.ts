@@ -18,6 +18,7 @@ import { DappVerification, RpcMethod } from '../enums'
 import { EvmTransactionData, getEvmTransactionFromHexString } from '@core/layer-2'
 import { activeProfileId } from '@core/profile/stores'
 import { get } from 'svelte/store'
+import { Platform } from '@core/app/classes'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
@@ -49,6 +50,8 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             }
         }
     }
+
+    Platform.focusWindow()
 
     if (!get(activeProfileId)) {
         returnResponse({ error: getSdkError('SESSION_SETTLEMENT_FAILED') })
