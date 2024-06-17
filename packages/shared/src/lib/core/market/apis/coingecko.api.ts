@@ -40,9 +40,11 @@ export class CoinGeckoApi {
         return this.makeRequest<CoinGeckoCoin[]>(CoinGeckoApiEndpoint.COINS_LIST, queryParams)
     }
 
-    static async getFilteredCoinsList(networkId: CoinGeckoNetworkId): Promise<CoinGeckoCoin[]> {
+    static async getFilteredCoinsList(...networkIds: CoinGeckoNetworkId[]): Promise<CoinGeckoCoin[]> {
         const coinsList = await this.getCoinsList(true)
-        return coinsList.filter((coin) => Object.keys(coin.platforms).includes(networkId))
+        return coinsList.filter((coin) =>
+            networkIds.some((networkId) => Object.keys(coin.platforms).includes(networkId))
+        )
     }
 
     static async getCoinDetails(id: string): Promise<CoinGeckoCoin> {
