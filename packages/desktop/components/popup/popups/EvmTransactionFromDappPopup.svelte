@@ -216,13 +216,16 @@
     }}
     {busy}
 >
-    <DappInfo
-        slot="banner"
-        metadata={dapp.metadata}
-        {verifiedState}
-        showLink={false}
-        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
-    />
+    <svelte:fragment slot="banner">
+        {#if dapp}
+            <DappInfo
+                metadata={dapp.metadata}
+                {verifiedState}
+                showLink={false}
+                classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+            />
+        {/if}
+    </svelte:fragment>
     <div class="space-y-5">
         {#if preparedTransaction.value}
             <TransactionAssetSection {baseCoinTransfer} />
