@@ -6,7 +6,6 @@ import { buildEvmTransactionData } from '@core/layer-2/utils'
 import { EvmTransactionData } from '@core/layer-2'
 import { getBloomError, switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 import { getSdkError } from '@walletconnect/utils'
-import { Platform } from '@core/app'
 import { DappVerification, RpcMethod } from '../enums'
 
 export async function handleEthTransaction(
@@ -45,8 +44,6 @@ export async function handleEthTransaction(
             return
         }
     }
-
-    Platform.focusWindow()
 
     try {
         await switchToRequiredAccount(from, evmNetwork)
