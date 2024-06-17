@@ -18,9 +18,6 @@ export async function getAndUpdateTokensMetadataFromCoinGecko(): Promise<void> {
             CoinGeckoNetworkId.ShimmerEvm
         )
 
-        // delay to avoid rate limiting
-        await sleep(15 * MILLISECONDS_PER_SECOND)
-
         const tokenMetadata: Record<string, Record<string, CoinGeckoCoin> | undefined> =
             get(coinGeckoTokensMetadata) ?? {}
         for (const token of coinGeckoShimmerEvmTokens) {
