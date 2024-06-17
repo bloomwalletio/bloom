@@ -45,17 +45,18 @@ export async function getAndUpdateTokensMetadataFromCoinGecko(): Promise<void> {
                             tokenMetadata[network] = tokenMetadataPerNetwork
                         }
                     }
+
+                    coinGeckoTokensMetadata.update((metadata) => {
+                        return {
+                            ...metadata,
+                            ...tokenMetadata,
+                        }
+                    })
                 } catch {
                     console.error(`Could not fetch token details for ${token.id}`)
                 }
             }
         }
-        coinGeckoTokensMetadata.update((metadata) => {
-            return {
-                ...metadata,
-                ...tokenMetadata,
-            }
-        })
     } catch (err) {
         console.error(err)
     }
