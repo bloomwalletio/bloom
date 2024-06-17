@@ -43,6 +43,10 @@
     let supportedNamespaces = initSupportedNamespaces()
 
     function initSupportedNamespaces(): SupportedNamespaces {
+        if (!$sessionProposal) {
+            return {}
+        }
+
         const persistedNamespaces = $sessionProposal
             ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
             : undefined
@@ -51,10 +55,18 @@
             return persistedNamespaces.supported
         }
 
-        const namespace: Record<string, ISupportedNamespace> = {}
+        const { requiredNamespaces, optionalNamespaces } = $sessionProposal.params
 
-        // TODO: only supported networks
+        const allChainids = [...Object.values(requiredNamespaces), ...Object.values(optionalNamespaces)]
+            .flatMap(({ chains }) => chains)
+            .filter(Boolean) as string[]
+
+        const namespace: Record<string, ISupportedNamespace> = {}
         for (const network of getEvmNetworks()) {
+            if (!allChainids.includes(network.id)) {
+                continue
+            }
+
             if (!namespace[network.namespace]) {
                 const accounts = $activeAccounts
                     .map((account) => getCaip10AddressForAccount(account, network.id) as string)
