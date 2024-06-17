@@ -650,6 +650,13 @@
                     "body": "A new Bloom update is available today.",
                     "button": "Update now"
                 }
+            },
+            "dappNotifications": {
+                "title": "Notifications",
+                "notEnabledHint": "Receiving notifications not enabled",
+                "empty": "No notifications",
+                "enable": "Enable notifications",
+                "viewAll": "View all notifications"
             }
         },
         "picker": {
@@ -1495,7 +1502,8 @@
         "readMore": "Read more",
         "importThirdPartyProfiles": "Import third-party profiles",
         "retry": "Retry",
-        "loadAnyway": "Load anyway"
+        "loadAnyway": "Load anyway",
+        "visit": "Visit"
     },
     "general": {
         "recipient": "Destinatario",
@@ -1692,6 +1700,8 @@
         "maxFees": "Max fees",
         "contacts": "Contacts",
         "apps": "Apps",
+        "connectedDapps": "Connected dApps",
+        "dapps": "dApps",
         "networks": "Networks",
         "ledgerDevice": "Ledger device",
         "disconnected": "Disconnected",
@@ -1736,7 +1746,11 @@
         "average": "Average",
         "fast": "Fast",
         "spender": "Spender",
-        "status": "Status"
+        "status": "Status",
+        "totalBalance": "Total balance",
+        "saving": "Saving",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
     },
     "filters": {
         "title": "Filtri",
