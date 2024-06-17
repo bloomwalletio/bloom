@@ -30,9 +30,6 @@ const appId = stage === 'prod' ? 'org.bloom-labs.bloom' : `org.bloom-labs.bloom.
 
 const appProtocol = stage === 'prod' ? 'bloom' : `bloom-${stage.toLowerCase()}`
 
-const WALLETCONNECT_PROJECT_ID =
-    mode !== 'development' ? process.env.WALLETCONNECT_PROJECT_ID : '41511f9b50c46a80cdf8bd1a3532f2f9'
-
 // / ------------------------ Resolve ------------------------
 
 const fallback: { [index: string]: string | false | string[] } = {
@@ -195,7 +192,7 @@ const rendererPlugins = [
         features: JSON.stringify(features),
         PRELOAD_SCRIPT: JSON.stringify(false),
         'process.env.APP_PROTOCOL': JSON.stringify(appProtocol),
-        'process.env.WALLETCONNECT_PROJECT_ID': JSON.stringify(WALLETCONNECT_PROJECT_ID),
+        'process.env.WALLETCONNECT_PROJECT_ID': JSON.stringify(process.env.WALLETCONNECT_PROJECT_ID),
     }),
     // The ethereumjs libraries require the NormalModuleReplacementPlugin & the ProvidePlugin
     new NormalModuleReplacementPlugin(/node:/, (resource) => {

@@ -49,7 +49,7 @@
     </div>
 </NavbarContainer>
 
-<style lang="scss">
+<style lang="postcss">
     :global(:root) {
         --navbar-height: 40px;
     }

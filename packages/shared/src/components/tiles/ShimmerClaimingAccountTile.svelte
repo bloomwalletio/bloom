@@ -14,7 +14,7 @@
 
 {#if shimmerClaimingAccount}
     <Tile border>
-        <container class="w-full flex flex-row justify-between items-center gap-4">
+        <container class="w-full h-11 flex flex-row justify-between items-center gap-4">
             <div class="flex flex-row items-center text-left gap-3.5">
                 <Icon name={IconName.Wallet} textColor="brand" />
                 <Text type="body1">
@@ -52,9 +52,3 @@
         </container>
     </Tile>
 {/if}
-
-<style lang="scss">
-    container {
-        height: 44px;
-    }
-</style>

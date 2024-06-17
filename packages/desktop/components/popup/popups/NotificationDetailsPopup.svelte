@@ -32,7 +32,7 @@
 
     <div class="space-y-2">
         <div class="flex flex-row items-center justify-between gap-2">
-            <Pill compact color="primary">{notificationType.name}</Pill>
+            <Pill compact color="brand">{notificationType.name}</Pill>
             <Text size="sm" textColor="secondary">
                 {formatDate(new Date(notification.sentAt), { dateStyle: 'long', timeStyle: 'short' })}
             </Text>

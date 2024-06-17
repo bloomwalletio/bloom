@@ -36,8 +36,8 @@
         "check-types:shared": "cd packages/shared && tsc --project tsconfig.base.json --pretty --noEmit",
         "check-svelte": "svelte-check",
         "format": "yarn format:write",
-        "format:check": "prettier -c \"**/*.{ts,js,json,scss,css,svelte}\"",
-        "format:write": "prettier -w \"**/*.{ts,js,json,scss,css,svelte}\"",
+        "format:check": "prettier -c \"**/*.{ts,js,json,css,svelte}\"",
+        "format:write": "prettier -w \"**/*.{ts,js,json,css,svelte}\"",
         "lint": "yarn lint:fix",
         "lint:check": "eslint . --cache",
         "lint:fix": "eslint . --cache --fix",
@@ -62,6 +62,6 @@
     },
     "lint-staged": {
         "*.{ts,js,svelte}": "eslint --cache --fix",
-        "*.{ts,js,json,scss,css,svelte}": "prettier --write"
+        "*.{ts,js,json,css,svelte}": "prettier --write"
     }
 }

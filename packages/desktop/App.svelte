@@ -170,11 +170,12 @@
     {/key}
 </app>
 
-<style global lang="scss">
+<style global lang="postcss">
     @tailwind base;
     @tailwind components;
     @tailwind utilities;
-    @import '../shared/src/style/style.scss';
+    @import '../shared/src/style/style.css';
+
     html,
     body {
         @apply bg-surface dark:bg-surface-dark;
@@ -216,7 +217,7 @@
             overflow-y: overlay;
         }
 
-        :global(::-webkit-scrollbar-thumb) {
+        *::-webkit-scrollbar-thumb {
             @apply dark:border-gray-900;
         }
 
@@ -226,6 +227,7 @@
             display: -webkit-box;
         }
     }
+
     @layer utilities {
         .scrollable-y {
             @apply overflow-y-auto;
@@ -233,9 +235,11 @@
             @apply pr-2;
         }
     }
+
     img {
         -webkit-user-drag: none;
     }
+
     hr {
         @apply border-t;
         @apply border-solid;
