@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { connectToDapp } from '@auxiliary/wallet-connect/actions'
+    import { buildSupportedNamespacesFromSelections, connectToDapp } from '@auxiliary/wallet-connect/actions'
     import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { getCaip10AddressForAccount, rejectSession } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
@@ -23,6 +23,14 @@
 
     let loading = false
 
+    enum Selection {
+        Summary = 'summary',
+        Accounts = 'accounts',
+        Permissions = 'permissions',
+        Networks = 'networks',
+    }
+
+    let activeSelection: Selection = Selection.Summary
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
 
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
@@ -32,7 +40,7 @@
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
     let checkedMethods: string[] = []
-    const supportedNamespaces = initSupportedNamespaces()
+    let supportedNamespaces = initSupportedNamespaces()
 
     function initSupportedNamespaces(): SupportedNamespaces {
         const persistedNamespaces = $sessionProposal
@@ -44,6 +52,8 @@
         }
 
         const namespace: Record<string, ISupportedNamespace> = {}
+
+        // TODO: only supported networks
         for (const network of getEvmNetworks()) {
             if (!namespace[network.namespace]) {
                 const accounts = $activeAccounts
@@ -63,6 +73,28 @@
         return namespace
     }
 
+    $: checkedAccounts, checkedMethods, checkedNetworks, updateSupportedNamespaces()
+    function updateSupportedNamespaces(): void {
+        if (!$sessionProposal || activeSelection === Selection.Summary) {
+            return
+        }
+
+        const { requiredNamespaces, optionalNamespaces } = $sessionProposal.params
+
+        const selections = {
+            chains: checkedNetworks,
+            methods: checkedMethods,
+            accounts: checkedAccounts,
+        }
+
+        supportedNamespaces = buildSupportedNamespacesFromSelections(
+            selections,
+            requiredNamespaces,
+            optionalNamespaces,
+            supportedNamespaces
+        )
+    }
+
     function onCancelClick(): void {
         if (drawerRouter.hasHistory()) {
             drawerRouter.previous()
@@ -77,36 +109,46 @@
             return
         }
 
-        try {
-            loading = true
-            await connectToDapp(supportedNamespaces, $sessionProposal, $selectedAccount as IAccountState)
-            $sessionProposal = undefined
+        if (activeSelection === Selection.Summary) {
+            try {
+                loading = true
+                await connectToDapp(supportedNamespaces, $sessionProposal, $selectedAccount as IAccountState)
+                $sessionProposal = undefined
 
-            drawerRouter.reset()
-            drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
-        } catch (error) {
-            loading = false
-            handleError(error)
+                drawerRouter.reset()
+                drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
+            } catch (error) {
+                loading = false
+                handleError(error)
+            }
+        } else {
+            activeSelection = Selection.Summary
         }
     }
-
-    const activeSelection: 'summary' | 'accounts' | 'permissions' | 'networks' = 'summary'
 </script>
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
             {@const requiredNamespaces = $sessionProposal.params.requiredNamespaces}
+            {@const optionalNamespaces = $sessionProposal.params.optionalNamespaces}
 
             <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
 
             <div class="px-6 flex-grow overflow-hidden">
-                {#if activeSelection === 'summary'}
+                {#if activeSelection === Selection.Summary}
                     <div class="h-full overflow-scroll">
-                        <ConnectionSummary {requiredNamespaces} editable {supportedNamespaces} {drawerRouter} />
+                        <ConnectionSummary
+                            {requiredNamespaces}
+                            editable
+                            {supportedNamespaces}
+                            onEditPermissionsClick={() => (activeSelection = Selection.Permissions)}
+                            onEditNetworksClick={() => (activeSelection = Selection.Networks)}
+                            onEditAccountsClick={() => (activeSelection = Selection.Accounts)}
+                        />
                     </div>
                 {:else}
-                    <div class="flex-grow {activeSelection === 'permissions' ? 'visible' : 'hidden'}">
+                    <div class="flex-grow {activeSelection === Selection.Permissions ? 'visible' : 'hidden'}">
                         <PermissionSelection
                             bind:checkedMethods
                             {requiredNamespaces}
@@ -114,7 +156,7 @@
                             {supportedNamespaces}
                         />
                     </div>
-                    <div class="flex-grow {activeSelection === 'networks' ? 'visible' : 'hidden'}">
+                    <div class="flex-grow {activeSelection === Selection.Networks ? 'visible' : 'hidden'}">
                         <NetworkSelection
                             bind:checkedNetworks
                             {requiredNamespaces}
@@ -122,7 +164,7 @@
                             {supportedNamespaces}
                         />
                     </div>
-                    <div class="flex-grow {activeSelection === 'accounts' ? 'visible' : 'hidden'}">
+                    <div class="flex-grow {activeSelection === Selection.Accounts ? 'visible' : 'hidden'}">
                         <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} {supportedNamespaces} />
                     </div>
                 {/if}

@@ -9,13 +9,13 @@
     import { NetworkId, getEvmNetwork } from '@core/network'
     import { IAccountState } from '@core/account'
     import { ProposalTypes } from '@walletconnect/types'
-    import { DappConfigRoute } from '../dapp-config-route.enum'
-    import { Router } from '@core/router/classes'
 
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces | undefined
     export let editable: boolean
     export let supportedNamespaces: SupportedNamespaces
-    export let drawerRouter: Router<unknown>
+    export let onEditPermissionsClick: () => void
+    export let onEditNetworksClick: () => void
+    export let onEditAccountsClick: () => void
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
 
@@ -73,16 +73,6 @@
 
         const accountMap = accounts.reduce((acc, account) => ({ ...acc, [account.index]: account }), {})
         return Object.values(accountMap)
-    }
-
-    function onEditPermissionsClick(): void {
-        drawerRouter.goTo(DappConfigRoute.EditPermissions)
-    }
-    function onEditNetworksClick(): void {
-        drawerRouter.goTo(DappConfigRoute.EditNetworks)
-    }
-    function onEditAccountsClick(): void {
-        drawerRouter.goTo(DappConfigRoute.EditAccounts)
     }
 
     onMount(() => {
