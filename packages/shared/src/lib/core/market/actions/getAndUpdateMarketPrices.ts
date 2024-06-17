@@ -6,10 +6,9 @@ import { coinGeckoTokensMetadata, updateMarketCoinPrices } from '../stores'
 
 export async function getAndUpdateMarketPrices(): Promise<void> {
     try {
-        const storedTokenIds = Object.values(get(coinGeckoTokensMetadata)).reduce<string[]>((acc, networkTokens) => {
-            const tokenIds = Object.values(networkTokens ?? {}).map((token: CoinGeckoCoin) => token.id)
-            return [...acc, ...tokenIds]
-        }, [])
+        const storedTokenIds = Object.values(get(coinGeckoTokensMetadata)).flatMap((networkTokens) =>
+            Object.values(networkTokens ?? {}).map((token: CoinGeckoCoin) => token.id)
+        )
 
         const marketPricesResponse = await CoinGeckoApi.getSimplePrices(
             [MarketCoinId.Iota, MarketCoinId.Shimmer, ...storedTokenIds],
