@@ -650,6 +650,13 @@
                     "body": "Nowa aktualizacja Bloom jest już dostępna.",
                     "button": "Aktualizuj teraz"
                 }
+            },
+            "dappNotifications": {
+                "title": "Notifications",
+                "notEnabledHint": "Receiving notifications not enabled",
+                "empty": "No notifications",
+                "enable": "Enable notifications",
+                "viewAll": "View all notifications"
             }
         },
         "picker": {
@@ -1495,7 +1502,8 @@
         "readMore": "Czytaj więcej",
         "importThirdPartyProfiles": "Importuj profile firm trzecich",
         "retry": "Ponów",
-        "loadAnyway": "Wczytaj mimo to"
+        "loadAnyway": "Wczytaj mimo to",
+        "visit": "Visit"
     },
     "general": {
         "recipient": "Odbiorca",
@@ -1692,6 +1700,8 @@
         "maxFees": "Maksymalna opłata",
         "contacts": "Kontakty",
         "apps": "Aplikacje",
+        "connectedDapps": "Connected dApps",
+        "dapps": "dApps",
         "networks": "Sieci",
         "ledgerDevice": "Urządzenie Ledger",
         "disconnected": "Rozłączono",
@@ -1736,7 +1746,11 @@
         "average": "Średnio",
         "fast": "Szybko",
         "spender": "Wydający",
-        "status": "Status"
+        "status": "Status",
+        "totalBalance": "Total balance",
+        "saving": "Saving",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
     },
     "filters": {
         "title": "Filtry",
