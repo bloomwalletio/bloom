@@ -15,5 +15,5 @@
     let:persistedSupportedNamespaces
     disableContinue={checkedAccounts.length === 0}
 >
-    <AccountSelection bind:checkedAccounts {persistedSupportedNamespaces} />
+    <AccountSelection bind:checkedAccounts supportedNamespaces={persistedSupportedNamespaces} />
 </EditSelectionDrawer>

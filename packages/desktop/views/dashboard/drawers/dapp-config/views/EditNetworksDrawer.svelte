@@ -16,5 +16,10 @@
     let:optionalNamespaces
     disableContinue={checkedNetworks.length === 0}
 >
-    <NetworkSelection bind:checkedNetworks {requiredNamespaces} {optionalNamespaces} {persistedSupportedNamespaces} />
+    <NetworkSelection
+        bind:checkedNetworks
+        {requiredNamespaces}
+        {optionalNamespaces}
+        supportedNamespaces={persistedSupportedNamespaces}
+    />
 </EditSelectionDrawer>

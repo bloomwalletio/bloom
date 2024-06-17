@@ -7,7 +7,7 @@
     import { connectToDapp } from '@auxiliary/wallet-connect/actions'
     import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { getCaip10AddressForAccount, rejectSession } from '@auxiliary/wallet-connect/utils'
-    import { ConnectionSummary } from '../components'
+    import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
     import { DappConfigRoute } from '../dapp-config-route.enum'
@@ -29,10 +29,10 @@
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
 
+    let checkedAccounts: IAccountState[] = []
+    let checkedNetworks: string[] = []
+    let checkedMethods: string[] = []
     const supportedNamespaces = initSupportedNamespaces()
-    $: persistedNamespaces = $sessionProposal
-        ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
-        : undefined
 
     function initSupportedNamespaces(): SupportedNamespaces {
         const persistedNamespaces = $sessionProposal
@@ -89,6 +89,8 @@
             handleError(error)
         }
     }
+
+    const activeSelection: 'summary' | 'accounts' | 'permissions' | 'networks' = 'summary'
 </script>
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
@@ -99,9 +101,29 @@
             <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
 
             <div class="px-6 flex-grow overflow-hidden">
-                {#if persistedNamespaces}
+                {#if activeSelection === 'summary'}
                     <div class="h-full overflow-scroll">
                         <ConnectionSummary {requiredNamespaces} editable {supportedNamespaces} {drawerRouter} />
+                    </div>
+                {:else}
+                    <div class="flex-grow {activeSelection === 'permissions' ? 'visible' : 'hidden'}">
+                        <PermissionSelection
+                            bind:checkedMethods
+                            {requiredNamespaces}
+                            {optionalNamespaces}
+                            {supportedNamespaces}
+                        />
+                    </div>
+                    <div class="flex-grow {activeSelection === 'networks' ? 'visible' : 'hidden'}">
+                        <NetworkSelection
+                            bind:checkedNetworks
+                            {requiredNamespaces}
+                            {optionalNamespaces}
+                            {supportedNamespaces}
+                        />
+                    </div>
+                    <div class="flex-grow {activeSelection === 'accounts' ? 'visible' : 'hidden'}">
+                        <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} {supportedNamespaces} />
                     </div>
                 {/if}
             </div>

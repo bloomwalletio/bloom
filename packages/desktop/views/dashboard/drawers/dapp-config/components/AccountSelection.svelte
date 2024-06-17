@@ -12,12 +12,12 @@
     import { SelectionOption } from '@core/utils/interfaces'
 
     export let checkedAccounts: IAccountState[]
-    export let persistedSupportedNamespaces: SupportedNamespaces | undefined = undefined
+    export let supportedNamespaces: SupportedNamespaces | undefined = undefined
     export let chainIds: string[] | undefined = undefined
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.accounts'
 
-    $: _chainIds = chainIds ?? Object.values(persistedSupportedNamespaces ?? {}).flatMap((p) => p.chains)
+    $: _chainIds = chainIds ?? Object.values(supportedNamespaces ?? {}).flatMap((p) => p.chains)
     $: _chainIds, setAccountSelections()
     $: checkedAccounts = accountSelections.filter((selection) => selection.checked).map((selection) => selection.value)
 
@@ -28,8 +28,8 @@
             return
         }
 
-        const persistedAccountIndexes = persistedSupportedNamespaces
-            ? getAccountsFromPersistedNamespaces(Object.values(persistedSupportedNamespaces))
+        const persistedAccountIndexes = supportedNamespaces
+            ? getAccountsFromPersistedNamespaces(Object.values(supportedNamespaces))
             : undefined
 
         accountSelections = $visibleActiveAccounts
