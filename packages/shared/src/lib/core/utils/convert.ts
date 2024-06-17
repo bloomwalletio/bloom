@@ -219,9 +219,23 @@ export class Converter {
         return prefix ? HEX_PREFIX + number.toString(16) : number.toString(16)
     }
 
+    public static hexToDecimal(hex: string): number {
+        if (hex.startsWith(HEX_PREFIX)) {
+            hex = hex.substring(2)
+        }
+        return parseInt('0x' + hex, 16)
+    }
+
     public static bigIntToHex(bigInt: bigint | undefined, prefix = true): string {
         bigInt = BigInt(bigInt ?? 0)
         return prefix ? HEX_PREFIX + bigInt.toString(16) : bigInt.toString(16)
+    }
+
+    public static hexToBigInt(hex: string): bigint {
+        if (hex.startsWith(HEX_PREFIX)) {
+            hex = hex.substring(2)
+        }
+        return BigInt('0x' + hex)
     }
 
     public static legacyNumberToBigInt(number: number | string | undefined): bigint {

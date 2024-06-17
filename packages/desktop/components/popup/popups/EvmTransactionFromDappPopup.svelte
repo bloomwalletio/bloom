@@ -35,10 +35,10 @@
 
     export let preparedTransaction: EvmTransactionData
     export let evmNetwork: IEvmNetwork
-    export let dapp: IConnectedDapp
+    export let dapp: IConnectedDapp | undefined = undefined
     export let verifiedState: DappVerification
     export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
-    export let callback: (params: CallbackParameters) => void
+    export let callback: ((params: CallbackParameters) => void) | undefined = undefined
 
     let busy = false
 
@@ -101,7 +101,7 @@
         if (data?.type === ParsedSmartContractType.TokenApproval) {
             const token = getTokenFromSelectedAccountTokens(data.tokenId, evmNetwork.id)
             return localize(locale, {
-                dappName: dapp.metadata?.name,
+                dappName: dapp?.metadata?.name ?? data.spender,
                 assetName: token?.metadata?.name ?? truncateString(data.tokenId, 6, 6),
             })
         }
@@ -123,7 +123,7 @@
         const account = getSelectedAccount()
         const signedTransaction = await getSignedTransaction(account)
         if (method === RpcMethod.EthSignTransaction) {
-            callback({ result: signedTransaction })
+            callback && callback({ result: signedTransaction })
             return
         }
 
@@ -134,7 +134,7 @@
             profileId,
             account
         )
-        callback({ result: transactionHash })
+        callback && callback({ result: transactionHash })
     }
 
     async function onConfirmClick(): Promise<void> {
@@ -157,13 +157,17 @@
                 recipient: truncateString(String(preparedTransaction.to), 6, 6),
                 assetName: getAssetName(),
             })
-            openPopup({
-                id: PopupId.SuccessfulDappInteraction,
-                props: {
-                    successMessage,
-                    dapp,
-                },
-            })
+            if (dapp) {
+                openPopup({
+                    id: PopupId.SuccessfulDappInteraction,
+                    props: {
+                        successMessage,
+                        dapp,
+                    },
+                })
+            } else {
+                closePopup()
+            }
         } catch (err) {
             busy = false
             modifyPopupState({ preventClose: false }, true)
@@ -212,14 +216,16 @@
     }}
     {busy}
 >
-    <DappInfo
-        slot="banner"
-        metadata={dapp.metadata}
-        {verifiedState}
-        showLink={false}
-        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
-    />
-
+    <svelte:fragment slot="banner">
+        {#if dapp}
+            <DappInfo
+                metadata={dapp.metadata}
+                {verifiedState}
+                showLink={false}
+                classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+            />
+        {/if}
+    </svelte:fragment>
     <div class="space-y-5">
         {#if preparedTransaction.value}
             <TransactionAssetSection {baseCoinTransfer} />
