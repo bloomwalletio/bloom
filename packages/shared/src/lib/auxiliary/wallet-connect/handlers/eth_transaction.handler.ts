@@ -8,6 +8,7 @@ import { Converter } from '@core/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DappVerification, RpcMethod } from '../enums'
+import { Transaction } from 'web3'
 
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string; gas?: string },
@@ -17,13 +18,19 @@ export async function handleEthTransaction(
     responseCallback: (params: CallbackParameters) => void,
     verifiedState: DappVerification
 ): Promise<void> {
-    const { from, gas, value, data } = evmTransactionData ?? {}
+    const { to, from, gas, value, data } = evmTransactionData ?? {}
+
     if (!from) {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
 
     if (!data && !value) {
+        responseCallback({ error: getSdkError('INVALID_METHOD') })
+        return
+    }
+
+    if (to && typeof to !== 'string') {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
@@ -42,7 +49,7 @@ export async function handleEthTransaction(
         evmTransactionData.estimatedGas = Converter.hexToBigInt(gas)
     } else {
         try {
-            const estimatedGas = await evmNetwork.provider.eth.estimateGas(evmTransactionData)
+            const estimatedGas = await evmNetwork.provider.eth.estimateGas(evmTransactionData as Transaction)
             evmTransactionData.estimatedGas = estimatedGas
         } catch (err) {
             responseCallback(getBloomError(err))
