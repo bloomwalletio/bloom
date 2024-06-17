@@ -1,7 +1,6 @@
 import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
 import { getBloomError, switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
-import { Platform } from '@core/app'
 import { EvmTransactionData } from '@core/layer-2'
 import { addGasBuffer } from '@core/layer-2/utils'
 import { IEvmNetwork } from '@core/network'
@@ -53,8 +52,6 @@ export async function handleEthTransaction(
 
     const gasLimit = addGasBuffer(evmTransactionData.estimatedGas)
     evmTransactionData.gasLimit = gasLimit
-
-    Platform.focusWindow()
 
     try {
         await switchToRequiredAccount(from, evmNetwork)
