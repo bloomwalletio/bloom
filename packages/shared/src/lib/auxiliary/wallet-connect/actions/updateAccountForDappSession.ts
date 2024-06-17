@@ -4,6 +4,7 @@ import { WalletConnectEvents } from '../enums'
 import { walletClient } from '../stores'
 import { NetworkId } from '@core/network/types'
 import { ISupportedNamespace } from '../types'
+import { doesNamespaceSupportEvent } from '../utils'
 
 export async function updateAccountForDappSession(
     sessionTopic: string,
@@ -17,6 +18,13 @@ export async function updateAccountForDappSession(
 
     const protocols = Object.keys(namespaces ?? {})
     for (const protocol of protocols) {
+        if (
+            !namespaces[protocol] ||
+            !doesNamespaceSupportEvent(namespaces[protocol], WalletConnectEvents.AccountsChanged)
+        ) {
+            continue
+        }
+
         for (const chainId of namespaces[protocol]?.chains ?? []) {
             const address = getAddressFromAccountForNetwork(account, chainId as NetworkId)
 

@@ -95,7 +95,7 @@
     </div>
 </dashboard>
 
-<style lang="scss">
+<style lang="postcss">
     :global(:not(body.platform-win32)) dashboard {
         margin-top: calc(env(safe-area-inset-top) / 2);
     }

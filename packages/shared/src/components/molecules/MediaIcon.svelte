@@ -31,14 +31,6 @@
     }
 </script>
 
-<media-icon class:downloading>
+<media-icon class={downloading ? 'animate-pulse' : ''}>
     <Avatar icon={getIcon(type)} {textColor} {size} {surface} />
 </media-icon>
-
-<style lang="scss">
-    media-icon {
-        &.downloading {
-            @apply animate-pulse;
-        }
-    }
-</style>

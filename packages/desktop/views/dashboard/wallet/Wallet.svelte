@@ -6,7 +6,7 @@
 </script>
 
 {#if $selectedAccount}
-    <wallet-container>
+    <wallet-container class="relative h-full flex flex-col gap-8 p-8 pb-0">
         {#key $selectedAccount?.index}
             <AccountSummaryPane account={$selectedAccount} />
             <Pane classes="flex flex-col flex-grow rounded-b-none">
@@ -15,12 +15,3 @@
         {/key}
     </wallet-container>
 {/if}
-
-<style lang="scss">
-    wallet-container {
-        @apply h-full;
-        @apply flex flex-col gap-8;
-        @apply p-8 pb-0;
-        @apply relative;
-    }
-</style>

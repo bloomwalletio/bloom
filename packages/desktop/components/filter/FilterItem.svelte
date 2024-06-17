@@ -56,14 +56,8 @@
     {/if}
 </filter-item>
 
-<style lang="scss">
-    filter-item {
-        :global(box) {
-            @apply p-2;
-        }
-
-        &:last-child .expanded {
-            @apply rounded-b-xl;
-        }
+<style lang="postcss">
+    filter-item:last-child .expanded {
+        @apply rounded-b-xl;
     }
 </style>

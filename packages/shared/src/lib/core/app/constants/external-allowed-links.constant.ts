@@ -29,6 +29,9 @@ export const externalAllowedLinks = [
     // Discord Invite
     'discord.gg/RjX3jEc7K7',
 
+    // Wallet Connect
+    'notify.walletconnect.com/v1/notification/*',
+
     // Other
     'support.ledger.com',
     'medium.com',

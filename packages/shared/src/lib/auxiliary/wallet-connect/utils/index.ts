@@ -1,4 +1,6 @@
+export * from './buildCaip10Address'
 export * from './disconnectAllDapps'
+export * from './doesNamespaceSupportEvent'
 export * from './getBloomError'
 export * from './getNetworksAndMethodsFromNamespaces'
 export * from './getPermissionForMethod'

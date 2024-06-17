@@ -36,10 +36,16 @@ export default class AutoUpdateManager implements IVersionDetails {
             ipcMain.handle('update-install', this.updateInstall.bind(this))
             ipcMain.handle('update-check', this.updateCheck.bind(this))
 
-            autoUpdater.logger = electronLog
-            /* eslint-disable @typescript-eslint/ban-ts-comment */
-            // @ts-expect-error
-            autoUpdater.logger.transports.file.level = 'info'
+            // TODO: figure out why logger is not working
+            try {
+                autoUpdater.logger = electronLog
+                /* eslint-disable @typescript-eslint/ban-ts-comment */
+                // @ts-expect-error
+                autoUpdater.logger.transports.file.level = 'info'
+            } catch (error) {
+                console.error(error)
+            }
+
             autoUpdater.autoDownload = false
 
             autoUpdater.removeAllListeners()

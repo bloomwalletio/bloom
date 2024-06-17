@@ -61,7 +61,30 @@ describe('File: convert.ts', () => {
             expect(Converter.bigIntLikeToBigInt('0')).toEqual(BigInt(0))
             expect(Converter.bigIntLikeToBigInt(100)).toEqual(BigInt(100))
             expect(Converter.bigIntLikeToBigInt('123330')).toEqual(BigInt(123330))
+        })
+        it('should handle floats by truncating', () => {
+            expect(Converter.bigIntLikeToBigInt(123.456)).toEqual(BigInt(123))
+        })
+        it('should handle scientific notation', () => {
+            expect(Converter.bigIntLikeToBigInt('1e6')).toEqual(BigInt(1000000))
+            expect(Converter.bigIntLikeToBigInt('1.23e3')).toEqual(BigInt(1230))
+            expect(Converter.bigIntLikeToBigInt('-1e6')).toEqual(BigInt(-1000000))
+            expect(Converter.bigIntLikeToBigInt('1.23e-3')).toEqual(BigInt(0))
+        })
+        it('should handle string representations of numbers', () => {
+            expect(Converter.bigIntLikeToBigInt('123456789012345678901234567890')).toEqual(
+                BigInt('123456789012345678901234567890')
+            )
+            expect(Converter.bigIntLikeToBigInt('-123456789012345678901234567890')).toEqual(
+                BigInt('-123456789012345678901234567890')
+            )
+        })
+        it('should handle edge cases', () => {
+            expect(Converter.bigIntLikeToBigInt('')).toEqual(BigInt(0))
             expect(Converter.bigIntLikeToBigInt(undefined)).toEqual(BigInt(0))
+            expect(Converter.bigIntLikeToBigInt(null)).toEqual(BigInt(0))
+            expect(Converter.bigIntLikeToBigInt(NaN)).toEqual(BigInt(0))
+            expect(Converter.bigIntLikeToBigInt(false)).toEqual(BigInt(0))
         })
     })
 })

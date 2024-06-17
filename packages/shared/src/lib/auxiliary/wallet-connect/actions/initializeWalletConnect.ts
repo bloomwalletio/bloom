@@ -1,33 +1,45 @@
 import { handleError } from '@core/error/handlers'
-import features from '@features/features'
-import { Core } from '@walletconnect/core'
 import { Web3Wallet } from '@walletconnect/web3wallet'
 import { get } from 'svelte/store'
+import { Core } from '@walletconnect/core'
 import { WALLET_METADATA } from '../constants'
 import { onSessionDelete, onSessionProposal, onSessionRequest } from '../handlers'
-import { walletClient } from '../stores'
+import { walletClient } from '../stores/wallet-client.store'
 import { setConnectedDapps } from '../stores/connected-dapps.store'
 import { onSessionAuthenticate } from '../handlers/onSessionAuthenticate.handler'
+import { isFeatureEnabled } from '@lib/features/utils'
+import { notificationsManager } from '../notifications'
+import { ICore } from '@walletconnect/types'
 
 export async function initializeWalletConnect(): Promise<void> {
-    if (!features?.walletConnect?.enabled || get(walletClient)) {
+    const core = new Core({
+        projectId: process.env.WALLETCONNECT_PROJECT_ID ?? '41511f9b50c46a80cdf8bd1a3532f2f9',
+    })
+    if (isFeatureEnabled('walletConnect.web3Wallet')) {
+        await initializeWalletClient(core)
+    }
+    if (isFeatureEnabled('walletConnect.notifications')) {
+        await notificationsManager.init(core)
+    }
+}
+
+async function initializeWalletClient(core: ICore): Promise<void> {
+    if (get(walletClient)) {
         return
     }
 
     try {
-        const client = await Web3Wallet.init({
-            core: new Core({
-                projectId: process.env.WALLETCONNECT_PROJECT_ID ?? '41511f9b50c46a80cdf8bd1a3532f2f9',
-            }),
+        const _walletClient = await Web3Wallet.init({
+            core,
             metadata: WALLET_METADATA,
         })
-        walletClient.set(client)
+        walletClient.set(_walletClient)
         setConnectedDapps()
 
-        client.on('session_proposal', (sessionProposal) => void onSessionProposal(sessionProposal))
-        client.on('session_request', (event) => onSessionRequest(event))
-        client.on('session_delete', (event) => onSessionDelete(event))
-        client.on('session_authenticate', (payload) => onSessionAuthenticate(payload))
+        _walletClient.on('session_proposal', (sessionProposal) => void onSessionProposal(sessionProposal))
+        _walletClient.on('session_request', (event) => onSessionRequest(event))
+        _walletClient.on('session_delete', (event) => onSessionDelete(event))
+        _walletClient.on('session_authenticate', (payload) => onSessionAuthenticate(payload))
     } catch (err) {
         handleError(err)
     }

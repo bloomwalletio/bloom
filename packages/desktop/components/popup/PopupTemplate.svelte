@@ -76,13 +76,15 @@
                 {/if}
             </popup-header>
         {/if}
-        <div class="flex-1 h-0 flex flex-col">
-            {#if $$slots.default}
-                <slot />
-            {:else if $$slots.content}
-                <slot name="content" />
-            {/if}
-        </div>
+        {#if $$slots.default || $$slots.content}
+            <div class="flex-1 h-0 flex flex-col">
+                {#if $$slots.default}
+                    <slot />
+                {:else if $$slots.content}
+                    <slot name="content" />
+                {/if}
+            </div>
+        {/if}
         {#if backButton || continueButton}
             <popup-footer class="flex-none flex flex-row gap-3">
                 {#if backButton}

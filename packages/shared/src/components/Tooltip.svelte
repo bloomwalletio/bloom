@@ -77,7 +77,7 @@
     </triangle>
 </tooltip>
 
-<style lang="scss">
+<style lang="postcss">
     tooltip {
         max-width: 300px;
         triangle,

@@ -1,5 +1,4 @@
-import type { ProposalTypes, RelayerTypes, SignClientTypes } from '@walletconnect/types'
-import { ISupportedNamespace } from '../types'
+import type { ProposalTypes, RelayerTypes, SignClientTypes, SessionTypes } from '@walletconnect/types'
 
 export interface ISession {
     topic: string
@@ -8,7 +7,7 @@ export interface ISession {
     expiry: number
     acknowledged: boolean
     controller: string
-    namespaces: Record<string, ISupportedNamespace>
+    namespaces: SessionTypes.Namespaces
     requiredNamespaces: ProposalTypes.RequiredNamespaces
     optionalNamespaces: ProposalTypes.OptionalNamespaces
     sessionProperties?: ProposalTypes.SessionProperties

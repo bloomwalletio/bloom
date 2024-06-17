@@ -1,12 +1,14 @@
 <script lang="ts">
     import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { NetworkId, getEvmNetworks, getStardustNetwork } from '@core/network'
+    import { NetworkId, SupportedNetworkId, getEvmNetworks, getStardustNetwork } from '@core/network'
 
     export let networkId: NetworkId | undefined
     export let error: string | undefined
     export let showLayer1: boolean = true
     export let showLayer2: boolean = true
+    export let mergeLayer2Options: boolean = false
+
     export let validationFunction: ((arg: string) => void) | undefined = undefined
 
     export function validate(): void {
@@ -32,13 +34,23 @@
             options.push({ label: l1Network.name, value: l1Network.id })
         }
 
-        if (showLayer2) {
+        if (!showLayer2) {
+            return options
+        }
+
+        if (mergeLayer2Options) {
+            options.push({
+                label: 'EVM',
+                value: SupportedNetworkId.GenericEvm,
+            })
+        } else {
             const layer2Networks: IOption[] = getEvmNetworks().map((evmNetwork) => ({
                 label: evmNetwork.name,
                 value: evmNetwork.id,
             }))
             options.push(...layer2Networks)
         }
+
         return options
     }
 </script>

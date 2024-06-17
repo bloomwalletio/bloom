@@ -12,9 +12,11 @@
     export let classes: string = ''
 </script>
 
-<dapp-info class="bg-surface-0 dark:bg-surface-0-dark {classes}">
+<dapp-info
+    class="w-full flex flex-row items-center justify-center gap-3 p-6 bg-surface-0 dark:bg-surface-0-dark {classes}"
+>
     {#if metadata?.icons?.[0]}
-        <img class="dapp-image" src={metadata.icons[0]} alt={metadata.name} />
+        <img class="w-10 h-10 rounded-full" src={metadata.icons[0]} alt={metadata.name} />
     {:else}
         <Avatar icon={IconName.Link} size="lg" surface={0} />
     {/if}
@@ -45,16 +47,3 @@
         </div>
     {/if}
 </dapp-info>
-
-<style lang="scss">
-    dapp-info {
-        @apply w-full p-6;
-        @apply flex flex-row items-center justify-center gap-3;
-    }
-
-    .dapp-image {
-        width: 40px;
-        height: 40px;
-        border-radius: 40px;
-    }
-</style>
