@@ -6,7 +6,7 @@
     import { DrawerTemplate } from '@components'
     import { connectToDapp } from '@auxiliary/wallet-connect/actions'
     import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
-    import { rejectSession } from '@auxiliary/wallet-connect/utils'
+    import { getCaip10AddressForAccount, rejectSession } from '@auxiliary/wallet-connect/utils'
     import { ConnectionSummary } from '../components'
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
@@ -14,7 +14,10 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { selectedAccount } from '@core/account/stores'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
-    import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
+    import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
+    import { getEvmNetworks } from '@core/network'
+    import { ALL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
+    import { activeAccounts } from '@core/profile/stores'
 
     export let drawerRouter: Router<unknown>
 
@@ -39,6 +42,25 @@
         if (persistedNamespaces) {
             return persistedNamespaces.supported
         }
+
+        const namespace: Record<string, ISupportedNamespace> = {}
+        for (const network of getEvmNetworks()) {
+            if (!namespace[network.namespace]) {
+                const accounts = $activeAccounts
+                    .map((account) => getCaip10AddressForAccount(account, network.id) as string)
+                    .filter(Boolean)
+
+                namespace[network.namespace] = {
+                    chains: [],
+                    methods: ALL_SUPPORTED_METHODS,
+                    events: SUPPORTED_EVENTS,
+                    accounts,
+                }
+            }
+
+            namespace[network.namespace].chains.push(network.id)
+        }
+        return namespace
     }
 
     function onCancelClick(): void {
