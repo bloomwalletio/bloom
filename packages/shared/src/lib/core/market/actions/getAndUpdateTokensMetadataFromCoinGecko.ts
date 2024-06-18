@@ -1,10 +1,10 @@
+import { SupportedIscNetworkId } from '@core/network/constants/supported-network-id.constant'
+import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { get } from 'svelte/store'
 import { CoinGeckoApi } from '../apis'
-import { coinGeckoTokensMetadata } from '../stores'
-import { CoinGeckoNetworkId } from '../enums'
-import { SupportedIscNetworkId } from '@core/network/constants'
-import { CoinGeckoCoin } from '../interfaces'
-import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
+import { CoinGeckoNetworkId } from '../enums/'
+import { CoinGeckoCoin } from '../interfaces/'
+import { coinGeckoTokensMetadata } from '../stores/'
 
 const NETWORK_FROM_PLATFORM: { [key in CoinGeckoNetworkId]: string } = {
     [CoinGeckoNetworkId.IotaEvm]: SupportedIscNetworkId.IotaEvm,
