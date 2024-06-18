@@ -80,7 +80,7 @@ export class IscChain extends EvmNetwork implements IIscChain {
 
     /**
      * CAUTION: The API endpoint used by this method is not available
-     * with the public ShimmerEVM node URL (b/c it's actually just
+     * with the public ShimmerEvm node URL (b/c it's actually just
      * the EVM JSON-RPC endpoint rather than the underlying WASP
      * node URL). See here for more: https://github.com/iotaledger/wasp/issues/2385
      */
