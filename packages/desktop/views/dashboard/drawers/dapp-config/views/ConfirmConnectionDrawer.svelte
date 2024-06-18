@@ -139,7 +139,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
+<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} showBack={false}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
             {@const requiredNamespaces = $sessionProposal.params.requiredNamespaces}
