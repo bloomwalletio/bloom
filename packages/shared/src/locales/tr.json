@@ -650,6 +650,13 @@
                     "body": "Bugün yeni bir Bloom güncellemesi yayınlandı.",
                     "button": "Şimdi güncelle"
                 }
+            },
+            "dappNotifications": {
+                "title": "Notifications",
+                "notEnabledHint": "Receiving notifications not enabled",
+                "empty": "No notifications",
+                "enable": "Enable notifications",
+                "viewAll": "View all notifications"
             }
         },
         "picker": {
@@ -1023,7 +1030,7 @@
             "selectAmount": "Gönder {tokenName}",
             "selectRecipient": "{assetName}'i şuraya gönder",
             "transactionSummary": "Transaction to {recipient}",
-            "ircAssetsToL2Hint": "You are about to send an IRC asset to an EVM network. Most EVM based wallets don't support displaying IRC assets correctly.",
+            "ircAssetsToL2Hint": "Bir IRC varlığını bir EVM ağına göndermek üzeresiniz. Çoğu EVM tabanlı cüzdan, IRC varlıklarının doğru şekilde görüntülenmesini desteklemez.",
             "surplusIncluded": "Bu işlem fazla tutar içermektedir. Lütfen göndermek istediğiniz tutarın bu olup olmadığını bir kez daha kontrol edin."
         },
         "walletFinder": {
@@ -1094,10 +1101,10 @@
             "success": "İmzalı işlem"
         },
         "tokenApproval": {
-            "title": "Approve {dappName} to access {assetName}",
-            "hint": "{address} is requesting approval to spend {assetName}",
-            "action": "Approve",
-            "success": "Successfully approved"
+            "title": "{assetName} erişimi için {dappName} uygulamasını onaylayın",
+            "hint": "{address}, {assetName} tutarında harcama yapmak için onay istiyor",
+            "action": "Onayla",
+            "success": "Başarıyla onaylandı"
         },
         "sendTransaction": {
             "title": "İşlemi gönder",
@@ -1106,9 +1113,9 @@
         },
         "smartContractCall": {
             "title": "{contractAddress} adresine akıllı sözleşme çağrısı",
-            "unableToVerify": "Bloom is unable to parse the smart contract data, only proceed with apps you trust.",
-            "partiallyVerified": "Bloom has partially parsed the smart contract data, proceed with apps you trust.",
-            "viewSmartContract": "View Contract",
+            "unableToVerify": "Bloom akıllı sözleşme verilerini ayrıştıramıyor, yalnızca güvendiğiniz uygulamalarla devam ediyor.",
+            "partiallyVerified": "Bloom akıllı sözleşme verilerini kısmen ayrıştırdı, güvendiğiniz uygulamalarla devam edin.",
+            "viewSmartContract": "Sözleşmeyi Görüntüle",
             "action": "Onayla",
             "success": "{recipient} adlı kişiye akıllı sözleşme çağrısı"
         },
@@ -1495,7 +1502,8 @@
         "readMore": "Daha fazla bilgi edinin",
         "importThirdPartyProfiles": "Üçüncü taraf profillerini içe aktarma",
         "retry": "Yeniden Dene",
-        "loadAnyway": "Yine de yükle"
+        "loadAnyway": "Yine de yükle",
+        "visit": "Visit"
     },
     "general": {
         "recipient": "Alıcı",
@@ -1692,6 +1700,8 @@
         "maxFees": "Maksimum ücretler",
         "contacts": "Kişiler",
         "apps": "Uygulamalar",
+        "connectedDapps": "Connected dApps",
+        "dapps": "dApps",
         "networks": "Ağlar",
         "ledgerDevice": "Ledger Cihazı",
         "disconnected": "Bağlı değil",
@@ -1735,8 +1745,12 @@
         "slow": "Yavaş",
         "average": "Ortalama",
         "fast": "Hızlı",
-        "spender": "Spender",
-        "status": "Status"
+        "spender": "Harcayan",
+        "status": "Durum",
+        "totalBalance": "Total balance",
+        "saving": "Saving",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
     },
     "filters": {
         "title": "Filtreler",

@@ -52,6 +52,13 @@ describe('File: time.ts', () => {
             expect(getBestTimeDuration(MILLISECONDS_PER_SECOND * 30)).toEqual('30 seconds')
             expect(getBestTimeDuration(MILLISECONDS_PER_SECOND)).toEqual('1 second')
         })
+
+        it('should return best duration with minimal param', () => {
+            expect(getBestTimeDuration(ONE_DAY_MILLIS * 2, 'day', true)).toEqual('2d')
+            expect(getBestTimeDuration(ONE_MINUTE_MILLIS * 60, 'day', true)).toEqual('1h')
+            expect(getBestTimeDuration(ONE_MINUTE_MILLIS * 30, 'day', true)).toEqual('30m')
+            expect(getBestTimeDuration(MILLISECONDS_PER_SECOND, 'day', true)).toEqual('1s')
+        })
     })
 
     describe('Function: isFutureDateTime', () => {

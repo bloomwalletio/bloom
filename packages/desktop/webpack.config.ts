@@ -184,6 +184,7 @@ const rendererPlugins = [
     new MiniCssExtractPlugin({
         filename: '[name].css',
     }),
+
     new DefinePlugin({
         'process.env.PLATFORM': JSON.stringify(process.env.PLATFORM || 'desktop'),
         'process.platform': JSON.stringify(process.platform),

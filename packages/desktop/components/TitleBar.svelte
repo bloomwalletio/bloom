@@ -17,19 +17,18 @@
 <NavbarContainer draggable ghost={!isDashboardVisible}>
     <div class="flex flex-row justify-between w-full" style:height="var(--windows-navbar-height, 0px)">
         <!-- We need to add this element to allow fix the windows resize area issue due to -webkit-app-region: drag -->
-        <windows-resize-area />
+        <windows-resize-area class="absolute block h-1 left-20 top-0" />
         <WindowsPopupMenu />
         <WindowsControlButtons />
     </div>
 </NavbarContainer>
 
-<style lang="scss">
+<style lang="postcss">
     :global(.platform-win32) {
         --windows-navbar-height: 28px;
     }
 
     windows-resize-area {
-        @apply absolute block h-1 left-20 top-0;
         width: calc(100% - 14rem);
     }
 </style>

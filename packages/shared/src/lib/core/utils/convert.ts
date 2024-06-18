@@ -219,9 +219,23 @@ export class Converter {
         return prefix ? HEX_PREFIX + number.toString(16) : number.toString(16)
     }
 
+    public static hexToDecimal(hex: string): number {
+        if (hex.startsWith(HEX_PREFIX)) {
+            hex = hex.substring(2)
+        }
+        return parseInt('0x' + hex, 16)
+    }
+
     public static bigIntToHex(bigInt: bigint | undefined, prefix = true): string {
         bigInt = BigInt(bigInt ?? 0)
         return prefix ? HEX_PREFIX + bigInt.toString(16) : bigInt.toString(16)
+    }
+
+    public static hexToBigInt(hex: string): bigint {
+        if (hex.startsWith(HEX_PREFIX)) {
+            hex = hex.substring(2)
+        }
+        return BigInt('0x' + hex)
     }
 
     public static legacyNumberToBigInt(number: number | string | undefined): bigint {
@@ -273,12 +287,28 @@ export class Converter {
      * @returns The bytes.
      */
     public static bigIntLikeToBigInt(number: BigIntLike | undefined): bigint {
+        if (number === undefined || number === null || Number.isNaN(number)) {
+            return BigInt(0)
+        }
+
         if (ArrayBuffer.isView(number)) {
             return bytesToBigInt(number)
-        } else {
-            number = number === '0x' ? '0x0' : number
-            return BigInt(String(number ?? '0'))
         }
+
+        if (typeof number === 'string') {
+            if (number === '0x') {
+                return BigInt('0x0')
+            }
+            if (/\d+\.?\d*e[+-]?\d+/i.test(number)) {
+                number = Number(number)
+            }
+        }
+
+        if (typeof number === 'number' && !Number.isInteger(number)) {
+            number = Math.floor(number)
+        }
+
+        return BigInt(number)
     }
 
     /**

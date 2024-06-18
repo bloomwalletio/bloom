@@ -97,6 +97,7 @@ function removeTrailingZero(amount: string): string {
 }
 
 function getGroupedStringAmount(value: string): string {
+    // eslint-disable-next-line security/detect-unsafe-regex
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, getGroupSeparator())
 }
 

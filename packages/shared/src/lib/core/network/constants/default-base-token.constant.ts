@@ -64,4 +64,5 @@ export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]: IBaseToken }> = {
     [SupportedNetworkId.TestnetEvm]: SHIMMER_EVM_BASE_TOKEN,
     [SupportedNetworkId.Ethereum]: EVM_BASE_TOKEN,
     [SupportedNetworkId.Sepolia]: EVM_BASE_TOKEN,
+    [SupportedNetworkId.GenericEvm]: EVM_BASE_TOKEN,
 }

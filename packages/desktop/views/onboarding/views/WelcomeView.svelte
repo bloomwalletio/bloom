@@ -72,7 +72,7 @@
     </welcome-view>
 </LoggedOutLayout>
 
-<style lang="scss">
+<style lang="postcss">
     :global(welcome-view h1 strong) {
         background: linear-gradient(86deg, #c4b0ff 3.99%, #a82bdc 24.99%, #e65426 45.83%, #feb83a 69.6%);
         background-clip: text;

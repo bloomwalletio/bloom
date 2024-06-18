@@ -5,7 +5,6 @@ import { IEvmNetwork } from '@core/network'
 import { CallbackParameters } from '../types'
 import { getBloomError, switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
-import { Platform } from '@core/app'
 import { DappVerification, RpcMethod } from '../enums'
 import { parseSiweMessage, validateSiwe } from '@core/layer-2'
 import { showNotification } from '@auxiliary/notification'
@@ -34,7 +33,6 @@ export async function handleSignMessage(
         return
     }
     const message = Converter.hexToUtf8(hexMessage)
-    Platform.focusWindow()
 
     try {
         const account = await switchToRequiredAccount(accountAddress, evmNetwork)

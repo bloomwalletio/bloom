@@ -39,7 +39,7 @@
           }
         : undefined}
 >
-    <div class="log overflow-y-auto">
+    <div class="max-h-[50vh] md:max-h-[30vh] overflow-y-auto">
         {#if $errorLog.length > 0}
             {#each $errorLog as error}
                 <div class="mb-7">
@@ -55,12 +55,3 @@
         {/if}
     </div>
 </PopupTemplate>
-
-<style lang="scss">
-    .log {
-        max-height: 50vh;
-        @screen md {
-            max-height: 30vh;
-        }
-    }
-</style>

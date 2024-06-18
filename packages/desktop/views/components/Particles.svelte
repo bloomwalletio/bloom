@@ -7,12 +7,12 @@
     export let maxSpeed = 7
 
     let canvas: HTMLCanvasElement
-    let ctx: CanvasRenderingContext2D
+    let ctx: CanvasRenderingContext2D | null
 
     let particles: Particle[] = []
     let isCanvasReady: boolean = false
 
-    function randomInt(min, max) {
+    function randomInt(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1)) + min
     }
 
@@ -29,8 +29,9 @@
         color: string
 
         constructor() {
-            if (!isCanvasReady) return
-
+            if (!isCanvasReady) {
+                throw new Error('Canvas is not ready!')
+            }
             this.x = randomInt(0, canvas?.width || 0)
             this.y = randomInt(0, canvas?.height || 0)
             this.size = randomInt(1, maxParticleSize)
@@ -43,6 +44,9 @@
         }
 
         draw(): void {
+            if (!ctx) {
+                return
+            }
             ctx.fillStyle = this.color
             ctx.beginPath()
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
@@ -59,7 +63,7 @@
     }
 
     function animate(): void {
-        ctx.clearRect(0, 0, canvas?.width, canvas?.height)
+        ctx?.clearRect(0, 0, canvas?.width, canvas?.height)
 
         for (let i = 0; i < particles.length; i++) {
             particles[i].update()
@@ -83,7 +87,9 @@
 
     onMount(() => {
         ctx = canvas.getContext('2d')
-        if (!ctx) throw new Error('Context not found!')
+        if (!ctx) {
+            throw new Error('Context not found!')
+        }
 
         window.addEventListener('resize', handleResize)
 

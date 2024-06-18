@@ -650,6 +650,13 @@
                     "body": "Ein neues Bloom-Update ist verfügbar.",
                     "button": "Jetzt aktualisieren"
                 }
+            },
+            "dappNotifications": {
+                "title": "Notifications",
+                "notEnabledHint": "Receiving notifications not enabled",
+                "empty": "No notifications",
+                "enable": "Enable notifications",
+                "viewAll": "View all notifications"
             }
         },
         "picker": {
@@ -1023,7 +1030,7 @@
             "selectAmount": "{tokenName} senden",
             "selectRecipient": "{assetName} senden an",
             "transactionSummary": "Transaktion an {recipient}",
-            "ircAssetsToL2Hint": "You are about to send an IRC asset to an EVM network. Most EVM based wallets don't support displaying IRC assets correctly.",
+            "ircAssetsToL2Hint": "Du bist dabei, ein IRC-Asset an ein EVM-Netzwerk zu senden. Die meisten EVM-basierten Wallets unterstützen die Anzeige von IRC-Assets nicht.",
             "surplusIncluded": "Diese Transaktion enthält eine überschüssige Betrag. Bitte überprüfe, ob dies der Betrag ist, den du senden möchtest."
         },
         "walletFinder": {
@@ -1094,10 +1101,10 @@
             "success": "Signierte Transaktion"
         },
         "tokenApproval": {
-            "title": "Approve {dappName} to access {assetName}",
-            "hint": "{address} is requesting approval to spend {assetName}",
-            "action": "Approve",
-            "success": "Successfully approved"
+            "title": "{dappName} genehmigen, um auf {assetName} zuzugreifen",
+            "hint": "{address} beantragt die Freigabe für {assetName}",
+            "action": "Genehmigen",
+            "success": "Erfolgreich genehmigt"
         },
         "sendTransaction": {
             "title": "Transaktion senden",
@@ -1106,9 +1113,9 @@
         },
         "smartContractCall": {
             "title": "Aufruf des Smart Contracts an {contractAddress}",
-            "unableToVerify": "Bloom is unable to parse the smart contract data, only proceed with apps you trust.",
-            "partiallyVerified": "Bloom has partially parsed the smart contract data, proceed with apps you trust.",
-            "viewSmartContract": "View Contract",
+            "unableToVerify": "Bloom kann die Smart-Contract-Daten nicht analysieren. Fahre nur mit Apps fort, denen du vertraust.",
+            "partiallyVerified": "Bloom hat die Smart-Contract-Daten teilweise analysiert. Fahre nur mit Apps fort, denen du vertraust.",
+            "viewSmartContract": "Zeige Contract",
             "action": "Bestätigen",
             "success": "Aufruf des Smart Contracts an {recipient}"
         },
@@ -1495,7 +1502,8 @@
         "readMore": "Weiterlesen",
         "importThirdPartyProfiles": "Drittanbieter-Profile importieren",
         "retry": "Wiederholen",
-        "loadAnyway": "Trotzdem laden"
+        "loadAnyway": "Trotzdem laden",
+        "visit": "Visit"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1692,6 +1700,8 @@
         "maxFees": "Max. Gebühr",
         "contacts": "Kontakte",
         "apps": "Apps",
+        "connectedDapps": "Connected dApps",
+        "dapps": "dApps",
         "networks": "Netzwerke",
         "ledgerDevice": "Ledger",
         "disconnected": "Nicht verbunden",
@@ -1736,7 +1746,11 @@
         "average": "Durchschnitt",
         "fast": "Schnell",
         "spender": "Spender",
-        "status": "Status"
+        "status": "Status",
+        "totalBalance": "Total balance",
+        "saving": "Saving",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
     },
     "filters": {
         "title": "Filter",

@@ -9,7 +9,7 @@
     import SettingsSection from '../SettingsSection.svelte'
 
     const options: IOption[] = getMaxMediaSizeOptions()
-    let selected: IOption = options.find(
+    let selected: IOption | undefined = options.find(
         (option) => option.value === $activeProfile?.settings.nfts.maxMediaSizeInMegaBytes?.toString()
     )
 
@@ -19,11 +19,11 @@
             const maxMediaSizeInMegaBytes = parseInt(option.value)
             updateActiveProfileSettings({ nfts: { ...$activeProfile?.settings.nfts, maxMediaSizeInMegaBytes } })
             const maxMediaSizeInBytes = maxMediaSizeInMegaBytes && maxMediaSizeInMegaBytes * 1024 * 1024
-            deleteOrDownloadNfts(maxMediaSizeInBytes)
+            void deleteOrDownloadNfts(maxMediaSizeInBytes)
         }
     }
 
-    function assignMaxMediaSizeOptionLabel(amount: number): string {
+    function assignMaxMediaSizeOptionLabel(amount: number | undefined): string {
         return amount ? amount + ' MB' : localize('general.none')
     }
 

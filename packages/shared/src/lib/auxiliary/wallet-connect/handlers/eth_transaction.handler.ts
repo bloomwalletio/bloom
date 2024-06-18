@@ -1,24 +1,26 @@
-import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
-import { IEvmNetwork } from '@core/network'
 import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
 import { CallbackParameters } from '@auxiliary/wallet-connect/types'
-import { buildEvmTransactionData } from '@core/layer-2/utils'
-import { EvmTransactionData } from '@core/layer-2'
 import { getBloomError, switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
+import { EvmTransactionData } from '@core/layer-2'
+import { addGasBuffer } from '@core/layer-2/utils'
+import { IEvmNetwork } from '@core/network'
+import { Converter } from '@core/utils'
 import { getSdkError } from '@walletconnect/utils'
-import { Platform } from '@core/app'
+import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { DappVerification, RpcMethod } from '../enums'
+import { Transaction } from 'web3'
 
 export async function handleEthTransaction(
-    evmTransactionData: EvmTransactionData & { from: string },
-    dapp: IConnectedDapp,
+    evmTransactionData: EvmTransactionData & { from: string; gas?: string },
+    dapp: IConnectedDapp | undefined,
     evmNetwork: IEvmNetwork,
     method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction,
     responseCallback: (params: CallbackParameters) => void,
     verifiedState: DappVerification
 ): Promise<void> {
-    const { to, from, nonce, gasPrice, gasLimit, value, data } = evmTransactionData ?? {}
-    if (!to || !from) {
+    const { to, from, gas, value, data } = evmTransactionData ?? {}
+
+    if (!from) {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
     }
@@ -28,25 +30,35 @@ export async function handleEthTransaction(
         return
     }
 
-    if (nonce === undefined || !gasPrice || !gasLimit) {
+    if (to && typeof to !== 'string') {
+        responseCallback({ error: getSdkError('INVALID_METHOD') })
+        return
+    }
+
+    // Always override nonce with the latest value
+    const nonce = await evmNetwork.provider.eth.getTransactionCount(from)
+    evmTransactionData.nonce = nonce
+
+    // Always get the latest gas price
+    const gasPrice = await evmNetwork.getRequiredGasPrice()
+    const hexGasPrice = Converter.decimalToHex(Number(gasPrice), true)
+    evmTransactionData.gasPrice = hexGasPrice
+
+    if (gas) {
+        // Use the provided gas limit
+        evmTransactionData.estimatedGas = Converter.hexToBigInt(gas)
+    } else {
         try {
-            const { nonce, gasPrice, gasLimit } = await buildEvmTransactionData(
-                evmNetwork,
-                from.toString(),
-                to?.toString(),
-                BigInt(value?.toString() ?? '0'),
-                data?.toString()
-            )
-            evmTransactionData.nonce = nonce
-            evmTransactionData.gasPrice = gasPrice
-            evmTransactionData.gasLimit = gasLimit
+            const estimatedGas = await evmNetwork.provider.eth.estimateGas(evmTransactionData as Transaction)
+            evmTransactionData.estimatedGas = estimatedGas
         } catch (err) {
             responseCallback(getBloomError(err))
             return
         }
     }
 
-    Platform.focusWindow()
+    const gasLimit = addGasBuffer(evmTransactionData.estimatedGas)
+    evmTransactionData.gasLimit = gasLimit
 
     try {
         await switchToRequiredAccount(from, evmNetwork)

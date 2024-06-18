@@ -39,10 +39,11 @@ import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
 import { disconnectAllDapps } from '@auxiliary/wallet-connect/utils'
-import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
 import { cleanupOnboarding } from '@contexts/onboarding'
 import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actions'
 import { updateCirculatingSupplyForActiveProfile } from './updateCirculatingSupplyForActiveProfile'
+import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
+import { getEvmNetworks } from '@core/network'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager)?.getRouterForAppContext(AppContext.Login)
@@ -132,7 +133,10 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             void registerProposalsFromNodes(loadedAccounts)
         }
         void cleanupOnboarding()
-        void initializeWalletConnect()
+        notificationsManager.setTrackedNetworkAccounts(
+            loadedAccounts,
+            getEvmNetworks().map(({ id }) => id)
+        )
     } catch (err) {
         handleError(err)
         if (!loginOptions?.isFromOnboardingFlow) {

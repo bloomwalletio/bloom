@@ -46,6 +46,7 @@ export async function generateAndStoreEvmAddressForAccounts(
             }
         }
 
+        account.evmAddresses[coinType] = evmAddress
         const evmAddresses = { [coinType]: evmAddress }
         updateActiveAccount(accountIndex, { evmAddresses })
         updateActiveAccountPersistedData(accountIndex, { evmAddresses })
