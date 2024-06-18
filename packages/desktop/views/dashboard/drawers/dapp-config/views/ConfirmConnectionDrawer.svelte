@@ -108,11 +108,11 @@
     }
 
     function onCancelClick(): void {
-        if (drawerRouter.hasHistory()) {
-            drawerRouter.previous()
-        } else {
+        if (activeSelection === Selection.Summary) {
             rejectSession()
             closeDrawer()
+        } else {
+            activeSelection = Selection.Summary
         }
     }
 
@@ -149,7 +149,7 @@
 
             <div class="px-6 flex-grow overflow-hidden">
                 {#if activeSelection === Selection.Summary}
-                    <div class="h-full overflow-scroll">
+                    <div class="h-full overflow-auto">
                         <ConnectionSummary
                             {requiredNamespaces}
                             editable
@@ -193,14 +193,14 @@
             width="full"
             on:click={onCancelClick}
             disabled={loading}
-            text={localize('actions.cancel')}
+            text={localize(`actions.${activeSelection === Selection.Summary ? 'reject' : 'back'}`)}
         />
         <Button
             width="full"
             on:click={onConfirmClick}
             disabled={loading}
             busy={loading}
-            text={localize('actions.confirm')}
+            text={localize(`actions.${activeSelection === Selection.Summary ? 'confirm' : 'apply'}`)}
         />
     </div>
 </DrawerTemplate>
