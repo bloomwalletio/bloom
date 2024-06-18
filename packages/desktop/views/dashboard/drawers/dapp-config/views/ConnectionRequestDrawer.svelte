@@ -58,7 +58,7 @@
 
     function doesFulfillNetworkRequirements(
         requiredNamespaces: ProposalTypes.RequiredNamespaces,
-        optionalNamespaces: ProposalTypes.RequiredNamespaces
+        optionalNamespaces: ProposalTypes.OptionalNamespaces
     ): boolean {
         const supportedNetworksByProfile = getAllNetworkIds()
         const requiredNetworksByDapp = Object.values(requiredNamespaces)
