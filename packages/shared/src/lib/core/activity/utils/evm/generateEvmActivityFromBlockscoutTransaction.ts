@@ -40,7 +40,7 @@ export async function generateEvmActivityFromBlockscoutTransaction(
             account
         )
     } else if (blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.ContractCall)) {
-        return _generateEvmActivityFromBlockscoutTransaction(
+        return generateEvmContractCallActivityFromBlockscoutTransaction(
             blockscoutTransaction,
             localTransaction,
             evmNetwork,
@@ -52,7 +52,7 @@ export async function generateEvmActivityFromBlockscoutTransaction(
     }
 }
 
-async function _generateEvmActivityFromBlockscoutTransaction(
+async function generateEvmContractCallActivityFromBlockscoutTransaction(
     blockscoutTransaction: IBlockscoutTransaction,
     localTransaction: LocalEvmTransaction | undefined,
     evmNetwork: IEvmNetwork,
