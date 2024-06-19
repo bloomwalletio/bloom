@@ -3,6 +3,7 @@ export enum EvmActivityType {
     BalanceChange = 'balanceChange',
     TokenMinting = 'tokenMinting',
     TokenTransfer = 'tokenTransfer',
+    TokenApproval = 'tokenApproval',
     ContractCall = 'contractCall',
     ContractCreation = 'contractCreation',
 }

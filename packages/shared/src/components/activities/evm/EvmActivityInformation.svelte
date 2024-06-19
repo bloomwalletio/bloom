@@ -21,6 +21,7 @@
                 tabs = getTabItems([PopupTab.Transaction])
                 break
             case EvmActivityType.TokenTransfer:
+            case EvmActivityType.TokenApproval:
             case EvmActivityType.TokenMinting:
             case EvmActivityType.BalanceChange:
                 if (
@@ -32,7 +33,11 @@
                 } else {
                     tabs = getTabItems([PopupTab.Transaction])
                 }
-                if (activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.TokenMinting) {
+                if (
+                    activity.type === EvmActivityType.TokenTransfer ||
+                    activity.type === EvmActivityType.TokenApproval ||
+                    activity.type === EvmActivityType.TokenMinting
+                ) {
                     tabs.push({ key: PopupTab.SmartContract, value: localize(`general.${PopupTab.SmartContract}`) })
                 }
                 break
@@ -54,7 +59,7 @@
         <EvmGenericInformation {activity} />
     {:else if selectedTab.key === PopupTab.NftMetadata && nft}
         <NftMetadataTable {nft} />
-    {:else if selectedTab.key === PopupTab.SmartContract && (activity.type === EvmActivityType.ContractCall || activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.TokenMinting)}
+    {:else if selectedTab.key === PopupTab.SmartContract && (activity.type === EvmActivityType.ContractCall || activity.type === EvmActivityType.TokenTransfer || activity.type === EvmActivityType.TokenApproval || activity.type === EvmActivityType.TokenMinting)}
         <EvmSmartContractInformation {activity} />
     {/if}
 </activity-details>
