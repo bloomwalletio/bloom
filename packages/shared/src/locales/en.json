@@ -1171,6 +1171,11 @@
                     "Confirmed": "Burned",
                     "Conflicting": "Failed to burn"
                 },
+                "tokenApproval": {
+                    "Pending": "Approving {address} to spend {assetName}",
+                    "Confirmed": "Approved {address} to spend {assetName}",
+                    "Conflicting": "Failed to approve to spend {assetName}"
+                },
                 "consolidation": {
                     "Pending": "Consolidating",
                     "Confirmed": "Consolidated",
@@ -1519,6 +1524,8 @@
         "sending": "Sending",
         "received": "Received",
         "receiving": "Receiving",
+        "approving": "Approving",
+        "approved": "Approved",
         "newVotingPower": "New voting power",
         "votingPower": "Voting power",
         "increased": "Voting power increased",
