@@ -85,7 +85,6 @@
         return namespace
     }
 
-    $: checkedAccounts, checkedMethods, checkedNetworks, updateSupportedNamespaces()
     function updateSupportedNamespaces(): void {
         if (!$sessionProposal || activeSelection === Selection.Summary) {
             return
@@ -108,12 +107,8 @@
     }
 
     function onCancelClick(): void {
-        if (activeSelection === Selection.Summary) {
-            rejectSession()
-            closeDrawer()
-        } else {
-            activeSelection = Selection.Summary
-        }
+        rejectSession()
+        closeDrawer()
     }
 
     async function onConfirmClick(): Promise<void> {
@@ -121,20 +116,16 @@
             return
         }
 
-        if (activeSelection === Selection.Summary) {
-            try {
-                loading = true
-                await connectToDapp(supportedNamespaces, $sessionProposal, $selectedAccount as IAccountState)
-                $sessionProposal = undefined
+        try {
+            loading = true
+            await connectToDapp(supportedNamespaces, $sessionProposal, $selectedAccount as IAccountState)
+            $sessionProposal = undefined
 
-                drawerRouter.reset()
-                drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
-            } catch (error) {
-                loading = false
-                handleError(error)
-            }
-        } else {
-            activeSelection = Selection.Summary
+            drawerRouter.reset()
+            drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
+        } catch (error) {
+            loading = false
+            handleError(error)
         }
     }
 </script>
@@ -154,9 +145,10 @@
                             {requiredNamespaces}
                             editable
                             {supportedNamespaces}
-                            onEditPermissionsClick={() => (activeSelection = Selection.Permissions)}
-                            onEditNetworksClick={() => (activeSelection = Selection.Networks)}
-                            onEditAccountsClick={() => (activeSelection = Selection.Accounts)}
+                            onEditPermissionsClick={() =>
+                                !loading ? (activeSelection = Selection.Permissions) : undefined}
+                            onEditNetworksClick={() => (!loading ? (activeSelection = Selection.Networks) : undefined)}
+                            onEditAccountsClick={() => (!loading ? (activeSelection = Selection.Accounts) : undefined)}
                         />
                     </div>
                 {:else}
@@ -188,19 +180,36 @@
         {/if}
     </div>
     <div slot="footer" class="flex flex-row gap-2">
-        <Button
-            variant="outlined"
-            width="full"
-            on:click={onCancelClick}
-            disabled={loading}
-            text={localize(`actions.${activeSelection === Selection.Summary ? 'reject' : 'back'}`)}
-        />
-        <Button
-            width="full"
-            on:click={onConfirmClick}
-            disabled={loading}
-            busy={loading}
-            text={localize(`actions.${activeSelection === Selection.Summary ? 'confirm' : 'apply'}`)}
-        />
+        {#if activeSelection === Selection.Summary}
+            <Button
+                variant="outlined"
+                width="full"
+                on:click={onCancelClick}
+                disabled={loading}
+                text={localize('actions.reject')}
+            />
+            <Button
+                width="full"
+                on:click={onConfirmClick}
+                disabled={loading}
+                busy={loading}
+                text={localize('actions.confirm')}
+            />
+        {:else}
+            <Button
+                variant="outlined"
+                width="full"
+                on:click={() => (activeSelection = Selection.Summary)}
+                text={localize('actions.back')}
+            />
+            <Button
+                width="full"
+                on:click={() => {
+                    updateSupportedNamespaces()
+                    activeSelection = Selection.Summary
+                }}
+                text={localize('actions.apply')}
+            />
+        {/if}
     </div>
 </DrawerTemplate>
