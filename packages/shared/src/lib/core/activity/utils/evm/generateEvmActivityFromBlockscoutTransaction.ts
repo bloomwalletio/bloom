@@ -32,10 +32,14 @@ export async function generateEvmActivityFromBlockscoutTransaction(
         // if it is a blockscout transaction and a token transfer we have already generated this activity
         // there may be cases where thats not the case but we are unsure so we plan to add a fallback here at a lower priority
         return undefined
-    } else if (
-        blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.CoinTransfer) ||
-        blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.ContractCall)
-    ) {
+    } else if (blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.CoinTransfer)) {
+        return generateEvmCoinTransferActivityFromBlockscoutTransaction(
+            blockscoutTransaction,
+            localTransaction,
+            evmNetwork,
+            account
+        )
+    } else if (blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.ContractCall)) {
         return _generateEvmActivityFromBlockscoutTransaction(
             blockscoutTransaction,
             localTransaction,
@@ -60,17 +64,6 @@ async function _generateEvmActivityFromBlockscoutTransaction(
         evmNetwork,
         account
     )
-
-    if (blockscoutTransaction.tx_types.includes(BlockscoutTransactionType.CoinTransfer)) {
-        return {
-            ...baseActivity,
-            type: EvmActivityType.CoinTransfer,
-            baseTokenTransfer: {
-                tokenId: BASE_TOKEN_ID,
-                rawAmount: Converter.bigIntLikeToBigInt(blockscoutTransaction.value),
-            },
-        } as EvmCoinTransferActivity
-    }
 
     const methodId = blockscoutTransaction.decoded_input?.method_id ?? blockscoutTransaction.method // `method` is the methodId if the inputs cannot be decoded
     const rawData = blockscoutTransaction.raw_input
@@ -119,6 +112,29 @@ async function _generateEvmActivityFromBlockscoutTransaction(
                 inputs: smartContractData?.inputs,
             } as EvmContractCallActivity
     }
+}
+
+async function generateEvmCoinTransferActivityFromBlockscoutTransaction(
+    blockscoutTransaction: IBlockscoutTransaction,
+    localTransaction: LocalEvmTransaction | undefined,
+    evmNetwork: IEvmNetwork,
+    account: IAccountState
+): Promise<EvmCoinTransferActivity> {
+    const baseActivity = await generateBaseEvmActivityFromBlockscoutTransaction(
+        blockscoutTransaction,
+        localTransaction,
+        evmNetwork,
+        account
+    )
+
+    return {
+        ...baseActivity,
+        type: EvmActivityType.CoinTransfer,
+        baseTokenTransfer: {
+            tokenId: BASE_TOKEN_ID,
+            rawAmount: Converter.bigIntLikeToBigInt(blockscoutTransaction.value),
+        },
+    } as EvmCoinTransferActivity
 }
 
 async function generateBaseEvmActivityFromBlockscoutTransaction(
