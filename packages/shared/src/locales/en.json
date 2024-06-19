@@ -592,6 +592,8 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
+                        "expired": "Connection request has expired",
+                        "expiresIn": "Connection request expires in",
                         "permissions": {
                             "step": "Permission",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",

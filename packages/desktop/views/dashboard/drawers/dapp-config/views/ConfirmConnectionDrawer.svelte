@@ -149,7 +149,7 @@
 
                 {#if expiryTimediff <= 0}
                     <div class="w-full flex gap-4 px-6 py-1 bg-danger dark:bg-danger-dark">
-                        <Text type="sm" class="flex items-center">Connection request expired</Text>
+                        <Text type="sm" class="flex items-center">{localize(`${localeKey}.expired`)}</Text>
                     </div>
                 {:else}
                     <div
@@ -158,7 +158,7 @@
                             ? 'bg-warning dark:bg-warning-dark'
                             : 'bg-surface-2 dark:bg-surface-2-dark'}"
                     >
-                        <Text type="sm" class="flex items-center">Connection request expires in</Text>
+                        <Text type="sm" class="flex items-center">{localize(`${localeKey}.expiresIn`)}</Text>
                         <Text type="base" class="flex-grow">
                             {getTimeDifference(
                                 new Date($sessionProposal.params.expiryTimestamp * MILLISECONDS_PER_SECOND),
