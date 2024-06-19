@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Spinner } from '@bloomwalletio/ui'
+    import { Button, Spinner, Text } from '@bloomwalletio/ui'
     import { DappInfo } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -18,6 +18,8 @@
     import { getEvmNetworks } from '@core/network'
     import { ALL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
     import { activeAccounts } from '@core/profile/stores'
+    import { MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE, getTimeDifference } from '@core/utils'
+    import { time } from '@core/app/stores'
 
     export let drawerRouter: Router<unknown>
 
@@ -36,6 +38,10 @@
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
+
+    $: expiryTimediff = $sessionProposal
+        ? $sessionProposal.params.expiryTimestamp * MILLISECONDS_PER_SECOND - $time.getTime()
+        : 0
 
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
@@ -107,7 +113,9 @@
     }
 
     function onCancelClick(): void {
-        rejectSession()
+        if (expiryTimediff < 0) {
+            rejectSession()
+        }
         closeDrawer()
     }
 
@@ -136,19 +144,45 @@
             {@const requiredNamespaces = $sessionProposal.params.requiredNamespaces}
             {@const optionalNamespaces = $sessionProposal.params.optionalNamespaces}
 
-            <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
+            <div>
+                <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
+
+                {#if expiryTimediff <= 0}
+                    <div class="w-full flex gap-4 px-6 py-1 bg-danger dark:bg-danger-dark">
+                        <Text type="sm" class="flex items-center">Connection request expired</Text>
+                    </div>
+                {:else}
+                    <div
+                        class="w-full flex gap-4 px-6 py-1 {expiryTimediff <
+                        SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND
+                            ? 'bg-warning dark:bg-warning-dark'
+                            : 'bg-surface-2 dark:bg-surface-2-dark'}"
+                    >
+                        <Text type="sm" class="flex items-center">Connection request expires in</Text>
+                        <Text type="base" class="flex-grow">
+                            {getTimeDifference(
+                                new Date($sessionProposal.params.expiryTimestamp * MILLISECONDS_PER_SECOND),
+                                $time
+                            )}
+                        </Text>
+                    </div>
+                {/if}
+            </div>
 
             <div class="px-6 flex-grow overflow-hidden">
                 {#if activeSelection === Selection.Summary}
+                    {@const isExpired = expiryTimediff <= 0}
                     <div class="h-full overflow-auto">
                         <ConnectionSummary
                             {requiredNamespaces}
                             editable
                             {supportedNamespaces}
                             onEditPermissionsClick={() =>
-                                !loading ? (activeSelection = Selection.Permissions) : undefined}
-                            onEditNetworksClick={() => (!loading ? (activeSelection = Selection.Networks) : undefined)}
-                            onEditAccountsClick={() => (!loading ? (activeSelection = Selection.Accounts) : undefined)}
+                                !loading || !isExpired ? (activeSelection = Selection.Permissions) : undefined}
+                            onEditNetworksClick={() =>
+                                !loading || !isExpired ? (activeSelection = Selection.Networks) : undefined}
+                            onEditAccountsClick={() =>
+                                !loading || !isExpired ? (activeSelection = Selection.Accounts) : undefined}
                         />
                     </div>
                 {:else}
@@ -191,7 +225,7 @@
             <Button
                 width="full"
                 on:click={onConfirmClick}
-                disabled={loading}
+                disabled={loading || expiryTimediff <= 0}
                 busy={loading}
                 text={localize('actions.confirm')}
             />
