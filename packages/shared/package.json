@@ -1,6 +1,6 @@
 {
     "name": "shared",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "TypeScript library for the Bloom application",
     "author": "Bloom Labs Ltd <contact@bloomwallet.io>",
     "license": "PolyForm Strict License 1.0.0",

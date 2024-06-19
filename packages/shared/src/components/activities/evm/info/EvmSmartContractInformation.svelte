@@ -1,11 +1,20 @@
 <script lang="ts">
     import { Table } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { EvmContractCallActivity, EvmTokenMintingActivity, EvmTokenTransferActivity } from '@core/activity'
+    import {
+        EvmContractCallActivity,
+        EvmTokenMintingActivity,
+        EvmTokenTransferActivity,
+        EvmTokenApprovalActivity,
+    } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
     import { ExplorerEndpoint, getExplorerUrl } from '@core/network'
 
-    export let activity: EvmContractCallActivity | EvmTokenTransferActivity | EvmTokenMintingActivity
+    export let activity:
+        | EvmContractCallActivity
+        | EvmTokenTransferActivity
+        | EvmTokenMintingActivity
+        | EvmTokenApprovalActivity
 
     function onExplorerClick(address: string): void {
         const url = getExplorerUrl(activity.destinationNetworkId, ExplorerEndpoint.Address, address)
