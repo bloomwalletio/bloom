@@ -10,6 +10,7 @@ export function buildPersistedEvmTransactionFromBlockscoutTransaction(
         transactionHash: blockscoutTransaction.hash,
         transactionIndex: blockscoutTransaction.position,
         blockNumber: blockscoutTransaction.block,
+        confirmations: blockscoutTransaction.confirmations,
         from: blockscoutTransaction.from.hash.toLowerCase(),
         to: blockscoutTransaction.to.hash.toLowerCase(),
         gasUsed: Number(blockscoutTransaction.gas_used),
