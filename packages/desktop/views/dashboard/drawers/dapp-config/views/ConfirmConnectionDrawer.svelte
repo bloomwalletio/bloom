@@ -210,17 +210,12 @@
             {#if !hasRequestExpired}
                 <Button
                     width="full"
-                    on:click={() => (activeSelection = Selection.Accounts)}
-                    text={localize('actions.continue')}
+                    on:click={onConfirmClick}
+                    disabled={loading}
+                    busy={loading}
+                    text={localize('actions.confirm')}
                 />
             {/if}
-            <Button
-                width="full"
-                on:click={onConfirmClick}
-                disabled={loading}
-                busy={loading}
-                text={localize('actions.confirm')}
-            />
         {:else}
             <Button
                 variant="outlined"
