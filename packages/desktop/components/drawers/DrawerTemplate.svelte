@@ -7,8 +7,9 @@
     export let title: string = ''
     export let drawerRouter: Router<unknown>
     export let onBack: () => void = () => {}
+    export let showBack: boolean | undefined = undefined
 
-    $: showBackButton = drawerRouter?.hasHistory()
+    $: showBackButton = showBack ?? drawerRouter?.hasHistory()
 
     function onBackClick(): void {
         if (drawerRouter) {

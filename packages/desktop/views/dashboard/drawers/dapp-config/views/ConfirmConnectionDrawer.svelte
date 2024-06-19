@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { Button, SidebarToast, Spinner, Steps } from '@bloomwalletio/ui'
+    import { Button, Spinner } from '@bloomwalletio/ui'
     import { DappInfo } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { connectToDapp } from '@auxiliary/wallet-connect/actions'
+    import { buildSupportedNamespacesFromSelections, connectToDapp } from '@auxiliary/wallet-connect/actions'
     import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
-    import { rejectSession } from '@auxiliary/wallet-connect/utils'
+    import { getCaip10AddressForAccount, rejectSession } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
@@ -14,75 +14,101 @@
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { selectedAccount } from '@core/account/stores'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
-    import { deepEquals } from '@core/utils/object'
-    import { ProposalTypes } from '@walletconnect/types'
-    import { IPersistedNamespaces } from '@auxiliary/wallet-connect/interface'
+    import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
+    import { getEvmNetworks } from '@core/network'
+    import { ALL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
+    import { activeAccounts } from '@core/profile/stores'
 
     export let drawerRouter: Router<unknown>
 
     let loading = false
 
-    const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
-    let currentStep = 0
-    const steps = [
-        localize(`${localeKey}.permissions.step`),
-        localize(`${localeKey}.networks.step`),
-        localize(`${localeKey}.accounts.step`),
-    ]
+    enum Selection {
+        Summary = 'summary',
+        Accounts = 'accounts',
+        Permissions = 'permissions',
+        Networks = 'networks',
+    }
 
-    let checkedAccounts: IAccountState[] = []
-    let checkedNetworks: string[] = []
-    let checkedMethods: string[] = []
+    let activeSelection: Selection = Selection.Summary
+    const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
 
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
-    $: persistedNamespaces = $sessionProposal
-        ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
-        : undefined
 
-    $: isButtonDisabled =
-        loading ||
-        (!persistedNamespaces && currentStep === 0 && checkedMethods.length === 0) ||
-        (currentStep === 1 && checkedNetworks.length === 0) ||
-        (currentStep === 2 && checkedAccounts.length === 0)
+    let checkedAccounts: IAccountState[] = []
+    let checkedNetworks: string[] = []
+    let checkedMethods: string[] = []
+    let supportedNamespaces = initSupportedNamespaces()
 
-    $: isPreferenceSelectionRequired = $sessionProposal
-        ? preferenceSelectionRequired(
-              $sessionProposal.params.requiredNamespaces,
-              $sessionProposal.params.optionalNamespaces,
-              persistedNamespaces
-          )
-        : false
-    function preferenceSelectionRequired(
-        requiredNamespaces: ProposalTypes.RequiredNamespaces,
-        optionalNamespaces: ProposalTypes.OptionalNamespaces,
-        _persistedNamespaces?: IPersistedNamespaces
-    ): boolean {
-        if (!_persistedNamespaces || !$sessionProposal) {
-            return true
+    function initSupportedNamespaces(): SupportedNamespaces {
+        if (!$sessionProposal) {
+            return {}
         }
 
-        const didRequiredChange = !deepEquals(_persistedNamespaces.required, requiredNamespaces)
-        const didOptionalChange = !deepEquals(_persistedNamespaces.optional, optionalNamespaces)
-        return didRequiredChange || didOptionalChange
-    }
+        const persistedNamespaces = $sessionProposal
+            ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
+            : undefined
 
-    function onBackClick(): void {
-        if (currentStep === 0) {
-            if (drawerRouter.hasHistory()) {
-                drawerRouter.previous()
-            } else {
-                rejectSession()
-                closeDrawer()
+        if (persistedNamespaces) {
+            return persistedNamespaces.supported
+        }
+
+        const { requiredNamespaces, optionalNamespaces } = $sessionProposal.params
+
+        const allChainids = [...Object.values(requiredNamespaces), ...Object.values(optionalNamespaces)]
+            .flatMap(({ chains }) => chains)
+            .filter(Boolean) as string[]
+
+        const namespace: Record<string, ISupportedNamespace> = {}
+        for (const network of getEvmNetworks()) {
+            if (!allChainids.includes(network.id)) {
+                continue
             }
-        } else {
-            currentStep--
+
+            if (!namespace[network.namespace]) {
+                const accounts = $activeAccounts
+                    .map((account) => getCaip10AddressForAccount(account, network.id) as string)
+                    .filter(Boolean)
+
+                namespace[network.namespace] = {
+                    chains: [],
+                    methods: ALL_SUPPORTED_METHODS,
+                    events: SUPPORTED_EVENTS,
+                    accounts,
+                }
+            }
+
+            namespace[network.namespace].chains.push(network.id)
         }
+        return namespace
     }
 
-    function onNextClick(): void {
-        currentStep++
+    function updateSupportedNamespaces(): void {
+        if (!$sessionProposal || activeSelection === Selection.Summary) {
+            return
+        }
+
+        const { requiredNamespaces, optionalNamespaces } = $sessionProposal.params
+
+        const selections = {
+            chains: checkedNetworks,
+            methods: checkedMethods,
+            accounts: checkedAccounts,
+        }
+
+        supportedNamespaces = buildSupportedNamespacesFromSelections(
+            selections,
+            requiredNamespaces,
+            optionalNamespaces,
+            supportedNamespaces
+        )
+    }
+
+    function onCancelClick(): void {
+        rejectSession()
+        closeDrawer()
     }
 
     async function onConfirmClick(): Promise<void> {
@@ -92,21 +118,7 @@
 
         try {
             loading = true
-            const persistedSupportedNamespaces = getPersistedDappNamespacesForDapp(
-                $sessionProposal.params.proposer.metadata.url
-            )?.supported
-
-            const selections = {
-                chains: persistedSupportedNamespaces ? undefined : checkedNetworks,
-                methods: persistedSupportedNamespaces ? undefined : checkedMethods,
-                accounts: persistedSupportedNamespaces ? undefined : checkedAccounts,
-            }
-            await connectToDapp(
-                selections,
-                persistedSupportedNamespaces,
-                $sessionProposal,
-                $selectedAccount as IAccountState
-            )
+            await connectToDapp(supportedNamespaces, $sessionProposal, $selectedAccount as IAccountState)
             $sessionProposal = undefined
 
             drawerRouter.reset()
@@ -118,7 +130,7 @@
     }
 </script>
 
-<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>
+<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} showBack={false}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         {#if $sessionProposal}
             {@const requiredNamespaces = $sessionProposal.params.requiredNamespaces}
@@ -127,53 +139,37 @@
             <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
 
             <div class="px-6 flex-grow overflow-hidden">
-                {#if persistedNamespaces && !isPreferenceSelectionRequired}
-                    <div class="h-full overflow-scroll">
+                {#if activeSelection === Selection.Summary}
+                    <div class="h-full overflow-auto">
                         <ConnectionSummary
                             {requiredNamespaces}
                             editable
-                            persistedSupportedNamespaces={persistedNamespaces.supported}
-                            {drawerRouter}
+                            {supportedNamespaces}
+                            onEditPermissionsClick={() =>
+                                !loading ? (activeSelection = Selection.Permissions) : undefined}
+                            onEditNetworksClick={() => (!loading ? (activeSelection = Selection.Networks) : undefined)}
+                            onEditAccountsClick={() => (!loading ? (activeSelection = Selection.Accounts) : undefined)}
                         />
                     </div>
                 {:else}
-                    {@const tipLocale = currentStep === 0 ? 'permissions' : currentStep === 1 ? 'networks' : 'accounts'}
-                    <div class="h-full flex flex-col gap-8">
-                        <Steps bind:currentStep {steps} />
-
-                        <div class="flex-grow overflow-hidden">
-                            <div class="h-full flex flex-col gap-8 overflow-scroll">
-                                <SidebarToast
-                                    color="green"
-                                    header={localize('general.tip')}
-                                    body={localize(`${localeKey}.${tipLocale}.tip`)}
-                                    dismissable={false}
-                                />
-                                <div class="flex-grow {currentStep === 0 ? 'visible' : 'hidden'}">
-                                    <PermissionSelection
-                                        bind:checkedMethods
-                                        {requiredNamespaces}
-                                        {optionalNamespaces}
-                                        persistedSupportedNamespaces={persistedNamespaces?.supported}
-                                    />
-                                </div>
-                                <div class="flex-grow {currentStep === 1 ? 'visible' : 'hidden'}">
-                                    <NetworkSelection
-                                        bind:checkedNetworks
-                                        {requiredNamespaces}
-                                        {optionalNamespaces}
-                                        persistedSupportedNamespaces={persistedNamespaces?.supported}
-                                    />
-                                </div>
-                                <div class="flex-grow {currentStep === 2 ? 'visible' : 'hidden'}">
-                                    <AccountSelection
-                                        bind:checkedAccounts
-                                        chainIds={checkedNetworks}
-                                        persistedSupportedNamespaces={persistedNamespaces?.supported}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                    <div class="flex-grow {activeSelection === Selection.Permissions ? 'visible' : 'hidden'}">
+                        <PermissionSelection
+                            bind:checkedMethods
+                            {requiredNamespaces}
+                            {optionalNamespaces}
+                            {supportedNamespaces}
+                        />
+                    </div>
+                    <div class="flex-grow {activeSelection === Selection.Networks ? 'visible' : 'hidden'}">
+                        <NetworkSelection
+                            bind:checkedNetworks
+                            {requiredNamespaces}
+                            {optionalNamespaces}
+                            {supportedNamespaces}
+                        />
+                    </div>
+                    <div class="flex-grow {activeSelection === Selection.Accounts ? 'visible' : 'hidden'}">
+                        <AccountSelection bind:checkedAccounts chainIds={checkedNetworks} {supportedNamespaces} />
                     </div>
                 {/if}
             </div>
@@ -184,20 +180,36 @@
         {/if}
     </div>
     <div slot="footer" class="flex flex-row gap-2">
-        <Button
-            variant="outlined"
-            width="full"
-            on:click={onBackClick}
-            disabled={loading}
-            text={localize(!drawerRouter.hasHistory() && currentStep === 0 ? 'actions.cancel' : 'actions.back')}
-        />
-        {@const isLastStep = persistedNamespaces || currentStep === steps.length - 1}
-        <Button
-            width="full"
-            on:click={isLastStep ? onConfirmClick : onNextClick}
-            disabled={isButtonDisabled}
-            busy={loading}
-            text={localize(`actions.${isLastStep ? 'confirm' : 'next'}`)}
-        />
+        {#if activeSelection === Selection.Summary}
+            <Button
+                variant="outlined"
+                width="full"
+                on:click={onCancelClick}
+                disabled={loading}
+                text={localize('actions.reject')}
+            />
+            <Button
+                width="full"
+                on:click={onConfirmClick}
+                disabled={loading}
+                busy={loading}
+                text={localize('actions.confirm')}
+            />
+        {:else}
+            <Button
+                variant="outlined"
+                width="full"
+                on:click={() => (activeSelection = Selection.Summary)}
+                text={localize('actions.back')}
+            />
+            <Button
+                width="full"
+                on:click={() => {
+                    updateSupportedNamespaces()
+                    activeSelection = Selection.Summary
+                }}
+                text={localize('actions.apply')}
+            />
+        {/if}
     </div>
 </DrawerTemplate>

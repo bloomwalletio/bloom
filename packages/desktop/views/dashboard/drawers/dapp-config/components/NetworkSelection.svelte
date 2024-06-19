@@ -11,7 +11,7 @@
     export let checkedNetworks: string[]
     export let requiredNamespaces: ProposalTypes.RequiredNamespaces
     export let optionalNamespaces: ProposalTypes.RequiredNamespaces
-    export let persistedSupportedNamespaces: SupportedNamespaces | undefined = undefined
+    export let supportedNamespaces: SupportedNamespaces | undefined = undefined
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.networks'
 
@@ -27,7 +27,7 @@
         }
         const supportedNetworks = getAllNetworkIds()
         for (const [namespaceId, namespace] of Object.entries(optionalNamespaces)) {
-            const persistedNamespace = persistedSupportedNamespaces?.[namespaceId]
+            const persistedNamespace = supportedNamespaces?.[namespaceId]
             for (const chainId of namespace.chains ?? []) {
                 if (!networks[chainId] && supportedNetworks.includes(chainId)) {
                     const isChecked = persistedNamespace?.chains?.includes(chainId) ?? true

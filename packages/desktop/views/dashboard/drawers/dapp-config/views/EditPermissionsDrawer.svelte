@@ -16,5 +16,10 @@
     let:optionalNamespaces
     disableContinue={checkedMethods.length === 0}
 >
-    <PermissionSelection bind:checkedMethods {requiredNamespaces} {optionalNamespaces} {persistedSupportedNamespaces} />
+    <PermissionSelection
+        bind:checkedMethods
+        {requiredNamespaces}
+        {optionalNamespaces}
+        supportedNamespaces={persistedSupportedNamespaces}
+    />
 </EditSelectionDrawer>

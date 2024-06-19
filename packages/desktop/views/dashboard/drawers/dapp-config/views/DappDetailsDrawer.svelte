@@ -9,6 +9,7 @@
     import { ConnectionSummary } from '../components'
     import { DappInfo } from '@ui'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
+    import { DappConfigRoute } from '../dapp-config-route.enum'
 
     export let drawerRouter: Router<unknown>
 
@@ -44,8 +45,10 @@
                     <ConnectionSummary
                         requiredNamespaces={dapp.session?.requiredNamespaces}
                         editable={!!dapp.session}
-                        persistedSupportedNamespaces={persistedDapp?.namespaces.supported}
-                        {drawerRouter}
+                        supportedNamespaces={persistedDapp?.namespaces.supported}
+                        onEditPermissionsClick={() => drawerRouter.goTo(DappConfigRoute.EditPermissions)}
+                        onEditNetworksClick={() => drawerRouter.goTo(DappConfigRoute.EditNetworks)}
+                        onEditAccountsClick={() => drawerRouter.goTo(DappConfigRoute.EditAccounts)}
                     />
                 {/if}
             </div>

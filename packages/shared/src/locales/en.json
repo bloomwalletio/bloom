@@ -593,7 +593,7 @@
                     "confirmConnection": {
                         "title": "Connect with an application",
                         "permissions": {
-                            "step": "Permission",
+                            "step": "Permissions",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
                             "requiredTitle": "Required permissions",
                             "optionalTitle": "Optional permissions",

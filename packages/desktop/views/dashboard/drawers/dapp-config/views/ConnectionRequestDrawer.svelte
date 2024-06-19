@@ -14,6 +14,7 @@
     import { onDestroy } from 'svelte'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { ProposalTypes } from '@walletconnect/types'
+    import { Web3WalletTypes } from '@walletconnect/web3wallet'
 
     export let drawerRouter: Router<unknown>
 
@@ -31,24 +32,33 @@
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
 
-    let timeout: ReturnType<typeof setTimeout> | undefined
-    $: {
-        if ($sessionProposal) {
-            clearTimeout(timeout)
-        } else {
-            timeout = setTimeout(() => {
-                showNotification({
-                    variant: 'error',
-                    text: localize('notifications.newDappConnection.noProposal'),
-                })
-                closeDrawer()
-            }, 5_000)
+    const timeout: ReturnType<typeof setTimeout> | undefined = setTimeout(() => {
+        showNotification({
+            variant: 'error',
+            text: localize('notifications.newDappConnection.noProposal'),
+        })
+        closeDrawer()
+    }, 5_000)
+
+    $: $sessionProposal && onSessionProposal($sessionProposal)
+
+    function onSessionProposal(_sessionProposal: Web3WalletTypes.SessionProposal): void {
+        clearTimeout(timeout)
+
+        const fulfillsRequirements =
+            doesFulfillNetworkRequirements(
+                _sessionProposal.params.requiredNamespaces,
+                _sessionProposal.params.optionalNamespaces
+            ) && doesFulfillMethodRequirements(_sessionProposal.params.requiredNamespaces)
+
+        if (fulfillsRequirements && verifiedState === DappVerification.Valid) {
+            drawerRouter.next()
         }
     }
 
     function doesFulfillNetworkRequirements(
         requiredNamespaces: ProposalTypes.RequiredNamespaces,
-        optionalNamespaces: ProposalTypes.RequiredNamespaces
+        optionalNamespaces: ProposalTypes.OptionalNamespaces
     ): boolean {
         const supportedNetworksByProfile = getAllNetworkIds()
         const requiredNetworksByDapp = Object.values(requiredNamespaces)
@@ -107,7 +117,7 @@
     })
 </script>
 
-<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={rejectSession}>
+<DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} showBack={false}>
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
             {@const metadata = $sessionProposal.params.proposer.metadata}
