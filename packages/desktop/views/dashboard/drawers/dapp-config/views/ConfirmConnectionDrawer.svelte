@@ -4,7 +4,7 @@
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { getPersistedDappNamespacesForDapp, sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
     import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
-    import { getCaip10AddressForAccount, rejectSession } from '@auxiliary/wallet-connect/utils'
+    import { getCaip10AddressForAccount, rejectSessionInitiationRequest } from '@auxiliary/wallet-connect/utils'
     import { Button, Spinner } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { IAccountState } from '@core/account'
@@ -119,8 +119,8 @@
     }
 
     function onCancelClick(): void {
-        if (!hasRequestExpired) {
-            rejectSession()
+        if (!hasRequestExpired && $sessionInitiationRequest) {
+            rejectSessionInitiationRequest($sessionInitiationRequest.id)
         }
         closeDrawer()
     }

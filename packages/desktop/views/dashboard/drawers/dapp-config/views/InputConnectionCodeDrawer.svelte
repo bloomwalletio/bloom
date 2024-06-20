@@ -5,8 +5,9 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { onMount } from 'svelte'
-    import { rejectSession, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
+    import { rejectSessionInitiationRequest, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
     import { updateDrawerProps } from '@desktop/auxiliary/drawer'
+    import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
 
     export let drawerRouter: Router<unknown>
     export let initialWalletConnectUri: string = ''
@@ -21,7 +22,10 @@
         if (isValid()) {
             try {
                 pairWithNewDapp(walletConnectUri)
-                updateDrawerProps({ onClose: rejectSession })
+                updateDrawerProps({
+                    onClose: () =>
+                        $sessionInitiationRequest && rejectSessionInitiationRequest($sessionInitiationRequest.id),
+                })
                 drawerRouter.next()
             } catch (err) {
                 error = err
