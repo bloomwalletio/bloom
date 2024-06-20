@@ -6,7 +6,7 @@
     import { DrawerTemplate } from '@components'
     import { sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { SecurityWarning, UnsupportedDappHint } from '../components'
+    import { ConnectionRequestExpirationAlert, SecurityWarning, UnsupportedDappHint } from '../components'
     import { getAllNetworkIds } from '@core/network'
     import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
     import { rejectSession } from '@auxiliary/wallet-connect/utils'
@@ -15,6 +15,8 @@
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { ProposalTypes } from '@walletconnect/types'
     import { Web3WalletTypes } from '@walletconnect/web3wallet'
+    import { time } from '@core/app/stores'
+    import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 
     export let drawerRouter: Router<unknown>
 
@@ -41,6 +43,10 @@
     }, 5_000)
 
     $: $sessionProposal && onSessionProposal($sessionProposal)
+
+    $: hasRequestExpired = $sessionProposal?.params.expiryTimestamp
+        ? $sessionProposal.params.expiryTimestamp - $time.getTime() / MILLISECONDS_PER_SECOND <= 0
+        : false
 
     function onSessionProposal(_sessionProposal: Web3WalletTypes.SessionProposal): void {
         clearTimeout(timeout)
@@ -121,7 +127,10 @@
     <div class="w-full h-full flex flex-col justify-between">
         {#if $sessionProposal}
             {@const metadata = $sessionProposal.params.proposer.metadata}
-            <DappInfo {metadata} {verifiedState} />
+            <div>
+                <DappInfo {metadata} {verifiedState} />
+                <ConnectionRequestExpirationAlert expiryTimestamp={$sessionProposal.params.expiryTimestamp} />
+            </div>
 
             <div class="flex-grow overflow-hidden">
                 <div class="h-full overflow-scroll flex flex-col gap-5 p-6">
@@ -169,7 +178,7 @@
             width="full"
             variant="outlined"
             on:click={onRejectClick}
-            text={localize(`actions.${fulfillsRequirements ? 'reject' : 'cancel'}`)}
+            text={localize(`actions.${fulfillsRequirements && !hasRequestExpired ? 'reject' : 'cancel'}`)}
         />
         {#if fulfillsRequirements && verifiedState !== DappVerification.Scam}
             <Button width="full" on:click={onContinueClick} text={localize('actions.continue')} />
