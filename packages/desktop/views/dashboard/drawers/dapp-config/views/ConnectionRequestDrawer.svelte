@@ -4,12 +4,12 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { ConnectionRequestExpirationAlert, SecurityWarning, UnsupportedDappHint } from '../components'
     import { getAllNetworkIds } from '@core/network'
     import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
-    import { rejectSession } from '@auxiliary/wallet-connect/utils'
+    import { rejectSessionInitiationRequest } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
     import { onDestroy } from 'svelte'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
@@ -24,15 +24,15 @@
     let acceptedInsecureConnection = false
     let flashingCheckbox = false
     $: fulfillsRequirements =
-        !!$sessionProposal &&
+        !!$sessionInitiationRequest &&
         doesFulfillNetworkRequirements(
-            $sessionProposal.params.requiredNamespaces,
-            $sessionProposal.params.optionalNamespaces
+            $sessionInitiationRequest.params.requiredNamespaces,
+            $sessionInitiationRequest.params.optionalNamespaces
         ) &&
-        doesFulfillMethodRequirements($sessionProposal.params.requiredNamespaces)
-    $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
+        doesFulfillMethodRequirements($sessionInitiationRequest.params.requiredNamespaces)
+    $: verifiedState = $sessionInitiationRequest?.verifyContext.verified.isScam
         ? DappVerification.Scam
-        : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
+        : ($sessionInitiationRequest?.verifyContext.verified.validation as DappVerification)
 
     const timeout: ReturnType<typeof setTimeout> | undefined = setTimeout(() => {
         showNotification({
@@ -42,10 +42,10 @@
         closeDrawer()
     }, 5_000)
 
-    $: $sessionProposal && onSessionProposal($sessionProposal)
+    $: $sessionInitiationRequest && onSessionProposal($sessionInitiationRequest)
 
-    $: hasRequestExpired = $sessionProposal?.params.expiryTimestamp
-        ? $sessionProposal.params.expiryTimestamp - $time.getTime() / MILLISECONDS_PER_SECOND <= 0
+    $: hasRequestExpired = $sessionInitiationRequest?.params.expiryTimestamp
+        ? $sessionInitiationRequest.params.expiryTimestamp - $time.getTime() / MILLISECONDS_PER_SECOND <= 0
         : false
 
     function onSessionProposal(_sessionProposal: Web3WalletTypes.SessionProposal): void {
@@ -102,7 +102,9 @@
     }
 
     function onRejectClick(): void {
-        rejectSession()
+        if (!hasRequestExpired && $sessionInitiationRequest) {
+            rejectSessionInitiationRequest($sessionInitiationRequest.id)
+        }
         closeDrawer()
     }
 
@@ -125,11 +127,11 @@
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} showBack={false}>
     <div class="w-full h-full flex flex-col justify-between">
-        {#if $sessionProposal}
-            {@const metadata = $sessionProposal.params.proposer.metadata}
+        {#if $sessionInitiationRequest}
+            {@const metadata = $sessionInitiationRequest.params.proposer.metadata}
             <div>
                 <DappInfo {metadata} {verifiedState} />
-                <ConnectionRequestExpirationAlert expiryTimestamp={$sessionProposal.params.expiryTimestamp} />
+                <ConnectionRequestExpirationAlert expiryTimestamp={$sessionInitiationRequest.params.expiryTimestamp} />
             </div>
 
             <div class="flex-grow overflow-hidden">
@@ -158,8 +160,8 @@
             {#if !fulfillsRequirements}
                 <div class="px-6">
                     <UnsupportedDappHint
-                        requiredNamespaces={$sessionProposal.params.requiredNamespaces}
-                        optionalNamespaces={$sessionProposal.params.optionalNamespaces}
+                        requiredNamespaces={$sessionInitiationRequest.params.requiredNamespaces}
+                        optionalNamespaces={$sessionInitiationRequest.params.optionalNamespaces}
                     />
                 </div>
             {:else if verifiedState !== DappVerification.Valid}
