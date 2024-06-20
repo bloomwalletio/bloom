@@ -1,23 +1,31 @@
 <script lang="ts">
-    import { Button, Spinner } from '@bloomwalletio/ui'
-    import { DappInfo } from '@ui'
-    import { localize } from '@core/i18n'
-    import { Router } from '@core/router'
-    import { DrawerTemplate } from '@components'
     import { buildSupportedNamespacesFromSelections, connectToDapp } from '@auxiliary/wallet-connect/actions'
-    import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
-    import { getCaip10AddressForAccount, rejectSession } from '@auxiliary/wallet-connect/utils'
-    import { AccountSelection, ConnectionSummary, NetworkSelection, PermissionSelection } from '../components'
-    import { handleError } from '@core/error/handlers'
-    import { IAccountState } from '@core/account'
-    import { DappConfigRoute } from '../dapp-config-route.enum'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { selectedAccount } from '@core/account/stores'
-    import { DappVerification } from '@auxiliary/wallet-connect/enums'
-    import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
-    import { getEvmNetworks } from '@core/network'
     import { ALL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
+    import { DappVerification } from '@auxiliary/wallet-connect/enums'
+    import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
+    import { getCaip10AddressForAccount, rejectSession } from '@auxiliary/wallet-connect/utils'
+    import { Button, Spinner } from '@bloomwalletio/ui'
+    import { DrawerTemplate } from '@components'
+    import { IAccountState } from '@core/account'
+    import { selectedAccount } from '@core/account/stores'
+    import { time } from '@core/app/stores'
+    import { handleError } from '@core/error/handlers'
+    import { localize } from '@core/i18n'
+    import { getEvmNetworks } from '@core/network'
     import { activeAccounts } from '@core/profile/stores'
+    import { Router } from '@core/router'
+    import { MILLISECONDS_PER_SECOND } from '@core/utils'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { DappInfo } from '@ui'
+    import {
+        AccountSelection,
+        ConnectionSummary,
+        NetworkSelection,
+        PermissionSelection,
+        ConnectionRequestExpirationAlert,
+    } from '../components'
+    import { DappConfigRoute } from '../dapp-config-route.enum'
 
     export let drawerRouter: Router<unknown>
 
@@ -36,6 +44,10 @@
     $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
         ? DappVerification.Scam
         : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
+
+    $: hasRequestExpired = $sessionProposal?.params.expiryTimestamp
+        ? $sessionProposal.params.expiryTimestamp - $time.getTime() / MILLISECONDS_PER_SECOND <= 0
+        : false
 
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
@@ -107,7 +119,9 @@
     }
 
     function onCancelClick(): void {
-        rejectSession()
+        if (!hasRequestExpired) {
+            rejectSession()
+        }
         closeDrawer()
     }
 
@@ -136,7 +150,10 @@
             {@const requiredNamespaces = $sessionProposal.params.requiredNamespaces}
             {@const optionalNamespaces = $sessionProposal.params.optionalNamespaces}
 
-            <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
+            <div>
+                <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
+                <ConnectionRequestExpirationAlert expiryTimestamp={$sessionProposal.params.expiryTimestamp} />
+            </div>
 
             <div class="px-6 flex-grow overflow-hidden">
                 {#if activeSelection === Selection.Summary}
@@ -146,9 +163,11 @@
                             editable
                             {supportedNamespaces}
                             onEditPermissionsClick={() =>
-                                !loading ? (activeSelection = Selection.Permissions) : undefined}
-                            onEditNetworksClick={() => (!loading ? (activeSelection = Selection.Networks) : undefined)}
-                            onEditAccountsClick={() => (!loading ? (activeSelection = Selection.Accounts) : undefined)}
+                                !loading || !hasRequestExpired ? (activeSelection = Selection.Permissions) : undefined}
+                            onEditNetworksClick={() =>
+                                !loading || !hasRequestExpired ? (activeSelection = Selection.Networks) : undefined}
+                            onEditAccountsClick={() =>
+                                !loading || !hasRequestExpired ? (activeSelection = Selection.Accounts) : undefined}
                         />
                     </div>
                 {:else}
@@ -186,15 +205,17 @@
                 width="full"
                 on:click={onCancelClick}
                 disabled={loading}
-                text={localize('actions.reject')}
+                text={hasRequestExpired ? localize('actions.cancel') : localize('actions.reject')}
             />
-            <Button
-                width="full"
-                on:click={onConfirmClick}
-                disabled={loading}
-                busy={loading}
-                text={localize('actions.confirm')}
-            />
+            {#if !hasRequestExpired}
+                <Button
+                    width="full"
+                    on:click={onConfirmClick}
+                    disabled={loading}
+                    busy={loading}
+                    text={localize('actions.confirm')}
+                />
+            {/if}
         {:else}
             <Button
                 variant="outlined"
