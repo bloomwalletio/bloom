@@ -85,16 +85,6 @@
             slot="body"
             items={[
                 {
-                    key: localize(`${localeKey}.supported`),
-                    slot: {
-                        component: NetworkAvatarGroup,
-                        props: {
-                            networkIds: supportedNetworksByProfile,
-                            size: 'sm',
-                        },
-                    },
-                },
-                {
                     key: localize(`${localeKey}.notSupported`),
                     value: unsupportedRequiredNetworks.join(', '),
                     slot: otherProfileSupportsRequiredNetworks
@@ -106,6 +96,16 @@
                               },
                           }
                         : undefined,
+                },
+                {
+                    key: localize(`${localeKey}.supported`),
+                    slot: {
+                        component: NetworkAvatarGroup,
+                        props: {
+                            networkIds: supportedNetworksByProfile,
+                            size: 'sm',
+                        },
+                    },
                 },
             ]}
         />
@@ -121,16 +121,6 @@
             slot="body"
             items={[
                 {
-                    key: localize(`${localeKey}.supported`),
-                    slot: {
-                        component: NetworkAvatarGroup,
-                        props: {
-                            networkIds: supportedNetworksByProfile,
-                            size: 'sm',
-                        },
-                    },
-                },
-                {
                     key: localize(`${localeKey}.onAnotherProfile`),
                     slot: supportedNetworksByOtherProfile.length
                         ? {
@@ -141,6 +131,16 @@
                               },
                           }
                         : undefined,
+                },
+                {
+                    key: localize(`${localeKey}.supported`),
+                    slot: {
+                        component: NetworkAvatarGroup,
+                        props: {
+                            networkIds: supportedNetworksByProfile,
+                            size: 'sm',
+                        },
+                    },
                 },
             ]}
         />
