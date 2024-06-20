@@ -30,7 +30,7 @@
     import { getLocalisedMenuItems, registerMenuButtons } from './lib/helpers'
     import { settingsState, openSettings } from '@contexts/settings/stores'
     import { _ } from '@core/i18n'
-    import { getAndUpdateShimmerEvmTokensMetadata } from '@core/market/actions'
+    import { getAndUpdateTokensMetadataFromCoinGecko } from '@core/market/actions'
     import { initializeWalletConnect } from '@auxiliary/wallet-connect/actions'
     import { getAndUpdateCountryCode } from '@auxiliary/country/actions'
 
@@ -113,7 +113,7 @@
 
         registerMenuButtons()
         void initializeWalletConnect()
-        await getAndUpdateShimmerEvmTokensMetadata()
+        await getAndUpdateTokensMetadataFromCoinGecko()
     })
 
     onDestroy(() => {

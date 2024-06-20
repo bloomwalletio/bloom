@@ -10,7 +10,7 @@
     export let checkedNetworks: string[]
     export let requiredNetworks: string[]
     export let optionalNetworks: string[]
-    export let persistedSupportedNamespaces: SupportedNamespaces | undefined = undefined
+    export let supportedNamespaces: SupportedNamespaces | undefined = undefined
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.networks'
 
@@ -24,9 +24,7 @@
         }
         const supportedNetworks = getAllNetworkIds()
 
-        const persistedChains = Object.values(persistedSupportedNamespaces ?? {}).flatMap(
-            (namespace) => namespace.chains
-        )
+        const persistedChains = Object.values(supportedNamespaces ?? {}).flatMap(({ chains }) => chains)
         for (const chainId of optionalNetworks) {
             if (!networks[chainId] && supportedNetworks.includes(chainId)) {
                 const isChecked = persistedChains?.includes(chainId) ?? true

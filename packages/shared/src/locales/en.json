@@ -592,8 +592,10 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
+                        "expired": "Connection request has expired",
+                        "expiresIn": "Connection request expires in",
                         "permissions": {
-                            "step": "Permission",
+                            "step": "Permissions",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
                             "requiredTitle": "Required permissions",
                             "optionalTitle": "Optional permissions",
@@ -1171,6 +1173,11 @@
                     "Confirmed": "Burned",
                     "Conflicting": "Failed to burn"
                 },
+                "tokenApproval": {
+                    "Pending": "Approving {address} to spend {assetName}",
+                    "Confirmed": "Approved {address} to spend {assetName}",
+                    "Conflicting": "Failed to approve to spend {assetName}"
+                },
                 "consolidation": {
                     "Pending": "Consolidating",
                     "Confirmed": "Consolidated",
@@ -1519,6 +1526,8 @@
         "sending": "Sending",
         "received": "Received",
         "receiving": "Receiving",
+        "approving": "Approving",
+        "approved": "Approved",
         "newVotingPower": "New voting power",
         "votingPower": "Voting power",
         "increased": "Voting power increased",

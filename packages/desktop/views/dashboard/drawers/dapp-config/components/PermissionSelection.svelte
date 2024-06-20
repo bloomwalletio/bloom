@@ -12,7 +12,7 @@
     export let checkedMethods: string[]
     export let requiredMethods: string[]
     export let optionalMethods: string[]
-    export let persistedSupportedNamespaces: SupportedNamespaces | undefined = undefined
+    export let supportedNamespaces: SupportedNamespaces | undefined = undefined
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.permissions'
     let requiredPermissionsOptions: SelectionOption<string>[] = []
@@ -39,10 +39,8 @@
             }
             addedPermission[permission] = true
 
-            const isChecked = persistedSupportedNamespaces
-                ? Object.values(persistedSupportedNamespaces).some((namespace) =>
-                      namespace.methods.includes(method.method)
-                  )
+            const isChecked = supportedNamespaces
+                ? Object.values(supportedNamespaces).some((namespace) => namespace.methods.includes(method.method))
                 : true
 
             const option = {

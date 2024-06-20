@@ -67,6 +67,8 @@ export function getActivityTileAction(activity: Activity): string | undefined {
             }
         } else if (activity.type === EvmActivityType.TokenMinting) {
             return 'general.minted'
+        } else if (activity.type === EvmActivityType.TokenApproval) {
+            return isConfirmed ? 'general.approved' : 'general.approving'
         } else if (activity.type === EvmActivityType.ContractCall) {
             return 'general.contractCall'
         } else {

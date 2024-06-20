@@ -23,6 +23,10 @@ export class NotificationsManager {
     constructor() {}
 
     async init(core: ICore): Promise<void> {
+        if (this.notifyClient) {
+            return
+        }
+
         try {
             this.notifyClient = await NotifyClient.init({
                 core,

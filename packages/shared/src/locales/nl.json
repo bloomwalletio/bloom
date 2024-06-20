@@ -650,6 +650,13 @@
                     "body": "Er is vandaag een nieuwe Bloom update beschikbaar.",
                     "button": "Nu updaten"
                 }
+            },
+            "dappNotifications": {
+                "title": "Notifications",
+                "notEnabledHint": "Receiving notifications not enabled",
+                "empty": "No notifications",
+                "enable": "Enable notifications",
+                "viewAll": "View all notifications"
             }
         },
         "picker": {
@@ -1495,7 +1502,8 @@
         "readMore": "Lees meer",
         "importThirdPartyProfiles": "Importeer profielen van derden",
         "retry": "Probeer opnieuw",
-        "loadAnyway": "Toch laden"
+        "loadAnyway": "Toch laden",
+        "visit": "Visit"
     },
     "general": {
         "recipient": "Ontvanger",
@@ -1692,6 +1700,8 @@
         "maxFees": "Max fees",
         "contacts": "Contacten",
         "apps": "Apps",
+        "connectedDapps": "Connected dApps",
+        "dapps": "dApps",
         "networks": "Netwerken",
         "ledgerDevice": "Ledger apparaat",
         "disconnected": "Verbroken",
@@ -1736,7 +1746,11 @@
         "average": "Gemiddeld",
         "fast": "Snel",
         "spender": "Uitgever",
-        "status": "Status"
+        "status": "Status",
+        "totalBalance": "Total balance",
+        "saving": "Saving",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
     },
     "filters": {
         "title": "Filters",

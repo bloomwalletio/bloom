@@ -650,6 +650,13 @@
                     "body": "Bugün yeni bir Bloom güncellemesi yayınlandı.",
                     "button": "Şimdi güncelle"
                 }
+            },
+            "dappNotifications": {
+                "title": "Notifications",
+                "notEnabledHint": "Receiving notifications not enabled",
+                "empty": "No notifications",
+                "enable": "Enable notifications",
+                "viewAll": "View all notifications"
             }
         },
         "picker": {
@@ -1495,7 +1502,8 @@
         "readMore": "Daha fazla bilgi edinin",
         "importThirdPartyProfiles": "Üçüncü taraf profillerini içe aktarma",
         "retry": "Yeniden Dene",
-        "loadAnyway": "Yine de yükle"
+        "loadAnyway": "Yine de yükle",
+        "visit": "Visit"
     },
     "general": {
         "recipient": "Alıcı",
@@ -1692,6 +1700,8 @@
         "maxFees": "Maksimum ücretler",
         "contacts": "Kişiler",
         "apps": "Uygulamalar",
+        "connectedDapps": "Connected dApps",
+        "dapps": "dApps",
         "networks": "Ağlar",
         "ledgerDevice": "Ledger Cihazı",
         "disconnected": "Bağlı değil",
@@ -1736,7 +1746,11 @@
         "average": "Ortalama",
         "fast": "Hızlı",
         "spender": "Harcayan",
-        "status": "Durum"
+        "status": "Durum",
+        "totalBalance": "Total balance",
+        "saving": "Saving",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
     },
     "filters": {
         "title": "Filtreler",

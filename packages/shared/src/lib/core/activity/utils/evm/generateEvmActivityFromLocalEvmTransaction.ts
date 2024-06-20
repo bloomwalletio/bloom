@@ -4,6 +4,7 @@ import {
     EvmActivity,
     EvmCoinTransferActivity,
     EvmContractCallActivity,
+    EvmTokenApprovalActivity,
     EvmTokenTransferActivity,
 } from '@core/activity/types'
 import { parseSmartContractDataFromTransactionData } from '@core/layer-2/utils/parseSmartContractDataFromTransactionData'
@@ -15,16 +16,17 @@ import { SubjectType } from '@core/wallet'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { Converter } from '@core/utils'
 import { ParsedSmartContractType } from '@core/layer-2'
+import { ActivityDirection } from '@core/activity/enums'
 
 export async function generateEvmActivityFromLocalEvmTransaction(
     transaction: LocalEvmTransaction,
     evmNetwork: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmActivity | undefined> {
+    let baseActivity = await generateBaseEvmActivity(transaction, evmNetwork, account)
+
     if (!transaction.data) {
         // i.e must be a coin transfer
-        const baseActivity = await generateBaseEvmActivity(transaction, evmNetwork, account)
-
         return {
             ...baseActivity,
             type: EvmActivityType.CoinTransfer,
@@ -44,7 +46,6 @@ export async function generateEvmActivityFromLocalEvmTransaction(
     }
 
     transaction.recipient = parsedData.recipientAddress ?? transaction.to?.toString().toLowerCase()
-    let baseActivity = await generateBaseEvmActivity(transaction, evmNetwork, account)
 
     baseActivity = {
         ...baseActivity,
@@ -95,6 +96,17 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                     rawAmount: BigInt(1),
                 },
             } as EvmTokenTransferActivity
+        case ParsedSmartContractType.TokenApproval:
+            return {
+                ...baseActivity,
+                type: EvmActivityType.TokenApproval,
+                tokenTransfer: {
+                    standard: TokenStandard.Erc20,
+                    tokenId: parsedData.tokenId,
+                    rawAmount: parsedData.rawAmount,
+                },
+                direction: ActivityDirection.SelfTransaction,
+            } as EvmTokenApprovalActivity
         default:
             break
     }

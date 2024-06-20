@@ -16,6 +16,14 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.connectionRequest'
 
+    type ConnectionRequestProps = {
+        dappMetadata: Web3WalletTypes.Metadata
+        verifiedState: DappVerification
+        requiredNetworks: string[]
+        optionalNetworks: string[]
+        requiredMethods: RpcMethod[]
+    }
+
     let timeout: ReturnType<typeof setTimeout> | undefined
     $: {
         if ($sessionInitiationRequest) {
@@ -29,14 +37,6 @@
                 closeDrawer()
             }, 5_000)
         }
-    }
-
-    type ConnectionRequestProps = {
-        dappMetadata: Web3WalletTypes.Metadata
-        verifiedState: DappVerification
-        requiredNetworks: string[]
-        optionalNetworks: string[]
-        requiredMethods: RpcMethod[]
     }
 
     function getConnectionRequestDataFromSessionProposal(
@@ -93,6 +93,7 @@
         {optionalNetworks}
         {requiredMethods}
         {drawerRouter}
+        expiryTimestamp={$sessionInitiationRequest.payload.params.expiryTimestamp}
     />
 {:else if $sessionInitiationRequest?.type === 'session_authenticate'}
     {@const { dappMetadata, verifiedState, requiredNetworks, optionalNetworks, requiredMethods } =
@@ -104,6 +105,7 @@
         {optionalNetworks}
         {requiredMethods}
         {drawerRouter}
+        expiryTimestamp={$sessionInitiationRequest.payload.params.expiryTimestamp}
     />
 {:else}
     <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={rejectConnectionRequest}>

@@ -10,28 +10,27 @@
     import { allAccountFiatBalances } from '@core/token/stores'
     import { Indicator, Pill, Text } from '@bloomwalletio/ui'
     import { SelectionOption } from '@core/utils/interfaces'
+    import { onMount } from 'svelte'
 
     export let checkedAccounts: IAccountState[]
-    export let persistedSupportedNamespaces: SupportedNamespaces | undefined = undefined
+    export let supportedNamespaces: SupportedNamespaces | undefined = undefined
     export let chainIds: string[] | undefined = undefined
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection.accounts'
 
-    $: _chainIds = chainIds ?? Object.values(persistedSupportedNamespaces ?? {}).flatMap((p) => p.chains)
-    $: _chainIds, setAccountSelections()
-    $: checkedAccounts = accountSelections.filter((selection) => selection.checked).map((selection) => selection.value)
-
     let accountSelections: SelectionOption<IAccountState>[] = []
     function setAccountSelections(): void {
+        const _chainIds = chainIds?.length
+            ? chainIds
+            : Object.values(supportedNamespaces ?? {}).flatMap((p) => p.chains)
         if (!_chainIds || _chainIds.length === 0) {
             accountSelections = []
             return
         }
 
-        const persistedAccountIndexes = persistedSupportedNamespaces
-            ? getAccountsFromPersistedNamespaces(Object.values(persistedSupportedNamespaces))
+        const persistedAccountIndexes = supportedNamespaces
+            ? getAccountsFromPersistedNamespaces(Object.values(supportedNamespaces))
             : undefined
-
         accountSelections = $visibleActiveAccounts
             .filter((account) => {
                 return hasAddressForAllChains(account, _chainIds)
@@ -69,6 +68,11 @@
     }
 
     $: indexOfPrimary = accountSelections.findIndex((option) => option.checked)
+    $: checkedAccounts = accountSelections.filter((selection) => selection.checked).map((selection) => selection.value)
+
+    onMount(() => {
+        setAccountSelections()
+    })
 </script>
 
 {#if accountSelections.length}
