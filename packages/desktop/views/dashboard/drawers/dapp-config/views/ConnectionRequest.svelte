@@ -62,7 +62,9 @@
     }
 
     function onRejectClick(): void {
-        rejectConnectionRequest()
+        if (!hasRequestExpired) {
+            rejectConnectionRequest()
+        }
         closeDrawer()
     }
 
