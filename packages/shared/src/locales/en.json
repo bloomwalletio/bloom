@@ -575,8 +575,7 @@
                         "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
                         "acceptInsecureConnection": "I understand and wish to proceed",
                         "supported": "Current Networks",
-                        "notSupported": "Required Networks",
-                        "onAnotherProfile": "Required Networks",
+                        "requiredNetworks": "Required Networks",
                         "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
                         "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
                         "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
