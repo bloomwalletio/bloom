@@ -591,7 +591,7 @@
                     "confirmConnection": {
                         "title": "Bir uygulama ile bağlanmak",
                         "permissions": {
-                            "step": "İzin",
+                            "step": "Permissions",
                             "tip": "Bunlar dApp'in onayınıza etkileşim isteği göndermesine yönelik sınırlı izinlerdir. Yalnızca bildiğiniz ve güvendiğiniz uygulamaları onaylayın.",
                             "requiredTitle": "Gerekli izinler",
                             "optionalTitle": "İsteğe bağlı izinler",
@@ -652,11 +652,11 @@
                 }
             },
             "dappNotifications": {
-                "title": "Notifications",
-                "notEnabledHint": "Receiving notifications not enabled",
-                "empty": "No notifications",
-                "enable": "Enable notifications",
-                "viewAll": "View all notifications"
+                "title": "Bildirimler",
+                "notEnabledHint": "Bildirim alma etkinleştirilmedi",
+                "empty": "Bildirimler yok",
+                "enable": "Bildirimleri etkinleştir",
+                "viewAll": "Tüm bildirimleri görüntüle"
             }
         },
         "picker": {
@@ -1169,6 +1169,11 @@
                     "Confirmed": "Yanmış",
                     "Conflicting": "Yakılamadı"
                 },
+                "tokenApproval": {
+                    "Pending": "Approving {address} to spend {assetName}",
+                    "Confirmed": "Approved {address} to spend {assetName}",
+                    "Conflicting": "Failed to approve to spend {assetName}"
+                },
                 "consolidation": {
                     "Pending": "Konsolidasyon",
                     "Confirmed": "Birleştirilmiş",
@@ -1503,7 +1508,7 @@
         "importThirdPartyProfiles": "Üçüncü taraf profillerini içe aktarma",
         "retry": "Yeniden Dene",
         "loadAnyway": "Yine de yükle",
-        "visit": "Visit"
+        "visit": "Ziyaret et"
     },
     "general": {
         "recipient": "Alıcı",
@@ -1517,6 +1522,8 @@
         "sending": "Gönderiliyor",
         "received": "Alındı",
         "receiving": "Alınıyor",
+        "approving": "Approving",
+        "approved": "Approved",
         "newVotingPower": "Yeni oy gücü",
         "votingPower": "Oy gücü",
         "increased": "Oy kullanma gücü arttı",
@@ -1700,8 +1707,8 @@
         "maxFees": "Maksimum ücretler",
         "contacts": "Kişiler",
         "apps": "Uygulamalar",
-        "connectedDapps": "Connected dApps",
-        "dapps": "dApps",
+        "connectedDapps": "Bağlı Uygulamalar",
+        "dapps": "Merkezi Olmayan Uygulamalar (dApps)",
         "networks": "Ağlar",
         "ledgerDevice": "Ledger Cihazı",
         "disconnected": "Bağlı değil",
@@ -1747,10 +1754,10 @@
         "fast": "Hızlı",
         "spender": "Harcayan",
         "status": "Durum",
-        "totalBalance": "Total balance",
-        "saving": "Saving",
-        "enabled": "Enabled",
-        "disabled": "Disabled"
+        "totalBalance": "Toplam bakiye",
+        "saving": "Kaydediliyor",
+        "enabled": "Etkinleştirilmiş",
+        "disabled": "Devre dışı"
     },
     "filters": {
         "title": "Filtreler",

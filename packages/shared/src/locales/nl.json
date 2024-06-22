@@ -591,7 +591,7 @@
                     "confirmConnection": {
                         "title": "Verbinding maken met een applicatie",
                         "permissions": {
-                            "step": "Permissie",
+                            "step": "Permissions",
                             "tip": "Dit zijn beperkte machtigingen voor de dApp om een interactieverzoek te sturen voor jouw goedkeuring. Keur alleen apps goed die je kent en vertrouwt.",
                             "requiredTitle": "Vereiste machtigingen",
                             "optionalTitle": "Optionele machtigingen",
@@ -652,11 +652,11 @@
                 }
             },
             "dappNotifications": {
-                "title": "Notifications",
-                "notEnabledHint": "Receiving notifications not enabled",
-                "empty": "No notifications",
-                "enable": "Enable notifications",
-                "viewAll": "View all notifications"
+                "title": "Meldingen",
+                "notEnabledHint": "Meldingen ontvangen niet ingeschakeld",
+                "empty": "Geen meldingen",
+                "enable": "Meldingen inschakelen",
+                "viewAll": "Alle meldingen weergeven"
             }
         },
         "picker": {
@@ -1169,6 +1169,11 @@
                     "Confirmed": "Burned",
                     "Conflicting": "Burnen mislukt"
                 },
+                "tokenApproval": {
+                    "Pending": "Approving {address} to spend {assetName}",
+                    "Confirmed": "Approved {address} to spend {assetName}",
+                    "Conflicting": "Failed to approve to spend {assetName}"
+                },
                 "consolidation": {
                     "Pending": "Consolideren",
                     "Confirmed": "Geconsolideerd",
@@ -1503,7 +1508,7 @@
         "importThirdPartyProfiles": "Importeer profielen van derden",
         "retry": "Probeer opnieuw",
         "loadAnyway": "Toch laden",
-        "visit": "Visit"
+        "visit": "Bezoek"
     },
     "general": {
         "recipient": "Ontvanger",
@@ -1517,6 +1522,8 @@
         "sending": "Verzenden",
         "received": "Ontvangen",
         "receiving": "Ontvangen",
+        "approving": "Approving",
+        "approved": "Approved",
         "newVotingPower": "Nieuwe stemkracht",
         "votingPower": "Stemkracht",
         "increased": "Stemkracht vergroot",
@@ -1700,7 +1707,7 @@
         "maxFees": "Max fees",
         "contacts": "Contacten",
         "apps": "Apps",
-        "connectedDapps": "Connected dApps",
+        "connectedDapps": "Verbonden dApps",
         "dapps": "dApps",
         "networks": "Netwerken",
         "ledgerDevice": "Ledger apparaat",
@@ -1747,10 +1754,10 @@
         "fast": "Snel",
         "spender": "Uitgever",
         "status": "Status",
-        "totalBalance": "Total balance",
-        "saving": "Saving",
-        "enabled": "Enabled",
-        "disabled": "Disabled"
+        "totalBalance": "Totaalsaldo",
+        "saving": "Opslaan",
+        "enabled": "Ingeschakeld",
+        "disabled": "Uitgeschakeld"
     },
     "filters": {
         "title": "Filters",
