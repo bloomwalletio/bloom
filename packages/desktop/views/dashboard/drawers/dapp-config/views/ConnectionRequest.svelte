@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Table, TableRow, Text } from '@bloomwalletio/ui'
+    import { Button, Table } from '@bloomwalletio/ui'
     import { DappInfo } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -107,15 +107,7 @@
                         },
                     ]}
                     orientation="vertical"
-                >
-                    <TableRow item={{ key: localize('general.verified') }} orientation="vertical">
-                        <div slot="boundValue">
-                            <Text textColor={verifiedState === DappVerification.Valid ? 'success' : 'danger'}
-                                >{localize(`general.${verifiedState === DappVerification.Valid ? 'yes' : 'no'}`)}</Text
-                            >
-                        </div>
-                    </TableRow>
-                </Table>
+                />
             </div>
         </div>
         {#if !fulfillsRequirements}

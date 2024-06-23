@@ -8,9 +8,9 @@
     import ConnectionRequest from './ConnectionRequest.svelte'
     import { getNetworksAndMethodsFromNamespaces, rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
-    import { onDestroy } from 'svelte'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { Web3WalletTypes } from '@walletconnect/web3wallet'
+    import { onDestroy } from 'svelte'
 
     export let drawerRouter: Router<unknown>
 

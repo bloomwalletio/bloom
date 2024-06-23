@@ -591,7 +591,7 @@
                     "confirmConnection": {
                         "title": "Połącz z aplikacją",
                         "permissions": {
-                            "step": "Uprawnienie",
+                            "step": "Permissions",
                             "tip": "Są to ograniczone uprawnienia dla aplikacji dApp w celu wysyłania żądania interakcji do Twojego zatwierdzenia. Zatwierdzaj tylko aplikacje, które znasz i którym ufasz.",
                             "requiredTitle": "Uprawnienia wymagane",
                             "optionalTitle": "Uprawnienia opcjonalne",
@@ -652,11 +652,11 @@
                 }
             },
             "dappNotifications": {
-                "title": "Notifications",
-                "notEnabledHint": "Receiving notifications not enabled",
-                "empty": "No notifications",
-                "enable": "Enable notifications",
-                "viewAll": "View all notifications"
+                "title": "Powiadomienia",
+                "notEnabledHint": "Nie włączono odbierania powiadomień",
+                "empty": "Brak powiadomień",
+                "enable": "Włącz powiadomienia",
+                "viewAll": "Pokaż wszystkie powiadomienia"
             }
         },
         "picker": {
@@ -1169,6 +1169,11 @@
                     "Confirmed": "Spalono",
                     "Conflicting": "Nie udało się spalić"
                 },
+                "tokenApproval": {
+                    "Pending": "Approving {address} to spend {assetName}",
+                    "Confirmed": "Approved {address} to spend {assetName}",
+                    "Conflicting": "Failed to approve to spend {assetName}"
+                },
                 "consolidation": {
                     "Pending": "Konsolidowanie",
                     "Confirmed": "Skonsolidowano",
@@ -1503,7 +1508,7 @@
         "importThirdPartyProfiles": "Importuj profile firm trzecich",
         "retry": "Ponów",
         "loadAnyway": "Wczytaj mimo to",
-        "visit": "Visit"
+        "visit": "Odwiedź"
     },
     "general": {
         "recipient": "Odbiorca",
@@ -1517,6 +1522,8 @@
         "sending": "Wysyłanie",
         "received": "Odebrano",
         "receiving": "Odbieranie",
+        "approving": "Approving",
+        "approved": "Approved",
         "newVotingPower": "Nowa siła głosu",
         "votingPower": "Siła głosu",
         "increased": "Zwiększono siłę głosu",
@@ -1700,7 +1707,7 @@
         "maxFees": "Maksymalna opłata",
         "contacts": "Kontakty",
         "apps": "Aplikacje",
-        "connectedDapps": "Connected dApps",
+        "connectedDapps": "Połączone aplikacje dApp",
         "dapps": "dApps",
         "networks": "Sieci",
         "ledgerDevice": "Urządzenie Ledger",
@@ -1747,10 +1754,10 @@
         "fast": "Szybko",
         "spender": "Wydający",
         "status": "Status",
-        "totalBalance": "Total balance",
-        "saving": "Saving",
-        "enabled": "Enabled",
-        "disabled": "Disabled"
+        "totalBalance": "Wszystkie środki",
+        "saving": "Zapisywanie",
+        "enabled": "Włączone",
+        "disabled": "Wyłączone"
     },
     "filters": {
         "title": "Filtry",
