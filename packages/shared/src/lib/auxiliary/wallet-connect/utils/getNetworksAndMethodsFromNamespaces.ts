@@ -26,10 +26,10 @@ export function getNetworksAndMethodsFromNamespaces(
 
     for (const namespace of Object.values(optionalNamespaces ?? {})) {
         if (namespace.chains) {
-            requiredNetworks.push(...namespace.chains)
+            optionalNetworks.push(...namespace.chains)
         }
         if (namespace.methods) {
-            requiredMethods.push(...(namespace.methods as RpcMethod[]))
+            optionalMethods.push(...(namespace.methods as RpcMethod[]))
         }
     }
 
