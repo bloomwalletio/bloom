@@ -5,7 +5,7 @@
     import { getPersistedDappNamespacesForDapp, sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
     import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { getCaip10AddressForAccount, rejectSessionInitiationRequest } from '@auxiliary/wallet-connect/utils'
-    import { Button, Spinner } from '@bloomwalletio/ui'
+    import { Button, Spinner, Table } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
@@ -149,6 +149,7 @@
         {#if $sessionInitiationRequest}
             {@const requiredNamespaces = $sessionInitiationRequest.params.requiredNamespaces}
             {@const optionalNamespaces = $sessionInitiationRequest.params.optionalNamespaces}
+            {@const metadata = $sessionInitiationRequest.params.proposer.metadata}
 
             <div>
                 <DappInfo metadata={$sessionInitiationRequest.params.proposer.metadata} {verifiedState} />
@@ -157,7 +158,16 @@
 
             <div class="px-6 flex-grow overflow-hidden">
                 {#if activeSelection === Selection.Summary}
-                    <div class="h-full overflow-auto">
+                    <div class="h-full overflow-auto space-y-6">
+                        <Table
+                            items={[
+                                {
+                                    key: localize('general.description'),
+                                    value: metadata.description,
+                                },
+                            ]}
+                            orientation="vertical"
+                        />
                         <ConnectionSummary
                             {requiredNamespaces}
                             editable

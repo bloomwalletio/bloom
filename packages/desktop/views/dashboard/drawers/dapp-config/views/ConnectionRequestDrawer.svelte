@@ -1,22 +1,22 @@
 <script lang="ts">
-    import { Button, Spinner, Table, TableRow, Text } from '@bloomwalletio/ui'
-    import { DappInfo } from '@ui'
-    import { localize } from '@core/i18n'
-    import { Router } from '@core/router'
-    import { DrawerTemplate } from '@components'
     import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { ConnectionRequestExpirationAlert, SecurityWarning, UnsupportedDappHint } from '../components'
-    import { getAllNetworkIds } from '@core/network'
-    import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
     import { rejectSessionInitiationRequest } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
-    import { onDestroy } from 'svelte'
+    import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { Button, Spinner, Table } from '@bloomwalletio/ui'
+    import { DrawerTemplate } from '@components'
+    import { time } from '@core/app/stores'
+    import { localize } from '@core/i18n'
+    import { getAllNetworkIds } from '@core/network'
+    import { Router } from '@core/router'
+    import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { DappInfo } from '@ui'
     import { ProposalTypes } from '@walletconnect/types'
     import { Web3WalletTypes } from '@walletconnect/web3wallet'
-    import { time } from '@core/app/stores'
-    import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
+    import { onDestroy } from 'svelte'
+    import { ConnectionRequestExpirationAlert, SecurityWarning, UnsupportedDappHint } from '../components'
 
     export let drawerRouter: Router<unknown>
 
@@ -144,17 +144,7 @@
                             },
                         ]}
                         orientation="vertical"
-                    >
-                        <TableRow item={{ key: localize('general.verified') }} orientation="vertical">
-                            <div slot="boundValue">
-                                <Text textColor={verifiedState === DappVerification.Valid ? 'success' : 'danger'}
-                                    >{localize(
-                                        `general.${verifiedState === DappVerification.Valid ? 'yes' : 'no'}`
-                                    )}</Text
-                                >
-                            </div>
-                        </TableRow>
-                    </Table>
+                    />
                 </div>
             </div>
             {#if !fulfillsRequirements}
