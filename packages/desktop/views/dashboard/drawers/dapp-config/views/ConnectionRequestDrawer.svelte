@@ -1,6 +1,6 @@
 <script lang="ts">
     import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
-    import { rejectSessionInitiationRequest } from '@auxiliary/wallet-connect/utils'
+    import { rejectAndClearSessionInitiationRequest } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
     import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
@@ -102,9 +102,7 @@
     }
 
     function onRejectClick(): void {
-        if (!hasRequestExpired && $sessionInitiationRequest) {
-            rejectSessionInitiationRequest($sessionInitiationRequest.id)
-        }
+        void rejectAndClearSessionInitiationRequest()
         closeDrawer()
     }
 

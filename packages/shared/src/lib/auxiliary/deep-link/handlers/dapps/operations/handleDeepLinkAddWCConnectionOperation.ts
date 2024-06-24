@@ -1,11 +1,10 @@
 import { pairWithNewDapp } from '@auxiliary/wallet-connect/actions'
-import { rejectSessionInitiationRequest, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
+import { rejectAndClearSessionInitiationRequest, validateConnectionCodeUri } from '@auxiliary/wallet-connect/utils'
 import { get } from 'svelte/store'
 import { DrawerRoute, openDrawer } from '../../../../../../../../desktop/lib/auxiliary/drawer'
 import { dappConfigRouter } from '../../../../../../../../desktop/views/dashboard/drawers/dapp-config/dapp-config.router'
 import { DappConfigRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dapp-config/dapp-config-route.enum'
 import { DashboardDrawerRoute } from '../../../../../../../../desktop/views/dashboard/drawers/dashboard-drawer-route.enum'
-import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
 
 export function handleDeepLinkAddWCConnectionOperation(searchParams: URLSearchParams): void {
     const walletConnectUri = searchParams.get('uri')
@@ -21,13 +20,12 @@ export function handleDeepLinkAddWCConnectionOperation(searchParams: URLSearchPa
 
         $dappConfigRouter?.reset()
         $dappConfigRouter?.goTo(DappConfigRoute.ConnectionRequest)
-        const sessionInitiationRequestId = get(sessionInitiationRequest)?.id
         openDrawer({
             route: DrawerRoute.Dashboard,
             id: DashboardDrawerRoute.DappConfig,
             initialSubroute: DappConfigRoute.ConnectionRequest,
             props: {
-                onClose: () => sessionInitiationRequestId && rejectSessionInitiationRequest(sessionInitiationRequestId),
+                onClose: () => void rejectAndClearSessionInitiationRequest(),
             },
         })
     } catch (err) {
