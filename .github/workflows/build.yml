@@ -1,43 +1,43 @@
 name: Build
 
 on:
-  workflow_dispatch:
-    inputs:
-      os:
-        description: 'OS'
-        required: true
-        type: choice
-        options:
-          - macos-11
-          - ubuntu-20.04
-          - windows-2022
-      stage:
-        description: 'Stage'
-        required: true
-        type: choice
-        options:
-          - alpha
-          - beta
-          - prod
-      sign:
-        description: 'Sign code'
-        required: false
-        type: boolean
-        default: false
-      upload:
-        description: 'Upload artifacts'
-        required: false
-        type: boolean
-        default: false
+    workflow_dispatch:
+        inputs:
+            os:
+                description: 'OS'
+                required: true
+                type: choice
+                options:
+                    - macos-12
+                    - ubuntu-20.04
+                    - windows-2022
+            stage:
+                description: 'Stage'
+                required: true
+                type: choice
+                options:
+                    - alpha
+                    - beta
+                    - prod
+            sign:
+                description: 'Sign code'
+                required: false
+                type: boolean
+                default: false
+            upload:
+                description: 'Upload artifacts'
+                required: false
+                type: boolean
+                default: false
 
 jobs:
-  trigger-build:
-    name: Build (Trigger) - ${{ inputs.os }}
-    uses: ./.github/workflows/reusable_build.yml
-    if: ${{ always() }}
-    with:
-      os: ${{ inputs.os }}
-      stage: ${{ inputs.stage }}
-      sign: ${{ inputs.sign }}
-      upload: ${{ inputs.upload }}
-    secrets: inherit
+    trigger-build:
+        name: Build (Trigger) - ${{ inputs.os }}
+        uses: ./.github/workflows/reusable_build.yml
+        if: ${{ always() }}
+        with:
+            os: ${{ inputs.os }}
+            stage: ${{ inputs.stage }}
+            sign: ${{ inputs.sign }}
+            upload: ${{ inputs.upload }}
+        secrets: inherit
