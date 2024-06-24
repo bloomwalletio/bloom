@@ -2,9 +2,13 @@
     import { buildSupportedNamespacesFromSelections, connectToDapp } from '@auxiliary/wallet-connect/actions'
     import { ALL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
-    import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import {
+        clearSessionInitiationRequest,
+        getPersistedDappNamespacesForDapp,
+        sessionInitiationRequest,
+    } from '@auxiliary/wallet-connect/stores'
     import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
-    import { getCaip10AddressForAccount, rejectSession } from '@auxiliary/wallet-connect/utils'
+    import { getCaip10AddressForAccount, rejectAndClearSessionInitiationRequest } from '@auxiliary/wallet-connect/utils'
     import { Button, Spinner, Table } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { IAccountState } from '@core/account'
@@ -41,12 +45,12 @@
     let activeSelection: Selection = Selection.Summary
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
 
-    $: verifiedState = $sessionProposal?.verifyContext.verified.isScam
+    $: verifiedState = $sessionInitiationRequest?.verifyContext.verified.isScam
         ? DappVerification.Scam
-        : ($sessionProposal?.verifyContext.verified.validation as DappVerification)
+        : ($sessionInitiationRequest?.verifyContext.verified.validation as DappVerification)
 
-    $: hasRequestExpired = $sessionProposal?.params.expiryTimestamp
-        ? $sessionProposal.params.expiryTimestamp - $time.getTime() / MILLISECONDS_PER_SECOND <= 0
+    $: hasRequestExpired = $sessionInitiationRequest?.params.expiryTimestamp
+        ? $sessionInitiationRequest.params.expiryTimestamp - $time.getTime() / MILLISECONDS_PER_SECOND <= 0
         : false
 
     let checkedAccounts: IAccountState[] = []
@@ -55,19 +59,19 @@
     let supportedNamespaces = initSupportedNamespaces()
 
     function initSupportedNamespaces(): SupportedNamespaces {
-        if (!$sessionProposal) {
+        if (!$sessionInitiationRequest) {
             return {}
         }
 
-        const persistedNamespaces = $sessionProposal
-            ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
+        const persistedNamespaces = $sessionInitiationRequest
+            ? getPersistedDappNamespacesForDapp($sessionInitiationRequest.params.proposer.metadata.url)
             : undefined
 
         if (persistedNamespaces) {
             return persistedNamespaces.supported
         }
 
-        const { requiredNamespaces, optionalNamespaces } = $sessionProposal.params
+        const { requiredNamespaces, optionalNamespaces } = $sessionInitiationRequest.params
 
         const allChainids = [...Object.values(requiredNamespaces), ...Object.values(optionalNamespaces)]
             .flatMap(({ chains }) => chains)
@@ -98,11 +102,11 @@
     }
 
     function updateSupportedNamespaces(): void {
-        if (!$sessionProposal || activeSelection === Selection.Summary) {
+        if (!$sessionInitiationRequest || activeSelection === Selection.Summary) {
             return
         }
 
-        const { requiredNamespaces, optionalNamespaces } = $sessionProposal.params
+        const { requiredNamespaces, optionalNamespaces } = $sessionInitiationRequest.params
 
         const selections = {
             chains: checkedNetworks,
@@ -119,21 +123,19 @@
     }
 
     function onCancelClick(): void {
-        if (!hasRequestExpired) {
-            rejectSession()
-        }
+        void rejectAndClearSessionInitiationRequest()
         closeDrawer()
     }
 
     async function onConfirmClick(): Promise<void> {
-        if (!$sessionProposal) {
+        if (!$sessionInitiationRequest) {
             return
         }
 
         try {
             loading = true
-            await connectToDapp(supportedNamespaces, $sessionProposal, $selectedAccount as IAccountState)
-            $sessionProposal = undefined
+            await connectToDapp(supportedNamespaces, $sessionInitiationRequest, $selectedAccount as IAccountState)
+            clearSessionInitiationRequest()
 
             drawerRouter.reset()
             drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
@@ -146,14 +148,14 @@
 
 <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} showBack={false}>
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
-        {#if $sessionProposal}
-            {@const requiredNamespaces = $sessionProposal.params.requiredNamespaces}
-            {@const optionalNamespaces = $sessionProposal.params.optionalNamespaces}
-            {@const metadata = $sessionProposal.params.proposer.metadata}
+        {#if $sessionInitiationRequest}
+            {@const requiredNamespaces = $sessionInitiationRequest.params.requiredNamespaces}
+            {@const optionalNamespaces = $sessionInitiationRequest.params.optionalNamespaces}
+            {@const metadata = $sessionInitiationRequest.params.proposer.metadata}
 
             <div>
-                <DappInfo metadata={$sessionProposal.params.proposer.metadata} {verifiedState} />
-                <ConnectionRequestExpirationAlert expiryTimestamp={$sessionProposal.params.expiryTimestamp} />
+                <DappInfo metadata={$sessionInitiationRequest.params.proposer.metadata} {verifiedState} />
+                <ConnectionRequestExpirationAlert expiryTimestamp={$sessionInitiationRequest.params.expiryTimestamp} />
             </div>
 
             <div class="px-6 flex-grow overflow-hidden">
