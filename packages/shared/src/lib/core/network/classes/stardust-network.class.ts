@@ -50,13 +50,18 @@ export class StardustNetwork implements IStardustNetwork {
         void this.startStatusPoll()
     }
 
+    private getAndUpdateNodeInfo(): void {
+        getNodeInfo().then((nodeResponse) => {
+            const { health, currentMilestone } = getNetworkStatusFromNodeInfo(nodeResponse?.nodeInfo)
+            this.currentMilestone.set(currentMilestone)
+            this.health.set(health)
+        })
+    }
+
     startStatusPoll(): void {
+        this.getAndUpdateNodeInfo()
         this.statusPoll = window.setInterval(() => {
-            getNodeInfo().then((nodeResponse) => {
-                const { health, currentMilestone } = getNetworkStatusFromNodeInfo(nodeResponse?.nodeInfo)
-                this.currentMilestone.set(currentMilestone)
-                this.health.set(health)
-            })
+            void this.getAndUpdateNodeInfo()
         }, NETWORK_STATUS_POLL_INTERVAL)
     }
 

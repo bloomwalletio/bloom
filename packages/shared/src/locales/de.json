@@ -591,7 +591,7 @@
                     "confirmConnection": {
                         "title": "Mit einer App verbinden",
                         "permissions": {
-                            "step": "Berechtigung",
+                            "step": "Permissions",
                             "tip": "Dies sind begrenzte Berechtigungen für die dApp, eine Interaktionsanfrage für Ihre Genehmigung zu senden. Bestätige nur dApps die du kennst und denen du vertraust.",
                             "requiredTitle": "Erforderliche Berechtigungen",
                             "optionalTitle": "Optionale Berechtigungen",
@@ -652,11 +652,11 @@
                 }
             },
             "dappNotifications": {
-                "title": "Notifications",
-                "notEnabledHint": "Receiving notifications not enabled",
-                "empty": "No notifications",
-                "enable": "Enable notifications",
-                "viewAll": "View all notifications"
+                "title": "Benachrichtigungen",
+                "notEnabledHint": "Empfangsbenachrichtigungen nicht aktiviert",
+                "empty": "Keine Benachrichtigungen",
+                "enable": "Benachrichtigungen aktivieren",
+                "viewAll": "Alle Benachrichtigungen anzeigen"
             }
         },
         "picker": {
@@ -1169,6 +1169,11 @@
                     "Confirmed": "Verbrannt",
                     "Conflicting": "Verbrennen fehlgeschlagen"
                 },
+                "tokenApproval": {
+                    "Pending": "Approving {address} to spend {assetName}",
+                    "Confirmed": "Approved {address} to spend {assetName}",
+                    "Conflicting": "Failed to approve to spend {assetName}"
+                },
                 "consolidation": {
                     "Pending": "Konsolidieren",
                     "Confirmed": "Konsolidiert",
@@ -1503,7 +1508,7 @@
         "importThirdPartyProfiles": "Drittanbieter-Profile importieren",
         "retry": "Wiederholen",
         "loadAnyway": "Trotzdem laden",
-        "visit": "Visit"
+        "visit": "Besuche"
     },
     "general": {
         "recipient": "Empfänger",
@@ -1517,6 +1522,8 @@
         "sending": "Sende",
         "received": "Empfangen",
         "receiving": "Empfange",
+        "approving": "Approving",
+        "approved": "Approved",
         "newVotingPower": "Neues Stimmrecht",
         "votingPower": "Stimmrecht",
         "increased": "Stimmrecht erhöht",
@@ -1700,7 +1707,7 @@
         "maxFees": "Max. Gebühr",
         "contacts": "Kontakte",
         "apps": "Apps",
-        "connectedDapps": "Connected dApps",
+        "connectedDapps": "Verbundene dApps",
         "dapps": "dApps",
         "networks": "Netzwerke",
         "ledgerDevice": "Ledger",
@@ -1747,10 +1754,10 @@
         "fast": "Schnell",
         "spender": "Spender",
         "status": "Status",
-        "totalBalance": "Total balance",
-        "saving": "Saving",
-        "enabled": "Enabled",
-        "disabled": "Disabled"
+        "totalBalance": "Gesamtguthaben",
+        "saving": "Speichere",
+        "enabled": "Aktiviert",
+        "disabled": "Deaktiviert"
     },
     "filters": {
         "title": "Filter",
