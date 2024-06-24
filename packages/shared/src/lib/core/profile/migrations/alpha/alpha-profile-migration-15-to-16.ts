@@ -8,7 +8,8 @@ export function alphaProfileMigration15To16(existingProfile: unknown): Promise<v
 
     const namespaces = get(persistedDappNamespaces)[profile.id] ?? {}
     for (const dappUrl of Object.keys(namespaces)) {
-        persistDapp(dappUrl, DappVerification.Unknown, namespaces[dappUrl])
+        const { required, optional, supported } = namespaces[dappUrl]
+        persistDapp(dappUrl, DappVerification.Unknown, required, optional, supported)
     }
 
     persistedDappNamespaces.update((state) => {
