@@ -1,4 +1,4 @@
 export enum CoinGeckoNetworkId {
-    IotaEvm = 'iota_evm',
+    IotaEvm = 'iota-evm',
     ShimmerEvm = 'shimmer_evm',
 }
