@@ -85,17 +85,7 @@
             slot="body"
             items={[
                 {
-                    key: localize(`${localeKey}.supported`),
-                    slot: {
-                        component: NetworkAvatarGroup,
-                        props: {
-                            networkIds: supportedNetworksByProfile,
-                            size: 'sm',
-                        },
-                    },
-                },
-                {
-                    key: localize(`${localeKey}.notSupported`),
+                    key: localize(`${localeKey}.requiredNetworks`),
                     value: unsupportedRequiredNetworks.join(', '),
                     slot: otherProfileSupportsRequiredNetworks
                         ? {
@@ -106,6 +96,16 @@
                               },
                           }
                         : undefined,
+                },
+                {
+                    key: localize(`${localeKey}.supported`),
+                    slot: {
+                        component: NetworkAvatarGroup,
+                        props: {
+                            networkIds: supportedNetworksByProfile,
+                            size: 'sm',
+                        },
+                    },
                 },
             ]}
         />
@@ -121,17 +121,7 @@
             slot="body"
             items={[
                 {
-                    key: localize(`${localeKey}.supported`),
-                    slot: {
-                        component: NetworkAvatarGroup,
-                        props: {
-                            networkIds: supportedNetworksByProfile,
-                            size: 'sm',
-                        },
-                    },
-                },
-                {
-                    key: localize(`${localeKey}.onAnotherProfile`),
+                    key: localize(`${localeKey}.requiredNetworks`),
                     slot: supportedNetworksByOtherProfile.length
                         ? {
                               component: NetworkAvatarGroup,
@@ -142,6 +132,16 @@
                           }
                         : undefined,
                 },
+                {
+                    key: localize(`${localeKey}.supported`),
+                    slot: {
+                        component: NetworkAvatarGroup,
+                        props: {
+                            networkIds: supportedNetworksByProfile,
+                            size: 'sm',
+                        },
+                    },
+                },
             ]}
         />
     </Alert>
@@ -150,7 +150,7 @@
         <Table slot="body">
             {#each unsupportedMethods.slice(0, MAX_UNSUPPORTED_METHODS) as method}
                 <TableRow item={{ key: method }}>
-                    <Text textColor="warning" slot="boundValue">{localize(`${localeKey}.notSupported`)}</Text>
+                    <Text textColor="warning" slot="boundValue">{localize(`${localeKey}.requiredNetworks`)}</Text>
                 </TableRow>
             {/each}
         </Table>
