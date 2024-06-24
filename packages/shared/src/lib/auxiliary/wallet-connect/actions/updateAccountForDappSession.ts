@@ -21,8 +21,8 @@ export async function updateAccountForDappSession(dappSession: ISession, account
             continue
         }
 
-        const chains = (dappSession.namespaces[protocol].chains ?? []) as EvmNetworkId[]
-        const accounts = chains
+        const chainsForSession = (dappSession.namespaces[protocol].chains ?? []) as EvmNetworkId[]
+        const addressOfAccountForEachChain = chainsForSession
             .map((chainId) => {
                 const address = getAddressFromAccountForNetwork(account, chainId)
                 return address ? buildCaip10Address(address, chainId) : undefined
@@ -30,12 +30,12 @@ export async function updateAccountForDappSession(dappSession: ISession, account
             .filter(Boolean) as string[]
 
         const sortedAccountsForNamespace = dappSession.namespaces[protocol].accounts.sort((a, b) => {
-            const aIsInAccounts = accounts.includes(a)
-            const bIsInAccounts = accounts.includes(b)
+            const aIsThisAccount = addressOfAccountForEachChain.includes(a)
+            const bIsThisAccount = addressOfAccountForEachChain.includes(b)
 
-            if (aIsInAccounts && !bIsInAccounts) {
+            if (aIsThisAccount && !bIsThisAccount) {
                 return -1
-            } else if (!aIsInAccounts && bIsInAccounts) {
+            } else if (!aIsThisAccount && bIsThisAccount) {
                 return 1
             } else {
                 return 0
