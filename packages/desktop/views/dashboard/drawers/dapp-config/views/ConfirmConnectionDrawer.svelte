@@ -2,7 +2,7 @@
     import { buildSupportedNamespacesFromSelections, connectToDapp } from '@auxiliary/wallet-connect/actions'
     import { ALL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
-    import { getPersistedDappNamespacesForDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
+    import { getPersistedDapp, sessionProposal } from '@auxiliary/wallet-connect/stores'
     import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { getCaip10AddressForAccount, rejectSession } from '@auxiliary/wallet-connect/utils'
     import { Button, Spinner, Table } from '@bloomwalletio/ui'
@@ -59,12 +59,12 @@
             return {}
         }
 
-        const persistedNamespaces = $sessionProposal
-            ? getPersistedDappNamespacesForDapp($sessionProposal.params.proposer.metadata.url)
+        const persistedDapp = $sessionProposal
+            ? getPersistedDapp($sessionProposal.params.proposer.metadata.url)
             : undefined
 
-        if (persistedNamespaces) {
-            return persistedNamespaces.supported
+        if (persistedDapp?.supported) {
+            return persistedDapp.supported
         }
 
         const { requiredNamespaces, optionalNamespaces } = $sessionProposal.params

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { connectedDapps, persistedDapps, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
+    import { clearSelectedDapp, connectedDapps, setSelectedDapp } from '@auxiliary/wallet-connect/stores'
     import { Button, IconName, Tabs, Text } from '@bloomwalletio/ui'
     import { DappListActionsMenu, DrawerTemplate, EmptyListPlaceholder } from '@components'
     import { localize } from '@core/i18n'
@@ -8,7 +8,6 @@
     import { DappConfigRoute } from '../dapp-config-route.enum'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { updateDrawerProps } from '@desktop/auxiliary/drawer'
-    import { activeProfileId } from '@core/profile/stores'
 
     export let drawerRouter: Router<unknown>
 
@@ -26,9 +25,12 @@
     let selectedTab = tabs[0]
     let selectedIndex = 0
 
-    $: connectedDappsForProfile = $connectedDapps.filter(
-        (dapp) => !!$persistedDapps[$activeProfileId as string]?.[dapp.metadata?.url ?? '']
-    )
+    $: connectedDappsForProfile = $connectedDapps
+
+    // TOOD: Update persisted dapps structure
+    // $: connectedDappsForProfile = $connectedDapps.filter(
+    //     (dapp) => !!$persistedDapps[dapp.metadata?.url ?? ''].namespaces[$activeProfileId as string]
+    // )
     $: displayedDapps = connectedDappsForProfile.filter(
         (dapp) => (selectedIndex === 0 && !!dapp.session) || (selectedIndex === 1 && !dapp.session)
     )
@@ -36,9 +38,7 @@
     function onDappCardClick(connectedDapp: IConnectedDapp): void {
         setSelectedDapp(connectedDapp)
         updateDrawerProps({
-            onClose: () => {
-                setSelectedDapp(undefined)
-            },
+            onClose: clearSelectedDapp,
         })
         drawerRouter.goTo(DappConfigRoute.DappDetails)
     }

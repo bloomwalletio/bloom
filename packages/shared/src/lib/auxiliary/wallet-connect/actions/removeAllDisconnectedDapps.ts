@@ -1,4 +1,4 @@
-import { connectedDapps, getWalletClient, getPersistedDapp, removePersistedDapp } from '../stores'
+import { connectedDapps, getWalletClient, removePersistedDapp } from '../stores'
 import { get } from 'svelte/store'
 
 export function removeAllDisconnectedDapps(): void {
@@ -7,10 +7,12 @@ export function removeAllDisconnectedDapps(): void {
         return
     }
 
-    const connectedDappsForProfile = get(connectedDapps).filter(
-        (dapp) => !!getPersistedDapp(dapp.metadata?.url ?? '') && !dapp.session
-    )
+    // TODO: which dapps should be disconnected here
+    // const connectedDappsForProfile = get(connectedDapps).filter(
+    //     (dapp) => !!getPersistedDapp(dapp.metadata?.url ?? '') && !dapp.session
+    // )
 
+    const connectedDappsForProfile = get(connectedDapps)
     for (const dapp of connectedDappsForProfile) {
         if (dapp.metadata) {
             removePersistedDapp(dapp.metadata.url)

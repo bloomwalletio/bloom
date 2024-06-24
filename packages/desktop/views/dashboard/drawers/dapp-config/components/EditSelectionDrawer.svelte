@@ -32,7 +32,7 @@
             selections,
             requiredNamespaces,
             optionalNamespaces,
-            persistedDapp?.namespaces.supported
+            persistedDapp?.supported
         )
         updateSupportedDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
         if ($selectedDapp?.session) {
@@ -59,7 +59,7 @@
         <div class="p-6 flex-grow overflow-hidden">
             <div class="h-full flex flex-col gap-8 overflow-scroll">
                 <slot
-                    persistedSupportedNamespaces={persistedDapp?.namespaces.supported}
+                    persistedSupportedNamespaces={persistedDapp?.supported}
                     {requiredNamespaces}
                     {optionalNamespaces}
                 />

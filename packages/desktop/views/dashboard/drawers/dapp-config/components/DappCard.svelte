@@ -12,7 +12,7 @@
     export let onClick: (() => unknown) | undefined = undefined
 
     $: networkIds = Object.values(
-        dapp.session?.namespaces ?? getPersistedDappNamespacesForDapp(dapp.metadata?.url ?? '')?.supported ?? {}
+        dapp.session?.namespaces ?? getPersistedDappNamespacesForDapp(dapp.metadata?.url ?? '') ?? {}
     ).flatMap((namespace) => namespace.chains as NetworkId[])
 
     $: verifiedState = $activeProfileId
