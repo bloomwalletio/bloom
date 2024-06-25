@@ -6,7 +6,7 @@
     import {
         updateSupportedDappNamespacesForDapp,
         selectedDapp,
-        sessionProposal,
+        sessionInitiationRequest,
         getPersistedDapp,
     } from '@auxiliary/wallet-connect/stores'
     import { onMount } from 'svelte'
@@ -20,12 +20,12 @@
     export let titleLocale: string
     export let disableContinue: boolean
 
-    $: dappMetadata = $selectedDapp?.metadata ?? ($sessionProposal?.params.proposer.metadata as IDappMetadata)
+    $: dappMetadata = $selectedDapp?.metadata ?? ($sessionInitiationRequest?.params.proposer.metadata as IDappMetadata)
     $: persistedDapp = dappMetadata ? getPersistedDapp(dappMetadata.url) : undefined
     $: requiredNamespaces =
-        $selectedDapp?.session?.requiredNamespaces ?? $sessionProposal?.params.requiredNamespaces ?? {}
+        $selectedDapp?.session?.requiredNamespaces ?? $sessionInitiationRequest?.params.requiredNamespaces ?? {}
     $: optionalNamespaces =
-        $selectedDapp?.session?.optionalNamespaces ?? $sessionProposal?.params.optionalNamespaces ?? {}
+        $selectedDapp?.session?.optionalNamespaces ?? $sessionInitiationRequest?.params.optionalNamespaces ?? {}
 
     function onConfirmClick(): void {
         const updatedNamespace = buildSupportedNamespacesFromSelections(
@@ -46,7 +46,7 @@
     }
 
     onMount(() => {
-        if (!$selectedDapp && !$sessionProposal) {
+        if (!$selectedDapp && !$sessionInitiationRequest) {
             drawerRouter.previous()
         }
     })
