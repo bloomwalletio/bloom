@@ -36,7 +36,8 @@
     export let optionalNamespaces: ProposalTypes.OptionalNamespaces
     export let supportedNamespaces: SupportedNamespaces
 
-    export let onConfirm: (supportedNamespaces: SupportedNamespaces) => Promise<void>
+    export let confirmButtonLocaleKey: string
+    export let onConfirm: (supportedNamespaces: SupportedNamespaces) => Promise<boolean>
 
     let loading = false
 
@@ -85,12 +86,13 @@
     async function onConfirmClick(): Promise<void> {
         try {
             loading = true
-            await onConfirm(supportedNamespaces)
+            const successful = await onConfirm(supportedNamespaces)
+            if (successful) {
+                clearSessionInitiationRequest()
 
-            clearSessionInitiationRequest()
-
-            drawerRouter.reset()
-            drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
+                drawerRouter.reset()
+                drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
+            }
         } catch (error) {
             loading = false
             handleError(error)
@@ -167,7 +169,7 @@
                     on:click={onConfirmClick}
                     disabled={loading}
                     busy={loading}
-                    text={localize('actions.confirm')}
+                    text={localize(confirmButtonLocaleKey)}
                 />
             {/if}
         {:else}

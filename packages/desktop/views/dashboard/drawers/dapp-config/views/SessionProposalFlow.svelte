@@ -1,14 +1,11 @@
 <script lang="ts">
     import { connectToDapp } from '@auxiliary/wallet-connect/actions'
-    import { ALL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
-    import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
-    import { getCaip10AddressForAccount } from '@auxiliary/wallet-connect/utils'
+    import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
+    import { buildDefaultNamespaces } from '@auxiliary/wallet-connect/utils'
     import { IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
-    import { getEvmNetworks } from '@core/network'
-    import { activeAccounts } from '@core/profile/stores'
     import { Router } from '@core/router'
     import { Web3WalletTypes } from '@walletconnect/web3wallet'
     import { SessionProposalFlowShared } from '.'
@@ -37,38 +34,32 @@
             return persistedNamespaces.supported
         }
 
-        const { requiredNamespaces, optionalNamespaces } = sessionProposal.params
+        const defaultNamespaces = buildDefaultNamespaces()
 
-        const allChainids = [...Object.values(requiredNamespaces), ...Object.values(optionalNamespaces)]
-            .flatMap(({ chains }) => chains)
-            .filter(Boolean)
+        for (const namespace of Object.keys(defaultNamespaces)) {
+            const supportedMethodsByDapp = [
+                ...(requiredNamespaces[namespace]?.methods || []),
+                ...(optionalNamespaces[namespace]?.methods || []),
+            ]
+            defaultNamespaces[namespace].methods = defaultNamespaces[namespace].methods.filter((method) =>
+                supportedMethodsByDapp.includes(method)
+            )
 
-        const namespace: Record<string, ISupportedNamespace> = {}
-        for (const network of getEvmNetworks()) {
-            if (!allChainids.includes(network.id)) {
-                continue
-            }
-
-            if (!namespace[network.namespace]) {
-                const accounts = $activeAccounts
-                    .map((account) => getCaip10AddressForAccount(account, network.id) as string)
-                    .filter(Boolean)
-
-                namespace[network.namespace] = {
-                    chains: [],
-                    methods: ALL_SUPPORTED_METHODS,
-                    events: SUPPORTED_EVENTS,
-                    accounts,
-                }
-            }
-
-            namespace[network.namespace].chains.push(network.id)
+            const supportedNetworksByDapp = [
+                ...(requiredNamespaces[namespace]?.chains || []),
+                ...(optionalNamespaces[namespace]?.chains || []),
+            ]
+            defaultNamespaces[namespace].chains = defaultNamespaces[namespace].chains.filter((chain) =>
+                supportedNetworksByDapp.includes(chain)
+            )
         }
-        return namespace
+
+        return defaultNamespaces
     }
 
-    async function onConfirm(supportedNamespaces: SupportedNamespaces): Promise<void> {
+    async function onConfirm(supportedNamespaces: SupportedNamespaces): Promise<boolean> {
         await connectToDapp(supportedNamespaces, sessionProposal, $selectedAccount as IAccountState)
+        return true
     }
 </script>
 
@@ -80,5 +71,6 @@
     {requiredNamespaces}
     {optionalNamespaces}
     {supportedNamespaces}
+    confirmButtonLocaleKey="general.confirm"
     {onConfirm}
 />
