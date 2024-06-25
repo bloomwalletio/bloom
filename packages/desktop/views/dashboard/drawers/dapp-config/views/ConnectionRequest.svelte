@@ -8,12 +8,12 @@
     import { ConnectionRequestExpirationAlert, SecurityWarning, UnsupportedDappHint } from '../components'
     import { getAllNetworkIds } from '@core/network'
     import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
-    import { rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { Web3WalletTypes } from '@walletconnect/web3wallet'
     import { onMount } from 'svelte'
     import { MILLISECONDS_PER_SECOND } from '@core/utils'
     import { time } from '@core/app/stores'
+    import { rejectAndClearSessionInitiationRequest } from '@auxiliary/wallet-connect/utils'
 
     export let drawerRouter: Router<unknown>
     export let dappMetadata: Web3WalletTypes.Metadata
@@ -62,9 +62,7 @@
     }
 
     function onRejectClick(): void {
-        if (!hasRequestExpired) {
-            rejectConnectionRequest()
-        }
+        void rejectAndClearSessionInitiationRequest()
         closeDrawer()
     }
 

@@ -4,7 +4,7 @@
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
-    import { rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
+    import { rejectAndClearSessionInitiationRequest } from '@auxiliary/wallet-connect/utils'
     import { AccountSelection, NetworkSelection, PermissionSelection } from '../components'
     import { handleError } from '@core/error/handlers'
     import { IAccountState } from '@core/account'
@@ -56,7 +56,7 @@
             if (drawerRouter.hasHistory()) {
                 drawerRouter.previous()
             } else {
-                rejectConnectionRequest()
+                rejectAndClearSessionInitiationRequest()
                 closeDrawer()
             }
         } else {

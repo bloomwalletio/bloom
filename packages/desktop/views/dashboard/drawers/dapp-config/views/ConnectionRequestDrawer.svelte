@@ -111,7 +111,11 @@
         expiryTimestamp={$sessionInitiationRequest.payload.params.expiryTimestamp}
     />
 {:else}
-    <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter} onBack={rejectConnectionRequest}>
+    <DrawerTemplate
+        title={localize(`${localeKey}.title`)}
+        {drawerRouter}
+        onBack={() => void rejectAndClearSessionInitiationRequest()}
+    >
         <div class="w-full h-full flex items-center justify-center">
             <Spinner size="lg" textColor="primary" />
         </div>
