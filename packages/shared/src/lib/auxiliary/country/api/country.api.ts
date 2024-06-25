@@ -1,4 +1,4 @@
-import { BaseApi } from '@core/utils'
+import { BaseApi } from '@core/utils/api'
 
 interface IIpApiResponse {
     ip: string
