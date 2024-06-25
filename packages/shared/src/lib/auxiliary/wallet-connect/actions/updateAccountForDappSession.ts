@@ -1,10 +1,10 @@
 import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import { get } from 'svelte/store'
 import { WalletConnectEvents } from '../enums'
-import { walletClient } from '../stores'
-import { NetworkId } from '@core/network/types'
 import { ISupportedNamespace } from '../types'
-import { doesNamespaceSupportEvent } from '../utils'
+import { getWalletClient, walletClient } from '../stores'
+import { EvmNetworkId } from '@core/network/types'
+import { buildCaip10Address, doesNamespaceSupportEvent } from '../utils'
 
 export async function updateAccountForDappSession(
     sessionTopic: string,
@@ -25,8 +25,31 @@ export async function updateAccountForDappSession(
             continue
         }
 
+        const chainsForSession = (namespaces[protocol].chains ?? []) as EvmNetworkId[]
+        const addressOfAccountForEachChain = chainsForSession
+            .map((chainId) => {
+                const address = getAddressFromAccountForNetwork(account, chainId)
+                return address ? buildCaip10Address(address, chainId) : undefined
+            })
+            .filter(Boolean) as string[]
+
+        const sortedAccountsForNamespace = namespaces[protocol].accounts.sort((a, b) => {
+            const aIsThisAccount = addressOfAccountForEachChain.includes(a)
+            const bIsThisAccount = addressOfAccountForEachChain.includes(b)
+
+            if (aIsThisAccount && !bIsThisAccount) {
+                return -1
+            } else if (!aIsThisAccount && bIsThisAccount) {
+                return 1
+            } else {
+                return 0
+            }
+        })
+
+        namespaces[protocol].accounts = sortedAccountsForNamespace
+
         for (const chainId of namespaces[protocol]?.chains ?? []) {
-            const address = getAddressFromAccountForNetwork(account, chainId as NetworkId)
+            const address = getAddressFromAccountForNetwork(account, chainId as EvmNetworkId)
 
             await walletConnectClient.emitSessionEvent({
                 topic: sessionTopic,
@@ -38,4 +61,6 @@ export async function updateAccountForDappSession(
             })
         }
     }
+
+    await getWalletClient()?.updateSession({ topic: sessionTopic, namespaces })
 }

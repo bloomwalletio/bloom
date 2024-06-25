@@ -1,11 +1,11 @@
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { sessionInitiationRequest } from '../stores'
 import { get } from 'svelte/store'
-import { rejectConnectionRequest } from '../utils'
+import { rejectSessionInitiationRequest } from '../utils'
 
 export function onSessionProposal(_sessionProposal: Web3WalletTypes.SessionProposal): void {
     if (get(sessionInitiationRequest)) {
-        void rejectConnectionRequest()
+        void rejectSessionInitiationRequest(_sessionProposal.id)
     } else {
         sessionInitiationRequest.set({ type: 'session_proposal', payload: _sessionProposal })
     }

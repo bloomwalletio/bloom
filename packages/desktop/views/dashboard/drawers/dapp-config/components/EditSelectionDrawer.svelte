@@ -48,7 +48,7 @@
         sessionInitiationRequest: SessionInitiationRequest | undefined
     ): { requiredMethods: string[]; optionalMethods: string[] } {
         if (selectedDapp) {
-            const { requiredNamespaces, optionalNamespaces } = selectedDapp.session ?? {}
+            const { requiredNamespaces, optionalNamespaces } = selectedDapp ?? {}
 
             const { requiredMethods, optionalMethods } = getNetworksAndMethodsFromNamespaces(
                 requiredNamespaces ?? {},
@@ -74,7 +74,7 @@
         sessionInitiationRequest: SessionInitiationRequest | undefined
     ): { requiredNetworks: string[]; optionalNetworks: string[] } {
         if (selectedDapp) {
-            const { requiredNamespaces, optionalNamespaces } = selectedDapp.session ?? {}
+            const { requiredNamespaces, optionalNamespaces } = selectedDapp ?? {}
             const { requiredNetworks, optionalNetworks } = getNetworksAndMethodsFromNamespaces(
                 requiredNamespaces ?? {},
                 optionalNamespaces ?? {}
@@ -102,13 +102,9 @@
         }
 
         const requiredNamespaces =
-            $selectedDapp?.session?.requiredNamespaces ??
-            $sessionInitiationRequest?.payload?.params.requiredNamespaces ??
-            {}
+            $selectedDapp?.requiredNamespaces ?? $sessionInitiationRequest?.payload?.params.requiredNamespaces ?? {}
         const optionalNamespaces =
-            $selectedDapp?.session?.optionalNamespaces ??
-            $sessionInitiationRequest?.payload?.params.optionalNamespaces ??
-            {}
+            $selectedDapp?.optionalNamespaces ?? $sessionInitiationRequest?.payload?.params.optionalNamespaces ?? {}
 
         const updatedNamespace = buildSupportedNamespacesFromSelections(
             selections,
@@ -119,8 +115,8 @@
         if (dappMetadata) {
             updateSupportedDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
         }
-        if ($selectedDapp?.session) {
-            updateSession($selectedDapp.session.topic, updatedNamespace)
+        if ($selectedDapp?.sessionTopic) {
+            updateSession($selectedDapp.sessionTopic, updatedNamespace)
         }
         drawerRouter.previous()
     }

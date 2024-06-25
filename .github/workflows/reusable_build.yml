@@ -95,11 +95,11 @@ jobs:
 
             - name: Set deployment target (MacOS)
               run: echo "MACOSX_DEPLOYMENT_TARGET=10.14" >> $GITHUB_ENV # TODO: set this to 10.12 once rocksDB issue is fixed
-              if: inputs.os == 'macos-11'
+              if: inputs.os == 'macos-12'
 
             - name: Verify ditto accessibility
               run: ditto package.json package.json.copy
-              if: inputs.os == 'macos-11'
+              if: inputs.os == 'macos-12'
 
             - name: Install required packages (Linux)
               run: |
@@ -157,7 +157,7 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   MACOS_SKIP_NOTARIZATION: false
               working-directory: packages/desktop
-              if: ${{ inputs.sign && inputs.os == 'macos-11' }}
+              if: ${{ inputs.sign && inputs.os == 'macos-12' }}
 
             - name: Build unsigned Electron app (MacOS)
               run: yarn compile:${STAGE}:mac
@@ -165,7 +165,7 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   MACOS_SKIP_NOTARIZATION: true
               working-directory: packages/desktop
-              if: ${{ ! inputs.sign && inputs.os == 'macos-11' }}
+              if: ${{ ! inputs.sign && inputs.os == 'macos-12' }}
 
             - name: Build signed Electron app (Windows)
               run: yarn compile:${env:STAGE}:win
@@ -214,7 +214,7 @@ jobs:
             - name: Compute checksums (MacOS)
               run: for i in `ls | grep 'bloom-desktop-*'` ; do shasum -a 256 $i | awk {'print $1'} > $i.sha256 ; done
               working-directory: packages/desktop/out
-              if: inputs.os == 'macos-11'
+              if: inputs.os == 'macos-12'
 
             - name: Compute checksums (Windows)
               run: Get-ChildItem "." -Filter bloom-desktop-* | Foreach-Object { $(Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash | Set-Content ($_.FullName + '.sha256') }

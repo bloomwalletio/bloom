@@ -1,14 +1,17 @@
 <script lang="ts">
     import { Button, Spinner } from '@bloomwalletio/ui'
-    import { localize } from '@core/i18n'
-    import { Router } from '@core/router'
-    import { DrawerTemplate } from '@components'
     import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import ConnectionRequest from './ConnectionRequest.svelte'
-    import { getNetworksAndMethodsFromNamespaces, rejectConnectionRequest } from '@auxiliary/wallet-connect/utils'
+    import {
+        getNetworksAndMethodsFromNamespaces,
+        rejectAndClearSessionInitiationRequest,
+    } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { DrawerTemplate } from '@components'
+    import { localize } from '@core/i18n'
+    import { Router } from '@core/router'
+    import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import ConnectionRequest from './ConnectionRequest.svelte'
     import { Web3WalletTypes } from '@walletconnect/web3wallet'
     import { onDestroy } from 'svelte'
 
@@ -74,7 +77,7 @@
     }
 
     function onRejectClick(): void {
-        rejectConnectionRequest()
+        void rejectAndClearSessionInitiationRequest()
         closeDrawer()
     }
 

@@ -41,7 +41,7 @@
     function onDappCardClick(connectedDapp: IConnectedDapp): void {
         setSelectedDapp(connectedDapp)
         updateDrawerProps({
-            onClose: () => clearSelectedDapp(),
+            onClose: clearSelectedDapp,
         })
         drawerRouter.goTo(DappConfigRoute.DappDetails)
     }

@@ -2276,7 +2276,7 @@
  rename packages/shared/{ => src}/locales/uk.json (50%)
  rename packages/shared/{ => src}/locales/ur.json (52%)
  rename packages/shared/{ => src}/locales/vi.json (51%)
- rename packages/shared/{ => src}/locales/zh-CN.json (51%)
+ rename packages/shared/{ => src}/locales/zh-CN.json (50%)
  rename packages/shared/{ => src}/locales/zh-TW.json (52%)
  delete mode 100644 packages/shared/style/style.scss
  rename packages/shared/{lib/tests/__mocks__ => test/mocks}/account.mock.ts (53%)
