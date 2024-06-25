@@ -6,6 +6,7 @@ import { ISession } from '../interface/session.interface'
 import { getWalletClient, setConnectedDapps } from '../stores'
 import { updateAccountForDappSession } from './updateAccountForDappSession'
 import { ISupportedNamespace } from '../types'
+import { normalizeSessionNamespace } from '../utils'
 
 export async function approveSession(
     sessionProposal: Web3WalletTypes.SessionProposal,
@@ -25,7 +26,7 @@ export async function approveSession(
             namespaces: approvedNamespaces,
         })) as unknown as ISession
         setConnectedDapps()
-        await updateAccountForDappSession(session.topic, session.namespaces, account)
+        await updateAccountForDappSession(session.topic, normalizeSessionNamespace(session.namespaces), account)
     } catch (err) {
         handleError(err)
     }
