@@ -91,6 +91,6 @@
     {requiredNamespaces}
     {optionalNamespaces}
     {supportedNamespaces}
-    confirmButtonLocaleKey="general.signUp"
+    confirmButtonLocaleKey="actions.signIn"
     {onConfirm}
 />

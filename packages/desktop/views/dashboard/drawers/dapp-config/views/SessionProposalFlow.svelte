@@ -71,6 +71,6 @@
     {requiredNamespaces}
     {optionalNamespaces}
     {supportedNamespaces}
-    confirmButtonLocaleKey="general.confirm"
+    confirmButtonLocaleKey="actions.confirm"
     {onConfirm}
 />
