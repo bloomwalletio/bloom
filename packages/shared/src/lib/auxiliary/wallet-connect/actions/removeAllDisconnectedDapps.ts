@@ -7,12 +7,7 @@ export function removeAllDisconnectedDapps(): void {
         return
     }
 
-    // TODO: which dapps should be disconnected here
-    // const connectedDappsForProfile = get(connectedDapps).filter(
-    //     (dapp) => !!getPersistedDapp(dapp.metadata?.url ?? '') && !dapp.session
-    // )
-
-    const connectedDappsForProfile = get(connectedDapps)
+    const connectedDappsForProfile = get(connectedDapps).filter((dapp) => !dapp.session)
     for (const dapp of connectedDappsForProfile) {
         if (dapp.metadata) {
             removePersistedDapp(dapp.metadata.url)
