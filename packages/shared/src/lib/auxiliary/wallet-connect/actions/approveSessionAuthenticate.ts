@@ -5,10 +5,11 @@ import { DappVerification } from '../enums'
 import { GENERAL_SUPPORTED_METHODS } from '../constants'
 import { populateAuthPayload, buildAuthObject } from '@walletconnect/utils'
 import { NetworkId, getEvmNetwork } from '@core/network'
-import { AuthTypes } from '@walletconnect/types'
+import { AuthTypes, SessionTypes } from '@walletconnect/types'
 import { ISelections } from '../interface'
 import { signMessage } from '@core/wallet'
 import { getCaip10AddressForAccount, normalizeSessionNamespace } from '../utils'
+import { SupportedNamespaces } from '../types'
 
 export async function approveSessionAuthenticate(
     sessionProposal: Web3WalletTypes.SessionAuthenticate,
@@ -66,9 +67,19 @@ export async function approveSessionAuthenticate(
     const dappUrl = sessionProposal.params.requester.metadata.url
     await clearOldPairings(dappUrl)
     persistDapp(dappUrl, DappVerification.Unknown, {
-        supported: normalizeSessionNamespace(session.namespaces),
+        supported: cleanupNamespaces(session.namespaces),
         required: session.requiredNamespaces,
         optional: session.optionalNamespaces,
     })
     clearSessionInitiationRequest()
+}
+
+// This is needed because the returned namespaces from the wallet connect client can contain duplicated chains
+function cleanupNamespaces(namespaces: SessionTypes.Namespaces): SupportedNamespaces {
+    const normalizedNamespaces = normalizeSessionNamespace(namespaces)
+    for (const key in normalizedNamespaces) {
+        const namespace = normalizedNamespaces[key]
+        namespace.chains = [...new Set(namespace.chains)]
+    }
+    return normalizedNamespaces
 }
