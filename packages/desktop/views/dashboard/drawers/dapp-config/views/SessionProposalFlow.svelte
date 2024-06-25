@@ -2,12 +2,12 @@
     import { buildSupportedNamespacesFromSelections, connectToDapp } from '@auxiliary/wallet-connect/actions'
     import { ALL_SUPPORTED_METHODS, SUPPORTED_EVENTS } from '@auxiliary/wallet-connect/constants'
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
-    import { getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
+    import { clearSessionInitiationRequest, getPersistedDappNamespacesForDapp } from '@auxiliary/wallet-connect/stores'
     import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import {
         getCaip10AddressForAccount,
         getNetworksAndMethodsFromNamespaces,
-        rejectConnectionRequest,
+        rejectAndClearSessionInitiationRequest,
     } from '@auxiliary/wallet-connect/utils'
     import { Button, Table } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
@@ -129,9 +129,7 @@
     }
 
     function onCancelClick(): void {
-        if (!hasRequestExpired) {
-            rejectConnectionRequest()
-        }
+        void rejectAndClearSessionInitiationRequest()
         closeDrawer()
     }
 
@@ -139,6 +137,7 @@
         try {
             loading = true
             await connectToDapp(supportedNamespaces, sessionProposal, $selectedAccount as IAccountState)
+            clearSessionInitiationRequest()
 
             drawerRouter.reset()
             drawerRouter.goTo(DappConfigRoute.ConnectedDapps)
