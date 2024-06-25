@@ -77,10 +77,9 @@ async function setInitialIdentify(): Promise<void> {
     identifyObj.set('platform_version', getPlatformVersion())
 
     // User Information
-    identifyObj.setOnce('country_code', await getCountryCode())
     const { profiles, accounts } = await getProfilesAndAccountsCount()
     identifyObj.set('profile_count', profiles)
     identifyObj.set('account_count', accounts)
 
-    identify(identifyObj, { device_id: getMachineId() })
+    identify(identifyObj, { device_id: getMachineId(), country: await getCountryCode() })
 }
