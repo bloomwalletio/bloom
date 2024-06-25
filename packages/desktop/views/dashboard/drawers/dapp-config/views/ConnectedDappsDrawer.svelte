@@ -27,10 +27,6 @@
 
     $: connectedDappsForProfile = $connectedDapps
 
-    // TOOD: Update persisted dapps structure
-    // $: connectedDappsForProfile = $connectedDapps.filter(
-    //     (dapp) => !!$persistedDapps[dapp.metadata?.url ?? ''].namespaces[$activeProfileId as string]
-    // )
     $: displayedDapps = connectedDappsForProfile.filter(
         (dapp) => (selectedIndex === 0 && !!dapp.session) || (selectedIndex === 1 && !dapp.session)
     )

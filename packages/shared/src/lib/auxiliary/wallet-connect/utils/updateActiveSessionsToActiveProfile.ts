@@ -1,4 +1,5 @@
-import { getPersistedDappNamespacesForDapp, getWalletClient, setConnectedDapps } from '../stores'
+import { DappVerification } from '../enums'
+import { getPersistedDappNamespacesForDapp, getWalletClient, persistDapp, setConnectedDapps } from '../stores'
 import { buildDefaultNamespaces } from './buildDefaultNamespaces'
 
 export async function updateActiveSessionsToActiveProfile(): Promise<void> {
@@ -17,6 +18,13 @@ export async function updateActiveSessionsToActiveProfile(): Promise<void> {
                     session.optionalNamespaces
                 )
                 await getWalletClient()?.updateSession({ topic: session.topic, namespaces: supportedNamespaces })
+                persistDapp(
+                    session.peer.metadata.url,
+                    DappVerification.Unknown,
+                    session.requiredNamespaces,
+                    session.optionalNamespaces,
+                    supportedNamespaces
+                )
             }
         } catch (err) {
             console.error('Error updating session', err)

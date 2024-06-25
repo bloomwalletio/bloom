@@ -10,23 +10,12 @@
     import { DappInfo } from '@ui'
     import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
     import { DappConfigRoute } from '../dapp-config-route.enum'
-    import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
-    import { normalizeSessionNamespace } from '@auxiliary/wallet-connect/utils'
 
     export let drawerRouter: Router<unknown>
 
     const localeKey = 'views.dashboard.drawers.dapps.details'
     const dapp = structuredClone($selectedDapp) as IConnectedDapp
     const persistedDapp = dapp?.metadata ? getPersistedDapp(dapp?.metadata.url) : undefined
-
-    const supportedNamespaces = getSupportedNamespaces()
-    function getSupportedNamespaces(): SupportedNamespaces | undefined {
-        if (dapp.session) {
-            return normalizeSessionNamespace(dapp.session.namespaces)
-        }
-
-        return persistedDapp?.supported
-    }
 
     onMount(() => {
         if (!$selectedDapp) {
@@ -51,15 +40,17 @@
                         orientation="vertical"
                     />
                 {/if}
-                {#if supportedNamespaces}
+                {#if persistedDapp?.supported}
                     <ConnectionSummary
                         requiredNamespaces={dapp.session?.requiredNamespaces}
                         editable={!!dapp.session}
-                        {supportedNamespaces}
+                        supportedNamespaces={persistedDapp?.supported}
                         onEditPermissionsClick={() => drawerRouter.goTo(DappConfigRoute.EditPermissions)}
                         onEditNetworksClick={() => drawerRouter.goTo(DappConfigRoute.EditNetworks)}
                         onEditAccountsClick={() => drawerRouter.goTo(DappConfigRoute.EditAccounts)}
                     />
+                {:else}
+                    <Text type="body2" align="center">{localize(`${localeKey}.notConnectedWithProfile`)}</Text>
                 {/if}
             </div>
         </div>
