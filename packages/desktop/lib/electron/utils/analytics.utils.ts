@@ -31,9 +31,14 @@ function handleTrackEvent(event: string, properties: Record<string, unknown>): v
 }
 
 async function getCountryCode(): Promise<string> {
-    const api = new CountryApi()
-    const countryCode = await api.getCountryCode()
-    return countryCode ?? ''
+    try {
+        const api = new CountryApi()
+        const countryCode = await api.getCountryCode()
+        return countryCode ?? ''
+    } catch (err) {
+        console.error(err)
+        return ''
+    }
 }
 
 async function getProfilesAndAccountsCount(): Promise<{ profiles: number; accounts: number }> {
