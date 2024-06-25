@@ -57,6 +57,7 @@
 
         return defaultNamespaces
     }
+
     async function onConfirm(supportedNamespaces: SupportedNamespaces): Promise<boolean> {
         try {
             await checkActiveProfileAuth(LedgerAppName.Ethereum)
@@ -67,7 +68,10 @@
         const checkedAccounts = $activeAccounts.filter((account) =>
             supportedNamespaces.eip155.accounts.some((caipAddress) => {
                 const [namespace, chainId, address] = caipAddress.split(':')
-                return getAddressFromAccountForNetwork(account, `${namespace}:${chainId}` as EvmNetworkId) === address
+                return (
+                    getAddressFromAccountForNetwork(account, `${namespace}:${chainId}` as EvmNetworkId) ===
+                    address.toLowerCase()
+                )
             })
         )
         const checkedNetworks = supportedNamespaces.eip155.chains
