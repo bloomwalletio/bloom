@@ -50,7 +50,7 @@
                         onEditAccountsClick={() => drawerRouter.goTo(DappConfigRoute.EditAccounts)}
                     />
                 {:else}
-                    <Text type="body2" align="center">{localize(`${localeKey}.notConnectedWithProfile`)}</Text>
+                    <Text type="body2" align="center">{localize(`${localeKey}.notConnectedToProfile`)}</Text>
                 {/if}
             </div>
         </div>
