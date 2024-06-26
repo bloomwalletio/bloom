@@ -35,7 +35,7 @@
     ]
 
     $: dappName = dapp.metadata?.name ?? localize('general.unknown')
-    $: hasActiveSession = !!dapp.session
+    $: hasActiveSession = !!dapp.sessionTopic
 
     function onRemoveClick(): void {
         openPopup({
