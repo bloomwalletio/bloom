@@ -1,15 +1,10 @@
 import { persistent } from '@core/utils/store'
 import { Writable } from 'svelte/store'
-import { SupportedNamespaces } from '../types'
-import { ProposalTypes } from '@walletconnect/types'
+import { IPersistedNamespaces } from '../interface'
 
 interface IPersistedNamespacesStore {
     [profileId: string]: {
-        [dappOriginUrl: string]: {
-            supported: SupportedNamespaces
-            required: ProposalTypes.RequiredNamespaces
-            optional: ProposalTypes.OptionalNamespaces
-        }
+        [dappOriginUrl: string]: IPersistedNamespaces
     }
 }
 // Keeping this store for for backwards compatibility for 1.0.1
