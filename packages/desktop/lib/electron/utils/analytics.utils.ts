@@ -1,7 +1,7 @@
 import { app, ipcMain } from 'electron'
 import os from 'os'
 import { Identify, identify, init, track } from '@amplitude/analytics-node'
-import { CountryApi } from '@auxiliary/country/api'
+import { IpApi } from '@auxiliary/country/api'
 
 import features from '@features/features'
 
@@ -30,14 +30,21 @@ function handleTrackEvent(event: string, properties: Record<string, unknown>): v
     track(event, properties, { device_id: getMachineId() })
 }
 
-async function getCountryCode(): Promise<string> {
+async function getLocation(): Promise<
+    | {
+          country: string
+          region: string
+          city: string
+      }
+    | undefined
+> {
     try {
-        const api = new CountryApi()
-        const countryCode = await api.getCountryCode()
-        return countryCode ?? ''
+        const api = new IpApi()
+        const location = await api.getLocation()
+        return location
     } catch (err) {
         console.error(err)
-        return ''
+        return undefined
     }
 }
 
@@ -86,5 +93,16 @@ async function setInitialIdentify(): Promise<void> {
     identifyObj.set('profile_count', profiles)
     identifyObj.set('account_count', accounts)
 
-    identify(identifyObj, { device_id: getMachineId(), country: await getCountryCode() })
+    const location = await getLocation()
+
+    const app_version = app.isPackaged ? app.getVersion() : 'dev'
+
+    identify(identifyObj, {
+        device_id: getMachineId(),
+        app_version,
+        platform: os.platform(),
+        os_name: os.type(),
+        os_version: getPlatformVersion(),
+        ...location,
+    })
 }

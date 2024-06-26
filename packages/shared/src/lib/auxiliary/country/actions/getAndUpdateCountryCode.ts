@@ -1,8 +1,8 @@
-import { CountryApi } from '../api'
+import { IpApi } from '../api'
 import { updateCountryCode } from '../stores'
 
 export async function getAndUpdateCountryCode(): Promise<void> {
-    const api = new CountryApi()
+    const api = new IpApi()
     const countryCode = await api.getCountryCode()
     updateCountryCode(countryCode)
 }
