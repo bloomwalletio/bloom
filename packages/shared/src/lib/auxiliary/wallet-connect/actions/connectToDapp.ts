@@ -21,6 +21,8 @@ export async function connectToDapp(
     persistDapp(
         dappUrl,
         verificationState.isScam ? DappVerification.Scam : (verificationState.validation as DappVerification),
-        { supported: supportedNamespaces, required: requiredNamespaces, optional: optionalNamespaces }
+        requiredNamespaces,
+        optionalNamespaces,
+        supportedNamespaces
     )
 }

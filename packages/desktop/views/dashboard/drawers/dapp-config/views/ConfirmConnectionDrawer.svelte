@@ -4,7 +4,7 @@
     import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import {
         clearSessionInitiationRequest,
-        getPersistedDappNamespacesForDapp,
+        getPersistedDapp,
         sessionInitiationRequest,
     } from '@auxiliary/wallet-connect/stores'
     import { ISupportedNamespace, SupportedNamespaces } from '@auxiliary/wallet-connect/types'
@@ -63,12 +63,12 @@
             return {}
         }
 
-        const persistedNamespaces = $sessionInitiationRequest
-            ? getPersistedDappNamespacesForDapp($sessionInitiationRequest.params.proposer.metadata.url)
+        const persistedDapp = $sessionInitiationRequest
+            ? getPersistedDapp($sessionInitiationRequest.params.proposer.metadata.url)
             : undefined
 
-        if (persistedNamespaces) {
-            return persistedNamespaces.supported
+        if (persistedDapp?.supported) {
+            return persistedDapp.supported
         }
 
         const { requiredNamespaces, optionalNamespaces } = $sessionInitiationRequest.params
