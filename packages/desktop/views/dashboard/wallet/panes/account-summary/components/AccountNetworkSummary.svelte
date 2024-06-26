@@ -1,6 +1,6 @@
 <script lang="ts">
     import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
-    import { AvatarGroup, Copyable, Text } from '@bloomwalletio/ui'
+    import { AvatarGroup, Text } from '@bloomwalletio/ui'
     import { FormattedBalance } from '@components'
     import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
     import { handleError } from '@core/error/handlers'
@@ -14,17 +14,16 @@
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, dashboardRouter } from '@core/router'
     import { allAccountFiatBalances, selectedAccountTokens } from '@core/token/stores'
-    import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import features from '@features/features'
-    import { NetworkAvatar, NetworkStatusIndicator, NftAvatar, TokenAvatar } from '@ui'
+    import { NetworkAvatar, NftAvatar, TokenAvatar } from '@ui'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
+    import AccountNetworkActionsMenu from './AccountNetworkActionsMenu.svelte'
 
     export let network: Network
     export let account: IAccountState
 
-    $: health = network.health
     $: tokens = $selectedAccountTokens?.[network.id]
     $: nfts = $ownedNfts.filter((nft) => nft.networkId === network.id && !(nft.hidden || nft.isScam))
     $: address = getAddressFromAccountForNetwork(account, network.id)
@@ -117,10 +116,7 @@
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
             {#if address}
-                <NetworkStatusIndicator status={$health} />
-                <Copyable value={address}>
-                    <Text type="pre-md" textColor="secondary" truncate>{truncateString(address)}</Text>
-                </Copyable>
+                <AccountNetworkActionsMenu {network} {account} />
             {:else}
                 <button type="button" class="generate-address-button" on:click={onGenerateAddressClick}>
                     {localize('actions.generateAddress')}

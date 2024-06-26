@@ -14,16 +14,6 @@
 
     $: account = $selectedAccount as IAccountState
 
-    function onSyncAccountsClick(): void {
-        openPopup({ id: PopupId.SyncAccounts })
-        menu?.close()
-    }
-
-    function onViewBalanceClick(): void {
-        openPopup({ id: PopupId.BalanceBreakdown })
-        menu?.close()
-    }
-
     function onCustomiseAccountClick(): void {
         openPopup({ id: PopupId.CustomiseAccount })
         menu?.close()
@@ -74,18 +64,8 @@
     }
 
     let items: IMenuItem[] = []
-    function setItems(account: IAccountState, nonHiddenActiveAccounts: IAccountState[], showDelete: boolean) {
+    function setItems(account: IAccountState, nonHiddenActiveAccounts: IAccountState[], showDelete: boolean): void {
         items = [
-            {
-                icon: IconName.Refresh,
-                title: localize('actions.syncAccounts'),
-                onClick: onSyncAccountsClick,
-            },
-            {
-                icon: IconName.PieChart,
-                title: localize('general.balanceBreakdown'),
-                onClick: onViewBalanceClick,
-            },
             {
                 icon: IconName.SettingsSliders,
                 title: localize('actions.customizeAccount'),

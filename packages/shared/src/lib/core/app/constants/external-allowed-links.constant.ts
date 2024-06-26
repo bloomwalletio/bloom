@@ -1,4 +1,9 @@
 export const externalAllowedLinks = [
+    // Bloom
+    'bloomwallet.io',
+    'docs.bloomwallet.io',
+    'storybook.bloomwallet.io',
+
     // IOTA Foundation
     'blog.iota.org',
     'chrysalis.iota.org',
@@ -8,19 +13,22 @@ export const externalAllowedLinks = [
     'iota.org',
     'privacy@iota.org',
     'wiki.iota.org',
-    'explorer.iota.org',
     'govern.iota.org',
-
-    // Bloom
-    'bloomwallet.io',
-    'docs.bloomwallet.io',
-    'storybook.bloomwallet.io',
-
-    // Shimmer
     'shimmer.network',
+
+    // IOTA Network
+    'explorer.iota.org',
+    'explorer.evm.iota.org',
+    'explorer.evm.testnet.iotaledger.net',
+
+    // Shimmer Network
     'explorer.shimmer.network',
     'explorer.evm.shimmer.network',
     'explorer.evm.testnet.shimmer.network',
+
+    // Ethereum
+    'eth.blockscout.com',
+    'eth-sepolia.blockscout.com',
 
     // GitHub
     'github.com/bloomwalletio/bloom/issues',
