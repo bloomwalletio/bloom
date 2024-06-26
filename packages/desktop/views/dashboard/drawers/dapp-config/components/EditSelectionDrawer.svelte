@@ -16,6 +16,7 @@
     import { IConnectedDapp, IDappMetadata, ISelections } from '@auxiliary/wallet-connect/interface'
     import { DappInfo } from '@ui'
     import { ALL_EVM_METHODS } from '@auxiliary/wallet-connect/constants'
+    import { SessionInitiationType } from '@auxiliary/wallet-connect/enums'
 
     export let drawerRouter: Router<unknown>
     export let selections: ISelections
@@ -34,9 +35,9 @@
     ): IDappMetadata | undefined {
         if (selectedDapp) {
             return selectedDapp?.metadata
-        } else if (sessionInitiationRequest?.type === 'session_proposal') {
+        } else if (sessionInitiationRequest?.type === SessionInitiationType.SessionProposal) {
             return sessionInitiationRequest?.payload.params.proposer.metadata as IDappMetadata
-        } else if (sessionInitiationRequest?.type === 'session_authenticate') {
+        } else if (sessionInitiationRequest?.type === SessionInitiationType.SessionAuthenticate) {
             return sessionInitiationRequest?.payload.params.requester.metadata as IDappMetadata
         } else {
             return undefined
@@ -55,14 +56,14 @@
                 optionalNamespaces ?? {}
             )
             return { requiredMethods, optionalMethods }
-        } else if (sessionInitiationRequest?.type === 'session_proposal') {
+        } else if (sessionInitiationRequest?.type === SessionInitiationType.SessionProposal) {
             const { requiredNamespaces, optionalNamespaces } = sessionInitiationRequest.payload?.params ?? {}
             const { requiredMethods, optionalMethods } = getNetworksAndMethodsFromNamespaces(
                 requiredNamespaces ?? {},
                 optionalNamespaces ?? {}
             )
             return { requiredMethods, optionalMethods }
-        } else if (sessionInitiationRequest?.type === 'session_authenticate') {
+        } else if (sessionInitiationRequest?.type === SessionInitiationType.SessionAuthenticate) {
             return { requiredMethods: [], optionalMethods: ALL_EVM_METHODS }
         } else {
             return { requiredMethods: [], optionalMethods: [] }
@@ -80,14 +81,14 @@
                 optionalNamespaces ?? {}
             )
             return { requiredNetworks, optionalNetworks }
-        } else if (sessionInitiationRequest?.type === 'session_proposal') {
+        } else if (sessionInitiationRequest?.type === SessionInitiationType.SessionProposal) {
             const { requiredNamespaces, optionalNamespaces } = sessionInitiationRequest.payload?.params ?? {}
             const { requiredNetworks, optionalNetworks } = getNetworksAndMethodsFromNamespaces(
                 requiredNamespaces ?? {},
                 optionalNamespaces ?? {}
             )
             return { requiredNetworks, optionalNetworks }
-        } else if (sessionInitiationRequest?.type === 'session_authenticate') {
+        } else if (sessionInitiationRequest?.type === SessionInitiationType.SessionAuthenticate) {
             // TODO: Implement this
             return { requiredNetworks: [], optionalNetworks: [] }
         } else {
@@ -97,7 +98,7 @@
 
     function onConfirmClick(): void {
         // TODO: Implement this
-        if ($sessionInitiationRequest?.type === 'session_authenticate') {
+        if ($sessionInitiationRequest?.type === SessionInitiationType.SessionAuthenticate) {
             return
         }
 
