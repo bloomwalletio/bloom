@@ -31,6 +31,10 @@
     $: hasTokens = tokens?.nativeTokens?.length > 0
     $: hasNfts = nfts?.length > 0
 
+    let clientWidth = 0
+    $: numberOfTokensToDisplay = Math.min(tokens?.nativeTokens?.length ?? 0, 3)
+    $: numberOfNftsToDisplay = numberOfTokensToDisplay < 3 ? 3 : clientWidth >= 260 ? 3 : 2
+
     let formattedBalance: string
     $: $selectedAccountTokens, (formattedBalance = getTotalBalance())
 
@@ -112,7 +116,7 @@
     <account-network-summary-header class="flex flex-row justify-between items-center gap-2">
         <div class="flex flex-row space-x-3 items-center">
             <NetworkAvatar networkId={network.id} />
-            <Text type="body2" lineClamp={1} class="text-ellipse overflow-hidden">{network.name}</Text>
+            <Text type="body2" lineClamp={1} class="truncate overflow-hidden">{network.name}</Text>
         </div>
         <account-network-summary-header-address class="flex flex-row items-center space-x-2">
             {#if address}
@@ -127,12 +131,12 @@
     <account-network-summary-balance class="flex flex-col flex-grow justify-between items-start">
         <FormattedBalance balanceText={formattedBalance} textType="h3" />
     </account-network-summary-balance>
-    <account-network-summary-assets class="flex flex-row justify-between items-center">
+    <account-network-summary-assets bind:clientWidth class="flex flex-row justify-between items-center">
         <div>
             {#if hasTokens}
                 {@const nativeTokens = tokens?.nativeTokens ?? []}
-                <AvatarGroup avatarSize="md" remainder={nativeTokens.length - 4}>
-                    {#each nativeTokens.slice(0, 4) ?? [] as token}
+                <AvatarGroup avatarSize="md" remainder={nativeTokens.length - numberOfTokensToDisplay}>
+                    {#each nativeTokens.slice(0, numberOfTokensToDisplay) ?? [] as token}
                         <TokenAvatar hideNetworkBadge size="md" {token} />
                     {/each}
                 </AvatarGroup>
@@ -144,8 +148,12 @@
                     on:click={() => onNftGroupClick()}
                     disabled={!features?.collectibles?.enabled || !$activeProfile?.features?.collectibles}
                 >
-                    <AvatarGroup avatarSize="md" avatarShape="square" remainder={sortedNfts.length - 4}>
-                        {#each sortedNfts.slice(0, 4) as nft}
+                    <AvatarGroup
+                        avatarSize="md"
+                        avatarShape="square"
+                        remainder={sortedNfts.length - numberOfNftsToDisplay}
+                    >
+                        {#each sortedNfts.slice(0, numberOfNftsToDisplay) as nft}
                             <NftAvatar {nft} size="md" shape="square" />
                         {/each}
                     </AvatarGroup>
