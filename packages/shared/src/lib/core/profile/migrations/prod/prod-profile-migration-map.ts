@@ -11,6 +11,7 @@ import { prodProfileMigration7To8 } from './prod-profile-migration-7-to-8'
 import { prodProfileMigration9To10 } from './prod-profile-migration-9-to-10'
 import { prodProfileMigration8To9 } from './prod-profile-migration-8-to-9'
 import { prodProfileMigration10To11 } from './prod-profile-migration-10-to-11'
+import { prodProfileMigration11To12 } from './prod-profile-migration-11-to-12'
 
 export const PROD_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     0: prodProfileMigration0To1,
@@ -27,4 +28,6 @@ export const PROD_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     9: prodProfileMigration9To10, // rechecking some previous migrations due to a bug during migrations
     10: prodProfileMigration10To11,
     // ^^^ release 1.0.4 ^^^
+    11: prodProfileMigration11To12,
+    // ^^^ release 1.0.8 ^^^
 }
