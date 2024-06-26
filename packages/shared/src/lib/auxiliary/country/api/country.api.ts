@@ -1,4 +1,4 @@
-import { BaseApi } from '@core/utils'
+import { BaseApi } from '@core/utils/api'
 
 interface IIpApiResponse {
     ip: string
@@ -30,9 +30,29 @@ interface IIpApiResponse {
     org: string
 }
 
-export class CountryApi extends BaseApi {
+export class IpApi extends BaseApi {
     constructor() {
         super('https://ipapi.co')
+    }
+
+    async getLocation(): Promise<
+        | {
+              country: string
+              region: string
+              city: string
+          }
+        | undefined
+    > {
+        const ipData = await this.get<IIpApiResponse>('json')
+        if (ipData === undefined) {
+            return undefined
+        }
+
+        return {
+            country: ipData?.country,
+            region: ipData?.region,
+            city: ipData?.city,
+        }
     }
 
     async getCountryCode(): Promise<string | undefined> {

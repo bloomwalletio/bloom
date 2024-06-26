@@ -42,7 +42,7 @@ import { AboutWindow } from '../windows/about.window'
 
 export let appIsReady = false
 
-initialiseAnalytics()
+void initialiseAnalytics()
 initialiseDeepLinks()
 
 /*

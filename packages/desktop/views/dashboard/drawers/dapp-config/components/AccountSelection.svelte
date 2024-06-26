@@ -64,7 +64,7 @@
     }
 
     function getAccountBalance(accountIndex: number): string {
-        return formatCurrency($allAccountFiatBalances[accountIndex])
+        return formatCurrency($allAccountFiatBalances[accountIndex]?.total)
     }
 
     $: indexOfPrimary = accountSelections.findIndex((option) => option.checked)

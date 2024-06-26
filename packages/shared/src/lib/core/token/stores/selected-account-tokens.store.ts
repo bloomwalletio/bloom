@@ -44,23 +44,37 @@ export const allAccountTokens: Readable<{ [accountIndex: string]: AccountTokens 
     }
 )
 
-export const allAccountFiatBalances: Readable<{ [accountIndex: string]: string }> = derived(
+interface IAccountFiatBalances {
+    [networkId: string]: string
+    total: string
+}
+
+export const allAccountFiatBalances: Readable<{ [accountIndex: string]: IAccountFiatBalances }> = derived(
     [allAccountTokens],
     ([$allAccountTokens]) => {
-        const _allAccountFiatBalances: Record<string, string> = {}
+        const _allAccountFiatBalances: Record<string, IAccountFiatBalances> = {}
         for (const accountIndex of Object.keys($allAccountTokens)) {
+            if (!_allAccountFiatBalances[accountIndex]) {
+                _allAccountFiatBalances[accountIndex] = {
+                    total: '0',
+                }
+            }
+
             const accountTokens = $allAccountTokens[accountIndex]
-            let fiatBalance = 0
+            let accountFiatBalance = 0
             for (const networkId of Object.keys(accountTokens)) {
+                let networkFiatBalance = 0
                 const tokens = accountTokens[networkId as NetworkId]
-                fiatBalance += tryNumberOrZero(tokens?.baseCoin?.balance?.totalFiat)
+                networkFiatBalance += tryNumberOrZero(tokens?.baseCoin?.balance?.totalFiat)
                 for (const token of tokens?.nativeTokens ?? []) {
                     const totalFiat = tryNumberOrZero(token.balance.totalFiat)
                     const fiatValue = Number.isFinite(totalFiat) ? totalFiat : 0
-                    fiatBalance += fiatValue
+                    networkFiatBalance += fiatValue
                 }
+                _allAccountFiatBalances[accountIndex][networkId] = networkFiatBalance.toString()
+                accountFiatBalance += networkFiatBalance
             }
-            _allAccountFiatBalances[accountIndex] = fiatBalance.toString()
+            _allAccountFiatBalances[accountIndex].total = accountFiatBalance.toString()
         }
         return _allAccountFiatBalances
     }

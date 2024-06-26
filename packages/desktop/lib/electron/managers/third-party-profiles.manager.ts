@@ -1,12 +1,10 @@
-import { ClassicLevel } from 'classic-level'
 import fs from 'fs'
 import path from 'path'
 import { app, ipcMain } from 'electron'
-import { KeyValue } from '@ui/types'
 import { ThirdPartyAppName } from '@auxiliary/third-party/enums/third-party-app-name.enum'
+import { getDataFromApp } from '../utils/storage.utils'
 
 interface IThirdPartyAppManager {
-    getDataFromApp(appName: string): Promise<Record<string, unknown> | undefined>
     copyProfileDirectory(appName: string, profileId: string): void
 }
 
@@ -22,7 +20,10 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
 
         this.removeHandlers()
         ipcMain.handle('get-third-party-apps', () => this.getThirdPartyApps())
-        ipcMain.handle('get-data-from-third-party-app', async (_e, name) => await this.getDataFromApp(name))
+        ipcMain.handle(
+            'get-data-from-third-party-app',
+            async (_e, name) => await getDataFromApp(name, this.userDataPath)
+        )
         ipcMain.handle('copy-third-party-profile', (_e, name, profileId) => this.copyProfileDirectory(name, profileId))
     }
 
@@ -32,35 +33,6 @@ export default class ThirdPartyAppManager implements IThirdPartyAppManager {
             return fs.existsSync(appPath)
         })
         return apps
-    }
-
-    public async getDataFromApp(appName: string): Promise<Record<number, KeyValue<string>> | undefined> {
-        const levelDBPath = path.resolve(this.userDataPath, '..', appName, 'Local Storage/leveldb')
-        // check if the path exists
-        if (!fs.existsSync(levelDBPath)) {
-            return
-        }
-
-        const data: Record<string, KeyValue<string>> = {}
-
-        try {
-            const db = new ClassicLevel(levelDBPath)
-            let i = 0
-            for await (const [key, value] of db.iterator()) {
-                data[i] = { key: key.toString(), value: value.substring(1) }
-                i++
-            }
-            await db.close()
-            return data
-        } catch (err) {
-            // https://github.com/Level/abstract-level#errors
-            const _err = err as Error & { code?: string }
-            if (_err?.code) {
-                throw new Error(_err.code)
-            } else {
-                console.error(err)
-            }
-        }
     }
 
     public copyProfileDirectory(appName: string, profileId: string): void {
