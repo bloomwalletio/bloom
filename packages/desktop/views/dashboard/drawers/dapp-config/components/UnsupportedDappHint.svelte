@@ -1,14 +1,14 @@
 <script lang="ts">
     import { Alert, Table, TableRow, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { ProposalTypes } from '@walletconnect/types'
     import { NetworkAvatarGroup } from '@ui'
     import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
     import { SupportedNetworkId, getAllNetworkIds } from '@core/network'
     import { RpcMethod } from '@auxiliary/wallet-connect/enums'
 
-    export let requiredNamespaces: ProposalTypes.RequiredNamespaces
-    export let optionalNamespaces: ProposalTypes.RequiredNamespaces
+    export let requiredNetworks: string[] = []
+    export let optionalNetworks: string[] = []
+    export let requiredMethods: string[] = []
 
     const MAX_UNSUPPORTED_METHODS = 3
     const localeKey = 'views.dashboard.drawers.dapps.connectionRequest'
@@ -19,12 +19,12 @@
         unsupportedRequiredNetworks,
         otherProfileSupportsRequiredNetworks,
         supportsAnyNetwork,
-    } = getNetworkRequirementsSummary(requiredNamespaces, optionalNamespaces))
-    $: unsupportedMethods = getUnsupportedMethods(requiredNamespaces)
+    } = getNetworkRequirementsSummary(requiredNetworks, optionalNetworks))
+    $: unsupportedMethods = getUnsupportedMethods(requiredMethods as RpcMethod[])
 
     function getNetworkRequirementsSummary(
-        _requiredNamespaces: ProposalTypes.RequiredNamespaces,
-        _optionalNamespaces: ProposalTypes.RequiredNamespaces
+        requiredNetworksByDapp: string[],
+        optionalMethods: string[]
     ): {
         supportedNetworksByProfile: string[]
         supportedNetworksByOtherProfile: string[]
@@ -34,15 +34,7 @@
     } {
         const supportedNetworksByProfile = getAllNetworkIds()
         const allSupportedNetworksByWallet: string[] = Object.values(SupportedNetworkId)
-        const requiredNetworksByDapp: string[] = Object.values(_requiredNamespaces)
-            .flatMap(({ chains }) => chains)
-            .filter(Boolean)
-        const supportedNetworksByDapp = [
-            ...requiredNetworksByDapp,
-            ...Object.values(_optionalNamespaces)
-                .flatMap(({ chains }) => chains)
-                .filter(Boolean),
-        ] as string[]
+        const supportedNetworksByDapp = [...requiredNetworksByDapp, ...optionalMethods] as string[]
 
         const unsupportedRequiredNetworks = requiredNetworksByDapp.filter(
             (networkId) => !supportedNetworksByProfile.includes(networkId)
@@ -67,10 +59,8 @@
         }
     }
 
-    function getUnsupportedMethods(_requiredNamespaces: ProposalTypes.RequiredNamespaces): RpcMethod[] {
-        const requiredMethods = Object.values(_requiredNamespaces).flatMap(({ methods }) => methods) as RpcMethod[]
-
-        return requiredMethods.filter((method) => !ALL_SUPPORTED_METHODS.includes(method))
+    function getUnsupportedMethods(_requiredMethods: RpcMethod[]): RpcMethod[] {
+        return _requiredMethods.filter((method) => !ALL_SUPPORTED_METHODS.includes(method))
     }
 </script>
 

@@ -10,7 +10,9 @@ export async function clearOldPairings(dappOrigin: string): Promise<void> {
     try {
         const duplicatedDapp = getConnectedDapps().filter((dapp) => dapp.metadata?.url === dappOrigin)
         for (const dapp of duplicatedDapp) {
-            await client.core.pairing.disconnect({ topic: dapp.topic })
+            if (dapp.pairingTopic) {
+                await client.core.pairing.disconnect({ topic: dapp.pairingTopic })
+            }
         }
         setConnectedDapps()
     } catch (err) {

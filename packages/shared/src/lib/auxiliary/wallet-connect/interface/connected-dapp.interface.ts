@@ -1,8 +1,16 @@
+import { ISupportedNamespace } from '../types'
 import { IDappMetadata } from './dapp-metadata.interface'
-import { IPairing } from './pairing.interface'
-import { ISession } from './session.interface'
+import type { ProposalTypes } from '@walletconnect/types'
 
-export interface IConnectedDapp extends Omit<IPairing, 'peerMetadata'> {
-    metadata?: IDappMetadata
-    session?: ISession
+export interface IConnectedDapp {
+    metadata: IDappMetadata
+
+    // session
+    sessionTopic?: string
+    namespaces?: Record<string, ISupportedNamespace>
+    requiredNamespaces?: ProposalTypes.RequiredNamespaces
+    optionalNamespaces?: ProposalTypes.OptionalNamespaces
+
+    // pairing
+    pairingTopic?: string
 }

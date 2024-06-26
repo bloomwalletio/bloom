@@ -35,7 +35,7 @@
         (dapp) => !!$persistedDapps[$activeProfileId as string]?.[dapp.metadata?.url ?? '']
     )
     $: displayedDapps = connectedDappsForProfile.filter(
-        (dapp) => (selectedIndex === 0 && !!dapp.session) || (selectedIndex === 1 && !dapp.session)
+        (dapp) => (selectedIndex === 0 && !!dapp.sessionTopic) || (selectedIndex === 1 && !dapp.sessionTopic)
     )
 
     function onDappCardClick(connectedDapp: IConnectedDapp): void {

@@ -1,4 +1,5 @@
 export * from './approveSession'
+export * from './approveSessionAuthenticate'
 export * from './buildSupportedNamespaceFromSelections'
 export * from './clearOldPairings'
 export * from './connectToDapp'

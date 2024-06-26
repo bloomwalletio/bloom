@@ -6,8 +6,8 @@ import { updateAccountForDappSession } from './updateAccountForDappSession'
 export async function updateAccountForConnectedDapps(account: IAccountState): Promise<void> {
     const dapps = get(connectedDapps)
     for (const dapp of dapps) {
-        if (dapp.session) {
-            await updateAccountForDappSession(dapp.session, account)
+        if (dapp.sessionTopic && dapp.namespaces) {
+            await updateAccountForDappSession(dapp.sessionTopic, dapp.namespaces, account)
         }
     }
 }
