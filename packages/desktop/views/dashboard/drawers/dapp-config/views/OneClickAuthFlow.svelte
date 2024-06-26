@@ -13,6 +13,8 @@
     import { SupportedNamespaces } from '@auxiliary/wallet-connect/types'
     import { EvmNetworkId } from '@core/network'
     import { activeAccounts } from '@core/profile/stores'
+    import { Table } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
 
     export let drawerRouter: Router<unknown>
     export let sessionProposal: Web3WalletTypes.SessionAuthenticate
@@ -89,7 +91,7 @@
 
 <SessionProposalFlowShared
     {drawerRouter}
-    dappMetadata={sessionProposal.params.requester.metadata}
+    {dappMetadata}
     {verifiedState}
     expiryTimestamp={sessionProposal.params.expiryTimestamp}
     {requiredNamespaces}
@@ -97,4 +99,14 @@
     {supportedNamespaces}
     confirmButtonLocaleKey="actions.signIn"
     {onConfirm}
-/>
+>
+    <Table
+        items={[
+            {
+                key: localize('general.message'),
+                value: sessionProposal.params.authPayload.statement,
+            },
+        ]}
+        orientation="vertical"
+    />
+</SessionProposalFlowShared>

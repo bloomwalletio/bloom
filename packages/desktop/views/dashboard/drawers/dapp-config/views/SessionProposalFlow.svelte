@@ -9,6 +9,8 @@
     import { Router } from '@core/router'
     import { Web3WalletTypes } from '@walletconnect/web3wallet'
     import { SessionProposalFlowShared } from '.'
+    import { Table } from '@bloomwalletio/ui'
+    import { localize } from '@core/i18n'
 
     export let drawerRouter: Router<unknown>
     export let sessionProposal: Web3WalletTypes.SessionProposal
@@ -17,6 +19,7 @@
         ? DappVerification.Scam
         : (sessionProposal.verifyContext.verified.validation as DappVerification)
 
+    const dappMetadata = sessionProposal.params.proposer.metadata
     const requiredNamespaces = sessionProposal.params.requiredNamespaces
     const optionalNamespaces = sessionProposal.params.optionalNamespaces
 
@@ -65,7 +68,7 @@
 
 <SessionProposalFlowShared
     {drawerRouter}
-    dappMetadata={sessionProposal.params.proposer.metadata}
+    {dappMetadata}
     {verifiedState}
     expiryTimestamp={sessionProposal.params.expiryTimestamp}
     {requiredNamespaces}
@@ -73,4 +76,14 @@
     {supportedNamespaces}
     confirmButtonLocaleKey="actions.confirm"
     {onConfirm}
-/>
+>
+    <Table
+        items={[
+            {
+                key: localize('general.description'),
+                value: dappMetadata.description,
+            },
+        ]}
+        orientation="vertical"
+    />
+</SessionProposalFlowShared>

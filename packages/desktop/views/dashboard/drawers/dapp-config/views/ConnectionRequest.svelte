@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Table } from '@bloomwalletio/ui'
+    import { Button } from '@bloomwalletio/ui'
     import { DappInfo } from '@ui'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -97,15 +97,7 @@
         </div>
         <div class="flex-grow overflow-hidden">
             <div class="h-full overflow-scroll flex flex-col gap-5 p-6">
-                <Table
-                    items={[
-                        {
-                            key: localize('general.description'),
-                            value: dappMetadata.description,
-                        },
-                    ]}
-                    orientation="vertical"
-                />
+                <slot />
             </div>
         </div>
         {#if !fulfillsRequirements}

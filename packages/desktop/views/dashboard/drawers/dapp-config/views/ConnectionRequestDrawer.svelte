@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Spinner } from '@bloomwalletio/ui'
+    import { Button, Spinner, Table } from '@bloomwalletio/ui'
     import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
     import {
         getNetworksAndMethodsFromNamespaces,
@@ -97,7 +97,17 @@
         {requiredMethods}
         {drawerRouter}
         expiryTimestamp={$sessionInitiationRequest.payload.params.expiryTimestamp}
-    />
+    >
+        <Table
+            items={[
+                {
+                    key: localize('general.description'),
+                    value: dappMetadata.description,
+                },
+            ]}
+            orientation="vertical"
+        />
+    </ConnectionRequest>
 {:else if $sessionInitiationRequest?.type === 'session_authenticate'}
     {@const { dappMetadata, verifiedState, requiredNetworks, optionalNetworks, requiredMethods } =
         getConnectionRequestDataFromSessionAuthenticate($sessionInitiationRequest.payload)}
@@ -109,7 +119,17 @@
         {requiredMethods}
         {drawerRouter}
         expiryTimestamp={$sessionInitiationRequest.payload.params.expiryTimestamp}
-    />
+    >
+        <Table
+            items={[
+                {
+                    key: localize('general.message'),
+                    value: $sessionInitiationRequest.payload.params.authPayload.statement,
+                },
+            ]}
+            orientation="vertical"
+        />
+    </ConnectionRequest>
 {:else}
     <DrawerTemplate
         title={localize(`${localeKey}.title`)}

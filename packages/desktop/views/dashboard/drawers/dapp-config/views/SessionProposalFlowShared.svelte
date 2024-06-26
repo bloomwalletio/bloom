@@ -7,7 +7,7 @@
         getNetworksAndMethodsFromNamespaces,
         rejectAndClearSessionInitiationRequest,
     } from '@auxiliary/wallet-connect/utils'
-    import { Button, Table } from '@bloomwalletio/ui'
+    import { Button } from '@bloomwalletio/ui'
     import { DrawerTemplate } from '@components'
     import { IAccountState } from '@core/account'
     import { time } from '@core/app/stores'
@@ -110,15 +110,7 @@
         <div class="px-6 flex-grow overflow-hidden">
             {#if activeSelection === Selection.Summary}
                 <div class="h-full overflow-auto space-y-6">
-                    <Table
-                        items={[
-                            {
-                                key: localize('general.description'),
-                                value: dappMetadata.description,
-                            },
-                        ]}
-                        orientation="vertical"
-                    />
+                    <slot />
                     <ConnectionSummary
                         {requiredNamespaces}
                         editable
