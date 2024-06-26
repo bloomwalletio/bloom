@@ -1,27 +1,25 @@
 <script lang="ts">
+    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
     import { AvatarGroup, Copyable, Text } from '@bloomwalletio/ui'
     import { FormattedBalance } from '@components'
+    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
+    import { handleError } from '@core/error/handlers'
     import { formatCurrency, localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
     import { Network, NetworkNamespace, setSelectedNetworkForNetworkDrawer } from '@core/network'
     import { MimeType, Nft } from '@core/nfts'
+    import { ownedNfts } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
     import { DashboardRoute, dashboardRouter } from '@core/router'
-    import { formatTokenAmount } from '@core/token'
+    import { allAccountFiatBalances, selectedAccountTokens } from '@core/token/stores'
     import { truncateString } from '@core/utils'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
+    import features from '@features/features'
     import { NetworkAvatar, NetworkStatusIndicator, NftAvatar, TokenAvatar } from '@ui'
     import { DashboardDrawerRoute, NetworkConfigRoute } from '@views/dashboard/drawers'
     import { ProfileType } from 'shared/src/lib/core/profile'
-    import features from '@features/features'
-    import { handleError } from '@core/error/handlers'
-    import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
-    import { selectedAccountTokens } from '@core/token/stores'
-    import { ownedNfts } from '@core/nfts/stores'
-    import { getFiatValueFromTokenAmount } from '@core/market/actions'
-    import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
 
     export let network: Network
     export let account: IAccountState
@@ -29,14 +27,17 @@
     $: health = network.health
     $: tokens = $selectedAccountTokens?.[network.id]
     $: nfts = $ownedNfts.filter((nft) => nft.networkId === network.id && !(nft.hidden || nft.isScam))
-    $: tokenBalance = formatTokenAmount(tokens?.baseCoin?.balance.total ?? BigInt(0), tokens?.baseCoin?.metadata)
-    $: fiatBalance = tokens
-        ? formatCurrency(getFiatValueFromTokenAmount(BigInt(tokens?.baseCoin?.balance.total ?? 0), tokens.baseCoin))
-        : ''
     $: address = getAddressFromAccountForNetwork(account, network.id)
 
     $: hasTokens = tokens?.nativeTokens?.length > 0
     $: hasNfts = nfts?.length > 0
+
+    let formattedBalance: string
+    $: $selectedAccountTokens, (formattedBalance = getTotalBalance())
+
+    function getTotalBalance(): string {
+        return formatCurrency($allAccountFiatBalances[account.index]?.[network.id])
+    }
 
     // sort nfts by image first then by if media is downloaded
     $: sortedNfts = sortNftsByLoadedImagesFirst(nfts)
@@ -128,8 +129,7 @@
         </account-network-summary-header-address>
     </account-network-summary-header>
     <account-network-summary-balance class="flex flex-col flex-grow justify-between items-start">
-        <FormattedBalance balanceText={tokenBalance} textType="h3" />
-        <Text type="body1" textColor="secondary">{fiatBalance}</Text>
+        <FormattedBalance balanceText={formattedBalance} textType="h3" />
     </account-network-summary-balance>
     <account-network-summary-assets class="flex flex-row justify-between items-center">
         <div>

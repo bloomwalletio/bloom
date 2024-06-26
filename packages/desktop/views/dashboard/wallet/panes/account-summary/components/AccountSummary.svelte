@@ -13,7 +13,7 @@
     $: $selectedAccountTokens, (formattedBalance = getTotalBalance())
 
     function getTotalBalance(): string {
-        return formatCurrency($allAccountFiatBalances[$selectedAccountIndex])
+        return formatCurrency($allAccountFiatBalances[$selectedAccountIndex]?.total)
     }
 
     function onSendClick(): void {
