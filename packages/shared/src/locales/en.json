@@ -1761,7 +1761,8 @@
         "totalBalance": "Total balance",
         "saving": "Saving",
         "enabled": "Enabled",
-        "disabled": "Disabled"
+        "disabled": "Disabled",
+        "networkSettings": "Network settings"
     },
     "filters":{
         "title": "Filters",
