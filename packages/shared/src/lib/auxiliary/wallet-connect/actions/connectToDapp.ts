@@ -1,5 +1,5 @@
 import { IAccountState } from '@core/account'
-import { persistDapp } from '../stores'
+import { clearSessionInitiationRequest, persistDapp } from '../stores'
 import { approveSession } from './approveSession'
 import { clearOldPairings } from './clearOldPairings'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
@@ -21,8 +21,7 @@ export async function connectToDapp(
     persistDapp(
         dappUrl,
         verificationState.isScam ? DappVerification.Scam : (verificationState.validation as DappVerification),
-        requiredNamespaces,
-        optionalNamespaces,
-        supportedNamespaces
+        { supported: supportedNamespaces, required: requiredNamespaces, optional: optionalNamespaces }
     )
+    clearSessionInitiationRequest()
 }

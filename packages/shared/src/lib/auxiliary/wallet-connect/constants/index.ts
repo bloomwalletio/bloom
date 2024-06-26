@@ -1,3 +1,4 @@
+export * from './all-evm-methods.constant'
 export * from './all-supported-methods.constant'
 export * from './general-supported-methods.constant'
 export * from './methods-for-permissions.constant'

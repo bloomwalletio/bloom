@@ -9,11 +9,11 @@ export async function rejectAndClearSessionInitiationRequest(): Promise<void> {
         return
     }
 
-    const { id, params } = _sessionInitiationRequest
+    const { id, params } = _sessionInitiationRequest.payload
 
     const isExpired = (params.expiryTimestamp - Date.now()) / MILLISECONDS_PER_SECOND <= 0
     if (!isExpired) {
-        await rejectSessionInitiationRequest(id)
+        await rejectSessionInitiationRequest(id, _sessionInitiationRequest.type)
     }
     clearSessionInitiationRequest()
 }

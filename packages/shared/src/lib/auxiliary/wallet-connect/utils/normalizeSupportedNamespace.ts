@@ -1,8 +1,10 @@
 import type { SessionTypes } from '@walletconnect/types'
-import type { SupportedNamespaces } from '../types'
+import type { ISupportedNamespace } from '../types'
 
-export function normalizeSessionNamespace(sessionNamespace: SessionTypes.Namespaces): SupportedNamespaces {
-    const normalizedRecord: SupportedNamespaces = {}
+export function normalizeSessionNamespace(
+    sessionNamespace: SessionTypes.Namespaces
+): Record<string, ISupportedNamespace> {
+    const normalizedRecord: Record<string, ISupportedNamespace> = {}
 
     for (const key in sessionNamespace) {
         const session = sessionNamespace[key]

@@ -1,11 +1,11 @@
 import { showNotification } from '@auxiliary/notification'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import { getConnectedDapps, setConnectedDapps } from '../stores'
+import { getConnectedDappBySessionTopic, setConnectedDapps } from '../stores'
 
 export function onSessionDelete(event: Web3WalletTypes.SessionDelete): void {
     const { topic } = event
 
-    const dapp = getConnectedDapps().find((_dapp) => _dapp.session?.topic === topic)
+    const dapp = getConnectedDappBySessionTopic(topic)
 
     showNotification({
         variant: 'warning',

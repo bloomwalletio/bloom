@@ -8,35 +8,115 @@
         selectedDapp,
         sessionInitiationRequest,
         getPersistedDapp,
+        SessionInitiationRequest,
     } from '@auxiliary/wallet-connect/stores'
     import { onMount } from 'svelte'
     import { buildSupportedNamespacesFromSelections } from '@auxiliary/wallet-connect/actions'
-    import { updateSession } from '@auxiliary/wallet-connect/utils'
-    import { IDappMetadata, ISelections } from '@auxiliary/wallet-connect/interface'
+    import { getNetworksAndMethodsFromNamespaces, updateSession } from '@auxiliary/wallet-connect/utils'
+    import { IConnectedDapp, IDappMetadata, ISelections } from '@auxiliary/wallet-connect/interface'
     import { DappInfo } from '@ui'
+    import { ALL_EVM_METHODS } from '@auxiliary/wallet-connect/constants'
 
     export let drawerRouter: Router<unknown>
     export let selections: ISelections
     export let titleLocale: string
     export let disableContinue: boolean
 
-    $: dappMetadata = $selectedDapp?.metadata ?? ($sessionInitiationRequest?.params.proposer.metadata as IDappMetadata)
+    const dappMetadata = getDappMetadata($selectedDapp, $sessionInitiationRequest)
+    const { requiredMethods, optionalMethods } = getMethodsForNamespaces($selectedDapp, $sessionInitiationRequest)
+    const { requiredNetworks, optionalNetworks } = getNetworksForNamespaces($selectedDapp, $sessionInitiationRequest)
+
     $: persistedDapp = dappMetadata ? getPersistedDapp(dappMetadata.url) : undefined
-    $: requiredNamespaces =
-        $selectedDapp?.session?.requiredNamespaces ?? $sessionInitiationRequest?.params.requiredNamespaces ?? {}
-    $: optionalNamespaces =
-        $selectedDapp?.session?.optionalNamespaces ?? $sessionInitiationRequest?.params.optionalNamespaces ?? {}
+
+    function getDappMetadata(
+        selectedDapp: IConnectedDapp | undefined,
+        sessionInitiationRequest: SessionInitiationRequest | undefined
+    ): IDappMetadata | undefined {
+        if (selectedDapp) {
+            return selectedDapp?.metadata
+        } else if (sessionInitiationRequest?.type === 'session_proposal') {
+            return sessionInitiationRequest?.payload.params.proposer.metadata as IDappMetadata
+        } else if (sessionInitiationRequest?.type === 'session_authenticate') {
+            return sessionInitiationRequest?.payload.params.requester.metadata as IDappMetadata
+        } else {
+            return undefined
+        }
+    }
+
+    function getMethodsForNamespaces(
+        selectedDapp: IConnectedDapp | undefined,
+        sessionInitiationRequest: SessionInitiationRequest | undefined
+    ): { requiredMethods: string[]; optionalMethods: string[] } {
+        if (selectedDapp) {
+            const { requiredNamespaces, optionalNamespaces } = selectedDapp ?? {}
+
+            const { requiredMethods, optionalMethods } = getNetworksAndMethodsFromNamespaces(
+                requiredNamespaces ?? {},
+                optionalNamespaces ?? {}
+            )
+            return { requiredMethods, optionalMethods }
+        } else if (sessionInitiationRequest?.type === 'session_proposal') {
+            const { requiredNamespaces, optionalNamespaces } = sessionInitiationRequest.payload?.params ?? {}
+            const { requiredMethods, optionalMethods } = getNetworksAndMethodsFromNamespaces(
+                requiredNamespaces ?? {},
+                optionalNamespaces ?? {}
+            )
+            return { requiredMethods, optionalMethods }
+        } else if (sessionInitiationRequest?.type === 'session_authenticate') {
+            return { requiredMethods: [], optionalMethods: ALL_EVM_METHODS }
+        } else {
+            return { requiredMethods: [], optionalMethods: [] }
+        }
+    }
+
+    function getNetworksForNamespaces(
+        selectedDapp: IConnectedDapp | undefined,
+        sessionInitiationRequest: SessionInitiationRequest | undefined
+    ): { requiredNetworks: string[]; optionalNetworks: string[] } {
+        if (selectedDapp) {
+            const { requiredNamespaces, optionalNamespaces } = selectedDapp ?? {}
+            const { requiredNetworks, optionalNetworks } = getNetworksAndMethodsFromNamespaces(
+                requiredNamespaces ?? {},
+                optionalNamespaces ?? {}
+            )
+            return { requiredNetworks, optionalNetworks }
+        } else if (sessionInitiationRequest?.type === 'session_proposal') {
+            const { requiredNamespaces, optionalNamespaces } = sessionInitiationRequest.payload?.params ?? {}
+            const { requiredNetworks, optionalNetworks } = getNetworksAndMethodsFromNamespaces(
+                requiredNamespaces ?? {},
+                optionalNamespaces ?? {}
+            )
+            return { requiredNetworks, optionalNetworks }
+        } else if (sessionInitiationRequest?.type === 'session_authenticate') {
+            // TODO: Implement this
+            return { requiredNetworks: [], optionalNetworks: [] }
+        } else {
+            return { requiredNetworks: [], optionalNetworks: [] }
+        }
+    }
 
     function onConfirmClick(): void {
+        // TODO: Implement this
+        if ($sessionInitiationRequest?.type === 'session_authenticate') {
+            return
+        }
+
+        const requiredNamespaces =
+            $selectedDapp?.requiredNamespaces ?? $sessionInitiationRequest?.payload?.params.requiredNamespaces ?? {}
+        const optionalNamespaces =
+            $selectedDapp?.optionalNamespaces ?? $sessionInitiationRequest?.payload?.params.optionalNamespaces ?? {}
+
         const updatedNamespace = buildSupportedNamespacesFromSelections(
             selections,
             requiredNamespaces,
             optionalNamespaces,
-            persistedDapp?.supported
+            persistedDapp?.namespaces.supported
         )
-        updateSupportedDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
-        if ($selectedDapp?.session) {
-            updateSession($selectedDapp.session.topic, updatedNamespace)
+        if (dappMetadata) {
+            updateSupportedDappNamespacesForDapp(dappMetadata.url, updatedNamespace)
+        }
+        if ($selectedDapp?.sessionTopic) {
+            updateSession($selectedDapp.sessionTopic, updatedNamespace)
         }
         drawerRouter.previous()
     }
@@ -59,9 +139,11 @@
         <div class="p-6 flex-grow overflow-hidden">
             <div class="h-full flex flex-col gap-8 overflow-scroll">
                 <slot
-                    persistedSupportedNamespaces={persistedDapp?.supported}
-                    {requiredNamespaces}
-                    {optionalNamespaces}
+                    persistedSupportedNamespaces={persistedDapp?.namespaces.supported}
+                    {requiredMethods}
+                    {optionalMethods}
+                    {requiredNetworks}
+                    {optionalNetworks}
                 />
             </div>
         </div>

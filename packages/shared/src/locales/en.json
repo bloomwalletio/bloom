@@ -624,7 +624,6 @@
                         "description": "Description",
                         "url": "URL",
                         "verifyUrl": "Verify URL",
-                        "notConnectedToProfile": "Not connected to this profile",
                         "disconnect": {
                             "title": "Disconnect",
                             "description": "Do you want to disconnect from {dappName}?"
@@ -1492,6 +1491,7 @@
         "testDeepLink": "Test deep link",
         "delete": "Delete",
         "remove": "Remove",
+        "signIn": "Sign in",
         "getStarted": "Get started",
         "vote": "Vote",
         "addProposal": "Add proposal",

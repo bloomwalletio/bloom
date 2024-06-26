@@ -38,12 +38,12 @@ import { checkAndInitializeActiveProfileNetwork } from './checkAndInitializeActi
 import { loadAccounts } from './loadAccounts'
 import { logout } from './logout'
 import { subscribeToWalletApiEventsForActiveProfile } from './subscribeToWalletApiEventsForActiveProfile'
+import { disconnectAllDapps } from '@auxiliary/wallet-connect/utils'
 import { cleanupOnboarding } from '@contexts/onboarding'
 import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actions'
 import { updateCirculatingSupplyForActiveProfile } from './updateCirculatingSupplyForActiveProfile'
 import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
 import { getEvmNetworks } from '@core/network'
-import { updateActiveSessionsToActiveProfile } from '@auxiliary/wallet-connect/utils'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager)?.getRouterForAppContext(AppContext.Login)
@@ -114,7 +114,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         }
 
         if (getLastLoggedInProfileId() !== _activeProfile.id) {
-            void updateActiveSessionsToActiveProfile()
+            void disconnectAllDapps()
         }
 
         setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index)
