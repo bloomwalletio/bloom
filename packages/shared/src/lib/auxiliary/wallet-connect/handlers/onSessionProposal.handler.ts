@@ -5,8 +5,8 @@ import { rejectSessionInitiationRequest } from '../utils'
 
 export function onSessionProposal(_sessionProposal: Web3WalletTypes.SessionProposal): void {
     if (get(sessionInitiationRequest)) {
-        void rejectSessionInitiationRequest(_sessionProposal.id)
+        void rejectSessionInitiationRequest(_sessionProposal.id, 'session_proposal')
     } else {
-        sessionInitiationRequest.set(_sessionProposal)
+        sessionInitiationRequest.set({ type: 'session_proposal', payload: _sessionProposal })
     }
 }

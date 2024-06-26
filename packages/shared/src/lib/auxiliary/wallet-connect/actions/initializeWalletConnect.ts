@@ -6,6 +6,7 @@ import { WALLET_METADATA } from '../constants'
 import { onSessionDelete, onSessionProposal, onSessionRequest } from '../handlers'
 import { walletClient } from '../stores/wallet-client.store'
 import { setConnectedDapps } from '../stores/connected-dapps.store'
+import { onSessionAuthenticate } from '../handlers/onSessionAuthenticate.handler'
 import { isFeatureEnabled } from '@lib/features/utils'
 import { notificationsManager } from '../notifications'
 import { ICore } from '@walletconnect/types'
@@ -38,6 +39,7 @@ async function initializeWalletClient(core: ICore): Promise<void> {
         _walletClient.on('session_proposal', (sessionProposal) => void onSessionProposal(sessionProposal))
         _walletClient.on('session_request', (event) => onSessionRequest(event))
         _walletClient.on('session_delete', (event) => onSessionDelete(event))
+        _walletClient.on('session_authenticate', (payload) => onSessionAuthenticate(payload))
     } catch (err) {
         handleError(err)
     }

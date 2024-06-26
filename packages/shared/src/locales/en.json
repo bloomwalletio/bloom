@@ -1491,6 +1491,7 @@
         "testDeepLink": "Test deep link",
         "delete": "Delete",
         "remove": "Remove",
+        "signIn": "Sign in",
         "getStarted": "Get started",
         "vote": "Vote",
         "addProposal": "Add proposal",
@@ -1760,7 +1761,8 @@
         "totalBalance": "Total balance",
         "saving": "Saving",
         "enabled": "Enabled",
-        "disabled": "Disabled"
+        "disabled": "Disabled",
+        "networkSettings": "Network settings"
     },
     "filters":{
         "title": "Filters",

@@ -24,14 +24,14 @@
         items = accounts.map((account): IMenuItem => {
             return {
                 title: account.name,
-                subtitle: formatCurrency($allAccountFiatBalances[account.index]),
+                subtitle: formatCurrency($allAccountFiatBalances[account.index]?.total),
                 selected: selectedIndex === account.index,
                 onClick: () => onAccountClick(account.index),
             }
         })
 
         const totalBalance = Object.values($allAccountFiatBalances)
-            .reduce((acc, balance) => Number(acc) + Number(balance), 0)
+            .reduce((acc, accountFiatBalances) => Number(acc) + Number(accountFiatBalances.total), 0)
             .toString()
 
         items = items.concat({

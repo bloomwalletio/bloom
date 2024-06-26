@@ -43,8 +43,8 @@
                 {/if}
                 {#if persistedDapp?.namespaces.supported}
                     <ConnectionSummary
-                        requiredNamespaces={dapp.session?.requiredNamespaces}
-                        editable={!!dapp.session}
+                        requiredNamespaces={dapp.requiredNamespaces}
+                        editable={!!dapp.sessionTopic}
                         supportedNamespaces={persistedDapp?.namespaces.supported}
                         onEditPermissionsClick={() => drawerRouter.goTo(DappConfigRoute.EditPermissions)}
                         onEditNetworksClick={() => drawerRouter.goTo(DappConfigRoute.EditNetworks)}
