@@ -132,7 +132,7 @@
         <FormattedBalance balanceText={formattedBalance} textType="h3" />
     </account-network-summary-balance>
     <account-network-summary-assets bind:clientWidth class="flex flex-row justify-between items-center">
-        <div>
+        <div class="flex items-center">
             {#if hasTokens}
                 {@const nativeTokens = tokens?.nativeTokens ?? []}
                 <AvatarGroup avatarSize="md" remainder={nativeTokens.length - numberOfTokensToDisplay}>
@@ -142,7 +142,7 @@
                 </AvatarGroup>
             {/if}
         </div>
-        <div>
+        <div class="flex items-center">
             {#if hasNfts}
                 <button
                     on:click={() => onNftGroupClick()}
