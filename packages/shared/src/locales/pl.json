@@ -572,9 +572,8 @@
                         "unsupportedMethods": "Ta aplikacja dApp nie jest w pełni kompatybilna z Bloom. Niektóre procesy lub akcje nie są obsługiwane.",
                         "supportedOnOtherProfile": "Ta aplikacja dApp działa w obsługiwanej sieci, ale nie jest dostępna przy użyciu tego profilu. Użyj profilu połączonego z wymaganą siecią.",
                         "acceptInsecureConnection": "Rozumiem i chcę kontynuować",
-                        "supported": "Obsługiwane",
-                        "notSupported": "Nieobsługiwane",
-                        "onAnotherProfile": "W innym profilu",
+                        "supported": "Current Networks",
+                        "requiredNetworks": "Required Networks",
                         "scamHint": "Ta domena jest oznaczona jako niebezpieczna przez wielu dostawców zabezpieczeń. Opuść ją natychmiast, aby chronić swoje aktywa.",
                         "invalidHint": "Ta strona jest domeną, która nie pasuje do nadawcy żądania. Potwierdzenie może prowadzić do utraty środków.",
                         "unknownHint": "Ta aplikacja dApp nie została zweryfikowana i może zawierać zagrożenia bezpieczeństwa."
@@ -590,8 +589,10 @@
                     },
                     "confirmConnection": {
                         "title": "Połącz z aplikacją",
+                        "expired": "Connection request has expired",
+                        "expiresIn": "Connection request expires in",
                         "permissions": {
-                            "step": "Permissions",
+                            "step": "Uprawnienia",
                             "tip": "Są to ograniczone uprawnienia dla aplikacji dApp w celu wysyłania żądania interakcji do Twojego zatwierdzenia. Zatwierdzaj tylko aplikacje, które znasz i którym ufasz.",
                             "requiredTitle": "Uprawnienia wymagane",
                             "optionalTitle": "Uprawnienia opcjonalne",
@@ -1170,9 +1171,9 @@
                     "Conflicting": "Nie udało się spalić"
                 },
                 "tokenApproval": {
-                    "Pending": "Approving {address} to spend {assetName}",
-                    "Confirmed": "Approved {address} to spend {assetName}",
-                    "Conflicting": "Failed to approve to spend {assetName}"
+                    "Pending": "Uprawniasz {address} do używania środków {assetName}",
+                    "Confirmed": "Uprawniono {address} do używania środków {assetName}",
+                    "Conflicting": "Nie udało się uprawnić do używania środków {assetName}"
                 },
                 "consolidation": {
                     "Pending": "Konsolidowanie",
@@ -1488,6 +1489,7 @@
         "testDeepLink": "Testuj deep link",
         "delete": "Usuń",
         "remove": "Usuń",
+        "signIn": "Sign in",
         "getStarted": "Zaczynamy",
         "vote": "Głosuj",
         "addProposal": "Dodaj propozycję",
@@ -1522,8 +1524,8 @@
         "sending": "Wysyłanie",
         "received": "Odebrano",
         "receiving": "Odbieranie",
-        "approving": "Approving",
-        "approved": "Approved",
+        "approving": "Uprawnianie",
+        "approved": "Uprawiono",
         "newVotingPower": "Nowa siła głosu",
         "votingPower": "Siła głosu",
         "increased": "Zwiększono siłę głosu",
@@ -1757,7 +1759,8 @@
         "totalBalance": "Wszystkie środki",
         "saving": "Zapisywanie",
         "enabled": "Włączone",
-        "disabled": "Wyłączone"
+        "disabled": "Wyłączone",
+        "networkSettings": "Network settings"
     },
     "filters": {
         "title": "Filtry",
