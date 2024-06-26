@@ -624,7 +624,6 @@
                         "description": "Description",
                         "url": "URL",
                         "verifyUrl": "Verify URL",
-                        "notConnectedToProfile": "Not connected to this profile",
                         "disconnect": {
                             "title": "Disconnect",
                             "description": "Do you want to disconnect from {dappName}?"

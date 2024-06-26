@@ -2,16 +2,14 @@ import { persistent } from '@core/utils/store'
 import { Writable, get } from 'svelte/store'
 import { SupportedNamespaces } from '../types'
 import { getActiveProfileId } from '@core/profile/stores'
+import { IPersistedNamespaces } from '../interface'
 import { DappVerification } from '../enums'
-import { ProposalTypes } from '@walletconnect/types'
 
 interface IPersistedDappStore {
-    [dappOriginUrl: string]: {
-        verificationState: DappVerification
-        required: ProposalTypes.RequiredNamespaces
-        optional: ProposalTypes.OptionalNamespaces
-        supported: {
-            [profileId: string]: SupportedNamespaces
+    [profileId: string]: {
+        [dappOriginUrl: string]: {
+            verificationState: DappVerification
+            namespaces: IPersistedNamespaces
         }
     }
 }
@@ -21,47 +19,31 @@ export const persistedDapps: Writable<IPersistedDappStore> = persistent('persist
 export function getPersistedDapp(dappOriginUrl: string):
     | {
           verificationState: DappVerification
-          required: ProposalTypes.RequiredNamespaces
-          optional: ProposalTypes.OptionalNamespaces
-          supported: SupportedNamespaces | undefined
+          namespaces: IPersistedNamespaces
       }
     | undefined {
     const profileId = getActiveProfileId()
-    const persistedDapp = get(persistedDapps)?.[dappOriginUrl]
-    if (!persistedDapp) {
-        return undefined
-    }
-
-    return {
-        verificationState: persistedDapp.verificationState,
-        required: persistedDapp.required,
-        optional: persistedDapp.optional,
-        supported: persistedDapp.supported[profileId],
-    }
+    return get(persistedDapps)?.[profileId]?.[dappOriginUrl]
 }
 
-export function getPersistedDappNamespacesForDapp(dappOriginUrl: string): SupportedNamespaces | undefined {
-    return getPersistedDapp(dappOriginUrl)?.supported
+export function getPersistedDappNamespacesForDapp(dappOriginUrl: string): IPersistedNamespaces | undefined {
+    return getPersistedDapp(dappOriginUrl)?.namespaces
 }
 
 export function persistDapp(
     dappOriginUrl: string,
     verificationState: DappVerification,
-    required: ProposalTypes.RequiredNamespaces,
-    optional: ProposalTypes.OptionalNamespaces,
-    supported: SupportedNamespaces
+    namespaces: IPersistedNamespaces
 ): void {
     const profileId = getActiveProfileId()
 
     return persistedDapps.update((state) => {
-        state[dappOriginUrl] = {
+        if (!state[profileId]) {
+            state[profileId] = {}
+        }
+        state[profileId][dappOriginUrl] = {
             verificationState,
-            required,
-            optional,
-            supported: {
-                ...(state[dappOriginUrl]?.supported ?? {}),
-                [profileId]: supported,
-            },
+            namespaces,
         }
 
         return state
@@ -72,14 +54,14 @@ export function updateSupportedDappNamespacesForDapp(dappOriginUrl: string, supp
     const profileId = getActiveProfileId()
 
     return persistedDapps.update((state) => {
-        const persistedDapp = state?.[dappOriginUrl]
+        const persistedDapp = state?.[profileId]?.[dappOriginUrl]
         if (!persistedDapp) {
             return state
         }
 
         const updatedNamespaces = {
-            ...persistedDapp,
-            supported: { ...persistedDapp.supported, [profileId]: supported },
+            ...persistedDapp.namespaces,
+            supported: { ...persistedDapp.namespaces.supported, ...supported },
         }
 
         state[profileId][dappOriginUrl] = {
@@ -89,15 +71,16 @@ export function updateSupportedDappNamespacesForDapp(dappOriginUrl: string, supp
         return state
     })
 }
-
 export function updateVerificationStateForDapp(dappOriginUrl: string, verificationState: DappVerification): void {
+    const profileId = getActiveProfileId()
+
     return persistedDapps.update((state) => {
-        const persistedDapp = state?.[dappOriginUrl]
+        const persistedDapp = state?.[profileId]?.[dappOriginUrl]
         if (!persistedDapp) {
             return state
         }
 
-        state[dappOriginUrl] = {
+        state[profileId][dappOriginUrl] = {
             ...persistedDapp,
             verificationState,
         }
@@ -106,8 +89,13 @@ export function updateVerificationStateForDapp(dappOriginUrl: string, verificati
 }
 
 export function removePersistedDapp(dappOriginUrl: string): void {
+    const profileId = getActiveProfileId()
+
     return persistedDapps.update((state) => {
-        delete state[dappOriginUrl]
+        if (!state[profileId]) {
+            return state
+        }
+        delete state[profileId][dappOriginUrl]
         return state
     })
 }

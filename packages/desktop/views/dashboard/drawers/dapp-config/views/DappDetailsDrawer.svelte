@@ -15,7 +15,8 @@
 
     const localeKey = 'views.dashboard.drawers.dapps.details'
     const dapp = structuredClone($selectedDapp) as IConnectedDapp
-    const persistedDapp = dapp?.metadata ? getPersistedDapp(dapp?.metadata.url) : undefined
+
+    $: persistedDapp = dapp?.metadata ? getPersistedDapp(dapp?.metadata.url) : undefined
 
     onMount(() => {
         if (!$selectedDapp) {
@@ -40,17 +41,15 @@
                         orientation="vertical"
                     />
                 {/if}
-                {#if persistedDapp?.supported}
+                {#if persistedDapp?.namespaces.supported}
                     <ConnectionSummary
                         requiredNamespaces={dapp.session?.requiredNamespaces}
                         editable={!!dapp.session}
-                        supportedNamespaces={persistedDapp?.supported}
+                        supportedNamespaces={persistedDapp?.namespaces.supported}
                         onEditPermissionsClick={() => drawerRouter.goTo(DappConfigRoute.EditPermissions)}
                         onEditNetworksClick={() => drawerRouter.goTo(DappConfigRoute.EditNetworks)}
                         onEditAccountsClick={() => drawerRouter.goTo(DappConfigRoute.EditAccounts)}
                     />
-                {:else}
-                    <Text type="body2" align="center">{localize(`${localeKey}.notConnectedToProfile`)}</Text>
                 {/if}
             </div>
         </div>

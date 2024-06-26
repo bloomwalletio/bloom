@@ -1,6 +1,5 @@
-import { connectedDapps, getWalletClient, setConnectedDapps } from '../stores'
+import { connectedDapps, getWalletClient, getPersistedDapp, removePersistedDapp } from '../stores'
 import { get } from 'svelte/store'
-import { clearOldPairings } from './clearOldPairings'
 
 export function removeAllDisconnectedDapps(): void {
     const client = getWalletClient()
@@ -8,11 +7,13 @@ export function removeAllDisconnectedDapps(): void {
         return
     }
 
-    const connectedDappsForProfile = get(connectedDapps).filter((dapp) => !dapp.session)
+    const connectedDappsForProfile = get(connectedDapps).filter(
+        (dapp) => !!getPersistedDapp(dapp.metadata?.url ?? '') && !dapp.session
+    )
+
     for (const dapp of connectedDappsForProfile) {
         if (dapp.metadata) {
-            void clearOldPairings(dapp.metadata.url)
+            removePersistedDapp(dapp.metadata.url)
         }
     }
-    setConnectedDapps()
 }
