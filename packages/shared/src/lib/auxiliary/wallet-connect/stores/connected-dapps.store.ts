@@ -1,8 +1,7 @@
-import { type Writable, get, writable } from 'svelte/store'
-import { getWalletClient } from './wallet-client.store'
+import { get, writable, type Writable } from 'svelte/store'
 import type { IConnectedDapp } from '../interface/connected-dapp.interface'
-import type { ISupportedNamespace } from '../types'
-import type { SessionTypes } from '@walletconnect/types'
+import { normalizeSessionNamespace } from '../utils'
+import { getWalletClient } from './wallet-client.store'
 
 export const connectedDapps: Writable<IConnectedDapp[]> = writable([])
 
@@ -49,18 +48,4 @@ export function getConnectedDappByOrigin(origin: string): IConnectedDapp | undef
 
 export function getConnectedDappBySessionTopic(sessionTopic: string): IConnectedDapp | undefined {
     return get(connectedDapps).find((dapp) => dapp.sessionTopic === sessionTopic)
-}
-
-function normalizeSessionNamespace(sessionNamespace: SessionTypes.Namespaces): Record<string, ISupportedNamespace> {
-    const normalizedRecord: Record<string, ISupportedNamespace> = {}
-
-    for (const key in sessionNamespace) {
-        const session = sessionNamespace[key]
-        normalizedRecord[key] = {
-            ...session,
-            chains: session.chains || [],
-        }
-    }
-
-    return normalizedRecord
 }

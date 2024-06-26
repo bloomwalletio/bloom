@@ -29,17 +29,17 @@
 
     $: hasRequestExpired = expiryTimestamp ? expiryTimestamp - $time.getTime() / MILLISECONDS_PER_SECOND <= 0 : false
 
-    const fulfillsRequirements = doesFulfillsRequirements()
-    function doesFulfillsRequirements(): boolean {
+    const fulfilsRequirements = doesFulfilsRequirements()
+    function doesFulfilsRequirements(): boolean {
         const supportedNetworksByDapp = [...requiredNetworks, ...optionalNetworks]
 
         return (
-            doesFulfillNetworkRequirements(requiredNetworks, supportedNetworksByDapp) &&
-            doesFulfillMethodRequirements(requiredMethods)
+            doesFulfilNetworkRequirements(requiredNetworks, supportedNetworksByDapp) &&
+            doesFulfilMethodRequirements(requiredMethods)
         )
     }
 
-    function doesFulfillNetworkRequirements(requiredNetworks: string[], optionalNetworks: string[]): boolean {
+    function doesFulfilNetworkRequirements(requiredNetworks: string[], optionalNetworks: string[]): boolean {
         const supportedNetworksByProfile = getAllNetworkIds()
 
         const supportsAllRequiredNetworks = requiredNetworks.every((networkId) =>
@@ -57,7 +57,7 @@
         return true
     }
 
-    function doesFulfillMethodRequirements(requiredMethods: RpcMethod[]): boolean {
+    function doesFulfilMethodRequirements(requiredMethods: RpcMethod[]): boolean {
         return requiredMethods.every((method) => ALL_SUPPORTED_METHODS.includes(method))
     }
 
@@ -79,11 +79,11 @@
     }
 
     onMount(() => {
-        const fulfillsRequirements =
-            doesFulfillNetworkRequirements(requiredNetworks, optionalNetworks) &&
-            doesFulfillMethodRequirements(requiredMethods)
+        const fulfilsRequirements =
+            doesFulfilNetworkRequirements(requiredNetworks, optionalNetworks) &&
+            doesFulfilMethodRequirements(requiredMethods)
 
-        if (fulfillsRequirements && verifiedState === DappVerification.Valid) {
+        if (fulfilsRequirements && verifiedState === DappVerification.Valid) {
             drawerRouter.next()
         }
     })
@@ -100,7 +100,7 @@
                 <slot />
             </div>
         </div>
-        {#if !fulfillsRequirements}
+        {#if !fulfilsRequirements}
             <div class="px-6">
                 <UnsupportedDappHint {requiredNetworks} {optionalNetworks} {requiredMethods} />
             </div>
@@ -115,9 +115,9 @@
             width="full"
             variant="outlined"
             on:click={onRejectClick}
-            text={localize(`actions.${fulfillsRequirements && !hasRequestExpired ? 'reject' : 'cancel'}`)}
+            text={localize(`actions.${fulfilsRequirements && !hasRequestExpired ? 'reject' : 'cancel'}`)}
         />
-        {#if fulfillsRequirements && verifiedState !== DappVerification.Scam}
+        {#if fulfilsRequirements && verifiedState !== DappVerification.Scam}
             <Button width="full" on:click={onContinueClick} text={localize('actions.continue')} />
         {/if}
     </div>
