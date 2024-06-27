@@ -39,8 +39,8 @@
 
     let busy = false
 
-    let parsedData: ParsedSmartContractData | undefined
     const { dapp, responseCallback, verifiedState, evmNetwork, expiryTimestamp } = requestInfo
+    let parsedData: ParsedSmartContractData | undefined
 
     let selectedGasSpeed = GasSpeed.Required
     let gasPrices: IGasPricesBySpeed = {
@@ -211,7 +211,7 @@
     continueButton={{
         text: localize(`popups.${localeKey}.action`),
         onClick: onConfirmClick,
-        disabled: busy || hasExpired,
+        disabled: hasExpired,
     }}
     {busy}
 >
