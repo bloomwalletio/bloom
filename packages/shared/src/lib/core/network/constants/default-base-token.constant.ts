@@ -47,7 +47,7 @@ export const IOTA_TESTNET_EVM_BASE_TOKEN: IBaseToken = {
 
 export const EVM_BASE_TOKEN: IBaseToken = {
     standard: TokenStandard.BaseToken,
-    name: 'Ether',
+    name: 'Ethereum',
     tickerSymbol: 'ETH',
     unit: 'ETH',
     decimals: 18,
