@@ -11,7 +11,7 @@ export async function rejectAndClearSessionInitiationRequest(): Promise<void> {
 
     const { id, params } = _sessionInitiationRequest.payload
 
-    const isExpired = (params.expiryTimestamp - Date.now()) / MILLISECONDS_PER_SECOND <= 0
+    const isExpired = params.expiryTimestamp * MILLISECONDS_PER_SECOND - Date.now() <= 0
     if (!isExpired) {
         await rejectSessionInitiationRequest(id, _sessionInitiationRequest.type)
     }

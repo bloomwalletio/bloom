@@ -51,7 +51,7 @@
     let activeSelection: Selection = Selection.Summary
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
 
-    $: hasRequestExpired = expiryTimestamp ? expiryTimestamp - $time.getTime() / MILLISECONDS_PER_SECOND <= 0 : false
+    $: hasRequestExpired = expiryTimestamp ? expiryTimestamp * MILLISECONDS_PER_SECOND - $time.getTime() <= 0 : false
 
     let checkedAccounts: IAccountState[] = []
     let checkedNetworks: string[] = []
