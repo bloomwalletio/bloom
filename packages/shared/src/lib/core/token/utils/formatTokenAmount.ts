@@ -19,7 +19,7 @@ export function formatTokenAmount(
     const defaultOptions = {
         withUnit: true,
         round: true,
-        decimals: tokenMetadata?.decimals,
+        decimals: 6,
     }
     const mergedOptions = { ...defaultOptions, ...options }
 
@@ -102,5 +102,5 @@ function getGroupedStringAmount(value: string): string {
 }
 
 function getAmountWithUnit(amount: string, unit?: string): string {
-    return unit ? amount + ' ' + unit : amount
+    return unit ? amount + ' ' + unit.substring(0, 5) : amount
 }
