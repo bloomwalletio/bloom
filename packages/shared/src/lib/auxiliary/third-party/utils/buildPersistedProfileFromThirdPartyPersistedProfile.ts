@@ -2,8 +2,10 @@ import { IPersistedAccountData } from '@core/account'
 import { APP_STAGE } from '@core/app'
 import { MarketCurrency } from '@core/market'
 import {
+    DEFAULT_EVM_NETWORK_CONFIGURATIONS_FOR_STARDUST_NETWORK,
     DEFAULT_EXPLORER_URLS,
     DEFAULT_ISC_CHAINS_CONFIGURATIONS,
+    IPureEvmNetworkConfiguration,
     IStardustNetworkMetadata,
     NetworkNamespace,
     StardustNetworkId,
@@ -43,6 +45,7 @@ export function buildPersistedProfileFromThirdPartyPersistedProfile(
         name: thirdPartyProfile.name,
         type: thirdPartyProfile.type,
         network: buildStardustNetworkFromThirdPartyPersistedNetwork(thirdPartyProfile.network),
+        evmNetworks: buildEvmNetworksFromThirdPartyPersistedNetwork(thirdPartyProfile.network),
         lastStrongholdBackupTime: thirdPartyProfile.lastStrongholdBackupTime ?? new Date(),
         settings: buildSettingsFromThirdPartyPersistedSettings(thirdPartyProfile.settings),
         accountPersistedData: buildPersistedAccountDataFromThirdPartyPersistedAccountData(
@@ -91,6 +94,19 @@ function buildStardustNetworkFromThirdPartyPersistedNetwork(
         chainConfigurations: defaultChainConfigurations ? [defaultChainConfigurations] : [],
         explorerUrl,
     }
+}
+
+function buildEvmNetworksFromThirdPartyPersistedNetwork(
+    network: IThirdPartyPersistedNetwork
+): IPureEvmNetworkConfiguration[] {
+    const networkId: StardustNetworkId =
+        NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP[network.protocol.networkName] ??
+        `${NetworkNamespace.Stardust}:${network.protocol.networkName}`
+    const defaultChainConfigurations = structuredClone(
+        DEFAULT_EVM_NETWORK_CONFIGURATIONS_FOR_STARDUST_NETWORK?.[networkId]
+    )
+
+    return defaultChainConfigurations ?? []
 }
 
 function buildSettingsFromThirdPartyPersistedSettings(settings: IThirdPartyPersistedSettings): IProfileSettings {

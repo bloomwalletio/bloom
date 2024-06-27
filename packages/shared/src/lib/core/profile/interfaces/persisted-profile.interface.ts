@@ -16,7 +16,7 @@ export interface IPersistedProfile {
     name: string
     type: ProfileType
     network: IStardustNetworkMetadata
-    evmNetworks?: IPureEvmNetworkConfiguration[] // TODO: check what we need to persist and maybe create an IEvmMetadata interface
+    evmNetworks: IPureEvmNetworkConfiguration[]
     lastStrongholdBackupTime?: Date
     settings: IProfileSettings
     accountPersistedData: {
