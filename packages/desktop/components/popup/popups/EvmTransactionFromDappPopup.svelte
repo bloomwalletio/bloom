@@ -47,7 +47,7 @@
         [GasSpeed.Required]: Converter.bigIntLikeToBigInt(preparedTransaction?.gasPrice as number),
     }
     async function setGasPrices(): Promise<void> {
-        const _gasPrices = await requestInfo.evmNetwork?.getGasPrices()
+        const _gasPrices = await evmNetwork?.getGasPrices()
         if (_gasPrices) {
             gasPrices = { ...gasPrices, ..._gasPrices }
         }
