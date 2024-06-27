@@ -22,7 +22,7 @@
 
     let isBusy = false
 
-    $: hasExpired = (expiryTimestamp ?? 0 * MILLISECONDS_PER_SECOND) - $time.getTime() <= 0
+    $: hasExpired = (expiryTimestamp ?? 0) * MILLISECONDS_PER_SECOND - $time.getTime() <= 0
 
     async function onConfirmClick(): Promise<void> {
         try {
