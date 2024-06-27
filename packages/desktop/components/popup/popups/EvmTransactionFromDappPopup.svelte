@@ -31,6 +31,7 @@
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { ConnectionRequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
+    import { time } from '@core/app/stores'
 
     export let preparedTransaction: EvmTransactionData
     export let requestInfo: WCRequestInfo
@@ -56,6 +57,7 @@
         token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
         rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
     }
+    $: hasExpired = (expiryTimestamp ?? 0 * MILLISECONDS_PER_SECOND) - $time.getTime() <= 0
 
     setParsedContractData()
     function setParsedContractData(): void {
@@ -209,19 +211,19 @@
     continueButton={{
         text: localize(`popups.${localeKey}.action`),
         onClick: onConfirmClick,
-        disabled: busy,
+        disabled: busy || hasExpired,
     }}
     {busy}
 >
     <svelte:fragment slot="banner">
         {#if dapp}
-            <ConnectionRequestExpirationAlert {expiryTimestamp} />
             <DappInfo
                 metadata={dapp.metadata}
                 {verifiedState}
                 showLink={false}
                 classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
             />
+            <ConnectionRequestExpirationAlert {expiryTimestamp} />
         {/if}
     </svelte:fragment>
     <div class="space-y-5">

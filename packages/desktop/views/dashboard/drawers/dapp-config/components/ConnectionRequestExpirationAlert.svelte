@@ -8,7 +8,7 @@
     export let expiryTimestamp: number | undefined
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
-    const expiryTimeDiff = (expiryTimestamp ?? 0) - $time.getTime() / MILLISECONDS_PER_SECOND
+    $: expiryTimeDiff = (expiryTimestamp ?? 0 * MILLISECONDS_PER_SECOND) - $time.getTime()
 </script>
 
 {#if expiryTimeDiff <= 0}
