@@ -572,9 +572,8 @@
                         "unsupportedMethods": "Bu dApp, Bloom ile tam uyumlu değil. Bazı yöntemler veya olaylar desteklenmiyor.",
                         "supportedOnOtherProfile": "Bu dApp, desteklenen bir ağda çalışır ancak bu profille erişilemez. Lütfen gerekli ağa bağlı bir profil kullanın.",
                         "acceptInsecureConnection": "Anlıyorum ve devam etmek istiyorum",
-                        "supported": "Desteklenen",
-                        "notSupported": "Desteklenmeyen",
-                        "onAnotherProfile": "Başka bir profilde",
+                        "supported": "Current Networks",
+                        "requiredNetworks": "Required Networks",
                         "scamHint": "Bu alan adı birden fazla güvenlik sağlayıcısı tarafından güvensiz olarak işaretlenmiştir. Varlıklarınızı korumak için hemen terk edin.",
                         "invalidHint": "Bu web sitesi, talebi gönderenle eşleşmeyen bir alan adıdır. Onaylamak fon kaybına yol açabilir.",
                         "unknownHint": "Bu uygulama doğrulanmamıştır ve bağlanarak güvenlik riskleri içerebilir."
@@ -590,8 +589,10 @@
                     },
                     "confirmConnection": {
                         "title": "Bir uygulama ile bağlanmak",
+                        "expired": "Connection request has expired",
+                        "expiresIn": "Connection request expires in",
                         "permissions": {
-                            "step": "Permissions",
+                            "step": "İzinler",
                             "tip": "Bunlar dApp'in onayınıza etkileşim isteği göndermesine yönelik sınırlı izinlerdir. Yalnızca bildiğiniz ve güvendiğiniz uygulamaları onaylayın.",
                             "requiredTitle": "Gerekli izinler",
                             "optionalTitle": "İsteğe bağlı izinler",
@@ -1170,9 +1171,9 @@
                     "Conflicting": "Yakılamadı"
                 },
                 "tokenApproval": {
-                    "Pending": "Approving {address} to spend {assetName}",
-                    "Confirmed": "Approved {address} to spend {assetName}",
-                    "Conflicting": "Failed to approve to spend {assetName}"
+                    "Pending": "{assetName}'i harcaması için {address} adresine onay veriliyor",
+                    "Confirmed": "{assetName}'i harcaması için {address} adresine onay verildi",
+                    "Conflicting": "{assetName}'i harcamak için onaylama başarısız oldu"
                 },
                 "consolidation": {
                     "Pending": "Konsolidasyon",
@@ -1488,6 +1489,7 @@
         "testDeepLink": "Derin bağlantıyı test edin",
         "delete": "Sil",
         "remove": "Kaldır",
+        "signIn": "Sign in",
         "getStarted": "Başlayın",
         "vote": "Oy",
         "addProposal": "Teklif ekle",
@@ -1522,8 +1524,8 @@
         "sending": "Gönderiliyor",
         "received": "Alındı",
         "receiving": "Alınıyor",
-        "approving": "Approving",
-        "approved": "Approved",
+        "approving": "Onaylanıyor",
+        "approved": "Onaylandı",
         "newVotingPower": "Yeni oy gücü",
         "votingPower": "Oy gücü",
         "increased": "Oy kullanma gücü arttı",
@@ -1757,7 +1759,8 @@
         "totalBalance": "Toplam bakiye",
         "saving": "Kaydediliyor",
         "enabled": "Etkinleştirilmiş",
-        "disabled": "Devre dışı"
+        "disabled": "Devre dışı",
+        "networkSettings": "Network settings"
     },
     "filters": {
         "title": "Filtreler",

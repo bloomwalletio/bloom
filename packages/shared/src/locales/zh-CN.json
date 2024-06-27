@@ -572,9 +572,8 @@
                         "unsupportedMethods": "This dApp is not fully compatible with Bloom. Some methods or events are unsupported.",
                         "supportedOnOtherProfile": "This dApp runs on a supported network, but is not accessible with this profile. Please use a profile connected to the required network.",
                         "acceptInsecureConnection": "I understand and wish to proceed",
-                        "supported": "Supported",
-                        "notSupported": "Not supported",
-                        "onAnotherProfile": "On another profile",
+                        "supported": "Current Networks",
+                        "requiredNetworks": "Required Networks",
                         "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
                         "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
                         "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
@@ -590,6 +589,8 @@
                     },
                     "confirmConnection": {
                         "title": "Connect with an application",
+                        "expired": "Connection request has expired",
+                        "expiresIn": "Connection request expires in",
                         "permissions": {
                             "step": "Permissions",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",
@@ -1488,6 +1489,7 @@
         "testDeepLink": "测试深链接",
         "delete": "删除",
         "remove": "移除",
+        "signIn": "Sign in",
         "getStarted": "Get started",
         "vote": "投票",
         "addProposal": "增加提案",
@@ -1757,7 +1759,8 @@
         "totalBalance": "Total balance",
         "saving": "Saving",
         "enabled": "Enabled",
-        "disabled": "Disabled"
+        "disabled": "Disabled",
+        "networkSettings": "Network settings"
     },
     "filters": {
         "title": "过滤",

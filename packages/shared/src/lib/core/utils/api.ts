@@ -1,4 +1,3 @@
-import { localize } from '@core/i18n'
 import { QueryParameters } from './types'
 import { buildUrl } from './url'
 
@@ -55,7 +54,12 @@ export class BaseApi {
                 query: queryParameters,
             })
             if (!url) {
-                throw localize('error.global.invalidUrl')
+                if (window) {
+                    const { localize } = await import('@core/i18n')
+                    throw localize('error.global.invalidUrl')
+                } else {
+                    throw new Error('Invalid URL')
+                }
             }
 
             const response = await fetch(url.href, requestInit)
