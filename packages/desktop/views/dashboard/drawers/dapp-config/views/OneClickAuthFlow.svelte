@@ -104,7 +104,9 @@
         items={[
             {
                 key: localize('general.message'),
-                value: sessionProposal.params.authPayload.statement,
+                value: localize('views.dashboard.drawers.dapps.confirmConnection.siweStatement', {
+                    origin: dappMetadata.url,
+                }),
             },
         ]}
         orientation="vertical"
