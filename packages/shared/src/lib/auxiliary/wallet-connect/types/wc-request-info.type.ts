@@ -6,7 +6,6 @@ import { DappVerification } from '../enums/dapp-verification.enum'
 export type WCRequestInfo = {
     dapp: IConnectedDapp
     evmNetwork: IEvmNetwork
-    method: string
     responseCallback: (params: CallbackParameters) => void
     verifiedState: DappVerification
     expiryTimestamp: number

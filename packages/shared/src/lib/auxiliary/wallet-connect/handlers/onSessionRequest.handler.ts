@@ -81,7 +81,6 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const requestData: WCRequestInfo = {
         dapp,
         evmNetwork,
-        method,
         responseCallback: returnResponse,
         verifiedState,
         expiryTimestamp,

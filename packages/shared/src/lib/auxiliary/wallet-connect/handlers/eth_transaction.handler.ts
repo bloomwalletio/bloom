@@ -63,6 +63,7 @@ export async function handleEthTransaction(
             props: {
                 preparedTransaction: evmTransactionData,
                 requestInfo,
+                method,
                 onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
             },
         })
