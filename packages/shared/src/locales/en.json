@@ -593,6 +593,7 @@
                         "title": "Connect with an application",
                         "expired": "Connection request has expired",
                         "expiresIn": "Connection request expires in",
+                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
                         "permissions": {
                             "step": "Permissions",
                             "tip": "These are limited permissions for the dApp to send an interaction request for your approval. Only approve apps you know and trust.",

@@ -572,9 +572,8 @@
                         "unsupportedMethods": "Este dApp não é totalmente compatível com a Bloom. Alguns métodos ou eventos não são suportados.",
                         "supportedOnOtherProfile": "Este dApp é executado em uma rede suportada, mas não está acessível com este perfil. Por favor, use um perfil conectado à rede necessária.",
                         "acceptInsecureConnection": "I understand and wish to proceed",
-                        "supported": "Supported",
-                        "notSupported": "Not supported",
-                        "onAnotherProfile": "On another profile",
+                        "supported": "Current Networks",
+                        "requiredNetworks": "Required Networks",
                         "scamHint": "This domain is flagged as unsafe by multiple security providers. Leave immediately to protect your assets.",
                         "invalidHint": "This website is a domain that does not match the sender of the request. Approving may lead to loss of funds.",
                         "unknownHint": "This dApp has not been verified and may contain security risks by connecting."
@@ -590,6 +589,8 @@
                     },
                     "confirmConnection": {
                         "title": "Conectar com um aplicativo",
+                        "expired": "Connection request has expired",
+                        "expiresIn": "Connection request expires in",
                         "permissions": {
                             "step": "Permissions",
                             "tip": "Estas são permissões limitadas para o dApp enviar uma solicitação de interação para sua aprovação. Aprove somente apps que você conhece e confia.",
@@ -1488,6 +1489,7 @@
         "testDeepLink": "Testar deep link",
         "delete": "Deletar",
         "remove": "Remover",
+        "signIn": "Sign in",
         "getStarted": "Começar",
         "vote": "Votar",
         "addProposal": "Adicionar proposta",
@@ -1757,7 +1759,8 @@
         "totalBalance": "Total balance",
         "saving": "Saving",
         "enabled": "Enabled",
-        "disabled": "Disabled"
+        "disabled": "Disabled",
+        "networkSettings": "Network settings"
     },
     "filters": {
         "title": "Filters",

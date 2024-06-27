@@ -572,9 +572,8 @@
                         "unsupportedMethods": "Deze dApp is niet volledig compatibel met Bloom. Sommige methoden of gebeurtenissen worden niet ondersteund.",
                         "supportedOnOtherProfile": "Deze dApp draait op een ondersteund netwerk, maar is niet toegankelijk met dit profiel. Gebruik een profiel verbonden met het vereiste netwerk.",
                         "acceptInsecureConnection": "Ik begrijp het en wil verder gaan",
-                        "supported": "Ondersteund",
-                        "notSupported": "Niet ondersteund",
-                        "onAnotherProfile": "Op een ander profiel",
+                        "supported": "Current Networks",
+                        "requiredNetworks": "Required Networks",
                         "scamHint": "Dit domein wordt door meerdere beveiligingsaanbieders als onveilig gemarkeerd. Ga direct weg om jouw activa te beschermen.",
                         "invalidHint": "Deze website is een domein dat niet overeenkomt met de afzender van het verzoek. Goedkeuren kan leiden tot verlies van saldo.",
                         "unknownHint": "Deze dApp is niet geverifieerd en kan beveiligingsrisico's bevatten door te verbinden."
@@ -590,8 +589,10 @@
                     },
                     "confirmConnection": {
                         "title": "Verbinding maken met een applicatie",
+                        "expired": "Connection request has expired",
+                        "expiresIn": "Connection request expires in",
                         "permissions": {
-                            "step": "Permissions",
+                            "step": "Permissies",
                             "tip": "Dit zijn beperkte machtigingen voor de dApp om een interactieverzoek te sturen voor jouw goedkeuring. Keur alleen apps goed die je kent en vertrouwt.",
                             "requiredTitle": "Vereiste machtigingen",
                             "optionalTitle": "Optionele machtigingen",
@@ -1170,9 +1171,9 @@
                     "Conflicting": "Burnen mislukt"
                 },
                 "tokenApproval": {
-                    "Pending": "Approving {address} to spend {assetName}",
-                    "Confirmed": "Approved {address} to spend {assetName}",
-                    "Conflicting": "Failed to approve to spend {assetName}"
+                    "Pending": "Goedkeuren om van {address} {assetName} te besteden",
+                    "Confirmed": "Goedgekeurd om van {address} {assetName} te besteden",
+                    "Conflicting": "Goedkeuren om {assetName} te besteden is mislukt"
                 },
                 "consolidation": {
                     "Pending": "Consolideren",
@@ -1488,6 +1489,7 @@
         "testDeepLink": "Test deep link",
         "delete": "Verwijder",
         "remove": "Verwijder",
+        "signIn": "Sign in",
         "getStarted": "Aan de slag",
         "vote": "Stem",
         "addProposal": "Voorstel toevoegen",
@@ -1522,8 +1524,8 @@
         "sending": "Verzenden",
         "received": "Ontvangen",
         "receiving": "Ontvangen",
-        "approving": "Approving",
-        "approved": "Approved",
+        "approving": "Goedkeuren",
+        "approved": "Goedgekeurd",
         "newVotingPower": "Nieuwe stemkracht",
         "votingPower": "Stemkracht",
         "increased": "Stemkracht vergroot",
@@ -1757,7 +1759,8 @@
         "totalBalance": "Totaalsaldo",
         "saving": "Opslaan",
         "enabled": "Ingeschakeld",
-        "disabled": "Uitgeschakeld"
+        "disabled": "Uitgeschakeld",
+        "networkSettings": "Network settings"
     },
     "filters": {
         "title": "Filters",
