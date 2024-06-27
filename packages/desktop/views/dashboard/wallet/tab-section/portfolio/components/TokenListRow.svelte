@@ -1,13 +1,13 @@
 <script lang="ts">
+    import { Text } from '@bloomwalletio/ui'
     import { formatCurrency } from '@core/i18n'
     import { getFiatValueFromTokenAmount, getMarketPriceForToken } from '@core/market/actions'
-    import { SupportedStardustNetworkId, TokenSupply, getActiveNetworkId } from '@core/network'
+    import { BASE_TOKEN_SUPPLY_FOR_NETWORK } from '@core/network'
+    import { activeProfile } from '@core/profile/stores'
     import { BASE_TOKEN_ID, ITokenWithBalance, formatTokenAmount } from '@core/token'
     import { truncateString } from '@core/utils'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
-    import { TokenAvatar, NetworkAvatar, NetworkTypePill } from '@ui'
-    import { Text } from '@bloomwalletio/ui'
-    import { activeProfile } from '@core/profile/stores'
+    import { NetworkAvatar, NetworkTypePill, TokenAvatar } from '@ui'
     import TokenStandardPill from './TokenStandardPill.svelte'
 
     export let token: ITokenWithBalance
@@ -17,18 +17,7 @@
             return '-'
         }
 
-        let tokenSupply: TokenSupply | '0'
-        switch (getActiveNetworkId()) {
-            case SupportedStardustNetworkId.Iota:
-                tokenSupply = TokenSupply.Iota
-                break
-            case SupportedStardustNetworkId.Shimmer:
-            case SupportedStardustNetworkId.Testnet:
-                tokenSupply = TokenSupply.Shimmer
-                break
-            default:
-                tokenSupply = '0'
-        }
+        const tokenSupply: bigint | undefined = BASE_TOKEN_SUPPLY_FOR_NETWORK[token.networkId]
 
         const marketPrice = tokenSupply ? getFiatValueFromTokenAmount(BigInt(tokenSupply), token) : undefined
         return marketPrice ? formatCurrency(marketPrice, $activeProfile.settings.marketCurrency, true) : '-'

@@ -7,15 +7,16 @@
     import SessionProposalFlow from './SessionProposalFlow.svelte'
     import { sessionInitiationRequest } from '@auxiliary/wallet-connect/stores'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
+    import { SessionInitiationType } from '@auxiliary/wallet-connect/enums'
 
     export let drawerRouter: Router<unknown>
 
     const localeKey = 'views.dashboard.drawers.dapps.confirmConnection'
 </script>
 
-{#if $sessionInitiationRequest?.type === 'session_proposal'}
+{#if $sessionInitiationRequest?.type === SessionInitiationType.SessionProposal}
     <SessionProposalFlow sessionProposal={$sessionInitiationRequest.payload} {drawerRouter} />
-{:else if $sessionInitiationRequest?.type === 'session_authenticate'}
+{:else if $sessionInitiationRequest?.type === SessionInitiationType.SessionAuthenticate}
     <OneClickAuthFlow sessionProposal={$sessionInitiationRequest.payload} {drawerRouter} />
 {:else}
     <DrawerTemplate title={localize(`${localeKey}.title`)} {drawerRouter}>

@@ -11,7 +11,7 @@ export async function getAndUpdateMarketPrices(): Promise<void> {
         )
 
         const marketPricesResponse = await CoinGeckoApi.getSimplePrices(
-            [MarketCoinId.Iota, MarketCoinId.Shimmer, ...storedTokenIds],
+            [MarketCoinId.Iota, MarketCoinId.Shimmer, MarketCoinId.Ethereum, ...storedTokenIds],
             Object.values(MarketCurrency)
         )
         updateMarketCoinPrices(marketPricesResponse)
