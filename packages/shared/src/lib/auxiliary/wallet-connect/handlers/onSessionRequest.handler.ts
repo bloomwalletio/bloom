@@ -13,7 +13,7 @@ import { CallbackParameters } from '../types'
 import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { handleEthTransaction } from './eth_transaction.handler'
 import { handleSignMessage } from './sign_message.handler'
-import { handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
+import { handleWalletSwitchEthereumChain, handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
 import { DappVerification, RpcMethod } from '../enums'
 import { EvmTransactionData, getEvmTransactionFromHexString } from '@core/layer-2'
 import { activeProfileId } from '@core/profile/stores'
@@ -98,6 +98,9 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
             break
         case RpcMethod.WalletWatchAsset:
             void handleWatchAsset(request.params, dapp, evmNetwork, returnResponse)
+            break
+        case RpcMethod.WalletSwitchEthereumChain:
+            void handleWalletSwitchEthereumChain(request.params, requestData)
             break
         default:
             returnResponse({ error: getSdkError('INVALID_METHOD') })
