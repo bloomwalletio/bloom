@@ -1,13 +1,14 @@
 import { Writable, writable } from 'svelte/store'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
+import { SessionInitiationType } from '../enums'
 
 export type SessionInitiationRequest =
     | {
-          type: 'session_proposal'
+          type: SessionInitiationType.SessionProposal
           payload: Web3WalletTypes.SessionProposal
       }
     | {
-          type: 'session_authenticate'
+          type: SessionInitiationType.SessionAuthenticate
           payload: Web3WalletTypes.SessionAuthenticate
       }
 

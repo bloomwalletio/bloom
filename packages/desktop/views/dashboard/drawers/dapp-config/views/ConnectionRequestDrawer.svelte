@@ -6,7 +6,7 @@
         rejectAndClearSessionInitiationRequest,
     } from '@auxiliary/wallet-connect/utils'
     import { showNotification } from '@auxiliary/notification'
-    import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { DappVerification, RpcMethod, SessionInitiationType } from '@auxiliary/wallet-connect/enums'
     import { DrawerTemplate } from '@components'
     import { localize } from '@core/i18n'
     import { Router } from '@core/router'
@@ -86,7 +86,7 @@
     })
 </script>
 
-{#if $sessionInitiationRequest?.type === 'session_proposal'}
+{#if $sessionInitiationRequest?.type === SessionInitiationType.SessionProposal}
     {@const { dappMetadata, verifiedState, requiredNetworks, optionalNetworks, requiredMethods } =
         getConnectionRequestDataFromSessionProposal($sessionInitiationRequest.payload)}
     <ConnectionRequest
@@ -108,7 +108,7 @@
             orientation="vertical"
         />
     </ConnectionRequest>
-{:else if $sessionInitiationRequest?.type === 'session_authenticate'}
+{:else if $sessionInitiationRequest?.type === SessionInitiationType.SessionAuthenticate}
     {@const { dappMetadata, verifiedState, requiredNetworks, optionalNetworks, requiredMethods } =
         getConnectionRequestDataFromSessionAuthenticate($sessionInitiationRequest.payload)}
     <ConnectionRequest
@@ -124,7 +124,9 @@
             items={[
                 {
                     key: localize('general.message'),
-                    value: $sessionInitiationRequest.payload.params.authPayload.statement,
+                    value: localize('views.dashboard.drawers.dapps.confirmConnection.siweStatement', {
+                        origin: dappMetadata.url,
+                    }),
                 },
             ]}
             orientation="vertical"
