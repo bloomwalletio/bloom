@@ -30,7 +30,7 @@
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
-    import { ConnectionRequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
+    import { RequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
     import { time } from '@core/app/stores'
 
     export let preparedTransaction: EvmTransactionData
@@ -223,7 +223,7 @@
                 showLink={false}
                 classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
             />
-            <ConnectionRequestExpirationAlert {expiryTimestamp} />
+            <RequestExpirationAlert {expiryTimestamp} />
         {/if}
     </svelte:fragment>
     <div class="space-y-5">

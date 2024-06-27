@@ -12,7 +12,7 @@
     import { WCRequestInfo } from '@auxiliary/wallet-connect/types'
     import { MILLISECONDS_PER_SECOND } from '@core/utils'
     import { time } from '@core/app/stores'
-    import { ConnectionRequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
+    import { RequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
 
     export let message: string
     export let account: IAccountState
@@ -78,7 +78,7 @@
                 showLink={false}
                 classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
             />
-            <ConnectionRequestExpirationAlert {expiryTimestamp} />
+            <RequestExpirationAlert {expiryTimestamp} />
         {/if}
     </svelte:fragment>
 
