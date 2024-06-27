@@ -1,4 +1,4 @@
-import { SupportedIscNetworkId } from '@core/network/constants/supported-network-id.constant'
+import { SupportedIscNetworkId, SupportedL1EvmNetworkId } from '@core/network/constants/supported-network-id.constant'
 import { MILLISECONDS_PER_SECOND, sleep } from '@core/utils'
 import { get } from 'svelte/store'
 import { CoinGeckoApi } from '../apis'
@@ -9,6 +9,7 @@ import { coinGeckoTokensMetadata } from '../stores/'
 const NETWORK_FROM_PLATFORM: { [key in CoinGeckoNetworkId]: string } = {
     [CoinGeckoNetworkId.IotaEvm]: SupportedIscNetworkId.IotaEvm,
     [CoinGeckoNetworkId.ShimmerEvm]: SupportedIscNetworkId.ShimmerEvm,
+    [CoinGeckoNetworkId.Ethereum]: SupportedL1EvmNetworkId.Ethereum,
 }
 
 export async function getAndUpdateTokensMetadataFromCoinGecko(): Promise<void> {
