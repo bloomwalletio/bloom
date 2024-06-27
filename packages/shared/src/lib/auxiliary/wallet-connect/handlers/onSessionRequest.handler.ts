@@ -28,7 +28,7 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const method = request.method as RpcMethod
 
     // This field is not yet added to the walletconnect types
-    const expiryTimestamp = (request as unknown as { expiryTimestamp: number }).expiryTimestamp
+    const expiryTimestamp = (request as unknown as { expiryTimestamp?: number }).expiryTimestamp
 
     function returnResponse({ result, error }: CallbackParameters): void {
         const response: JsonRpcResponse | undefined = result

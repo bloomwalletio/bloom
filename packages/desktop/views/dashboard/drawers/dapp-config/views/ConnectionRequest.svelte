@@ -49,7 +49,9 @@
             return false
         }
 
-        const supportsAnyNetwork = optionalNetworks.some((networkId) => supportedNetworksByProfile.includes(networkId))
+        const supportsAnyNetwork = [...requiredNetworks, ...optionalNetworks].some((networkId) =>
+            supportedNetworksByProfile.includes(networkId)
+        )
         if (!supportsAnyNetwork) {
             return false
         }

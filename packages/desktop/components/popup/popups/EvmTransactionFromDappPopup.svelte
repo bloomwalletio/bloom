@@ -57,7 +57,8 @@
         token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
         rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
     }
-    $: hasExpired = (expiryTimestamp ?? 0) * MILLISECONDS_PER_SECOND - $time.getTime() <= 0
+    $: hasExpired =
+        expiryTimestamp === undefined ? false : expiryTimestamp * MILLISECONDS_PER_SECOND - $time.getTime() <= 0
 
     setParsedContractData()
     function setParsedContractData(): void {

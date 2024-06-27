@@ -23,7 +23,8 @@
     export let requestInfo: WCRequestInfo
 
     const { dapp, responseCallback, verifiedState, evmNetwork, expiryTimestamp } = requestInfo
-    $: hasExpired = (expiryTimestamp ?? 0) * MILLISECONDS_PER_SECOND - $time.getTime() <= 0
+    $: hasExpired =
+        expiryTimestamp === undefined ? false : expiryTimestamp * MILLISECONDS_PER_SECOND - $time.getTime() <= 0
 
     enum Tab {
         Details = 'details',

@@ -8,5 +8,5 @@ export type WCRequestInfo = {
     evmNetwork: IEvmNetwork
     responseCallback: (params: CallbackParameters) => void
     verifiedState: DappVerification
-    expiryTimestamp: number
+    expiryTimestamp?: number
 }
