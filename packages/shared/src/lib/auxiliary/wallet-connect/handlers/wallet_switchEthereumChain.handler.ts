@@ -20,8 +20,8 @@ export function handleWalletSwitchEthereumChain(params: WalletSwitchEthereumChai
 
     const chainId = Converter.hexToDecimal(hexChainId)
 
-    const supportedChainIds = getEvmNetworks().map((network) => network.chainId)
-    if (supportedChainIds.find((id) => Number(id) === chainId)) {
+    const isSupportedEvmChain = getEvmNetworks().some((network) => Number(network.chainId) === chainId)
+    if (isSupportedEvmChain) {
         responseCallback({ result: chainId })
     } else {
         responseCallback({ error: getSdkError('UNSUPPORTED_CHAINS') })
