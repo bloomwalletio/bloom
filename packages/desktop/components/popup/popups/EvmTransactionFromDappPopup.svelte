@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
-    import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-    import { CallbackParameters } from '@auxiliary/wallet-connect/types'
+    import { RpcMethod } from '@auxiliary/wallet-connect/enums'
+    import { WCRequestInfo } from '@auxiliary/wallet-connect/types'
     import { EvmTokenApprovalAlert } from '@components'
     import { EvmSmartContractAlert } from '@components/evm-transactions'
     import { IAccountState } from '@core/account'
@@ -18,7 +17,6 @@
     import { EvmTransactionData } from '@core/layer-2/types'
     import { ParsedSmartContractData } from '@core/layer-2/types/parsed-smart-contract-data.type'
     import { LedgerAppName } from '@core/ledger'
-    import { IEvmNetwork } from '@core/network'
     import { getNftByIdForAccount } from '@core/nfts/stores'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { getActiveProfileId } from '@core/profile/stores'
@@ -32,16 +30,16 @@
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import { onDestroy, onMount } from 'svelte'
     import PopupTemplate from '../PopupTemplate.svelte'
+    import { RequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
+    import { time } from '@core/app/stores'
 
     export let preparedTransaction: EvmTransactionData
-    export let evmNetwork: IEvmNetwork
-    export let dapp: IConnectedDapp | undefined = undefined
-    export let verifiedState: DappVerification
+    export let requestInfo: WCRequestInfo
     export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
-    export let callback: ((params: CallbackParameters) => void) | undefined = undefined
 
     let busy = false
 
+    const { dapp, responseCallback, verifiedState, evmNetwork, expiryTimestamp } = requestInfo
     let parsedData: ParsedSmartContractData | undefined
 
     let selectedGasSpeed = GasSpeed.Required
@@ -59,6 +57,8 @@
         token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
         rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
     }
+    $: hasExpired =
+        expiryTimestamp === undefined ? false : expiryTimestamp * MILLISECONDS_PER_SECOND - $time.getTime() <= 0
 
     setParsedContractData()
     function setParsedContractData(): void {
@@ -123,7 +123,7 @@
         const account = getSelectedAccount()
         const signedTransaction = await getSignedTransaction(account)
         if (method === RpcMethod.EthSignTransaction) {
-            callback && callback({ result: signedTransaction })
+            responseCallback && responseCallback({ result: signedTransaction })
             return
         }
 
@@ -134,7 +134,7 @@
             profileId,
             account
         )
-        callback && callback({ result: transactionHash })
+        responseCallback && responseCallback({ result: transactionHash })
     }
 
     async function onConfirmClick(): Promise<void> {
@@ -212,7 +212,7 @@
     continueButton={{
         text: localize(`popups.${localeKey}.action`),
         onClick: onConfirmClick,
-        disabled: busy,
+        disabled: hasExpired,
     }}
     {busy}
 >
@@ -224,6 +224,7 @@
                 showLink={false}
                 classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
             />
+            <RequestExpirationAlert {expiryTimestamp} />
         {/if}
     </svelte:fragment>
     <div class="space-y-5">

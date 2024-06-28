@@ -1,24 +1,20 @@
-import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-import { CallbackParameters } from '@auxiliary/wallet-connect/types'
+import { WCRequestInfo } from '@auxiliary/wallet-connect/types'
 import { getBloomError, switchToRequiredAccount } from '@auxiliary/wallet-connect/utils'
 import { EvmTransactionData } from '@core/layer-2'
 import { addGasBuffer } from '@core/layer-2/utils'
-import { IEvmNetwork } from '@core/network'
 import { Converter } from '@core/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
-import { DappVerification, RpcMethod } from '../enums'
 import { Transaction } from 'web3'
+import { RpcMethod } from '../enums/rpc-method.enum'
 
 export async function handleEthTransaction(
     evmTransactionData: EvmTransactionData & { from: string; gas?: string },
-    dapp: IConnectedDapp | undefined,
-    evmNetwork: IEvmNetwork,
     method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction,
-    responseCallback: (params: CallbackParameters) => void,
-    verifiedState: DappVerification
+    requestInfo: WCRequestInfo
 ): Promise<void> {
     const { to, from, gas, value, data } = evmTransactionData ?? {}
+    const { evmNetwork, responseCallback } = requestInfo
 
     if (!from) {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
@@ -65,12 +61,9 @@ export async function handleEthTransaction(
         openPopup({
             id: PopupId.EvmTransactionFromDapp,
             props: {
-                evmNetwork,
-                dapp,
                 preparedTransaction: evmTransactionData,
+                requestInfo,
                 method,
-                verifiedState,
-                callback: responseCallback,
                 onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
             },
         })
