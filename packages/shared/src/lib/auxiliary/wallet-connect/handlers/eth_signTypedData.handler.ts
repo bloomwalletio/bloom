@@ -1,21 +1,18 @@
-import { IEvmNetwork } from '@core/network'
-import { IConnectedDapp } from '../interface'
-import { CallbackParameters } from '../types'
 import { PopupId, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
 import { getBloomError, switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
 import { SignTypedDataVersion } from '@metamask/eth-sig-util'
 import { localize } from '@core/i18n'
-import { DappVerification } from '../enums'
+import { WCRequestInfo } from '../types'
+import { RpcMethod } from '../enums/rpc-method.enum'
 
 export async function handleEthSignTypedData(
     params: unknown,
-    method: string,
-    dapp: IConnectedDapp,
-    evmNetwork: IEvmNetwork,
-    responseCallback: (params: CallbackParameters) => void,
-    verifiedState: DappVerification
+    method: RpcMethod.EthSignTypedData | RpcMethod.EthSignTypedDataV3 | RpcMethod.EthSignTypedDataV4,
+    requestInfo: WCRequestInfo
 ): Promise<void> {
+    const { evmNetwork, responseCallback } = requestInfo
+
     if (!params || !Array.isArray(params)) {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
@@ -42,11 +39,8 @@ export async function handleEthSignTypedData(
             props: {
                 data: stringifiedData,
                 version,
-                dapp,
                 account,
-                evmNetwork,
-                verifiedState,
-                callback: responseCallback,
+                requestInfo,
                 onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
             },
         })

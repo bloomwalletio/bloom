@@ -22,7 +22,7 @@
         ConnectionSummary,
         NetworkSelection,
         PermissionSelection,
-        ConnectionRequestExpirationAlert,
+        RequestExpirationAlert,
     } from '../components'
     import { DappConfigRoute } from '../dapp-config-route.enum'
     import { CoreTypes, ProposalTypes } from '@walletconnect/types'
@@ -104,7 +104,7 @@
     <div class="w-full h-full flex flex-col space-y-6 overflow-hidden">
         <div>
             <DappInfo metadata={dappMetadata} {verifiedState} />
-            <ConnectionRequestExpirationAlert {expiryTimestamp} />
+            <RequestExpirationAlert {expiryTimestamp} />
         </div>
 
         <div class="px-6 flex-grow overflow-hidden">

@@ -81,7 +81,7 @@
         items={[
             {
                 key: localize('general.description'),
-                value: dappMetadata.description,
+                value: dappMetadata.description || undefined,
             },
         ]}
         orientation="vertical"
