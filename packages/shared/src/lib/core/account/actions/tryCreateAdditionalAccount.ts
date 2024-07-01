@@ -9,7 +9,7 @@ import { ProfileType } from '@core/profile'
 import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
 import { IError } from '@core/error/interfaces'
 import { DEFAULT_COIN_TYPE, SupportedNetworkId } from '@core/network/constants'
-import { updateAccountForConnectedDapps } from '@auxiliary/wallet-connect/actions'
+import { addAccountToAllDappSessions, updateAccountForConnectedDapps } from '@auxiliary/wallet-connect/actions'
 
 export async function tryCreateAdditionalAccount(alias: string, color: string): Promise<void> {
     try {
@@ -23,10 +23,10 @@ export async function tryCreateAdditionalAccount(alias: string, color: string): 
         const activeProfile = getActiveProfile()
         if (activeProfile.type === ProfileType.Software) {
             const coinType = DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum]
-            generateAndStoreEvmAddressForAccounts(activeProfile.type, coinType, account).then(() => {
+            generateAndStoreEvmAddressForAccounts(activeProfile.type, coinType, account).then(async () => {
                 void pollEvmBalancesForAccount(activeProfile.id, account)
-                void account
-                void updateAccountForConnectedDapps(account)
+                await addAccountToAllDappSessions(account)
+                await updateAccountForConnectedDapps(account)
             })
         }
 
