@@ -13,7 +13,7 @@
         "eslint": "9.3.0",
         "eslint-plugin-security": "3.0.0",
         "eslint-plugin-svelte": "2.39.0",
-        "globals": "^15.3.0",
+        "globals": "^15.7.0",
         "husky": "7.0.4",
         "lint-staged": "15.2.5",
         "patch-package": "8.0.0",
