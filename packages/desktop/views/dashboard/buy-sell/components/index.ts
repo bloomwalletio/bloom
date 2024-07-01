@@ -1,4 +1,5 @@
-export { default as TransakAccountPanel } from './TransakAccountPanel.svelte'
+export { default as TokenTile } from './TokenTile.svelte'
+export { default as TransakAmountInput } from './TransakAmountInput.svelte'
 export { default as TransakConnectionPanel } from './TransakConnectionPanel.svelte'
+export { default as TransakExchangePanel } from './TransakExchangePanel.svelte'
 export { default as TransakInfoPanel } from './TransakInfoPanel.svelte'
-export { default as TransakWindowPlaceholder } from './TransakWindowPlaceholder.svelte'
