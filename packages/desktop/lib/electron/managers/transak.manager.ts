@@ -219,14 +219,14 @@ export default class TransakManager implements ITransakManager {
     }
 
     private getUrl(data: ITransakWindowData): string {
-        const { address, currency, service, amount } = data
+        const { address, currency, service, amount, paymentMethod } = data
         const apiKey = process.env.TRANSAK_API_KEY
 
         if (typeof apiKey !== 'string') {
             throw new Error('Undefined Transak API key')
         }
 
-        if (!Object.values(FiatCurrency).includes(currency as FiatCurrency)) {
+        if (!Object.keys(FiatCurrency).includes(currency)) {
             throw new Error('Invalid Transak currency')
         }
 
@@ -243,9 +243,10 @@ export default class TransakManager implements ITransakManager {
 
         const queryParams: QueryParameters = {
             apiKey,
-            defaultFiatCurrency: currency,
-            defaultFiatAmount: amount,
+            fiatCurrency: currency,
+            fiatAmount: amount,
             walletAddress: address,
+            paymentMethod: paymentMethod,
             productsAvailed: service,
             cryptoCurrencyCode: 'IOTA',
             network: 'miota',
@@ -256,6 +257,7 @@ export default class TransakManager implements ITransakManager {
             disablePaymentMethods: ['apple_pay', 'google_pay'],
             excludeFiatCurrencies: 'USD',
             colorMode,
+            hideExchangeScreen: true,
         }
 
         const urlObject = buildUrl({ base: TRANSAK_WIDGET_URL, query: queryParams })
