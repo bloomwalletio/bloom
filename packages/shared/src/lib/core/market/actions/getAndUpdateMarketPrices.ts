@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 import { CoinGeckoApi } from '../apis'
-import { MarketCoinId, MarketCurrency } from '../enums'
+import { CryptoCurrency, FiatCurrency, MarketCoinId } from '../enums'
 import { CoinGeckoCoin } from '../interfaces'
 import { coinGeckoTokensMetadata, updateMarketCoinPrices } from '../stores'
 
@@ -12,7 +12,7 @@ export async function getAndUpdateMarketPrices(): Promise<void> {
 
         const marketPricesResponse = await CoinGeckoApi.getSimplePrices(
             [MarketCoinId.Iota, MarketCoinId.Shimmer, MarketCoinId.Ethereum, ...storedTokenIds],
-            Object.values(MarketCurrency)
+            [...Object.values(FiatCurrency), ...Object.values(CryptoCurrency)]
         )
         updateMarketCoinPrices(marketPricesResponse)
     } catch (err) {

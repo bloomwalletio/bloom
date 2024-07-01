@@ -1,3 +1,3 @@
-import { MarketCurrency } from '../enums'
+import { CryptoCurrency, FiatCurrency } from '../enums'
 
-export type MarketPrices = { [key in MarketCurrency]?: number }
+export type MarketPrices = { [key in FiatCurrency | CryptoCurrency]?: number }

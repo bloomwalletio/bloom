@@ -12,7 +12,7 @@ export function getDecimalSeparator(currency: string | undefined = undefined): s
     return (
         Intl.NumberFormat(appLanguage, {
             style: 'currency',
-            currency: currency ?? 'USD',
+            currency: currency.length > 3 ? 'USD' : currency,
         })
             .formatToParts(1.1)
             .find((part) => part.type === 'decimal')?.value ?? '.'

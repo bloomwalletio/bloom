@@ -12,7 +12,8 @@
         TransakWindowPlaceholder,
     } from '../components'
     import { isDashboardSideBarExpanded } from '@core/ui'
-    import { MarketCoinId, MarketCurrency } from '@core/market/enums'
+    import { FiatCurrency, MarketCoinId } from '@core/market/enums'
+    import { MarketCurrency } from '@core/market/types'
     import { marketCoinPrices } from '@core/market/stores'
     import { DrawerState } from '@desktop/auxiliary/drawer/types'
     import { drawerState } from '@desktop/auxiliary/drawer/stores'
@@ -67,14 +68,14 @@
     function getDefaultFiatAmount(currency: MarketCurrency): number {
         const DEFAULT_FIAT_AMOUNT = 1000
         switch (currency) {
-            case MarketCurrency.Usd:
-            case MarketCurrency.Eur:
-            case MarketCurrency.Gbp:
+            case FiatCurrency.USD:
+            case FiatCurrency.EUR:
+            case FiatCurrency.GBP:
                 return DEFAULT_FIAT_AMOUNT
             default: {
                 const conversionRate =
                     $marketCoinPrices[MarketCoinId.Iota]?.[currency] /
-                    $marketCoinPrices[MarketCoinId.Iota]?.[MarketCurrency.Usd]
+                    $marketCoinPrices[MarketCoinId.Iota]?.[FiatCurrency.USD]
                 const fiatAmount = DEFAULT_FIAT_AMOUNT * conversionRate
                 const roundedAmount = customRound(fiatAmount)
                 return roundedAmount
@@ -97,7 +98,7 @@
             currency: $activeProfile?.settings.marketCurrency,
             address: $selectedAccount.depositAddress,
             service: 'BUY',
-            amount: getDefaultFiatAmount($activeProfile?.settings.marketCurrency ?? MarketCurrency.Usd),
+            amount: getDefaultFiatAmount($activeProfile?.settings.marketCurrency ?? FiatCurrency.USD),
         })
         isTransakOpen = true
         await updateTransakBounds()

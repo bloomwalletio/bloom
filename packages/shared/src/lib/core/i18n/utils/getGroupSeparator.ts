@@ -12,7 +12,7 @@ export function getGroupSeparator(currency: string | undefined = undefined): str
     return (
         Intl.NumberFormat(appLanguage, {
             style: 'currency',
-            currency: currency ?? 'USD',
+            currency: currency.length > 3 ? 'USD' : currency,
         })
             .formatToParts(1111111)
             .find((part) => part.type === 'group')?.value ?? ','
