@@ -117,6 +117,13 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         if (getLastLoggedInProfileId() !== _activeProfile.id) {
             void disconnectAllDapps()
+            cachedSessionRequest.set(undefined)
+        } else {
+            const _cachedSessionRequest = get(cachedSessionRequest)
+            if (_cachedSessionRequest) {
+                cachedSessionRequest.set(undefined)
+                onSessionRequest(_cachedSessionRequest)
+            }
         }
 
         setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index)
@@ -135,11 +142,6 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             void registerProposalsFromNodes(loadedAccounts)
         }
         void cleanupOnboarding()
-        const _cachedSessionRequest = get(cachedSessionRequest)
-        if (_cachedSessionRequest) {
-            cachedSessionRequest.set(undefined)
-            onSessionRequest(_cachedSessionRequest)
-        }
         notificationsManager.setTrackedNetworkAccounts(
             loadedAccounts,
             getEvmNetworks().map(({ id }) => id)
