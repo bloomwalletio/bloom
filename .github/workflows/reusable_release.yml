@@ -49,8 +49,12 @@ jobs:
             - name: Preparing release body
               run: |
                   sed -i 's/\r$//' ../../assets/*.sha256 && sed -i '/^$/d' ../../assets/*.sha256 && sed -i -e 's/\(.*\)/\L\1/' ../../assets/*.sha256
+                  WIN_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.exe.sha256)
+                  WIN_BLOCKMAP_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap.sha256)
                   LIN_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.AppImage.sha256)
-                  echo $LIN_SHA256
+                  MAC_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.dmg.sha256)
+                  MAC_BLOCKMAP_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap.sha256)
+                  echo $WIN_SHA256 $LIN_SHA256 $MAC_SHA256
                   touch CHANGELOG.md
                   echo '### Changelog' >> CHANGELOG.md
                   echo '------' >> CHANGELOG.md
@@ -58,7 +62,11 @@ jobs:
                   echo '[How to verify the authenticity of your Bloom Desktop download](https://wiki.iota.org/shimmer/introduction/how_tos/verify_download/#verify-your-firefly-desktop-download)' >> CHANGELOG.md
                   echo '| File | Platform | SHA256 Hash |' >> CHANGELOG.md
                   echo '| --- | --- | --- |' >> CHANGELOG.md
+                  echo '| bloom-desktop-${{ env.VERSION }}.exe | Windows |' $WIN_SHA256 '|' >> CHANGELOG.md
+                  echo '| bloom-desktop-${{ env.VERSION }}.exe.blockmap | Windows |' $WIN_BLOCKMAP_SHA256 '|' >> CHANGELOG.md
                   echo '| bloom-desktop-${{ env.VERSION }}.AppImage | Linux |' $LIN_SHA256 '|' >> CHANGELOG.md
+                  echo '| bloom-desktop-${{ env.VERSION }}.dmg | MacOS |' $MAC_SHA256 '|' >> CHANGELOG.md
+                  echo '| bloom-desktop-${{ env.VERSION }}.dmg.blockmap | MacOS |' $MAC_BLOCKMAP_SHA256 '|' >> CHANGELOG.md
                   cat CHANGELOG.md
               working-directory: packages/desktop
 
@@ -76,9 +84,9 @@ jobs:
                 
             - name: Upload Linux assets
               run: |
-                gh release upload $VERSION $BINARY $UPDATER $SIGNATURE --clobber
+                gh release upload $RELEASE_NAME $BINARY $UPDATER $SIGNATURE --clobber
               env:
-                VERSION: ${{ env.VERSION }}
+                RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 BINARY: assets/bloom-desktop-${{ env.VERSION }}.AppImage
                 SIGNATURE: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
@@ -87,9 +95,9 @@ jobs:
                 
             - name: Upload Mac assets
               run: |
-                gh release upload $VERSION $BLOCKMAP $BINARY $ZIP $UPDATER --clobber
+                gh release upload $RELEASE_NAME $BLOCKMAP $BINARY $ZIP $UPDATER --clobber
               env:
-                VERSION: ${{ env.VERSION }}
+                RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
                 BINARY: assets/bloom-desktop-${{ env.VERSION }}.dmg
@@ -99,9 +107,9 @@ jobs:
               
             - name: Upload Windows assets
               run: |
-                gh release upload $VERSION $BINARY $BLOCKMAP $UPDATER --clobber
+                gh release upload $RELEASE_NAME $BINARY $BLOCKMAP $UPDATER --clobber
               env:
-                VERSION: ${{ env.VERSION }}
+                RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 BINARY: assets/bloom-desktop-${{ env.VERSION }}.exe
                 BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
