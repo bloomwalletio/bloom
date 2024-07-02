@@ -8,4 +8,5 @@ export enum RpcMethod {
     EthSendTransaction = 'eth_sendTransaction',
     EthSendRawTransaction = 'eth_sendRawTransaction',
     WalletWatchAsset = 'wallet_watchAsset',
+    WalletSwitchEthereumChain = 'wallet_switchEthereumChain',
 }
