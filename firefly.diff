@@ -154,6 +154,7 @@
  delete mode 100644 packages/desktop/electron/electronApi.js
  delete mode 100644 packages/desktop/electron/ledgerApi.js
  delete mode 100644 packages/desktop/electron/lib/aboutPreload.js
+ delete mode 100644 packages/desktop/electron/lib/analytics.js
  delete mode 100644 packages/desktop/electron/lib/appUpdater.js
  delete mode 100644 packages/desktop/electron/lib/deepLinkManager.js
  delete mode 100644 packages/desktop/electron/lib/diagnostics.js
@@ -175,7 +176,6 @@
  rename packages/desktop/lib/auxiliary/popup/{helpers => actions}/modifyPopupState.ts (67%)
  delete mode 100644 packages/desktop/lib/auxiliary/popup/helpers/index.ts
  rename packages/desktop/lib/{electron.ts => electron/index.ts} (54%)
- rename packages/desktop/{electron/lib/analytics.js => lib/electron/utils/analytics.utils.ts} (82%)
  rename packages/desktop/{electron/lib/errorHandling.js => lib/electron/utils/error.utils.ts} (69%)
  delete mode 100644 packages/desktop/lib/routers/actions/openSettings.ts
  delete mode 100644 packages/desktop/lib/routers/enums/index.ts
@@ -1903,7 +1903,7 @@
  rename packages/shared/{ => src}/lib/core/market/constants/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/constants/market-poll-interval.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/constants/market-simple-price-endpoint.constant.ts (100%)
- rename packages/shared/{ => src}/lib/core/market/enums/market-coin-id.enum.ts (73%)
+ rename packages/shared/{ => src}/lib/core/market/enums/market-coin-id.enum.ts (54%)
  rename packages/shared/{ => src}/lib/core/market/enums/market-currency.enum.ts (94%)
  rename packages/shared/{lib/auxiliary/icon => src/lib/core/market}/index.ts (77%)
  rename packages/shared/{ => src}/lib/core/market/interfaces/simple-prices-query-parameters.interface.ts (100%)
