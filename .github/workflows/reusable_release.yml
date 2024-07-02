@@ -136,7 +136,7 @@ jobs:
 
             - name: Upload updater yml
               run: |
-                gh release upload $VERSION latest-linux.yml latest.yml latest-mac.yml
+                gh release upload $VERSION assets/latest-linux.yml
               env:
                 VERSION: ${{ env.VERSION }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
