@@ -5,7 +5,7 @@
     import { Router } from '@core/router'
     import { DrawerTemplate } from '@components'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
-    import { ConnectionRequestExpirationAlert, SecurityWarning, UnsupportedDappHint } from '../components'
+    import { RequestExpirationAlert, SecurityWarning, UnsupportedDappHint } from '../components'
     import { getAllNetworkIds } from '@core/network'
     import { ALL_SUPPORTED_METHODS } from '@auxiliary/wallet-connect/constants'
     import { DappVerification, RpcMethod } from '@auxiliary/wallet-connect/enums'
@@ -27,7 +27,7 @@
     let acceptedInsecureConnection = false
     let flashingCheckbox = false
 
-    $: hasRequestExpired = expiryTimestamp ? expiryTimestamp - $time.getTime() / MILLISECONDS_PER_SECOND <= 0 : false
+    $: hasRequestExpired = expiryTimestamp ? expiryTimestamp * MILLISECONDS_PER_SECOND - $time.getTime() <= 0 : false
 
     const fulfilsRequirements = doesFulfilsRequirements()
     function doesFulfilsRequirements(): boolean {
@@ -49,7 +49,9 @@
             return false
         }
 
-        const supportsAnyNetwork = optionalNetworks.some((networkId) => supportedNetworksByProfile.includes(networkId))
+        const supportsAnyNetwork = [...requiredNetworks, ...optionalNetworks].some((networkId) =>
+            supportedNetworksByProfile.includes(networkId)
+        )
         if (!supportsAnyNetwork) {
             return false
         }
@@ -93,7 +95,7 @@
     <div class="w-full h-full flex flex-col justify-between">
         <div>
             <DappInfo metadata={dappMetadata} {verifiedState} />
-            <ConnectionRequestExpirationAlert {expiryTimestamp} />
+            <RequestExpirationAlert {expiryTimestamp} />
         </div>
         <div class="flex-grow overflow-hidden">
             <div class="h-full overflow-scroll flex flex-col gap-5 p-6">

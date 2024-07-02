@@ -1,11 +1,10 @@
 import { PopupId, closePopup, openPopup } from '../../../../../../desktop/lib/auxiliary/popup'
-import { IEvmNetwork, EvmNetworkId } from '@core/network'
-import { CallbackParameters } from '@auxiliary/wallet-connect/types'
+import { EvmNetworkId } from '@core/network'
+import { WCRequestInfo } from '@auxiliary/wallet-connect/types'
 import { getEvmTokenMetadata } from '@core/layer-2'
 import { getSdkError } from '@walletconnect/utils'
 import { addNewTrackedTokenToActiveProfile } from '@core/wallet/actions'
 import { TokenStandard, TokenTrackingStatus } from '@core/token/enums'
-import { IConnectedDapp } from '../interface'
 import { localize } from '@core/i18n'
 import { NftStandard } from '@core/nfts/enums'
 import { addNewTrackedNftToActiveProfile, persistErc721Nft } from '@core/nfts/actions'
@@ -29,12 +28,9 @@ type WatchAssetParams =
           }
       }
 
-export function handleWatchAsset(
-    params: WatchAssetParams,
-    dapp: IConnectedDapp,
-    evmNetwork: IEvmNetwork,
-    responseCallback: (params: CallbackParameters) => void
-): void {
+export function handleWatchAsset(params: WatchAssetParams, requestInfo: WCRequestInfo): void {
+    const { dapp, evmNetwork, responseCallback } = requestInfo
+
     if (params.type !== TokenStandard.Erc20 && params.type !== NftStandard.Erc721) {
         responseCallback({ error: getSdkError('UNSUPPORTED_METHODS') })
         return

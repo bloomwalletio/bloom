@@ -1,23 +1,20 @@
 import { Converter } from '@iota/util.js'
 import { openPopup, PopupId } from '../../../../../../desktop/lib/auxiliary/popup'
-import { IConnectedDapp } from '../interface'
-import { IEvmNetwork } from '@core/network'
-import { CallbackParameters } from '../types'
+import { WCRequestInfo } from '../types'
 import { getBloomError, switchToRequiredAccount } from '../utils'
 import { getSdkError } from '@walletconnect/utils'
-import { DappVerification, RpcMethod } from '../enums'
+import { RpcMethod } from '../enums'
 import { parseSiweMessage, validateSiwe } from '@core/layer-2'
 import { showNotification } from '@auxiliary/notification'
 import { localize } from '@core/i18n'
 
 export async function handleSignMessage(
     params: unknown,
-    dapp: IConnectedDapp,
     method: RpcMethod.PersonalSign | RpcMethod.EthSign,
-    evmNetwork: IEvmNetwork,
-    responseCallback: (params: CallbackParameters) => void,
-    verifiedState: DappVerification
+    requestInfo: WCRequestInfo
 ): Promise<void> {
+    const { dapp, evmNetwork, responseCallback } = requestInfo
+
     if (!params || !Array.isArray(params)) {
         responseCallback({ error: getSdkError('INVALID_METHOD') })
         return
@@ -46,11 +43,8 @@ export async function handleSignMessage(
                     props: {
                         siweObject,
                         rawMessage: message,
-                        dapp,
                         account,
-                        evmNetwork,
-                        verifiedState,
-                        callback: responseCallback,
+                        requestInfo,
                         onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
                     },
                 })
@@ -66,11 +60,8 @@ export async function handleSignMessage(
                 id: PopupId.SignMessage,
                 props: {
                     message,
-                    dapp,
                     account,
-                    evmNetwork,
-                    verifiedState,
-                    callback: responseCallback,
+                    requestInfo,
                     onCancel: () => responseCallback({ error: getSdkError('USER_REJECTED') }),
                 },
             })

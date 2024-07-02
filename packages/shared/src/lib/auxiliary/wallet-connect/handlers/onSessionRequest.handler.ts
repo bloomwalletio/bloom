@@ -9,11 +9,11 @@ import {
     setConnectedDapps,
     updateVerificationStateForDapp,
 } from '../stores'
-import { CallbackParameters } from '../types'
+import { CallbackParameters, WCRequestInfo } from '../types'
 import { handleEthSignTypedData } from './eth_signTypedData.handler'
 import { handleEthTransaction } from './eth_transaction.handler'
 import { handleSignMessage } from './sign_message.handler'
-import { handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
+import { handleWalletSwitchEthereumChain, handleWatchAsset } from '@auxiliary/wallet-connect/handlers'
 import { DappVerification, RpcMethod } from '../enums'
 import { EvmTransactionData, getEvmTransactionFromHexString } from '@core/layer-2'
 import { activeProfileId } from '@core/profile/stores'
@@ -26,6 +26,9 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
     const { topic, params, id, verifyContext } = event
     const { request, chainId } = params
     const method = request.method as RpcMethod
+
+    // This field is not yet added to the walletconnect types
+    const expiryTimestamp = (request as unknown as { expiryTimestamp?: number }).expiryTimestamp
 
     function returnResponse({ result, error }: CallbackParameters): void {
         const response: JsonRpcResponse | undefined = result
@@ -75,6 +78,14 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
         return
     }
 
+    const requestData: WCRequestInfo = {
+        dapp,
+        evmNetwork,
+        responseCallback: returnResponse,
+        verifiedState,
+        expiryTimestamp,
+    }
+
     switch (method) {
         case RpcMethod.EthSendTransaction:
         case RpcMethod.EthSignTransaction:
@@ -84,20 +95,23 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
                     ? getEvmTransactionFromHexString(request.params[0])
                     : request.params[0]
 
-            void handleEthTransaction(evmTransactionData, dapp, evmNetwork, method, returnResponse, verifiedState)
+            void handleEthTransaction(evmTransactionData, method, requestData)
             break
         }
         case RpcMethod.EthSign:
         case RpcMethod.PersonalSign:
-            void handleSignMessage(request.params, dapp, method, evmNetwork, returnResponse, verifiedState)
+            void handleSignMessage(request.params, method, requestData)
             break
         case RpcMethod.EthSignTypedData:
         case RpcMethod.EthSignTypedDataV3:
         case RpcMethod.EthSignTypedDataV4:
-            void handleEthSignTypedData(request.params, method, dapp, evmNetwork, returnResponse, verifiedState)
+            void handleEthSignTypedData(request.params, method, requestData)
             break
         case RpcMethod.WalletWatchAsset:
-            void handleWatchAsset(request.params, dapp, evmNetwork, returnResponse)
+            void handleWatchAsset(request.params, requestData)
+            break
+        case RpcMethod.WalletSwitchEthereumChain:
+            void handleWalletSwitchEthereumChain(request.params, requestData)
             break
         default:
             returnResponse({ error: getSdkError('INVALID_METHOD') })

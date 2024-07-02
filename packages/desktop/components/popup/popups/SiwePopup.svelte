@@ -2,27 +2,29 @@
     import { localize } from '@core/i18n'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { handleError } from '@core/error/handlers'
-    import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-    import { CallbackParameters } from '@auxiliary/wallet-connect/types'
+    import { WCRequestInfo } from '@auxiliary/wallet-connect/types'
     import { signMessage } from '@core/wallet/actions'
     import { Table, Tabs, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { IEvmNetwork, EvmNetworkId, getNameFromNetworkId } from '@core/network'
+    import { EvmNetworkId, getNameFromNetworkId } from '@core/network'
     import { AccountLabel, DappInfo, KeyValue, NetworkLabel } from '@ui'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { ParsedMessage } from '@spruceid/siwe-parser'
-    import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { openUrlInBrowser } from '@core/app'
+    import { MILLISECONDS_PER_SECOND } from '@core/utils'
+    import { time } from '@core/app/stores'
+    import { RequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
 
     export let rawMessage: string
     export let siweObject: ParsedMessage
     export let account: IAccountState
-    export let evmNetwork: IEvmNetwork
-    export let dapp: IConnectedDapp
-    export let verifiedState: DappVerification
-    export let callback: (params: CallbackParameters) => void
+    export let requestInfo: WCRequestInfo
+
+    const { dapp, responseCallback, verifiedState, evmNetwork, expiryTimestamp } = requestInfo
+    $: hasExpired =
+        expiryTimestamp === undefined ? false : expiryTimestamp * MILLISECONDS_PER_SECOND - $time.getTime() <= 0
 
     enum Tab {
         Details = 'details',
@@ -53,7 +55,7 @@
             const result = await signMessage(rawMessage, evmNetwork.coinType, account)
             closePopup({ forceClose: true })
 
-            callback({ result })
+            responseCallback({ result })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
@@ -82,16 +84,22 @@
     continueButton={{
         text: localize('popups.siwe.action'),
         onClick: onConfirmClick,
+        disabled: hasExpired,
     }}
     busy={isBusy}
 >
-    <DappInfo
-        slot="banner"
-        metadata={dapp.metadata}
-        {verifiedState}
-        showLink={false}
-        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
-    />
+    <svelte:fragment slot="banner">
+        {#if dapp}
+            <DappInfo
+                slot="banner"
+                metadata={dapp.metadata}
+                {verifiedState}
+                showLink={false}
+                classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+            />
+            <RequestExpirationAlert {expiryTimestamp} />
+        {/if}
+    </svelte:fragment>
 
     <div class="flex flex-col gap-5">
         {#if siweObject.statement}

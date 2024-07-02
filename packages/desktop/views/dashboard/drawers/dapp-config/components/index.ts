@@ -1,5 +1,5 @@
 export { default as AccountSelection } from './AccountSelection.svelte'
-export { default as ConnectionRequestExpirationAlert } from './ConnectionRequestExpirationAlert.svelte'
+export { default as RequestExpirationAlert } from './RequestExpirationAlert.svelte'
 export { default as ConnectionSummary } from './ConnectionSummary.svelte'
 export { default as DappCard } from './DappCard.svelte'
 export { default as EditSelectionDrawer } from './EditSelectionDrawer.svelte'

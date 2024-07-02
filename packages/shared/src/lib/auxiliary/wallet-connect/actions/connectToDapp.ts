@@ -15,7 +15,7 @@ export async function connectToDapp(
     const { requiredNamespaces, optionalNamespaces } = sessionProposal.params
 
     await clearOldPairings(dappUrl)
-    await approveSession(sessionProposal, supportedNamespaces, account)
+    await approveSession(sessionProposal, supportedNamespaces, sessionProposal.params.proposer.metadata, account)
 
     const verificationState = sessionProposal.verifyContext.verified
     persistDapp(
