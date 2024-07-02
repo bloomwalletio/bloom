@@ -26,22 +26,22 @@ jobs:
             - run: echo ${{ github.ref }}
 
             - name: Checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
-            - name: Downloading artifacts
-              uses: actions/download-artifact@v2
+            - name: Downloading artifacts (Windows)
+              uses: actions/download-artifact@v4
               with:
                   name: bloom-desktop-windows-2022
                   path: assets
 
-            - name: Downloading artifacts
-              uses: actions/download-artifact@v2
+            - name: Downloading artifacts (macOS)
+              uses: actions/download-artifact@v4
               with:
                   name: bloom-desktop-macos-12
                   path: assets
 
-            - name: Downloading artifacts
-              uses: actions/download-artifact@v2
+            - name: Downloading artifacts (Linux)
+              uses: actions/download-artifact@v4
               with:
                   name: bloom-desktop-ubuntu-20.04
                   path: assets
