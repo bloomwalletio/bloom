@@ -537,6 +537,9 @@
                     }
                 },
                 "dapps": {
+                    "general": {
+                        "loginPrompt": "Dapp request received while logged out. Please log in to continue."
+                    },
                     "dappsList": {
                         "title": "Connected dApps",
                         "connectDapp": "Connect dApp",

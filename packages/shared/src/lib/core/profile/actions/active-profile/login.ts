@@ -44,6 +44,8 @@ import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actio
 import { updateCirculatingSupplyForActiveProfile } from './updateCirculatingSupplyForActiveProfile'
 import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
 import { getEvmNetworks } from '@core/network'
+import { cachedSessionRequest } from '@auxiliary/wallet-connect/stores'
+import { onSessionRequest } from '@auxiliary/wallet-connect/handlers'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager)?.getRouterForAppContext(AppContext.Login)
@@ -133,6 +135,11 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
             void registerProposalsFromNodes(loadedAccounts)
         }
         void cleanupOnboarding()
+        const _cachedSessionRequest = get(cachedSessionRequest)
+        if (_cachedSessionRequest) {
+            cachedSessionRequest.set(undefined)
+            onSessionRequest(_cachedSessionRequest)
+        }
         notificationsManager.setTrackedNetworkAccounts(
             loadedAccounts,
             getEvmNetworks().map(({ id }) => id)
