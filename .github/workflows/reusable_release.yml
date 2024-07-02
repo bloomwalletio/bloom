@@ -142,45 +142,22 @@ jobs:
                   asset_name: bloom-desktop-${{ env.VERSION }}.zip
                   asset_content_type: application/octet-stream
 
-            - name: Upload Linux updater yml
-              uses: actions/upload-release-asset@v1
+            - name: Upload updater yml
+              run: |
+                gh release upload $VERSION latest-linux.yml latest.yml latest-mac.yml
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/latest-linux.yml
-                  asset_name: latest-linux.yml
-                  asset_content_type: application/octet-stream
-
-            - name: Upload Windows updater yml
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/latest.yml
-                  asset_name: latest.yml
-                  asset_content_type: application/octet-stream
-
-            - name: Upload MacOs updater yml
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/latest-mac.yml
-                  asset_name: latest-mac.yml
-                  asset_content_type: application/octet-stream
+                VERSION: ${{ env.VERSION }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              shell: bash
 
             - name: Upload Linux code signature asset
-              uses: actions/upload-release-asset@v1
+              run: |
+                gh release upload $VERSION $ASSET_PATH
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
-                  asset_name: bloom-desktop-${{ env.VERSION }}.AppImage.asc
-                  asset_content_type: application/pgp-signature
+                ASSET_PATH: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
+                VERSION: ${{ env.VERSION }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              shell: bash
 
             - name: Listing artifacts
               run: ls -al
