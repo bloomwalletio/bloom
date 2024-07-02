@@ -28,17 +28,17 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            - name: Downloading artifacts (Windows)
-              uses: actions/download-artifact@v4
-              with:
-                  name: bloom-desktop-windows-2022
-                  path: assets
+            # - name: Downloading artifacts (Windows)
+            #   uses: actions/download-artifact@v4
+            #   with:
+            #       name: bloom-desktop-windows-2022
+            #       path: assets
 
-            - name: Downloading artifacts (macOS)
-              uses: actions/download-artifact@v4
-              with:
-                  name: bloom-desktop-macos-12
-                  path: assets
+            # - name: Downloading artifacts (macOS)
+            #   uses: actions/download-artifact@v4
+            #   with:
+            #       name: bloom-desktop-macos-12
+            #       path: assets
 
             - name: Downloading artifacts (Linux)
               uses: actions/download-artifact@v4
@@ -49,12 +49,8 @@ jobs:
             - name: Preparing release body
               run: |
                   sed -i 's/\r$//' ../../assets/*.sha256 && sed -i '/^$/d' ../../assets/*.sha256 && sed -i -e 's/\(.*\)/\L\1/' ../../assets/*.sha256
-                  WIN_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.exe.sha256)
-                  WIN_BLOCKMAP_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap.sha256)
                   LIN_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.AppImage.sha256)
-                  MAC_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.dmg.sha256)
-                  MAC_BLOCKMAP_SHA256=$(cat ../../assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap.sha256)
-                  echo $WIN_SHA256 $LIN_SHA256 $MAC_SHA256
+                  echo $LIN_SHA256
                   touch CHANGELOG.md
                   echo '### Changelog' >> CHANGELOG.md
                   echo '------' >> CHANGELOG.md
@@ -62,11 +58,7 @@ jobs:
                   echo '[How to verify the authenticity of your Bloom Desktop download](https://wiki.iota.org/shimmer/introduction/how_tos/verify_download/#verify-your-firefly-desktop-download)' >> CHANGELOG.md
                   echo '| File | Platform | SHA256 Hash |' >> CHANGELOG.md
                   echo '| --- | --- | --- |' >> CHANGELOG.md
-                  echo '| bloom-desktop-${{ env.VERSION }}.exe | Windows |' $WIN_SHA256 '|' >> CHANGELOG.md
-                  echo '| bloom-desktop-${{ env.VERSION }}.exe.blockmap | Windows |' $WIN_BLOCKMAP_SHA256 '|' >> CHANGELOG.md
                   echo '| bloom-desktop-${{ env.VERSION }}.AppImage | Linux |' $LIN_SHA256 '|' >> CHANGELOG.md
-                  echo '| bloom-desktop-${{ env.VERSION }}.dmg | MacOS |' $MAC_SHA256 '|' >> CHANGELOG.md
-                  echo '| bloom-desktop-${{ env.VERSION }}.dmg.blockmap | MacOS |' $MAC_BLOCKMAP_SHA256 '|' >> CHANGELOG.md
                   cat CHANGELOG.md
               working-directory: packages/desktop
 
@@ -82,45 +74,45 @@ jobs:
                   draft: true
                   prerelease: true
 
-            - name: Upload macOS binary asset
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg
-                  asset_name: bloom-desktop-${{ env.VERSION }}.dmg
-                  asset_content_type: application/octet-stream
+            # - name: Upload macOS binary asset
+            #   uses: actions/upload-release-asset@v1
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
+            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg
+            #       asset_name: bloom-desktop-${{ env.VERSION }}.dmg
+            #       asset_content_type: application/octet-stream
 
-            - name: Upload macOS blockmap
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
-                  asset_name: bloom-desktop-${{ env.VERSION }}.dmg.blockmap
-                  asset_content_type: application/octet-stream
+            # - name: Upload macOS blockmap
+            #   uses: actions/upload-release-asset@v1
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
+            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
+            #       asset_name: bloom-desktop-${{ env.VERSION }}.dmg.blockmap
+            #       asset_content_type: application/octet-stream
 
-            - name: Upload Windows binary asset
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe
-                  asset_name: bloom-desktop-${{ env.VERSION }}.exe
-                  asset_content_type: application/octet-stream
+            # - name: Upload Windows binary asset
+            #   uses: actions/upload-release-asset@v1
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
+            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe
+            #       asset_name: bloom-desktop-${{ env.VERSION }}.exe
+            #       asset_content_type: application/octet-stream
 
-            - name: Upload Windows blockmap
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
-                  asset_name: bloom-desktop-${{ env.VERSION }}.exe.blockmap
-                  asset_content_type: application/octet-stream
+            # - name: Upload Windows blockmap
+            #   uses: actions/upload-release-asset@v1
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
+            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
+            #       asset_name: bloom-desktop-${{ env.VERSION }}.exe.blockmap
+            #       asset_content_type: application/octet-stream
 
             - name: Upload Linux binary asset
               uses: actions/upload-release-asset@v1
