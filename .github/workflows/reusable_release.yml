@@ -28,17 +28,17 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            # - name: Downloading artifacts (Windows)
-            #   uses: actions/download-artifact@v4
-            #   with:
-            #       name: bloom-desktop-windows-2022
-            #       path: assets
+            - name: Downloading artifacts (Windows)
+              uses: actions/download-artifact@v4
+              with:
+                  name: bloom-desktop-windows-2022
+                  path: assets
 
-            # - name: Downloading artifacts (macOS)
-            #   uses: actions/download-artifact@v4
-            #   with:
-            #       name: bloom-desktop-macos-12
-            #       path: assets
+            - name: Downloading artifacts (macOS)
+              uses: actions/download-artifact@v4
+              with:
+                  name: bloom-desktop-macos-12
+                  path: assets
 
             - name: Downloading artifacts (Linux)
               uses: actions/download-artifact@v4
@@ -76,7 +76,7 @@ jobs:
                 
             - name: Upload Linux assets
               run: |
-                gh release upload $VERSION $BLOCKMAP $BINARY $ZIP $UPDATER --clobber
+                gh release upload $VERSION $BINARY $UPDATER $SIGNATURE --clobber
               env:
                 VERSION: ${{ env.VERSION }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -85,28 +85,28 @@ jobs:
                 UPDATER: assets/latest-linux.yml
               shell: bash
                 
-            # - name: Upload Mac assets
-            #   run: |
-            #     gh release upload $VERSION $BLOCKMAP $BINARY $ZIP $UPDATER --clobber
-            #   env:
-            #     VERSION: ${{ env.VERSION }}
-            #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #     BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
-            #     BINARY: assets/bloom-desktop-${{ env.VERSION }}.dmg
-            #     ZIP: assets/bloom-desktop-${{ env.VERSION }}.zip
-            #     UPDATER: assets/latest-mac.yml
-            #   shell: bash
+            - name: Upload Mac assets
+              run: |
+                gh release upload $VERSION $BLOCKMAP $BINARY $ZIP $UPDATER --clobber
+              env:
+                VERSION: ${{ env.VERSION }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
+                BINARY: assets/bloom-desktop-${{ env.VERSION }}.dmg
+                ZIP: assets/bloom-desktop-${{ env.VERSION }}.zip
+                UPDATER: assets/latest-mac.yml
+              shell: bash
               
-            # - name: Upload Windows assets
-            #   run: |
-            #     gh release upload $VERSION $BINARY $BLOCKMAP $UPDATER --clobber
-            #   env:
-            #     VERSION: ${{ env.VERSION }}
-            #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #     BINARY: assets/bloom-desktop-${{ env.VERSION }}.exe
-            #     BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
-            #     UPDATER: assets/latest.yml
-            #   shell: bash
+            - name: Upload Windows assets
+              run: |
+                gh release upload $VERSION $BINARY $BLOCKMAP $UPDATER --clobber
+              env:
+                VERSION: ${{ env.VERSION }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                BINARY: assets/bloom-desktop-${{ env.VERSION }}.exe
+                BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
+                UPDATER: assets/latest.yml
+              shell: bash
 
             - name: Listing artifacts
               run: ls -al
