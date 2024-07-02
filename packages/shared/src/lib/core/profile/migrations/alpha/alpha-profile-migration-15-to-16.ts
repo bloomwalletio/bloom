@@ -1,5 +1,5 @@
 import { DappVerification } from '@auxiliary/wallet-connect/enums'
-import { persistDapp, persistedDappNamespaces } from '@auxiliary/wallet-connect/stores'
+import { persistedDappNamespaces, persistedDapps } from '@auxiliary/wallet-connect/stores'
 import { IPersistedProfile } from '@core/profile/interfaces'
 import { get } from 'svelte/store'
 
@@ -7,9 +7,19 @@ export function alphaProfileMigration15To16(existingProfile: unknown): Promise<v
     const profile = existingProfile as IPersistedProfile
 
     const namespaces = get(persistedDappNamespaces)[profile.id] ?? {}
-    for (const dappUrl of Object.keys(namespaces)) {
-        persistDapp(dappUrl, DappVerification.Unknown, namespaces[dappUrl])
-    }
+
+    persistedDapps.update((state) => {
+        if (!state[profile.id]) {
+            state[profile.id] = {}
+        }
+        for (const dappUrl of Object.keys(namespaces)) {
+            state[profile.id][dappUrl] = {
+                verificationState: DappVerification.Unknown,
+                namespaces: namespaces[dappUrl],
+            }
+        }
+        return state
+    })
 
     persistedDappNamespaces.update((state) => {
         delete state[profile.id]

@@ -1,5 +1,5 @@
 import { DappVerification } from '@auxiliary/wallet-connect/enums'
-import { getPersistedDapp, persistDapp, persistedDappNamespaces } from '@auxiliary/wallet-connect/stores'
+import { persistedDappNamespaces, persistedDapps } from '@auxiliary/wallet-connect/stores'
 import { DEFAULT_BASE_TOKEN, DEFAULT_EXPLORER_URLS } from '@core/network/constants'
 import { IPersistedProfile } from '@core/profile/interfaces'
 import { IBaseToken } from '@core/token/interfaces'
@@ -10,11 +10,23 @@ export function prodProfileMigration8To9(existingProfile: unknown): Promise<void
     const profile = existingProfile as IPersistedProfile
 
     const namespaces = get(persistedDappNamespaces)[profile.id] ?? {}
-    for (const dappUrl of Object.keys(namespaces)) {
-        if (!getPersistedDapp(dappUrl)) {
-            persistDapp(dappUrl, DappVerification.Unknown, namespaces[dappUrl])
+
+    persistedDapps.update((state) => {
+        if (!state[profile.id]) {
+            state[profile.id] = {}
         }
-    }
+        for (const dappUrl of Object.keys(namespaces)) {
+            if (state[profile.id][dappUrl]) {
+                continue
+            }
+
+            state[profile.id][dappUrl] = {
+                verificationState: DappVerification.Unknown,
+                namespaces: namespaces[dappUrl],
+            }
+        }
+        return state
+    })
 
     persistedDappNamespaces.update((state) => {
         delete state[profile.id]
