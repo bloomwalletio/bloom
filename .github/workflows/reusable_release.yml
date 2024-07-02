@@ -28,17 +28,17 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            # - name: Downloading artifacts (Windows)
-            #   uses: actions/download-artifact@v4
-            #   with:
-            #       name: bloom-desktop-windows-2022
-            #       path: assets
+            - name: Downloading artifacts (Windows)
+              uses: actions/download-artifact@v4
+              with:
+                  name: bloom-desktop-windows-2022
+                  path: assets
 
-            # - name: Downloading artifacts (macOS)
-            #   uses: actions/download-artifact@v4
-            #   with:
-            #       name: bloom-desktop-macos-12
-            #       path: assets
+            - name: Downloading artifacts (macOS)
+              uses: actions/download-artifact@v4
+              with:
+                  name: bloom-desktop-macos-12
+                  path: assets
 
             - name: Downloading artifacts (Linux)
               uses: actions/download-artifact@v4
@@ -73,82 +73,39 @@ jobs:
                   body_path: packages/desktop/CHANGELOG.md
                   draft: true
                   prerelease: true
-
-            # - name: Upload macOS binary asset
-            #   uses: actions/upload-release-asset@v1
-            #   env:
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #   with:
-            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg
-            #       asset_name: bloom-desktop-${{ env.VERSION }}.dmg
-            #       asset_content_type: application/octet-stream
-
-            # - name: Upload macOS blockmap
-            #   uses: actions/upload-release-asset@v1
-            #   env:
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #   with:
-            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
-            #       asset_name: bloom-desktop-${{ env.VERSION }}.dmg.blockmap
-            #       asset_content_type: application/octet-stream
-
-            # - name: Upload Windows binary asset
-            #   uses: actions/upload-release-asset@v1
-            #   env:
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #   with:
-            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe
-            #       asset_name: bloom-desktop-${{ env.VERSION }}.exe
-            #       asset_content_type: application/octet-stream
-
-            # - name: Upload Windows blockmap
-            #   uses: actions/upload-release-asset@v1
-            #   env:
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #   with:
-            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
-            #       asset_name: bloom-desktop-${{ env.VERSION }}.exe.blockmap
-            #       asset_content_type: application/octet-stream
-
-            - name: Upload Linux binary asset
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.AppImage
-                  asset_name: bloom-desktop-${{ env.VERSION }}.AppImage
-                  asset_content_type: application/octet-stream
-
-            # - name: Upload zip asset
-            #   uses: actions/upload-release-asset@v1
-            #   env:
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #   with:
-            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.zip
-            #       asset_name: bloom-desktop-${{ env.VERSION }}.zip
-            #       asset_content_type: application/octet-stream
-
-            - name: Upload updater yml
+                
+            - name: Upload Linux assets
               run: |
-                gh release upload $VERSION assets/latest-linux.yml --clobber
+                gh release upload $VERSION $BLOCKMAP $BINARY $ZIP $UPDATER --clobber
               env:
                 VERSION: ${{ env.VERSION }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                BINARY: assets/bloom-desktop-${{ env.VERSION }}.AppImage
+                SIGNATURE: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
+                UPDATER: assets/latest-linux.yml
               shell: bash
-
-            - name: Upload Linux code signature asset
+                
+            - name: Upload Mac assets
               run: |
-                gh release upload $VERSION $ASSET_PATH
+                gh release upload $VERSION $BLOCKMAP $BINARY $ZIP $UPDATER --clobber
               env:
-                ASSET_PATH: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
                 VERSION: ${{ env.VERSION }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
+                BINARY: assets/bloom-desktop-${{ env.VERSION }}.dmg
+                ZIP: assets/bloom-desktop-${{ env.VERSION }}.zip
+                UPDATER: assets/latest-mac.yml
+              shell: bash
+              
+            - name: Upload Windows assets
+              run: |
+                gh release upload $VERSION $BINARY $BLOCKMAP $UPDATER --clobber
+              env:
+                VERSION: ${{ env.VERSION }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                BINARY: assets/bloom-desktop-${{ env.VERSION }}.exe
+                BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
+                UPDATER: assets/latest.yml
               shell: bash
 
             - name: Listing artifacts
