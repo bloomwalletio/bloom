@@ -136,7 +136,7 @@ jobs:
 
             - name: Upload updater yml
               run: |
-                gh release upload $VERSION assets/latest-linux.yml
+                gh release upload $VERSION assets/latest-linux.yml --clobber
               env:
                 VERSION: ${{ env.VERSION }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
