@@ -124,15 +124,15 @@ jobs:
                   asset_name: bloom-desktop-${{ env.VERSION }}.AppImage
                   asset_content_type: application/octet-stream
 
-            - name: Upload zip asset
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.zip
-                  asset_name: bloom-desktop-${{ env.VERSION }}.zip
-                  asset_content_type: application/octet-stream
+            # - name: Upload zip asset
+            #   uses: actions/upload-release-asset@v1
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       upload_url: ${{ steps.create_release.outputs.upload_url }}
+            #       asset_path: assets/bloom-desktop-${{ env.VERSION }}.zip
+            #       asset_name: bloom-desktop-${{ env.VERSION }}.zip
+            #       asset_content_type: application/octet-stream
 
             - name: Upload updater yml
               run: |
