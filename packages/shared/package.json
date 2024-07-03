@@ -14,7 +14,7 @@
         "@iota/sdk": "1.1.5",
         "@iota/util.js": "2.0.0-rc.2",
         "@metamask/eth-sig-util": "7.0.2",
-        "@spruceid/siwe-parser": "2.0.2",
+        "@spruceid/siwe-parser": "2.1.2",
         "@sveltejs/svelte-virtual-list": "3.0.1",
         "@walletconnect/jsonrpc-types": "1.0.4",
         "@walletconnect/notify-client": "1.4.1",
@@ -36,7 +36,7 @@
         "test": "jest"
     },
     "devDependencies": {
-        "@swc/core": "1.5.24",
+        "@swc/core": "1.6.6",
         "@swc/jest": "0.2.36",
         "@types/jest": "29.5.12",
         "@types/sanitize-html": "2.11.0",
@@ -46,9 +46,9 @@
         "lokijs": "1.5.12",
         "postcss": "8.4.38",
         "postcss-cli": "11.0.0",
-        "svelte-loader": "3.2.0",
+        "svelte-loader": "3.2.3",
         "tailwindcss": "3.4.3",
-        "tslib": "2.6.2",
+        "tslib": "2.6.3",
         "valid-url": "1.0.9",
         "zxcvbn": "4.4.2"
     }
