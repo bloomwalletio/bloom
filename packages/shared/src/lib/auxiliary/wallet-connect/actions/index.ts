@@ -1,3 +1,4 @@
+export * from './addAccountToAllDappSessions'
 export * from './approveSession'
 export * from './approveSessionAuthenticate'
 export * from './buildSupportedNamespaceFromSelections'
