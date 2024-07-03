@@ -152,7 +152,7 @@ jobs:
               uses: "actions/github-script@v6"
               env:
                 VERSION: ${{ env.VERSION }}
-                UPLOAD_URL: ${{ steps.create_release.outputs.upload_url }}
+                UPLOAD_URL: ${{ steps.create_release.outputs.result }}
               with:
                 github-token: "${{ secrets.GITHUB_TOKEN }}"
                 script: |
