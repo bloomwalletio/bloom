@@ -1,13 +1,24 @@
 <script lang="ts">
     import { Tabs } from '@bloomwalletio/ui'
-    import { COLLECTIBLES_TABS } from '@core/nfts'
     import { selectedCollectiblesTab } from '@core/nfts/stores'
+    import { KeyValue } from '@ui'
+    import features from '@features/features'
+    import { localize } from '@core/i18n'
 
-    const selectedIndex = COLLECTIBLES_TABS.findIndex((tab) => tab.key === $selectedCollectiblesTab?.key)
+    const COLLECTIBLES_TABS: KeyValue<string>[] = [
+        { key: 'collectibles', value: localize('views.collectibles.gallery.title') },
+        ...(features.collectibles?.collections.enabled
+            ? [{ key: 'collections', value: localize('views.collectibles.collectionsGallery.title') }]
+            : []),
+    ]
 </script>
 
 {#if COLLECTIBLES_TABS.length > 1}
     <div class="w-64">
-        <Tabs {selectedIndex} bind:selectedTab={$selectedCollectiblesTab} tabs={COLLECTIBLES_TABS} />
+        <Tabs
+            bind:selectedIndex={$selectedCollectiblesTab}
+            selectedTab={COLLECTIBLES_TABS[$selectedCollectiblesTab]}
+            tabs={COLLECTIBLES_TABS}
+        />
     </div>
 {/if}
