@@ -71,116 +71,120 @@ jobs:
               working-directory: packages/desktop
 
             - name: Create Release
+              uses: "actions/github-script@v7"
               id: create_release
-              uses: actions/create-release@v1.1.2
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                TAG: ${{ github.ref }}
+                RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
+                BODY_PATH: packages/desktop/CHANGELOG.md
               with:
-                  tag_name: ${{ github.ref }}
-                  release_name: Bloom Desktop ${{ env.RELEASE_NAME }}
-                  body_path: packages/desktop/CHANGELOG.md
-                  draft: true
-                  prerelease: true
+                github-token: "${{ secrets.GITHUB_TOKEN }}"
+                result-encoding: string
+                script: |
+                  const fs = require('fs');
 
-            - name: Upload macOS binary asset
-              uses: actions/upload-release-asset@v1
+                  const { TAG, RELEASE_NAME, BODY_PATH } = process.env;
+                  const tag = TAG.replace('refs/tags/', '');
+                  const releaseName = RELEASE_NAME.replace('refs/tags/', '');
+              
+                  const bodyPath = BODY_PATH;
+                  let bodyFileContent = null;
+                  if (bodyPath !== '' && !!bodyPath) {
+                    try {
+                      bodyFileContent = fs.readFileSync(bodyPath, { encoding: 'utf8' });
+                    } catch (error) {
+                      core.setFailed(error.message);
+                    }
+                  }
+              
+                  const createReleaseResponse = await github.rest.repos.createRelease({
+                    tag_name: tag,
+                    name: releaseName,
+                    body: bodyFileContent,
+                    draft: true,
+                    prerelease: true,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    target_commitish: context.sha
+                  });
+              
+                  return createReleaseResponse.data.upload_url;
+
+            - name: Upload Windows assets
+              uses: "actions/github-script@v7"
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                VERSION: ${{ env.VERSION }}
+                UPLOAD_URL: ${{ steps.create_release.outputs.result }}
               with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg
-                  asset_name: bloom-desktop-${{ env.VERSION }}.dmg
-                  asset_content_type: application/octet-stream
+                github-token: "${{ secrets.GITHUB_TOKEN }}"
+                script: |
+                  const fs = require('fs').promises;
 
-            - name: Upload macOS blockmap
-              uses: actions/upload-release-asset@v1
+                  const { VERSION, UPLOAD_URL } = process.env;
+                  const files = [
+                    `bloom-desktop-${VERSION}.exe`,
+                    `bloom-desktop-${VERSION}.exe.blockmap`,
+                    'latest.yml'
+                  ]
+                  for (const file of files) {
+                    await github.rest.repos.uploadReleaseAsset({
+                      url: UPLOAD_URL,
+                      name: file,
+                      data: await fs.readFile('assets/' + file)
+                    });
+                  }
+            
+
+            - name: Upload Mac assets
+              uses: "actions/github-script@v7"
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                VERSION: ${{ env.VERSION }}
+                UPLOAD_URL: ${{ steps.create_release.outputs.result }}
               with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
-                  asset_name: bloom-desktop-${{ env.VERSION }}.dmg.blockmap
-                  asset_content_type: application/octet-stream
+                github-token: "${{ secrets.GITHUB_TOKEN }}"
+                script: |
+                  const fs = require('fs').promises;
 
-            - name: Upload Windows binary asset
-              uses: actions/upload-release-asset@v1
+                  const { VERSION, UPLOAD_URL } = process.env;
+                  const files = [
+                    `bloom-desktop-${VERSION}.dmg`,
+                    `bloom-desktop-${VERSION}.dmg.blockmap`,
+                    `bloom-desktop-${VERSION}.zip`,
+                    'latest-mac.yml'
+                  ]
+                  for (const file of files) {
+                    await github.rest.repos.uploadReleaseAsset({
+                      url: UPLOAD_URL,
+                      name: file,
+                      data: await fs.readFile('assets/' + file)
+                    });
+                  }
+            
+
+            - name: Upload Linux assets
+              uses: "actions/github-script@v7"
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                VERSION: ${{ env.VERSION }}
+                UPLOAD_URL: ${{ steps.create_release.outputs.result }}
               with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe
-                  asset_name: bloom-desktop-${{ env.VERSION }}.exe
-                  asset_content_type: application/octet-stream
+                github-token: "${{ secrets.GITHUB_TOKEN }}"
+                script: |
+                  const fs = require('fs').promises;
 
-            - name: Upload Windows blockmap
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
-                  asset_name: bloom-desktop-${{ env.VERSION }}.exe.blockmap
-                  asset_content_type: application/octet-stream
-
-            - name: Upload Linux binary asset
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.AppImage
-                  asset_name: bloom-desktop-${{ env.VERSION }}.AppImage
-                  asset_content_type: application/octet-stream
-
-            - name: Upload zip asset
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.zip
-                  asset_name: bloom-desktop-${{ env.VERSION }}.zip
-                  asset_content_type: application/octet-stream
-
-            - name: Upload Linux updater yml
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/latest-linux.yml
-                  asset_name: latest-linux.yml
-                  asset_content_type: application/octet-stream
-
-            - name: Upload Windows updater yml
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/latest.yml
-                  asset_name: latest.yml
-                  asset_content_type: application/octet-stream
-
-            - name: Upload MacOs updater yml
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/latest-mac.yml
-                  asset_name: latest-mac.yml
-                  asset_content_type: application/octet-stream
-
-            - name: Upload Linux code signature asset
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
-                  asset_name: bloom-desktop-${{ env.VERSION }}.AppImage.asc
-                  asset_content_type: application/pgp-signature
-
+                  const { VERSION, UPLOAD_URL } = process.env;
+                  const files = [
+                    `bloom-desktop-${VERSION}.AppImage`,
+                    `bloom-desktop-${VERSION}.AppImage.asc`,
+                    'latest-linux.yml'
+                  ]
+                  for (const file of files) {
+                    await github.rest.repos.uploadReleaseAsset({
+                      url: UPLOAD_URL,
+                      name: file,
+                      data: await fs.readFile('assets/' + file)
+                    });
+                  }
+            
+    
             - name: Listing artifacts
               run: ls -al
