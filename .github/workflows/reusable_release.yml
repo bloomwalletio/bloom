@@ -146,11 +146,11 @@ jobs:
                     target_commitish: context.sha
                   });
               
-                  return JSON.stringify(createReleaseResponse);
+                  return createReleaseResponse.data.upload_url;
 
             
             - name: OUTPUT
-              run: echo "${{ steps.create_release.outputs }}"
+              run: echo "${{ steps.create_release.outputs.result }}"
 
             - name: Upload Linux assets
               uses: "actions/github-script@v7"
