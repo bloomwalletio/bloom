@@ -13,13 +13,15 @@ export async function generateBaseEvmActivity(
     account: IAccountState
 ): Promise<BaseEvmActivity> {
     const networkId = evmNetwork.id
+    const recipientAddress = transaction.recipient ?? transaction.to
+
     const direction =
-        getAddressFromAccountForNetwork(account, networkId) === transaction.recipient
+        getAddressFromAccountForNetwork(account, networkId) === recipientAddress
             ? ActivityDirection.Incoming
             : ActivityDirection.Outgoing
 
     const sender = getSubjectFromAddress(transaction.from, networkId)
-    const recipient = getSubjectFromAddress(transaction.recipient ?? transaction.to, networkId)
+    const recipient = getSubjectFromAddress(recipientAddress, networkId)
 
     const subject = direction === ActivityDirection.Outgoing ? recipient : sender
     const isInternal = isSubjectInternal(recipient)
