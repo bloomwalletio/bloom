@@ -49,6 +49,7 @@ export const ALPHA_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     20: alphaProfileMigration20To21,
     // ^^^ release 1.0.4 ^^^
     21: alphaProfileMigration21To22,
-    22: alphaProfileMigration22To23,
     // ^^^ release 1.0.8 ^^^
+    22: alphaProfileMigration22To23,
+    // ^^^ release 1.1.2 ^^^
 }

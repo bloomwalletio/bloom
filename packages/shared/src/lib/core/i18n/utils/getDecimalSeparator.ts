@@ -9,10 +9,11 @@ export function getDecimalSeparator(currency: string | undefined = undefined): s
         currency = get(activeProfile)?.settings?.marketCurrency
     }
 
+    const isCurrencySupportedByIntl = currency?.length <= 3
     return (
         Intl.NumberFormat(appLanguage, {
             style: 'currency',
-            currency: currency.length > 3 ? 'USD' : currency,
+            currency: isCurrencySupportedByIntl ? currency : 'USD',
         })
             .formatToParts(1.1)
             .find((part) => part.type === 'decimal')?.value ?? '.'

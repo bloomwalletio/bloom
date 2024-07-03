@@ -30,6 +30,7 @@ export const PROD_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     10: prodProfileMigration10To11,
     // ^^^ release 1.0.4 ^^^
     11: prodProfileMigration11To12,
-    12: prodProfileMigration12To13,
     // ^^^ release 1.0.8 ^^^
+    12: prodProfileMigration12To13,
+    // ^^^ release 1.1.2 ^^^
 }
