@@ -5,7 +5,7 @@ import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
 import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
 import { buildUrl } from '@core/utils/url'
-import { MarketCurrency } from '@core/market/enums/market-currency.enum'
+import { FiatCurrency } from '@core/market/enums/fiat-currency.enum'
 import fs from 'fs'
 import { IError } from '@core/error'
 import { QueryParameters } from '@core/utils'
@@ -226,7 +226,7 @@ export default class TransakManager implements ITransakManager {
             throw new Error('Undefined Transak API key')
         }
 
-        if (!Object.values(MarketCurrency).includes(currency as MarketCurrency)) {
+        if (!Object.values(FiatCurrency).includes(currency as FiatCurrency)) {
             throw new Error('Invalid Transak currency')
         }
 

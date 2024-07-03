@@ -1,11 +1,11 @@
 <script lang="ts">
     import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { MarketCurrency } from '@core/market'
+    import { CryptoCurrency, FiatCurrency, MarketCurrency } from '@core/market'
     import { activeProfile, updateActiveProfileSettings } from '@core/profile/stores'
     import SettingsSection from '../SettingsSection.svelte'
 
-    const options: IOption[] = Object.values(MarketCurrency)
+    const options: IOption[] = [...Object.values(FiatCurrency), ...Object.values(CryptoCurrency)]
         .map((currency) => ({ value: currency, label: currency.toUpperCase() }))
         .sort()
 

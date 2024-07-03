@@ -1,6 +1,6 @@
 import { IPersistedAccountData } from '@core/account'
 import { APP_STAGE } from '@core/app'
-import { MarketCurrency } from '@core/market'
+import { FiatCurrency } from '@core/market'
 import {
     DEFAULT_EVM_NETWORK_CONFIGURATIONS_FOR_STARDUST_NETWORK,
     DEFAULT_EXPLORER_URLS,
@@ -111,7 +111,7 @@ function buildEvmNetworksFromThirdPartyPersistedNetwork(
 
 function buildSettingsFromThirdPartyPersistedSettings(settings: IThirdPartyPersistedSettings): IProfileSettings {
     return {
-        marketCurrency: settings.marketCurrency ?? MarketCurrency.Usd,
+        marketCurrency: settings.marketCurrency ?? FiatCurrency.USD,
         lockScreenTimeoutInMinutes: settings.lockScreenTimeoutInMinutes ?? DEFAULT_LOCK_SCREEN_TIMEOUT_IN_MINUTES,
         strongholdPasswordTimeoutInMinutes:
             settings.strongholdPasswordTimeoutInMinutes ?? DEFAULT_STRONGHOLD_PASSWORD_TIMEOUT_IN_MINUTES,
