@@ -156,7 +156,7 @@ jobs:
               with:
                 github-token: "${{ secrets.GITHUB_TOKEN }}"
                 script: |
-                  const fs = require('fs');
+                  const fs = require('fs').promises;
 
                   const { VERSION, UPLOAD_URL } = process.env;
                   const files = [
@@ -168,7 +168,7 @@ jobs:
                     await github.rest.repos.uploadReleaseAsset({
                       url: UPLOAD_URL,
                       name: file,
-                      file: fs.readFileSync('assets/' + file)
+                      data: await fs.readFile('assets/' + file)
                     });
                   }
             
