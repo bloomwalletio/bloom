@@ -168,7 +168,7 @@ jobs:
                     await github.rest.repos.uploadReleaseAsset({
                       url: UPLOAD_URL,
                       name: file,
-                      file: fs.readFileSync('asset/' + file)
+                      file: fs.readFileSync('assets/' + file)
                     });
                   }
             
