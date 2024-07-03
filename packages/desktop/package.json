@@ -1,7 +1,7 @@
 {
     "name": "desktop",
     "productName": "Bloom",
-    "version": "0.0.16-alpha-20",
+    "version": "0.0.16-alpha-21",
     "description": "Simple and secure web3 wallet for the IOTA and Shimmer ecosystem",
     "main": "public/build/main.process.js",
     "repository": "git@github.com:bloomwalletio/bloom.git",
