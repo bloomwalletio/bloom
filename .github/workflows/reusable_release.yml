@@ -82,16 +82,16 @@ jobs:
                   draft: true
                   prerelease: true
                 
-            - name: Upload Linux assets
-              run: |
-                gh release upload $RELEASE_NAME $BINARY $UPDATER $SIGNATURE --clobber
-              env:
-                RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                BINARY: assets/bloom-desktop-${{ env.VERSION }}.AppImage
-                SIGNATURE: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
-                UPDATER: assets/latest-linux.yml
-              shell: bash
+            # - name: Upload Linux assets
+            #   run: |
+            #     gh release upload $RELEASE_NAME $BINARY $UPDATER $SIGNATURE --clobber
+            #   env:
+            #     RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
+            #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #     BINARY: assets/bloom-desktop-${{ env.VERSION }}.AppImage
+            #     SIGNATURE: assets/bloom-desktop-${{ env.VERSION }}.AppImage.asc
+            #     UPDATER: assets/latest-linux.yml
+            #   shell: bash
                 
             # - name: Upload Mac assets
             #   run: |
