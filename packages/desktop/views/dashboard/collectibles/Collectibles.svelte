@@ -6,7 +6,7 @@
     import { CollectiblesDetailsView, CollectiblesGalleryView, CollectionsGalleryView } from './views'
     import { selectedCollectiblesTab } from '@core/nfts/stores'
 
-    $: $selectedAccountIndex !== undefined && $collectiblesRouter.reset()
+    $: $selectedAccountIndex !== undefined && $collectiblesRouter?.reset()
 
     $: if (features.analytics.dashboardRoute.collectibles.enabled && $collectiblesRoute) {
         Platform.trackEvent('collectibles-route', { route: $collectiblesRoute })
@@ -15,9 +15,9 @@
 
 <div class="w-full h-full flex flex-col flex-nowrap p-8 relative flex-1">
     {#if $collectiblesRoute === CollectiblesRoute.Gallery}
-        {#if $selectedCollectiblesTab?.key === 'collectibles'}
+        {#if $selectedCollectiblesTab === 0}
             <CollectiblesGalleryView />
-        {:else if $selectedCollectiblesTab?.key === 'collections'}
+        {:else if $selectedCollectiblesTab === 1}
             <CollectionsGalleryView />
         {/if}
     {/if}
