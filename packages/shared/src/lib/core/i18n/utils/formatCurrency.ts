@@ -27,7 +27,7 @@ export function formatCurrency(
         convertedValue = Number(value.toFixed(2))
     }
 
-    const isCurrencyNotSupported = currency.length > 3
+    const isCurrencyNotSupported = currency?.length > 3
     if (isCurrencyNotSupported) {
         const formattedValue = convertedValue.toLocaleString(appLanguage, {
             minimumFractionDigits: 2,
