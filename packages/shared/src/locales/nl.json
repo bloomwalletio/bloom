@@ -572,8 +572,8 @@
                         "unsupportedMethods": "Deze dApp is niet volledig compatibel met Bloom. Sommige methoden of gebeurtenissen worden niet ondersteund.",
                         "supportedOnOtherProfile": "Deze dApp draait op een ondersteund netwerk, maar is niet toegankelijk met dit profiel. Gebruik een profiel verbonden met het vereiste netwerk.",
                         "acceptInsecureConnection": "Ik begrijp het en wil verder gaan",
-                        "supported": "Current Networks",
-                        "requiredNetworks": "Required Networks",
+                        "supported": "Huidige netwerken",
+                        "requiredNetworks": "Vereiste netwerken",
                         "scamHint": "Dit domein wordt door meerdere beveiligingsaanbieders als onveilig gemarkeerd. Ga direct weg om jouw activa te beschermen.",
                         "invalidHint": "Deze website is een domein dat niet overeenkomt met de afzender van het verzoek. Goedkeuren kan leiden tot verlies van saldo.",
                         "unknownHint": "Deze dApp is niet geverifieerd en kan beveiligingsrisico's bevatten door te verbinden."
@@ -589,8 +589,9 @@
                     },
                     "confirmConnection": {
                         "title": "Verbinding maken met een applicatie",
-                        "expired": "Connection request has expired",
-                        "expiresIn": "Connection request expires in",
+                        "expired": "Request has expired",
+                        "expiresIn": "Request expires in",
+                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
                         "permissions": {
                             "step": "Permissies",
                             "tip": "Dit zijn beperkte machtigingen voor de dApp om een interactieverzoek te sturen voor jouw goedkeuring. Keur alleen apps goed die je kent en vertrouwt.",
@@ -622,6 +623,7 @@
                         "description": "Beschrijving",
                         "url": "URL",
                         "verifyUrl": "URL verifiëren",
+                        "notConnectedToProfile": "Not connected to this profile",
                         "disconnect": {
                             "title": "Verbinding verbreken",
                             "description": "Wil je de verbinding met {dappName} verbreken?"
@@ -1489,7 +1491,7 @@
         "testDeepLink": "Test deep link",
         "delete": "Verwijder",
         "remove": "Verwijder",
-        "signIn": "Sign in",
+        "signIn": "Inloggen",
         "getStarted": "Aan de slag",
         "vote": "Stem",
         "addProposal": "Voorstel toevoegen",
@@ -1760,7 +1762,7 @@
         "saving": "Opslaan",
         "enabled": "Ingeschakeld",
         "disabled": "Uitgeschakeld",
-        "networkSettings": "Network settings"
+        "networkSettings": "Netwerkinstellingen"
     },
     "filters": {
         "title": "Filters",
