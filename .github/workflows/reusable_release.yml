@@ -70,17 +70,17 @@ jobs:
                   cat CHANGELOG.md
               working-directory: packages/desktop
 
-            - name: Create Release
-              id: create_release
-              uses: actions/create-release@v1.1.2
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  tag_name: ${{ github.ref }}
-                  release_name: Bloom Desktop ${{ env.RELEASE_NAME }}
-                  body_path: packages/desktop/CHANGELOG.md
-                  draft: true
-                  prerelease: true
+            # - name: Create Release
+            #   id: create_release
+            #   uses: actions/create-release@v1.1.2
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       tag_name: ${{ github.ref }}
+            #       release_name: Bloom Desktop ${{ env.RELEASE_NAME }}
+            #       body_path: packages/desktop/CHANGELOG.md
+            #       draft: true
+            #       prerelease: true
                 
             # - name: Upload Linux assets
             #   run: |
@@ -116,25 +116,70 @@ jobs:
             #     UPDATER: assets/latest.yml
             #   shell: bash
 
+            - name: Create Release
+              uses: "actions/github-script@v6"
+              id: create_release
+              env:
+                TAG: ${{ github.ref }}
+                RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
+                BODY_PATH: packages/desktop/CHANGELOG.md
+              with:
+                github-token: "${{ secrets.GITHUB_TOKEN }}"
+                result-encoding: string
+                script: |
+                  const fs = require('fs');
+
+                  const { TAG, RELEASE_NAME, BODY_PATH } = process.env;
+                  const tag = TAG.replace('refs/tags/', '');
+                  const releaseName = RELEASE_NAME.replace('refs/tags/', '');
+              
+                  const bodyPath = BODY_PATH;
+                  let bodyFileContent = null;
+                  if (bodyPath !== '' && !!bodyPath) {
+                    try {
+                      bodyFileContent = fs.readFileSync(bodyPath, { encoding: 'utf8' });
+                    } catch (error) {
+                      core.setFailed(error.message);
+                    }
+                  }
+              
+                  const createReleaseResponse = await github.repos.createRelease({
+                    tag_name: tag,
+                    name: releaseName,
+                    body: bodyFileContent,
+                    draft: true,
+                    prerelease: true,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    target_commitish: context.sha
+                  });
+              
+                  return createReleaseResponse.upload_url;
+
             - name: Upload Linux assets
               uses: "actions/github-script@v6"
+              env:
+                VERSION: ${{ env.VERSION }}
+                UPLOAD_URL: ${{ steps.create_release.outputs.upload_url }}
               with:
                 github-token: "${{ secrets.GITHUB_TOKEN }}"
                 script: |
                   const fs = require('fs');
+
+                  const { VERSION, UPLOAD_URL } = process.env;
                   const files = [
-                    'bloom-desktop-${{ env.VERSION }}.AppImage',
-                    'bloom-desktop-${{ env.VERSION }}.AppImage.asc',
+                    `bloom-desktop-${VERSION}.AppImage`,
+                    `bloom-desktop-${VERSION}.AppImage.asc`,
                     'latest-linux.yml'
                   ]
                   for (const file of files) {
                     await github.rest.repos.uploadReleaseAsset({
-                      url: ${{ steps.create_release.outputs.upload_url }},
+                      url: UPLOAD_URL,
                       name: file,
                       file: fs.readFileSync('asset/' + file)
                     });
                   }
-        
-
+            
+    
             - name: Listing artifacts
               run: ls -al
