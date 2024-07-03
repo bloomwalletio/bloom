@@ -1,27 +1,28 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
-    import { IConnectedDapp } from '@auxiliary/wallet-connect/interface'
-    import { CallbackParameters } from '@auxiliary/wallet-connect/types'
+    import { WCRequestInfo } from '@auxiliary/wallet-connect/types'
     import { Alert, JsonTree, Table, Text } from '@bloomwalletio/ui'
     import { IAccountState } from '@core/account'
-    import { IEvmNetwork } from '@core/network'
     import { AccountLabel, DappInfo } from '@ui'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { LedgerAppName } from '@core/ledger'
     import PopupTemplate from '../PopupTemplate.svelte'
     import { SignTypedDataVersion } from '@metamask/eth-sig-util'
     import { signEip712Message } from '@core/wallet/actions/signEip712Message'
-    import { DappVerification } from '@auxiliary/wallet-connect/enums'
     import { handleError } from '@core/error/handlers'
+    import { MILLISECONDS_PER_SECOND } from '@core/utils'
+    import { time } from '@core/app/stores'
+    import { RequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
 
     export let data: string
     export let version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4
     export let account: IAccountState
-    export let evmNetwork: IEvmNetwork
-    export let dapp: IConnectedDapp
-    export let verifiedState: DappVerification
-    export let callback: (params: CallbackParameters) => void
+    export let requestInfo: WCRequestInfo
+
+    const { dapp, responseCallback, verifiedState, evmNetwork, expiryTimestamp } = requestInfo
+    $: hasExpired =
+        expiryTimestamp === undefined ? false : expiryTimestamp * MILLISECONDS_PER_SECOND - $time.getTime() <= 0
 
     let isBusy = false
 
@@ -37,7 +38,7 @@
             const result = await signEip712Message(data, version, evmNetwork.coinType, account)
             closePopup({ forceClose: true })
 
-            callback({ result })
+            responseCallback({ result })
             openPopup({
                 id: PopupId.SuccessfulDappInteraction,
                 props: {
@@ -66,16 +67,22 @@
     continueButton={{
         text: localize('popups.signMessage.action'),
         onClick: onConfirmClick,
+        disabled: hasExpired,
     }}
     busy={isBusy}
 >
-    <DappInfo
-        slot="banner"
-        metadata={dapp.metadata}
-        {verifiedState}
-        showLink={false}
-        classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
-    />
+    <svelte:fragment slot="banner">
+        {#if dapp}
+            <DappInfo
+                slot="banner"
+                metadata={dapp.metadata}
+                {verifiedState}
+                showLink={false}
+                classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+            />
+            <RequestExpirationAlert {expiryTimestamp} />
+        {/if}
+    </svelte:fragment>
 
     <div class="space-y-5">
         <div>
