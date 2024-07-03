@@ -123,8 +123,8 @@ jobs:
                 script: |
                   const fs = require('fs');
                   const files = [
-                    'bloom-desktop-${{ env.VERSION }}.AppImage'
-                    'bloom-desktop-${{ env.VERSION }}.AppImage.asc'
+                    'bloom-desktop-${{ env.VERSION }}.AppImage',
+                    'bloom-desktop-${{ env.VERSION }}.AppImage.asc',
                     'latest-linux.yml'
                   ]
                   for (const file of files) {
