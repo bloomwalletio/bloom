@@ -93,28 +93,48 @@ jobs:
                 UPDATER: assets/latest-linux.yml
               shell: bash
                 
-            - name: Upload Mac assets
-              run: |
-                gh release upload $RELEASE_NAME $BLOCKMAP $BINARY $ZIP $UPDATER --clobber
-              env:
-                RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
-                BINARY: assets/bloom-desktop-${{ env.VERSION }}.dmg
-                ZIP: assets/bloom-desktop-${{ env.VERSION }}.zip
-                UPDATER: assets/latest-mac.yml
-              shell: bash
+            # - name: Upload Mac assets
+            #   run: |
+            #     gh release upload $RELEASE_NAME $BLOCKMAP $BINARY $ZIP $UPDATER --clobber
+            #   env:
+            #     RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
+            #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #     BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.dmg.blockmap
+            #     BINARY: assets/bloom-desktop-${{ env.VERSION }}.dmg
+            #     ZIP: assets/bloom-desktop-${{ env.VERSION }}.zip
+            #     UPDATER: assets/latest-mac.yml
+            #   shell: bash
               
-            - name: Upload Windows assets
-              run: |
-                gh release upload $RELEASE_NAME $BINARY $BLOCKMAP $UPDATER --clobber
-              env:
-                RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                BINARY: assets/bloom-desktop-${{ env.VERSION }}.exe
-                BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
-                UPDATER: assets/latest.yml
-              shell: bash
+            # - name: Upload Windows assets
+            #   run: |
+            #     gh release upload $RELEASE_NAME $BINARY $BLOCKMAP $UPDATER --clobber
+            #   env:
+            #     RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
+            #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #     BINARY: assets/bloom-desktop-${{ env.VERSION }}.exe
+            #     BLOCKMAP: assets/bloom-desktop-${{ env.VERSION }}.exe.blockmap
+            #     UPDATER: assets/latest.yml
+            #   shell: bash
+
+            - name: Upload Linux assets
+              uses: "actions/github-script@v6"
+              with:
+                github-token: "${{ secrets.GITHUB_TOKEN }}"
+                script: |
+                  const fs = require('fs');
+                  const files = [
+                    'bloom-desktop-${{ env.VERSION }}.AppImage'
+                    'bloom-desktop-${{ env.VERSION }}.AppImage.asc'
+                    'latest-linux.yml'
+                  ]
+                  for (const file of files) {
+                    await github.rest.repos.uploadReleaseAsset({
+                      url: ${{ steps.create_release.outputs.upload_url }},
+                      name: file,
+                      file: fs.readFileSync('asset/' + file).
+                    });
+                  }
+        
 
             - name: Listing artifacts
               run: ls -al
