@@ -1,4 +1,3 @@
-export * from './collectibles-tabs.constant'
 export * from './current-irc27-version.constant'
 export * from './default-nft-filter.constant'
 export * from './default-nft-name.constant'
