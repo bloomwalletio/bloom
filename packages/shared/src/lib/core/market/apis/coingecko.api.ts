@@ -1,7 +1,7 @@
 import { DEFAULT_APPLICATION_JSON_REQUEST_OPTIONS, QueryParameters, buildUrl } from '@core/utils'
 import { MARKET_API_BASE_URL } from '../constants'
-import { CoinGeckoApiEndpoint, CoinGeckoNetworkId, MarketCoinId, MarketCurrency } from '../enums'
-import { MarketCoinPrices } from '../types'
+import { CoinGeckoApiEndpoint, CoinGeckoNetworkId, MarketCoinId } from '../enums'
+import { MarketCoinPrices, MarketCurrency } from '../types'
 import { CoinGeckoCoin } from '../interfaces'
 import { localize } from '@core/i18n'
 
