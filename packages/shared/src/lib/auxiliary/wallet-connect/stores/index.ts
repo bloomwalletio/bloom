@@ -1,3 +1,4 @@
+export * from './cached-session-request.store'
 export * from './connected-dapps.store'
 export * from './persisted-dapps.store'
 export * from './persisted-dapp-namespaces.store'

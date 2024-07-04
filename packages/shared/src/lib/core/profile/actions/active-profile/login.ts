@@ -44,6 +44,8 @@ import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actio
 import { updateCirculatingSupplyForActiveProfile } from './updateCirculatingSupplyForActiveProfile'
 import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
 import { getEvmNetworks } from '@core/network'
+import { cachedSessionRequest } from '@auxiliary/wallet-connect/stores'
+import { onSessionRequest } from '@auxiliary/wallet-connect/handlers'
 
 export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager)?.getRouterForAppContext(AppContext.Login)
@@ -115,6 +117,13 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
 
         if (getLastLoggedInProfileId() !== _activeProfile.id) {
             void disconnectAllDapps()
+            cachedSessionRequest.set(undefined)
+        } else {
+            const _cachedSessionRequest = get(cachedSessionRequest)
+            if (_cachedSessionRequest) {
+                cachedSessionRequest.set(undefined)
+                onSessionRequest(_cachedSessionRequest)
+            }
         }
 
         setSelectedAccount(lastUsedAccountIndex ?? loadedAccounts?.[0]?.index)
