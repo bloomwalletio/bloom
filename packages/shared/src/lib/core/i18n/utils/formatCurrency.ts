@@ -27,6 +27,16 @@ export function formatCurrency(
         convertedValue = Number(value.toFixed(2))
     }
 
+    const isCurrencyNotSupported = currency?.length > 3
+    if (isCurrencyNotSupported) {
+        const formattedValue = convertedValue.toLocaleString(appLanguage, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 20,
+            useGrouping: grouped,
+        })
+        return `${formattedValue} ${currency.toUpperCase()}`
+    }
+
     const formatter = Intl.NumberFormat(appLanguage, {
         style: 'currency',
         currency: currency ?? 'USD',
