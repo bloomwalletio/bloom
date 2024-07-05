@@ -5,7 +5,7 @@ export interface ITransakApiFiatCurrenciesResponse {
 }
 
 export interface ITransakApiFiatCurrenciesResponseItem {
-    symbol: [FiatCurrency]
+    symbol: keyof typeof FiatCurrency
     supportingCountries: string[]
     logoSymbol: string
     name: string
