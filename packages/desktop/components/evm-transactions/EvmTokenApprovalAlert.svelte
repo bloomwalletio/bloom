@@ -9,6 +9,7 @@
     import { EvmTransactionAlert } from '.'
     import { IToken } from '@core/token'
     import { openUrlInBrowser } from '@core/app/utils'
+    import { Alert } from '@bloomwalletio/ui'
 
     export let parsedTokenApproval: IParsedTokenApproval
     export let networkId: EvmNetworkId
@@ -37,6 +38,7 @@
     {#if tokenTransfer.token}
         <TransactionAssetSection {tokenTransfer} />
     {:else}
+        <Alert variant="warning" text={localize('popups.tokenApproval.warning')} />
         <Table
             collapsible
             collapsibleTitle={localize('general.details')}
