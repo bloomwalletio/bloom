@@ -572,8 +572,8 @@
                         "unsupportedMethods": "Diese dApp ist nicht vollständig mit Bloom kompatibel. Einige Methoden oder Events werden nicht unterstützt.",
                         "supportedOnOtherProfile": "Diese dApp läuft in einem unterstützten Netzwerk, ist aber mit diesem Profil nicht zugänglich. Bitte verwenden Sie ein Profil, das mit dem benötigten Netzwerk verbunden ist.",
                         "acceptInsecureConnection": "Ich verstehe und möchte fortfahren",
-                        "supported": "Current Networks",
-                        "requiredNetworks": "Required Networks",
+                        "supported": "Aktuelle Netzwerke",
+                        "requiredNetworks": "Erforderliche Netzwerke",
                         "scamHint": "Diese Domain wurde von mehreren Sicherheitsanbietern als unsicher markiert. Verlasse sie sofort, um deine Assets zu schützen.",
                         "invalidHint": "Diese Website ist eine Domain, die nicht mit dem Absender der Anfrage übereinstimmt. Genehmigung kann zum Verlust des Guthabens führen.",
                         "unknownHint": "Diese dApp wurde nicht verifiziert und es kann beim Verbinden zu Sicherheitsrisiken kommen."
@@ -589,8 +589,9 @@
                     },
                     "confirmConnection": {
                         "title": "Mit einer App verbinden",
-                        "expired": "Connection request has expired",
-                        "expiresIn": "Connection request expires in",
+                        "expired": "Request has expired",
+                        "expiresIn": "Request expires in",
+                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
                         "permissions": {
                             "step": "Berechtigungen",
                             "tip": "Dies sind begrenzte Berechtigungen für die dApp, eine Interaktionsanfrage für Ihre Genehmigung zu senden. Bestätige nur dApps die du kennst und denen du vertraust.",
@@ -622,6 +623,7 @@
                         "description": "Beschreibung",
                         "url": "URL",
                         "verifyUrl": "URL verifizieren",
+                        "notConnectedToProfile": "Not connected to this profile",
                         "disconnect": {
                             "title": "Trennen",
                             "description": "Möchten du die Verbindung von {dappName} trennen?"
@@ -1489,7 +1491,7 @@
         "testDeepLink": "Deep-Link testen",
         "delete": "Löschen",
         "remove": "Entfernen",
-        "signIn": "Sign in",
+        "signIn": "Einloggen",
         "getStarted": "Los geht's",
         "vote": "Abstimmen",
         "addProposal": "Vorschlag hinzufügen",
@@ -1760,7 +1762,7 @@
         "saving": "Speichere",
         "enabled": "Aktiviert",
         "disabled": "Deaktiviert",
-        "networkSettings": "Network settings"
+        "networkSettings": "Netzwerkeinstellungen"
     },
     "filters": {
         "title": "Filter",

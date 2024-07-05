@@ -220,7 +220,7 @@
                 "title": "Profil"
             },
             "collectibles": {
-                "title": "Kolekcje"
+                "title": "Galeria"
             },
             "security": {
                 "title": "Bezpieczeństwo"
@@ -572,8 +572,8 @@
                         "unsupportedMethods": "Ta aplikacja dApp nie jest w pełni kompatybilna z Bloom. Niektóre procesy lub akcje nie są obsługiwane.",
                         "supportedOnOtherProfile": "Ta aplikacja dApp działa w obsługiwanej sieci, ale nie jest dostępna przy użyciu tego profilu. Użyj profilu połączonego z wymaganą siecią.",
                         "acceptInsecureConnection": "Rozumiem i chcę kontynuować",
-                        "supported": "Current Networks",
-                        "requiredNetworks": "Required Networks",
+                        "supported": "Bieżące sieci",
+                        "requiredNetworks": "Wymagane sieci",
                         "scamHint": "Ta domena jest oznaczona jako niebezpieczna przez wielu dostawców zabezpieczeń. Opuść ją natychmiast, aby chronić swoje aktywa.",
                         "invalidHint": "Ta strona jest domeną, która nie pasuje do nadawcy żądania. Potwierdzenie może prowadzić do utraty środków.",
                         "unknownHint": "Ta aplikacja dApp nie została zweryfikowana i może zawierać zagrożenia bezpieczeństwa."
@@ -589,8 +589,9 @@
                     },
                     "confirmConnection": {
                         "title": "Połącz z aplikacją",
-                        "expired": "Connection request has expired",
-                        "expiresIn": "Connection request expires in",
+                        "expired": "Request has expired",
+                        "expiresIn": "Request expires in",
+                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
                         "permissions": {
                             "step": "Uprawnienia",
                             "tip": "Są to ograniczone uprawnienia dla aplikacji dApp w celu wysyłania żądania interakcji do Twojego zatwierdzenia. Zatwierdzaj tylko aplikacje, które znasz i którym ufasz.",
@@ -622,6 +623,7 @@
                         "description": "Opis",
                         "url": "URL",
                         "verifyUrl": "Zweryfikuj URL",
+                        "notConnectedToProfile": "Not connected to this profile",
                         "disconnect": {
                             "title": "Rozłącz",
                             "description": "Czy chcesz rozłączyć się z aplikacją {dappName}?"
@@ -668,7 +670,7 @@
         },
         "collectibles": {
             "gallery": {
-                "title": "Kolekcje",
+                "title": "Zebrane",
                 "emptyTitle": "Nie znaleziono żadnych kolekcji",
                 "noResults": "Brak wyników",
                 "timelocked": "Zablokowano na {timeDiff}",
@@ -1489,7 +1491,7 @@
         "testDeepLink": "Testuj deep link",
         "delete": "Usuń",
         "remove": "Usuń",
-        "signIn": "Sign in",
+        "signIn": "Zaloguj się",
         "getStarted": "Zaczynamy",
         "vote": "Głosuj",
         "addProposal": "Dodaj propozycję",
@@ -1760,7 +1762,7 @@
         "saving": "Zapisywanie",
         "enabled": "Włączone",
         "disabled": "Wyłączone",
-        "networkSettings": "Network settings"
+        "networkSettings": "Ustawienia sieci"
     },
     "filters": {
         "title": "Filtry",
@@ -2282,10 +2284,10 @@
     },
     "tabs": {
         "wallet": "Portfel",
-        "collectibles": "Kolekcje",
+        "collectibles": "Galeria",
         "governance": "Zarządzanie",
         "campaigns": "Kampanie",
-        "buySell": "Kup IOTA",
+        "buySell": "Zakup IOTA",
         "developer": "Deweloper",
         "tokens": "Tokeny",
         "settings": "Ustawienia",
