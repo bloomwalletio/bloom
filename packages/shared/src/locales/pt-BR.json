@@ -589,8 +589,9 @@
                     },
                     "confirmConnection": {
                         "title": "Conectar com um aplicativo",
-                        "expired": "Connection request has expired",
-                        "expiresIn": "Connection request expires in",
+                        "expired": "Request has expired",
+                        "expiresIn": "Request expires in",
+                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
                         "permissions": {
                             "step": "Permissions",
                             "tip": "Estas são permissões limitadas para o dApp enviar uma solicitação de interação para sua aprovação. Aprove somente apps que você conhece e confia.",
@@ -622,6 +623,7 @@
                         "description": "Descrição",
                         "url": "URL",
                         "verifyUrl": "Verificar URL",
+                        "notConnectedToProfile": "Not connected to this profile",
                         "disconnect": {
                             "title": "Desconectar",
                             "description": "Do you want to disconnect from {dappName}?"
