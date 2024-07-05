@@ -24,15 +24,12 @@
     export let network: Network
     export let account: IAccountState
 
-    $: tokens = $selectedAccountTokens?.[network.id]
+    $: nativeTokens = $selectedAccountTokens?.[network.id]?.nativeTokens?.filter((token) => !token.hidden) ?? []
     $: nfts = $ownedNfts.filter((nft) => nft.networkId === network.id && !(nft.hidden || nft.isScam))
     $: address = getAddressFromAccountForNetwork(account, network.id)
 
-    $: hasTokens = tokens?.nativeTokens?.length > 0
-    $: hasNfts = nfts?.length > 0
-
     let clientWidth = 0
-    $: numberOfTokensToDisplay = Math.min(tokens?.nativeTokens?.length ?? 0, 3)
+    $: numberOfTokensToDisplay = Math.min(nativeTokens.length, 3)
     $: numberOfNftsToDisplay = numberOfTokensToDisplay < 3 ? 3 : clientWidth >= 260 ? 3 : 2
 
     let formattedBalance: string
@@ -133,8 +130,7 @@
     </account-network-summary-balance>
     <account-network-summary-assets bind:clientWidth class="flex flex-row justify-between items-center">
         <div class="flex items-center">
-            {#if hasTokens}
-                {@const nativeTokens = tokens?.nativeTokens ?? []}
+            {#if nativeTokens.length > 0}
                 <AvatarGroup avatarSize="md" remainder={nativeTokens.length - numberOfTokensToDisplay}>
                     {#each nativeTokens.slice(0, numberOfTokensToDisplay) ?? [] as token}
                         <TokenAvatar hideNetworkBadge size="md" {token} />
@@ -143,7 +139,7 @@
             {/if}
         </div>
         <div class="flex items-center">
-            {#if hasNfts}
+            {#if nfts?.length > 0}
                 <button
                     on:click={() => onNftGroupClick()}
                     disabled={!features?.collectibles?.enabled || !$activeProfile?.features?.collectibles}
