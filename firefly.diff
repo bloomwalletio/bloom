@@ -1099,6 +1099,7 @@
  delete mode 100644 packages/shared/lib/core/app/stores/time.store.ts
  delete mode 100644 packages/shared/lib/core/app/utils/openUrlInBrowser.ts
  delete mode 100644 packages/shared/lib/core/app/utils/shouldBeDarkMode.ts
+ delete mode 100644 packages/shared/lib/core/i18n/utils/formatCurrency.ts
  delete mode 100644 packages/shared/lib/core/i18n/utils/parseCurrency.ts
  delete mode 100644 packages/shared/lib/core/layer-2/abis/index.ts
  delete mode 100644 packages/shared/lib/core/layer-2/actions/fetchSelectedAccountLayer2Balance.ts
@@ -1167,8 +1168,10 @@
  delete mode 100644 packages/shared/lib/core/market/actions/getAndUpdateMarketPrices.ts
  delete mode 100644 packages/shared/lib/core/market/actions/getMarketPrices.ts
  delete mode 100644 packages/shared/lib/core/market/actions/index.ts
+ delete mode 100644 packages/shared/lib/core/market/constants/default-market-currency.constant.ts
  delete mode 100644 packages/shared/lib/core/market/constants/market-api-base-url.constant.ts
  delete mode 100644 packages/shared/lib/core/market/enums/index.ts
+ delete mode 100644 packages/shared/lib/core/market/enums/market-currency.enum.ts
  delete mode 100644 packages/shared/lib/core/market/index.ts
  delete mode 100644 packages/shared/lib/core/market/stores/index.ts
  delete mode 100644 packages/shared/lib/core/market/utils/getMarketAmountFromAssetValue.ts
@@ -1840,12 +1843,11 @@
  rename packages/shared/{ => src}/lib/core/i18n/types/locale-options.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/i18n/types/locale.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/ensureZeroes.ts (100%)
- rename packages/shared/{ => src}/lib/core/i18n/utils/formatCurrency.ts (52%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/formatNumber.ts (88%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/getCurrencyPosition.ts (88%)
- rename packages/shared/{ => src}/lib/core/i18n/utils/getDecimalSeparator.ts (83%)
+ rename packages/shared/{ => src}/lib/core/i18n/utils/getDecimalSeparator.ts (67%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/getFormattedTimeStamp.ts (58%)
- rename packages/shared/{ => src}/lib/core/i18n/utils/getGroupSeparator.ts (83%)
+ rename packages/shared/{ => src}/lib/core/i18n/utils/getGroupSeparator.ts (67%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/i18n/utils/replaceCurrencyDecimal.ts (100%)
  rename packages/shared/{lib/core/layer-2/abis/isc-sandbox.abi.ts => src/lib/core/isc/abis/isc-magic-contract-sandbox.abi.ts} (89%)
@@ -1899,18 +1901,16 @@
  rename packages/shared/{ => src}/lib/core/ledger/utils/isLedgerDeviceMatchingActiveProfile.ts (62%)
  rename packages/shared/{ => src}/lib/core/ledger/utils/isLedgerError.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/actions/market-prices-polling.ts (100%)
- rename packages/shared/{ => src}/lib/core/market/constants/default-market-currency.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/constants/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/constants/market-poll-interval.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/constants/market-simple-price-endpoint.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/enums/market-coin-id.enum.ts (54%)
- rename packages/shared/{ => src}/lib/core/market/enums/market-currency.enum.ts (94%)
  rename packages/shared/{lib/auxiliary/icon => src/lib/core/market}/index.ts (77%)
  rename packages/shared/{ => src}/lib/core/market/interfaces/simple-prices-query-parameters.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/market/stores/market-coin-prices.store.ts (100%)
- rename packages/shared/{ => src}/lib/core/market/types/index.ts (100%)
+ rename packages/shared/{ => src}/lib/core/market/types/index.ts (66%)
  rename packages/shared/{ => src}/lib/core/market/types/market-coin-prices.type.ts (53%)
- rename packages/shared/{ => src}/lib/core/market/types/market-prices.type.ts (100%)
+ rename packages/shared/{ => src}/lib/core/market/types/market-prices.type.ts (53%)
  rename packages/shared/{ => src}/lib/core/network/actions/addNodeToClientOptions.ts (76%)
  rename packages/shared/{ => src}/lib/core/network/actions/editNodeInClientOptions.ts (82%)
  rename packages/shared/{ => src}/lib/core/network/actions/index.ts (56%)
@@ -1944,7 +1944,7 @@
  rename packages/shared/{ => src}/lib/core/nfts/constants/default-max-nft-downloading-time-in-seconds.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/default-max-nft-size-in-megabytes.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/default-nft-name.constant.ts (100%)
- rename packages/shared/{ => src}/lib/core/nfts/constants/index.ts (69%)
+ rename packages/shared/{ => src}/lib/core/nfts/constants/index.ts (77%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/nft-id-byte-length.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/constants/nft-media-file-name.constant.ts (100%)
  rename packages/shared/{ => src}/lib/core/nfts/enums/download-error-type.enum.ts (78%)

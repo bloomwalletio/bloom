@@ -1,4 +1,4 @@
-import { MarketCurrency } from '@core/market/enums/market-currency.enum'
+import { MarketCurrency } from '@core/market/types'
 
 export interface ITransakWindowData {
     currency: MarketCurrency

@@ -1,4 +1,5 @@
 export * from './coingecko-api-endpoint.enum'
 export * from './coingecko-network-id.enum'
+export * from './crypto-currency.enum'
+export * from './fiat-currency.enum'
 export * from './market-coin-id.enum'
-export * from './market-currency.enum'

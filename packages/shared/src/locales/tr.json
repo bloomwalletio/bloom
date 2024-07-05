@@ -572,8 +572,8 @@
                         "unsupportedMethods": "Bu dApp, Bloom ile tam uyumlu değil. Bazı yöntemler veya olaylar desteklenmiyor.",
                         "supportedOnOtherProfile": "Bu dApp, desteklenen bir ağda çalışır ancak bu profille erişilemez. Lütfen gerekli ağa bağlı bir profil kullanın.",
                         "acceptInsecureConnection": "Anlıyorum ve devam etmek istiyorum",
-                        "supported": "Current Networks",
-                        "requiredNetworks": "Required Networks",
+                        "supported": "Mevcut Ağlar",
+                        "requiredNetworks": "Gerekli Ağlar",
                         "scamHint": "Bu alan adı birden fazla güvenlik sağlayıcısı tarafından güvensiz olarak işaretlenmiştir. Varlıklarınızı korumak için hemen terk edin.",
                         "invalidHint": "Bu web sitesi, talebi gönderenle eşleşmeyen bir alan adıdır. Onaylamak fon kaybına yol açabilir.",
                         "unknownHint": "Bu uygulama doğrulanmamıştır ve bağlanarak güvenlik riskleri içerebilir."
@@ -589,8 +589,9 @@
                     },
                     "confirmConnection": {
                         "title": "Bir uygulama ile bağlanmak",
-                        "expired": "Connection request has expired",
-                        "expiresIn": "Connection request expires in",
+                        "expired": "Request has expired",
+                        "expiresIn": "Request expires in",
+                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
                         "permissions": {
                             "step": "İzinler",
                             "tip": "Bunlar dApp'in onayınıza etkileşim isteği göndermesine yönelik sınırlı izinlerdir. Yalnızca bildiğiniz ve güvendiğiniz uygulamaları onaylayın.",
@@ -622,6 +623,7 @@
                         "description": "Açıklama",
                         "url": "URL",
                         "verifyUrl": "URL'yi Doğrula",
+                        "notConnectedToProfile": "Not connected to this profile",
                         "disconnect": {
                             "title": "Bağlantıyı kes",
                             "description": "{dappName} ile bağlantıyı kesmek istiyor musunuz?"
@@ -1489,7 +1491,7 @@
         "testDeepLink": "Derin bağlantıyı test edin",
         "delete": "Sil",
         "remove": "Kaldır",
-        "signIn": "Sign in",
+        "signIn": "Giriş yap",
         "getStarted": "Başlayın",
         "vote": "Oy",
         "addProposal": "Teklif ekle",
@@ -1760,7 +1762,7 @@
         "saving": "Kaydediliyor",
         "enabled": "Etkinleştirilmiş",
         "disabled": "Devre dışı",
-        "networkSettings": "Network settings"
+        "networkSettings": "Ağ ayarları"
     },
     "filters": {
         "title": "Filtreler",

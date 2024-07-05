@@ -4,6 +4,7 @@ import { JsonRpcResponse } from '@walletconnect/jsonrpc-types'
 import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import {
+    cachedSessionRequest,
     getConnectedDappBySessionTopic,
     getWalletClient,
     setConnectedDapps,
@@ -19,8 +20,21 @@ import { EvmTransactionData, getEvmTransactionFromHexString } from '@core/layer-
 import { activeProfileId } from '@core/profile/stores'
 import { get } from 'svelte/store'
 import { Platform } from '@core/app/classes'
+import { showNotification } from '@auxiliary/notification'
+import { localize } from '@core/i18n'
 
 export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
+    Platform.focusWindow()
+
+    if (!get(activeProfileId)) {
+        cachedSessionRequest.set(event)
+        showNotification({
+            variant: 'info',
+            text: localize('dashboard.drawers.dapps.general.loginPrompt'),
+        })
+        return
+    }
+
     // We need to call this here, because if the dapp requests too fast after approval, we won't have the dapp in the store yet
     setConnectedDapps()
     const { topic, params, id, verifyContext } = event
@@ -52,13 +66,6 @@ export function onSessionRequest(event: Web3WalletTypes.SessionRequest): void {
                 handleError(err)
             }
         }
-    }
-
-    Platform.focusWindow()
-
-    if (!get(activeProfileId)) {
-        returnResponse({ error: getSdkError('SESSION_SETTLEMENT_FAILED') })
-        return
     }
 
     const dapp = getConnectedDappBySessionTopic(topic)

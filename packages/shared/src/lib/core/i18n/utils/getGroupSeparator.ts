@@ -9,10 +9,11 @@ export function getGroupSeparator(currency: string | undefined = undefined): str
         currency = get(activeProfile)?.settings?.marketCurrency
     }
 
+    const isCurrencySupportedByIntl = currency?.length <= 3
     return (
         Intl.NumberFormat(appLanguage, {
             style: 'currency',
-            currency: currency ?? 'USD',
+            currency: isCurrencySupportedByIntl ? currency : 'USD',
         })
             .formatToParts(1111111)
             .find((part) => part.type === 'group')?.value ?? ','
