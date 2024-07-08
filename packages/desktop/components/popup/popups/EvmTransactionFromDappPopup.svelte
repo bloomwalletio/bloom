@@ -248,7 +248,11 @@
             <TransactionAssetSection {nft} />
         {:else if parsedData?.type === ParsedSmartContractType.TokenApproval}
             <div class="flex flex-col gap-3">
-                <EvmTokenApprovalAlert parsedTokenApproval={parsedData} networkId={evmNetwork.id} />
+                <EvmTokenApprovalAlert
+                    parsedTokenApproval={parsedData}
+                    rawTransactionData={preparedTransaction.data}
+                    network={evmNetwork}
+                />
             </div>
         {:else if parsedData?.type === ParsedSmartContractType.SmartContract}
             <div class="flex flex-col gap-3">
