@@ -249,8 +249,8 @@
         {:else if parsedData?.type === ParsedSmartContractType.TokenApproval}
             <div class="flex flex-col gap-3">
                 <EvmTokenApprovalAlert
+                    bind:rawTransactionData={preparedTransaction.data}
                     parsedTokenApproval={parsedData}
-                    rawTransactionData={preparedTransaction.data}
                     network={evmNetwork}
                 />
             </div>

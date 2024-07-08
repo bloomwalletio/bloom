@@ -24,8 +24,8 @@
 
     $: rawAmount, updateEvmTransactionData()
     function updateEvmTransactionData(): void {
-        tokenTransfer = { ...tokenTransfer, rawAmount }
-        const updatedData = contract.methods.approve(spender, rawAmount).encodeABI()
+        tokenTransfer = { ...tokenTransfer, rawAmount: BigInt(rawAmount ?? 0) }
+        const updatedData = contract.methods.approve(spender, rawAmount ?? '0').encodeABI()
 
         rawTransactionData = updatedData
     }
