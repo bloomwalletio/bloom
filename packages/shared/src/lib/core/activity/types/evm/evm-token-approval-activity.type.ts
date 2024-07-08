@@ -7,7 +7,12 @@ import { IParsedInput } from '@core/layer-2/interfaces'
 export type EvmTokenApprovalActivity = BaseEvmActivity & {
     type: EvmActivityType.TokenApproval
     tokenTransfer: {
-        standard: TokenStandard.Erc20 | TokenStandard.Irc30 | NftStandard.Irc27 | NftStandard.Erc721
+        standard:
+            | TokenStandard.BaseToken
+            | TokenStandard.Erc20
+            | TokenStandard.Irc30
+            | NftStandard.Irc27
+            | NftStandard.Erc721
         tokenId: string
         rawAmount: bigint
     }

@@ -176,11 +176,13 @@ function parseSmartContractDataWithErc20Abi(
         inputs: Object.values(decodedData.inputs),
     }
 
+    const standard = recipientAddress === ISC_BASE_COIN_ADDRESS ? TokenStandard.BaseToken : TokenStandard.Erc20
+
     switch (decodedData.name) {
         case 'transfer': {
             return {
                 type: ParsedSmartContractType.TokenTransfer,
-                standard: TokenStandard.Erc20,
+                standard,
                 tokenId: recipientAddress,
                 rawAmount: BigInt(decodedData.inputs._value.value),
                 rawData,
@@ -192,7 +194,7 @@ function parseSmartContractDataWithErc20Abi(
         case 'approve': {
             return {
                 type: ParsedSmartContractType.TokenApproval,
-                standard: TokenStandard.Erc20,
+                standard,
                 tokenId: recipientAddress,
                 spender: decodedData.inputs._spender.value,
                 rawAmount: BigInt(decodedData.inputs._value.value),
