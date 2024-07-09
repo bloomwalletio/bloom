@@ -2,7 +2,7 @@
     import { RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { WCRequestInfo } from '@auxiliary/wallet-connect/types'
     import {
-        EvmTokenApprovalAlert,
+        EvmTokenApprovalView,
         EvmBaseCoinTransferView,
         EvmDappRequestHeader,
         EvmSmartContractAlert,
@@ -279,6 +279,28 @@
             {busy}
         />
     </EvmNftTransferView>
+    <!-- Evm Token Approval -->
+{:else if parsedData?.type === ParsedSmartContractType.TokenApproval}
+    <EvmTokenApprovalView
+        {baseCoinTransfer}
+        parsedTokenApproval={parsedData}
+        networkId={evmNetwork.id}
+        dappName={dapp?.metadata?.name}
+        {backButton}
+        {continueButton}
+        {busy}
+    >
+        <EvmDappRequestHeader slot="dappHeader" {requestInfo} />
+        <EvmTransactionDetails
+            slot="transactionDetails"
+            bind:selectedGasSpeed
+            sourceNetwork={evmNetwork}
+            destinationNetworkId={evmNetwork.id}
+            transaction={preparedTransaction}
+            {gasPrices}
+            {busy}
+        />
+    </EvmTokenApprovalView>
 {:else}
     <PopupTemplate
         {title}
@@ -309,23 +331,7 @@
             {#if preparedTransaction.value}
                 <TransactionAssetSection {baseCoinTransfer} />
             {/if}
-            {#if parsedData?.type === ParsedSmartContractType.TokenApproval}
-                <div class="flex flex-col gap-3">
-                    <EvmTokenApprovalAlert
-                        bind:rawTransactionData={preparedTransaction.data}
-                        parsedTokenApproval={parsedData}
-                        network={evmNetwork}
-                    />
-                    <!-- <Alert variant="warning" text={localize(`${localeKey}.${verifiedState.toLowerCase()}Hint`)}>
-                        <checkbox-container class:flashingCheckbox slot="body">
-                            <Checkbox
-                                label={localize(`${localeKey}.acceptInsecureConnection`)}
-                                bind:checked={acceptedInsecureConnection}
-                            />
-                        </checkbox-container>
-                    </Alert> -->
-                </div>
-            {:else if parsedData?.type === ParsedSmartContractType.SmartContract}
+            {#if parsedData?.type === ParsedSmartContractType.SmartContract}
                 <div class="flex flex-col gap-3">
                     <EvmSmartContractAlert parsedSmartContract={parsedData} networkId={evmNetwork.id} />
                 </div>
