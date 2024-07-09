@@ -1,8 +1,12 @@
 <script lang="ts">
     import { RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { WCRequestInfo } from '@auxiliary/wallet-connect/types'
-    import { EvmTokenApprovalAlert } from '@components'
-    import { EvmSmartContractAlert } from '@components/evm-transactions'
+    import {
+        EvmTokenApprovalAlert,
+        EvmBaseCoinTransferView,
+        EvmDappRequestHeader,
+        EvmSmartContractAlert,
+    } from '@components'
     import { IAccountState } from '@core/account'
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
@@ -22,7 +26,7 @@
     import { getActiveProfileId } from '@core/profile/stores'
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
-    import { Converter, MILLISECONDS_PER_SECOND, truncateString } from '@core/utils'
+    import { Converter, HEX_PREFIX, MILLISECONDS_PER_SECOND, truncateString } from '@core/utils'
     import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { LegacyTransaction } from '@ethereumjs/tx'
@@ -201,61 +205,28 @@
     onDestroy(() => {
         clearInterval(intervalId)
     })
-</script>
 
-<PopupTemplate
-    {title}
-    backButton={{
+    const backButton = {
         text: localize('actions.cancel'),
         onClick: onCancelClick,
-    }}
-    continueButton={{
-        text: localize(`popups.${localeKey}.action`),
+    }
+
+    $: continueButton = {
+        text: 'REPLACED BY CHILD',
         onClick: onConfirmClick,
         disabled: hasExpired,
-    }}
-    {busy}
->
-    <svelte:fragment slot="banner">
-        {#if dapp}
-            <DappInfo
-                metadata={dapp.metadata}
-                {verifiedState}
-                showLink={false}
-                classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
-            />
-            <RequestExpirationAlert {expiryTimestamp} />
-        {/if}
-    </svelte:fragment>
-    <div class="space-y-5">
-        {#if preparedTransaction.value}
-            <TransactionAssetSection {baseCoinTransfer} />
-        {/if}
-        {#if parsedData?.type === ParsedSmartContractType.CoinTransfer}
-            {@const baseCoinTransfer = {
-                token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
-                rawAmount: parsedData.rawAmount,
-            }}
-            <TransactionAssetSection {baseCoinTransfer} />
-        {:else if parsedData?.type === ParsedSmartContractType.TokenTransfer}
-            {@const tokenTransfer = {
-                token: getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id),
-                rawAmount: parsedData.rawAmount,
-            }}
-            <TransactionAssetSection {tokenTransfer} />
-        {:else if parsedData?.type === ParsedSmartContractType.NftTransfer}
-            {@const nft = getNftByIdForAccount($selectedAccount?.index, parsedData.nftId)}
-            <TransactionAssetSection {nft} />
-        {:else if parsedData?.type === ParsedSmartContractType.TokenApproval}
-            <div class="flex flex-col gap-3">
-                <EvmTokenApprovalAlert parsedTokenApproval={parsedData} networkId={evmNetwork.id} />
-            </div>
-        {:else if parsedData?.type === ParsedSmartContractType.SmartContract}
-            <div class="flex flex-col gap-3">
-                <EvmSmartContractAlert parsedSmartContract={parsedData} networkId={evmNetwork.id} />
-            </div>
-        {/if}
+    }
+</script>
+
+<!-- Base Coin Transfers -->
+{#if (preparedTransaction.value && (!preparedTransaction.data || preparedTransaction.data === HEX_PREFIX)) || parsedData?.type === ParsedSmartContractType.CoinTransfer}
+    {@const value =
+        Converter.bigIntLikeToBigInt(preparedTransaction.value ?? 0) +
+        (parsedData?.type === ParsedSmartContractType.CoinTransfer ? parsedData?.rawAmount : BigInt(0))}
+    <EvmBaseCoinTransferView {value} {method} {evmNetwork} {backButton} {continueButton} {busy}>
+        <EvmDappRequestHeader slot="dappHeader" {requestInfo} />
         <EvmTransactionDetails
+            slot="transactionDetails"
             bind:selectedGasSpeed
             sourceNetwork={evmNetwork}
             destinationNetworkId={evmNetwork.id}
@@ -263,5 +234,81 @@
             {gasPrices}
             {busy}
         />
-    </div>
-</PopupTemplate>
+    </EvmBaseCoinTransferView>
+{:else}
+    <PopupTemplate
+        {title}
+        backButton={{
+            text: localize('actions.cancel'),
+            onClick: onCancelClick,
+        }}
+        continueButton={{
+            text: localize(`popups.${localeKey}.action`),
+            onClick: onConfirmClick,
+            disabled: hasExpired,
+        }}
+        {busy}
+    >
+        <svelte:fragment slot="banner">
+            {#if dapp}
+                <DappInfo
+                    metadata={dapp.metadata}
+                    {verifiedState}
+                    showLink={false}
+                    classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
+                />
+                <RequestExpirationAlert {expiryTimestamp} />
+            {/if}
+        </svelte:fragment>
+
+        <div class="space-y-5">
+            {#if preparedTransaction.value}
+                <TransactionAssetSection {baseCoinTransfer} />
+            {/if}
+            {#if parsedData?.type === ParsedSmartContractType.CoinTransfer}
+                {@const baseCoinTransfer = {
+                    token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
+                    rawAmount: parsedData.rawAmount,
+                }}
+                <TransactionAssetSection {baseCoinTransfer} />
+            {:else if parsedData?.type === ParsedSmartContractType.TokenTransfer}
+                {@const tokenTransfer = {
+                    token: getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id),
+                    rawAmount: parsedData.rawAmount,
+                }}
+                <TransactionAssetSection {tokenTransfer} />
+            {:else if parsedData?.type === ParsedSmartContractType.NftTransfer}
+                {@const nft = getNftByIdForAccount($selectedAccount?.index, parsedData.nftId)}
+                <TransactionAssetSection {nft} />
+            {:else if parsedData?.type === ParsedSmartContractType.TokenApproval}
+                <div class="flex flex-col gap-3">
+                    <EvmTokenApprovalAlert
+                        bind:rawTransactionData={preparedTransaction.data}
+                        parsedTokenApproval={parsedData}
+                        network={evmNetwork}
+                    />
+                    <!-- <Alert variant="warning" text={localize(`${localeKey}.${verifiedState.toLowerCase()}Hint`)}>
+                        <checkbox-container class:flashingCheckbox slot="body">
+                            <Checkbox
+                                label={localize(`${localeKey}.acceptInsecureConnection`)}
+                                bind:checked={acceptedInsecureConnection}
+                            />
+                        </checkbox-container>
+                    </Alert> -->
+                </div>
+            {:else if parsedData?.type === ParsedSmartContractType.SmartContract}
+                <div class="flex flex-col gap-3">
+                    <EvmSmartContractAlert parsedSmartContract={parsedData} networkId={evmNetwork.id} />
+                </div>
+            {/if}
+            <EvmTransactionDetails
+                bind:selectedGasSpeed
+                sourceNetwork={evmNetwork}
+                destinationNetworkId={evmNetwork.id}
+                transaction={preparedTransaction}
+                {gasPrices}
+                {busy}
+            />
+        </div>
+    </PopupTemplate>
+{/if}
