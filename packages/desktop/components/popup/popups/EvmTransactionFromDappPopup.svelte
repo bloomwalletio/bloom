@@ -1,12 +1,7 @@
 <script lang="ts">
     import { RpcMethod } from '@auxiliary/wallet-connect/enums'
     import { WCRequestInfo } from '@auxiliary/wallet-connect/types'
-    import {
-        EvmTokenApprovalView,
-        EvmBaseCoinTransferView,
-        EvmDappRequestHeader,
-        EvmSmartContractAlert,
-    } from '@components'
+    import { EvmTokenApprovalView, EvmBaseCoinTransferView, EvmDappRequestHeader } from '@components'
     import { IAccountState } from '@core/account'
     import { getSelectedAccount, selectedAccount } from '@core/account/stores'
     import { handleError } from '@core/error/handlers'
@@ -30,13 +25,10 @@
     import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { LegacyTransaction } from '@ethereumjs/tx'
-    import { DappInfo, TransactionAssetSection } from '@ui'
     import { EvmTransactionDetails } from '@views/dashboard/send-flow/views/components'
     import { onDestroy, onMount } from 'svelte'
-    import PopupTemplate from '../PopupTemplate.svelte'
-    import { RequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
     import { time } from '@core/app/stores'
-    import { EvmNftTransferView, EvmTokenTransferView } from '@components/evm-transactions'
+    import { EvmNftTransferView, EvmSmartContractView, EvmTokenTransferView } from '@components/evm-transactions'
 
     export let preparedTransaction: EvmTransactionData
     export let requestInfo: WCRequestInfo
@@ -44,7 +36,7 @@
 
     let busy = false
 
-    const { dapp, responseCallback, verifiedState, evmNetwork, expiryTimestamp } = requestInfo
+    const { dapp, responseCallback, evmNetwork, expiryTimestamp } = requestInfo
     let parsedData: ParsedSmartContractData | undefined
 
     let selectedGasSpeed = GasSpeed.Required
@@ -79,39 +71,6 @@
             },
             evmNetwork
         )
-    }
-
-    $: localeKey = getLocalKey(parsedData?.type)
-    function getLocalKey(type?: ParsedSmartContractType): string {
-        if (method === RpcMethod.EthSignTransaction) {
-            return 'signTransaction'
-        }
-        switch (type) {
-            case ParsedSmartContractType.CoinTransfer:
-            case ParsedSmartContractType.TokenTransfer:
-            case ParsedSmartContractType.NftTransfer:
-                return 'sendTransaction'
-            case ParsedSmartContractType.TokenApproval:
-                return 'tokenApproval'
-            case ParsedSmartContractType.SmartContract:
-            default:
-                return 'smartContractCall'
-        }
-    }
-
-    $: title = getTitle(parsedData)
-    function getTitle(data?: ParsedSmartContractData): string {
-        const locale = `popups.${localeKey}.title`
-
-        if (data?.type === ParsedSmartContractType.TokenApproval) {
-            const token = getTokenFromSelectedAccountTokens(data.tokenId, evmNetwork.id)
-            return localize(locale, {
-                dappName: dapp?.metadata?.name ?? data.spender,
-                assetName: token?.metadata?.name ?? truncateString(data.tokenId, 6, 6),
-            })
-        }
-
-        return localize(locale, { contractAddress: truncateString(String(preparedTransaction.to), 6, 6) })
     }
 
     async function getSignedTransaction(account: IAccountState): Promise<string> {
@@ -158,10 +117,7 @@
             modifyPopupState({ preventClose: false }, true)
             busy = false
 
-            const successMessage = localize(`popups.${localeKey}.success`, {
-                recipient: truncateString(String(preparedTransaction.to), 6, 6),
-                assetName: getAssetName(),
-            })
+            const successMessage = getSuccessMessage(parsedData)
             if (dapp) {
                 openPopup({
                     id: PopupId.SuccessfulDappInteraction,
@@ -180,17 +136,43 @@
         }
     }
 
-    function getAssetName(): string {
+    function getSuccessMessage(parsedData: ParsedSmartContractData | undefined): string {
+        let localeKey = 'popups.'
+        if (method === RpcMethod.EthSignTransaction) {
+            localeKey += 'signTransaction'
+        }
         switch (parsedData?.type) {
             case ParsedSmartContractType.CoinTransfer:
-                return getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id)?.metadata?.name ?? ''
             case ParsedSmartContractType.TokenTransfer:
-                return getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id)?.metadata?.name ?? ''
             case ParsedSmartContractType.NftTransfer:
-                return getNftByIdForAccount($selectedAccount?.index, parsedData.nftId)?.metadata?.name ?? ''
+                localeKey += 'sendTransaction'
+                break
+            case ParsedSmartContractType.TokenApproval:
+                localeKey += 'tokenApproval'
+                break
+            case ParsedSmartContractType.SmartContract:
             default:
-                return ''
+                localeKey += 'smartContractCall'
+                break
         }
+
+        let assetName = ''
+        switch (parsedData?.type) {
+            case ParsedSmartContractType.CoinTransfer:
+                assetName = getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id)?.metadata?.name ?? ''
+                break
+            case ParsedSmartContractType.TokenTransfer:
+                assetName = getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id)?.metadata?.name ?? ''
+                break
+            case ParsedSmartContractType.NftTransfer:
+                assetName = getNftByIdForAccount($selectedAccount?.index, parsedData.nftId)?.metadata?.name ?? ''
+                break
+            default:
+                assetName = ''
+        }
+
+        const recipient = truncateString(String(preparedTransaction.to), 6, 6)
+        return localize(`${localeKey}.success`, { recipient, assetName })
     }
 
     function onCancelClick(): void {
@@ -301,49 +283,25 @@
             {busy}
         />
     </EvmTokenApprovalView>
-{:else}
-    <PopupTemplate
-        {title}
-        backButton={{
-            text: localize('actions.cancel'),
-            onClick: onCancelClick,
-        }}
-        continueButton={{
-            text: localize(`popups.${localeKey}.action`),
-            onClick: onConfirmClick,
-            disabled: hasExpired,
-        }}
+    <!-- Evm SmartContract -->
+{:else if parsedData?.type === ParsedSmartContractType.SmartContract}
+    <EvmSmartContractView
+        {baseCoinTransfer}
+        {parsedData}
+        networkId={evmNetwork.id}
+        {backButton}
+        {continueButton}
         {busy}
     >
-        <svelte:fragment slot="banner">
-            {#if dapp}
-                <DappInfo
-                    metadata={dapp.metadata}
-                    {verifiedState}
-                    showLink={false}
-                    classes="bg-surface-1 dark:bg-surface-1-dark pb-4"
-                />
-                <RequestExpirationAlert {expiryTimestamp} />
-            {/if}
-        </svelte:fragment>
-
-        <div class="space-y-5">
-            {#if preparedTransaction.value}
-                <TransactionAssetSection {baseCoinTransfer} />
-            {/if}
-            {#if parsedData?.type === ParsedSmartContractType.SmartContract}
-                <div class="flex flex-col gap-3">
-                    <EvmSmartContractAlert parsedSmartContract={parsedData} networkId={evmNetwork.id} />
-                </div>
-            {/if}
-            <EvmTransactionDetails
-                bind:selectedGasSpeed
-                sourceNetwork={evmNetwork}
-                destinationNetworkId={evmNetwork.id}
-                transaction={preparedTransaction}
-                {gasPrices}
-                {busy}
-            />
-        </div>
-    </PopupTemplate>
+        <EvmDappRequestHeader slot="dappHeader" {requestInfo} />
+        <EvmTransactionDetails
+            slot="transactionDetails"
+            bind:selectedGasSpeed
+            sourceNetwork={evmNetwork}
+            destinationNetworkId={evmNetwork.id}
+            transaction={preparedTransaction}
+            {gasPrices}
+            {busy}
+        />
+    </EvmSmartContractView>
 {/if}
