@@ -26,7 +26,7 @@
     import { getActiveProfileId } from '@core/profile/stores'
     import { BASE_TOKEN_ID } from '@core/token/constants'
     import { getTokenFromSelectedAccountTokens } from '@core/token/stores'
-    import { Converter, HEX_PREFIX, MILLISECONDS_PER_SECOND, truncateString } from '@core/utils'
+    import { Converter, MILLISECONDS_PER_SECOND, truncateString } from '@core/utils'
     import { sendAndPersistTransactionFromEvm, signEvmTransaction } from '@core/wallet/actions'
     import { PopupId, closePopup, modifyPopupState, openPopup } from '@desktop/auxiliary/popup'
     import { LegacyTransaction } from '@ethereumjs/tx'
@@ -36,6 +36,7 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { RequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
     import { time } from '@core/app/stores'
+    import { EvmTokenTransferView } from '@components/evm-transactions'
 
     export let preparedTransaction: EvmTransactionData
     export let requestInfo: WCRequestInfo
@@ -59,7 +60,7 @@
     $: preparedTransaction.gasPrice = Converter.bigIntToHex(gasPrices?.[selectedGasSpeed] ?? gasPrices.required)
     $: baseCoinTransfer = {
         token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
-        rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value),
+        rawAmount: Converter.bigIntLikeToBigInt(preparedTransaction.value ?? 0),
     }
     $: hasExpired =
         expiryTimestamp === undefined ? false : expiryTimestamp * MILLISECONDS_PER_SECOND - $time.getTime() <= 0
@@ -219,11 +220,17 @@
 </script>
 
 <!-- Base Coin Transfers -->
-{#if (preparedTransaction.value && (!preparedTransaction.data || preparedTransaction.data === HEX_PREFIX)) || parsedData?.type === ParsedSmartContractType.CoinTransfer}
-    {@const value =
-        Converter.bigIntLikeToBigInt(preparedTransaction.value ?? 0) +
-        (parsedData?.type === ParsedSmartContractType.CoinTransfer ? parsedData?.rawAmount : BigInt(0))}
-    <EvmBaseCoinTransferView {value} {method} {evmNetwork} {backButton} {continueButton} {busy}>
+{#if (preparedTransaction.value && !parsedData) || parsedData?.type === ParsedSmartContractType.CoinTransfer}
+    {@const potentialAdditionalRawAmount =
+        parsedData?.type === ParsedSmartContractType.CoinTransfer ? parsedData?.rawAmount : BigInt(0)}
+    <EvmBaseCoinTransferView
+        baseCoinTransfer={{ ...baseCoinTransfer, rawAmount: baseCoinTransfer.rawAmount + potentialAdditionalRawAmount }}
+        {method}
+        {evmNetwork}
+        {backButton}
+        {continueButton}
+        {busy}
+    >
         <EvmDappRequestHeader slot="dappHeader" {requestInfo} />
         <EvmTransactionDetails
             slot="transactionDetails"
@@ -235,6 +242,28 @@
             {busy}
         />
     </EvmBaseCoinTransferView>
+{:else if parsedData?.type === ParsedSmartContractType.TokenTransfer}
+    <EvmTokenTransferView
+        tokenId={parsedData.tokenId}
+        rawAmount={parsedData.rawAmount}
+        {baseCoinTransfer}
+        {method}
+        {evmNetwork}
+        {backButton}
+        {continueButton}
+        {busy}
+    >
+        <EvmDappRequestHeader slot="dappHeader" {requestInfo} />
+        <EvmTransactionDetails
+            slot="transactionDetails"
+            bind:selectedGasSpeed
+            sourceNetwork={evmNetwork}
+            destinationNetworkId={evmNetwork.id}
+            transaction={preparedTransaction}
+            {gasPrices}
+            {busy}
+        />
+    </EvmTokenTransferView>
 {:else}
     <PopupTemplate
         {title}
@@ -265,19 +294,7 @@
             {#if preparedTransaction.value}
                 <TransactionAssetSection {baseCoinTransfer} />
             {/if}
-            {#if parsedData?.type === ParsedSmartContractType.CoinTransfer}
-                {@const baseCoinTransfer = {
-                    token: getTokenFromSelectedAccountTokens(BASE_TOKEN_ID, evmNetwork.id),
-                    rawAmount: parsedData.rawAmount,
-                }}
-                <TransactionAssetSection {baseCoinTransfer} />
-            {:else if parsedData?.type === ParsedSmartContractType.TokenTransfer}
-                {@const tokenTransfer = {
-                    token: getTokenFromSelectedAccountTokens(parsedData.tokenId, evmNetwork.id),
-                    rawAmount: parsedData.rawAmount,
-                }}
-                <TransactionAssetSection {tokenTransfer} />
-            {:else if parsedData?.type === ParsedSmartContractType.NftTransfer}
+            {#if parsedData?.type === ParsedSmartContractType.NftTransfer}
                 {@const nft = getNftByIdForAccount($selectedAccount?.index, parsedData.nftId)}
                 <TransactionAssetSection {nft} />
             {:else if parsedData?.type === ParsedSmartContractType.TokenApproval}
