@@ -36,7 +36,7 @@
     import PopupTemplate from '../PopupTemplate.svelte'
     import { RequestExpirationAlert } from '@views/dashboard/drawers/dapp-config/components'
     import { time } from '@core/app/stores'
-    import { EvmTokenTransferView } from '@components/evm-transactions'
+    import { EvmNftTransferView, EvmTokenTransferView } from '@components/evm-transactions'
 
     export let preparedTransaction: EvmTransactionData
     export let requestInfo: WCRequestInfo
@@ -242,6 +242,7 @@
             {busy}
         />
     </EvmBaseCoinTransferView>
+    <!-- Evm Token Transfer -->
 {:else if parsedData?.type === ParsedSmartContractType.TokenTransfer}
     <EvmTokenTransferView
         tokenId={parsedData.tokenId}
@@ -264,6 +265,20 @@
             {busy}
         />
     </EvmTokenTransferView>
+    <!-- Evm Nft Transfer -->
+{:else if parsedData?.type === ParsedSmartContractType.NftTransfer}
+    <EvmNftTransferView nftId={parsedData.nftId} {baseCoinTransfer} {method} {backButton} {continueButton} {busy}>
+        <EvmDappRequestHeader slot="dappHeader" {requestInfo} />
+        <EvmTransactionDetails
+            slot="transactionDetails"
+            bind:selectedGasSpeed
+            sourceNetwork={evmNetwork}
+            destinationNetworkId={evmNetwork.id}
+            transaction={preparedTransaction}
+            {gasPrices}
+            {busy}
+        />
+    </EvmNftTransferView>
 {:else}
     <PopupTemplate
         {title}
@@ -294,10 +309,7 @@
             {#if preparedTransaction.value}
                 <TransactionAssetSection {baseCoinTransfer} />
             {/if}
-            {#if parsedData?.type === ParsedSmartContractType.NftTransfer}
-                {@const nft = getNftByIdForAccount($selectedAccount?.index, parsedData.nftId)}
-                <TransactionAssetSection {nft} />
-            {:else if parsedData?.type === ParsedSmartContractType.TokenApproval}
+            {#if parsedData?.type === ParsedSmartContractType.TokenApproval}
                 <div class="flex flex-col gap-3">
                     <EvmTokenApprovalAlert
                         bind:rawTransactionData={preparedTransaction.data}
