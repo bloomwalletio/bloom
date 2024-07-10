@@ -535,6 +535,9 @@
                     }
                 },
                 "dapps": {
+                    "general": {
+                        "loginPrompt": "Dapp request received while logged out. Please log in to continue."
+                    },
                     "dappsList": {
                         "title": "Verbundene dApps",
                         "connectDapp": "dApp verbinden",
@@ -589,9 +592,9 @@
                     },
                     "confirmConnection": {
                         "title": "Mit einer App verbinden",
-                        "expired": "Request has expired",
-                        "expiresIn": "Request expires in",
-                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
+                        "expired": "Anfrage ist abgelaufen",
+                        "expiresIn": "Anfrage läuft ab in",
+                        "siweStatement": "{origin} bittet, dich mit deinem Ethereum-Account anzumelden",
                         "permissions": {
                             "step": "Berechtigungen",
                             "tip": "Dies sind begrenzte Berechtigungen für die dApp, eine Interaktionsanfrage für Ihre Genehmigung zu senden. Bestätige nur dApps die du kennst und denen du vertraust.",
@@ -623,7 +626,7 @@
                         "description": "Beschreibung",
                         "url": "URL",
                         "verifyUrl": "URL verifizieren",
-                        "notConnectedToProfile": "Not connected to this profile",
+                        "notConnectedToProfile": "Nicht verbunden mit diesem Profil",
                         "disconnect": {
                             "title": "Trennen",
                             "description": "Möchten du die Verbindung von {dappName} trennen?"
@@ -1106,11 +1109,14 @@
         "tokenApproval": {
             "title": "{dappName} genehmigen, um auf {assetName} zuzugreifen",
             "hint": "{address} beantragt die Freigabe für {assetName}",
+            "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
             "action": "Genehmigen",
+            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
+            "accept": "I understand and wish to proceed",
             "success": "Erfolgreich genehmigt"
         },
         "sendTransaction": {
-            "title": "Transaktion senden",
+            "title": "Send {asset} to {recipient}",
             "action": "Senden",
             "success": "{assetName} an {recipient} gesendet"
         },

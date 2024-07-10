@@ -535,6 +535,9 @@
                     }
                 },
                 "dapps": {
+                    "general": {
+                        "loginPrompt": "Dapp request received while logged out. Please log in to continue."
+                    },
                     "dappsList": {
                         "title": "Połączone aplikacje dApp",
                         "connectDapp": "Połącz dApp",
@@ -589,9 +592,9 @@
                     },
                     "confirmConnection": {
                         "title": "Połącz z aplikacją",
-                        "expired": "Request has expired",
-                        "expiresIn": "Request expires in",
-                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
+                        "expired": "Żądanie wygasło",
+                        "expiresIn": "Zapytanie wygasa za",
+                        "siweStatement": "{origin} prosi o zalogowanie się przy użyciu kont ethereum",
                         "permissions": {
                             "step": "Uprawnienia",
                             "tip": "Są to ograniczone uprawnienia dla aplikacji dApp w celu wysyłania żądania interakcji do Twojego zatwierdzenia. Zatwierdzaj tylko aplikacje, które znasz i którym ufasz.",
@@ -623,7 +626,7 @@
                         "description": "Opis",
                         "url": "URL",
                         "verifyUrl": "Zweryfikuj URL",
-                        "notConnectedToProfile": "Not connected to this profile",
+                        "notConnectedToProfile": "Nie połączone z tym profilem",
                         "disconnect": {
                             "title": "Rozłącz",
                             "description": "Czy chcesz rozłączyć się z aplikacją {dappName}?"
@@ -1106,11 +1109,14 @@
         "tokenApproval": {
             "title": "Zezwól {dappName} na dostęp do {assetName}",
             "hint": "{address} prosi o zgodę na wydanie środków {assetName}",
+            "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
             "action": "Zezwalam",
+            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
+            "accept": "I understand and wish to proceed",
             "success": "Zatwierdzono pomyślnie"
         },
         "sendTransaction": {
-            "title": "Wyślij transakcję",
+            "title": "Send {asset} to {recipient}",
             "action": "Wyślij",
             "success": "Wysłano {assetName} do {recipient}"
         },
