@@ -283,6 +283,9 @@ const electronApi: IPlatform = {
     copyProfileDirectory(appName: string, profileId: string): Promise<void> {
         return ipcRenderer.invoke('copy-third-party-profile', appName, profileId)
     },
+    async initialiseAnalytics(data: { profilesCount?: number; accountsCount?: number }): Promise<void> {
+        return ipcRenderer.invoke('initialise-analytics', data)
+    },
 }
 
 export default electronApi

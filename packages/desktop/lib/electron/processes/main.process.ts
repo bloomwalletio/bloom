@@ -42,7 +42,6 @@ import { AboutWindow } from '../windows/about.window'
 
 export let appIsReady = false
 
-void initialiseAnalytics()
 initialiseDeepLinks()
 
 /*
@@ -476,6 +475,8 @@ ipcMain.handle('update-theme', (_e, theme) => {
     }
 })
 ipcMain.handle('should-be-dark-mode', () => nativeTheme.shouldUseDarkColors)
+
+ipcMain.handle('initialise-analytics', async (_e, data) => await initialiseAnalytics(data))
 
 /**
  * Create a single instance only
