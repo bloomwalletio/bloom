@@ -3,7 +3,7 @@
     import { Pill } from '@bloomwalletio/ui'
     import { Activity, StardustActivityType, isEvmTokenActivity } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
-    import { BASE_TOKEN_ID } from '@core/token'
+    import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
     import { getNftByIdForAccount } from '@core/nfts/stores'
     import { selectedAccountIndex } from '@core/account/stores'
     import { NetworkNamespace } from '@core/network/enums'
@@ -53,8 +53,13 @@
                 standardPill = ''
             } else if (isEvmTokenActivity(activity)) {
                 const standard = activity.tokenTransfer.standard
-                standardPill = standard
-                typePill = standard === NftStandard.Erc721 || standard === NftStandard.Irc27 ? 'nft' : 'token'
+                standardPill = standard === TokenStandard.BaseToken ? '' : standard
+                typePill =
+                    standard === NftStandard.Erc721 || standard === NftStandard.Irc27
+                        ? 'nft'
+                        : standard === TokenStandard.BaseToken
+                          ? 'baseCoin'
+                          : 'token'
             } else if (activity.type === EvmActivityType.ContractCall) {
                 typePill = ''
                 standardPill = convertCamelCaseToPhrase(activity.method ?? '')

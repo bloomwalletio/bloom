@@ -180,26 +180,42 @@ function parseSmartContractDataWithErc20Abi(
         case 'transfer': {
             return {
                 type: ParsedSmartContractType.TokenTransfer,
-                standard: TokenStandard.Erc20,
-                tokenId: recipientAddress,
-                rawAmount: BigInt(decodedData.inputs._value.value),
                 rawData,
                 rawMethod,
                 parsedMethod,
                 recipientAddress: decodedData.inputs._to.value,
+                ...(recipientAddress === ISC_BASE_COIN_ADDRESS
+                    ? {
+                          standard: TokenStandard.BaseToken,
+                          tokenId: BASE_TOKEN_ID,
+                          rawAmount: BigInt(decodedData.inputs._value.value) * BigInt(10 ** 12),
+                      }
+                    : {
+                          standard: TokenStandard.Erc20,
+                          tokenId: recipientAddress,
+                          rawAmount: BigInt(decodedData.inputs._value.value),
+                      }),
             }
         }
         case 'approve': {
             return {
                 type: ParsedSmartContractType.TokenApproval,
-                standard: TokenStandard.Erc20,
-                tokenId: recipientAddress,
                 spender: decodedData.inputs._spender.value,
-                rawAmount: BigInt(decodedData.inputs._value.value),
                 rawData,
                 rawMethod,
                 parsedMethod,
                 recipientAddress,
+                ...(recipientAddress === ISC_BASE_COIN_ADDRESS
+                    ? {
+                          standard: TokenStandard.BaseToken,
+                          tokenId: BASE_TOKEN_ID,
+                          rawAmount: BigInt(decodedData.inputs._value.value) * BigInt(10 ** 12),
+                      }
+                    : {
+                          standard: TokenStandard.Erc20,
+                          tokenId: recipientAddress,
+                          rawAmount: BigInt(decodedData.inputs._value.value),
+                      }),
             }
         }
         default: {

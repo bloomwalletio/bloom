@@ -9,7 +9,7 @@ export interface IParsedCoinTransfer extends Omit<IParsedSmartContractData, 'typ
 
 export interface IParsedTokenTransfer extends Omit<IParsedSmartContractData, 'type'> {
     type: ParsedSmartContractType.TokenTransfer
-    standard: TokenStandard.Erc20 | TokenStandard.Irc30
+    standard: TokenStandard.Erc20 | TokenStandard.Irc30 | TokenStandard.BaseToken
     tokenId: string
     rawAmount: bigint
 }
@@ -22,7 +22,7 @@ export interface IParsedNftTransfer extends Omit<IParsedSmartContractData, 'type
 
 export interface IParsedTokenApproval extends Omit<IParsedSmartContractData, 'type'> {
     type: ParsedSmartContractType.TokenApproval
-    standard: TokenStandard.Erc20
+    standard: TokenStandard.Erc20 | TokenStandard.BaseToken
     spender: string
     tokenId: string
     rawAmount: bigint

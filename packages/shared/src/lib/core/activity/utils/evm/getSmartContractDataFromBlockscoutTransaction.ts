@@ -25,7 +25,12 @@ export function getSmartContractDataFromBlockscoutTransaction(
         | undefined
     let tokenTransfer:
         | {
-              standard: TokenStandard.Erc20 | TokenStandard.Irc30 | NftStandard.Irc27 | NftStandard.Erc721
+              standard:
+                  | TokenStandard.BaseToken
+                  | TokenStandard.Erc20
+                  | TokenStandard.Irc30
+                  | NftStandard.Irc27
+                  | NftStandard.Erc721
               tokenId: string
               rawAmount: bigint
           }
