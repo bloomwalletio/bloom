@@ -19,7 +19,7 @@ export interface ITransakApiCryptoCurrenciesResponseItem {
     isIgnorePriceVerification: boolean
     image_bk?: ITransakCryptoCurrencyImage
     kycCountriesNotSupported: string[]
-    network: { name: string; fiatCurrenciesNotSupported: string[]; chainId?: string }
+    network: { name: string; fiatCurrenciesNotSupported: string[]; chainId?: string | null }
     uniqueId: string
     tokenType: string
     isPayInAllowed: boolean

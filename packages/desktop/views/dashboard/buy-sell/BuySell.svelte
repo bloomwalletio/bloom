@@ -4,7 +4,7 @@
     import { BuySellMainView } from './views'
     import { dashboardRoute, DashboardRoute } from '@core/router'
     import { onMount } from 'svelte'
-    import { updateTransakFiatCurrencies } from '@auxiliary/transak'
+    import { updateTransakCryptoCurrencies, updateTransakFiatCurrencies } from '@auxiliary/transak'
 
     $: if (features.analytics.dashboardRoute.buySell.enabled && $dashboardRoute === DashboardRoute.BuySell) {
         Platform.trackEvent('buy-sell-route', { route: $dashboardRoute })
@@ -12,6 +12,7 @@
 
     onMount(() => {
         void updateTransakFiatCurrencies()
+        void updateTransakCryptoCurrencies()
     })
 </script>
 
