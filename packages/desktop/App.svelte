@@ -11,7 +11,7 @@
     import { appSettings, appVersionDetails, initAppSettings, setAppVersionDetails, windowSize } from '@core/app/stores'
     import { isLocaleLoaded, localeDirection, setupI18n } from '@core/i18n'
     import { checkAndMigrateProfiles, cleanupEmptyProfiles, saveActiveProfile } from '@core/profile/actions'
-    import { activeProfile } from '@core/profile/stores'
+    import { activeProfile, profiles } from '@core/profile/stores'
     import { AppRoute, RouterManagerExtensionName, appRoute, initialiseRouterManager } from '@core/router'
     import { PopupId, openPopup, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
     import {
@@ -54,6 +54,14 @@
     void getAndUpdateCountryCode()
 
     onMount(async () => {
+        await Platform.initialiseAnalytics({
+            profilesCount: $profiles?.length,
+            accountsCount: $profiles?.reduce(
+                (acc, profile) => acc + Object.keys(profile.accountPersistedData).length,
+                0
+            ),
+        })
+
         if (features.analytics.appStart.enabled) {
             Platform.trackEvent('app-start')
         }

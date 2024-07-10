@@ -7,15 +7,14 @@ import features from '@features/features'
 
 import { getPlatformVersion } from './diagnostics.utils'
 import { getMachineId } from './os.utils'
-// import { getDataFromApp } from './storage.utils'
-// import { IPersistedProfile } from '@core/profile'
+import { IAnalyticsInitialisationData } from '@core/app/interfaces'
 
-export async function initialiseAnalytics(): Promise<void> {
+export async function initialiseAnalytics(data: IAnalyticsInitialisationData): Promise<void> {
     if (features.analytics.enabled && process.env.AMPLITUDE_API_KEY) {
         // Initialise Amplitude with API key
         init(process.env.AMPLITUDE_API_KEY, { logLevel: 0 })
 
-        await setInitialIdentify()
+        await setInitialIdentify(data)
         // Register event handlers
         ipcMain.handle('track-event', (_e, event, properties) => handleTrackEvent(event, properties))
     } else {
@@ -48,35 +47,7 @@ async function getLocation(): Promise<
     }
 }
 
-// async function getProfilesAndAccountsCount(): Promise<{ profiles: number; accounts: number }> {
-//     const userDataPath = app.getPath('userData')
-//     const appName = app.getName()
-
-//     let profiles: IPersistedProfile[] = []
-//     try {
-//         const data = await getDataFromApp(appName, userDataPath)
-//         if (!data) {
-//             return { profiles: 0, accounts: 0 }
-//         }
-//         const separator = String.fromCharCode(1)
-//         Object.values(data).forEach(({ key, value }) => {
-//             if (key.split(separator)[1] === 'profiles') {
-//                 profiles = JSON.parse(value)
-//                 return
-//             }
-//         })
-//     } catch (err) {
-//         console.error(err)
-//         return { profiles: 0, accounts: 0 }
-//     }
-
-//     const profilesCount = profiles.length
-//     const accountsCount = profiles.reduce((acc, profile) => acc + Object.keys(profile.accountPersistedData).length, 0)
-
-//     return { profiles: profilesCount, accounts: accountsCount }
-// }
-
-async function setInitialIdentify(): Promise<void> {
+async function setInitialIdentify(data: IAnalyticsInitialisationData): Promise<void> {
     const identifyObj = new Identify()
 
     // Application Information
@@ -89,9 +60,8 @@ async function setInitialIdentify(): Promise<void> {
     identifyObj.set('platform_version', getPlatformVersion())
 
     // User Information
-    // const { profiles, accounts } = await getProfilesAndAccountsCount()
-    // identifyObj.set('profile_count', profiles)
-    // identifyObj.set('account_count', accounts)
+    identifyObj.set('profile_count', data.profilesCount ?? 1)
+    identifyObj.set('account_count', data.accountsCount ?? 1)
 
     const location = await getLocation()
 
