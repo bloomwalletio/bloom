@@ -137,23 +137,24 @@
     }
 
     function getSuccessMessage(parsedData: ParsedSmartContractData | undefined): string {
-        let localeKey = 'popups.'
+        let localeKey = ''
         if (method === RpcMethod.EthSignTransaction) {
-            localeKey += 'signTransaction'
-        }
-        switch (parsedData?.type) {
-            case ParsedSmartContractType.CoinTransfer:
-            case ParsedSmartContractType.TokenTransfer:
-            case ParsedSmartContractType.NftTransfer:
-                localeKey += 'sendTransaction'
-                break
-            case ParsedSmartContractType.TokenApproval:
-                localeKey += 'tokenApproval'
-                break
-            case ParsedSmartContractType.SmartContract:
-            default:
-                localeKey += 'smartContractCall'
-                break
+            localeKey = 'popups.signTransaction'
+        } else {
+            switch (parsedData?.type) {
+                case ParsedSmartContractType.CoinTransfer:
+                case ParsedSmartContractType.TokenTransfer:
+                case ParsedSmartContractType.NftTransfer:
+                    localeKey = 'popups.sendTransaction'
+                    break
+                case ParsedSmartContractType.TokenApproval:
+                    localeKey = 'popups.tokenApproval'
+                    break
+                case ParsedSmartContractType.SmartContract:
+                default:
+                    localeKey = 'popups.smartContractCall'
+                    break
+            }
         }
 
         let assetName = ''
