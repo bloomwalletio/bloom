@@ -22,6 +22,7 @@ export function getTokenIdFromActivity(activity: Activity): string | undefined {
             return BASE_TOKEN_ID
         } else if (isEvmTokenActivity(activity)) {
             if (
+                activity.tokenTransfer.standard === TokenStandard.BaseToken ||
                 activity.tokenTransfer.standard === TokenStandard.Erc20 ||
                 activity.tokenTransfer.standard === TokenStandard.Irc30
             ) {
