@@ -9,8 +9,7 @@ import {
 } from '@core/activity/types'
 import { parseSmartContractDataFromTransactionData } from '@core/layer-2/utils/parseSmartContractDataFromTransactionData'
 import { IEvmNetwork } from '@core/network'
-import { NftStandard } from '@core/nfts'
-import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
+import { BASE_TOKEN_ID } from '@core/token'
 import { LocalEvmTransaction } from '@core/transactions'
 import { SubjectType } from '@core/wallet'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
@@ -81,7 +80,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 ...baseActivity,
                 type: EvmActivityType.TokenTransfer,
                 tokenTransfer: {
-                    standard: TokenStandard.Erc20,
+                    standard: parsedData.standard,
                     tokenId: parsedData.tokenId,
                     rawAmount: parsedData.rawAmount,
                 },
@@ -91,7 +90,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 ...baseActivity,
                 type: EvmActivityType.TokenTransfer,
                 tokenTransfer: {
-                    standard: NftStandard.Erc721,
+                    standard: parsedData.standard,
                     tokenId: parsedData.nftId,
                     rawAmount: BigInt(1),
                 },
@@ -101,7 +100,7 @@ export async function generateEvmActivityFromLocalEvmTransaction(
                 ...baseActivity,
                 type: EvmActivityType.TokenApproval,
                 tokenTransfer: {
-                    standard: TokenStandard.Erc20,
+                    standard: parsedData.standard,
                     tokenId: parsedData.tokenId,
                     rawAmount: parsedData.rawAmount,
                 },
