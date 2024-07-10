@@ -37,8 +37,6 @@
     <div class="flex flex-col space-y-5">
         <TransactionAssetSection {baseCoinTransfer} />
         <EvmSmartContractAlert parsedSmartContract={parsedData} {networkId} />
-        {#if $$slots.transactionDetails}
-            <slot name="transactionDetails" />
-        {/if}
+        <slot name="transactionDetails" />
     </div>
 </PopupTemplate>

@@ -42,8 +42,6 @@
     </svelte:fragment>
     <div class="flex flex-col space-y-5">
         <TransactionAssetSection {baseCoinTransfer} tokenTransfer={{ token, rawAmount }} />
-        {#if $$slots.transactionDetails}
-            <slot name="transactionDetails" />
-        {/if}
+        <slot name="transactionDetails" />
     </div>
 </PopupTemplate>

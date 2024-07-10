@@ -53,9 +53,7 @@
     <div class="flex flex-col space-y-5">
         <TransactionAssetSection {baseCoinTransfer} />
         <EvmTokenApprovalAlert {parsedTokenApproval} {networkId} />
-        {#if $$slots.transactionDetails}
-            <slot name="transactionDetails" />
-        {/if}
+        <slot name="transactionDetails" />
         {#if baseCoinTransfer.rawAmount > BigInt(0)}
             <!-- Display alert if token approval is also trying to consume value -->
             <Alert variant="danger" text="Beware this approval transaction is also trying to consume base tokens!" />
