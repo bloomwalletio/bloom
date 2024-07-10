@@ -20,7 +20,7 @@
         : undefined
 </script>
 
-{#if baseCoinTransfer || tokenTransfer || nft || aliasId}
+{#if Number(baseCoinTransfer?.rawAmount) > 0 || tokenTransfer || nft || aliasId}
     <asset-section class="w-full flex flex-row gap-2 justify-between overflow-hidden">
         {#if tokenTransfer?.token && tokenWithBalance}
             <div class="flex-grow overflow-hidden">
