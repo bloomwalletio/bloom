@@ -29,6 +29,7 @@
     import { onDestroy, onMount } from 'svelte'
     import { time } from '@core/app/stores'
     import { EvmNftTransferView, EvmSmartContractView, EvmTokenTransferView } from '@components/evm-transactions'
+    import { getSubjectFromAddress } from '@core/wallet'
 
     export let preparedTransaction: EvmTransactionData
     export let requestInfo: WCRequestInfo
@@ -206,10 +207,16 @@
 {#if (preparedTransaction.value && !parsedData) || parsedData?.type === ParsedSmartContractType.CoinTransfer}
     {@const potentialAdditionalRawAmount =
         parsedData?.type === ParsedSmartContractType.CoinTransfer ? parsedData?.rawAmount : BigInt(0)}
+    {@const recipientAddress =
+        parsedData?.type === ParsedSmartContractType.CoinTransfer
+            ? parsedData.recipientAddress
+            : String(preparedTransaction.to)}
+    {@const recipient = getSubjectFromAddress(recipientAddress, evmNetwork.id)}
     <EvmBaseCoinTransferView
         baseCoinTransfer={{ ...baseCoinTransfer, rawAmount: baseCoinTransfer.rawAmount + potentialAdditionalRawAmount }}
         {method}
         {evmNetwork}
+        {recipient}
         {backButton}
         {continueButton}
         {busy}
@@ -221,16 +228,19 @@
             sourceNetwork={evmNetwork}
             destinationNetworkId={evmNetwork.id}
             transaction={preparedTransaction}
+            {recipient}
             {gasPrices}
             {busy}
         />
     </EvmBaseCoinTransferView>
     <!-- Evm Token Transfer -->
 {:else if parsedData?.type === ParsedSmartContractType.TokenTransfer}
+    {@const recipient = getSubjectFromAddress(parsedData.recipientAddress, evmNetwork.id)}
     <EvmTokenTransferView
         tokenId={parsedData.tokenId}
         rawAmount={parsedData.rawAmount}
         {baseCoinTransfer}
+        {recipient}
         {method}
         {evmNetwork}
         {backButton}
@@ -244,13 +254,24 @@
             sourceNetwork={evmNetwork}
             destinationNetworkId={evmNetwork.id}
             transaction={preparedTransaction}
+            {recipient}
             {gasPrices}
             {busy}
         />
     </EvmTokenTransferView>
     <!-- Evm Nft Transfer -->
 {:else if parsedData?.type === ParsedSmartContractType.NftTransfer}
-    <EvmNftTransferView nftId={parsedData.nftId} {baseCoinTransfer} {method} {backButton} {continueButton} {busy}>
+    {@const recipient = getSubjectFromAddress(parsedData.recipientAddress, evmNetwork.id)}
+
+    <EvmNftTransferView
+        nftId={parsedData.nftId}
+        {baseCoinTransfer}
+        {recipient}
+        {method}
+        {backButton}
+        {continueButton}
+        {busy}
+    >
         <EvmDappRequestHeader slot="dappHeader" {requestInfo} />
         <EvmTransactionDetails
             slot="transactionDetails"
@@ -260,6 +281,7 @@
             transaction={preparedTransaction}
             {gasPrices}
             {busy}
+            {recipient}
         />
     </EvmNftTransferView>
     <!-- Evm Token Approval -->
@@ -292,6 +314,7 @@
         networkId={evmNetwork.id}
         {backButton}
         {continueButton}
+        contractAddress={String(preparedTransaction.to ?? '')}
         {busy}
     >
         <EvmDappRequestHeader slot="dappHeader" {requestInfo} />

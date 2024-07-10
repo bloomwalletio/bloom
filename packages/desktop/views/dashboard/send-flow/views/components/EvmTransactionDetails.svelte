@@ -1,16 +1,18 @@
 <script lang="ts">
-    import { BigIntLike } from '@ethereumjs/util'
     import { Table, TableRow } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { EvmTransactionData, GasSpeed, IGasPricesBySpeed } from '@core/layer-2'
-    import { IEvmNetwork, NetworkId, calculateGasFee } from '@core/network'
+    import { calculateGasFee, IEvmNetwork, NetworkId } from '@core/network'
+    import { formatTokenAmount } from '@core/token/utils'
+    import { Subject } from '@core/wallet'
+    import { BigIntLike } from '@ethereumjs/util'
     import { NetworkLabel } from '@ui'
     import SetTransactionFeeMenu from './SetTransactionFeeMenu.svelte'
-    import { formatTokenAmount } from '@core/token/utils'
 
     export let selectedGasSpeed: GasSpeed = GasSpeed.Required
     export let sourceNetwork: IEvmNetwork
     export let destinationNetworkId: NetworkId | undefined = undefined
+    export let recipient: Subject | undefined = undefined
     export let transaction: EvmTransactionData
     export let gasPrices: IGasPricesBySpeed
     export let storageDeposit: bigint = BigInt(0)
@@ -33,6 +35,15 @@
                 props: {
                     networkId: destinationNetworkId,
                 },
+            },
+        },
+        {
+            key: localize('general.recipient'),
+            value: recipient?.address,
+            copyable: true,
+            truncate: {
+                firstCharCount: 10,
+                endCharCount: 10,
             },
         },
         {

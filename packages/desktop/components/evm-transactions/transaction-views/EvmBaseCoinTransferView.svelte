@@ -3,10 +3,12 @@
     import { localize } from '@core/i18n'
     import { TransactionAssetSection } from '@ui'
     import PopupTemplate, { ButtonProps } from '@components/popup/PopupTemplate.svelte'
-    import { TokenTransferData } from '@core/wallet'
+    import { Subject, TokenTransferData } from '@core/wallet'
+    import { getNameFromSubject } from '@core/activity/utils'
 
     export let baseCoinTransfer: TokenTransferData
     export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
+    export let recipient: Subject
     export let continueButton: ButtonProps
     export let backButton: ButtonProps
     export let busy = false
@@ -15,7 +17,10 @@
 </script>
 
 <PopupTemplate
-    title={localize(`popups.${localeKey}.title`)}
+    title={localize(`popups.${localeKey}.title`, {
+        asset: baseCoinTransfer.token?.metadata?.name,
+        recipient: getNameFromSubject(recipient),
+    })}
     {backButton}
     continueButton={{
         ...continueButton,

@@ -6,20 +6,22 @@
     import { TokenTransferData } from '@core/wallet/types'
     import EvmSmartContractAlert from '../EvmSmartContractAlert.svelte'
     import { IParsedSmartContractData } from '@core/layer-2/interfaces'
+    import { truncateString } from '@core/utils/string'
 
     export let baseCoinTransfer: TokenTransferData
 
     export let parsedData: IParsedSmartContractData
+    export let contractAddress: string
     export let networkId: EvmNetworkId
     export let continueButton: ButtonProps
     export let backButton: ButtonProps
     export let busy = false
 
-    $: localeKey = 'popups.smartContractCall'
+    const localeKey = 'popups.smartContractCall'
 </script>
 
 <PopupTemplate
-    title={localize(`${localeKey}.title`)}
+    title={localize(`${localeKey}.title`, { contractAddress: truncateString(contractAddress, 6, 6) })}
     {backButton}
     continueButton={{
         ...continueButton,

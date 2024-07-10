@@ -1,14 +1,16 @@
 <script lang="ts">
     import { RpcMethod } from '@auxiliary/wallet-connect/enums'
-    import { localize } from '@core/i18n'
-    import { TransactionAssetSection } from '@ui'
     import PopupTemplate, { ButtonProps } from '@components/popup/PopupTemplate.svelte'
-    import { TokenTransferData } from '@core/wallet/types'
     import { selectedAccount } from '@core/account/stores'
+    import { getNameFromSubject } from '@core/activity'
+    import { localize } from '@core/i18n'
     import { getNftByIdForAccount } from '@core/nfts/stores'
+    import { Subject, TokenTransferData } from '@core/wallet/types'
+    import { TransactionAssetSection } from '@ui'
 
     export let baseCoinTransfer: TokenTransferData
     export let nftId: string
+    export let recipient: Subject
     export let method: RpcMethod.EthSendTransaction | RpcMethod.EthSignTransaction | RpcMethod.EthSendRawTransaction
     export let continueButton: ButtonProps
     export let backButton: ButtonProps
@@ -20,7 +22,10 @@
 </script>
 
 <PopupTemplate
-    title={localize(`popups.${localeKey}.title`)}
+    title={localize(`popups.${localeKey}.title`, {
+        asset: nft?.metadata?.name,
+        recipient: getNameFromSubject(recipient),
+    })}
     {backButton}
     continueButton={{
         ...continueButton,
