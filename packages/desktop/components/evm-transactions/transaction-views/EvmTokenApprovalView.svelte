@@ -57,18 +57,12 @@
             <slot name="transactionDetails" />
         {/if}
         {#if baseCoinTransfer.rawAmount > BigInt(0)}
-            <!-- Display alert if token approval is also trying to sonsume value -->
+            <!-- Display alert if token approval is also trying to consume value -->
             <Alert variant="danger" text="Beware this approval transaction is also trying to consume base tokens!" />
         {:else if parsedTokenApproval.rawAmount > tokenBalance}
-            <Alert
-                variant="warning"
-                text="Beware this dapp is asking you to approve spending more tokens that you currently own, it could then spend these the future. Proceed with caution."
-            >
+            <Alert variant="warning" text={localize(`${localeKey}.approveMoreThanBalanceWarning`)}>
                 <checkbox-container slot="body">
-                    <Checkbox
-                        label={localize(`${localeKey}.acceptInsecureConnection`)}
-                        bind:checked={bypassSecurityWarning}
-                    />
+                    <Checkbox label={localize(`${localeKey}.accept`)} bind:checked={bypassSecurityWarning} />
                 </checkbox-container>
             </Alert>
         {/if}
