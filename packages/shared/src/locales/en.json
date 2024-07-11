@@ -1109,8 +1109,8 @@
             "success": "Signed transaction"
         },
         "tokenApproval": {
-            "title": "Approve {dappName} to access {assetName}",
-            "hint": "{address} is requesting approval to spend {assetName}",
+            "title": "Approve dapp to access {assetName}",
+            "hint": "{dappName} requests approval for {spender} to spend {assetName}",
             "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
             "action": "Approve",
             "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
