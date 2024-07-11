@@ -1,12 +1,30 @@
-import { NetworkId, NetworkNamespace, SupportedStardustNetworkId, getNetwork } from '@core/network'
+import {
+    NetworkId,
+    NetworkNamespace,
+    StardustNetworkId,
+    SupportedStardustNetworkId,
+    getEvmNetworks,
+    getNetwork,
+    getStardustNetwork,
+} from '@core/network'
 import { TransakApi } from '../apis'
 import { ITransakApiCryptoCurrenciesResponseItem } from '../interfaces'
 import { TransakCryptoCurrency, transakCryptoCurrencies } from '../stores'
+import { AppStage } from '@core/app'
+
+const STARDUST_NETWORK_ID_TO_TRANSAK_NETWORK_NAME_MAP: Record<StardustNetworkId, string> = {
+    ...(process.env.STAGE === AppStage.PROD
+        ? { [SupportedStardustNetworkId.Iota]: 'miota' }
+        : { [SupportedStardustNetworkId.IotaTestnet]: 'miota' }),
+}
 
 export async function updateTransakCryptoCurrencies(): Promise<void> {
-    // TODO: dynamically generate list of allowed names
-    const allowedNetworkNames = ['ethereum']
-    const allowedNetworkChainIds = ['1']
+    const transakNetworkNameForStardustNetwork =
+        STARDUST_NETWORK_ID_TO_TRANSAK_NETWORK_NAME_MAP[getStardustNetwork().id]
+    const evmNetworks = getEvmNetworks()
+
+    const allowedNetworkNames = [transakNetworkNameForStardustNetwork]
+    const allowedNetworkChainIds = evmNetworks.map((network) => network.chainId)
 
     const api = new TransakApi()
     const response = await api.getFilteredCryptoCurrencies(allowedNetworkNames, allowedNetworkChainIds)
@@ -45,7 +63,9 @@ function buildTransakCryptoCurrencyFromResponseItem(
 
 function getNetworkIdFromTransakNetwork(transakNetworkName: string, chainId: string | null | undefined): NetworkId {
     if (transakNetworkName === 'miota') {
-        return SupportedStardustNetworkId.Iota
+        return process.env.STAGE === AppStage.PROD
+            ? SupportedStardustNetworkId.Iota
+            : SupportedStardustNetworkId.IotaTestnet
     } else if (chainId) {
         return `${NetworkNamespace.Evm}:${chainId}`
     } else {
