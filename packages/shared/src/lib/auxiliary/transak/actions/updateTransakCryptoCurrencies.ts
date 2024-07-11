@@ -1,11 +1,11 @@
-import { NetworkId, NetworkNamespace, SupportedStardustNetworkId } from '@core/network'
+import { NetworkId, NetworkNamespace, SupportedStardustNetworkId, getNetwork } from '@core/network'
 import { TransakApi } from '../apis'
 import { ITransakApiCryptoCurrenciesResponseItem } from '../interfaces'
 import { TransakCryptoCurrency, transakCryptoCurrencies } from '../stores'
 
 export async function updateTransakCryptoCurrencies(): Promise<void> {
     // TODO: dynamically generate list of allowed names
-    const allowedNetworkNames = ['miota', 'ethereum']
+    const allowedNetworkNames = ['ethereum']
     const allowedNetworkChainIds = ['1']
 
     const api = new TransakApi()
@@ -25,6 +25,11 @@ export async function updateTransakCryptoCurrencies(): Promise<void> {
 function buildTransakCryptoCurrencyFromResponseItem(
     responseItem: ITransakApiCryptoCurrenciesResponseItem
 ): TransakCryptoCurrency {
+    const networkId = getNetworkIdFromTransakNetwork(responseItem.network.name, responseItem.network.chainId)
+    const network = getNetwork(networkId)
+    if (!network) {
+        throw new Error(`Unsupported Transak network: ${responseItem.network.name}`)
+    }
     return {
         name: responseItem.name,
         symbol: responseItem.symbol,
@@ -33,11 +38,7 @@ function buildTransakCryptoCurrencyFromResponseItem(
             small: responseItem.image.small,
             large: responseItem.image.large,
         },
-        network: {
-            id: getNetworkIdFromTransakNetwork(responseItem.network.name, responseItem.network.chainId),
-            transakNetworkName: responseItem.network.name,
-            chainId: responseItem.network.chainId,
-        },
+        network,
         decimals: responseItem.decimals,
     }
 }

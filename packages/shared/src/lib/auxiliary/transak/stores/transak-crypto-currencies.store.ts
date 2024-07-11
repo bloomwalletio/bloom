@@ -1,15 +1,11 @@
-import { NetworkId } from '@core/network'
+import { Network } from '@core/network'
 import { Writable, writable } from 'svelte/store'
 
 export type TransakCryptoCurrency = {
     name: string
     symbol: string
     image: { thumb: string; small: string; large: string }
-    network: {
-        id: NetworkId
-        transakNetworkName: string
-        chainId?: string | null | undefined
-    }
+    network: Network
     decimals: number
 }
 
