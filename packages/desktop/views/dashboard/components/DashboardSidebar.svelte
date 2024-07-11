@@ -4,7 +4,6 @@
     import { ProfileActionsMenu, SidebarTab } from '@components'
     import { APP_STAGE, AppStage } from '@core/app'
     import { localize } from '@core/i18n'
-    import { SupportedStardustNetworkId } from '@core/network'
     import { activeProfile, isSoftwareProfile } from '@core/profile/stores'
     import {
         DashboardRoute,
@@ -16,12 +15,12 @@
     } from '@core/router'
     import { isDashboardSideBarExpanded } from '@core/ui'
     import { IDashboardSidebarTab } from '@desktop/routers'
+    import { isFeatureEnabled, isFeatureNotGeoFenced } from '@lib/features/utils'
     import { Logo } from '@ui'
     import { campaignsRouter } from '../campaigns'
     import LedgerStatusTile from './LedgerStatusTile.svelte'
     import StrongholdStatusTile from './StrongholdStatusTile.svelte'
     import { BackupToast, VersionToast } from './toasts'
-    import { isFeatureEnabled, isFeatureNotGeoFenced } from '@lib/features/utils'
 
     let expanded = true
     function toggleExpand(): void {
@@ -77,11 +76,6 @@
                       label: localize('tabs.buySell'),
                       route: DashboardRoute.BuySell,
                       onClick: openBuySell,
-                      disabled: $activeProfile?.network?.id !== SupportedStardustNetworkId.Iota,
-                      tooltip:
-                          $activeProfile?.network?.id !== SupportedStardustNetworkId.Iota
-                              ? localize('tabs.tooltips.buySell')
-                              : '',
                   },
               ]
             : []),

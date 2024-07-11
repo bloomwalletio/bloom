@@ -6,4 +6,6 @@ export interface ITransakWindowData {
     service: 'BUY' | 'SELL'
     amount: number
     paymentMethod: string
+    networkName: string
+    cryptoCurrencySymbol: string
 }

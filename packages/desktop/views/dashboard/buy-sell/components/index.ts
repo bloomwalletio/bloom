@@ -1,4 +1,4 @@
-export { default as TokenTile } from './TokenTile.svelte'
+export { default as TransakCryptoCurrencyTile } from './TransakCryptoCurrencyTile.svelte'
 export { default as TransakAmountInput } from './TransakAmountInput.svelte'
 export { default as TransakConnectionPanel } from './TransakConnectionPanel.svelte'
 export { default as TransakExchangePanel } from './TransakExchangePanel.svelte'
