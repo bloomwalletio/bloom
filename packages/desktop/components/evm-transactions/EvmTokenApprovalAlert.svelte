@@ -27,7 +27,6 @@
 </script>
 
 <EvmTransactionAlert
-    variant="info"
     message={localize('popups.tokenApproval.hint', {
         address: truncateString(spender, 6, 6),
         assetName: tokenTransfer.token?.metadata?.name ?? truncateString(tokenId, 6, 6),

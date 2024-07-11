@@ -18,6 +18,7 @@
     {#if $appSettings.sendCrashReports !== $initAppSettings.sendCrashReports}
         <div class="mt-6">
             <Alert
+                variant="info"
                 text={localize('views.settings.crashReporting.advice', {
                     sendCrashReports: $appSettings.sendCrashReports,
                 })}
