@@ -1,4 +1,6 @@
+import { NetworkId, NetworkNamespace, SupportedStardustNetworkId } from '@core/network'
 import { TransakApi } from '../apis'
+import { ITransakApiCryptoCurrenciesResponseItem } from '../interfaces'
 import { TransakCryptoCurrency, transakCryptoCurrencies } from '../stores'
 
 export async function updateTransakCryptoCurrencies(): Promise<void> {
@@ -15,21 +17,37 @@ export async function updateTransakCryptoCurrencies(): Promise<void> {
                 return acc
             }
 
-            return [
-                ...acc,
-                {
-                    name: token.name,
-                    symbol: token.symbol,
-                    image: {
-                        thumb: token.image.thumb,
-                        small: token.image.small,
-                        large: token.image.large,
-                    },
-                    networkName: token.network.name,
-                    chainId: token.network.chainId,
-                    decimals: token.decimals,
-                },
-            ]
+            return [...acc, buildTransakCryptoCurrencyFromResponseItem(token)]
         }, [] as TransakCryptoCurrency[])
     )
+}
+
+function buildTransakCryptoCurrencyFromResponseItem(
+    responseItem: ITransakApiCryptoCurrenciesResponseItem
+): TransakCryptoCurrency {
+    return {
+        name: responseItem.name,
+        symbol: responseItem.symbol,
+        image: {
+            thumb: responseItem.image.thumb,
+            small: responseItem.image.small,
+            large: responseItem.image.large,
+        },
+        network: {
+            id: getNetworkIdFromTransakNetwork(responseItem.network.name, responseItem.network.chainId),
+            transakNetworkName: responseItem.network.name,
+            chainId: responseItem.network.chainId,
+        },
+        decimals: responseItem.decimals,
+    }
+}
+
+function getNetworkIdFromTransakNetwork(transakNetworkName: string, chainId: string | null | undefined): NetworkId {
+    if (transakNetworkName === 'miota') {
+        return SupportedStardustNetworkId.Iota
+    } else if (chainId) {
+        return `${NetworkNamespace.Evm}:${chainId}`
+    } else {
+        throw new Error(`Unsupported Transak network: ${transakNetworkName}`)
+    }
 }

@@ -35,7 +35,7 @@
     </Avatar>
     {#if (size === 'base' || size === 'md' || size === 'lg') && !hideNetworkBadge}
         <span class="relative flex justify-center items-center bottom-0 right-0">
-            <NetworkBadge size="xs" networkId={cryptoCurrency.networkName} />
+            <NetworkBadge size="xs" networkId={cryptoCurrency.network.id} />
         </span>
     {/if}
 </div>

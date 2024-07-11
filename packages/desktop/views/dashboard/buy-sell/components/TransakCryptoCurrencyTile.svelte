@@ -17,7 +17,9 @@
                 <Text fontWeight="medium">{cryptoCurrency.name}</Text>
             </div>
             <Pill color="brand" compact>
-                <Text type="xs" textColor="brand" transform="uppercase">{cryptoCurrency.networkName}</Text>
+                <Text type="xs" textColor="brand" transform="uppercase"
+                    >{cryptoCurrency.network.transakNetworkName}</Text
+                >
             </Pill>
         </div>
     </div>

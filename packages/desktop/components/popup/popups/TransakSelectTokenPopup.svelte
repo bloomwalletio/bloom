@@ -15,8 +15,11 @@
     const options = [
         { value: 'all', label: localize('popups.transaction.allNetworks') },
         ...($transakCryptoCurrencies?.reduce((acc, cryptoCurrency) => {
-            if (!acc.find((option) => option.value === cryptoCurrency.networkName)) {
-                acc.push({ value: cryptoCurrency.networkName, label: cryptoCurrency.networkName.toUpperCase() })
+            if (!acc.find((option) => option.value === cryptoCurrency.network.transakNetworkName)) {
+                acc.push({
+                    value: cryptoCurrency.network.transakNetworkName,
+                    label: cryptoCurrency.network.transakNetworkName.toUpperCase(),
+                })
             }
             return acc
         }, [] as IOption[]) ?? []),
@@ -36,7 +39,7 @@
         } else {
             filteredCryptoCurrencies = $transakCryptoCurrencies?.filter((cryptoCurrency) => {
                 // TODO: map key to transak network name or compare chain id if possible?
-                const isInNetwork = cryptoCurrency.networkName === selectedOption.value
+                const isInNetwork = cryptoCurrency.network.transakNetworkName === selectedOption.value
 
                 const _searchValue = searchValue.toLowerCase()
                 const isSearched =
@@ -91,7 +94,8 @@
                 {#each filteredCryptoCurrencies ?? [] as cryptoCurrency}
                     {@const selected =
                         $selectedExchangeCryptoCurrency?.name === cryptoCurrency.name &&
-                        $selectedExchangeCryptoCurrency?.networkName === cryptoCurrency?.networkName}
+                        $selectedExchangeCryptoCurrency?.network.transakNetworkName ===
+                            cryptoCurrency?.network.transakNetworkName}
                     <TransakCryptoCurrencyTile
                         {cryptoCurrency}
                         onClick={() => onCryptoCurrencyClick(cryptoCurrency)}
