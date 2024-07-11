@@ -12,7 +12,7 @@
     import { Alert } from '@bloomwalletio/ui'
 
     export let parsedTokenApproval: IParsedTokenApproval
-    export let dappName: string
+    export let dappName: string | undefined
     export let networkId: EvmNetworkId
 
     const { tokenId, spender, rawAmount } = parsedTokenApproval
