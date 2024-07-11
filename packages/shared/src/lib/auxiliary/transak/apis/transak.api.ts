@@ -1,6 +1,10 @@
 import { BaseApi } from '@core/utils'
 import { TRANSAK_API_BASE_URL } from '../constants'
-import { ITransakApiCryptoCurrenciesResponse, ITransakApiFiatCurrenciesResponse } from '../interfaces'
+import {
+    ITransakApiCryptoCurrenciesResponse,
+    ITransakApiCryptoCurrenciesResponseItem,
+    ITransakApiFiatCurrenciesResponse,
+} from '../interfaces'
 import { TransakApiEndpoint } from '../enums'
 
 export class TransakApi extends BaseApi {
@@ -13,8 +17,26 @@ export class TransakApi extends BaseApi {
         return response
     }
 
-    async getCryptoCurrencies(): Promise<ITransakApiCryptoCurrenciesResponse | undefined> {
+    async getCryptoCurrencies(): Promise<ITransakApiCryptoCurrenciesResponseItem[] | undefined> {
         const response = await this.get<ITransakApiCryptoCurrenciesResponse>(TransakApiEndpoint.CryptoCurrencies)
-        return response
+        return response?.response
+    }
+
+    async getFilteredCryptoCurrencies(
+        allowedNetworkNames: string[],
+        allowedNetworkChainIds: string[]
+    ): Promise<ITransakApiCryptoCurrenciesResponseItem[] | undefined> {
+        const response = await this.getCryptoCurrencies()
+        const filteredResponse = response?.filter((cryptoCurrency) => {
+            if (cryptoCurrency.isAllowed && !cryptoCurrency.isSuspended) {
+                return (
+                    allowedNetworkNames.some((networkName) => networkName === cryptoCurrency.network.name) ||
+                    allowedNetworkChainIds.some((chainId) => chainId === cryptoCurrency.network.chainId)
+                )
+            } else {
+                return false
+            }
+        })
+        return filteredResponse
     }
 }

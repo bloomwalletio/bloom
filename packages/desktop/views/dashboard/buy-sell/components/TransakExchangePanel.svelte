@@ -11,12 +11,19 @@
     import { isDashboardSideBarExpanded } from '@core/ui'
     import { drawerState } from '@desktop/auxiliary/drawer/stores'
     import { DrawerState } from '@desktop/auxiliary/drawer/types'
-    import { IPopupState, IProfileAuthPopupState, popupState, profileAuthPopup } from '@desktop/auxiliary/popup'
+    import {
+        IPopupState,
+        IProfileAuthPopupState,
+        openPopup,
+        PopupId,
+        popupState,
+        profileAuthPopup,
+    } from '@desktop/auxiliary/popup'
     import { isFeatureEnabled } from '@lib/features/utils'
     import { Pane } from '@ui'
     import { onDestroy, tick } from 'svelte'
-    import { TokenTile, TransakAmountInput } from './'
-    import { transakFiatCurrencies } from '@auxiliary/transak'
+    import { TransakCryptoCurrencyTile, TransakAmountInput } from './'
+    import { selectedExchangeCryptoCurrency, transakCryptoCurrencies, transakFiatCurrencies } from '@auxiliary/transak'
 
     const CURRENCY_OPTIONS: IOption[] = Object.keys(FiatCurrency).map((currency) => ({
         value: currency,
@@ -65,7 +72,7 @@
         state: IPopupState,
         profilePopupState: IProfileAuthPopupState,
         settingsState: ISettingsState,
-        drawerState: DrawerState
+        drawerState: DrawerState | undefined
     ): Promise<void> {
         if (state.active || profilePopupState.active || settingsState.open || drawerState?.id) {
             await Platform.hideTransak()
@@ -132,6 +139,10 @@
             service: selectedTab.key as 'BUY' | 'SELL',
             amount: Number(fiatValue),
             paymentMethod: selectedPaymentOption.value ?? '',
+            networkName:
+                $selectedExchangeCryptoCurrency?.networkName ?? $transakCryptoCurrencies?.[0]?.networkName ?? 'miota',
+            cryptoCurrencySymbol:
+                $selectedExchangeCryptoCurrency?.symbol ?? $transakCryptoCurrencies?.[0]?.symbol ?? 'IOTA',
         })
         isTransakOpen = true
         await updateTransakBounds()
@@ -140,6 +151,10 @@
     async function closeTransak(): Promise<void> {
         await Platform.closeTransak()
         isTransakOpen = false
+    }
+
+    function onTokenTileClick(): void {
+        openPopup({ id: PopupId.TransakSelectToken })
     }
 
     onDestroy(() => {
@@ -181,7 +196,12 @@
                         />
                     </div>
                     <TransakAmountInput currency={selectedCurrency} bind:value={fiatValue} />
-                    <TokenTile {fiatValue} currency={FiatCurrency[selectedCurrency]} />
+                    {#if $transakCryptoCurrencies && $transakCryptoCurrencies.length > 0}
+                        <TransakCryptoCurrencyTile
+                            cryptoCurrency={$selectedExchangeCryptoCurrency ?? $transakCryptoCurrencies[0]}
+                            onClick={onTokenTileClick}
+                        />
+                    {/if}
                     <div class="w-full">
                         <SelectInput
                             label="Payment method"
