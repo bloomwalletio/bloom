@@ -219,7 +219,7 @@ export default class TransakManager implements ITransakManager {
     }
 
     private getUrl(data: ITransakWindowData): string {
-        const { address, currency, service, amount, paymentMethod } = data
+        const { address, currency, service, amount, paymentMethod, networkName, cryptoCurrencySymbol } = data
         const apiKey = process.env.TRANSAK_API_KEY
 
         if (typeof apiKey !== 'string') {
@@ -248,8 +248,8 @@ export default class TransakManager implements ITransakManager {
             walletAddress: address,
             paymentMethod: paymentMethod,
             productsAvailed: service,
-            cryptoCurrencyCode: 'IOTA',
-            network: 'miota',
+            cryptoCurrencyCode: cryptoCurrencySymbol,
+            network: networkName,
             themeColor: '7C41C9',
             hideMenu: true,
             disableWalletAddressForm: true,
