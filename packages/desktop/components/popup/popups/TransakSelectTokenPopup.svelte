@@ -1,24 +1,23 @@
 <script lang="ts">
     import { selectedExchangeCryptoCurrency, transakCryptoCurrencies, TransakCryptoCurrency } from '@auxiliary/transak'
-    import { SelectInput } from '@bloomwalletio/ui'
+    import { IOption, SelectInput } from '@bloomwalletio/ui'
     import { PopupTemplate } from '@components'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { networks } from '@core/network'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { SearchInput } from '@ui'
-    import { IOption } from '@bloomwalletio/ui'
     import { TransakCryptoCurrencyTile } from '@views/dashboard/buy-sell/components'
 
     let searchValue: string = ''
 
     const options = [
         { value: 'all', label: localize('popups.transaction.allNetworks') },
-        ...($transakCryptoCurrencies?.reduce((acc, cryptoCurrency) => {
-            if (!acc.find((option) => option.value === cryptoCurrency.network.transakNetworkName)) {
+        ...($networks?.reduce((acc, network) => {
+            if (!acc.find((option) => option.value === network.id)) {
                 acc.push({
-                    value: cryptoCurrency.network.transakNetworkName,
-                    label: cryptoCurrency.network.transakNetworkName.toUpperCase(),
+                    value: network.id,
+                    label: network.name,
                 })
             }
             return acc
@@ -39,7 +38,7 @@
         } else {
             filteredCryptoCurrencies = $transakCryptoCurrencies?.filter((cryptoCurrency) => {
                 // TODO: map key to transak network name or compare chain id if possible?
-                const isInNetwork = cryptoCurrency.network.transakNetworkName === selectedOption.value
+                const isInNetwork = cryptoCurrency.network.id === selectedOption.value
 
                 const _searchValue = searchValue.toLowerCase()
                 const isSearched =
@@ -94,8 +93,7 @@
                 {#each filteredCryptoCurrencies ?? [] as cryptoCurrency}
                     {@const selected =
                         $selectedExchangeCryptoCurrency?.name === cryptoCurrency.name &&
-                        $selectedExchangeCryptoCurrency?.network.transakNetworkName ===
-                            cryptoCurrency?.network.transakNetworkName}
+                        $selectedExchangeCryptoCurrency?.network.id === cryptoCurrency?.network.id}
                     <TransakCryptoCurrencyTile
                         {cryptoCurrency}
                         onClick={() => onCryptoCurrencyClick(cryptoCurrency)}
