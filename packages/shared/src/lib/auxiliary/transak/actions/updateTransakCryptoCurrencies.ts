@@ -19,8 +19,8 @@ const STARDUST_NETWORK_ID_TO_TRANSAK_NETWORK_NAME_MAP: Record<StardustNetworkId,
 }
 
 export async function updateTransakCryptoCurrencies(): Promise<void> {
-    const transakNetworkNameForStardustNetwork =
-        STARDUST_NETWORK_ID_TO_TRANSAK_NETWORK_NAME_MAP[getStardustNetwork().id]
+    const stardustNetwork = getStardustNetwork()
+    const transakNetworkNameForStardustNetwork = STARDUST_NETWORK_ID_TO_TRANSAK_NETWORK_NAME_MAP[stardustNetwork.id]
     const evmNetworks = getEvmNetworks()
 
     const allowedNetworkNames = [transakNetworkNameForStardustNetwork]
@@ -28,6 +28,22 @@ export async function updateTransakCryptoCurrencies(): Promise<void> {
 
     const api = new TransakApi()
     const response = await api.getFilteredCryptoCurrencies(allowedNetworkNames, allowedNetworkChainIds)
+
+    // sort response by stardust network first and then by order of evm networks
+    response?.sort((a, b) => {
+        const aNetworkId = getNetworkIdFromTransakNetwork(a.network.name, a.network.chainId)
+        const bNetworkId = getNetworkIdFromTransakNetwork(b.network.name, b.network.chainId)
+        if (aNetworkId === stardustNetwork.id) {
+            return -1
+        } else if (bNetworkId === stardustNetwork.id) {
+            return 1
+        } else {
+            return evmNetworks.findIndex((network) => network.id === aNetworkId) <
+                evmNetworks.findIndex((network) => network.id === bNetworkId)
+                ? -1
+                : 1
+        }
+    })
 
     transakCryptoCurrencies.set(
         response?.reduce((acc, token) => {
