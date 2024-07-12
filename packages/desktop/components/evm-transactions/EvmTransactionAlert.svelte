@@ -4,7 +4,7 @@
     import { Alert, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
-    export let variant: string
+    export let variant: string | undefined = undefined
     export let message: string
     export let networkId: EvmNetworkId
     export let contractAddress: string

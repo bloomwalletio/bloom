@@ -29,5 +29,5 @@
             <Text type="h5" textColor="success" align="center">{successMessage}</Text>
         </div>
     </div>
-    <Alert text={localize('popups.successfulDappInteraction.alert')} />
+    <Alert variant="info" text={localize('popups.successfulDappInteraction.alert')} />
 </PopupTemplate>

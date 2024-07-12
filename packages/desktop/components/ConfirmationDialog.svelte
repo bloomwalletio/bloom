@@ -44,7 +44,7 @@
                 }}
             >
                 {#if alert}
-                    <Alert {...alert} />
+                    <Alert variant="info" {...alert} />
                 {/if}
             </PopupTemplate>
         </dialog-container>
