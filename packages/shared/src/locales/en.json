@@ -1113,7 +1113,7 @@
             "hint": "{dappName} requests approval for {spender} to spend {assetName}",
             "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
             "action": "Approve",
-            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
+            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens than you currently own.",
             "accept": "I understand and wish to proceed",
             "success": "Successfully approved"
         },
