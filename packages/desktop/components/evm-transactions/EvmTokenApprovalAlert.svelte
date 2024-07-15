@@ -12,6 +12,7 @@
     import { Alert } from '@bloomwalletio/ui'
 
     export let parsedTokenApproval: IParsedTokenApproval
+    export let dappName: string | undefined
     export let networkId: EvmNetworkId
 
     const { tokenId, spender, rawAmount } = parsedTokenApproval
@@ -27,9 +28,9 @@
 </script>
 
 <EvmTransactionAlert
-    variant="info"
     message={localize('popups.tokenApproval.hint', {
-        address: truncateString(spender, 6, 6),
+        dappName,
+        spender: truncateString(spender, 6, 6),
         assetName: tokenTransfer.token?.metadata?.name ?? truncateString(tokenId, 6, 6),
     })}
     {networkId}

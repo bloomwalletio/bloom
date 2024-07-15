@@ -66,7 +66,7 @@
     }}
 >
     {#if alert}
-        <Alert {...alert} />
+        <Alert variant="info" {...alert} />
     {/if}
     {#if text}
         <Text class="break-all">{text}</Text>

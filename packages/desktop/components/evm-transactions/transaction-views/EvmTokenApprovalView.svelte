@@ -34,7 +34,6 @@
 
 <PopupTemplate
     title={localize(`${localeKey}.title`, {
-        dappName: dappName ?? parsedTokenApproval.spender,
         assetName: token?.metadata?.name ?? truncateString(parsedTokenApproval.tokenId, 6, 6),
     })}
     {backButton}
@@ -52,7 +51,7 @@
     </svelte:fragment>
     <div class="flex flex-col space-y-5">
         <TransactionAssetSection {baseCoinTransfer} />
-        <EvmTokenApprovalAlert {parsedTokenApproval} {networkId} />
+        <EvmTokenApprovalAlert {parsedTokenApproval} {networkId} {dappName} />
         <slot name="transactionDetails" />
         {#if baseCoinTransfer.rawAmount > BigInt(0)}
             <!-- Display alert if token approval is also trying to consume value -->
