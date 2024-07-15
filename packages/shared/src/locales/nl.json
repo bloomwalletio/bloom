@@ -535,6 +535,9 @@
                     }
                 },
                 "dapps": {
+                    "general": {
+                        "loginPrompt": "Dapp request received while logged out. Please log in to continue."
+                    },
                     "dappsList": {
                         "title": "Verbonden dApps",
                         "connectDapp": "Verbind dApp",
@@ -589,9 +592,9 @@
                     },
                     "confirmConnection": {
                         "title": "Verbinding maken met een applicatie",
-                        "expired": "Request has expired",
-                        "expiresIn": "Request expires in",
-                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
+                        "expired": "Verzoek is verlopen",
+                        "expiresIn": "Verzoek verloopt over",
+                        "siweStatement": "{origin} vraagt je om in te loggen met je ethereum accounts",
                         "permissions": {
                             "step": "Permissies",
                             "tip": "Dit zijn beperkte machtigingen voor de dApp om een interactieverzoek te sturen voor jouw goedkeuring. Keur alleen apps goed die je kent en vertrouwt.",
@@ -623,7 +626,7 @@
                         "description": "Beschrijving",
                         "url": "URL",
                         "verifyUrl": "URL verifiëren",
-                        "notConnectedToProfile": "Not connected to this profile",
+                        "notConnectedToProfile": "Niet verbonden met dit profiel",
                         "disconnect": {
                             "title": "Verbinding verbreken",
                             "description": "Wil je de verbinding met {dappName} verbreken?"
@@ -1106,11 +1109,14 @@
         "tokenApproval": {
             "title": "{dappName} goedkeuren voor toegang tot {assetName}",
             "hint": "{address} vraagt goedkeuring voor het uitgeven van {assetName}",
+            "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
             "action": "Goedkeuren",
+            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
+            "accept": "I understand and wish to proceed",
             "success": "Succesvol goedgekeurd"
         },
         "sendTransaction": {
-            "title": "Transactie verzenden",
+            "title": "Send {asset} to {recipient}",
             "action": "Verzend",
             "success": "{assetName} verzonden naar {recipient}"
         },

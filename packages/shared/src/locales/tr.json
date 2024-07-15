@@ -535,6 +535,9 @@
                     }
                 },
                 "dapps": {
+                    "general": {
+                        "loginPrompt": "Dapp request received while logged out. Please log in to continue."
+                    },
                     "dappsList": {
                         "title": "Bağlı Uygulamalar",
                         "connectDapp": "dApp'e bağlandı",
@@ -589,9 +592,9 @@
                     },
                     "confirmConnection": {
                         "title": "Bir uygulama ile bağlanmak",
-                        "expired": "Request has expired",
-                        "expiresIn": "Request expires in",
-                        "siweStatement": "{origin} asks you to sign in with your ethereum accounts",
+                        "expired": "İsteğin süresi doldu",
+                        "expiresIn": "Talebin süresi şu tarihte doluyor",
+                        "siweStatement": "{origin} sizden Ethereum hesaplarınızla oturum açmanızı istiyor",
                         "permissions": {
                             "step": "İzinler",
                             "tip": "Bunlar dApp'in onayınıza etkileşim isteği göndermesine yönelik sınırlı izinlerdir. Yalnızca bildiğiniz ve güvendiğiniz uygulamaları onaylayın.",
@@ -623,7 +626,7 @@
                         "description": "Açıklama",
                         "url": "URL",
                         "verifyUrl": "URL'yi Doğrula",
-                        "notConnectedToProfile": "Not connected to this profile",
+                        "notConnectedToProfile": "Bu profile bağlı değil",
                         "disconnect": {
                             "title": "Bağlantıyı kes",
                             "description": "{dappName} ile bağlantıyı kesmek istiyor musunuz?"
@@ -1106,11 +1109,14 @@
         "tokenApproval": {
             "title": "{assetName} erişimi için {dappName} uygulamasını onaylayın",
             "hint": "{address}, {assetName} tutarında harcama yapmak için onay istiyor",
+            "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
             "action": "Onayla",
+            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
+            "accept": "I understand and wish to proceed",
             "success": "Başarıyla onaylandı"
         },
         "sendTransaction": {
-            "title": "İşlemi gönder",
+            "title": "Send {asset} to {recipient}",
             "action": "Gönder",
             "success": "{assetName}, {recipient} alıcısına gönderildi"
         },
