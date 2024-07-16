@@ -9,5 +9,5 @@
 </script>
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.addChain.title')} {drawerRouter}>
-    <AddEvmChainForm />
+    <AddEvmChainForm {drawerRouter} />
 </DrawerTemplate>

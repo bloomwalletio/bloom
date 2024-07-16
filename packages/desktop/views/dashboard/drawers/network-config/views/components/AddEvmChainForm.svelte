@@ -10,9 +10,16 @@
         IPureEvmNetworkConfiguration,
         SupportedNetworkId,
         DEFAULT_BASE_TOKEN,
+        networks,
+        EvmNetwork,
     } from '@core/network'
     import { isValidHttpsUrl } from '@core/utils'
     import { Button, TextInput } from '@bloomwalletio/ui'
+    import { addPersistedEvmNetworkToActiveProfile } from '@core/profile/stores'
+    import { NetworkConfigRoute } from '../../network-config-route.enum'
+    import { Router } from '@core/router/classes'
+
+    export let drawerRouter: Router<NetworkConfigRoute>
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
@@ -70,13 +77,26 @@
         validate()
         const hasError = !!nameError || !!rpcEndpointError || !!explorerUrlError
         if (!hasError) {
-            // TODO: Persist the network configuration and add it to the `networks` store
+            evmNetwork.id = `${NetworkNamespace.Evm}:${evmNetwork.chainId}`
+            if ($networks.some((network) => network.id === evmNetwork.id)) {
+                rpcEndpointError = localize(`${localeKey}.errors.chainIdExists`)
+                return
+            }
+            addPersistedEvmNetworkToActiveProfile(evmNetwork)
+            $networks = [...$networks, new EvmNetwork(evmNetwork)]
+            drawerRouter.previous()
         }
     }
 </script>
 
 <add-evm-network class="h-full flex flex-col justify-between p-4">
     <form id="add-network-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
+        <TextInput
+            bind:value={evmNetwork.chainId}
+            label={localize(`${localeKey}.chainId`)}
+            disabled={isBusy}
+            error={nameError}
+        />
         <TextInput bind:value={evmNetwork.name} label={localize('general.name')} disabled={isBusy} error={nameError} />
         <TextInput
             bind:value={evmNetwork.rpcEndpoint}
