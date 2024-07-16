@@ -1778,7 +1778,8 @@
         "saving": "Saving",
         "enabled": "Enabled",
         "disabled": "Disabled",
-        "networkSettings": "Network settings"
+        "networkSettings": "Network settings",
+        "waitingConnection": "Waiting connection"
     },
     "filters":{
         "title": "Filters",

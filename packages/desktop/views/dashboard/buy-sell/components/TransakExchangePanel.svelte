@@ -188,7 +188,7 @@
                     </div>
                 {/if}
                 <div class="flex flex-col items-center gap-4 w-full">
-                    <div class="w-3/4">
+                    <div class="w-28 self-end">
                         <SelectInput
                             label="Currency"
                             options={CURRENCY_OPTIONS}
@@ -211,7 +211,7 @@
                         />
                     </div>
                 </div>
-                <Button text={selectedTab.value} on:click={resetTransak} />
+                <Button text={selectedTab.value} on:click={resetTransak} width="full" />
             </div>
         {/if}
     </Pane>
