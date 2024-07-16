@@ -1,3 +1,7 @@
+import { logMessage, markEnd, markStart } from '../utils/performance-logger.utils'
+logMessage('app-started')
+
+markStart('main-process-imports')
 // Modules to control application life and create native browser window
 import {
     app,
@@ -40,19 +44,22 @@ import { ensureDirectoryExistence } from '../utils/file-system.utils'
 import { getMachineId } from '../utils/os.utils'
 import { AboutWindow } from '../windows/about.window'
 
+markEnd('main-process-imports')
+
 export let appIsReady = false
 
+markStart('initialised-deep-links')
 initialiseDeepLinks()
+markEnd('initialised-deep-links')
 
-/*
- * NOTE: Ignored because defined by Webpack.
- */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-expect-error
+// Set up application configurations
+markStart('app-configurations')
+// @ts-expect-error APP_ID is defined in the webpack config
 app.setAppUserModelId(APP_ID)
-
 app.disableHardwareAcceleration()
+markEnd('app-configurations')
 
+markStart('debug-security-check')
 /**
  * Terminate application if Node remote debugging detected
  */
@@ -68,11 +75,14 @@ if (
 ) {
     app.quit()
 }
+markEnd('debug-security-check')
 
+markStart('expose-garbage-collector')
 /**
  * Expose Garbage Collector flag for manual trigger after seed usage
  */
 app.commandLine.appendSwitch('js-flags', '--expose-gc')
+markEnd('expose-garbage-collector')
 
 let lastError = {}
 
@@ -103,6 +113,7 @@ function handleError(errorType, error, isRenderProcessError?): void {
     }
 }
 
+markStart('error-handlers')
 process.on('uncaughtException', (error) => {
     handleError('[Main Context] Unhandled Error', error)
 })
@@ -110,7 +121,9 @@ process.on('uncaughtException', (error) => {
 process.on('unhandledRejection', (error) => {
     handleError('[Main Context] Unhandled Rejection', error)
 })
+markEnd('error-handlers')
 
+markStart('define-paths')
 const paths = {
     html: '',
     errorHtml: '',
@@ -133,6 +146,7 @@ if (app.isPackaged) {
     paths.errorPreload = path.join(__dirname, 'error.preload.js')
     paths.ledger = path.join(__dirname, 'ledger.process.js')
 }
+markEnd('define-paths')
 
 /**
  * Handles url navigation events
@@ -157,9 +171,12 @@ function tryOpenExternalUrl(e: Event, url: string): void {
 
 let autoUpdateManager: AutoUpdateManager
 export function createMainWindow(): BrowserWindow {
+    markStart('initialise-windowStateKeeper-main')
     const mainWindowState = windowStateKeeper('main')
+    markEnd('initialise-windowStateKeeper-main')
 
     // Create the browser window
+    markStart('create-main-browser-window')
     windows.main = new BrowserWindow({
         width: mainWindowState.width,
         height: mainWindowState.height,
@@ -179,6 +196,7 @@ export function createMainWindow(): BrowserWindow {
             sandbox: false,
         },
     })
+    markEnd('create-main-browser-window')
 
     if (mainWindowState.isMaximized) {
         windows.main.maximize()
@@ -189,20 +207,27 @@ export function createMainWindow(): BrowserWindow {
     if (!app.isPackaged) {
         // Enable dev tools only in developer mode
         windows.main.webContents.openDevTools()
-
+        markStart('load-main-url')
         void windows.main.loadURL('http://localhost:8080')
     } else {
         // load the index.html of the app.
         void windows.main.loadFile(paths.html)
     }
 
+    markStart('initialise-auto-update-manager')
     autoUpdateManager = new AutoUpdateManager(windows.main)
+    markEnd('initialise-auto-update-manager')
+    markStart('initialise-nft-manager')
     new NftDownloadManager()
+    markEnd('initialise-nft-manager')
+    markStart('initialise-third-party-app-manager')
     new ThirdPartyAppManager()
+    markEnd('initialise-third-party-app-manager')
 
     /**
      * Right click context menu for inputs
      */
+    markStart('context-menu')
     windows.main.webContents.on('context-menu', (_e, props) => {
         const { isEditable } = props
         if (isEditable) {
@@ -210,43 +235,61 @@ export function createMainWindow(): BrowserWindow {
             contextMenu().popup(options)
         }
     })
+    markEnd('context-menu')
 
     /**
      * `will-navigate` is emitted whenever window.location is updated.
      *  Navigation to an external browser happens through open-external-url event.
      *  For security reasons we prevent any navigation through this event.
      */
+    markStart('will-navigate')
     windows.main.webContents.on('will-navigate', (e) => {
+        logMessage('will-navigate')
         e.preventDefault()
     })
+    markEnd('will-navigate')
 
+    markStart('close-main-window')
     windows.main.on('close', () => {
+        logMessage('close')
         AboutWindow.close()
         closeErrorWindow()
         transakManager?.closeWindow()
     })
+    markEnd('close-main-window')
 
+    markStart('closed-main-window')
     windows.main.on('closed', () => {
+        logMessage('closed')
         ledgerProcess?.kill()
         windows.main = null
     })
+    markEnd('closed-main-window')
 
+    markStart('did-finish-load')
     windows.main.webContents.on('did-finish-load', () => {
+        logMessage('did-finish-load')
         windows.main?.webContents?.send?.('version-details', autoUpdateManager.getVersionDetails())
     })
+    markEnd('did-finish-load')
 
     /**
      * CVE-2022-21718 mitigation
      * Remove when updating to Electron 13.6.6 or later
      * https://github.com/advisories/GHSA-3p22-ghq8-v749
      */
+    markStart('select-bluetooth-device')
     windows.main.webContents.on('select-bluetooth-device', (event, _devices, cb) => {
+        logMessage('select-bluetooth-device')
         event.preventDefault()
         // Cancel the request
         cb('')
     })
+    markEnd('select-bluetooth-device')
 
+    markStart('setWindowOpenHandler')
     windows.main.webContents.setWindowOpenHandler((details) => {
+        logMessage('setWindowOpenHandler')
         try {
             windows.main?.webContents?.send?.('try-open-url-in-browser', details.url)
         } catch (err) {
@@ -254,29 +297,38 @@ export function createMainWindow(): BrowserWindow {
         }
         return { action: 'deny' }
     })
+    markEnd('setWindowOpenHandler')
 
     /**
      * Handle permissions requests
      */
+    markStart('setPermissionRequestHandler')
     session.defaultSession.setPermissionRequestHandler((_webContents, permission, cb) => {
         const permissionAllowlist = ['clipboard-read', 'notifications', 'fullscreen', 'openExternal']
 
         return cb(permissionAllowlist.indexOf(permission) > -1)
     })
+    markEnd('setPermissionRequestHandler')
 
+    markStart('registerPowerMonitorListeners')
     registerPowerMonitorListeners()
+    markEnd('registerPowerMonitorListeners')
 
     return windows.main
 }
 
 void app.whenReady().then(() => {
+    logMessage('app-ready')
     // Doesn't open & close a new window when the app is already open
     if (isFirstInstance) {
+        markStart('create-main-window')
         createMainWindow()
+        markEnd('create-main-window')
         appIsReady = true
     }
 })
 
+markStart('ipc-ledger-handlers')
 let ledgerProcess: UtilityProcess
 ipcMain.on('start-ledger-process', () => {
     ledgerProcess = utilityProcess.fork(paths.ledger)
@@ -340,6 +392,7 @@ ipcMain.on(LedgerApiMethod.SignEIP712, (_e, hashedDomain, hashedMessage, bip32Pa
         payload: [hashedDomain, hashedMessage, bip32Path],
     })
 })
+markEnd('ipc-ledger-handlers')
 
 export function getOrInitWindow(windowName: string, ...args: unknown[]): BrowserWindow {
     if (!windows[windowName]) {
@@ -366,6 +419,7 @@ initMenu()
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
+    logMessage('window-all-closed')
     // On macOS it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
@@ -374,6 +428,7 @@ app.on('window-all-closed', () => {
 })
 
 app.once('ready', () => {
+    logMessage('app ready')
     ipcMain.handle('error-data', () => lastError)
     app.on('activate', () => {
         // On macOS it's common to re-create a window in the app when the
@@ -392,6 +447,7 @@ app.once('ready', () => {
 
 // URLs
 ipcMain.handle('open-external-url', (_e, url) => {
+    logMessage('open-external-url')
     tryOpenExternalUrl(_e as unknown as Event, url)
 })
 
@@ -410,6 +466,7 @@ ipcMain.handle('show-save-dialog', (_e, options) => {
 
 // Miscellaneous
 ipcMain.handle('get-path', (_e, path) => {
+    logMessage('get-path')
     const allowedPaths = ['userData']
     if (allowedPaths.indexOf(path) === -1) {
         throw Error(`Path ${path} is not allowed`)
@@ -417,6 +474,7 @@ ipcMain.handle('get-path', (_e, path) => {
     return app.getPath(path)
 })
 ipcMain.handle('focus-window', () => {
+    logMessage('focus-window')
     if (windows.main) {
         if (windows.main.isMinimized()) {
             windows.main.restore()
@@ -428,6 +486,7 @@ ipcMain.handle('focus-window', () => {
 })
 
 ipcMain.handle('copy-file', (_e, sourceFilePath, destinationFilePath) => {
+    logMessage('copy-file')
     const src = path.resolve(sourceFilePath)
     const srcFileBuffer = fs.readFileSync(src)
     const dest = path.resolve(destinationFilePath)
@@ -436,6 +495,7 @@ ipcMain.handle('copy-file', (_e, sourceFilePath, destinationFilePath) => {
 })
 
 ipcMain.handle('delete-file', (_e, filePath) => {
+    logMessage('delete-file')
     const userPath = app.getPath('userData')
     const directory = app.isPackaged ? userPath : __dirname
     const src = path.resolve(`${directory}/__storage__/${filePath}`)
@@ -444,6 +504,7 @@ ipcMain.handle('delete-file', (_e, filePath) => {
 })
 
 ipcMain.handle('check-if-file-exists', (_e, filePath) => {
+    logMessage('check-if-file-exists')
     const userPath = app.getPath('userData')
     const directory = app.isPackaged ? userPath : __dirname
 
@@ -453,6 +514,7 @@ ipcMain.handle('check-if-file-exists', (_e, filePath) => {
 ipcMain.handle('diagnostics', () => getDiagnostics())
 
 ipcMain.handle('handle-error', (_e, errorType, error) => {
+    logMessage('handle-error')
     handleError(errorType, error, true)
 })
 
