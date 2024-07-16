@@ -13,8 +13,6 @@
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
-    let menu: Menu | undefined = undefined
-
     $: menuItems = [
         {
             icon: IconName.Trash,
@@ -50,4 +48,4 @@
     }
 </script>
 
-<Menu bind:this={menu} items={menuItems} />
+<Menu items={menuItems} />
