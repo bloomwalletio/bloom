@@ -15,6 +15,7 @@ import type { ILoggerConfig } from '@iota/sdk/out/types'
 import ElectronApi from '../apis/electron.api'
 import LedgerApi from '../apis/ledger.api'
 import WalletApi from '../apis/wallet.api'
+import { markEnd, markStart } from '../utils/performance-logger.utils'
 
 const DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24
 const DAYS_TO_KEEP_LOGS = 30
@@ -33,9 +34,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
 try {
     if (process.env.STAGE !== 'prod') {
+        markStart('getVersionAndInitLogger')
         void ipcRenderer.invoke('get-path', 'userData').then(async (baseDir) => {
             const logDir = prepareLogDirectory(baseDir)
             await getVersionAndInitLogger(logDir)
+            markEnd('getVersionAndInitLogger')
         })
     }
 } catch (err) {
@@ -47,10 +50,15 @@ try {
     // https://www.electronjs.org/docs/latest/api/context-bridge
     // This workaround exposes the classes through factory methods
     // The factory method also copies all the prototype methods to the object so that it gets passed through the bridge
-
+    markStart('exposeInMainWorld__WALLET__API__')
     contextBridge.exposeInMainWorld('__WALLET__API__', WalletApi)
+    markEnd('exposeInMainWorld-__WALLET__API__')
+    markStart('exposeInMainWorld__ELECTRON__')
     contextBridge.exposeInMainWorld('__ELECTRON__', ElectronApi)
+    markEnd('exposeInMainWorld-__ELECTRON__')
+    markStart('exposeInMainWorld__LEDGER__')
     contextBridge.exposeInMainWorld('__LEDGER__', LedgerApi)
+    markEnd('exposeInMainWorld-__LEDGER__')
 } catch (err) {
     void ipcRenderer.invoke('handle-error', '[Preload Context] Error', err)
 }
