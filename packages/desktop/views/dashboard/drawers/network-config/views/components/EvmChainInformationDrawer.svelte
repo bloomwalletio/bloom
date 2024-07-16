@@ -5,7 +5,7 @@
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
     import { LedgerAppName } from '@core/ledger'
-    import { IEvmNetwork, isIscNetwork, SupportedNetworkId } from '@core/network'
+    import { IEvmNetwork, isIscNetwork, NetworkType } from '@core/network'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeAccounts } from '@core/profile/stores'
     import { Router } from '@core/router'
@@ -54,7 +54,7 @@
 <DrawerTemplate {drawerRouter}>
     <div slot="header" class="flex flex-row items-center w-full justify-between">
         <Text type="h6">{network.name}</Text>
-        {#if !Object.values(SupportedNetworkId).includes(network.id)}
+        {#if network.type === NetworkType.Evm}
             <NetworkActionsMenu {drawerRouter} networkId={network.id} networkName={network.name} />
         {/if}
     </div>
