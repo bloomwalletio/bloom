@@ -26,6 +26,8 @@
             return TransakConnectionStatus.Connected
         } else if (url) {
             return TransakConnectionStatus.Redirected
+        } else if (!url) {
+            return TransakConnectionStatus.Waiting
         } else {
             return TransakConnectionStatus.Disconnected
         }
@@ -47,6 +49,8 @@
                 <Pill color="success">{localize('general.connected')}</Pill>
             {:else if connectionStatus === TransakConnectionStatus.Redirected}
                 <Pill color="warning">{localize('general.redirected')}</Pill>
+            {:else if connectionStatus === TransakConnectionStatus.Waiting}
+                <Pill color="neutral">{localize('general.waitingConnection')}</Pill>
             {:else}
                 <Pill color="danger">{localize('general.disconnected')}</Pill>
             {/if}
@@ -68,6 +72,13 @@
                     size="xs"
                     tooltip={localize('views.buySell.tooltip.redirected')}
                 />
+            {:else if connectionStatus === TransakConnectionStatus.Waiting}
+                <TooltipIcon
+                    icon={IconName.Globe}
+                    textColor="secondary"
+                    size="xs"
+                    tooltip={localize('general.waitingConnection')}
+                />
             {:else}
                 <TooltipIcon
                     icon={IconName.DangerCircle}
@@ -83,9 +94,11 @@
                 <Tooltip anchor={textContainer} event="hover" placement="top" text={url ?? TRANSAK_WIDGET_URL} />
             {/if}
         </div>
-        <Tooltip anchor={refreshButton} text={localize('actions.refresh')} event="hover" placement="top" />
-        <div bind:this={refreshButton}>
-            <IconButton icon={IconName.Refresh} size="xs" on:click={refreshFunction} />
-        </div>
+        {#if connectionStatus !== TransakConnectionStatus.Waiting}
+            <Tooltip anchor={refreshButton} text={localize('actions.refresh')} event="hover" placement="top" />
+            <div bind:this={refreshButton}>
+                <IconButton icon={IconName.Refresh} size="xs" on:click={refreshFunction} />
+            </div>
+        {/if}
     </div>
 </Pane>
