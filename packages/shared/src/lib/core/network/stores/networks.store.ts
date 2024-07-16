@@ -1,5 +1,5 @@
 import { Writable, writable, get } from 'svelte/store'
-import { activeProfile } from '@core/profile/stores'
+import { activeProfile, removeEvmNetworkFromActiveProfile } from '@core/profile/stores'
 import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
 import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
 import { EvmNetworkId, Network, NetworkId } from '../types'
@@ -45,10 +45,11 @@ export function addChain(chain: IIscChain): void {
     })
 }
 
-export function removeChain(chainId: EvmNetworkId): void {
+export function removeEvmNetwork(networkId: EvmNetworkId): void {
     networks.update((networks) => {
-        return networks.filter(({ id }) => id !== chainId)
+        return networks.filter(({ id }) => id !== networkId)
     })
+    removeEvmNetworkFromActiveProfile(networkId)
 }
 
 export function getStardustNetwork(): IStardustNetwork {

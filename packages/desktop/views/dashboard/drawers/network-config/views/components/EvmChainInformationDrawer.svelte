@@ -10,6 +10,7 @@
     import { activeAccounts } from '@core/profile/stores'
     import { Router } from '@core/router'
     import { NetworkConfigRoute } from '../../network-config-route.enum'
+    import NetworkActionsMenu from './NetworkActionsMenu.svelte'
 
     export let drawerRouter: Router<NetworkConfigRoute>
     export let network: IEvmNetwork
@@ -50,7 +51,11 @@
     }
 </script>
 
-<DrawerTemplate title={network.name} {drawerRouter}>
+<DrawerTemplate {drawerRouter}>
+    <div slot="header" class="flex flex-row items-center w-full justify-between">
+        <Text type="h6">{network.name}</Text>
+        <NetworkActionsMenu {drawerRouter} networkId={network.id} networkName={network.name} />
+    </div>
     <div class="w-full h-full px-6 space-y-4">
         <Table
             orientation="vertical"

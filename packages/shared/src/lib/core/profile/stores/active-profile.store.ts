@@ -65,3 +65,10 @@ export function getActiveProfilePersistedEvmAddressesByAccountIndex(accountIndex
     const accountPersistedData = getActiveProfilePersistedAccountData(accountIndex)
     return accountPersistedData?.evmAddresses ?? {}
 }
+
+export function removeEvmNetworkFromActiveProfile(networkId: string): void {
+    activeProfile?.update((state) => {
+        state.evmNetworks = state.evmNetworks.filter((network) => network.id !== networkId)
+        return state
+    })
+}

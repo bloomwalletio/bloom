@@ -444,8 +444,11 @@
                             "aliasAddressWrongFormat": "Must be in either hex or Bech32 format",
                             "aliasAddressAlreadyInUse": "Alias address already in use",
                             "invalidUrl": "Invalid URL"
+                        },
+                        "remove": {
+                            "title": "Remove chain",
+                            "description": "Are you sure you want to remove { networkName }?"
                         }
-
                     },
                     "chainDepositAddress": {
                         "title": "Chain deposit address",
@@ -1987,6 +1990,9 @@
         },
         "syncTokens": {
             "success": "Tokens successfully synced"
+        },
+        "removeNetwork": {
+            "success": "{ networkName } successfully removed"
         }
     },
     "error": {
