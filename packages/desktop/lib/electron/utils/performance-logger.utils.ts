@@ -2,8 +2,9 @@
 import { performance, PerformanceObserver } from 'perf_hooks'
 import fs from 'fs'
 import path from 'path'
+import { app } from 'electron'
 
-const logFilePath = path.join(__dirname, 'performance.log')
+const logFilePath = path.join(app.getPath('userData'), 'performance.log')
 
 // Initialize performance observer
 const obs = new PerformanceObserver((items) => {
