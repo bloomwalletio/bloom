@@ -10,6 +10,7 @@ import { getMachineId } from './os.utils'
 import { IAnalyticsInitialisationData } from '@core/app/interfaces'
 
 export async function initialiseAnalytics(data: IAnalyticsInitialisationData): Promise<void> {
+    ipcMain.removeHandler('track-event')
     if (features.analytics.enabled && process.env.AMPLITUDE_API_KEY) {
         // Initialise Amplitude with API key
         init(process.env.AMPLITUDE_API_KEY, { logLevel: 0 })
