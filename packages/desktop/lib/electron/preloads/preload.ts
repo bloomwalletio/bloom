@@ -1,3 +1,6 @@
+import { logMessage, markEnd, markStart } from '../utils/performance-logger.utils'
+
+logMessage('preload.ts')
 /**
  * The preload script runs before. It has access to web APIs
  * as well as Electron's renderer process modules and some
@@ -5,7 +8,7 @@
  *
  * https://www.electronjs.org/docs/latest/tutorial/sandbox
  */
-
+markStart('main-preload-imports')
 import fs from 'fs'
 import { ipcRenderer, contextBridge } from 'electron'
 
@@ -15,14 +18,16 @@ import type { ILoggerConfig } from '@iota/sdk/out/types'
 import ElectronApi from '../apis/electron.api'
 import LedgerApi from '../apis/ledger.api'
 import WalletApi from '../apis/wallet.api'
-import { markEnd, markStart } from '../utils/performance-logger.utils'
+markEnd('main-preload-imports')
 
 const DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24
 const DAYS_TO_KEEP_LOGS = 30
 
 // Hook the error handlers as early as possible
+markStart('preload-error-handlers')
 window.addEventListener('error', handleErrorEvent)
 window.addEventListener('unhandledrejection', handleUnhandledRejectionEvent)
+markEnd('preload-error-handlers')
 
 // Triggers the check if a deep link was passed.
 // This is required in case the app wasn't open when the user clicks the deep link
@@ -60,6 +65,7 @@ try {
     contextBridge.exposeInMainWorld('__LEDGER__', LedgerApi)
     markEnd('exposeInMainWorld-__LEDGER__')
 } catch (err) {
+    logMessage(`exposeInMainWorld error ${JSON.stringify(err)}`)
     void ipcRenderer.invoke('handle-error', '[Preload Context] Error', err)
 }
 
