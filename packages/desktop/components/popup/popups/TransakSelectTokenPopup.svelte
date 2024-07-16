@@ -10,6 +10,7 @@
     import { TransakCryptoCurrencyTile } from '@views/dashboard/buy-sell/components'
 
     let searchValue: string = ''
+    let selectedToken = $selectedExchangeCryptoCurrency
 
     const options = [
         { value: 'all', label: localize('popups.transaction.allNetworks') },
@@ -56,7 +57,7 @@
             if (cryptoCurrency === $selectedExchangeCryptoCurrency) {
                 onContinueClick()
             } else {
-                $selectedExchangeCryptoCurrency = cryptoCurrency
+                selectedToken = cryptoCurrency
             }
         } catch (err) {
             handleError(err)
@@ -68,6 +69,7 @@
     }
 
     function onContinueClick(): void {
+        $selectedExchangeCryptoCurrency = selectedToken
         closePopup()
     }
 </script>
@@ -78,7 +80,7 @@
     continueButton={{
         text: localize('actions.continue'),
         onClick: onContinueClick,
-        disabled: !$selectedExchangeCryptoCurrency,
+        disabled: !selectedToken,
     }}
 >
     <div class="flex-1 h-0 flex flex-col gap-4">
@@ -92,8 +94,8 @@
             <token-list class="flex flex-col p-0.5 pr-1.5 gap-2">
                 {#each filteredCryptoCurrencies ?? [] as cryptoCurrency}
                     {@const selected =
-                        $selectedExchangeCryptoCurrency?.name === cryptoCurrency.name &&
-                        $selectedExchangeCryptoCurrency?.network.id === cryptoCurrency?.network.id}
+                        selectedToken?.name === cryptoCurrency.name &&
+                        selectedToken?.network.id === cryptoCurrency?.network.id}
                     <TransakCryptoCurrencyTile
                         {cryptoCurrency}
                         onClick={() => onCryptoCurrencyClick(cryptoCurrency)}
