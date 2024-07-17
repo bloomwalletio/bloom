@@ -23,7 +23,8 @@
     import { Pane } from '@ui'
     import { onDestroy, tick } from 'svelte'
     import { TransakCryptoCurrencyTile, TransakAmountInput } from './'
-    import { selectedExchangeCryptoCurrency, transakCryptoCurrencies, transakFiatCurrencies } from '@auxiliary/transak'
+    import { getTransakPrice, selectedExchangeCryptoCurrency, transakCryptoCurrencies, transakFiatCurrencies } from '@auxiliary/transak'
+    import TransakCryptoCurrencyAmountTile from './TransakCryptoCurrencyAmountTile.svelte'
 
     const TABS = [
         { key: 'BUY', value: localize('views.buySell.tabs.buy') },
@@ -47,6 +48,7 @@
     let selectedTab = TABS[0]
     let selectedCurrencyOption: IOption = CURRENCY_OPTIONS[0]
     let selectedPaymentOption = paymentOptions?.[0]
+    let quote: { fiatAmount: number, cryptoAmount: number } | undefined = undefined
 
     $: fiatValue = String(getDefaultFiatAmount(FiatCurrency[selectedCurrencyOption.value as keyof typeof FiatCurrency]))
     $: selectedCurrency = selectedCurrencyOption.value
@@ -55,6 +57,7 @@
         void closeTransak()
     }
     $: isTransakOpen, void handleOverlayChanges($popupState, $profileAuthPopup, $settingsState, $drawerState)
+    $: selectedCurrency, $selectedExchangeCryptoCurrency, selectedPaymentOption, fiatValue, void updateQuote()
 
     Platform.onEvent('transak-loaded', () => (isTransakLoading = false))
     Platform.onEvent('transak-not-loaded', () => (error = true))
@@ -152,6 +155,34 @@
         isTransakOpen = false
     }
 
+    async function updateQuote(): Promise<void> {
+        if (!selectedPaymentOption) {
+            return
+        }
+
+        const params = {
+            fiatCurrency: selectedCurrency as keyof typeof FiatCurrency,
+            cryptoCurrency: $selectedExchangeCryptoCurrency?.symbol ?? 'iota',
+            isBuyOrSell: selectedTab.key as 'BUY' | 'SELL',
+            networkName: $selectedExchangeCryptoCurrency?.network.name ?? 'miota',
+            paymentMethod: selectedPaymentOption.value,
+            fiatAmount: Number(fiatValue),
+        }
+
+        console.log(params)
+
+        const response = await getTransakPrice(params)
+
+        console.log(response)
+
+        if (response) {
+            quote = {
+                fiatAmount: response.fiatAmount,
+                cryptoAmount: response.cryptoAmount,
+            }
+        }
+    }
+
     onDestroy(() => {
         void Platform.closeTransak()
         isTransakOpen = false
@@ -162,52 +193,65 @@
 <svelte:window on:resize={updateTransakBounds} />
 
 <div class="w-full h-full" bind:this={transakContainer}>
-    <Pane classes="px-6 pb-6 pt-4 bg-surface dark:bg-surface-dark shadow-lg w-full h-full">
-        {#if error}
-            <div class="flex flex-col justify-center items-center w-full h-full gap-4">
-                <Icon name={IconName.ArrowDownUp} size="lg" textColor="brand" />
-                <Text type="body1">{localize('views.buySell.error.title')}</Text>
-                <Text textColor="secondary" align="center">{localize('views.buySell.error.description')}</Text>
-                <Button on:click={onButtonClick} text={localize('actions.visitDiscord')} />
-            </div>
-        {:else}
-            {@const hasCryptoCurrencies = $transakCryptoCurrencies && $transakCryptoCurrencies.length > 0}
-            {@const selectedCryptoCurrency = $selectedExchangeCryptoCurrency ?? $transakCryptoCurrencies?.[0]}
-            <div
-                class="flex flex-col justify-between items-center w-full h-full gap-8 {isTransakOpen &&
-                !isTransakLoading
-                    ? 'opacity-0 pointer-events-none'
-                    : ''}"
-            >
-                {#if isFeatureEnabled('buySell.sell')}
-                    <div class="w-full">
-                        <Tabs bind:selectedTab tabs={TABS} />
-                    </div>
-                {/if}
-                <div class="flex flex-col items-center gap-4 w-full">
-                    <div class="w-28 self-end">
-                        <SelectInput
-                            label="Currency"
-                            options={CURRENCY_OPTIONS}
-                            bind:selected={selectedCurrencyOption}
-                        />
-                    </div>
-                    <TransakAmountInput currency={selectedCurrency} bind:value={fiatValue} />
-                    <TransakCryptoCurrencyTile
-                        cryptoCurrency={selectedCryptoCurrency}
-                        onClick={hasCryptoCurrencies ? onTokenTileClick : undefined}
-                    />
-                    <div class="w-full">
-                        <SelectInput
-                            label="Payment method"
-                            options={paymentOptions}
-                            bind:selected={selectedPaymentOption}
-                            hideValue
-                        />
+    <Pane classes="px-6 pb-6 pt-4 bg-surface dark:bg-surface-dark shadow-lg w-full h-full grid grid-cols-2 divide-x divide-solid divide-stroke">
+        <div class="pr-4">
+            {#if error}
+                <div class="flex flex-col justify-center items-center w-full h-full gap-4">
+                    <Icon name={IconName.ArrowDownUp} size="lg" textColor="brand" />
+                    <Text type="body1">{localize('views.buySell.error.title')}</Text>
+                    <Text textColor="secondary" align="center">{localize('views.buySell.error.description')}</Text>
+                    <Button on:click={onButtonClick} text={localize('actions.visitDiscord')} />
+                </div>
+            {:else}
+                {@const hasCryptoCurrencies = $transakCryptoCurrencies && $transakCryptoCurrencies.length > 0}
+                {@const selectedCryptoCurrency = $selectedExchangeCryptoCurrency ?? $transakCryptoCurrencies?.[0]}
+                <div
+                    class="flex flex-col justify-between items-center w-full h-full gap-8 {isTransakOpen &&
+                    !isTransakLoading
+                        ? 'opacity-0 pointer-events-none'
+                        : ''}"
+                >
+                    {#if isFeatureEnabled('buySell.sell')}
+                        <div class="w-full">
+                            <Tabs bind:selectedTab tabs={TABS} />
+                        </div>
+                    {/if}
+                    <div class="flex flex-col justify-between items-center gap-4 h-full w-full">
+                        <div class="w-28 self-end">
+                            <SelectInput
+                                label="Currency"
+                                options={CURRENCY_OPTIONS}
+                                bind:selected={selectedCurrencyOption}
+                            />
+                        </div>
+                        <TransakAmountInput currency={selectedCurrency} bind:value={fiatValue} />
+                        <div class="flex flex-col gap-4 w-full">
+                            <TransakCryptoCurrencyTile
+                                cryptoCurrency={selectedCryptoCurrency}
+                                onClick={hasCryptoCurrencies ? onTokenTileClick : undefined}
+                            />
+                            <div class="w-full">
+                                <SelectInput
+                                    label="Payment method"
+                                    options={paymentOptions}
+                                    bind:selected={selectedPaymentOption}
+                                    hideValue
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <Button text={selectedTab.value} on:click={resetTransak} width="full" />
-            </div>
-        {/if}
+            {/if}
+        </div>
+        <div class="w-full h-full flex flex-col justify-between items-center pl-4">
+            <Text>Quote</Text>
+            <TransakCryptoCurrencyAmountTile
+                cryptoCurrency={$selectedExchangeCryptoCurrency ?? $transakCryptoCurrencies?.[0]}
+                fiatAmount={quote?.fiatAmount}
+                fiatSymbol={selectedCurrency}
+                cryptoAmount={quote?.cryptoAmount}
+            />
+            <Button text={selectedTab.value} on:click={resetTransak} width="full" />
+        </div>
     </Pane>
 </div>
