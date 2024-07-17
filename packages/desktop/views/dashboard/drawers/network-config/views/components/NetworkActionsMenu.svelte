@@ -6,7 +6,6 @@
     import { showNotification } from '@auxiliary/notification'
     import { handleError } from '@core/error/handlers'
     import { IEvmNetwork, NetworkType, removeEvmNetwork } from '@core/network'
-    import { closeDrawer } from '@desktop/auxiliary/drawer'
 
     export let drawerRouter: Router<unknown>
     export let network: IEvmNetwork
@@ -33,6 +32,7 @@
                 title: localize(`${localeKey}.remove.title`),
                 description: localize(`${localeKey}.remove.description`, { networkName: network.name }),
                 variant: 'danger',
+                alert: { variant: 'warning', text: localize(`${localeKey}.remove.alert`) },
                 confirmText: localize('actions.remove'),
                 onConfirm: () => {
                     try {
@@ -42,11 +42,7 @@
                             text: localize('notifications.removeNetwork.success', { networkName: network.name }),
                         })
                         closePopup()
-                        if (drawerRouter.hasHistory()) {
-                            drawerRouter.previous()
-                        } else {
-                            closeDrawer()
-                        }
+                        drawerRouter.previous()
                     } catch (error) {
                         handleError(error)
                     }

@@ -447,7 +447,8 @@
                         },
                         "remove": {
                             "title": "Remove network",
-                            "description": "Are you sure you want to remove { networkName }?"
+                            "description": "Are you sure you want to remove { networkName }?",
+                            "alert": "You will need to add it again to view your assets and activity history for this network."
                         }
                     },
                     "chainDepositAddress": {
