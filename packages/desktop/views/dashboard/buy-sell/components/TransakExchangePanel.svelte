@@ -25,14 +25,36 @@
     import { TransakCryptoCurrencyTile, TransakAmountInput } from './'
     import { selectedExchangeCryptoCurrency, transakCryptoCurrencies, transakFiatCurrencies } from '@auxiliary/transak'
 
+    const TABS = [
+        { key: 'BUY', value: localize('views.buySell.tabs.buy') },
+        { key: 'SELL', value: localize('views.buySell.tabs.sell') },
+    ]
+
     const CURRENCY_OPTIONS: IOption[] = Object.keys(FiatCurrency).map((currency) => ({
         value: currency,
     }))
-    let selectedCurrencyOption: IOption = CURRENCY_OPTIONS[0]
+
+    $: paymentOptions =
+        $transakFiatCurrencies?.[selectedCurrency as keyof typeof FiatCurrency]?.paymentOptions.map((option) => ({
+            value: option.id,
+            label: option.name,
+            icon: option.id.includes('card') ? IconName.CreditCard : IconName.Bank,
+        })) ?? []
 
     let error: boolean = false
+    let isTransakOpen: boolean = false
+    let isTransakLoading: boolean = false
+    let selectedTab = TABS[0]
+    let selectedCurrencyOption: IOption = CURRENCY_OPTIONS[0]
+    let selectedPaymentOption = paymentOptions?.[0]
 
     $: fiatValue = String(getDefaultFiatAmount(FiatCurrency[selectedCurrencyOption.value as keyof typeof FiatCurrency]))
+    $: selectedCurrency = selectedCurrencyOption.value
+    $: $isDashboardSideBarExpanded, void updateTransakBounds()
+    $: if ($selectedAccountIndex !== undefined) {
+        void closeTransak()
+    }
+    $: isTransakOpen, void handleOverlayChanges($popupState, $profileAuthPopup, $settingsState, $drawerState)
 
     Platform.onEvent('transak-loaded', () => (isTransakLoading = false))
     Platform.onEvent('transak-not-loaded', () => (error = true))
@@ -41,32 +63,9 @@
         openUrlInBrowser(DISCORD_URL)
     }
 
-    const TABS = [
-        { key: 'BUY', value: localize('views.buySell.tabs.buy') },
-        { key: 'SELL', value: localize('views.buySell.tabs.sell') },
-    ]
-
-    let selectedTab = TABS[0]
-
-    $: paymentOptions =
-        $transakFiatCurrencies?.[selectedCurrency as keyof typeof FiatCurrency]?.paymentOptions.map((option) => ({
-            value: option.id,
-            label: option.name,
-        })) ?? []
-    $: selectedPaymentOption = paymentOptions?.[0]
-
-    $: selectedCurrency = selectedCurrencyOption.value
-
-    let isTransakOpen: boolean = false
-    let isTransakLoading: boolean = false
-
-    $: $isDashboardSideBarExpanded, void updateTransakBounds()
-
-    $: if ($selectedAccountIndex !== undefined) {
-        void closeTransak()
+    function onTokenTileClick(): void {
+        openPopup({ id: PopupId.TransakSelectToken })
     }
-
-    $: isTransakOpen, void handleOverlayChanges($popupState, $profileAuthPopup, $settingsState, $drawerState)
 
     async function handleOverlayChanges(
         state: IPopupState,
@@ -153,10 +152,6 @@
         isTransakOpen = false
     }
 
-    function onTokenTileClick(): void {
-        openPopup({ id: PopupId.TransakSelectToken })
-    }
-
     onDestroy(() => {
         void Platform.closeTransak()
         isTransakOpen = false
@@ -176,6 +171,8 @@
                 <Button on:click={onButtonClick} text={localize('actions.visitDiscord')} />
             </div>
         {:else}
+            {@const hasCryptoCurrencies = $transakCryptoCurrencies && $transakCryptoCurrencies.length > 0}
+            {@const selectedCryptoCurrency = $selectedExchangeCryptoCurrency ?? $transakCryptoCurrencies?.[0]}
             <div
                 class="flex flex-col justify-between items-center w-full h-full gap-8 {isTransakOpen &&
                 !isTransakLoading
@@ -196,12 +193,10 @@
                         />
                     </div>
                     <TransakAmountInput currency={selectedCurrency} bind:value={fiatValue} />
-                    {#if $transakCryptoCurrencies && $transakCryptoCurrencies.length > 0}
-                        <TransakCryptoCurrencyTile
-                            cryptoCurrency={$selectedExchangeCryptoCurrency ?? $transakCryptoCurrencies[0]}
-                            onClick={onTokenTileClick}
-                        />
-                    {/if}
+                    <TransakCryptoCurrencyTile
+                        cryptoCurrency={selectedCryptoCurrency}
+                        onClick={hasCryptoCurrencies ? onTokenTileClick : undefined}
+                    />
                     <div class="w-full">
                         <SelectInput
                             label="Payment method"
