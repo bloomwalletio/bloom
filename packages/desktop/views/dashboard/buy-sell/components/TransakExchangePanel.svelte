@@ -23,45 +23,109 @@
     import { Pane } from '@ui'
     import { onDestroy, tick } from 'svelte'
     import { TransakCryptoCurrencyTile, TransakAmountInput } from './'
-    import { getTransakPrice, selectedExchangeCryptoCurrency, transakCryptoCurrencies, transakFiatCurrencies } from '@auxiliary/transak'
+    import {
+        getTransakPrice,
+        selectedExchangeCryptoCurrency,
+        transakCryptoCurrencies,
+        TransakFiatCurrencies,
+        transakFiatCurrencies,
+    } from '@auxiliary/transak'
     import TransakCryptoCurrencyAmountTile from './TransakCryptoCurrencyAmountTile.svelte'
 
+    // Buy / Sell Tabs
     const TABS = [
         { key: 'BUY', value: localize('views.buySell.tabs.buy') },
         { key: 'SELL', value: localize('views.buySell.tabs.sell') },
     ]
+    let selectedTab = TABS[0]
 
+    // Fiat Currency Selector
     const CURRENCY_OPTIONS: IOption[] = Object.keys(FiatCurrency).map((currency) => ({
         value: currency,
     }))
-
-    $: paymentOptions =
-        $transakFiatCurrencies?.[selectedCurrency as keyof typeof FiatCurrency]?.paymentOptions.map((option) => ({
-            value: option.id,
-            label: option.name,
-            icon: option.id.includes('card') ? IconName.CreditCard : IconName.Bank,
-        })) ?? []
-
-    let error: boolean = false
-    let isTransakOpen: boolean = false
-    let isTransakLoading: boolean = false
-    let selectedTab = TABS[0]
     let selectedCurrencyOption: IOption = CURRENCY_OPTIONS[0]
-    let selectedPaymentOption = paymentOptions?.[0]
-    let quote: { fiatAmount: number, cryptoAmount: number } | undefined = undefined
-
-    $: fiatValue = String(getDefaultFiatAmount(FiatCurrency[selectedCurrencyOption.value as keyof typeof FiatCurrency]))
     $: selectedCurrency = selectedCurrencyOption.value
-    $: $isDashboardSideBarExpanded, void updateTransakBounds()
-    $: if ($selectedAccountIndex !== undefined) {
-        void closeTransak()
+
+    // Fiat Input
+    function customRound(number) {
+        const magnitude = Math.pow(10, Math.floor(Math.log10(number)))
+        return magnitude <= 10
+            ? Math.round(number / magnitude) * magnitude
+            : Math.round((number / magnitude) * 10) * (magnitude / 10)
     }
-    $: isTransakOpen, void handleOverlayChanges($popupState, $profileAuthPopup, $settingsState, $drawerState)
+
+    function getDefaultFiatAmount(currency: FiatCurrency): number {
+        const DEFAULT_FIAT_AMOUNT = 100
+        switch (currency) {
+            case FiatCurrency.USD:
+            case FiatCurrency.EUR:
+            case FiatCurrency.GBP:
+                return DEFAULT_FIAT_AMOUNT
+            default: {
+                const conversionRate =
+                    $marketCoinPrices[MarketCoinId.Iota]?.[currency] /
+                    $marketCoinPrices[MarketCoinId.Iota]?.[FiatCurrency.USD]
+                const fiatAmount = DEFAULT_FIAT_AMOUNT * conversionRate
+                const roundedAmount = customRound(fiatAmount)
+                return roundedAmount
+            }
+        }
+    }
+    let fiatValue = String(
+        getDefaultFiatAmount(FiatCurrency[selectedCurrencyOption.value as keyof typeof FiatCurrency])
+    )
+
+    // Payment Options Selector
+    let paymentOptions: IOption[]
+    let selectedPaymentOption: IOption | undefined
+    function updatePaymentOptions(
+        supportedCurrencies: TransakFiatCurrencies | undefined,
+        selectedCurrency: string
+    ): void {
+        paymentOptions =
+            supportedCurrencies?.[selectedCurrency as keyof typeof FiatCurrency]?.paymentOptions.map((option) => ({
+                value: option.id,
+                label: option.name,
+                icon: option.id.includes('card') ? IconName.CreditCard : IconName.Bank,
+            })) ?? []
+        if (!paymentOptions.some((paymentOption) => paymentOption.value === selectedPaymentOption?.value)) {
+            selectedPaymentOption = paymentOptions?.[0]
+        }
+    }
+    $: updatePaymentOptions($transakFiatCurrencies, selectedCurrency)
+
+    // Quotations
+    let quote: { fiatAmount: number; cryptoAmount: number } | undefined = undefined
+    let latestQuoteRequestId = 0
+    async function updateQuote(): Promise<void> {
+        if (!selectedPaymentOption) {
+            return
+        }
+
+        const params = {
+            fiatCurrency: selectedCurrency as keyof typeof FiatCurrency,
+            cryptoCurrency: $selectedExchangeCryptoCurrency?.symbol ?? 'iota',
+            isBuyOrSell: selectedTab.key as 'BUY' | 'SELL',
+            networkName: $selectedExchangeCryptoCurrency?.network.name ?? 'miota',
+            paymentMethod: selectedPaymentOption.value,
+            fiatAmount: Number(fiatValue),
+        }
+
+        const requestId = ++latestQuoteRequestId // Increment the request ID
+
+        const response = await getTransakPrice(params)
+
+        // Only update the quote if this is the latest request
+        if (requestId === latestQuoteRequestId && response) {
+            quote = {
+                fiatAmount: response.fiatAmount,
+                cryptoAmount: response.cryptoAmount,
+            }
+        }
+    }
     $: selectedCurrency, $selectedExchangeCryptoCurrency, selectedPaymentOption, fiatValue, void updateQuote()
 
-    Platform.onEvent('transak-loaded', () => (isTransakLoading = false))
-    Platform.onEvent('transak-not-loaded', () => (error = true))
-
+    // Handlers
     function onButtonClick(): void {
         openUrlInBrowser(DISCORD_URL)
     }
@@ -69,6 +133,21 @@
     function onTokenTileClick(): void {
         openPopup({ id: PopupId.TransakSelectToken })
     }
+
+    // TODO: Transak Popup to be in its own file
+
+    let error: boolean = false
+    let isTransakOpen: boolean = false
+    let isTransakLoading: boolean = false
+
+    $: $isDashboardSideBarExpanded, void updateTransakBounds()
+    $: if ($selectedAccountIndex !== undefined) {
+        void closeTransak()
+    }
+    $: isTransakOpen, void handleOverlayChanges($popupState, $profileAuthPopup, $settingsState, $drawerState)
+
+    Platform.onEvent('transak-loaded', () => (isTransakLoading = false))
+    Platform.onEvent('transak-not-loaded', () => (error = true))
 
     async function handleOverlayChanges(
         state: IPopupState,
@@ -106,31 +185,6 @@
         })
     }
 
-    function getDefaultFiatAmount(currency: FiatCurrency): number {
-        const DEFAULT_FIAT_AMOUNT = 100
-        switch (currency) {
-            case FiatCurrency.USD:
-            case FiatCurrency.EUR:
-            case FiatCurrency.GBP:
-                return DEFAULT_FIAT_AMOUNT
-            default: {
-                const conversionRate =
-                    $marketCoinPrices[MarketCoinId.Iota]?.[currency] /
-                    $marketCoinPrices[MarketCoinId.Iota]?.[FiatCurrency.USD]
-                const fiatAmount = DEFAULT_FIAT_AMOUNT * conversionRate
-                const roundedAmount = customRound(fiatAmount)
-                return roundedAmount
-            }
-        }
-    }
-
-    function customRound(number) {
-        const magnitude = Math.pow(10, Math.floor(Math.log10(number)))
-        return magnitude <= 10
-            ? Math.round(number / magnitude) * magnitude
-            : Math.round((number / magnitude) * 10) * (magnitude / 10)
-    }
-
     export async function resetTransak(): Promise<void> {
         isTransakLoading = true
         await Platform.closeTransak()
@@ -155,34 +209,6 @@
         isTransakOpen = false
     }
 
-    async function updateQuote(): Promise<void> {
-        if (!selectedPaymentOption) {
-            return
-        }
-
-        const params = {
-            fiatCurrency: selectedCurrency as keyof typeof FiatCurrency,
-            cryptoCurrency: $selectedExchangeCryptoCurrency?.symbol ?? 'iota',
-            isBuyOrSell: selectedTab.key as 'BUY' | 'SELL',
-            networkName: $selectedExchangeCryptoCurrency?.network.name ?? 'miota',
-            paymentMethod: selectedPaymentOption.value,
-            fiatAmount: Number(fiatValue),
-        }
-
-        console.log(params)
-
-        const response = await getTransakPrice(params)
-
-        console.log(response)
-
-        if (response) {
-            quote = {
-                fiatAmount: response.fiatAmount,
-                cryptoAmount: response.cryptoAmount,
-            }
-        }
-    }
-
     onDestroy(() => {
         void Platform.closeTransak()
         isTransakOpen = false
@@ -193,7 +219,9 @@
 <svelte:window on:resize={updateTransakBounds} />
 
 <div class="w-full h-full" bind:this={transakContainer}>
-    <Pane classes="px-6 pb-6 pt-4 bg-surface dark:bg-surface-dark shadow-lg w-full h-full grid grid-cols-2 divide-x divide-solid divide-stroke">
+    <Pane
+        classes="px-6 pb-6 pt-4 bg-surface dark:bg-surface-dark shadow-lg w-full h-full grid grid-cols-2 divide-x divide-solid divide-stroke"
+    >
         <div class="pr-4">
             {#if error}
                 <div class="flex flex-col justify-center items-center w-full h-full gap-4">
@@ -231,12 +259,14 @@
                                 onClick={hasCryptoCurrencies ? onTokenTileClick : undefined}
                             />
                             <div class="w-full">
-                                <SelectInput
-                                    label="Payment method"
-                                    options={paymentOptions}
-                                    bind:selected={selectedPaymentOption}
-                                    hideValue
-                                />
+                                {#key paymentOptions}
+                                    <SelectInput
+                                        label="Payment method"
+                                        options={paymentOptions}
+                                        bind:selected={selectedPaymentOption}
+                                        hideValue
+                                    />
+                                {/key}
                             </div>
                         </div>
                     </div>
