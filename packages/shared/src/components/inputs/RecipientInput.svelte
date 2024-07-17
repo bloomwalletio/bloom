@@ -19,10 +19,21 @@
 
     let value: any
     let error: string
-    const selected: IOption = getSelectedRecipient(recipient)
+    let selected: IOption = getSelectedRecipient(recipient)
 
     $: isEvmNetwork, (error = '')
-    $: recipient = getSubjectFromAddress(value, networkId)
+    function updateRecipientIfValueChanges() {
+        recipient = getSubjectFromAddress(value, networkId)
+    }
+    $: value, updateRecipientIfValueChanges()
+
+    function updateValueIfRecipientPassedIn() {
+        if (recipient?.address !== value) {
+            value = recipient?.address
+            selected = getSelectedRecipient(recipient)
+        }
+    }
+    $: recipient, updateValueIfRecipientPassedIn()
 
     export function validate(): void {
         try {

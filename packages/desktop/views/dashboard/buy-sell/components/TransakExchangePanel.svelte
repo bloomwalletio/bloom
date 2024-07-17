@@ -20,17 +20,21 @@
         profileAuthPopup,
     } from '@desktop/auxiliary/popup'
     import { isFeatureEnabled } from '@lib/features/utils'
-    import { Pane } from '@ui'
+    import { Pane, RecipientInput } from '@ui'
     import { onDestroy, tick } from 'svelte'
     import { TransakCryptoCurrencyTile, TransakAmountInput } from './'
     import {
         getTransakPrice,
         selectedExchangeCryptoCurrency,
         transakCryptoCurrencies,
+        TransakCryptoCurrency,
         TransakFiatCurrencies,
         transakFiatCurrencies,
     } from '@auxiliary/transak'
     import TransakCryptoCurrencyAmountTile from './TransakCryptoCurrencyAmountTile.svelte'
+    import { isEvmNetwork } from '@core/network'
+    import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
+    import { Subject, SubjectType } from '@core/wallet'
 
     // Buy / Sell Tabs
     const TABS = [
@@ -96,6 +100,31 @@
         }
     }
     $: updatePaymentOptions($transakFiatCurrencies, selectedCurrency)
+
+    // Recipient Input
+    let recipientInput
+    let selectedRecipient: Subject | undefined
+    function updateSelectedRecipient(
+        account: IAccountState | undefined,
+        cryptoCurrency: TransakCryptoCurrency | undefined
+    ) {
+        if (account && cryptoCurrency) {
+            const address = getAddressFromAccountForNetwork(account, cryptoCurrency.network.id)
+
+            if (address) {
+                selectedRecipient = {
+                    type: SubjectType.Account,
+                    account,
+                    address,
+                }
+            } else {
+                selectedRecipient = undefined
+            }
+        } else {
+            selectedRecipient = undefined
+        }
+    }
+    $: updateSelectedRecipient($selectedAccount, selectedCryptoCurrency)
 
     // Quotations
     let quote: { fiatAmount: number; cryptoAmount: number } | undefined = undefined
@@ -261,7 +290,13 @@
                                 cryptoCurrency={selectedCryptoCurrency}
                                 onClick={hasCryptoCurrencies ? onTokenTileClick : undefined}
                             />
-                            Recipient Input
+                            <RecipientInput
+                                bind:this={recipientInput}
+                                bind:recipient={selectedRecipient}
+                                networkId={selectedCryptoCurrency?.network.id}
+                                isEvmNetwork={isEvmNetwork(selectedCryptoCurrency?.network.id)}
+                                disabled
+                            />
                         </div>
                     </div>
                 </div>
@@ -271,8 +306,9 @@
             <div class="flex flex-col gap-3">
                 <div class="flex flex-col items-center gap-2">
                     <Text type="h6" align="center">Quotations</Text>
-                    <Text type="body2" textColor="secondary" align="center">How would you like to buy your crypto?</Text
-                    >
+                    <Text type="body2" textColor="secondary" align="center">
+                        How would you like to buy your crypto?
+                    </Text>
                 </div>
                 <TransakCryptoCurrencyAmountTile
                     cryptoCurrency={selectedCryptoCurrency}
