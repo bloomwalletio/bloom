@@ -1,9 +1,9 @@
 import { activeProfile } from '@core/profile/stores'
 import { Writable, get, writable } from 'svelte/store'
-import { EvmNetwork, IscChain, StardustNetwork } from '../classes'
-import { NetworkNamespace, NetworkType } from '../enums'
+import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
 import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
 import { EvmNetworkId, Network, NetworkId } from '../types'
+import { NetworkNamespace, NetworkType } from '../enums'
 
 export const networks: Writable<Network[]> = writable([])
 
