@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store'
 import { AsyncData, BaseStardustActivity, Activity, EvmActivity, BaseEvmActivity } from '../types'
-import { NetworkNamespace } from '@core/network'
+import { NetworkId, NetworkNamespace } from '@core/network'
 
 export const allAccountActivities = writable<{ [accountIndex: number]: Activity[] }>({})
 
@@ -138,5 +138,17 @@ export function updateAccountActivitiesInAllAccountActivities(accountActivitiesT
             }
         }
         return state
+    })
+}
+
+export function removeAllActivitiesForNetworkId(networkId: NetworkId): void {
+    allAccountActivities.update((state) => {
+        const updatedState = {}
+        for (const accountIndex in state) {
+            updatedState[accountIndex] = state[accountIndex].filter(
+                (activity) => activity.sourceNetworkId !== networkId
+            )
+        }
+        return updatedState
     })
 }
