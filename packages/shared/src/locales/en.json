@@ -446,7 +446,7 @@
                             "invalidUrl": "Invalid URL"
                         },
                         "remove": {
-                            "title": "Remove chain",
+                            "title": "Remove network",
                             "description": "Are you sure you want to remove { networkName }?"
                         }
                     },
