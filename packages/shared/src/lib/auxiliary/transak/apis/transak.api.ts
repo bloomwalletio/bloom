@@ -4,6 +4,8 @@ import {
     ITransakApiCryptoCurrenciesResponse,
     ITransakApiCryptoCurrenciesResponseItem,
     ITransakApiFiatCurrenciesResponse,
+    ITransakApiPriceParams,
+    ITransakApiPriceResponse,
 } from '../interfaces'
 import { TransakApiEndpoint } from '../enums'
 
@@ -38,5 +40,20 @@ export class TransakApi extends BaseApi {
             }
         })
         return filteredResponse
+    }
+
+    async getPrices(params: ITransakApiPriceParams): Promise<ITransakApiPriceResponse | undefined> {
+        const partnerApiKey = process.env.TRANSAK_API_KEY ?? ''
+        const { fiatCurrency, cryptoCurrency, isBuyOrSell, networkName, paymentMethod, fiatAmount } = params
+        const response = await this.get<ITransakApiPriceResponse>(TransakApiEndpoint.Price, {
+            partnerApiKey,
+            fiatCurrency,
+            cryptoCurrency,
+            isBuyOrSell,
+            networkName,
+            paymentMethod,
+            fiatAmount,
+        })
+        return response
     }
 }
