@@ -91,18 +91,18 @@
 
 <add-evm-network class="h-full flex flex-col justify-between p-4">
     <form id="add-network-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
-        <TextInput
-            bind:value={evmNetwork.chainId}
-            label={localize(`${localeKey}.chainId`)}
-            disabled={isBusy}
-            error={nameError}
-        />
         <TextInput bind:value={evmNetwork.name} label={localize('general.name')} disabled={isBusy} error={nameError} />
         <TextInput
             bind:value={evmNetwork.rpcEndpoint}
             label={localize(`${localeKey}.rpcEndpoint`)}
             disabled={isBusy}
             error={rpcEndpointError}
+        />
+        <TextInput
+            bind:value={evmNetwork.chainId}
+            label={localize(`${localeKey}.chainId`)}
+            disabled={isBusy}
+            error={nameError}
         />
         <TextInput
             bind:value={evmNetwork.explorerUrl}
