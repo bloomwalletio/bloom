@@ -5,21 +5,24 @@
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
     import { showNotification } from '@auxiliary/notification'
     import { handleError } from '@core/error/handlers'
-    import { EvmNetworkId, removeEvmNetwork } from '@core/network'
+    import { IEvmNetwork, NetworkType, removeEvmNetwork } from '@core/network'
 
     export let drawerRouter: Router<unknown>
-    export let networkId: EvmNetworkId
-    export let networkName: string
+    export let network: IEvmNetwork
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
     $: menuItems = [
-        {
-            icon: IconName.Trash,
-            title: localize('actions.remove'),
-            variant: 'danger',
-            onClick: onRemoveClick,
-        } as IMenuItem,
+        ...(network.type === NetworkType.Evm
+            ? [
+                  {
+                      icon: IconName.Trash,
+                      title: localize('actions.remove'),
+                      variant: 'danger',
+                      onClick: onRemoveClick,
+                  } as IMenuItem,
+              ]
+            : []),
     ]
 
     function onRemoveClick(): void {
@@ -27,15 +30,15 @@
             id: PopupId.Confirmation,
             props: {
                 title: localize(`${localeKey}.remove.title`),
-                description: localize(`${localeKey}.remove.description`, { networkName }),
+                description: localize(`${localeKey}.remove.description`, { networkName: network.name }),
                 variant: 'danger',
                 confirmText: localize('actions.remove'),
                 onConfirm: () => {
                     try {
-                        removeEvmNetwork(networkId)
+                        removeEvmNetwork(network.id)
                         showNotification({
                             variant: 'success',
-                            text: localize('notifications.removeNetwork.success', { networkName }),
+                            text: localize('notifications.removeNetwork.success', { networkName: network.name }),
                         })
                         closePopup()
                         drawerRouter.previous()
@@ -48,4 +51,6 @@
     }
 </script>
 
-<Menu items={menuItems} />
+{#if menuItems.length}
+    <Menu items={menuItems} />
+{/if}
