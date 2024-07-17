@@ -66,6 +66,13 @@
         validateExplorerUrl()
     }
 
+    function trimInputs(): void {
+        name = name.trim()
+        explorerUrl = explorerUrl.trim()
+        rpcEndpoint = rpcEndpoint.trim()
+        chainId = chainId.trim()
+    }
+
     function resetErrors(): void {
         nameError = ''
         rpcEndpointError = ''
@@ -73,6 +80,7 @@
     }
 
     function onSubmitClick(): void {
+        trimInputs()
         resetErrors()
         validate()
         const hasError = !!nameError || !!rpcEndpointError || !!explorerUrlError || !!chainIdError
