@@ -12,6 +12,7 @@
     export let backText: string = localize('actions.cancel')
     export let confirmText: string = localize('actions.confirm')
     export let onConfirm: () => void
+    export let onClose: () => void
 
     export function openDialog(): void {
         visible = true
@@ -19,6 +20,7 @@
 
     function closeDialog(): void {
         visible = false
+        onClose()
     }
 
     function onConfirmClick(): void {

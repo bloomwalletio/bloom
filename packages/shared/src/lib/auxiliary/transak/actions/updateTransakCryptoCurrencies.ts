@@ -73,6 +73,7 @@ function buildTransakCryptoCurrencyFromResponseItem(
             large: responseItem.image.large,
         },
         network,
+        transakNetworkName: responseItem.network.name,
         decimals: responseItem.decimals,
     }
 }

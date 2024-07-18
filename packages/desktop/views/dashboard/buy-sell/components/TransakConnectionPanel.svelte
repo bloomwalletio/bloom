@@ -4,7 +4,6 @@
     import { IconButton, IconName, Pill, Text, TooltipIcon, Tooltip } from '@bloomwalletio/ui'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { Pane } from '@ui'
     import { tick } from 'svelte'
 
     export let refreshFunction: () => Promise<void>
@@ -41,7 +40,7 @@
     }
 </script>
 
-<Pane classes="flex flex-col items-center w-full p-6 gap-4 bg-surface dark:bg-surface-dark shadow-lg">
+<div class="flex flex-col items-center w-full p-6 gap-4">
     <div class="w-full flex justify-between items-center h-8">
         <img data-label="transak-logo" width="90" height="28" src="assets/logos/transak.svg" alt="Transak" />
         <div>
@@ -94,11 +93,14 @@
                 <Tooltip anchor={textContainer} event="hover" placement="top" text={url ?? TRANSAK_WIDGET_URL} />
             {/if}
         </div>
-        {#if connectionStatus !== TransakConnectionStatus.Waiting}
-            <Tooltip anchor={refreshButton} text={localize('actions.refresh')} event="hover" placement="top" />
-            <div bind:this={refreshButton}>
-                <IconButton icon={IconName.Refresh} size="xs" on:click={refreshFunction} />
-            </div>
-        {/if}
+        <Tooltip anchor={refreshButton} text={localize('actions.refresh')} event="hover" placement="top" />
+        <div bind:this={refreshButton}>
+            <IconButton
+                icon={IconName.Refresh}
+                size="xs"
+                on:click={refreshFunction}
+                disabled={connectionStatus === TransakConnectionStatus.Waiting}
+            />
+        </div>
     </div>
-</Pane>
+</div>

@@ -64,6 +64,7 @@
     import SyncAccountsPopup from './popups/SyncAccountsPopup.svelte'
     import TestDeepLinkFormPopup from './popups/TestDeepLinkFormPopup.svelte'
     import TokenInformationPopup from './popups/TokenInformationPopup.svelte'
+    import TransakFramePopup from './popups/TransakFramePopup.svelte'
     import TransakSelectTokenPopup from './popups/TransakSelectTokenPopup.svelte'
     import VoteForProposal from './popups/VoteForProposalPopup.svelte'
     import VotingPowerToZeroPopup from './popups/VotingPowerToZeroPopup.svelte'
@@ -147,6 +148,7 @@
         [PopupId.SyncAccounts]: SyncAccountsPopup,
         [PopupId.TestDeepLinkForm]: TestDeepLinkFormPopup,
         [PopupId.TokenInformation]: TokenInformationPopup,
+        [PopupId.TransakFrame]: TransakFramePopup,
         [PopupId.TransakSelectToken]: TransakSelectTokenPopup,
         [PopupId.VoteForProposal]: VoteForProposal,
         [PopupId.VotingPowerToZero]: VotingPowerToZeroPopup,
@@ -171,6 +173,7 @@
         if (!preventClose) {
             if (confirmClickOutside) {
                 confirmationDialog?.openDialog()
+                modifyPopupState({ confirmClickOutsideActive: true })
             } else {
                 closePopup({ callOnCancel: true })
             }
@@ -243,8 +246,11 @@
     <ConfirmationDialog
         bind:this={confirmationDialog}
         onConfirm={() => {
-            modifyPopupState({ confirmClickOutside: false })
+            modifyPopupState({ confirmClickOutside: false, confirmClickOutsideActive: false })
             closePopup()
+        }}
+        onClose={() => {
+            modifyPopupState({ confirmClickOutsideActive: false })
         }}
         confirmText={localize('actions.close')}
         title="Close popup"
