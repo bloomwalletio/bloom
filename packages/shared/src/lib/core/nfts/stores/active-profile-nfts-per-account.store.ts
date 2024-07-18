@@ -3,6 +3,7 @@ import { get, writable } from 'svelte/store'
 import { Nft } from '../interfaces'
 import { PartialWithId } from '@core/utils'
 import { updatePersistedCollections } from '../actions'
+import { NetworkId } from '@core/network'
 
 export const activeProfileNftsPerAccount = writable<{ [accountIndex: number]: Nft[] }>({})
 
@@ -78,4 +79,14 @@ export function getNftByIdForAccount(accountIndex: number | undefined, nftId: st
         const nft = getNftsForAccount(accountIndex)?.find((nft) => nft.id?.toLowerCase() === nftId?.toLowerCase())
         return nft
     }
+}
+
+export function removeAllNftsForNetworkId(networkId: NetworkId): void {
+    activeProfileNftsPerAccount.update((state) => {
+        const updatedState = {}
+        for (const accountIndex in state) {
+            updatedState[accountIndex] = state[accountIndex].filter((nft) => nft.networkId !== networkId)
+        }
+        return updatedState
+    })
 }
