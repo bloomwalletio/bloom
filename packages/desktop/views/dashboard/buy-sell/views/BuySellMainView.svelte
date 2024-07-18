@@ -9,7 +9,7 @@
         <TransakConnectionPanel refreshFunction={transakExchangePanel?.resetTransak} />
         <TransakInfoPanel />
     </div>
-    <div class="w-[25rem] shrink-0 h-fit">
+    <div class="w-[40rem] shrink-0 h-[28rem]">
         <TransakExchangePanel bind:this={transakExchangePanel} />
     </div>
 </div>
