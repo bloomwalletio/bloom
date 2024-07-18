@@ -7,7 +7,7 @@
     import { localize } from '@core/i18n'
     import { FiatCurrency } from '@core/market'
     import { IPopupState, popupState } from '@desktop/auxiliary/popup'
-    import TransakConnectionBanner from '@views/dashboard/buy-sell/components/TransakConnectionBanner.svelte'
+    import { TransakConnectionBanner } from '@views/dashboard/buy-sell/components'
     import { onDestroy, onMount, tick } from 'svelte'
 
     export let isBuyOrSell: 'BUY' | 'SELL' | undefined = undefined

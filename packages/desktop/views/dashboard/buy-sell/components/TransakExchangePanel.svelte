@@ -7,7 +7,7 @@
         TransakFiatCurrencies,
         transakFiatCurrencies,
     } from '@auxiliary/transak'
-    import { Button, IconName, IOption, SelectInput, Tabs, Text } from '@bloomwalletio/ui'
+    import { Button, IconName, IOption, Pill, SelectInput, Tabs, Text } from '@bloomwalletio/ui'
     import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
@@ -22,6 +22,7 @@
     import { onDestroy } from 'svelte'
     import { TransakAmountInput, TransakCryptoCurrencyTile } from './'
     import TransakCryptoCurrencyAmountTile from './TransakCryptoCurrencyAmountTile.svelte'
+    import { getBestTimeDuration, MILLISECONDS_PER_SECOND } from '@core/utils'
 
     // Buy / Sell Tabs
     const TABS = [
@@ -114,7 +115,7 @@
     $: updateSelectedRecipient($selectedAccount, selectedCryptoCurrency)
 
     // Quotations
-    let quote: { fiatAmount: number; cryptoAmount: number } | undefined = undefined
+    let quotes: ({ fiatAmount: number; cryptoAmount: number } | undefined)[] = new Array(3).fill(undefined)
     let latestQuoteRequestId = 0
     async function updateQuote(): Promise<void> {
         if (!selectedPaymentOption) {
@@ -130,20 +131,45 @@
             fiatAmount: Number(fiatValue),
         }
 
-        quote = undefined
+        quotes = new Array(3).fill(undefined)
 
         const requestId = ++latestQuoteRequestId // Increment the request ID
         const response = await getTransakPrice(params)
 
         // Only update the quote if this is the latest request
-        if (requestId === latestQuoteRequestId && response) {
-            quote = {
+        if (requestId !== latestQuoteRequestId || !response) {
+            return
+        }
+
+        quotes = [
+            {
                 fiatAmount: response.fiatAmount,
                 cryptoAmount: response.cryptoAmount,
-            }
-        }
+            },
+        ]
+
+        startQuoteTimer()
     }
     $: selectedCurrency, selectedCryptoCurrency, selectedPaymentOption, fiatValue, void updateQuote()
+
+    // Quotations timer
+    let displayedQuotationTime: string | null = null
+    function startQuoteTimer(): void {
+        const maxQuoteTime = 30 * MILLISECONDS_PER_SECOND
+        let quotationTimeInSeconds = maxQuoteTime
+        displayedQuotationTime = getBestTimeDuration(quotationTimeInSeconds)
+
+        const interval = setInterval(() => {
+            quotationTimeInSeconds -= MILLISECONDS_PER_SECOND
+            displayedQuotationTime = getBestTimeDuration(quotationTimeInSeconds)
+        }, MILLISECONDS_PER_SECOND)
+
+        setTimeout(() => {
+            clearInterval(interval)
+            displayedQuotationTime = null
+            updateQuote()
+        }, maxQuoteTime)
+    }
 
     // Handlers
     function onTokenTileClick(): void {
@@ -211,17 +237,26 @@
     <div class="w-full h-full flex flex-col justify-between pl-4">
         <div class="flex flex-col gap-3">
             <div class="flex flex-col items-center gap-2">
-                <Text type="h6" align="center">{localize('views.buySell.quotations.title')}</Text>
-                <Text type="body2" textColor="secondary" align="center"
-                    >{localize('views.buySell.quotations.description')}</Text
-                >
+                <Text type="h6" align="center">
+                    {localize('views.buySell.quotations.title')}
+                </Text>
+                <Text type="body2" textColor="secondary" align="center">
+                    {localize('views.buySell.quotations.description')}
+                </Text>
+                <Pill color="neutral" compact>
+                    {displayedQuotationTime
+                        ? localize('views.buySell.quotations.pill.newQuotes', { time: displayedQuotationTime })
+                        : localize('views.buySell.quotations.pill.fetchingQuotes')}
+                </Pill>
             </div>
-            <TransakCryptoCurrencyAmountTile
-                cryptoCurrency={selectedCryptoCurrency}
-                fiatAmount={quote?.fiatAmount}
-                fiatSymbol={selectedCurrency}
-                cryptoAmount={quote?.cryptoAmount}
-            />
+            {#each quotes as quote}
+                <TransakCryptoCurrencyAmountTile
+                    cryptoCurrency={selectedCryptoCurrency}
+                    fiatAmount={quote?.fiatAmount}
+                    fiatSymbol={selectedCurrency}
+                    cryptoAmount={quote?.cryptoAmount}
+                />
+            {/each}
         </div>
         <Button text={selectedTab.value} on:click={onButtonClick} width="full" disabled={isButtonDisabled} />
     </div>

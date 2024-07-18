@@ -14,19 +14,29 @@
 
 <Tile surface={1} width="full" class={isLoading ? 'animate-pulse' : ''}>
     <div class="w-full flex justify-between items-center gap-2">
-        <img
-            data-label="transak-logo"
-            width="90"
-            height="28"
-            src="assets/logos/transak.svg"
-            alt="Transak"
-            class:opacity-0={isLoading}
-        />
-        <div class="flex flex-col">
-            <Text align="right"
-                >{cryptoAmount ? `≈ ${formatCurrency(String(cryptoAmount), cryptoCurrency?.symbol)}` : '​'}</Text
-            >
-            <Text align="right">{fiatAmount && fiatSymbol ? formatCurrency(String(fiatAmount), fiatSymbol) : '​'}</Text>
-        </div>
+        {#if isLoading}
+            <div class="w-7 h-7 rounded-full bg-surface-2 dark:bg-surface-2-dark animate-pulse"></div>
+            <div class="flex flex-col items-end gap-1">
+                <div class="w-16 h-4 bg-surface-2 dark:bg-surface-2-dark animate-pulse"></div>
+                <div class="w-12 h-4 bg-surface-2 dark:bg-surface-2-dark animate-pulse"></div>
+            </div>
+        {:else}
+            <img
+                data-label="transak-logo"
+                width="90"
+                height="28"
+                src="assets/logos/transak.svg"
+                alt="Transak"
+                class:opacity-0={isLoading}
+            />
+            <div class="flex flex-col">
+                <Text align="right"
+                    >{cryptoAmount ? `≈ ${formatCurrency(String(cryptoAmount), cryptoCurrency?.symbol)}` : '​'}</Text
+                >
+                <Text align="right"
+                    >{fiatAmount && fiatSymbol ? formatCurrency(String(fiatAmount), fiatSymbol) : '​'}</Text
+                >
+            </div>
+        {/if}
     </div>
 </Tile>

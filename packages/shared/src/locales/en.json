@@ -831,7 +831,11 @@
             },
             "quotations": {
                 "title": "Quotations",
-                "description": "How would you like to buy your crypto?"
+                "description": "How would you like to buy your crypto?",
+                "pill": {
+                    "newQuotes": "New quotes in {time}",
+                    "fetchingQuotes": "Fetching quotes"
+                }
             }
         }
     },
