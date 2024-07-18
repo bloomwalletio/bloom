@@ -2,15 +2,15 @@ import { get, writable } from 'svelte/store'
 import { activeProfile, updateActiveProfile } from '@core/profile/stores'
 import { NetworkHealth, NetworkNamespace, NetworkType } from '../enums'
 import { IIscChainConfiguration, IProtocol, IStardustNetwork, IStardustNetworkMetadata } from '../interfaces'
-import { EvmNetworkId, StardustNetworkId } from '../types'
+import { StardustNetworkId } from '../types'
 
 import { getNetworkStatusFromNodeInfo } from '@core/network/helpers'
 import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 import { IBaseToken } from '@core/token/interfaces'
 
-import { addChain, removeChain } from '../stores'
 import { IscChain } from './isc-chain.class'
 import { getNodeInfo } from '@core/profile-manager/api'
+import { addChain } from '../stores/networks.store'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -91,13 +91,13 @@ export class StardustNetwork implements IStardustNetwork {
         })
     }
 
-    removeChain(networkId: EvmNetworkId): void {
-        const network = get(activeProfile).network
-        const newChains = network.chainConfigurations.filter(
-            (chainConfiguration) => chainConfiguration.id !== networkId
-        )
-        this.iscChains = this.iscChains.filter((chain) => chain.id === networkId)
-        removeChain(networkId)
-        updateActiveProfile({ network: { ...network, chainConfigurations: newChains } })
-    }
+    // removeChain(networkId: EvmNetworkId): void {
+    //     const network = get(activeProfile).network
+    //     const newChains = network.chainConfigurations.filter(
+    //         (chainConfiguration) => chainConfiguration.id !== networkId
+    //     )
+    //     this.iscChains = this.iscChains.filter((chain) => chain.id === networkId)
+    //     removeChain(networkId)
+    //     updateActiveProfile({ network: { ...network, chainConfigurations: newChains } })
+    // }
 }
