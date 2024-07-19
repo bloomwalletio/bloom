@@ -1,37 +1,32 @@
 import { IAccountState } from '@core/account'
-import { FAILED_CONFIRMATION, getEvmNetworks, IEvmNetwork } from '@core/network'
+import { FAILED_CONFIRMATION, IEvmNetwork } from '@core/network'
 import { getPersistedTransactionsForChain } from '@core/transactions/stores'
 import { EvmActivity } from '../../types'
 import { generateEvmActivityFromPersistedTransaction } from './generateEvmActivityFromPersistedTransaction'
 import { LocalEvmTransaction } from '@core/transactions'
 import { startEvmConfirmationPoll } from '@core/wallet'
 
-export async function generateEvmActivitiesFromEvmChains(
+export async function generateEvmActivitiesFromEvmChain(
     profileId: string,
+    network: IEvmNetwork,
     account: IAccountState
 ): Promise<EvmActivity[]> {
     const activities: EvmActivity[] = []
 
-    for (const evmNetwork of getEvmNetworks()) {
-        const persistedTransactions = getPersistedTransactionsForChain(profileId, account.index, evmNetwork)
-        for (const persistedTransaction of persistedTransactions) {
-            const { local } = persistedTransaction
-            if (local) {
-                updateConfirmationsForEvmTransactions(evmNetwork, local, account.index, profileId)
-            }
+    const persistedTransactions = getPersistedTransactionsForChain(profileId, account.index, network)
+    for (const persistedTransaction of persistedTransactions) {
+        const { local } = persistedTransaction
+        if (local) {
+            updateConfirmationsForEvmTransactions(network, local, account.index, profileId)
+        }
 
-            try {
-                const activity = await generateEvmActivityFromPersistedTransaction(
-                    persistedTransaction,
-                    evmNetwork,
-                    account
-                )
-                if (activity) {
-                    activities.push(activity)
-                }
-            } catch (error) {
-                console.error(error)
+        try {
+            const activity = await generateEvmActivityFromPersistedTransaction(persistedTransaction, network, account)
+            if (activity) {
+                activities.push(activity)
             }
+        } catch (error) {
+            console.error(error)
         }
     }
 

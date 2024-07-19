@@ -1,19 +1,16 @@
-import { activeAccounts } from '@core/profile/stores'
 import { addOrUpdateNftsForAccount, getNftsForAccount } from '../stores'
 import { IEvmNetwork } from '@core/network'
-import { get } from 'svelte/store'
+import { IAccountState } from '@core/account'
 
-export async function loadNftsForNetwork(network: IEvmNetwork): Promise<void> {
-    for (const account of get(activeAccounts)) {
-        const accountNfts = getNftsForAccount(account.index)
-        const nfts = await network.getNftsForAccount(account)
+export async function loadNftsForNetwork(account: IAccountState, network: IEvmNetwork): Promise<void> {
+    const accountNfts = getNftsForAccount(account.index)
+    const nfts = await network.getNftsForAccount(account)
 
-        for (const nft of nfts) {
-            const alreadyAdded = accountNfts.some((_nft) => _nft.id === nft.id)
-            if (!alreadyAdded) {
-                accountNfts.push(nft)
-            }
+    for (const nft of nfts) {
+        const alreadyAdded = accountNfts.some((_nft) => _nft.id === nft.id)
+        if (!alreadyAdded) {
+            accountNfts.push(nft)
         }
-        addOrUpdateNftsForAccount(account.index, accountNfts)
     }
+    addOrUpdateNftsForAccount(account.index, accountNfts)
 }
