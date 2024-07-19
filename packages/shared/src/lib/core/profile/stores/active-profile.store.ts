@@ -1,7 +1,7 @@
 import { get, writable } from 'svelte/store'
 
 import type { IPersistedAccountData } from '@core/account/interfaces'
-import type { IEvmAddresses, IPureEvmNetworkConfiguration } from '@core/network/interfaces'
+import type { IEvmAddresses, IIscChainConfiguration, IPureEvmNetworkConfiguration } from '@core/network/interfaces'
 
 import { INITIAL_ACTIVE_PROFILE } from '../constants/initial-active-profile.constant'
 import type { IProfile, IProfileSettings } from '../interfaces'
@@ -62,6 +62,20 @@ export function updateAccountPersistedDataOnActiveProfile(
 }
 
 export function addPersistedEvmNetworkToActiveProfile(persistedNetwork: IPureEvmNetworkConfiguration): void {
+    activeProfile?.update((state) => {
+        if (!state.evmNetworks) {
+            state.evmNetworks = []
+        }
+        if (state.evmNetworks.some((network) => network.id === persistedNetwork.id)) {
+            return state
+        }
+
+        state.evmNetworks.push(persistedNetwork)
+        return state
+    })
+}
+
+export function addPersistedIscNetworkToActiveProfile(persistedNetwork: IIscChainConfiguration): void {
     activeProfile?.update((state) => {
         if (!state.evmNetworks) {
             state.evmNetworks = []
