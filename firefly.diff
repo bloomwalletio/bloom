@@ -1397,6 +1397,7 @@
  delete mode 100644 packages/shared/lib/core/wallet/interfaces/asset.interface.ts
  delete mode 100644 packages/shared/lib/core/wallet/interfaces/index.ts
  delete mode 100644 packages/shared/lib/core/wallet/interfaces/persisted-assets.interface.ts
+ delete mode 100644 packages/shared/lib/core/wallet/stores/all-account-activities.store.ts
  delete mode 100644 packages/shared/lib/core/wallet/stores/index.ts
  delete mode 100644 packages/shared/lib/core/wallet/stores/new-transaction-details.store.ts
  delete mode 100644 packages/shared/lib/core/wallet/stores/persisted-assets.store.ts
@@ -1746,7 +1747,6 @@
  rename packages/shared/{lib/core/wallet/enums/alias-subtype.enum.ts => src/lib/core/activity/enums/stardust/stardust-alias-action.enum.ts} (58%)
  rename packages/shared/{lib/core/wallet/enums/governance-action.enum.ts => src/lib/core/activity/enums/stardust/stardust-governance-action.enum.ts} (84%)
  rename packages/shared/{lib/core/nfts => src/lib/core/activity}/index.ts (83%)
- rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/all-account-activities.store.ts (51%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/claimed-activities.store.ts (61%)
  rename packages/shared/{lib/core/wallet => src/lib/core/activity}/stores/hidden-activities.store.ts (53%)
  rename packages/shared/{lib/core/wallet/interfaces => src/lib/core/activity/types}/activity-filter.interface.ts (83%)
@@ -2043,7 +2043,7 @@
  rename packages/shared/{ => src}/lib/core/profile/interfaces/login-progress.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/profile/interfaces/profile.interface.ts (91%)
  rename packages/shared/{ => src}/lib/core/profile/stores/active-accounts.store.ts (96%)
- rename packages/shared/{ => src}/lib/core/profile/stores/active-profile.store.ts (84%)
+ rename packages/shared/{ => src}/lib/core/profile/stores/active-profile.store.ts (67%)
  rename packages/shared/{ => src}/lib/core/profile/stores/hasStrongholdLocked.store.ts (100%)
  rename packages/shared/{ => src}/lib/core/profile/stores/index.ts (90%)
  rename packages/shared/{ => src}/lib/core/profile/stores/is-active-ledger-profile.store.ts (100%)
