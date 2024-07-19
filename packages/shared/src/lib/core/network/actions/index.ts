@@ -1,4 +1,4 @@
-export * from './addNewEvmNetwork'
+export * from './addNewNetwork'
 export * from './addNodeToClientOptions'
 export * from './editNodeInClientOptions'
 export * from './getActiveNetworkId'

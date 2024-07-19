@@ -1,7 +1,13 @@
 import { Writable, get, writable } from 'svelte/store'
 import { activeProfile } from '@core/profile/stores'
 import { IscChain, EvmNetwork, StardustNetwork } from '../classes'
-import { IEvmNetwork, IIscChain, IStardustNetwork } from '../interfaces'
+import {
+    IBaseEvmNetworkConfiguration,
+    IEvmNetwork,
+    IIscChain,
+    IIscChainConfiguration,
+    IStardustNetwork,
+} from '../interfaces'
 import { EvmNetworkId, Network, NetworkId } from '../types'
 import { NetworkNamespace, NetworkType } from '../enums'
 
@@ -45,9 +51,16 @@ export function addChain(chain: IIscChain): void {
     })
 }
 
-export function addEvmNetworkToNetworks(evmNetwork: IEvmNetwork): void {
+export function addEvmNetworkToNetworks(evmNetworkConfig: IBaseEvmNetworkConfiguration): void {
     networks.update((networks) => {
-        networks.push(new EvmNetwork(evmNetwork))
+        networks.push(new EvmNetwork(evmNetworkConfig))
+        return networks
+    })
+}
+
+export function addIscNetworkToNetworks(iscNetworkConfiguration: IIscChainConfiguration): void {
+    networks.update((networks) => {
+        networks.push(new IscChain(iscNetworkConfiguration))
         return networks
     })
 }

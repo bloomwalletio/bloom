@@ -77,14 +77,14 @@ export function addPersistedEvmNetworkToActiveProfile(persistedNetwork: IPureEvm
 
 export function addPersistedIscNetworkToActiveProfile(persistedNetwork: IIscChainConfiguration): void {
     activeProfile?.update((state) => {
-        if (!state.evmNetworks) {
-            state.evmNetworks = []
+        if (!state.network.chainConfigurations) {
+            state.network.chainConfigurations = []
         }
-        if (state.evmNetworks.some((network) => network.id === persistedNetwork.id)) {
+        if (state.network.chainConfigurations.some((network) => network.id === persistedNetwork.id)) {
             return state
         }
 
-        state.evmNetworks.push(persistedNetwork)
+        state.network.chainConfigurations.push(persistedNetwork)
         return state
     })
 }
