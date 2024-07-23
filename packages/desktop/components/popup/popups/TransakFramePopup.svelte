@@ -66,6 +66,7 @@
 
     export async function resetTransak(): Promise<void> {
         if (!fiatCurrency || !cryptoCurrency || !recipientAddress || !isBuyOrSell || !fiatAmount || !paymentMethod) {
+            error = true
             return
         }
 
@@ -113,7 +114,7 @@
     </div>
     <div class="w-[30rem] h-[60vh]" bind:this={transakContainer}>
         {#if error}
-            <div class="flex flex-col justify-center items-center w-full h-full gap-4">
+            <div class="flex flex-col justify-center items-center w-full h-full gap-4 px-10">
                 <Icon name={IconName.ArrowDownUp} size="lg" textColor="brand" />
                 <Text type="body1">{localize('views.buySell.error.title')}</Text>
                 <Text textColor="secondary" align="center">{localize('views.buySell.error.description')}</Text>
