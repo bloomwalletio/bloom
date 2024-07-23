@@ -211,8 +211,10 @@
     <div class="w-full h-full flex flex-col justify-between pl-4">
         <div class="flex flex-col gap-3">
             <div class="flex flex-col items-center gap-2">
-                <Text type="h6" align="center">Quotations</Text>
-                <Text type="body2" textColor="secondary" align="center">How would you like to buy your crypto?</Text>
+                <Text type="h6" align="center">{localize('views.buySell.quotations.title')}</Text>
+                <Text type="body2" textColor="secondary" align="center"
+                    >{localize('views.buySell.quotations.description')}</Text
+                >
             </div>
             <TransakCryptoCurrencyAmountTile
                 cryptoCurrency={selectedCryptoCurrency}

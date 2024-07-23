@@ -816,11 +816,6 @@
             }
         },
         "buySell": {
-            "info": {
-                "receive": "Your selected account will receive tokens directly from Transak once your payment method has been authorised.",
-                "multipleAccounts": "If you have multiple accounts, you can switch with the account selector dropdown prior to purchase.",
-                "changingAccounts": "Changing accounts will reset all information."
-            },
             "tooltip": {
                 "connected": "connected securely",
                 "redirected": "redirected, be careful!",
@@ -833,6 +828,10 @@
             "tabs": {
                 "buy": "Buy tokens",
                 "sell": "Sell tokens"
+            },
+            "quotations": {
+                "title": "Quotations",
+                "description": "How would you like to buy your crypto?"
             }
         }
     },
