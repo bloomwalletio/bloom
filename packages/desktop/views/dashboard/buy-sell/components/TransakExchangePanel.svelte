@@ -164,6 +164,7 @@
             confirmClickOutside: true,
         })
     }
+    $: isButtonDisabled = !selectedCryptoCurrency || !selectedPaymentOption || !selectedRecipient
 
     onDestroy(() => {
         $selectedExchangeCryptoCurrency = undefined
@@ -220,6 +221,6 @@
                 cryptoAmount={quote?.cryptoAmount}
             />
         </div>
-        <Button text={selectedTab.value} on:click={onButtonClick} width="full" />
+        <Button text={selectedTab.value} on:click={onButtonClick} width="full" disabled={isButtonDisabled} />
     </div>
 </Pane>
