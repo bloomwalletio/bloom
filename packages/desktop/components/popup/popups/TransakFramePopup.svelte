@@ -10,12 +10,12 @@
     import TransakConnectionBanner from '@views/dashboard/buy-sell/components/TransakConnectionBanner.svelte'
     import { onDestroy, onMount, tick } from 'svelte'
 
-    export let isBuyOrSell: 'BUY' | 'SELL'
-    export let fiatAmount: number
-    export let fiatCurrency: keyof typeof FiatCurrency
-    export let cryptoCurrency: TransakCryptoCurrency
-    export let paymentMethod: string
-    export let recipientAddress: string
+    export let isBuyOrSell: 'BUY' | 'SELL' | undefined = undefined
+    export let fiatAmount: number | undefined = undefined
+    export let fiatCurrency: keyof typeof FiatCurrency | undefined = undefined
+    export let cryptoCurrency: TransakCryptoCurrency | undefined = undefined
+    export let paymentMethod: string | undefined = undefined
+    export let recipientAddress: string | undefined = undefined
 
     let error: boolean = false
     let isTransakOpen: boolean = false
@@ -65,6 +65,10 @@
     }
 
     export async function resetTransak(): Promise<void> {
+        if (!fiatCurrency || !cryptoCurrency || !recipientAddress || !isBuyOrSell || !fiatAmount || !paymentMethod) {
+            return
+        }
+
         isTransakLoading = true
         await Platform.closeTransak()
         isTransakOpen = false
