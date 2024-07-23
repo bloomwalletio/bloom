@@ -1,6 +1,5 @@
 export { default as TransakCryptoCurrencyAmountTile } from './TransakCryptoCurrencyAmountTile.svelte'
 export { default as TransakCryptoCurrencyTile } from './TransakCryptoCurrencyTile.svelte'
 export { default as TransakAmountInput } from './TransakAmountInput.svelte'
-export { default as TransakConnectionPanel } from './TransakConnectionPanel.svelte'
+export { default as TransakConnectionBanner } from './TransakConnectionBanner.svelte'
 export { default as TransakExchangePanel } from './TransakExchangePanel.svelte'
-export { default as TransakInfoPanel } from './TransakInfoPanel.svelte'

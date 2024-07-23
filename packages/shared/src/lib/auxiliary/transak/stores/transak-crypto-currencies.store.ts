@@ -6,6 +6,7 @@ export type TransakCryptoCurrency = {
     symbol: string
     image: { thumb: string; small: string; large: string }
     network: Network
+    transakNetworkName: string
     decimals: number
 }
 

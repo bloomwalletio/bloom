@@ -6,7 +6,7 @@
 
     export let cryptoCurrency: TransakCryptoCurrency | undefined
     export let fiatAmount: number | undefined
-    export let fiatSymbol: keyof typeof FiatCurrency | undefined
+    export let fiatSymbol: keyof typeof FiatCurrency | string | undefined
     export let cryptoAmount: number | undefined
 
     $: isLoading = !cryptoCurrency || !fiatAmount || !fiatSymbol || !cryptoAmount
