@@ -7,7 +7,7 @@
     import { localize } from '@core/i18n'
     import { FiatCurrency } from '@core/market'
     import { IPopupState, popupState } from '@desktop/auxiliary/popup'
-    import TransakConnectionPanel from '@views/dashboard/buy-sell/components/TransakConnectionPanel.svelte'
+    import TransakConnectionBanner from '@views/dashboard/buy-sell/components/TransakConnectionBanner.svelte'
     import { onDestroy, onMount, tick } from 'svelte'
 
     export let isBuyOrSell: 'BUY' | 'SELL'
@@ -105,7 +105,7 @@
 
 <div class="flex flex-col gap-4">
     <div class="border-b border-solid border-stroke dark:border-stroke-dark">
-        <TransakConnectionPanel refreshFunction={resetTransak} />
+        <TransakConnectionBanner refreshFunction={resetTransak} />
     </div>
     <div class="w-[30rem] h-[60vh]" bind:this={transakContainer}>
         {#if error}

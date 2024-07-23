@@ -161,7 +161,6 @@
                 paymentMethod: selectedPaymentOption?.value ?? '',
                 recipientAddress: selectedRecipient?.address ?? '',
             },
-            hideClose: true,
             confirmClickOutside: true,
         })
     }
