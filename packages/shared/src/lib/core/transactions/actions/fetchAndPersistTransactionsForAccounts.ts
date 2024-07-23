@@ -24,41 +24,44 @@ export async function fetchAndPersistTransactionsForAccounts(
             continue
         }
 
-        const networkId = network.id
-        for (const account of accounts) {
-            try {
-                const blockscoutTransactions = await fetchBlockscoutTransactionsForAccount(
-                    profileId,
-                    account,
-                    networkId
-                )
-                blockscoutTransactions &&
-                    addBlockscoutTransactionToPersistedTransactions(
-                        profileId,
-                        account.index,
-                        networkId,
-                        blockscoutTransactions
-                    )
+        await fetchAndPersistTransactionsForNetwork(network, profileId, accounts)
+    }
+}
 
-                const blockscoutTokenTransfers = await fetchBlockscoutTokenTransfersForAccount(
+export async function fetchAndPersistTransactionsForNetwork(
+    network: IEvmNetwork,
+    profileId: string,
+    accounts: IAccountState[]
+): Promise<void> {
+    for (const account of accounts) {
+        try {
+            const blockscoutTransactions = await fetchBlockscoutTransactionsForAccount(profileId, account, network.id)
+            blockscoutTransactions &&
+                addBlockscoutTransactionToPersistedTransactions(
                     profileId,
-                    account,
-                    networkId
+                    account.index,
+                    network.id,
+                    blockscoutTransactions
                 )
-                blockscoutTokenTransfers &&
-                    addBlockscoutTokenTransferToPersistedTransactions(
-                        profileId,
-                        account.index,
-                        networkId,
-                        blockscoutTokenTransfers
-                    )
-            } catch (err) {
-                console.error(err)
-            }
 
-            const activities = await generateActivityForMissingTransactions(profileId, account, network)
-            addAccountActivities(account.index, activities)
+            const blockscoutTokenTransfers = await fetchBlockscoutTokenTransfersForAccount(
+                profileId,
+                account,
+                network.id
+            )
+            blockscoutTokenTransfers &&
+                addBlockscoutTokenTransferToPersistedTransactions(
+                    profileId,
+                    account.index,
+                    network.id,
+                    blockscoutTokenTransfers
+                )
+        } catch (err) {
+            console.error(err)
         }
+
+        const activities = await generateActivityForMissingTransactions(profileId, account, network)
+        addAccountActivities(account.index, activities)
     }
 }
 

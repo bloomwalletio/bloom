@@ -10,6 +10,7 @@ import { get } from 'svelte/store'
 // Circular import issue with EvmNetwork class
 // Moving it to the bottom fixes the issue...
 import { EvmNetwork } from '../classes/evm-network.class'
+import { fetchAndPersistTransactionsForNetwork } from '@core/transactions/actions'
 
 export async function addNewEvmNetwork(evmNetworkConfiguration: IPureEvmNetworkConfiguration): Promise<void> {
     addPersistedEvmNetworkToActiveProfile(evmNetworkConfiguration)
@@ -20,11 +21,15 @@ export async function addNewEvmNetwork(evmNetworkConfiguration: IPureEvmNetworkC
     addPersistedToken(network.id, ...tokens)
 
     const profileId = getActiveProfileId()
-    for (const account of get(activeAccounts)) {
+    const accounts = get(activeAccounts)
+
+    for (const account of accounts) {
         await loadNftsForNetwork(account, network)
 
         const activities = await generateEvmActivitiesFromEvmChain(profileId, network, account)
         addAccountActivities(account.index, activities)
         await loadAssetsForAllActivities(account)
     }
+
+    await fetchAndPersistTransactionsForNetwork(network, profileId, accounts)
 }
