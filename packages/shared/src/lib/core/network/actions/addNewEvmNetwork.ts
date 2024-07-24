@@ -13,15 +13,15 @@ import { EvmNetwork } from '../classes/evm-network.class'
 import { fetchAndPersistTransactionsForNetwork } from '@core/transactions/actions'
 
 export async function addNewEvmNetwork(evmNetworkConfiguration: IPureEvmNetworkConfiguration): Promise<void> {
+    const profileId = getActiveProfileId()
+    const accounts = get(activeAccounts)
+
     addPersistedEvmNetworkToActiveProfile(evmNetworkConfiguration)
     const network = new EvmNetwork(evmNetworkConfiguration)
     addEvmNetworkToNetworks(network)
 
     const tokens = await loadTokensForEvmNetwork(network, true)
     addPersistedToken(network.id, ...tokens)
-
-    const profileId = getActiveProfileId()
-    const accounts = get(activeAccounts)
 
     for (const account of accounts) {
         await loadNftsForNetwork(account, network)
