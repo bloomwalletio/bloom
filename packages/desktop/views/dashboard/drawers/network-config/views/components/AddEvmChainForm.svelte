@@ -26,8 +26,8 @@
     export let drawerRouter: Router<NetworkConfigRoute>
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
     const TABS = [
-        { key: NetworkType.Evm, value: localize(`general.${NetworkType.Evm}`) },
-        { key: NetworkType.Isc, value: localize(`general.${NetworkType.Isc}`) },
+        { key: NetworkType.Evm, value: localize(`${localeKey}.${NetworkType.Evm}`) },
+        { key: NetworkType.Isc, value: localize(`${localeKey}.${NetworkType.Isc}`) },
     ]
     let selectedTab = TABS[0]
 
@@ -45,7 +45,7 @@
     let rpcEndpointError = ''
     let chainIdError = ''
     let explorerUrlError = ''
-    const apiEndpointError = ''
+    let apiEndpointError = ''
     let aliasAddressError = ''
 
     function validateName(): void {
@@ -65,6 +65,11 @@
     function validateRpcEndpoint(): void {
         if (!isValidHttpsUrl(rpcEndpoint)) {
             rpcEndpointError = localize(`${localeKey}.errors.invalidUrl`)
+        }
+    }
+    function validateApiEndpoint(): void {
+        if (!isValidHttpsUrl(apiEndpoint)) {
+            apiEndpointError = localize(`${localeKey}.errors.invalidUrl`)
         }
     }
 
@@ -98,21 +103,24 @@
         validateExplorerUrl()
         if (selectedTab.key === NetworkType.Isc) {
             validateAliasAddress()
+            validateApiEndpoint()
         }
     }
 
     function trimInputs(): void {
         name = name.trim()
-        explorerUrl = explorerUrl.trim()
-        rpcEndpoint = rpcEndpoint.trim()
         chainId = chainId.trim() as ChainId
+        rpcEndpoint = rpcEndpoint.trim()
+        explorerUrl = explorerUrl.trim()
+        apiEndpoint = apiEndpoint.trim()
     }
 
     function resetErrors(): void {
         nameError = ''
         rpcEndpointError = ''
-        aliasAddressError = ''
         explorerUrlError = ''
+        aliasAddressError = ''
+        apiEndpoint = ''
     }
 
     function onSubmitClick(): void {
@@ -136,10 +144,6 @@
             baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Ethereum], // TODO
         }
 
-        if ($networks.some((_network) => _network.id === baseNetworkConfig.id)) {
-            rpcEndpointError = localize(`${localeKey}.errors.chainIdExists`)
-            return
-        }
         if (type === NetworkType.Evm) {
             const evmNetworkConfig: IPureEvmNetworkConfiguration = {
                 ...baseNetworkConfig,
@@ -164,7 +168,7 @@
         <Tabs bind:selectedTab tabs={TABS} />
         <TextInput bind:value={name} label={localize('general.name')} error={nameError} />
         <TextInput bind:value={rpcEndpoint} label={localize(`${localeKey}.rpcEndpoint`)} error={rpcEndpointError} />
-        <TextInput bind:value={chainId} label={localize(`${localeKey}.chainId`)} error={nameError} />
+        <TextInput bind:value={chainId} label={localize(`${localeKey}.chainId`)} error={chainIdError} />
         <TextInput bind:value={explorerUrl} label={localize(`${localeKey}.explorerUrl`)} error={explorerUrlError} />
 
         {#if selectedTab.key === NetworkType.Isc}

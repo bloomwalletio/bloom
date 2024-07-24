@@ -434,6 +434,8 @@
                         "title": "Add chain"
                     },
                     "chain": {
+                        "evm": "EVM",
+                        "isc": "ISC",
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "rpcEndpoint": "RPC Endpoint",
@@ -443,6 +445,7 @@
                             "nameTooLong": "Name is too long",
                             "aliasAddressWrongFormat": "Must be in either hex or Bech32 format",
                             "aliasAddressAlreadyInUse": "Alias address already in use",
+                            "chainIdExists": "Chain ID already exists",
                             "invalidUrl": "Invalid URL"
                         },
                         "remove": {
