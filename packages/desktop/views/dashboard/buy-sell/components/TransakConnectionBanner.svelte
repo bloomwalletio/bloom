@@ -42,7 +42,6 @@
 
 <div class="flex flex-row items-center w-full p-6 gap-4 bg-surface-1 dark:bg-surface-1-dark rounded-t-[32px]">
     <img class="w-10 h-10" src="assets/logos/transak-icon.svg" alt="Transak" />
-
     <div class="flex flex-col items-start gap-2">
         <img class="h-4" src="assets/logos/transak-text.svg" alt="Transak" />
         <div class="flex items-center gap-1 w-full h-3">

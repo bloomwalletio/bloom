@@ -7,7 +7,7 @@
         TransakFiatCurrencies,
         transakFiatCurrencies,
     } from '@auxiliary/transak'
-    import { Button, IconName, IOption, SelectInput, Tabs, Text } from '@bloomwalletio/ui'
+    import { Button, IconName, IOption, Pill, SelectInput, Tabs, Text } from '@bloomwalletio/ui'
     import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
     import { selectedAccount } from '@core/account/stores'
     import { localize } from '@core/i18n'
@@ -22,6 +22,7 @@
     import { onDestroy } from 'svelte'
     import { TransakAmountInput, TransakCryptoCurrencyTile } from './'
     import TransakCryptoCurrencyAmountTile from './TransakCryptoCurrencyAmountTile.svelte'
+    import { getBestTimeDuration, MILLISECONDS_PER_SECOND } from '@core/utils'
 
     // Buy / Sell Tabs
     const TABS = [
@@ -114,10 +115,15 @@
     $: updateSelectedRecipient($selectedAccount, selectedCryptoCurrency)
 
     // Quotations
-    let quote: { fiatAmount: number; cryptoAmount: number } | undefined = undefined
+    let quotes: ({ fiatAmount: number; cryptoAmount: number } | undefined)[] = new Array(3).fill(undefined)
     let latestQuoteRequestId = 0
+    let loading = false
     async function updateQuote(): Promise<void> {
+        loading = true
+        stopQuoteTimer()
+
         if (!selectedPaymentOption) {
+            loading = false
             return
         }
 
@@ -130,20 +136,59 @@
             fiatAmount: Number(fiatValue),
         }
 
-        quote = undefined
+        quotes = []
 
         const requestId = ++latestQuoteRequestId // Increment the request ID
         const response = await getTransakPrice(params)
 
         // Only update the quote if this is the latest request
-        if (requestId === latestQuoteRequestId && response) {
-            quote = {
-                fiatAmount: response.fiatAmount,
-                cryptoAmount: response.cryptoAmount,
-            }
+        if (requestId !== latestQuoteRequestId) {
+            return
         }
+
+        if (response) {
+            quotes = [
+                {
+                    fiatAmount: response.fiatAmount,
+                    cryptoAmount: response.cryptoAmount,
+                },
+            ]
+            startQuoteTimer()
+        }
+
+        loading = false
     }
     $: selectedCurrency, selectedCryptoCurrency, selectedPaymentOption, fiatValue, void updateQuote()
+
+    // Quotations timer
+    let displayedQuotationTime: string | null = null
+    let interval
+    let timeout
+    function startQuoteTimer(): void {
+        clearInterval(interval)
+        clearTimeout(timeout)
+
+        const maxQuoteTime = 30 * MILLISECONDS_PER_SECOND
+        let quotationTimeInMillis = maxQuoteTime
+        displayedQuotationTime = getBestTimeDuration(quotationTimeInMillis)
+
+        interval = setInterval(() => {
+            quotationTimeInMillis -= MILLISECONDS_PER_SECOND
+            displayedQuotationTime = getBestTimeDuration(quotationTimeInMillis)
+        }, MILLISECONDS_PER_SECOND)
+
+        timeout = setTimeout(() => {
+            clearInterval(interval)
+            displayedQuotationTime = null
+            updateQuote()
+        }, maxQuoteTime)
+    }
+
+    function stopQuoteTimer(): void {
+        clearInterval(interval)
+        clearTimeout(timeout)
+        displayedQuotationTime = null
+    }
 
     // Handlers
     function onTokenTileClick(): void {
@@ -168,6 +213,7 @@
 
     onDestroy(() => {
         $selectedExchangeCryptoCurrency = undefined
+        stopQuoteTimer()
     })
 </script>
 
@@ -211,17 +257,36 @@
     <div class="w-full h-full flex flex-col justify-between pl-4">
         <div class="flex flex-col gap-3">
             <div class="flex flex-col items-center gap-2">
-                <Text type="h6" align="center">{localize('views.buySell.quotations.title')}</Text>
-                <Text type="body2" textColor="secondary" align="center"
-                    >{localize('views.buySell.quotations.description')}</Text
-                >
+                <Text type="h6" align="center">
+                    {localize('views.buySell.quotations.title')}
+                </Text>
+                <Text type="body2" textColor="secondary" align="center">
+                    {loading || quotes.length > 0
+                        ? localize('views.buySell.quotations.description')
+                        : localize('views.buySell.quotations.noQuotes')}
+                </Text>
+                <Pill color="neutral" compact>
+                    {displayedQuotationTime
+                        ? localize('views.buySell.quotations.pill.newQuotes', { time: displayedQuotationTime })
+                        : loading
+                          ? localize('views.buySell.quotations.pill.fetchingQuotes')
+                          : localize('views.buySell.quotations.pill.noQuotes')}
+                </Pill>
             </div>
-            <TransakCryptoCurrencyAmountTile
-                cryptoCurrency={selectedCryptoCurrency}
-                fiatAmount={quote?.fiatAmount}
-                fiatSymbol={selectedCurrency}
-                cryptoAmount={quote?.cryptoAmount}
-            />
+            {#if loading}
+                <TransakCryptoCurrencyAmountTile isLoading />
+                <TransakCryptoCurrencyAmountTile isLoading />
+                <TransakCryptoCurrencyAmountTile isLoading />
+            {:else if quotes.length > 0}
+                {#each quotes as quote}
+                    <TransakCryptoCurrencyAmountTile
+                        cryptoCurrency={selectedCryptoCurrency}
+                        fiatAmount={quote?.fiatAmount}
+                        fiatSymbol={selectedCurrency}
+                        cryptoAmount={quote?.cryptoAmount}
+                    />
+                {/each}
+            {/if}
         </div>
         <Button text={selectedTab.value} on:click={onButtonClick} width="full" disabled={isButtonDisabled} />
     </div>
