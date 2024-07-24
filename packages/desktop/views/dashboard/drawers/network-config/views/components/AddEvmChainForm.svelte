@@ -1,6 +1,6 @@
 <script lang="ts">
     import { BlockscoutApi } from '@auxiliary/blockscout/api'
-    import { Button, TextInput } from '@bloomwalletio/ui'
+    import { Button, Text, NumberInput, TextInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import {
         addNewEvmNetwork,
@@ -23,6 +23,7 @@
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
+    // Chain config
     let chainId = ''
     let name = ''
     let explorerUrl = ''
@@ -32,6 +33,15 @@
     let rpcEndpointError = ''
     let chainIdError = ''
     let explorerUrlError = ''
+
+    // Token config
+    let tokenName = ''
+    let tickerSymbol = ''
+    let decimals = 18
+
+    const tokenNameError = ''
+    const tickerSymbolError = ''
+    const decimalsError = ''
 
     $: submitDisabled = !name || !chainId || !rpcEndpoint
 
@@ -139,10 +149,26 @@
 
 <add-evm-network class="h-full flex flex-col justify-between p-4">
     <form id="add-network-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
+        <Text type="body1">{localize(`${localeKey}.chainConfig`)}</Text>
         <TextInput bind:value={name} label={localize('general.name')} error={nameError} />
         <TextInput bind:value={chainId} label={localize(`${localeKey}.chainId`)} error={chainIdError} />
         <TextInput bind:value={rpcEndpoint} label={localize(`${localeKey}.rpcEndpoint`)} error={rpcEndpointError} />
         <TextInput bind:value={explorerUrl} label={localize(`${localeKey}.explorerUrl`)} error={explorerUrlError} />
+        <hr />
+        <Text type="body1">{localize(`${localeKey}.tokenConfig`)}</Text>
+        {#if chainId}
+            <TextInput bind:value={tokenName} label={localize(`${localeKey}.tokenName`)} error={tokenNameError} />
+            <TextInput
+                bind:value={tickerSymbol}
+                label={localize(`${localeKey}.tickerSymbol`)}
+                error={tickerSymbolError}
+            />
+            <NumberInput bind:value={decimals} label={localize(`${localeKey}.decimals`)} error={decimalsError} />
+        {:else}
+            <Text type="sm" textColor="secondary" align="center" class="p-4"
+                >{localize(`${localeKey}.pleaseEnterChainId`)}</Text
+            >
+        {/if}
     </form>
     <Button
         type="submit"
