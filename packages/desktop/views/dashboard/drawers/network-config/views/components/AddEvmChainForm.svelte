@@ -84,22 +84,24 @@
         resetErrors()
         validate()
         const hasError = !!nameError || !!rpcEndpointError || !!explorerUrlError || !!chainIdError
-        if (!hasError) {
-            const evmNetworkConfiguration: IPureEvmNetworkConfiguration = {
-                type: NetworkType.Evm,
-                id: `${NetworkNamespace.Evm}:${chainId}`,
-                namespace: NetworkNamespace.Evm,
-                chainId: chainId as ChainId,
-                name,
-                rpcEndpoint,
-                explorerUrl,
-                coinType: ETHEREUM_COIN_TYPE,
-                baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Ethereum],
-            }
-
-            addNewEvmNetwork(evmNetworkConfiguration)
-            drawerRouter.previous()
+        if (hasError) {
+            return
         }
+
+        const evmNetworkConfiguration: IPureEvmNetworkConfiguration = {
+            type: NetworkType.Evm,
+            id: `${NetworkNamespace.Evm}:${chainId}`,
+            namespace: NetworkNamespace.Evm,
+            chainId: chainId as ChainId,
+            name,
+            rpcEndpoint,
+            explorerUrl,
+            coinType: ETHEREUM_COIN_TYPE,
+            baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Ethereum],
+        }
+
+        void addNewEvmNetwork(evmNetworkConfiguration)
+        drawerRouter.previous()
     }
 </script>
 
