@@ -11,6 +11,8 @@ import {
     SupportedStardustNetworkId,
 } from './supported-network-id.constant'
 
+// Ethereum Mainnet
+
 const ETHEREUM_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     type: NetworkType.Evm,
     name: 'Ethereum',
@@ -23,6 +25,58 @@ const ETHEREUM_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     rpcEndpoint: 'https://ethereum-rpc.publicnode.com',
 }
 
+// Ethereum Mainnet L2s
+
+export const ARBITRUM_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Sepolia Testnet',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.Sepolia,
+    chainId: ChainId.Sepolia,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Sepolia] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
+    rpcEndpoint: 'https://arbitrum-one-rpc.publicnode.com',
+}
+
+export const BASE_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Sepolia Testnet',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.Sepolia,
+    chainId: ChainId.Sepolia,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Sepolia] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
+    rpcEndpoint: 'https://base-rpc.publicnode.com',
+}
+
+export const BLAST_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Sepolia Testnet',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.Sepolia,
+    chainId: ChainId.Sepolia,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Sepolia] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
+    rpcEndpoint: 'https://blast-rpc.publicnode.com',
+}
+
+export const OPTIMISM_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Sepolia Testnet',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.Sepolia,
+    chainId: ChainId.Sepolia,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Sepolia] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
+    rpcEndpoint: 'https://optimism-rpc.publicnode.com',
+}
+
+// Sepolia Testnet
+
 export const SEPOLIA_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     type: NetworkType.Evm,
     name: 'Sepolia Testnet',
@@ -34,6 +88,58 @@ export const SEPOLIA_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
     rpcEndpoint: 'https://ethereum-sepolia-rpc.publicnode.com',
 }
+
+// Sepolia Testnet L2s
+
+export const SEPOLIA_ARBITRUM_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Sepolia Testnet',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.Sepolia,
+    chainId: ChainId.Sepolia,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Sepolia] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
+    rpcEndpoint: 'https://ethereum-sepolia-rpc.publicnode.com',
+}
+
+export const SEPOLIA_BASE_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Sepolia Testnet',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.Sepolia,
+    chainId: ChainId.Sepolia,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Sepolia] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
+    rpcEndpoint: 'https://ethereum-sepolia-rpc.publicnode.com',
+}
+
+export const SEPOLIA_BLAST_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Sepolia Testnet',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.Sepolia,
+    chainId: ChainId.Sepolia,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Sepolia] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
+    rpcEndpoint: 'https://ethereum-sepolia-rpc.publicnode.com',
+}
+
+export const SEPOLIA_OPTIMISM_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Sepolia Testnet',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.Sepolia,
+    chainId: ChainId.Sepolia,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Sepolia] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
+    rpcEndpoint: 'https://ethereum-sepolia-rpc.publicnode.com',
+}
+
+// Default EVM network configurations for Stardust networks
 
 export const DEFAULT_EVM_NETWORK_CONFIGURATIONS_FOR_STARDUST_NETWORK: Readonly<{
     [key in StardustNetworkId]: IPureEvmNetworkConfiguration[]
