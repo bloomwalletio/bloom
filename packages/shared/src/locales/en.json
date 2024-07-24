@@ -435,10 +435,11 @@
                     },
                     "chain": {
                         "evm": "EVM",
-                        "isc": "ISC",
+                        "iscp": "ISC",
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "rpcEndpoint": "RPC Endpoint",
+                        "apiEndpoint": "API Endpoint (optional)",
                         "explorerUrl": "Explorer URL (optional)",
                         "errors": {
                             "cannotBeEmpty": "Name cannot be empty",

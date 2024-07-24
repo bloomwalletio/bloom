@@ -18,7 +18,7 @@ import { NftStandard } from '@core/nfts/enums'
 import { ISC_CONFIRMATION_THRESHOLD } from '@core/network/constants'
 
 export class IscChain extends EvmNetwork implements IIscChain {
-    private readonly _chainApi: string
+    private readonly _chainApi: string | undefined
     private _metadata: IIscChainMetadata | undefined
     private WEI_PER_GLOW = BigInt(1_000_000_000_000)
 
@@ -36,7 +36,12 @@ export class IscChain extends EvmNetwork implements IIscChain {
 
         this.aliasAddress = aliasAddress
         this.apiEndpoint = apiEndpoint
-        this._chainApi = new URL(`v1/chains/${aliasAddress}`, apiEndpoint).href
+        try {
+            const chainUrl = new URL(`v1/chains/${aliasAddress}`, apiEndpoint).href
+            this._chainApi = chainUrl
+        } catch (error) {
+            this._chainApi = undefined
+        }
 
         void this.setMetadata()
     }
@@ -85,6 +90,9 @@ export class IscChain extends EvmNetwork implements IIscChain {
      * node URL). See here for more: https://github.com/iotaledger/wasp/issues/2385
      */
     private async fetchChainMetadata(): Promise<IIscChainMetadata> {
+        if (!this._chainApi) {
+            throw new Error('Chain API endpoint is not available!')
+        }
         const response = await fetch(this._chainApi)
         return (await response.json()) as IIscChainMetadata
     }
@@ -102,6 +110,9 @@ export class IscChain extends EvmNetwork implements IIscChain {
     }
 
     async getGasFeeEstimate(outputBytes: string): Promise<bigint> {
+        if (!this._chainApi) {
+            throw new Error('Chain API endpoint is not available!')
+        }
         const URL = `${this._chainApi}/estimategas-onledger`
         const body = JSON.stringify({ outputBytes })
 

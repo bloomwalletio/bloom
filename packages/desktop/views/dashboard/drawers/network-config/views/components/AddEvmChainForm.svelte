@@ -68,7 +68,7 @@
         }
     }
     function validateApiEndpoint(): void {
-        if (!isValidHttpsUrl(apiEndpoint)) {
+        if (apiEndpoint && !isValidHttpsUrl(apiEndpoint)) {
             apiEndpointError = localize(`${localeKey}.errors.invalidUrl`)
         }
     }
@@ -120,14 +120,15 @@
         rpcEndpointError = ''
         explorerUrlError = ''
         aliasAddressError = ''
-        apiEndpoint = ''
+        apiEndpointError = ''
     }
 
     function onSubmitClick(): void {
         trimInputs()
         resetErrors()
         validate()
-        const hasError = !!nameError || !!rpcEndpointError || !!explorerUrlError || !!chainIdError
+        const hasError =
+            !!nameError || !!rpcEndpointError || !!explorerUrlError || !!apiEndpointError || !!aliasAddressError
         if (hasError) {
             return
         }
