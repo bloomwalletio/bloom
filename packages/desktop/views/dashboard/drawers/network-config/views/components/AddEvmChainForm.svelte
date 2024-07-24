@@ -36,12 +36,11 @@
     $: submitDisabled = !name || !chainId || !rpcEndpoint
 
     function validateName(): void {
-        if (!name) {
-            nameError = localize(`${localeKey}.errors.cannotBeEmpty`)
-        } else if (name.length > MAX_NETWORK_NAME_LENGTH) {
+        if (name.length > MAX_NETWORK_NAME_LENGTH) {
             nameError = localize(`${localeKey}.errors.nameTooLong`)
         }
     }
+
     function validateChainId(): void {
         const networkId = `${NetworkNamespace.Evm}:${chainId}`
         if ($networks.some((network) => network.id === networkId)) {
