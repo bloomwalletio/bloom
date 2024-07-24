@@ -117,10 +117,13 @@
     // Quotations
     let quotes: ({ fiatAmount: number; cryptoAmount: number } | undefined)[] = new Array(3).fill(undefined)
     let latestQuoteRequestId = 0
+    let loading = false
     async function updateQuote(): Promise<void> {
+        loading = true
         stopQuoteTimer()
 
         if (!selectedPaymentOption) {
+            loading = false
             return
         }
 
@@ -133,24 +136,27 @@
             fiatAmount: Number(fiatValue),
         }
 
-        quotes = new Array(3).fill(undefined)
+        quotes = []
 
         const requestId = ++latestQuoteRequestId // Increment the request ID
         const response = await getTransakPrice(params)
 
         // Only update the quote if this is the latest request
-        if (requestId !== latestQuoteRequestId || !response) {
+        if (requestId !== latestQuoteRequestId) {
             return
         }
 
-        quotes = [
-            {
-                fiatAmount: response.fiatAmount,
-                cryptoAmount: response.cryptoAmount,
-            },
-        ]
+        if (response) {
+            quotes = [
+                {
+                    fiatAmount: response.fiatAmount,
+                    cryptoAmount: response.cryptoAmount,
+                },
+            ]
+            startQuoteTimer()
+        }
 
-        startQuoteTimer()
+        loading = false
     }
     $: selectedCurrency, selectedCryptoCurrency, selectedPaymentOption, fiatValue, void updateQuote()
 
@@ -255,22 +261,32 @@
                     {localize('views.buySell.quotations.title')}
                 </Text>
                 <Text type="body2" textColor="secondary" align="center">
-                    {localize('views.buySell.quotations.description')}
+                    {loading || quotes.length > 0
+                        ? localize('views.buySell.quotations.description')
+                        : localize('views.buySell.quotations.noQuotes')}
                 </Text>
                 <Pill color="neutral" compact>
                     {displayedQuotationTime
                         ? localize('views.buySell.quotations.pill.newQuotes', { time: displayedQuotationTime })
-                        : localize('views.buySell.quotations.pill.fetchingQuotes')}
+                        : loading
+                          ? localize('views.buySell.quotations.pill.fetchingQuotes')
+                          : localize('views.buySell.quotations.pill.noQuotes')}
                 </Pill>
             </div>
-            {#each quotes as quote}
-                <TransakCryptoCurrencyAmountTile
-                    cryptoCurrency={selectedCryptoCurrency}
-                    fiatAmount={quote?.fiatAmount}
-                    fiatSymbol={selectedCurrency}
-                    cryptoAmount={quote?.cryptoAmount}
-                />
-            {/each}
+            {#if loading}
+                <TransakCryptoCurrencyAmountTile isLoading />
+                <TransakCryptoCurrencyAmountTile isLoading />
+                <TransakCryptoCurrencyAmountTile isLoading />
+            {:else if quotes.length > 0}
+                {#each quotes as quote}
+                    <TransakCryptoCurrencyAmountTile
+                        cryptoCurrency={selectedCryptoCurrency}
+                        fiatAmount={quote?.fiatAmount}
+                        fiatSymbol={selectedCurrency}
+                        cryptoAmount={quote?.cryptoAmount}
+                    />
+                {/each}
+            {/if}
         </div>
         <Button text={selectedTab.value} on:click={onButtonClick} width="full" disabled={isButtonDisabled} />
     </div>
