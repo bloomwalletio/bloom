@@ -3,7 +3,7 @@
     import { IMenuItem, IconName, Menu } from '@bloomwalletio/ui'
     import { handleError } from '@core/error/handlers'
     import { localize } from '@core/i18n'
-    import { IEvmNetwork, NetworkType, removeExistingEvmNetwork } from '@core/network'
+    import { IEvmNetwork, NetworkNamespace, removeExistingEvmNetwork } from '@core/network'
     import { Router } from '@core/router'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
@@ -14,7 +14,7 @@
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
     $: menuItems = [
-        ...(network.type === NetworkType.Evm
+        ...(network.namespace === NetworkNamespace.Evm
             ? [
                   {
                       icon: IconName.Trash,

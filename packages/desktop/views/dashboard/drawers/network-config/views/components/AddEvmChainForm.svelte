@@ -170,7 +170,6 @@
         <TextInput bind:value={name} label={localize('general.name')} error={nameError} />
         <TextInput bind:value={rpcEndpoint} label={localize(`${localeKey}.rpcEndpoint`)} error={rpcEndpointError} />
         <TextInput bind:value={chainId} label={localize(`${localeKey}.chainId`)} error={chainIdError} />
-        <TextInput bind:value={explorerUrl} label={localize(`${localeKey}.explorerUrl`)} error={explorerUrlError} />
 
         {#if selectedTab.key === NetworkType.Isc}
             <TextInput
@@ -178,6 +177,11 @@
                 label={localize(`${localeKey}.aliasAddress`)}
                 error={aliasAddressError}
             />
+        {/if}
+
+        <TextInput bind:value={explorerUrl} label={localize(`${localeKey}.explorerUrl`)} error={explorerUrlError} />
+
+        {#if selectedTab.key === NetworkType.Isc}
             <TextInput bind:value={apiEndpoint} label={localize(`${localeKey}.apiEndpoint`)} error={apiEndpointError} />
         {/if}
     </form>
