@@ -118,6 +118,8 @@
     let quotes: ({ fiatAmount: number; cryptoAmount: number } | undefined)[] = new Array(3).fill(undefined)
     let latestQuoteRequestId = 0
     async function updateQuote(): Promise<void> {
+        stopQuoteTimer()
+
         if (!selectedPaymentOption) {
             return
         }
@@ -154,21 +156,32 @@
 
     // Quotations timer
     let displayedQuotationTime: string | null = null
+    let interval
+    let timeout
     function startQuoteTimer(): void {
-        const maxQuoteTime = 30 * MILLISECONDS_PER_SECOND
-        let quotationTimeInSeconds = maxQuoteTime
-        displayedQuotationTime = getBestTimeDuration(quotationTimeInSeconds)
+        clearInterval(interval)
+        clearTimeout(timeout)
 
-        const interval = setInterval(() => {
-            quotationTimeInSeconds -= MILLISECONDS_PER_SECOND
-            displayedQuotationTime = getBestTimeDuration(quotationTimeInSeconds)
+        const maxQuoteTime = 30 * MILLISECONDS_PER_SECOND
+        let quotationTimeInMillis = maxQuoteTime
+        displayedQuotationTime = getBestTimeDuration(quotationTimeInMillis)
+
+        interval = setInterval(() => {
+            quotationTimeInMillis -= MILLISECONDS_PER_SECOND
+            displayedQuotationTime = getBestTimeDuration(quotationTimeInMillis)
         }, MILLISECONDS_PER_SECOND)
 
-        setTimeout(() => {
+        timeout = setTimeout(() => {
             clearInterval(interval)
             displayedQuotationTime = null
             updateQuote()
         }, maxQuoteTime)
+    }
+
+    function stopQuoteTimer(): void {
+        clearInterval(interval)
+        clearTimeout(timeout)
+        displayedQuotationTime = null
     }
 
     // Handlers
@@ -194,6 +207,7 @@
 
     onDestroy(() => {
         $selectedExchangeCryptoCurrency = undefined
+        stopQuoteTimer()
     })
 </script>
 
