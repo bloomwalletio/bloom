@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { BlockscoutApi } from '@auxiliary/blockscout/api'
     import { Button, TextInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import {
@@ -15,6 +16,7 @@
     import { networks } from '@core/network/stores/networks.store'
     import { Router } from '@core/router/classes'
     import { isValidHttpsUrl } from '@core/utils'
+    import { Web3 } from 'web3'
     import { NetworkConfigRoute } from '../../network-config-route.enum'
 
     export let drawerRouter: Router<NetworkConfigRoute>
@@ -54,16 +56,46 @@
     }
 
     function validateExplorerUrl(): void {
-        if (explorerUrl && !isValidHttpsUrl(explorerUrl)) {
+        if (!isValidHttpsUrl(explorerUrl)) {
             explorerUrlError = localize(`${localeKey}.errors.invalidUrl`)
         }
     }
 
-    function validate(): void {
+    async function verifyRpcAndChainId(): Promise<void> {
+        try {
+            const _rpcEndpoint = new URL(rpcEndpoint).href
+            const provider = new Web3(_rpcEndpoint)
+            const actualChainId = await provider.eth.net.getId()
+
+            if (String(actualChainId) !== chainId) {
+                chainIdError = localize(`${localeKey}.errors.notMatchingChainId`)
+            }
+        } catch (err) {
+            // TODO: Add more specific error handling for different cases
+            rpcEndpointError = localize(`${localeKey}.errors.invalidRpcEndpoint`)
+        }
+    }
+
+    async function verifyExplorer(): Promise<void> {
+        try {
+            const blockscoutApi = new BlockscoutApi(explorerUrl)
+            const backendVersion = await blockscoutApi.getBackendVersion()
+            if (!backendVersion) {
+                explorerUrlError = localize(`${localeKey}.errors.invalidExplorerUrl`)
+            }
+        } catch (err) {
+            // TODO: Add more specific error handling for different cases
+            explorerUrlError = localize(`${localeKey}.errors.invalidExplorerUrl`)
+        }
+    }
+
+    async function validate(): Promise<void> {
         validateName()
         validateRpcEndpoint()
         validateChainId()
         validateExplorerUrl()
+        await verifyRpcAndChainId()
+        await verifyExplorer()
     }
 
     function trimInputs(): void {
@@ -75,14 +107,15 @@
 
     function resetErrors(): void {
         nameError = ''
+        chainIdError = ''
         rpcEndpointError = ''
         explorerUrlError = ''
     }
 
-    function onSubmitClick(): void {
+    async function onSubmitClick(): Promise<void> {
         trimInputs()
         resetErrors()
-        validate()
+        await validate()
         const hasError = !!nameError || !!rpcEndpointError || !!explorerUrlError || !!chainIdError
         if (hasError) {
             return
@@ -108,8 +141,8 @@
 <add-evm-network class="h-full flex flex-col justify-between p-4">
     <form id="add-network-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
         <TextInput bind:value={name} label={localize('general.name')} error={nameError} />
+        <TextInput bind:value={chainId} label={localize(`${localeKey}.chainId`)} error={chainIdError} />
         <TextInput bind:value={rpcEndpoint} label={localize(`${localeKey}.rpcEndpoint`)} error={rpcEndpointError} />
-        <TextInput bind:value={chainId} label={localize(`${localeKey}.chainId`)} error={nameError} />
         <TextInput bind:value={explorerUrl} label={localize(`${localeKey}.explorerUrl`)} error={explorerUrlError} />
     </form>
     <Button
