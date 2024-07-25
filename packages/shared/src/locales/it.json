@@ -436,13 +436,21 @@
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "rpcEndpoint": "RPC Endpoint",
-                        "explorerUrl": "Explorer URL (optional)",
+                        "explorerUrl": "Explorer URL",
                         "errors": {
-                            "cannotBeEmpty": "Name cannot be empty",
                             "nameTooLong": "Name is too long",
                             "aliasAddressWrongFormat": "Must be in either hex or Bech32 format",
                             "aliasAddressAlreadyInUse": "Alias address already in use",
-                            "invalidUrl": "Invalid URL"
+                            "invalidUrl": "Invalid URL",
+                            "chainIdExists": "Network with chain ID already exists",
+                            "notMatchingChainId": "Chain Id does not match the network",
+                            "invalidRpcEndpoint": "Invalid RPC endpoint",
+                            "invalidExplorerUrl": "Invalid explorer URL"
+                        },
+                        "remove": {
+                            "title": "Remove network",
+                            "description": "Are you sure you want to remove { networkName }?",
+                            "alert": "You will need to add it again to view your assets and activity history for this network."
                         }
                     },
                     "chainDepositAddress": {
@@ -1107,11 +1115,11 @@
             "success": "Signed transaction"
         },
         "tokenApproval": {
-            "title": "Approve {dappName} to access {assetName}",
-            "hint": "{address} is requesting approval to spend {assetName}",
+            "title": "Approve dapp to access {assetName}",
+            "hint": "{dappName} requests approval for {spender} to spend {assetName}",
             "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
             "action": "Approve",
-            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
+            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens than you currently own.",
             "accept": "I understand and wish to proceed",
             "success": "Successfully approved"
         },
@@ -1985,6 +1993,9 @@
         },
         "syncTokens": {
             "success": "Tokens successfully synced"
+        },
+        "removeNetwork": {
+            "success": "{ networkName } successfully removed"
         }
     },
     "error": {
