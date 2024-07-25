@@ -92,6 +92,8 @@
     // Recipient Input
     let recipientInput
     let selectedRecipient: Subject | undefined
+    let minValue: number | undefined
+    let maxValue: number | undefined
     function updateSelectedRecipient(
         account: IAccountState | undefined,
         cryptoCurrency: TransakCryptoCurrency | undefined
@@ -113,6 +115,13 @@
         }
     }
     $: updateSelectedRecipient($selectedAccount, selectedCryptoCurrency)
+    $: {
+        const selectedTransakFiatCurrencyPaymentOption = $transakFiatCurrencies?.[
+            selectedCurrency
+        ]?.paymentOptions?.find((paymentOption) => paymentOption.id === selectedPaymentOption?.value)
+        minValue = selectedTransakFiatCurrencyPaymentOption?.minAmount
+        maxValue = selectedTransakFiatCurrencyPaymentOption?.maxAmount
+    }
 
     // Quotations
     let quotes: ({ fiatAmount: number; cryptoAmount: number } | undefined)[] = new Array(3).fill(undefined)
@@ -237,7 +246,7 @@
                         <SelectInput options={paymentOptions} bind:selected={selectedPaymentOption} hideValue />
                     {/key}
                 </div>
-                <TransakAmountInput currency={selectedCurrency} bind:value={fiatValue} />
+                <TransakAmountInput currency={selectedCurrency} bind:value={fiatValue} {minValue} {maxValue} />
                 <div class="flex flex-col gap-4 w-full">
                     <TransakCryptoCurrencyTile
                         cryptoCurrency={selectedCryptoCurrency}
