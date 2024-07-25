@@ -20,6 +20,7 @@
     import { NetworkConfigRoute } from '../../network-config-route.enum'
     import { TokenStandard } from '@core/token'
     import { MAX_SUPPORTED_DECIMALS } from '@core/wallet/constants'
+    import { tick } from 'svelte'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
@@ -49,11 +50,13 @@
     $: isChainConfigValid = !!name && !!rpcEndpoint && !!explorerUrl && !!chainId
     $: isTokenConfigValid = !!tokenName && !!unit && decimals !== undefined
 
-    $: isChainConfigValid && !showTokenConfig && setInitialTokenConfig()
-    function setInitialTokenConfig(): void {
+    $: isChainConfigValid && !showTokenConfig && void setInitialTokenConfig()
+    async function setInitialTokenConfig(): Promise<void> {
         showTokenConfig = true
         const defaultToken =
             DEFAULT_BASE_TOKEN[`${NetworkNamespace.Evm}:${chainId}`] ?? DEFAULT_BASE_TOKEN[SupportedNetworkId.Ethereum]
+
+        await tick()
         tokenName = defaultToken.name
         unit = defaultToken.unit
         decimals = defaultToken.decimals
@@ -127,7 +130,7 @@
 
     function validateDecimals(): void {
         if (decimals > MAX_SUPPORTED_DECIMALS) {
-            unitError = localize(`${localeKey}.errors.unitTooLong`)
+            unitError = localize(`${localeKey}.errors.decimalsTooHigh`)
         } else if (decimals < 0) {
             decimalsError = localize(`${localeKey}.errors.invalidDecimals`)
         }

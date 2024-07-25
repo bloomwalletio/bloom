@@ -450,6 +450,9 @@
                             "aliasAddressAlreadyInUse": "Alias address already in use",
                             "invalidUrl": "Invalid URL",
                             "chainIdExists": "Network with chain ID already exists",
+                            "unitTooLong": "Unit cannot be longer than 6 characters",
+                            "decimalsTooHigh": "Decimals cannot be higher than 24",
+                            "invalidDecimals": "Decimals must be positive",
                             "notMatchingChainId": "Chain Id does not match the network",
                             "invalidRpcEndpoint": "Invalid RPC endpoint",
                             "invalidExplorerUrl": "Invalid explorer URL"
