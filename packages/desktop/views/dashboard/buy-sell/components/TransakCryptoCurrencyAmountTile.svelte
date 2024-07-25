@@ -9,9 +9,11 @@
     export let fiatAmount: number | undefined = undefined
     export let fiatSymbol: keyof typeof FiatCurrency | string | undefined = undefined
     export let cryptoAmount: number | undefined = undefined
+    export let onClick: () => void = () => {}
+    export let selected: boolean = false
 </script>
 
-<Tile surface={1} width="full" class={isLoading ? 'animate-pulse' : ''}>
+<Tile surface={1} width="full" class={isLoading ? 'animate-pulse' : ''} {onClick} {selected}>
     <div class="w-full flex justify-between items-center gap-2">
         {#if isLoading}
             <div class="w-7 h-7 rounded-full bg-surface-2 dark:bg-surface-2-dark animate-pulse"></div>

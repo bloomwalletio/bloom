@@ -115,12 +115,16 @@
     $: updateSelectedRecipient($selectedAccount, selectedCryptoCurrency)
 
     // Quotations
-    let quotes: ({ fiatAmount: number; cryptoAmount: number } | undefined)[] = new Array(3).fill(undefined)
+    let quotes: ({ fiatAmount: number; cryptoAmount: number; provider: string } | undefined)[] = new Array(3).fill(
+        undefined
+    )
+    let selectedQuoteId: number | undefined = undefined
     let latestQuoteRequestId = 0
     let loading = false
     async function updateQuote(): Promise<void> {
         loading = true
         stopQuoteTimer()
+        selectedQuoteId = undefined
 
         if (!selectedPaymentOption) {
             loading = false
@@ -151,6 +155,7 @@
                 {
                     fiatAmount: response.fiatAmount,
                     cryptoAmount: response.cryptoAmount,
+                    provider: 'Transak',
                 },
             ]
             startQuoteTimer()
@@ -209,7 +214,8 @@
             confirmClickOutside: true,
         })
     }
-    $: isButtonDisabled = !selectedCryptoCurrency || !selectedPaymentOption || !selectedRecipient
+    $: isButtonDisabled =
+        !selectedCryptoCurrency || !selectedPaymentOption || !selectedRecipient || selectedQuoteId === undefined
 
     onDestroy(() => {
         $selectedExchangeCryptoCurrency = undefined
@@ -278,16 +284,25 @@
                 <TransakCryptoCurrencyAmountTile isLoading />
                 <TransakCryptoCurrencyAmountTile isLoading />
             {:else if quotes.length > 0}
-                {#each quotes as quote}
+                {#each quotes as quote, i}
                     <TransakCryptoCurrencyAmountTile
                         cryptoCurrency={selectedCryptoCurrency}
                         fiatAmount={quote?.fiatAmount}
                         fiatSymbol={selectedCurrency}
                         cryptoAmount={quote?.cryptoAmount}
+                        onClick={() => (selectedQuoteId = i)}
+                        selected={selectedQuoteId === i}
                     />
                 {/each}
             {/if}
         </div>
-        <Button text={selectedTab.value} on:click={onButtonClick} width="full" disabled={isButtonDisabled} />
+        <Button
+            text={selectedQuoteId !== undefined
+                ? localize('views.buySell.quotations.button.selected', { provider: quotes[selectedQuoteId]?.provider })
+                : localize('views.buySell.quotations.button.unselected')}
+            on:click={onButtonClick}
+            width="full"
+            disabled={isButtonDisabled}
+        />
     </div>
 </Pane>
