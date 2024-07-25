@@ -443,7 +443,7 @@
                         "tokenName": "TokenName",
                         "unit": "Unit",
                         "decimals": "Decimals",
-                        "pleaseEnterChainId": "Please enter a chain config",
+                        "pleaseEnterChain": "Please enter a chain config",
                         "errors": {
                             "nameTooLong": "Name is too long",
                             "aliasAddressWrongFormat": "Must be in either hex or Bech32 format",
