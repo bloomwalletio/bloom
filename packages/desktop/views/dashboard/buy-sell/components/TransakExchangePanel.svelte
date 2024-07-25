@@ -115,7 +115,7 @@
     $: updateSelectedRecipient($selectedAccount, selectedCryptoCurrency)
 
     // Quotations
-    let quotes: ({ fiatAmount: number; cryptoAmount: number } | undefined)[] = new Array(3).fill(undefined)
+    let quotes: { fiatAmount: number; cryptoAmount: number }[] = []
     let latestQuoteRequestId = 0
     let loading = false
     async function updateQuote(): Promise<void> {
