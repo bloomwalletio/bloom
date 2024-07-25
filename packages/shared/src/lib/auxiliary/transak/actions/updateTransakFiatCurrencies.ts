@@ -14,8 +14,8 @@ export async function updateTransakFiatCurrencies(): Promise<void> {
                 [val.symbol]: {
                     paymentOptions: val.paymentOptions
                         .filter((option) => !FILTERED_PAYMENT_OPTIONS.includes(option.id) && option.isActive)
-                        .map(({ id, name, minAmount, maxAmount }) => {
-                            return { id, name: name ? name : id, minAmount, maxAmount }
+                        .map(({ id, minAmount, maxAmount }) => {
+                            return { id, minAmount, maxAmount }
                         }),
                 },
             }

@@ -80,7 +80,7 @@
         paymentOptions =
             supportedCurrencies?.[selectedCurrency as keyof typeof FiatCurrency]?.paymentOptions.map((option) => ({
                 value: option.id,
-                label: option.name,
+                label: localize(`views.buySell.paymentOptions.${option.id}`),
                 icon: option.id.includes('card') ? IconName.CreditCard : IconName.Bank,
             })) ?? []
         if (!paymentOptions.some((paymentOption) => paymentOption.value === selectedPaymentOption?.value)) {
