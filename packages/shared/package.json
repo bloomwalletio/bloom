@@ -13,7 +13,7 @@
         "@iota/crypto.js": "1.8.6",
         "@iota/sdk": "1.1.5",
         "@iota/util.js": "2.0.0-rc.2",
-        "@metamask/eth-sig-util": "7.0.2",
+        "@metamask/eth-sig-util": "7.0.3",
         "@spruceid/siwe-parser": "2.1.2",
         "@sveltejs/svelte-virtual-list": "3.0.1",
         "@walletconnect/jsonrpc-types": "1.0.4",
