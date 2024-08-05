@@ -10,9 +10,9 @@
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { formatCurrency, localize } from '@core/i18n'
     import { getFiatValueFromTokenAmount } from '@core/market/actions'
-    import { BASE_TOKEN_ID, ITokenWithBalance, TokenStandard } from '@core/token'
+    import { BASE_TOKEN_ID, formatTokenAmount, ITokenWithBalance, TokenStandard } from '@core/token'
     import { Text } from '@bloomwalletio/ui'
-    import { selectedAccountTokens } from '@core/token/stores'
+    import { getPersistedToken, selectedAccountTokens } from '@core/token/stores'
     import { NetworkNamespace } from '@core/network'
     import { EvmActivityType } from '@core/activity/enums/evm'
     import { NftStandard } from '@core/nfts'
@@ -51,11 +51,21 @@
                 ) {
                     return '1 ' + localize('general.nft')
                 } else {
-                    return getFormattedAmountFromActivity(
-                        _activity.tokenTransfer.rawAmount,
-                        _activity.tokenTransfer.tokenId,
-                        _activity
-                    )
+                    if (_activity.type === EvmActivityType.TokenApproval) {
+                        const { rawAmount, tokenId } = _activity.tokenTransfer
+                        const metadata = getPersistedToken(activity.sourceNetworkId, tokenId)?.metadata
+                        const amount = metadata ? formatTokenAmount(rawAmount, metadata) : ''
+                        if (amount.length > 20) {
+                            return 'INFINITE'
+                        }
+                        return amount
+                    } else {
+                        return getFormattedAmountFromActivity(
+                            _activity.tokenTransfer.rawAmount,
+                            _activity.tokenTransfer.tokenId,
+                            _activity
+                        )
+                    }
                 }
             } else {
                 return '-'
