@@ -19,22 +19,17 @@ export async function loadTokensForAllAccountBalances(
 ): Promise<void> {
     clearPersistedAssets && clearPersistedTokensForActiveProfile()
 
-    const tokens: { [networkId: NetworkId]: IPersistedToken[] } = {}
     const l1StardustNetwork = getStardustNetwork()
     const stardustTokens = await loadTokensForStardustNetwork(l1StardustNetwork, keepVerificationStatus)
-    tokens[l1StardustNetwork.id] = stardustTokens
+    addPersistedToken(l1StardustNetwork.id, ...stardustTokens)
 
     for (const network of getEvmNetworks()) {
         const evmTokens = await loadTokensForEvmNetwork(network, keepVerificationStatus)
-        tokens[network.id] = evmTokens
-    }
-
-    for (const [networkId, assets] of Object.entries(tokens)) {
-        addPersistedToken(networkId as NetworkId, ...assets)
+        addPersistedToken(network.id, ...evmTokens)
     }
 }
 
-async function loadTokensForStardustNetwork(
+export async function loadTokensForStardustNetwork(
     network: IStardustNetwork,
     keepVerificationStatus: boolean
 ): Promise<IPersistedToken[]> {
@@ -71,7 +66,7 @@ async function loadTokensForStardustNetwork(
     return [baseCoin, ...tokens]
 }
 
-async function loadTokensForEvmNetwork(
+export async function loadTokensForEvmNetwork(
     network: IEvmNetwork,
     keepVerificationStatus: boolean
 ): Promise<IPersistedToken[]> {

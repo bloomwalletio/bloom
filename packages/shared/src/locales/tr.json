@@ -436,13 +436,21 @@
                         "chainId": "Zincir ID",
                         "aliasAddress": "Takma ad adresi",
                         "rpcEndpoint": "RPC bitiş noktası",
-                        "explorerUrl": "Gezgin URL'si (isteğe bağlı)",
+                        "explorerUrl": "Explorer URL",
                         "errors": {
-                            "cannotBeEmpty": "İsim boş olamaz",
                             "nameTooLong": "İsim çok uzun",
                             "aliasAddressWrongFormat": "Hex veya Bech32 formatında olmalıdır",
                             "aliasAddressAlreadyInUse": "Takma ad adresi zaten kullanılıyor",
-                            "invalidUrl": "Geçersiz URL"
+                            "invalidUrl": "Geçersiz URL",
+                            "chainIdExists": "Network with chain ID already exists",
+                            "notMatchingChainId": "Chain Id does not match the network",
+                            "invalidRpcEndpoint": "Invalid RPC endpoint",
+                            "invalidExplorerUrl": "Invalid explorer URL"
+                        },
+                        "remove": {
+                            "title": "Remove network",
+                            "description": "Are you sure you want to remove { networkName }?",
+                            "alert": "You will need to add it again to view your assets and activity history for this network."
                         }
                     },
                     "chainDepositAddress": {
@@ -1107,11 +1115,11 @@
             "success": "İmzalı işlem"
         },
         "tokenApproval": {
-            "title": "{assetName} erişimi için {dappName} uygulamasını onaylayın",
-            "hint": "{address}, {assetName} tutarında harcama yapmak için onay istiyor",
+            "title": "Approve dapp to access {assetName}",
+            "hint": "{dappName} requests approval for {spender} to spend {assetName}",
             "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
             "action": "Onayla",
-            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
+            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens than you currently own.",
             "accept": "I understand and wish to proceed",
             "success": "Başarıyla onaylandı"
         },
@@ -1985,6 +1993,9 @@
         },
         "syncTokens": {
             "success": "Token'lar başarıyla senkronize edildi"
+        },
+        "removeNetwork": {
+            "success": "{ networkName } successfully removed"
         }
     },
     "error": {

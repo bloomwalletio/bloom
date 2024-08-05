@@ -363,9 +363,9 @@
                 "title": "Nft download permissies",
                 "description": "Download toestemmingen voor het automatisch downloaden van NFT media",
                 "input": "Download toestemmingen",
-                "all": "Download Alles",
-                "allExceptDenylist": "Alle behalve bekende risico's",
-                "allowListOnly": "Alleen bekende domeinen",
+                "all": "Download alles",
+                "allExceptDenylist": "Alle behalve die met bekende risico's",
+                "allowListOnly": "Alleen van bekende domeinen",
                 "none": "Download geen van alle"
             }
         },
@@ -436,13 +436,21 @@
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Adres",
                         "rpcEndpoint": "RPC Eindpunt",
-                        "explorerUrl": "Explorer URL (optioneel)",
+                        "explorerUrl": "Explorer URL",
                         "errors": {
-                            "cannotBeEmpty": "Naam kan niet leeg zijn",
                             "nameTooLong": "Naam is te lang",
                             "aliasAddressWrongFormat": "Moet in hex of Bech32 formaat zijn",
                             "aliasAddressAlreadyInUse": "Alias adres is al in gebruik",
-                            "invalidUrl": "Ongeldige URL"
+                            "invalidUrl": "Ongeldige URL",
+                            "chainIdExists": "Network with chain ID already exists",
+                            "notMatchingChainId": "Chain Id does not match the network",
+                            "invalidRpcEndpoint": "Invalid RPC endpoint",
+                            "invalidExplorerUrl": "Invalid explorer URL"
+                        },
+                        "remove": {
+                            "title": "Verwijder netwerk",
+                            "description": "Weet je zeker dat je { networkName } wilt verwijderen?",
+                            "alert": "Je moet deze opnieuw toevoegen om je assets en activiteitengeschiedenis voor dit netwerk te kunnen bekijken."
                         }
                     },
                     "chainDepositAddress": {
@@ -536,7 +544,7 @@
                 },
                 "dapps": {
                     "general": {
-                        "loginPrompt": "Dapp request received while logged out. Please log in to continue."
+                        "loginPrompt": "Dapp-verzoek ontvangen terwijl je bent afgemeld. Log in om door te gaan."
                     },
                     "dappsList": {
                         "title": "Verbonden dApps",
@@ -1107,16 +1115,16 @@
             "success": "Ondertekende transactie"
         },
         "tokenApproval": {
-            "title": "{dappName} goedkeuren voor toegang tot {assetName}",
-            "hint": "{address} vraagt goedkeuring voor het uitgeven van {assetName}",
-            "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
+            "title": "Dapp goedkeuren voor toegang tot {assetName}",
+            "hint": "{dappName} vraagt goedkeuring voor {spender} om {assetName} te besteden",
+            "warning": "Je bezit geen van de goedgekeurde tokens. Keur alleen tokens goed die je vertrouwt.",
             "action": "Goedkeuren",
-            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
-            "accept": "I understand and wish to proceed",
+            "approveMoreThanBalanceWarning": "Deze dapp vraagt je goed te keuren om meer tokens te spenderen dan je momenteel bezit.",
+            "accept": "Ik begrijp het en wil verder gaan",
             "success": "Succesvol goedgekeurd"
         },
         "sendTransaction": {
-            "title": "Send {asset} to {recipient}",
+            "title": "Verzend {asset} naar {recipient}",
             "action": "Verzend",
             "success": "{assetName} verzonden naar {recipient}"
         },
@@ -1985,6 +1993,9 @@
         },
         "syncTokens": {
             "success": "Tokens succesvol gesynchroniseerd"
+        },
+        "removeNetwork": {
+            "success": "{ networkName } succesvol verwijderd"
         }
     },
     "error": {
