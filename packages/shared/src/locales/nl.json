@@ -442,10 +442,10 @@
                             "aliasAddressWrongFormat": "Moet in hex of Bech32 formaat zijn",
                             "aliasAddressAlreadyInUse": "Alias adres is al in gebruik",
                             "invalidUrl": "Ongeldige URL",
-                            "chainIdExists": "Network with chain ID already exists",
-                            "notMatchingChainId": "Chain Id does not match the network",
-                            "invalidRpcEndpoint": "Invalid RPC endpoint",
-                            "invalidExplorerUrl": "Invalid explorer URL"
+                            "chainIdExists": "Netwerk met chain ID bestaat al",
+                            "notMatchingChainId": "Chain ID komt niet overeen met het netwerk",
+                            "invalidRpcEndpoint": "Ongeldig RPC eindpunt",
+                            "invalidExplorerUrl": "Ongeldige explorer URL"
                         },
                         "remove": {
                             "title": "Verwijder netwerk",
