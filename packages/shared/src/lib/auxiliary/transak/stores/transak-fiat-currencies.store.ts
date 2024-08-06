@@ -5,7 +5,6 @@ export type TransakFiatCurrencies = {
     [key in keyof typeof FiatCurrency]: {
         paymentOptions: {
             id: string
-            name: string
             minAmount: number
             maxAmount: number
             disabled?: boolean

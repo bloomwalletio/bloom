@@ -80,7 +80,7 @@
         paymentOptions =
             supportedCurrencies?.[selectedCurrency as keyof typeof FiatCurrency]?.paymentOptions.map((option) => ({
                 value: option.id,
-                label: option.name,
+                label: localize(`views.buySell.paymentOptions.${option.id}`),
                 icon: option.id.includes('card') ? IconName.CreditCard : IconName.Bank,
             })) ?? []
         if (!paymentOptions.some((paymentOption) => paymentOption.value === selectedPaymentOption?.value)) {
@@ -115,9 +115,7 @@
     $: updateSelectedRecipient($selectedAccount, selectedCryptoCurrency)
 
     // Quotations
-    let quotes: ({ fiatAmount: number; cryptoAmount: number; provider: string } | undefined)[] = new Array(3).fill(
-        undefined
-    )
+    let quotes: { fiatAmount: number; cryptoAmount: number; provider: string }[] = []
     let selectedQuoteId: number | undefined = undefined
     let latestQuoteRequestId = 0
     let loading = false
