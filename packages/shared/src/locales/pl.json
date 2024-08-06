@@ -436,16 +436,16 @@
                         "chainId": "Identyfikator łańcucha",
                         "aliasAddress": "Adres aliasu",
                         "rpcEndpoint": "RPC Endpoint",
-                        "explorerUrl": "Explorer URL",
+                        "explorerUrl": "URL Eksploratora",
                         "errors": {
                             "nameTooLong": "Nazwa jest za długa",
                             "aliasAddressWrongFormat": "Musi być w formacie hex lub Bech32",
                             "aliasAddressAlreadyInUse": "Adres aliasu jest już używany",
                             "invalidUrl": "Nieprawidłowy URL",
-                            "chainIdExists": "Network with chain ID already exists",
-                            "notMatchingChainId": "Chain Id does not match the network",
-                            "invalidRpcEndpoint": "Invalid RPC endpoint",
-                            "invalidExplorerUrl": "Invalid explorer URL"
+                            "chainIdExists": "Sieć o tym identyfikatorze łańcucha już istnieje",
+                            "notMatchingChainId": "Identyfikator łańcucha nie jest zgodny z siecią",
+                            "invalidRpcEndpoint": "Nieprawidłowy RPC endpoint",
+                            "invalidExplorerUrl": "Nieprawidłowy adres URL eksploratora"
                         },
                         "remove": {
                             "title": "Usuń sieć",
