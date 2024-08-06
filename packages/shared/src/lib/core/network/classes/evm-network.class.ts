@@ -119,7 +119,7 @@ export class EvmNetwork implements IEvmNetwork {
             const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
             let gasPrices: IGasPricesBySpeed = { required }
             try {
-                const blockscoutApi = new BlockscoutApi(this.id)
+                const blockscoutApi = new BlockscoutApi(this.explorerUrl ?? '')
                 const stats = await blockscoutApi.getStats()
 
                 Object.entries(stats?.gas_prices ?? {}).forEach(([key, value]) => {

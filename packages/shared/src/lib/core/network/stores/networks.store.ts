@@ -47,7 +47,7 @@ export function addChain(chain: IIscChain): void {
 
 export function addEvmNetworkToNetworks(evmNetwork: IEvmNetwork): void {
     networks.update((networks) => {
-        networks.push(new EvmNetwork(evmNetwork))
+        networks.push(evmNetwork)
         return networks
     })
 }

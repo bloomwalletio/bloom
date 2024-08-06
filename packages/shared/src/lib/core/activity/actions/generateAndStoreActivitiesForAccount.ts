@@ -8,8 +8,8 @@ import { linkTransactionsWithClaimingTransactions } from './linkTransactionsWith
 import { hideActivitiesForFoundries } from './hideActivitiesForFoundries'
 import { generateActivitiesFromProcessedTransactions } from '../utils/stardust/generateActivitiesFromProcessedTransactions'
 import { loadAssetsForAllActivities } from './loadAssetsForAllAccounts'
-import { generateActivitiesFromBalanceChanges, generateEvmActivitiesFromEvmChains } from '../utils'
-import { StardustNetworkId } from '@core/network'
+import { generateActivitiesFromBalanceChanges, generateEvmActivitiesFromEvmChain } from '../utils'
+import { getEvmNetworks, StardustNetworkId } from '@core/network'
 import { setOutgoingAsyncActivitiesToClaimed } from './setOutgoingAsyncActivitiesToClaimed'
 import { Activity } from '../types'
 
@@ -40,8 +40,10 @@ export async function generateAndStoreActivitiesForAccount(
     const balanceChangeActivities = await generateActivitiesFromBalanceChanges(profileId, account)
     activities.push(...balanceChangeActivities)
 
-    const chainActivities = await generateEvmActivitiesFromEvmChains(profileId, account)
-    activities.push(...chainActivities)
+    for (const evmNetwork of getEvmNetworks()) {
+        const chainActivities = await generateEvmActivitiesFromEvmChain(profileId, evmNetwork, account)
+        activities.push(...chainActivities)
+    }
 
     // Step 4: set account activities with generated activities
     setAccountActivities(account.index, activities)
