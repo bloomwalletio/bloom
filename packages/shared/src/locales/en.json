@@ -437,13 +437,16 @@
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "rpcEndpoint": "RPC Endpoint",
-                        "explorerUrl": "Explorer URL (optional)",
+                        "explorerUrl": "Explorer URL",
                         "errors": {
-                            "cannotBeEmpty": "Name cannot be empty",
                             "nameTooLong": "Name is too long",
                             "aliasAddressWrongFormat": "Must be in either hex or Bech32 format",
                             "aliasAddressAlreadyInUse": "Alias address already in use",
-                            "invalidUrl": "Invalid URL"
+                            "invalidUrl": "Invalid URL",
+                            "chainIdExists": "Network with chain ID already exists",
+                            "notMatchingChainId": "Chain Id does not match the network",
+                            "invalidRpcEndpoint": "Invalid RPC endpoint",
+                            "invalidExplorerUrl": "Invalid explorer URL"
                         },
                         "remove": {
                             "title": "Remove network",
@@ -837,7 +840,11 @@
                     "fetchingQuotes": "Fetching quotes",
                     "noQuotes": "No quotes"
                 },
-                "noQuotes": "No quotes available please try again"
+                "noQuotes": "No quotes available please try again",
+                "button": {
+                    "selected": "Continue with {provider}",
+                    "unselected": "No quote selected"
+                }
             },
             "paymentOptions": {
                 "credit_debit_card": "Card Payment",

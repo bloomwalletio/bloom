@@ -436,13 +436,21 @@
                         "chainId": "Identyfikator łańcucha",
                         "aliasAddress": "Adres aliasu",
                         "rpcEndpoint": "RPC Endpoint",
-                        "explorerUrl": "URL eksploratora (opcjonalnie)",
+                        "explorerUrl": "URL Eksploratora",
                         "errors": {
-                            "cannotBeEmpty": "Nazwa nie może być pusta",
                             "nameTooLong": "Nazwa jest za długa",
                             "aliasAddressWrongFormat": "Musi być w formacie hex lub Bech32",
                             "aliasAddressAlreadyInUse": "Adres aliasu jest już używany",
-                            "invalidUrl": "Nieprawidłowy URL"
+                            "invalidUrl": "Nieprawidłowy URL",
+                            "chainIdExists": "Sieć o tym identyfikatorze łańcucha już istnieje",
+                            "notMatchingChainId": "Identyfikator łańcucha nie jest zgodny z siecią",
+                            "invalidRpcEndpoint": "Nieprawidłowy RPC endpoint",
+                            "invalidExplorerUrl": "Nieprawidłowy adres URL eksploratora"
+                        },
+                        "remove": {
+                            "title": "Usuń sieć",
+                            "description": "Czy na pewno chcesz usunąć { networkName }?",
+                            "alert": "Będziesz musiał dodać ją ponownie, aby wyświetlić swoje aktywa i historię transakcji dla tej sieci."
                         }
                     },
                     "chainDepositAddress": {
@@ -536,7 +544,7 @@
                 },
                 "dapps": {
                     "general": {
-                        "loginPrompt": "Dapp request received while logged out. Please log in to continue."
+                        "loginPrompt": "Otrzymano prośbę od aplikacjj dapp, kiedy byłeś wylogowany. Zaloguj się, aby kontynuować."
                     },
                     "dappsList": {
                         "title": "Połączone aplikacje dApp",
@@ -1107,16 +1115,16 @@
             "success": "Podpisana transakcja"
         },
         "tokenApproval": {
-            "title": "Zezwól {dappName} na dostęp do {assetName}",
-            "hint": "{address} prosi o zgodę na wydanie środków {assetName}",
-            "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
+            "title": "Zezwól aplikacji dapp na dostęp do {assetName}",
+            "hint": "{dappName} prosi o zgodę {spender} na wydanie {assetName}",
+            "warning": "Nie posiadasz żadnego z zatwierdzonych tokenów. Zatwierdzaj tylko te tokeny, którym ufasz.",
             "action": "Zezwalam",
-            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens that you currently own.",
-            "accept": "I understand and wish to proceed",
+            "approveMoreThanBalanceWarning": "Ta aplikacja dapp chce wykorzystać więcej tokenów, niż aktualnie posiadasz.",
+            "accept": "Rozumiem i chcę kontynuować",
             "success": "Zatwierdzono pomyślnie"
         },
         "sendTransaction": {
-            "title": "Send {asset} to {recipient}",
+            "title": "Wyślij {asset} do {recipient}",
             "action": "Wyślij",
             "success": "Wysłano {assetName} do {recipient}"
         },
@@ -1985,6 +1993,9 @@
         },
         "syncTokens": {
             "success": "Tokeny pomyślnie zsynchronizowane"
+        },
+        "removeNetwork": {
+            "success": "Pomyślnie usunięto { networkName }"
         }
     },
     "error": {

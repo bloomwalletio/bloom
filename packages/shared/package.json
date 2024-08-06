@@ -1,6 +1,6 @@
 {
     "name": "shared",
-    "version": "1.1.1",
+    "version": "1.1.3",
     "description": "TypeScript library for the Bloom application",
     "author": "Bloom Labs Ltd <contact@bloomwallet.io>",
     "license": "PolyForm Strict License 1.0.0",
@@ -24,6 +24,7 @@
         "lottie-web": "5.12.2",
         "qrious": "4.0.2",
         "sanitize-html": "2.13.0",
+        "semver": "7.6.3",
         "sha3": "2.1.4",
         "svelte": "4.2.18",
         "svelte-i18n": "4.0.0",
@@ -47,7 +48,7 @@
         "postcss": "8.4.38",
         "postcss-cli": "11.0.0",
         "svelte-loader": "3.2.3",
-        "tailwindcss": "3.4.3",
+        "tailwindcss": "3.4.7",
         "tslib": "2.6.3",
         "valid-url": "1.0.9",
         "zxcvbn": "4.4.2"
