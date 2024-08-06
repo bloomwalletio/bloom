@@ -24,6 +24,7 @@ import { DEFAULT_LEDGER_API_REQUEST_OPTIONS } from '../constants'
 import { LedgerApiMethod, LedgerAppName } from '../enums'
 import { ILedgerApiBridge } from '../interfaces'
 import { LedgerApiRequestResponse } from '../types'
+import semver from 'semver'
 
 declare global {
     interface Window {
@@ -53,6 +54,12 @@ export class Ledger {
         return Boolean((await this.getEthereumAppSettings())?.blindSigningEnabled)
     }
 
+    static async isEthereumBlindSigningRequiredByVersion(): Promise<boolean> {
+        const BLIND_SIGNING_NOT_REQUIRED_VERSION = '1.11.0'
+        const currentVersion = (await this.getEthereumAppSettings())?.version
+        return semver.lt(currentVersion, BLIND_SIGNING_NOT_REQUIRED_VERSION)
+    }
+
     static async generateEvmAddress(accountIndex: number, coinType: number, verify?: boolean): Promise<string> {
         const bip32Path = buildBip32PathFromBip44({
             coinType,
@@ -75,7 +82,10 @@ export class Ledger {
         const maxGasFee = calculateMaxGasFeeFromTransactionData(transactionData)
 
         const mustEnableBlindSigning =
-            isBlindSigningRequiredForEvmTransaction(transactionData) && !(await this.isBlindSigningEnabledForEvm())
+            (await this.isEthereumBlindSigningRequiredByVersion()) &&
+            isBlindSigningRequiredForEvmTransaction(transactionData) &&
+            !(await this.isBlindSigningEnabledForEvm())
+
         if (mustEnableBlindSigning) {
             await this.userEnablesBlindSigning()
         }

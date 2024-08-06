@@ -2,7 +2,6 @@ import { NftStandard } from '@core/nfts/enums'
 import { TokenStandard } from '@core/token/enums'
 import { QueryParameters } from '@core/utils'
 import { BaseApi } from '@core/utils/api'
-import { DEFAULT_EXPLORER_URLS } from '@core/network/constants'
 import {
     IBlockscoutApi,
     IBlockscoutAsset,
@@ -12,7 +11,6 @@ import {
     IBlockscoutTokenInfoDto,
     IBlockscoutTransaction,
 } from '../interfaces'
-import { EvmNetworkId } from '@core/network/types'
 import { BlockscoutTokenTransfer } from '../types'
 
 interface INextPageParams {
@@ -28,9 +26,8 @@ interface IPaginationResponse<T> {
 export type BlockscoutExitFunction<T> = (items: T[]) => boolean
 
 export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
-    constructor(networkId: EvmNetworkId) {
-        const explorerBaseUrl = DEFAULT_EXPLORER_URLS[networkId] ?? ''
-        super(explorerBaseUrl, 'api/v2')
+    constructor(explorerUrl: string) {
+        super(explorerUrl, 'api/v2')
     }
 
     private async makePaginatedGetRequest<T>(
@@ -60,6 +57,11 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
                 )
             }
         )
+    }
+
+    async getBackendVersion(): Promise<string | undefined> {
+        const response = await this.get<{ backend_version }>('config/backend-version')
+        return response?.['backend_version']
     }
 
     async getStats(): Promise<IBlockscoutStats | undefined> {

@@ -24,41 +24,40 @@ export async function fetchAndPersistTransactionsForAccounts(
             continue
         }
 
-        const networkId = network.id
-        for (const account of accounts) {
-            try {
-                const blockscoutTransactions = await fetchBlockscoutTransactionsForAccount(
-                    profileId,
-                    account,
-                    networkId
-                )
-                blockscoutTransactions &&
-                    addBlockscoutTransactionToPersistedTransactions(
-                        profileId,
-                        account.index,
-                        networkId,
-                        blockscoutTransactions
-                    )
+        await fetchAndPersistTransactionsForNetwork(network, profileId, accounts)
+    }
+}
 
-                const blockscoutTokenTransfers = await fetchBlockscoutTokenTransfersForAccount(
+export async function fetchAndPersistTransactionsForNetwork(
+    network: IEvmNetwork,
+    profileId: string,
+    accounts: IAccountState[]
+): Promise<void> {
+    for (const account of accounts) {
+        try {
+            const blockscoutTransactions = await fetchBlockscoutTransactionsForAccount(profileId, account, network)
+            blockscoutTransactions &&
+                addBlockscoutTransactionToPersistedTransactions(
                     profileId,
-                    account,
-                    networkId
+                    account.index,
+                    network.id,
+                    blockscoutTransactions
                 )
-                blockscoutTokenTransfers &&
-                    addBlockscoutTokenTransferToPersistedTransactions(
-                        profileId,
-                        account.index,
-                        networkId,
-                        blockscoutTokenTransfers
-                    )
-            } catch (err) {
-                console.error(err)
-            }
 
-            const activities = await generateActivityForMissingTransactions(profileId, account, network)
-            addAccountActivities(account.index, activities)
+            const blockscoutTokenTransfers = await fetchBlockscoutTokenTransfersForAccount(profileId, account, network)
+            blockscoutTokenTransfers &&
+                addBlockscoutTokenTransferToPersistedTransactions(
+                    profileId,
+                    account.index,
+                    network.id,
+                    blockscoutTokenTransfers
+                )
+        } catch (err) {
+            console.error(err)
         }
+
+        const activities = await generateActivityForMissingTransactions(profileId, account, network)
+        addAccountActivities(account.index, activities)
     }
 }
 
@@ -107,15 +106,15 @@ function getTransactionsExitFunction(
 async function fetchBlockscoutTransactionsForAccount(
     profileId: string,
     account: IAccountState,
-    networkId: EvmNetworkId
+    network: IEvmNetwork
 ): Promise<IBlockscoutTransaction[] | undefined> {
-    const address = getAddressFromAccountForNetwork(account, networkId)
+    const address = getAddressFromAccountForNetwork(account, network.id)
     if (!address) {
         return undefined
     }
-    const blockscoutApi = new BlockscoutApi(networkId)
+    const blockscoutApi = new BlockscoutApi(network.explorerUrl ?? '')
     const transactions = await blockscoutApi.getTransactionsForAddress(address, (items: IBlockscoutTransaction[]) =>
-        getTransactionsExitFunction(items, profileId, account.index, networkId)
+        getTransactionsExitFunction(items, profileId, account.index, network.id)
     )
     return transactions
 }
@@ -133,17 +132,17 @@ function getTokenTransferExitFunction(
 async function fetchBlockscoutTokenTransfersForAccount(
     profileId: string,
     account: IAccountState,
-    networkId: EvmNetworkId
+    network: IEvmNetwork
 ): Promise<BlockscoutTokenTransfer[] | undefined> {
-    const address = getAddressFromAccountForNetwork(account, networkId)
+    const address = getAddressFromAccountForNetwork(account, network.id)
     if (!address) {
         return undefined
     }
-    const blockscoutApi = new BlockscoutApi(networkId)
+    const blockscoutApi = new BlockscoutApi(network.explorerUrl ?? '')
     const tokenTransfers = await blockscoutApi.getTokenTransfersForAddress(
         address,
         undefined,
-        (items: BlockscoutTokenTransfer[]) => getTokenTransferExitFunction(items, profileId, account.index, networkId)
+        (items: BlockscoutTokenTransfer[]) => getTokenTransferExitFunction(items, profileId, account.index, network.id)
     )
     return tokenTransfers
 }
