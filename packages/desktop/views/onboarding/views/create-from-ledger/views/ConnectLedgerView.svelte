@@ -1,21 +1,20 @@
 <script lang="ts">
     import { Icon, IconName, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
+    import { LedgerAppName, LedgerConnectionState, ledgerConnectionAppState } from '@core/ledger'
     import { OnboardingLayout } from '@views/components'
     import { createFromLedgerRouter } from '..'
     import { CreateFromLedgerRoute } from '../create-from-ledger-route.enum'
     import { onboardingProfile } from '@contexts/onboarding'
     import { SupportedStardustNetworkId } from '@core/network'
 
-    $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
-    $: isLocked = isDisconnected || $ledgerConnectionState === LedgerConnectionState.Locked
+    $: isDisconnected = $ledgerConnectionAppState?.state === LedgerConnectionState.Disconnected
+    $: isLocked = isDisconnected || $ledgerConnectionAppState?.state === LedgerConnectionState.Locked
+    $: isOpen = $ledgerConnectionAppState?.state === LedgerConnectionState.AppOpen
     $: appName =
         $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
-    $: isCorrectAppOpen =
-        $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota
-            ? $ledgerConnectionState === LedgerConnectionState.IotaAppOpen
-            : $ledgerConnectionState === LedgerConnectionState.ShimmerAppOpen
+    $: isCorrectApp = $ledgerConnectionAppState?.app === appName
+    $: isUnsupportedVersion = $ledgerConnectionAppState?.state === LedgerConnectionState.UnsupportedVersion
 
     function onConnectionGuideClick(): void {
         $createFromLedgerRouter.goTo(CreateFromLedgerRoute.LedgerConnectionGuide)
@@ -35,7 +34,7 @@
     description={localize('views.onboarding.createFromLedger.connectLedger.description')}
     continueButton={{
         onClick: onContinueClick,
-        disabled: !isCorrectAppOpen,
+        disabled: !isOpen || !isCorrectApp || isUnsupportedVersion,
     }}
     backButton={{
         onClick: onBackClick,
@@ -65,10 +64,19 @@
                 </icon-container>
                 <Text align="center">{localize('views.onboarding.createFromLedger.connectLedger.unlock')}</Text>
             </connect-card>
-            <connect-card class:success={isCorrectAppOpen}>
+            <connect-card
+                class:warning={isCorrectApp && isUnsupportedVersion}
+                class:success={isCorrectApp && isOpen && !isUnsupportedVersion}
+            >
                 <status-icon-container>
                     <Icon
-                        name={isCorrectAppOpen ? IconName.Check : IconName.CrossClose}
+                        name={isCorrectApp
+                            ? isOpen
+                                ? IconName.Check
+                                : isUnsupportedVersion
+                                  ? IconName.DangerTriangle
+                                  : IconName.CrossClose
+                            : IconName.CrossClose}
                         size="xs"
                         customColor="neutral-1"
                     />
@@ -76,9 +84,11 @@
                 <icon-container>
                     <Icon name={IconName.LinkExternal} textColor="current" />
                 </icon-container>
-                <Text align="center"
-                    >{localize('views.onboarding.createFromLedger.connectLedger.open', { appName })}</Text
-                >
+                <Text align="center">
+                    {isCorrectApp && isUnsupportedVersion
+                        ? localize('views.onboarding.createFromLedger.connectLedger.unsupportedVersion', { appName })
+                        : localize('views.onboarding.createFromLedger.connectLedger.open', { appName })}
+                </Text>
             </connect-card>
         </div>
         <div class="flex gap-2 justify-center items-center">
@@ -107,6 +117,18 @@
 
             icon-container {
                 @apply bg-success/20 text-success;
+            }
+        }
+
+        &.warning {
+            @apply ring-2 ring-warning/50;
+
+            status-icon-container {
+                @apply bg-warning;
+            }
+
+            icon-container {
+                @apply bg-warning/20 text-warning;
             }
         }
 

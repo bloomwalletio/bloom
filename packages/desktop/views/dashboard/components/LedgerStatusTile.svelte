@@ -3,44 +3,59 @@
     import { IconName } from '@bloomwalletio/ui'
     import { StatusTile, StatusTileProps } from '@components'
     import { localize } from '@core/i18n'
-    import { LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
+    import { LedgerAppName, LedgerConnectionState, ledgerConnectionAppState } from '@core/ledger'
+    import { ILedgerConnectionAppState } from '@core/ledger/interfaces/ledger-connection-app-state.interface'
 
-    $: statusTileProps = setStatusTileProps($ledgerConnectionState)
+    $: statusTileProps = setStatusTileProps($ledgerConnectionAppState)
 
-    function setStatusTileProps(connectionState: LedgerConnectionState): StatusTileProps {
+    function setStatusTileProps(connectionState: ILedgerConnectionAppState): StatusTileProps {
         let subtitle: string
         let logo: LogoName
         let iconName: IconName
         let iconColor: string
         let iconBackgroundColor: string
 
-        switch (connectionState) {
+        switch (connectionState?.state) {
             case LedgerConnectionState.AppNotOpen:
                 subtitle = localize('general.unlocked')
                 iconName = IconName.Hardware
                 iconColor = 'neutral'
                 break
-            case LedgerConnectionState.IotaAppOpen:
-                subtitle = 'IOTA App'
-                iconName = IconName.Iota
-                iconColor = '#ffffff'
-                iconBackgroundColor = '#000000'
-                break
-            case LedgerConnectionState.ShimmerAppOpen:
-                subtitle = 'Shimmer App'
-                iconName = IconName.Shimmer
-                iconColor = 'shimmer'
-                iconBackgroundColor = 'shimmer-background'
-                break
-            case LedgerConnectionState.EthereumAppOpen:
-                subtitle = 'Ethereum App'
-                logo = LogoName.Ethereum
-                iconBackgroundColor = 'ethereum'
+            case LedgerConnectionState.AppOpen:
+                switch (connectionState?.app) {
+                    case LedgerAppName.Iota:
+                        subtitle = 'IOTA App'
+                        iconName = IconName.Iota
+                        iconColor = '#ffffff'
+                        iconBackgroundColor = '#000000'
+                        break
+                    case LedgerAppName.Shimmer:
+                        subtitle = 'Shimmer App'
+                        iconName = IconName.Shimmer
+                        iconColor = 'shimmer'
+                        iconBackgroundColor = 'shimmer-background'
+                        break
+                    case LedgerAppName.Ethereum:
+                        subtitle = 'Ethereum App'
+                        logo = LogoName.Ethereum
+                        iconBackgroundColor = 'ethereum'
+                        break
+                    default:
+                        subtitle = localize('general.disconnected')
+                        iconName = IconName.ZapOff
+                        iconColor = 'danger'
+                        break
+                }
                 break
             case LedgerConnectionState.Locked:
                 subtitle = localize('general.locked')
                 iconName = IconName.Hardware
                 iconColor = 'success'
+                break
+            case LedgerConnectionState.UnsupportedVersion:
+                subtitle = localize('general.unsupportedVersion')
+                iconName = IconName.Hardware
+                iconColor = 'danger'
                 break
             case LedgerConnectionState.Disconnected:
             default:
