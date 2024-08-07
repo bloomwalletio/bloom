@@ -436,21 +436,21 @@
                         "chainId": "Zincir ID",
                         "aliasAddress": "Takma ad adresi",
                         "rpcEndpoint": "RPC bitiş noktası",
-                        "explorerUrl": "Explorer URL",
+                        "explorerUrl": "Tarayıcı URL",
                         "errors": {
                             "nameTooLong": "İsim çok uzun",
                             "aliasAddressWrongFormat": "Hex veya Bech32 formatında olmalıdır",
                             "aliasAddressAlreadyInUse": "Takma ad adresi zaten kullanılıyor",
                             "invalidUrl": "Geçersiz URL",
-                            "chainIdExists": "Network with chain ID already exists",
-                            "notMatchingChainId": "Chain Id does not match the network",
-                            "invalidRpcEndpoint": "Invalid RPC endpoint",
-                            "invalidExplorerUrl": "Invalid explorer URL"
+                            "chainIdExists": "Bu chain ID'ye sahip ağ zaten mevcut",
+                            "notMatchingChainId": "Chain Id, ağ ile uyuşmuyor",
+                            "invalidRpcEndpoint": "Geçersiz RPC uç noktası",
+                            "invalidExplorerUrl": "Geçersiz kaşif URL'si"
                         },
                         "remove": {
-                            "title": "Remove network",
-                            "description": "Are you sure you want to remove { networkName }?",
-                            "alert": "You will need to add it again to view your assets and activity history for this network."
+                            "title": "Ağı kaldır",
+                            "description": "{ networkName }'i silmek istediğinizden emin misiniz?",
+                            "alert": "Bu ağı tekrar görmek için varlıklarınızı ve etkinlik geçmişinizi tekrar eklemeniz gerekecek."
                         }
                     },
                     "chainDepositAddress": {
@@ -544,7 +544,7 @@
                 },
                 "dapps": {
                     "general": {
-                        "loginPrompt": "Dapp request received while logged out. Please log in to continue."
+                        "loginPrompt": "Oturum kapalıyken Dapp isteği alındı. Devam etmek için lütfen giriş yapın."
                     },
                     "dappsList": {
                         "title": "Bağlı Uygulamalar",
@@ -1115,16 +1115,16 @@
             "success": "İmzalı işlem"
         },
         "tokenApproval": {
-            "title": "Approve dapp to access {assetName}",
-            "hint": "{dappName} requests approval for {spender} to spend {assetName}",
-            "warning": "You don't own any of the approved tokens. Only approve tokens you trust.",
+            "title": "{assetName}'e erişim izni vermek için dapp'i onaylayın",
+            "hint": "{dappName}, {spender}'ın {assetName} harcaması için onay istiyor",
+            "warning": "Onaylı token'larınız yok. Yalnızca güvendiğiniz token'ları onaylayın.",
             "action": "Onayla",
-            "approveMoreThanBalanceWarning": "This dapp is asking you to approve spending more tokens than you currently own.",
-            "accept": "I understand and wish to proceed",
+            "approveMoreThanBalanceWarning": "Bu dapp, şu anda sahip olduğunuzdan daha fazla token harcamanız için onay istiyor.",
+            "accept": "Anlıyorum ve devam etmek istiyorum",
             "success": "Başarıyla onaylandı"
         },
         "sendTransaction": {
-            "title": "Send {asset} to {recipient}",
+            "title": "{asset}'i {recipient}'e gönder",
             "action": "Gönder",
             "success": "{assetName}, {recipient} alıcısına gönderildi"
         },
@@ -1995,7 +1995,7 @@
             "success": "Token'lar başarıyla senkronize edildi"
         },
         "removeNetwork": {
-            "success": "{ networkName } successfully removed"
+            "success": "{networkName} başarıyla kaldırıldı"
         }
     },
     "error": {
