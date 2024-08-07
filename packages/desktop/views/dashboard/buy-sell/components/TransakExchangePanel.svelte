@@ -156,6 +156,7 @@
                     provider: 'Transak',
                 },
             ]
+            selectedQuoteId = 0
             startQuoteTimer()
         }
 
