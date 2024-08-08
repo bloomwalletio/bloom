@@ -3,17 +3,22 @@
     import { IconName } from '@bloomwalletio/ui'
     import { StatusTile, StatusTileProps } from '@components'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, LedgerConnectionState, ledgerConnectionAppState } from '@core/ledger'
+    import {
+        LedgerAppName,
+        LedgerConnectionState,
+        MINIMUM_SUPPORTED_LEDGER_APP_VERSION,
+        ledgerConnectionAppState,
+    } from '@core/ledger'
     import { ILedgerConnectionAppState } from '@core/ledger/interfaces/ledger-connection-app-state.interface'
 
     $: statusTileProps = setStatusTileProps($ledgerConnectionAppState)
 
     function setStatusTileProps(connectionState: ILedgerConnectionAppState): StatusTileProps {
         let subtitle: string
-        let logo: LogoName
-        let iconName: IconName
-        let iconColor: string
-        let iconBackgroundColor: string
+        let logo: LogoName | undefined = undefined
+        let iconName: IconName | undefined = undefined
+        let iconColor: string | undefined = undefined
+        let iconBackgroundColor: string | undefined = undefined
 
         switch (connectionState?.state) {
             case LedgerConnectionState.AppNotOpen:
@@ -22,6 +27,7 @@
                 iconColor = 'neutral'
                 break
             case LedgerConnectionState.AppOpen:
+            case LedgerConnectionState.UnsupportedVersion:
                 switch (connectionState?.app) {
                     case LedgerAppName.Iota:
                         subtitle = 'IOTA App'
@@ -52,11 +58,6 @@
                 iconName = IconName.Hardware
                 iconColor = 'success'
                 break
-            case LedgerConnectionState.UnsupportedVersion:
-                subtitle = localize('general.unsupportedVersion')
-                iconName = IconName.Hardware
-                iconColor = 'danger'
-                break
             case LedgerConnectionState.Disconnected:
             default:
                 subtitle = localize('general.disconnected')
@@ -72,6 +73,13 @@
             iconName,
             iconColor,
             iconBackgroundColor,
+            warning:
+                connectionState?.state === LedgerConnectionState.UnsupportedVersion && connectionState.app
+                    ? localize('views.onboarding.createFromLedger.connectLedger.unsupportedVersion', {
+                          appName: connectionState.app,
+                          minimumVersion: MINIMUM_SUPPORTED_LEDGER_APP_VERSION[connectionState.app],
+                      })
+                    : undefined,
         }
     }
 </script>
