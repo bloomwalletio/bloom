@@ -1,12 +1,19 @@
 <script lang="ts">
-    import { Icon, IconName, Link, Text } from '@bloomwalletio/ui'
+    import { Icon, IconName, Link, Avatar, Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, LedgerConnectionState, ledgerConnectionAppState } from '@core/ledger'
+    import {
+        LedgerAppName,
+        LedgerConnectionState,
+        MINIMUM_SUPPORTED_LEDGER_APP_VERSION,
+        ledgerConnectionAppState,
+    } from '@core/ledger'
     import { OnboardingLayout } from '@views/components'
     import { createFromLedgerRouter } from '..'
     import { CreateFromLedgerRoute } from '../create-from-ledger-route.enum'
     import { onboardingProfile } from '@contexts/onboarding'
     import { SupportedStardustNetworkId } from '@core/network'
+    import { StepCard } from './components'
+    import { LedgerIllustration } from '@ui'
 
     $: isDisconnected = $ledgerConnectionAppState?.state === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionAppState?.state === LedgerConnectionState.Locked
@@ -15,6 +22,7 @@
         $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
     $: isCorrectApp = $ledgerConnectionAppState?.app === appName
     $: isUnsupportedVersion = $ledgerConnectionAppState?.state === LedgerConnectionState.UnsupportedVersion
+    $: minimumVersion = MINIMUM_SUPPORTED_LEDGER_APP_VERSION[appName]
 
     function onConnectionGuideClick(): void {
         $createFromLedgerRouter.goTo(CreateFromLedgerRoute.LedgerConnectionGuide)
@@ -41,56 +49,43 @@
     }}
 >
     <div slot="content" class="flex flex-col justify-center items-center gap-8">
-        <div class="flex flex-nowrap gap-2 justify-center items-center">
-            <connect-card class:success={!isDisconnected}>
-                <status-icon-container>
-                    <Icon
-                        name={isDisconnected ? IconName.CrossClose : IconName.Check}
-                        size="xs"
-                        customColor="neutral-1"
-                    />
-                </status-icon-container>
-                <icon-container>
-                    <Icon name={IconName.Link} textColor="current" />
-                </icon-container>
-                <Text align="center">{localize('views.onboarding.createFromLedger.connectLedger.connect')}</Text>
-            </connect-card>
-            <connect-card class:success={!isLocked}>
-                <status-icon-container>
-                    <Icon name={isLocked ? IconName.CrossClose : IconName.Check} size="xs" customColor="neutral-1" />
-                </status-icon-container>
-                <icon-container>
-                    <Icon name={IconName.Unlocked} textColor="current" />
-                </icon-container>
-                <Text align="center">{localize('views.onboarding.createFromLedger.connectLedger.unlock')}</Text>
-            </connect-card>
-            <connect-card
-                class:warning={isCorrectApp && isUnsupportedVersion}
-                class:success={isCorrectApp && isOpen && !isUnsupportedVersion}
-            >
-                <status-icon-container>
-                    <Icon
-                        name={isCorrectApp
-                            ? isOpen
-                                ? IconName.Check
-                                : isUnsupportedVersion
-                                  ? IconName.DangerTriangle
-                                  : IconName.CrossClose
-                            : IconName.CrossClose}
-                        size="xs"
-                        customColor="neutral-1"
-                    />
-                </status-icon-container>
-                <icon-container>
-                    <Icon name={IconName.LinkExternal} textColor="current" />
-                </icon-container>
-                <Text align="center">
-                    {isCorrectApp && isUnsupportedVersion
-                        ? localize('views.onboarding.createFromLedger.connectLedger.unsupportedVersion', { appName })
-                        : localize('views.onboarding.createFromLedger.connectLedger.open', { appName })}
-                </Text>
-            </connect-card>
-        </div>
+        {#if isCorrectApp && isUnsupportedVersion}
+            <div class="flex flex-col justify-center items-center gap-2">
+                <LedgerIllustration illustration="ledger-live">
+                    <div class="cross-container">
+                        <Avatar icon={IconName.CrossClose} size="md" backgroundColor="danger" />
+                    </div>
+                </LedgerIllustration>
+                <Alert
+                    variant="danger"
+                    text={localize('views.onboarding.createFromLedger.connectLedger.unsupportedVersion', {
+                        appName,
+                        minimumVersion,
+                    })}
+                />
+            </div>
+        {:else}
+            <div class="flex flex-nowrap gap-2 justify-center items-center">
+                <StepCard
+                    stepCount={1}
+                    complete={!isDisconnected}
+                    icon={IconName.Link}
+                    text={localize('views.onboarding.createFromLedger.connectLedger.connect')}
+                />
+                <StepCard
+                    stepCount={2}
+                    complete={!isLocked}
+                    icon={IconName.Link}
+                    text={localize('views.onboarding.createFromLedger.connectLedger.unlock')}
+                />
+                <StepCard
+                    stepCount={3}
+                    complete={isCorrectApp && isOpen}
+                    icon={IconName.Link}
+                    text={localize('views.onboarding.createFromLedger.connectLedger.open', { appName })}
+                />
+            </div>
+        {/if}
         <div class="flex gap-2 justify-center items-center">
             <Icon name={IconName.InfoCircle} size="xs" textColor="brand" />
             <Link
@@ -103,49 +98,7 @@
 </OnboardingLayout>
 
 <style lang="postcss">
-    connect-card {
-        @apply relative flex flex-col items-center;
-        @apply w-36 h-[11.25rem] px-4 pb-4 pt-10 gap-4;
-        @apply rounded-xl bg-surface-1 dark:bg-surface-1-dark;
-
-        &.success {
-            @apply ring-2 ring-success/50;
-
-            status-icon-container {
-                @apply bg-success;
-            }
-
-            icon-container {
-                @apply bg-success/20 text-success;
-            }
-        }
-
-        &.warning {
-            @apply ring-2 ring-warning/50;
-
-            status-icon-container {
-                @apply bg-warning;
-            }
-
-            icon-container {
-                @apply bg-warning/20 text-warning;
-            }
-        }
-
-        status-icon-container {
-            @apply bg-warning;
-        }
-
-        icon-container {
-            @apply bg-warning/20 text-warning;
-        }
-    }
-
-    status-icon-container {
-        @apply absolute top-2 left-2 rounded-full p-1.5;
-    }
-
-    icon-container {
-        @apply p-3 rounded-xl;
+    .cross-container {
+        transform: translateY(36px);
     }
 </style>
