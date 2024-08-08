@@ -819,6 +819,7 @@
             }
         },
         "buySell": {
+            "title": "Buy and Sell",
             "tooltip": {
                 "connected": "connected securely",
                 "redirected": "redirected, be careful!",
