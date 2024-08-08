@@ -32,9 +32,10 @@
     let selectedTab = TABS[0]
 
     // Fiat Currency Selector
-    const CURRENCY_OPTIONS: IOption[] = Object.keys(FiatCurrency).map((currency) => ({
-        value: currency,
-    }))
+    const CURRENCY_OPTIONS: IOption[] = Object.keys(FiatCurrency).reduce((acc, currency) => {
+        const hasPaymentOptionAvailable = $transakFiatCurrencies?.[currency]?.paymentOptions?.length > 0
+        return hasPaymentOptionAvailable ? [...acc, { value: currency }] : acc
+    }, [] as IOption[])
     let selectedCurrencyOption: IOption = CURRENCY_OPTIONS[0]
     $: selectedCurrency = selectedCurrencyOption.value
 
@@ -247,6 +248,7 @@
                     <TransakCryptoCurrencyTile
                         cryptoCurrency={selectedCryptoCurrency}
                         onClick={hasCryptoCurrencies ? onTokenTileClick : undefined}
+                        variant="selector"
                     />
                     <RecipientInput
                         bind:this={recipientInput}
