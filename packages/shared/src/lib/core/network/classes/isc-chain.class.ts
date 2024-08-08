@@ -122,8 +122,8 @@ export class IscChain extends EvmNetwork implements IIscChain {
             if (gasFee === BigInt(0)) {
                 throw new Error(`Gas fee has an invalid value: ${gasFee}!`)
             }
-
-            return gasFee
+            //  The +1 is due to an optimization in WASP nodes. Not aware of any documentation but Firefly does the same.
+            return gasFee + BigInt(1)
         } else {
             throw new Error(data)
         }

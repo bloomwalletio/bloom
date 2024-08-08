@@ -80,7 +80,7 @@
         paymentOptions =
             supportedCurrencies?.[selectedCurrency as keyof typeof FiatCurrency]?.paymentOptions.map((option) => ({
                 value: option.id,
-                label: option.name,
+                label: localize(`views.buySell.paymentOptions.${option.id}`),
                 icon: option.id.includes('card') ? IconName.CreditCard : IconName.Bank,
             })) ?? []
         if (!paymentOptions.some((paymentOption) => paymentOption.value === selectedPaymentOption?.value)) {
@@ -124,12 +124,14 @@
     }
 
     // Quotations
-    let quotes: ({ fiatAmount: number; cryptoAmount: number } | undefined)[] = new Array(3).fill(undefined)
+    let quotes: { fiatAmount: number; cryptoAmount: number; provider: string }[] = []
+    let selectedQuoteId: number | undefined = undefined
     let latestQuoteRequestId = 0
     let loading = false
     async function updateQuote(): Promise<void> {
         loading = true
         stopQuoteTimer()
+        selectedQuoteId = undefined
 
         if (!selectedPaymentOption) {
             loading = false
@@ -160,8 +162,10 @@
                 {
                     fiatAmount: response.fiatAmount,
                     cryptoAmount: response.cryptoAmount,
+                    provider: 'Transak',
                 },
             ]
+            selectedQuoteId = 0
             startQuoteTimer()
         }
 
@@ -218,7 +222,8 @@
             confirmClickOutside: true,
         })
     }
-    $: isButtonDisabled = !selectedCryptoCurrency || !selectedPaymentOption || !selectedRecipient
+    $: isButtonDisabled =
+        !selectedCryptoCurrency || !selectedPaymentOption || !selectedRecipient || selectedQuoteId === undefined
 
     onDestroy(() => {
         $selectedExchangeCryptoCurrency = undefined
@@ -287,16 +292,25 @@
                 <TransakCryptoCurrencyAmountTile isLoading />
                 <TransakCryptoCurrencyAmountTile isLoading />
             {:else if quotes.length > 0}
-                {#each quotes as quote}
+                {#each quotes as quote, i}
                     <TransakCryptoCurrencyAmountTile
                         cryptoCurrency={selectedCryptoCurrency}
                         fiatAmount={quote?.fiatAmount}
                         fiatSymbol={selectedCurrency}
                         cryptoAmount={quote?.cryptoAmount}
+                        onClick={() => (selectedQuoteId = i)}
+                        selected={selectedQuoteId === i}
                     />
                 {/each}
             {/if}
         </div>
-        <Button text={selectedTab.value} on:click={onButtonClick} width="full" disabled={isButtonDisabled} />
+        <Button
+            text={selectedQuoteId !== undefined
+                ? localize('views.buySell.quotations.button.selected', { provider: quotes[selectedQuoteId]?.provider })
+                : localize('views.buySell.quotations.button.unselected')}
+            on:click={onButtonClick}
+            width="full"
+            disabled={isButtonDisabled}
+        />
     </div>
 </Pane>

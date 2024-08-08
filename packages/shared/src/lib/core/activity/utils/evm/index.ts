@@ -1,4 +1,4 @@
-export * from './generateEvmActivitiesFromEvmChains'
+export * from './generateEvmActivitiesFromEvmChain'
 export * from './generateEvmActivityFromPersistedTransaction'
 export * from './generateEvmTokenTransferActivityFromBlockscoutTokenTransfer'
 export * from './generateBaseEvmActivity'
