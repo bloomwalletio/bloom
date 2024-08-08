@@ -7,18 +7,20 @@
         iconName?: IconName
         iconColor?: string
         iconBackgroundColor?: string
+        warning?: string
         onClick?: () => void
     }
 </script>
 
 <script lang="ts">
-    import { Avatar, IconName, Text, Tile, Toggle } from '@bloomwalletio/ui'
+    import { Avatar, IconName, Text, Tile, Toggle, TooltipIcon } from '@bloomwalletio/ui'
     import { Logo } from '@ui'
     import { LogoName } from '@auxiliary/logo'
 
     export let statusTileProps: StatusTileProps
 
-    $: ({ checked, title, subtitle, iconName, iconColor, iconBackgroundColor, logo, onClick } = statusTileProps)
+    $: ({ checked, title, subtitle, iconName, iconColor, iconBackgroundColor, logo, warning, onClick } =
+        statusTileProps)
     $: backgroundColor = iconBackgroundColor ?? `${iconColor}/20`
 </script>
 
@@ -34,7 +36,12 @@
             {/if}
             <div>
                 <Text>{title}</Text>
-                <Text type="xs" textColor="secondary">{subtitle}</Text>
+                <div class="flex flex-row gap-1">
+                    <Text type="xs" textColor="secondary">{subtitle}</Text>
+                    {#if warning}
+                        <TooltipIcon icon={IconName.WarningCircle} tooltip={warning} textColor="warning" size="xs" />
+                    {/if}
+                </div>
             </div>
         </div>
         {#if onClick}

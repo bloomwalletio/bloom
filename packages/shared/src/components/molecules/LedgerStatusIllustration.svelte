@@ -65,6 +65,12 @@
                 backgroundColor = 'warning'
                 shape = 'circle'
                 break
+            case LedgerIllustrationVariant.UnsupportedVersion:
+                icon = IconName.DangerCircle
+                backgroundColor = 'danger'
+                pill = { localeKey: 'pills.ledgerStatus.unsupportedVersion', color: 'danger' }
+                shape = 'circle'
+                break
             default:
         }
     }

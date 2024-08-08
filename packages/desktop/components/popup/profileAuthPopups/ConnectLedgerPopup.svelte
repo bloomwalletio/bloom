@@ -1,7 +1,12 @@
 <script lang="ts">
     import { Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, LedgerConnectionState, ledgerConnectionState } from '@core/ledger'
+    import {
+        LedgerAppName,
+        LedgerConnectionState,
+        MINIMUM_SUPPORTED_LEDGER_APP_VERSION,
+        ledgerConnectionAppState,
+    } from '@core/ledger'
     import { closeProfileAuthPopup } from '@desktop/auxiliary/popup'
     import { LedgerStatusIllustration, LedgerIllustrationVariant } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
@@ -9,14 +14,17 @@
     export let ledgerAppName: LedgerAppName
     export let onSuccess: () => void
 
-    $: isDisconnected = $ledgerConnectionState === LedgerConnectionState.Disconnected
-    $: isLocked = $ledgerConnectionState === LedgerConnectionState.Locked
-    $: isCorrectAppOpen = $ledgerConnectionState === (ledgerAppName as unknown as LedgerConnectionState)
+    $: isDisconnected = $ledgerConnectionAppState?.state === LedgerConnectionState.Disconnected
+    $: isLocked = $ledgerConnectionAppState?.state === LedgerConnectionState.Locked
+    $: isOpen = $ledgerConnectionAppState?.state === LedgerConnectionState.AppOpen
+    $: isCorrectApp = $ledgerConnectionAppState?.app === ledgerAppName
+    $: isUnsupportedVersion = $ledgerConnectionAppState?.state === LedgerConnectionState.UnsupportedVersion
+    $: minimumVersion = MINIMUM_SUPPORTED_LEDGER_APP_VERSION[ledgerAppName]
 
     let ledgerSectionProps: { color: string; text: string; variant: LedgerIllustrationVariant }
-    $: $ledgerConnectionState, setLedgerSectionProps()
+    $: $ledgerConnectionAppState, setLedgerSectionProps()
     function setLedgerSectionProps(): void {
-        if (isCorrectAppOpen) {
+        if (isOpen && isCorrectApp) {
             continueFlow()
         } else if (isDisconnected) {
             ledgerSectionProps = {
@@ -29,6 +37,15 @@
                 color: 'warning',
                 text: localize('popups.ledgerNotConnected.locked'),
                 variant: LedgerIllustrationVariant.Pin,
+            }
+        } else if (isCorrectApp && isUnsupportedVersion) {
+            ledgerSectionProps = {
+                color: 'danger',
+                text: localize('popups.ledgerNotConnected.unsupportedVersion', {
+                    appName: ledgerAppName,
+                    minimumVersion,
+                }),
+                variant: LedgerIllustrationVariant.UnsupportedVersion,
             }
         } else {
             const variant = getIllustrationVariant(ledgerAppName)
@@ -48,6 +65,8 @@
                 return LedgerIllustrationVariant.OpenShimmer
             case LedgerAppName.Ethereum:
                 return LedgerIllustrationVariant.OpenEthereum
+            default:
+                return LedgerIllustrationVariant.Warning
         }
     }
 
