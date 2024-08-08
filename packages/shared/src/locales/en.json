@@ -2264,6 +2264,10 @@
         },
         "token": {
             "missingMetadata": "The token metadata is missing."
+        },
+        "buySell": {
+            "minAmount": "The minimum amount is {amount}",
+            "maxAmount": "The maximum amount is {amount}"
         }
     },
     "warning": {

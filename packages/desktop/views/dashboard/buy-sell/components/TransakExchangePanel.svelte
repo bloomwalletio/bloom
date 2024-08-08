@@ -73,6 +73,8 @@
     // Payment Options Selector
     let paymentOptions: IOption[]
     let selectedPaymentOption: IOption | undefined
+    let minValue: number | undefined
+    let maxValue: number | undefined
     function updatePaymentOptions(
         supportedCurrencies: TransakFiatCurrencies | undefined,
         selectedCurrency: string
@@ -86,6 +88,12 @@
         if (!paymentOptions.some((paymentOption) => paymentOption.value === selectedPaymentOption?.value)) {
             selectedPaymentOption = paymentOptions?.[0]
         }
+
+        const selectedTransakFiatCurrencyPaymentOption = $transakFiatCurrencies?.[
+            selectedCurrency
+        ]?.paymentOptions?.find((paymentOption) => paymentOption.id === selectedPaymentOption?.value)
+        minValue = selectedTransakFiatCurrencyPaymentOption?.minAmount
+        maxValue = selectedTransakFiatCurrencyPaymentOption?.maxAmount
     }
     $: updatePaymentOptions($transakFiatCurrencies, selectedCurrency)
 
@@ -120,9 +128,18 @@
     let latestQuoteRequestId = 0
     let loading = false
     async function updateQuote(): Promise<void> {
+        const requestId = ++latestQuoteRequestId // Increment the request ID
         loading = true
-        stopQuoteTimer()
         selectedQuoteId = undefined
+        stopQuoteTimer()
+        if (
+            (minValue !== undefined && Number(fiatValue) < minValue) ||
+            (maxValue !== undefined && Number(fiatValue) > maxValue)
+        ) {
+            quotes = []
+            loading = false
+            return
+        }
 
         if (!selectedPaymentOption) {
             loading = false
@@ -140,7 +157,6 @@
 
         quotes = []
 
-        const requestId = ++latestQuoteRequestId // Increment the request ID
         const response = await getTransakPrice(params)
 
         // Only update the quote if this is the latest request
@@ -162,7 +178,13 @@
 
         loading = false
     }
-    $: selectedCurrency, selectedCryptoCurrency, selectedPaymentOption, fiatValue, void updateQuote()
+    $: selectedCurrency,
+        selectedCryptoCurrency,
+        selectedPaymentOption,
+        fiatValue,
+        minValue,
+        maxValue,
+        void updateQuote()
 
     // Quotations timer
     let displayedQuotationTime: string | null = null
@@ -242,7 +264,7 @@
                         <SelectInput options={paymentOptions} bind:selected={selectedPaymentOption} hideValue />
                     {/key}
                 </div>
-                <TransakAmountInput currency={selectedCurrency} bind:value={fiatValue} />
+                <TransakAmountInput currency={selectedCurrency} bind:value={fiatValue} {minValue} {maxValue} />
                 <div class="flex flex-col gap-4 w-full">
                     <TransakCryptoCurrencyTile
                         cryptoCurrency={selectedCryptoCurrency}
