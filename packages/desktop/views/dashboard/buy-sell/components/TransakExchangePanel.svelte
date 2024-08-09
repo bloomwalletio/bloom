@@ -37,7 +37,7 @@
         return hasPaymentOptionAvailable ? [...acc, { value: currency }] : acc
     }, [] as IOption[])
     let selectedCurrencyOption: IOption = CURRENCY_OPTIONS[0]
-    $: selectedCurrency = selectedCurrencyOption.value
+    $: selectedCurrency = selectedCurrencyOption?.value
 
     // Fiat Input
     function customRound(number) {
@@ -65,7 +65,7 @@
         }
     }
     let fiatValue = String(
-        getDefaultFiatAmount(FiatCurrency[selectedCurrencyOption.value as keyof typeof FiatCurrency])
+        getDefaultFiatAmount(FiatCurrency[selectedCurrencyOption?.value as keyof typeof FiatCurrency])
     )
 
     // Select Crypto Asset
