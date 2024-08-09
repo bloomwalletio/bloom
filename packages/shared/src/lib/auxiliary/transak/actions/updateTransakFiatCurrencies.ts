@@ -1,10 +1,12 @@
 import { TransakApi } from '../apis'
 import { TransakFiatCurrencies, transakFiatCurrencies } from '../stores'
+import { getTransakApiUrl } from '../utils'
 
 const FILTERED_PAYMENT_OPTIONS = ['apple_pay', 'google_pay']
 
 export async function updateTransakFiatCurrencies(): Promise<void> {
-    const api = new TransakApi()
+    const apiUrl = getTransakApiUrl()
+    const api = new TransakApi(apiUrl)
     const { response } = (await api.getFiatCurrencies()) ?? {}
 
     transakFiatCurrencies.set(

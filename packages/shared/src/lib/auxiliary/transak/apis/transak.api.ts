@@ -1,5 +1,4 @@
 import { BaseApi } from '@core/utils'
-import { TRANSAK_API_BASE_URL } from '../constants'
 import {
     ITransakApiCryptoCurrenciesResponse,
     ITransakApiCryptoCurrenciesResponseItem,
@@ -10,8 +9,8 @@ import {
 import { TransakApiEndpoint } from '../enums'
 
 export class TransakApi extends BaseApi {
-    constructor() {
-        super(TRANSAK_API_BASE_URL)
+    constructor(url: string) {
+        super(url)
     }
 
     async getFiatCurrencies(): Promise<ITransakApiFiatCurrenciesResponse | undefined> {

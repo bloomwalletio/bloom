@@ -1,3 +1,4 @@
+import { AppStage } from '@core/app'
 import {
     NetworkId,
     NetworkNamespace,
@@ -10,7 +11,7 @@ import {
 import { TransakApi } from '../apis'
 import { ITransakApiCryptoCurrenciesResponseItem } from '../interfaces'
 import { TransakCryptoCurrency, transakCryptoCurrencies } from '../stores'
-import { AppStage } from '@core/app'
+import { getTransakApiUrl } from '../utils'
 
 const STARDUST_NETWORK_ID_TO_TRANSAK_NETWORK_NAME_MAP: Record<StardustNetworkId, string> = {
     ...(process.env.STAGE === AppStage.PROD
@@ -26,7 +27,8 @@ export async function updateTransakCryptoCurrencies(): Promise<void> {
     const allowedNetworkNames = [transakNetworkNameForStardustNetwork]
     const allowedNetworkChainIds = evmNetworks.map((network) => network.chainId)
 
-    const api = new TransakApi()
+    const apiUrl = getTransakApiUrl()
+    const api = new TransakApi(apiUrl)
     const response = await api.getFilteredCryptoCurrencies(allowedNetworkNames, allowedNetworkChainIds)
 
     // sort response by stardust network first and then by order of evm networks
