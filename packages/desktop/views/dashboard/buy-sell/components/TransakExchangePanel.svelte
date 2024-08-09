@@ -23,6 +23,7 @@
     import { TransakAmountInput, TransakCryptoCurrencyTile } from './'
     import TransakCryptoCurrencyAmountTile from './TransakCryptoCurrencyAmountTile.svelte'
     import { getBestTimeDuration, MILLISECONDS_PER_SECOND } from '@core/utils'
+    import { EmptyListPlaceholder } from '@components'
 
     // Buy / Sell Tabs
     const TABS = [
@@ -262,23 +263,33 @@
         </div>
     </div>
     <div class="w-full h-full flex flex-col justify-between pl-4">
-        <div class="flex flex-col gap-3">
-            <div class="flex flex-col items-center gap-2">
+        <div class="flex-1 flex flex-col gap-3">
+            <div class="flex-1 flex flex-col items-center gap-2">
                 <Text type="h6" align="center">
                     {localize('views.buySell.quotations.title')}
                 </Text>
-                <Text type="body2" textColor="secondary" align="center">
-                    {loading || quotes.length > 0
-                        ? localize('views.buySell.quotations.description')
-                        : localize('views.buySell.quotations.noQuotes')}
-                </Text>
-                <Pill color="neutral" compact>
-                    {displayedQuotationTime
-                        ? localize('views.buySell.quotations.pill.newQuotes', { time: displayedQuotationTime })
-                        : loading
-                          ? localize('views.buySell.quotations.pill.fetchingQuotes')
-                          : localize('views.buySell.quotations.pill.noQuotes')}
-                </Pill>
+                {#if loading}
+                    <Text type="body2" textColor="secondary" align="center">
+                        {localize('views.buySell.quotations.description')}
+                    </Text>
+                    <Pill color="neutral" compact>
+                        {displayedQuotationTime
+                            ? localize('views.buySell.quotations.pill.newQuotes', { time: displayedQuotationTime })
+                            : localize('views.buySell.quotations.pill.fetchingQuotes')}
+                    </Pill>
+                {:else if quotes.length === 0}
+                    <div class="h-full flex justify-center items-center">
+                        <EmptyListPlaceholder
+                            title={localize('views.buySell.quotations.emptyTitle')}
+                            subtitle={localize('views.buySell.quotations.emptyDescription')}
+                            icon={IconName.ArrowDownUp}
+                        />
+                    </div>
+                {:else}
+                    <Text type="body2" textColor="secondary" align="center">
+                        {localize('views.buySell.quotations.description')}
+                    </Text>
+                {/if}
             </div>
             {#if loading}
                 <TransakCryptoCurrencyAmountTile isLoading />
