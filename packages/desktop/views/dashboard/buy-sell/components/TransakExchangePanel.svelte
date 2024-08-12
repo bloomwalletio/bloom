@@ -33,11 +33,19 @@
     let selectedTab = TABS[0]
 
     // Fiat Currency Selector
-    const CURRENCY_OPTIONS: IOption[] = Object.keys(FiatCurrency).reduce((acc, currency) => {
-        const hasPaymentOptionAvailable = $transakFiatCurrencies?.[currency]?.paymentOptions?.length > 0
-        return hasPaymentOptionAvailable ? [...acc, { value: currency }] : acc
-    }, [] as IOption[])
-    let selectedCurrencyOption: IOption = CURRENCY_OPTIONS[0]
+    let currencyOptions: IOption[] = Object.keys(FiatCurrency).map((currency) => ({
+        value: currency,
+    }))
+    function updateCurrencyOptions(currencies: TransakFiatCurrencies | undefined): void {
+        if (!currencies) return
+        currencyOptions = Object.keys(FiatCurrency).reduce((acc, currency) => {
+            const hasPaymentOptionAvailable = currencies?.[currency]?.paymentOptions?.length > 0
+            return hasPaymentOptionAvailable ? [...acc, { value: currency }] : acc
+        }, [] as IOption[])
+    }
+    $: updateCurrencyOptions($transakFiatCurrencies)
+
+    let selectedCurrencyOption: IOption = currencyOptions[0]
     $: selectedCurrency = selectedCurrencyOption?.value
 
     // Fiat Input
@@ -238,7 +246,7 @@
             <div class="flex flex-col justify-between items-center gap-4 h-full w-full">
                 <div class="flex gap-2">
                     <div class="w-28">
-                        <SelectInput options={CURRENCY_OPTIONS} bind:selected={selectedCurrencyOption} />
+                        <SelectInput options={currencyOptions} bind:selected={selectedCurrencyOption} />
                     </div>
                     {#key paymentOptions}
                         <SelectInput options={paymentOptions} bind:selected={selectedPaymentOption} hideValue />
