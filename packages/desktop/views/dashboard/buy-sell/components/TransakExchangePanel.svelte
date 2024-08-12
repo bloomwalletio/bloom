@@ -272,7 +272,7 @@
     </div>
     <div class="w-full h-full flex flex-col justify-between pl-4">
         <div class="flex-1 flex flex-col gap-3">
-            <div class="flex-1 flex flex-col items-center gap-2">
+            <div class="flex flex-col items-center gap-2" class:flex-1={quotes.length === 0 && !loading}>
                 <Text type="h6" align="center">
                     {localize('views.buySell.quotations.title')}
                 </Text>
