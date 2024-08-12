@@ -6,9 +6,13 @@
     import { openUrlInBrowser, Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { FiatCurrency } from '@core/market'
+    import { SupportedNetworkId } from '@core/network'
+    import { activeProfile } from '@core/profile/stores'
     import { IPopupState, popupState } from '@desktop/auxiliary/popup'
     import { TransakConnectionBanner } from '@views/dashboard/buy-sell/components'
     import { onDestroy, onMount, tick } from 'svelte'
+
+    const isProduction = [SupportedNetworkId.Iota, SupportedNetworkId.Shimmer].includes($activeProfile?.network?.id)
 
     export let isBuyOrSell: 'BUY' | 'SELL' | undefined = undefined
     export let fiatAmount: number | undefined = undefined
@@ -77,6 +81,7 @@
             paymentMethod: paymentMethod,
             networkName: cryptoCurrency.transakNetworkName,
             cryptoCurrencySymbol: cryptoCurrency.symbol,
+            environment: isProduction ? 'PRODUCTION' : 'STAGING',
         })
         isTransakOpen = true
         await updateTransakBounds()
