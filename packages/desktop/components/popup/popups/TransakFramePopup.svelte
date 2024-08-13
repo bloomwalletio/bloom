@@ -109,11 +109,11 @@
 
 <svelte:window on:resize={updateTransakBounds} />
 
-<div class="flex flex-col gap-4">
+<div class="flex flex-col">
     <div class="border-b border-solid border-stroke dark:border-stroke-dark">
         <TransakConnectionBanner refreshFunction={resetTransak} />
     </div>
-    <div class="w-[30rem] h-[60vh]" bind:this={transakContainer}>
+    <div class="transak-container" bind:this={transakContainer}>
         {#if error}
             <div class="flex flex-col justify-center items-center w-full h-full gap-4 px-10">
                 <Icon name={IconName.ArrowDownUp} size="lg" textColor="brand" />
@@ -128,3 +128,10 @@
         {/if}
     </div>
 </div>
+
+<style>
+    .transak-container {
+        width: 30rem;
+        height: min(70vh, 700px);
+    }
+</style>
