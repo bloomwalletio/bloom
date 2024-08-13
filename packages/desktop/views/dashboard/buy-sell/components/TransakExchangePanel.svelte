@@ -21,7 +21,7 @@
     import { Pane, RecipientInput } from '@ui'
     import { onDestroy } from 'svelte'
     import { TransakAmountInput, TransakCryptoCurrencyTile } from './'
-    import TransakCryptoCurrencyAmountTile from './TransakCryptoCurrencyAmountTile.svelte'
+    import TransakQuotationTile from './TransakQuotationTile.svelte'
     import { getBestTimeDuration, MILLISECONDS_PER_SECOND } from '@core/utils'
     import { EmptyListPlaceholder } from '@components'
 
@@ -300,12 +300,12 @@
                 {/if}
             </div>
             {#if loading}
-                <TransakCryptoCurrencyAmountTile isLoading />
-                <TransakCryptoCurrencyAmountTile isLoading />
-                <TransakCryptoCurrencyAmountTile isLoading />
+                <TransakQuotationTile isLoading />
+                <TransakQuotationTile isLoading />
+                <TransakQuotationTile isLoading />
             {:else if quotes.length > 0}
                 {#each quotes as quote, i}
-                    <TransakCryptoCurrencyAmountTile
+                    <TransakQuotationTile
                         cryptoCurrency={selectedCryptoCurrency}
                         fiatAmount={quote?.fiatAmount}
                         fiatSymbol={selectedCurrency}

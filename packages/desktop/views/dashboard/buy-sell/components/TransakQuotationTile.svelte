@@ -34,7 +34,7 @@
                 <Text align="right">
                     {fiatAmount && fiatSymbol ? formatCurrency(String(fiatAmount), fiatSymbol) : '​'}
                 </Text>
-                <Text align="right">
+                <Text align="right" fontWeight="medium" textColor="secondary">
                     {cryptoAmount ? `≈ ${formatCurrency(String(cryptoAmount), cryptoCurrency?.symbol)}` : '​'}
                 </Text>
             </div>
