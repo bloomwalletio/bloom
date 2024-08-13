@@ -6,9 +6,13 @@
     import { openUrlInBrowser, Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { FiatCurrency } from '@core/market'
+    import { SupportedNetworkId } from '@core/network'
+    import { activeProfile } from '@core/profile/stores'
     import { IPopupState, popupState } from '@desktop/auxiliary/popup'
     import { TransakConnectionBanner } from '@views/dashboard/buy-sell/components'
     import { onDestroy, onMount, tick } from 'svelte'
+
+    const isProduction = [SupportedNetworkId.Iota, SupportedNetworkId.Shimmer].includes($activeProfile?.network?.id)
 
     export let isBuyOrSell: 'BUY' | 'SELL' | undefined = undefined
     export let fiatAmount: number | undefined = undefined
@@ -77,6 +81,7 @@
             paymentMethod: paymentMethod,
             networkName: cryptoCurrency.transakNetworkName,
             cryptoCurrencySymbol: cryptoCurrency.symbol,
+            environment: isProduction ? 'PRODUCTION' : 'STAGING',
         })
         isTransakOpen = true
         await updateTransakBounds()
@@ -104,11 +109,11 @@
 
 <svelte:window on:resize={updateTransakBounds} />
 
-<div class="flex flex-col gap-4">
+<div class="flex flex-col">
     <div class="border-b border-solid border-stroke dark:border-stroke-dark">
         <TransakConnectionBanner refreshFunction={resetTransak} />
     </div>
-    <div class="w-[30rem] h-[60vh]" bind:this={transakContainer}>
+    <div class="transak-container" bind:this={transakContainer}>
         {#if error}
             <div class="flex flex-col justify-center items-center w-full h-full gap-4 px-10">
                 <Icon name={IconName.ArrowDownUp} size="lg" textColor="brand" />
@@ -123,3 +128,10 @@
         {/if}
     </div>
 </div>
+
+<style>
+    .transak-container {
+        width: 30rem;
+        height: min(70vh, 700px);
+    }
+</style>

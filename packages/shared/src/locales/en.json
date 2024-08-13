@@ -819,6 +819,7 @@
             }
         },
         "buySell": {
+            "title": "Buy and Sell",
             "tooltip": {
                 "connected": "connected securely",
                 "redirected": "redirected, be careful!",
@@ -840,7 +841,8 @@
                     "fetchingQuotes": "Fetching quotes",
                     "noQuotes": "No quotes"
                 },
-                "noQuotes": "No quotes available please try again",
+                "emptyTitle": "No quotes available",
+                "emptyDescription": "Please select other options and try again",
                 "button": {
                     "selected": "Continue with {provider}",
                     "unselected": "No quote selected"

@@ -8,4 +8,5 @@ export interface ITransakWindowData {
     paymentMethod: string
     networkName: string
     cryptoCurrencySymbol: string
+    environment: 'PRODUCTION' | 'STAGING'
 }

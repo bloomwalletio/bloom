@@ -21,8 +21,9 @@
     import { Pane, RecipientInput } from '@ui'
     import { onDestroy } from 'svelte'
     import { TransakAmountInput, TransakCryptoCurrencyTile } from './'
-    import TransakCryptoCurrencyAmountTile from './TransakCryptoCurrencyAmountTile.svelte'
+    import TransakQuotationTile from './TransakQuotationTile.svelte'
     import { getBestTimeDuration, MILLISECONDS_PER_SECOND } from '@core/utils'
+    import { EmptyListPlaceholder } from '@components'
 
     // Buy / Sell Tabs
     const TABS = [
@@ -32,11 +33,20 @@
     let selectedTab = TABS[0]
 
     // Fiat Currency Selector
-    const CURRENCY_OPTIONS: IOption[] = Object.keys(FiatCurrency).map((currency) => ({
+    let currencyOptions: IOption[] = Object.keys(FiatCurrency).map((currency) => ({
         value: currency,
     }))
-    let selectedCurrencyOption: IOption = CURRENCY_OPTIONS[0]
-    $: selectedCurrency = selectedCurrencyOption.value
+    function updateCurrencyOptions(currencies: TransakFiatCurrencies | undefined): void {
+        if (!currencies) return
+        currencyOptions = Object.keys(FiatCurrency).reduce((acc, currency) => {
+            const hasPaymentOptionAvailable = currencies?.[currency]?.paymentOptions?.length > 0
+            return hasPaymentOptionAvailable ? [...acc, { value: currency }] : acc
+        }, [] as IOption[])
+    }
+    $: updateCurrencyOptions($transakFiatCurrencies)
+
+    let selectedCurrencyOption: IOption = currencyOptions[0]
+    $: selectedCurrency = selectedCurrencyOption?.value
 
     // Fiat Input
     function customRound(number) {
@@ -64,7 +74,7 @@
         }
     }
     let fiatValue = String(
-        getDefaultFiatAmount(FiatCurrency[selectedCurrencyOption.value as keyof typeof FiatCurrency])
+        getDefaultFiatAmount(FiatCurrency[selectedCurrencyOption?.value as keyof typeof FiatCurrency])
     )
 
     // Select Crypto Asset
@@ -258,7 +268,7 @@
             <div class="flex flex-col justify-between items-center gap-4 h-full w-full">
                 <div class="flex gap-2">
                     <div class="w-28">
-                        <SelectInput options={CURRENCY_OPTIONS} bind:selected={selectedCurrencyOption} />
+                        <SelectInput options={currencyOptions} bind:selected={selectedCurrencyOption} />
                     </div>
                     {#key paymentOptions}
                         <SelectInput options={paymentOptions} bind:selected={selectedPaymentOption} hideValue />
@@ -269,6 +279,7 @@
                     <TransakCryptoCurrencyTile
                         cryptoCurrency={selectedCryptoCurrency}
                         onClick={hasCryptoCurrencies ? onTokenTileClick : undefined}
+                        variant="selector"
                     />
                     <RecipientInput
                         bind:this={recipientInput}
@@ -282,31 +293,41 @@
         </div>
     </div>
     <div class="w-full h-full flex flex-col justify-between pl-4">
-        <div class="flex flex-col gap-3">
-            <div class="flex flex-col items-center gap-2">
+        <div class="flex-1 flex flex-col gap-3">
+            <div class="flex flex-col items-center gap-2" class:flex-1={quotes.length === 0 && !loading}>
                 <Text type="h6" align="center">
                     {localize('views.buySell.quotations.title')}
                 </Text>
-                <Text type="body2" textColor="secondary" align="center">
-                    {loading || quotes.length > 0
-                        ? localize('views.buySell.quotations.description')
-                        : localize('views.buySell.quotations.noQuotes')}
-                </Text>
-                <Pill color="neutral" compact>
-                    {displayedQuotationTime
-                        ? localize('views.buySell.quotations.pill.newQuotes', { time: displayedQuotationTime })
-                        : loading
-                          ? localize('views.buySell.quotations.pill.fetchingQuotes')
-                          : localize('views.buySell.quotations.pill.noQuotes')}
-                </Pill>
+                {#if loading}
+                    <Text type="body2" textColor="secondary" align="center">
+                        {localize('views.buySell.quotations.description')}
+                    </Text>
+                    <Pill color="neutral" compact>
+                        {displayedQuotationTime
+                            ? localize('views.buySell.quotations.pill.newQuotes', { time: displayedQuotationTime })
+                            : localize('views.buySell.quotations.pill.fetchingQuotes')}
+                    </Pill>
+                {:else if quotes.length === 0}
+                    <div class="h-full flex justify-center items-center">
+                        <EmptyListPlaceholder
+                            title={localize('views.buySell.quotations.emptyTitle')}
+                            subtitle={localize('views.buySell.quotations.emptyDescription')}
+                            icon={IconName.ArrowDownUp}
+                        />
+                    </div>
+                {:else}
+                    <Text type="body2" textColor="secondary" align="center">
+                        {localize('views.buySell.quotations.description')}
+                    </Text>
+                {/if}
             </div>
             {#if loading}
-                <TransakCryptoCurrencyAmountTile isLoading />
-                <TransakCryptoCurrencyAmountTile isLoading />
-                <TransakCryptoCurrencyAmountTile isLoading />
+                <TransakQuotationTile isLoading />
+                <TransakQuotationTile isLoading />
+                <TransakQuotationTile isLoading />
             {:else if quotes.length > 0}
                 {#each quotes as quote, i}
-                    <TransakCryptoCurrencyAmountTile
+                    <TransakQuotationTile
                         cryptoCurrency={selectedCryptoCurrency}
                         fiatAmount={quote?.fiatAmount}
                         fiatSymbol={selectedCurrency}
