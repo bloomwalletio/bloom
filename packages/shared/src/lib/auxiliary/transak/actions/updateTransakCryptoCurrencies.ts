@@ -1,25 +1,29 @@
-import { AppStage } from '@core/app'
 import {
     NetworkId,
     NetworkNamespace,
     StardustNetworkId,
+    SupportedNetworkId,
     SupportedStardustNetworkId,
     getEvmNetworks,
     getNetwork,
     getStardustNetwork,
 } from '@core/network'
+import { activeProfile } from '@core/profile/stores'
+import { get } from 'svelte/store'
 import { TransakApi } from '../apis'
 import { ITransakApiCryptoCurrenciesResponseItem } from '../interfaces'
 import { TransakCryptoCurrency, transakCryptoCurrencies } from '../stores'
 import { getTransakApiUrl } from '../utils'
 
 const STARDUST_NETWORK_ID_TO_TRANSAK_NETWORK_NAME_MAP: Record<StardustNetworkId, string> = {
-    ...(process.env.STAGE === AppStage.PROD
-        ? { [SupportedStardustNetworkId.Iota]: 'miota' }
-        : { [SupportedStardustNetworkId.IotaTestnet]: 'miota' }),
+    [SupportedStardustNetworkId.Iota]: 'miota',
+    [SupportedStardustNetworkId.IotaTestnet]: 'miota',
 }
 
 export async function updateTransakCryptoCurrencies(): Promise<void> {
+    const currentNetworkId = get(activeProfile)?.network?.id
+    const isStagingEnvironment = [SupportedNetworkId.IotaTestnet, SupportedNetworkId.Testnet].includes(currentNetworkId)
+
     const stardustNetwork = getStardustNetwork()
     const transakNetworkNameForStardustNetwork = STARDUST_NETWORK_ID_TO_TRANSAK_NETWORK_NAME_MAP[stardustNetwork.id]
     const evmNetworks = getEvmNetworks()
@@ -33,8 +37,8 @@ export async function updateTransakCryptoCurrencies(): Promise<void> {
 
     // sort response by stardust network first and then by order of evm networks
     response?.sort((a, b) => {
-        const aNetworkId = getNetworkIdFromTransakNetwork(a.network.name, a.network.chainId)
-        const bNetworkId = getNetworkIdFromTransakNetwork(b.network.name, b.network.chainId)
+        const aNetworkId = getNetworkIdFromTransakNetwork(a.network.name, a.network.chainId, isStagingEnvironment)
+        const bNetworkId = getNetworkIdFromTransakNetwork(b.network.name, b.network.chainId, isStagingEnvironment)
         if (aNetworkId === stardustNetwork.id) {
             return -1
         } else if (bNetworkId === stardustNetwork.id) {
@@ -53,15 +57,20 @@ export async function updateTransakCryptoCurrencies(): Promise<void> {
                 return acc
             }
 
-            return [...acc, buildTransakCryptoCurrencyFromResponseItem(token)]
+            return [...acc, buildTransakCryptoCurrencyFromResponseItem(token, isStagingEnvironment)]
         }, [] as TransakCryptoCurrency[])
     )
 }
 
 function buildTransakCryptoCurrencyFromResponseItem(
-    responseItem: ITransakApiCryptoCurrenciesResponseItem
+    responseItem: ITransakApiCryptoCurrenciesResponseItem,
+    isStagingEnvironment: boolean
 ): TransakCryptoCurrency {
-    const networkId = getNetworkIdFromTransakNetwork(responseItem.network.name, responseItem.network.chainId)
+    const networkId = getNetworkIdFromTransakNetwork(
+        responseItem.network.name,
+        responseItem.network.chainId,
+        isStagingEnvironment
+    )
     const network = getNetwork(networkId)
     if (!network) {
         throw new Error(`Unsupported Transak network: ${responseItem.network.name}`)
@@ -80,11 +89,13 @@ function buildTransakCryptoCurrencyFromResponseItem(
     }
 }
 
-function getNetworkIdFromTransakNetwork(transakNetworkName: string, chainId: string | null | undefined): NetworkId {
+function getNetworkIdFromTransakNetwork(
+    transakNetworkName: string,
+    chainId: string | null | undefined,
+    isStagingEnvironment: boolean
+): NetworkId {
     if (transakNetworkName === 'miota') {
-        return process.env.STAGE === AppStage.PROD
-            ? SupportedStardustNetworkId.Iota
-            : SupportedStardustNetworkId.IotaTestnet
+        return isStagingEnvironment ? SupportedStardustNetworkId.IotaTestnet : SupportedStardustNetworkId.Iota
     } else if (chainId) {
         return `${NetworkNamespace.Evm}:${chainId}`
     } else {
