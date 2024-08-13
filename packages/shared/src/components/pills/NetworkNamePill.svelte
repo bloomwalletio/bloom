@@ -24,7 +24,7 @@
 </script>
 
 <Pill color={PILL_COLOR[networkId ?? SupportedNetworkId.GenericEvm]} {compact}>
-    <Text type="xs" textColor="current" transform="uppercase">
+    <Text type="xs" textColor="current">
         {networkName ?? '​'}
     </Text>
 </Pill>
