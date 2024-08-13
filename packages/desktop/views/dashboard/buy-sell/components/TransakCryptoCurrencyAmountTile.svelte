@@ -31,12 +31,12 @@
                 class:opacity-0={isLoading}
             />
             <div class="flex flex-col">
-                <Text align="right"
-                    >{cryptoAmount ? `≈ ${formatCurrency(String(cryptoAmount), cryptoCurrency?.symbol)}` : '​'}</Text
-                >
-                <Text align="right"
-                    >{fiatAmount && fiatSymbol ? formatCurrency(String(fiatAmount), fiatSymbol) : '​'}</Text
-                >
+                <Text align="right">
+                    {fiatAmount && fiatSymbol ? formatCurrency(String(fiatAmount), fiatSymbol) : '​'}
+                </Text>
+                <Text align="right">
+                    {cryptoAmount ? `≈ ${formatCurrency(String(cryptoAmount), cryptoCurrency?.symbol)}` : '​'}
+                </Text>
             </div>
         {/if}
     </div>
