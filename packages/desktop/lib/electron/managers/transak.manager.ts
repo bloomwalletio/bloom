@@ -247,21 +247,29 @@ export default class TransakManager implements ITransakManager {
 
         const queryParams: QueryParameters = {
             apiKey,
-            fiatCurrency: currency,
-            fiatAmount: amount,
-            walletAddress: address,
-            paymentMethod: paymentMethod,
-            productsAvailed: service,
-            cryptoCurrencyCode: cryptoCurrencySymbol,
-            network: networkName,
+
+            // Styling
+            colorMode,
             themeColor: '7C41C9',
-            hideMenu: true,
-            disableWalletAddressForm: true,
+
+            // Service Feature Flags
+            productsAvailed: service,
+            hideMenu: false,
             isFeeCalculationHidden: true,
             disablePaymentMethods: ['apple_pay', 'google_pay'],
             excludeFiatCurrencies: 'USD',
-            colorMode,
+
+            // Quotations Fields
+            fiatCurrency: currency,
+            fiatAmount: amount,
+            network: networkName,
+            cryptoCurrencyCode: cryptoCurrencySymbol,
+            walletAddress: address,
+            paymentMethod: paymentMethod,
+
+            // Flags for skippable forms
             hideExchangeScreen: true,
+            disableWalletAddressForm: true,
         }
 
         const widgetUrl = environment === 'PRODUCTION' ? TRANSAK_PRODUCTION_WIDGET_URL : TRANSAK_STAGING_WIDGET_URL
