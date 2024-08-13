@@ -1160,10 +1160,12 @@
  delete mode 100644 packages/shared/lib/core/ledger/interfaces/index.ts
  delete mode 100644 packages/shared/lib/core/ledger/interfaces/ledger-connection-state.interface.ts
  delete mode 100644 packages/shared/lib/core/ledger/interfaces/ledger.interface.ts
+ delete mode 100644 packages/shared/lib/core/ledger/stores/index.ts
  delete mode 100644 packages/shared/lib/core/ledger/stores/is-polling-ledger-device-status.store.ts
  delete mode 100644 packages/shared/lib/core/ledger/stores/ledger-connection-state.store.ts
  delete mode 100644 packages/shared/lib/core/ledger/utils/determineLedgerConnectionState.ts
  delete mode 100644 packages/shared/lib/core/ledger/utils/handleLedgerError.ts
+ delete mode 100644 packages/shared/lib/core/ledger/utils/index.ts
  delete mode 100644 packages/shared/lib/core/ledger/utils/openLedgerNotConnectedPopup.ts
  delete mode 100644 packages/shared/lib/core/market/actions/getAndUpdateMarketPrices.ts
  delete mode 100644 packages/shared/lib/core/market/actions/getMarketPrices.ts
@@ -1891,12 +1893,10 @@
  rename packages/shared/{ => src}/lib/core/ledger/helpers/index.ts (57%)
  rename packages/shared/{lib/core/app => src/lib/core/ledger}/index.ts (88%)
  rename packages/shared/{lib/core/ledger/interfaces/ledger-nano-status-polling-configuration.interface.ts => src/lib/core/ledger/interfaces/ledger-device-state-polling-configuration.interface.ts} (74%)
- rename packages/shared/{ => src}/lib/core/ledger/stores/index.ts (59%)
  rename packages/shared/{ => src}/lib/core/ledger/stores/ledger-nano-status.store.ts (55%)
  rename packages/shared/{ => src}/lib/core/ledger/stores/ledger-prepared-output.store.ts (53%)
  rename packages/shared/{ => src}/lib/core/ledger/stores/show-internal-verification-popup.ts (100%)
  rename packages/shared/{ => src}/lib/core/ledger/utils/formatAddressForLedger.ts (100%)
- rename packages/shared/{ => src}/lib/core/ledger/utils/index.ts (61%)
  rename packages/shared/{ => src}/lib/core/ledger/utils/isLedgerAppOpen.ts (59%)
  rename packages/shared/{ => src}/lib/core/ledger/utils/isLedgerDeviceMatchingActiveProfile.ts (62%)
  rename packages/shared/{ => src}/lib/core/ledger/utils/isLedgerError.ts (100%)
@@ -2171,7 +2171,7 @@
  rename packages/shared/{ => src}/lib/core/utils/enums/past-time-unit.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/enums/time-period.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/filter.ts (63%)
- rename packages/shared/{ => src}/lib/core/utils/index.ts (85%)
+ rename packages/shared/{ => src}/lib/core/utils/index.ts (89%)
  rename packages/shared/{ => src}/lib/core/utils/interfaces/date-difference.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/interfaces/filter/date-filter-input.interface.ts (76%)
  rename packages/shared/{ => src}/lib/core/utils/interfaces/filter/filter-unit.interface.ts (93%)

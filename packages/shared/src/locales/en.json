@@ -126,6 +126,7 @@
                     "connect": "Connect your Ledger device",
                     "unlock": "Unlock your Ledger with its pin",
                     "open": "Open the {appName} app on your Ledger",
+                    "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher.",
                     "tip": "Tips if your Ledger isn't connecting"
                 },
                 "ledgerConnectionGuide": {
@@ -1098,7 +1099,8 @@
             "notConnected": "Connect your Ledger device to continue.",
             "locked": "Unlock your Ledger device to continue.",
             "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
-            "correctAppOpen": "Ledger successfully connected, please continue."
+            "correctAppOpen": "Ledger successfully connected, please continue.",
+            "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher."
         },
         "verifyLedgerTransaction": {
             "title": "Verify transaction",
@@ -1814,7 +1816,8 @@
         "enabled": "Enabled",
         "disabled": "Disabled",
         "networkSettings": "Network settings",
-        "waitingConnection": "Waiting connection"
+        "waitingConnection": "Waiting connection",
+        "unsupportedVersion": "Unsupported version"
     },
     "filters":{
         "title": "Filters",
@@ -2381,7 +2384,8 @@
         "ledgerStatus": {
             "notConnected": "Not connected",
             "locked": "Device locked",
-            "appNotOpen": "App not open"
+            "appNotOpen": "App not open",
+            "unsupportedVersion": "Unsupported version"
         },
         "dappVerification": {
             "valid": "Verified",
