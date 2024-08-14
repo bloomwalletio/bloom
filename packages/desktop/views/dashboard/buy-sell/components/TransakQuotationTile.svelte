@@ -26,7 +26,7 @@
                 data-label="transak-logo"
                 width="90"
                 height="28"
-                src="assets/logos/transak.svg"
+                src="assets/logos/transak-full.svg"
                 alt="Transak"
                 class:opacity-0={isLoading}
             />
