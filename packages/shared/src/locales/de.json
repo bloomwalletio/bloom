@@ -36,18 +36,18 @@
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Wähle dein Netzwerk",
+                    "title": "Choose your networks",
                     "iota": {
-                        "primary": "IOTA Mainnet",
-                        "secondary": "Produktionsnetzwerk mit stabilen Funktionen"
+                        "primary": "Default networks",
+                        "secondary": "Manage IOTA, Ethereum and other key networks"
                     },
                     "shimmer": {
-                        "primary": "Shimmer",
-                        "secondary": "Experimentelles Netzwerk mit den neuesten Funktionen"
+                        "primary": "Experimental networks",
+                        "secondary": "Manage Shimmer and other experimental chains"
                     },
                     "testnet": {
-                        "primary": "Testnetz",
-                        "secondary": "Testnetz mit wertlosen Token"
+                        "primary": "Test networks",
+                        "secondary": "Test networks using valueless tokens"
                     },
                     "custom": {
                         "primary": "Fortgeschrittene Konfiguration",
@@ -125,6 +125,7 @@
                     "connect": "Verbinde deinen Ledger",
                     "unlock": "Entsperre deinen Ledger mit der PIN",
                     "open": "Öffne die {appName} App auf deinem Ledger",
+                    "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher.",
                     "tip": "Tipps, wenn sich dein Ledger nicht verbindet"
                 },
                 "ledgerConnectionGuide": {
@@ -818,11 +819,7 @@
             }
         },
         "buySell": {
-            "info": {
-                "receive": "Dein ausgewähltes Konto wird Token direkt von Transak erhalten, sobald deine Zahlungsmethode autorisiert wurde.",
-                "multipleAccounts": "Wenn du mehrere Konten hast, kannst du vor dem Kauf mit der Dropdown-Liste das Konto wechseln.",
-                "changingAccounts": "Das Ändern von Konten wird alle Informationen zurücksetzen."
-            },
+            "title": "Buy and Sell",
             "tooltip": {
                 "connected": "sicher verbunden",
                 "redirected": "umgeleitet, sei vorsichtig!",
@@ -831,6 +828,46 @@
             "error": {
                 "title": "Transak konnte nicht geladen werden",
                 "description": "Bitte starte die App neu, falls das Problem weiterhin besteht, frage bitte auf unserem Discord-Server um Unterstützung"
+            },
+            "tabs": {
+                "buy": "Buy tokens",
+                "sell": "Sell tokens"
+            },
+            "quotations": {
+                "title": "Quotations",
+                "description": "How would you like to buy your crypto?",
+                "pill": {
+                    "newQuotes": "New quotes in {time}",
+                    "fetchingQuotes": "Fetching quotes",
+                    "noQuotes": "No quotes"
+                },
+                "emptyTitle": "No quotes available",
+                "emptyDescription": "Please select other options and try again",
+                "button": {
+                    "selected": "Continue with {provider}",
+                    "unselected": "No quote selected"
+                }
+            },
+            "paymentOptions": {
+                "credit_debit_card": "Card Payment",
+                "apple_pay": "Apple Pay",
+                "google_pay": "Google Pay",
+                "pm_cash_app": "Cash App",
+                "pm_us_wire_bank_transfer": "Wire Transfer",
+                "gbp_bank_transfer": "Instant Transfer",
+                "pm_open_banking": "Open Banking",
+                "inr_bank_transfer": "IMPS",
+                "inr_upi": "UPI",
+                "sepa_bank_transfer": "SEPA Transfer",
+                "pm_astropay": "AstroPay",
+                "pm_pix": "Pix",
+                "pm_gcash": "GCash",
+                "pm_paymaya": "Maya",
+                "pm_bpi": "BPI",
+                "pm_ubp": "Union Bank",
+                "pm_grabpay": "GrabPay",
+                "pm_shopeepay": "ShopeePay",
+                "pm_pse": "PSE"
             }
         }
     },
@@ -1061,7 +1098,8 @@
             "notConnected": "Verbinde dein Ledger, um fortzufahren.",
             "locked": "Entsperre dein Ledger, um fortzufahren.",
             "appNotOpen": "Öffne die {appName} auf deinem Ledger, um fortzufahren.",
-            "correctAppOpen": "Ledger erfolgreich verbunden, bitte fortfahren."
+            "correctAppOpen": "Ledger erfolgreich verbunden, bitte fortfahren.",
+            "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher."
         },
         "verifyLedgerTransaction": {
             "title": "Transaktion verifizieren",
@@ -1776,7 +1814,9 @@
         "saving": "Speichere",
         "enabled": "Aktiviert",
         "disabled": "Deaktiviert",
-        "networkSettings": "Netzwerkeinstellungen"
+        "networkSettings": "Netzwerkeinstellungen",
+        "waitingConnection": "Waiting connection",
+        "unsupportedVersion": "Unsupported version"
     },
     "filters": {
         "title": "Filter",
@@ -2228,6 +2268,10 @@
         },
         "token": {
             "missingMetadata": "Die Token-Metadaten fehlen."
+        },
+        "buySell": {
+            "minAmount": "The minimum amount is {amount}",
+            "maxAmount": "The maximum amount is {amount}"
         }
     },
     "warning": {
@@ -2304,7 +2348,7 @@
         "collectibles": "Sammlerstücke",
         "governance": "Governance",
         "campaigns": "Kampagnen",
-        "buySell": "Kaufe IOTA",
+        "buySell": "Buy / Sell",
         "developer": "Entwickler",
         "tokens": "Token",
         "settings": "Einstellungen",
@@ -2339,7 +2383,8 @@
         "ledgerStatus": {
             "notConnected": "Nicht verbunden",
             "locked": "Gerät gesperrt",
-            "appNotOpen": "App nicht geöffnet"
+            "appNotOpen": "App nicht geöffnet",
+            "unsupportedVersion": "Unsupported version"
         },
         "dappVerification": {
             "valid": "Verifiziert",
