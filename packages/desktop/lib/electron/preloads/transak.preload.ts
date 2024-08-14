@@ -32,7 +32,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const appRoot = window.document.getElementById('appRoot')
     if (appRoot) {
-        appRoot.style.borderRadius = '16px'
+        appRoot.style.borderBottomLeftRadius = '32px'
+        appRoot.style.borderBottomRightRadius = '32px'
         appRoot.style.overflow = 'hidden'
     }
+    window.document.documentElement.style.backgroundColor = 'transparent'
 })

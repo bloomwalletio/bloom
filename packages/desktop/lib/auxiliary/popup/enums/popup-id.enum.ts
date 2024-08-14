@@ -48,6 +48,8 @@ export enum PopupId {
     SyncAccounts = 'syncAccounts',
     TestDeepLinkForm = 'testDeepLinkForm',
     TokenInformation = 'tokenInformation',
+    TransakFrame = 'transakFrame',
+    TransakSelectToken = 'transakSelectToken',
     VoteForProposal = 'voteForProposal',
     VotingPowerToZero = 'votingPowerToZero',
 }

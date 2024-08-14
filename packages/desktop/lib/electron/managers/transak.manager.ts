@@ -3,7 +3,7 @@ import { windows } from '../constants/windows.constant'
 import features from '@features/features'
 import { ITransakManager, ITransakWindowData } from '@core/app'
 import path from 'path'
-import { TRANSAK_WIDGET_URL } from '@auxiliary/transak/constants'
+import { TRANSAK_PRODUCTION_WIDGET_URL, TRANSAK_STAGING_WIDGET_URL } from '@auxiliary/transak/constants'
 import { buildUrl } from '@core/utils/url'
 import { FiatCurrency } from '@core/market/enums/fiat-currency.enum'
 import fs from 'fs'
@@ -144,13 +144,16 @@ export default class TransakManager implements ITransakManager {
         })
 
         windows.transak.webContents.addListener('did-navigate-in-page', (_, url) => {
-            const googlePayUrl = TRANSAK_WIDGET_URL + '/googlepay'
+            const widgetUrl =
+                data.environment === 'PRODUCTION' ? TRANSAK_PRODUCTION_WIDGET_URL : TRANSAK_STAGING_WIDGET_URL
+
+            const googlePayUrl = widgetUrl + '/googlepay'
             if (url.startsWith(googlePayUrl)) {
                 windows.main?.webContents?.send?.('try-open-url-in-browser', url)
                 void windows.transak?.loadURL?.(initialUrl)
             }
 
-            const kycUrl = TRANSAK_WIDGET_URL + '/user/kyc-forms/idProof'
+            const kycUrl = widgetUrl + '/user/kyc-forms/idProof'
             if (process.platform === 'darwin' && url.startsWith(kycUrl)) {
                 void systemPreferences.askForMediaAccess('camera')
             }
@@ -219,14 +222,15 @@ export default class TransakManager implements ITransakManager {
     }
 
     private getUrl(data: ITransakWindowData): string {
-        const { address, currency, service, amount } = data
+        const { address, currency, service, amount, paymentMethod, networkName, cryptoCurrencySymbol, environment } =
+            data
         const apiKey = process.env.TRANSAK_API_KEY
 
         if (typeof apiKey !== 'string') {
             throw new Error('Undefined Transak API key')
         }
 
-        if (!Object.values(FiatCurrency).includes(currency as FiatCurrency)) {
+        if (!Object.keys(FiatCurrency).includes(currency)) {
             throw new Error('Invalid Transak currency')
         }
 
@@ -243,22 +247,34 @@ export default class TransakManager implements ITransakManager {
 
         const queryParams: QueryParameters = {
             apiKey,
-            defaultFiatCurrency: currency,
-            defaultFiatAmount: amount,
-            walletAddress: address,
-            productsAvailed: service,
-            cryptoCurrencyCode: 'IOTA',
-            network: 'miota',
+
+            // Styling
+            colorMode,
             themeColor: '7C41C9',
-            hideMenu: true,
-            disableWalletAddressForm: true,
+
+            // Service Feature Flags
+            productsAvailed: service,
+            hideMenu: false,
             isFeeCalculationHidden: true,
             disablePaymentMethods: ['apple_pay', 'google_pay'],
             excludeFiatCurrencies: 'USD',
-            colorMode,
+
+            // Quotations Fields
+            fiatCurrency: currency,
+            fiatAmount: amount,
+            network: networkName,
+            cryptoCurrencyCode: cryptoCurrencySymbol,
+            walletAddress: address,
+            paymentMethod: paymentMethod,
+
+            // Flags for skippable forms
+            hideExchangeScreen: true,
+            disableWalletAddressForm: true,
         }
 
-        const urlObject = buildUrl({ base: TRANSAK_WIDGET_URL, query: queryParams })
+        const widgetUrl = environment === 'PRODUCTION' ? TRANSAK_PRODUCTION_WIDGET_URL : TRANSAK_STAGING_WIDGET_URL
+
+        const urlObject = buildUrl({ base: widgetUrl, query: queryParams })
 
         return urlObject?.href ?? ''
     }
