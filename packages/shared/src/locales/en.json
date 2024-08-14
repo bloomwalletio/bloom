@@ -36,18 +36,18 @@
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Choose your network",
+                    "title": "Choose your networks",
                     "iota": {
-                        "primary": "IOTA Mainnet",
-                        "secondary": "Production network with stable features"
+                        "primary": "Default networks",
+                        "secondary": "Manage IOTA, Ethereum and other key networks"
                     },
                     "shimmer": {
-                        "primary": "Shimmer",
-                        "secondary": "Experimental network with the latest features"
+                        "primary": "Experimental networks",
+                        "secondary": "Manage Shimmer and other experimental chains"
                     },
                     "testnet": {
-                        "primary": "Testnet",
-                        "secondary": "Test network using valueless tokens"
+                        "primary": "Test networks",
+                        "secondary": "Test networks using valueless tokens"
                     },
                     "custom": {
                         "primary": "Advanced configuration",

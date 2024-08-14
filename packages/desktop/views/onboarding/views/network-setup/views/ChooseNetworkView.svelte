@@ -108,10 +108,7 @@
             secondaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Iota}.secondary`
             )}
-            icon={IconName.Iota}
-            iconSize="md"
-            iconColor="iota"
-            backgroundColor="iota-background"
+            icon={IconName.Rocket}
             hidden={features?.onboarding?.[OnboardingNetworkType.Iota]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Iota]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Iota)}
@@ -124,10 +121,8 @@
             secondaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Shimmer}.secondary`
             )}
-            icon={IconName.Shimmer}
-            iconSize="md"
-            iconColor="shimmer"
-            backgroundColor="shimmer-background"
+            icon={IconName.Beaker}
+            iconColor="info"
             hidden={features?.onboarding?.[OnboardingNetworkType.Shimmer]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Shimmer]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Shimmer)}
@@ -140,7 +135,8 @@
             secondaryText={localize(
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Testnet}.secondary`
             )}
-            icon={IconName.Beaker}
+            icon={IconName.Atom}
+            iconColor="cyan"
             hidden={features?.onboarding?.[OnboardingNetworkType.Testnet]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Testnet]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Testnet)}
@@ -154,7 +150,7 @@
                 `views.onboarding.networkSetup.chooseNetwork.${OnboardingNetworkType.Custom}.secondary`
             )}
             icon={IconName.SettingsSliders}
-            iconColor="info"
+            iconColor="text-secondary"
             hidden={features?.onboarding?.[OnboardingNetworkType.Custom]?.hidden}
             disabled={!features?.onboarding?.[OnboardingNetworkType.Custom]?.enabled}
             onClick={() => onNetworkClick(OnboardingNetworkType.Custom)}
