@@ -36,5 +36,5 @@ window.addEventListener('DOMContentLoaded', () => {
         appRoot.style.borderBottomRightRadius = '32px'
         appRoot.style.overflow = 'hidden'
     }
-    // window.document.documentElement.style.backgroundColor = 'transparent'
+    window.document.documentElement.style.backgroundColor = 'transparent'
 })
