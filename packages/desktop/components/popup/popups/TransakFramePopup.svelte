@@ -12,6 +12,8 @@
     import { TransakConnectionBanner } from '@views/dashboard/buy-sell/components'
     import { onDestroy, onMount, tick } from 'svelte'
 
+    console.log('TransakFramePopup')
+
     const isProduction = [SupportedNetworkId.Iota, SupportedNetworkId.Shimmer].includes($activeProfile?.network?.id)
 
     export let isBuyOrSell: 'BUY' | 'SELL' | undefined = undefined
@@ -25,13 +27,19 @@
     let isTransakOpen: boolean = false
     let isTransakLoading: boolean = false
 
-    $: if ($selectedAccountIndex !== undefined) {
-        void closeTransak()
-    }
+    $: console.log("isTransakOpen", isTransakOpen)
+    $: console.log("isTransakLoading", isTransakLoading)
+
     $: isTransakOpen, void handleOverlayChanges($popupState)
 
-    Platform.onEvent('transak-loaded', () => (isTransakLoading = false))
-    Platform.onEvent('transak-not-loaded', () => (error = true))
+    Platform.onEvent('transak-loaded', () => {
+        console.log('transak-loaded')
+        isTransakLoading = false
+    })
+    Platform.onEvent('transak-not-loaded', () => {
+        console.log('transak-not-loaded')
+        error = true
+    })
 
     async function handleOverlayChanges(state: IPopupState): Promise<void> {
         if (!state.confirmClickOutside) {
@@ -65,14 +73,18 @@
     }
 
     export async function resetTransak(): Promise<void> {
+        console.log('resetTransak')
         if (!fiatCurrency || !cryptoCurrency || !recipientAddress || !isBuyOrSell || !fiatAmount || !paymentMethod) {
             error = true
             return
         }
 
         isTransakLoading = true
+        console.log("isTransakLoading = true")
         await Platform.closeTransak()
+        console.log("closed Transak")
         isTransakOpen = false
+        console.log("isTransakOpen = false")
         await Platform.openTransak({
             currency: fiatCurrency,
             address: recipientAddress,
@@ -83,13 +95,10 @@
             cryptoCurrencySymbol: cryptoCurrency.symbol,
             environment: isProduction ? 'PRODUCTION' : 'STAGING',
         })
+        console.log("opened Transak")
         isTransakOpen = true
         await updateTransakBounds()
-    }
-
-    async function closeTransak(): Promise<void> {
-        await Platform.closeTransak()
-        isTransakOpen = false
+        console.log("updated Transak bounds")
     }
 
     function onButtonClick(): void {
@@ -97,10 +106,12 @@
     }
 
     onMount(() => {
+        console.log('TransakFramePopup mounted')
         void resetTransak()
     })
 
     onDestroy(() => {
+        console.log('TransakFramePopup destroyed')
         void Platform.closeTransak()
         isTransakOpen = false
         Platform.removeListenersForEvent('reset-transak')
