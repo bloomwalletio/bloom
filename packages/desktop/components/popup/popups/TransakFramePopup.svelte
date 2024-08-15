@@ -2,7 +2,7 @@
     import { TransakCryptoCurrency } from '@auxiliary/transak'
     import { Button, Icon, IconName, Spinner, Text } from '@bloomwalletio/ui'
     import { DISCORD_URL } from '@contexts/settings'
-    import { openUrlInBrowser, Platform } from '@core/app'
+    import { IS_MAC, openUrlInBrowser, Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { FiatCurrency } from '@core/market'
     import { SupportedNetworkId } from '@core/network'
@@ -118,11 +118,14 @@
             </div>
         {/if}
     </div>
+    {#if IS_MAC}
+        <div class="h-8 w-full"></div>
+    {/if}
 </div>
 
 <style>
     .transak-container {
         width: 30rem;
-        height: min(70vh, 700px);
+        height: min(80vh, 750px);
     }
 </style>
