@@ -51,7 +51,7 @@ initialiseDeepLinks()
 // @ts-expect-error
 app.setAppUserModelId(APP_ID)
 
-app.disableHardwareAcceleration()
+// app.disableHardwareAcceleration()
 
 /**
  * Terminate application if Node remote debugging detected
