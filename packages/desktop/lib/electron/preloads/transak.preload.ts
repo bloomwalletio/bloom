@@ -30,9 +30,14 @@ function observeStyleChanges(targetNode: Element): void {
 window.addEventListener('DOMContentLoaded', () => {
     observeStyleChanges(window.document.documentElement)
 
-    const appRoot = window.document.getElementById('appRoot')
-    if (appRoot) {
-        appRoot.style.borderRadius = '16px'
-        appRoot.style.overflow = 'hidden'
+    // TODO: Potential bug in electron means that the page is not rendered properly on Mac when the background is transparent
+    if (process.platform !== 'darwin') {
+        const appRoot = window.document.getElementById('appRoot')
+        if (appRoot) {
+            appRoot.style.borderBottomLeftRadius = '32px'
+            appRoot.style.borderBottomRightRadius = '32px'
+            appRoot.style.overflow = 'hidden'
+        }
+        window.document.documentElement.style.backgroundColor = 'transparent'
     }
 })

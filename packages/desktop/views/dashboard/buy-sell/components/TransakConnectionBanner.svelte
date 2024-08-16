@@ -1,13 +1,15 @@
 <script lang="ts">
-    import { TRANSAK_WIDGET_URL } from '@auxiliary/transak'
     import { TransakConnectionStatus } from '@auxiliary/transak/enums'
-    import { IconButton, IconName, Pill, Text, TooltipIcon, Tooltip } from '@bloomwalletio/ui'
+    import { getTransakWidgetUrl } from '@auxiliary/transak/utils'
+    import { IconButton, IconName, Text, TooltipIcon, Tooltip } from '@bloomwalletio/ui'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { Pane } from '@ui'
+    import { activeProfile } from '@core/profile/stores'
     import { tick } from 'svelte'
 
     export let refreshFunction: () => Promise<void>
+
+    const transakWidgetUrl = getTransakWidgetUrl($activeProfile?.network?.id)
 
     let refreshButton: HTMLElement
     let textContainer: HTMLElement
@@ -22,10 +24,12 @@
 
     function getConnectionStatus(url: string): TransakConnectionStatus {
         const _url = URL.canParse(url) ? new URL(url) : null
-        if (_url?.origin === TRANSAK_WIDGET_URL) {
+        if (_url?.origin === transakWidgetUrl) {
             return TransakConnectionStatus.Connected
         } else if (url) {
             return TransakConnectionStatus.Redirected
+        } else if (!url) {
+            return TransakConnectionStatus.Waiting
         } else {
             return TransakConnectionStatus.Disconnected
         }
@@ -39,20 +43,10 @@
     }
 </script>
 
-<Pane classes="flex flex-col items-center w-full p-6 gap-4 bg-surface dark:bg-surface-dark shadow-lg">
-    <div class="w-full flex justify-between items-center h-8">
-        <img data-label="transak-logo" width="90" height="28" src="assets/logos/transak.svg" alt="Transak" />
-        <div>
-            {#if connectionStatus === TransakConnectionStatus.Connected}
-                <Pill color="success">{localize('general.connected')}</Pill>
-            {:else if connectionStatus === TransakConnectionStatus.Redirected}
-                <Pill color="warning">{localize('general.redirected')}</Pill>
-            {:else}
-                <Pill color="danger">{localize('general.disconnected')}</Pill>
-            {/if}
-        </div>
-    </div>
-    <div class="flex flex-row justify-between w-full items-center">
+<div class="flex flex-row items-center w-full p-6 gap-4 bg-surface-1 dark:bg-surface-1-dark rounded-t-[32px]">
+    <img class="w-10 h-10" src="assets/logos/transak-icon.svg" alt="Transak" />
+    <div class="flex flex-col items-start gap-2">
+        <img class="h-4" src="assets/logos/transak-text.svg" alt="Transak" />
         <div class="flex items-center gap-1 w-full h-3">
             {#if connectionStatus === TransakConnectionStatus.Connected}
                 <TooltipIcon
@@ -68,6 +62,13 @@
                     size="xs"
                     tooltip={localize('views.buySell.tooltip.redirected')}
                 />
+            {:else if connectionStatus === TransakConnectionStatus.Waiting}
+                <TooltipIcon
+                    icon={IconName.Globe}
+                    textColor="secondary"
+                    size="xs"
+                    tooltip={localize('general.waitingConnection')}
+                />
             {:else}
                 <TooltipIcon
                     icon={IconName.DangerCircle}
@@ -77,15 +78,22 @@
                 />
             {/if}
             <div bind:this={textContainer} class="truncate">
-                <Text type="sm" textColor="secondary" truncate>{url ?? TRANSAK_WIDGET_URL}</Text>
+                <Text type="sm" textColor="secondary" truncate>{url ?? transakWidgetUrl}</Text>
             </div>
             {#if showTextTooltip}
-                <Tooltip anchor={textContainer} event="hover" placement="top" text={url ?? TRANSAK_WIDGET_URL} />
+                <Tooltip anchor={textContainer} event="hover" placement="top" text={url ?? transakWidgetUrl} />
             {/if}
         </div>
+    </div>
+    <div class="absolute top-8 right-16 flex flex-row justify-between items-center">
         <Tooltip anchor={refreshButton} text={localize('actions.refresh')} event="hover" placement="top" />
         <div bind:this={refreshButton}>
-            <IconButton icon={IconName.Refresh} size="xs" on:click={refreshFunction} />
+            <IconButton
+                icon={IconName.Refresh}
+                size="sm"
+                on:click={refreshFunction}
+                disabled={connectionStatus === TransakConnectionStatus.Waiting}
+            />
         </div>
     </div>
-</Pane>
+</div>

@@ -1,8 +1,12 @@
-import { MarketCurrency } from '@core/market/types'
+import { FiatCurrency } from '@core/market/enums'
 
 export interface ITransakWindowData {
-    currency: MarketCurrency
+    currency: keyof typeof FiatCurrency
     address: string
     service: 'BUY' | 'SELL'
     amount: number
+    paymentMethod: string
+    networkName: string
+    cryptoCurrencySymbol: string
+    environment: 'PRODUCTION' | 'STAGING'
 }

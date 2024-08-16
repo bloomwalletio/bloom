@@ -12,4 +12,5 @@ export interface IPopupState {
     relative?: boolean
     autofocusContent?: boolean
     confirmClickOutside?: boolean
+    confirmClickOutsideActive?: boolean
 }

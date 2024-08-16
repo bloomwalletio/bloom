@@ -36,18 +36,18 @@
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Kies je netwerk",
+                    "title": "Choose your networks",
                     "iota": {
-                        "primary": "IOTA Mainnet",
-                        "secondary": "Productie netwerk met stabiele functies"
+                        "primary": "Default networks",
+                        "secondary": "Manage IOTA, Ethereum and other key networks"
                     },
                     "shimmer": {
-                        "primary": "Shimmer",
-                        "secondary": "Test netwerk met de nieuwste functies"
+                        "primary": "Experimental networks",
+                        "secondary": "Manage Shimmer and other experimental chains"
                     },
                     "testnet": {
-                        "primary": "Test netwerk",
-                        "secondary": "Test netwerk met test tokens"
+                        "primary": "Test networks",
+                        "secondary": "Test networks using valueless tokens"
                     },
                     "custom": {
                         "primary": "Geavanceerde instellingen",
@@ -125,6 +125,7 @@
                     "connect": "Verbind jouw Ledger apparaat",
                     "unlock": "Ontgrendel je Ledger met zijn pin",
                     "open": "Open de {appName} app op je Ledger",
+                    "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher.",
                     "tip": "Tips voor als jouw Ledger geen verbinding kan maken"
                 },
                 "ledgerConnectionGuide": {
@@ -818,11 +819,7 @@
             }
         },
         "buySell": {
-            "info": {
-                "receive": "Je geselecteerde account ontvangt tokens direct van Transak zodra je betaalmethode is geautoriseerd.",
-                "multipleAccounts": "Als je meerdere accounts hebt, kun je vóór de aankoop wisselen met de accountselector dropdown.",
-                "changingAccounts": "Het veranderen van accounts zal alle informatie resetten."
-            },
+            "title": "Buy and Sell",
             "tooltip": {
                 "connected": "beveiligde verbinding",
                 "redirected": "omgeleid, wees voorzichtig!",
@@ -831,6 +828,46 @@
             "error": {
                 "title": "Transak kon niet worden geladen",
                 "description": "Gelieve de app opnieuw op te starten, als het probleem zich blijft voordoen, vraag dan om ondersteuning in onze Discord server"
+            },
+            "tabs": {
+                "buy": "Buy tokens",
+                "sell": "Sell tokens"
+            },
+            "quotations": {
+                "title": "Quotations",
+                "description": "How would you like to buy your crypto?",
+                "pill": {
+                    "newQuotes": "New quotes in {time}",
+                    "fetchingQuotes": "Fetching quotes",
+                    "noQuotes": "No quotes"
+                },
+                "emptyTitle": "No quotes available",
+                "emptyDescription": "Please select other options and try again",
+                "button": {
+                    "selected": "Continue with {provider}",
+                    "unselected": "No quote selected"
+                }
+            },
+            "paymentOptions": {
+                "credit_debit_card": "Card Payment",
+                "apple_pay": "Apple Pay",
+                "google_pay": "Google Pay",
+                "pm_cash_app": "Cash App",
+                "pm_us_wire_bank_transfer": "Wire Transfer",
+                "gbp_bank_transfer": "Instant Transfer",
+                "pm_open_banking": "Open Banking",
+                "inr_bank_transfer": "IMPS",
+                "inr_upi": "UPI",
+                "sepa_bank_transfer": "SEPA Transfer",
+                "pm_astropay": "AstroPay",
+                "pm_pix": "Pix",
+                "pm_gcash": "GCash",
+                "pm_paymaya": "Maya",
+                "pm_bpi": "BPI",
+                "pm_ubp": "Union Bank",
+                "pm_grabpay": "GrabPay",
+                "pm_shopeepay": "ShopeePay",
+                "pm_pse": "PSE"
             }
         }
     },
@@ -1061,7 +1098,8 @@
             "notConnected": "Sluit jouw Ledger apparaat aan om door te gaan.",
             "locked": "Ontgrendel jouw Ledger apparaat om door te gaan.",
             "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
-            "correctAppOpen": "Ledger succesvol verbonden, ga verder."
+            "correctAppOpen": "Ledger succesvol verbonden, ga verder.",
+            "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher."
         },
         "verifyLedgerTransaction": {
             "title": "Verifieer transactie",
@@ -1776,7 +1814,9 @@
         "saving": "Opslaan",
         "enabled": "Ingeschakeld",
         "disabled": "Uitgeschakeld",
-        "networkSettings": "Netwerkinstellingen"
+        "networkSettings": "Netwerkinstellingen",
+        "waitingConnection": "Waiting connection",
+        "unsupportedVersion": "Unsupported version"
     },
     "filters": {
         "title": "Filters",
@@ -2228,6 +2268,10 @@
         },
         "token": {
             "missingMetadata": "De token metagegevens ontbreken."
+        },
+        "buySell": {
+            "minAmount": "The minimum amount is {amount}",
+            "maxAmount": "The maximum amount is {amount}"
         }
     },
     "warning": {
@@ -2304,7 +2348,7 @@
         "collectibles": "Verzamelingen",
         "governance": "Governance",
         "campaigns": "Campagnes",
-        "buySell": "IOTA kopen",
+        "buySell": "Buy / Sell",
         "developer": "Ontwikkelaar",
         "tokens": "Tokens",
         "settings": "Instellingen",
@@ -2339,7 +2383,8 @@
         "ledgerStatus": {
             "notConnected": "Niet verbonden",
             "locked": "Apparaat vergrendeld",
-            "appNotOpen": "App niet geopend"
+            "appNotOpen": "App niet geopend",
+            "unsupportedVersion": "Unsupported version"
         },
         "dappVerification": {
             "valid": "Geverifiëerd",

@@ -506,6 +506,7 @@
  delete mode 100644 packages/mobile/lib/contexts/dashboard/enums/dashboard-tab.enum.ts
  delete mode 100644 packages/mobile/lib/contexts/dashboard/enums/index.ts
  delete mode 100644 packages/mobile/lib/contexts/dashboard/enums/token-action.enum.ts
+ delete mode 100644 packages/mobile/lib/contexts/dashboard/index.ts
  delete mode 100644 packages/mobile/lib/contexts/dashboard/stores/active-dashboard-tab.store.ts
  delete mode 100644 packages/mobile/lib/contexts/dashboard/stores/index.ts
  delete mode 100644 packages/mobile/lib/contexts/settings/constants/index.ts
@@ -1160,10 +1161,12 @@
  delete mode 100644 packages/shared/lib/core/ledger/interfaces/index.ts
  delete mode 100644 packages/shared/lib/core/ledger/interfaces/ledger-connection-state.interface.ts
  delete mode 100644 packages/shared/lib/core/ledger/interfaces/ledger.interface.ts
+ delete mode 100644 packages/shared/lib/core/ledger/stores/index.ts
  delete mode 100644 packages/shared/lib/core/ledger/stores/is-polling-ledger-device-status.store.ts
  delete mode 100644 packages/shared/lib/core/ledger/stores/ledger-connection-state.store.ts
  delete mode 100644 packages/shared/lib/core/ledger/utils/determineLedgerConnectionState.ts
  delete mode 100644 packages/shared/lib/core/ledger/utils/handleLedgerError.ts
+ delete mode 100644 packages/shared/lib/core/ledger/utils/index.ts
  delete mode 100644 packages/shared/lib/core/ledger/utils/openLedgerNotConnectedPopup.ts
  delete mode 100644 packages/shared/lib/core/market/actions/getAndUpdateMarketPrices.ts
  delete mode 100644 packages/shared/lib/core/market/actions/getMarketPrices.ts
@@ -1565,10 +1568,9 @@
  rename packages/shared/{ => src}/lib/auxiliary/notification/interfaces/index.ts (51%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/interfaces/notification-action.interface.ts (53%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/utils/index.ts (100%)
- rename packages/shared/{lib/contexts/governance => src/lib/auxiliary/third-party}/index.ts (72%)
  rename packages/shared/{lib/core/profile/actions/profiles/checkAndMigrateProfiles.ts => src/lib/auxiliary/third-party/migrations/firefly-stardust/firefly-stardust-migrations.ts} (52%)
- rename packages/{mobile/lib/contexts/settings => shared/src/lib/auxiliary/transak}/index.ts (100%)
- rename specs/images/.gitkeep => packages/shared/src/lib/auxiliary/wallet-connect/index.ts (100%)
+ rename specs/images/.gitkeep => packages/shared/src/lib/auxiliary/transak/enums/transak-payment-option.enum.ts (100%)
+ rename packages/shared/{lib/contexts/governance => src/lib/auxiliary/transak}/index.ts (86%)
  rename packages/shared/{ => src}/lib/auxiliary/wordlists/english.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/wordlists/index.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/wordlists/utils/generateRandomWord.ts (90%)
@@ -1891,12 +1893,10 @@
  rename packages/shared/{ => src}/lib/core/ledger/helpers/index.ts (57%)
  rename packages/shared/{lib/core/app => src/lib/core/ledger}/index.ts (88%)
  rename packages/shared/{lib/core/ledger/interfaces/ledger-nano-status-polling-configuration.interface.ts => src/lib/core/ledger/interfaces/ledger-device-state-polling-configuration.interface.ts} (74%)
- rename packages/shared/{ => src}/lib/core/ledger/stores/index.ts (59%)
  rename packages/shared/{ => src}/lib/core/ledger/stores/ledger-nano-status.store.ts (55%)
  rename packages/shared/{ => src}/lib/core/ledger/stores/ledger-prepared-output.store.ts (53%)
  rename packages/shared/{ => src}/lib/core/ledger/stores/show-internal-verification-popup.ts (100%)
  rename packages/shared/{ => src}/lib/core/ledger/utils/formatAddressForLedger.ts (100%)
- rename packages/shared/{ => src}/lib/core/ledger/utils/index.ts (61%)
  rename packages/shared/{ => src}/lib/core/ledger/utils/isLedgerAppOpen.ts (59%)
  rename packages/shared/{ => src}/lib/core/ledger/utils/isLedgerDeviceMatchingActiveProfile.ts (62%)
  rename packages/shared/{ => src}/lib/core/ledger/utils/isLedgerError.ts (100%)
@@ -2107,7 +2107,7 @@
  rename packages/shared/{ => src}/lib/core/stronghold/enums/index.ts (100%)
  rename packages/shared/{ => src}/lib/core/stronghold/enums/stronghold-version.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/stronghold/index.ts (100%)
- rename packages/{mobile/lib/contexts/dashboard => shared/src/lib/core/tide}/index.ts (67%)
+ rename packages/{mobile/lib/contexts/settings => shared/src/lib/core/tide}/index.ts (100%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/constants/animated-token-ids.constant.ts (100%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/constants/default-asset-filter.constant.ts (90%)
  rename packages/shared/{lib/core/wallet => src/lib/core/token}/constants/max-asset-displayed-initials.constant.ts (100%)
@@ -2171,7 +2171,7 @@
  rename packages/shared/{ => src}/lib/core/utils/enums/past-time-unit.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/enums/time-period.enum.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/filter.ts (63%)
- rename packages/shared/{ => src}/lib/core/utils/index.ts (85%)
+ rename packages/shared/{ => src}/lib/core/utils/index.ts (89%)
  rename packages/shared/{ => src}/lib/core/utils/interfaces/date-difference.interface.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/interfaces/filter/date-filter-input.interface.ts (76%)
  rename packages/shared/{ => src}/lib/core/utils/interfaces/filter/filter-unit.interface.ts (93%)
@@ -2232,7 +2232,7 @@
  rename packages/shared/{ => src}/lib/features/features.ts (88%)
  rename packages/shared/{ => src}/lib/features/interfaces/collectibles-features.interface.ts (73%)
  rename packages/shared/{ => src}/lib/features/interfaces/developer-features.interface.ts (88%)
- rename packages/shared/{ => src}/lib/features/interfaces/feature-flag.interface.ts (100%)
+ rename packages/shared/{ => src}/lib/features/interfaces/feature-flag.interface.ts (76%)
  rename packages/shared/{ => src}/lib/features/interfaces/features.interface.ts (56%)
  rename packages/shared/{ => src}/lib/features/interfaces/governance-features.interface.ts (100%)
  rename packages/shared/{ => src}/lib/features/interfaces/index.ts (64%)
