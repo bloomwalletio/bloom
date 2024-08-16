@@ -9,7 +9,6 @@ import { setConnectedDapps } from '../stores/connected-dapps.store'
 import { onSessionAuthenticate } from '../handlers/onSessionAuthenticate.handler'
 import { isFeatureEnabled } from '@lib/features/utils'
 import { notificationsManager } from '../notifications'
-import { ICore } from '@walletconnect/types'
 
 export async function initializeWalletConnect(): Promise<void> {
     const core = new Core({
@@ -23,7 +22,7 @@ export async function initializeWalletConnect(): Promise<void> {
     }
 }
 
-async function initializeWalletClient(core: ICore): Promise<void> {
+async function initializeWalletClient(core: InstanceType<typeof Core>): Promise<void> {
     if (get(walletClient)) {
         return
     }
