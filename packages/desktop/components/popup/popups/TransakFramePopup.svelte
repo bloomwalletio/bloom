@@ -2,8 +2,7 @@
     import { TransakCryptoCurrency } from '@auxiliary/transak'
     import { Button, Icon, IconName, Spinner, Text } from '@bloomwalletio/ui'
     import { DISCORD_URL } from '@contexts/settings'
-    import { selectedAccountIndex } from '@core/account/stores'
-    import { openUrlInBrowser, Platform } from '@core/app'
+    import { IS_MAC, openUrlInBrowser, Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { FiatCurrency } from '@core/market'
     import { SupportedNetworkId } from '@core/network'
@@ -25,9 +24,6 @@
     let isTransakOpen: boolean = false
     let isTransakLoading: boolean = false
 
-    $: if ($selectedAccountIndex !== undefined) {
-        void closeTransak()
-    }
     $: isTransakOpen, void handleOverlayChanges($popupState)
 
     Platform.onEvent('transak-loaded', () => (isTransakLoading = false))
@@ -87,11 +83,6 @@
         await updateTransakBounds()
     }
 
-    async function closeTransak(): Promise<void> {
-        await Platform.closeTransak()
-        isTransakOpen = false
-    }
-
     function onButtonClick(): void {
         openUrlInBrowser(DISCORD_URL)
     }
@@ -127,11 +118,14 @@
             </div>
         {/if}
     </div>
+    {#if IS_MAC}
+        <div class="h-8 w-full"></div>
+    {/if}
 </div>
 
 <style>
     .transak-container {
         width: 30rem;
-        height: min(70vh, 700px);
+        height: min(80vh, 750px);
     }
 </style>

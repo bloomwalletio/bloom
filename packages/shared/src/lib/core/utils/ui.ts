@@ -28,7 +28,13 @@ export function debounce<T extends UiEventFunction>(callback: T, wait = 500): Ui
  */
 export const clickOutside: Action<HTMLElement> = function (node) {
     const onClick: (event: Event) => void = (event) => {
-        if (node && !node.contains(event.target as Node) && !event.defaultPrevented) {
+        if (!node) {
+            return
+        }
+
+        const hasClickedInNavbar = document.querySelector('body > app > navbar')?.contains(event.target as Node)
+        const hasClickedOutside = !node.contains(event.target as Node)
+        if (hasClickedOutside && !hasClickedInNavbar && !event.defaultPrevented) {
             node.dispatchEvent(new CustomEvent('clickOutside', { detail: event }))
         }
     }
