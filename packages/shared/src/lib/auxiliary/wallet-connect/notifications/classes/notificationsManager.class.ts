@@ -6,7 +6,7 @@ import { NotifyClient, NotifyClientTypes } from '@walletconnect/notify-client'
 import { Writable, get, writable } from 'svelte/store'
 import { NotifyEvent } from '../enums'
 import { PartialWithId } from '@core/utils'
-import { ICore } from '@walletconnect/types'
+import { Core } from '@walletconnect/core'
 
 // TODO: where should this be placed?
 const APP_DOMAIN = 'bloomwallet.io'
@@ -22,7 +22,7 @@ export class NotificationsManager {
 
     constructor() {}
 
-    async init(core: ICore): Promise<void> {
+    async init(core: InstanceType<typeof Core>): Promise<void> {
         if (this.notifyClient) {
             return
         }
