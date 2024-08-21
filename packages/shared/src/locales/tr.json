@@ -36,18 +36,18 @@
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Choose your networks",
+                    "title": "Ağlarınızı seçin",
                     "iota": {
-                        "primary": "Default networks",
-                        "secondary": "Manage IOTA, Ethereum and other key networks"
+                        "primary": "Varsayılan ağlar",
+                        "secondary": "IOTA, Ethereum ve diğer önemli ağları yönetin"
                     },
                     "shimmer": {
-                        "primary": "Experimental networks",
-                        "secondary": "Manage Shimmer and other experimental chains"
+                        "primary": "Deneysel ağlar",
+                        "secondary": "Shimmer ve diğer deneysel zincirleri yönetin"
                     },
                     "testnet": {
-                        "primary": "Test networks",
-                        "secondary": "Test networks using valueless tokens"
+                        "primary": "Test ağları",
+                        "secondary": "Değersiz tokenler kullanarak test ağlarını deneyin"
                     },
                     "custom": {
                         "primary": "Gelişmiş yapılandırma",
@@ -125,7 +125,7 @@
                     "connect": "Ledger cihazınızı bağlayın",
                     "unlock": "Ledger'ınızın kilidini pin ile açın",
                     "open": "Ledger cihazınızda {appName} uygulamasını açın",
-                    "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher.",
+                    "unsupportedVersion": "{appName} Ledger uygulama sürümünüz desteklenmiyor. Lütfen uygulamayı {minimumVersion} veya daha yüksek bir sürüme güncelleyin.",
                     "tip": "Ledger'ınız bağlanmaması durumundaki ipuçları"
                 },
                 "ledgerConnectionGuide": {
@@ -819,7 +819,7 @@
             }
         },
         "buySell": {
-            "title": "Buy and Sell",
+            "title": "Al ve Sat",
             "tooltip": {
                 "connected": "güvenli bir şekilde bağlandı",
                 "redirected": "yönlendirildi, dikkatli olun!",
@@ -830,44 +830,44 @@
                 "description": "Lütfen uygulamayı yeniden başlatın, sorun devam ederse Discord sunucumuzdan destek isteyin"
             },
             "tabs": {
-                "buy": "Buy tokens",
-                "sell": "Sell tokens"
+                "buy": "Token satın al",
+                "sell": "Jeton sat"
             },
             "quotations": {
-                "title": "Quotations",
-                "description": "How would you like to buy your crypto?",
+                "title": "Alıntılar",
+                "description": "Kripto paranızı nasıl satın almak istersiniz?",
                 "pill": {
-                    "newQuotes": "New quotes in {time}",
-                    "fetchingQuotes": "Fetching quotes",
-                    "noQuotes": "No quotes"
+                    "newQuotes": "Yeni fiyatlar {time} içinde",
+                    "fetchingQuotes": "Fiyatlar alınıyor",
+                    "noQuotes": "Alıntı yok"
                 },
-                "emptyTitle": "No quotes available",
-                "emptyDescription": "Please select other options and try again",
+                "emptyTitle": "Fiyat teklifi yok",
+                "emptyDescription": "Lütfen diğer seçenekleri seçin ve tekrar deneyin",
                 "button": {
-                    "selected": "Continue with {provider}",
-                    "unselected": "No quote selected"
+                    "selected": "{provider} ile devam et",
+                    "unselected": "Alıntı seçilemedi"
                 }
             },
             "paymentOptions": {
-                "credit_debit_card": "Card Payment",
-                "apple_pay": "Apple Pay",
-                "google_pay": "Google Pay",
-                "pm_cash_app": "Cash App",
-                "pm_us_wire_bank_transfer": "Wire Transfer",
-                "gbp_bank_transfer": "Instant Transfer",
-                "pm_open_banking": "Open Banking",
-                "inr_bank_transfer": "IMPS",
-                "inr_upi": "UPI",
-                "sepa_bank_transfer": "SEPA Transfer",
+                "credit_debit_card": "Kartla ödeme",
+                "apple_pay": "Apple Ödeme",
+                "google_pay": "Google Ödeme",
+                "pm_cash_app": "Nakit Uygulaması",
+                "pm_us_wire_bank_transfer": "Elektronik Transfer",
+                "gbp_bank_transfer": "Anında Transfer",
+                "pm_open_banking": "Açık Bankacılık",
+                "inr_bank_transfer": "\"IMPS\" (Hızlı Para Transfer Sistemi - Immediate Payment Service)",
+                "inr_upi": "\"UPI\" (Birleşik Ödeme Arayüzü - Unified Payments Interface)",
+                "sepa_bank_transfer": "\"SEPA Transferi\" (SEPA - Tek Avrupa Ödeme Alanı)",
                 "pm_astropay": "AstroPay",
                 "pm_pix": "Pix",
                 "pm_gcash": "GCash",
                 "pm_paymaya": "Maya",
-                "pm_bpi": "BPI",
+                "pm_bpi": "\"BPI\" (Bank of the Philippine Islands)",
                 "pm_ubp": "Union Bank",
                 "pm_grabpay": "GrabPay",
                 "pm_shopeepay": "ShopeePay",
-                "pm_pse": "PSE"
+                "pm_pse": "\"PSE\" (Philippine Stock Exchange)"
             }
         }
     },
@@ -1099,7 +1099,7 @@
             "locked": "Devam etmek için Ledger cihazınızın kilidini açın.",
             "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger başarıyla bağlandı, lütfen devam edin.",
-            "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher."
+            "unsupportedVersion": "{appName} Ledger uygulama sürümünüz desteklenmiyor. Lütfen uygulamayı {minimumVersion} veya daha yüksek bir sürüme güncelleyin."
         },
         "verifyLedgerTransaction": {
             "title": "İşlemi doğrulayın",
@@ -1815,8 +1815,8 @@
         "enabled": "Etkinleştirilmiş",
         "disabled": "Devre dışı",
         "networkSettings": "Ağ ayarları",
-        "waitingConnection": "Waiting connection",
-        "unsupportedVersion": "Unsupported version"
+        "waitingConnection": "Bağlantı bekleniyor",
+        "unsupportedVersion": "Desteklenmeyen sürüm"
     },
     "filters": {
         "title": "Filtreler",
@@ -2270,8 +2270,8 @@
             "missingMetadata": "Token meta verileri eksik."
         },
         "buySell": {
-            "minAmount": "The minimum amount is {amount}",
-            "maxAmount": "The maximum amount is {amount}"
+            "minAmount": "Minimum tutar: {{amount}}",
+            "maxAmount": "Maximum tutar: {{amount}}"
         }
     },
     "warning": {
@@ -2348,7 +2348,7 @@
         "collectibles": "Koleksiyonlar",
         "governance": "Yönetim",
         "campaigns": "Kampanyalar",
-        "buySell": "Buy / Sell",
+        "buySell": "Al / Sat",
         "developer": "Geliştirici",
         "tokens": "Tokenler",
         "settings": "Ayarlar",
@@ -2384,7 +2384,7 @@
             "notConnected": "Bağlı değil",
             "locked": "Cihaz kilitlendi",
             "appNotOpen": "Uygulama açık değil",
-            "unsupportedVersion": "Unsupported version"
+            "unsupportedVersion": "Desteklenmeyen sürüm"
         },
         "dappVerification": {
             "valid": "Doğrulandı",

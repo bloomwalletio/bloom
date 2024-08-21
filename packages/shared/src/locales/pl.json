@@ -36,18 +36,18 @@
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Choose your networks",
+                    "title": "Wybierz swoje sieci",
                     "iota": {
-                        "primary": "Default networks",
-                        "secondary": "Manage IOTA, Ethereum and other key networks"
+                        "primary": "Sieci domyślne",
+                        "secondary": "Zarządzaj IOTA, Ethereum i innymi popularnymi sieciami"
                     },
                     "shimmer": {
-                        "primary": "Experimental networks",
-                        "secondary": "Manage Shimmer and other experimental chains"
+                        "primary": "Sieci eksperymentalne",
+                        "secondary": "Zarządzaj Shimmer i innymi sieciami eksperymentalnymi"
                     },
                     "testnet": {
-                        "primary": "Test networks",
-                        "secondary": "Test networks using valueless tokens"
+                        "primary": "Sieci testowe",
+                        "secondary": "Testuj sieci przy użyciu bezwartościowych tokenów"
                     },
                     "custom": {
                         "primary": "Konfiguracja zaawansowana",
@@ -125,7 +125,7 @@
                     "connect": "Podłącz swoje urządzenie Ledger",
                     "unlock": "Odblokuj swój Ledger za pomocą pinu",
                     "open": "Otwórz aplikację {appName} na urządzeniu Ledger",
-                    "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher.",
+                    "unsupportedVersion": "Twoja wersja aplikacji {appName} na urządzeniu Ledger nie jest obsługiwana. Zaktualizuj aplikację do wersji {minimumVersion} lub wyższej.",
                     "tip": "Wskazówki, jeśli Ledger nie nawiązuje połączenia"
                 },
                 "ledgerConnectionGuide": {
@@ -819,7 +819,7 @@
             }
         },
         "buySell": {
-            "title": "Buy and Sell",
+            "title": "Kupuj i sprzedawaj",
             "tooltip": {
                 "connected": "bezpieczne połączenie",
                 "redirected": "przekierowano, bądź ostrożny!",
@@ -830,26 +830,26 @@
                 "description": "Uruchom ponownie aplikację, jeśli problem będzie się powtarzał, poproś o wsparcie na naszym serwerze Discord"
             },
             "tabs": {
-                "buy": "Buy tokens",
-                "sell": "Sell tokens"
+                "buy": "Kup tokeny",
+                "sell": "Sprzedaj tokeny"
             },
             "quotations": {
-                "title": "Quotations",
-                "description": "How would you like to buy your crypto?",
+                "title": "Oferty",
+                "description": "Jak chciałbyś kupić krypto?",
                 "pill": {
-                    "newQuotes": "New quotes in {time}",
-                    "fetchingQuotes": "Fetching quotes",
-                    "noQuotes": "No quotes"
+                    "newQuotes": "Nowe oferty za {time}",
+                    "fetchingQuotes": "Pobieranie ofert",
+                    "noQuotes": "Brak ofert"
                 },
-                "emptyTitle": "No quotes available",
-                "emptyDescription": "Please select other options and try again",
+                "emptyTitle": "Brak dostępnych ofert",
+                "emptyDescription": "Wybierz inne opcje i spróbuj ponownie",
                 "button": {
-                    "selected": "Continue with {provider}",
-                    "unselected": "No quote selected"
+                    "selected": "Kontynuuj przy użyciu {provider}",
+                    "unselected": "Nie wybrano oferty"
                 }
             },
             "paymentOptions": {
-                "credit_debit_card": "Card Payment",
+                "credit_debit_card": "Płatności kartą",
                 "apple_pay": "Apple Pay",
                 "google_pay": "Google Pay",
                 "pm_cash_app": "Cash App",
@@ -858,7 +858,7 @@
                 "pm_open_banking": "Open Banking",
                 "inr_bank_transfer": "IMPS",
                 "inr_upi": "UPI",
-                "sepa_bank_transfer": "SEPA Transfer",
+                "sepa_bank_transfer": "Transfer SEPA",
                 "pm_astropay": "AstroPay",
                 "pm_pix": "Pix",
                 "pm_gcash": "GCash",
@@ -1099,7 +1099,7 @@
             "locked": "Odblokuj swoje urządzenie Ledger, aby kontynuować.",
             "appNotOpen": "Otwórz aplikację {appName} na urządzeniu Ledger, aby kontynuować.",
             "correctAppOpen": "Ledger pomyślnie podłączony, proszę kontynuować.",
-            "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher."
+            "unsupportedVersion": "Twoja wersja aplikacji {appName} na urządzeniu Ledger nie jest obsługiwana. Zaktualizuj aplikację do wersji {minimumVersion} lub wyższej."
         },
         "verifyLedgerTransaction": {
             "title": "Zweryfikuj transakcję",
@@ -1815,8 +1815,8 @@
         "enabled": "Włączone",
         "disabled": "Wyłączone",
         "networkSettings": "Ustawienia sieci",
-        "waitingConnection": "Waiting connection",
-        "unsupportedVersion": "Unsupported version"
+        "waitingConnection": "Oczekiwanie na połączenie",
+        "unsupportedVersion": "Nieobsługiwana wersja"
     },
     "filters": {
         "title": "Filtry",
@@ -2270,8 +2270,8 @@
             "missingMetadata": "Brakuje metadanych tokena."
         },
         "buySell": {
-            "minAmount": "The minimum amount is {amount}",
-            "maxAmount": "The maximum amount is {amount}"
+            "minAmount": "Minimalna kwota to {amount}",
+            "maxAmount": "Maksymalna kwota to {amount}"
         }
     },
     "warning": {
@@ -2348,7 +2348,7 @@
         "collectibles": "Galeria",
         "governance": "Zarządzanie",
         "campaigns": "Kampanie",
-        "buySell": "Buy / Sell",
+        "buySell": "Kup / Sprzedaj",
         "developer": "Deweloper",
         "tokens": "Tokeny",
         "settings": "Ustawienia",
@@ -2384,7 +2384,7 @@
             "notConnected": "Nie połączono",
             "locked": "Urządzenie zablokowane",
             "appNotOpen": "Aplikacja nie jest otwarta",
-            "unsupportedVersion": "Unsupported version"
+            "unsupportedVersion": "Nieobsługiwana wersja"
         },
         "dappVerification": {
             "valid": "Zweryfikowano",
