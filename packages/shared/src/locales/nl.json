@@ -36,18 +36,18 @@
             },
             "networkSetup": {
                 "chooseNetwork": {
-                    "title": "Choose your networks",
+                    "title": "Kies je netwerken",
                     "iota": {
-                        "primary": "Default networks",
-                        "secondary": "Manage IOTA, Ethereum and other key networks"
+                        "primary": "Standaard netwerken",
+                        "secondary": "IOTA, Ethereum en andere belangrijke netwerken beheren"
                     },
                     "shimmer": {
-                        "primary": "Experimental networks",
-                        "secondary": "Manage Shimmer and other experimental chains"
+                        "primary": "Experimentele netwerken",
+                        "secondary": "Shimmer en andere experimentele chains beheren"
                     },
                     "testnet": {
-                        "primary": "Test networks",
-                        "secondary": "Test networks using valueless tokens"
+                        "primary": "Test netwerken",
+                        "secondary": "Test netwerken met tokens zonder waarde"
                     },
                     "custom": {
                         "primary": "Geavanceerde instellingen",
@@ -125,7 +125,7 @@
                     "connect": "Verbind jouw Ledger apparaat",
                     "unlock": "Ontgrendel je Ledger met zijn pin",
                     "open": "Open de {appName} app op je Ledger",
-                    "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher.",
+                    "unsupportedVersion": "Jouw {appName} Ledger app versie wordt niet ondersteund. Update de app naar versie {minimumVersion} of hoger.",
                     "tip": "Tips voor als jouw Ledger geen verbinding kan maken"
                 },
                 "ledgerConnectionGuide": {
@@ -819,7 +819,7 @@
             }
         },
         "buySell": {
-            "title": "Buy and Sell",
+            "title": "Kopen en verkopen",
             "tooltip": {
                 "connected": "beveiligde verbinding",
                 "redirected": "omgeleid, wees voorzichtig!",
@@ -830,35 +830,35 @@
                 "description": "Gelieve de app opnieuw op te starten, als het probleem zich blijft voordoen, vraag dan om ondersteuning in onze Discord server"
             },
             "tabs": {
-                "buy": "Buy tokens",
-                "sell": "Sell tokens"
+                "buy": "Koop tokens",
+                "sell": "Verkoop tokens"
             },
             "quotations": {
-                "title": "Quotations",
-                "description": "How would you like to buy your crypto?",
+                "title": "Offertes",
+                "description": "Hoe wil je jouw crypto kopen?",
                 "pill": {
-                    "newQuotes": "New quotes in {time}",
-                    "fetchingQuotes": "Fetching quotes",
-                    "noQuotes": "No quotes"
+                    "newQuotes": "Nieuwe offertes in {time}",
+                    "fetchingQuotes": "Offertes ophalen",
+                    "noQuotes": "Geen offertes"
                 },
-                "emptyTitle": "No quotes available",
-                "emptyDescription": "Please select other options and try again",
+                "emptyTitle": "Geen offertes beschikbaar",
+                "emptyDescription": "Selecteer andere opties en probeer opnieuw",
                 "button": {
-                    "selected": "Continue with {provider}",
-                    "unselected": "No quote selected"
+                    "selected": "Doorgaan met {provider}",
+                    "unselected": "Geen offerte geselecteerd"
                 }
             },
             "paymentOptions": {
-                "credit_debit_card": "Card Payment",
+                "credit_debit_card": "Kaartbetaling",
                 "apple_pay": "Apple Pay",
                 "google_pay": "Google Pay",
                 "pm_cash_app": "Cash App",
-                "pm_us_wire_bank_transfer": "Wire Transfer",
-                "gbp_bank_transfer": "Instant Transfer",
-                "pm_open_banking": "Open Banking",
+                "pm_us_wire_bank_transfer": "Bankoverschrijving",
+                "gbp_bank_transfer": "Directe overboeking",
+                "pm_open_banking": "Open bankier",
                 "inr_bank_transfer": "IMPS",
                 "inr_upi": "UPI",
-                "sepa_bank_transfer": "SEPA Transfer",
+                "sepa_bank_transfer": "SEPA overboeking",
                 "pm_astropay": "AstroPay",
                 "pm_pix": "Pix",
                 "pm_gcash": "GCash",
@@ -1099,7 +1099,7 @@
             "locked": "Ontgrendel jouw Ledger apparaat om door te gaan.",
             "appNotOpen": "Open the {appName} app on your Ledger device to continue.",
             "correctAppOpen": "Ledger succesvol verbonden, ga verder.",
-            "unsupportedVersion": "Your {appName} Ledger app version is not supported. Please update the app to version {minimumVersion} or higher."
+            "unsupportedVersion": "Jouw {appName} Ledger app versie wordt niet ondersteund. Update de app naar versie {minimumVersion} of hoger."
         },
         "verifyLedgerTransaction": {
             "title": "Verifieer transactie",
@@ -1815,8 +1815,8 @@
         "enabled": "Ingeschakeld",
         "disabled": "Uitgeschakeld",
         "networkSettings": "Netwerkinstellingen",
-        "waitingConnection": "Waiting connection",
-        "unsupportedVersion": "Unsupported version"
+        "waitingConnection": "Wachten op verbinding",
+        "unsupportedVersion": "Niet-ondersteunde versie"
     },
     "filters": {
         "title": "Filters",
@@ -2270,8 +2270,8 @@
             "missingMetadata": "De token metagegevens ontbreken."
         },
         "buySell": {
-            "minAmount": "The minimum amount is {amount}",
-            "maxAmount": "The maximum amount is {amount}"
+            "minAmount": "Het minimumbedrag is {amount}",
+            "maxAmount": "Het maximumbedrag is {amount}"
         }
     },
     "warning": {
@@ -2348,7 +2348,7 @@
         "collectibles": "Verzamelingen",
         "governance": "Governance",
         "campaigns": "Campagnes",
-        "buySell": "Buy / Sell",
+        "buySell": "Kopen / Verkopen",
         "developer": "Ontwikkelaar",
         "tokens": "Tokens",
         "settings": "Instellingen",
@@ -2384,7 +2384,7 @@
             "notConnected": "Niet verbonden",
             "locked": "Apparaat vergrendeld",
             "appNotOpen": "App niet geopend",
-            "unsupportedVersion": "Unsupported version"
+            "unsupportedVersion": "Niet-ondersteunde versie"
         },
         "dappVerification": {
             "valid": "Geverifiëerd",
