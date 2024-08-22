@@ -1,5 +1,5 @@
-const { notarize } = require('electron-notarize')
-const path = require('path')
+import { notarize } from 'electron-notarize'
+import path from 'path'
 
 /**
  *

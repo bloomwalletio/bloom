@@ -4,6 +4,7 @@
     "description": "TypeScript library for the Bloom application",
     "author": "Bloom Labs Ltd <contact@bloomwallet.io>",
     "license": "PolyForm Strict License 1.0.0",
+    "type": "module",
     "dependencies": {
         "@bloomwalletio/ui": "0.21.12",
         "@ethereumjs/common": "4.3.0",

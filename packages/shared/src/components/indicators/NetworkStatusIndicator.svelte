@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { DefaultColors } from 'tailwindcss/types/generated/colors'
+    import type { DefaultColors } from 'tailwindcss/types/generated/colors'
     import { Indicator } from '@bloomwalletio/ui'
     import { NetworkHealth } from '@core/network'
 

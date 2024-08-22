@@ -4,8 +4,8 @@
  * electron/lib/aboutPreload.
  */
 
-const { readFileSync, writeFileSync } = require('fs')
-const path = require('path')
+import { readFileSync, writeFileSync } from 'fs'
+import path from 'path'
 
 if (!process.env.CI) {
     console.warn('Warning: These changes should not be checked into Git!')

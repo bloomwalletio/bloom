@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
     import { Pill, Text, Tooltip, type TextColor } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { DownloadErrorType, IDownloadMetadata, Nft } from '@core/nfts'

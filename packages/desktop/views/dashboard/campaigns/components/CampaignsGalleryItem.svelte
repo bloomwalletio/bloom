@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
     import { Text } from '@bloomwalletio/ui'
     import { ICampaign, featuredCampaigns } from '@contexts/campaigns'
     import { setSelectedCampaign } from '@contexts/campaigns/stores'

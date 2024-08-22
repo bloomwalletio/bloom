@@ -1,22 +1,8 @@
-const path = require('path')
+import tailwind from 'tailwindcss'
+import tailwindNesting from 'tailwindcss/nesting/index.js'
+import tailwindConfig from '../shared/tailwind.config.js'
+import autoprefixer from 'autoprefixer'
 
-const mode = process.env.NODE_ENV || 'development'
-
-module.exports = {
-    plugins: [
-        require('tailwindcss/nesting'),
-        require('tailwindcss')('./../shared/tailwind.config.js'),
-        require('postcss-url')({
-            url:
-                mode === 'production'
-                    ? (asset) =>
-                          path
-                              .relative(__dirname, asset.absolutePath)
-                              .replace('..', '../shared')
-                              // on Windows the path resolution doesn't work unless we change the path separator
-                              .replace(/\\/g, '/')
-                    : undefined,
-        }),
-        require('autoprefixer'),
-    ],
+export default {
+    plugins: [tailwindNesting, tailwind(tailwindConfig), autoprefixer],
 }

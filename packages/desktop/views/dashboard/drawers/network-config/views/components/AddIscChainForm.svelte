@@ -13,8 +13,7 @@
     import { activeProfile } from '@core/profile/stores'
     import { getNetworkHrp } from '@core/profile/actions'
     import { isValidHexAddress, isValidHttpsUrl, validateBech32Address } from '@core/utils'
-    import { Button } from '@bloomwalletio/ui'
-    import { Input } from '@ui'
+    import { Button, Input } from '@bloomwalletio/ui'
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 

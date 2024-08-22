@@ -1,4 +1,4 @@
-import tailwindConfig from 'shared/tailwind.config.js'
+import tailwindConfig from '../../../../../tailwind.config'
 import resolveConfig from 'tailwindcss/resolveConfig'
 
 const configColors = resolveConfig(tailwindConfig).theme.colors as Record<string, Record<string, string>>

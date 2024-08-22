@@ -126,19 +126,19 @@ if (app.isPackaged) {
     paths.errorPreload = path.join(app.getAppPath(), '/public/build/error.preload.js')
     paths.ledger = path.join(app.getAppPath(), '/public/build/ledger.process.js')
 } else {
-    // __dirname is desktop/public/build
-    paths.html = path.join(__dirname, '../index.html')
-    paths.preload = path.join(__dirname, 'preload.js')
-    paths.errorHtml = path.join(__dirname, '../error.html')
-    paths.errorPreload = path.join(__dirname, 'error.preload.js')
-    paths.ledger = path.join(__dirname, 'ledger.process.js')
+    // __dirname is desktop/out/main
+    paths.html = path.join(__dirname, '../../public/index.html')
+    paths.preload = path.join(__dirname, '../preload/main.js')
+    paths.errorHtml = path.join(__dirname, '.../../public/error.html')
+    paths.errorPreload = path.join(__dirname, '../preload/error.js')
+    paths.ledger = path.join(__dirname, '../preload/ledger.js')
 }
 
 /**
  * Handles url navigation events
  */
 function tryOpenExternalUrl(e: Event, url: string): void {
-    if (url === 'http://localhost:8080/') {
+    if (url === process.env.ELECTRON_RENDERER_URL) {
         // if localhost would be opened on the build versions, we need to block it to prevent errors
         if (app.isPackaged) {
             e.preventDefault()
@@ -186,11 +186,11 @@ export function createMainWindow(): BrowserWindow {
 
     mainWindowState.track?.(windows.main)
 
-    if (!app.isPackaged) {
+    if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
         // Enable dev tools only in developer mode
         windows.main.webContents.openDevTools()
 
-        void windows.main.loadURL('http://localhost:8080')
+        void windows.main.loadURL(process.env.ELECTRON_RENDERER_URL)
     } else {
         // load the index.html of the app.
         void windows.main.loadFile(paths.html)

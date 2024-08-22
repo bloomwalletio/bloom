@@ -30,7 +30,7 @@ window.addEventListener('unhandledrejection', (event) => {
 })
 
 const app = new App({
-    target: document.body,
+    target: document.getElementById('app'),
     props: {},
 })
 

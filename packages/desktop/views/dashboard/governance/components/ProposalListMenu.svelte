@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
     import { IconName, Menu } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'

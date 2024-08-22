@@ -4,7 +4,7 @@
     import { activeProfile, updateActiveProfile } from '@core/profile/stores'
     import { DashboardRoute } from '@core/router'
     import SettingsSection from '../SettingsSection.svelte'
-    import { isFeatureNotGeoFenced, isFeatureNotGeoFenced } from '@lib/features/utils'
+    import { isFeatureNotGeoFenced } from '@lib/features/utils'
 
     const features = $activeProfile?.features ?? {
         [DashboardRoute.Wallet]: true,

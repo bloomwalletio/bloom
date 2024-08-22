@@ -1,6 +1,6 @@
 // Typescript support for Electron Builder still has some issues, so it is a workaround to transpile the TS config file before using it
 
-const { execSync } = require('child_process')
+import { execSync } from 'child_process'
 
 // Get stage and OS flag from command line arguments
 const stage = process.argv[2] ?? 'alpha'
