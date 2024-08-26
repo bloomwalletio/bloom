@@ -17,6 +17,40 @@
         $createFromLedgerRouter.previous()
     }
 
+    interface LedgerAppIconDetails {
+        ledgerAppName: LedgerAppName
+        iconName: IconName
+        iconColor: string
+        backgroundColor: string
+        textColor?: string
+    }
+
+    function getLedgerAppIconDetails(
+        networkId: keyof typeof SupportedStardustNetworkId | undefined
+    ): LedgerAppIconDetails {
+        switch (networkId) {
+            case SupportedStardustNetworkId.Iota:
+            case SupportedStardustNetworkId.IotaTestnet:
+                return {
+                    ledgerAppName: LedgerAppName.Iota,
+                    iconName: IconName.Iota,
+                    iconColor: '#ffffff',
+                    backgroundColor: 'bg-black',
+                }
+            case SupportedStardustNetworkId.Shimmer:
+            case SupportedStardustNetworkId.Testnet:
+                return {
+                    ledgerAppName: LedgerAppName.Shimmer,
+                    iconName: IconName.ShimmerLedger,
+                    iconColor: 'neutral-1',
+                    backgroundColor: 'bg-neutral-4',
+                    textColor: 'neutral-4/95',
+                }
+            default:
+                throw new Error(`Unsupported network id: ${networkId}`)
+        }
+    }
+
     onMount(() => {
         pollLedgerDeviceState()
     })
@@ -33,17 +67,13 @@
     }}
 >
     <content slot="content">
-        {#if $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota}
-            <icon-container class="bg-black">
-                <Icon name={IconName.Iota} size="lg" customColor="#ffffff" />
-            </icon-container>
-            <Text>{LedgerAppName.Iota}</Text>
-        {:else}
-            <icon-container class="bg-neutral-4">
-                <Icon name={IconName.ShimmerLedger} size="lg" customColor="neutral-1" />
-            </icon-container>
-            <Text customColor="neutral-4/95">{LedgerAppName.Shimmer}</Text>
-        {/if}
+        {@const { ledgerAppName, iconName, iconColor, backgroundColor, textColor } = getLedgerAppIconDetails(
+            $onboardingProfile?.network?.id
+        )}
+        <icon-container class={backgroundColor}>
+            <Icon name={iconName} size="lg" customColor={iconColor} />
+        </icon-container>
+        <Text customColor={textColor}>{ledgerAppName}</Text>
     </content>
 </OnboardingLayout>
 
