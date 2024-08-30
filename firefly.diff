@@ -2202,7 +2202,7 @@
  rename packages/shared/{ => src}/lib/core/utils/types/index.ts (68%)
  rename packages/shared/{ => src}/lib/core/utils/types/ui-event-function.type.ts (100%)
  rename packages/shared/{ => src}/lib/core/utils/types/values-of.type.ts (100%)
- rename packages/shared/{ => src}/lib/core/utils/ui.ts (70%)
+ rename packages/shared/{ => src}/lib/core/utils/ui.ts (69%)
  rename packages/shared/{ => src}/lib/core/utils/validation.ts (83%)
  rename packages/shared/{ => src}/lib/core/wallet/actions/rejectActivity.ts (52%)
  rename packages/shared/{ => src}/lib/core/wallet/constants/address-letter.constants.ts (100%)
