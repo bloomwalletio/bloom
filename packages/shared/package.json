@@ -37,7 +37,7 @@
         "test": "jest"
     },
     "devDependencies": {
-        "@swc/core": "1.7.4",
+        "@swc/core": "1.7.22",
         "@swc/jest": "0.2.36",
         "@types/jest": "29.5.12",
         "@types/sanitize-html": "2.11.0",
