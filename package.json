@@ -10,7 +10,7 @@
         "@types/node": "18.15.11",
         "@typescript-eslint/eslint-plugin": "7.11.0",
         "@typescript-eslint/parser": "7.11.0",
-        "eslint": "9.6.0",
+        "eslint": "9.9.1",
         "eslint-plugin-security": "3.0.1",
         "eslint-plugin-svelte": "2.39.0",
         "globals": "^15.7.0",
