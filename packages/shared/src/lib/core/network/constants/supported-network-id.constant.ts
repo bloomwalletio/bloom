@@ -24,11 +24,11 @@ export const SupportedL1EvmNetworkId: Record<string, EvmNetworkId> = {
 }
 
 export const SupportedL2EvmNetworkId: Record<string, EvmNetworkId> = {
-    Optimism: `${NetworkNamespace.Evm}:${ChainId.Optimism}`,
-    Blast: `${NetworkNamespace.Evm}:${ChainId.Blast}`,
-    Base: `${NetworkNamespace.Evm}:${ChainId.Base}`,
-    Immutable: `${NetworkNamespace.Evm}:${ChainId.Immutable}`,
     Arbitrum: `${NetworkNamespace.Evm}:${ChainId.Arbitrum}`,
+    Base: `${NetworkNamespace.Evm}:${ChainId.Base}`,
+    Blast: `${NetworkNamespace.Evm}:${ChainId.Blast}`,
+    Immutable: `${NetworkNamespace.Evm}:${ChainId.Immutable}`,
+    Optimism: `${NetworkNamespace.Evm}:${ChainId.Optimism}`,
 }
 
 export const SupportedNetworkId = {

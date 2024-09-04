@@ -20,7 +20,7 @@ export enum ChainId {
     BaseSepoliaTestnet = '84532',
 
     // Blast
-    Blast = '238',
+    Blast = '81457',
     BlastSepoliaTestnet = '168587773',
 
     // Optimism
