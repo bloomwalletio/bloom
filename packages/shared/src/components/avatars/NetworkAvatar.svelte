@@ -21,6 +21,11 @@
         [SupportedNetworkId.Ethereum]: '#627eea',
         [SupportedNetworkId.Sepolia]: 'text-secondary',
         [SupportedNetworkId.GenericEvm]: '#627eea',
+        [SupportedNetworkId.Optimism]: '#FF0420',
+        [SupportedNetworkId.Blast]: '#101112',
+        [SupportedNetworkId.Base]: '#0052FF',
+        [SupportedNetworkId.Immutable]: '#000000',
+        [SupportedNetworkId.Arbitrum]: '#213147',
     }
 
     const AVATAR_TEXT_COLOR: { [id in NetworkId]?: string } = {
@@ -35,6 +40,11 @@
         [SupportedNetworkId.Ethereum]: '#FFFFFF',
         [SupportedNetworkId.Sepolia]: '#FFFFFF',
         [SupportedNetworkId.GenericEvm]: '#FFFFFF',
+        [SupportedNetworkId.Optimism]: '#FFFFFF',
+        [SupportedNetworkId.Blast]: '#FCFC54',
+        [SupportedNetworkId.Base]: '#FFFFFF',
+        [SupportedNetworkId.Immutable]: '#FFFFFF',
+        [SupportedNetworkId.Arbitrum]: '#FFFFFF',
     }
 
     let anchor: HTMLElement

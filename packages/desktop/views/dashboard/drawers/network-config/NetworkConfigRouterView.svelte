@@ -3,6 +3,7 @@
     import { Router } from '@core/router'
     import { NetworkConfigRoute, networkConfigRoute, NetworkConfigRouter, networkConfigRouter } from '../'
     import {
+        AddCustomNetworkDrawer,
         AddNetworkDrawer,
         NetworkDepositAddressDrawer,
         NetworkInformationDrawer,
@@ -48,4 +49,6 @@
     <ConfirmLedgerEvmAddressDrawer {drawerRouter} />
 {:else if $networkConfigRoute === NetworkConfigRoute.AddChain}
     <AddNetworkDrawer {drawerRouter} />
+{:else if $networkConfigRoute === NetworkConfigRoute.AddCustomChain}
+    <AddCustomNetworkDrawer {drawerRouter} />
 {/if}
