@@ -13,6 +13,7 @@
         NetworkNamespace,
         NetworkType,
         SupportedNetworkId,
+        SupportedL1EvmNetworkId,
         SupportedL2EvmNetworkId,
     } from '@core/network'
     import { NetworkAvatar } from '@ui'
@@ -28,7 +29,13 @@
         rpcEndpoint: string
     }
 
-    const KNOWN_CHAINS: Record<SupportedL2EvmNetworkId, EvmChain> = {
+    const KNOWN_CHAINS: Record<SupportedL1EvmNetworkId | SupportedL2EvmNetworkId, EvmChain> = {
+        [SupportedL1EvmNetworkId.Ethereum]: {
+            chainId: ChainId.Ethereum,
+            name: 'Ethereum',
+            explorerUrl: 'https://eth.blockscout.com',
+            rpcEndpoint: 'https://ethereum-rpc.publicnode.com',
+        },
         [SupportedL2EvmNetworkId.Optimism]: {
             chainId: ChainId.Optimism,
             name: 'Optimism',
