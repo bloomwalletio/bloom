@@ -17,6 +17,7 @@
     } from '@core/network'
     import { NetworkAvatar } from '@ui'
     import { activeProfile } from '@core/profile/stores'
+    import { Platform } from '@core/app'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
@@ -114,7 +115,9 @@
                 </div>
             </Tile>
         {/each}
-        <Button variant="text" text="Add custom chain" icon={IconName.Plus} on:click={onAddCustomChainClick} />
+        {#if Platform.isFeatureFlagEnabled('network.config.addChain.customChain')}
+            <Button variant="text" text="Add custom chain" icon={IconName.Plus} on:click={onAddCustomChainClick} />
+        {/if}
     </known-chains>
     <div slot="footer" class="flex justify-center">
         <Button type="button" width="full" text={localize('actions.continue')} on:click={onContinueClick} />

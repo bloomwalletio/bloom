@@ -6,6 +6,9 @@ const networkFeatures: INetworkFeatures = {
         enabled: true,
         addChain: {
             enabled: true,
+            customChain: {
+                enabled: false,
+            },
         },
     },
 }
