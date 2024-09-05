@@ -1,15 +1,11 @@
 import { getSelectedAccount } from '@core/account/stores'
 import { getProfileManager } from '@core/profile-manager/stores'
 
-import { LedgerAppName } from '../enums'
 import { isLedgerAppOpen } from './isLedgerAppOpen'
-import { activeProfile } from '@core/profile/stores'
-import { get } from 'svelte/store'
-import { SupportedNetworkId } from '@core/network'
+import { getProfileLedgerAppName } from '@core/profile/utils'
 
 export async function isLedgerDeviceMatchingActiveProfile(): Promise<boolean | undefined> {
-    const appName =
-        get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+    const appName = getProfileLedgerAppName()
     if (isLedgerAppOpen(appName)) {
         try {
             const account = getSelectedAccount()

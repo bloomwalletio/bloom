@@ -1,9 +1,8 @@
 import { isOnboardingLedgerProfile } from '@contexts/onboarding'
 import { selectedAccountIndex } from '@core/account/stores'
-import { LedgerAppName } from '@core/ledger/enums'
 import { ledgerDeviceState, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger/stores'
 import { deconstructLedgerVerificationProps } from '@core/ledger/helpers'
-import { activeProfile, isActiveLedgerProfile } from '@core/profile/stores'
+import { isActiveLedgerProfile } from '@core/profile/stores'
 import {
     Event,
     PreparedTransactionEssenceHashProgress,
@@ -23,7 +22,7 @@ import { validateWalletApiEvent } from '../../utils'
 import { checkOrConnectLedger } from '@core/ledger/actions'
 import { handleError } from '@core/error/handlers'
 import { sendOutput } from '@core/wallet/actions'
-import { SupportedNetworkId } from '@core/network/constants'
+import { getProfileLedgerAppName } from '@core/profile/utils'
 
 export function handleTransactionProgressEvent(error: Error, event: Event): void {
     const walletEvent = validateWalletApiEvent<TransactionProgressWalletEvent>(
@@ -66,8 +65,7 @@ function openPopupIfVerificationNeeded(progress: TransactionProgress): void {
             },
         })
     } else if (type === TransactionProgressType.PreparedTransactionEssenceHash) {
-        const appName =
-            get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+        const appName = getProfileLedgerAppName()
         if (get(ledgerDeviceState)?.settings?.[appName]?.blindSigningEnabled) {
             openProfileAuthPopup({
                 id: ProfileAuthPopupId.VerifyLedgerTransaction,

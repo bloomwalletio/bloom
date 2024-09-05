@@ -13,12 +13,11 @@ import {
 } from '../../../../../../desktop/lib/auxiliary/popup'
 
 import { LEDGER_ERROR_LOCALES } from '../constants'
-import { LedgerAppName, LedgerError } from '../enums'
+import { LedgerError } from '../enums'
 import { deriveLedgerError } from '../helpers'
 import { checkOrConnectLedger, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger'
 import { sendOutput } from '@core/wallet'
-import { activeProfile } from '@core/profile/stores'
-import { SupportedNetworkId } from '@core/network/constants'
+import { getProfileLedgerAppName } from '@core/profile/utils'
 
 export function handleLedgerError(err: unknown, resetConfirmationPropsOnDenial = true): void {
     const error = (err as IError)?.error ?? (err as string)
@@ -51,8 +50,7 @@ export function handleLedgerError(err: unknown, resetConfirmationPropsOnDenial =
      */
     const hadToEnableBlindSinging = popupType === ProfileAuthPopupId.EnableLedgerBlindSigning && wasDeniedByUser
     if (hadToEnableBlindSinging) {
-        const appName =
-            get(activeProfile)?.network?.id === SupportedNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+        const appName = getProfileLedgerAppName()
         openProfileAuthPopup({
             id: ProfileAuthPopupId.EnableLedgerBlindSigning,
             props: {

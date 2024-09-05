@@ -1,3 +1,4 @@
+export * from './getProfileLedgerAppName'
 export * from './getStorageDirectoryOfProfile'
 export * from './getStorageDirectoryOfProfiles'
 export * from './isLedgerProfile'
