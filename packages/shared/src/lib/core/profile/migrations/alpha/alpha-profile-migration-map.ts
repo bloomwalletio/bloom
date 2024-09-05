@@ -15,6 +15,7 @@ import { alphaProfileMigration2To3 } from './alpha-profile-migration-2-to-3'
 import { alphaProfileMigration20To21 } from './alpha-profile-migration-20-to-21'
 import { alphaProfileMigration21To22 } from './alpha-profile-migration-21-to-22'
 import { alphaProfileMigration22To23 } from './alpha-profile-migration-22-to-23'
+import { alphaProfileMigration23To24 } from './alpha-profile-migration-23-to-24'
 import { alphaProfileMigration3To4 } from './alpha-profile-migration-3-to-4'
 import { alphaProfileMigration4To5 } from './alpha-profile-migration-4-to-5'
 import { alphaProfileMigration5To6 } from './alpha-profile-migration-5-to-6'
@@ -52,4 +53,5 @@ export const ALPHA_PROFILE_MIGRATION_MAP: ProfileMigrationMap = {
     // ^^^ release 1.0.8 ^^^
     22: alphaProfileMigration22To23,
     // ^^^ release 1.1.2 ^^^
+    23: alphaProfileMigration23To24,
 }
