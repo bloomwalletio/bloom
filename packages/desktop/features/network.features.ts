@@ -10,6 +10,9 @@ const networkFeatures: INetworkFeatures = {
                 enabled: false,
             },
         },
+        removeNetwork: {
+            enabled: false,
+        },
     },
 }
 

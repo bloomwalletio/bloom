@@ -5,5 +5,6 @@ export interface INetworkFeatures extends IFeatureFlag {
         addChain: IFeatureFlag & {
             customChain: IFeatureFlag
         }
+        removeNetwork: IFeatureFlag
     }
 }
