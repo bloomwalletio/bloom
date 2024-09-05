@@ -58,7 +58,7 @@
 
 <DrawerTemplate title={localize('views.dashboard.drawers.networkConfig.addChain.title')} {drawerRouter}>
     <known-chains class="h-full flex flex-col gap-4 px-6">
-        {#each KNOWN_EVM_NETWORKS_CONFIGURATIONS as chainConfiguration}
+        {#each networkConfigurations as chainConfiguration}
             <Tile border>
                 <div class="w-full flex items-center justify-between">
                     <div class="flex items-center gap-2">

@@ -25,7 +25,7 @@
         [SupportedNetworkId.GenericEvm]: '#627eea',
 
         [SupportedNetworkId.Optimism]: '#FF0420',
-        [SupportedNetworkId.OptimismSepoliaTestnet]: '#FFFFFF',
+        [SupportedNetworkId.OptimismSepoliaTestnet]: '#FF0420',
 
         [SupportedNetworkId.Blast]: '#101112',
         [SupportedNetworkId.BlastSepoliaTestnet]: '#101112',
