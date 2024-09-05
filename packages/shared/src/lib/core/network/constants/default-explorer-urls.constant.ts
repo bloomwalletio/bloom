@@ -20,16 +20,21 @@ export const DEFAULT_EXPLORER_URLS: Readonly<{ [key in NetworkId]?: string }> = 
 
     // Arbitrum
     [SupportedNetworkId.Arbitrum]: 'https://arbitrum.blockscout.com',
+    [SupportedNetworkId.ArbitrumGoerli]: 'https://arbitrum-sepolia.blockscout.com',
 
     // Base
     [SupportedNetworkId.Base]: 'https://base.blockscout.com',
+    [SupportedNetworkId.BaseSepoliaTestnet]: 'https://base-sepolia.blockscout.com',
 
     // Blast
     [SupportedNetworkId.Blast]: 'https://blast.blockscout.com',
+    [SupportedNetworkId.BlastSepoliaTestnet]: 'https://blast-testnet.blockscout.com',
 
     // Immutable
     [SupportedNetworkId.Immutable]: 'https://explorer.immutable.com',
+    [SupportedNetworkId.ImmutableTestnet]: 'https://explorer.testnet.immutable.com',
 
     // Optimism
     [SupportedNetworkId.Optimism]: 'https://optimism.blockscout.com',
+    [SupportedNetworkId.OptimismSepoliaTestnet]: 'https://optimism-sepolia.blockscout.com',
 }

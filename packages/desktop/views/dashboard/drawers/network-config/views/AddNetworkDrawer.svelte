@@ -3,7 +3,12 @@
     import { DrawerTemplate } from '@components'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { addNewEvmNetwork, KNOWN_EVM_NETWORKS_CONFIGURATIONS } from '@core/network'
+    import {
+        addNewEvmNetwork,
+        KNOWN_EVM_NETWORKS_CONFIGURATIONS,
+        KNOWN_EVM_TESTNET_NETWORKS_CONFIGURATIONS,
+        SupportedNetworkId,
+    } from '@core/network'
     import { activeProfile } from '@core/profile/stores'
     import { Router } from '@core/router'
     import { NetworkAvatar } from '@ui'
@@ -11,7 +16,13 @@
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
-    const selectedChains = KNOWN_EVM_NETWORKS_CONFIGURATIONS.reduce((acc, networkConfiguration) => {
+    const isTestnet = [SupportedNetworkId.IotaTestnet, SupportedNetworkId.Testnet].includes($activeProfile?.network?.id)
+
+    const networkConfigurations = isTestnet
+        ? KNOWN_EVM_TESTNET_NETWORKS_CONFIGURATIONS
+        : KNOWN_EVM_NETWORKS_CONFIGURATIONS
+
+    const selectedChains = networkConfigurations.reduce((acc, networkConfiguration) => {
         acc[networkConfiguration.id] = $activeProfile?.evmNetworks.some(
             (network) => network.id === networkConfiguration.id
         )

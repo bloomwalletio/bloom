@@ -25,10 +25,15 @@ export const SupportedL1EvmNetworkId: Record<string, EvmNetworkId> = {
 
 export const SupportedL2EvmNetworkId: Record<string, EvmNetworkId> = {
     Arbitrum: `${NetworkNamespace.Evm}:${ChainId.Arbitrum}`,
+    ArbitrumSepoliaTestnet: `${NetworkNamespace.Evm}:${ChainId.ArbitrumSepoliaTestnet}`,
     Base: `${NetworkNamespace.Evm}:${ChainId.Base}`,
+    BaseSepoliaTestnet: `${NetworkNamespace.Evm}:${ChainId.BaseSepoliaTestnet}`,
     Blast: `${NetworkNamespace.Evm}:${ChainId.Blast}`,
+    BlastSepoliaTestnet: `${NetworkNamespace.Evm}:${ChainId.BlastSepoliaTestnet}`,
     Immutable: `${NetworkNamespace.Evm}:${ChainId.Immutable}`,
+    ImmutableTestnet: `${NetworkNamespace.Evm}:${ChainId.ImmutableTestnet}`,
     Optimism: `${NetworkNamespace.Evm}:${ChainId.Optimism}`,
+    OptimismSepoliaTestnet: `${NetworkNamespace.Evm}:${ChainId.OptimismSepoliaTestnet}`,
 }
 
 export const SupportedNetworkId = {

@@ -102,6 +102,68 @@ export const SEPOLIA_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     rpcEndpoint: 'https://ethereum-sepolia-rpc.publicnode.com',
 }
 
+// Ethereum L2 Testnets
+
+export const ARBITRUM_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Arbitrum Sepolia',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL2EvmNetworkId.ArbitrumSepoliaTestnet,
+    chainId: ChainId.ArbitrumSepoliaTestnet,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.ArbitrumSepoliaTestnet],
+    rpcEndpoint: 'https://sepolia-rollup.arbitrum.io/rpc',
+}
+
+export const BASE_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Base Sepolia',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL2EvmNetworkId.BaseSepoliaTestnet,
+    chainId: ChainId.BaseSepoliaTestnet,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.BaseSepoliaTestnet],
+    rpcEndpoint: 'https://sepolia.base.org',
+}
+
+export const BLAST_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Blast Sepolia',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL2EvmNetworkId.BlastSepoliaTestnet,
+    chainId: ChainId.BlastSepoliaTestnet,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.BlastSepoliaTestnet],
+    rpcEndpoint: 'https://sepolia.blast.io',
+}
+
+export const OPTIMISM_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Optimism Sepolia',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL2EvmNetworkId.OptimismSepoliaTestnet,
+    chainId: ChainId.OptimismSepoliaTestnet,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Optimism],
+    rpcEndpoint: 'https://sepolia.optimism.io',
+}
+
+export const IMMUTABLE_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'Immutable Testnet',
+    baseToken: EVM_BASE_TOKEN,
+    id: SupportedL2EvmNetworkId.ImmutableTestnet,
+    chainId: ChainId.ImmutableTestnet,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.ImmutableTestnet],
+    rpcEndpoint: 'https://rpc.testnet.immutable.com',
+}
+
 export const KNOWN_EVM_NETWORKS_CONFIGURATIONS: Readonly<IPureEvmNetworkConfiguration[]> = [
     ETHEREUM_NETWORK_CONFIGURATION,
     ARBITRUM_NETWORK_CONFIGURATION,
@@ -109,6 +171,15 @@ export const KNOWN_EVM_NETWORKS_CONFIGURATIONS: Readonly<IPureEvmNetworkConfigur
     BLAST_NETWORK_CONFIGURATION,
     OPTIMISM_NETWORK_CONFIGURATION,
     IMMUTABLE_NETWORK_CONFIGURATION,
+]
+
+export const KNOWN_EVM_TESTNET_NETWORKS_CONFIGURATIONS: Readonly<IPureEvmNetworkConfiguration[]> = [
+    SEPOLIA_NETWORK_CONFIGURATION,
+    ARBITRUM_TESTNET_NETWORK_CONFIGURATION,
+    BASE_TESTNET_NETWORK_CONFIGURATION,
+    BLAST_TESTNET_NETWORK_CONFIGURATION,
+    OPTIMISM_TESTNET_NETWORK_CONFIGURATION,
+    IMMUTABLE_TESTNET_NETWORK_CONFIGURATION,
 ]
 
 export const DEFAULT_EVM_NETWORK_CONFIGURATIONS_FOR_STARDUST_NETWORK: Readonly<{
