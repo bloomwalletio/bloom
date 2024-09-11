@@ -4,8 +4,8 @@ const networkFeatures: INetworkFeatures = {
     enabled: true,
     config: {
         enabled: true,
-        addChain: {
-            enabled: false,
+        manageNetworks: {
+            enabled: true,
             customChain: {
                 enabled: false,
             },

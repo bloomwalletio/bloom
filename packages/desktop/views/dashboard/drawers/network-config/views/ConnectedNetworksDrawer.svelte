@@ -1,17 +1,17 @@
 <script lang="ts">
+    import { Button, IconName } from '@bloomwalletio/ui'
     import { DrawerTemplate, NetworkCard } from '@components'
+    import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
     import { clearSelectedNetworkForNetworkDrawer, networks } from '@core/network'
     import { Router } from '@core/router'
-    import features from '@features/features'
-    import { Button, IconName } from '@bloomwalletio/ui'
     import { onMount } from 'svelte'
     import { NetworkConfigRoute, networkConfigRouter } from '../'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
     function onAddChainClick(): void {
-        $networkConfigRouter.goTo(NetworkConfigRoute.AddChain)
+        $networkConfigRouter.goTo(NetworkConfigRoute.ManageNetworks)
     }
 
     onMount(() => {
@@ -28,10 +28,10 @@
         </div>
     </connected-chains-drawer>
     <div slot="footer" class="flex justify-center">
-        {#if features.network.config.addChain.enabled}
+        {#if Platform.isFeatureFlagEnabled('network.config.manageNetworks')}
             <Button
                 variant="text"
-                text={localize('actions.addChain')}
+                text={localize('views.dashboard.drawers.networkConfig.manageNetworks.title')}
                 icon={IconName.Plus}
                 on:click={onAddChainClick}
             />
