@@ -16,7 +16,7 @@ export const DEFAULT_BLOCKSCOUT_INDEXER_URLS: Readonly<{ [key in NetworkId]?: st
 
     // Arbitrum
     [SupportedNetworkId.Arbitrum]: 'https://arbitrum.blockscout.com',
-    [SupportedNetworkId.ArbitrumGoerli]: 'https://arbitrum-sepolia.blockscout.com',
+    [SupportedNetworkId.ArbitrumSepoliaTestnet]: 'https://arbitrum-sepolia.blockscout.com',
 
     // Base
     [SupportedNetworkId.Base]: 'https://base.blockscout.com',
