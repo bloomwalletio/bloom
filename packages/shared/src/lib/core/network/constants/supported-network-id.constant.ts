@@ -10,12 +10,6 @@ export const SupportedStardustNetworkId: Record<string, StardustNetworkId> = {
     IotaTestnet: `${NetworkNamespace.Stardust}:${StardustNetworkName.IotaTestnet}`,
 }
 
-export const SupportedL1EvmNetworkId: Record<string, EvmNetworkId> = {
-    GenericEvm: `${NetworkNamespace.Evm}:*`,
-    Ethereum: `${NetworkNamespace.Evm}:${ChainId.Ethereum}`,
-    Sepolia: `${NetworkNamespace.Evm}:${ChainId.Sepolia}`,
-}
-
 export const SupportedIscNetworkId: Record<string, EvmNetworkId> = {
     IotaEvm: `${NetworkNamespace.Evm}:${ChainId.IotaEvm}`,
     ShimmerEvm: `${NetworkNamespace.Evm}:${ChainId.ShimmerEvm}`,
@@ -23,8 +17,28 @@ export const SupportedIscNetworkId: Record<string, EvmNetworkId> = {
     IotaTestnetEvm: `${NetworkNamespace.Evm}:${ChainId.IotaTestnetEvm}`,
 }
 
+export const SupportedL1EvmNetworkId: Record<string, EvmNetworkId> = {
+    GenericEvm: `${NetworkNamespace.Evm}:*`,
+    Ethereum: `${NetworkNamespace.Evm}:${ChainId.Ethereum}`,
+    Sepolia: `${NetworkNamespace.Evm}:${ChainId.Sepolia}`,
+}
+
+export const SupportedL2EvmNetworkId: Record<string, EvmNetworkId> = {
+    Arbitrum: `${NetworkNamespace.Evm}:${ChainId.Arbitrum}`,
+    ArbitrumSepoliaTestnet: `${NetworkNamespace.Evm}:${ChainId.ArbitrumSepoliaTestnet}`,
+    Base: `${NetworkNamespace.Evm}:${ChainId.Base}`,
+    BaseSepoliaTestnet: `${NetworkNamespace.Evm}:${ChainId.BaseSepoliaTestnet}`,
+    Blast: `${NetworkNamespace.Evm}:${ChainId.Blast}`,
+    BlastSepoliaTestnet: `${NetworkNamespace.Evm}:${ChainId.BlastSepoliaTestnet}`,
+    Immutable: `${NetworkNamespace.Evm}:${ChainId.Immutable}`,
+    ImmutableTestnet: `${NetworkNamespace.Evm}:${ChainId.ImmutableTestnet}`,
+    Optimism: `${NetworkNamespace.Evm}:${ChainId.Optimism}`,
+    OptimismSepoliaTestnet: `${NetworkNamespace.Evm}:${ChainId.OptimismSepoliaTestnet}`,
+}
+
 export const SupportedNetworkId = {
     ...SupportedStardustNetworkId,
     ...SupportedIscNetworkId,
     ...SupportedL1EvmNetworkId,
+    ...SupportedL2EvmNetworkId,
 }
