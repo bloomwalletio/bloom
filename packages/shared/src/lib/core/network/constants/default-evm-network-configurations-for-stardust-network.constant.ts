@@ -148,7 +148,7 @@ export const OPTIMISM_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguratio
     chainId: ChainId.OptimismSepoliaTestnet,
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
-    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Optimism],
+    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.OptimismSepoliaTestnet],
     rpcEndpoint: 'https://sepolia.optimism.io',
 }
 
