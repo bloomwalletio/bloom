@@ -22,5 +22,7 @@ export interface IBaseEvmNetworkConfiguration {
     coinType: CoinType
     name: string
     explorerUrl?: string
+    blockscoutIndexerUrl?: string
+    novesIndexerUrl?: string
     rpcEndpoint: string
 }

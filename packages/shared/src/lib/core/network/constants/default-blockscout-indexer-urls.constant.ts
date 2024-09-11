@@ -1,17 +1,13 @@
 import { NetworkId } from '../types'
 import { SupportedNetworkId } from './supported-network-id.constant'
 
-export const DEFAULT_EXPLORER_URLS: Readonly<{ [key in NetworkId]?: string }> = {
+export const DEFAULT_BLOCKSCOUT_INDEXER_URLS: Readonly<{ [key in NetworkId]?: string }> = {
     // IOTA
-    [SupportedNetworkId.Iota]: 'https://explorer.iota.org/mainnet/',
     [SupportedNetworkId.IotaEvm]: 'https://explorer.evm.iota.org',
-    [SupportedNetworkId.IotaTestnet]: 'https://explorer.iota.org/iota-testnet/',
     [SupportedNetworkId.IotaTestnetEvm]: 'https://explorer.evm.testnet.iotaledger.net',
 
     // Shimmer
-    [SupportedNetworkId.Shimmer]: 'https://explorer.shimmer.network/shimmer/',
     [SupportedNetworkId.ShimmerEvm]: 'https://explorer.evm.shimmer.network',
-    [SupportedNetworkId.Testnet]: 'https://explorer.shimmer.network/testnet/',
     [SupportedNetworkId.TestnetEvm]: 'https://explorer.evm.testnet.shimmer.network',
 
     // Ethereum

@@ -35,6 +35,8 @@ export class EvmNetwork implements IEvmNetwork {
     public readonly name: string
     public readonly baseToken: IBaseToken
     public readonly explorerUrl: string | undefined
+    public readonly blockscoutIndexerUrl: string | undefined
+    public readonly novesIndexerUrl: string | undefined
     public readonly rpcEndpoint: string
     public readonly type: EvmNetworkType = NetworkType.Evm
     public readonly averageBlockTimeInSeconds: number = AVERAGE_BLOCK_TIME_IN_SECONDS
@@ -53,6 +55,8 @@ export class EvmNetwork implements IEvmNetwork {
         baseToken,
         name,
         explorerUrl,
+        blockscoutIndexerUrl,
+        novesIndexerUrl,
         rpcEndpoint,
     }: IBaseEvmNetworkConfiguration) {
         try {
@@ -66,6 +70,8 @@ export class EvmNetwork implements IEvmNetwork {
             this.baseToken = baseToken
             this.name = name
             this.explorerUrl = explorerUrl
+            this.blockscoutIndexerUrl = blockscoutIndexerUrl
+            this.novesIndexerUrl = novesIndexerUrl
             this.rpcEndpoint = _rpcEndpoint
 
             void this.startStatusPoll()
@@ -119,7 +125,7 @@ export class EvmNetwork implements IEvmNetwork {
             const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
             let gasPrices: IGasPricesBySpeed = { required }
             try {
-                const blockscoutApi = new BlockscoutApi(this.explorerUrl ?? '')
+                const blockscoutApi = new BlockscoutApi(this.blockscoutIndexerUrl ?? '')
                 const stats = await blockscoutApi.getStats()
 
                 Object.entries(stats?.gas_prices ?? {}).forEach(([key, value]) => {

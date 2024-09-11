@@ -11,6 +11,7 @@ import {
     SupportedNetworkId,
     SupportedStardustNetworkId,
 } from './supported-network-id.constant'
+import { DEFAULT_BLOCKSCOUT_INDEXER_URLS } from './default-blockscout-indexer-urls.constant'
 
 // Ethereum Mainnet
 
@@ -23,6 +24,7 @@ const ETHEREUM_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Ethereum],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.Ethereum],
     rpcEndpoint: 'https://ethereum-rpc.publicnode.com',
 }
 
@@ -37,6 +39,7 @@ export const ARBITRUM_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Arbitrum],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.Arbitrum],
     rpcEndpoint: 'https://arbitrum-one-rpc.publicnode.com',
 }
 
@@ -49,6 +52,7 @@ export const BASE_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Base],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.Base],
     rpcEndpoint: 'https://base-rpc.publicnode.com',
 }
 
@@ -61,6 +65,7 @@ export const BLAST_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Blast],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.Blast],
     rpcEndpoint: 'https://blast-rpc.publicnode.com',
 }
 
@@ -73,6 +78,7 @@ export const OPTIMISM_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Optimism],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.Optimism],
     rpcEndpoint: 'https://optimism-rpc.publicnode.com',
 }
 
@@ -85,6 +91,7 @@ export const IMMUTABLE_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Immutable],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.Immutable],
     rpcEndpoint: 'https://rpc.immutable.com',
 }
 
@@ -99,6 +106,7 @@ export const SEPOLIA_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Sepolia] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.Sepolia],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.Sepolia],
     rpcEndpoint: 'https://ethereum-sepolia-rpc.publicnode.com',
 }
 
@@ -113,6 +121,7 @@ export const ARBITRUM_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguratio
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.ArbitrumSepoliaTestnet],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.ArbitrumSepoliaTestnet],
     rpcEndpoint: 'https://sepolia-rollup.arbitrum.io/rpc',
 }
 
@@ -125,6 +134,7 @@ export const BASE_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = 
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.BaseSepoliaTestnet],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.BaseSepoliaTestnet],
     rpcEndpoint: 'https://sepolia.base.org',
 }
 
@@ -137,6 +147,7 @@ export const BLAST_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration =
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.BlastSepoliaTestnet],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.BlastSepoliaTestnet],
     rpcEndpoint: 'https://sepolia.blast.io',
 }
 
@@ -149,6 +160,7 @@ export const OPTIMISM_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguratio
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.OptimismSepoliaTestnet],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.OptimismSepoliaTestnet],
     rpcEndpoint: 'https://sepolia.optimism.io',
 }
 
@@ -161,6 +173,7 @@ export const IMMUTABLE_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfigurati
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Ethereum] ?? 0,
     explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.ImmutableTestnet],
+    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.ImmutableTestnet],
     rpcEndpoint: 'https://rpc.testnet.immutable.com',
 }
 

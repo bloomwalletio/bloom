@@ -23,10 +23,10 @@ export async function checkForUntrackedNfts(account: IAccountState): Promise<voi
     const evmNetworks = getEvmNetworks()
     for (const evmNetwork of evmNetworks) {
         const evmAddress = account.evmAddresses[evmNetwork.coinType]
-        if (!evmAddress || !evmNetwork.explorerUrl) {
+        if (!evmAddress || !evmNetwork.blockscoutIndexerUrl) {
             return
         }
-        const blockscoutApi = new BlockscoutApi(evmNetwork.explorerUrl)
+        const blockscoutApi = new BlockscoutApi(evmNetwork.blockscoutIndexerUrl)
 
         const explorerNfts = await blockscoutApi.getAssetsForAddress(evmAddress, NftStandard.Erc721)
         for (const explorerNft of explorerNfts) {

@@ -23,6 +23,7 @@ export class IscChain extends EvmNetwork implements IIscChain {
     private WEI_PER_GLOW = BigInt(1_000_000_000_000)
 
     public readonly explorerUrl: string | undefined
+    public readonly blockscoutIndexerUrl: string | undefined
     public readonly apiEndpoint: string
     public readonly aliasAddress: string
     public readonly type = NetworkType.Isc

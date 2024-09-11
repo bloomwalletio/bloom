@@ -9,11 +9,11 @@ export async function checkForUntrackedTokens(account: IAccountState, addPreviou
     const evmNetworks = getEvmNetworks()
     for (const evmNetwork of evmNetworks) {
         const evmAddress = account.evmAddresses[evmNetwork.coinType]
-        if (!evmAddress || !evmNetwork.explorerUrl) {
+        if (!evmAddress || !evmNetwork?.blockscoutIndexerUrl) {
             return
         }
         const networkId = evmNetwork.id
-        const blockscoutApi = new BlockscoutApi(evmNetwork.explorerUrl)
+        const blockscoutApi = new BlockscoutApi(evmNetwork.blockscoutIndexerUrl)
 
         const tokens = await blockscoutApi.getAssetsForAddress(evmAddress)
         const untrackedTokensToTrack = tokens.filter(
