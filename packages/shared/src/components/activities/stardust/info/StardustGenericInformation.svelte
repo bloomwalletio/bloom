@@ -20,7 +20,7 @@
     $: formattedMaxGasFee = formatAmount(BigInt(gasLimit ?? 0))
     $: formattedTransactionFee = formatAmount(activity.transactionFee ?? BigInt(0))
 
-    $: hasExplorer = !!getNetwork(activity.sourceNetworkId)?.explorerUrl
+    $: hasExplorer = !!getNetwork(activity.sourceNetworkId)?.explorer
     function onTransactionIdClick(): void {
         const url = getExplorerUrl(
             activity.sourceNetworkId,

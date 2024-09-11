@@ -3,7 +3,7 @@ import { APP_STAGE } from '@core/app'
 import { FiatCurrency } from '@core/market'
 import {
     DEFAULT_EVM_NETWORK_CONFIGURATIONS_FOR_STARDUST_NETWORK,
-    DEFAULT_EXPLORER_URLS,
+    DEFAULT_EXPLORER_CONFIGS,
     DEFAULT_ISC_CHAINS_CONFIGURATIONS,
     IPureEvmNetworkConfiguration,
     IStardustNetworkMetadata,
@@ -82,7 +82,7 @@ function buildStardustNetworkFromThirdPartyPersistedNetwork(
         NETWORK_NAME_TO_STARDUST_NETWORK_ID_MAP[network.protocol.networkName] ??
         `${NetworkNamespace.Stardust}:${network.protocol.networkName}`
     const defaultChainConfigurations = structuredClone(DEFAULT_ISC_CHAINS_CONFIGURATIONS?.[networkId])
-    const explorerUrl = DEFAULT_EXPLORER_URLS[networkId]
+    const explorer = DEFAULT_EXPLORER_CONFIGS[networkId]
 
     return {
         id: networkId,
@@ -92,7 +92,7 @@ function buildStardustNetworkFromThirdPartyPersistedNetwork(
         protocol: network.protocol,
         baseToken: network.baseToken,
         chainConfigurations: defaultChainConfigurations ? [defaultChainConfigurations] : [],
-        explorerUrl,
+        explorer,
     }
 }
 

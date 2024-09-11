@@ -142,7 +142,7 @@
         <TextInput bind:value={name} label={localize('general.name')} error={nameError} />
         <TextInput bind:value={chainId} label={localize(`${localeKey}.chainId`)} error={chainIdError} />
         <TextInput bind:value={rpcEndpoint} label={localize(`${localeKey}.rpcEndpoint`)} error={rpcEndpointError} />
-        <TextInput bind:value={explorerUrl} label={localize(`${localeKey}.explorerUrl`)} error={explorerUrlError} />
+        <TextInput bind:value={explorerUrl} label={localize(`${localeKey}.explorer`)} error={explorerUrlError} />
     </form>
     <Button
         type="submit"

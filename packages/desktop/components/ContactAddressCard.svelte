@@ -28,7 +28,7 @@
     export let contact: IContact
     export let contactAddressMap: IContactAddressMap
 
-    const hasExplorer = !!getNetwork(networkId)?.explorerUrl
+    const hasExplorer = !!getNetwork(networkId)?.explorer
 
     function getTitle(): string {
         if (networkId.includes(NetworkNamespace.Evm)) {

@@ -110,7 +110,7 @@
                 {/if}
             </div>
             <div class="flex flex-row space-x-1">
-                {#if network.explorerUrl && address}
+                {#if network.explorer && address}
                     <IconButton
                         size="sm"
                         icon={IconName.Globe}

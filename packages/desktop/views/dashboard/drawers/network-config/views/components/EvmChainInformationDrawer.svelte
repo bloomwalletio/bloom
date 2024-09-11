@@ -72,7 +72,7 @@
                 },
                 {
                     key: localize(`${localeKey}.explorerUrl`),
-                    value: network.explorerUrl ?? undefined,
+                    value: network?.explorer.url ?? undefined,
                     copyable: true,
                 },
                 ...(isIscNetwork(network)
