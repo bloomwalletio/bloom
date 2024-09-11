@@ -435,16 +435,25 @@
                         "title": "Add chain"
                     },
                     "chain": {
+                        "chainConfig": "Chain Config",
+                        "tokenConfig": "Token Config",
                         "chainId": "Chain ID",
                         "aliasAddress": "Alias Address",
                         "rpcEndpoint": "RPC Endpoint",
                         "explorerUrl": "Explorer URL",
+                        "tokenName": "TokenName",
+                        "unit": "Unit",
+                        "decimals": "Decimals",
+                        "pleaseEnterChain": "Please enter a chain config",
                         "errors": {
                             "nameTooLong": "Name is too long",
                             "aliasAddressWrongFormat": "Must be in either hex or Bech32 format",
                             "aliasAddressAlreadyInUse": "Alias address already in use",
                             "invalidUrl": "Invalid URL",
                             "chainIdExists": "Network with chain ID already exists",
+                            "unitTooLong": "Unit cannot be longer than 6 characters",
+                            "decimalsTooHigh": "Decimals cannot be higher than 24",
+                            "invalidDecimals": "Decimals must be positive",
                             "notMatchingChainId": "Chain Id does not match the network",
                             "invalidRpcEndpoint": "Invalid RPC endpoint",
                             "invalidExplorerUrl": "Invalid explorer URL"

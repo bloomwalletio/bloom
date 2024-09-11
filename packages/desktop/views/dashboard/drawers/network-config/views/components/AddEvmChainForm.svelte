@@ -1,6 +1,6 @@
 <script lang="ts">
     import { BlockscoutApi } from '@auxiliary/blockscout/api'
-    import { Button, TextInput } from '@bloomwalletio/ui'
+    import { Button, Text, NumberInput, TextInput } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import {
         addNewEvmNetwork,
@@ -18,11 +18,15 @@
     import { isValidHttpsUrl } from '@core/utils'
     import { Web3 } from 'web3'
     import { NetworkConfigRoute } from '../../network-config-route.enum'
+    import { TokenStandard } from '@core/token'
+    import { MAX_SUPPORTED_DECIMALS } from '@core/wallet/constants'
+    import { tick } from 'svelte'
 
     export let drawerRouter: Router<NetworkConfigRoute>
 
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
+    // Chain config
     let chainId = ''
     let name = ''
     let explorerUrl = ''
@@ -33,7 +37,30 @@
     let chainIdError = ''
     let explorerUrlError = ''
 
-    $: submitDisabled = !name || !chainId || !rpcEndpoint
+    // Token config
+    let showTokenConfig = false
+    let tokenName = ''
+    let unit = ''
+    let decimals = 0
+
+    let tokenNameError = ''
+    let unitError = ''
+    let decimalsError = ''
+
+    $: isChainConfigValid = !!name && !!rpcEndpoint && !!explorerUrl && !!chainId
+    $: isTokenConfigValid = !!tokenName && !!unit && decimals !== undefined
+
+    $: isChainConfigValid && !showTokenConfig && void setInitialTokenConfig()
+    async function setInitialTokenConfig(): Promise<void> {
+        showTokenConfig = true
+        const defaultToken =
+            DEFAULT_BASE_TOKEN[`${NetworkNamespace.Evm}:${chainId}`] ?? DEFAULT_BASE_TOKEN[SupportedNetworkId.Ethereum]
+
+        await tick()
+        tokenName = defaultToken.name
+        unit = defaultToken.unit
+        decimals = defaultToken.decimals
+    }
 
     function validateName(): void {
         if (name.length > MAX_NETWORK_NAME_LENGTH) {
@@ -88,11 +115,35 @@
         }
     }
 
+    function validateTokenName(): void {
+        if (tokenName.length > MAX_NETWORK_NAME_LENGTH) {
+            tokenNameError = localize(`${localeKey}.errors.nameTooLong`)
+        }
+    }
+
+    function validateUnit(): void {
+        const MAX_UNIT_NAME = 6
+        if (unit.length > MAX_UNIT_NAME) {
+            unitError = localize(`${localeKey}.errors.unitTooLong`)
+        }
+    }
+
+    function validateDecimals(): void {
+        if (decimals > MAX_SUPPORTED_DECIMALS) {
+            unitError = localize(`${localeKey}.errors.decimalsTooHigh`)
+        } else if (decimals < 0) {
+            decimalsError = localize(`${localeKey}.errors.invalidDecimals`)
+        }
+    }
+
     async function validate(): Promise<void> {
         validateName()
         validateRpcEndpoint()
         validateChainId()
         validateExplorerUrl()
+        validateTokenName()
+        validateUnit()
+        validateDecimals()
         await verifyRpcAndChainId()
         await verifyExplorer()
     }
@@ -102,6 +153,8 @@
         explorerUrl = explorerUrl.trim()
         rpcEndpoint = rpcEndpoint.trim()
         chainId = chainId.trim()
+        tokenName = tokenName.trim()
+        unit = unit.trim()
     }
 
     function resetErrors(): void {
@@ -109,13 +162,23 @@
         chainIdError = ''
         rpcEndpointError = ''
         explorerUrlError = ''
+        tokenNameError = ''
+        unitError = ''
+        decimalsError = ''
     }
 
     async function onSubmitClick(): Promise<void> {
         trimInputs()
         resetErrors()
         await validate()
-        const hasError = !!nameError || !!rpcEndpointError || !!explorerUrlError || !!chainIdError
+        const hasError =
+            !!nameError ||
+            !!rpcEndpointError ||
+            !!explorerUrlError ||
+            !!chainIdError ||
+            !!tokenNameError ||
+            !!unitError ||
+            !!decimalsError
         if (hasError) {
             return
         }
@@ -129,7 +192,13 @@
             rpcEndpoint,
             explorerUrl,
             coinType: ETHEREUM_COIN_TYPE,
-            baseToken: DEFAULT_BASE_TOKEN[SupportedNetworkId.Ethereum],
+            baseToken: {
+                standard: TokenStandard.BaseToken,
+                name: tokenName,
+                unit,
+                decimals,
+                tickerSymbol: unit,
+            },
         }
 
         void addNewEvmNetwork(evmNetworkConfiguration)
@@ -139,16 +208,28 @@
 
 <add-evm-network class="h-full flex flex-col justify-between p-4">
     <form id="add-network-form" class="flex flex-col gap-3" on:submit|preventDefault={onSubmitClick}>
+        <Text type="body1">{localize(`${localeKey}.chainConfig`)}</Text>
         <TextInput bind:value={name} label={localize('general.name')} error={nameError} />
         <TextInput bind:value={chainId} label={localize(`${localeKey}.chainId`)} error={chainIdError} />
         <TextInput bind:value={rpcEndpoint} label={localize(`${localeKey}.rpcEndpoint`)} error={rpcEndpointError} />
         <TextInput bind:value={explorerUrl} label={localize(`${localeKey}.explorerUrl`)} error={explorerUrlError} />
+        <hr />
+        <Text type="body1">{localize(`${localeKey}.tokenConfig`)}</Text>
+        {#if showTokenConfig}
+            <TextInput bind:value={tokenName} label={localize(`${localeKey}.tokenName`)} error={tokenNameError} />
+            <TextInput bind:value={unit} label={localize(`${localeKey}.unit`)} error={unitError} />
+            <NumberInput bind:value={decimals} label={localize(`${localeKey}.decimals`)} error={decimalsError} />
+        {:else}
+            <Text type="sm" textColor="secondary" align="center" class="p-4"
+                >{localize(`${localeKey}.pleaseEnterChain`)}</Text
+            >
+        {/if}
     </form>
     <Button
         type="submit"
         form="add-network-form"
         width="full"
-        disabled={submitDisabled}
+        disabled={!isChainConfigValid || !isTokenConfigValid}
         text={localize('actions.addChain')}
     />
 </add-evm-network>
