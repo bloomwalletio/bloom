@@ -3,7 +3,7 @@ import { IStardustNetworkMetadata } from '../interfaces'
 import { NetworkMetadata, StardustNetworkId } from '../types'
 import { DEFAULT_BASE_TOKEN } from './default-base-token.constant'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
-import { DEFAULT_EXPLORER_CONFIGS } from './default-explorer-urls.constant'
+import { DEFAULT_EXPLORER_CONFIGS } from './default-explorer-configs.constant'
 import { DEFAULT_PROTOCOL } from './default-protocol.constant'
 import { SupportedNetworkId } from './supported-network-id.constant'
 

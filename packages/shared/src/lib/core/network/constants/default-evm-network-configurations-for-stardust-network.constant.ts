@@ -4,7 +4,7 @@ import { IPureEvmNetworkConfiguration } from '../interfaces'
 import { StardustNetworkId } from '../types'
 import { EVM_BASE_TOKEN } from './default-base-token.constant'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
-import { DEFAULT_EXPLORER_CONFIGS } from './default-explorer-urls.constant'
+import { DEFAULT_EXPLORER_CONFIGS } from './default-explorer-configs.constant'
 import {
     SupportedL1EvmNetworkId,
     SupportedL2EvmNetworkId,

@@ -4,7 +4,7 @@ import { StardustNetworkId } from '../types'
 import { DEFAULT_BASE_TOKEN } from './default-base-token.constant'
 import { DEFAULT_BLOCKSCOUT_INDEXER_URLS } from './default-blockscout-indexer-urls.constant'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
-import { DEFAULT_EXPLORER_CONFIGS } from './default-explorer-urls.constant'
+import { DEFAULT_EXPLORER_CONFIGS } from './default-explorer-configs.constant'
 import { SupportedIscNetworkId, SupportedNetworkId, SupportedStardustNetworkId } from './supported-network-id.constant'
 import { isFeatureEnabled } from '@lib/features/utils'
 
