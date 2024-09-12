@@ -4,7 +4,7 @@ import {
     DEFAULT_COIN_TYPE,
     DEFAULT_NETWORK_METADATA,
     TEST_COIN_TYPE,
-    DEFAULT_EXPLORER_URLS,
+    DEFAULT_EXPLORER_CONFIGS,
 } from '../constants'
 import { TokenStandard } from '@core/token/enums'
 import { INodeInfoResponse, IStardustNetworkMetadata } from '../interfaces'
@@ -23,7 +23,7 @@ export function buildPersistedNetworkFromNodeInfoResponse(
 
     const configuration = DEFAULT_ISC_CHAINS_CONFIGURATIONS?.[id]
     const chainConfigurations = configuration ? [structuredClone(configuration)] : []
-    const explorerUrl = DEFAULT_EXPLORER_URLS[id]
+    const explorer = DEFAULT_EXPLORER_CONFIGS[id]
     return {
         id,
         name,
@@ -32,6 +32,6 @@ export function buildPersistedNetworkFromNodeInfoResponse(
         protocol: nodeInfoResponse?.nodeInfo?.protocol,
         baseToken: { standard: TokenStandard.BaseToken, ...nodeInfoResponse?.nodeInfo?.baseToken },
         chainConfigurations,
-        explorerUrl,
+        explorer,
     }
 }

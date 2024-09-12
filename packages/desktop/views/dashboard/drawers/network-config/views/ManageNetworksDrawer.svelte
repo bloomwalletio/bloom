@@ -5,7 +5,7 @@
     import { localize } from '@core/i18n'
     import {
         addNewEvmNetwork,
-        KNOWN_EVM_NETWORKS_CONFIGURATIONS,
+        KNOWN_EVM_MAINNET_NETWORKS_CONFIGURATIONS,
         KNOWN_EVM_TESTNET_NETWORKS_CONFIGURATIONS,
         SupportedNetworkId,
     } from '@core/network'
@@ -20,7 +20,7 @@
 
     const networkConfigurations = isTestnet
         ? KNOWN_EVM_TESTNET_NETWORKS_CONFIGURATIONS
-        : KNOWN_EVM_NETWORKS_CONFIGURATIONS
+        : KNOWN_EVM_MAINNET_NETWORKS_CONFIGURATIONS
 
     const selectedChains = networkConfigurations.reduce((acc, networkConfiguration) => {
         acc[networkConfiguration.id] = $activeProfile?.evmNetworks.some(

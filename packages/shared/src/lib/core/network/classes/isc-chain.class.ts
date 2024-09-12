@@ -16,13 +16,14 @@ import { BigIntLike } from '@ethereumjs/util'
 import { IIscChain, IIscChainConfiguration, IIscChainMetadata } from '../interfaces'
 import { NftStandard } from '@core/nfts/enums'
 import { ISC_CONFIRMATION_THRESHOLD } from '@core/network/constants'
+import { IExplorerConfig } from '@auxiliary/explorer'
 
 export class IscChain extends EvmNetwork implements IIscChain {
     private readonly _chainApi: string
     private _metadata: IIscChainMetadata | undefined
     private WEI_PER_GLOW = BigInt(1_000_000_000_000)
 
-    public readonly explorerUrl: string | undefined
+    public readonly explorer: IExplorerConfig | undefined
     public readonly blockscoutIndexerUrl: string | undefined
     public readonly apiEndpoint: string
     public readonly aliasAddress: string

@@ -3,7 +3,8 @@
     import { type IItem } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
     import { IErc721Nft } from '@core/nfts'
-    import { ExplorerEndpoint, EvmNetworkId, getExplorerUrl } from '@core/network'
+    import { EvmNetworkId, getExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import CollectibleDetails from './CollectibleDetails.svelte'
 
     export let nft: IErc721Nft

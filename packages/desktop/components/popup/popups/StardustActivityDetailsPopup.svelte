@@ -11,7 +11,7 @@
     import { getTransactionAssets } from '@core/activity/utils'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { getExplorerUrl } from '@core/network/utils'
     import { getNftByIdForAccount, ownedNfts, selectedNftId } from '@core/nfts/stores'
     import { CollectiblesRoute, DashboardRoute, collectiblesRouter, dashboardRouter } from '@core/router'

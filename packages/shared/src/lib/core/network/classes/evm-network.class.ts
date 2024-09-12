@@ -24,6 +24,7 @@ import { BigIntLike } from '@ethereumjs/util'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 import { convertGweiToWei } from '@core/layer-2/utils'
 import { IGasPricesBySpeed } from '@core/layer-2'
+import { IExplorerConfig } from '@auxiliary/explorer'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -34,7 +35,7 @@ export class EvmNetwork implements IEvmNetwork {
     public readonly coinType: CoinType
     public readonly name: string
     public readonly baseToken: IBaseToken
-    public readonly explorerUrl: string | undefined
+    public readonly explorer: IExplorerConfig | undefined
     public readonly blockscoutIndexerUrl: string | undefined
     public readonly novesIndexerUrl: string | undefined
     public readonly rpcEndpoint: string
@@ -54,7 +55,7 @@ export class EvmNetwork implements IEvmNetwork {
         coinType,
         baseToken,
         name,
-        explorerUrl,
+        explorer,
         blockscoutIndexerUrl,
         novesIndexerUrl,
         rpcEndpoint,
@@ -69,7 +70,7 @@ export class EvmNetwork implements IEvmNetwork {
             this.coinType = coinType
             this.baseToken = baseToken
             this.name = name
-            this.explorerUrl = explorerUrl
+            this.explorer = explorer
             this.blockscoutIndexerUrl = blockscoutIndexerUrl
             this.novesIndexerUrl = novesIndexerUrl
             this.rpcEndpoint = _rpcEndpoint

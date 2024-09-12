@@ -11,6 +11,7 @@ import { IBaseToken } from '@core/token/interfaces'
 import { IscChain } from './isc-chain.class'
 import { getNodeInfo } from '@core/profile-manager/api'
 import { addChain } from '../stores/networks.store'
+import { IExplorerConfig } from '@auxiliary/explorer/interfaces'
 
 export class StardustNetwork implements IStardustNetwork {
     public readonly id: StardustNetworkId
@@ -21,7 +22,7 @@ export class StardustNetwork implements IStardustNetwork {
     public readonly bech32Hrp: string
     public readonly protocol: IProtocol
     public readonly baseToken: IBaseToken
-    public readonly explorerUrl: string | undefined
+    public readonly explorer: IExplorerConfig | undefined
     public readonly type = NetworkType.Stardust
 
     public iscChains: IscChain[]
@@ -39,7 +40,7 @@ export class StardustNetwork implements IStardustNetwork {
         this.networkName = persistedNetwork.protocol.networkName
         this.protocol = persistedNetwork.protocol
         this.baseToken = persistedNetwork.baseToken
-        this.explorerUrl = persistedNetwork.explorerUrl
+        this.explorer = persistedNetwork.explorer
 
         this.iscChains = persistedNetwork.chainConfigurations
             .map((chainConfiguration) => {

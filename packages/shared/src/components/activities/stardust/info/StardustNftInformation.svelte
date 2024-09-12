@@ -4,7 +4,7 @@
     import { StardustNftActivity } from '@core/activity'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint } from '@core/network/enums'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { getExplorerUrl } from '@core/network/utils'
     import { NftStandard } from '@core/nfts/enums'
     import { getNftByIdForAccount } from '@core/nfts/stores'

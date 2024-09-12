@@ -4,13 +4,8 @@
     import { getAddressFromAccountForNetwork } from '@core/account/utils'
     import { openUrlInBrowser } from '@core/app/utils'
     import { localize } from '@core/i18n'
-    import {
-        ExplorerEndpoint,
-        getExplorerUrl,
-        Network,
-        NetworkNamespace,
-        setSelectedNetworkForNetworkDrawer,
-    } from '@core/network'
+    import { getExplorerUrl, Network, NetworkNamespace, setSelectedNetworkForNetworkDrawer } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { setClipboard } from '@core/utils/os'
     import { toggleDashboardDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId } from '@desktop/auxiliary/popup'

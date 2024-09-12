@@ -4,7 +4,7 @@ import { StardustNetworkId } from '../types'
 import { DEFAULT_BASE_TOKEN } from './default-base-token.constant'
 import { DEFAULT_BLOCKSCOUT_INDEXER_URLS } from './default-blockscout-indexer-urls.constant'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
-import { DEFAULT_EXPLORER_URLS } from './default-explorer-urls.constant'
+import { DEFAULT_EXPLORER_CONFIGS } from './default-explorer-configs.constant'
 import { SupportedIscNetworkId, SupportedNetworkId, SupportedStardustNetworkId } from './supported-network-id.constant'
 import { isFeatureEnabled } from '@lib/features/utils'
 
@@ -19,7 +19,7 @@ const IOTA_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     aliasAddress: 'iota1pzt3mstq6khgc3tl0mwuzk3eqddkryqnpdxmk4nr25re2466uxwm28qqxu5',
     rpcEndpoint: 'https://json-rpc.evm.iotaledger.net/',
     apiEndpoint: 'https://api.evm.iotaledger.net/',
-    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.IotaEvm],
+    explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.IotaEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.IotaEvm],
 }
 
@@ -34,7 +34,7 @@ const SHIMMER_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     aliasAddress: 'smr1prxvwqvwf7nru5q5xvh5thwg54zsm2y4wfnk6yk56hj3exxkg92mx20wl3s',
     rpcEndpoint: 'https://json-rpc.evm.shimmer.network/',
     apiEndpoint: 'https://api.evm.shimmer.network/',
-    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.ShimmerEvm],
+    explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.ShimmerEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.ShimmerEvm],
 }
 
@@ -49,7 +49,7 @@ const IOTA_TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     aliasAddress: 'tst1pzxsrr7apqkdzz633dyntmvxwtyvk029p39te5j0m33q6946h7akzv663zu',
     rpcEndpoint: 'https://json-rpc.evm.testnet.iotaledger.net/',
     apiEndpoint: 'https://api.evm.testnet.iotaledger.net/',
-    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.IotaTestnetEvm],
+    explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.IotaTestnetEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.IotaTestnetEvm],
 }
 
@@ -65,7 +65,7 @@ export const TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     aliasAddress: 'rms1ppp00k5mmd2m8my8ukkp58nd3rskw6rx8l09aj35984k74uuc5u2cywn3ex',
     rpcEndpoint: 'https://json-rpc.evm.testnet.shimmer.network/',
     apiEndpoint: 'https://api.evm.testnet.shimmer.network/',
-    explorerUrl: DEFAULT_EXPLORER_URLS[SupportedNetworkId.TestnetEvm],
+    explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.TestnetEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.TestnetEvm],
 }
 

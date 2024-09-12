@@ -1,6 +1,6 @@
 import { DappVerification } from '@auxiliary/wallet-connect/enums'
 import { persistedDappNamespaces, persistedDapps } from '@auxiliary/wallet-connect/stores'
-import { DEFAULT_BASE_TOKEN, DEFAULT_EXPLORER_URLS } from '@core/network/constants'
+import { DEFAULT_BASE_TOKEN } from '@core/network/constants'
 import { IPersistedProfile } from '@core/profile/interfaces'
 import { IBaseToken } from '@core/token/interfaces'
 import { persistedTokens } from '@core/token/stores'
@@ -45,7 +45,6 @@ export function prodProfileMigration8To9(existingProfile: unknown): Promise<void
 
     profile.network = {
         ...profile.network,
-        explorerUrl: DEFAULT_EXPLORER_URLS[profile.network.id],
         chainConfigurations: updatedChainConfiguration,
     }
 
