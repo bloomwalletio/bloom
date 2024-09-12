@@ -9,8 +9,9 @@ export function getExplorerUrl(
     requestedEndpoint: ExplorerEndpoint,
     pathParameter?: string
 ): string | undefined {
-    const baseUrl = getNetwork(networkId)?.explorer?.url ?? ''
-    const endpoint = getExplorerEndpoint(networkId, requestedEndpoint) ?? ''
+    const { explorer } = getNetwork(networkId) ?? {}
+    const baseUrl = explorer?.url ?? ''
+    const endpoint = getExplorerEndpoint(explorer?.type, requestedEndpoint) ?? ''
 
     const url = buildUrl({ base: baseUrl, pathname: `${endpoint}${pathParameter ? '/' + pathParameter : ''}` })
     return url?.href

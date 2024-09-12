@@ -1,26 +1,30 @@
-import { ExplorerEndpoint } from '../enums'
-import { NetworkId } from '../types'
-import { isStardustNetwork } from './isStardustNetwork'
-import { isEvmNetwork } from './isEvmNetwork'
+import { BlockscoutExplorerEndpoint, ExplorerEndpoint, StardustExplorerEndpoint } from '../enums'
+import { ExplorerType } from '@auxiliary/explorer'
 
 const STARDUST_EXPLORER_ENDPOINTS: Readonly<{ [key in ExplorerEndpoint]?: string }> = {
-    [ExplorerEndpoint.Transaction]: ExplorerEndpoint.Transaction,
-    [ExplorerEndpoint.Output]: ExplorerEndpoint.Output,
-    [ExplorerEndpoint.Nft]: ExplorerEndpoint.Nft,
-    [ExplorerEndpoint.Foundry]: ExplorerEndpoint.Foundry,
-    [ExplorerEndpoint.Address]: 'addr',
+    [ExplorerEndpoint.Transaction]: StardustExplorerEndpoint.Transaction,
+    [ExplorerEndpoint.Output]: StardustExplorerEndpoint.Output,
+    [ExplorerEndpoint.Nft]: StardustExplorerEndpoint.Nft,
+    [ExplorerEndpoint.Foundry]: StardustExplorerEndpoint.Foundry,
+    [ExplorerEndpoint.Address]: StardustExplorerEndpoint.Address,
 }
 
-const EVM_EXPLORER_ENDPOINTS: Readonly<{ [key in ExplorerEndpoint]?: string }> = {
-    [ExplorerEndpoint.Transaction]: 'tx',
-    [ExplorerEndpoint.Token]: ExplorerEndpoint.Token,
-    [ExplorerEndpoint.Address]: ExplorerEndpoint.Address,
+const BLOCKSCOUT_EXPLORER_ENDPOINTS: Readonly<{ [key in ExplorerEndpoint]?: string }> = {
+    [ExplorerEndpoint.Transaction]: BlockscoutExplorerEndpoint.Transaction,
+    [ExplorerEndpoint.Token]: BlockscoutExplorerEndpoint.Token,
+    [ExplorerEndpoint.Address]: BlockscoutExplorerEndpoint.Address,
 }
 
-export function getExplorerEndpoint(networkId: NetworkId, explorerEndpoint: ExplorerEndpoint): string | undefined {
-    if (isStardustNetwork(networkId)) {
-        return STARDUST_EXPLORER_ENDPOINTS[explorerEndpoint]
-    } else if (isEvmNetwork(networkId)) {
-        return EVM_EXPLORER_ENDPOINTS[explorerEndpoint]
+export function getExplorerEndpoint(
+    explorerType: ExplorerType | undefined,
+    explorerEndpoint: ExplorerEndpoint
+): string | undefined {
+    switch (explorerType) {
+        case ExplorerType.Blockscout:
+            return BLOCKSCOUT_EXPLORER_ENDPOINTS[explorerEndpoint]
+        case ExplorerType.Stardust:
+            return STARDUST_EXPLORER_ENDPOINTS[explorerEndpoint]
+        default:
+            return undefined
     }
 }
