@@ -83,6 +83,16 @@ export const DEFAULT_EXPLORER_CONFIGS: Readonly<{ [key in NetworkId]?: IExplorer
         url: 'https://blast-testnet.blockscout.com',
     },
 
+    // BNB Smart Chain
+    [SupportedNetworkId.Bnb]: {
+        type: ExplorerType.Etherscan,
+        url: 'https://bscscan.com',
+    },
+    [SupportedNetworkId.BnbTestnet]: {
+        type: ExplorerType.Etherscan,
+        url: 'https://testnet.bscscan.com',
+    },
+
     // Immutable
     [SupportedNetworkId.Immutable]: {
         type: ExplorerType.Blockscout,
