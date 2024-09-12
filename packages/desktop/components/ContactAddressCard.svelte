@@ -3,14 +3,8 @@
     import { IContact, IContactAddress, IContactAddressMap, setSelectedContactNetworkAddress } from '@core/contact'
     import { localize } from '@core/i18n'
     import { resetLedgerPreparedOutput, resetShowInternalVerificationPopup } from '@core/ledger'
-    import {
-        ExplorerEndpoint,
-        getExplorerUrl,
-        getNameFromNetworkId,
-        getNetwork,
-        NetworkId,
-        NetworkNamespace,
-    } from '@core/network'
+    import { getExplorerUrl, getNameFromNetworkId, getNetwork, NetworkId, NetworkNamespace } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { Router } from '@core/router'
     import { truncateString } from '@core/utils'
     import { SendFlowType, setSendFlowParameters, SubjectType } from '@core/wallet'

@@ -5,7 +5,7 @@
     import { EvmActivityType } from '@core/activity/enums/evm'
     import { openUrlInBrowser } from '@core/app'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { getExplorerUrl } from '@core/network/utils'
     import { NftStandard } from '@core/nfts'
     import { Nft } from '@core/nfts/interfaces'

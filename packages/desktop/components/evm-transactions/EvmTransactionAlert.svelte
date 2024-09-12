@@ -1,6 +1,7 @@
 <script lang="ts">
     import { openUrlInBrowser } from '@core/app/utils'
-    import { EvmNetworkId, ExplorerEndpoint, getExplorerUrl } from '@core/network'
+    import { EvmNetworkId, getExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { Alert, Link, Text } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
 
