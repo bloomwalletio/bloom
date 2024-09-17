@@ -24,6 +24,7 @@ import { BigIntLike } from '@ethereumjs/util'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
 import { convertGweiToWei } from '@core/layer-2/utils'
 import { IGasPricesBySpeed } from '@core/layer-2'
+import { IExplorerConfig } from '@auxiliary/explorer'
 
 export class EvmNetwork implements IEvmNetwork {
     public readonly provider: Web3Provider
@@ -34,7 +35,9 @@ export class EvmNetwork implements IEvmNetwork {
     public readonly coinType: CoinType
     public readonly name: string
     public readonly baseToken: IBaseToken
-    public readonly explorerUrl: string | undefined
+    public readonly explorer: IExplorerConfig | undefined
+    public readonly blockscoutIndexerUrl: string | undefined
+    public readonly novesIndexerUrl: string | undefined
     public readonly rpcEndpoint: string
     public readonly type: EvmNetworkType = NetworkType.Evm
     public readonly averageBlockTimeInSeconds: number = AVERAGE_BLOCK_TIME_IN_SECONDS
@@ -52,7 +55,9 @@ export class EvmNetwork implements IEvmNetwork {
         coinType,
         baseToken,
         name,
-        explorerUrl,
+        explorer,
+        blockscoutIndexerUrl,
+        novesIndexerUrl,
         rpcEndpoint,
     }: IBaseEvmNetworkConfiguration) {
         try {
@@ -65,7 +70,9 @@ export class EvmNetwork implements IEvmNetwork {
             this.coinType = coinType
             this.baseToken = baseToken
             this.name = name
-            this.explorerUrl = explorerUrl
+            this.explorer = explorer
+            this.blockscoutIndexerUrl = blockscoutIndexerUrl
+            this.novesIndexerUrl = novesIndexerUrl
             this.rpcEndpoint = _rpcEndpoint
 
             void this.startStatusPoll()
@@ -119,7 +126,7 @@ export class EvmNetwork implements IEvmNetwork {
             const required = (await this.getRequiredGasPrice()) ?? BigInt(0)
             let gasPrices: IGasPricesBySpeed = { required }
             try {
-                const blockscoutApi = new BlockscoutApi(this.explorerUrl ?? '')
+                const blockscoutApi = new BlockscoutApi(this.blockscoutIndexerUrl ?? '')
                 const stats = await blockscoutApi.getStats()
 
                 Object.entries(stats?.gas_prices ?? {}).forEach(([key, value]) => {

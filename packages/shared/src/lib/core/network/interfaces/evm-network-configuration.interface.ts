@@ -2,6 +2,7 @@ import { CoinType } from '@iota/sdk/out/types'
 import { NetworkType, NetworkNamespace, ChainId } from '../enums'
 import { EvmNetworkId } from '../types'
 import { IBaseToken } from '@core/token/interfaces'
+import { IExplorerConfig } from '@auxiliary/explorer'
 
 export interface IIscChainConfiguration extends IBaseEvmNetworkConfiguration {
     type: NetworkType.Isc
@@ -21,6 +22,8 @@ export interface IBaseEvmNetworkConfiguration {
     type: NetworkType
     coinType: CoinType
     name: string
-    explorerUrl?: string
+    explorer?: IExplorerConfig
+    blockscoutIndexerUrl?: string
+    novesIndexerUrl?: string
     rpcEndpoint: string
 }

@@ -197,7 +197,7 @@
  rename packages/desktop/{components/buttons/popup-buttons => views/dashboard/developer/components}/TestDeepLinkButton.svelte (72%)
  rename packages/desktop/{components/buttons/popup-buttons/index.js => views/dashboard/developer/components/index.ts} (68%)
  rename packages/desktop/views/dashboard/developer/{index.js => index.ts} (100%)
- rename packages/desktop/{lib/routers/enums => views/dashboard/drawers/network-config}/network-config-route.enum.ts (86%)
+ rename packages/desktop/{lib/routers/enums => views/dashboard/drawers/network-config}/network-config-route.enum.ts (78%)
  rename packages/desktop/{components/menu-buttons/ProposalDetailsButton.svelte => views/dashboard/governance/components/ProposalDetailsMenu.svelte} (55%)
  rename packages/desktop/{ => views/dashboard/governance}/components/ProposalQuestion.svelte (58%)
  rename packages/desktop/views/dashboard/{index.js => index.ts} (77%)
@@ -519,7 +519,6 @@
  delete mode 100644 packages/mobile/lib/contexts/wallet/actions/index.ts
  delete mode 100644 packages/mobile/lib/contexts/wallet/enums/filter-type.enum.ts
  delete mode 100644 packages/mobile/lib/contexts/wallet/enums/index.ts
- delete mode 100644 packages/mobile/lib/contexts/wallet/index.ts
  delete mode 100644 packages/mobile/lib/contexts/wallet/utils/getFilterStore.ts
  delete mode 100644 packages/mobile/lib/contexts/wallet/utils/index.ts
  delete mode 100644 packages/mobile/lib/routers/actions/goToAppContext.ts
@@ -1564,6 +1563,7 @@
  rename packages/shared/{ => src}/lib/auxiliary/deep-link/types/index.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/deep-link/types/wallet-context.type.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/deep-link/utils/index.ts (100%)
+ rename packages/{mobile/lib/contexts/wallet => shared/src/lib/auxiliary/explorer}/index.ts (62%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/index.ts (100%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/interfaces/index.ts (51%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/interfaces/notification-action.interface.ts (53%)
@@ -2236,7 +2236,7 @@
  rename packages/shared/{ => src}/lib/features/interfaces/features.interface.ts (56%)
  rename packages/shared/{ => src}/lib/features/interfaces/governance-features.interface.ts (100%)
  rename packages/shared/{ => src}/lib/features/interfaces/index.ts (64%)
- rename packages/shared/{ => src}/lib/features/interfaces/network-features.interface.ts (87%)
+ rename packages/shared/{ => src}/lib/features/interfaces/network-features.interface.ts (54%)
  rename packages/shared/{ => src}/lib/features/interfaces/onboarding-features-for-network.interface.ts (75%)
  rename packages/shared/{ => src}/lib/features/interfaces/settings-features.interface.ts (88%)
  rename packages/shared/{ => src}/lib/features/interfaces/wallet-features.interface.ts (78%)

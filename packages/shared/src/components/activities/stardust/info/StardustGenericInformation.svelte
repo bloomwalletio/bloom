@@ -4,7 +4,8 @@
     import { openUrlInBrowser } from '@core/app'
     import { time } from '@core/app/stores'
     import { getFormattedTimeStamp, localize } from '@core/i18n'
-    import { ExplorerEndpoint, getExplorerUrl, getNetwork } from '@core/network'
+    import { getExplorerUrl, getNetwork } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { formatTokenAmount } from '@core/token'
     import { getTimeDifference } from '@core/utils/time'
     import { NetworkLabel, ExpiredPill, TimelockPill, UnclaimedPill } from '@ui'
@@ -20,7 +21,7 @@
     $: formattedMaxGasFee = formatAmount(BigInt(gasLimit ?? 0))
     $: formattedTransactionFee = formatAmount(activity.transactionFee ?? BigInt(0))
 
-    $: hasExplorer = !!getNetwork(activity.sourceNetworkId)?.explorerUrl
+    $: hasExplorer = !!getNetwork(activity.sourceNetworkId)?.explorer
     function onTransactionIdClick(): void {
         const url = getExplorerUrl(
             activity.sourceNetworkId,

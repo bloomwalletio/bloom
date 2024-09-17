@@ -25,6 +25,8 @@
     let explorerUrlError = ''
     $: submitDisabled = !iscNetwork.name || !iscNetwork.aliasAddress || !iscNetwork.rpcEndpoint
 
+    const explorerUrl = ''
+
     const iscNetwork: IIscChainConfiguration = {
         type: NetworkType.Isc,
         id: '' as EvmNetworkId,
@@ -69,7 +71,7 @@
     }
 
     function validateExplorerUrl(): void {
-        if (iscNetwork.explorerUrl && !isValidHttpsUrl(iscNetwork.explorerUrl)) {
+        if (explorerUrl && !isValidHttpsUrl(explorerUrl)) {
             explorerUrlError = localize(`${localeKey}.errors.invalidUrl`)
         }
     }

@@ -20,7 +20,7 @@ export async function fetchAndPersistTransactionsForAccounts(
 ): Promise<void> {
     const networks = getEvmNetworks()
     for (const network of networks) {
-        if (!network.explorerUrl) {
+        if (!network.blockscoutIndexerUrl) {
             continue
         }
 
@@ -112,7 +112,7 @@ async function fetchBlockscoutTransactionsForAccount(
     if (!address) {
         return undefined
     }
-    const blockscoutApi = new BlockscoutApi(network.explorerUrl ?? '')
+    const blockscoutApi = new BlockscoutApi(network.blockscoutIndexerUrl ?? '')
     const transactions = await blockscoutApi.getTransactionsForAddress(address, (items: IBlockscoutTransaction[]) =>
         getTransactionsExitFunction(items, profileId, account.index, network.id)
     )
@@ -138,7 +138,7 @@ async function fetchBlockscoutTokenTransfersForAccount(
     if (!address) {
         return undefined
     }
-    const blockscoutApi = new BlockscoutApi(network.explorerUrl ?? '')
+    const blockscoutApi = new BlockscoutApi(network.blockscoutIndexerUrl ?? '')
     const tokenTransfers = await blockscoutApi.getTokenTransfersForAddress(
         address,
         undefined,

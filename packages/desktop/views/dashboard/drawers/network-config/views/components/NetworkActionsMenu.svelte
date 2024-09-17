@@ -7,6 +7,7 @@
     import { Router } from '@core/router'
     import { closeDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { Platform } from '@core/app'
 
     export let drawerRouter: Router<unknown>
     export let network: IEvmNetwork
@@ -14,7 +15,7 @@
     const localeKey = 'views.dashboard.drawers.networkConfig.chain'
 
     $: menuItems = [
-        ...(network.type === NetworkType.Evm
+        ...(network.type === NetworkType.Evm && Platform.isFeatureFlagEnabled('network.config.removeNetwork')
             ? [
                   {
                       icon: IconName.Trash,

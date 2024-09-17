@@ -34,6 +34,9 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
     averageBlockTimeInSeconds: number
     blocksUntilConfirmed: number
 
+    blockscoutIndexerUrl?: string
+    novesIndexerUrl?: string
+
     getRequiredGasPrice(): Promise<bigint | undefined>
     getGasPrices(): Promise<IGasPricesBySpeed | undefined>
     getBalance(account: IAccountState): Promise<ITokenBalance | undefined>

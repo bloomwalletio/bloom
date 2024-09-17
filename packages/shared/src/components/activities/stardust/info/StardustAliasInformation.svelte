@@ -3,7 +3,7 @@
     import { localize } from '@core/i18n'
     import { StardustAliasActivity } from '@core/activity'
     import { getExplorerUrl } from '@core/network/utils'
-    import { ExplorerEndpoint } from '@core/network/enums'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { openUrlInBrowser } from '@core/app/utils'
 
     export let activity: StardustAliasActivity

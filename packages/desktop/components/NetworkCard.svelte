@@ -8,13 +8,8 @@
     import { localize } from '@core/i18n'
     import { generateAndStoreEvmAddressForAccounts, pollEvmBalancesForAccount } from '@core/layer-2/actions'
     import { LedgerAppName } from '@core/ledger'
-    import {
-        ExplorerEndpoint,
-        Network,
-        NetworkNamespace,
-        getExplorerUrl,
-        setSelectedNetworkForNetworkDrawer,
-    } from '@core/network'
+    import { Network, NetworkNamespace, getExplorerUrl, setSelectedNetworkForNetworkDrawer } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { ProfileType } from '@core/profile'
     import { checkActiveProfileAuth } from '@core/profile/actions'
     import { activeProfile } from '@core/profile/stores'
@@ -110,7 +105,7 @@
                 {/if}
             </div>
             <div class="flex flex-row space-x-1">
-                {#if network.explorerUrl && address}
+                {#if network.explorer && address}
                     <IconButton
                         size="sm"
                         icon={IconName.Globe}

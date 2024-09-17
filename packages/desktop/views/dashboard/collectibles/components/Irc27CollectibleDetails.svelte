@@ -1,7 +1,8 @@
 <script lang="ts">
     import { type IItem } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import { ExplorerEndpoint, getActiveNetworkId, getExplorerUrl } from '@core/network'
+    import { getActiveNetworkId, getExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
     import { IIrc27Nft } from '@core/nfts'
     import { getBaseToken } from '@core/profile/actions'
     import { formatTokenAmount } from '@core/token'

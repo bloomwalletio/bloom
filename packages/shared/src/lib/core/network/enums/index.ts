@@ -1,6 +1,5 @@
 export * from './chain-id.enum'
 export * from './explorer-api-endpoint.enum'
-export * from './explorer-endpoint.enum'
 export * from './network-health.enum'
 export * from './network-namespace.enum'
 export * from './network-type.enum'

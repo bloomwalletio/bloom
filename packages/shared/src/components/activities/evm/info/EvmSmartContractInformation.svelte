@@ -8,7 +8,8 @@
         EvmTokenApprovalActivity,
     } from '@core/activity'
     import { openUrlInBrowser } from '@core/app'
-    import { ExplorerEndpoint, getExplorerUrl } from '@core/network'
+    import { getExplorerUrl } from '@core/network'
+    import { ExplorerEndpoint } from '@auxiliary/explorer'
 
     export let activity:
         | EvmContractCallActivity
