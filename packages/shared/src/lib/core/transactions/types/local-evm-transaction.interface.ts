@@ -4,11 +4,11 @@ import { EvmTransactionData } from '@core/layer-2/types'
 export type LocalEvmTransaction = Omit<EvmTransactionData, 'estimatedGas' | 'gasLimit' | 'nonce'> & {
     status: boolean
     transactionHash: string
-    transactionIndex: number
-    blockNumber: number
-    to: string
-    from: string
-    gasUsed: number
+    transactionIndex?: number
+    blockNumber?: number
+    to?: string
+    from?: string
+    gasUsed?: number
     estimatedGas?: number
     gasLimit?: number
     nonce?: number

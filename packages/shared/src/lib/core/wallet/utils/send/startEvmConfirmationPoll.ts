@@ -12,6 +12,9 @@ export function startEvmConfirmationPoll(
     profileId: string
 ): void {
     const { transactionHash, blockNumber } = transaction
+    if (!blockNumber) {
+        return
+    }
     const pollInterval = evmNetwork.averageBlockTimeInSeconds * MILLISECONDS_PER_SECOND
 
     const poll = async () => {

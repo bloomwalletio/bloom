@@ -61,7 +61,7 @@ export function updateActivityByTransactionId(
 export function updateActivityByActivityId(
     accountIndex: number,
     activityId: string,
-    partialBaseActivity: Partial<BaseStardustActivity>
+    partialBaseActivity: Partial<BaseStardustActivity | BaseEvmActivity>
 ): void {
     allAccountActivities.update((state) => {
         const activity = state[accountIndex]?.find((_activity) => _activity.id === activityId)
