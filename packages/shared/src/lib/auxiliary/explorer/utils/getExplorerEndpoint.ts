@@ -1,4 +1,9 @@
-import { BlockscoutExplorerEndpoint, ExplorerEndpoint, StardustExplorerEndpoint } from '../enums'
+import {
+    BlockscoutExplorerEndpoint,
+    EtherscanExplorerEndpoint,
+    ExplorerEndpoint,
+    StardustExplorerEndpoint,
+} from '../enums'
 import { ExplorerType } from '@auxiliary/explorer'
 
 const STARDUST_EXPLORER_ENDPOINTS: Readonly<{ [key in ExplorerEndpoint]?: string }> = {
@@ -15,15 +20,23 @@ const BLOCKSCOUT_EXPLORER_ENDPOINTS: Readonly<{ [key in ExplorerEndpoint]?: stri
     [ExplorerEndpoint.Address]: BlockscoutExplorerEndpoint.Address,
 }
 
+const ETHERSCAN_EXPLORER_ENDPOINTS: Readonly<{ [key in ExplorerEndpoint]?: string }> = {
+    [ExplorerEndpoint.Transaction]: EtherscanExplorerEndpoint.Transaction,
+    [ExplorerEndpoint.Token]: EtherscanExplorerEndpoint.Token,
+    [ExplorerEndpoint.Address]: EtherscanExplorerEndpoint.Address,
+}
+
 export function getExplorerEndpoint(
     explorerType: ExplorerType | undefined,
     explorerEndpoint: ExplorerEndpoint
 ): string | undefined {
     switch (explorerType) {
-        case ExplorerType.Blockscout:
-            return BLOCKSCOUT_EXPLORER_ENDPOINTS[explorerEndpoint]
         case ExplorerType.Stardust:
             return STARDUST_EXPLORER_ENDPOINTS[explorerEndpoint]
+        case ExplorerType.Blockscout:
+            return BLOCKSCOUT_EXPLORER_ENDPOINTS[explorerEndpoint]
+        case ExplorerType.Etherscan:
+            return ETHERSCAN_EXPLORER_ENDPOINTS[explorerEndpoint]
         default:
             return undefined
     }

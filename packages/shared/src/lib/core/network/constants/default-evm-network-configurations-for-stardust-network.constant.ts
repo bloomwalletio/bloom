@@ -2,7 +2,7 @@ import { isFeatureEnabled } from '@lib/features/utils'
 import { ChainId, NetworkNamespace, NetworkType } from '../enums'
 import { IPureEvmNetworkConfiguration } from '../interfaces'
 import { StardustNetworkId } from '../types'
-import { EVM_BASE_TOKEN } from './default-base-token.constant'
+import { BNB_BASE_TOKEN, BNB_TESTNET_BASE_TOKEN, EVM_BASE_TOKEN } from './default-base-token.constant'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
 import { DEFAULT_EXPLORER_CONFIGS } from './default-explorer-configs.constant'
 import {
@@ -95,6 +95,20 @@ export const IMMUTABLE_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     rpcEndpoint: 'https://rpc.immutable.com',
 }
 
+// BNB Mainnet
+
+export const BNB_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'BNB Smart Chain',
+    baseToken: BNB_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.Bnb,
+    chainId: ChainId.Bnb,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Bnb] ?? 0,
+    explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.Bnb],
+    rpcEndpoint: 'https://bsc-dataseed1.binance.org/',
+}
+
 // Ethereum Sepolia Testnet
 
 export const SEPOLIA_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
@@ -177,6 +191,20 @@ export const IMMUTABLE_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfigurati
     rpcEndpoint: 'https://rpc.testnet.immutable.com',
 }
 
+// BNB Testnets
+
+export const BNB_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
+    type: NetworkType.Evm,
+    name: 'BNB Smart Chain Testnet',
+    baseToken: BNB_TESTNET_BASE_TOKEN,
+    id: SupportedL1EvmNetworkId.BnbTestnet,
+    chainId: ChainId.BnbTestnet,
+    namespace: NetworkNamespace.Evm,
+    coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.BnbTestnet] ?? 0,
+    explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.BnbTestnet],
+    rpcEndpoint: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+}
+
 export const KNOWN_EVM_MAINNET_NETWORKS_CONFIGURATIONS: Readonly<IPureEvmNetworkConfiguration[]> = [
     ETHEREUM_NETWORK_CONFIGURATION,
     ARBITRUM_NETWORK_CONFIGURATION,
@@ -184,6 +212,7 @@ export const KNOWN_EVM_MAINNET_NETWORKS_CONFIGURATIONS: Readonly<IPureEvmNetwork
     BLAST_NETWORK_CONFIGURATION,
     OPTIMISM_NETWORK_CONFIGURATION,
     IMMUTABLE_NETWORK_CONFIGURATION,
+    BNB_NETWORK_CONFIGURATION,
 ]
 
 export const KNOWN_EVM_TESTNET_NETWORKS_CONFIGURATIONS: Readonly<IPureEvmNetworkConfiguration[]> = [
@@ -193,6 +222,7 @@ export const KNOWN_EVM_TESTNET_NETWORKS_CONFIGURATIONS: Readonly<IPureEvmNetwork
     BLAST_TESTNET_NETWORK_CONFIGURATION,
     OPTIMISM_TESTNET_NETWORK_CONFIGURATION,
     IMMUTABLE_TESTNET_NETWORK_CONFIGURATION,
+    BNB_TESTNET_NETWORK_CONFIGURATION,
 ]
 
 export const KNOWN_EVM_NETWORKS_CONFIGURATIONS: Readonly<IPureEvmNetworkConfiguration[]> = [
