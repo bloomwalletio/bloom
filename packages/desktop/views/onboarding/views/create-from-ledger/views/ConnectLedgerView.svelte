@@ -1,25 +1,18 @@
 <script lang="ts">
     import { Icon, IconName, Link, Avatar, Alert } from '@bloomwalletio/ui'
     import { localize } from '@core/i18n'
-    import {
-        LedgerAppName,
-        LedgerConnectionState,
-        MINIMUM_SUPPORTED_LEDGER_APP_VERSION,
-        ledgerConnectionAppState,
-    } from '@core/ledger'
+    import { LedgerConnectionState, MINIMUM_SUPPORTED_LEDGER_APP_VERSION, ledgerConnectionAppState } from '@core/ledger'
     import { OnboardingLayout } from '@views/components'
     import { createFromLedgerRouter } from '..'
     import { CreateFromLedgerRoute } from '../create-from-ledger-route.enum'
-    import { onboardingProfile } from '@contexts/onboarding'
-    import { SupportedStardustNetworkId } from '@core/network'
     import { StepCard } from './components'
     import { LedgerIllustration } from '@ui'
+    import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 
     $: isDisconnected = $ledgerConnectionAppState?.state === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionAppState?.state === LedgerConnectionState.Locked
     $: isOpen = $ledgerConnectionAppState?.state === LedgerConnectionState.AppOpen
-    $: appName =
-        $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
+    $: appName = getProfileLedgerAppName()
     $: isCorrectApp = $ledgerConnectionAppState?.app === appName
     $: isUnsupportedVersion = $ledgerConnectionAppState?.state === LedgerConnectionState.UnsupportedVersion
     $: minimumVersion = MINIMUM_SUPPORTED_LEDGER_APP_VERSION[appName]
