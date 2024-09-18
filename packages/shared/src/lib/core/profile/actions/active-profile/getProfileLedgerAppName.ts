@@ -1,9 +1,9 @@
 import { IOnboardingProfile, onboardingProfile } from '@contexts/onboarding'
-import { activeProfile } from '../stores'
 import { LedgerAppName } from '@core/ledger'
 import { get } from 'svelte/store'
-import { IProfile } from '../interfaces'
 import { SupportedStardustNetworkId } from '@core/network'
+import { IProfile } from '@core/profile/interfaces'
+import { activeProfile } from '@core/profile/stores'
 
 export function getProfileLedgerAppName(
     profile: IProfile | Partial<IOnboardingProfile> = get(onboardingProfile) ?? get(activeProfile)

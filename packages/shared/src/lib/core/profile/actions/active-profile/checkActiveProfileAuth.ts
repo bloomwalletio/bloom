@@ -1,7 +1,7 @@
 import { checkOrConnectLedger } from '@core/ledger/actions'
 import { LedgerAppName } from '@core/ledger/enums'
 import { isActiveLedgerProfile, isSoftwareProfile } from '@core/profile/stores'
-import { getProfileLedgerAppName } from '@core/profile/utils'
+import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 import { checkOrUnlockStronghold } from '@core/stronghold/actions'
 import { get } from 'svelte/store'
 

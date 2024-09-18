@@ -2,7 +2,7 @@ import { getSelectedAccount } from '@core/account/stores'
 import { getProfileManager } from '@core/profile-manager/stores'
 
 import { isLedgerAppOpen } from './isLedgerAppOpen'
-import { getProfileLedgerAppName } from '@core/profile/utils'
+import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 
 export async function isLedgerDeviceMatchingActiveProfile(): Promise<boolean | undefined> {
     const appName = getProfileLedgerAppName()

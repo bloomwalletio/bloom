@@ -17,7 +17,7 @@ import { LedgerError } from '../enums'
 import { deriveLedgerError } from '../helpers'
 import { checkOrConnectLedger, ledgerPreparedOutput, resetLedgerPreparedOutput } from '@core/ledger'
 import { sendOutput } from '@core/wallet'
-import { getProfileLedgerAppName } from '@core/profile/utils'
+import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 
 export function handleLedgerError(err: unknown, resetConfirmationPropsOnDenial = true): void {
     const error = (err as IError)?.error ?? (err as string)

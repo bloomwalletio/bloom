@@ -5,7 +5,7 @@
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { createFromLedgerRouter } from '../create-from-ledger-router'
-    import { getProfileLedgerAppName } from '@core/profile/utils'
+    import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 
     const appName = getProfileLedgerAppName()
 

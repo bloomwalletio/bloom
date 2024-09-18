@@ -3,7 +3,7 @@
     import { LedgerIllustration } from '@ui'
     import { localize } from '@core/i18n'
     import { LedgerAppName } from '@core/ledger'
-    import { getProfileLedgerAppName } from '@core/profile/utils'
+    import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 
     const ledgerAppName = getProfileLedgerAppName()
     const icon = ledgerAppName === LedgerAppName.Iota ? IconName.Iota : IconName.Shimmer

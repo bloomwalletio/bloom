@@ -1,7 +1,7 @@
 import { openProfileAuthPopup, ProfileAuthPopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 import { get } from 'svelte/store'
 import { LedgerAppName, LedgerConnectionState, ledgerConnectionAppState } from '..'
-import { getProfileLedgerAppName } from '@core/profile/utils'
+import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 
 export function checkOrConnectLedger(ledgerAppName: LedgerAppName = getProfileLedgerAppName()): Promise<void> {
     const isCorrectApp = get(ledgerConnectionAppState)?.app === ledgerAppName

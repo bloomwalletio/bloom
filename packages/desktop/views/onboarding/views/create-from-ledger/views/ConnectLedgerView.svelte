@@ -7,7 +7,7 @@
     import { CreateFromLedgerRoute } from '../create-from-ledger-route.enum'
     import { StepCard } from './components'
     import { LedgerIllustration } from '@ui'
-    import { getProfileLedgerAppName } from '@core/profile/utils'
+    import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 
     $: isDisconnected = $ledgerConnectionAppState?.state === LedgerConnectionState.Disconnected
     $: isLocked = isDisconnected || $ledgerConnectionAppState?.state === LedgerConnectionState.Locked
