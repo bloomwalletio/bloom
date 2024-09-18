@@ -53,6 +53,22 @@ export const EVM_BASE_TOKEN: IBaseToken = {
     decimals: 18,
 }
 
+export const BNB_BASE_TOKEN: IBaseToken = {
+    standard: TokenStandard.BaseToken,
+    name: 'BNB',
+    tickerSymbol: 'BNB',
+    unit: 'BNB',
+    decimals: 18,
+}
+
+export const BNB_TESTNET_BASE_TOKEN: IBaseToken = {
+    standard: TokenStandard.BaseToken,
+    name: 'Test BNB',
+    tickerSymbol: 'tBNB',
+    unit: 'tBNB',
+    decimals: 18,
+}
+
 export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]: IBaseToken }> = {
     [SupportedNetworkId.Iota]: IOTA_BASE_TOKEN,
     [SupportedNetworkId.Shimmer]: SHIMMER_BASE_TOKEN,
@@ -65,4 +81,6 @@ export const DEFAULT_BASE_TOKEN: Readonly<{ [id in NetworkId]: IBaseToken }> = {
     [SupportedNetworkId.Ethereum]: EVM_BASE_TOKEN,
     [SupportedNetworkId.Sepolia]: EVM_BASE_TOKEN,
     [SupportedNetworkId.GenericEvm]: EVM_BASE_TOKEN,
+    [SupportedNetworkId.Bnb]: BNB_BASE_TOKEN,
+    [SupportedNetworkId.BnbTestnet]: BNB_TESTNET_BASE_TOKEN,
 }

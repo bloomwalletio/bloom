@@ -21,6 +21,8 @@ export const SupportedL1EvmNetworkId: Record<string, EvmNetworkId> = {
     GenericEvm: `${NetworkNamespace.Evm}:*`,
     Ethereum: `${NetworkNamespace.Evm}:${ChainId.Ethereum}`,
     Sepolia: `${NetworkNamespace.Evm}:${ChainId.Sepolia}`,
+    Bnb: `${NetworkNamespace.Evm}:${ChainId.Bnb}`,
+    BnbTestnet: `${NetworkNamespace.Evm}:${ChainId.BnbTestnet}`,
 }
 
 export const SupportedL2EvmNetworkId: Record<string, EvmNetworkId> = {

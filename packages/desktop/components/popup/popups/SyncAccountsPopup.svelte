@@ -38,6 +38,7 @@
 
     const networkSearchMethod: { [key in StardustNetworkId]?: () => Promise<void> } = {
         [SupportedStardustNetworkId.Iota]: multiAddressSearch,
+        [SupportedStardustNetworkId.IotaTestnet]: multiAddressSearch,
         [SupportedStardustNetworkId.Shimmer]: singleAddressSearch,
         [SupportedStardustNetworkId.Testnet]: singleAddressSearch,
     }
@@ -163,7 +164,7 @@
     }}
 >
     <div class="flex flex-col overflow-hidden gap-5">
-        {#if network?.id === SupportedStardustNetworkId.Iota}
+        {#if network?.id === SupportedStardustNetworkId.Iota || network?.id === SupportedStardustNetworkId.IotaTestnet}
             <div class="flex gap-2">
                 <Toggle
                     label={localize('popups.walletFinder.singleAccountSearch')}

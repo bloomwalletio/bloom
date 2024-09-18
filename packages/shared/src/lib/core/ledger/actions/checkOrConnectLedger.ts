@@ -1,14 +1,9 @@
 import { openProfileAuthPopup, ProfileAuthPopupId } from '../../../../../../desktop/lib/auxiliary/popup'
 import { get } from 'svelte/store'
 import { LedgerAppName, LedgerConnectionState, ledgerConnectionAppState } from '..'
-import { activeProfile } from '@core/profile/stores'
-import { SupportedNetworkId } from '@core/network/constants'
+import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 
-export function checkOrConnectLedger(
-    ledgerAppName: LedgerAppName = get(activeProfile)?.network?.id === SupportedNetworkId.Iota
-        ? LedgerAppName.Iota
-        : LedgerAppName.Shimmer
-): Promise<void> {
+export function checkOrConnectLedger(ledgerAppName: LedgerAppName = getProfileLedgerAppName()): Promise<void> {
     const isCorrectApp = get(ledgerConnectionAppState)?.app === ledgerAppName
     const isOpen = get(ledgerConnectionAppState)?.state === LedgerConnectionState.AppOpen
     return new Promise((resolve, reject) => {
