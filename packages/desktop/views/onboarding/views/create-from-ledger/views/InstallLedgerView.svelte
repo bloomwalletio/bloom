@@ -5,8 +5,9 @@
     import { OnboardingLayout } from '@views/components'
     import { onMount } from 'svelte'
     import { createFromLedgerRouter } from '../create-from-ledger-router'
-    import { onboardingProfile } from '@contexts/onboarding'
-    import { SupportedStardustNetworkId } from '@core/network/constants'
+    import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
+
+    const appName = getProfileLedgerAppName()
 
     function onContinueClick(): void {
         $createFromLedgerRouter.next()
@@ -15,6 +16,20 @@
     function onBackClick(): void {
         stopPollingLedgerDeviceState()
         $createFromLedgerRouter.previous()
+    }
+
+    const LEDGER_APP_ICON_DETAILS = {
+        [LedgerAppName.Iota]: {
+            iconName: IconName.Iota,
+            iconColor: '#ffffff',
+            backgroundColor: 'bg-black',
+        },
+        [LedgerAppName.Shimmer]: {
+            iconName: IconName.ShimmerLedger,
+            iconColor: 'neutral-1',
+            backgroundColor: 'bg-neutral-4',
+            textColor: 'neutral-4/95',
+        },
     }
 
     onMount(() => {
@@ -33,17 +48,11 @@
     }}
 >
     <content slot="content">
-        {#if $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota}
-            <icon-container class="bg-black">
-                <Icon name={IconName.Iota} size="lg" customColor="#ffffff" />
-            </icon-container>
-            <Text>{LedgerAppName.Iota}</Text>
-        {:else}
-            <icon-container class="bg-neutral-4">
-                <Icon name={IconName.ShimmerLedger} size="lg" customColor="neutral-1" />
-            </icon-container>
-            <Text customColor="neutral-4/95">{LedgerAppName.Shimmer}</Text>
-        {/if}
+        {@const { iconName, iconColor, backgroundColor, textColor } = LEDGER_APP_ICON_DETAILS[appName]}
+        <icon-container class={backgroundColor}>
+            <Icon name={iconName} size="lg" customColor={iconColor} />
+        </icon-container>
+        <Text customColor={textColor}>{appName}</Text>
     </content>
 </OnboardingLayout>
 
