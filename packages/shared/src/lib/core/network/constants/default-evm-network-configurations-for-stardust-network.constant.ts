@@ -106,7 +106,6 @@ export const BNB_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.Bnb] ?? 0,
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.Bnb],
-    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.Bnb],
     rpcEndpoint: 'https://bsc-dataseed1.binance.org/',
 }
 
@@ -203,7 +202,6 @@ export const BNB_TESTNET_NETWORK_CONFIGURATION: IPureEvmNetworkConfiguration = {
     namespace: NetworkNamespace.Evm,
     coinType: DEFAULT_COIN_TYPE[SupportedNetworkId.BnbTestnet] ?? 0,
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.BnbTestnet],
-    blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.BnbTestnet],
     rpcEndpoint: 'https://data-seed-prebsc-1-s1.binance.org:8545',
 }
 
