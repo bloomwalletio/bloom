@@ -31,7 +31,7 @@ export interface IEvmNetwork extends IBaseNetwork, IBaseNetworkMetadata {
 
     provider: Web3Provider
 
-    averageBlockTimeInSeconds: number
+    averageBlockTimeInSeconds: number | undefined
     blocksUntilConfirmed: number
 
     blockscoutIndexerUrl?: string

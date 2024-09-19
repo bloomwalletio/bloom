@@ -26,4 +26,5 @@ export interface IBaseEvmNetworkConfiguration {
     blockscoutIndexerUrl?: string
     novesIndexerUrl?: string
     rpcEndpoint: string
+    blocksUntilConfirmed: number
 }

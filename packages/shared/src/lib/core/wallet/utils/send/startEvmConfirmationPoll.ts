@@ -76,6 +76,7 @@ export async function startEvmConfirmationPoll(
                 void _pollingLogic(currentBlockNumber, () => clearInterval(intervalId))
             }
 
+            // TODO average block time might be undefined
             const pollInterval = evmNetwork.averageBlockTimeInSeconds * MILLISECONDS_PER_SECOND
 
             const intervalId = setInterval(() => void _intervalLogic(), pollInterval)

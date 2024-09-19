@@ -1,10 +1,6 @@
 import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import { IError } from '@core/error/interfaces'
-import {
-    AVERAGE_BLOCK_TIME_IN_SECONDS,
-    ETHEREUM_CONFIRMATION_THRESHOLD,
-    NETWORK_STATUS_POLL_INTERVAL,
-} from '@core/network/constants'
+import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
 import { getPersistedErc721NftsForNetwork, updateErc721NftsOwnership } from '@core/nfts/actions'
 import { Nft } from '@core/nfts/interfaces'
 import { buildNftFromPersistedErc721Nft } from '@core/nfts/utils'
@@ -40,8 +36,8 @@ export class EvmNetwork implements IEvmNetwork {
     public readonly novesIndexerUrl: string | undefined
     public readonly rpcEndpoint: string
     public readonly type: EvmNetworkType = NetworkType.Evm
-    public readonly averageBlockTimeInSeconds: number = AVERAGE_BLOCK_TIME_IN_SECONDS
-    public readonly blocksUntilConfirmed: number = ETHEREUM_CONFIRMATION_THRESHOLD
+    public averageBlockTimeInSeconds: number | undefined
+    public readonly blocksUntilConfirmed: number
 
     public health: Writable<NetworkHealth> = writable(NetworkHealth.Operational)
     public statusPoll: number | undefined
@@ -59,6 +55,7 @@ export class EvmNetwork implements IEvmNetwork {
         blockscoutIndexerUrl,
         novesIndexerUrl,
         rpcEndpoint,
+        blocksUntilConfirmed,
     }: IBaseEvmNetworkConfiguration) {
         try {
             const _rpcEndpoint = new URL(rpcEndpoint).href
@@ -74,11 +71,45 @@ export class EvmNetwork implements IEvmNetwork {
             this.blockscoutIndexerUrl = blockscoutIndexerUrl
             this.novesIndexerUrl = novesIndexerUrl
             this.rpcEndpoint = _rpcEndpoint
+            this.blocksUntilConfirmed = blocksUntilConfirmed
+            void this.setAverageBlockTime(3)
 
             void this.startStatusPoll()
         } catch (err) {
             console.error(err)
             throw new Error('Failed to construct EVM Network!')
+        }
+    }
+
+    private async setAverageBlockTime(blockCount = 10): Promise<void> {
+        this.averageBlockTimeInSeconds = await this.getAverageBlockTime(blockCount)
+    }
+
+    private async getAverageBlockTime(blockCount = 10): Promise<number> {
+        try {
+            const latestBlockNumber = await this.provider.eth.getBlockNumber()
+            const blocks: { timestamp: bigint }[] = []
+
+            // Fetch the latest `blockCount` blocks
+            for (let i = 0; i < blockCount; i++) {
+                const block = await this.provider.eth.getBlock(Number(latestBlockNumber - BigInt(i)))
+                blocks.push(block)
+            }
+
+            // Calculate the time differences between consecutive blocks
+            let totalTime = BigInt(0)
+            for (let i = 1; i < blocks.length; i++) {
+                const timeDiff = blocks[i - 1].timestamp - blocks[i].timestamp
+                totalTime += timeDiff
+            }
+
+            // Calculate the average time difference
+            const averageBlockTime = totalTime / BigInt(blocks.length - 1)
+
+            return Number(averageBlockTime)
+        } catch (error) {
+            console.error('Error calculating average block time:', error)
+            return Promise.reject()
         }
     }
 
