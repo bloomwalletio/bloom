@@ -68,7 +68,7 @@ export async function sendAndPersistTransactionFromEvm(
 
                 updateActivityByActivityId(account.index, activityId, activity)
 
-                startEvmConfirmationPoll(evmTransaction, evmNetwork, account.index, profileId)
+                void startEvmConfirmationPoll(evmTransaction, evmNetwork, account.index, profileId)
             })
             .on('error', (error) => {
                 reject(error)
