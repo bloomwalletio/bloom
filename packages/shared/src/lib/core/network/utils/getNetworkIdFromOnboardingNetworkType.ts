@@ -11,6 +11,7 @@ export function getNetworkIdFromOnboardingNetworkType(
 
     const nameMap: { [key in OnboardingNetworkType]?: StardustNetworkId } = {
         [OnboardingNetworkType.Iota]: SupportedStardustNetworkId.Iota,
+        [OnboardingNetworkType.IotaTestnet]: SupportedStardustNetworkId.IotaTestnet,
         [OnboardingNetworkType.Shimmer]: SupportedStardustNetworkId.Shimmer,
         [OnboardingNetworkType.Testnet]: SupportedStardustNetworkId.Testnet,
     }

@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Button, IconName, Text } from '@bloomwalletio/ui'
     import { Animation, Illustration } from '@ui'
-    import { completeOnboardingProcess, isOnboardingLedgerProfile, onboardingProfile } from '@contexts/onboarding'
+    import { completeOnboardingProcess, isOnboardingLedgerProfile } from '@contexts/onboarding'
     import { localize } from '@core/i18n'
-    import { LedgerAppName, checkOrConnectLedger } from '@core/ledger'
+    import { checkOrConnectLedger } from '@core/ledger'
     import { profiles } from '@core/profile/stores'
     import { OnboardingLayout } from '@views/components'
     import SuccessSvg from '@views/onboarding/components/SuccessSvg.svelte'
@@ -11,7 +11,6 @@
     import LoggedOutLayout from '@views/components/LoggedOutLayout.svelte'
     import features from '@features/features'
     import { login } from '@core/profile/actions'
-    import { SupportedStardustNetworkId } from '@core/network'
     import { handleError } from '@core/error/handlers'
     import { onMount } from 'svelte'
 
@@ -19,13 +18,10 @@
 
     let isAppSetup = false
 
-    $: appName =
-        $onboardingProfile?.network?.id === SupportedStardustNetworkId.Iota ? LedgerAppName.Iota : LedgerAppName.Shimmer
-
     async function onContinueClick(): Promise<void> {
         try {
             if ($isOnboardingLedgerProfile) {
-                await checkOrConnectLedger(appName)
+                await checkOrConnectLedger()
             }
             await completeOnboardingProcess()
             void login({ isFromOnboardingFlow: true })

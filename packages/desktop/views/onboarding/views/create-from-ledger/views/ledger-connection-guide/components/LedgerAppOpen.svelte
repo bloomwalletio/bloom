@@ -3,16 +3,10 @@
     import { LedgerIllustration } from '@ui'
     import { localize } from '@core/i18n'
     import { LedgerAppName } from '@core/ledger'
-    import { get } from 'svelte/store'
-    import { onboardingProfile } from '@contexts/onboarding'
-    import { SupportedStardustNetworkId } from '@core/network'
+    import { getProfileLedgerAppName } from '@core/profile/actions/active-profile'
 
-    const ledgerAppName: LedgerAppName =
-        get(onboardingProfile)?.network?.id === SupportedStardustNetworkId.Iota
-            ? LedgerAppName.Iota
-            : LedgerAppName.Shimmer
-    const icon: IconName =
-        get(onboardingProfile)?.network?.id === SupportedStardustNetworkId.Iota ? IconName.Iota : IconName.Shimmer
+    const ledgerAppName = getProfileLedgerAppName()
+    const icon = ledgerAppName === LedgerAppName.Iota ? IconName.Iota : IconName.Shimmer
 </script>
 
 <Text type="body2" textColor="secondary" align="center">
