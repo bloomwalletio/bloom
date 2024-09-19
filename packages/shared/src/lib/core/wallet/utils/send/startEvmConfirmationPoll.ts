@@ -3,29 +3,37 @@ import { updateEvmActivity } from '@core/activity/stores'
 import { FAILED_CONFIRMATION, IEvmNetwork } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
-import { MILLISECONDS_PER_SECOND } from '@core/utils'
 
-export function startEvmConfirmationPoll(
+export async function startEvmConfirmationPoll(
     transaction: LocalEvmTransaction,
     evmNetwork: IEvmNetwork,
     accountIndex: number,
     profileId: string
-): void {
+): Promise<void> {
     const { transactionHash, blockNumber } = transaction
     if (!blockNumber) {
         return
     }
-    const pollInterval = evmNetwork.averageBlockTimeInSeconds * MILLISECONDS_PER_SECOND
 
-    const poll = async () => {
-        const currentBlockNumber = await evmNetwork.provider.eth.getBlockNumber()
+    const subscription = await evmNetwork.provider.eth.subscribe('newBlockHeaders')
+
+    subscription.on('data', async (result) => {
+        const currentBlockNumber = result.number
+        if (currentBlockNumber === null || currentBlockNumber === undefined) {
+            return
+        }
+
         let confirmations = Number(BigInt(currentBlockNumber) - BigInt(blockNumber))
-
         let inclusionState = InclusionState.Pending
+
         if (confirmations >= evmNetwork.blocksUntilConfirmed) {
             try {
-                await evmNetwork.provider.eth.getTransactionReceipt(transactionHash)
-                inclusionState = InclusionState.Confirmed
+                const receipt = await evmNetwork.provider.eth.getTransactionReceipt(transactionHash)
+                if (receipt && receipt.blockNumber) {
+                    inclusionState = InclusionState.Confirmed
+                } else {
+                    throw new Error('Transaction receipt not found')
+                }
             } catch (error) {
                 inclusionState = InclusionState.Conflicting
                 confirmations = FAILED_CONFIRMATION
@@ -34,12 +42,15 @@ export function startEvmConfirmationPoll(
                     { ...transaction, confirmations },
                 ])
                 updateEvmActivity(accountIndex, transactionHash, { inclusionState })
-                clearInterval(interval)
+
+                subscription.unsubscribe()
             }
         } else {
             updateEvmActivity(accountIndex, transactionHash, { inclusionState })
         }
-    }
+    })
 
-    const interval = setInterval(() => void poll(), pollInterval)
+    subscription.on('error', (error: Error) => {
+        console.error('Error in newBlockHeaders subscription:', error)
+    })
 }
