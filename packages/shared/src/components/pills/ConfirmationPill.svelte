@@ -9,12 +9,14 @@
 
     let tooltip = ''
 
-    async function onHover(): Promise<void> {
-        tooltip = 'loading...'
+    function onHover(): void {
+        tooltip = localize('general.loading')
         const transaction = getPersistedTransaction(activity.transactionId)
         const network = getEvmNetwork(activity?.sourceNetworkId)
-        const blockHeight = await network?.provider.eth.getBlockNumber()
-        const confirmations = BigInt(blockHeight ?? 0) - BigInt(transaction?.local?.blockNumber ?? 0)
+        const confirmations = Math.max(
+            transaction?.blockscout?.confirmations ?? 0,
+            transaction?.local?.confirmations ?? 0
+        )
         tooltip = `
             ${localize('general.confirmed')}: ${confirmations}\n
             ${localize('general.required')}: ${network?.blocksUntilConfirmed}
