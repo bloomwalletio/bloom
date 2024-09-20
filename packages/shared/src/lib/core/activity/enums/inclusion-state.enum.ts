@@ -3,4 +3,5 @@ export enum InclusionState {
     Confirmed = 'Confirmed',
     Conflicting = 'Conflicting',
     UnknownPruned = 'UnknownPruned',
+    Failed = 'Failed',
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Pill } from '@bloomwalletio/ui'
-    import { Activity, InclusionState } from '@core/activity'
+    import { Activity } from '@core/activity'
     import { localize } from '@core/i18n'
     import { getEvmNetwork } from '@core/network/stores'
     import { getPersistedTransaction } from '@core/transactions/stores'
@@ -22,10 +22,8 @@
     }
 </script>
 
-{#if activity.inclusionState === InclusionState.Pending}
-    <div role="contentinfo" on:focus={onHover} on:mouseover={onHover}>
-        <Pill color="warning" compact tooltipEvent="hover" {tooltip}>
-            {localize('general.pending')}
-        </Pill>
-    </div>
-{/if}
+<div role="contentinfo" on:focus={onHover} on:mouseover={onHover}>
+    <Pill color="warning" compact tooltipEvent="hover" {tooltip}>
+        {localize('general.pending')}
+    </Pill>
+</div>

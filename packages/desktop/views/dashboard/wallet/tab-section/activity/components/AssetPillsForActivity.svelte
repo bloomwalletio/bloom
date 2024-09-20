@@ -1,7 +1,7 @@
 <script lang="ts">
     import { localize } from '@core/i18n'
     import { Pill } from '@bloomwalletio/ui'
-    import { Activity, StardustActivityType, isEvmTokenActivity } from '@core/activity'
+    import { Activity, StardustActivityType, InclusionState, isEvmTokenActivity } from '@core/activity'
     import { getTokenFromActivity } from '@core/activity/utils/getTokenFromActivity'
     import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
     import { getNftByIdForAccount } from '@core/nfts/stores'
@@ -10,7 +10,7 @@
     import { EvmActivityType } from '@core/activity/enums/evm'
     import { NftStandard } from '@core/nfts/enums'
     import { convertCamelCaseToPhrase } from '@core/utils/string'
-    import { ConfirmationPill } from '@ui'
+    import { ConfirmationPill, FailedPill } from '@ui'
 
     export let activity: Activity
 
@@ -87,7 +87,11 @@
             </Pill>
         {/if}
         {#if activity.namespace === NetworkNamespace.Evm}
-            <ConfirmationPill {activity} />
+            {#if activity.inclusionState === InclusionState.Pending}
+                <ConfirmationPill {activity} />
+            {:else if activity.inclusionState === InclusionState.Failed}
+                <FailedPill {activity} />
+            {/if}
         {/if}
     </div>
 {/if}

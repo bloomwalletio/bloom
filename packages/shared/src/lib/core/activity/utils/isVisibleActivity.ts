@@ -303,6 +303,12 @@ function isVisibleWithActiveStatusFilter(activity: Activity, filter: ActivityFil
             return false
         }
         if (
+            filter.status.selected === StatusFilterOption.Failed &&
+            activity.inclusionState !== InclusionState.Failed
+        ) {
+            return false
+        }
+        if (
             filter.status.selected === StatusFilterOption.Timelocked &&
             activity.namespace === NetworkNamespace.Stardust &&
             activity.asyncData?.asyncStatus !== StardustActivityAsyncStatus.Timelocked

@@ -2,6 +2,7 @@ import { IAccountState } from '@core/account'
 import {
     ActivityDirection,
     EvmActivity,
+    InclusionState,
     calculateAndAddPersistedNftBalanceChange,
     calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity'
@@ -71,6 +72,15 @@ export async function sendAndPersistTransactionFromEvm(
                 void startEvmConfirmationPoll(evmTransaction, evmNetwork, account.index, profileId)
             })
             .on('error', (error) => {
+                if (!activityId) {
+                    return
+                }
+
+                updateActivityByActivityId(account.index, activityId, { inclusionState: InclusionState.Failed })
+
+                // TODO: add {error.message} to the tx
+            })
+            .catch((error) => {
                 reject(error)
             })
     })
