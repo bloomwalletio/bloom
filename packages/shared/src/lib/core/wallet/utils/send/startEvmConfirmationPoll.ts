@@ -3,40 +3,87 @@ import { updateEvmActivity } from '@core/activity/stores'
 import { FAILED_CONFIRMATION, IEvmNetwork } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
 import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
-import { MILLISECONDS_PER_SECOND } from '@core/utils'
+import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
+import { Converter } from '@core/utils/convert'
+import { BigIntLike } from '@ethereumjs/util'
 
-export function startEvmConfirmationPoll(
+export async function startEvmConfirmationPoll(
     transaction: LocalEvmTransaction,
     evmNetwork: IEvmNetwork,
     accountIndex: number,
     profileId: string
-): void {
-    const { transactionHash, blockNumber } = transaction
-    const pollInterval = evmNetwork.averageBlockTimeInSeconds * MILLISECONDS_PER_SECOND
+): Promise<void> {
+    const { transactionHash, blockNumber: transactionBlockNumber } = transaction
+    if (!transactionBlockNumber) {
+        return
+    }
 
-    const poll = async () => {
-        const currentBlockNumber = await evmNetwork.provider.eth.getBlockNumber()
-        let confirmations = Number(BigInt(currentBlockNumber) - BigInt(blockNumber))
+    let isLogicInProgress = false
 
+    async function _pollingLogic(currentBlockNumber: BigIntLike, onCancel: () => void): Promise<void> {
+        if (isLogicInProgress) return
+
+        isLogicInProgress = true
+        if (currentBlockNumber === null || currentBlockNumber === undefined) {
+            isLogicInProgress = false
+            return
+        }
+
+        let confirmations = Number(
+            Converter.bigIntLikeToBigInt(currentBlockNumber) - Converter.bigIntLikeToBigInt(transactionBlockNumber)
+        )
         let inclusionState = InclusionState.Pending
+
         if (confirmations >= evmNetwork.blocksUntilConfirmed) {
             try {
-                await evmNetwork.provider.eth.getTransactionReceipt(transactionHash)
-                inclusionState = InclusionState.Confirmed
+                const receipt = await evmNetwork.provider.eth.getTransactionReceipt(transactionHash)
+                if (receipt && receipt.blockNumber) {
+                    inclusionState = InclusionState.Confirmed
+                } else {
+                    throw new Error('Transaction receipt not found')
+                }
             } catch (error) {
                 inclusionState = InclusionState.Conflicting
                 confirmations = FAILED_CONFIRMATION
+                console.error(error)
             } finally {
+                // TODO: is this updating the existing local transaction?
                 addLocalTransactionToPersistedTransaction(profileId, accountIndex, evmNetwork.id, [
                     { ...transaction, confirmations },
                 ])
                 updateEvmActivity(accountIndex, transactionHash, { inclusionState })
-                clearInterval(interval)
+
+                onCancel()
             }
         } else {
+            // TODO: should we update the local transaction here everytime we get a new confirmation?
             updateEvmActivity(accountIndex, transactionHash, { inclusionState })
         }
+        isLogicInProgress = false
     }
 
-    const interval = setInterval(() => void poll(), pollInterval)
+    try {
+        const subscription = await evmNetwork.provider.eth.subscribe('newBlockHeaders')
+        subscription.on('data', (result) => {
+            void _pollingLogic(result?.number ?? 0, subscription.unsubscribe)
+        })
+
+        subscription.on('error', (error: Error) => {
+            console.error('Error in newBlockHeaders subscription:', error)
+        })
+    } catch (error) {
+        const _error = (error ?? {}) as { name?: string; code?: number }
+
+        if (_error?.name === 'SubscriptionError' && _error?.code === 603) {
+            async function _intervalLogic(): Promise<void> {
+                const currentBlockNumber = await evmNetwork.provider.eth.getBlockNumber()
+                void _pollingLogic(currentBlockNumber, () => clearInterval(intervalId))
+            }
+
+            // TODO average block time might be undefined and what is the best case for a fallback?
+            const pollInterval = (evmNetwork.averageBlockTimeInSeconds ?? 10) * MILLISECONDS_PER_SECOND
+
+            const intervalId = setInterval(() => void _intervalLogic(), pollInterval)
+        }
+    }
 }

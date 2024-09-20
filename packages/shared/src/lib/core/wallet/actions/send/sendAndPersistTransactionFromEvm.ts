@@ -1,12 +1,12 @@
-import { IAccountState } from '@core/account'
+import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import {
     ActivityDirection,
     EvmActivity,
     calculateAndAddPersistedNftBalanceChange,
     calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity'
-import { addAccountActivity } from '@core/activity/stores'
-import { generateEvmActivityFromLocalEvmTransaction } from '@core/activity/utils/evm'
+import { addAccountActivity, updateActivityByActivityId } from '@core/activity/stores'
+import { generateBaseEvmActivity, generateEvmActivityFromLocalEvmTransaction } from '@core/activity/utils/evm'
 import { EvmTransactionData } from '@core/layer-2'
 import { IEvmNetwork } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
@@ -25,30 +25,58 @@ export async function sendAndPersistTransactionFromEvm(
     profileId: string,
     account: IAccountState
 ): Promise<string> {
-    const transactionReceipt = await sendSignedEvmTransaction(evmNetwork, signedTransaction)
-    if (!transactionReceipt) {
-        throw Error('No transaction receipt!')
-    }
+    let transactionHash = ''
+    let evmTransaction: LocalEvmTransaction
+    let activityId: string | undefined
 
-    // We manually add a timestamp to mitigate balance change activities
-    // taking precedence over send/receive activities
-    const evmTransaction: LocalEvmTransaction = {
-        ...preparedTransaction,
-        status: true,
-        transactionHash: transactionReceipt.transactionHash.toString(),
-        transactionIndex: Number(transactionReceipt.transactionIndex),
-        blockNumber: Number(transactionReceipt.blockNumber),
-        to: transactionReceipt.to,
-        from: transactionReceipt.from,
-        gasUsed: Number(transactionReceipt.gasUsed),
-        estimatedGas: Number(preparedTransaction.estimatedGas),
-        nonce: Number(preparedTransaction.nonce),
-        gasLimit: Number(preparedTransaction.gasLimit),
-        timestamp: Date.now(),
-        confirmations: 0,
-    }
-    await persistEvmTransaction(profileId, account, evmNetwork, evmTransaction)
-    return evmTransaction.transactionHash
+    return new Promise((resolve, reject) => {
+        void sendSignedEvmTransaction(evmNetwork, signedTransaction)
+            .on('transactionHash', async (hash) => {
+                try {
+                    transactionHash = hash
+                    evmTransaction = {
+                        ...preparedTransaction,
+                        status: true,
+                        transactionHash: transactionHash.toString(),
+                        estimatedGas: Number(preparedTransaction.estimatedGas),
+                        nonce: Number(preparedTransaction.nonce),
+                        gasLimit: Number(preparedTransaction.gasLimit),
+                        timestamp: Date.now(),
+                        confirmations: 0,
+                        to: preparedTransaction.to?.toString() ?? '',
+                        from: getAddressFromAccountForNetwork(account, evmNetwork.id) ?? '',
+                    }
+                    activityId = await persistEvmTransaction(profileId, account, evmNetwork, evmTransaction)
+                    resolve(transactionHash)
+                } catch (error) {
+                    reject(error)
+                }
+            })
+            .on('receipt', async (receipt) => {
+                if (!activityId) {
+                    return
+                }
+
+                evmTransaction = {
+                    ...evmTransaction,
+                    transactionIndex: Number(receipt.transactionIndex),
+                    blockNumber: Number(receipt.blockNumber),
+                    to: receipt.to,
+                    from: receipt.from,
+                    gasUsed: Number(receipt.gasUsed),
+                }
+                // TODO: Do we need to update the persisted transactions here? Because we now have more information that when we sent it...
+
+                const activity = await generateBaseEvmActivity(evmTransaction, evmNetwork, account)
+
+                updateActivityByActivityId(account.index, activityId, activity)
+
+                void startEvmConfirmationPoll(evmTransaction, evmNetwork, account.index, profileId)
+            })
+            .on('error', (error) => {
+                reject(error)
+            })
+    })
 }
 
 async function persistEvmTransaction(
@@ -56,14 +84,13 @@ async function persistEvmTransaction(
     account: IAccountState,
     evmNetwork: IEvmNetwork,
     evmTransaction: LocalEvmTransaction
-): Promise<void> {
+): Promise<string | undefined> {
     const networkId = evmNetwork.id
     addLocalTransactionToPersistedTransaction(profileId, account.index, networkId, [evmTransaction])
     const activity = await generateEvmActivityFromLocalEvmTransaction(evmTransaction, evmNetwork, account)
     if (!activity) {
         return
     }
-    startEvmConfirmationPoll(evmTransaction, evmNetwork, account.index, profileId)
 
     addAccountActivity(account.index, activity)
 
@@ -84,6 +111,8 @@ async function persistEvmTransaction(
         addAccountActivity(recipientAccount.index, receiveActivity)
         createHiddenBalanceChange(profileId, recipientAccount, receiveActivity)
     }
+
+    return activity.id
 }
 
 // Hidden balance changes mitigate duplicate activities for L2 transactions (balance changed & sent/receive activities).

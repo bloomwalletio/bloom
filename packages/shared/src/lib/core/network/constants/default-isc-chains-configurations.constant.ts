@@ -21,6 +21,7 @@ const IOTA_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     apiEndpoint: 'https://api.evm.iotaledger.net/',
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.IotaEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.IotaEvm],
+    blocksUntilConfirmed: 0,
 }
 
 const SHIMMER_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
@@ -36,6 +37,7 @@ const SHIMMER_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     apiEndpoint: 'https://api.evm.shimmer.network/',
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.ShimmerEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.ShimmerEvm],
+    blocksUntilConfirmed: 0,
 }
 
 const IOTA_TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
@@ -51,6 +53,7 @@ const IOTA_TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     apiEndpoint: 'https://api.evm.testnet.iotaledger.net/',
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.IotaTestnetEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.IotaTestnetEvm],
+    blocksUntilConfirmed: 0,
 }
 
 // exported as used in tests
@@ -67,6 +70,7 @@ export const TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     apiEndpoint: 'https://api.evm.testnet.shimmer.network/',
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.TestnetEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.TestnetEvm],
+    blocksUntilConfirmed: 0,
 }
 
 export const DEFAULT_ISC_CHAINS_CONFIGURATIONS: Readonly<{ [id in StardustNetworkId]?: IIscChainConfiguration }> = {
