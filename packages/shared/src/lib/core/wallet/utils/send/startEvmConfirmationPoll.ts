@@ -72,7 +72,9 @@ export async function startEvmConfirmationPoll(
             console.error('Error in newBlockHeaders subscription:', error)
         })
     } catch (error) {
-        if (error.name === 'SubscriptionError' && error.code === 603) {
+        const _error = (error ?? {}) as { name?: string; code?: number }
+
+        if (_error?.name === 'SubscriptionError' && _error?.code === 603) {
             async function _intervalLogic(): Promise<void> {
                 const currentBlockNumber = await evmNetwork.provider.eth.getBlockNumber()
                 void _pollingLogic(currentBlockNumber, () => clearInterval(intervalId))

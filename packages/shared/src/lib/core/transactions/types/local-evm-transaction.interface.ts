@@ -6,8 +6,9 @@ export type LocalEvmTransaction = Omit<EvmTransactionData, 'estimatedGas' | 'gas
     transactionHash: string
     transactionIndex?: number
     blockNumber?: number
-    to?: string
-    from?: string
+    timestamp: number
+    to: string
+    from: string
     gasUsed?: number
     estimatedGas?: number
     gasLimit?: number
