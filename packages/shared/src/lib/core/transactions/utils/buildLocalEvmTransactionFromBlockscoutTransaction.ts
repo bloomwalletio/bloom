@@ -10,9 +10,10 @@ export function buildPersistedEvmTransactionFromBlockscoutTransaction(
         transactionHash: blockscoutTransaction.hash,
         transactionIndex: blockscoutTransaction.position,
         blockNumber: blockscoutTransaction.block,
+        timestamp: new Date(blockscoutTransaction.timestamp).getTime(),
         confirmations: blockscoutTransaction.confirmations,
-        from: blockscoutTransaction.from.hash.toLowerCase(),
-        to: blockscoutTransaction.to.hash.toLowerCase(),
+        from: blockscoutTransaction.from?.hash?.toLowerCase(),
+        to: blockscoutTransaction.to?.hash?.toLowerCase(),
         gasUsed: Number(blockscoutTransaction.gas_used),
         type: TransactionType.Legacy,
         ...(blockscoutTransaction.nonce && { nonce: blockscoutTransaction.nonce }),
@@ -21,6 +22,5 @@ export function buildPersistedEvmTransactionFromBlockscoutTransaction(
         ...(blockscoutTransaction.value && { value: blockscoutTransaction.value }),
         ...(blockscoutTransaction.raw_input &&
             blockscoutTransaction.raw_input !== '0x' && { data: blockscoutTransaction.raw_input }), // Not sure if this is the right field
-        ...(blockscoutTransaction.timestamp && { timestamp: new Date(blockscoutTransaction.timestamp).getTime() }),
     }
 }

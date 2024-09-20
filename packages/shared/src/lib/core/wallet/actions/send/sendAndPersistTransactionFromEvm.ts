@@ -1,4 +1,4 @@
-import { IAccountState } from '@core/account'
+import { getAddressFromAccountForNetwork, IAccountState } from '@core/account'
 import {
     ActivityDirection,
     EvmActivity,
@@ -43,7 +43,8 @@ export async function sendAndPersistTransactionFromEvm(
                         gasLimit: Number(preparedTransaction.gasLimit),
                         timestamp: Date.now(),
                         confirmations: 0,
-                        to: preparedTransaction.to?.toString(),
+                        to: preparedTransaction.to?.toString() ?? '',
+                        from: getAddressFromAccountForNetwork(account, evmNetwork.id) ?? '',
                     }
                     activityId = await persistEvmTransaction(profileId, account, evmNetwork, evmTransaction)
                     resolve(transactionHash)
@@ -60,9 +61,11 @@ export async function sendAndPersistTransactionFromEvm(
                     ...evmTransaction,
                     transactionIndex: Number(receipt.transactionIndex),
                     blockNumber: Number(receipt.blockNumber),
+                    to: receipt.to,
                     from: receipt.from,
                     gasUsed: Number(receipt.gasUsed),
                 }
+                // TODO: Do we need to update the persisted transactions here? Because we now have more information that when we sent it...
 
                 const activity = await generateBaseEvmActivity(evmTransaction, evmNetwork, account)
 

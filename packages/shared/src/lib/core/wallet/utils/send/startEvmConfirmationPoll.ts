@@ -47,6 +47,7 @@ export async function startEvmConfirmationPoll(
                 confirmations = FAILED_CONFIRMATION
                 console.error(error)
             } finally {
+                // TODO: is this updating the existing local transaction?
                 addLocalTransactionToPersistedTransaction(profileId, accountIndex, evmNetwork.id, [
                     { ...transaction, confirmations },
                 ])
@@ -55,6 +56,7 @@ export async function startEvmConfirmationPoll(
                 onCancel()
             }
         } else {
+            // TODO: should we update the local transaction here everytime we get a new confirmation?
             updateEvmActivity(accountIndex, transactionHash, { inclusionState })
         }
         isLogicInProgress = false
@@ -70,14 +72,16 @@ export async function startEvmConfirmationPoll(
             console.error('Error in newBlockHeaders subscription:', error)
         })
     } catch (error) {
-        if (error.name === 'SubscriptionError' && error.code === 603) {
+        const _error = (error ?? {}) as { name?: string; code?: number }
+
+        if (_error?.name === 'SubscriptionError' && _error?.code === 603) {
             async function _intervalLogic(): Promise<void> {
                 const currentBlockNumber = await evmNetwork.provider.eth.getBlockNumber()
                 void _pollingLogic(currentBlockNumber, () => clearInterval(intervalId))
             }
 
-            // TODO average block time might be undefined
-            const pollInterval = evmNetwork.averageBlockTimeInSeconds * MILLISECONDS_PER_SECOND
+            // TODO average block time might be undefined and what is the best case for a fallback?
+            const pollInterval = (evmNetwork.averageBlockTimeInSeconds ?? 10) * MILLISECONDS_PER_SECOND
 
             const intervalId = setInterval(() => void _intervalLogic(), pollInterval)
         }
