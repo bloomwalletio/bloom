@@ -47,6 +47,7 @@ export async function startEvmConfirmationPoll(
                 confirmations = FAILED_CONFIRMATION
                 console.error(error)
             } finally {
+                // TODO: is this updating the existing local transaction?
                 addLocalTransactionToPersistedTransaction(profileId, accountIndex, evmNetwork.id, [
                     { ...transaction, confirmations },
                 ])
@@ -55,6 +56,7 @@ export async function startEvmConfirmationPoll(
                 onCancel()
             }
         } else {
+            // TODO: should we update the local transaction here everytime we get a new confirmation?
             updateEvmActivity(accountIndex, transactionHash, { inclusionState })
         }
         isLogicInProgress = false
@@ -76,8 +78,8 @@ export async function startEvmConfirmationPoll(
                 void _pollingLogic(currentBlockNumber, () => clearInterval(intervalId))
             }
 
-            // TODO average block time might be undefined
-            const pollInterval = evmNetwork.averageBlockTimeInSeconds * MILLISECONDS_PER_SECOND
+            // TODO average block time might be undefined and what is the best case for a fallback?
+            const pollInterval = (evmNetwork.averageBlockTimeInSeconds ?? 10) * MILLISECONDS_PER_SECOND
 
             const intervalId = setInterval(() => void _intervalLogic(), pollInterval)
         }

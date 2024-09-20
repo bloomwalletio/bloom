@@ -63,6 +63,7 @@ export async function sendAndPersistTransactionFromEvm(
                     from: receipt.from,
                     gasUsed: Number(receipt.gasUsed),
                 }
+                // TODO: Do we need to update the persisted transactions here? Because we now have more information that when we sent it...
 
                 const activity = await generateBaseEvmActivity(evmTransaction, evmNetwork, account)
 

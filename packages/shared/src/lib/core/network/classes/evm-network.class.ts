@@ -85,7 +85,7 @@ export class EvmNetwork implements IEvmNetwork {
         this.averageBlockTimeInSeconds = await this.getAverageBlockTime(blockCount)
     }
 
-    private async getAverageBlockTime(blockCount = 10): Promise<number> {
+    private async getAverageBlockTime(blockCount = 10): Promise<number | undefined> {
         try {
             const latestBlockNumber = await this.provider.eth.getBlockNumber()
             const blocks: { timestamp: bigint }[] = []
@@ -109,7 +109,6 @@ export class EvmNetwork implements IEvmNetwork {
             return Number(averageBlockTime)
         } catch (error) {
             console.error('Error calculating average block time:', error)
-            return Promise.reject()
         }
     }
 
