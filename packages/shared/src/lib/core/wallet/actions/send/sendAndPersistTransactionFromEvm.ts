@@ -5,8 +5,8 @@ import {
     calculateAndAddPersistedNftBalanceChange,
     calculateAndAddPersistedTokenBalanceChange,
 } from '@core/activity'
-import { addAccountActivity, updateActivityByActivityId } from '@core/activity/stores'
-import { generateBaseEvmActivity, generateEvmActivityFromLocalEvmTransaction } from '@core/activity/utils/evm'
+import { addAccountActivity } from '@core/activity/stores'
+import { generateEvmActivityFromLocalEvmTransaction } from '@core/activity/utils/evm'
 import { EvmTransactionData } from '@core/layer-2'
 import { IEvmNetwork } from '@core/network'
 import { LocalEvmTransaction } from '@core/transactions'
@@ -17,6 +17,7 @@ import { EvmActivityType } from '@core/activity/enums/evm'
 import { NftStandard } from '@core/nfts'
 import { TokenStandard } from '@core/token/enums'
 import { startEvmConfirmationPoll } from '../../utils'
+import { updatePersistedTransactionAndActivity } from '../'
 
 export async function sendAndPersistTransactionFromEvm(
     preparedTransaction: EvmTransactionData,
@@ -65,11 +66,8 @@ export async function sendAndPersistTransactionFromEvm(
                     from: receipt.from,
                     gasUsed: Number(receipt.gasUsed),
                 }
-                // TODO: Do we need to update the persisted transactions here? Because we now have more information that when we sent it...
 
-                const activity = await generateBaseEvmActivity(evmTransaction, evmNetwork, account)
-
-                updateActivityByActivityId(account.index, activityId, activity)
+                await updatePersistedTransactionAndActivity(profileId, account, evmNetwork, evmTransaction)
 
                 void startEvmConfirmationPoll(evmTransaction, evmNetwork, account.index, profileId)
             })

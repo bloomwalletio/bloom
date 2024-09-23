@@ -1,11 +1,11 @@
-import { InclusionState } from '@core/activity'
-import { updateEvmActivity } from '@core/activity/stores'
 import { FAILED_CONFIRMATION, IEvmNetwork } from '@core/network'
+import { activeAccounts } from '@core/profile/stores'
 import { LocalEvmTransaction } from '@core/transactions'
-import { addLocalTransactionToPersistedTransaction } from '@core/transactions/stores'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { Converter } from '@core/utils/convert'
+import { updatePersistedTransactionAndActivity } from '@core/wallet/actions'
 import { BigIntLike } from '@ethereumjs/util'
+import { get } from 'svelte/store'
 
 export async function startEvmConfirmationPoll(
     transaction: LocalEvmTransaction,
@@ -32,32 +32,35 @@ export async function startEvmConfirmationPoll(
         let confirmations = Number(
             Converter.bigIntLikeToBigInt(currentBlockNumber) - Converter.bigIntLikeToBigInt(transactionBlockNumber)
         )
-        let inclusionState = InclusionState.Pending
+
+        const accountState = get(activeAccounts)?.find((account) => account.index === accountIndex)
 
         if (confirmations >= evmNetwork.blocksUntilConfirmed) {
             try {
                 const receipt = await evmNetwork.provider.eth.getTransactionReceipt(transactionHash)
-                if (receipt && receipt.blockNumber) {
-                    inclusionState = InclusionState.Confirmed
-                } else {
+                if (!receipt || !receipt.blockNumber) {
                     throw new Error('Transaction receipt not found')
                 }
             } catch (error) {
-                inclusionState = InclusionState.Conflicting
                 confirmations = FAILED_CONFIRMATION
                 console.error(error)
             } finally {
-                // TODO: is this updating the existing local transaction?
-                addLocalTransactionToPersistedTransaction(profileId, accountIndex, evmNetwork.id, [
-                    { ...transaction, confirmations },
-                ])
-                updateEvmActivity(accountIndex, transactionHash, { inclusionState })
+                if (accountState) {
+                    await updatePersistedTransactionAndActivity(profileId, accountState, evmNetwork, {
+                        transactionHash,
+                        confirmations,
+                    })
+                }
 
                 onCancel()
             }
         } else {
-            // TODO: should we update the local transaction here everytime we get a new confirmation?
-            updateEvmActivity(accountIndex, transactionHash, { inclusionState })
+            if (accountState) {
+                await updatePersistedTransactionAndActivity(profileId, accountState, evmNetwork, {
+                    transactionHash,
+                    confirmations,
+                })
+            }
         }
         isLogicInProgress = false
     }
