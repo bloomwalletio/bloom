@@ -9,8 +9,8 @@
             },
             "importThirdPartyProfiles": {
                 "selectApps": {
-                    "onboardingTitle": "Geldbörsen von Drittanbietern gefunden",
-                    "title": "Import aus Drittanbieteranwendungen",
+                    "onboardingTitle": "Drittanbieter-Wallets gefunden",
+                    "title": "Von Drittanbieter-Apps importieren",
                     "onboardingDescription": "Wir haben festgestellt, dass du kompatible Wallets von Drittanbietern verwendest. Du kannst die Profile jetzt oder später importieren.",
                     "description": "Wähle die Apps aus, von denen du Profile importieren möchten.",
                     "empty": "Keine Apps gefunden",
@@ -26,7 +26,7 @@
                         "failedProfileMigration": "Migration des Profils nicht möglich"
                     },
                     "errors": {
-                        "appIsOpen": "Die Drittanbieter-Wallet von der du importieren möchtest, ist geöffnet. Bitte schließen die Wallet und versuche es erneut.",
+                        "appIsOpen": "Die Drittanbieter-Wallet von der du importieren möchtest, ist geöffnet. Bitte schließe die Wallet und versuche es erneut.",
                         "unknown": "Ein unbekannter Fehler ist bei der Importierung des Profils aufgetreten"
                     },
                     "notifications": {
@@ -430,8 +430,11 @@
             },
             "drawers": {
                 "networkConfig": {
+                    "manageNetworks": {
+                        "title": "Netzwerke verwalten"
+                    },
                     "addChain": {
-                        "title": "Blockchain hinzufügen"
+                        "title": "Benutzerdefinierte Chain hinzufügen"
                     },
                     "chain": {
                         "chainId": "Chain-ID",
