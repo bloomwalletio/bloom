@@ -5,6 +5,7 @@ import { DEFAULT_BASE_TOKEN } from './default-base-token.constant'
 import { DEFAULT_BLOCKSCOUT_INDEXER_URLS } from './default-blockscout-indexer-urls.constant'
 import { DEFAULT_COIN_TYPE } from './default-coin-type.constant'
 import { DEFAULT_EXPLORER_CONFIGS } from './default-explorer-configs.constant'
+import { DEFAULT_NOVES_INDEXER_URLS } from './default-noves-indexer-urls.constant'
 import { SupportedIscNetworkId, SupportedNetworkId, SupportedStardustNetworkId } from './supported-network-id.constant'
 import { isFeatureEnabled } from '@lib/features/utils'
 
@@ -21,6 +22,7 @@ const IOTA_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     apiEndpoint: 'https://api.evm.iotaledger.net/',
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.IotaEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.IotaEvm],
+    novesIndexerUrl: DEFAULT_NOVES_INDEXER_URLS[SupportedNetworkId.IotaEvm],
     blocksUntilConfirmed: 0,
 }
 
@@ -37,6 +39,7 @@ const SHIMMER_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     apiEndpoint: 'https://api.evm.shimmer.network/',
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.ShimmerEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.ShimmerEvm],
+    novesIndexerUrl: DEFAULT_NOVES_INDEXER_URLS[SupportedNetworkId.ShimmerEvm],
     blocksUntilConfirmed: 0,
 }
 
@@ -53,6 +56,7 @@ const IOTA_TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     apiEndpoint: 'https://api.evm.testnet.iotaledger.net/',
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.IotaTestnetEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.IotaTestnetEvm],
+    novesIndexerUrl: DEFAULT_NOVES_INDEXER_URLS[SupportedNetworkId.IotaTestnetEvm],
     blocksUntilConfirmed: 0,
 }
 
@@ -70,6 +74,7 @@ export const TESTNET_EVM_CHAIN_CONFIGURATION: IIscChainConfiguration = {
     apiEndpoint: 'https://api.evm.testnet.shimmer.network/',
     explorer: DEFAULT_EXPLORER_CONFIGS[SupportedNetworkId.TestnetEvm],
     blockscoutIndexerUrl: DEFAULT_BLOCKSCOUT_INDEXER_URLS[SupportedNetworkId.TestnetEvm],
+    novesIndexerUrl: DEFAULT_NOVES_INDEXER_URLS[SupportedNetworkId.TestnetEvm],
     blocksUntilConfirmed: 0,
 }
 
