@@ -430,8 +430,11 @@
             },
             "drawers": {
                 "networkConfig": {
+                    "manageNetworks": {
+                        "title": "Zarządzanie sieciami"
+                    },
                     "addChain": {
-                        "title": "Dodaj łańcuch"
+                        "title": "Dodaj niestandardowy łańcuch"
                     },
                     "chain": {
                         "chainId": "Identyfikator łańcucha",
