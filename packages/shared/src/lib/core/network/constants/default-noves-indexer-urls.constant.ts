@@ -1,4 +1,3 @@
-import { buildUrl } from '@core/utils'
 import { NetworkId } from '../types'
 import { SupportedNetworkId } from './supported-network-id.constant'
 import { NOVES_TRANSLATE_API_URL } from './noves-translate-api-url.constant'
@@ -42,5 +41,5 @@ export const DEFAULT_NOVES_INDEXER_URLS: Readonly<{ [key in NetworkId]?: string 
 }
 
 function getEvmIndexerUrl(networkName: string): string | undefined {
-    return buildUrl({ base: NOVES_TRANSLATE_API_URL, pathname: `evm/${networkName}` })?.toString()
+    return new URL(`evm/${networkName}`, NOVES_TRANSLATE_API_URL).toString()
 }
