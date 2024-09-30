@@ -43,7 +43,8 @@ export async function updatePersistedTransactionAndActivity(
                 evmNetwork,
                 recipientAccount
             )
-            recipientActivity && updateActivityByActivityId(account.index, recipientActivity.id, recipientActivity)
+            recipientActivity &&
+                updateActivityByActivityId(recipientAccount.index, recipientActivity.id, recipientActivity)
         }
     }
 }
