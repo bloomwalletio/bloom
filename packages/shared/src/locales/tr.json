@@ -430,8 +430,11 @@
             },
             "drawers": {
                 "networkConfig": {
+                    "manageNetworks": {
+                        "title": "Ağları Yönet"
+                    },
                     "addChain": {
-                        "title": "Zincir ekle"
+                        "title": "Özel zincir ekle"
                     },
                     "chain": {
                         "chainId": "Zincir ID",

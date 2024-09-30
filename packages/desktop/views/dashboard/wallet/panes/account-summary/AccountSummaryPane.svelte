@@ -5,6 +5,11 @@
     import { networks } from '@core/network'
 
     export let account: IAccountState
+
+    const ACCOUNT_NETWORK_SUMMARY_MAXIMUM_WIDTH_IN_PX = 300
+
+    let accountSummaryListWidth: number
+    let accountSummaryWidth: number
 </script>
 
 <Pane
@@ -16,8 +21,17 @@
         shadow-lg
     "
 >
-    <AccountSummary />
-    {#each $networks as network}
-        <AccountNetworkSummary {account} {network} />
-    {/each}
+    <div
+        class="flex-1 flex divide-x divide-solid divide-stroke dark:divide-stroke-dark"
+        bind:clientWidth={accountSummaryListWidth}
+    >
+        <div bind:clientWidth={accountSummaryWidth}>
+            <AccountSummary />
+        </div>
+        {#each $networks as network, i}
+            {#if i * ACCOUNT_NETWORK_SUMMARY_MAXIMUM_WIDTH_IN_PX <= accountSummaryListWidth - accountSummaryWidth}
+                <AccountNetworkSummary {account} {network} />
+            {/if}
+        {/each}
+    </div>
 </Pane>

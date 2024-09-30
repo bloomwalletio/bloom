@@ -430,8 +430,11 @@
             },
             "drawers": {
                 "networkConfig": {
+                    "manageNetworks": {
+                        "title": "Beheer netwerken"
+                    },
                     "addChain": {
-                        "title": "Chain toevoegen"
+                        "title": "Aangepaste chain toevoegen"
                     },
                     "chain": {
                         "chainId": "Chain ID",
