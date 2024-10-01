@@ -95,7 +95,7 @@ export function updatePersistedTransactionWithPartialLocalTransaction(
         }
 
         const _transactions = state[profileId][accountIndex][networkId] ?? {}
-        const existingTransaction = _transactions?.[partialLocalEvmTransaction.transactionHash.toLowerCase()]
+        const existingTransaction = _transactions[partialLocalEvmTransaction.transactionHash.toLowerCase()]
         if (existingTransaction.local) {
             updatedTransaction = {
                 ...existingTransaction,
@@ -104,6 +104,7 @@ export function updatePersistedTransactionWithPartialLocalTransaction(
                     ...partialLocalEvmTransaction,
                 } as LocalEvmTransaction,
             }
+            existingTransaction.local = updatedTransaction.local
         }
 
         return state
