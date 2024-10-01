@@ -84,19 +84,19 @@ export class TideApi extends BaseApi {
         queryParams?: ProjectLeaderboardQueryParams
     ): Promise<IProjectLeaderboardResponse | undefined> {
         const path = `${TideApiEndpoint.Project}/${projectId}/leaderboard`
-        const response = await this.get<IProjectLeaderboardResponse>(path, queryParams)
+        const response = await this.get<IProjectLeaderboardResponse>({ path, queryParameters: queryParams })
         return response
     }
 
     async getCampaign(campaignId: string): Promise<ICampaignResponse | undefined> {
         const path = `${TideApiEndpoint.Campaign}/${campaignId}`
-        const response = await this.get<ICampaignResponse>(path)
+        const response = await this.get<ICampaignResponse>({ path })
         return response
     }
 
     async getCampaignsForChain(chainId: number): Promise<IMultipleCampaignsResponse | undefined> {
         const path = `${TideApiEndpoint.Campaign}/chain/${chainId}`
-        const response = await this.get<IMultipleCampaignsResponse>(path)
+        const response = await this.get<IMultipleCampaignsResponse>({ path })
         return response
     }
 
@@ -106,7 +106,7 @@ export class TideApi extends BaseApi {
         contractAddress: string
     ): Promise<INftUserDataResponse | undefined> {
         const path = `${TideApiEndpoint.Nft}/${userAddress}/${contractAddress}/${chainId}`
-        const response = await this.get<INftUserDataResponse>(path)
+        const response = await this.get<INftUserDataResponse>({ path })
         return response
     }
 }

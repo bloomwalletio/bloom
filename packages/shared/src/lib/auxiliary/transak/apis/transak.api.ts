@@ -14,12 +14,14 @@ export class TransakApi extends BaseApi {
     }
 
     async getFiatCurrencies(): Promise<ITransakApiFiatCurrenciesResponse | undefined> {
-        const response = await this.get<ITransakApiFiatCurrenciesResponse>(TransakApiEndpoint.FiatCurrencies)
+        const response = await this.get<ITransakApiFiatCurrenciesResponse>({ path: TransakApiEndpoint.FiatCurrencies })
         return response
     }
 
     async getCryptoCurrencies(): Promise<ITransakApiCryptoCurrenciesResponseItem[] | undefined> {
-        const response = await this.get<ITransakApiCryptoCurrenciesResponse>(TransakApiEndpoint.CryptoCurrencies)
+        const response = await this.get<ITransakApiCryptoCurrenciesResponse>({
+            path: TransakApiEndpoint.CryptoCurrencies,
+        })
         return response?.response
     }
 
@@ -44,14 +46,17 @@ export class TransakApi extends BaseApi {
     async getPrices(params: ITransakApiPriceParams): Promise<ITransakApiPriceResponse | undefined> {
         const partnerApiKey = process.env.TRANSAK_API_KEY ?? ''
         const { fiatCurrency, cryptoCurrency, isBuyOrSell, networkName, paymentMethod, fiatAmount } = params
-        const response = await this.get<ITransakApiPriceResponse>(TransakApiEndpoint.Price, {
-            partnerApiKey,
-            fiatCurrency,
-            cryptoCurrency,
-            isBuyOrSell,
-            networkName,
-            paymentMethod,
-            fiatAmount,
+        const response = await this.get<ITransakApiPriceResponse>({
+            path: TransakApiEndpoint.Price,
+            queryParameters: {
+                partnerApiKey,
+                fiatCurrency,
+                cryptoCurrency,
+                isBuyOrSell,
+                networkName,
+                paymentMethod,
+                fiatAmount,
+            },
         })
         return response
     }
