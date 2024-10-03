@@ -1,7 +1,9 @@
 import { QueryParameters } from '@core/utils'
 import {
+    NovesHistoryItem,
     NovesHistoryOptions,
     NovesHistoryResponse,
+    NovesPagination,
     NovesTxDescriptionResponse,
     NovesTxResponse,
     NovesTxsOptions,
@@ -35,7 +37,7 @@ export class NovesTranslateApi extends NovesBaseApi {
     async getTransactionsFromAddress(
         accountAddress: string,
         chain: string,
-        options: NovesTxsOptions
+        options?: NovesTxsOptions
     ): Promise<NovesTxsResponse | undefined> {
         const response = await this.get<NovesTxsResponse>({
             path: `evm/${chain}/txs/${accountAddress}`,
@@ -47,13 +49,43 @@ export class NovesTranslateApi extends NovesBaseApi {
     async getHistoryFromAddress(
         accountAddress: string,
         chain: string,
-        options: NovesHistoryOptions
-    ): Promise<NovesHistoryResponse | undefined> {
+        options?: NovesHistoryOptions
+    ): Promise<NovesHistoryItem[]> {
         const response = await this.get<NovesHistoryResponse>({
             path: `evm/${chain}/history/${accountAddress}`,
             queryParameters: options as QueryParameters,
         })
-        return response
+
+        if (response) {
+            const responses = await this.recursiveRequest([response], response)
+
+            const items = responses.reduce((acc, response) => {
+                return [...acc, ...response.items]
+            }, [] as NovesHistoryItem[])
+
+            return items
+        }
+
+        return []
+    }
+
+    async recursiveRequest<T extends NovesPagination>(
+        previousResponses: T[],
+        pagination: NovesPagination
+    ): Promise<T[]> {
+        if (pagination?.hasNextPage) {
+            const response = await this.get<T>({
+                path: pagination.nextPageUrl,
+            })
+
+            if (response) {
+                return this.recursiveRequest([...previousResponses, response], response)
+            }
+
+            return previousResponses
+        }
+
+        return previousResponses
     }
 
     async getTokenBalancesFromAddress(

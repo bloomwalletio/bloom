@@ -4,7 +4,7 @@ export interface NovesHistoryResponse extends NovesPagination {
     items: NovesHistoryItem[]
 }
 
-interface NovesHistoryItem {
+export interface NovesHistoryItem {
     transactionHash: string
     blockNumber: string
     timestamp: number
