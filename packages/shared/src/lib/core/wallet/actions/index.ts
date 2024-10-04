@@ -13,5 +13,6 @@ export * from './rejectActivity'
 export * from './sendOutput'
 export * from './signEvmTransaction'
 export * from './signMessage'
+export * from './updatePersistedTransactionAndActivity'
 
 export * from './send'

@@ -1,6 +1,6 @@
 import { IAccountState } from '@core/account/interfaces'
 import { getAddressFromAccountForNetwork } from '@core/account/utils'
-import { IEvmNetwork, NetworkNamespace, calculateGasFee } from '@core/network'
+import { FAILED_CONFIRMATION, IEvmNetwork, NetworkNamespace, calculateGasFee } from '@core/network'
 import { MILLISECONDS_PER_SECOND } from '@core/utils/constants'
 import { getSubjectFromAddress, isSubjectInternal } from '@core/wallet'
 import { ActivityAction, ActivityDirection, InclusionState } from '../../enums'
@@ -34,9 +34,11 @@ export async function generateBaseEvmActivity(
     const gasUsed = transaction.gasUsed || transaction.estimatedGas
     const transactionFee = transaction.gasPrice ? calculateGasFee(gasUsed, transaction.gasPrice) : undefined
     const inclusionState =
-        Number(transaction.confirmations) >= evmNetwork.blocksUntilConfirmed
-            ? InclusionState.Confirmed
-            : InclusionState.Pending
+        transaction.confirmations === FAILED_CONFIRMATION
+            ? InclusionState.Conflicting
+            : Number(transaction.confirmations) >= evmNetwork.blocksUntilConfirmed
+              ? InclusionState.Confirmed
+              : InclusionState.Pending
 
     return {
         namespace: NetworkNamespace.Evm,
