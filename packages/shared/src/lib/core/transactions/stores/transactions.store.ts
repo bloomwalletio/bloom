@@ -73,6 +73,46 @@ export function addLocalTransactionToPersistedTransaction(
     })
 }
 
+export function updatePersistedTransactionWithPartialLocalTransaction(
+    profileId: string,
+    accountIndex: number,
+    networkId: NetworkId,
+    partialLocalEvmTransaction: Partial<LocalEvmTransaction> & { transactionHash: string }
+): PersistedTransaction | undefined {
+    let updatedTransaction: PersistedTransaction | undefined
+
+    persistedTransactions.update((state) => {
+        if (!state[profileId]) {
+            state[profileId] = {}
+        }
+        if (!state[profileId][accountIndex]) {
+            state[profileId][accountIndex] = {
+                [networkId]: {},
+            }
+        }
+        if (!state[profileId][accountIndex][networkId]) {
+            state[profileId][accountIndex][networkId] = {}
+        }
+
+        const _transactions = state[profileId][accountIndex][networkId] ?? {}
+        const existingTransaction = _transactions[partialLocalEvmTransaction.transactionHash.toLowerCase()]
+        if (existingTransaction.local) {
+            updatedTransaction = {
+                ...existingTransaction,
+                local: {
+                    ...existingTransaction.local,
+                    ...partialLocalEvmTransaction,
+                } as LocalEvmTransaction,
+            }
+            existingTransaction.local = updatedTransaction.local
+        }
+
+        return state
+    })
+
+    return updatedTransaction
+}
+
 export function addBlockscoutTransactionToPersistedTransactions(
     profileId: string,
     accountIndex: number,
