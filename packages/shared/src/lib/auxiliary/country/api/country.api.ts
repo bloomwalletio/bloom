@@ -43,7 +43,7 @@ export class IpApi extends BaseApi {
           }
         | undefined
     > {
-        const ipData = await this.get<IIpApiResponse>('json')
+        const ipData = await this.get<IIpApiResponse>({ path: 'json' })
         if (ipData === undefined) {
             return undefined
         }
@@ -56,7 +56,7 @@ export class IpApi extends BaseApi {
     }
 
     async getCountryCode(): Promise<string | undefined> {
-        const ipData = await this.get<IIpApiResponse>('json')
+        const ipData = await this.get<IIpApiResponse>({ path: 'json' })
         return ipData?.country_code
     }
 }

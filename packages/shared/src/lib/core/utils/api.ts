@@ -5,6 +5,14 @@ interface IApiRequestOptions {
     disableCors?: boolean
 }
 
+export interface IRequestParams {
+    path: string
+    queryParameters?: QueryParameters
+    body?: string
+    headers?: Record<string, string>
+    options?: IApiRequestOptions
+}
+
 export class BaseApi {
     private readonly _baseUrl: string
     private readonly _basePath: string
@@ -14,35 +22,24 @@ export class BaseApi {
         this._basePath = basePath ?? ''
     }
 
-    protected get<T>(
-        path: string,
-        queryParameters?: QueryParameters,
-        options?: IApiRequestOptions
-    ): Promise<T | undefined> {
-        return this.makeRequest<T>(path, queryParameters, undefined, options)
+    protected get<T>(params: Omit<IRequestParams, 'body'>): Promise<T | undefined> {
+        return this.makeRequest<T>(params)
     }
 
-    protected post<T>(
-        path: string,
-        queryParameters?: QueryParameters,
-        body?: string,
-        options?: IApiRequestOptions
-    ): Promise<T | undefined> {
-        return this.makeRequest<T>(path, queryParameters, body, options)
+    protected post<T>(params: IRequestParams): Promise<T | undefined> {
+        return this.makeRequest<T>(params)
     }
 
-    private async makeRequest<T>(
-        path: string,
-        queryParameters?: QueryParameters,
-        body?: string,
-        options?: IApiRequestOptions
-    ): Promise<T | undefined> {
+    protected async makeRequest<T>(params: IRequestParams): Promise<T | undefined> {
         try {
+            const { path, queryParameters, body, headers, options } = params
+
             const requestInit: RequestInit = {
                 method: body ? 'POST' : 'GET',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    ...headers,
                 },
                 ...(body && { body }),
                 ...(options?.disableCors && { mode: 'no-cors' }),

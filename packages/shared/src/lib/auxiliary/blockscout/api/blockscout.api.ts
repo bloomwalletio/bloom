@@ -43,36 +43,37 @@ export class BlockscoutApi extends BaseApi implements IBlockscoutApi {
         if (exitFunction && exitFunction(items)) {
             return Promise.resolve(items)
         }
-        return this.get<IPaginationResponse<T>>(path, { ...queryParameters, ...nextPageParameters }).then(
-            (response) => {
-                if (!response?.items) {
-                    return Promise.resolve(items)
-                }
-                return this.makePaginatedGetRequest(
-                    path,
-                    queryParameters,
-                    items.concat(response.items),
-                    response.next_page_params,
-                    exitFunction
-                )
+        return this.get<IPaginationResponse<T>>({
+            path,
+            queryParameters: { ...queryParameters, ...nextPageParameters },
+        }).then((response) => {
+            if (!response?.items) {
+                return Promise.resolve(items)
             }
-        )
+            return this.makePaginatedGetRequest(
+                path,
+                queryParameters,
+                items.concat(response.items),
+                response.next_page_params,
+                exitFunction
+            )
+        })
     }
 
     async getBackendVersion(): Promise<string | undefined> {
-        const response = await this.get<{ backend_version }>('config/backend-version')
+        const response = await this.get<{ backend_version }>({ path: 'config/backend-version' })
         return response?.['backend_version']
     }
 
     async getStats(): Promise<IBlockscoutStats | undefined> {
-        const response = await this.get<IBlockscoutStats>('stats')
+        const response = await this.get<IBlockscoutStats>({ path: 'stats' })
         if (response) {
-            return this.get('stats')
+            return this.get({ path: 'stats' })
         }
     }
 
     async getAssetMetadata(assetAddress: string): Promise<IBlockscoutTokenInfo | undefined> {
-        const response = await this.get<IBlockscoutTokenInfoDto>(`tokens/${assetAddress}`)
+        const response = await this.get<IBlockscoutTokenInfoDto>({ path: `tokens/${assetAddress}` })
         if (response) {
             return {
                 ...response,
