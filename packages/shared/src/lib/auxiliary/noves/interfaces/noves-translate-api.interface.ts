@@ -1,5 +1,5 @@
 import { NovesTokenBalancesResponse } from '../types'
-import { NovesHistoryResponse } from './noves-history-response.interface'
+import { NovesHistoryItem } from './noves-history-response.interface'
 import { NovesTxDescriptionResponse } from './noves-tx-description-response.interface'
 import { NovesTxResponse } from './noves-tx-response.interface'
 import { NovesTxsResponse } from './noves-txs-response.interface'
@@ -16,7 +16,7 @@ export interface INovesTranslateApi {
         accountAddress: string,
         chain: string,
         options?: NovesHistoryOptions
-    ): Promise<NovesHistoryResponse | undefined>
+    ): Promise<NovesHistoryItem[]>
     getTokenBalancesFromAddress(
         accountAddress: string,
         chain: string,
