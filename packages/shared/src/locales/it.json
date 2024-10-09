@@ -1819,7 +1819,8 @@
         "disabled": "Disabled",
         "networkSettings": "Network settings",
         "waitingConnection": "Waiting connection",
-        "unsupportedVersion": "Unsupported version"
+        "unsupportedVersion": "Unsupported version",
+        "loading": "Loading"
     },
     "filters": {
         "title": "Filtri",

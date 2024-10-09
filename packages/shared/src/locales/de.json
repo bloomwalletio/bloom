@@ -1819,7 +1819,8 @@
         "disabled": "Deaktiviert",
         "networkSettings": "Netzwerkeinstellungen",
         "waitingConnection": "Auf Verbindung warten",
-        "unsupportedVersion": "Version nicht unterstützt"
+        "unsupportedVersion": "Version nicht unterstützt",
+        "loading": "Loading"
     },
     "filters": {
         "title": "Filter",

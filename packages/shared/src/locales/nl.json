@@ -1819,7 +1819,8 @@
         "disabled": "Uitgeschakeld",
         "networkSettings": "Netwerkinstellingen",
         "waitingConnection": "Wachten op verbinding",
-        "unsupportedVersion": "Niet-ondersteunde versie"
+        "unsupportedVersion": "Niet-ondersteunde versie",
+        "loading": "Loading"
     },
     "filters": {
         "title": "Filters",
