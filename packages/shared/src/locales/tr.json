@@ -1819,7 +1819,8 @@
         "disabled": "Devre dışı",
         "networkSettings": "Ağ ayarları",
         "waitingConnection": "Bağlantı bekleniyor",
-        "unsupportedVersion": "Desteklenmeyen sürüm"
+        "unsupportedVersion": "Desteklenmeyen sürüm",
+        "loading": "Loading"
     },
     "filters": {
         "title": "Filtreler",
