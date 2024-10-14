@@ -6,7 +6,7 @@
     "license": "PolyForm Strict License 1.0.0",
     "dependencies": {
         "@bloomwalletio/ui": "0.21.13",
-        "@ethereumjs/common": "4.3.0",
+        "@ethereumjs/common": "4.4.0",
         "@ethereumjs/rlp": "5.0.2",
         "@ethereumjs/tx": "5.3.0",
         "@ethereumjs/util": "9.0.3",
