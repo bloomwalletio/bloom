@@ -36,11 +36,15 @@ export async function fetchAndPersistTransactionsForNetwork(
 ): Promise<void> {
     for (const account of accounts) {
         try {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const [blockscoutTransactions, novesTransactions] = await Promise.all([
+            const [blockscoutTransactionsPromise, novesTransactionsPromise] = await Promise.allSettled([
                 fetchBlockscoutTransactionsForAccount(profileId, account, network),
                 fetchNovesTransactionsForAccount(account, network),
             ])
+
+            const blockscoutTransactions =
+                blockscoutTransactionsPromise.status === 'fulfilled' && blockscoutTransactionsPromise.value
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const novesTransactions = novesTransactionsPromise.status === 'fulfilled' && novesTransactionsPromise.value
 
             blockscoutTransactions &&
                 addBlockscoutTransactionToPersistedTransactions(
