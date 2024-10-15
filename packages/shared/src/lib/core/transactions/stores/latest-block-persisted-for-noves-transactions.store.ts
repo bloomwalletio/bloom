@@ -40,7 +40,11 @@ export function updateLatestBlockForPersistedNovesTransactionsForAccountNetwork(
             state[profileId][accountId][networkId] = {}
         }
 
-        state[profileId][accountId][networkId].latestBlock = latestBlock
+        const obj = state[profileId][accountId][networkId] ?? {}
+
+        obj.latestBlock = latestBlock
+
+        state[profileId][accountId][networkId] = obj
 
         return state
     })

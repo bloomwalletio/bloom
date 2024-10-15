@@ -5,8 +5,8 @@ import { NovesTxResponse } from '@auxiliary/noves'
 import { AtLeastOne } from '@core/utils/types'
 
 export type PersistedTransaction = AtLeastOne<{
-    blockscout?: IBlockscoutTransaction
-    noves?: NovesTxResponse
-    tokenTransfer?: BlockscoutTokenTransfer
-    local?: LocalEvmTransaction
+    blockscout: IBlockscoutTransaction
+    noves: NovesTxResponse
+    tokenTransfer: BlockscoutTokenTransfer
+    local: LocalEvmTransaction
 }>
