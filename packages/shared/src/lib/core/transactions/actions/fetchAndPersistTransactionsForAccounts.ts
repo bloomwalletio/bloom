@@ -3,17 +3,20 @@ import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import {
     addBlockscoutTokenTransferToPersistedTransactions,
     addBlockscoutTransactionToPersistedTransactions,
+    addNovesTransactionToPersistedTransactions,
+    getLatestBlockForPersistedNovesTransactionsForAccountNetwork,
     getPersistedTransactionsForChain,
     isBlockscoutTokenTransferPersisted,
     isBlockscoutTransactionPersisted,
+    updateLatestBlockForPersistedNovesTransactionsForAccountNetwork,
 } from '../stores'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
-import { EvmNetworkId, IEvmNetwork, SUPPORTED_NETWORK_ID_TO_NOVES_CHAIN, getEvmNetworks } from '@core/network'
+import { EvmNetworkId, IEvmNetwork, getEvmNetworks } from '@core/network'
 import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
 import { generateEvmActivityFromPersistedTransaction } from '@core/activity/utils'
 import { EvmActivity, addAccountActivities, allAccountActivities } from '@core/activity'
 import { get } from 'svelte/store'
-import { NovesApi, NovesTxResponse } from '@auxiliary/noves'
+import { SUPPORTED_NETWORK_ID_TO_NOVES_CHAIN, NovesApi, NovesTxResponse } from '@auxiliary/noves'
 
 export async function fetchAndPersistTransactionsForAccounts(
     profileId: string,
@@ -38,12 +41,11 @@ export async function fetchAndPersistTransactionsForNetwork(
         try {
             const [blockscoutTransactionsPromise, novesTransactionsPromise] = await Promise.allSettled([
                 fetchBlockscoutTransactionsForAccount(profileId, account, network),
-                fetchNovesTransactionsForAccount(account, network),
+                fetchNovesTransactionsForAccount(profileId, account, network),
             ])
 
             const blockscoutTransactions =
                 blockscoutTransactionsPromise.status === 'fulfilled' && blockscoutTransactionsPromise.value
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const novesTransactions = novesTransactionsPromise.status === 'fulfilled' && novesTransactionsPromise.value
 
             blockscoutTransactions &&
@@ -53,6 +55,20 @@ export async function fetchAndPersistTransactionsForNetwork(
                     network.id,
                     blockscoutTransactions
                 )
+
+            if (novesTransactions && novesTransactions.length > 0) {
+                addNovesTransactionToPersistedTransactions(profileId, account.index, network.id, novesTransactions)
+
+                // Transactions are in reverse-chronological order
+                // So first transaction will be the latest one
+                const latestBlock = novesTransactions[0].rawTransactionData.blockNumber
+                updateLatestBlockForPersistedNovesTransactionsForAccountNetwork(
+                    profileId,
+                    account.index,
+                    network.id,
+                    latestBlock
+                )
+            }
 
             const blockscoutTokenTransfers = await fetchBlockscoutTokenTransfersForAccount(profileId, account, network)
             blockscoutTokenTransfers &&
@@ -130,6 +146,7 @@ async function fetchBlockscoutTransactionsForAccount(
 }
 
 async function fetchNovesTransactionsForAccount(
+    profileId: string,
     account: IAccountState,
     network: IEvmNetwork
 ): Promise<NovesTxResponse[]> {
@@ -139,8 +156,16 @@ async function fetchNovesTransactionsForAccount(
         return []
     }
 
+    const latestBlock = getLatestBlockForPersistedNovesTransactionsForAccountNetwork(
+        profileId,
+        account.index,
+        network.id
+    )
+
     const novesApi = new NovesApi()
-    const transactions = await novesApi.translate.getTransactionsFromAddress(address, novesChain)
+    const transactions = await novesApi.translate.getTransactionsFromAddress(address, novesChain, {
+        startBlock: latestBlock,
+    })
     return transactions
 }
 
