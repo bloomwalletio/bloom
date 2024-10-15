@@ -5,6 +5,7 @@ import { persistent } from '@core/utils/store'
 import { get } from 'svelte/store'
 import { LocalEvmTransaction, PersistedTransaction } from '../types/'
 import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
+import { NovesTxResponse } from '@auxiliary/noves'
 
 type PersistedTransactions = {
     [profileId: string]: {
@@ -140,6 +141,40 @@ export function addBlockscoutTransactionToPersistedTransactions(
                 blockscout: transaction,
             }
             _transactions[transaction.hash.toLowerCase()] = updatedTransaction
+        }
+        state[profileId][accountIndex][networkId] = _transactions
+
+        return state
+    })
+}
+
+export function addNovesTransactionToPersistedTransactions(
+    profileId: string,
+    accountIndex: number,
+    networkId: NetworkId,
+    newTransactions: NovesTxResponse[]
+): void {
+    persistedTransactions.update((state) => {
+        if (!state[profileId]) {
+            state[profileId] = {}
+        }
+        if (!state[profileId][accountIndex]) {
+            state[profileId][accountIndex] = {
+                [networkId]: {},
+            }
+        }
+        if (!state[profileId][accountIndex][networkId]) {
+            state[profileId][accountIndex][networkId] = {}
+        }
+
+        const _transactions = state[profileId][accountIndex][networkId] ?? {}
+        for (const transaction of newTransactions) {
+            const existingTransaction = _transactions?.[transaction.rawTransactionData.transactionHash.toLowerCase()]
+            const updatedTransaction: PersistedTransaction = {
+                ...existingTransaction,
+                noves: transaction,
+            }
+            _transactions[transaction.rawTransactionData.transactionHash.toLowerCase()] = updatedTransaction
         }
         state[profileId][accountIndex][networkId] = _transactions
 

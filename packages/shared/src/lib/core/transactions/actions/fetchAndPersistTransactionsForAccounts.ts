@@ -3,6 +3,7 @@ import { IAccountState, getAddressFromAccountForNetwork } from '@core/account'
 import {
     addBlockscoutTokenTransferToPersistedTransactions,
     addBlockscoutTransactionToPersistedTransactions,
+    addNovesTransactionToPersistedTransactions,
     getPersistedTransactionsForChain,
     isBlockscoutTokenTransferPersisted,
     isBlockscoutTransactionPersisted,
@@ -43,7 +44,6 @@ export async function fetchAndPersistTransactionsForNetwork(
 
             const blockscoutTransactions =
                 blockscoutTransactionsPromise.status === 'fulfilled' && blockscoutTransactionsPromise.value
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const novesTransactions = novesTransactionsPromise.status === 'fulfilled' && novesTransactionsPromise.value
 
             blockscoutTransactions &&
@@ -53,6 +53,9 @@ export async function fetchAndPersistTransactionsForNetwork(
                     network.id,
                     blockscoutTransactions
                 )
+
+            novesTransactions &&
+                addNovesTransactionToPersistedTransactions(profileId, account.index, network.id, novesTransactions)
 
             const blockscoutTokenTransfers = await fetchBlockscoutTokenTransfersForAccount(profileId, account, network)
             blockscoutTokenTransfers &&
