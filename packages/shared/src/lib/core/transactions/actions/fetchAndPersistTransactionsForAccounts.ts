@@ -13,7 +13,7 @@ import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
 import { generateEvmActivityFromPersistedTransaction } from '@core/activity/utils'
 import { EvmActivity, addAccountActivities, allAccountActivities } from '@core/activity'
 import { get } from 'svelte/store'
-import { NovesApi, NovesTxsResponse } from '@auxiliary/noves'
+import { NovesApi, NovesTxResponse } from '@auxiliary/noves'
 
 export async function fetchAndPersistTransactionsForAccounts(
     profileId: string,
@@ -132,11 +132,11 @@ async function fetchBlockscoutTransactionsForAccount(
 async function fetchNovesTransactionsForAccount(
     account: IAccountState,
     network: IEvmNetwork
-): Promise<NovesTxsResponse | undefined> {
+): Promise<NovesTxResponse[]> {
     const address = getAddressFromAccountForNetwork(account, network.id)
     const novesChain = SUPPORTED_NETWORK_ID_TO_NOVES_CHAIN[network.id]
     if (!address || !novesChain) {
-        return undefined
+        return []
     }
 
     const novesApi = new NovesApi()
