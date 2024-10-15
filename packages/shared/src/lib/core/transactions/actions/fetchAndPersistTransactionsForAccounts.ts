@@ -8,12 +8,12 @@ import {
     isBlockscoutTransactionPersisted,
 } from '../stores'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
-import { EvmNetworkId, IEvmNetwork, SUPPORTED_NETWORK_ID_TO_NOVES_CHAIN, getEvmNetworks } from '@core/network'
+import { EvmNetworkId, IEvmNetwork, getEvmNetworks } from '@core/network'
 import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
 import { generateEvmActivityFromPersistedTransaction } from '@core/activity/utils'
 import { EvmActivity, addAccountActivities, allAccountActivities } from '@core/activity'
 import { get } from 'svelte/store'
-import { NovesApi, NovesTxResponse } from '@auxiliary/noves'
+import { SUPPORTED_NETWORK_ID_TO_NOVES_CHAIN, NovesApi, NovesTxResponse } from '@auxiliary/noves'
 
 export async function fetchAndPersistTransactionsForAccounts(
     profileId: string,
