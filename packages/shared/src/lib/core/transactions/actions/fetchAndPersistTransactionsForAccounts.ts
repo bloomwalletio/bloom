@@ -8,11 +8,12 @@ import {
     isBlockscoutTransactionPersisted,
 } from '../stores'
 import { BlockscoutApi } from '@auxiliary/blockscout/api'
-import { EvmNetworkId, IEvmNetwork, getEvmNetworks } from '@core/network'
+import { EvmNetworkId, IEvmNetwork, SUPPORTED_NETWORK_ID_TO_NOVES_CHAIN, getEvmNetworks } from '@core/network'
 import { BlockscoutTokenTransfer } from '@auxiliary/blockscout/types'
 import { generateEvmActivityFromPersistedTransaction } from '@core/activity/utils'
 import { EvmActivity, addAccountActivities, allAccountActivities } from '@core/activity'
 import { get } from 'svelte/store'
+import { NovesApi, NovesTxsResponse } from '@auxiliary/noves'
 
 export async function fetchAndPersistTransactionsForAccounts(
     profileId: string,
@@ -35,7 +36,12 @@ export async function fetchAndPersistTransactionsForNetwork(
 ): Promise<void> {
     for (const account of accounts) {
         try {
-            const blockscoutTransactions = await fetchBlockscoutTransactionsForAccount(profileId, account, network)
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const [blockscoutTransactions, novesTransactions] = await Promise.all([
+                fetchBlockscoutTransactionsForAccount(profileId, account, network),
+                fetchNovesTransactionsForAccount(account, network),
+            ])
+
             blockscoutTransactions &&
                 addBlockscoutTransactionToPersistedTransactions(
                     profileId,
@@ -116,6 +122,21 @@ async function fetchBlockscoutTransactionsForAccount(
     const transactions = await blockscoutApi.getTransactionsForAddress(address, (items: IBlockscoutTransaction[]) =>
         getTransactionsExitFunction(items, profileId, account.index, network.id)
     )
+    return transactions
+}
+
+async function fetchNovesTransactionsForAccount(
+    account: IAccountState,
+    network: IEvmNetwork
+): Promise<NovesTxsResponse | undefined> {
+    const address = getAddressFromAccountForNetwork(account, network.id)
+    const novesChain = SUPPORTED_NETWORK_ID_TO_NOVES_CHAIN[network.id]
+    if (!address || !novesChain) {
+        return undefined
+    }
+
+    const novesApi = new NovesApi()
+    const transactions = await novesApi.translate.getTransactionsFromAddress(address, novesChain)
     return transactions
 }
 
