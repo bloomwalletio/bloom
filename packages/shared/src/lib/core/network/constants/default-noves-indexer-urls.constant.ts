@@ -1,6 +1,7 @@
 import { NetworkId } from '../types'
 import { SupportedNetworkId } from './supported-network-id.constant'
 import { NOVES_TRANSLATE_API_URL } from './noves-translate-api-url.constant'
+import { SupportedNovesChain } from '@auxiliary/noves/enums'
 
 export const DEFAULT_NOVES_INDEXER_URLS: Readonly<{ [key in NetworkId]?: string }> = {
     // IOTA
@@ -8,23 +9,23 @@ export const DEFAULT_NOVES_INDEXER_URLS: Readonly<{ [key in NetworkId]?: string 
     [SupportedNetworkId.IotaTestnetEvm]: '',
 
     // Shimmer
-    [SupportedNetworkId.ShimmerEvm]: getEvmIndexerUrl('shimmer-evm'),
+    [SupportedNetworkId.ShimmerEvm]: getEvmIndexerUrl(SupportedNovesChain.ShimmerEvm),
     [SupportedNetworkId.TestnetEvm]: '',
 
     // Ethereum
-    [SupportedNetworkId.Ethereum]: getEvmIndexerUrl('eth'),
-    [SupportedNetworkId.Sepolia]: getEvmIndexerUrl('eth-sepolia'),
+    [SupportedNetworkId.Ethereum]: getEvmIndexerUrl(SupportedNovesChain.Ethereum),
+    [SupportedNetworkId.Sepolia]: getEvmIndexerUrl(SupportedNovesChain.Sepolia),
 
     // Arbitrum
-    [SupportedNetworkId.Arbitrum]: getEvmIndexerUrl('arbitrum'),
+    [SupportedNetworkId.Arbitrum]: getEvmIndexerUrl(SupportedNovesChain.Arbitrum),
     [SupportedNetworkId.ArbitrumSepoliaTestnet]: '',
 
     // Base
-    [SupportedNetworkId.Base]: getEvmIndexerUrl('base'),
+    [SupportedNetworkId.Base]: getEvmIndexerUrl(SupportedNovesChain.Base),
     [SupportedNetworkId.BaseSepoliaTestnet]: '',
 
     // Blast
-    [SupportedNetworkId.Blast]: getEvmIndexerUrl('blast'),
+    [SupportedNetworkId.Blast]: getEvmIndexerUrl(SupportedNovesChain.Blast),
     [SupportedNetworkId.BlastSepoliaTestnet]: '',
 
     // Immutable
@@ -32,11 +33,11 @@ export const DEFAULT_NOVES_INDEXER_URLS: Readonly<{ [key in NetworkId]?: string 
     [SupportedNetworkId.ImmutableTestnet]: '',
 
     // Optimism
-    [SupportedNetworkId.Optimism]: getEvmIndexerUrl('optimism'),
+    [SupportedNetworkId.Optimism]: getEvmIndexerUrl(SupportedNovesChain.Optimism),
     [SupportedNetworkId.OptimismSepoliaTestnet]: '',
 
     // BNB Smart Chain
-    [SupportedNetworkId.Bnb]: getEvmIndexerUrl('bsc'),
+    [SupportedNetworkId.Bnb]: getEvmIndexerUrl(SupportedNovesChain.Bnb),
     [SupportedNetworkId.BnbTestnet]: '',
 }
 

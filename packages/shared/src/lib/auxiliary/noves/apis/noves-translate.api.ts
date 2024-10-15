@@ -38,12 +38,27 @@ export class NovesTranslateApi extends NovesBaseApi {
         accountAddress: string,
         chain: string,
         options?: NovesTxsOptions
-    ): Promise<NovesTxsResponse | undefined> {
+    ): Promise<NovesTxResponse[]> {
         const response = await this.get<NovesTxsResponse>({
             path: `evm/${chain}/txs/${accountAddress}`,
             queryParameters: options as QueryParameters,
         })
-        return response
+
+        if (response) {
+            const responses = await this.recursiveRequest([response], response)
+
+            const items = responses.reduce((acc, response) => {
+                if (response.items.length > 0) {
+                    return [...acc, ...response.items]
+                } else {
+                    return acc
+                }
+            }, [] as NovesTxResponse[])
+
+            return items
+        }
+
+        return []
     }
 
     async getHistoryFromAddress(
