@@ -1,7 +1,6 @@
 <script lang="ts">
     import { showNotification } from '@auxiliary/notification'
     import { Alert, Button } from '@bloomwalletio/ui'
-    import { updateOnboardingProfile } from '@contexts/onboarding/stores'
     import { exportStronghold } from '@contexts/settings/actions'
     import { localize } from '@core/i18n'
     import { login } from '@core/profile/actions'
@@ -14,18 +13,11 @@
     export let password: string
 
     function onAdvanceView(): void {
-        if (isRecovery) {
-            updateOnboardingProfile({
-                mnemonic: null,
-                strongholdPassword: null,
-                importFile: null,
-                importFilePath: null,
-            })
-        } else {
+        if (!isRecovery) {
             void login()
         }
 
-        $updateStrongholdRouter.next()
+        $updateStrongholdRouter?.next()
     }
 
     function onSkipClick(): void {
@@ -34,14 +26,17 @@
 
     async function onBackupClick(): Promise<void> {
         try {
+            busy = true
             await exportStronghold(password, handleExportStrongholdResponse)
             onAdvanceView()
         } catch (err) {
             console.error(err)
+        } finally {
+            busy = false
         }
     }
 
-    function handleExportStrongholdResponse(cancelled: boolean, error: string): void {
+    function handleExportStrongholdResponse(cancelled: boolean, error?: string): void {
         if (!cancelled) {
             if (error) {
                 showNotification({
@@ -58,7 +53,7 @@
     }
 
     function onBackClick(): void {
-        $updateStrongholdRouter.previous()
+        $updateStrongholdRouter?.previous()
     }
 </script>
 
