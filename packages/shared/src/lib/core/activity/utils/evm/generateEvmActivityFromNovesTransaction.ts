@@ -3,7 +3,7 @@ import { IAccountState } from '@core/account'
 import { EvmActivityType } from '@core/activity/enums/evm'
 import { BaseEvmActivity, EvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } from '@core/activity/types'
 import { IEvmNetwork } from '@core/network'
-import { BASE_TOKEN_ID, TokenStandard } from '@core/token'
+import { BASE_TOKEN_ID, convertToRawAmount, IErc20Metadata, TokenStandard } from '@core/token'
 import { Converter } from '@core/utils'
 import { IAccountSubject, SubjectType } from '@core/wallet'
 import { ActivityDirection } from '@core/activity/enums'
@@ -90,8 +90,10 @@ function generateEvmActivityFromSendTokenClassification(
     }
 
     const amountString = sent.amount
-    const decimals = sent.token.decimals ?? 18
-    const rawAmount = convertAmountToRawAmount(amountString, decimals)
+    const rawAmount = convertToRawAmount(amountString, {
+        ...sent.token,
+        standard: TokenStandard.Erc20,
+    } as IErc20Metadata)
 
     const isBaseTokenTransfer = Converter.isHex(sent.token.address ?? '')
 
@@ -102,7 +104,7 @@ function generateEvmActivityFromSendTokenClassification(
             sender,
             baseTokenTransfer: {
                 tokenId: BASE_TOKEN_ID,
-                rawAmount: rawAmount,
+                rawAmount: rawAmount ?? BigInt(0),
             },
         }
     } else {
@@ -113,7 +115,7 @@ function generateEvmActivityFromSendTokenClassification(
             tokenTransfer: {
                 standard: TokenStandard.Erc20,
                 tokenId: sent.token.address?.toLowerCase() ?? '',
-                rawAmount: rawAmount,
+                rawAmount: rawAmount ?? BigInt(0),
             },
             rawData: '',
         }
@@ -134,8 +136,10 @@ function generateEvmActivityFromReceiveTokenClassification(
     }
 
     const amountString = received.amount
-    const decimals = received.token.decimals ?? 18
-    const rawAmount = convertAmountToRawAmount(amountString, decimals)
+    const rawAmount = convertToRawAmount(amountString, {
+        ...received.token,
+        standard: TokenStandard.Erc20,
+    } as IErc20Metadata)
 
     const isBaseTokenTransfer = Converter.isHex(received.token.address ?? '')
 
@@ -146,7 +150,7 @@ function generateEvmActivityFromReceiveTokenClassification(
             recipient,
             baseTokenTransfer: {
                 tokenId: BASE_TOKEN_ID,
-                rawAmount: rawAmount,
+                rawAmount: rawAmount ?? BigInt(0),
             },
         }
     } else {
@@ -157,20 +161,9 @@ function generateEvmActivityFromReceiveTokenClassification(
             tokenTransfer: {
                 standard: TokenStandard.Erc20,
                 tokenId: received.token.address?.toLowerCase() ?? '',
-                rawAmount: rawAmount,
+                rawAmount: rawAmount ?? BigInt(0),
             },
             rawData: '',
         }
-    }
-}
-
-// Can you use this function that already exists: convertToRawAmount
-function convertAmountToRawAmount(amount: string, decimals: number = 18): bigint {
-    if (amount.includes('.')) {
-        const [intPart, fracPart] = amount.split('.')
-        const scaleFactor = BigInt(10 ** decimals)
-        return BigInt(intPart) * scaleFactor + BigInt(fracPart.padEnd(decimals, '0').slice(0, decimals))
-    } else {
-        return BigInt(amount) * BigInt(10 ** decimals)
     }
 }
