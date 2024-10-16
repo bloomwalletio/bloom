@@ -21,10 +21,10 @@ export async function generateEvmActivityFromPersistedTransaction(
             evmNetwork,
             account
         )
-    } else if (noves) {
-        return generateEvmActivityFromNovesTransaction(noves, local, evmNetwork, account)
     } else if (blockscout) {
         return generateEvmActivityFromBlockscoutTransaction(blockscout, local, evmNetwork, account)
+    } else if (noves) {
+        return generateEvmActivityFromNovesTransaction(noves, local, evmNetwork, account)
     } else if (local) {
         return generateEvmActivityFromLocalEvmTransaction(local, evmNetwork, account)
     }
