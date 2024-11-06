@@ -1820,7 +1820,7 @@
         "networkSettings": "Ağ ayarları",
         "waitingConnection": "Bağlantı bekleniyor",
         "unsupportedVersion": "Desteklenmeyen sürüm",
-        "loading": "Loading"
+        "loading": "Yükleniyor"
     },
     "filters": {
         "title": "Filtreler",
