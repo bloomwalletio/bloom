@@ -1820,7 +1820,7 @@
         "networkSettings": "Ustawienia sieci",
         "waitingConnection": "Oczekiwanie na połączenie",
         "unsupportedVersion": "Nieobsługiwana wersja",
-        "loading": "Loading"
+        "loading": "Wczytywanie"
     },
     "filters": {
         "title": "Filtry",
