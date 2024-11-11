@@ -10213,10 +10213,10 @@ svelte-json-tree@2.1.0:
   resolved "https://registry.yarnpkg.com/svelte-json-tree/-/svelte-json-tree-2.1.0.tgz#616cadae86326881a80bcdb04b451ed57bef7898"
   integrity sha512-IAU//hE5bIA0SoM9AuP7xOoD9PUcMh4fio0oI52r0XJ7iNDytW7AnBdkIn1QSYLUyWzvQX3tp59JfLYfhd7lTw==
 
-svelte-loader@3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/svelte-loader/-/svelte-loader-3.2.3.tgz#d452ac982c6652edcfe438628b0e72ac9e24d65a"
-  integrity sha512-ntitVuO0EneIlw5Zsn/GNnxu8+KkqbfrsjEGvk7qrd67IA24OBVqY9p0NjUGlpewPxGL3iD4z/8VA+hM9AsZxA==
+svelte-loader@3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/svelte-loader/-/svelte-loader-3.2.4.tgz#0d05ae1f95aec6d480ee86e80e9f756ac419e694"
+  integrity sha512-e0HdDnkYH/MDx4/IfTSka5AOFg9yYJcPuoZJB5x0l60fkHjVjNvrrxr+rJegDG9J7ZymmdHt00/hdLw+QF299w==
   dependencies:
     loader-utils "^2.0.4"
     svelte-dev-helper "^1.1.9"
