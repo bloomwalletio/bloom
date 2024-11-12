@@ -1,3 +1,4 @@
+import { NovesTxType } from '../types/noves-tx-type.type'
 import { NovesToken } from './noves-token.interface'
 
 export interface NovesTxResponse {
@@ -30,7 +31,7 @@ interface Protocol {
 }
 
 interface ClassificationData {
-    type: string
+    type: NovesTxType
     source: ClassificationSource
     description: string
     protocol: Protocol
