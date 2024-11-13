@@ -10,6 +10,8 @@
     export let nodesContainer: HTMLElement | undefined = undefined
 
     $: clientOptions = $activeProfile?.clientOptions
+    $: nodes =
+        clientOptions?.nodes?.length ?? 0 > 0 ? clientOptions?.nodes : getDefaultNodes($activeProfile?.network?.id)
 
     function isPrimary(node: INode): boolean {
         return node.url === clientOptions?.primaryNode?.url
@@ -26,9 +28,7 @@
 </script>
 
 <node-list-table class="max-h-80 flex flex-col overflow-auto" bind:this={nodesContainer}>
-    {#if clientOptions?.nodes}
-        {@const nodes =
-            clientOptions?.nodes?.length > 0 ? clientOptions?.nodes : getDefaultNodes($activeProfile?.network?.id)}
+    {#if nodes}
         {#each nodes as node}
             <div class="flex flex-row items-center justify-between">
                 <button
@@ -49,7 +49,7 @@
                         </Pill>
                     {/if}
                 </button>
-                <NodeActionsMenu {node} {clientOptions} />
+                <NodeActionsMenu {node} {clientOptions} currentNetwork={$activeProfile?.network} />
             </div>
         {/each}
     {/if}

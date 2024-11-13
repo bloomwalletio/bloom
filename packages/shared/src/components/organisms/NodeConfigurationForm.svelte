@@ -3,8 +3,7 @@
     import { localize } from '@core/i18n'
     import { INode } from '@iota/sdk/out/types'
     import { DEFAULT_NETWORK_METADATA, EMPTY_NODE } from '@core/network/constants'
-    import { IClientOptions, INodeInfoResponse } from '@core/network/interfaces'
-    import { getStardustNetwork } from '@core/network/stores'
+    import { IClientOptions, INodeInfoResponse, IStardustNetworkMetadata } from '@core/network/interfaces'
     import {
         checkIfOnSameNetwork,
         checkNodeUrlValidity,
@@ -19,7 +18,7 @@
 
     interface INodeValidationOptions {
         checkNodeInfo: boolean
-        checkSameNetwork: boolean
+        checkSameNetwork?: IStardustNetworkMetadata
         uniqueCheck: boolean
         validateClientOptions: boolean
     }
@@ -96,8 +95,7 @@
         const networkName = nodeInfoResponse?.nodeInfo?.protocol.networkName
 
         if (options.checkSameNetwork) {
-            const stardustNetwork = getStardustNetwork()
-            const isInSameNetwork = stardustNetwork?.protocol.networkName === networkName
+            const isInSameNetwork = options.checkSameNetwork?.protocol.networkName === networkName
             if (!isInSameNetwork) {
                 formError = localize('error.node.differentNetwork')
                 return Promise.reject({ type: 'validationError', error: formError })

@@ -5,6 +5,7 @@
     import { UpdateStrongholdRouterView } from '@views'
     import { LoadProfileView, LoginView, SelectProfileView } from './views'
     import { PopupId, openPopup } from '@desktop/auxiliary/popup'
+    import { LoginDrawerRouterView } from './drawers'
 
     $: if (features.analytics.loginRoute.enabled && $loginRoute)
         Platform.trackEvent('login-route', { route: $loginRoute })
@@ -31,3 +32,4 @@
 {:else if $loginRoute === LoginRoute.LoadProfile}
     <LoadProfileView />
 {/if}
+<LoginDrawerRouterView />
