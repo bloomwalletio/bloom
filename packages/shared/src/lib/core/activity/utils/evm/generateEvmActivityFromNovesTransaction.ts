@@ -1,7 +1,14 @@
 import { NovesTxResponse } from '@auxiliary/noves'
 import { IAccountState } from '@core/account'
 import { EvmActivityType } from '@core/activity/enums/evm'
-import { BaseEvmActivity, EvmActivity, EvmCoinTransferActivity, EvmTokenTransferActivity } from '@core/activity/types'
+import {
+    BaseEvmActivity,
+    EvmActivity,
+    EvmCoinTransferActivity,
+    EvmTokenTransferActivity,
+    EvmTokenApprovalActivity,
+    EvmContractCallActivity,
+} from '@core/activity/types'
 import { IEvmNetwork } from '@core/network'
 import { BASE_TOKEN_ID, convertToRawAmount, IErc20Metadata, TokenStandard } from '@core/token'
 import { Converter } from '@core/utils'
@@ -10,7 +17,15 @@ import { ActivityDirection } from '@core/activity/enums'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { LocalEvmTransaction } from '@core/transactions/types'
 import { generateEvmActivityFromLocalEvmTransaction } from './generateEvmActivityFromLocalEvmTransaction'
-import { NovesTxTypeToken } from '@auxiliary/noves/enums'
+import {
+    NovesTxTypeToken,
+    NovesTxTypeNFT,
+    NovesTxTypeInfrastructure,
+    NovesTxTypeDEX,
+    NovesTxTypeLending,
+    NovesTxTypeYield,
+} from '@auxiliary/noves/enums'
+import { NftStandard } from '@core/nfts'
 
 export async function generateEvmActivityFromNovesTransaction(
     novesTx: NovesTxResponse,
@@ -27,9 +42,45 @@ export async function generateEvmActivityFromNovesTransaction(
 
     switch (novesTx.classificationData.type) {
         case NovesTxTypeToken.SendToken:
+        case NovesTxTypeToken.SendTokenAirdrop:
             return generateEvmActivityFromSendTokenClassification(baseActivity, novesTx, account)
         case NovesTxTypeToken.ReceiveToken:
+        case NovesTxTypeToken.ReceiveTokenAirdrop:
+        case NovesTxTypeToken.ReceiveSpamToken:
             return generateEvmActivityFromReceiveTokenClassification(baseActivity, novesTx, account)
+        case NovesTxTypeToken.ApproveToken:
+        case NovesTxTypeToken.RevokeTokenApproval:
+            return generateEvmActivityFromApproveTokenClassification(baseActivity, novesTx)
+        case NovesTxTypeNFT.SendNFT:
+        case NovesTxTypeNFT.SendNFTAirdrop:
+        case NovesTxTypeNFT.ReceiveNFT:
+        case NovesTxTypeNFT.ReceiveNFTAirdrop:
+        case NovesTxTypeNFT.ReceiveSpamNFT:
+            return generateEvmActivityFromNFTTransferClassification(baseActivity, novesTx)
+        case NovesTxTypeNFT.ApproveNFTCollection:
+        case NovesTxTypeNFT.ApproveSingleNFT:
+        case NovesTxTypeNFT.RevokeNFTCollectionApproval:
+            return generateEvmActivityFromNFTApprovalClassification(baseActivity, novesTx)
+        case NovesTxTypeInfrastructure.CreateContract:
+        case NovesTxTypeInfrastructure.DeployContract:
+            return {
+                ...baseActivity,
+                type: EvmActivityType.ContractCall,
+                rawData: '',
+            } as EvmContractCallActivity
+        case NovesTxTypeDEX.Swap:
+        case NovesTxTypeDEX.AddLiquidity:
+        case NovesTxTypeDEX.RemoveLiquidity:
+        case NovesTxTypeLending.Borrow:
+        case NovesTxTypeLending.RepayLoan:
+        case NovesTxTypeYield.StakeToken:
+        case NovesTxTypeYield.UnstakeToken:
+            return {
+                ...baseActivity,
+                type: EvmActivityType.ContractCall,
+                rawData: '',
+                method: novesTx.classificationData.type,
+            } as EvmContractCallActivity
         default:
             return localTransaction
                 ? generateEvmActivityFromLocalEvmTransaction(localTransaction, evmNetwork, account)
@@ -94,7 +145,7 @@ function generateEvmActivityFromSendTokenClassification(
         standard: TokenStandard.Erc20,
     } as IErc20Metadata)
 
-    const isBaseTokenTransfer = Converter.isHex(sent.token.address ?? '')
+    const isBaseTokenTransfer = !Converter.isHex(sent.token.address ?? '')
 
     if (isBaseTokenTransfer) {
         return {
@@ -140,7 +191,7 @@ function generateEvmActivityFromReceiveTokenClassification(
         standard: TokenStandard.Erc20,
     } as IErc20Metadata)
 
-    const isBaseTokenTransfer = Converter.isHex(received.token.address ?? '')
+    const isBaseTokenTransfer = !Converter.isHex(received.token.address ?? '')
 
     if (isBaseTokenTransfer) {
         return {
@@ -164,5 +215,69 @@ function generateEvmActivityFromReceiveTokenClassification(
             },
             rawData: '',
         }
+    }
+}
+
+function generateEvmActivityFromApproveTokenClassification(
+    baseActivity: BaseEvmActivity,
+    novesTx: NovesTxResponse
+): EvmTokenApprovalActivity {
+    const sent = novesTx.classificationData.sent[0]
+
+    const amountString = sent.amount
+    const rawAmount = convertToRawAmount(amountString, {
+        ...sent.token,
+        standard: TokenStandard.Erc20,
+    } as IErc20Metadata)
+
+    return {
+        ...baseActivity,
+        type: EvmActivityType.TokenApproval,
+        tokenTransfer: {
+            standard: TokenStandard.Erc20,
+            tokenId: sent.token.address?.toLowerCase() ?? '',
+            rawAmount: rawAmount ?? BigInt(0),
+        },
+        direction: ActivityDirection.SelfTransaction,
+        rawData: '',
+    }
+}
+
+function generateEvmActivityFromNFTTransferClassification(
+    baseActivity: BaseEvmActivity,
+    novesTx: NovesTxResponse
+): EvmTokenTransferActivity {
+    const transfer = novesTx.classificationData.type.startsWith('send')
+        ? novesTx.classificationData.sent[0]
+        : novesTx.classificationData.received[0]
+
+    return {
+        ...baseActivity,
+        type: EvmActivityType.TokenTransfer,
+        tokenTransfer: {
+            standard: NftStandard.Erc721,
+            tokenId: transfer.token.address?.toLowerCase() ?? '',
+            rawAmount: BigInt(1),
+        },
+        rawData: '',
+    }
+}
+
+function generateEvmActivityFromNFTApprovalClassification(
+    baseActivity: BaseEvmActivity,
+    novesTx: NovesTxResponse
+): EvmTokenApprovalActivity {
+    const sent = novesTx.classificationData.sent[0]
+
+    return {
+        ...baseActivity,
+        type: EvmActivityType.TokenApproval,
+        tokenTransfer: {
+            standard: NftStandard.Erc721,
+            tokenId: sent.token.address?.toLowerCase() ?? '',
+            rawAmount: BigInt(1),
+        },
+        direction: ActivityDirection.SelfTransaction,
+        rawData: '',
     }
 }

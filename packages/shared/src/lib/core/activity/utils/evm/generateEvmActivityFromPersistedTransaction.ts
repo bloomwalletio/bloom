@@ -14,7 +14,9 @@ export async function generateEvmActivityFromPersistedTransaction(
 ): Promise<EvmActivity | undefined> {
     const { local, noves, blockscout, tokenTransfer } = persistedTransaction
 
-    if (tokenTransfer) {
+    if (noves) {
+        return generateEvmActivityFromNovesTransaction(noves, local, evmNetwork, account)
+    } else if (tokenTransfer) {
         return generateEvmTokenTransferActivityFromBlockscoutTokenTransfer(
             tokenTransfer,
             blockscout,
@@ -23,8 +25,6 @@ export async function generateEvmActivityFromPersistedTransaction(
         )
     } else if (blockscout) {
         return generateEvmActivityFromBlockscoutTransaction(blockscout, local, evmNetwork, account)
-    } else if (noves) {
-        return generateEvmActivityFromNovesTransaction(noves, local, evmNetwork, account)
     } else if (local) {
         return generateEvmActivityFromLocalEvmTransaction(local, evmNetwork, account)
     }
