@@ -237,7 +237,7 @@
     >
         <svelte:component this={POPUP_MAP[id]} {...props} />
         {#if !hideClose}
-            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-8 right-8 p-2" />
+            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-8 right-8" />
         {/if}
     </popup>
     <button type="button" tabindex="0" on:focus={onFocusLast} />

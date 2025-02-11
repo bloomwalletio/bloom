@@ -48,7 +48,7 @@
             <VerifyLedgerTransactionPopup {...props} />
         {/if}
         {#if !hideClose}
-            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-8 right-8 p-2" />
+            <CloseButton on:click={tryClosePopup} size="sm" class="absolute top-8 right-8" />
         {/if}
     </profile-auth-popup>
 </overlay>
