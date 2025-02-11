@@ -8,6 +8,7 @@
     import LocalProofOfWork from './LocalProofOfWork.svelte'
     import { IStardustNetwork } from '@core/network'
     import { NetworkConfigRoute } from '../../network-config-route.enum'
+    import { activeProfile } from '@core/profile/stores'
 
     export let drawerRouter: Router<NetworkConfigRoute>
     export let network: IStardustNetwork
@@ -15,21 +16,26 @@
     let nodesContainer: HTMLElement
 
     function onAddNodeClick(): void {
-        openPopup({
-            id: PopupId.AddNode,
-            props: {
-                onSuccess: () => {
-                    closePopup()
-                    setTimeout(() => {
-                        /**
-                         * NOTE: This automatically scrolls the user to the bottom of the
-                         * nodes container to see the newly added node.
-                         */
-                        nodesContainer.scrollTop = nodesContainer.scrollHeight
-                    }, 100)
+        openPopup(
+            {
+                id: PopupId.AddNode,
+                props: {
+                    onSuccess: () => {
+                        closePopup()
+                        setTimeout(() => {
+                            /**
+                             * NOTE: This automatically scrolls the user to the bottom of the
+                             * nodes container to see the newly added node.
+                             */
+                            nodesContainer.scrollTop = nodesContainer.scrollHeight
+                        }, 100)
+                    },
+                    currentNetwork: $activeProfile?.network,
                 },
             },
-        })
+            false,
+            false
+        )
     }
 </script>
 

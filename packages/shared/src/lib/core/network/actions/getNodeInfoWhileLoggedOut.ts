@@ -5,7 +5,7 @@ import { TEST_COIN_TYPE } from '..'
 import { Platform } from '@core/app/classes'
 import { CoinType, IAuth, INodeInfoWrapper } from '@iota/sdk/out/types'
 
-export async function getNodeInfoWhileLoggedOut(url: string, auth: IAuth): Promise<INodeInfoWrapper> {
+export async function getNodeInfoWhileLoggedOut(url: string, auth?: IAuth): Promise<INodeInfoWrapper> {
     let storagePath: string | undefined
     let manager: IProfileManager | undefined
     let nodeInfoResponse: INodeInfoWrapper | undefined

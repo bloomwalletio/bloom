@@ -3,7 +3,7 @@
     import { NodeListTable } from '@components'
     import { localize } from '@core/i18n'
 
-    export let nodesContainer: HTMLElement
+    export let nodesContainer: HTMLElement | undefined = undefined
 </script>
 
 <div class="flex flex-col space-y-2">

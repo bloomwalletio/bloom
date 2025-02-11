@@ -3,7 +3,13 @@
     import { deleteProfile } from '@contexts/settings/actions'
     import { localize } from '@core/i18n'
     import { IPersistedProfile } from '@core/profile'
+    import { toggleLoginDrawer } from '@desktop/auxiliary/drawer'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
+    import { LoginDrawerRoute } from '../drawers'
+    import { NetworkConfigRoute } from '@views/dashboard/drawers'
+    import { setSelectedNetworkForNetworkDrawer } from '@core/network/stores'
+    import { StardustNetwork } from '@core/network/classes'
+    import { loadPersistedProfileIntoActiveProfile } from '@core/profile/actions'
 
     export let profile: IPersistedProfile
 
@@ -18,6 +24,16 @@
             false,
             false
         )
+    }
+
+    function onNodeConfigurationClick(): void {
+        loadPersistedProfileIntoActiveProfile(profile.id)
+        const profileNetwork = new StardustNetwork(profile.network)
+        setSelectedNetworkForNetworkDrawer(profileNetwork)
+        toggleLoginDrawer({
+            id: LoginDrawerRoute.NetworkConfig,
+            initialSubroute: NetworkConfigRoute.ChainInformation,
+        })
     }
 
     function onDeleteClick(): void {
@@ -47,6 +63,11 @@
             icon: IconName.Tool2,
             title: localize('popups.profileDiagnostics.title'),
             onClick: onDiagnosticsClick,
+        },
+        {
+            icon: IconName.Tool,
+            title: 'Node configuration',
+            onClick: onNodeConfigurationClick,
         },
         {
             variant: 'danger',

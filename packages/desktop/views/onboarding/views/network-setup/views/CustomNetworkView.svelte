@@ -33,7 +33,7 @@
         try {
             await nodeConfigurationForm.validate({
                 uniqueCheck: false,
-                checkSameNetwork: false,
+                checkSameNetwork: undefined,
                 checkNodeInfo: false,
                 validateClientOptions: false,
             })

@@ -5,6 +5,7 @@ import {
     DashboardDrawerRoute,
     NetworkConfigRoute,
 } from '../../../../views/dashboard/drawers'
+import { LoginDrawerRoute } from '../../../../views/login/drawers'
 
 interface IBaseDrawerState {
     hideClose?: boolean
@@ -27,7 +28,7 @@ export interface IDappConfigDrawerState extends IBaseDrawerState {
 }
 
 export interface INetworkConfigDrawerState extends IBaseDrawerState {
-    route: DrawerRoute.Dashboard
-    id: DashboardDrawerRoute.NetworkConfig
+    route: DrawerRoute.Dashboard | DrawerRoute.Login
+    id: DashboardDrawerRoute.NetworkConfig | LoginDrawerRoute.NetworkConfig
     initialSubroute?: NetworkConfigRoute
 }

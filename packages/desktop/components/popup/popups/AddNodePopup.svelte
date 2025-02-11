@@ -4,12 +4,18 @@
     import { registerProposalsForAccounts } from '@contexts/governance'
     import { Platform } from '@core/app'
     import { localize } from '@core/i18n'
-    import { EMPTY_NODE, addNodeToClientOptions, editNodeInClientOptions } from '@core/network'
+    import {
+        EMPTY_NODE,
+        IStardustNetworkMetadata,
+        addNodeToClientOptions,
+        editNodeInClientOptions,
+    } from '@core/network'
     import { activeAccounts } from '@core/profile/stores'
     import { closePopup } from '@desktop/auxiliary/popup'
     import { NodeConfigurationForm } from '@ui'
     import PopupTemplate from '../PopupTemplate.svelte'
 
+    export let currentNetwork: IStardustNetworkMetadata
     export let node: INode = structuredClone(EMPTY_NODE)
     export let isEditingNode: boolean = false
     export let onSuccess: (..._: any[]) => void
@@ -26,7 +32,7 @@
         try {
             isBusy = true
             await nodeConfigurationForm.validate({
-                checkSameNetwork: true,
+                checkSameNetwork: currentNetwork,
                 uniqueCheck: !isEditingNode,
                 checkNodeInfo: true,
                 validateClientOptions: true,

@@ -7,49 +7,56 @@
         toggleDisabledNodeInClientOptions,
         togglePrimaryNodeInClientOptions,
     } from '@core/network/actions'
-    import { IClientOptions } from '@core/network/interfaces'
-    import { getDefaultNodes } from '@core/network/utils'
-    import { activeProfile } from '@core/profile/stores'
+    import { IClientOptions, IStardustNetworkMetadata } from '@core/network/interfaces'
     import { PopupId, closePopup, openPopup } from '@desktop/auxiliary/popup'
 
+    export let currentNetwork: IStardustNetworkMetadata
     export let node: INode
     export let clientOptions: IClientOptions
 
     let menu: Menu | undefined = undefined
 
-    $: isOfficialNode = getDefaultNodes($activeProfile?.network?.id).some((n) => n.url === node?.url)
     $: allowDisableOrRemove = node?.disabled || clientOptions?.nodes?.filter((node) => !node.disabled)?.length > 1
     $: isPrimary = clientOptions?.primaryNode?.url === node.url
 
     function onEditNodeDetailsClick(): void {
-        openPopup({
-            id: PopupId.AddNode,
-            props: {
-                node,
-                isEditingNode: true,
-                onSuccess: () => {
-                    closePopup()
+        openPopup(
+            {
+                id: PopupId.AddNode,
+                props: {
+                    node,
+                    isEditingNode: true,
+                    currentNetwork,
+                    onSuccess: () => {
+                        closePopup()
+                    },
                 },
             },
-        })
+            false,
+            false
+        )
         menu?.close()
     }
 
     async function onTogglePrimaryNodeClick(): Promise<void> {
         if (isPrimary) {
-            openPopup({
-                id: PopupId.Confirmation,
-                props: {
-                    variant: 'danger',
-                    title: localize('popups.unsetAsPrimaryNode.title'),
-                    description: localize('popups.unsetAsPrimaryNode.body', { values: { url: node.url } }),
-                    confirmText: localize('actions.clear'),
-                    onConfirm: () => {
-                        void togglePrimaryNodeInClientOptions(node)
-                        closePopup()
+            openPopup(
+                {
+                    id: PopupId.Confirmation,
+                    props: {
+                        variant: 'danger',
+                        title: localize('popups.unsetAsPrimaryNode.title'),
+                        description: localize('popups.unsetAsPrimaryNode.body', { values: { url: node.url } }),
+                        confirmText: localize('actions.clear'),
+                        onConfirm: () => {
+                            void togglePrimaryNodeInClientOptions(node)
+                            closePopup()
+                        },
                     },
                 },
-            })
+                false,
+                false
+            )
         } else {
             await togglePrimaryNodeInClientOptions(node)
         }
@@ -57,19 +64,23 @@
     }
 
     function onRemoveNodeClick(): void {
-        openPopup({
-            id: PopupId.Confirmation,
-            props: {
-                variant: 'danger',
-                title: localize('popups.node.titleRemove'),
-                description: localize('popups.node.removeConfirmation'),
-                confirmText: localize('actions.removeNode'),
-                onConfirm: () => {
-                    void removeNodeFromClientOptions(node)
-                    closePopup()
+        openPopup(
+            {
+                id: PopupId.Confirmation,
+                props: {
+                    variant: 'danger',
+                    title: localize('popups.node.titleRemove'),
+                    description: localize('popups.node.removeConfirmation'),
+                    confirmText: localize('actions.removeNode'),
+                    onConfirm: () => {
+                        void removeNodeFromClientOptions(node)
+                        closePopup()
+                    },
                 },
             },
-        })
+            false,
+            false
+        )
         menu?.close()
     }
 
@@ -77,21 +88,25 @@
         if (node.disabled) {
             void toggleDisabledNodeInClientOptions(node)
         } else {
-            openPopup({
-                id: PopupId.Confirmation,
-                props: {
-                    variant: 'danger',
-                    title: localize('popups.excludeNode.title'),
-                    description: localize('popups.excludeNode.body', { values: { url: node?.url } }),
-                    confirmText: localize(
-                        'views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.excludeNode'
-                    ),
-                    onConfirm: () => {
-                        void toggleDisabledNodeInClientOptions(node)
-                        closePopup()
+            openPopup(
+                {
+                    id: PopupId.Confirmation,
+                    props: {
+                        variant: 'danger',
+                        title: localize('popups.excludeNode.title'),
+                        description: localize('popups.excludeNode.body', { values: { url: node?.url } }),
+                        confirmText: localize(
+                            'views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.excludeNode'
+                        ),
+                        onConfirm: () => {
+                            void toggleDisabledNodeInClientOptions(node)
+                            closePopup()
+                        },
                     },
                 },
-            })
+                false,
+                false
+            )
         }
         menu?.close()
     }
@@ -104,7 +119,6 @@
             {
                 icon: IconName.Edit,
                 title: localize('views.dashboard.drawers.networkConfig.networkSettings.configureNodeList.editDetails'),
-                disabled: isOfficialNode,
                 onClick: onEditNodeDetailsClick,
             },
             {
