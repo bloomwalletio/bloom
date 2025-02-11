@@ -15,7 +15,7 @@
         "eslint-plugin-svelte": "2.44.1",
         "globals": "^15.9.0",
         "husky": "7.0.4",
-        "lint-staged": "15.2.9",
+        "lint-staged": "15.4.3",
         "patch-package": "8.0.0",
         "prettier": "3.2.5",
         "prettier-plugin-svelte": "3.2.3",
