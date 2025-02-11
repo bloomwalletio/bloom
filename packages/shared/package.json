@@ -19,7 +19,7 @@
         "@walletconnect/jsonrpc-types": "1.0.4",
         "@walletconnect/notify-client": "1.4.1",
         "@walletconnect/types": "2.14.0",
-        "@walletconnect/web3wallet": "1.11.2",
+        "@walletconnect/web3wallet": "1.14.2",
         "http-status-codes": "2.3.0",
         "lottie-web": "5.12.2",
         "qrious": "4.0.2",
