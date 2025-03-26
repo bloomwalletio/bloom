@@ -10,6 +10,7 @@ import { ActivityDirection } from '@core/activity/enums'
 import { generateBaseEvmActivity } from './generateBaseEvmActivity'
 import { LocalEvmTransaction } from '@core/transactions/types'
 import { generateEvmActivityFromLocalEvmTransaction } from './generateEvmActivityFromLocalEvmTransaction'
+import { NovesTxTypeToken } from '@auxiliary/noves/enums'
 
 export async function generateEvmActivityFromNovesTransaction(
     novesTx: NovesTxResponse,
@@ -24,12 +25,10 @@ export async function generateEvmActivityFromNovesTransaction(
         account
     )
 
-    switch (
-        novesTx.classificationData.type // What are all the types and interfaces for this?
-    ) {
-        case 'sendToken': // TODO: this string should be an enum
+    switch (novesTx.classificationData.type) {
+        case NovesTxTypeToken.SendToken:
             return generateEvmActivityFromSendTokenClassification(baseActivity, novesTx, account)
-        case 'receiveToken':
+        case NovesTxTypeToken.ReceiveToken:
             return generateEvmActivityFromReceiveTokenClassification(baseActivity, novesTx, account)
         default:
             return localTransaction
