@@ -17,7 +17,7 @@ jobs:
     release:
         name: Release - ${{ inputs.version }} (${{ inputs.stage }})
         if: ${{ always() }}
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-22.04
         env:
             STAGE: ${{ inputs.stage }}
             VERSION: ${{ inputs.version }}
@@ -37,13 +37,13 @@ jobs:
             - name: Downloading artifacts (macOS)
               uses: actions/download-artifact@v4
               with:
-                  name: bloom-desktop-macos-12
+                  name: bloom-desktop-macos-13
                   path: assets
 
             - name: Downloading artifacts (Linux)
               uses: actions/download-artifact@v4
               with:
-                  name: bloom-desktop-ubuntu-20.04
+                  name: bloom-desktop-ubuntu-22.04
                   path: assets
 
             - name: Preparing release body
@@ -71,120 +71,117 @@ jobs:
               working-directory: packages/desktop
 
             - name: Create Release
-              uses: "actions/github-script@v7"
+              uses: 'actions/github-script@v7'
               id: create_release
               env:
-                TAG: ${{ github.ref }}
-                RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
-                BODY_PATH: packages/desktop/CHANGELOG.md
+                  TAG: ${{ github.ref }}
+                  RELEASE_NAME: Bloom Desktop ${{ env.RELEASE_NAME }}
+                  BODY_PATH: packages/desktop/CHANGELOG.md
               with:
-                github-token: "${{ secrets.GITHUB_TOKEN }}"
-                result-encoding: string
-                script: |
-                  const fs = require('fs');
+                  github-token: '${{ secrets.GITHUB_TOKEN }}'
+                  result-encoding: string
+                  script: |
+                      const fs = require('fs');
 
-                  const { TAG, RELEASE_NAME, BODY_PATH } = process.env;
-                  const tag = TAG.replace('refs/tags/', '');
-                  const releaseName = RELEASE_NAME.replace('refs/tags/', '');
-              
-                  const bodyPath = BODY_PATH;
-                  let bodyFileContent = null;
-                  if (bodyPath !== '' && !!bodyPath) {
-                    try {
-                      bodyFileContent = fs.readFileSync(bodyPath, { encoding: 'utf8' });
-                    } catch (error) {
-                      core.setFailed(error.message);
-                    }
-                  }
-              
-                  const createReleaseResponse = await github.rest.repos.createRelease({
-                    tag_name: tag,
-                    name: releaseName,
-                    body: bodyFileContent,
-                    draft: true,
-                    prerelease: true,
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    target_commitish: context.sha
-                  });
-              
-                  return createReleaseResponse.data.upload_url;
+                      const { TAG, RELEASE_NAME, BODY_PATH } = process.env;
+                      const tag = TAG.replace('refs/tags/', '');
+                      const releaseName = RELEASE_NAME.replace('refs/tags/', '');
+
+                      const bodyPath = BODY_PATH;
+                      let bodyFileContent = null;
+                      if (bodyPath !== '' && !!bodyPath) {
+                        try {
+                          bodyFileContent = fs.readFileSync(bodyPath, { encoding: 'utf8' });
+                        } catch (error) {
+                          core.setFailed(error.message);
+                        }
+                      }
+
+                      const createReleaseResponse = await github.rest.repos.createRelease({
+                        tag_name: tag,
+                        name: releaseName,
+                        body: bodyFileContent,
+                        draft: true,
+                        prerelease: true,
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        target_commitish: context.sha
+                      });
+
+                      return createReleaseResponse.data.upload_url;
 
             - name: Upload Windows assets
-              uses: "actions/github-script@v7"
+              uses: 'actions/github-script@v7'
               env:
-                VERSION: ${{ env.VERSION }}
-                UPLOAD_URL: ${{ steps.create_release.outputs.result }}
+                  VERSION: ${{ env.VERSION }}
+                  UPLOAD_URL: ${{ steps.create_release.outputs.result }}
               with:
-                github-token: "${{ secrets.GITHUB_TOKEN }}"
-                script: |
-                  const fs = require('fs').promises;
+                  github-token: '${{ secrets.GITHUB_TOKEN }}'
+                  script: |
+                      const fs = require('fs').promises;
 
-                  const { VERSION, UPLOAD_URL } = process.env;
-                  const files = [
-                    `bloom-desktop-${VERSION}.exe`,
-                    `bloom-desktop-${VERSION}.exe.blockmap`,
-                    'latest.yml'
-                  ]
-                  for (const file of files) {
-                    await github.rest.repos.uploadReleaseAsset({
-                      url: UPLOAD_URL,
-                      name: file,
-                      data: await fs.readFile('assets/' + file)
-                    });
-                  }
-            
+                      const { VERSION, UPLOAD_URL } = process.env;
+                      const files = [
+                        `bloom-desktop-${VERSION}.exe`,
+                        `bloom-desktop-${VERSION}.exe.blockmap`,
+                        'latest.yml'
+                      ]
+                      for (const file of files) {
+                        await github.rest.repos.uploadReleaseAsset({
+                          url: UPLOAD_URL,
+                          name: file,
+                          data: await fs.readFile('assets/' + file)
+                        });
+                      }
 
             - name: Upload Mac assets
-              uses: "actions/github-script@v7"
+              uses: 'actions/github-script@v7'
               env:
-                VERSION: ${{ env.VERSION }}
-                UPLOAD_URL: ${{ steps.create_release.outputs.result }}
+                  VERSION: ${{ env.VERSION }}
+                  UPLOAD_URL: ${{ steps.create_release.outputs.result }}
               with:
-                github-token: "${{ secrets.GITHUB_TOKEN }}"
-                script: |
-                  const fs = require('fs').promises;
+                  github-token: '${{ secrets.GITHUB_TOKEN }}'
+                  script: |
+                      const fs = require('fs').promises;
 
-                  const { VERSION, UPLOAD_URL } = process.env;
-                  const files = [
-                    `bloom-desktop-${VERSION}.dmg`,
-                    `bloom-desktop-${VERSION}.dmg.blockmap`,
-                    `bloom-desktop-${VERSION}.zip`,
-                    'latest-mac.yml'
-                  ]
-                  for (const file of files) {
-                    await github.rest.repos.uploadReleaseAsset({
-                      url: UPLOAD_URL,
-                      name: file,
-                      data: await fs.readFile('assets/' + file)
-                    });
-                  }
-            
+                      const { VERSION, UPLOAD_URL } = process.env;
+                      const files = [
+                        `bloom-desktop-${VERSION}.dmg`,
+                        `bloom-desktop-${VERSION}.dmg.blockmap`,
+                        `bloom-desktop-${VERSION}.zip`,
+                        'latest-mac.yml'
+                      ]
+                      for (const file of files) {
+                        await github.rest.repos.uploadReleaseAsset({
+                          url: UPLOAD_URL,
+                          name: file,
+                          data: await fs.readFile('assets/' + file)
+                        });
+                      }
 
             - name: Upload Linux assets
-              uses: "actions/github-script@v7"
+              uses: 'actions/github-script@v7'
               env:
-                VERSION: ${{ env.VERSION }}
-                UPLOAD_URL: ${{ steps.create_release.outputs.result }}
+                  VERSION: ${{ env.VERSION }}
+                  UPLOAD_URL: ${{ steps.create_release.outputs.result }}
               with:
-                github-token: "${{ secrets.GITHUB_TOKEN }}"
-                script: |
-                  const fs = require('fs').promises;
+                  github-token: '${{ secrets.GITHUB_TOKEN }}'
+                  script: |
+                      const fs = require('fs').promises;
 
-                  const { VERSION, UPLOAD_URL } = process.env;
-                  const files = [
-                    `bloom-desktop-${VERSION}.AppImage`,
-                    `bloom-desktop-${VERSION}.AppImage.asc`,
-                    'latest-linux.yml'
-                  ]
-                  for (const file of files) {
-                    await github.rest.repos.uploadReleaseAsset({
-                      url: UPLOAD_URL,
-                      name: file,
-                      data: await fs.readFile('assets/' + file)
-                    });
-                  }
-            
-    
+                      const { VERSION, UPLOAD_URL } = process.env;
+                      const files = [
+                        `bloom-desktop-${VERSION}.AppImage`,
+                        `bloom-desktop-${VERSION}.AppImage.asc`,
+                        'latest-linux.yml'
+                      ]
+                      for (const file of files) {
+                        await github.rest.repos.uploadReleaseAsset({
+                          url: UPLOAD_URL,
+                          name: file,
+                          data: await fs.readFile('assets/' + file)
+                        });
+                      }
+
             - name: Listing artifacts
               run: ls -al

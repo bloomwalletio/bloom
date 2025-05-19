@@ -8,8 +8,8 @@ on:
                 required: true
                 type: choice
                 options:
-                    - macos-12
-                    - ubuntu-20.04
+                    - macos-13
+                    - ubuntu-22.04
                     - windows-2022
             stage:
                 description: 'Stage'

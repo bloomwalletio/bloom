@@ -14,7 +14,7 @@
         "eslint-plugin-security": "3.0.1",
         "eslint-plugin-svelte": "2.39.0",
         "globals": "^15.7.0",
-        "husky": "7.0.4",
+        "husky": "9.1.7",
         "lint-staged": "15.2.9",
         "patch-package": "8.0.0",
         "prettier": "3.2.5",
@@ -57,8 +57,7 @@
         "node-abi": "3.54.0",
         "nwsapi": "2.2.7",
         "prompts": "2.4.2",
-        "selfsigned": "2.4.1",
-        "shell-quote": "1.7.3"
+        "selfsigned": "2.4.1"
     },
     "lint-staged": {
         "*.{ts,js,svelte}": "eslint --cache --fix",
