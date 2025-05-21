@@ -1,12 +1,13 @@
-diff --git a/node_modules/svelte-markdown/package.json b/node_modules/svelte-markdown/package.json
-index e55ed56..d673846 100644
---- a/node_modules/svelte-markdown/package.json
-+++ b/node_modules/svelte-markdown/package.json
-@@ -13,7 +13,6 @@
-     },
-     "./package.json": "./package.json"
-   },
--  "type": "module",
-   "files": [
-     "dist",
-     "src",
+diff --git a/node_modules/svelte-markdown/src/markdown-parser.js b/node_modules/svelte-markdown/src/markdown-parser.js
+index ea12aed..bb7e918 100644
+--- a/node_modules/svelte-markdown/src/markdown-parser.js
++++ b/node_modules/svelte-markdown/src/markdown-parser.js
+@@ -22,7 +22,7 @@ import {
+   Blockquote,
+   Code,
+   Br,
+-} from './renderers'
++} from './renderers.js'
+ 
+ export const defaultRenderers = {
+   heading: Heading,
