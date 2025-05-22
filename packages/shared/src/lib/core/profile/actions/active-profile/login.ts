@@ -43,7 +43,7 @@ import { cleanupOnboarding } from '@contexts/onboarding'
 import { fetchAndPersistTransactionsForAccounts } from '@core/transactions/actions'
 import { updateCirculatingSupplyForActiveProfile } from './updateCirculatingSupplyForActiveProfile'
 import { notificationsManager } from '@auxiliary/wallet-connect/notifications'
-import { getEvmNetworks } from '@core/network'
+import { getEvmNetworks, SupportedNetworkId } from '@core/network'
 import { cachedSessionRequest } from '@auxiliary/wallet-connect/stores'
 import { onSessionRequest } from '@auxiliary/wallet-connect/handlers'
 
@@ -51,7 +51,7 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
     const loginRouter = get(routerManager)?.getRouterForAppContext(AppContext.Login)
     try {
         const _activeProfile = get(activeProfile)
-        const { loggedIn, lastActiveAt, id, isStrongholdLocked, type, lastUsedAccountIndex } = _activeProfile
+        const { loggedIn, lastActiveAt, id, isStrongholdLocked, type, lastUsedAccountIndex, network } = _activeProfile
         if (!id) {
             throw Error('No active profile error')
         }
@@ -105,7 +105,9 @@ export async function login(loginOptions?: ILoginOptions): Promise<void> {
         // Step 7: start background sync and fetch balances
         incrementLoginProgress()
         subscribeToWalletApiEventsForActiveProfile()
-        await startBackgroundSync({ syncIncomingTransactions: true })
+        if (network.id !== SupportedNetworkId.Iota) {
+            await startBackgroundSync({ syncIncomingTransactions: true })
+        }
         fetchEvmBalancesForAllAccounts(_activeProfile.id)
         void fetchAndPersistTransactionsForAccounts(_activeProfile.id, get(activeAccounts))
 

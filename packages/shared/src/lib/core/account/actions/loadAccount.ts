@@ -4,10 +4,12 @@ import { IAccount, IAccountState } from '../interfaces'
 import { buildAccountState } from './buildAccountState'
 import { buildAccountStateAndPersistedData } from './buildAccountStateAndPersistedData'
 
-export async function loadAccount(account: IAccount): Promise<IAccountState> {
+export async function loadAccount(account: IAccount, syncAccount: boolean): Promise<IAccountState> {
     // Temporary sync on load until we enable background sync and event listeners
     const accountIndex = account.getMetadata().index
-    await account.sync(DEFAULT_SYNC_OPTIONS)
+    if (syncAccount) {
+        await account.sync(DEFAULT_SYNC_OPTIONS)
+    }
     const accountPersistedData = getActiveProfilePersistedAccountData(accountIndex)
     let accountState: IAccountState
     if (accountPersistedData) {

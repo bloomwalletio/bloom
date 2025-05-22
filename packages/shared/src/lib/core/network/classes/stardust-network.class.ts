@@ -5,7 +5,7 @@ import { IIscChainConfiguration, IProtocol, IStardustNetwork, IStardustNetworkMe
 import { StardustNetworkId } from '../types'
 
 import { getNetworkStatusFromNodeInfo } from '@core/network/helpers'
-import { NETWORK_STATUS_POLL_INTERVAL } from '@core/network/constants'
+import { NETWORK_STATUS_POLL_INTERVAL, SupportedNetworkId } from '@core/network/constants'
 import { IBaseToken } from '@core/token/interfaces'
 
 import { IscChain } from './isc-chain.class'
@@ -47,7 +47,9 @@ export class StardustNetwork implements IStardustNetwork {
             })
             .filter(Boolean)
 
-        void this.startStatusPoll()
+        if (this.id !== SupportedNetworkId.Iota) {
+            void this.startStatusPoll()
+        }
     }
 
     private getAndUpdateNodeInfo(): void {
