@@ -1174,7 +1174,6 @@
  delete mode 100644 packages/shared/lib/core/market/constants/market-api-base-url.constant.ts
  delete mode 100644 packages/shared/lib/core/market/enums/index.ts
  delete mode 100644 packages/shared/lib/core/market/enums/market-currency.enum.ts
- delete mode 100644 packages/shared/lib/core/market/index.ts
  delete mode 100644 packages/shared/lib/core/market/stores/index.ts
  delete mode 100644 packages/shared/lib/core/market/utils/getMarketAmountFromAssetValue.ts
  delete mode 100644 packages/shared/lib/core/market/utils/getMarketPriceForAsset.ts
@@ -1568,6 +1567,7 @@
  rename packages/shared/{ => src}/lib/auxiliary/notification/interfaces/index.ts (51%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/interfaces/notification-action.interface.ts (53%)
  rename packages/shared/{ => src}/lib/auxiliary/notification/utils/index.ts (100%)
+ rename packages/shared/{lib/core/market => src/lib/auxiliary/noves}/index.ts (50%)
  rename packages/shared/{lib/core/profile/actions/profiles/checkAndMigrateProfiles.ts => src/lib/auxiliary/third-party/migrations/firefly-stardust/firefly-stardust-migrations.ts} (52%)
  rename specs/images/.gitkeep => packages/shared/src/lib/auxiliary/transak/enums/transak-payment-option.enum.ts (100%)
  rename packages/shared/{lib/contexts/governance => src/lib/auxiliary/transak}/index.ts (86%)
